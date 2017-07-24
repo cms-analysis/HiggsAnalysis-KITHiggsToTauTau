@@ -21,7 +21,7 @@ class CutStringsDict:
 		if channel == "mm":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
-			if "smhtt2016" in cut_type:
+			elif "smhtt2016" in cut_type:
 				cuts["pt_1"] = "(pt_1 > 25.0)"
 				cuts["pt_2"] = "(pt_2 > 25.0)"
 				cuts["eta_1"] = "(abs(eta_1) < 2.1)"
@@ -40,48 +40,62 @@ class CutStringsDict:
 		elif channel == "em" or channel == "ttbar":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_muonelectron == 1)"
-			cuts["trigger_threshold"] = "(pt_1 > 24.0 || pt_2 > 24.0)" if "2016" in cut_type else "(1.0)"
+			elif "smhtt2016" in cut_type and channel == "em":
+				cuts["bveto"] = "(nbtag == 0)"
+				# used to remove overlap with H->WW->emu analysis
+				cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
 			cuts["pzeta"] = "(pZetaMissVis > -35.0)" if "2016" in cut_type and not "mssm" in cut_type else "(pZetaMissVis > -40.0)"
 			if "mssm" in cut_type:
 				cuts["pzeta"] = "(pZetaMissVis > -50.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.2)" if "2016" in cut_type else "(iso_2 < 0.15)"
-			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
 		elif channel == "mt":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
 			elif "smhtt2016" in cut_type:
 				# trigger weights are saved as optional weights, and thus need to be applied here
 				cuts["trg"] = "((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 > 20)*(pt_1 <= 23)+(trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23))"
+				cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["mt"] = "(mt_1<40.0)" if "mssm2016" in cut_type else "(mt_1<30.0)" if "mssm" in cut_type else "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonTight3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)" if "2016" in cut_type else "(iso_1 < 0.1)"
-			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
-			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
+			if "newTauId" in cut_type:
+				cuts["iso_2"] = "(rerunDiscriminationByIsolationMVAOldDMrun2v1Medium_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+			else:
+				cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "et":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singleelectron == 1)"
+			elif "smhtt2016" in cut_type:
+				cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["mt"] = "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronTightMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_2 > 0.5)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
-			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
-			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
+			if "newTauId" in cut_type:
+				cuts["iso_2"] = "(rerunDiscriminationByIsolationMVAOldDMrun2v1Medium_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+			else:
+				cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "tt":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_doubletau == 1)"
-			cuts["pt_1"] = "(pt_1 > 50.0)" if "2016" in cut_type and not "mssm" in cut_type else "(1.0)"
+			elif "smhtt2016" in cut_type:
+				cuts["pt_1"] = "(pt_1 > 50.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)"
-			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))" if "2016" in cut_type else "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			if "newTauId" in cut_type:
+				cuts["iso_1"] = "(rerunDiscriminationByIsolationMVAOldDMrun2v1Medium_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+				cuts["iso_2"] = "(rerunDiscriminationByIsolationMVAOldDMrun2v1Medium_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+			else:
+				cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))" if "2016" in cut_type else "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+				cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -503,7 +517,11 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="baseline2016":
 			cuts = CutStringsDict.baseline(channel, cut_type)
+		elif cut_type=="baseline2016newTauId":
+			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="smhtt2016":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+		elif cut_type=="smhtt2016newTauId":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="mssm":
 			cuts = CutStringsDict.baseline(channel, cut_type)

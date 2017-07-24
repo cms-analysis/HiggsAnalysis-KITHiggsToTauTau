@@ -41,9 +41,22 @@ void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product
 
 	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MT)
 	{
+		KappaEnumTypes::GenMatchingCode genMatchingCode = KappaEnumTypes::GenMatchingCode::NONE;
 		KLepton* lepton = product.m_flavourOrderedLeptons[1];
-		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
-		if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)))
+		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
+		if (settings.GetUseUWGenMatching())
+		{
+			genMatchingCode = GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton);
+		}
+		else
+		{
+			KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(originalLepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
+			if (genParticle)
+				genMatchingCode = GeneratorInfo::GetGenMatchingCode(genParticle);
+			else
+				genMatchingCode = KappaEnumTypes::GenMatchingCode::IS_FAKE;
+		}
+		if ((genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU))
 		{
 			if(std::abs(lepton->p4.Eta()) < 0.4)
 			{
@@ -69,9 +82,22 @@ void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product
 	}
 	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET)
 	{
+		KappaEnumTypes::GenMatchingCode genMatchingCode = KappaEnumTypes::GenMatchingCode::NONE;
 		KLepton* lepton = product.m_flavourOrderedLeptons[1];
-		KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
-		if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)))
+		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
+		if (settings.GetUseUWGenMatching())
+		{
+			genMatchingCode = GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton);
+		}
+		else
+		{
+			KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(originalLepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
+			if (genParticle)
+				genMatchingCode = GeneratorInfo::GetGenMatchingCode(genParticle);
+			else
+				genMatchingCode = KappaEnumTypes::GenMatchingCode::IS_FAKE;
+		}
+		if ((genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU))
 		{
 			if(std::abs(lepton->p4.Eta()) < 0.4)
 			{
@@ -99,9 +125,22 @@ void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product
 	{
 		for (int index = 0; index < 2; index++)
 		{
+			KappaEnumTypes::GenMatchingCode genMatchingCode = KappaEnumTypes::GenMatchingCode::NONE;
 			KLepton* lepton = product.m_flavourOrderedLeptons[index];
-			KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
-			if (genParticle && ((GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (GeneratorInfo::GetGenMatchingCode(genParticle) == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)))
+			KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
+			if (settings.GetUseUWGenMatching())
+			{
+				genMatchingCode = GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton);
+			}
+			else
+			{
+				KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(originalLepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
+				if (genParticle)
+					genMatchingCode = GeneratorInfo::GetGenMatchingCode(genParticle);
+				else
+					genMatchingCode = KappaEnumTypes::GenMatchingCode::IS_FAKE;
+			}
+			if ((genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU))
 			{
 				if(std::abs(lepton->p4.Eta()) < 0.4)
 				{

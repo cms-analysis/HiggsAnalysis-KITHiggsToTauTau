@@ -150,6 +150,13 @@ if __name__ == "__main__":
 	# restrict CombineHarvester to configured channels:
 	datacards.cb.channel(args.channel)
 
+	# restrict combine to lnN systematics only if no_shape_uncs is set
+	# it is necessary to put this
+	if args.no_shape_uncs:
+		print("No shape uncs")
+		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		datacards.cb.PrintSysts()
+
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
@@ -181,7 +188,6 @@ if __name__ == "__main__":
 			))
 			output_files.append(output_file)
 			tmp_output_files = []
-
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_bkg_samples = [datacards.configs.process2sample(process) for process in list_of_samples if process in datacards_per_channel_category.cb.cp().backgrounds().process_set()]
@@ -190,7 +196,10 @@ if __name__ == "__main__":
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 
+
 					# prepare plotting configs for retrieving the input histograms
+					
+					#TODO: Check which cut_type should be used and whether baseline2016 is up-to-date
 					config={}
 
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
@@ -204,6 +213,7 @@ if __name__ == "__main__":
 							channel=channel,
 							category="catHtt13TeV_"+category,
 							weight=args.weight,
+							cut_type = "baseline2016",
 							lumi=args.lumi * 1000,
 							no_ewk_samples = args.no_ewk_samples,
 							no_ewkz_as_dy = args.no_ewkz_as_dy
@@ -236,8 +246,9 @@ if __name__ == "__main__":
 								weight=args.weight+"*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle_over_pi_half,
 								lumi=args.lumi * 1000,
 								higgs_masses=higgs_masses,
+								cut_type = "baseline2016",
 								additional_higgs_masses_for_shape=tmp_additional_higgs_masses_for_shape,
-								mssm=(cp_mixing > .5),
+								mssm=None,
 								normalise_to_sm_xsec=False
 						)
 						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(

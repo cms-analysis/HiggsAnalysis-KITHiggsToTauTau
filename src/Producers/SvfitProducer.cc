@@ -44,6 +44,7 @@ void SvfitProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitMass", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedHiggsLV ? product.m_svfitResults.fittedHiggsLV->mass() : DefaultValues::UndefinedFloat);
 	});
+
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("svfitLV", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedHiggsLV ? *(product.m_svfitResults.fittedHiggsLV) : DefaultValues::UndefinedRMFLV);
 	});
@@ -77,7 +78,6 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
                             setting_type const& settings) const
 {
 	assert(event.m_eventInfo);
-	assert(product.m_metUncorr);
 
 	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);

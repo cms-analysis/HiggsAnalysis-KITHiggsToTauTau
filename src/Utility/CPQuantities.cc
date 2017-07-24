@@ -334,10 +334,10 @@ TVector3 CPQuantities::CalculateIPVector(KGenParticle* genParticle, RMPoint* pv)
 }
 
 
-// calculate the reco IP vector (3D method)
+// calculate the reco IP vector wrt the PV or the refitted PV
 // in case recoParticle is a tau, the track of the lead. PF candidate is consider
 // (see KLepton struct)
-TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv){
+TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KVertex* pv){
 
 	TVector3 k, p, IP;
 	k.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), recoParticle->track.ref.z() - pv->position.z());
@@ -351,12 +351,13 @@ TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv
 }
 
 
+
 // calculate the uncertainty on dxy, dz, and the magnitude of the IP vector
-// calculated wrt refitted PV, and saved in this order in the vector.
+// calculated wrt the PV or the refitted PV, and saved in this order in the vector.
 // The errors on refP of the tracks and on the momenta
 // were estimated by Gaussian fit, and therefore they are hardcoded in here
 // FIXME: Need to find a better solution!
-std::vector<double> CPQuantities::CalculateIPerrors(KLepton* lepton, KRefitVertex* pv, TVector3* ipvec){
+std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KVertex* pv, TVector3* ipvec){
 	
 	std::vector<double> IPerrors {-999,-999,-999};
 	double sdxy=0;
@@ -367,44 +368,12 @@ std::vector<double> CPQuantities::CalculateIPerrors(KLepton* lepton, KRefitVerte
 	double ry = lepton->track.ref.y(); double sry=0;
 	double rz = lepton->track.ref.z(); double srz=0;
 
-	if (lepton->flavour() == KLeptonFlavour::ELECTRON){
-		srx = 0.129330;
-		sry = 0.129307;
-		srz = 0.133458;
-	}
-	if (lepton->flavour() == KLeptonFlavour::MUON){
-		srx = 0.139128;
-		sry = 0.138831;
-		srz = 0.157695;
-	}
-	if (lepton->flavour() == KLeptonFlavour::TAU){
-		srx = 0.156370;
-		sry = 0.184101;
-		srz = 0.128780;
-	}
-
 	// coordinates and error of the momentum
 	double px = lepton->p4.Px(); double spx=0;
 	double py = lepton->p4.Py(); double spy=0;
 	double pz = lepton->p4.Pz(); double spz=0;
 	double p = sqrt(px*px + py*py + pz*pz);
 	double pt = sqrt(px*px + py*py);
-
-	if (lepton->flavour() == KLeptonFlavour::ELECTRON){
-		spx = 0.288305;
-		spy = 0.289325;
-		spz = 0.244145;
-	}
-	if (lepton->flavour() == KLeptonFlavour::MUON){
-		spx = 0.249907;
-		spy = 0.247276;
-		spz = 0.226868;
-	}
-	if (lepton->flavour() == KLeptonFlavour::TAU){
-		spx = 0.604313;
-		spy = 0.615447;
-		spz = 0.555910;
-	}
 
 	// coordinates and error of the refitted primary vertex
 	double pvx = pv->position.x();
@@ -551,22 +520,3 @@ std::vector<double> CPQuantities::CalculateIPerrors(KLepton* lepton, KRefitVerte
 }
 
 
-
-
-
-// calculate the reco IP vector (using d0 and dz) %FIXME need to remove this method
-TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KRefitVertex* pv, float lepDz){
-
-	TVector3 pt, d, d0, dz, IP;
-	pt.SetXYZ(recoParticle->p4.Px(), recoParticle->p4.Py(), 0);
-	d.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), 0);
-
-	if (pt.Mag() != 0) d0 = d - (pt.Dot(d) / pt.Mag2()) * pt;
-	else d0.SetXYZ(-999, -999, 0);
-
-	dz.SetXYZ(0, 0, lepDz);
-	IP = d0 + dz;
-
-	return IP;
-
-}

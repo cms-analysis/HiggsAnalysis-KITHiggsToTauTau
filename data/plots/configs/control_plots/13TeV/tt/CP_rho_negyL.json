@@ -1,0 +1,4 @@
+{
+  "x_expressions": ["recoPhiStarCP_rho"],
+  "weights": ["(decayMode_1 == 1) * (decayMode_2 == 1)"]
+}

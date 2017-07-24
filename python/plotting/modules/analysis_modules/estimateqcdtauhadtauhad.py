@@ -67,11 +67,13 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 			for nick in qcd_control_signal_subtract_nicks:
 				yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 				yield_control_signal -= yield_bgk_control
+			yield_control_signal = max(0.0, yield_control_signal)
 
 			yield_control_relaxed = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_relaxed_control_nick])()
 			for nick in qcd_control_relaxed_subtract_nicks:
 				yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 				yield_control_relaxed -= yield_bgk_control
+			yield_control_relaxed = max(0.0, yield_control_relaxed)
 
 			scale_factor = yield_control_signal
 			if yield_control_relaxed != 0.0:

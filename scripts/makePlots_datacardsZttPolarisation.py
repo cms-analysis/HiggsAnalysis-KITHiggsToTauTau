@@ -99,6 +99,8 @@ if __name__ == "__main__":
 	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
+	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
+	                    help="Do not include shape-uncertainties. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="datacards",
@@ -118,6 +120,7 @@ if __name__ == "__main__":
 	else:
 		log.critical("Invalid era string selected: " + args.era)
 		sys.exit(1)
+
 	
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
@@ -162,6 +165,11 @@ if __name__ == "__main__":
 	
 	# restrict CombineHarvester to configured channels
 	datacards.cb.channel(args.channel)
+
+	if args.no_shape_uncs:
+ 		print("No shape uncs")
+ 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+ 		datacards.cb.PrintSysts()
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		
@@ -224,7 +232,7 @@ if __name__ == "__main__":
 					
 					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 					
-					config["x_expressions"] = [("0" if "_gen" in nick else "testZttPol13TeV_"+category) for nick in config["nicks"]]
+					config["x_expressions"] = [("0" if "_gen" in nick else "tauPolarisationTMVA") for nick in config["nicks"]]
 
 					binnings_key = "binningZttPol13TeV_"+category
 					if binnings_key in binnings_settings.binnings_dict:

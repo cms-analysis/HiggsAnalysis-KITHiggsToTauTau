@@ -99,9 +99,8 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			# get qcd yield in ss high mt region
 			yield_qcd_ss_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_data_nick])()
 			for nick in wjets_ss_substract_nick+[wjets_ss_highmt_mc_nick]:
-				yield_bkg_ss_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-				yield_qcd_ss_highmt -= yield_bkg_ss_highmt
-			yield_qcd_ss_highmt = max(0.0, yield_qcd_ss_highmt)
+				yield_qcd_ss_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+			yield_qcd_ss_highmt = max(uncertainties.ufloat(0.0, yield_qcd_ss_highmt.std_dev), yield_qcd_ss_highmt)
 			
 			# scale qcd ss high mt shape by qcd yield found in data
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_ss_highmt_shape_nick])()
@@ -121,12 +120,18 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			# get w+jets yield in os high mt region
 			yield_wjets_os_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_data_nick])()
 			for nick in wjets_os_substract_nick:
-				yield_bkg_os_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-				yield_wjets_os_highmt -= yield_bkg_os_highmt
+				yield_wjets_os_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 			yield_wjets_os_highmt -= qcd_extrapolation_factor_ss_os*yield_qcd_ss_highmt
+			yield_wjets_os_highmt = max(uncertainties.ufloat(0.0, yield_wjets_os_highmt.std_dev), yield_wjets_os_highmt)
+			if yield_wjets_os_highmt.nominal_value == 0.0:
+				log.warning("W+jets & QCD estimation: data yield in high mT region after background subtraction is 0!")
 			
 			# get high mt -> low mt extrapolation factor from MC
-			wjets_extrapolation_factor_mt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_relaxed_os_lowmt_nick])()/tools.PoissonYield(plotData.plotdict["root_objects"][wjets_relaxed_os_highmt_nick])()
+			if tools.PoissonYield(plotData.plotdict["root_objects"][wjets_relaxed_os_highmt_nick])() != 0.0:
+				wjets_extrapolation_factor_mt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_relaxed_os_lowmt_nick])()/tools.PoissonYield(plotData.plotdict["root_objects"][wjets_relaxed_os_highmt_nick])()
+			else:
+				log.warning("W+jets & QCD estimation: W+jets high mT region in MC has no entries. High->low mT extrapolation factor is set to 1.0!")
+				wjets_extrapolation_factor_mt = 1.0
 			
 			# get w+jets yield in low mt region
 			wjets_yield = yield_wjets_os_highmt*wjets_extrapolation_factor_mt
@@ -152,21 +157,27 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			# estimate QCD for the lowmT
 			
 			# define w+jets scale factor for qcd estimation
-			wjets_scale_factor = yield_wjets_os_highmt/tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_highmt_mc_nick])()
+			if tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_highmt_mc_nick])() != 0.0:
+				wjets_scale_factor = yield_wjets_os_highmt/tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_highmt_mc_nick])()
+			else:
+				log.warning("W+jets & QCD estimation: W+jets high mT region in MC has no entries. Scale factor for W+jets in QCD estimation is set to 1.0!")
+				wjets_scale_factor = uncertainties.ufloat(1.0, 0.0)
 			
 			for nick in qcd_shape_substract_nick:
 				if "wj" in nick:
 					scale_factor = wjets_scale_factor * wjets_scale_factor_shift
 					plotData.plotdict["root_objects"][nick].Scale(scale_factor.nominal_value)
 				plotData.plotdict["root_objects"][qcd_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1)
+			
 			yield_qcd_ss_lowmt = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_yield_nick])()
 			for nick in qcd_yield_substract_nick:
 				if "wj" in nick and tools.PoissonYield(plotData.plotdict["root_objects"][nick])() != 0.0:
 					scale_factor = wjets_scale_factor * wjets_scale_factor_shift
 					plotData.plotdict["root_objects"][nick].Scale(scale_factor.nominal_value)
-				yield_bkg_ss_lowmt = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-				yield_qcd_ss_lowmt -= yield_bkg_ss_lowmt
-			yield_qcd_ss_lowmt = max(0.0, yield_qcd_ss_lowmt)
+				yield_qcd_ss_lowmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+			yield_qcd_ss_lowmt = max(uncertainties.ufloat(0.0, yield_qcd_ss_lowmt.std_dev), yield_qcd_ss_lowmt)
+			if yield_qcd_ss_lowmt.nominal_value == 0.0:
+				log.warning("W+jets & QCD estimation: data yield in low mT SS region after background subtraction is 0!")
 			
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_shape_nick])()
 			if integral_shape != 0.0:

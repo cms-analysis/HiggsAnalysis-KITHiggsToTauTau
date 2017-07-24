@@ -17,7 +17,7 @@
 			"default" : [
 				0
 			],
-			"DY.?JetsToLL" : [
+			"DY.?JetsToLL|LFV" : [
 				23
 			],
 			"^(GluGlu|GluGluTo|VBF)HToTauTau" : [
@@ -38,7 +38,7 @@
 			]
 		}
 	},
-	"DeltaRMatchingRecoElectronsGenParticle" : 0.1,
+	"DeltaRMatchingRecoElectronGenParticle" : 0.1,
 	"DeltaRMatchingRecoMuonGenParticle" : 0.05,
 	"DeltaRMatchingRecoTauGenParticle" : 0.2,
 	"DeltaRMatchingRecoTauGenTau" : 0.2,

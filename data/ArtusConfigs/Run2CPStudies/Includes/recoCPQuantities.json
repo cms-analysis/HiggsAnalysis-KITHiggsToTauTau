@@ -9,6 +9,9 @@
 		"thePVsigmaxx",
 		"thePVsigmayy",
 		"thePVsigmazz",
+		"thePVsigmaxy",
+		"thePVsigmaxz",
+		"thePVsigmayz",
 
 		"refitPVx",
 		"refitPVy",
@@ -19,6 +22,9 @@
 		"refitPVsigmaxx",
 		"refitPVsigmayy",
 		"refitPVsigmazz",
+		"refitPVsigmaxy",
+		"refitPVsigmaxz",
+		"refitPVsigmayz",
 
 		"refitPVBSx",
 		"refitPVBSy",
@@ -29,6 +35,9 @@
 		"refitPVBSsigmaxx",
 		"refitPVBSsigmayy",
 		"refitPVBSsigmazz",
+		"refitPVBSsigmaxy",
+		"refitPVBSsigmaxz",
+		"refitPVBSsigmayz",
 
 		"theBSx",
 		"theBSy",
@@ -52,29 +61,40 @@
 		"track2p4z",
 
 		"errD0_1",
-		"errDZ_1",
+		"errD0_1_newErr",
 		"errD0_2",
+		"errD0_2_newErr",
+
+		"errDZ_1",
+		"errDZ_1_newErr",
 		"errDZ_2",
+		"errDZ_2_newErr",
+
+		"errIP_1",
+		"errIP_2",
+
 		"errD0_refitPV_1",
-		"errDZ_refitPV_1",
-		"errIP_refitPV_1",
 		"errD0_refitPV_2",
+
+		"errDZ_refitPV_1",
 		"errDZ_refitPV_2",
+
+		"errIP_refitPV_1",
 		"errIP_refitPV_2",
 
-		"recoIP1x",
-		"recoIP1y",
-		"recoIP1z",
-		"recoIP2x",
-		"recoIP2y",
-		"recoIP2z",
+		"IP_1x",
+		"IP_1y",
+		"IP_1z",
+		"IP_2x",
+		"IP_2y",
+		"IP_2z",
 
-		"recoIP1method2x",
-		"recoIP1method2y",
-		"recoIP1method2z",
-		"recoIP2method2x",
-		"recoIP2method2y",
-		"recoIP2method2z",
+		"IP_refitPV_1x",
+		"IP_refitPV_1y",
+		"IP_refitPV_1z",
+		"IP_refitPV_2x",
+		"IP_refitPV_2y",
+		"IP_refitPV_2z",
 
 		"deltaEtaGenRecoIP1",
 		"deltaEtaGenRecoIP2",
@@ -84,11 +104,6 @@
 		"deltaRGenRecoIP2",
 		"deltaGenRecoIP1",
 		"deltaGenRecoIP2",
-
-		"deltaRgenIPrecoIP1met2",
-		"deltaRgenIPrecoIP2met2",
-		"deltaRrecoIP1s",
-		"deltaRrecoIP2s",
 
 		"recoPhiStarCP",
 		"recoPhiStarCP_rho",
