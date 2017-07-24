@@ -157,10 +157,10 @@ void KaonsProducer::Produce(event_type const& event, product_type& product,
                               /*it++*/)
 		{
 				KTrack* tmpTrack = &(it->bestTrack);
-				double ipsigXY = std::abs(tmpTrack->getDxy(&theBeamSpot) / tmpTrack->errDxy);
-				if (UseVertex) ipsigXY = std::abs(tmpTrack->getDxy(&referenceVtx)/tmpTrack->errDxy);
-				double ipsigZ  = std::abs(tmpTrack->getDz(&theBeamSpot) / tmpTrack->errDz);
-				dout("\t\tipsigXY =", ipsigXY, "= tmpTrack->getDxy(&theBeamSpot) / tmpTrack->errDxy =", tmpTrack->getDxy(&theBeamSpot), "/", tmpTrack->errDxy);
+				double ipsigXY = std::abs(tmpTrack->getDxy(&theBeamSpot) / tmpTrack->errDxy());
+				if (UseVertex) ipsigXY = std::abs(tmpTrack->getDxy(&referenceVtx)/tmpTrack->errDxy());
+				double ipsigZ  = std::abs(tmpTrack->getDz(&theBeamSpot) / tmpTrack->errDz());
+				dout("\t\tipsigXY =", ipsigXY, "= tmpTrack->getDxy(&theBeamSpot) / tmpTrack->errDxy() =", tmpTrack->getDxy(&theBeamSpot), "/", tmpTrack->errDxy());
 
 				dout("\n\t",
 					"nValidHits:", (int)tmpTrack->nValidHits(), ">=", (int)TkNHitsCut , "\n\t",

@@ -346,7 +346,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
 {
-	assert(product.m_vertexSummary);
+	assert(event.m_vertexSummary);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 
 	// save the PV and the BS
