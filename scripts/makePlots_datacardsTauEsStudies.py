@@ -259,6 +259,12 @@ if __name__ == "__main__":
 		extra_weights.pop(0)
 		weight_bins.pop(0)
 	
+	# os/ss factors for different categories
+	ss_os_factors = {
+		"mt" : 1.06,
+		"et" : 1.0
+	}
+	
 	# Restrict CombineHarvester to configured channels:
 	datacards = taupogdatacards.TauEsDatacards(es_shifts_str, decay_modes, quantity, weight_bins, weight_type, args.era, mapping_category2binid)
 	datacards.cb.channel(args.channels)
@@ -267,6 +273,11 @@ if __name__ == "__main__":
 		channel = category.split("_")[0]
 		decayMode = category.split("_")[-2]
 		weight_index = int(category.split("_")[-1].split(weight_type + "bin")[-1])
+		# use relaxed isolation criteria for W+jets and QCD estimation
+		# if measurement is performed in bins of pt or eta
+		useRelaxedIsolation = False
+		if weight_index > 0:
+			useRelaxedIsolation = True
 		if args.no_inclusive:
 			weight_index = weight_index - 1
 
@@ -287,7 +298,16 @@ if __name__ == "__main__":
 		for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 			nominal = (shape_systematic == "nominal")
 			list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
-	
+			
+			# This is needed because wj and qcd are interdependent when using the new background estimation method
+			# NB: CH takes care to only use the templates for processes that you specified. This means that any
+			#     superfluous histograms created as a result of this problem do not influence the result
+			if args.background_method == "new":
+				if "qcd" in list_of_samples and "wj" not in list_of_samples:
+					list_of_samples += ["wj"]
+				elif "wj" in list_of_samples and "qcd" not in list_of_samples:
+					list_of_samples += ["qcd"]
+			
 			for shift_up in ([True] if nominal else [True, False]):
 				systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 		
@@ -297,6 +317,10 @@ if __name__ == "__main__":
 					category=category,
 					systematic=systematic
 				))
+
+				wj_sf_shift = 0.0
+				if "WSFUncert_lt" in shape_systematic:
+					wj_sf_shift = 1.1 if shift_up else 0.9
 
 				merged_config={}
 				
@@ -313,7 +337,10 @@ if __name__ == "__main__":
 					weight="(pt_2>20)*" + args.weight,
 					lumi=args.lumi * 1000,
 					cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
-					estimationMethod=args.background_method
+					estimationMethod=args.background_method,
+					wj_sf_shift=wj_sf_shift,
+					ss_os_factor = ss_os_factors.get(channel,0.0),
+					useRelaxedIsolation = useRelaxedIsolation
 				)
 				
 				config_rest["x_expressions"] = [quantity + "*" + extra_weights[weight_index]] * len(config_rest["nicks"])
@@ -332,7 +359,7 @@ if __name__ == "__main__":
 				
 				# One ztt nick config for each es shift
 				for shift in es_shifts:
-					if "ztt" not in list_of_samples: continue
+					if list(set(list_of_samples) & set(["ztt", "ttt", "vvt"])) == []: continue
 					
 					config_ztt = sample_settings.get_config(
 						samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample in ["ztt", "ttt", "vvt"]],
@@ -342,7 +369,10 @@ if __name__ == "__main__":
 						weight="(pt_2>20)*" + args.weight,
 						lumi=args.lumi * 1000,
 						cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
-						estimationMethod=args.background_method
+						estimationMethod=args.background_method,
+						wj_sf_shift=wj_sf_shift,
+						ss_os_factor = ss_os_factors.get(channel,0.0),
+						useRelaxedIsolation = useRelaxedIsolation
 					)
 					# Shift also pt to account for acceptance effects
 					config_ztt["weights"] = [weight.replace("pt_2","("+str(shift)+"*pt_2)") for weight in config_ztt["weights"]]
@@ -370,7 +400,6 @@ if __name__ == "__main__":
 					merged_config = samples.Samples.merge_configs(merged_config, config_ztt)
 		
 				merged_config["directories"] = [args.input_dir]
-				merged_config["qcd_subtract_shape"] = [False]
 		
 				histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 		
@@ -439,6 +468,26 @@ if __name__ == "__main__":
 			processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
 			add_threshold=0.1, merge_threshold=0.5, fix_norm=False
 		)
+	
+	# remove processes with zero yield
+	def matching_process(obj1, obj2):
+		matches = (obj1.bin() == obj2.bin())
+		matches = matches and (obj1.process() == obj2.process())
+		matches = matches and (obj1.signal() == obj2.signal())
+		matches = matches and (obj1.analysis() == obj2.analysis())
+		matches = matches and (obj1.era() == obj2.era())
+		matches = matches and (obj1.channel() == obj2.channel())
+		matches = matches and (obj1.bin_id() == obj2.bin_id())
+		matches = matches and (obj1.mass() == obj2.mass())
+		return matches
+	
+	def remove_procs_and_systs_with_zero_yield(proc):
+		null_yield = not proc.rate() > 0.
+		if null_yield:
+			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
+		return null_yield
+	
+	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)
 	
 	# Write datacards and call text2workspace
 	datacards_cbs = {}

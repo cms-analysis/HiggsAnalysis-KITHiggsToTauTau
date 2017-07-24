@@ -26,4 +26,3 @@ class SimpleFitProducer: public ProducerBase<HttTypes>
                          setting_type const& settings) const override;      
     
 };
-
