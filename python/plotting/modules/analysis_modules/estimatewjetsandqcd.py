@@ -179,10 +179,12 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			if yield_qcd_ss_lowmt.nominal_value == 0.0:
 				log.warning("W+jets & QCD estimation: data yield in low mT SS region after background subtraction is 0!")
 			
+			# get qcd yield in low mt region
+			qcd_yield = yield_qcd_ss_lowmt * qcd_extrapolation_factor_ss_os
+			
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_shape_nick])()
 			if integral_shape != 0.0:
-				scale_factor = yield_qcd_ss_lowmt * qcd_extrapolation_factor_ss_os / integral_shape
-				final_qcd_yield = yield_qcd_ss_lowmt * qcd_extrapolation_factor_ss_os
+				scale_factor = qcd_yield / integral_shape
 				plotData.plotdict["root_objects"][qcd_shape_nick].Scale(scale_factor.nominal_value)
 			
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_ss_lowmt_nick])()
@@ -192,7 +194,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			
 			# write relative uncertainties to metadata to pick them up with combine
 			plotData.metadata[qcd_shape_nick] = {
-				"yield" : final_qcd_yield.nominal_value,
-				"yield_unc" : final_qcd_yield.std_dev,
-				"yield_unc_rel" : abs(final_qcd_yield.std_dev/final_qcd_yield.nominal_value if final_qcd_yield.nominal_value != 0.0 else 0.0),
+				"yield" : qcd_yield.nominal_value,
+				"yield_unc" : qcd_yield.std_dev,
+				"yield_unc_rel" : abs(qcd_yield.std_dev/qcd_yield.nominal_value if qcd_yield.nominal_value != 0.0 else 0.0),
 			}

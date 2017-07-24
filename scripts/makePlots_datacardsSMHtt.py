@@ -258,6 +258,22 @@ if __name__ == "__main__":
 		"Vbf2D"
 	]
 	
+	# updates with respect to values stored in datasets.json
+	# values are taken from AN2016_355_v10
+	signalCrossSectionTimesBR = {
+		"ggh125" : "((48.58*0.0627)/(3.0469376))",
+		"qqh125" : "((3.781*0.0627)/(0.237207))",
+		"zh120" : "((0.994*0.0698)/(0.0611821157257))",
+		"zh125" : "((0.884*0.0627)/(0.05495872))",
+		"zh130" : "((0.790*0.0541)/(0.0474205223604))",
+		"wph120" : "((0.9558*0.0698)/(0.0667244))",
+		"wph125" : "((0.8400*0.0627)/(0.0526848))",
+		"wph130" : "((0.7414*0.0541)/(0.0401172))",
+		"wmh120" : "((0.6092*0.0698)/(0.0425283))",
+		"wmh125" : "((0.5328*0.0627)/(0.0334172))",
+		"wmh130" : "((0.4676*0.0541)/(0.0253018))"
+	}
+	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
 
 	#restriction to CH
@@ -373,10 +389,12 @@ if __name__ == "__main__":
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					
-					if channel in ["mt", "et", "tt"]:
-						for index, weight in enumerate(config.get("weights", [])):
+					for index, weight in enumerate(config.get("weights", [])):
+						if channel in ["mt", "et", "tt"]:
 							if config["nicks"][index] in top_pt_reweight_nicks or channel == "tt":
 								config["weights"][index] = weight.replace("topPtReweightWeight", "topPtReweightWeightRun1")
+						if config["nicks"][index].split("_")[0] in signalCrossSectionTimesBR.keys():
+							config["weights"][index] = weight + "*" + signalCrossSectionTimesBR[config["nicks"][index].split("_")[0]]
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 
 					if "2D" not in category:
