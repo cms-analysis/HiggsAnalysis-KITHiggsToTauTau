@@ -316,7 +316,7 @@ if __name__ == "__main__":
 	elif args.etaufakerate:
 		global_category_string = "catETauFakeRate13TeV"
 		global_cut_type = "etaufake"
-		if args.categories ==   ['']:
+		if args.categories ==   [None]:
 			args.categories = ["vloose_pass", "vloose_fail", "loose_pass", "loose_fail", "medium_pass", "medium_fail", "tight_pass", "tight_fail", "vtight_pass", "vtight_fail"]
 		log.info("Use the following option to exclude the necessary cuts for etaufakerate studies: [ --exclude-cuts 'dilepton_veto' 'extra_lepton_veto' 'anti_e_tau_discriminators' ]")
 	if args.era == "2016":
@@ -445,7 +445,7 @@ if __name__ == "__main__":
 					config["title"] = "channel_"+channel
 
 				config["directories"] = [args.input_dir]
-				
+
 				if args.channel_comparison:
 					if "stacks" in config:
 						config.pop("stacks")
