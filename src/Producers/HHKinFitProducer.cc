@@ -132,7 +132,7 @@ void HHKinFitProducer::Produce(event_type const& event, product_type& product,
 	TLorentzVector visibleTau1 = Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(product.m_flavourOrderedLeptons[0]->p4);
 	TLorentzVector visibleTau2 = Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(product.m_flavourOrderedLeptons[1]->p4);
 	TVector2 met = Utility::ConvertPxPyVector<RMFLV, TVector2>(product.m_met.p4);
-	TMatrixD metCov = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >, TMatrixD>(product.m_met.significance, 2, 4);
+	TMatrixD metCov = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >>(product.m_met.significance, 2, 4);
 	
 	HHKinFit2::HHKinFitMasterSingleHiggs hhKinFit(visibleTau1, visibleTau2, met, metCov);
 	hhKinFit.addHypo(90); // TODO: make configurable

@@ -539,25 +539,25 @@ class CutStringsDict:
 			cuts = CutStringsDict.mssm2016(channel, cut_type)
 		elif cut_type=="mssm2016fflooseiso":
 			cuts = CutStringsDict.mssm2016(channel, cut_type)
-		elif cut_type=="antievloosepass":
+		elif cut_type=="antievloosepass" or cut_type=="etaufake2016_antievloosepass":
 			cuts = CutStringsDict.antievloosepass(channel, cut_type)
-		elif cut_type=="antievloosefail":
+		elif cut_type=="antievloosefail" or cut_type=="etaufake2016_antievloosefail":
 			cuts = CutStringsDict.antievloosefail(channel, cut_type)
-		elif cut_type=="antieloosepass":
+		elif cut_type=="antieloosepass" or cut_type=="etaufake2016_antieloosepass":
 			cuts = CutStringsDict.antieloosepass(channel, cut_type)
-		elif cut_type=="antieloosefail":
+		elif cut_type=="antieloosefail" or cut_type=="etaufake2016_antieloosefail":
 			cuts = CutStringsDict.antieloosefail(channel, cut_type)
-		elif cut_type=="antiemediumpass":
+		elif cut_type=="antiemediumpass" or cut_type=="etaufake2016_antiemediumpass":
 			cuts = CutStringsDict.antiemediumpass(channel, cut_type)
-		elif cut_type=="antiemediumfail":
+		elif cut_type=="antiemediumfail" or cut_type=="etaufake2016_antiemediumfail":
 			cuts = CutStringsDict.antiemediumfail(channel, cut_type)
-		elif cut_type=="antietightpass":
+		elif cut_type=="antietightpass" or cut_type=="etaufake2016_antietightpass":
 			cuts = CutStringsDict.antietightpass(channel, cut_type)
-		elif cut_type=="antietightfail":
+		elif cut_type=="antietightfail" or cut_type=="etaufake2016_antietightfail":
 			cuts = CutStringsDict.antietightfail(channel, cut_type)
-		elif cut_type=="antievtightpass":
+		elif cut_type=="antievtightpass" or cut_type=="etaufake2016_antievtightpass":
 			cuts = CutStringsDict.antievtightpass(channel, cut_type)
-		elif cut_type=="antievtightfail":
+		elif cut_type=="antievtightfail" or cut_type=="etaufake2016_antievtightfail":
 			cuts = CutStringsDict.antievtightfail(channel, cut_type)
 		
 		elif cut_type=="antimuloosepass":
