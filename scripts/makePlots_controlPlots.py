@@ -197,6 +197,8 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the SM HTT analysis. [Default: %(default)s]")
 	parser.add_argument("--taues", default=False, action="store_true",
 	                    help="Produce the plots for the tau energy scale analysis. [Default: %(default)s]")
+	parser.add_argument("--etaufakerate", default=False, action="store_true",
+	                    help="Produce the plots for the electron tau fake rate analysis. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
@@ -311,6 +313,12 @@ if __name__ == "__main__":
 		global_cut_type = "baseline_low_mvis"
 	elif args.taues:
 		global_cut_type = "tauescuts"
+	elif args.etaufakerate:
+		global_category_string = "catETauFakeRate13TeV"
+		global_cut_type = "etaufake"
+		if args.categories ==   ['']:
+			args.categories = ["vloose_pass", "vloose_fail", "loose_pass", "loose_fail", "medium_pass", "medium_fail", "tight_pass", "tight_fail", "vtight_pass", "vtight_fail"]
+		log.info("Use the following option to exclude the necessary cuts for etaufakerate studies: [ --exclude-cuts 'dilepton_veto' 'extra_lepton_veto' 'anti_e_tau_discriminators' ]")
 	if args.era == "2016":
 		if args.smhtt:
 			global_cut_type = "smhtt"
@@ -337,6 +345,29 @@ if __name__ == "__main__":
 						cut_type = "mssm2016tight"
 					else:
 						cut_type = "mssm2016full"
+
+				if args.etaufakerate:
+					if "vloose_pass" in category:
+						global_cut_type = "etaufake2016_antievloosepass"
+					elif "vloose_fail" in category:
+						global_cut_type = "etaufake2016_antievloosefail"
+					elif "loose_pass" in category:
+						global_cut_type = "etaufake2016_antieloosepass"
+					elif "loose_fail" in category:
+						global_cut_type = "etaufake2016_antieloosefail"
+					elif "medium_pass" in category:
+						global_cut_type = "etaufake2016_antiemediumpass"
+					elif "medium_fail" in category:
+						global_cut_type = "etaufake2016_antiemediumfail"
+					elif "tight_pass" in category:
+						global_cut_type = "etaufake2016_antietightpass"
+					elif "tight_fail" in category:
+						global_cut_type = "etaufake2016_antietightfail"
+					elif "vtight_pass" in category:
+						global_cut_type = "etaufake2016_antievtightpass"
+					elif "vtight_fail" in category:
+						global_cut_type = "etaufake2016_antievtightfail"
+
 				last_loop = (index == len(channels_background_methods) - 1)
 				
 				if category != None:
