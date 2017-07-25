@@ -354,11 +354,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_theBS = event.m_beamSpot;
 
 	// initialization of TVector3 objects
+	product.m_recoIP1.SetXYZ(-999,-999,-999);
+	product.m_recoIP2.SetXYZ(-999,-999,-999);
 	product.m_recoIP1_refitPV.SetXYZ(-999,-999,-999);
 	product.m_recoIP2_refitPV.SetXYZ(-999,-999,-999);
-
-	TVector3 recoIP1(-999,-999,-999);
-	TVector3 recoIP2(-999,-999,-999);
 
 
 	KLepton* recoParticle1 = product.m_chargeOrderedLeptons.at(0);
@@ -400,27 +399,19 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 
 	// impact parameter method for CP studies
-	/////product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(event.m_vertexSummary->pv, trackP, trackM, momentumP, momentumM);
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(product.m_thePV, trackP, trackM, momentumP, momentumM);
-	//product.m_recoPhiStar = cpq.GetRecoPhiStar();
-	//product.m_recoIP1 = cpq.GetRecoIP1();
-	//product.m_recoIP2 = cpq.GetRecoIP2();
-	//product.m_recoChargedHadronEnergies.first = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, momentumP);
-	//product.m_recoChargedHadronEnergies.second = cpq.CalculateChargedHadronEnergy(product.m_diTauSystem, momentumM);
-	//product.m_recoTrackRefError1 = cpq.CalculateTrackReferenceError(trackP);
-	//product.m_recoTrackRefError2 = cpq.CalculateTrackReferenceError(trackM);
 
 	// calculation of the IP vectors and relative errors
 	if (product.m_refitPV != nullptr){
 		product.m_recoIP1 = cpq.CalculateIPVector(recoParticle1, product.m_thePV);
 		product.m_recoIP2 = cpq.CalculateIPVector(recoParticle2, product.m_thePV);
-		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &recoIP1);
-		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &recoIP2);
+		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &product.m_recoIP1);
+		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &product.m_recoIP2);
 
 		product.m_recoIP1_refitPV = cpq.CalculateIPVector(recoParticle1, product.m_refitPV);
 		product.m_recoIP2_refitPV = cpq.CalculateIPVector(recoParticle2, product.m_refitPV);
-		product.m_errorIP1vec_refitPV = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &recoIP1);
-		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &recoIP2);
+		product.m_errorIP1vec_refitPV = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &product.m_recoIP1_refitPV);
+		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &product.m_recoIP2_refitPV);
 
 		
 
@@ -428,37 +419,21 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(product.m_refitPV, trackP, trackM, momentumP, momentumM);
 
 
-
 		if (!m_isData){
-			// FIXME delete all temporary variable of type double
+			// calculate deltaR, deltaEta, deltaPhi and delta between recoIPvec and genIPvec
+			// only for recoIPvec wrt refitted PV
 			if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
-				double deltaEtaGenRecoIP1 = recoIP1.Eta() - product.m_genIP1.Eta();
-				product.m_deltaEtaGenRecoIP1 = deltaEtaGenRecoIP1;
-
-				double deltaPhiGenRecoIP1 = recoIP1.DeltaPhi(product.m_genIP1);
-				product.m_deltaPhiGenRecoIP1 = deltaPhiGenRecoIP1;
-
-				double deltaRGenRecoIP1 = recoIP1.DeltaR(product.m_genIP1);
-				product.m_deltaRGenRecoIP1 = deltaRGenRecoIP1;
-
-				double deltaGenRecoIP1 = recoIP1.Angle(product.m_genIP1);
-				product.m_deltaGenRecoIP1 = deltaGenRecoIP1;
-
+				product.m_deltaEtaGenRecoIP1 = product.m_recoIP1_refitPV.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIP1 = product.m_recoIP1_refitPV.DeltaPhi(product.m_genIP1);
+				product.m_deltaRGenRecoIP1   = product.m_recoIP1_refitPV.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIP1    = product.m_recoIP1_refitPV.Angle(product.m_genIP1);
 			} // if genIP1 exists
 
 			if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
-				double deltaEtaGenRecoIP2 = recoIP2.Eta() - product.m_genIP2.Eta();
-				product.m_deltaEtaGenRecoIP2 = deltaEtaGenRecoIP2;
-
-				double deltaPhiGenRecoIP2 = recoIP2.DeltaPhi(product.m_genIP2);
-				product.m_deltaPhiGenRecoIP2 = deltaPhiGenRecoIP2;
-
-				double deltaRGenRecoIP2 = recoIP2.DeltaR(product.m_genIP2);
-				product.m_deltaRGenRecoIP2 = deltaRGenRecoIP2;
-
-				double deltaGenRecoIP2 = recoIP2.Angle(product.m_genIP2);
-				product.m_deltaGenRecoIP2 = deltaGenRecoIP2;
-
+				product.m_deltaEtaGenRecoIP2 = product.m_recoIP2_refitPV.Eta() - product.m_genIP2.Eta();
+				product.m_deltaPhiGenRecoIP2 = product.m_recoIP2_refitPV.DeltaPhi(product.m_genIP2);
+				product.m_deltaRGenRecoIP2   = product.m_recoIP2_refitPV.DeltaR(product.m_genIP2);
+				product.m_deltaGenRecoIP2    = product.m_recoIP2_refitPV.Angle(product.m_genIP2);
 			} // if genIP2 exists
 
 		} // if MC sample
