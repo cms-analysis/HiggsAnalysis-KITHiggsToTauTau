@@ -253,7 +253,13 @@ if __name__ == "__main__":
 		"noplot_ttj_ss_highmt" # mt & et channels: qcd high mt yield subtract
 	]
 	
-	categoriesWithRelaxedIsolation = [
+	categoriesWithRelaxedIsolationForW = [
+		"Boosted2D",
+		"Vbf2D"
+	]
+	
+	categoriesWithRelaxedIsolationForQCD = [
+		"ZeroJet2D",
 		"Boosted2D",
 		"Vbf2D"
 	]
@@ -377,7 +383,8 @@ if __name__ == "__main__":
 							wj_sf_shift=wj_sf_shift,
 							zmm_cr_factor=zmm_cr_factor,
 							no_ewkz_as_dy = args.no_ewkz_as_dy,
-							useRelaxedIsolation=(category.split("_")[1] in categoriesWithRelaxedIsolation)
+							useRelaxedIsolationForW = (category.split("_")[1] in categoriesWithRelaxedIsolationForW),
+							useRelaxedIsolationForQCD = (category.split("_")[1] in categoriesWithRelaxedIsolationForQCD)
 					)
 					
 					if "CMS_scale_gg_13TeV" in shape_systematic:

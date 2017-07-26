@@ -232,8 +232,10 @@ if __name__ == "__main__":
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	parser.add_argument("--new-tau-id", default=False, action="store_true",
 	                    help="Use rerun tau Id instead of nominal one. [Default: %(default)s]")
-	parser.add_argument("--use-relaxed-isolation", default=False, action="store_true",
-	                    help="Use relaxed isolation for W+jets and QCD shape estimation in MT and ET channels. [Default: %(default)s]")
+	parser.add_argument("--use-relaxed-isolation-for-W", default=False, action="store_true",
+	                    help="Use relaxed isolation for W+jets shape estimation in MT and ET channels. [Default: %(default)s]")
+	parser.add_argument("--use-relaxed-isolation-for-QCD", default=False, action="store_true",
+	                    help="Use relaxed isolation for QCD shape estimation in MT and ET channels. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -406,7 +408,8 @@ if __name__ == "__main__":
 						cut_type = global_cut_type,
 						no_ewk_samples = args.no_ewk_samples,
 						no_ewkz_as_dy = args.no_ewkz_as_dy,
-						useRelaxedIsolation=args.use_relaxed_isolation,
+						useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,
+						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
 						nick_suffix = (channel if args.channel_comparison else "")
 				)
 				if (args.channel_comparison):
