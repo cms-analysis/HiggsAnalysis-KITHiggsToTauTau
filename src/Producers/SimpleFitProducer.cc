@@ -18,6 +18,11 @@
 #include "TauPolSoftware/SimpleFits/interface/PTObject.h"
 
 
+std::string SimpleFitProducer::GetProducerId() const
+{
+	return "SimpleFitProducer";
+}
+
 void SimpleFitProducer::Init(setting_type const& settings)
 {
     ProducerBase<HttTypes>::Init(settings);
