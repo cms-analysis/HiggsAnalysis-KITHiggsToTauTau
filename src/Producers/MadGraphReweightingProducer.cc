@@ -12,7 +12,7 @@
 #include <boost/algorithm/string/replace.hpp>
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
-std::map<std::string, std::vector<std::string> > m_madGraphProcessDirectoriesByName;
+
 
 std::string MadGraphReweightingProducer::GetProducerId() const
 {
@@ -29,7 +29,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 			Utility::ParseVectorToMap(settings.GetMadGraphProcessDirectories()),
 			m_madGraphProcessDirectoriesByName
 	);
-	for (std::map<int, std::vector<std::string> >::const_iterator processDirectories = madGraphProcessDirectoriesByIndex.begin();
+	/*for (std::map<int, std::vector<std::string> >::const_iterator processDirectories = madGraphProcessDirectoriesByIndex.begin();
 	     processDirectories != madGraphProcessDirectoriesByIndex.end(); ++processDirectories)
 	{
 		m_madGraphProcessDirectories[static_cast<HttEnumTypes::MadGraphProductionModeGGH>(processDirectories->first)] = processDirectories->second;
@@ -38,11 +38,11 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	     processDirectories != m_madGraphProcessDirectoriesByName.end(); ++processDirectories)
 	{
 		m_madGraphProcessDirectories[HttEnumTypes::ToMadGraphProductionModeGGH(processDirectories->first)] = processDirectories->second;
-	}
+	}*/
 	
 	// preparations of MadGraphTools objects
-	for (std::map<HttEnumTypes::MadGraphProductionModeGGH, std::vector<std::string> >::const_iterator processDirectories = m_madGraphProcessDirectories.begin();
-	     processDirectories != m_madGraphProcessDirectories.end(); ++processDirectories)
+	for (std::map<std::string, std::vector<std::string> >::const_iterator processDirectories = m_madGraphProcessDirectoriesByName.begin();
+	     processDirectories != m_madGraphProcessDirectoriesByName.end(); ++processDirectories)
 	{
 		m_madGraphTools[processDirectories->second.at(0)] = std::map<int, MadGraphTools*>();
 		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
