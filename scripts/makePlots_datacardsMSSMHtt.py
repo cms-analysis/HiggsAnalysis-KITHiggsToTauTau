@@ -182,7 +182,7 @@ shapes_weight_dict = {
 		"zptstat40pt" : ("zPtWeightStatPt40Down/zPtReweightWeight","zPtWeightStatPt40Up/zPtReweightWeight"),
 		"zptstat80pt" : ("zPtWeightStatPt80Down/zPtReweightWeight","zPtWeightStatPt80Up/zPtReweightWeight"),
 		"zptttbar" : ("zPtWeightTTbarDown/zPtReweightWeight","zPtWeightTTbarUp/zPtReweightWeight"),
-		"taupt" : ("max(0,(1-0.0005*had_gen_match_pT_1)*(1-0.0005*had_gen_match_pT_2))", "(1+0.00005*had_gen_match_pT_1)*(1+0.00005*had_gen_match_pT_2)"),
+		"taupt" : ("max(0,(1-0.00035*had_gen_match_pT_1)*(1-0.00035*had_gen_match_pT_2))", "(1+0.00005*had_gen_match_pT_1)*(1+0.00005*had_gen_match_pT_2)"),
 		"taues" : ("1.0", "1.0"),
 		"taues1prong0pi" : ("1.0", "1.0"),
 		"taues1prong1pi" : ("1.0", "1.0"),
