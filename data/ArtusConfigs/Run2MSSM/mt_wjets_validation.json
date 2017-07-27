@@ -147,7 +147,11 @@
                         "nJets30",
                         "nTaus",
                         "nElectrons",
-                        "nMuons"
+                        "nMuons",
+                        "genBosonMass",
+                        "genBosonPt",
+                        "genBosonEta",
+                        "genBosonPhi"
 		],
 		"OSChargeLeptons" : true,
                 "ZMassRange" : 5.0,

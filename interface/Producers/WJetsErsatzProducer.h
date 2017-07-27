@@ -9,6 +9,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 
 #include <TMath.h>
+#include <TRandom3.h>
 
 /**
     \brief Producer to estimate WJets events from Z->mumu events
