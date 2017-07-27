@@ -75,7 +75,7 @@ samples_dict = {
 			("zptttbar",["ztt","zll"]),
 			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
 			#('jec',['ttj','vv','wj','zll','ztt','ggh','bbh']),#done?! (not needed at all?)
-			("elees",["ztt"]),#done! (but only for ztt?) ["ttj","vv","wj","zll","ztt","ggh","bbh"]
+			("elees",["ztt","ggh","bbh"]),#done! (but only for ztt?) ["ttj","vv","wj","zll","ztt","ggh","bbh"]
 			#("muones",["ttj","vv","wj","zll","ztt","ggh","bbh"]),#done?! (not needed at all?)
 			#("metesone",["wj","zll","ztt","ggh","bbh"]),#done?! (not needed at all?)
 			#("metestwo",["ttj","vv"]),#done?! (not needed at all?)
@@ -197,8 +197,8 @@ shapes_weight_dict = {
 		"muones" : ("1.0", "1.0"),
 		"metesone" : ("1.0", "1.0"),
 		"metestwo" : ("1.0", "1.0"),
-		"efake" : ("0.702", "0.003*pt_1+0.883"),
-		"mufake" : ("0.812", "0.005*pt_2+0.992"),
+		"efake" : ("0.702", "(0.003*pt_1+0.883)"),
+		"mufake" : ("0.812", "(0.005*pt_2+0.992)"),
 	}
 mapping_process2sample = {
 	"data_obs" : "data",
@@ -253,7 +253,7 @@ if __name__ == "__main__":
 	                    default=["em"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
-	                    default=[["em_btag"]],#, "em_btag_highPzeta", "em_btag_lowPzeta", "em_btag_mediumPzeta", "em_nobtag_highPzeta", "em_nobtag_lowPzeta", "em_nobtag_mediumPzeta", "em_nobtag", "em_inclusive"
+	                    default=[["em_btag_highPzeta", "em_btag_lowPzeta", "em_btag_mediumPzeta", "em_nobtag_highPzeta", "em_nobtag_lowPzeta", "em_nobtag_mediumPzeta", "em_btag" , "em_nobtag", "em_inclusive"]],#
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["all"],
 	                    help="Higgs masses. [Default: %(default)s]")
@@ -386,6 +386,12 @@ if __name__ == "__main__":
 					cut_type = "mssm2016loosemt"
 				elif "tight" in category:
 					cut_type = "mssm2016tight"
+				elif "lowPzeta" in category:
+					cut_type = "mssm2016lowpzeta"
+				elif "mediumPzeta" in category:
+					cut_type = "mssm2016mediumpzeta"
+				elif "highPzeta" in category:
+					cut_type = "mssm2016highpzeta"
 				else:
 #					if args.fakefactor_method is not None:
 #						cut_type = "mssm2016fffull"
@@ -435,8 +441,8 @@ if __name__ == "__main__":
 						# config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 
 						# set qcd os-ss extrapolation factors
-						if category in ["em_btag", "em_nobtag", "em_inclusive"]:
-							config["qcd_extrapolation_factors_ss_os"] = 1.00#TODO
+						#if category in ["em_btag", "em_nobtag", "em_inclusive"]:
+						#	config["qcd_extrapolation_factors_ss_os"] = 1.00#TODO
 #						if category in ["mt_nobtag_tight", "mt_nobtag_loosemt", "mt_nobtag"]:
 #							config["qcd_extrapolation_factors_ss_os"] = 1.14
 #						elif category in ["mt_btag_tight", "mt_btag_loosemt", "mt_btag"]:

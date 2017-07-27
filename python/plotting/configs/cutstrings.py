@@ -116,6 +116,13 @@ class CutStringsDict:
 		elif channel == "tt":
 			cuts["iso_1"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.97 + (gen_match_1 != 5))"
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
+		elif channel == "em":
+			if cut_type == "mssm2016lowpzeta":
+				cuts["pzeta"] = "(pZetaMissVis > -50.0)*(pZetaMissVis < -10.0)"
+			elif cut_type == "mssm2016mediumpzeta":
+				cuts["pzeta"] = "(pZetaMissVis > -10.0)*(pZetaMissVis < 30.0)"
+			elif cut_type == "mssm2016highpzeta":
+				cuts["pzeta"] = "(pZetaMissVis > 30.0)"
 		return cuts
 	
 	@staticmethod
@@ -518,6 +525,12 @@ class CutStringsDict:
 		elif cut_type=="mssm2016fffull":
 			cuts = CutStringsDict.mssm2016(channel, cut_type)
 		elif cut_type=="mssm2016fflooseiso":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016lowpzeta":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016mediumpzeta":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016highpzeta":
 			cuts = CutStringsDict.mssm2016(channel, cut_type)
 		elif cut_type=="antievloosepass":
 			cuts = CutStringsDict.antievloosepass(channel, cut_type)
