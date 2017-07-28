@@ -5,7 +5,9 @@
 
 #include "DataFormats/TauReco/interface/PFTau.h"
 
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
+#include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"
@@ -26,8 +28,50 @@ std::string SimpleFitProducer::GetProducerId() const
 void SimpleFitProducer::Init(setting_type const& settings)
 {
     ProducerBase<HttTypes>::Init(settings);
+	
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("simpleFitAvailable", [](event_type const& event, product_type const& product) {
+		return (Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0)) &&
+		        Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1)));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("simpleFitLV", [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystemSimpleFit;
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("simpleFitTau1Available", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("simpleFitTau1LV", [](event_type const& event, product_type const& product) {
+		return SafeMap::GetWithDefault(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("simpleFitTau1ERatio", [](event_type const& event, product_type const& product) {
+		if (Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0)))
+		{
+			return product.m_flavourOrderedLeptons.at(0)->p4.E() / SafeMap::Get(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0)).E();
+		}
+		else
+		{
+			return DefaultValues::UndefinedFloat;
+		}
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("simpleFitTau2Available", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("simpleFitTau2LV", [](event_type const& event, product_type const& product) {
+		return SafeMap::GetWithDefault(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("simpleFitTau2ERatio", [](event_type const& event, product_type const& product) {
+		if (Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1)))
+		{
+			return product.m_flavourOrderedLeptons.at(1)->p4.E() / SafeMap::Get(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1)).E();
+		}
+		else
+		{
+			return DefaultValues::UndefinedFloat;
+		}
+	});
 }
-
 
 void SimpleFitProducer::Produce(event_type const& event, product_type& product,
                                 setting_type const& settings) const
@@ -126,7 +170,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		{
 			product.m_simpleFitTaus[lepton] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
 			product.m_simpleFitTaus[tauToA1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauH().LV());
-			LOG(WARNING) << product.m_simpleFitTaus[lepton] << ", " << product.m_simpleFitTaus[tauToA1];
+			product.m_diTauSystemSimpleFit = product.m_simpleFitTaus[lepton] + product.m_simpleFitTaus[tauToA1];
 		}
 	}
 }

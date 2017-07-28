@@ -159,6 +159,7 @@ public:
 
 	// filled by the SimpleFitProducer
 	std::map<KLepton*, RMFLV> m_simpleFitTaus;
+	RMFLV m_diTauSystemSimpleFit = DefaultValues::UndefinedRMFLV;
 
 	// filled by the DiJetQuantitiesProducer
 	RMDLV m_diJetSystem;

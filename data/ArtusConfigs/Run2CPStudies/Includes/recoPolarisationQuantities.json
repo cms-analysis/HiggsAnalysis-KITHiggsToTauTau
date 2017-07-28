@@ -26,6 +26,13 @@
 		"hhKinFitTau1LV",
 		"hhKinFitTau2LV",
 
+		"simpleFitAvailable",
+		"simpleFitLV",
+		"simpleFitTau1Available",
+		"simpleFitTau1LV",
+		"simpleFitTau2Available",
+		"simpleFitTau2LV",
+
 		"leadingTauDecayMode",
 		"leadingTauSumChargedHadronsLV",
 		"leadingTauSumNeutralHadronsLV",
