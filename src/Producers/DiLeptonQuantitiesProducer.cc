@@ -83,6 +83,9 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pZetaMissVis", [](event_type const& event, product_type const& product) {
 		return product.pZetaMissVis;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepDiffPhi", [](event_type const& event, product_type const& product) {
+		return product.diLepDiffPhi;
+	});
 }
 
 void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& product,
@@ -157,4 +160,11 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	                                             product.m_met.p4, 0.0);
 	product.pZetaMissVis = Quantities::PZetaMissVis(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
 	                                                product.m_met.p4, 0.85);
+	product.diLepDiffPhi = product.m_flavourOrderedLeptons.at(1)->p4.Phi() - product.m_flavourOrderedLeptons.at(0)->p4.Phi();
+	if (product.diLepDiffPhi > 3.14159265358979){
+		product.diLepDiffPhi = product.diLepDiffPhi - (2*3.14159265358979);
+	}
+	if (product.diLepDiffPhi < -3.14159265358979){
+		product.diLepDiffPhi = product.diLepDiffPhi + (2*3.14159265358979);
+	}
 }

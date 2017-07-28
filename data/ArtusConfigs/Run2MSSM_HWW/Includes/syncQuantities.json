@@ -189,6 +189,7 @@
 		"#genpY",
 		"#vispX",
 		"#vispY",
-		"#TTbarGenDecayMode"
+		"#TTbarGenDecayMode",
+		"phi_diff"
 	]
 }
