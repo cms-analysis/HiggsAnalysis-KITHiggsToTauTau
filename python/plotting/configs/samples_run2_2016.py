@@ -995,7 +995,7 @@ class Samples(samples.SamplesBase):
 		return artus_files
 
 	def files_hww_gg(self, channel, mass=125):
-		return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+		return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 	
 	def hww_gg(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -1049,7 +1049,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_hww_qq(self, channel, mass=125):
-		return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+		return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 
 	def hww_qq(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
