@@ -103,7 +103,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		TMatrixTSym<double> tauCovarianceInput = ErrorMatrixPropagator::PropagateError(&TrackHelixVertexFitter::ComputeLorentzVectorPar, tauParameters, tauCovariance);
 		
 		int pdgIdTau = static_cast<int>(DefaultValues::pdgIdTau * tauToA1->charge() / std::abs(tauToA1->charge()));
-		LorentzVectorParticle tauInput(tauParametersInput, tauCovariance, pdgIdTau, tauToA1->charge(), tauToA1->track.magneticField);
+		LorentzVectorParticle tauInput(tauParametersInput, tauCovarianceInput, pdgIdTau, tauToA1->charge(), tauToA1->track.magneticField);
 		
 		// MET
 		unsigned int nMetComponents = 2;
