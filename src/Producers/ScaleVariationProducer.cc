@@ -9,6 +9,8 @@ std::string ScaleVariationProducer::GetProducerId() const
 
 void ScaleVariationProducer::Init(setting_type const& settings)
 {
+	ProducerBase<HttTypes>::Init(settings);
+	
 	genEventInfoMetadataMap = Utility::ParseVectorToMap(settings.GetGenEventInfoMetadataNames());
 }
 
