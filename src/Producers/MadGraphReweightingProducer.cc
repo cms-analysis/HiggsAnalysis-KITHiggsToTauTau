@@ -45,6 +45,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	     processDirectories != m_madGraphProcessDirectoriesByName.end(); ++processDirectories)
 	{
 		m_madGraphTools[processDirectories->second.at(0)] = std::map<int, MadGraphTools*>();
+		
 		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
 		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
@@ -52,7 +53,6 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 			m_madGraphTools[processDirectories->second.at(0)][GetMixingAngleKey(*mixingAngleOverPiHalf)] = madGraphTools;
 		}
 	}
-	
 	// quantities for LambdaNtupleConsumer
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalfIt != settings.GetMadGraphMixingAnglesOverPiHalf().end();
@@ -155,7 +155,6 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		std::string initialname = "";
 		std::string jetname = "";
 		std::string higgsname = "";
-		std::string name = "";
 		//std::map(<int>,<>);
 		//Array to carry Directory Name consists of 
 		//"incoming particle" "incoming particle" "higgs" "outgoing particle" "outgoing particle" "outgoing particle"
@@ -165,224 +164,68 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		{
 			ParticlesGroup* selectedParticles = nullptr;
 			//construct name of events 
-			//TODO update the jason file for ggh
+			//TODO update the json file for ggh
 			TParticlePDG* pdgParticle = m_databasePDG->GetParticle(lheParticle->pdgId);
 			if (pdgParticle)
 			{
+				//check if it's an Initial Particle, Higgsboson or Jet Particle
+				if (lheParticle->status == -1)
+				{
+					//LOG(WARNING) << "InitalParticle: " << pdgParticle->GetName();
+					selectedParticles = &initialParticles;
+				}
+	                        else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(lheParticle->pdgId)))
+	                        {
+	                                //LOG(WARNING) << "HiggsParticle: " << pdgParticle->GetName();
+					selectedParticles = &higgsParticles;
+	                                selectedParticles->nHiggsBosons += 1;
+	
+                                	if ((lheParticle->pdgId) == 25)
+	                                {
+	                                        selectedParticles = &higgsParticles;
+	                                        selectedParticles->nHiggsBosons += 1;
+	                                        higgsname += "_h0";
+	                                }
+	                        }
+				else {
+					selectedParticles = &jetParticles;
+					//LOG(WARNING) << "JetParticle: " << pdgParticle->GetName();
+				}
+				//construct the name
 				Names[Name_Index] = pdgParticle->GetName();
+				if (Names[Name_Index]=="g"){
+					numberGluons += 1;
+					selectedParticles->nGluons += 1;
+				}
+				else if ((Names[Name_Index]=="b") || (Names[Name_Index]=="b_bar")){
+					numberBottomQuarks += 1;
+					selectedParticles->nHeavyQuarks += 1;
+				}
+				else if ((Names[Name_Index]=="u") || (Names[Name_Index]=="c") || (Names[Name_Index]=="d") || (Names[Name_Index]=="s") ||
+					(Names[Name_Index]=="u_bar") || (Names[Name_Index]=="c_bar") || (Names[Name_Index]=="d_bar") || (Names[Name_Index]=="s_bar")){
+					numberOtherQuarks += 1;
+					selectedParticles->nLightQuarks += 1;
+				}
+				else if (Names[Name_Index]=="h0"){//do nothing, everything is fine
+				}
+				else{LOG(WARNING) << "This process contains a '" << Names[Name_Index] << "' which should not be here!";}
 				Name_Index++;
 			}
 
-			if (lheParticle->status == -1)
-			{
-				selectedParticles = &initialParticles;
-
-
-
-				if (lheParticle->pdgId == DefaultValues::pdgIdGluon)
-				{
-					selectedParticles->nGluons += 1;
-					++numberGluons;
-					initialname += "g";
-				}
-				
-
-				else if ((lheParticle->pdgId) == 1)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					initialname += "d";
-				}
-			
-				else if ((lheParticle->pdgId) == -1)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					initialname += "dx";
-				}
-
-				else if ((lheParticle->pdgId) == 2)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					initialname += "u";
-				}
-			
-				else if ((lheParticle->pdgId) == -2)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					initialname += "ux";
-				}
-
-				else if ((lheParticle->pdgId) == 3)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					initialname += "s";
-				}
-			
-				else if ((lheParticle->pdgId) == -3)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					initialname += "sx";
-				}
-
-				else if ((lheParticle->pdgId) == 4)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					initialname += "c";
-				}
-			
-				else if ((lheParticle->pdgId) == -4)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					initialname += "cx";
-				}
-
-				else if ((lheParticle->pdgId) == 5)
-				{
-					selectedParticles->nHeavyQuarks += 1;
-					++numberBottomQuarks;
-					initialname += "b";
-				}
-			
-				else if ((lheParticle->pdgId) == -5)
-				{
-					selectedParticles->nHeavyQuarks += 1;
-					++numberBottomQuarks;
-					initialname += "bx";
-				}
-
-
-			}
-			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(lheParticle->pdgId)))
-			{
-				selectedParticles = &higgsParticles;
-				selectedParticles->nHiggsBosons += 1;
-
-				if ((lheParticle->pdgId) == 25)
-				{
-					selectedParticles = &higgsParticles;
-					selectedParticles->nHiggsBosons += 1;
-					higgsname += "_h0";
-				}
-
-			}
-			else
-			{
-				selectedParticles = &jetParticles;
-
-				if (lheParticle->pdgId == DefaultValues::pdgIdGluon)
-				{
-					selectedParticles->nGluons += 1;
-					++numberGluons;
-					jetname += "g";
-				}
-				else if ((lheParticle->pdgId) == 25)
-				{
-					selectedParticles = &higgsParticles;
-					selectedParticles->nHiggsBosons += 1;
-					jetname += "_x0";
-				}
-
-
-				else if ((lheParticle->pdgId) == 1)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					jetname += "d";
-				}
-			
-				else if ((lheParticle->pdgId) == -1)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					jetname += "dx";
-				}
-
-				else if ((lheParticle->pdgId) == 2)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					jetname += "u";
-				}
-			
-				else if ((lheParticle->pdgId) == -2)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					jetname += "ux";
-				}
-
-				else if ((lheParticle->pdgId) == 3)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					jetname += "s";
-				}
-			
-				else if ((lheParticle->pdgId) == -3)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					jetname += "sx";
-				}
-
-				else if ((lheParticle->pdgId) == 4)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					jetname += "c";
-				}
-			
-				else if ((lheParticle->pdgId) == -4)
-				{
-					selectedParticles->nLightQuarks += 1;
-					++numberOtherQuarks;
-					jetname += "cx";
-				}
-
-				else if ((lheParticle->pdgId) == 5)
-				{
-					selectedParticles->nHeavyQuarks += 1;
-					++numberBottomQuarks;
-					jetname += "b";
-				}
-			
-				else if ((lheParticle->pdgId) == -5)
-				{
-					selectedParticles->nHeavyQuarks += 1;
-					++numberBottomQuarks;
-					jetname += "bx";
-				}
-			}
-			
 			selectedParticles->momenta.push_back(&(*lheParticle));
-			
-			
 
-			LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode << ", " << lheParticle->colourLineIndices.first << ", " << lheParticle->colourLineIndices.second;
+			//LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode << ", " << lheParticle->colourLineIndices.first << ", " << lheParticle->colourLineIndices.second;
 			if (particleFourMomenta.size() < 7)
 			{
 				particleFourMomenta.push_back(&(lheParticle->p4));
 			}
-
-
-
-
-
-
 		}
-		//Names for ingoing and outgoing particles
+		//Names for incoming and outgoing particles
 		initialname	= Names[0] + Names[1];
 		jetname	= Names[3] + Names[4] + Names[5];
 	        //print name of event
-		/*std::cout << "Name: " << initialname << higgsname << jetname << std::endl;
-		std::cout << "Jetname: " << jetname << std::endl;
+		//LOG(WARNING) << "Name: " << initialname << higgsname << jetname;
+		/*std::cout << "Jetname: " << jetname << std::endl;
 		std::cout << "Initalname: " << initialname << std::endl;
 		std::cout << "Higgsname: " << higgsname << std::endl;*/
 		// checks and corrections for Higgs bosons
@@ -396,158 +239,28 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		{
 			LOG(FATAL) << "Found no Higgs bosons, but expected 1!";
 		}
-		
-//jetcorrections for naming
-		
-	//gluons
-		//lighter quarks
-		if ((jetname=="gc") ||
-		    (jetname=="gd") ||
-		    (jetname=="gs"))
-		{
-			jetname="gu";
-		}
-		else if ((jetname=="cg") ||
-		         (jetname=="dg") ||
-		         (jetname=="sg") ||
-		         (jetname=="ug"))
-		{
-			jetname="gu";
-			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
-		}
-		//lighter antiquarks
-		if ((jetname=="gcx") ||
-		    (jetname=="gdx") ||
-		    (jetname=="gsx"))
-		{
-			jetname="gux";
-		}
-		else if ((jetname=="cxg") ||
-		         (jetname=="dxg") ||
-		         (jetname=="sxg") ||
-		         (jetname=="uxg"))
-		{
-			jetname="gux";
-			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
-		}
+//swapping four momenta
+//jet correction
 
-		//bottom
-		if (jetname=="bg")
-		{
-			jetname="gb";
-			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
-		}
-
-		if (jetname=="bxg")
-		{
-			jetname="gbx";
-			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
-		}
-
-	//uux ccx ddx ssx
-		else if ((jetname=="ccx") ||
-		    (jetname=="ddx") ||
-		    (jetname=="ssx"))
-		{
-			jetname="uux";
-		}
-		else if ((jetname=="cxc") ||
-		         (jetname=="dxd") ||
-		         (jetname=="sxs") ||
-		         (jetname=="uxu"))
-		{
-			jetname="uux";
-			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
-		}
-	
-//initialcorrection for naming
-	
-	//gluons
-		//lighter quarks
-		if ((initialname=="gc") ||
-		    (initialname=="gd") ||
-		    (initialname=="gs"))
-		{
-			initialname="gu";
-		}
-		else if ((initialname=="cg") ||
-		         (initialname=="dg") ||
-		         (initialname=="sg") ||
-		         (initialname=="ug"))
-		{
-			initialname="gu";
-			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
-		}
-		
-		//lighter antiquarks
-		if ((initialname=="gcx") ||
-		    (initialname=="gdx") ||
-		    (initialname=="gsx"))
-		{
-			initialname="gux";
-		}
-		else if ((initialname=="cxg") ||
-		         (initialname=="dxg") ||
-		         (initialname=="sxg") ||
-		         (initialname=="uxg"))
-		{
-			initialname="gux";
-			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
-		}
-		//bottom
-		if (initialname=="bg")
-		{
-			initialname="gb";
-			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
-		}
-
-		if (initialname=="bxg")
-		{
-			jetname="gbx";
-			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
-		}
-
-
-	//uux ccx ddx ssx
-		else if ((initialname=="ccx") ||
-		         (initialname=="ddx") ||
-		         (initialname=="ssx"))
-		{
-			initialname="uux";
-		}
-		else if ((initialname=="cxc") ||
-		         (initialname=="dxd") ||
-		         (initialname=="sxs") ||
-		         (initialname=="uxu"))
-		{
-			initialname="uux";
-			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
-		}
-
-//vbf
-	//jetname correction
-	////GetName() has no specific order 
-	//madgraph sorts particle before antiparticle in event names
-	//puts gluons first
-	//up type quarks second
-	//downtype quarks third => gucdsb
+//pdgParticle->GetName() has no specific order 
+//madgraph sorts particle before antiparticle in event names
+//puts gluons first
+//up type quarks second
+//downtype quarks third => gucdsb
 		if ((jetname=="u_baru") || (jetname=="b_barb") || (jetname=="c_barc") || (jetname=="d_bard") || (jetname=="s_bars") ||
-			(jetname=="sd") || (jetname=="sc") || (jetname=="bs") || (jetname=="su") || 
+			(jetname=="bs") || (jetname=="bd") || (jetname=="bc") || (jetname=="bu") ||
+			(jetname=="sd") || (jetname=="sc") || (jetname=="su") || 
 			(jetname=="dc") || (jetname=="du") ||
-			(jetname=="bd") || (jetname=="cu") ||
-			(jetname=="bu") ||
-			(jetname=="s_bard_bar") || (jetname=="s_barc_bar") || (jetname=="b_bars_bar") || (jetname=="s_baru_bar") ||
-                        (jetname=="d_barc_bar") || (jetname=="b_bard_bar") || (jetname=="d_baru_bar") ||
-                        (jetname=="b_barc_bar") || (jetname=="c_baru_bar") ||
-                        (jetname=="b_baru_bar") ||
-                        (jetname=="s_bard") || (jetname=="s_barc") || (jetname=="s_barb") || (jetname=="s_baru") ||
-                        (jetname=="d_barc") || (jetname=="d_barb") || (jetname=="d_baru") ||
-                        (jetname=="c_barb") || (jetname=="c_baru") ||
-                        (jetname=="b_baru") ||
-                        (jetname=="d_bars") || (jetname=="c_bars") || (jetname=="b_bars") || (jetname=="u_bars") ||
-                        (jetname=="c_bard") || (jetname=="b_bard") || (jetname=="u_bard") ||
-                        (jetname=="b_barc") || (jetname=="u_barc") ||
-                        (jetname=="u_barb"))
+			(jetname=="cu") ||
+			(jetname=="b_bars_bar") || (jetname=="b_bard_bar") || (jetname=="b_barc_bar") || (jetname=="b_baru_bar") ||
+			(jetname=="s_bard_bar") || (jetname=="s_barc_bar") || (jetname=="s_baru_bar") ||
+                        (jetname=="d_barc_bar") || (jetname=="d_baru_bar") ||
+                        (jetname=="c_baru_bar") ||
+                        (jetname =="b_bars") ||(jetname =="b_bard") ||(jetname =="b_barc") ||(jetname =="b_baru") ||
+			(jetname=="s_barb") || (jetname=="s_bard") || (jetname=="s_barc") || (jetname=="s_baru") ||
+                        (jetname=="d_barb") || (jetname=="d_bars") || (jetname=="d_barc") || (jetname=="d_baru") ||
+                        (jetname=="c_barb") || (jetname=="c_bars") || (jetname=="c_bard") || (jetname=="c_baru") ||
+                        (jetname=="u_barb") || (jetname=="u_bars") || (jetname=="u_bard") || (jetname=="u_barc"))
 		{
 			std::swap(particleFourMomenta[3], particleFourMomenta[4]);
 		}
@@ -556,18 +269,28 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		if ((jetname=="b_bardg") || (jetname=="dd_barg") || (jetname=="u_bars_barg") || (jetname=="sd_barg") ||
 			(jetname=="cug") || (jetname=="u_bars_barg") || (jetname=="cdg") || (jetname=="cc_barg") ||
 			(jetname=="ubg") || (jetname=="ds_barg") || (jetname=="uug") || (jetname=="ddg") || (jetname=="ucg") ||
-			(jetname=="uu_barg") || (jetname=="uc_barg") || (jetname=="db_barg") || (jetname=="ss_barg") || (jetname=="cu_barg"))
+			(jetname=="uu_barg") || (jetname=="uc_barg") || (jetname=="db_barg") || (jetname=="ss_barg") || (jetname=="cu_barg") ||
+			(jetname=="ucg") || (jetname=="udg") || (jetname=="usg") || (jetname=="ubg") ||
+			(jetname=="cdg") || (jetname=="csg") || (jetname=="cbg") ||
+			(jetname=="dsg") || (jetname=="dbg") ||
+			(jetname=="sbg") ||
+			(jetname=="bbg"))
 		{
 			std::swap(particleFourMomenta[3], particleFourMomenta[5]);
 			std::swap(particleFourMomenta[4], particleFourMomenta[5]);
 		}
 	//3<->5
-		if ((jetname=="d_barc_barg") || (jetname=="cug") || (jetname=="d_baru_barg") || (jetname=="dug") || 
-			(jetname=="c_bardg") || (jetname=="sug") || (jetname=="c_barug") || (jetname=="u_bardg"))
+		if ((jetname=="bbg") ||(jetname=="bug") || (jetname=="bcg") || (jetname=="bdg") || (jetname=="bsg") ||
+			(jetname=="ssg") || (jetname=="sdg") || (jetname=="scg") || (jetname=="sug") ||
+			(jetname=="ddg") || (jetname=="dcg") || (jetname=="dug") ||
+			(jetname=="ccg") || (jetname=="cug") ||
+			(jetname=="uug") ||
+			(jetname=="ugg") || (jetname=="cgg") || (jetname=="dgg") || (jetname=="sgg") || (jetname=="bgg") ||
+			(jetname=="u_bargg") || (jetname=="c_bargg") || (jetname=="d_bargg") || (jetname=="s_bargg") || (jetname=="b_bargg"))
 		{
 			std::swap(particleFourMomenta[3], particleFourMomenta[5]);
 		}
-	//initialstate (basically the same as for jetname)
+	//initialstate correction (basically the same as for jet)
                 if ((initialname=="u_baru") || (initialname=="b_barb") || (initialname=="c_barc") || (initialname=="d_bard") || (initialname=="s_bars") ||
                         (initialname=="sd") || (initialname=="sc") || (initialname=="sb") || (initialname=="su") ||
                         (initialname=="dc") || (initialname=="bc") || (initialname=="du") ||
@@ -600,9 +323,9 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		if ((jetParticles.nGluons==0)  &&
 		    (jetParticles.nLightQuarks==0)  &&
 		    (jetParticles.nHeavyQuarks==0) &&
-		    (directoryname!="gg_x0"))
+		    (directoryname!="gg_h0"))
 		{
-			directoryname="bbx_x0";
+			directoryname="bb_bar_h0";
 		}
 
 		if ((jetParticles.nGluons + jetParticles.nLightQuarks + jetParticles.nHeavyQuarks ==2) &&
@@ -617,13 +340,9 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		if (Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))
 		{
 			//std::string madGraphProcessDirectory = m_madGraphProcessDirectories.at(productionMode)[0];
-			
 			//std::string madGraphProcessDirectory = SafeMap::Get(madGraphProcessDirectoriesByName, directoryname)[0];
 			std::string madGraphProcessDirectory = m_madGraphProcessDirectoriesByName.at(directoryname)[0];
-			std::cout << "testoutput LHS: " << madGraphProcessDirectory << std::endl;
-			std::cout << "testoutput RHS: " << directoryname << std::endl;
 			std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
-			std::cout << "testoutput" << std::endl;
 			// calculate the matrix elements for different mixing angles
 			for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
 			     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
