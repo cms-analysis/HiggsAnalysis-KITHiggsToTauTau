@@ -127,6 +127,8 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pzetavis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pZetaVis"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pzetamiss", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pZetaMiss"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_diff", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepDiffPhi"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_met", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetMt"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_i", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetMtImp"]);
 	
 	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_1", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["leadingJetLV"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetPt"]);

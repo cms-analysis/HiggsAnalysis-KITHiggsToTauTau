@@ -190,6 +190,8 @@
 		"#vispX",
 		"#vispY",
 		"#TTbarGenDecayMode",
-		"phi_diff"
+		"phi_diff",
+		"mt_met",
+		"mt_i"
 	]
 }

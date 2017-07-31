@@ -150,6 +150,7 @@ public:
 	double pZetaMiss = 0.0;
 	double pZetaMissVis = 0.0;
 	double diLepDiffPhi = 0.0;
+	double diLepMetMtImp = 0.0;
 
 	// filled by the SvfitProducer
 	mutable SvfitEventKey m_svfitEventKey;
