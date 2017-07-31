@@ -273,7 +273,7 @@
 			"GluGluToHToTauTau.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/param_card.dat",
 			"VBF.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/param_card.dat"
 		}
-	}
+},
         "MadGraphParamCardSample" : {
                 "nick" : {
                         "GluGluToHToTauTau.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/param_card.dat",
