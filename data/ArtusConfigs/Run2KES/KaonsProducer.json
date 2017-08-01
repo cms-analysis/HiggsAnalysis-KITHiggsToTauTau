@@ -17,8 +17,8 @@
 	"TkIPSigZCut" : -1.0,
 
 	"VtxChi2Cut" : 15.0,
-	"VtxDecaySigXYZCut" : 10.0,
-	"VtxDecaySigXYCut" : -1.0,
+	"VtxDecaySigXYZCut" : -1.0,
+	"VtxDecaySigXYCut" : 10.0,
 
 	"TkDCACut" : 2.0,
 	"MPiPiCut" : 0.6,
