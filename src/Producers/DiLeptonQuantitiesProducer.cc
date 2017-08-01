@@ -170,5 +170,5 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	if (product.diLepDiffPhi < -1*acos(-1)){
 		product.diLepDiffPhi = product.diLepDiffPhi + (2*acos(-1));
 	}
-	product.diLepMetMtImp = sqrt(pow(product.m_diLeptonSystem.P()+product.m_met.p4.Pt(),2)-product.m_diLeptonPlusMetSystem.P2());//-std::pow(product.m_diLeptonSystem.X()+product.m_met.p4.X(),2)-std::pow(product.m_diLeptonSystem.Y()+product.m_met.p4.Y(),2)-std::pow(product.m_diLeptonSystem.Z()+product.m_met.p4.Z(),2)
+	product.diLepMetMtImp = sqrt(pow(product.m_diLeptonSystem.P()+product.m_met.p4.Pt(),2)-product.m_diLeptonPlusMetSystem.P2());// Using "product.m_met.p4.Pt()" instead of "product.m_met.p4.E()" because E is sometimes 0.
 }

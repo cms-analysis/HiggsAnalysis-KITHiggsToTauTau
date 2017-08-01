@@ -76,6 +76,9 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("H_pt", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetPt"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("H_mass", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetMass"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pt_tt", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetPt"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_llmet", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetMt"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_i", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetMtImp"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_diff", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepDiffPhi"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Pt"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("eta_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Eta"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Phi"]);
@@ -126,9 +129,6 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvacov11", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["mvaMetCov11"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pzetavis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pZetaVis"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pzetamiss", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pZetaMiss"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_diff", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepDiffPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_met", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetMt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_i", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetMtImp"]);
 	
 	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_1", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["leadingJetLV"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetPt"]);
