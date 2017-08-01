@@ -359,9 +359,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_recoIP1_refitPV.SetXYZ(-999,-999,-999);
 	product.m_recoIP2_refitPV.SetXYZ(-999,-999,-999);
 
-
-	KLepton* recoParticle1 = product.m_chargeOrderedLeptons.at(0);
-	KLepton* recoParticle2 = product.m_chargeOrderedLeptons.at(1);
+	// reconstructed leptons
+	KLepton* recoParticle1 = product.m_flavourOrderedLeptons.at(0);
+	KLepton* recoParticle2 = product.m_flavourOrderedLeptons.at(1);
 
 	// Defining CPQuantities object to use variables and functions of this class
 	CPQuantities cpq;
