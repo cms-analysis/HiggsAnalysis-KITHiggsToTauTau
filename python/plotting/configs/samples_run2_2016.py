@@ -995,7 +995,7 @@ class Samples(samples.SamplesBase):
 		return artus_files
 
 	def files_hww_gg(self, channel, mass=125):
-		return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+		return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 	
 	def hww_gg(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -1049,7 +1049,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_hww_qq(self, channel, mass=125):
-		return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
+		return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 
 	def hww_qq(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -1355,7 +1355,7 @@ class Samples(samples.SamplesBase):
 			exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)+["mt"]
 			exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts_inclusive)+["os"]
 			
-			if kwargs.get("useRelaxedIsolation", False):
+			if kwargs.get("useRelaxedIsolationForW", False):
 				wj_highmt_shape_cut_type = wj_highmt_shape_cut_type + "relaxedETauMuTauWJ"
 				wj_shape_cut_type = wj_shape_cut_type + "relaxedETauMuTauWJ"
 			elif category != None:
@@ -2356,7 +2356,7 @@ class Samples(samples.SamplesBase):
 					exclude_cuts_high_mt = [cut for cut in exclude_cuts if cut not in ["mt"]]
 					exclude_cuts_high_mt_ss = copy.deepcopy(exclude_cuts_high_mt)+["os"]
 					
-					if kwargs.get("useRelaxedIsolation", False):
+					if kwargs.get("useRelaxedIsolationForQCD", False):
 						qcd_shape_cut = qcd_shape_cut + "relaxedETauMuTauWJ"
 					elif category != None:
 						qcd_shape_cut = qcd_shape_cut + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")

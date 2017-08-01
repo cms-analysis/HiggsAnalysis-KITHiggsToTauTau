@@ -25,7 +25,8 @@ private:
 	int GetMixingAngleKey(float mixingAngleOverPiHalf) const;
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
 	
-	std::map<HttEnumTypes::MadGraphProductionModeGGH, std::vector<std::string> > m_madGraphProcessDirectories;
+	std::map<std::string, std::vector<std::string> > m_madGraphProcessDirectoriesByName;
+	//std::map<HttEnumTypes::MadGraphProductionModeGGH, std::vector<std::string> > m_madGraphProcessDirectories;
 	std::map<std::string, std::map<int, MadGraphTools*> > m_madGraphTools;
 
 	TDatabasePDG* m_databasePDG = nullptr;

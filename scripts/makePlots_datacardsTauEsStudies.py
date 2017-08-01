@@ -340,7 +340,8 @@ if __name__ == "__main__":
 					estimationMethod=args.background_method,
 					wj_sf_shift=wj_sf_shift,
 					ss_os_factor = ss_os_factors.get(channel,0.0),
-					useRelaxedIsolation = useRelaxedIsolation
+					useRelaxedIsolationForW = useRelaxedIsolation,
+					useRelaxedIsolationForQCD = useRelaxedIsolation
 				)
 				
 				config_rest["x_expressions"] = [quantity + "*" + extra_weights[weight_index]] * len(config_rest["nicks"])

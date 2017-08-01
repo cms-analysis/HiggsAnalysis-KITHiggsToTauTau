@@ -1,1 +1,1 @@
-Summer16/WplusHToTauTauM130_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_powheg-pythia8.txt
+2017/DY_HTT_moreTrackInfo_2017-07-28/WplusHToTauTauM130_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_powheg-pythia8.txt

@@ -83,6 +83,12 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		for channel in ["mt", "et", "tt", "em"]:
 			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong"] = "tauPolarisationDiscriminatorSvfit"
 
+		# Z->ee(tau) electron tau fake rate categories
+		for channel in ["et"]:
+			for cat in ["vloose", "loose", "medium", "tight", "vtight"]:
+				self.expressions_dict["catETauFakeRate13TeV_"+channel+ "_"+ cat + "_pass"] = "(1.0)"
+				self.expressions_dict["catETauFakeRate13TeV_"+channel+ "_"+ cat + "_fail"] = "(1.0)"
+
 		# H->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			pt_var = "pt_2" if channel in ["mt", "et", "em"] else "pt_1"
