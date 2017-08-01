@@ -219,16 +219,25 @@ public:
 	RMFLV* m_track1p4 = 0;
 	RMFLV* m_track2p4 = 0;
 
+	float m_d3DnewPV1 = DefaultValues::UndefinedFloat;    // IP vector mag calculated with IPTools method
+	float m_err3DnewPV1 = DefaultValues::UndefinedFloat;  // and corresponding error
+	float m_d2DnewPV1 = DefaultValues::UndefinedFloat;
+	float m_err2DnewPV1 = DefaultValues::UndefinedFloat;
+	float m_d3DnewPV2 = DefaultValues::UndefinedFloat;
+	float m_err3DnewPV2 = DefaultValues::UndefinedFloat;
+	float m_d2DnewPV2 = DefaultValues::UndefinedFloat;
+	float m_err2DnewPV2 = DefaultValues::UndefinedFloat;
+
 
 	// filled by GenTauCPProducer
 	RMPoint* m_genPV = 0;
-	double m_genZMinus  = DefaultValues::UndefinedDouble;
+	double m_genZMinus = DefaultValues::UndefinedDouble;
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
-	double m_genZs  = DefaultValues::UndefinedDouble;
+	double m_genZs = DefaultValues::UndefinedDouble;
 
-	double m_genPhiCP  = DefaultValues::UndefinedDouble;
+	double m_genPhiCP = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
-	double m_genPhi  = DefaultValues::UndefinedDouble;
+	double m_genPhi = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
 
 	double m_genPhiCP_rho  = DefaultValues::UndefinedDouble;

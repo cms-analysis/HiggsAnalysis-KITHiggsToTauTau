@@ -151,6 +151,22 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	{
 		return ((product.m_track1p4 != nullptr) ? (product.m_track1p4)->z() : DefaultValues::UndefinedFloat);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d3D_refitPV_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_d3DnewPV1 ? product.m_d3DnewPV1 : DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("err3D_refitPV_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_err3DnewPV1 ? product.m_err3DnewPV1 : DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d2D_refitPV_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_d2DnewPV1 ? product.m_d2DnewPV1 : DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("err2D_refitPV_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_err2DnewPV1 ? product.m_err2DnewPV1 : DefaultValues::UndefinedFloat;
+	});
 	// lepton2
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("track2p4x", [](event_type const& event, product_type const& product)
 	{
@@ -163,6 +179,22 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("track2p4z", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_track2p4 != nullptr) ? (product.m_track2p4)->z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d3D_refitPV_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_d3DnewPV2 ? product.m_d3DnewPV2 : DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("err3D_refitPV_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_err3DnewPV2 ? product.m_err3DnewPV2 : DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d2D_refitPV_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_d2DnewPV2 ? product.m_d2DnewPV2 : DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("err2D_refitPV_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_err2DnewPV2 ? product.m_err2DnewPV2 : DefaultValues::UndefinedFloat;
 	});
 	
 }
@@ -202,27 +234,44 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 		}
 		hashes.push_back(hash);
 
+		// find the vertex among the refitted vertices
+		unsigned int index = 0;
+		for (std::vector<KRefitVertex>::iterator vertex = event.m_refitVertices->begin(); vertex != event.m_refitVertices->end(); ++vertex){
+			if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
+				product.m_refitPV = &(*vertex);
+				break;
+			}
+			++index;
+		} // loop over refitted vertices collection
+	
+		// find the vertex among the refitted vertices calculated w/ beamspot constraint
+		for (std::vector<KRefitVertex>::iterator vertex = event.m_refitBSVertices->begin(); vertex != event.m_refitBSVertices->end(); ++vertex){
+			if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
+				product.m_refitPVBS = &(*vertex);
+				break;
+			}
+		} // loop over refitted vertices collection
+	
+	
+		// get IP and corresponding error calculated with the IPTools methods
+		if (product.m_refitPV){
+			// lepton1
+			product.m_d3DnewPV1 = leptons.at(0)->track.d3DnewPV.at(index);
+			product.m_err3DnewPV1 = leptons.at(0)->track.err3DnewPV.at(index);
+			product.m_d2DnewPV1 = leptons.at(0)->track.d2DnewPV.at(index);
+			product.m_err2DnewPV1 = leptons.at(0)->track.err2DnewPV.at(index);
+
+			// lepton2
+			product.m_d3DnewPV2 = leptons.at(1)->track.d3DnewPV.at(index);
+			product.m_err3DnewPV2 = leptons.at(1)->track.err3DnewPV.at(index);
+			product.m_d2DnewPV2 = leptons.at(1)->track.d2DnewPV.at(index);
+			product.m_err2DnewPV2 = leptons.at(1)->track.err2DnewPV.at(index);
+		}
+
 
 	} // if leptons.size==2
 
 
-	// find the vertex among the refitted vertices
-	for (std::vector<KRefitVertex>::iterator vertex = event.m_refitVertices->begin(); vertex != event.m_refitVertices->end(); ++vertex){
-		if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
-			product.m_refitPV = &(*vertex);
-			break;
-		}
-	} // loop over refitted vertices collection
-
-
-	// find the vertex among the refitted vertices calculated w/ beamspot constraint
-	for (std::vector<KRefitVertex>::iterator vertex = event.m_refitBSVertices->begin(); vertex != event.m_refitBSVertices->end(); ++vertex){
-		if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
-			product.m_refitPVBS = &(*vertex);
-			break;
-		}
-
-	} // loop over refitted vertices collection
 
 }
 
