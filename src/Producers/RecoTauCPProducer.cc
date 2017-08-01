@@ -252,6 +252,16 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).z() : DefaultValues::UndefinedFloat);
 	});
 
+	// cosPsi
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("cosPsi_plus", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiPlus;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("cosPsi_minus", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiMinus;
+	});
+
 	// errors on dxy, dz and IP wrt thePV
 	// using propagation of errors
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1_newErr", [](event_type const& event, product_type const& product)
@@ -372,7 +382,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	RMFLV momentumP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons.at(0)->p4);
 	RMFLV momentumM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->chargedHadronCandidates.at(0).p4 : product.m_chargeOrderedLeptons.at(1)->p4);
 
-  RMFLV piZeroP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
+	RMFLV piZeroP = ((product.m_chargeOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(0))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
 	RMFLV piZeroM = ((product.m_chargeOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(product.m_chargeOrderedLeptons.at(1))->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
 
 
@@ -392,17 +402,20 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		if (phiStarCP_rho > ROOT::Math::Pi()) {
 		 product.m_recoPhiStarCP_rho_merged = phiStarCP_rho - ROOT::Math::Pi();
 		}
-		else 		 product.m_recoPhiStarCP_rho_merged = phiStarCP_rho + ROOT::Math::Pi();
+		else product.m_recoPhiStarCP_rho_merged = phiStarCP_rho + ROOT::Math::Pi();
 	}
 
 
 
 
 	// impact parameter method for CP studies
+	
+	// phi*CP wrt thePV
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(product.m_thePV, trackP, trackM, momentumP, momentumM);
 
-	// calculation of the IP vectors and relative errors
+
 	if (product.m_refitPV != nullptr){
+		// calculation of the IP vectors and relative errors
 		product.m_recoIP1 = cpq.CalculateIPVector(recoParticle1, product.m_thePV);
 		product.m_recoIP2 = cpq.CalculateIPVector(recoParticle2, product.m_thePV);
 		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &product.m_recoIP1);
@@ -413,7 +426,14 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_errorIP1vec_refitPV = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &product.m_recoIP1_refitPV);
 		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &product.m_recoIP2_refitPV);
 
-		
+		// calculate cosPsi
+		if (recoParticle1->charge() == +1){
+			product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1_refitPV);
+			product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP2_refitPV);
+		} else {
+			product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP2_refitPV);
+			product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1_refitPV);
+		}
 
 		// calculate PhiStarCP using the refitted PV
 		product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(product.m_refitPV, trackP, trackM, momentumP, momentumM);

@@ -96,6 +96,9 @@
 		"IP_refitPV_2y",
 		"IP_refitPV_2z",
 
+		"cosPsi_plus",
+		"cosPsi_minus",
+
 		"deltaEtaGenRecoIP1",
 		"deltaEtaGenRecoIP2",
 		"deltaPhiGenRecoIP1",

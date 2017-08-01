@@ -352,6 +352,26 @@ TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KVertex* pv){
 
 
 
+// calculate the cosine of the angle psi (alpha in the Berges paper 1408.0798)
+// needed to observe the DY distribution modulation
+double CPQuantities::CalculateCosPsi(RMFLV recoPart, TVector3 ipvec){
+	
+	TVector3 ez, p, n;
+	ez.SetXYZ(0,0,1);
+	p.SetXYZ(recoPart.Px(), recoPart.Py(), recoPart.Pz());
+	n = ipvec;
+
+	ez = ez.Unit();
+	p = p.Unit();
+	n = n.Unit();
+
+	double cospsi = TMath::Abs( (1./(ez.Cross(p)).Mag()) * (1/(n.Cross(p)).Mag()) * ((ez.Cross(p)).Dot(n.Cross(p))) );
+
+	return cospsi;
+
+}
+
+
 // calculate the uncertainty on dxy, dz, and the magnitude of the IP vector
 // calculated wrt the PV or the refitted PV, and saved in this order in the vector.
 // The errors on refP of the tracks and on the momenta

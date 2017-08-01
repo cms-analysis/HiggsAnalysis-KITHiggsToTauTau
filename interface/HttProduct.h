@@ -253,6 +253,8 @@ public:
 	TVector3 m_recoIP2; // IPvec wrt thePV
 	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
 	TVector3 m_recoIP2_refitPV; // IPvec wrt refitted PV
+	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
 	
 	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
