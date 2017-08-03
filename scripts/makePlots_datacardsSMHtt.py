@@ -377,7 +377,7 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="smhtt2016"+("newTauId" if args.new_tau_id else "") if args.era == "2016" else "baseline",
+							cut_type="smhtt2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
 							wj_sf_shift=wj_sf_shift,
@@ -397,11 +397,15 @@ if __name__ == "__main__":
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					
 					for index, weight in enumerate(config.get("weights", [])):
+						weightAtIndex = config["weights"][index]
 						if channel in ["mt", "et", "tt"]:
 							if config["nicks"][index] in top_pt_reweight_nicks or channel == "tt":
-								config["weights"][index] = weight.replace("topPtReweightWeight", "topPtReweightWeightRun1")
+								weightAtIndex = weightAtIndex.replace("topPtReweightWeight", "topPtReweightWeightRun1")
 						if config["nicks"][index].split("_")[0] in signalCrossSectionTimesBR.keys():
-							config["weights"][index] = weight + "*" + signalCrossSectionTimesBR[config["nicks"][index].split("_")[0]]
+							weightAtIndex = weightAtIndex + "*" + signalCrossSectionTimesBR[config["nicks"][index].split("_")[0]]
+						if args.new_tau_id:
+							weightAtIndex = weightAtIndex.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
+						config["weights"][index] = weightAtIndex
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 
 					if "2D" not in category:
