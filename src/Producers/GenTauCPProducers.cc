@@ -1,5 +1,4 @@
 
-
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducers.h"
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
@@ -398,6 +397,8 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 	{
 		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).z() : DefaultValues::UndefinedFloat);
 	});
+
+	// cosPsi
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genCosPsiPlus", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genCosPsiPlus;
@@ -407,6 +408,16 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 		return product.m_genCosPsiMinus;
 	});
 
+	// charge of leptons
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("genQ_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedGenLeptons.at(0) ? static_cast<int>(product.m_flavourOrderedGenLeptons.at(0)->charge()) : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("genQ_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedGenLeptons.at(1) ? static_cast<int>(product.m_flavourOrderedGenLeptons.at(1)->charge()) : DefaultValues::UndefinedDouble;
+	});
+	
 
 }
 
@@ -436,7 +447,7 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 			
 			KGenParticle* genParticle1 = product.m_flavourOrderedGenLeptons.at(0);
 			KGenParticle* genParticle2 = product.m_flavourOrderedGenLeptons.at(1);
-	
+
 			// Defining CPQuantities object to use variables and functions of this class
 			CPQuantities cpq;
 				

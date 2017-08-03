@@ -118,6 +118,9 @@
 		"#1genBoson1Daughter2Granddaughter6GrandGranddaughterStatus",
 
 		"#1genBoson2Daughter2GranddaughterGrandGranddaughterSize",
+		
+		"genQ_1",
+		"genQ_2",
 
 		"genPVx",
 		"genPVy",
@@ -148,7 +151,6 @@
 		"genPhiCP_rho",
 		"genPhiStar_rho",
 		"genPhi_rho",
-
 
 		"TauMProngEnergy",
 		"TauPProngEnergy",
