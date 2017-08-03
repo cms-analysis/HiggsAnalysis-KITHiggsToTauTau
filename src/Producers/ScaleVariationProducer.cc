@@ -1,7 +1,10 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ScaleVariationProducer.h"
 #include "Artus/Utility/interface/SafeMap.h"
+
 #include "Artus/Utility/interface/Utility.h"
+
+#include <algorithm>
 
 
 std::string ScaleVariationProducer::GetProducerId() const
@@ -13,34 +16,70 @@ void ScaleVariationProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
 	
-	genEventInfoMetadataMap = Utility::ParseVectorToMap(settings.GetGenEventInfoMetadataNames());
+	m_pdfLheWeights = Utility::ParseVectorToMap(settings.GetPdfLheWeights());
+	m_alphaSLheWeights = Utility::ParseVectorToMap(settings.GetAlphaSLheWeights());
+	m_scaleLheWeights = Utility::ParseVectorToMap(settings.GetScaleLheWeights());
 }
 
 void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const& settings)
 {
-	weightNames.clear();
-	for (std::string lheWeightName : event.m_genEventInfoMetadata->lheWeightNames)
+	assert(event.m_genEventInfoMetadata);
+
+	m_pdfLheWeightNamesIndices.clear();
+	m_alphaSLheWeightNamesIndices.clear();
+	m_scaleLheWeightNamesIndices.clear();
+	
+	for (unsigned int lheWeightIndex = 0; lheWeightIndex < event.m_genEventInfoMetadata->lheWeightNames.size(); ++lheWeightIndex)
 	{
-		if (Utility::Contains(genEventInfoMetadataMap, lheWeightName))
+		std::string lheWeightName = event.m_genEventInfoMetadata->lheWeightNames[lheWeightIndex];
+		if (Utility::Contains(m_pdfLheWeights, lheWeightName))
 		{
-			weightNames.push_back(SafeMap::Get(genEventInfoMetadataMap, lheWeightName).at(0));
-			LOG(DEBUG) << "Found LHE weight " << lheWeightName << " (" << weightNames.back() << ")";
+			m_pdfLheWeightNamesIndices.push_back(std::pair<std::string, unsigned int>(SafeMap::Get(m_pdfLheWeights, lheWeightName).at(0), lheWeightIndex));
+			LOG(DEBUG) << "Found PDF variation LHE weight " << lheWeightName << " (" << m_pdfLheWeightNamesIndices.end()->first << ")";
 		}
-		else
+		else if (Utility::Contains(m_alphaSLheWeights, lheWeightName))
 		{
-			weightNames.push_back(lheWeightName);
-			LOG(WARNING) << "LHE weight " << lheWeightName << " not found. It will be ommitted.";
+			m_alphaSLheWeightNamesIndices.push_back(std::pair<std::string, unsigned int>(SafeMap::Get(m_alphaSLheWeights, lheWeightName).at(0), lheWeightIndex));
+			LOG(DEBUG) << "Found alphaS variation LHE weight " << lheWeightName << " (" << m_alphaSLheWeightNamesIndices.end()->first << ")";
+		}
+		else if (Utility::Contains(m_scaleLheWeights, lheWeightName))
+		{
+			m_scaleLheWeightNamesIndices.push_back(std::pair<std::string, unsigned int>(SafeMap::Get(m_scaleLheWeights, lheWeightName).at(0), lheWeightIndex));
+			LOG(DEBUG) << "Found muF/muR scale variation LHE weight " << lheWeightName << " (" << m_scaleLheWeightNamesIndices.end()->first << ")";
 		}
 	}
 }
 
 void ScaleVariationProducer::Produce(event_type const& event, product_type & product, 
-	                 setting_type const& settings) const
+                                     setting_type const& settings) const
 {
-	size_t index = 0;
-	for(std::string weightName : weightNames)
+	assert(event.m_genEventInfo);
+	
+	// PDF variations
+	float meanPdfVariationWeight = 0.0;
+	for(std::vector<std::pair<std::string, unsigned int> >::const_iterator lheWeightNameIndex = m_pdfLheWeightNamesIndices.begin();
+	    lheWeightNameIndex != m_pdfLheWeightNamesIndices.end(); ++lheWeightNameIndex)
 	{
-		product.m_optionalWeights[weightName] = event.m_genEventInfo->lheWeight[index];
-		++index;
+		product.m_optionalWeights[lheWeightNameIndex->first] = event.m_genEventInfo->lheWeights[lheWeightNameIndex->second];
+		meanPdfVariationWeight += std::pow(1.0-lheWeightNameIndex->second, 2);
 	}
+	meanPdfVariationWeight = std::sqrt(meanPdfVariationWeight);
+	product.m_optionalWeights["meanPdfVariationWeight"] = meanPdfVariationWeight;
+	
+	// alphaS variations
+	for(std::vector<std::pair<std::string, unsigned int> >::const_iterator lheWeightNameIndex = m_alphaSLheWeightNamesIndices.begin();
+	    lheWeightNameIndex != m_alphaSLheWeightNamesIndices.end(); ++lheWeightNameIndex)
+	{
+		product.m_optionalWeights[lheWeightNameIndex->first] = event.m_genEventInfo->lheWeights[lheWeightNameIndex->second];
+	}
+	
+	// muF/muR scale variations
+	std::vector<float> scaleVariationWeights;
+	for(std::vector<std::pair<std::string, unsigned int> >::const_iterator lheWeightNameIndex = m_scaleLheWeightNamesIndices.begin();
+	    lheWeightNameIndex != m_scaleLheWeightNamesIndices.end(); ++lheWeightNameIndex)
+	{
+		product.m_optionalWeights[lheWeightNameIndex->first] = event.m_genEventInfo->lheWeights[lheWeightNameIndex->second];
+		scaleVariationWeights.push_back(event.m_genEventInfo->lheWeights[lheWeightNameIndex->second]);
+	}
+	product.m_optionalWeights["meanScaleVariationWeight"] = ((*std::max_element(scaleVariationWeights.begin(), scaleVariationWeights.end())) - (*std::min_element(scaleVariationWeights.begin(), scaleVariationWeights.end()))) / 2.0;
 }

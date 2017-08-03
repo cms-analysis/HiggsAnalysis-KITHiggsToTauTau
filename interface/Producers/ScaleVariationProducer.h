@@ -31,7 +31,12 @@ public:
 	                     setting_type const& settings) const override;
 
 private:
-	std::map<std::string, std::vector<std::string> > genEventInfoMetadataMap;
-	std::vector<std::string> weightNames;
+	std::map<std::string, std::vector<std::string> > m_pdfLheWeights;
+	std::map<std::string, std::vector<std::string> > m_alphaSLheWeights;
+	std::map<std::string, std::vector<std::string> > m_scaleLheWeights;
+	
+	std::vector<std::pair<std::string, unsigned int> > m_pdfLheWeightNamesIndices;
+	std::vector<std::pair<std::string, unsigned int> > m_alphaSLheWeightNamesIndices;
+	std::vector<std::pair<std::string, unsigned int> > m_scaleLheWeightNamesIndices;
 
 };
