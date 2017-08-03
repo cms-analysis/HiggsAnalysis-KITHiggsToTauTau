@@ -325,9 +325,6 @@ if __name__ == "__main__":
 		if args.smhtt:
 			global_cut_type = "smhtt"
 		global_cut_type += "2016"
-		if args.new_tau_id:
-			global_cut_type += "newTauId"
-
 
 	# Configs construction for HP
 	for category in args.categories:
@@ -419,6 +416,10 @@ if __name__ == "__main__":
 
 				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 				config["category"] = category
+				
+				if args.new_tau_id:
+					for index, weight in enumerate(config.get("weights", [])):
+						config["weights"][index] = weight.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
 
 				binning_string = None
 				if args.mssm:

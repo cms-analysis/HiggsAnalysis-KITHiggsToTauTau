@@ -23,6 +23,7 @@ public:
 	double CalculatePhiStarCP(KVertex* pv , KTrack track1, KTrack track2, RMFLV chargPart1,RMFLV chargPart2);
 	double CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM);
 	double CalculatePhiStarCP(KRefitVertex* pv , KTrack track1, KTrack track2, RMFLV chargPart1, RMFLV chargPart2);
+	double CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2);
 	double CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad);
 	double CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
 	double CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng);
@@ -35,6 +36,7 @@ public:
 	double PhiTransform(double phi);
 	TVector3 CalculateIPVector(KGenParticle* genParticle, RMPoint* pv);
 	TVector3 CalculateIPVector(KLepton* recoParticle, KVertex* pv);
+	double CalculateCosPsi(RMFLV recoPart, TVector3 ipvec);
 	std::vector<double> CalculateIPErrors(KLepton* lepton, KVertex* pv, TVector3* ipvec);
 	inline double GetGenPhiStar()
 	{

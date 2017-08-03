@@ -1,6 +1,8 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ScaleVariationProducer.h"
 #include "Artus/Utility/interface/SafeMap.h"
+#include "Artus/Utility/interface/Utility.h"
+
 
 std::string ScaleVariationProducer::GetProducerId() const
 {
@@ -19,14 +21,16 @@ void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const&
 	weightNames.clear();
 	for (std::string lheWeightName : event.m_genEventInfoMetadata->lheWeightNames)
 	{
-		std::string humanReadableWeightName = SafeMap::GetWithDefault(genEventInfoMetadataMap, lheWeightName, {lheWeightName}).at(0);
-		if (humanReadableWeightName.compare(lheWeightName) == 0)
+		if (Utility::Contains(genEventInfoMetadataMap, lheWeightName))
 		{
-			LOG(DEBUG) << "ScaleVariationProducer::Init: Not found LHE weight " << lheWeightName << " (ommited)";
-			continue;
+			weightNames.push_back(SafeMap::Get(genEventInfoMetadataMap, lheWeightName).at(0));
+			LOG(DEBUG) << "Found LHE weight " << lheWeightName << " (" << weightNames.back() << ")";
 		}
-		weightNames.push_back(humanReadableWeightName);
-		LOG(DEBUG) << "ScaleVariationProducer::Init: Found LHE weight " << lheWeightName << " (" << humanReadableWeightName << ")";
+		else
+		{
+			weightNames.push_back(lheWeightName);
+			LOG(WARNING) << "LHE weight " << lheWeightName << " not found. It will be ommitted.";
+		}
 	}
 }
 
