@@ -243,6 +243,8 @@ public:
 	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
 	TVector3 m_genIP1;
 	TVector3 m_genIP2;
+	double m_genCosPsiPlus  = DefaultValues::UndefinedDouble;
+	double m_genCosPsiMinus = DefaultValues::UndefinedDouble;
 
 
 	// filled by RecoTauCPProducer
@@ -276,6 +278,7 @@ public:
 
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;

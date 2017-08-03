@@ -398,6 +398,7 @@ TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KVertex* pv){
 
 	TVector3 k, p, IP;
 	k.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), recoParticle->track.ref.z() - pv->position.z());
+
 	p.SetXYZ(recoParticle->p4.Px(), recoParticle->p4.Py(), recoParticle->p4.Pz());
 
 	if (p.Mag() != 0) IP = k - (p.Dot(k) / p.Mag2()) * p;
