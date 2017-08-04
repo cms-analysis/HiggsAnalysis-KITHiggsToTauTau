@@ -671,6 +671,19 @@ if __name__ == "__main__":
 			"em_Vbf2D" : [0.25, 0.45, 0.65, 0.85],
 			"tt_Vbf2D" : [0.25, 0.45, 0.65, 0.85]
 		}
+		vertical_lines = {
+			"mt_ZeroJet2D" : [12, 24],
+			"et_ZeroJet2D" : [12, 24],
+			"em_ZeroJet2D" : [12, 24],
+			"mt_Boosted2D" : [10, 20, 30, 40, 50],
+			"et_Boosted2D" : [10, 20, 30, 40, 50],
+			"em_Boosted2D" : [10, 20, 30, 40, 50],
+			"tt_Boosted2D" : [12, 24, 36],
+			"mt_Vbf2D" : [5, 10, 15],
+			"et_Vbf2D" : [5, 10, 15],
+			"em_Vbf2D" : [5, 10, 15],
+			"tt_Vbf2D" : [12, 24, 36]
+		}
 		
 		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge}, n_processes=args.n_processes)
 		for plot_config in prefit_postfit_plot_configs:
@@ -689,6 +702,14 @@ if __name__ == "__main__":
 						plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category]
 						plot_config["texts_y"] = list((0.55 for i in range(len(plot_config["texts"]))))
 						plot_config["texts_size"] = [0.075]
+						plot_config["x_labels_vertical"] = True
+						plot_config["x_title_offset"] = 1.5
+						plot_config["y_title_offset"] = 0.6
+						plot_config["y_subplot_title_offset"] = 0.31
+						plot_config["bottom_pad_margin"] = 0.5
+						plot_config["left_pad_margin"] = 0.1
+						plot_config["right_pad_margin"] = 0.025
+						plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 		
 		# create pull plots
