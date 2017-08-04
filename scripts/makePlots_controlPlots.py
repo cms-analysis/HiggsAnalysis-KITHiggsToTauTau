@@ -389,7 +389,7 @@ if __name__ == "__main__":
 						higgs_masses = args.higgs_masses,
 						normalise_signal_to_one_pb = False,
 						ztt_from_mc = args.ztt_from_mc,
-						weight = make_multiplication([clean_multiplication(json_config.pop("weights", ["1.0"])[0]), args.weight]),
+						weight = "((%s)*(%s))" % (json_config.pop("weights", ["1.0"])[0], args.weight),
 						lumi  =  args.lumi * 1000,
 						exclude_cuts = args.exclude_cuts + json_config.pop("exclude_cuts", []),
 						blind_expression = channel + "_" + quantity,
