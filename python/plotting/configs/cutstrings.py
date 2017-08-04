@@ -36,10 +36,13 @@ class CutStringsDict:
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_muonelectron == 1)"
 			cuts["trigger_threshold"] = "(pt_1 > 24.0 || pt_2 > 24.0)" if "2016" in cut_type else "(1.0)"
-			cuts["pzeta"] = "(pZetaMissVis > -35.0)" if "2016" in cut_type and not "mssm" in cut_type else "(pZetaMissVis > -40.0)"
-			if "mssm" in cut_type:
-				cuts["pzeta"] = "(pZetaMissVis > -50.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
+			#cuts["pzeta"] = "(pZetaMissVis > -35.0)" if "2016" in cut_type and not "mssm" in cut_type else "(pZetaMissVis > -40.0)"
+			#if "mssm" in cut_type:
+			#	cuts["pzeta"] = "(pZetaMissVis > -50.0)"
+			cuts["ptvis"] = "(ptvis > 30.0)"
+			cuts["met"] = "(met > 20.0)"
+			cuts["mt_llmet"] = "(mt_llmet > 60.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.2)" if "2016" in cut_type else "(iso_2 < 0.15)"
 			#if not "mssm" in cut_type: cuts["bveto"] = "(nbtag == 0)"
@@ -117,12 +120,15 @@ class CutStringsDict:
 			cuts["iso_1"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.97 + (gen_match_1 != 5))"
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
 		elif channel == "em":
-			if cut_type == "mssm2016lowpzeta":
-				cuts["pzeta"] = "(pZetaMissVis > -50.0)*(pZetaMissVis < -10.0)"
-			elif cut_type == "mssm2016mediumpzeta":
-				cuts["pzeta"] = "(pZetaMissVis > -10.0)*(pZetaMissVis < 30.0)"
-			elif cut_type == "mssm2016highpzeta":
-				cuts["pzeta"] = "(pZetaMissVis > 30.0)"
+			cuts["ptvis"] = "(ptvis > 30.0)"
+			cuts["met"] = "(met > 20.0)"
+			cuts["mt_llmet"] = "(mt_llmet > 60.0)"
+			#if cut_type == "mssm2016lowpzeta":
+			#	cuts["pzeta"] = "(pZetaMissVis > -50.0)*(pZetaMissVis < -10.0)"
+			#elif cut_type == "mssm2016mediumpzeta":
+			#	cuts["pzeta"] = "(pZetaMissVis > -10.0)*(pZetaMissVis < 30.0)"
+			#elif cut_type == "mssm2016highpzeta":
+			#	cuts["pzeta"] = "(pZetaMissVis > 30.0)"
 		return cuts
 	
 	@staticmethod

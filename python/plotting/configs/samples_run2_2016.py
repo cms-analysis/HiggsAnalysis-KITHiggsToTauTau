@@ -923,9 +923,9 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", "hww"+str(mass), nick_suffix)
 		return config
 
-#####################################
+#####################################S
 	def files_hww_mssm_gg(self, channel, mass=125):
-		if mass < 300:
+		if int(mass) < 300:
 			return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-JHUgenv628-pythia8"}, 1)
 		else:
 			return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-JHUgenv698-pythia8"}, 1)
@@ -944,20 +944,20 @@ class Samples(samples.SamplesBase):
 					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-					"hww_mssm_gg"+str(mass),
+					"hww_gg"+str(mass),
 					nick_suffix=nick_suffix
 				)
 			else:
-				log.error("Sample config (HWW_mssm_gg) currently not implemented for channel \"%s\"!" % channel)
+				log.error("Sample config (HWW_MSSM_gg) currently not implemented for channel \"%s\"!" % channel)
 			if not kwargs.get("mssm", False):
-				Samples._add_bin_corrections(config, "hww_mssm_gg"+str(mass), nick_suffix)
+				Samples._add_bin_corrections(config, "hww_gg"+str(mass), nick_suffix)
 		
-			Samples._add_plot(config, "bkg", "HIST", "F", "hww_mssm_gg"+str(mass), nick_suffix)
+			Samples._add_plot(config, "hww_gg", "LINE", "L", "hww_gg"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""), nick_suffix)
 		
 		return config
 
 	def files_hww_mssm_qq(self, channel, mass=125):
-		if mass < 300:
+		if int(mass) < 300:
 			return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-JHUgenv628-pythia8"}, 1)
 		else:
 			return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-JHUgenv698-pythia8"}, 1)
@@ -976,15 +976,15 @@ class Samples(samples.SamplesBase):
 					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-					"hww_mssm_qq"+str(mass),
+					"hww_qq"+str(mass),
 					nick_suffix=nick_suffix
 				)
 			else:
-				log.error("Sample config (HWW_mssm_qq) currently not implemented for channel \"%s\"!" % channel)
+				log.error("Sample config (HWW_MSSM_qq) currently not implemented for channel \"%s\"!" % channel)
 			if not kwargs.get("mssm", False):
-				Samples._add_bin_corrections(config, "hww_mssm_qq"+str(mass), nick_suffix)
+				Samples._add_bin_corrections(config, "hww_qq"+str(mass), nick_suffix)
 			
-			Samples._add_plot(config, "bkg", "HIST", "F", "hww_mssm_qq"+str(mass), nick_suffix)
+			Samples._add_plot(config, "hww_qq", "LINE", "L", "hww_qq"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""), nick_suffix)
 		
 		return config
 
@@ -1002,7 +1002,7 @@ class Samples(samples.SamplesBase):
 					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-					"hww_mssm"+str(mass),
+					"hww"+str(mass),
 					nick_suffix=nick_suffix
 				)
 				Samples._add_input(
@@ -1011,17 +1011,17 @@ class Samples(samples.SamplesBase):
 					self.root_file_folder(channel),
 					lumi,
 					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-					"hww_mssm"+str(mass),
+					"hww"+str(mass),
 					nick_suffix=nick_suffix
 				)
 			else:
-				log.error("Sample config (HWW_mssm) currently not implemented for channel \"%s\"!" % channel)
+				log.error("Sample config (HWW_MSSM) currently not implemented for channel \"%s\"!" % channel)
 			if not kwargs.get("mssm", False):
-				Samples._add_bin_corrections(config, "hww_mssm"+str(mass), nick_suffix)
+				Samples._add_bin_corrections(config, "hww"+str(mass), nick_suffix)
 
-			Samples._add_plot(config, "bkg", "HIST", "F", "hww_mssm"+str(mass), nick_suffix)
+			Samples._add_plot(config, "hww", "LINE", "L", "hww"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""), nick_suffix)
 		return config
-#########################################3
+#########################################E
 
 	def vvt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:

@@ -289,7 +289,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["em_mt_lep1met"] = "30,0.0,300"
 		self.binnings_dict["em_mt_ll"] = "25,75.0,300"
 		self.binnings_dict["em_mt_llmet"] = "40,0.0,400"
-		self.binnings_dict["em_mt_i"] = "40,0.0,400"
+		self.binnings_dict["em_mt_i"] = "40,0.0,800"
 		self.binnings_dict["em_mvamet"] = "40,0.0,200.0"
 		self.binnings_dict["em_mvametphi"] = "32,-3.2,3.2"
 		self.binnings_dict["em_m_vis"] = "60,0.0,300"

@@ -74,13 +74,13 @@ samples_dict = {
 			("zptstat80pt",["ztt","zll"]),
 			("zptttbar",["ztt","zll"]),
 			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
-			#('jec',['ttj','vv','wj','zll','ztt','ggh','bbh']),#done?! (not needed at all?)
-			("elees",["ztt","ggh","bbh"]),#done! (but only for ztt?) ["ttj","vv","wj","zll","ztt","ggh","bbh"]
-			#("muones",["ttj","vv","wj","zll","ztt","ggh","bbh"]),#done?! (not needed at all?)
-			#("metesone",["wj","zll","ztt","ggh","bbh"]),#done?! (not needed at all?)
-			#("metestwo",["ttj","vv"]),#done?! (not needed at all?)
-			("efake",["vv","wj","zll"]),#done (if correct...)
-			("mufake",["vv","wj","zll"])#done (if correct...)
+			#('jec',['ttj','vv','wj','zll','ztt','ggh','bbh']),
+			("elees",["ztt","ggh","bbh"]),#["ttj","vv","wj","zll","ztt","ggh","bbh"]
+			#("muones",["ttj","vv","wj","zll","ztt","ggh","bbh"]),
+			#("metesone",["wj","zll","ztt","ggh","bbh"]),
+			#("metestwo",["ttj","vv"]),
+			("efake",["vv","wj","zll"]),
+			("mufake",["vv","wj","zll"])
 		],
 		'mm' : [
 			("toppt",["ttj","wj","qcd"]),
@@ -301,9 +301,16 @@ if __name__ == "__main__":
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--mass-dependent", action="store_true", default=False,
 	                    help="Create mass dependent plots (one seperate rootfile per mass). Use {mass} in --quantity and/or --categories as wildcard for the mass. [Default: %(default)s]")
+	parser.add_argument("--HWW", action="store_true", default=False,
+	                    help="Replace TauTau signal with WW. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
+
+	if args.HWW:
+		samples_dict["em"]=[(alpha[0],[beta.replace("ggh","hww_mssm_gg") for beta in alpha[1]]) for alpha in samples_dict["em"]]
+		samples_dict["em"]=[(alpha[0],[beta.replace("bbh","hww_mssm_qq") for beta in alpha[1]]) for alpha in samples_dict["em"]]
+		args.categories=["em_0jets", "em_1jets", "em_2jets", "em_VBF", "em_inclusive"]
 	
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
@@ -350,7 +357,10 @@ if __name__ == "__main__":
 	
 	# args.categories = (args.categories * len(args.channel))[:len(args.channel)]
 	if args.higgs_masses[0] == "all":
-		args.higgs_masses = ["90","100","110","120","130","140","160","180","200","250","350","400","450","500","600","700","800","900","1000","1200","1400","1600","1800","2000","2300","2600","2900","3200"]
+		if not args.HWW:
+			args.higgs_masses = ["90","100","110","120","130","140","160","180","200","250","350","400","450","500","600","700","800","900","1000","1200","1400","1600","1800","2000","2300","2600","2900","3200"]
+		else:
+			args.higgs_masses = ["115","120","124","125","126","130","135","140","145","150","155","160","165","170","175","180","190","200","210","230","250","270","300","350","400","450","500","550","600","650","700","750","800","900","1000","1500","2000","2500","3000"]
 	looplist = [""]
 	prefix = ""
 	if args.mass_dependent:
