@@ -1,8 +1,9 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ScaleVariationProducer.h"
-#include "Artus/Utility/interface/SafeMap.h"
 
+#include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 #include <algorithm>
 
@@ -16,38 +17,42 @@ void ScaleVariationProducer::Init(setting_type const& settings)
 {
 	ProducerBase<HttTypes>::Init(settings);
 	
-	m_pdfLheWeights = Utility::ParseVectorToMap(settings.GetPdfLheWeights());
-	m_alphaSLheWeights = Utility::ParseVectorToMap(settings.GetAlphaSLheWeights());
-	m_scaleLheWeights = Utility::ParseVectorToMap(settings.GetScaleLheWeights());
+	for (std::vector<std::string>::const_iterator lheWeight = settings.GetPdfLheWeights().begin(); lheWeight != settings.GetPdfLheWeights().end(); ++lheWeight)
+	{
+		std::string lheWeightStr = *lheWeight;
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
+		{
+			return SafeMap::GetWithDefault(product.m_optionalWeights, lheWeightStr, 1.0);
+		});
+	}
+	
+	for (std::vector<std::string>::const_iterator lheWeight = settings.GetAlphaSLheWeights().begin(); lheWeight != settings.GetAlphaSLheWeights().end(); ++lheWeight)
+	{
+		std::string lheWeightStr = *lheWeight;
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
+		{
+			return SafeMap::GetWithDefault(product.m_optionalWeights, lheWeightStr, 1.0);
+		});
+	}
+	
+	for (std::vector<std::string>::const_iterator lheWeight = settings.GetScaleLheWeights().begin(); lheWeight != settings.GetScaleLheWeights().end(); ++lheWeight)
+	{
+		std::string lheWeightStr = *lheWeight;
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
+		{
+			return SafeMap::GetWithDefault(product.m_optionalWeights, lheWeightStr, 1.0);
+		});
+	}
 }
 
 void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const& settings)
 {
 	assert(event.m_genEventInfoMetadata);
+	assert(event.m_genRunInfo);
 
-	m_pdfLheWeightNamesIndices.clear();
-	m_alphaSLheWeightNamesIndices.clear();
-	m_scaleLheWeightNamesIndices.clear();
-	
-	for (unsigned int lheWeightIndex = 0; lheWeightIndex < event.m_genEventInfoMetadata->lheWeightNames.size(); ++lheWeightIndex)
-	{
-		std::string lheWeightName = event.m_genEventInfoMetadata->lheWeightNames[lheWeightIndex];
-		if (Utility::Contains(m_pdfLheWeights, lheWeightName))
-		{
-			m_pdfLheWeightNamesIndices.push_back(std::pair<std::string, unsigned int>(SafeMap::Get(m_pdfLheWeights, lheWeightName).at(0), lheWeightIndex));
-			LOG(DEBUG) << "Found PDF variation LHE weight " << lheWeightName << " (" << m_pdfLheWeightNamesIndices.end()->first << ")";
-		}
-		else if (Utility::Contains(m_alphaSLheWeights, lheWeightName))
-		{
-			m_alphaSLheWeightNamesIndices.push_back(std::pair<std::string, unsigned int>(SafeMap::Get(m_alphaSLheWeights, lheWeightName).at(0), lheWeightIndex));
-			LOG(DEBUG) << "Found alphaS variation LHE weight " << lheWeightName << " (" << m_alphaSLheWeightNamesIndices.end()->first << ")";
-		}
-		else if (Utility::Contains(m_scaleLheWeights, lheWeightName))
-		{
-			m_scaleLheWeightNamesIndices.push_back(std::pair<std::string, unsigned int>(SafeMap::Get(m_scaleLheWeights, lheWeightName).at(0), lheWeightIndex));
-			LOG(DEBUG) << "Found muF/muR scale variation LHE weight " << lheWeightName << " (" << m_scaleLheWeightNamesIndices.end()->first << ")";
-		}
-	}
+	m_pdfLheWeightNamesIndices = event.m_genEventInfoMetadata->getLheWeightNamesMap(settings.GetPdfLheWeights(), event.m_genRunInfo->lheWeightNamesMap);
+	m_alphaSLheWeightNamesIndices = event.m_genEventInfoMetadata->getLheWeightNamesMap(settings.GetAlphaSLheWeights(), event.m_genRunInfo->lheWeightNamesMap);
+	m_scaleLheWeightNamesIndices = event.m_genEventInfoMetadata->getLheWeightNamesMap(settings.GetScaleLheWeights(), event.m_genRunInfo->lheWeightNamesMap);
 }
 
 void ScaleVariationProducer::Produce(event_type const& event, product_type & product, 
@@ -56,30 +61,59 @@ void ScaleVariationProducer::Produce(event_type const& event, product_type & pro
 	assert(event.m_genEventInfo);
 	
 	// PDF variations
-	float meanPdfVariationWeight = 0.0;
-	for(std::vector<std::pair<std::string, unsigned int> >::const_iterator lheWeightNameIndex = m_pdfLheWeightNamesIndices.begin();
-	    lheWeightNameIndex != m_pdfLheWeightNamesIndices.end(); ++lheWeightNameIndex)
+	if (m_pdfLheWeightNamesIndices.size() > 0)
 	{
-		product.m_optionalWeights[lheWeightNameIndex->first] = event.m_genEventInfo->lheWeights[lheWeightNameIndex->second];
-		meanPdfVariationWeight += std::pow(1.0-lheWeightNameIndex->second, 2);
+		std::map<std::string, float> pdfLheWeights = event.m_genEventInfo->getLheWeights(m_pdfLheWeightNamesIndices);
+		for (std::map<std::string, float>::iterator lheWeight = pdfLheWeights.begin(); lheWeight != pdfLheWeights.end(); ++lheWeight)
+		{
+			product.m_optionalWeights[lheWeight->first] = lheWeight->second;
+		}
+		float minPdfLheWeight = std::min_element(
+				pdfLheWeights.begin(), pdfLheWeights.end(),
+				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
+		)->second;
+		float maxPdfLheWeight = std::max_element(
+				pdfLheWeights.begin(), pdfLheWeights.end(),
+				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
+		)->second;
+		LOG(INFO) << "PDF:    " << minPdfLheWeight << " - " << maxPdfLheWeight;
 	}
-	meanPdfVariationWeight = std::sqrt(meanPdfVariationWeight);
-	product.m_optionalWeights["meanPdfVariationWeight"] = meanPdfVariationWeight;
 	
 	// alphaS variations
-	for(std::vector<std::pair<std::string, unsigned int> >::const_iterator lheWeightNameIndex = m_alphaSLheWeightNamesIndices.begin();
-	    lheWeightNameIndex != m_alphaSLheWeightNamesIndices.end(); ++lheWeightNameIndex)
+	if (m_alphaSLheWeightNamesIndices.size() > 0)
 	{
-		product.m_optionalWeights[lheWeightNameIndex->first] = event.m_genEventInfo->lheWeights[lheWeightNameIndex->second];
+		std::map<std::string, float> alphaSLheWeights = event.m_genEventInfo->getLheWeights(m_alphaSLheWeightNamesIndices);
+		for (std::map<std::string, float>::iterator lheWeight = alphaSLheWeights.begin(); lheWeight != alphaSLheWeights.end(); ++lheWeight)
+		{
+			product.m_optionalWeights[lheWeight->first] = lheWeight->second;
+		}
+		float minAlphaSLheWeight = std::min_element(
+				alphaSLheWeights.begin(), alphaSLheWeights.end(),
+				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
+		)->second;
+		float maxAlphaSLheWeight = std::max_element(
+				alphaSLheWeights.begin(), alphaSLheWeights.end(),
+				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
+		)->second;
+		LOG(INFO) << "AlphaS: " << minAlphaSLheWeight << " - " << maxAlphaSLheWeight;
 	}
 	
 	// muF/muR scale variations
-	std::vector<float> scaleVariationWeights;
-	for(std::vector<std::pair<std::string, unsigned int> >::const_iterator lheWeightNameIndex = m_scaleLheWeightNamesIndices.begin();
-	    lheWeightNameIndex != m_scaleLheWeightNamesIndices.end(); ++lheWeightNameIndex)
+	if (m_scaleLheWeightNamesIndices.size() > 0)
 	{
-		product.m_optionalWeights[lheWeightNameIndex->first] = event.m_genEventInfo->lheWeights[lheWeightNameIndex->second];
-		scaleVariationWeights.push_back(event.m_genEventInfo->lheWeights[lheWeightNameIndex->second]);
+		std::map<std::string, float> scaleLheWeights = event.m_genEventInfo->getLheWeights(m_scaleLheWeightNamesIndices);
+		for (std::map<std::string, float>::iterator lheWeight = scaleLheWeights.begin(); lheWeight != scaleLheWeights.end(); ++lheWeight)
+		{
+			product.m_optionalWeights[lheWeight->first] = lheWeight->second;
+		}
+		float minScaleLheWeight = std::min_element(
+				scaleLheWeights.begin(), scaleLheWeights.end(),
+				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
+		)->second;
+		float maxScaleLheWeight = std::max_element(
+				scaleLheWeights.begin(), scaleLheWeights.end(),
+				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
+		)->second;
+		LOG(INFO) << "Scale:  " << minScaleLheWeight << " - " << maxScaleLheWeight;
 	}
-	product.m_optionalWeights["meanScaleVariationWeight"] = ((*std::max_element(scaleVariationWeights.begin(), scaleVariationWeights.end())) - (*std::min_element(scaleVariationWeights.begin(), scaleVariationWeights.end()))) / 2.0;
 }
