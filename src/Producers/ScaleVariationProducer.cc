@@ -48,11 +48,11 @@ void ScaleVariationProducer::Init(setting_type const& settings)
 void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const& settings)
 {
 	assert(event.m_genEventInfoMetadata);
-	assert(event.m_genRunInfo);
+	assert(event.m_genLumiInfo);
 
-	m_pdfLheWeightNamesIndices = event.m_genEventInfoMetadata->getLheWeightNamesMap(settings.GetPdfLheWeights(), event.m_genRunInfo->lheWeightNamesMap);
-	m_alphaSLheWeightNamesIndices = event.m_genEventInfoMetadata->getLheWeightNamesMap(settings.GetAlphaSLheWeights(), event.m_genRunInfo->lheWeightNamesMap);
-	m_scaleLheWeightNamesIndices = event.m_genEventInfoMetadata->getLheWeightNamesMap(settings.GetScaleLheWeights(), event.m_genRunInfo->lheWeightNamesMap);
+	m_pdfLheWeightNamesIndices = event.m_genEventInfoMetadata->getLheWeightNamesMap(settings.GetPdfLheWeights(), event.m_genLumiInfo->lheWeightNamesMap);
+	m_alphaSLheWeightNamesIndices = event.m_genEventInfoMetadata->getLheWeightNamesMap(settings.GetAlphaSLheWeights(), event.m_genLumiInfo->lheWeightNamesMap);
+	m_scaleLheWeightNamesIndices = event.m_genEventInfoMetadata->getLheWeightNamesMap(settings.GetScaleLheWeights(), event.m_genLumiInfo->lheWeightNamesMap);
 }
 
 void ScaleVariationProducer::Produce(event_type const& event, product_type & product, 
