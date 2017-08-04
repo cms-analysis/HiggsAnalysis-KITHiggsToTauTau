@@ -70,7 +70,6 @@
 	"VertexSummary" : "goodOfflinePrimaryVerticesSummary",
 	"EventMetadata" : "eventInfo",
 	"LumiMetadata" : "lumiInfo",
-	"RunMetadata" : "runInfo",
 	"GenEventInfoMetadata" : "genEventInfoMetadata",
 	"FilterMetadata" : "",
 	"FilterSummary" : "",
