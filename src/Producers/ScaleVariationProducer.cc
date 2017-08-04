@@ -63,7 +63,7 @@ void ScaleVariationProducer::Produce(event_type const& event, product_type & pro
 	// PDF variations
 	if (m_pdfLheWeightNamesIndices.size() > 0)
 	{
-		std::map<std::string, float> pdfLheWeights = event.m_genEventInfo->getLheWeights(m_pdfLheWeightNamesIndices);
+		std::map<std::string, float> pdfLheWeights = event.m_genEventInfo->getLheWeights(m_pdfLheWeightNamesIndices, false);
 		for (std::map<std::string, float>::iterator lheWeight = pdfLheWeights.begin(); lheWeight != pdfLheWeights.end(); ++lheWeight)
 		{
 			product.m_optionalWeights[lheWeight->first] = lheWeight->second;
@@ -82,7 +82,7 @@ void ScaleVariationProducer::Produce(event_type const& event, product_type & pro
 	// alphaS variations
 	if (m_alphaSLheWeightNamesIndices.size() > 0)
 	{
-		std::map<std::string, float> alphaSLheWeights = event.m_genEventInfo->getLheWeights(m_alphaSLheWeightNamesIndices);
+		std::map<std::string, float> alphaSLheWeights = event.m_genEventInfo->getLheWeights(m_alphaSLheWeightNamesIndices, false);
 		for (std::map<std::string, float>::iterator lheWeight = alphaSLheWeights.begin(); lheWeight != alphaSLheWeights.end(); ++lheWeight)
 		{
 			product.m_optionalWeights[lheWeight->first] = lheWeight->second;
@@ -101,7 +101,7 @@ void ScaleVariationProducer::Produce(event_type const& event, product_type & pro
 	// muF/muR scale variations
 	if (m_scaleLheWeightNamesIndices.size() > 0)
 	{
-		std::map<std::string, float> scaleLheWeights = event.m_genEventInfo->getLheWeights(m_scaleLheWeightNamesIndices);
+		std::map<std::string, float> scaleLheWeights = event.m_genEventInfo->getLheWeights(m_scaleLheWeightNamesIndices, false);
 		for (std::map<std::string, float>::iterator lheWeight = scaleLheWeights.begin(); lheWeight != scaleLheWeights.end(); ++lheWeight)
 		{
 			product.m_optionalWeights[lheWeight->first] = lheWeight->second;
