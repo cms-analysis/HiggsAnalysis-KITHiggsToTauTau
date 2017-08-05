@@ -71,9 +71,31 @@ void ScaleVariationProducer::DetermineWeights(event_type const& event, product_t
 	if (lheWeightNamesIndices.size() > 0)
 	{
 		std::map<std::string, float> lheWeights = event.m_genEventInfo->getLheWeights(lheWeightNamesIndices, false);
+		
+		int nWeightsUp = 0;
+		float sumOfLheWeightsUp = 0.0;
+		float sumOfQuadraticDifferencesUp = 0.0;
+		
+		int nWeightsDown = 0;
+		float sumOfLheWeightsDown = 0.0;
+		float sumOfQuadraticDifferencesDown = 0.0;
+		
 		for (std::map<std::string, float>::iterator lheWeight = lheWeights.begin(); lheWeight != lheWeights.end(); ++lheWeight)
 		{
 			product.m_optionalWeights[lheWeight->first] = lheWeight->second;
+			
+			if (lheWeight->second > 1.0)
+			{
+				++nWeightsUp;
+				sumOfLheWeightsUp += lheWeight->second;
+				sumOfQuadraticDifferencesUp += std::pow(lheWeight->second - 1.0, 2);
+			}
+			else if (lheWeight->second < 1.0)
+			{
+				++nWeightsDown;
+				sumOfLheWeightsDown += lheWeight->second;
+				sumOfQuadraticDifferencesDown += std::pow(lheWeight->second - 1.0, 2);
+			}
 		}
 		
 		std::pair<std::map<std::string, float>::const_iterator, std::map<std::string, float>::const_iterator> minmaxPdfLheWeight = std::minmax_element(
@@ -84,19 +106,27 @@ void ScaleVariationProducer::DetermineWeights(event_type const& event, product_t
 				lheWeights.begin(), lheWeights.end(), lheWeights.begin()->second,
 				[](float const& a, std::pair<std::string, float> const& b) { return a + b.second; }
 		);
-		float deviationSumOfLheWeights = std::sqrt(std::accumulate(
-				lheWeights.begin(), lheWeights.end(), std::abs(lheWeights.begin()->second - 1.0),
-				[](float const& a, std::pair<std::string, float> const& b) { return a + std::abs(b.second - 1.0); }
-		));
-		/*float quadraticDeviationSumOfLheWeights = std::sqrt(std::accumulate(
+		float sumOfQuadraticDifferences = std::sqrt(std::accumulate(
 				lheWeights.begin(), lheWeights.end(), std::pow(lheWeights.begin()->second - 1.0, 2),
 				[](float const& a, std::pair<std::string, float> const& b) { return a + std::pow(b.second - 1.0, 2); }
-		));*/
+		));
 		
 		product.m_optionalWeights["min"+variationName+"LheWeight"] = minmaxPdfLheWeight.first->second;
 		product.m_optionalWeights["max"+variationName+"LheWeight"] = minmaxPdfLheWeight.second->second;
 		product.m_optionalWeights["mean"+variationName+"LheWeight"] = sumOfLheWeights / lheWeights.size();
-		product.m_optionalWeights["meanDeviation"+variationName+"LheWeight"] = (deviationSumOfLheWeights / lheWeights.size()) + 1.0;
+		product.m_optionalWeights["stdev"+variationName+"LheWeight"] = (sumOfQuadraticDifferences / lheWeights.size()) + 1.0;
+		
+		if (nWeightsUp != 0)
+		{
+			product.m_optionalWeights["mean"+variationName+"LheWeightUp"] = sumOfLheWeightsUp / nWeightsUp;
+			product.m_optionalWeights["stdev"+variationName+"LheWeightUp"] = (sumOfQuadraticDifferencesUp / nWeightsUp) + 1.0;
+		}
+		
+		if (nWeightsDown != 0)
+		{
+			product.m_optionalWeights["mean"+variationName+"LheWeightDown"] = sumOfLheWeightsDown / nWeightsDown;
+			product.m_optionalWeights["stdev"+variationName+"LheWeightDown"] = 1.0 - (sumOfQuadraticDifferencesDown / nWeightsDown);
+		}
 	}
 }
 
