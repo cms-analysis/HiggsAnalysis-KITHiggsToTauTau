@@ -60,60 +60,43 @@ void ScaleVariationProducer::Produce(event_type const& event, product_type & pro
 {
 	assert(event.m_genEventInfo);
 	
-	// PDF variations
-	if (m_pdfLheWeightNamesIndices.size() > 0)
+	DetermineWeights(event, product, settings, m_pdfLheWeightNamesIndices, "Pdf");
+	DetermineWeights(event, product, settings, m_alphaSLheWeightNamesIndices, "AlphaS");
+	DetermineWeights(event, product, settings, m_scaleLheWeightNamesIndices, "Scale");
+}
+
+void ScaleVariationProducer::DetermineWeights(event_type const& event, product_type & product, setting_type const& settings,
+                                              std::map<std::string, unsigned int> const& lheWeightNamesIndices, std::string const& variationName) const
+{
+	if (lheWeightNamesIndices.size() > 0)
 	{
-		std::map<std::string, float> pdfLheWeights = event.m_genEventInfo->getLheWeights(m_pdfLheWeightNamesIndices, false);
-		for (std::map<std::string, float>::iterator lheWeight = pdfLheWeights.begin(); lheWeight != pdfLheWeights.end(); ++lheWeight)
+		std::map<std::string, float> lheWeights = event.m_genEventInfo->getLheWeights(lheWeightNamesIndices, false);
+		for (std::map<std::string, float>::iterator lheWeight = lheWeights.begin(); lheWeight != lheWeights.end(); ++lheWeight)
 		{
 			product.m_optionalWeights[lheWeight->first] = lheWeight->second;
 		}
-		float minPdfLheWeight = std::min_element(
-				pdfLheWeights.begin(), pdfLheWeights.end(),
+		
+		std::pair<std::map<std::string, float>::const_iterator, std::map<std::string, float>::const_iterator> minmaxPdfLheWeight = std::minmax_element(
+				lheWeights.begin(), lheWeights.end(),
 				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
-		)->second;
-		float maxPdfLheWeight = std::max_element(
-				pdfLheWeights.begin(), pdfLheWeights.end(),
-				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
-		)->second;
-		LOG(INFO) << "PDF:    " << minPdfLheWeight << " - " << maxPdfLheWeight;
-	}
-	
-	// alphaS variations
-	if (m_alphaSLheWeightNamesIndices.size() > 0)
-	{
-		std::map<std::string, float> alphaSLheWeights = event.m_genEventInfo->getLheWeights(m_alphaSLheWeightNamesIndices, false);
-		for (std::map<std::string, float>::iterator lheWeight = alphaSLheWeights.begin(); lheWeight != alphaSLheWeights.end(); ++lheWeight)
-		{
-			product.m_optionalWeights[lheWeight->first] = lheWeight->second;
-		}
-		float minAlphaSLheWeight = std::min_element(
-				alphaSLheWeights.begin(), alphaSLheWeights.end(),
-				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
-		)->second;
-		float maxAlphaSLheWeight = std::max_element(
-				alphaSLheWeights.begin(), alphaSLheWeights.end(),
-				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
-		)->second;
-		LOG(INFO) << "AlphaS: " << minAlphaSLheWeight << " - " << maxAlphaSLheWeight;
-	}
-	
-	// muF/muR scale variations
-	if (m_scaleLheWeightNamesIndices.size() > 0)
-	{
-		std::map<std::string, float> scaleLheWeights = event.m_genEventInfo->getLheWeights(m_scaleLheWeightNamesIndices, false);
-		for (std::map<std::string, float>::iterator lheWeight = scaleLheWeights.begin(); lheWeight != scaleLheWeights.end(); ++lheWeight)
-		{
-			product.m_optionalWeights[lheWeight->first] = lheWeight->second;
-		}
-		float minScaleLheWeight = std::min_element(
-				scaleLheWeights.begin(), scaleLheWeights.end(),
-				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
-		)->second;
-		float maxScaleLheWeight = std::max_element(
-				scaleLheWeights.begin(), scaleLheWeights.end(),
-				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
-		)->second;
-		LOG(INFO) << "Scale:  " << minScaleLheWeight << " - " << maxScaleLheWeight;
+		);
+		float sumOfLheWeights = std::accumulate(
+				lheWeights.begin(), lheWeights.end(), lheWeights.begin()->second,
+				[](float const& a, std::pair<std::string, float> const& b) { return a + b.second; }
+		);
+		float deviationSumOfLheWeights = std::sqrt(std::accumulate(
+				lheWeights.begin(), lheWeights.end(), std::abs(lheWeights.begin()->second - 1.0),
+				[](float const& a, std::pair<std::string, float> const& b) { return a + std::abs(b.second - 1.0); }
+		));
+		/*float quadraticDeviationSumOfLheWeights = std::sqrt(std::accumulate(
+				lheWeights.begin(), lheWeights.end(), std::pow(lheWeights.begin()->second - 1.0, 2),
+				[](float const& a, std::pair<std::string, float> const& b) { return a + std::pow(b.second - 1.0, 2); }
+		));*/
+		
+		product.m_optionalWeights["min"+variationName+"LheWeight"] = minmaxPdfLheWeight.first->second;
+		product.m_optionalWeights["max"+variationName+"LheWeight"] = minmaxPdfLheWeight.second->second;
+		product.m_optionalWeights["mean"+variationName+"LheWeight"] = sumOfLheWeights / lheWeights.size();
+		product.m_optionalWeights["meanDeviation"+variationName+"LheWeight"] = (deviationSumOfLheWeights / lheWeights.size()) + 1.0;
 	}
 }
+

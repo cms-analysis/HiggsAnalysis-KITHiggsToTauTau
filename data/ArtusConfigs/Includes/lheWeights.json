@@ -1,5 +1,20 @@
 {
 	"property" : [
+		"minPdfLheWeight",
+		"maxPdfLheWeight",
+		"meanPdfLheWeight",
+		"meanDeviationPdfLheWeight",
+		
+		"minAlphaSLheWeight",
+		"maxAlphaSLheWeight",
+		"meanAlphaSLheWeight",
+		"meanDeviationAlphaSLheWeight",
+		
+		"minScaleLheWeight",
+		"maxScaleLheWeight",
+		"meanScaleLheWeight",
+		"meanDeviationScaleLheWeight",
+		
 		"NNPDF30_lo_as_0130_LHgrid__Member_0",
 		"NNPDF30_lo_as_0130_LHgrid__Member_1",
 		"NNPDF30_lo_as_0130_LHgrid__Member_10",
