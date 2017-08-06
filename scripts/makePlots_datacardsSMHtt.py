@@ -652,24 +652,24 @@ if __name__ == "__main__":
 			"mt_Boosted2D" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
 			"et_Boosted2D" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
 			"em_Boosted2D" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
-			"tt_Boosted2D" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "1750 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"tt_Boosted2D" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "170 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
 			"mt_Vbf2D" : ["300 < m_{jj} < 700 GeV", "700 < m_{jj} < 1100 GeV", "1100 < m_{jj} < 1500 GeV", "m_{jj} > 1500 GeV"],
 			"et_Vbf2D" : ["300 < m_{jj} < 700 GeV", "700 < m_{jj} < 1100 GeV", "1100 < m_{jj} < 1500 GeV", "m_{jj} > 1500 GeV"],
 			"em_Vbf2D" : ["300 < m_{jj} < 700 GeV", "700 < m_{jj} < 1100 GeV", "1100 < m_{jj} < 1500 GeV", "m_{jj} > 1500 GeV"],
 			"tt_Vbf2D" : ["0 < m_{jj} < 300 GeV", "300 < m_{jj} < 500 GeV", "500 < m_{jj} < 800 GeV", "m_{jj} > 800 GeV"]
 		}
 		texts_x = {
-			"mt_ZeroJet2D" : [0.3, 0.57, 0.83],
-			"et_ZeroJet2D" : [0.3, 0.57, 0.83],
-			"em_ZeroJet2D" : [0.3, 0.57, 0.83],
-			"mt_Boosted2D" : [0.25, 0.37, 0.50, 0.64, 0.77, 0.89],
-			"et_Boosted2D" : [0.25, 0.37, 0.50, 0.64, 0.77, 0.89],
-			"em_Boosted2D" : [0.25, 0.37, 0.50, 0.64, 0.77, 0.89],
-			"tt_Boosted2D" : [0.25, 0.45, 0.65, 0.85],
-			"mt_Vbf2D" : [0.25, 0.45, 0.65, 0.85],
-			"et_Vbf2D" : [0.25, 0.45, 0.65, 0.85],
-			"em_Vbf2D" : [0.25, 0.45, 0.65, 0.85],
-			"tt_Vbf2D" : [0.25, 0.45, 0.65, 0.85]
+			"mt_ZeroJet2D" : [0.14, 0.4, 0.67],
+			"et_ZeroJet2D" : [0.14, 0.4, 0.67],
+			"em_ZeroJet2D" : [0.2, 0.46, 0.705],
+			"mt_Boosted2D" : [0.17 0.2975 0.43 0.56 0.6925 0.81],
+			"et_Boosted2D" : [0.17 0.2975 0.43 0.56 0.6925 0.81],
+			"em_Boosted2D" : [0.17 0.2975 0.43 0.56 0.6925 0.81],
+			"tt_Boosted2D" : [0.18, 0.38, 0.58, 0.75],
+			"mt_Vbf2D" : [0.19, 0.39, 0.59, 0.76],
+			"et_Vbf2D" : [0.19, 0.39, 0.59, 0.76],
+			"em_Vbf2D" : [0.19, 0.39, 0.59, 0.76],
+			"tt_Vbf2D" : [0.18, 0.38, 0.58, 0.75]
 		}
 		vertical_lines = {
 			"mt_ZeroJet2D" : [12, 24],
@@ -690,25 +690,27 @@ if __name__ == "__main__":
 			plot_category = plot_config["filename"].split("_")[-1]
 			plot_channel = plot_config["title"].split("_")[-1]
 			if "2D" in plot_category and not ("WJCR" in plot_category or "QCDCR" in plot_category):
-					plot_config["canvas_width"] = 1200
+					plot_config["canvas_width"] = 1800
+					plot_config["canvas_heigth"] = 1000
 					plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
-					plot_config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio else [0.23, 0.73, 0.9, 0.89]
-					plot_config["legend_cols"] = 3
+					plot_config["legend"] = [0.9, 0.1, 1.0, 0.8]
+					plot_config["legend_cols"] = 1
 					plot_config["x_label"] = "m_{vis} (GeV)" if "ZeroJet" in plot_category and plot_channel in ["mt", "et", "em"] else "m_{#tau#tau} (GeV)"
 					plot_config["y_label"] = "Events/bin"
+					plot_config["formats"] = ["pdf", "png"]
 					if not (plot_channel == "tt" and plot_category == "ZeroJet2D"):
 						plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
 						plot_config["texts"] = texts[plot_channel+"_"+plot_category]
 						plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category]
-						plot_config["texts_y"] = list((0.55 for i in range(len(plot_config["texts"]))))
-						plot_config["texts_size"] = [0.075]
+						plot_config["texts_y"] = list((0.8 for i in range(len(plot_config["texts"]))))
+						plot_config["texts_size"] = [0.04] if "Boosted2D" in plot_category and plot_channel in ["mt", "et", "em"] else [0.05]
 						plot_config["x_labels_vertical"] = True
 						plot_config["x_title_offset"] = 1.5
 						plot_config["y_title_offset"] = 0.6
 						plot_config["y_subplot_title_offset"] = 0.31
 						plot_config["bottom_pad_margin"] = 0.5
 						plot_config["left_pad_margin"] = 0.1
-						plot_config["right_pad_margin"] = 0.025
+						plot_config["right_pad_margin"] = 0.11
 						plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 		
