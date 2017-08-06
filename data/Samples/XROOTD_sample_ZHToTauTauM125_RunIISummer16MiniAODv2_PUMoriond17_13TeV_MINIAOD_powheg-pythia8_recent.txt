@@ -1,1 +1,1 @@
-2017/2017-08-04_DY_HTT_moreTrackInfo/ZHToTauTauM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_powheg-pythia8.txt
+XROOTD_sample_ZHToTauTauM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_powheg-pythia8_2017-08-04.txt
