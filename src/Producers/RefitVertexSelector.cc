@@ -254,18 +254,24 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 	
 	
 		// get IP and corresponding error calculated with the IPTools methods
-		if (product.m_refitPV){
+		if (product.m_refitPV && (index < event.m_refitVertices->size())){
 			// lepton1
-			product.m_d3DnewPV1 = leptons.at(0)->track.d3DnewPV.at(index);
-			product.m_err3DnewPV1 = leptons.at(0)->track.err3DnewPV.at(index);
-			product.m_d2DnewPV1 = leptons.at(0)->track.d2DnewPV.at(index);
-			product.m_err2DnewPV1 = leptons.at(0)->track.err2DnewPV.at(index);
+			if (index < leptons.at(0)->track.d3DnewPV.size())
+			{
+				product.m_d3DnewPV1 = leptons.at(0)->track.d3DnewPV.at(index);
+				product.m_err3DnewPV1 = leptons.at(0)->track.err3DnewPV.at(index);
+				product.m_d2DnewPV1 = leptons.at(0)->track.d2DnewPV.at(index);
+				product.m_err2DnewPV1 = leptons.at(0)->track.err2DnewPV.at(index);
+			}
 
 			// lepton2
-			product.m_d3DnewPV2 = leptons.at(1)->track.d3DnewPV.at(index);
-			product.m_err3DnewPV2 = leptons.at(1)->track.err3DnewPV.at(index);
-			product.m_d2DnewPV2 = leptons.at(1)->track.d2DnewPV.at(index);
-			product.m_err2DnewPV2 = leptons.at(1)->track.err2DnewPV.at(index);
+			if (index < leptons.at(1)->track.d3DnewPV.size())
+			{
+				product.m_d3DnewPV2 = leptons.at(1)->track.d3DnewPV.at(index);
+				product.m_err3DnewPV2 = leptons.at(1)->track.err3DnewPV.at(index);
+				product.m_d2DnewPV2 = leptons.at(1)->track.d2DnewPV.at(index);
+				product.m_err2DnewPV2 = leptons.at(1)->track.err2DnewPV.at(index);
+			}
 		}
 
 
