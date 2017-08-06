@@ -662,10 +662,10 @@ if __name__ == "__main__":
 			"mt_ZeroJet2D" : [0.14, 0.4, 0.67],
 			"et_ZeroJet2D" : [0.14, 0.4, 0.67],
 			"em_ZeroJet2D" : [0.2, 0.46, 0.705],
-			"mt_Boosted2D" : [0.17 0.2975 0.43 0.56 0.6925 0.81],
-			"et_Boosted2D" : [0.17 0.2975 0.43 0.56 0.6925 0.81],
-			"em_Boosted2D" : [0.17 0.2975 0.43 0.56 0.6925 0.81],
-			"tt_Boosted2D" : [0.18, 0.38, 0.58, 0.75],
+			"mt_Boosted2D" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+			"et_Boosted2D" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+			"em_Boosted2D" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+			"tt_Boosted2D" : [0.19, 0.38, 0.58, 0.76],
 			"mt_Vbf2D" : [0.19, 0.39, 0.59, 0.76],
 			"et_Vbf2D" : [0.19, 0.39, 0.59, 0.76],
 			"em_Vbf2D" : [0.19, 0.39, 0.59, 0.76],
@@ -698,6 +698,10 @@ if __name__ == "__main__":
 					plot_config["x_label"] = "m_{vis} (GeV)" if "ZeroJet" in plot_category and plot_channel in ["mt", "et", "em"] else "m_{#tau#tau} (GeV)"
 					plot_config["y_label"] = "Events/bin"
 					plot_config["formats"] = ["pdf", "png"]
+					plot_config["y_title_offset"] = 0.6
+					plot_config["y_subplot_title_offset"] = 0.31
+					plot_config["left_pad_margin"] = 0.1
+					plot_config["right_pad_margin"] = 0.11
 					if not (plot_channel == "tt" and plot_category == "ZeroJet2D"):
 						plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
 						plot_config["texts"] = texts[plot_channel+"_"+plot_category]
@@ -706,11 +710,7 @@ if __name__ == "__main__":
 						plot_config["texts_size"] = [0.04] if "Boosted2D" in plot_category and plot_channel in ["mt", "et", "em"] else [0.05]
 						plot_config["x_labels_vertical"] = True
 						plot_config["x_title_offset"] = 1.5
-						plot_config["y_title_offset"] = 0.6
-						plot_config["y_subplot_title_offset"] = 0.31
 						plot_config["bottom_pad_margin"] = 0.5
-						plot_config["left_pad_margin"] = 0.1
-						plot_config["right_pad_margin"] = 0.11
 						plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 		
