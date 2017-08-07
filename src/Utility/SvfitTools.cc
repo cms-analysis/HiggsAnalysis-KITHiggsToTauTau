@@ -602,7 +602,7 @@ std::map<std::string, TTree*> SvfitTools::svfitCacheInputTrees;
 std::map<std::string, std::map<SvfitEventKey, uint64_t>> SvfitTools::svfitCacheInputTreeIndices;
 
 SvfitTools::SvfitTools() :
-	svfitAlgorithm(1)
+	svfitAlgorithm(0)
 {
 	svfitAlgorithm.setHistogramAdapter(new TauTauHistogramAdapter());
 }
