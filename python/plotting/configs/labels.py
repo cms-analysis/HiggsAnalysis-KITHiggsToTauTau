@@ -62,13 +62,10 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_mt_nobtag"] = "#mu#tau_{h}, no b-tag"
 			self.labels_dict["channel_et_nobtag"] = "e#tau_{h}, no b-tag"
 			self.labels_dict["channel_em_nobtag"] = "e#mu, no b-tag"
-
-			self.labels_dict["channel_tt_large"] = "#scale[1.5]{#tau_{h}#tau_{h}}"
-			self.labels_dict["channel_mt_large"] = "#scale[1.5]{#mu#tau_{h}}"
-			self.labels_dict["channel_et_large"] = "#scale[1.5]{e#tau_{h}}"
-			self.labels_dict["channel_em_large"] = "#scale[1.5]{e#mu}"
-			self.labels_dict["channel_mm_large"] = "#scale[1.5]{#mu#mu}"
-			self.labels_dict["channel_ee_large"] = "#scale[1.5]{ee}"
+			
+			self.labels_dict["cat_oneprong"] = "#pi^{#pm} / l^{#pm}"
+			self.labels_dict["cat_rho"] = "#rho^{#pm} #rightarrow #pi^{#pm} #pi^{0}"
+			self.labels_dict["cat_a1"] = "a_{1}^{#pm} #rightarrow #pi^{#pm} #pi^{#pm} #pi^{#mp}"
 			
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
@@ -622,9 +619,10 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["bbh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["bbh"].replace("H", "H({mass:d})".format(mass=higgs_mass))+" (\\times {scale:d})".format(scale=scale)
-
-
-
+			
+			for alias, label in self.labels_dict.items():
+				self.labels_dict[alias+"_large"] = "#scale[1.5]{"+label+"}"
+		
 		else:
 			self.labels_dict["totalbkg"] = "$\\mathrm{Exp.} unc.$"
 			self.labels_dict["data"] = "$\\mathrm{Data}$"

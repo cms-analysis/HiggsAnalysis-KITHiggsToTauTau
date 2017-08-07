@@ -67,7 +67,10 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 10) * (decayMode_2 != 10) * (decayMode_1 != 1) * (decayMode_2 != 1))"
 			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "((decayMode_1 == 1) || (decayMode_2 == 1))"
 			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 1) * (decayMode_2 != 1))"
-
+		
+		for channel in ["em", "mt", "et", "tt"]:
+			self.expressions_dict["catZttPol13TeV_"+channel] = " + ".join(["(catZttPol13TeV_"+channel+"_"+cat+" * "+str(index)+")" for index, cat in enumerate(["oneprong"] if channel == "em" else ["oneprong", "rho", "a1"])])
+		
 		# In the so-called "gen" channel, the categories are considered as tt,mt,et... for now,
 		# it will be adapted later considering the decay products of tau's
 		for channel in ["gen"]:
