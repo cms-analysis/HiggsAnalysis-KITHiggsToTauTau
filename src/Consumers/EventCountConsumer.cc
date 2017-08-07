@@ -4,6 +4,8 @@
 
 void EventCountConsumer::Init(setting_type const& settings)
 {
+	ConsumerBase<KappaTypes>::Init(settings);
+	
 	currentLumi = 0;
 	m_totalEvents = new TH1I("totalEvents", "totalEvents", 2, -1, 1);
 	m_totalEvents->SetBinContent(1, 0);

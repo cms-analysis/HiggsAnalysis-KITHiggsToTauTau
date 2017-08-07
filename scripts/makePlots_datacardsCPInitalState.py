@@ -87,6 +87,12 @@ if __name__ == "__main__":
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 						help="Do not include shape-uncertainties. [Default: %(default)s]")
+	parser.add_argument("--steps", nargs="+",
+	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
+	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
+						help="Steps to perform. [Default: %(default)s]")
+	parser.add_argument("--use-shape-only", action="store_true", default=False,
+						help="Use only shape to distinquish between cp hypotheses. [Default: %(default)s]")	
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -364,31 +370,41 @@ if __name__ == "__main__":
 			)
 	) # TODO: use JPC physics model
 	'''
-	datacards_workspaces = datacards.text2workspace(
-			datacards_cbs,
-			args.n_processes,
-			"-P {MODEL} {MODEL_PARAMETERS}".format(
-				MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-				MODEL_PARAMETERS=""
-			)
-	) # TODO: use JPC physics model
-	
-	
-	
+	if args.use_shape_only:
+		datacards_workspaces = datacards.text2workspace(
+				datacards_cbs,
+				args.n_processes,
+				"-P {MODEL} {MODEL_PARAMETERS}".format(
+					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
+					MODEL_PARAMETERS="--PO=muFloating"
+				)
+		) # TODO: use JPC physics model
+	else:
+		datacards_workspaces = datacards.text2workspace(
+				datacards_cbs,
+				args.n_processes,
+				"-P {MODEL} {MODEL_PARAMETERS}".format(
+					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
+					MODEL_PARAMETERS=""
+				)
+		) # TODO: use JPC physics model
+
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
-	
+
 	# Max. likelihood fit and postfit plots
-	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\""+" --expectSignal 1.0 -t -1 --setPhysicsModelParameters \"x=1\"")
+	if "maxlikelihoodfit" in args.steps:
+		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\""+" --expectSignal 1.0 -t -1 --setPhysicsModelParameters \"x=1\"")
 	#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
-	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	if "prefitpostfitplots" in args.steps:
+		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 
 	# divide plots by bin width and change the label correspondingly
-	if args.quantity == "m_sv" and not(args.do_not_normalize_by_bin_width):
-		args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
+		if args.quantity == "m_sv" and not(args.do_not_normalize_by_bin_width):
+			args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 
-	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
+		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
+		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",
@@ -407,43 +423,47 @@ if __name__ == "__main__":
 			#None,
 			#"-t limit -b channel"
 	#)
-	
+
 	# Asymptotic limits
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
-#-M HybridNew --testStat=TEV --generateExt=1 --generateNuis=0 fixedMu.root --singlePoint 1 --saveHybridResult --fork 40 -T 1000 -i 1 --clsAcc 0 --fullBToys
+	if "pvalue" in args.steps:
+		datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
+		#-M HybridNew --testStat=TEV --generateExt=1 --generateNuis=0 fixedMu.root --singlePoint 1 --saveHybridResult --fork 40 -T 1000 -i 1 --clsAcc 0 --fullBToys
 
-	#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
+		#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
 
-	datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
-	print datacards_hypotestresult
-	pconfigs_plot=[]
-	for filename in datacards_hypotestresult.values():
-		print filename
-		pconfigs={}
-		pconfigs["files"]= [filename]
-		pconfigs["nicks"]= ["noplot","alternative_hyptothesis","null_hypothesis", "q_obs"]
-		pconfigs["tree_draw_options"]=["","","","TGraph"]
-		#pconfigs[ "marker_sizes"]=[5]
-		#pconfigs["marker_styles"]=[34]
-		pconfigs[ "markers"]=["line","line","line"]
+		datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
+		print datacards_hypotestresult
+		if args.use_shape_only:
+			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M MultiDimFit --algo=grid --points 100 -m $MH -v 2 -n \"\"")
 
-		pconfigs["y_expressions"]=["None","None","None","0"]
-		pconfigs["folders"]=["q"]
-		pconfigs["weights"]=["1","type<0","type>0","type==0"]
-		pconfigs["x_expressions"]=["q"]
-		pconfigs[ "output_dir"]=str(os.path.dirname(filename))
-		pconfigs["x_bins"]=["500,-100,100"]
+		pconfigs_plot=[]
+		for filename in datacards_hypotestresult.values():
+			print filename
+			pconfigs={}
+			pconfigs["files"]= [filename]
+			pconfigs["nicks"]= ["noplot","alternative_hyptothesis","null_hypothesis", "q_obs"]
+			pconfigs["tree_draw_options"]=["","","","TGraph"]
+			#pconfigs[ "marker_sizes"]=[5]
+			#pconfigs["marker_styles"]=[34]
+			pconfigs[ "markers"]=["line","line","line"]
 
-		#pconfigs["scale_factors"]=[1,1,1,900]
-		#pconfig["plot_modules"] = ["ExportRoot"]
+			pconfigs["y_expressions"]=["None","None","None","0"]
+			pconfigs["folders"]=["q"]
+			pconfigs["weights"]=["1","type<0","type>0","type==0"]
+			pconfigs["x_expressions"]=["q"]
+			pconfigs[ "output_dir"]=str(os.path.dirname(filename))
+			pconfigs["x_bins"]=["500,-3.15,3.15"]
 
-		pconfigs["analysis_modules"]=["PValue"]
-		pconfigs["p_value_alternative_hypothesis_nicks"]=["alternative_hyptothesis"]
-		pconfigs["p_value_null_hypothesis_nicks"]=["null_hypothesis"]
-		pconfigs["p_value_observed_nicks"]=["q_obs"]
-		pconfigs["labels"]=["pseudoscalar","standardmodel", "q observerd"]
-		pconfigs["legend"]=[0.7,0.6,0.9,0.88]
-		pconfigs_plot.append(pconfigs)
+			#pconfigs["scale_factors"]=[1,1,1,900]
+			#pconfig["plot_modules"] = ["ExportRoot"]
+
+			pconfigs["analysis_modules"]=["PValue"]
+			pconfigs["p_value_alternative_hypothesis_nicks"]=["alternative_hyptothesis"]
+			pconfigs["p_value_null_hypothesis_nicks"]=["null_hypothesis"]
+			pconfigs["p_value_observed_nicks"]=["q_obs"]
+			pconfigs["labels"]=["pseudoscalar","standardmodel", "q observerd"]
+			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
+			pconfigs_plot.append(pconfigs)
 	#pprint.pprint(pconfigs_plot)
 	higgsplot.HiggsPlotter(list_of_config_dicts=pconfigs_plot, list_of_args_strings=[args.args], n_processes=args.n_processes)
 

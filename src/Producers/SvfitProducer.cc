@@ -15,6 +15,8 @@
 
 void SvfitProducer::Init(setting_type const& settings)
 {
+	ProducerBase<HttTypes>::Init(settings);
+	
 	integrationMethod = SvfitEventKey::ToIntegrationMethod(
 			boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetSvfitIntegrationMethod()))
 	);
@@ -78,7 +80,6 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
                             setting_type const& settings) const
 {
 	assert(event.m_eventInfo);
-	assert(product.m_metUncorr);
 
 	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);

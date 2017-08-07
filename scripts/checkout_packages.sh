@@ -49,7 +49,7 @@ cd $CMSSW_BASE/src/
 git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
 
 # Fit Package for tau polarisation
-git clone https://github.com/CMSAachen3B/SimpleFits.git -b artus_master
+git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester

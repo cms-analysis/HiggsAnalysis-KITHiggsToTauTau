@@ -28,6 +28,12 @@
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg",
 					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"
 				],
+				"Run2016(B|C|D|E|F|G)" : [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
+				],
+				"Run2016H" : [
+					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"
+				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"
 				],
@@ -90,6 +96,12 @@
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg",
 					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"
 				],
+				"Run2016(B|C|D|E|F|G)" : [
+					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
+				],
+				"Run2016H" : [
+					"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"
+				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"
 				]
@@ -100,6 +112,7 @@
 		"InvalidateNonMatchingMuons" : false,
 		"InvalidateNonMatchingTaus" : true,
 		"InvalidateNonMatchingJets" : false,
+		"UseUWGenMatching" : "true",
 		"DirectIso" : true,
 		"TopPtReweightingStrategy" : "Run1",
 		"Quantities" : {
@@ -297,7 +310,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:HHKinFitProducer",
+					"#producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:TauTauTriggerWeightProducer",
 					"producer:RefitVertexSelector",
@@ -336,7 +349,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:HHKinFitProducer",
+					"#producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:TauTauTriggerWeightProducer",
 					"producer:GenMatchedTauCPProducer",
@@ -376,7 +389,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"producer:HHKinFitProducer",
+					"#producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
@@ -414,7 +427,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"producer:HHKinFitProducer",
+					"#producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:GenMatchedTauCPProducer",
@@ -449,12 +462,12 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:HHKinFitProducer",
+					"#producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
-					"producer:TauPolarisationTmvaReader",
+					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -483,7 +496,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"producer:HHKinFitProducer",
+					"#producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
@@ -521,7 +534,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:HHKinFitProducer",
+					"#producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:TauTauTriggerWeightProducer",
 					"producer:GenMatchedTauCPProducer",
@@ -562,7 +575,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"producer:HHKinFitProducer",
+					"#producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:EleTauFakeRateWeightProducer",
 					"producer:GenMatchedTauCPProducer",

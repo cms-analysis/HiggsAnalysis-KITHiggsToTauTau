@@ -647,16 +647,26 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		});
 		
 		std::string genMatchQuantity = "gen_match_" + std::to_string(leptonIndex+1);
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(genMatchQuantity, [leptonIndex](event_type const& event, product_type const& product)
+		bool useUWGenMatching = settings.GetUseUWGenMatching();
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(genMatchQuantity, [leptonIndex, useUWGenMatching](event_type const& event, product_type const& product)
 		{
-			KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
-			if (genParticle)
+			if (useUWGenMatching)
 			{
-				return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCode(genParticle));
+				KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
+				KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
+				return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton));
 			}
 			else
 			{
-				return Utility::ToUnderlyingValue(KappaEnumTypes::GenMatchingCode::IS_FAKE);
+				KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
+				if (genParticle)
+				{
+					return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCode(genParticle));
+				}
+				else
+				{
+					return Utility::ToUnderlyingValue(KappaEnumTypes::GenMatchingCode::IS_FAKE);
+				}
 			}
 		});
 		
@@ -795,8 +805,9 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	for (std::vector<KLepton*>::iterator lepton = product.m_ptOrderedLeptons.begin();
 	     lepton != product.m_ptOrderedLeptons.end(); ++lepton)
 	{
+		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(*lepton), const_cast<const KLepton*>(*lepton)));
 		product.m_ptOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
-				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
+				originalLepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
 		));
 		product.m_ptOrderedGenLeptonVisibleLVs.push_back(GeneratorInfo::GetVisibleLV(product.m_ptOrderedGenLeptons.back()));
 	}
@@ -805,8 +816,9 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
 	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 	{
+		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(*lepton), const_cast<const KLepton*>(*lepton)));
 		product.m_flavourOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
-				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
+				originalLepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
 		));
 		product.m_flavourOrderedGenLeptonVisibleLVs.push_back(GeneratorInfo::GetVisibleLV(product.m_flavourOrderedGenLeptons.back()));
 	}
@@ -815,8 +827,9 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	for (std::vector<KLepton*>::iterator lepton = product.m_chargeOrderedLeptons.begin();
 	     lepton != product.m_chargeOrderedLeptons.end(); ++lepton)
 	{
+		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(*lepton), const_cast<const KLepton*>(*lepton)));
 		product.m_chargeOrderedGenLeptons.push_back(GeneratorInfo::GetGenMatchedParticle(
-				*lepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
+				originalLepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons
 		));
 		product.m_chargeOrderedGenLeptonVisibleLVs.push_back(GeneratorInfo::GetVisibleLV(product.m_chargeOrderedGenLeptons.back()));
 	}
