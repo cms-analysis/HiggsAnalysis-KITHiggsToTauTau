@@ -32,8 +32,6 @@ class EstimateQcd(estimatebase.EstimateBase):
 				help="Nicks for control region histogram to substract from data (whitespace separated). [Default: %(default)s]")
 		self.estimate_qcd_options.add_argument("--qcd-extrapolation-factors-ss-os", nargs="+", type=float, default=[1.06],
 				help="Extrapolation factors of OS/SS yields. [Default: %(default)s]")
-		self.estimate_qcd_options.add_argument("--qcd-subtract-shape", action="store_true", default=False,
-				help="Subtract the shape of control region histograms from data. [Default: %(default)s]")
 		self.estimate_qcd_options.add_argument("--qcd-scale-factor", default=1.0, type=float,
 				help="Scale QCD by this factor. [Default: %(default)s]")
 

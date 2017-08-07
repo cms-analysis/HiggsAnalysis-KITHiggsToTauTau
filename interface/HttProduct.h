@@ -158,7 +158,7 @@ public:
 	std::map<KLepton*, RMFLV> m_hhKinFitTaus;
 
 	// filled by the SimpleFitProducer
-	std::map<KLepton*, RMFLV> m_SimpleFitTaus;
+	std::map<KLepton*, RMFLV> m_simpleFitTaus;
 
 	// filled by the DiJetQuantitiesProducer
 	RMDLV m_diJetSystem;
@@ -243,6 +243,8 @@ public:
 	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
 	TVector3 m_genIP1;
 	TVector3 m_genIP2;
+	double m_genCosPsiPlus  = DefaultValues::UndefinedDouble;
+	double m_genCosPsiMinus = DefaultValues::UndefinedDouble;
 
 
 	// filled by RecoTauCPProducer
@@ -253,20 +255,14 @@ public:
 	TVector3 m_recoIP2; // IPvec wrt thePV
 	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
 	TVector3 m_recoIP2_refitPV; // IPvec wrt refitted PV
+	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
 	
-	std::vector<double> m_errorIP1vec_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP2vec_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP1vec_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP2vec_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP1vec_noErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP2vec_noErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
-	std::vector<double> m_errorIP1vec_refitPV_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP2vec_refitPV_absErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP1vec_refitPV_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP2vec_refitPV_relErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP1vec_refitPV_noErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP2vec_refitPV_noErr {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
 	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;
@@ -282,6 +278,7 @@ public:
 
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;

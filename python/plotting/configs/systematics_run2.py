@@ -114,6 +114,7 @@ class SystematicsFactory(dict):
 		self["WSFUncert_et_boosted_13TeV"] = Nominal
 		self["WSFUncert_mt_vbf_13TeV"] = Nominal
 		self["WSFUncert_et_vbf_13TeV"] = Nominal
+		self["WSFUncert_lt_13TeV"] = Nominal
 		self["CMS_htt_zmumuShape_VBF_13TeV"] = Nominal
 
 

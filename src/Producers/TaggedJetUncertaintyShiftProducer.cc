@@ -18,6 +18,8 @@ std::string TaggedJetUncertaintyShiftProducer::GetProducerId() const
 
 void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
 {
+	ProducerBase<HttTypes>::Init(settings);
+	
 	uncertaintyFile = settings.GetJetEnergyCorrectionSplitUncertaintyParameters();
 	individualUncertainties = settings.GetJetEnergyCorrectionSplitUncertaintyParameterNames();
 
