@@ -376,3 +376,18 @@ void MuTauTriggerWeightProducer::Produce( event_type const& event, product_type 
 		}
 	}
 }
+
+
+WJetsErsatzReweightingProducer::WJetsErsatzReweightingProducer() :
+		RooWorkspaceWeightProducer(&setting_type::GetSaveWJetsErsatzReweightingAsOptionalOnly,
+								   &setting_type::GetWJetsErsatzReweightingWorkspace,
+								   &setting_type::GetWJetsErsatzReweightingWorkspaceWeightNames,
+								   &setting_type::GetWJetsErsatzReweightingWorkspaceObjectNames,
+								   &setting_type::GetWJetsErsatzReweightingWorkspaceObjectArguments)
+{
+}
+
+void WJetsErsatzReweightingProducer::Produce( event_type const& event, product_type & product,
+						   setting_type const& settings) const
+{
+}

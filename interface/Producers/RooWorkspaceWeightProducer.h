@@ -102,3 +102,16 @@ public:
 	virtual void Produce(event_type const& event, product_type & product,
 						 setting_type const& settings) const override;
 };
+
+
+class WJetsErsatzReweightingProducer: public RooWorkspaceWeightProducer {
+public:
+	WJetsErsatzReweightingProducer();
+
+	virtual std::string GetProducerId() const override {
+		return "WJetsErsatzReweightingProducer";
+	}
+
+	virtual void Produce(event_type const& event, product_type & product,
+						 setting_type const& settings) const override;
+};

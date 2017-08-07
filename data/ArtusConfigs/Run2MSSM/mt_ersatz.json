@@ -59,6 +59,17 @@
 			"0:m_pt,m_eta",
 			"0:m_eta"
 		],
+		"WJetsErsatzReweightingWorkspace" : {
+			"nick" : {
+					"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_5.root"
+				}
+		},
+		"WJetsErsatzReweightingWorkspaceWeightNames" : [
+		],
+		"WJetsErsatzReweightingWorkspaceObjectNames" : [
+		],
+		"WJetsErsatzReweightingWorkspaceObjectArguments" : [
+		],
 		"TauID" : "TauIDRecommendation13TeV",
 		"TauUseOldDMs" : true,
 		"MuonLowerPtCuts" : {
@@ -231,6 +242,7 @@
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
+					"producer:WJetsErsatzReweightingProducer",
 					"producer:EventWeightProducer"
 				]
 			}

@@ -246,6 +246,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TauTauTriggerWeightProducer();
 	else if(id == MuTauTriggerWeightProducer().GetProducerId())
 		return new MuTauTriggerWeightProducer();
+	else if(id == WJetsErsatzReweightingProducer().GetProducerId())
+		return new WJetsErsatzReweightingProducer();
 	else if(id == EmbeddingGlobalQuantitiesProducer().GetProducerId())
 		return new EmbeddingGlobalQuantitiesProducer();
 	else if(id == BoostRestFrameProducer().GetProducerId())

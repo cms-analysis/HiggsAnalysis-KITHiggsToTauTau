@@ -338,6 +338,14 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuTauTriggerWeightWorkspaceObjectNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuTauTriggerWeightWorkspaceObjectArguments, {});
 
+
+	// settings for WJetsErsatzReweightingProducer
+	IMPL_SETTING_DEFAULT(bool, SaveWJetsErsatzReweightingAsOptionalOnly, false);
+	IMPL_SETTING_DEFAULT(std::string, WJetsErsatzReweightingWorkspace, "");
+	IMPL_SETTING_STRINGLIST_DEFAULT(WJetsErsatzReweightingWorkspaceWeightNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(WJetsErsatzReweightingWorkspaceObjectNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(WJetsErsatzReweightingWorkspaceObjectArguments, {});
+
 	// settings for the EmbeddingConsumer
 	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);
 	IMPL_SETTING_DEFAULT(float, DeltaRMaximum, 0.4);
