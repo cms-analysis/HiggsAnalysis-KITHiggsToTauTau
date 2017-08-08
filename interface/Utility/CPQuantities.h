@@ -21,10 +21,12 @@ class CPQuantities
 public:
 	double CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2);
 	double CalculatePhiStarCP(KVertex* pv , KTrack track1, KTrack track2, RMFLV chargPart1,RMFLV chargPart2);
-	double CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM);
 	double CalculatePhiStarCP(KRefitVertex* pv , KTrack track1, KTrack track2, RMFLV chargPart1, RMFLV chargPart2);
+	double CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2);
+	double CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM);
 	double CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad);
 	double CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
+	double CalculatePhiCPLab(RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
 	double CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng);
 	double CalculateChargedProngEnergyApprox(RMFLV tau, RMFLV chargedProng);
 	double CalculateSpinAnalysingDiscriminant_rho(RMFLV tau1, RMFLV tau2, RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M);
@@ -41,9 +43,17 @@ public:
 	{
 		return genPhiStar;
 	}
+	inline double GetGenOStarCP()
+	{
+		return genOStarCP;
+	}
 	inline double GetGenPhi()
 	{
 		return genPhi;
+	}
+	inline double GetGenOCP()
+	{
+		return genOCP;
 	}
 	inline double GetRecoPhiStar()
 	{
@@ -59,7 +69,9 @@ public:
 	}
 private:
 	double genPhiStar;
+	double genOStarCP;
 	double genPhi;
+	double genOCP;
 	double recoPhiStar;
 	double recoIP1;
 	double recoIP2;
@@ -70,9 +82,17 @@ private:
 	{
 		genPhiStar = genphistar;
 	}
+	inline void SetGenOStarCP(double genostarcp)
+	{
+		genOStarCP = genostarcp;
+	}
 	inline void SetGenPhi(double genphi)
 	{
 		genPhi = genphi;
+	}
+	inline void SetGenOCP(double genocp)
+	{
+		genOCP = genocp;
 	}
 	inline void SetRecoPhiStar(double recophistar)
 	{

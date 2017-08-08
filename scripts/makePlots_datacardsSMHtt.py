@@ -377,7 +377,7 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="smhtt2016"+("newTauId" if args.new_tau_id else "") if args.era == "2016" else "baseline",
+							cut_type="smhtt2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
 							wj_sf_shift=wj_sf_shift,
@@ -397,11 +397,15 @@ if __name__ == "__main__":
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					
 					for index, weight in enumerate(config.get("weights", [])):
+						weightAtIndex = config["weights"][index]
 						if channel in ["mt", "et", "tt"]:
 							if config["nicks"][index] in top_pt_reweight_nicks or channel == "tt":
-								config["weights"][index] = weight.replace("topPtReweightWeight", "topPtReweightWeightRun1")
+								weightAtIndex = weightAtIndex.replace("topPtReweightWeight", "topPtReweightWeightRun1")
 						if config["nicks"][index].split("_")[0] in signalCrossSectionTimesBR.keys():
-							config["weights"][index] = weight + "*" + signalCrossSectionTimesBR[config["nicks"][index].split("_")[0]]
+							weightAtIndex = weightAtIndex + "*" + signalCrossSectionTimesBR[config["nicks"][index].split("_")[0]]
+						if args.new_tau_id:
+							weightAtIndex = weightAtIndex.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
+						config["weights"][index] = weightAtIndex
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 
 					if "2D" not in category:
@@ -628,40 +632,101 @@ if __name__ == "__main__":
 			"TT" : ["TTT", "TTJJ"],
 			"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
 		}
-		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge}, n_processes=args.n_processes)
+		x_tick_labels = {
+			"mt_ZeroJet2D" : ["0-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-105","105-110","110-400"] * 3,
+			"et_ZeroJet2D" : ["0-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-105","105-110","110-400"] * 3,
+			"em_ZeroJet2D" : ["0-50","50-55", "55-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-400"] * 3,
+			"mt_Boosted2D" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 6,
+			"et_Boosted2D" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 6,
+			"em_Boosted2D" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 6,
+			"tt_Boosted2D" : ["0-40","40-60","60-70","70-80","80-90","90-100","100-110","110-120","120-130","130-150","150-200","200-250"] * 4,
+			"mt_Vbf2D" : ["0-95","95-115","115-135","135-155","155-400"] * 4,
+			"et_Vbf2D" : ["0-95","95-115","115-135","135-155","155-400"] * 4,
+			"em_Vbf2D" : ["0-95","95-115","115-135","135-155","155-400"] * 4,
+			"tt_Vbf2D" : ["0-40","40-60","60-70","70-80","80-90","90-100","100-110","110-120","120-130","130-150","150-200","200-250"] * 4
+		}
+		texts = {
+			"mt_ZeroJet2D" : ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"],
+			"et_ZeroJet2D" : ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"],
+			"em_ZeroJet2D" : ["15 < p_{T}(#mu) < 25 GeV", "25 < p_{T}(#mu) < 35 GeV", "p_{T}(#mu) > 35 GeV"],
+			"mt_Boosted2D" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"et_Boosted2D" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"em_Boosted2D" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"tt_Boosted2D" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "170 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"mt_Vbf2D" : ["300 < m_{jj} < 700 GeV", "700 < m_{jj} < 1100 GeV", "1100 < m_{jj} < 1500 GeV", "m_{jj} > 1500 GeV"],
+			"et_Vbf2D" : ["300 < m_{jj} < 700 GeV", "700 < m_{jj} < 1100 GeV", "1100 < m_{jj} < 1500 GeV", "m_{jj} > 1500 GeV"],
+			"em_Vbf2D" : ["300 < m_{jj} < 700 GeV", "700 < m_{jj} < 1100 GeV", "1100 < m_{jj} < 1500 GeV", "m_{jj} > 1500 GeV"],
+			"tt_Vbf2D" : ["0 < m_{jj} < 300 GeV", "300 < m_{jj} < 500 GeV", "500 < m_{jj} < 800 GeV", "m_{jj} > 800 GeV"]
+		}
+		texts_x = {
+			"mt_ZeroJet2D" : [0.14, 0.4, 0.67],
+			"et_ZeroJet2D" : [0.14, 0.4, 0.67],
+			"em_ZeroJet2D" : [0.2, 0.46, 0.705],
+			"mt_Boosted2D" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+			"et_Boosted2D" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+			"em_Boosted2D" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+			"tt_Boosted2D" : [0.19, 0.38, 0.58, 0.76],
+			"mt_Vbf2D" : [0.19, 0.39, 0.59, 0.76],
+			"et_Vbf2D" : [0.19, 0.39, 0.59, 0.76],
+			"em_Vbf2D" : [0.19, 0.39, 0.59, 0.76],
+			"tt_Vbf2D" : [0.18, 0.38, 0.58, 0.75]
+		}
+		vertical_lines = {
+			"mt_ZeroJet2D" : [12, 24],
+			"et_ZeroJet2D" : [12, 24],
+			"em_ZeroJet2D" : [12, 24],
+			"mt_Boosted2D" : [10, 20, 30, 40, 50],
+			"et_Boosted2D" : [10, 20, 30, 40, 50],
+			"em_Boosted2D" : [10, 20, 30, 40, 50],
+			"tt_Boosted2D" : [12, 24, 36],
+			"mt_Vbf2D" : [5, 10, 15],
+			"et_Vbf2D" : [5, 10, 15],
+			"em_Vbf2D" : [5, 10, 15],
+			"tt_Vbf2D" : [12, 24, 36]
+		}
+		
+		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes)
 		for plot_config in prefit_postfit_plot_configs:
 			plot_category = plot_config["filename"].split("_")[-1]
 			plot_channel = plot_config["title"].split("_")[-1]
+			# NB: in order for the channel to be displayed in the proper position,
+			#     change x_title in plotroot.py from 0.2 to 0.12.
+			# NB2: in order for the lumi text to be displayed in the proper position,
+			#      adjust the first two arguments of latex.DrawLatex(1-r,1-t+lumiTextOffset*t,lumiText)
+			#      in CMS_lumi.py. 0.8875 and 0.94 seem to be ok values.
 			if "2D" in plot_category and not ("WJCR" in plot_category or "QCDCR" in plot_category):
-					plot_config["canvas_width"] = 1200
+					plot_config["canvas_width"] = 1800
+					plot_config["canvas_height"] = 1000
 					plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
-					plot_config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio else [0.23, 0.73, 0.9, 0.89]
-					plot_config["legend_cols"] = 3
-					plot_config["x_label"] = "bins"
-					plot_config["texts"] = []
-					plot_config["texts_x"] = []
-					if "ZeroJet2D" in plot_category:
-						if plot_channel in ["mt", "et"]:
-							plot_config["texts"] = ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"]
-							plot_config["texts_x"] = [0.3, 0.57, 0.83]
-						elif plot_channel == "em":
-							plot_config["texts"] = ["15 < p_{T}(#mu) < 25 GeV", "25 < p_{T}(#mu) < 35 GeV", "p_{T}(#mu) > 35 GeV"]
-							plot_config["texts_x"] = [0.3, 0.57, 0.83]
-					elif "Boosted2D" in plot_category:
-						if plot_channel in ["mt", "et", "em"]:
-							config["texts"] = ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"]
-							config["texts_x"] = [0.25, 0.37, 0.50, 0.64, 0.77, 0.89]
-						elif plot_channel == "tt":
-							config["texts"] = ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "1750 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"]
-							config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
-					elif "Vbf2D" in plot_category:
-						if plot_channel in ["mt", "et", "em"]:
-							config["texts"] = ["300 < m_{jj} < 700 GeV", "700 < m_{jj} < 1100 GeV", "1100 < m_{jj} < 1500 GeV", "m_{jj} > 1500 GeV"]
-						elif plot_channel == "tt":
-							config["texts"] = ["0 < m_{jj} < 300 GeV", "300 < m_{jj} < 500 GeV", "500 < m_{jj} < 800 GeV", "m_{jj} > 800 GeV"]
-						config["texts_x"] = [0.25, 0.45, 0.65, 0.85]
-					plot_config["texts_y"] = list((0.55 for i in range(len(plot_config["texts"]))))
-					plot_config["texts_size"] = [0.075]
+					plot_config["legend"] = [0.895, 0.1, 0.995, 0.8]
+					plot_config["legend_cols"] = 1
+					plot_config["x_label"] = "m_{vis} (GeV)" if "ZeroJet" in plot_category and plot_channel in ["mt", "et", "em"] else "m_{#tau#tau} (GeV)"
+					plot_config["y_label"] = "Events/bin"
+					plot_config["formats"] = ["pdf", "png"]
+					plot_config["y_title_offset"] = 0.6
+					plot_config["y_subplot_title_offset"] = 0.31
+					plot_config["left_pad_margin"] = 0.1
+					plot_config["right_pad_margin"] = 0.11
+					plot_config["line_widths"] = [3]
+					if not (plot_channel == "tt" and plot_category == "ZeroJet2D"):
+						plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
+						plot_config["texts"] = texts[plot_channel+"_"+plot_category]
+						plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category]
+						plot_config["texts_y"] = list((0.8 for i in range(len(plot_config["texts"]))))
+						plot_config["texts_size"] = [0.04] if "Boosted2D" in plot_category and plot_channel in ["mt", "et", "em"] else [0.05]
+						plot_config["x_labels_vertical"] = True
+						plot_config["x_title_offset"] = 1.5
+						plot_config["bottom_pad_margin"] = 0.5
+						plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
+					# now stack signal on top manually
+					plot_config["colors"].insert(0, "kRed")
+					plot_config["labels"].insert(0, "htt")
+					plot_config["legend_markers"].insert(0, "F")
+					plot_config["markers"].insert(0, "HIST")
+					plot_config["nicks"].insert(0, "HTT")
+					plot_config["nicks_whitelist"].insert(0, "HTT")
+					plot_config["stacks"].insert(0, "stack")
+					plot_config["x_expressions"].insert(0, "TotalSig")
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 		
 		# create pull plots

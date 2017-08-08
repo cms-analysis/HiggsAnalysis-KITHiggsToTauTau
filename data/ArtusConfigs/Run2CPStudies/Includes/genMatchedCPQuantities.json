@@ -21,7 +21,6 @@
 		"#1genBoson2DaughterPdgId",
 		"#1genBoson2DaughterStatus",
 
-
 		"#1genBoson1DaughterGranddaughterSize",
 
 		"#1genBoson1Daughter1GranddaughterPt",
@@ -59,7 +58,6 @@
 		"#1genBoson1Daughter4GranddaughterEnergy",
 		"#1genBoson1Daughter4GranddaughterPdgId",
 		"#1genBoson1Daughter4GranddaughterStatus",
-
 
 		"#1genBoson2DaughterGranddaughterSize",
 
@@ -120,6 +118,9 @@
 		"#1genBoson1Daughter2Granddaughter6GrandGranddaughterStatus",
 
 		"#1genBoson2Daughter2GranddaughterGrandGranddaughterSize",
+		
+		"genQ_1",
+		"genQ_2",
 
 		"genPVx",
 		"genPVy",
@@ -138,6 +139,9 @@
 		"genIP2y",
 		"genIP2z",
 
+		"genCosPsiPlus",
+		"genCosPsiMinus",
+
 		"genPhiStarCP",
 		"genPhiCP",
 		"genPhiStar",
@@ -147,7 +151,6 @@
 		"genPhiCP_rho",
 		"genPhiStar_rho",
 		"genPhi_rho",
-
 
 		"TauMProngEnergy",
 		"TauPProngEnergy",

@@ -76,6 +76,7 @@ double CPQuantities::CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, 
 }
 
 // this version uses track and refitted vertex to calculate the decay planes (useful for RecoTauCPProducer)
+// FIXME KRefitVertex inherites from KVertex class, so I don't need this overloaded method (it can be removed)
 double CPQuantities::CalculatePhiStarCP(KRefitVertex* pv, KTrack track1, KTrack track2,  RMFLV chargPart1, RMFLV chargPart2)
 {
 	//Primary vertex
@@ -97,6 +98,7 @@ double CPQuantities::CalculatePhiStarCP(KRefitVertex* pv, KTrack track1, KTrack 
 
 
 // calculation of variables Phi* and Phi*CP
+// IP vectors calculated within the function
 double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level)
 {
 	//Step 1: Creating a Boost M into the ZMF of the (chargPart1+, chargedPart2-) decay
@@ -157,6 +159,7 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 		this->SetGenPhiStar(acos(n2t.Dot(n1t)));
 	}
 
+	this->SetGenOStarCP(p1n.Dot(n2t.Cross(n1t)));
 	//Step 5: Calculating Phi*CP
 	double phiStarCP = 0;
 	if(p1n.Dot(n2t.Cross(n1t))>=0)
@@ -170,6 +173,61 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	return phiStarCP;
 }
 
+
+// calculation of Phi*CP
+// passing the IP vectors as arguments
+double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2){
+
+	// create boost to the ZMF of the two particles
+	RMFLV ProngImp = chargPart1 + chargPart2;
+	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
+	ROOT::Math::Boost M(boostvec);
+
+	// normalize IP vectors
+	RMFLV::BetaVector n1 = (RMFLV::BetaVector)ipvec1;
+	RMFLV::BetaVector n2 = (RMFLV::BetaVector)ipvec2;
+	n1 = n1.Unit();
+	n2 = n2.Unit();
+
+	// boost momenta and IP vectors to the ZMF
+	RMFLV n1_mu, n2_mu;
+	n1_mu.SetPxPyPzE(n1.X(), n1.Y(), n1.Z(), 0);
+	n2_mu.SetPxPyPzE(n2.X(), n2.Y(), n2.Z(), 0);
+	
+	n1_mu = M * n1_mu;
+	n2_mu = M * n2_mu;
+	chargPart1 = M * chargPart1;
+	chargPart2 = M * chargPart2;
+
+	// 3-vectors after boosting
+	RMFLV::BetaVector p1, p2;
+	n1.SetXYZ(n1_mu.Px(), n1_mu.Py(), n1_mu.Pz());
+	n2.SetXYZ(n2_mu.Px(), n2_mu.Py(), n2_mu.Pz());
+	p1.SetXYZ(chargPart1.Px(), chargPart1.Py(), chargPart1.Pz());
+	p2.SetXYZ(chargPart2.Px(), chargPart2.Py(), chargPart2.Pz());
+
+	// get the transverse components of the IP vectors wrt corresponding momenta
+	RMFLV::BetaVector n1t = n1 - ((n1.Dot(p1)) / (p1.Dot(p1))) * p1;
+	n1t = n1t.Unit();
+	RMFLV::BetaVector n2t = n2 - ((n2.Dot(p2)) / (p2.Dot(p2))) * p2;
+	n2t = n2t.Unit();
+
+	// normalized momentum vector of the reference
+	RMFLV::BetaVector p1n = p1.Unit();
+	
+	// calculate phi*cp
+	double phiStarCP = 0;
+	if(p1n.Dot(n2t.Cross(n1t))>=0)
+	{
+		phiStarCP = acos(n2t.Dot(n1t));
+	}
+	else
+	{
+		phiStarCP = 2*ROOT::Math::Pi()-acos(n2t.Dot(n1t));
+	}
+	return phiStarCP;
+	
+}
 
 // calculation of the hadron Energies in the approximate diTau restframe
 double CPQuantities::CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad)
@@ -219,6 +277,34 @@ double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV c
 
 	// Step 4: Calculating PhiCP
 	this->SetGenPhi(acos(np.Dot(nm)));
+	this->SetGenOCP(ez.Dot(np.Cross(nm)));
+	double phiCP = 0;
+	if(ez.Dot(np.Cross(nm))>=0)
+	{
+		phiCP = acos(np.Dot(nm));
+	}
+	else
+	{
+		phiCP = 2*ROOT::Math::Pi()-acos(np.Dot(nm));
+	}
+	return phiCP;
+}
+
+
+// calculate phicp in the lab frame
+double CPQuantities::CalculatePhiCPLab(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
+{
+	// creating 3-momentum normal vectors on decay planes
+	RMFLV::BetaVector km, pm, pp, nm, np, ez;
+	km.SetXYZ(tau1.Px(),tau1.Py(),tau1.Pz());
+	pm.SetXYZ(chargPart1.Px(),chargPart1.Py(),chargPart1.Pz());
+	pp.SetXYZ(chargPart2.Px(),chargPart2.Py(),chargPart2.Pz());
+
+	nm = (km.Cross(pm)).Unit();
+	np = (km.Cross(pp)).Unit();
+	ez = km.Unit();
+
+	// calculating PhiCP in the lab frame
 	double phiCP = 0;
 	if(ez.Dot(np.Cross(nm))>=0)
 	{
@@ -341,6 +427,7 @@ TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KVertex* pv){
 
 	TVector3 k, p, IP;
 	k.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), recoParticle->track.ref.z() - pv->position.z());
+
 	p.SetXYZ(recoParticle->p4.Px(), recoParticle->p4.Py(), recoParticle->p4.Pz());
 
 	if (p.Mag() != 0) IP = k - (p.Dot(k) / p.Mag2()) * p;

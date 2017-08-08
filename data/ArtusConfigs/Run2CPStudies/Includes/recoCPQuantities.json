@@ -96,8 +96,8 @@
 		"IP_refitPV_2y",
 		"IP_refitPV_2z",
 
-		"cosPsi_plus",
-		"cosPsi_minus",
+		"cosPsiPlus",
+		"cosPsiMinus",
 
 		"deltaEtaGenRecoIP1",
 		"deltaEtaGenRecoIP2",
@@ -112,6 +112,7 @@
 		"recoPhiStarCP_rho",
 		"recoPhiStarCP_rho_merged",
 		"recoPhiStarCPrPV",
+		"recoPhiStarCPrPV2",
 		"#recoPhiStarCPrPV_rho",
 
 		"#recoPhiStarCPrPVbs",

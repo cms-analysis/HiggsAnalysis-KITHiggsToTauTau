@@ -219,10 +219,13 @@ public:
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
 	double m_genZs  = DefaultValues::UndefinedDouble;
 
-	double m_genPhiCP  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
-	double m_genPhi  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
+	double m_genOStarCP  = DefaultValues::UndefinedDouble;
+	double m_genPhiCP  = DefaultValues::UndefinedDouble;
+	double m_genPhi  = DefaultValues::UndefinedDouble;
+	double m_genOCP  = DefaultValues::UndefinedDouble;
+	double m_genPhiCPLab  = DefaultValues::UndefinedDouble;
 
 	double m_genPhiCP_rho  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP_rho  = DefaultValues::UndefinedDouble;
@@ -232,10 +235,13 @@ public:
 	double m_gen_posyTauL  = DefaultValues::UndefinedDouble;
 	double m_gen_negyTauL  = DefaultValues::UndefinedDouble;
 
-
 	std::pair <double,double> m_genChargedProngEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
+	unsigned int m_genTau1ProngsSize = DefaultValues::UndefinedInt;
+	unsigned int m_genTau2ProngsSize = DefaultValues::UndefinedInt;
+	int m_genTau1DecayMode = DefaultValues::UndefinedInt;
+	int m_genTau2DecayMode = DefaultValues::UndefinedInt;
 
 
 	// filled by GenMatchedTauCPProducer
@@ -243,6 +249,8 @@ public:
 	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
 	TVector3 m_genIP1;
 	TVector3 m_genIP2;
+	double m_genCosPsiPlus  = DefaultValues::UndefinedDouble;
+	double m_genCosPsiMinus = DefaultValues::UndefinedDouble;
 
 
 	// filled by RecoTauCPProducer
@@ -276,6 +284,7 @@ public:
 
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;

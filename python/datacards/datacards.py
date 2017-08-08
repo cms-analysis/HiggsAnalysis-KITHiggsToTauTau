@@ -1159,11 +1159,27 @@ class Datacards(object):
 								
 								if not "Ratio" in config.get("analysis_modules", []):
 									config.setdefault("analysis_modules", []).append("Ratio")
+								# add signal/bkg ratio first
+								if plotting_args.get("add_soverb_ratio", False):
+									if not "SumOfHistograms" in config.get("analysis_modules", []):
+										config.setdefault("analysis_modules", []).append("SumOfHistograms")
+									config.setdefault("sum_nicks", []).append("TotalBkg TotalSig")
+									config.setdefault("sum_result_nicks", []).append("TotalSignalPlusBackground_noplot")
+									config.setdefault("ratio_numerator_nicks", []).append("TotalSignalPlusBackground_noplot")
+									config.setdefault("ratio_denominator_nicks", []).append("TotalBkg")
+									config.setdefault("ratio_result_nicks", []).append("ratio_soverb")
+								# now add data/bkg ratio
 								config.setdefault("ratio_numerator_nicks", []).extend(["TotalBkg", "data_obs"])
 								config.setdefault("ratio_denominator_nicks", []).extend(["TotalBkg"] * 2)
 								config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
 								config["ratio_denominator_no_errors"] = True
 								
+								if plotting_args.get("add_soverb_ratio", False):
+									config.setdefault("colors", []).append("kRed")
+									config.setdefault("markers", []).append("LINE")
+									config.setdefault("legend_markers", []).append("L")
+									config.setdefault("labels", []).append("")
+									config.setdefault("stacks", []).append("ratio_soverb")
 								config.setdefault("colors", []).extend(["totalbkg", "#000000"])
 								config.setdefault("markers", []).extend(["E2", "E"])
 								config.setdefault("legend_markers", []).extend(["F", "ELP"])
@@ -1178,7 +1194,9 @@ class Datacards(object):
 							if plotting_args.get("merge_backgrounds", False):
 								config["nicks_whitelist"] = processes_to_plot + ["TotalSig" + ("_noplot" if signal_stacked_on_bkg else "")] + ["data_obs", "TotalBkg" + ("_noplot" if signal_stacked_on_bkg else "")]
 								if plotting_args.get("ratio", False):
-									config["nicks_whitelist"].append(["ratio_unc", "ratio"])
+									if plotting_args.get("add_soverb_ratio", False):
+										config["nicks_whitelist"].append("ratio_soverb")
+									config["nicks_whitelist"].extend(["ratio_unc", "ratio"])
 
 							plot_configs.append(config)
 
