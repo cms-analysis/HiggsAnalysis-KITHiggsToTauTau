@@ -159,6 +159,7 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 		this->SetGenPhiStar(acos(n2t.Dot(n1t)));
 	}
 
+	this->SetGenOStarCP(p1n.Dot(n2t.Cross(n1t)));
 	//Step 5: Calculating Phi*CP
 	double phiStarCP = 0;
 	if(p1n.Dot(n2t.Cross(n1t))>=0)
@@ -276,6 +277,34 @@ double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV c
 
 	// Step 4: Calculating PhiCP
 	this->SetGenPhi(acos(np.Dot(nm)));
+	this->SetGenOCP(ez.Dot(np.Cross(nm)));
+	double phiCP = 0;
+	if(ez.Dot(np.Cross(nm))>=0)
+	{
+		phiCP = acos(np.Dot(nm));
+	}
+	else
+	{
+		phiCP = 2*ROOT::Math::Pi()-acos(np.Dot(nm));
+	}
+	return phiCP;
+}
+
+
+// calculate phicp in the lab frame
+double CPQuantities::CalculatePhiCPLab(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
+{
+	// creating 3-momentum normal vectors on decay planes
+	RMFLV::BetaVector km, pm, pp, nm, np, ez;
+	km.SetXYZ(tau1.Px(),tau1.Py(),tau1.Pz());
+	pm.SetXYZ(chargPart1.Px(),chargPart1.Py(),chargPart1.Pz());
+	pp.SetXYZ(chargPart2.Px(),chargPart2.Py(),chargPart2.Pz());
+
+	nm = (km.Cross(pm)).Unit();
+	np = (km.Cross(pp)).Unit();
+	ez = km.Unit();
+
+	// calculating PhiCP in the lab frame
 	double phiCP = 0;
 	if(ez.Dot(np.Cross(nm))>=0)
 	{
