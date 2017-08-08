@@ -126,6 +126,41 @@ void GenTauCPProducerBase::Init(setting_type const& settings)
 		return product.m_genTau2DecayMode;
 	});
 	
+	// MC-truth IP vectors
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1x", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1y", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP1z", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2x", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2y", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genIP2z", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).z() : DefaultValues::UndefinedFloat);
+	});
+
+	// cosPsi
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genCosPsiPlus", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genCosPsiPlus;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genCosPsiMinus", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genCosPsiMinus;
+	});
 
 	// properties of the charged particles from tau decays
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("OneProngChargedPart1PdgId", [](event_type const& event, product_type const& product)
@@ -217,6 +252,10 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			}
 		}
 	
+		// initialization of TVector3 objects
+		product.m_genIP1.SetXYZ(-999,-999,-999);
+		product.m_genIP2.SetXYZ(-999,-999,-999);
+
 		// selectedTau1 is the positevely charged genBosonDaughter
 		GenParticleDecayTree* selectedTau1;
 		GenParticleDecayTree* selectedTau2;
@@ -340,6 +379,14 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	
 			// Calculate phiCP in the lab frame
 			product.m_genPhiCPLab = cpq.CalculatePhiCPLab(selectedTau1->m_genParticle->p4, selectedTau2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
+
+			// calculate IP vectors of tau daughters
+			product.m_genIP1 = cpq.CalculateIPVector(chargedPart1, product.m_genPV);
+			product.m_genIP2 = cpq.CalculateIPVector(chargedPart2, product.m_genPV);
+
+			// calculate cosPsi
+			product.m_genCosPsiPlus  = cpq.CalculateCosPsi(chargedPart1->p4, product.m_genIP1);
+			product.m_genCosPsiMinus = cpq.CalculateCosPsi(chargedPart2->p4, product.m_genIP2);
 
 			// ZPlusMinus calculation
 			product.m_genZPlus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart1->p4);
