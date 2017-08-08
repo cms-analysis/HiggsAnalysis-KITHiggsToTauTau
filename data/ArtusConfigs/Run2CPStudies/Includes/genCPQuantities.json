@@ -21,7 +21,6 @@
 		"#1genBoson2DaughterPdgId",
 		"#1genBoson2DaughterStatus",
 
-
 		"#1genBoson1DaughterGranddaughterSize",
 
 		"#1genBoson1Daughter1GranddaughterPt",
@@ -59,7 +58,6 @@
 		"#1genBoson1Daughter4GranddaughterEnergy",
 		"#1genBoson1Daughter4GranddaughterPdgId",
 		"#1genBoson1Daughter4GranddaughterStatus",
-
 
 		"#1genBoson2DaughterGranddaughterSize",
 
@@ -126,9 +124,12 @@
 		"genPVz",
 
 		"genPhiStarCP",
-		"genPhiCP",
 		"genPhiStar",
+		"genOStarCP",
+		"genPhiCP",
 		"genPhi",
+		"genOCP",
+		"genPhiCPLab",
 
 		"genPhiStarCP_rho",
 		"genPhiCP_rho",
@@ -144,6 +145,9 @@
 
 		"Tau1OneProngsSize",
 		"Tau2OneProngsSize",
+		
+		"Tau1DecayMode",
+		"Tau2DecayMode",
 
 		"OneProngChargedPart1Pt",
 		"OneProngChargedPart1Pz",
