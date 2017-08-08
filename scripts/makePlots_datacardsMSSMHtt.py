@@ -310,7 +310,7 @@ if __name__ == "__main__":
 	if args.HWW:
 		samples_dict["em"]=[(alpha[0],[beta.replace("ggh","hww_mssm_gg") for beta in alpha[1]]) for alpha in samples_dict["em"]]
 		samples_dict["em"]=[(alpha[0],[beta.replace("bbh","hww_mssm_qq") for beta in alpha[1]]) for alpha in samples_dict["em"]]
-		args.categories=["em_0jets", "em_1jets", "em_2jets", "em_VBF", "em_inclusive"]
+		args.categories=[["em_0jets", "em_1jets", "em_2jets", "em_VBF", "em_inclusive"]]
 	
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
@@ -402,6 +402,14 @@ if __name__ == "__main__":
 					cut_type = "mssm2016mediumpzeta"
 				elif "highPzeta" in category:
 					cut_type = "mssm2016highpzeta"
+				elif "em_0jets" in category:
+					cut_type = "mssm2016HWW0j"
+				elif "em_1jets" in category:
+					cut_type = "mssm2016HWW1j"
+				elif "em_2jets" in category:
+					cut_type = "mssm2016HWW2j"
+				elif "em_VBF" in category:
+					cut_type = "mssm2016HWWvbf"
 				else:
 #					if args.fakefactor_method is not None:
 #						cut_type = "mssm2016fffull"

@@ -156,6 +156,12 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHttMSSM13TeV_em"+cat+"_mediumPzeta"] = self.expressions_dict["catHttMSSM13TeV_em"+cat]+"*(pZetaMissVis > -10)*(pZetaMissVis < 30)"
 			self.expressions_dict["catHttMSSM13TeV_em"+cat+"_highPzeta"] = self.expressions_dict["catHttMSSM13TeV_em"+cat]+"*(pZetaMissVis > 30)"
 
+		for channel in ["em"]:
+			self.expressions_dict["catHttMSSM13TeV_em_0jets"] = "(1.0)"
+			self.expressions_dict["catHttMSSM13TeV_em_1jets"] = "(1.0)"
+			self.expressions_dict["catHttMSSM13TeV_em_2jets"] = "(1.0)"
+			self.expressions_dict["catHttMSSM13TeV_em_VBF"] = "(1.0)"
+
 		for channel in ["et","mt","tt"]:
 			pt_var = "pt_2" if channel in ["mt", "et"] else "pt_1"
 			pt_cut_nobtag_high = "60.0" if channel in ["mt", "et"] else "80.0"

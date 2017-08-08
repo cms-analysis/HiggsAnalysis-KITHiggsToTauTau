@@ -129,6 +129,14 @@ class CutStringsDict:
 			#	cuts["pzeta"] = "(pZetaMissVis > -10.0)*(pZetaMissVis < 30.0)"
 			#elif cut_type == "mssm2016highpzeta":
 			#	cuts["pzeta"] = "(pZetaMissVis > 30.0)"
+			if cut_type == "mssm2016HWW0j":
+				cuts["njets"] = "(njets == 0)"
+			elif cut_type == "mssm2016HWW1j":
+				cuts["njets"] = "(njets == 1)"
+			elif cut_type == "mssm2016HWW2j":
+				cuts["njets"] = "(njets == 2)*(((mjj < 500.0)*(jdeta > 3.5))+((mjj > 500.0)*(jdeta < 3.5)))"
+			elif cut_type == "mssm2016HWWvbf":
+				cuts["njets"] = "(njets == 2)*(mjj < 500.0)*(jdeta < 3.5)"
 		return cuts
 	
 	@staticmethod
@@ -537,6 +545,14 @@ class CutStringsDict:
 		elif cut_type=="mssm2016mediumpzeta":
 			cuts = CutStringsDict.mssm2016(channel, cut_type)
 		elif cut_type=="mssm2016highpzeta":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016HWW0j":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016HWW1j":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016HWW2j":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016HWWvbf":
 			cuts = CutStringsDict.mssm2016(channel, cut_type)
 		elif cut_type=="antievloosepass":
 			cuts = CutStringsDict.antievloosepass(channel, cut_type)
