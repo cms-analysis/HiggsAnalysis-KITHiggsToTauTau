@@ -86,6 +86,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_lep2SumChargedHadronsLV.Pt()"] = "E_{#pi^{#pm}} / GeV"
 				self.labels_dict[channel+"_lep1SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
+				self.labels_dict["catZttPol13TeV_"+channel+"_index"] = ""
 			
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict["channel_"+channel+"_0jet_inclusive"] = self.labels_dict["channel_"+channel]+": 0-Jet-inclusive"
