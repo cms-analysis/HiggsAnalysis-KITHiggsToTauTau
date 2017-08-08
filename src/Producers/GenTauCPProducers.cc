@@ -190,13 +190,13 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	
 		GenParticleDecayTree* selectedTau1;
 		GenParticleDecayTree* selectedTau2;
-		if (product.m_genBosonTree.m_daughters[0].m_genParticle->charge() == +1){
-			selectedTau1 = &(product.m_genBosonTree.m_daughters[0]);
-			selectedTau2 = &(product.m_genBosonTree.m_daughters[1]);
+		if (product.m_genBosonTree.m_daughters.at(0).m_genParticle->charge() == +1){
+			selectedTau1 = &(product.m_genBosonTree.m_daughters.at(0));
+			selectedTau2 = &(product.m_genBosonTree.m_daughters.at(1));
 		}
 		else {
-			selectedTau1 = &(product.m_genBosonTree.m_daughters[1]);
-			selectedTau2 = &(product.m_genBosonTree.m_daughters[0]);
+			selectedTau1 = &(product.m_genBosonTree.m_daughters.at(1));
+			selectedTau2 = &(product.m_genBosonTree.m_daughters.at(0));
 		}
 
 
@@ -215,15 +215,15 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 		    (selectedTau2OneProngs.size() != 0))
 		{
 			//Initialization of charged particles
-			KGenParticle* chargedPart1 = selectedTau1OneProngs[0]->m_genParticle;
-			KGenParticle* chargedPart2 = selectedTau2OneProngs[0]->m_genParticle;
+			KGenParticle* chargedPart1 = selectedTau1OneProngs.at(0)->m_genParticle;
+			KGenParticle* chargedPart2 = selectedTau2OneProngs.at(0)->m_genParticle;
 			for (unsigned int i = 0; i < selectedTau1OneProngs.size(); i++)
 			{
-				if (abs(selectedTau1OneProngs[i]->GetCharge()) == 1) chargedPart1 = selectedTau1OneProngs[i]->m_genParticle;
+				if (abs(selectedTau1OneProngs.at(i)->GetCharge()) == 1) chargedPart1 = selectedTau1OneProngs.at(i)->m_genParticle;
 			}
 			for (unsigned int i = 0; i < selectedTau2OneProngs.size(); i++)
 			{
-				if (abs(selectedTau2OneProngs[i]->GetCharge()) == 1) chargedPart2 = selectedTau2OneProngs[i]->m_genParticle;
+				if (abs(selectedTau2OneProngs.at(i)->GetCharge()) == 1) chargedPart2 = selectedTau2OneProngs.at(i)->m_genParticle;
 			}
 			// Saving the charged particles for  analysis
 			product.m_genOneProngCharged1 = chargedPart1;
