@@ -240,8 +240,6 @@ public:
 	double m_genPhi = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
 	double m_genOStarCP  = DefaultValues::UndefinedDouble;
-	double m_genPhiCP  = DefaultValues::UndefinedDouble;
-	double m_genPhi  = DefaultValues::UndefinedDouble;
 	double m_genOCP  = DefaultValues::UndefinedDouble;
 	double m_genPhiCPLab  = DefaultValues::UndefinedDouble;
 
