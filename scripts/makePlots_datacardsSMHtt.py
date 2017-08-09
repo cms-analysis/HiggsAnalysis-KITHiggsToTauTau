@@ -266,6 +266,8 @@ if __name__ == "__main__":
 	
 	# updates with respect to values stored in datasets.json
 	# values are taken from AN2016_355_v10
+	# TODO: remove this once new Artus outputs have been created
+	#       since cross sections are already updated in Kappa
 	signalCrossSectionTimesBR = {
 		"ggh125" : "((48.58*0.0627)/(3.0469376))",
 		"qqh125" : "((3.781*0.0627)/(0.237207))",
@@ -576,6 +578,8 @@ if __name__ == "__main__":
 			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
 		return null_yield
 	
+	# TODO: comment out the following two commands if you want to use
+	#       the SM HTT data card creation method in CombineHarvester
 	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)
 	
 	# convert shapes in control regions to lnN
@@ -694,6 +698,12 @@ if __name__ == "__main__":
 			# NB2: in order for the lumi text to be displayed in the proper position,
 			#      adjust the first two arguments of latex.DrawLatex(1-r,1-t+lumiTextOffset*t,lumiText)
 			#      in CMS_lumi.py. 0.8875 and 0.94 seem to be ok values.
+			# NB3: in order for pdf output to be readable, the following manual changes are needed:
+			#      1.) defaultrootstyle.py:
+			#           - default_root_style.SetLineWidth(1) (currently line 44)
+			#           - default_root_style.SetFrameLineWidth(1) (currently line 49)
+			#      2.) plotroot.py:
+			#           - line_graph.SetLineWidth(1) (concerns vertical lines, curretnly line 309)
 			if "2D" in plot_category and not ("WJCR" in plot_category or "QCDCR" in plot_category):
 					plot_config["canvas_width"] = 1800
 					plot_config["canvas_height"] = 1000
