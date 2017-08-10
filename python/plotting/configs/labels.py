@@ -28,6 +28,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ttjt"] = "t#bar{t} + jets (tau)"
 			self.labels_dict["ttjl"] = "t#bar{t} + jets (lep)"
 			self.labels_dict["ttt"] = "t#bar{t} + jets (tau)"
+			self.labels_dict["zmt"] = "Z #rightarrow #mu#tau"
 			self.labels_dict["ttjj"] = "t#bar{t} + jets (jet)"
 			self.labels_dict["wj"] = "W + jets"
 			self.labels_dict["wjt"] = "W + jets (tau)"
