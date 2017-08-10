@@ -88,10 +88,28 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 			return ((weight > 0.0) ? (1.0 / weight) : 0.0);
 		});
 	}
+	
+	// add possible quantities for the lambda ntuples consumers
+	for (size_t particleIndex = 0; particleIndex < 7; ++particleIndex)
+	{
+		std::string particleIndexStr = std::to_string(particleIndex+1);
+		
+		LambdaNtupleConsumer<HttTypes>::AddCartesianRMFLVQuantity("madGraphLheParticle"+particleIndexStr+"LV", [this, particleIndex](event_type const& event, product_type const& product)
+		{
+			return product.m_lheParticlesSortedForMadGraph.size() > particleIndex ? product.m_lheParticlesSortedForMadGraph.at(particleIndex)->p4 : DefaultValues::UndefinedCartesianRMFLV;
+		});
+		
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("madGraphLheParticle"+particleIndexStr+"PdgId", [this, particleIndex](event_type const& event, product_type const& product)
+		{
+			return product.m_lheParticlesSortedForMadGraph.size() > particleIndex ? product.m_lheParticlesSortedForMadGraph.at(particleIndex)->pdgId : DefaultValues::UndefinedInt;
+		});
+	}
+	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(std::string("lheMomentumLV"), [](event_type const& event, product_type const& product)
 	{
 		return product.m_lheParticlesSortedForMadGraph.size() >= 1 ? product.m_lheParticlesSortedForMadGraph.at(0)->p4.Px() : DefaultValues::UndefinedFloat;
 	});
+	
 	std::string pdgDatabaseFilename = settings.GetDatabasePDG();
  	if (! pdgDatabaseFilename.empty())
 	{
