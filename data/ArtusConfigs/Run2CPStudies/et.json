@@ -616,7 +616,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
 					"#producer:TauPolarisationTmvaReader",
-					"#producer:MadGraphReweightingProducer",
+					"producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau).*(?=Fall15)" : [
@@ -664,7 +664,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesProducer",
 					"#producer:TauPolarisationTmvaReader",
-					"#producer:MadGraphReweightingProducer",
+					"producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				]
 			}
