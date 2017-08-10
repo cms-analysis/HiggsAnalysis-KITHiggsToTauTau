@@ -90,7 +90,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	}
 	
 	// add possible quantities for the lambda ntuples consumers
-	for (size_t particleIndex = 0; particleIndex < 7; ++particleIndex)
+	for (size_t particleIndex = 0; particleIndex < 6; ++particleIndex)
 	{
 		std::string particleIndexStr = std::to_string(particleIndex+1);
 		
@@ -104,12 +104,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 			return product.m_lheParticlesSortedForMadGraph.size() > particleIndex ? product.m_lheParticlesSortedForMadGraph.at(particleIndex)->pdgId : DefaultValues::UndefinedInt;
 		});
 	}
-	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(std::string("lheMomentumLV"), [](event_type const& event, product_type const& product)
-	{
-		return product.m_lheParticlesSortedForMadGraph.size() >= 1 ? product.m_lheParticlesSortedForMadGraph.at(0)->p4.Px() : DefaultValues::UndefinedFloat;
-	});
-	
+		
 	std::string pdgDatabaseFilename = settings.GetDatabasePDG();
  	if (! pdgDatabaseFilename.empty())
 	{
@@ -378,6 +373,8 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			//std::string madGraphProcessDirectory = SafeMap::Get(madGraphProcessDirectoriesByName, directoryname)[0];
 			std::string madGraphProcessDirectory = m_madGraphProcessDirectoriesByName.at(directoryname)[0];
 			std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
+			LOG(DEBUG) << "Processed event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = " << settings.GetName();
+			LOG(DEBUG) << "Directory of matrixelement: " << madGraphProcessDirectory;
 			// calculate the matrix elements for different mixing angles
 			for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
 			     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
