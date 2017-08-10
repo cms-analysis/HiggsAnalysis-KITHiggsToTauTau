@@ -90,7 +90,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	}
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(std::string("lheMomentumLV"), [](event_type const& event, product_type const& product)
 	{
-		return product.m_particleFourMomenta.size() >= 1 ? product.m_particleFourMomenta.at(0)->Px() : DefaultValues::UndefinedFloat;
+		return product.m_lheParticlesSortedForMadGraph.size() >= 1 ? product.m_lheParticlesSortedForMadGraph.at(0)->p4.Px() : DefaultValues::UndefinedFloat;
 	});
 	std::string pdgDatabaseFilename = settings.GetDatabasePDG();
  	if (! pdgDatabaseFilename.empty())
@@ -111,6 +111,8 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 void MadGraphReweightingProducer::Produce(event_type const& event, product_type& product,
                                           setting_type const& settings) const
 {
+	product.m_lheParticlesSortedForMadGraph.clear();
+	
 	// TODO: should this be an assertion?
 	if (event.m_lheParticles != nullptr)
 	{
@@ -219,9 +221,9 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			selectedParticles->momenta.push_back(&(*lheParticle));
 
 			//LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode << ", " << lheParticle->colourLineIndices.first << ", " << lheParticle->colourLineIndices.second;
-			if (product.m_particleFourMomenta.size() < 7)
+			if (product.m_lheParticlesSortedForMadGraph.size() < 7)
 			{
-				product.m_particleFourMomenta.push_back(&(lheParticle->p4));
+				product.m_lheParticlesSortedForMadGraph.push_back(const_cast<KLHEParticle*>(&(*lheParticle)));
 			}
 		}
 		//Names for incoming and outgoing particles
@@ -269,7 +271,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			(initialname=="sg") || (initialname=="dg") || (initialname=="cg") || (initialname=="bg") || (initialname=="ug") ||
 			(initialname=="sxg") || (initialname=="dxg") || (initialname=="cxg") || (initialname=="bxg") || (initialname=="uxg"))
 		{
-			std::swap(product.m_particleFourMomenta[3], product.m_particleFourMomenta[4]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[4]);
 		}
 		//3 Jets
 		//3<->5, 4<->5
@@ -283,8 +285,8 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		//	(jetname=="sbg") ||
 		//	(jetname=="bbg"))
 		//{
-		//	std::swap(product.m_particleFourMomenta[3], product.m_particleFourMomenta[5]);
-		//	std::swap(product.m_particleFourMomenta[4], product.m_particleFourMomenta[5]);
+		//	std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[5]);
+		//	std::swap(product.m_lheParticlesSortedForMadGraph[4], product.m_lheParticlesSortedForMadGraph[5]);
 		//}
 		////3<->5
 		//if ((jetname=="bbg") ||(jetname=="bug") || (jetname=="bcg") || (jetname=="bdg") || (jetname=="bsg") ||
@@ -295,7 +297,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		//	(jetname=="ugg") || (jetname=="cgg") || (jetname=="dgg") || (jetname=="sgg") || (jetname=="bgg") ||
 		//	(jetname=="u_bargg") || (jetname=="c_bargg") || (jetname=="d_bargg") || (jetname=="s_bargg") || (jetname=="b_bargg"))
 		//{
-		//	std::swap(product.m_particleFourMomenta[3], product.m_particleFourMomenta[5]);
+		//	std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[5]);
 		//}
 		//initialstate correction (basically the same as for jet)
                 if ((initialname=="u_baru") || (initialname=="b_barb") || (initialname=="c_barc") || (initialname=="d_bard") || (initialname=="s_bars") ||
@@ -317,7 +319,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
                         (initialname=="bu_bar") ||
 			(initialname=="sg") || (initialname=="dg") || (initialname=="cg") || (initialname=="bg") || (initialname=="ug"))
                 {
-                        std::swap(product.m_particleFourMomenta[0], product.m_particleFourMomenta[1]);
+                        std::swap(product.m_lheParticlesSortedForMadGraph[0], product.m_lheParticlesSortedForMadGraph[1]);
                 }
 
 
@@ -347,6 +349,13 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		//this uses the reweighting json file
 		if (Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))
 		{
+			std::vector<CartesianRMFLV*> particleFourMomenta;
+			std::transform(
+					product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.end(),
+					particleFourMomenta.begin(),
+					[](KLHEParticle* lheParticle) { return &(lheParticle->p4); }
+			);
+			
 			//std::string madGraphProcessDirectory = m_madGraphProcessDirectories.at(productionMode)[0];
 			//std::string madGraphProcessDirectory = SafeMap::Get(madGraphProcessDirectoriesByName, directoryname)[0];
 			std::string madGraphProcessDirectory = m_madGraphProcessDirectoriesByName.at(directoryname)[0];
@@ -356,13 +365,13 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 			{
 				MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
-				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(product.m_particleFourMomenta);
+				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
 				//LOG(DEBUG) << *mixingAngleOverPiHalf << " --> " << product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)];
 				//LOG(INFO) << "anlge " << *mixingAngleOverPiHalf;
 			}
 			//calculate the old matrix element for reweighting
 			MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, -1);
-                        product.m_optionalWeights["madGraphWeightSample"] = tmpMadGraphTools->GetMatrixElementSquared(product.m_particleFourMomenta);
+                        product.m_optionalWeights["madGraphWeightSample"] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
 		}
 		else
 		{
