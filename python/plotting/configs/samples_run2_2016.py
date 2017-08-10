@@ -747,6 +747,37 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "ttt", nick_suffix)
 		return config
 
+	def files_zmt(self, channel):
+		if self.ttbar_retuned:
+			return self.artus_file_names({"process" : "TTTo.*", "data": False, "campaign" : self.mc_campaign}, 2)
+		else:
+			return self.artus_file_names({"process" : "LFV*", "data": False, "croote" : self.mc_campaign}, 1)
+
+	def zmt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+
+		Samples._add_input(
+				config,
+				self.files_zmt(channel),
+				self.root_file_folder(channel),
+				lumi,
+				mc_weight+"/"+"10000",
+				"zmt",
+				nick_suffix=nick_suffix
+		)
+
+		Samples._add_bin_corrections(config, "zmt", nick_suffix)
+		
+		Samples._add_plot(config, "bkg", "HIST", "F", "zmt", nick_suffix)
+		return config
+
 	def ttjj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
