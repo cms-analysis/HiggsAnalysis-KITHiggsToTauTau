@@ -368,11 +368,11 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		if (Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))
 		{
 			std::vector<CartesianRMFLV*> particleFourMomenta;
-			std::transform(
-					product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.end(),
-					particleFourMomenta.begin(),
-					[](KLHEParticle* lheParticle) { return &(lheParticle->p4); }
-			);
+			for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
+			     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
+			{
+				particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
+			}
 			
 			//std::string madGraphProcessDirectory = m_madGraphProcessDirectories.at(productionMode)[0];
 			//std::string madGraphProcessDirectory = SafeMap::Get(madGraphProcessDirectoriesByName, directoryname)[0];
