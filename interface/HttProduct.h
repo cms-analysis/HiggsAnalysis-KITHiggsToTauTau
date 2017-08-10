@@ -389,4 +389,7 @@ public:
 
 	//filled by TTbarGenDecayModeProducer
 	unsigned int m_TTbarGenDecayMode = 0;
+
+	//filled by MadGraphReweightingProducer
+	std::vector<const CartesianRMFLV*> m_particleFourMomenta;
 };
