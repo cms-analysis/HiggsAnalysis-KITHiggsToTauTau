@@ -89,6 +89,8 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 void MadGraphReweightingProducer::Produce(event_type const& event, product_type& product,
                                           setting_type const& settings) const
 {
+	product.m_lheParticlesSortedForMadGraph.clear();
+	
 	// TODO: should this be an assertion?
 	if (event.m_lheParticles != nullptr)
 	{
@@ -337,9 +339,9 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			
 
 			LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode << ", " << lheParticle->colourLineIndices.first << ", " << lheParticle->colourLineIndices.second;
-			if (particleFourMomenta.size() < 7)
+			if (product.m_lheParticlesSortedForMadGraph.size() < 7)
 			{
-				particleFourMomenta.push_back(&(lheParticle->p4));
+				product.m_lheParticlesSortedForMadGraph.push_back(const_cast<KLHEParticle*>(&(*lheParticle)));
 			}
 		}
 		
@@ -372,7 +374,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		         (jetname=="ug"))
 		{
 			jetname="gu";
-			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[3],product.m_lheParticlesSortedForMadGraph[4]);
 		}
 		//lighter antiquarks
 		if ((jetname=="gcx") ||
@@ -387,20 +389,20 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		         (jetname=="uxg"))
 		{
 			jetname="gux";
-			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[3],product.m_lheParticlesSortedForMadGraph[4]);
 		}
 
 		//bottom
 		if (jetname=="bg")
 		{
 			jetname="gb";
-			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[3],product.m_lheParticlesSortedForMadGraph[4]);
 		}
 
 		if (jetname=="bxg")
 		{
 			jetname="gbx";
-			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[3],product.m_lheParticlesSortedForMadGraph[4]);
 		}
 
 	//uux ccx ddx ssx
@@ -416,7 +418,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		         (jetname=="uxu"))
 		{
 			jetname="uux";
-			std::swap(particleFourMomenta[3],particleFourMomenta[4]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[3],product.m_lheParticlesSortedForMadGraph[4]);
 		}
 		
 		
@@ -436,7 +438,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		         (initialname=="ug"))
 		{
 			initialname="gu";
-			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[0],product.m_lheParticlesSortedForMadGraph[1]);
 		}
 		
 		//lighter antiquarks
@@ -452,19 +454,19 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		         (initialname=="uxg"))
 		{
 			initialname="gux";
-			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[0],product.m_lheParticlesSortedForMadGraph[1]);
 		}
 		//bottom
 		if (initialname=="bg")
 		{
 			initialname="gb";
-			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[0],product.m_lheParticlesSortedForMadGraph[1]);
 		}
 
 		if (initialname=="bxg")
 		{
 			jetname="gbx";
-			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[0],product.m_lheParticlesSortedForMadGraph[1]);
 		}
 
 
@@ -481,7 +483,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		         (initialname=="uxu"))
 		{
 			initialname="uux";
-			std::swap(particleFourMomenta[0],particleFourMomenta[1]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[0],product.m_lheParticlesSortedForMadGraph[1]);
 		}
 		
 
@@ -509,6 +511,13 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 		if (Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))
 		{
+			std::vector<CartesianRMFLV*> particleFourMomenta;
+			for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
+			     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
+			{
+				particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
+			}
+		
 			//std::string madGraphProcessDirectory = m_madGraphProcessDirectories.at(productionMode)[0];
 			
 			//std::string madGraphProcessDirectory = SafeMap::Get(madGraphProcessDirectoriesByName, directoryname)[0];
