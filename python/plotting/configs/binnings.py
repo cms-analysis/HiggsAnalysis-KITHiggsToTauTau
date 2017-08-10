@@ -525,6 +525,8 @@ class BinningsDict(binnings.BinningsDict):
 		for subcat in ["highPzeta","mediumPzeta","lowPzeta"]:
 			self.binnings_dict["binningHttMSSM13TeV_em_btag_"+subcat+"_mt_tot"] = " ".join([str(20*i) for i in range(10)]+[str(200+50*i) for i in range(4)]+[str(f) for f in [400,500,700,4000]])
 			self.binnings_dict["binningHttMSSM13TeV_em_nobtag_"+subcat+"_mt_tot"] = " ".join([str(10*i) for i in range(20)]+[str(200+25*i) for i in range(6)]+[str(f) for f in [350,400,500,700,900,4000]])
+		for i in ["0jets", "1jets", "2jets", "VBF"]:
+			self.binnings_dict["binningHttMSSM13TeV_em_"+i+"_mt_i"] = " ".join([str(float(f)) for f in [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,225,250,275,300,325,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
 
 				#==========================CategoriesDictUpdates=========================================================
 		

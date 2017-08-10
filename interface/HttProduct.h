@@ -106,6 +106,7 @@ public:
 	bool m_diLeptonGenSystemFound = false;
 	RMFLV m_diTauGenSystem;
 	bool m_diTauGenSystemFound = false;
+	RMFLV::BetaVector diLepRestFrame;
 
 	// filled by the TauSpinnerProducer
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
@@ -150,7 +151,7 @@ public:
 	double pZetaMiss = 0.0;
 	double pZetaMissVis = 0.0;
 	double diLepDiffPhi = 0.0;
-	double diLepMetMtImp = 0.0;
+	double diLepCosThetaStar = 0.0;
 
 	// filled by the SvfitProducer
 	mutable SvfitEventKey m_svfitEventKey;

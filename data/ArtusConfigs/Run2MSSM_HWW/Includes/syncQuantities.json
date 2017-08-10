@@ -191,6 +191,11 @@
 		"#vispY",
 		"#TTbarGenDecayMode",
 		"phi_diff",
+		"dcosphi",
+		"dtheta",
+		"dabscostheta",
+		"deta",
+		"dcosthetastar",
 		"mt_llmet",
 		"mt_i"
 	]

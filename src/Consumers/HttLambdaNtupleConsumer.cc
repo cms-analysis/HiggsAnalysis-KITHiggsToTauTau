@@ -79,6 +79,11 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_llmet", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetMt"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_i", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetMtImp"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_diff", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepDiffPhi"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dcosphi", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepCosPhi"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dtheta", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepTheta"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dabscostheta", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepAbsCosTheta"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("deta", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepEta"]);
+	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dcosthetastar", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepCosThetaStar"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Pt"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("eta_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Eta"]);
 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Phi"]);

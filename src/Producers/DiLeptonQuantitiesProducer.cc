@@ -86,8 +86,24 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepDiffPhi", [](event_type const& event, product_type const& product) {
 		return product.diLepDiffPhi;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepCosPhi", [](event_type const& event, product_type const& product) {
+		return cos(product.m_flavourOrderedLeptons.at(1)->p4.Phi() - product.m_flavourOrderedLeptons.at(0)->p4.Phi());
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepTheta", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Theta();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepAbsCosTheta", [](event_type const& event, product_type const& product) {
+		return std::abs(cos(product.m_diLeptonSystem.Theta()));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepEta", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Eta();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepCosThetaStar", [](event_type const& event, product_type const& product) {
+		return product.diLepCosThetaStar;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetMtImp", [](event_type const& event, product_type const& product) {
-		return product.diLepMetMtImp;
+		return sqrt(pow(product.m_diLeptonSystem.P()+product.m_met.p4.Pt(),2)-product.m_diLeptonPlusMetSystem.P2());
+		// Using "product.m_met.p4.Pt()" instead of "product.m_met.p4.E()" because E is sometimes 0.
 	});
 }
 
@@ -170,5 +186,7 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	if (product.diLepDiffPhi < -1*acos(-1)){
 		product.diLepDiffPhi = product.diLepDiffPhi + (2*acos(-1));
 	}
-	product.diLepMetMtImp = sqrt(pow(product.m_diLeptonSystem.P()+product.m_met.p4.Pt(),2)-product.m_diLeptonPlusMetSystem.P2());// Using "product.m_met.p4.Pt()" instead of "product.m_met.p4.E()" because E is sometimes 0.
+	product.diLepRestFrame = product.m_diLeptonSystem.BoostToCM();
+	ROOT::Math::Boost boostedHighptLepton(product.diLepRestFrame);
+	product.diLepCosThetaStar = cos((boostedHighptLepton * product.m_ptOrderedLeptons[0]->p4).Theta()-product.m_diLeptonSystem.Theta());
 }
