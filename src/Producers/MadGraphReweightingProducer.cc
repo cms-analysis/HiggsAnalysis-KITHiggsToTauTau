@@ -88,7 +88,27 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 			return ((weight > 0.0) ? (1.0 / weight) : 0.0);
 		});
 	}
-
+	
+	// add possible quantities for the lambda ntuples consumers
+	for (size_t particleIndex = 0; particleIndex < 7; ++particleIndex)
+	{
+		std::string particleIndexStr = std::to_string(particleIndex+1);
+		
+		LambdaNtupleConsumer<HttTypes>::AddCartesianRMFLVQuantity("madGraphLheParticle"+particleIndexStr+"LV", [this, particleIndex](event_type const& event, product_type const& product)
+		{
+			return product.m_lheParticlesSortedForMadGraph.size() > particleIndex ? product.m_lheParticlesSortedForMadGraph.at(particleIndex)->p4 : DefaultValues::UndefinedCartesianRMFLV;
+		});
+		
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("madGraphLheParticle"+particleIndexStr+"PdgId", [this, particleIndex](event_type const& event, product_type const& product)
+		{
+			return product.m_lheParticlesSortedForMadGraph.size() > particleIndex ? product.m_lheParticlesSortedForMadGraph.at(particleIndex)->pdgId : DefaultValues::UndefinedInt;
+		});
+	}
+	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(std::string("lheMomentumLV"), [](event_type const& event, product_type const& product)
+	{
+		return product.m_lheParticlesSortedForMadGraph.size() >= 1 ? product.m_lheParticlesSortedForMadGraph.at(0)->p4.Px() : DefaultValues::UndefinedFloat;
+	});
 	
 	std::string pdgDatabaseFilename = settings.GetDatabasePDG();
  	if (! pdgDatabaseFilename.empty())
@@ -109,6 +129,8 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 void MadGraphReweightingProducer::Produce(event_type const& event, product_type& product,
                                           setting_type const& settings) const
 {
+	product.m_lheParticlesSortedForMadGraph.clear();
+	
 	// TODO: should this be an assertion?
 	if (event.m_lheParticles != nullptr)
 	{
@@ -153,7 +175,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			int nHiggsBosons = 0;
 		} initialParticles, higgsParticles, jetParticles;
 		
-		std::vector<const CartesianRMFLV*> particleFourMomenta;
+
 		std::string directoryname = "";
 		std::string initialname = "";
 		std::string jetname = "";
@@ -217,9 +239,9 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			selectedParticles->momenta.push_back(&(*lheParticle));
 
 			//LOG(INFO) << lheParticle->pdgId << ", " << lheParticle->p4 << ", " << ", " << lheParticle->status << ", " << event.m_lheParticles->subprocessCode << ", " << lheParticle->colourLineIndices.first << ", " << lheParticle->colourLineIndices.second;
-			if (particleFourMomenta.size() < 7)
+			if (product.m_lheParticlesSortedForMadGraph.size() < 7)
 			{
-				particleFourMomenta.push_back(&(lheParticle->p4));
+				product.m_lheParticlesSortedForMadGraph.push_back(const_cast<KLHEParticle*>(&(*lheParticle)));
 			}
 		}
 		//Names for incoming and outgoing particles
@@ -245,10 +267,11 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		//jet correction
 
 		//pdgParticle->GetName() has no specific order 
-		//madgraph sorts particle before antiparticle in event names (exception uxb?)
+		//madgraph sorts particle before antiparticle
 		//puts gluons first
 		//up type quarks second
-		//downtype quarks third => gucdsb
+		//downtype quarks third
+		//heavy quarks last => the order is: g u c d s u_bar c_bar d_bar s_bar b b_bar
 		if ((jetname=="u_baru") || (jetname=="b_barb") || (jetname=="c_barc") || (jetname=="d_bard") || (jetname=="s_bars") ||
 			(jetname=="bs") || (jetname=="bd") || (jetname=="bc") || (jetname=="bu") ||
 			(jetname=="sd") || (jetname=="sc") || (jetname=="su") || 
@@ -258,40 +281,42 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			(jetname=="s_bard_bar") || (jetname=="s_barc_bar") || (jetname=="s_baru_bar") ||
                         (jetname=="d_barc_bar") || (jetname=="d_baru_bar") ||
                         (jetname=="c_baru_bar") ||
-                        (jetname =="b_bars") ||(jetname =="b_bard") ||(jetname =="b_barc") ||(jetname =="b_baru") ||
-			(jetname=="s_barb") || (jetname=="s_bard") || (jetname=="s_barc") || (jetname=="s_baru") ||
-                        (jetname=="d_barb") || (jetname=="d_bars") || (jetname=="d_barc") || (jetname=="d_baru") ||
-                        (jetname=="c_barb") || (jetname=="c_bars") || (jetname=="c_bard") || (jetname=="c_baru") ||
-                        (jetname=="u_barb") || (jetname=="u_bars") || (jetname=="u_bard") || (jetname=="u_barc"))
+                        (jetname=="b_bars") ||(jetname =="b_bard") ||(jetname =="b_barc") ||(jetname =="b_baru") ||
+			(jetname=="bs_bar") || (jetname=="s_bard") || (jetname=="s_barc") || (jetname=="s_baru") ||
+                        (jetname=="bd_bar") || (jetname=="d_bars") || (jetname=="d_barc") || (jetname=="d_baru") ||
+                        (jetname=="bc_bar") || (jetname=="c_bars") || (jetname=="c_bard") || (jetname=="c_baru") ||
+                        (jetname=="bu_bar") || (jetname=="u_bars") || (jetname=="u_bard") || (jetname=="u_barc") ||
+			(initialname=="sg") || (initialname=="dg") || (initialname=="cg") || (initialname=="bg") || (initialname=="ug") ||
+			(initialname=="sxg") || (initialname=="dxg") || (initialname=="cxg") || (initialname=="bxg") || (initialname=="uxg"))
 		{
-			std::swap(particleFourMomenta[3], particleFourMomenta[4]);
+			std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[4]);
 		}
-		//considering gluons
+		//3 Jets
 		//3<->5, 4<->5
-		if ((jetname=="b_bardg") || (jetname=="dd_barg") || (jetname=="u_bars_barg") || (jetname=="sd_barg") ||
-			(jetname=="cug") || (jetname=="u_bars_barg") || (jetname=="cdg") || (jetname=="cc_barg") ||
-			(jetname=="ubg") || (jetname=="ds_barg") || (jetname=="uug") || (jetname=="ddg") || (jetname=="ucg") ||
-			(jetname=="uu_barg") || (jetname=="uc_barg") || (jetname=="db_barg") || (jetname=="ss_barg") || (jetname=="cu_barg") ||
-			(jetname=="ucg") || (jetname=="udg") || (jetname=="usg") || (jetname=="ubg") ||
-			(jetname=="cdg") || (jetname=="csg") || (jetname=="cbg") ||
-			(jetname=="dsg") || (jetname=="dbg") ||
-			(jetname=="sbg") ||
-			(jetname=="bbg"))
-		{
-			std::swap(particleFourMomenta[3], particleFourMomenta[5]);
-			std::swap(particleFourMomenta[4], particleFourMomenta[5]);
-		}
-		//3<->5
-		if ((jetname=="bbg") ||(jetname=="bug") || (jetname=="bcg") || (jetname=="bdg") || (jetname=="bsg") ||
-			(jetname=="ssg") || (jetname=="sdg") || (jetname=="scg") || (jetname=="sug") ||
-			(jetname=="ddg") || (jetname=="dcg") || (jetname=="dug") ||
-			(jetname=="ccg") || (jetname=="cug") ||
-			(jetname=="uug") ||
-			(jetname=="ugg") || (jetname=="cgg") || (jetname=="dgg") || (jetname=="sgg") || (jetname=="bgg") ||
-			(jetname=="u_bargg") || (jetname=="c_bargg") || (jetname=="d_bargg") || (jetname=="s_bargg") || (jetname=="b_bargg"))
-		{
-			std::swap(particleFourMomenta[3], particleFourMomenta[5]);
-		}
+		//if ((jetname=="b_bardg") || (jetname=="dd_barg") || (jetname=="u_bars_barg") || (jetname=="sd_barg") ||
+		//	(jetname=="cug") || (jetname=="u_bars_barg") || (jetname=="cdg") || (jetname=="cc_barg") ||
+		//	(jetname=="ubg") || (jetname=="ds_barg") || (jetname=="uug") || (jetname=="ddg") || (jetname=="ucg") ||
+		//	(jetname=="uu_barg") || (jetname=="uc_barg") || (jetname=="db_barg") || (jetname=="ss_barg") || (jetname=="cu_barg") ||
+		//	(jetname=="ucg") || (jetname=="udg") || (jetname=="usg") || (jetname=="ubg") ||
+		//	(jetname=="cdg") || (jetname=="csg") || (jetname=="cbg") ||
+		//	(jetname=="dsg") || (jetname=="dbg") ||
+		//	(jetname=="sbg") ||
+		//	(jetname=="bbg"))
+		//{
+		//	std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[5]);
+		//	std::swap(product.m_lheParticlesSortedForMadGraph[4], product.m_lheParticlesSortedForMadGraph[5]);
+		//}
+		////3<->5
+		//if ((jetname=="bbg") ||(jetname=="bug") || (jetname=="bcg") || (jetname=="bdg") || (jetname=="bsg") ||
+		//	(jetname=="ssg") || (jetname=="sdg") || (jetname=="scg") || (jetname=="sug") ||
+		//	(jetname=="ddg") || (jetname=="dcg") || (jetname=="dug") ||
+		//	(jetname=="ccg") || (jetname=="cug") ||
+		//	(jetname=="uug") ||
+		//	(jetname=="ugg") || (jetname=="cgg") || (jetname=="dgg") || (jetname=="sgg") || (jetname=="bgg") ||
+		//	(jetname=="u_bargg") || (jetname=="c_bargg") || (jetname=="d_bargg") || (jetname=="s_bargg") || (jetname=="b_bargg"))
+		//{
+		//	std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[5]);
+		//}
 		//initialstate correction (basically the same as for jet)
                 if ((initialname=="u_baru") || (initialname=="b_barb") || (initialname=="c_barc") || (initialname=="d_bard") || (initialname=="s_bars") ||
                         (initialname=="sd") || (initialname=="sc") || (initialname=="sb") || (initialname=="su") ||
@@ -302,17 +327,17 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
                         (initialname=="d_barc_bar") || (initialname=="b_bard_bar") || (initialname=="d_baru_bar") ||
                         (initialname=="b_barc_bar") || (initialname=="c_baru_bar") ||
                         (initialname=="b_baru_bar") ||
-                        (initialname=="s_bard") || (initialname=="s_barc") || (initialname=="s_barb") || (initialname=="s_baru") ||
-                        (initialname=="d_barc") || (initialname=="d_barb") || (initialname=="d_baru") ||
-                        (initialname=="c_barb") || (initialname=="c_baru") ||
+                        (initialname=="s_bard") || (initialname=="s_barc") || (initialname=="bs_bar") || (initialname=="s_baru") ||
+                        (initialname=="d_barc") || (initialname=="bd_bar") || (initialname=="d_baru") ||
+                        (initialname=="bc_bar") || (initialname=="c_baru") ||
                         (initialname=="b_baru") ||
                         (initialname=="d_bars") || (initialname=="c_bars") || (initialname=="b_bars") || (initialname=="u_bars") ||
                         (initialname=="c_bard") || (initialname=="b_bard") || (initialname=="u_bard") ||
                         (initialname=="b_barc") || (initialname=="u_barc") ||
-                        (initialname=="u_barb") ||
+                        (initialname=="bu_bar") ||
 			(initialname=="sg") || (initialname=="dg") || (initialname=="cg") || (initialname=="bg") || (initialname=="ug"))
                 {
-                        std::swap(particleFourMomenta[0], particleFourMomenta[1]);
+                        std::swap(product.m_lheParticlesSortedForMadGraph[0], product.m_lheParticlesSortedForMadGraph[1]);
                 }
 
 
@@ -342,6 +367,13 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		//this uses the reweighting json file
 		if (Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))
 		{
+			std::vector<CartesianRMFLV*> particleFourMomenta;
+			for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
+			     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
+			{
+				particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
+			}
+			
 			//std::string madGraphProcessDirectory = m_madGraphProcessDirectories.at(productionMode)[0];
 			//std::string madGraphProcessDirectory = SafeMap::Get(madGraphProcessDirectoriesByName, directoryname)[0];
 			std::string madGraphProcessDirectory = m_madGraphProcessDirectoriesByName.at(directoryname)[0];

@@ -47,11 +47,11 @@ MadGraphTools::~MadGraphTools()
 	}
 }
 
-double MadGraphTools::GetMatrixElementSquared(std::vector<const CartesianRMFLV*> const& particleFourMomenta) const
+double MadGraphTools::GetMatrixElementSquared(std::vector<CartesianRMFLV*> const& particleFourMomenta) const
 {
 	// construct Python list of four-momenta
 	PyObject* pyParticleFourMomenta = PyList_New(0);
-	for (std::vector<const CartesianRMFLV*>::const_iterator particleLV = particleFourMomenta.begin(); particleLV != particleFourMomenta.end(); ++particleLV)
+	for (std::vector<CartesianRMFLV*>::const_iterator particleLV = particleFourMomenta.begin(); particleLV != particleFourMomenta.end(); ++particleLV)
 	{
 		PyObject* pyParticleFourMomentum = PyList_New(0);
 		PyList_Append(pyParticleFourMomentum, PyFloat_FromDouble((*particleLV)->E()));
