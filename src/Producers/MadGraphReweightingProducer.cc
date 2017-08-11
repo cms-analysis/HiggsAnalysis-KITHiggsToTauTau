@@ -225,8 +225,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 					numberOtherQuarks += 1;
 					selectedParticles->nLightQuarks += 1;
 				}
-				else if (Names[Name_Index]=="h0"){//do nothing, everything is fine
-				}
+				else if (Names[Name_Index]=="h0"){ /*do nothing, everything is fine*/ }
 				else{LOG(ERROR) << "This process contains a '" << Names[Name_Index] << "' which should not be here!";}
 				Name_Index++;
 			}
@@ -247,6 +246,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		/*std::cout << "Jetname: " << jetname << std::endl;
 		std::cout << "Initalname: " << initialname << std::endl;
 		std::cout << "Higgsname: " << higgsname << std::endl;*/
+
 		// checks and corrections for Higgs bosons
 		if (higgsParticles.momenta.size() > 1)
 		{
@@ -258,91 +258,22 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		{
 			LOG(FATAL) << "Found no Higgs bosons, but expected 1!";
 		}
-		//swapping four momenta
-		//jet correction
 
-		//pdgParticle->GetName() has no specific order 
-		//madgraph sorts particle before antiparticle
-		//puts gluons first
-		//up type quarks second
-		//downtype quarks third
-		//heavy quarks last => the order is: g u c d s u_bar c_bar d_bar s_bar b b_bar
-		if ((jetname=="u_baru") || (jetname=="b_barb") || (jetname=="c_barc") || (jetname=="d_bard") || (jetname=="s_bars") ||
-			(jetname=="bs") || (jetname=="bd") || (jetname=="bc") || (jetname=="bu") ||
-			(jetname=="sd") || (jetname=="sc") || (jetname=="su") || 
-			(jetname=="dc") || (jetname=="du") ||
-			(jetname=="cu") ||
-			(jetname=="b_bars_bar") || (jetname=="b_bard_bar") || (jetname=="b_barc_bar") || (jetname=="b_baru_bar") ||
-			(jetname=="s_bard_bar") || (jetname=="s_barc_bar") || (jetname=="s_baru_bar") ||
-                        (jetname=="d_barc_bar") || (jetname=="d_baru_bar") ||
-                        (jetname=="c_baru_bar") ||
-                        (jetname=="b_bars") ||(jetname =="b_bard") ||(jetname =="b_barc") ||(jetname =="b_baru") ||
-			(jetname=="bs_bar") || (jetname=="s_bard") || (jetname=="s_barc") || (jetname=="s_baru") ||
-                        (jetname=="bd_bar") || (jetname=="d_bars") || (jetname=="d_barc") || (jetname=="d_baru") ||
-                        (jetname=="bc_bar") || (jetname=="c_bars") || (jetname=="c_bard") || (jetname=="c_baru") ||
-                        (jetname=="bu_bar") || (jetname=="u_bars") || (jetname=="u_bard") || (jetname=="u_barc") ||
-			(initialname=="sg") || (initialname=="dg") || (initialname=="cg") || (initialname=="bg") || (initialname=="ug") ||
-			(initialname=="sxg") || (initialname=="dxg") || (initialname=="cxg") || (initialname=="bxg") || (initialname=="uxg"))
-		{
-			std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[4]);
-		}
-		//3 Jets
-		//3<->5, 4<->5
-		//if ((jetname=="b_bardg") || (jetname=="dd_barg") || (jetname=="u_bars_barg") || (jetname=="sd_barg") ||
-		//	(jetname=="cug") || (jetname=="u_bars_barg") || (jetname=="cdg") || (jetname=="cc_barg") ||
-		//	(jetname=="ubg") || (jetname=="ds_barg") || (jetname=="uug") || (jetname=="ddg") || (jetname=="ucg") ||
-		//	(jetname=="uu_barg") || (jetname=="uc_barg") || (jetname=="db_barg") || (jetname=="ss_barg") || (jetname=="cu_barg") ||
-		//	(jetname=="ucg") || (jetname=="udg") || (jetname=="usg") || (jetname=="ubg") ||
-		//	(jetname=="cdg") || (jetname=="csg") || (jetname=="cbg") ||
-		//	(jetname=="dsg") || (jetname=="dbg") ||
-		//	(jetname=="sbg") ||
-		//	(jetname=="bbg"))
-		//{
-		//	std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[5]);
-		//	std::swap(product.m_lheParticlesSortedForMadGraph[4], product.m_lheParticlesSortedForMadGraph[5]);
-		//}
-		////3<->5
-		//if ((jetname=="bbg") ||(jetname=="bug") || (jetname=="bcg") || (jetname=="bdg") || (jetname=="bsg") ||
-		//	(jetname=="ssg") || (jetname=="sdg") || (jetname=="scg") || (jetname=="sug") ||
-		//	(jetname=="ddg") || (jetname=="dcg") || (jetname=="dug") ||
-		//	(jetname=="ccg") || (jetname=="cug") ||
-		//	(jetname=="uug") ||
-		//	(jetname=="ugg") || (jetname=="cgg") || (jetname=="dgg") || (jetname=="sgg") || (jetname=="bgg") ||
-		//	(jetname=="u_bargg") || (jetname=="c_bargg") || (jetname=="d_bargg") || (jetname=="s_bargg") || (jetname=="b_bargg"))
-		//{
-		//	std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[5]);
-		//}
-		//initialstate correction (basically the same as for jet)
-                if ((initialname=="u_baru") || (initialname=="b_barb") || (initialname=="c_barc") || (initialname=="d_bard") || (initialname=="s_bars") ||
-                        (initialname=="sd") || (initialname=="sc") || (initialname=="sb") || (initialname=="su") ||
-                        (initialname=="dc") || (initialname=="bc") || (initialname=="du") ||
-                        (initialname=="bc") || (initialname=="cu") ||
-                        (initialname=="bu") ||
-                        (initialname=="s_bard_bar") || (initialname=="s_barc_bar") || (initialname=="b_bars_bar") || (initialname=="s_baru_bar") ||
-                        (initialname=="d_barc_bar") || (initialname=="b_bard_bar") || (initialname=="d_baru_bar") ||
-                        (initialname=="b_barc_bar") || (initialname=="c_baru_bar") ||
-                        (initialname=="b_baru_bar") ||
-                        (initialname=="s_bard") || (initialname=="s_barc") || (initialname=="bs_bar") || (initialname=="s_baru") ||
-                        (initialname=="d_barc") || (initialname=="bd_bar") || (initialname=="d_baru") ||
-                        (initialname=="bc_bar") || (initialname=="c_baru") ||
-                        (initialname=="b_baru") ||
-                        (initialname=="d_bars") || (initialname=="c_bars") || (initialname=="b_bars") || (initialname=="u_bars") ||
-                        (initialname=="c_bard") || (initialname=="b_bard") || (initialname=="u_bard") ||
-                        (initialname=="b_barc") || (initialname=="u_barc") ||
-                        (initialname=="bu_bar") ||
-			(initialname=="sg") || (initialname=="dg") || (initialname=="cg") || (initialname=="bg") || (initialname=="ug"))
+		//swapping four momenta
+                if (NameCorrection(initialname))
                 {
                         std::swap(product.m_lheParticlesSortedForMadGraph[0], product.m_lheParticlesSortedForMadGraph[1]);
                 }
-
+		if (NameCorrection(jetname))
+		{
+			std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[4]);
+		}
 
 		directoryname = initialname+higgsname+jetname;
-		//std::cout << "Directory Name: " << directoryname << std::endl;
-		
 		//LOG(INFO) << productionMode << directoryname;
 		//LOG(INFO) << event.m_lheParticles->particles->size() << ": " << numberGluons << ", " << numberBottomQuarks << ", " << numberOtherQuarks << ", " << Utility::ToUnderlyingValue(productionMode);
 
-		//there are only gg->h0 and bb_bar->h0 events for 0 jets
+		//MadGraph only produces gg->h0 and bb_bar->h0 events for 0 jets
 		if ((jetParticles.nGluons==0)  &&
 		    (jetParticles.nLightQuarks==0)  &&
 		    (jetParticles.nHeavyQuarks==0) &&
@@ -405,3 +336,64 @@ std::string MadGraphReweightingProducer::GetLabelForWeightsMap(float mixingAngle
 {
 	return ("madGraphWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)));
 }
+
+//pdgParticle->GetName() has no specific order
+//madgraph sorts particle before antiparticle
+//puts gluons first
+//up type quarks second
+//downtype quarks third
+//heavy quarks last => the order is: g u c d s u_bar c_bar d_bar s_bar b b_bar
+bool MadGraphReweightingProducer::NameCorrection(std::string const& name) const
+{
+	if ((name=="u_baru") || (name=="b_barb") || (name=="c_barc") || (name=="d_bard") || (name=="s_bars") ||
+			(name=="bs") || (name=="bd") || (name=="bc") || (name=="bu") ||
+			(name=="sd") || (name=="sc") || (name=="su") ||
+			(name=="dc") || (name=="du") ||
+			(name=="cu") ||
+			(name=="b_bars_bar") || (name=="b_bard_bar") || (name=="b_barc_bar") || (name=="b_baru_bar") ||
+			(name=="s_bard_bar") || (name=="s_barc_bar") || (name=="s_baru_bar") ||
+                        (name=="d_barc_bar") || (name=="d_baru_bar") ||
+                        (name=="c_baru_bar") ||
+                        (name=="b_bars") ||(name =="b_bard") ||(name =="b_barc") ||(name =="b_baru") ||
+			(name=="bs_bar") || (name=="s_bard") || (name=="s_barc") || (name=="s_baru") ||
+                        (name=="bd_bar") || (name=="d_bars") || (name=="d_barc") || (name=="d_baru") ||
+                        (name=="bc_bar") || (name=="c_bars") || (name=="c_bard") || (name=="c_baru") ||
+                        (name=="bu_bar") || (name=="u_bars") || (name=="u_bard") || (name=="u_barc") ||
+			(name=="sg") || (name=="dg") || (name=="cg") || (name=="bg") || (name=="ug") ||
+			(name=="s_barg") || (name=="d_barg") || (name=="c_barg") || (name=="b_barg") || (name=="u_barg"))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
+//possible improvement for NameCorrection for 3 Jets, so far ignored!!
+		//3<->5, 4<->5
+		//if ((jetname=="b_bardg") || (jetname=="dd_barg") || (jetname=="u_bars_barg") || (jetname=="sd_barg") ||
+		//	(jetname=="cug") || (jetname=="u_bars_barg") || (jetname=="cdg") || (jetname=="cc_barg") ||
+		//	(jetname=="ubg") || (jetname=="ds_barg") || (jetname=="uug") || (jetname=="ddg") || (jetname=="ucg") ||
+		//	(jetname=="uu_barg") || (jetname=="uc_barg") || (jetname=="db_barg") || (jetname=="ss_barg") || (jetname=="cu_barg") ||
+		//	(jetname=="ucg") || (jetname=="udg") || (jetname=="usg") || (jetname=="ubg") ||
+		//	(jetname=="cdg") || (jetname=="csg") || (jetname=="cbg") ||
+		//	(jetname=="dsg") || (jetname=="dbg") ||
+		//	(jetname=="sbg") ||
+		//	(jetname=="bbg"))
+		//{
+		//	std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[5]);
+		//	std::swap(product.m_lheParticlesSortedForMadGraph[4], product.m_lheParticlesSortedForMadGraph[5]);
+		//}
+		////3<->5
+		//if ((jetname=="bbg") ||(jetname=="bug") || (jetname=="bcg") || (jetname=="bdg") || (jetname=="bsg") ||
+		//	(jetname=="ssg") || (jetname=="sdg") || (jetname=="scg") || (jetname=="sug") ||
+		//	(jetname=="ddg") || (jetname=="dcg") || (jetname=="dug") ||
+		//	(jetname=="ccg") || (jetname=="cug") ||
+		//	(jetname=="uug") ||
+		//	(jetname=="ugg") || (jetname=="cgg") || (jetname=="dgg") || (jetname=="sgg") || (jetname=="bgg") ||
+		//	(jetname=="u_bargg") || (jetname=="c_bargg") || (jetname=="d_bargg") || (jetname=="s_bargg") || (jetname=="b_bargg"))
+		//{
+		//	std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[5]);
+		//}
