@@ -28,8 +28,9 @@ private:
 	std::map<std::string, std::vector<std::string> > m_madGraphProcessDirectoriesByName;
 	//std::map<HttEnumTypes::MadGraphProductionModeGGH, std::vector<std::string> > m_madGraphProcessDirectories;
 	std::map<std::string, std::map<int, MadGraphTools*> > m_madGraphTools;
-	bool NameCorrection(std::string const& name) const;
 
 	TDatabasePDG* m_databasePDG = nullptr;
+	
+	static bool MadGraphParticleOrdering(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2);
 };
 

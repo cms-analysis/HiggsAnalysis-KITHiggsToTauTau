@@ -259,15 +259,9 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			LOG(FATAL) << "Found no Higgs bosons, but expected 1!";
 		}
 
-		//swapping four momenta
-                if (NameCorrection(initialname))
-                {
-                        std::swap(product.m_lheParticlesSortedForMadGraph[0], product.m_lheParticlesSortedForMadGraph[1]);
-                }
-		if (NameCorrection(jetname))
-		{
-			std::swap(product.m_lheParticlesSortedForMadGraph[3], product.m_lheParticlesSortedForMadGraph[4]);
-		}
+		// sorting of LHE particles for MadGraph
+		std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphReweightingProducer::MadGraphParticleOrdering);
+		std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphReweightingProducer::MadGraphParticleOrdering);
 
 		directoryname = initialname+higgsname+jetname;
 		//LOG(INFO) << productionMode << directoryname;
@@ -337,38 +331,84 @@ std::string MadGraphReweightingProducer::GetLabelForWeightsMap(float mixingAngle
 	return ("madGraphWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)));
 }
 
-//pdgParticle->GetName() has no specific order
-//madgraph sorts particle before antiparticle
-//puts gluons first
-//up type quarks second
-//downtype quarks third
-//heavy quarks last => the order is: g u c d s u_bar c_bar d_bar s_bar b b_bar
-bool MadGraphReweightingProducer::NameCorrection(std::string const& name) const
+// pdgParticle->GetName() has no specific order
+// madgraph sorts particle before antiparticle
+// puts gluons first
+// up type quarks second
+// downtype quarks third
+// heavy quarks last => the order is: g u c d s u_bar c_bar d_bar s_bar b b_bar
+bool MadGraphReweightingProducer::MadGraphParticleOrdering(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2)
 {
-	if ((name=="u_baru") || (name=="b_barb") || (name=="c_barc") || (name=="d_bard") || (name=="s_bars") ||
-			(name=="bs") || (name=="bd") || (name=="bc") || (name=="bu") ||
-			(name=="sd") || (name=="sc") || (name=="su") ||
-			(name=="dc") || (name=="du") ||
-			(name=="cu") ||
-			(name=="b_bars_bar") || (name=="b_bard_bar") || (name=="b_barc_bar") || (name=="b_baru_bar") ||
-			(name=="s_bard_bar") || (name=="s_barc_bar") || (name=="s_baru_bar") ||
-                        (name=="d_barc_bar") || (name=="d_baru_bar") ||
-                        (name=="c_baru_bar") ||
-                        (name=="b_bars") ||(name =="b_bard") ||(name =="b_barc") ||(name =="b_baru") ||
-			(name=="bs_bar") || (name=="s_bard") || (name=="s_barc") || (name=="s_baru") ||
-                        (name=="bd_bar") || (name=="d_bars") || (name=="d_barc") || (name=="d_baru") ||
-                        (name=="bc_bar") || (name=="c_bars") || (name=="c_bard") || (name=="c_baru") ||
-                        (name=="bu_bar") || (name=="u_bars") || (name=="u_bard") || (name=="u_barc") ||
-			(name=="sg") || (name=="dg") || (name=="cg") || (name=="bg") || (name=="ug") ||
-			(name=="s_barg") || (name=="d_barg") || (name=="c_barg") || (name=="b_barg") || (name=="u_barg"))
+	int pdgId1 = std::abs(lheParticle1->pdgId);
+	int pdgId2 = std::abs(lheParticle2->pdgId);
+	
+	if ((lheParticle1->pdgId < 0) && (lheParticle2->pdgId > 0))
 	{
-		return true;
+		if ((pdgId1 != DefaultValues::pdgIdBottom) && (pdgId2 == DefaultValues::pdgIdBottom))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	else
 	{
-		return false;
+		pdgId1 = std::abs(pdgId1);
+		pdgId2 = std::abs(pdgId2);
+		
+		if (pdgId1 == DefaultValues::pdgIdGluon)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdGluon)
+		{
+			return false;
+		}
+		else if (pdgId1 == DefaultValues::pdgIdUp)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdUp)
+		{
+			return false;
+		}
+		else if (pdgId1 == DefaultValues::pdgIdCharm)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdCharm)
+		{
+			return false;
+		}
+		else if (pdgId1 == DefaultValues::pdgIdDown)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdDown)
+		{
+			return false;
+		}
+		else if (pdgId1 == DefaultValues::pdgIdStrange)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdStrange)
+		{
+			return false;
+		}
+		else if (pdgId1 == DefaultValues::pdgIdBottom)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdBottom)
+		{
+			return false;
+		}
+		
+		return true;
 	}
-
 }
 
 //possible improvement for NameCorrection for 3 Jets, so far ignored!!
