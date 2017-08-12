@@ -284,19 +284,25 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		//if ((initialParticles.nLightQuarks==2) &&
 		//    (jetParticles.nGluons==0))
 		
-		//this uses the reweighting json file
-		if (Utility::Contains(m_madGraphProcessDirectoriesByName, directoryname))
+		
+		std::vector<CartesianRMFLV*> particleFourMomenta;
+		std::string processDirectoryKey = "";
+		for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
+		     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
 		{
-			std::vector<CartesianRMFLV*> particleFourMomenta;
-			for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
-			     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
-			{
-				particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
-			}
+			particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
+			
+			processDirectoryKey += (std::string(Utility::Contains(settings.GetBosonPdgIds(), std::abs((*madGraphLheParticle)->pdgId)) ? "_" : "") +
+			                        std::string(m_databasePDG->GetParticle((*madGraphLheParticle)->pdgId)->GetName()));
+		}
+		
+		//this uses the reweighting json file
+		if (Utility::Contains(m_madGraphProcessDirectoriesByName, processDirectoryKey))
+		{
 			
 			//std::string madGraphProcessDirectory = m_madGraphProcessDirectories.at(productionMode)[0];
-			//std::string madGraphProcessDirectory = SafeMap::Get(madGraphProcessDirectoriesByName, directoryname)[0];
-			std::string madGraphProcessDirectory = m_madGraphProcessDirectoriesByName.at(directoryname)[0];
+			//std::string madGraphProcessDirectory = SafeMap::Get(madGraphProcessDirectoriesByName, processDirectoryKey)[0];
+			std::string madGraphProcessDirectory = m_madGraphProcessDirectoriesByName.at(processDirectoryKey)[0];
 			std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
 			LOG(DEBUG) << "Processed event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = " << settings.GetName();
 			LOG(DEBUG) << "Directory of matrixelement: " << madGraphProcessDirectory;
@@ -316,7 +322,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		else
 		{
 			//LOG(ERROR) << "Process directory for production mode " << Utility::ToUnderlyingValue(productionMode) << " not found in settings with tag \"MadGraphProcessDirectories\"!";
-			LOG(ERROR) << "Process directory for production mode " << directoryname << " not found in settings with tag \"MadGraphProcessDirectories\"!";
+			LOG(ERROR) << "Process directory for production mode \"" << processDirectoryKey << "\" not found in settings with tag \"MadGraphProcessDirectories\"!";
 		}
 	}
 }
