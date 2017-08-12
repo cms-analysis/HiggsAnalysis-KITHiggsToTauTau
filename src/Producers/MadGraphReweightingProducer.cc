@@ -115,55 +115,53 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 void MadGraphReweightingProducer::Produce(event_type const& event, product_type& product,
                                           setting_type const& settings) const
 {
-	// TODO: should this be an assertion?
-	if (event.m_lheParticles != nullptr)
+	assert(event.m_lheParticles);
+	
+	// copy LHE particles to new vector which can be sorted
+	product.m_lheParticlesSortedForMadGraph.clear();
+	for (std::vector<KLHEParticle>::const_iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
 	{
-		// copy LHE particles to new vector which can be sorted
-		product.m_lheParticlesSortedForMadGraph.clear();
-		for (std::vector<KLHEParticle>::const_iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
-		{
-			product.m_lheParticlesSortedForMadGraph.push_back(const_cast<KLHEParticle*>(&(*lheParticle)));
-		}
-		
-		// sorting of LHE particles for MadGraph
-		std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphReweightingProducer::MadGraphParticleOrdering);
-		std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphReweightingProducer::MadGraphParticleOrdering);
+		product.m_lheParticlesSortedForMadGraph.push_back(const_cast<KLHEParticle*>(&(*lheParticle)));
+	}
+	
+	// sorting of LHE particles for MadGraph
+	std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphReweightingProducer::MadGraphParticleOrdering);
+	std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphReweightingProducer::MadGraphParticleOrdering);
 
-		// preparations for MadGraph
-		std::vector<CartesianRMFLV*> particleFourMomenta;
-		std::string processDirectoryKey = "";
-		for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
-		     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
+	// preparations for MadGraph
+	std::vector<CartesianRMFLV*> particleFourMomenta;
+	std::string processDirectoryKey = "";
+	for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
+	     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
+	{
+		particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
+		
+		processDirectoryKey += (std::string(Utility::Contains(settings.GetBosonPdgIds(), std::abs((*madGraphLheParticle)->pdgId)) ? "_" : "") +
+		                        std::string(m_databasePDG->GetParticle((*madGraphLheParticle)->pdgId)->GetName()));
+	}
+	
+	if (Utility::Contains(m_madGraphProcessDirectoriesByName, processDirectoryKey))
+	{
+		std::string madGraphProcessDirectory = m_madGraphProcessDirectoriesByName.at(processDirectoryKey)[0];
+		LOG_N_TIMES(50, DEBUG) << "MadGraph process directory: " << madGraphProcessDirectory << " (" << processDirectoryKey << ")";
+		
+		std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
+		
+		// calculate the matrix elements for different mixing angles
+		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
+		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
-			particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
-			
-			processDirectoryKey += (std::string(Utility::Contains(settings.GetBosonPdgIds(), std::abs((*madGraphLheParticle)->pdgId)) ? "_" : "") +
-			                        std::string(m_databasePDG->GetParticle((*madGraphLheParticle)->pdgId)->GetName()));
+			MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
+			product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
 		}
 		
-		if (Utility::Contains(m_madGraphProcessDirectoriesByName, processDirectoryKey))
-		{
-			std::string madGraphProcessDirectory = m_madGraphProcessDirectoriesByName.at(processDirectoryKey)[0];
-			LOG_N_TIMES(50, DEBUG) << "MadGraph process directory: " << madGraphProcessDirectory << " (" << processDirectoryKey << ")";
-			
-			std::map<int, MadGraphTools*>* tmpMadGraphToolsMap = const_cast<std::map<int, MadGraphTools*>*>(&(SafeMap::Get(m_madGraphTools, madGraphProcessDirectory)));
-			
-			// calculate the matrix elements for different mixing angles
-			for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
-			     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
-			{
-				MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
-				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
-			}
-			
-			//calculate the old matrix element for reweighting
-			MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, -1);
-			product.m_optionalWeights["madGraphWeightSample"] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
-		}
-		else
-		{
-			LOG(ERROR) << "Process directory for production mode \"" << processDirectoryKey << "\" not found in settings with tag \"MadGraphProcessDirectories\"!";
-		}
+		//calculate the old matrix element for reweighting
+		MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, -1);
+		product.m_optionalWeights["madGraphWeightSample"] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
+	}
+	else
+	{
+		LOG(ERROR) << "Process directory for production mode \"" << processDirectoryKey << "\" not found in settings with tag \"MadGraphProcessDirectories\"!";
 	}
 }
 
