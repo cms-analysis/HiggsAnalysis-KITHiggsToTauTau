@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e # exit on errors
 
 export SCRAM_ARCH=slc6_amd64_gcc491
