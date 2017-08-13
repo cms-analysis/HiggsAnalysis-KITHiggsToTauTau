@@ -2,7 +2,6 @@ sudo: required
 language: cpp
 services:
   - docker
-env:
 compiler:
   - gcc
 before_install:
@@ -18,7 +17,8 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script:
-  - docker run --privileged -v ${TRAVIS_BUILD_DIR}:/home/travis
+  - docker run --privileged -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
+                            -v ${TRAVIS_BUILD_DIR}:/home/travis
                             -v '/home/short:/home/short' claria/cvmfs-cms /bin/bash 
                             -c "cd /home/; source /home/travis/test_build.sh -b ${TRAVIS_BRANCH} -g 'greyxray' -e 'greyxray@gmail.com' -n 'kappa test'"
 notifications:
