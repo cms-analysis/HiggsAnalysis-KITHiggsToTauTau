@@ -37,6 +37,37 @@ EOL
     }
 echo 
 
+
+echo "# ================= #"
+echo "# Mounting: run-cvmfs.sh"
+echo "# ================= #"
+    /etc/cvmfs/run-cvmfs.sh
+echo "# ================= #"
+echo
+
+echo "# ================= #"
+echo "# Find site-local-config.xml"
+echo "# ================= #"
+    thesite=local
+    echo "ls -ltr /cvmfs/cms.cern.ch/SITECONF"
+    ls -ltr /cvmfs/cms.cern.ch/SITECONF
+    echo
+    echo "ls -ltr /cvmfs/cms.cern.ch/SITECONF/${thesite}"
+    ls -ltr /cvmfs/cms.cern.ch/SITECONF/$thesite
+    echo
+
+    sitelocaltocheck=/cvmfs/cms.cern.ch/SITECONF/$thesite/JobConfig/site-local-config.xml
+    #sitelocaltocheck=/cvmfs/cms.cern.ch/SITECONF/local/JobConfig/site-local-config.xml
+    printf " cat \"%s\":\n" "$sitelocaltocheck"
+    cat $sitelocaltocheck 
+    cat $sitelocaltocheck || {
+        printf "\n Could not cat  \"%s\".\n" "$sitelocaltocheck"
+        exit 1
+    } 
+    printf "\n Much wow, could cat  \"%s\".\n" "$sitelocaltocheck"
+echo "# ================= #"
+echo
+
 echo "# ================= #"
 echo "# Download and execute checkout script"
 echo "# ================= #"
@@ -45,7 +76,7 @@ echo "# ================= #"
     chmod +x checkout_packages.sh
     set -x
     printf "no\n" | . ./checkout_packages.sh -b ${TRAVIS_BRANCH} -g 'greyxray' -e 'greyxray@gmail.com' -n 'test' || {
-        echo "The ${CHECKOUTSCRIPT} could not be executed"
+        echo "checkout_packages.sh could not be executed"
         exit 1
     }
 
