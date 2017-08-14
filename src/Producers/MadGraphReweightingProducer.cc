@@ -152,16 +152,35 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
 			MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
-			product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
+			float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
+			if (matrixElementSquared < 0.0)
+			{
+				LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
+				LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
+			}
+			else
+			{
+				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = matrixElementSquared;
+			}
 		}
 		
 		//calculate the old matrix element for reweighting
 		MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, -1);
-		product.m_optionalWeights["madGraphWeightSample"] = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
+		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
+		if (matrixElementSquared < 0.0)
+		{
+			LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
+			LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
+		}
+		else
+		{
+			product.m_optionalWeights["madGraphWeightSample"] = matrixElementSquared;
+		}
 	}
 	else
 	{
 		LOG(ERROR) << "Process directory for production mode \"" << processDirectoryKey << "\" not found in settings with tag \"MadGraphProcessDirectories\"!";
+		LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
 	}
 }
 
