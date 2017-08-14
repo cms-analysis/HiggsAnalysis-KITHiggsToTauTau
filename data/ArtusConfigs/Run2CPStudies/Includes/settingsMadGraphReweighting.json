@@ -269,7 +269,7 @@
 			"cb_bar_h0cb_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJ/SubProcesses/P1_ucx_x0ucx",
 			"dd_bar_h0gdd_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_uux_x0guux",
 			"gu_h0uuu_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gu_x0uuux",
-			"b_barg_x0b_barg:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJ/SubProcesses/P1_gbx_x0gbx",
+			"gb_bar_x0gb_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJ/SubProcesses/P1_gbx_x0gbx",
 			"gc_bar_h0ggc_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gux_x0ggux",
 			"gs_bar_h0ss_bars_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gux_x0cuxcx",
 			"gb_h0ggb:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gb_x0ggb",
