@@ -133,7 +133,7 @@
 			"gu_h0uuu_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gu_x0uuux",
 			"gu_bar_h0cu_barc_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gux_x0cuxcx",
 			"gu_bar_h0ggu_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gux_x0ggux",
-			"ug_bar_h0u_bargg:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gux_x0ggux",
+			"gu_bar_h0ggu_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gux_x0ggux",
 			"gu_bar_h0uu_baru_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gux_x0uuxux",
 			"gu_bar_h0uu_baru_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gux_x0uuxux",
 			"gu_bar_h0bu_barb_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/JJ_X0JJJ/SubProcesses/P1_gux_x0uxbbx",
