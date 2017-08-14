@@ -296,7 +296,6 @@
 			"c_bard_bar_h0gu_bars_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/JJ_X0JJJ/SubProcesses/P1_cxdx_x0guxsx",
 			"cc_bar_h0ss_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/JJ_X0JJ/SubProcesses/P1_ccx_x0ssx",
 			"uc_bar_h0uc_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/JJ_X0JJ/SubProcesses/P1_ucx_x0ucx",
-			"su_bar_h0gsu_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/JJ_X0JJ/SubProcesses/P1_sux_x0sux",
 			"s_barb_bar_h0gs_barb_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/JJ_X0JJJ/SubProcesses/P1_dxbx_x0gdxbx",
 			"cu_bar_h0sd_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/JJ_X0JJ/SubProcesses/P1_cux_x0sdx",
 			"gd_h0cdc_bar:$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/JJ_X0JJJ/SubProcesses/P1_gd_x0cdcx",
