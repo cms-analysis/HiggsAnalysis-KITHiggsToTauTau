@@ -185,18 +185,14 @@ bool MadGraphReweightingProducer::MadGraphParticleOrdering(KLHEParticle* lhePart
 {
 	int pdgId1 = std::abs(lheParticle1->pdgId);
 	int pdgId2 = std::abs(lheParticle2->pdgId);
-	LOG(DEBUG) << "lheParticle1 abs: " << pdgId1 << ", real: " <<lheParticle1->pdgId;
-	LOG(DEBUG) << "lheParticle2 abs: " << pdgId2 << ", real: " <<lheParticle2->pdgId;
 	if ((lheParticle1->pdgId < 0) && (lheParticle2->pdgId > 0))
 	{
 		if ((pdgId1 != DefaultValues::pdgIdBottom) && (pdgId2 == DefaultValues::pdgIdBottom))
 		{
-			LOG(DEBUG) << "0!";
 			return true;
 		}
 		else
 		{
-			LOG(DEBUG) << "1!";
 			return false;
 		}
 	}
@@ -207,62 +203,50 @@ bool MadGraphReweightingProducer::MadGraphParticleOrdering(KLHEParticle* lhePart
 		
 		if (pdgId1 == DefaultValues::pdgIdGluon)
 		{
-			LOG(DEBUG) << "2!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdGluon)
 		{
-			LOG(DEBUG) << "3!";
 			return false;
 		}
 		else if (pdgId1 == DefaultValues::pdgIdUp)
 		{
-			LOG(DEBUG) << "4!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdUp)
 		{
-			LOG(DEBUG) << "5!";
 			return false;
 		}
 		else if (pdgId1 == DefaultValues::pdgIdCharm)
 		{
-			LOG(DEBUG) << "6!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdCharm)
 		{
-			LOG(DEBUG) << "7!";
 			return false;
 		}
 		else if (pdgId1 == DefaultValues::pdgIdDown)
 		{
-			LOG(DEBUG) << "8!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdDown)
 		{
-			LOG(DEBUG) << "9!";
 			return false;
 		}
 		else if (pdgId1 == DefaultValues::pdgIdStrange)
 		{
-			LOG(DEBUG) << "10!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdStrange)
 		{
-			LOG(DEBUG) << "11!";
 			return false;
 		}
 		else if (pdgId1 == DefaultValues::pdgIdBottom)
 		{
-			LOG(DEBUG) << "12!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdBottom)
 		{
-			LOG(DEBUG) << "13!";
 			return false;
 		}
 		
