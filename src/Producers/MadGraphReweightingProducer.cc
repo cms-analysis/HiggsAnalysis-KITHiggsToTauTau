@@ -125,6 +125,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	}
 	
 	// sorting of LHE particles for MadGraph
+	LOG(DEBUG) << "NOW SORTING!!!";
 	std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphReweightingProducer::MadGraphParticleOrdering);
 	std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphReweightingProducer::MadGraphParticleOrdering);
 
@@ -135,7 +136,6 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
 	{
 		particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
-		
 		processDirectoryKey += (std::string(Utility::Contains(settings.GetBosonPdgIds(), std::abs((*madGraphLheParticle)->pdgId)) ? "_" : "") +
 		                        std::string(m_databasePDG->GetParticle((*madGraphLheParticle)->pdgId)->GetName()));
 	}
@@ -185,72 +185,91 @@ bool MadGraphReweightingProducer::MadGraphParticleOrdering(KLHEParticle* lhePart
 {
 	int pdgId1 = std::abs(lheParticle1->pdgId);
 	int pdgId2 = std::abs(lheParticle2->pdgId);
-	
+	LOG(DEBUG) << "lheParticle1 abs: " << pdgId1 << ", real: " <<lheParticle1->pdgId;
+	LOG(DEBUG) << "lheParticle2 abs: " << pdgId2 << ", real: " <<lheParticle2->pdgId;
 	if ((lheParticle1->pdgId < 0) && (lheParticle2->pdgId > 0))
 	{
 		if ((pdgId1 != DefaultValues::pdgIdBottom) && (pdgId2 == DefaultValues::pdgIdBottom))
 		{
+			LOG(DEBUG) << "0!";
 			return true;
 		}
 		else
 		{
+			LOG(DEBUG) << "1!";
 			return false;
 		}
 	}
-	else
+	else if ((lheParticle1->pdgId) * (lheParticle2->pdgId) > 0)
 	{
 		pdgId1 = std::abs(pdgId1);
 		pdgId2 = std::abs(pdgId2);
 		
 		if (pdgId1 == DefaultValues::pdgIdGluon)
 		{
+			LOG(DEBUG) << "2!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdGluon)
 		{
+			LOG(DEBUG) << "3!";
 			return false;
 		}
 		else if (pdgId1 == DefaultValues::pdgIdUp)
 		{
+			LOG(DEBUG) << "4!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdUp)
 		{
+			LOG(DEBUG) << "5!";
 			return false;
 		}
 		else if (pdgId1 == DefaultValues::pdgIdCharm)
 		{
+			LOG(DEBUG) << "6!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdCharm)
 		{
+			LOG(DEBUG) << "7!";
 			return false;
 		}
 		else if (pdgId1 == DefaultValues::pdgIdDown)
 		{
+			LOG(DEBUG) << "8!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdDown)
 		{
+			LOG(DEBUG) << "9!";
 			return false;
 		}
 		else if (pdgId1 == DefaultValues::pdgIdStrange)
 		{
+			LOG(DEBUG) << "10!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdStrange)
 		{
+			LOG(DEBUG) << "11!";
 			return false;
 		}
 		else if (pdgId1 == DefaultValues::pdgIdBottom)
 		{
+			LOG(DEBUG) << "12!";
 			return true;
 		}
 		else if (pdgId2 == DefaultValues::pdgIdBottom)
 		{
+			LOG(DEBUG) << "13!";
 			return false;
 		}
 		
+		return true;
+	}
+	else
+	{
 		return true;
 	}
 }
