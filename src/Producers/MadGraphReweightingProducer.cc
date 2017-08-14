@@ -116,7 +116,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("lheParticleJetNumber", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_lheParticlesSortedForMadGraph.size() - 3) >= 0 ? product.m_lheParticlesSortedForMadGraph.size() - 3 : DefaultValues::UndefinedInt;
+		return product.m_lheParticlesSortedForMadGraph.size() - 3;
 	});
 }
 
