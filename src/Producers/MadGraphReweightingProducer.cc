@@ -213,6 +213,7 @@ bool MadGraphReweightingProducer::MadGraphParticleOrdering(KLHEParticle* lhePart
 {
 	int pdgId1 = std::abs(lheParticle1->pdgId);
 	int pdgId2 = std::abs(lheParticle2->pdgId);
+	
 	if ((lheParticle1->pdgId < 0) && (lheParticle2->pdgId > 0))
 	{
 		if ((pdgId1 != DefaultValues::pdgIdBottom) && (pdgId2 == DefaultValues::pdgIdBottom))
@@ -224,7 +225,18 @@ bool MadGraphReweightingProducer::MadGraphParticleOrdering(KLHEParticle* lhePart
 			return false;
 		}
 	}
-	else if ((lheParticle1->pdgId) * (lheParticle2->pdgId) > 0)
+	else if ((lheParticle1->pdgId > 0) && (lheParticle2->pdgId < 0))
+	{
+		if ((pdgId1 == DefaultValues::pdgIdBottom) && (pdgId2 != DefaultValues::pdgIdBottom))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	else
 	{
 		pdgId1 = std::abs(pdgId1);
 		pdgId2 = std::abs(pdgId2);
@@ -277,12 +289,10 @@ bool MadGraphReweightingProducer::MadGraphParticleOrdering(KLHEParticle* lhePart
 		{
 			return false;
 		}
-		
-		return true;
-	}
-	else
-	{
-		return true;
+		else
+		{
+			return true;
+		}
 	}
 }
 
