@@ -18,6 +18,7 @@
 		"madGraphLheParticle3PdgId",
 		"madGraphLheParticle4PdgId",
 		"madGraphLheParticle5PdgId",
-		"madGraphLheParticle6PdgId"
+		"madGraphLheParticle6PdgId",
+		"subProcessCode"
 	]
 }

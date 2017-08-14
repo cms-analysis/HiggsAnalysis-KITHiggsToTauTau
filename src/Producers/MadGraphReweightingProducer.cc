@@ -109,6 +109,11 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 			return product.m_lheParticlesSortedForMadGraph.size() > particleIndex ? product.m_lheParticlesSortedForMadGraph.at(particleIndex)->pdgId : DefaultValues::UndefinedInt;
 		});
 	}
+	
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("subProcessCode", [](event_type const& event, product_type const& product)
+	{
+		return event.m_lheParticles->subprocessCode;
+	});
 }
 
 
