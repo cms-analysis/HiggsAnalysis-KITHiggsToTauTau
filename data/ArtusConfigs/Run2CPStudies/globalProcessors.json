@@ -51,7 +51,7 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
-				"#producer:ScaleVariationProducer",
+				"producer:ScaleVariationProducer",
 				"#filter:RunLumiEventFilter",
 				"#filter:MetFilter"
 			],
@@ -82,7 +82,7 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
-				"producer:ScaleVariationProducer",
+				"#producer:ScaleVariationProducer",
 				"#filter:RunLumiEventFilter",
 				"#filter:MetFilter"
 			],
