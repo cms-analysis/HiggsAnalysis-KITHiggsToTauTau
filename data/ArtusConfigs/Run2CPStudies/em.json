@@ -258,7 +258,7 @@
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates"
 				],
-				"(DY.?JetsToLL|LFV).*(?=(Spring16|Summer16))" : [
+				"(DY.?JetsToLL).*(?=(Spring16|Summer16))" : [
 					{
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
@@ -272,6 +272,25 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+						]
+					},
+					"nLooseElectrons",
+					"nLooseMuons",
+					"nDiTauPairCandidates",
+					"nAllDiTauPairCandidates",
+					"tauSpinnerPolarisation"
+				],
+				"(LFV).*(?=(Spring16|Summer16))" : [
+					{
+						"include" : [
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantitiesLFV.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
 						]
 					},
 					"nLooseElectrons",
@@ -302,7 +321,7 @@
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation"
 				],
-				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|LFV)).)*Fall15" : [
+				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
 					{
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
@@ -316,7 +335,7 @@
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates"
 				],
-				"(DY.?JetsToLL|LFV).*(?=Fall15)" : [
+				"(DY.?JetsToLL).*(?=Fall15)" : [
 					{
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
@@ -414,7 +433,7 @@
 					"producer:PolarisationQuantitiesProducer",
 					"producer:EventWeightProducer"
 				],
-				"(DY.?JetsToLL|LFV).*(?=(Spring16|Summer16))" : [
+				"(DY.?JetsToLL).*(?=(Spring16|Summer16))" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -455,7 +474,48 @@
 					"producer:PolarisationQuantitiesProducer",
 					"producer:EventWeightProducer"
 				],
-				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|LFV)).)*Fall15" : [
+				"(LFV).*(?=(Spring16|Summer16))" : [
+					"producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:ElectronCorrectionsProducer",
+					"producer:ValidElectronsProducer",
+					"filter:ValidElectronsFilter",
+					"producer:ElectronTriggerMatchingProducer",
+					"filter:MinElectronsCountFilter",
+					"producer:ValidMuonsProducer",
+					"filter:ValidMuonsFilter",
+					"producer:MuonTriggerMatchingProducer",
+					"filter:MinMuonsCountFilter",
+					"producer:ValidTausProducer",
+					"producer:ValidEMPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:MetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:ZPtReweightProducer",
+					"#filter:MinimalPlotlevelFilter",
+					"#producer:MVATestMethodsProducer",
+					"#producer:SvfitProducer",
+					"#producer:HHKinFitProducer",
+					"#producer:SimpleFitProducer",
+					"producer:TriggerWeightProducer",
+					"producer:RooWorkspaceWeightProducer",
+					"producer:GenMatchedTauCPProducer",
+					"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesProducer",
+					"producer:EventWeightProducer"
+				],
+				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -499,7 +559,7 @@
 					"producer:PolarisationQuantitiesProducer",
 					"producer:EventWeightProducer"
 				],
-				"(DY.?JetsToLL|LFV).*(?=Fall15)" : [
+				"(DY.?JetsToLL).*(?=Fall15)" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
