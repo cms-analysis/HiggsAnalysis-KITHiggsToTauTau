@@ -70,7 +70,7 @@ void ScaleVariationProducer::DetermineWeights(event_type const& event, product_t
 {
 	if (lheWeightNamesIndices.size() > 0)
 	{
-		std::map<std::string, float> lheWeights = event.m_genEventInfo->getLheWeights(lheWeightNamesIndices, false);
+		std::map<std::string, float> lheWeights = event.m_genEventInfo->getLheWeights(lheWeightNamesIndices);
 		
 		int nWeightsUp = 0;
 		float sumOfLheWeightsUp = 0.0;
