@@ -273,13 +273,13 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 		}
 		genTau1 = SafeMap::GetWithDefault(product.m_validGenTausMap, genTauDecayTree1->m_genParticle, static_cast<KGenTau*>(nullptr));
 		genTau2 = SafeMap::GetWithDefault(product.m_validGenTausMap, genTauDecayTree2->m_genParticle, static_cast<KGenTau*>(nullptr));
+		product.m_genTau1DecayMode = genTau1->genDecayMode();
+		product.m_genTau2DecayMode = genTau2->genDecayMode();
 
 
 		// get the full decay tree of the 
 		genTauDecayTree1->DetermineDecayMode(genTauDecayTree1);
 		genTauDecayTree2->DetermineDecayMode(genTauDecayTree2);
-		product.m_genTau1DecayMode = (int)genTauDecayTree1->m_decayMode;
-		product.m_genTau2DecayMode = (int)genTauDecayTree2->m_decayMode;
 
 		genTauDecayTree1->CreateFinalStateProngs(genTauDecayTree1);
 		genTauDecayTree2->CreateFinalStateProngs(genTauDecayTree2);
