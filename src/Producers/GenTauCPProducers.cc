@@ -259,19 +259,23 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 
 
 		// genTauDecayTree1 is the positevely charged genBosonDaughter
-		GenParticleDecayTree* genTauDecayTree1;
-		GenParticleDecayTree* genTauDecayTree2;
+		GenParticleDecayTree* genTauDecayTree1 = nullptr;
+		GenParticleDecayTree* genTauDecayTree2 = nullptr;
+		KGenTau* genTau1 = nullptr;
+		KGenTau* genTau2 = nullptr;
 		if (product.m_genBosonTree.m_daughters.at(0).m_genParticle->charge() == +1){
 			genTauDecayTree1 = &(product.m_genBosonTree.m_daughters.at(0));
 			genTauDecayTree2 = &(product.m_genBosonTree.m_daughters.at(1));
-
 		}
 		else {
 			genTauDecayTree1 = &(product.m_genBosonTree.m_daughters.at(1));
 			genTauDecayTree2 = &(product.m_genBosonTree.m_daughters.at(0));
 		}
+		genTau1 = SafeMap::GetWithDefault(product.m_validGenTausMap, genTauDecayTree1->m_genParticle, static_cast<KGenTau*>(nullptr));
+		genTau2 = SafeMap::GetWithDefault(product.m_validGenTausMap, genTauDecayTree2->m_genParticle, static_cast<KGenTau*>(nullptr));
 
-		// get the full decay tree of the taus
+
+		// get the full decay tree of the 
 		genTauDecayTree1->DetermineDecayMode(genTauDecayTree1);
 		genTauDecayTree2->DetermineDecayMode(genTauDecayTree2);
 		product.m_genTau1DecayMode = (int)genTauDecayTree1->m_decayMode;
@@ -321,13 +325,10 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 				(std::abs(product.m_genLeptonsFromBosonDecay.at(0)->pdgId) == DefaultValues::pdgIdTau) &&
 			(std::abs(product.m_genLeptonsFromBosonDecay.at(1)->pdgId) == DefaultValues::pdgIdTau))
 			{
-				//generate the Taus from the Boson decay
-				KGenTau* genTau1 = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(0), static_cast<KGenTau*>(nullptr));
-				KGenTau* genTau2 = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(1), static_cast<KGenTau*>(nullptr));
-				//selected the taus decaying into a rho
+				// select the taus decaying into a rho
 				if (genTau1->genDecayMode() == 1 && genTau2->genDecayMode() == 1)
 				{
-					//Select the decays with 2 final state photons for simplicity first
+					// select the decays with 2 final state photons for simplicity first
 				 	if( genTauDecayTree1OneProngs.size() == 4 && genTauDecayTree2OneProngs.size() == 4)
 					{
 						RMFLV PionP;
