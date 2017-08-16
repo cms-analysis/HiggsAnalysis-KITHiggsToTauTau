@@ -43,7 +43,7 @@
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer",
 				"producer:GenTauDecayProducer",
-				"#producer:GenTauCPProducer",
+				"producer:GenTauCPProducer",
 				"producer:TauSpinnerProducer",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer",
