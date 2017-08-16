@@ -242,7 +242,10 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	// A generator level boson and its decay products must exist
 	// The boson is searched for by a GenBosonProducer
 	// and the decay tree is built by the GenTauDecayProducer
-	if ( product.m_genBosonLVFound && (product.m_genBosonTree.m_daughters.size() > 1) )
+	//if ( product.m_genBosonLVFound && (product.m_genBosonTree.m_daughters.size() > 1 ) )
+	if ( product.m_genBosonLVFound && product.m_genLeptonsFromBosonDecay.size() > 1
+		&& (std::abs(product.m_genLeptonsFromBosonDecay.at(0)->pdgId) == DefaultValues::pdgIdTau)
+		&& (std::abs(product.m_genLeptonsFromBosonDecay.at(1)->pdgId) == DefaultValues::pdgIdTau) )
 	{
 
 		// save MC-truth PV
@@ -252,11 +255,9 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			}
 		}
 	
-
 		// initialization of TVector3 objects
 		product.m_genIP1.SetXYZ(-999,-999,-999);
 		product.m_genIP2.SetXYZ(-999,-999,-999);
-
 
 		// genTauDecayTree1 is the positevely charged genBosonDaughter
 		GenParticleDecayTree* genTauDecayTree1 = nullptr;
@@ -275,7 +276,6 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 		genTau2 = SafeMap::GetWithDefault(product.m_validGenTausMap, genTauDecayTree2->m_genParticle, static_cast<KGenTau*>(nullptr));
 		product.m_genTau1DecayMode = genTau1->genDecayMode();
 		product.m_genTau2DecayMode = genTau2->genDecayMode();
-
 
 		// get the full decay tree of the 
 		genTauDecayTree1->DetermineDecayMode(genTauDecayTree1);
@@ -321,51 +321,47 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			////////////////
 			// rho method //
 			////////////////
-			if (product.m_genBosonLVFound && product.m_genLeptonsFromBosonDecay.size() > 1 &&
-				(std::abs(product.m_genLeptonsFromBosonDecay.at(0)->pdgId) == DefaultValues::pdgIdTau) &&
-			(std::abs(product.m_genLeptonsFromBosonDecay.at(1)->pdgId) == DefaultValues::pdgIdTau))
+
+			// select the taus decaying into a rho
+			if (genTau1->genDecayMode() == 1 && genTau2->genDecayMode() == 1)
 			{
-				// select the taus decaying into a rho
-				if (genTau1->genDecayMode() == 1 && genTau2->genDecayMode() == 1)
+				// select the decays with 2 final state photons for simplicity first
+			 	if( genTauDecayTree1OneProngs.size() == 4 && genTauDecayTree2OneProngs.size() == 4)
 				{
-					// select the decays with 2 final state photons for simplicity first
-				 	if( genTauDecayTree1OneProngs.size() == 4 && genTauDecayTree2OneProngs.size() == 4)
+					RMFLV PionP;
+					RMFLV PionM;
+					std::vector<RMFLV> rho1_decay_photons;
+					std::vector<RMFLV> rho2_decay_photons;
+
+					for (unsigned int i = 0; i < genTauDecayTree1OneProngs.size(); i++)
 					{
-						RMFLV PionP;
-						RMFLV PionM;
-						std::vector<RMFLV> rho1_decay_photons;
-						std::vector<RMFLV> rho2_decay_photons;
-
-						for (unsigned int i = 0; i < genTauDecayTree1OneProngs.size(); i++)
+						if(std::abs(genTauDecayTree1OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdPiPlus)
 						{
-							if(std::abs(genTauDecayTree1OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdPiPlus)
-							{
-								PionP = genTauDecayTree1OneProngs.at(i)->m_genParticle->p4;
-							}
-							if(std::abs(genTauDecayTree1OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdGamma)
-							{
-								rho1_decay_photons.push_back(genTauDecayTree1OneProngs.at(i)->m_genParticle->p4);
-							}
+							PionP = genTauDecayTree1OneProngs.at(i)->m_genParticle->p4;
 						}
-
-						for (unsigned int i = 0; i < genTauDecayTree2OneProngs.size(); i++)
+						if(std::abs(genTauDecayTree1OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdGamma)
 						{
-							if(std::abs(genTauDecayTree2OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdPiPlus)
-							{
-								PionM = genTauDecayTree2OneProngs.at(i)->m_genParticle->p4;
-							}
-							if(std::abs(genTauDecayTree2OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdGamma)
-							{
-								rho2_decay_photons.push_back(genTauDecayTree2OneProngs.at(i)->m_genParticle->p4);
-							}
+							rho1_decay_photons.push_back(genTauDecayTree1OneProngs.at(i)->m_genParticle->p4);
 						}
-
-						product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(PionP, PionM, rho1_decay_photons.at(0) + rho1_decay_photons.at(1), rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
-						product.m_gen_yTau = cpq.CalculateSpinAnalysingDiscriminant_rho(genTauDecayTree1->m_genParticle->p4, genTauDecayTree2->m_genParticle->p4, PionP, PionM, rho1_decay_photons.at(0) + rho1_decay_photons.at(1), rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
-						product.m_gen_posyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionP, rho1_decay_photons.at(0) + rho1_decay_photons.at(1));
-						product.m_gen_negyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionM, rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
-
 					}
+
+					for (unsigned int i = 0; i < genTauDecayTree2OneProngs.size(); i++)
+					{
+						if(std::abs(genTauDecayTree2OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdPiPlus)
+						{
+							PionM = genTauDecayTree2OneProngs.at(i)->m_genParticle->p4;
+						}
+						if(std::abs(genTauDecayTree2OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdGamma)
+						{
+							rho2_decay_photons.push_back(genTauDecayTree2OneProngs.at(i)->m_genParticle->p4);
+						}
+					}
+
+					product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(PionP, PionM, rho1_decay_photons.at(0) + rho1_decay_photons.at(1), rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
+					product.m_gen_yTau = cpq.CalculateSpinAnalysingDiscriminant_rho(genTauDecayTree1->m_genParticle->p4, genTauDecayTree2->m_genParticle->p4, PionP, PionM, rho1_decay_photons.at(0) + rho1_decay_photons.at(1), rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
+					product.m_gen_posyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionP, rho1_decay_photons.at(0) + rho1_decay_photons.at(1));
+					product.m_gen_negyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionM, rho2_decay_photons.at(0) + rho2_decay_photons.at(1));
+
 				}
 			}
 			////////////////
