@@ -103,11 +103,11 @@ void ScaleVariationProducer::DetermineWeights(event_type const& event, product_t
 				[](std::pair<std::string, float> const& a, std::pair<std::string, float> const& b) { return a.second < b.second; }
 		);
 		float sumOfLheWeights = std::accumulate(
-				lheWeights.begin(), lheWeights.end(), lheWeights.begin()->second,
+				lheWeights.begin(), lheWeights.end(), 0.0,
 				[](float const& a, std::pair<std::string, float> const& b) { return a + b.second; }
 		);
 		float sumOfQuadraticDifferences = std::sqrt(std::accumulate(
-				lheWeights.begin(), lheWeights.end(), std::pow(lheWeights.begin()->second - 1.0, 2),
+				lheWeights.begin(), lheWeights.end(), 0.0,
 				[](float const& a, std::pair<std::string, float> const& b) { return a + std::pow(b.second - 1.0, 2); }
 		));
 		
