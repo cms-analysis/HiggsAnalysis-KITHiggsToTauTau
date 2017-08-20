@@ -5,7 +5,7 @@ std::string AcceptanceEfficiencyConsumer::GetConsumerId() const
 	return "AcceptanceEfficiencyConsumer";
 }
 
-void AcceptanceEfficiencyConsumer::Init(setting_type const& settings)
+void AcceptanceEfficiencyConsumer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	acc_eff_hist = new TH2D("acc_eff_hist", "acc_eff_hist", 40,0.,200.,40,0.,200);
 	number_of_passed_hist = new TH2D("number_of_passed_hist", "number_of_passed_hist", 40,0.,200.,40,0.,200);
@@ -22,10 +22,10 @@ void AcceptanceEfficiencyConsumer::Init(setting_type const& settings)
 		return event.m_genEventInfo->weight;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::Init(settings);
+	LambdaNtupleConsumer<HttTypes>::Init(settings, metadata);
 }
 
-void AcceptanceEfficiencyConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings)
+void AcceptanceEfficiencyConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 {
 	assert(event.m_genTaus->size() == 2);
 	KGenTau leadingTau = event.m_genTaus->at(0);
@@ -64,12 +64,12 @@ void AcceptanceEfficiencyConsumer::ProcessFilteredEvent(event_type const& event,
 	PtVis2_hist->Fill(PtVis2);
 	
 	
-	LambdaNtupleConsumer<HttTypes>::ProcessFilteredEvent(event, product, settings);
+	LambdaNtupleConsumer<HttTypes>::ProcessFilteredEvent(event, product, settings, metadata);
 }
 
-void AcceptanceEfficiencyConsumer::Finish(setting_type const& settings)
+void AcceptanceEfficiencyConsumer::Finish(setting_type const& settings, metadata_type const& metadata)
 {
-	LambdaNtupleConsumer::Finish(settings);
+	LambdaNtupleConsumer::Finish(settings, metadata);
 	RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
 	acc_eff_hist->Divide(number_of_passed_hist,number_of_entries_hist,1.,1.,"B");
 	number_of_passed_hist->Write();

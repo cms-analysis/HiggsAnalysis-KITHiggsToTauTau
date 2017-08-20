@@ -11,44 +11,44 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
 
 
-void HttLambdaNtupleConsumer::Init(setting_type const& settings)
+void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	// add possible quantities for the lambda ntuples consumers
 
 	// settings for synch ntuples
-	LambdaNtupleConsumer<KappaTypes>::AddUInt64Quantity("evt", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddUInt64Quantity("evt", [](event_type const& event, product_type const& product)
 	{
 		return event.m_eventInfo->nEvent;
 	});
 
 	bool bInpData = settings.GetInputIsData();
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("npu", [bInpData](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("npu", [bInpData](event_type const& event, product_type const& product)
 	{
 		if (bInpData)
 			return DefaultValues::UndefinedFloat;
 		return static_cast<KGenEventInfo*>(event.m_eventInfo)->nPUMean;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("puweight", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("puweight", [](event_type const& event, product_type const& product)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("puWeight"), 1.0);
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("trigweight_1", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trigweight_1", [](event_type const& event, product_type const& product)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("triggerWeight_1"), 1.0);
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("trigweight_2", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("trigweight_2", [](event_type const& event, product_type const& product)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("triggerWeight_2"), 1.0);
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("idisoweight_1", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("idisoweight_1", [](event_type const& event, product_type const& product)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("identificationWeight_1"), 1.0);
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("idisoweight_2", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("idisoweight_2", [](event_type const& event, product_type const& product)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("identificationWeight_2"), 1.0);
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("weight", [settings](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("weight", [settings](event_type const& event, product_type const& product)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, settings.GetEventWeight(), 1.0);
 	});
@@ -67,212 +67,212 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mt_tot", [](event_type const& event, product_type const& product)
 	{
-		return sqrt(pow(SafeMap::Get(LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities(),std::string("mt_tt"))(event,product),2)+pow(SafeMap::Get(LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities(),std::string("lep1MetMt"))(event,product),2)+pow(SafeMap::Get(LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities(),std::string("lep2MetMt"))(event,product),2));
+		return sqrt(pow(SafeMap::Get(LambdaNtupleConsumer<HttTypes>::GetFloatQuantities(),std::string("mt_tt"))(event,product),2)+pow(SafeMap::Get(LambdaNtupleConsumer<HttTypes>::GetFloatQuantities(),std::string("lep1MetMt"))(event,product),2)+pow(SafeMap::Get(LambdaNtupleConsumer<HttTypes>::GetFloatQuantities(),std::string("lep2MetMt"))(event,product),2));
 	});
 
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_vis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMass"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMass"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("ptvis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("H_pt", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("H_mass", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetMass"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pt_tt", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diLepMetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Pt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("eta_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Eta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Phi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Mass"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("q_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Charge"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("m_vis", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diLepMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvis", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diLepMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("ptvis", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diLepPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("H_pt", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diLepMetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("H_mass", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diLepMetMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pt_tt", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diLepMetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pt_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1Pt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("eta_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1Eta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("phi_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1Phi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("m_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1Mass"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("q_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1Charge"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dZ_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1Dz"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("d0_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1D0"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrDz"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1ErrD0"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dZ_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1Dz"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d0_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1D0"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1ErrDz"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1ErrD0"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("iso_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1IsoOverPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep1MetMt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pt_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Pt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("eta_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Eta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Phi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Mass"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("q_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Charge"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("iso_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1IsoOverPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mt_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep1MetMt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pt_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2Pt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("eta_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2Eta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("phi_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2Phi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("m_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2Mass"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("q_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2Charge"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dZ_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2Dz"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("d0_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2D0"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errDZ_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrDz"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("errD0_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2ErrD0"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dZ_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2Dz"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("d0_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2D0"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errDZ_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2ErrDz"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("errD0_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2ErrD0"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("iso_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2IsoOverPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["lep2MetMt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("met", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["metPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metphi", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["metPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metcov00", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["metCov00"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metcov01", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["metCov01"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metcov10", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["metCov10"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metcov11", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["metCov11"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfmet", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pfMetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfmetphi", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pfMetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfmetcov00", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pfMetCov00"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfmetcov01", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pfMetCov01"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfmetcov10", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pfMetCov10"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfmetcov11", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pfMetCov11"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvamet", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["mvaMetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvametphi", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["mvaMetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvacov00", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["mvaMetCov00"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvacov01", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["mvaMetCov01"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvacov10", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["mvaMetCov10"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvacov11", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["mvaMetCov11"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pzetavis", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pZetaVis"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pzetamiss", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["pZetaMiss"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("iso_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2IsoOverPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mt_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["lep2MetMt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("met", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["metPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metphi", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["metPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metcov00", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["metCov00"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metcov01", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["metCov01"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metcov10", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["metCov10"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metcov11", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["metCov11"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfmet", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["pfMetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfmetphi", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["pfMetPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfmetcov00", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["pfMetCov00"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfmetcov01", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["pfMetCov01"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfmetcov10", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["pfMetCov10"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfmetcov11", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["pfMetCov11"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvamet", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvametphi", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvacov00", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCov00"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvacov01", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCov01"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvacov10", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCov10"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvacov11", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCov11"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pzetavis", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["pZetaVis"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pzetamiss", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["pZetaMiss"]);
 	
-	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_1", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["leadingJetLV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("jlv_1", LambdaNtupleConsumer<HttTypes>::GetRMFLVQuantities()["leadingJetLV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jpt_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["leadingJetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jeta_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["leadingJetEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jphi_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["leadingJetPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jm_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["leadingJetMass"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_2", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["trailingJetLV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("jlv_2", LambdaNtupleConsumer<HttTypes>::GetRMFLVQuantities()["trailingJetLV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jpt_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["trailingJetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jeta_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["trailingJetEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jphi_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["trailingJetPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jm_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["trailingJetMass"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_3", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["thirdJetLV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("jlv_3", LambdaNtupleConsumer<HttTypes>::GetRMFLVQuantities()["thirdJetLV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jpt_3", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["thirdJetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jeta_3", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["thirdJetEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jphi_3", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["thirdJetPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jm_3", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["thirdJetMass"]);
 	
-	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_4", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["fourthJetLV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("jlv_4", LambdaNtupleConsumer<HttTypes>::GetRMFLVQuantities()["fourthJetLV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jpt_4", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["fourthJetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jeta_4", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["fourthJetEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jphi_4", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["fourthJetPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jm_4", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["fourthJetMass"]);
 	
-	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_5", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["fifthJetLV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_5", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fifthJetMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("jlv_5", LambdaNtupleConsumer<HttTypes>::GetRMFLVQuantities()["fifthJetLV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jpt_5", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["fifthJetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jeta_5", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["fifthJetEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jphi_5", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["fifthJetPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jm_5", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["fifthJetMass"]);
 	
-	LambdaNtupleConsumer<KappaTypes>::AddRMFLVQuantity("jlv_6", LambdaNtupleConsumer<KappaTypes>::GetRMFLVQuantities()["sixthJetLV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpt_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jeta_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jphi_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jm_6", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["sixthJetMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("jlv_6", LambdaNtupleConsumer<HttTypes>::GetRMFLVQuantities()["sixthJetLV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jpt_6", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["sixthJetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jeta_6", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["sixthJetEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jphi_6", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["sixthJetPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jm_6", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["sixthJetMass"]);
 	
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jmva_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetPuID"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jcsv_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingJetCSV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bpt_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["bJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("beta_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["bJetEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bphi_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["bJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bmva_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingBJetPuID"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bcsv_1", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["leadingBJetCSV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jmva_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["leadingJetPuID"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jcsv_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["leadingJetCSV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bpt_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["bJetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("beta_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["bJetEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bphi_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["bJetPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bmva_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["leadingBJetPuID"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bcsv_1", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["leadingBJetCSV"]);
 	
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jmva_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetPuID"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jcsv_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingJetCSV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bpt_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["bJet2Pt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("beta_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["bJet2Eta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bphi_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["bJet2Phi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bmva_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingBJetPuID"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bcsv_2", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["trailingBJetCSV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jmva_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["trailingJetPuID"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jcsv_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["trailingJetCSV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bpt_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["bJet2Pt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("beta_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["bJet2Eta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bphi_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["bJet2Phi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bmva_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["trailingBJetPuID"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bcsv_2", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["trailingBJetCSV"]);
 	
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jcsv_3", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["thirdJetCSV"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jcsv_4", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["fourthJetCSV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jcsv_3", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["thirdJetCSV"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jcsv_4", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["fourthJetCSV"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mjj", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diJetMass"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jdeta", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diJetAbsDeltaEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jdphi", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diJetDeltaPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dijetpt", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diJetPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("dijetphi", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diJetPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("hdijetphi", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["diJetdiLepPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mjj", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diJetMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jdeta", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diJetAbsDeltaEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jdphi", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diJetDeltaPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dijetpt", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diJetPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("dijetphi", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diJetPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("hdijetphi", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["diJetdiLepPhi"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("njets", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nJets30"]);
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("njetspt30", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nJets30"]);
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("njetspt20", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nJets20"]);
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("njetspt20eta2p4", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nJets20Eta2p4"]);
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("nbtag", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nBJets20"]);
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("njetingap", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nCentralJets30"]);
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("njetingap30", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nCentralJets30"]);
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("njetingap20", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["nCentralJets20"]);
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("njets", LambdaNtupleConsumer<HttTypes>::GetIntQuantities()["nJets30"]);
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("njetspt30", LambdaNtupleConsumer<HttTypes>::GetIntQuantities()["nJets30"]);
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("njetspt20", LambdaNtupleConsumer<HttTypes>::GetIntQuantities()["nJets20"]);
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("njetspt20eta2p4", LambdaNtupleConsumer<HttTypes>::GetIntQuantities()["nJets20Eta2p4"]);
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nbtag", LambdaNtupleConsumer<HttTypes>::GetIntQuantities()["nBJets20"]);
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("njetingap", LambdaNtupleConsumer<HttTypes>::GetIntQuantities()["nCentralJets30"]);
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("njetingap30", LambdaNtupleConsumer<HttTypes>::GetIntQuantities()["nCentralJets30"]);
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("njetingap20", LambdaNtupleConsumer<HttTypes>::GetIntQuantities()["nCentralJets20"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pt_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitPt"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("eta_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitEta"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("phi_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitPhi"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("m_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitMass"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mt_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitTransverseMass"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("met_sv", LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["svfitMet"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pt_sv", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["svfitPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("eta_sv", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["svfitEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("phi_sv", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["svfitPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("m_sv", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["svfitMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mt_sv", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["svfitTransverseMass"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("met_sv", LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["svfitMet"]);
 
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("npartons", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("npartons", [](event_type const& event, product_type const& product)
 	{
 		return event.m_genEventInfo ? event.m_genEventInfo->lheNOutPartons : DefaultValues::UndefinedInt;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("NUP", LambdaNtupleConsumer<KappaTypes>::GetIntQuantities()["npartons"]);
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("genbosonmass", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("NUP", LambdaNtupleConsumer<HttTypes>::GetIntQuantities()["npartons"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genbosonmass", [](event_type const& event, product_type const& product)
 	{
-		return LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities().count("genBosonMass") >= 1 ? LambdaNtupleConsumer<KappaTypes>::GetFloatQuantities()["genBosonMass"](event, product) : DefaultValues::UndefinedFloat;
+		return LambdaNtupleConsumer<HttTypes>::GetFloatQuantities().count("genBosonMass") >= 1 ? LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["genBosonMass"](event, product) : DefaultValues::UndefinedFloat;
 	});
 
 
-	LambdaNtupleConsumer<KappaTypes>::AddIntQuantity("isFake", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("isFake", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedInt;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("visjeteta", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("visjeteta", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-// 	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("ptvis", [](KappaEvent const& event, KappaProduct const& product)
+// 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("ptvis", [](event_type const& event, product_type const& product)
 // 	{
 // 		return DefaultValues::UndefinedFloat;
 // 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jrawf_1", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jrawf_1", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jrawf_2", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jrawf_2", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpfid_1", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jpfid_1", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpfid_2", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jpfid_2", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpuid_1", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jpuid_1", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("jpuid_2", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("jpuid_2", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("brawf_1", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("brawf_1", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bpfid_1", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bpfid_1", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bpuid_1", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bpuid_1", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("brawf_2", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("brawf_2", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bpfid_2", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bpfid_2", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("bpuid_2", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("bpuid_2", [](event_type const& event, product_type const& product)
 	{
 		return DefaultValues::UndefinedFloat;
 	});
 
 	// need to be called at last
-	KappaLambdaNtupleConsumer::Init(settings);
+	KappaLambdaNtupleConsumer::Init(settings, metadata);
 }

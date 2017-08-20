@@ -19,26 +19,24 @@
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/RootFileHelper.h"
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+
 #include "Kappa/DataFormats/interface/Kappa.h"
 #include <boost/regex.hpp>
 
-template<class TTypes>
-class TagAndProbeMuonPairConsumer: public ConsumerBase<TTypes> {
+
+class TagAndProbeMuonPairConsumer: public ConsumerBase<HttTypes> {
 
 public:
 	typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > RMFLV;
 
-	typedef typename TTypes::event_type event_type;
-	typedef typename TTypes::product_type product_type;
-	typedef typename TTypes::setting_type setting_type;
-	
 	std::string GetConsumerId() const override
 	{
 		return "TagAndProbeMuonPairConsumer";
 	}
 	
-	void Init(setting_type const& settings) override {
-		ConsumerBase<TTypes>::Init(settings);
+	void Init(setting_type const& settings, metadata_type& metadata) override {
+		ConsumerBase<HttTypes>::Init(settings, metadata);
 		
 		usedMuonIDshortTerm = (settings.GetMuonID() == "medium2016");
 		
@@ -98,9 +96,9 @@ public:
 		}
 	}
 
-	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings ) override
+	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata ) override
 	{
-		ConsumerBase<TTypes>::ProcessFilteredEvent(event, product, settings);
+		ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product, settings, metadata);
 
 		// calculate values
 		bool IsData = settings.GetInputIsData();
@@ -477,7 +475,7 @@ public:
 				
 	}
 
-	void Finish(setting_type const& settings) override
+	void Finish(setting_type const& settings, metadata_type const& metadata) override
 	{
 		RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
 		m_tree->Write(m_tree->GetName());
@@ -515,23 +513,19 @@ private:
 	}
 };
 
-template<class TTypes>
-class TagAndProbeElectronPairConsumer: public ConsumerBase<TTypes> {
+
+class TagAndProbeElectronPairConsumer: public ConsumerBase<HttTypes> {
 
 public:
 	typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > RMFLV;
 
-	typedef typename TTypes::event_type event_type;
-	typedef typename TTypes::product_type product_type;
-	typedef typename TTypes::setting_type setting_type;
-	
 	std::string GetConsumerId() const override
 	{
 		return "TagAndProbeElectronPairConsumer";
 	}
 	
-	void Init(setting_type const& settings) override {
-		ConsumerBase<TTypes>::Init(settings);
+	void Init(setting_type const& settings, metadata_type& metadata) override {
+		ConsumerBase<HttTypes>::Init(settings, metadata);
 		electronIDName = settings.GetElectronIDName();
 		electronMvaIDCutEB1 = settings.GetElectronMvaIDCutEB1();
 		electronMvaIDCutEB2 = settings.GetElectronMvaIDCutEB2();
@@ -584,9 +578,9 @@ public:
 		}
 	}
 
-	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings ) override
+	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata ) override
 	{
-		ConsumerBase<TTypes>::ProcessFilteredEvent(event, product, settings);
+		ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product, settings, metadata);
 
 		// calculate values
 		bool IsData = settings.GetInputIsData();
@@ -826,7 +820,7 @@ public:
 				
 	}
 
-	void Finish(setting_type const& settings) override
+	void Finish(setting_type const& settings, metadata_type const& metadata) override
 	{
 		RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
 		m_tree->Write(m_tree->GetName());
@@ -863,23 +857,19 @@ private:
 	}
 };
 
-template<class TTypes>
-class TagAndProbeGenTauConsumer: public ConsumerBase<TTypes> {
+
+class TagAndProbeGenTauConsumer: public ConsumerBase<HttTypes> {
 
 public:
 	typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > RMFLV;
 
-	typedef typename TTypes::event_type event_type;
-	typedef typename TTypes::product_type product_type;
-	typedef typename TTypes::setting_type setting_type;
-	
 	std::string GetConsumerId() const override
 	{
 		return "TagAndProbeGenTauConsumer";
 	}
 	
-	void Init(setting_type const& settings) override {
-		ConsumerBase<TTypes>::Init(settings);
+	void Init(setting_type const& settings, metadata_type& metadata) override {
+		ConsumerBase<HttTypes>::Init(settings, metadata);
 		//electronIDName = settings.GetElectronIDName();
 		//electronMvaIDCutEB1 = settings.GetElectronMvaIDCutEB1();
 		//electronMvaIDCutEB2 = settings.GetElectronMvaIDCutEB2();
@@ -926,9 +916,9 @@ public:
 		}
 	}
 
-	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings ) override
+	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata ) override
 	{
-		ConsumerBase<TTypes>::ProcessFilteredEvent(event, product, settings);
+		ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product, settings, metadata);
 
 		// calculate values
 		bool IsData = settings.GetInputIsData();
@@ -1019,7 +1009,7 @@ public:
 				
 	}
 
-	void Finish(setting_type const& settings) override
+	void Finish(setting_type const& settings, metadata_type const& metadata) override
 	{
 		RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
 		m_tree->Write(m_tree->GetName());
@@ -1056,23 +1046,19 @@ private:
 	}
 };
 
-template<class TTypes>
-class TagAndProbeGenMuonConsumer: public ConsumerBase<TTypes> {
+
+class TagAndProbeGenMuonConsumer: public ConsumerBase<HttTypes> {
 
 public:
 	typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > RMFLV;
 
-	typedef typename TTypes::event_type event_type;
-	typedef typename TTypes::product_type product_type;
-	typedef typename TTypes::setting_type setting_type;
-	
 	std::string GetConsumerId() const override
 	{
 		return "TagAndProbeGenMuonConsumer";
 	}
 	
-	void Init(setting_type const& settings) override {
-		ConsumerBase<TTypes>::Init(settings);
+	void Init(setting_type const& settings, metadata_type& metadata) override {
+		ConsumerBase<HttTypes>::Init(settings, metadata);
 		
 		usedMuonIDshortTerm = (settings.GetMuonID() == "medium2016");
 		
@@ -1123,9 +1109,9 @@ public:
 		}
 	}
 
-	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings ) override
+	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata ) override
 	{
-		ConsumerBase<TTypes>::ProcessFilteredEvent(event, product, settings);
+		ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product, settings, metadata);
 
 		// calculate values
 		bool IsData = settings.GetInputIsData();
@@ -1398,7 +1384,7 @@ public:
 				
 	}
 
-	void Finish(setting_type const& settings) override
+	void Finish(setting_type const& settings, metadata_type const& metadata) override
 	{
 		RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
 		m_tree->Write(m_tree->GetName());
@@ -1436,23 +1422,19 @@ private:
 	}
 };
 
-template<class TTypes>
-class TagAndProbeGenElectronConsumer: public ConsumerBase<TTypes> {
+
+class TagAndProbeGenElectronConsumer: public ConsumerBase<HttTypes> {
 
 public:
 	typedef ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<float> > RMFLV;
 
-	typedef typename TTypes::event_type event_type;
-	typedef typename TTypes::product_type product_type;
-	typedef typename TTypes::setting_type setting_type;
-	
 	std::string GetConsumerId() const override
 	{
 		return "TagAndProbeGenElectronConsumer";
 	}
 	
-	void Init(setting_type const& settings) override {
-		ConsumerBase<TTypes>::Init(settings);
+	void Init(setting_type const& settings, metadata_type& metadata) override {
+		ConsumerBase<HttTypes>::Init(settings, metadata);
 		electronIDName = settings.GetElectronIDName();
 		electronMvaIDCutEB1 = settings.GetElectronMvaIDCutEB1();
 		electronMvaIDCutEB2 = settings.GetElectronMvaIDCutEB2();
@@ -1496,9 +1478,9 @@ public:
 		}
 	}
 
-	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings ) override
+	void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata ) override
 	{
-		ConsumerBase<TTypes>::ProcessFilteredEvent(event, product, settings);
+		ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product, settings, metadata);
 
 		// calculate values
 		bool IsData = settings.GetInputIsData();
@@ -1644,7 +1626,7 @@ public:
 				
 	}
 
-	void Finish(setting_type const& settings) override
+	void Finish(setting_type const& settings, metadata_type const& metadata) override
 	{
 		RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
 		m_tree->Write(m_tree->GetName());

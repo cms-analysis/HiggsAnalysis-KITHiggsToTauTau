@@ -15,10 +15,6 @@ class TriggerTagAndProbeConsumerBase: public ConsumerBase<HttTypes>
 
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 	TriggerTagAndProbeConsumerBase(
 			std::string treeName,
 			std::vector<std::pair<TTag*, TProbe*> > product_type::*triggerTagProbeObjectPairsMember,
@@ -31,9 +27,9 @@ public:
 	{
 	}
 
-	virtual void Init(setting_type const& settings) override
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
-		ConsumerBase<HttTypes>::Init(settings);
+		ConsumerBase<HttTypes>::Init(settings, metadata);
 
 		RootFileHelper::SafeCd(settings.GetRootOutFile(),
 		                       settings.GetRootFileFolder());
@@ -169,7 +165,7 @@ public:
 	}
 
 	virtual void ProcessFilteredEvent(event_type const& event, product_type const& product,
-	                                  setting_type const& settings) override
+	                                  setting_type const& settings, metadata_type const& metadata) override
 	{
 		size_t index = 0;
 		for (typename std::vector<std::pair<TTag*, TProbe*> >::const_iterator tagProbePair = (product.*m_triggerTagProbeObjectPairsMember).begin();
@@ -188,7 +184,7 @@ public:
 		}
 	}
 	
-	virtual void Finish(setting_type const& settings) override
+	virtual void Finish(setting_type const& settings, metadata_type const& metadata) override
 	{
 		RootFileHelper::SafeCd(settings.GetRootOutFile(),
 		                       settings.GetRootFileFolder());
