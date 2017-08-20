@@ -1,14 +1,5 @@
 #!/bin/bash
 
-if ! which wget; then 
-    echo "Try to install wget"; 
-    yum install wget -y
-    if ! which wget; then 
-        echo "Could not get wget"
-        exit 1
-    fi
-fi
-
 echo "Run run-cvmfs.sh"
 /etc/cvmfs/run-cvmfs.sh
 
