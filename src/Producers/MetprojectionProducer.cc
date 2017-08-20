@@ -11,9 +11,9 @@
 
 #include "DataFormats/METReco/interface/MET.h"
 
-void MetprojectionProducer::Init(setting_type const& settings)
+void MetprojectionProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	m_isData = settings.GetInputIsData();
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetPar", [](event_type const& event, product_type const& product) {
@@ -130,7 +130,7 @@ void MetprojectionProducer::Init(setting_type const& settings)
 	});
 }
 
-void MetprojectionProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
+void MetprojectionProducer::Produce(event_type const& event, product_type& product, setting_type const& settings, metadata_type const& metadata) const
 {
 	TVector2 diLeptonMomentum(product.m_diLeptonSystem.x(), product.m_diLeptonSystem.Y());
 	TVector2 met(product.m_met.p4.Vect().X(), product.m_met.p4.Vect().Y());

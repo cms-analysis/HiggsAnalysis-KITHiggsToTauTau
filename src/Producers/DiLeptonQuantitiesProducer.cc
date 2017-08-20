@@ -5,9 +5,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 
 
-void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
+void DiLeptonQuantitiesProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("diLepLV", [](event_type const& event, product_type const& product) {
@@ -86,7 +86,7 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 }
 
 void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& product,
-	                                     setting_type const& settings) const
+	                                     setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(product.m_metUncorr);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);

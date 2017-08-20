@@ -67,9 +67,9 @@ HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KElectron*> pro
 {
 }
 
-void HttValidElectronsProducer::Init(setting_type const& settings)
+void HttValidElectronsProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ValidElectronsProducer<HttTypes>::Init(settings);
+	ValidElectronsProducer<HttTypes>::Init(settings, metadata);
 	
 	electronIDType = ToElectronIDType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetElectronIDType)())));
 
@@ -114,11 +114,11 @@ void HttValidElectronsProducer::Init(setting_type const& settings)
 
 bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
                                                    event_type const& event, product_type& product,
-                                                   setting_type const& settings) const
+                                                   setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_vertexSummary);
 	
-	bool validElectron = ValidElectronsProducer<HttTypes>::AdditionalCriteria(electron, event, product, settings);
+	bool validElectron = ValidElectronsProducer<HttTypes>::AdditionalCriteria(electron, event, product, settings, metadata);
 	
 	double isolationPtSum = DefaultValues::UndefinedDouble;
 	

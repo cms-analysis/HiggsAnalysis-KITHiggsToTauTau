@@ -2,9 +2,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTHTauPairProducer.h"
 
 
-void TTHTauPairProducer::Init(setting_type const& settings)
+void TTHTauPairProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("TTHTau1Pt", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
@@ -46,7 +46,7 @@ void TTHTauPairProducer::Init(setting_type const& settings)
 }
 
 void TTHTauPairProducer::Produce(event_type const& event, product_type& product,
-	                         setting_type const& settings) const
+	                         setting_type const& settings, metadata_type const& metadata) const
 {
 	
 	size_t nTaus = product.m_validTaus.size();

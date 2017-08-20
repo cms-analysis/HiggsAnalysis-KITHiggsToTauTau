@@ -39,10 +39,6 @@ class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>
 
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 	enum class ElectronIDType : int
 	{
 		INVALID = -2,
@@ -119,14 +115,14 @@ public:
 			std::vector<std::string>& (setting_type::*GetElectronIDList)(void) const=&setting_type::GetElectronIDList
 	);
 
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 
 protected:
 
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KElectron* electron, event_type const& event,
-	                                product_type& product, setting_type const& settings) const  override;
+	                                product_type& product, setting_type const& settings, metadata_type const& metadata) const  override;
 
 
 private:
@@ -189,17 +185,13 @@ class HttValidLooseElectronsProducer: public HttValidElectronsProducer
 
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 	virtual std::string GetProducerId() const override {
 		return "HttValidLooseElectronsProducer";
 	}
 	
-	virtual void Init(setting_type const& settings) override {
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override {
 	
-		HttValidElectronsProducer::Init(settings);
+		HttValidElectronsProducer::Init(settings, metadata);
 	
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nLooseElectrons", [this](event_type const& event, product_type const& product) {
@@ -251,17 +243,13 @@ class HttValidVetoElectronsProducer: public HttValidElectronsProducer
 
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 	virtual std::string GetProducerId() const override {
 		return "HttValidVetoElectronsProducer";
 	}
 
-	virtual void Init(setting_type const& settings) override {
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override {
 	
-		HttValidElectronsProducer::Init(settings);
+		HttValidElectronsProducer::Init(settings, metadata);
 	
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nVetoElectrons", [this](event_type const& event, product_type const& product) {

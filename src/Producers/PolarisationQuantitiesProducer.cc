@@ -17,9 +17,9 @@ std::string PolarisationQuantitiesProducer::GetProducerId() const
 	return "PolarisationQuantitiesProducer";
 }
 
-void PolarisationQuantitiesProducer::Init(setting_type const& settings)
+void PolarisationQuantitiesProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("a1OmegaHHKinFit_1", [](event_type const& event, product_type const& product) {
@@ -82,7 +82,7 @@ void PolarisationQuantitiesProducer::Init(setting_type const& settings)
 void PolarisationQuantitiesProducer::Produce(
 		event_type const& event,
 		product_type& product,
-		setting_type const& settings
+		setting_type const& settings, metadata_type const& metadata
 ) const
 {
 	bool tauPolarisationDiscriminatorChosen = false;

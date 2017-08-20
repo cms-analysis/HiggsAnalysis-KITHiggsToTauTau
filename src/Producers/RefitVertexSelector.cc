@@ -3,9 +3,9 @@
 
 
 
-void RefitVertexSelectorBase::Init(setting_type const& settings)
+void RefitVertexSelectorBase::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	// add possible quantities for the lambda ntuples consumers
 
@@ -169,7 +169,7 @@ void RefitVertexSelectorBase::Init(setting_type const& settings)
 
 
 void RefitVertexSelectorBase::Produce(event_type const& event, product_type& product,
-										setting_type const& settings) const
+										setting_type const& settings, metadata_type const& metadata) const
 {
 	
 	assert(product.m_flavourOrderedLeptons.size() > 0);
@@ -233,14 +233,14 @@ std::string RefitVertexSelector::GetProducerId() const
 }
 
 
-void RefitVertexSelector::Init(setting_type const& settings)
+void RefitVertexSelector::Init(setting_type const& settings, metadata_type& metadata)
 {
-	RefitVertexSelectorBase::Init(settings);
+	RefitVertexSelectorBase::Init(settings, metadata);
 }
 
 
 void RefitVertexSelector::Produce(event_type const& event, product_type& product,
-									setting_type const& settings) const
+									setting_type const& settings, metadata_type const& metadata) const
 {
-	RefitVertexSelectorBase::Produce(event, product, settings);
+	RefitVertexSelectorBase::Produce(event, product, settings, metadata);
 }

@@ -19,9 +19,9 @@ std::string MadGraphReweightingProducer::GetProducerId() const
 	return "MadGraphReweightingProducer";
 }
 
-void MadGraphReweightingProducer::Init(setting_type const& settings)
+void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	// parsing settings
 	std::map<int, std::vector<std::string> > madGraphProcessDirectoriesByIndex = Utility::ParseMapTypes<int, std::string>(
@@ -122,7 +122,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 
 
 void MadGraphReweightingProducer::Produce(event_type const& event, product_type& product,
-                                          setting_type const& settings) const
+                                          setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_lheParticles);
 	

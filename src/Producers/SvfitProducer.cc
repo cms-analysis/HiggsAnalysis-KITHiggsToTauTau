@@ -13,9 +13,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
 
 
-void SvfitProducer::Init(setting_type const& settings)
+void SvfitProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	integrationMethod = SvfitEventKey::ToIntegrationMethod(
 			boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetSvfitIntegrationMethod()))
@@ -77,7 +77,7 @@ void SvfitProducer::Init(setting_type const& settings)
 }
 
 void SvfitProducer::Produce(event_type const& event, product_type& product,
-                            setting_type const& settings) const
+                            setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_eventInfo);
 

@@ -24,9 +24,9 @@ TauSpinnerProducer::~TauSpinnerProducer()
 	}
 }
 
-void TauSpinnerProducer::Init(setting_type const& settings)
+void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	pipelineName = settings.GetName();
 	
@@ -87,7 +87,7 @@ void TauSpinnerProducer::Init(setting_type const& settings)
 
 
 void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
-								 setting_type const& settings) const
+								 setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_eventInfo);
 	assert(! settings.GetBosonPdgIds().empty());

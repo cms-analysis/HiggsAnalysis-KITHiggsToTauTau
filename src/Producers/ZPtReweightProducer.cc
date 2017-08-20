@@ -15,9 +15,9 @@ std::string ZPtReweightProducer::GetProducerId() const
 	return "ZPtReweightProducer";
 }
 
-void ZPtReweightProducer::Init(setting_type const& settings)
+void ZPtReweightProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	TFile zPtFile(settings.GetZptReweightProducerWeights().c_str(), "READ");
 	m_zPtHist = (TH2D*)zPtFile.Get("zptmass_histo");
@@ -28,7 +28,7 @@ void ZPtReweightProducer::Init(setting_type const& settings)
 }
 
 void ZPtReweightProducer::Produce( event_type const& event, product_type & product, 
-	                     setting_type const& settings) const
+	                     setting_type const& settings, metadata_type const& metadata) const
 {
 	float genPt = 0.;  // generator Z(W) pt
 	float genMass = 0.;  // generator Z(W) mass

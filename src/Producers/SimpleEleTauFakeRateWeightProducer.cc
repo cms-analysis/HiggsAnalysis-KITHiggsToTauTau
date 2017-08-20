@@ -17,9 +17,9 @@ SimpleEleTauFakeRateWeightProducer::SimpleEleTauFakeRateWeightProducer():
 {
 }
 
-void SimpleEleTauFakeRateWeightProducer::Init(setting_type const& settings)
+void SimpleEleTauFakeRateWeightProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	SimpleEleTauFakeRateWeightVLoose = (settings.*GetSimpleEleTauFakeRateWeightVLoose)();
 	SimpleEleTauFakeRateWeightTight = (settings.*GetSimpleEleTauFakeRateWeightTight)();
@@ -31,7 +31,7 @@ std::string SimpleEleTauFakeRateWeightProducer::GetProducerId() const
 }
 
 void SimpleEleTauFakeRateWeightProducer::Produce(event_type const& event, product_type& product,
-                                                 setting_type const& settings) const
+                                                 setting_type const& settings, metadata_type const& metadata) const
 {
 	// 04.11.2016: numbers taken from https://indico.cern.ch/event/563239/contributions/2279020/attachments/1325496/1989607/lepTauFR_tauIDmeeting_20160822.pdf
 	//             as recommended in https://twiki.cern.ch/twiki/bin/viewauth/CMS/SMTauTau2016#e_tau_fake_rate

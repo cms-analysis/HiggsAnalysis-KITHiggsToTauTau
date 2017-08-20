@@ -13,9 +13,9 @@ std::string HHKinFitProducer::GetProducerId() const
 	return "HHKinFitProducer";
 }
 
-void HHKinFitProducer::Init(setting_type const& settings)
+void HHKinFitProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("hhKinFitTau1LV", [](event_type const& event, product_type const& product) {
@@ -124,7 +124,7 @@ void HHKinFitProducer::Init(setting_type const& settings)
 }
 
 void HHKinFitProducer::Produce(event_type const& event, product_type& product,
-                            setting_type const& settings) const
+                            setting_type const& settings, metadata_type const& metadata) const
 {
 	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);

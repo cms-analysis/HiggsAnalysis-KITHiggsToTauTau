@@ -12,9 +12,9 @@
 #include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
 
 
-void DecayChannelProducer::Init(setting_type const& settings)
+void DecayChannelProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	m_decayChannel = HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel())));
 
@@ -555,11 +555,11 @@ void DecayChannelProducer::Init(setting_type const& settings)
 		return (genTau ? genTau->nPi0s : DefaultValues::UndefinedInt);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("extraelec_veto", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("extraelec_veto", [](event_type const& event, product_type const& product)
 	{
 		return static_cast<HttProduct const&>(product).m_extraElecVeto;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("extramuon_veto", [](KappaEvent const& event, KappaProduct const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("extramuon_veto", [](event_type const& event, product_type const& product)
 	{
 		return static_cast<HttProduct const&>(product).m_extraMuonVeto;
 	});
@@ -690,7 +690,7 @@ void DecayChannelProducer::Init(setting_type const& settings)
 }
 
 void DecayChannelProducer::Produce(event_type const& event, product_type& product,
-	                               setting_type const& settings) const
+	                               setting_type const& settings, metadata_type const& metadata) const
 {
 
 	product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
@@ -837,7 +837,7 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 
 
 void TTHDecayChannelProducer::Produce(event_type const& event, product_type& product,
-	                              setting_type const& settings) const
+	                              setting_type const& settings, metadata_type const& metadata) const
 {
 
 	product.m_decayChannel = HttEnumTypes::DecayChannel::NONE;
@@ -911,9 +911,9 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 	FillGenLeptonCollections(product);
 }
 
-void Run2DecayChannelProducer::Init(setting_type const& settings)
+void Run2DecayChannelProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	DecayChannelProducer::Init(settings);
+	DecayChannelProducer::Init(settings, metadata);
 
 	// For taus in Run2 we use dz saved in the KTau
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("lep1Dz", [](event_type const& event, product_type const& product)
@@ -928,7 +928,7 @@ void Run2DecayChannelProducer::Init(setting_type const& settings)
 }
 
 void Run2DecayChannelProducer::Produce(event_type const& event, product_type& product,
-	                              setting_type const& settings) const
+	                              setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(product.m_validDiTauPairCandidates.size() > 0);
 

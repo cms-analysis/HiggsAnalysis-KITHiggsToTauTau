@@ -12,9 +12,9 @@ std::string RecoTauCPProducer::GetProducerId() const
 	return "RecoTauCPProducer";
 }
 
-void RecoTauCPProducer::Init(setting_type const& settings)
+void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	m_isData = settings.GetInputIsData();
 
 	// add possible quantities for the lambda ntuples consumers
@@ -358,7 +358,7 @@ void RecoTauCPProducer::Init(setting_type const& settings)
 
 }
 
-void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
+void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_vertexSummary);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);

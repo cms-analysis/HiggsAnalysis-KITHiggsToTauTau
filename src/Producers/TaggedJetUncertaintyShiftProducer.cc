@@ -16,9 +16,9 @@ std::string TaggedJetUncertaintyShiftProducer::GetProducerId() const
 	return "TaggedJetUncertaintyShiftProducer";
 }
 
-void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
+void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	uncertaintyFile = settings.GetJetEnergyCorrectionSplitUncertaintyParameters();
 	individualUncertainties = settings.GetJetEnergyCorrectionSplitUncertaintyParameterNames();
@@ -127,7 +127,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings)
 }
 
 void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product_type& product,
-		setting_type const& settings) const
+		setting_type const& settings, metadata_type const& metadata) const
 {
 	// only do all of this if uncertainty shifts should be applied
 	if (settings.GetJetEnergyCorrectionSplitUncertainty() && settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0)

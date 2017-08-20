@@ -10,9 +10,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenDiTauPairAcceptanceProducer.h"
 
 
-void GenDiTauPairAcceptanceProducer::Init(setting_type const& settings)
+void GenDiTauPairAcceptanceProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nGenDiTauPairsInAcceptance", [](event_type const& event, product_type const& product)
@@ -25,7 +25,7 @@ void GenDiTauPairAcceptanceProducer::Init(setting_type const& settings)
 }
 
 void GenDiTauPairAcceptanceProducer::Produce(event_type const& event, product_type& product,
-	                            setting_type const& settings) const
+	                            setting_type const& settings, metadata_type const& metadata) const
 {
 	for (std::vector<DiGenTauPair>::iterator pair = product.m_genDiTauPairCandidates.begin();
 	     pair != product.m_genDiTauPairCandidates.end(); ++pair)

@@ -8,9 +8,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 
 
-void GenTauCPProducerBase::Init(setting_type const& settings)
+void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	// add possible quantities for the lambda ntuples consumers
 
@@ -236,7 +236,7 @@ void GenTauCPProducerBase::Init(setting_type const& settings)
 }
 
 void GenTauCPProducerBase::Produce(event_type const& event, product_type& product,
-                                   setting_type const& settings) const
+                                   setting_type const& settings, metadata_type const& metadata) const
 {
 
 	// A generator level boson and its decay products must exist
@@ -404,15 +404,15 @@ std::string GenTauCPProducer::GetProducerId() const
 	return "GenTauCPProducer";
 }
 
-void GenTauCPProducer::Init(setting_type const& settings)
+void GenTauCPProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	GenTauCPProducerBase::Init(settings);
+	GenTauCPProducerBase::Init(settings, metadata);
 }
 
 void GenTauCPProducer::Produce(event_type const& event, product_type& product,
-                               setting_type const& settings) const
+                               setting_type const& settings, metadata_type const& metadata) const
 {
-	GenTauCPProducerBase::Produce(event, product, settings);
+	GenTauCPProducerBase::Produce(event, product, settings, metadata);
 }
 
 
@@ -421,9 +421,9 @@ std::string GenMatchedTauCPProducer::GetProducerId() const
 	return "GenMatchedTauCPProducer";
 }
 
-void GenMatchedTauCPProducer::Init(setting_type const& settings)
+void GenMatchedTauCPProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	GenTauCPProducerBase::Init(settings);
+	GenTauCPProducerBase::Init(settings, metadata);
 
 	// add possible quantities for the lambda ntuples consumers
 
@@ -469,7 +469,7 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings)
 }
 
 void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& product,
-                                      setting_type const& settings) const
+                                      setting_type const& settings, metadata_type const& metadata) const
 {
 
 	if(product.m_genBosonLVFound && product.m_genBosonTree.m_daughters.size() > 1){

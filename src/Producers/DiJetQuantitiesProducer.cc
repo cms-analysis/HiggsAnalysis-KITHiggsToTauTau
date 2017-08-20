@@ -11,9 +11,9 @@ double DiJetQuantitiesProducer::GetDiJetQuantity(product_type const& product,
 	return ((static_cast<HttProduct const&>(product)).m_diJetSystemAvailable ? dijetQuantity((static_cast<HttProduct const&>(product)).m_diJetSystem) : -11);
 }
 
-void DiJetQuantitiesProducer::Init(setting_type const& settings)
+void DiJetQuantitiesProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diJetPt", [this](event_type const& event, product_type const& product) {
@@ -61,7 +61,7 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings)
 }
 
 void DiJetQuantitiesProducer::Produce(event_type const& event, product_type& product,
-	                                  setting_type const& settings) const
+	                                  setting_type const& settings, metadata_type const& metadata) const
 {
 	// central jet veto
 	product.m_nCentralJets30 = 0;

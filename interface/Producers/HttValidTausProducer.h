@@ -14,12 +14,22 @@
 
 class HttValidTausProducer: public ValidTausProducer
 {
+public:
+
+	typedef typename KappaTypes::event_type event_type;
+	typedef typename KappaTypes::product_type product_type;
+	typedef typename KappaTypes::setting_type setting_type;
+	typedef typename KappaTypes::metadata_type metadata_type;
+	typedef typename HttTypes::event_type spec_event_type;
+	typedef typename HttTypes::product_type spec_product_type;
+	typedef typename HttTypes::setting_type spec_setting_type;
+	typedef typename HttTypes::metadata_type spec_metadata_type;
 
 protected:
 
-	virtual void Init(KappaSettings const& settings) override {
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override {
 	
-		ValidTausProducer::Init(settings);
+		ValidTausProducer::Init(settings, metadata);
 		
 		HttSettings const& specSettings = static_cast<HttSettings const&>(settings);
 		MvaIsolationCutsByIndex = Utility::ParseMapTypes<size_t, float>(Utility::ParseVectorToMap(specSettings.GetTauDiscriminatorMvaIsolation()), MvaIsolationCutsByName);
@@ -40,14 +50,14 @@ protected:
 	}
 	
 	// Htautau specific additional definitions
-	virtual bool AdditionalCriteria(KTau* tau, KappaEvent const& event,
-	                                KappaProduct& product, KappaSettings const& settings) const  override;
+	virtual bool AdditionalCriteria(KTau* tau, event_type const& event,
+	                                product_type& product, setting_type const& settings, metadata_type const& metadata) const  override;
 
 
 private:
-	bool ApplyCustomMvaIsolationCut(KTau* tau, KappaEvent const& event,
+	bool ApplyCustomMvaIsolationCut(KTau* tau, event_type const& event,
 	                                  std::vector<float>) const;
-	bool ApplyCustomElectronRejection(KTau* tau, KappaEvent const& event,
+	bool ApplyCustomElectronRejection(KTau* tau, event_type const& event,
 	                                  HttSettings const& settings) const;
 
 	std::map<size_t, std::vector<float> > MvaIsolationCutsByIndex;

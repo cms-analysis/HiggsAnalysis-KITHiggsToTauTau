@@ -11,9 +11,9 @@ std::string BoostRestFrameProducer::GetProducerId() const
 	return "BoostRestFrameProducer";
 }
 
-void BoostRestFrameProducer::Init(setting_type const& settings)
+void BoostRestFrameProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
@@ -53,7 +53,7 @@ void BoostRestFrameProducer::Init(setting_type const& settings)
 }
 
 void BoostRestFrameProducer::Produce(event_type const& event, product_type& product,
-                                     setting_type const& settings) const
+                                     setting_type const& settings, metadata_type const& metadata) const
 {
 	// built systems of multiple particles
 	RMFLV leptonSystem;

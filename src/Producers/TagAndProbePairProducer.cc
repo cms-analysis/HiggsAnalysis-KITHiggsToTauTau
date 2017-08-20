@@ -8,9 +8,9 @@
 #include "Kappa/DataFormats/interface/Kappa.h"
 
 
-void TagAndProbeMuonPairProducer::Init(setting_type const& settings)
+void TagAndProbeMuonPairProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	validMuonsInput = ToValidMuonsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidMuonsInput())));
 	//muonID = ToMuonID(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetMuonID)())));
 	std::string weightName = settings.GetEventWeight();
@@ -388,7 +388,7 @@ void TagAndProbeMuonPairProducer::Init(setting_type const& settings)
 }
 
 void TagAndProbeMuonPairProducer::Produce(event_type const& event, product_type& product,
-					setting_type const& settings) const
+					setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_muons);
 	// select input source
@@ -489,9 +489,9 @@ bool TagAndProbeMuonPairProducer::IsMediumMuon2016(KMuon* muon, event_type const
         return isMedium;
 }
 
-void TagAndProbeElectronPairProducer::Init(setting_type const& settings)
+void TagAndProbeElectronPairProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	validElectronsInput = ToValidElectronsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidElectronsInput())));
 	electronIDName = settings.GetElectronIDName();
 	electronMvaIDCutEB1 = settings.GetElectronMvaIDCutEB1();
@@ -500,7 +500,7 @@ void TagAndProbeElectronPairProducer::Init(setting_type const& settings)
 }
 
 void TagAndProbeElectronPairProducer::Produce(event_type const& event, product_type& product,
-					setting_type const& settings) const
+					setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_electrons);
 	// select input source
@@ -596,9 +596,9 @@ TagAndProbeGenElectronProducer::TagAndProbeGenElectronProducer() :
 						  &product_type::m_TagAndProbeGenElectrons)
 {
 }
-void TagAndProbeGenElectronProducer::Init(setting_type const& settings)
+void TagAndProbeGenElectronProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	TagAndProbeGenLeptonProducer<KElectron>::Init(settings);
+	TagAndProbeGenLeptonProducer<KElectron>::Init(settings, metadata);
 	
 	validLeptonsInput = ToValidLeptonsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidElectronsInput())));
 }
@@ -614,9 +614,9 @@ TagAndProbeGenMuonProducer::TagAndProbeGenMuonProducer() :
 						  &product_type::m_TagAndProbeGenMuons)
 {
 }
-void TagAndProbeGenMuonProducer::Init(setting_type const& settings)
+void TagAndProbeGenMuonProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	TagAndProbeGenLeptonProducer<KMuon>::Init(settings);
+	TagAndProbeGenLeptonProducer<KMuon>::Init(settings, metadata);
 	
 	validLeptonsInput = ToValidLeptonsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidMuonsInput())));
 }
@@ -632,9 +632,9 @@ TagAndProbeGenTauProducer::TagAndProbeGenTauProducer() :
 						  &product_type::m_TagAndProbeGenTaus)
 {
 }
-void TagAndProbeGenTauProducer::Init(setting_type const& settings)
+void TagAndProbeGenTauProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	TagAndProbeGenLeptonProducer<KTau>::Init(settings);
+	TagAndProbeGenLeptonProducer<KTau>::Init(settings, metadata);
 	
 	validLeptonsInput = ToValidLeptonsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidTausInput())));
 }

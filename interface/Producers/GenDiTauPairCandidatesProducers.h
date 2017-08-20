@@ -21,10 +21,6 @@ class GenDiTauPairCandidatesProducerBase: public ProducerBase<HttTypes>
 {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	GenDiTauPairCandidatesProducerBase(std::vector<TGenLepton1*> product_type::*genLeptonsMember1,
 	                                        std::vector<TGenLepton2*> product_type::*genLeptonsMember2) :
 		ProducerBase<HttTypes>(),
@@ -33,9 +29,9 @@ public:
 	{
 	}
 
-	virtual void Init(setting_type const& settings) override
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
-		ProducerBase<HttTypes>::Init(settings);
+		ProducerBase<HttTypes>::Init(settings, metadata);
 		
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nGenDiTauPairCandidates", [](event_type const& event, product_type const& product)
@@ -45,7 +41,7 @@ public:
 	}
 	
 	virtual void Produce(event_type const& event, product_type & product, 
-	                     setting_type const& settings) const override
+	                     setting_type const& settings, metadata_type const& metadata) const override
 	{
 		product.m_genDiTauPairCandidates.clear();
 		

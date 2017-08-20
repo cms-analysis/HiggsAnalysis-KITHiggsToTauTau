@@ -8,9 +8,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
 
 
-void TauTauRestFrameSelector::Init(setting_type const& settings)
+void TauTauRestFrameSelector::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	tauTauRestFrameReco = HttEnumTypes::ToTauTauRestFrameReco(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetTauTauRestFrameReco())));
 	
@@ -33,7 +33,7 @@ void TauTauRestFrameSelector::Init(setting_type const& settings)
 }
 
 void TauTauRestFrameSelector::Produce(event_type const& event, product_type& product,
-                                      setting_type const& settings) const
+                                      setting_type const& settings, metadata_type const& metadata) const
 {
 	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);

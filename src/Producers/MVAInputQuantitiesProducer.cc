@@ -4,9 +4,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVAInputQuantitiesProducer.h"
 #include <assert.h>
 
-void MVAInputQuantitiesProducer::Init(setting_type const& settings)
+void MVAInputQuantitiesProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("TrainingSelectionValue", [](event_type const& event, product_type const& product) {
 		return (event.m_eventInfo->nEvent)%100;
 	});
@@ -110,7 +110,7 @@ void MVAInputQuantitiesProducer::Init(setting_type const& settings)
 }
 
 void MVAInputQuantitiesProducer::Produce(event_type const& event, product_type& product,
-                                      setting_type const& settings) const
+                                      setting_type const& settings, metadata_type const& metadata) const
 {   //tsValue production
 //     int evt_number = event.m_eventInfo->nEvent, lumi = event.m_eventInfo->nLumi, rndm = 0;
 //     unsigned char *evt_char = reinterpret_cast<unsigned char *>(&evt_number);

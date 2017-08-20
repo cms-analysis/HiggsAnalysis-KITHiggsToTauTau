@@ -11,9 +11,9 @@ std::string DiGenJetQuantitiesProducer::GetProducerId() const
 	return "DiGenJetQuantitiesProducer";
 }
 
-void DiGenJetQuantitiesProducer::Init(setting_type const& settings)
+void DiGenJetQuantitiesProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diGenJetMass", [this](event_type const& event, product_type const& product) {
@@ -42,7 +42,7 @@ void DiGenJetQuantitiesProducer::Init(setting_type const& settings)
 }
 
 void DiGenJetQuantitiesProducer::Produce(event_type const& event, product_type& product,
-	                                  setting_type const& settings) const
+	                                  setting_type const& settings, metadata_type const& metadata) const
 {
 	if (product.m_validGenJets.size() >= 2)
 	{

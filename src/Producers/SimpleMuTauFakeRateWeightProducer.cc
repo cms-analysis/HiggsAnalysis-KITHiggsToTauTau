@@ -17,9 +17,9 @@ SimpleMuTauFakeRateWeightProducer::SimpleMuTauFakeRateWeightProducer():
 {
 }
 
-void SimpleMuTauFakeRateWeightProducer::Init(setting_type const& settings)
+void SimpleMuTauFakeRateWeightProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	SimpleMuTauFakeRateWeightLoose = (settings.*GetSimpleMuTauFakeRateWeightLoose)();
 	SimpleMuTauFakeRateWeightTight = (settings.*GetSimpleMuTauFakeRateWeightTight)();
@@ -31,7 +31,7 @@ std::string SimpleMuTauFakeRateWeightProducer::GetProducerId() const
 }
 
 void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product_type& product,
-                                                 setting_type const& settings) const
+                                                 setting_type const& settings, metadata_type const& metadata) const
 {
 	
 	float muTauFakeRateWeight=1.0;

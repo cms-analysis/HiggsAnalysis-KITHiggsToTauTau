@@ -21,10 +21,6 @@ class ValidDiTauPairCandidatesProducerBase: public ProducerBase<HttTypes>
 {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	ValidDiTauPairCandidatesProducerBase(std::vector<TLepton1*> product_type::*validLeptonsMember1,
 	                                     std::vector<TLepton2*> product_type::*validLeptonsMember2) :
 		ProducerBase<HttTypes>(),
@@ -33,9 +29,9 @@ public:
 	{
 	}
 
-	virtual void Init(setting_type const& settings) override
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
-		ProducerBase<HttTypes>::Init(settings);
+		ProducerBase<HttTypes>::Init(settings, metadata);
 		
 		// configurations possible:
 		// "cut" --> applied to all pairs
@@ -182,7 +178,7 @@ public:
 	}
 	
 	virtual void Produce(event_type const& event, product_type & product, 
-	                     setting_type const& settings) const override
+	                     setting_type const& settings, metadata_type const& metadata) const override
 	{
 		product.m_validDiTauPairCandidates.clear();
 		
@@ -341,7 +337,7 @@ public:
 					validDiTauPair = validDiTauPair && (diTauPair.first->p4.Pt() > settings.GetLowerCutHardLepPt() || diTauPair.second->p4.Pt() > settings.GetLowerCutHardLepPt());
 				}
 				// check possible additional criteria from subclasses
-				validDiTauPair = validDiTauPair && AdditionalCriteria(diTauPair, event, product, settings);
+				validDiTauPair = validDiTauPair && AdditionalCriteria(diTauPair, event, product, settings, metadata);
 				if (validDiTauPair)
 				{
 					product.m_validDiTauPairCandidates.push_back(diTauPair);
@@ -363,7 +359,7 @@ public:
 protected:
 	// Can be overwritten for special use cases
 	virtual bool AdditionalCriteria(DiTauPair const& diTauPair, event_type const& event,
-	                                product_type& product, setting_type const& settings) const
+	                                product_type& product, setting_type const& settings, metadata_type const& metadata) const
 	{
 		bool validDiTauPair = true;
 		return validDiTauPair;

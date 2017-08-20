@@ -15,9 +15,9 @@ MetCorrector::MetCorrector() :
 {
 }
 
-void MetCorrector::Init(setting_type const& settings)
+void MetCorrector::Init(setting_type const& settings, metadata_type& metadata)
 {
-	MetCorrectorBase<KMET>::Init(settings);
+	MetCorrectorBase<KMET>::Init(settings, metadata);
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("uncorrmet", [](event_type const& event, product_type const& product) {
 		return product.m_pfmetUncorr->p4.Pt();
@@ -58,9 +58,9 @@ MvaMetCorrector::MvaMetCorrector() :
 {
 }
 
-void MvaMetCorrector::Init(setting_type const& settings)
+void MvaMetCorrector::Init(setting_type const& settings, metadata_type& metadata)
 {
-	MetCorrectorBase<KMET>::Init(settings);
+	MetCorrectorBase<KMET>::Init(settings, metadata);
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetUncorr", [](event_type const& event, product_type const& product) {
 		return product.m_mvametUncorr->p4.Pt();
