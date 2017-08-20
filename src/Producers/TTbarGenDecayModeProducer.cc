@@ -3,7 +3,7 @@
 void TTbarGenDecayModeProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("TTbarGenDecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "TTbarGenDecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_TTbarGenDecayMode;
 	});
 }

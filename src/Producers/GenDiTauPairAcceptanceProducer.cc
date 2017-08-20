@@ -15,11 +15,11 @@ void GenDiTauPairAcceptanceProducer::Init(setting_type const& settings, metadata
 	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nGenDiTauPairsInAcceptance", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nGenDiTauPairsInAcceptance", [](event_type const& event, product_type const& product)
 	{
 		return static_cast<int>(product.m_genDiTauPairInAcceptance.size());
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genDiTauPairMass", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genDiTauPairMass", [](event_type const& event, product_type const& product) {
 		return (product.m_genDiTauPairCandidates[0].first->p4 + product.m_genDiTauPairCandidates[0].second->p4).mass();
 	});
 }

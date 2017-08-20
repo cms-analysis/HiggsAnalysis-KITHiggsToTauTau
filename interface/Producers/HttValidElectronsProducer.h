@@ -194,7 +194,7 @@ public:
 		HttValidElectronsProducer::Init(settings, metadata);
 	
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nLooseElectrons", [this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nLooseElectrons", [this](event_type const& event, product_type const& product) {
 			return product.m_validLooseElectrons.size();
 		});
 	}
@@ -252,7 +252,7 @@ public:
 		HttValidElectronsProducer::Init(settings, metadata);
 	
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nVetoElectrons", [this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nVetoElectrons", [this](event_type const& event, product_type const& product) {
 			return product.m_validVetoElectrons.size();
 		});
 	}

@@ -32,89 +32,89 @@ public:
 		ProducerBase<HttTypes>::Init(settings, metadata);
 		
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metSumEt", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metSumEt", [](event_type const& event, product_type const& product)
 		{
 			return product.m_met.sumEt;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPt", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metPt", [](event_type const& event, product_type const& product)
 		{
 			return product.m_met.p4.Pt();
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPhi", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metPhi", [](event_type const& event, product_type const& product)
 		{
 			return product.m_met.p4.Phi();
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metCov00", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metCov00", [](event_type const& event, product_type const& product)
 		{
 			return product.m_met.significance.At(0, 0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metCov01", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metCov01", [](event_type const& event, product_type const& product)
 		{
 			return product.m_met.significance.At(0, 1);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metCov10", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metCov10", [](event_type const& event, product_type const& product)
 		{
 			return product.m_met.significance.At(1, 0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metCov11", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metCov11", [](event_type const& event, product_type const& product)
 		{
 			return product.m_met.significance.At(1, 1);
 		});
 
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfMetSumEt", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetSumEt", [](event_type const& event, product_type const& product)
 		{
 			return product.m_pfmet.sumEt;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfMetPt", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetPt", [](event_type const& event, product_type const& product)
 		{
 			return product.m_pfmet.p4.Pt();
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfMetPhi", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetPhi", [](event_type const& event, product_type const& product)
 		{
 			return product.m_pfmet.p4.Phi();
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfMetCov00", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetCov00", [](event_type const& event, product_type const& product)
 		{
 			return product.m_pfmet.significance.At(0, 0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfMetCov01", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetCov01", [](event_type const& event, product_type const& product)
 		{
 			return product.m_pfmet.significance.At(0, 1);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfMetCov10", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetCov10", [](event_type const& event, product_type const& product)
 		{
 			return product.m_pfmet.significance.At(1, 0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfMetCov11", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetCov11", [](event_type const& event, product_type const& product)
 		{
 			return product.m_pfmet.significance.At(1, 1);
 		});
 	
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetSumEt", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetSumEt", [](event_type const& event, product_type const& product)
 		{
 			return product.m_mvamet.sumEt;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetPt", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetPt", [](event_type const& event, product_type const& product)
 		{
 			return product.m_mvamet.p4.Pt();
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetPhi", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetPhi", [](event_type const& event, product_type const& product)
 		{
 			return product.m_mvamet.p4.Phi();
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetCov00", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCov00", [](event_type const& event, product_type const& product)
 		{
 			return product.m_mvamet.significance.At(0, 0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetCov01", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCov01", [](event_type const& event, product_type const& product)
 		{
 			return product.m_mvamet.significance.At(0, 1);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetCov10", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCov10", [](event_type const& event, product_type const& product)
 		{
 			return product.m_mvamet.significance.At(1, 0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetCov11", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCov11", [](event_type const& event, product_type const& product)
 		{
 			return product.m_mvamet.significance.At(1, 1);
 		});

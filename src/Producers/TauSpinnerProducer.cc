@@ -46,7 +46,7 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 	                               settings.GetTauSpinnerSettingsCmsEnergy());
 	
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauSpinnerPolarisation", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerPolarisation", [](event_type const& event, product_type const& product)
 	{
 		return product.m_tauSpinnerPolarisation;
 	});
@@ -57,7 +57,7 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 	{
 		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
 		std::string mixingAngleOverPiHalfLabel = GetLabelForWeightsMap(mixingAngleOverPiHalf);
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(mixingAngleOverPiHalfLabel, [mixingAngleOverPiHalfLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, mixingAngleOverPiHalfLabel, [mixingAngleOverPiHalfLabel](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfLabel, 0.0);
 		});
@@ -72,11 +72,11 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 		assert(Utility::Contains(settings.GetTauSpinnerMixingAnglesOverPiHalf(), mixingAngleOverPiHalfSample));
 		
 		std::string mixingAngleOverPiHalfSampleLabel = GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauSpinnerWeightSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerWeightSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfSampleLabel, 0.0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("tauSpinnerWeightInvSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerWeightInvSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
 			double weight = SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfSampleLabel, 0.0);
 			//return std::min(((weight > 0.0) ? (1.0 / weight) : 0.0), 10.0);   // no physics reason for this

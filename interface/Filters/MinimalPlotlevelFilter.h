@@ -44,23 +44,23 @@ public:
 			quantity != (settings.GetPlotlevelFilterExpressionQuantities)().end(); ++quantity)
 		{
 			bool variable_found = false;
-			if (LambdaNtupleConsumer<HttTypes>::GetFloatQuantities().count(*quantity) > 0)
+			if (metadata.m_commonFloatQuantities.count(*quantity) > 0)
 			{
-				m_ExpressionQuantities.push_back(SafeMap::Get(LambdaNtupleConsumer<HttTypes>::GetFloatQuantities(), *quantity));
+				m_ExpressionQuantities.push_back(SafeMap::Get(metadata.m_commonFloatQuantities, *quantity));
 				m_ExpressionNames.push_back(*quantity);
 				LOG(DEBUG) << "\t" << *quantity << " is used as floatQuantity";
 				variable_found = true;
 			}
-			else{ if(LambdaNtupleConsumer<HttTypes>::GetIntQuantities().count(*quantity) > 0)
+			else{ if(metadata.m_commonIntQuantities.count(*quantity) > 0)
 			{
-				m_ExpressionQuantities.push_back(SafeMap::Get(LambdaNtupleConsumer<HttTypes>::GetIntQuantities(), *quantity));
+				m_ExpressionQuantities.push_back(SafeMap::Get(metadata.m_commonIntQuantities, *quantity));
 				m_ExpressionNames.push_back(*quantity);
 				LOG(DEBUG) << "\t" << *quantity << " is used as intQuantity";
 				variable_found = true;
 			}
-			else{ if (LambdaNtupleConsumer<HttTypes>::GetBoolQuantities().count(*quantity) > 0)
+			else{ if (metadata.m_commonBoolQuantities.count(*quantity) > 0)
 			{
-				m_ExpressionQuantities.push_back(SafeMap::Get(LambdaNtupleConsumer<HttTypes>::GetBoolQuantities(), *quantity));
+				m_ExpressionQuantities.push_back(SafeMap::Get(metadata.m_commonBoolQuantities, *quantity));
 				m_ExpressionNames.push_back(*quantity);
 				LOG(DEBUG) << "\t" << *quantity << " is used as boolQuantity";
 				variable_found = true;

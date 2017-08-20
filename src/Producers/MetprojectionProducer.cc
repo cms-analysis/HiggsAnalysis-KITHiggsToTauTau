@@ -16,115 +16,115 @@ void MetprojectionProducer::Init(setting_type const& settings, metadata_type& me
 	ProducerBase<HttTypes>::Init(settings, metadata);
 	m_isData = settings.GetInputIsData();
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetPar", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoMetPar", [](event_type const& event, product_type const& product) {
 		return product.m_recoMetOnBoson.X();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetPerp", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoMetPerp", [](event_type const& event, product_type const& product) {
 		return product.m_recoMetOnBoson.Y();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoMetPhi", [](event_type const& event, product_type const& product) {
 		return product.m_recoMetOnBoson.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPfMetPar", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPfMetPar", [](event_type const& event, product_type const& product) {
 		return product.m_recoPfMetOnBoson.X();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPfMetPerp", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPfMetPerp", [](event_type const& event, product_type const& product) {
 		return product.m_recoPfMetOnBoson.Y();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPfMetPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPfMetPhi", [](event_type const& event, product_type const& product) {
 		return product.m_recoPfMetOnBoson.Phi();
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoilPar", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoilPar", [](event_type const& event, product_type const& product) {
 		return product.m_recoilOnBoson.X();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoilPerp", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoilPerp", [](event_type const& event, product_type const& product) {
 		return product.m_recoilOnBoson.Y();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoilPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoilPhi", [](event_type const& event, product_type const& product) {
 		return product.m_recoilOnBoson.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfrecoilPar", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfrecoilPar", [](event_type const& event, product_type const& product) {
 		return product.m_pfrecoilOnBoson.X();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfrecoilPerp", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfrecoilPerp", [](event_type const& event, product_type const& product) {
 		return product.m_pfrecoilOnBoson.Y();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfrecoilPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfrecoilPhi", [](event_type const& event, product_type const& product) {
 		return product.m_pfrecoilOnBoson.Phi();
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetOnGenMetProjectionPar", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoMetOnGenMetProjectionPar", [](event_type const& event, product_type const& product) {
 		return product.m_recoMetOnGenMetProjection.X();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetOnGenMetProjectionPerp", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoMetOnGenMetProjectionPerp", [](event_type const& event, product_type const& product) {
 		return product.m_recoMetOnGenMetProjection.Y();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoMetOnGenMetProjectionPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoMetOnGenMetProjectionPhi", [](event_type const& event, product_type const& product) {
 		return TVector2::Phi_mpi_pi(product.m_recoMetOnGenMetProjection.Phi());
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPfMetOnGenMetProjectionPar", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPfMetOnGenMetProjectionPar", [](event_type const& event, product_type const& product) {
 		return product.m_recoPfMetOnGenMetProjection.X();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPfMetOnGenMetProjectionPerp", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPfMetOnGenMetProjectionPerp", [](event_type const& event, product_type const& product) {
 		return product.m_recoPfMetOnGenMetProjection.Y();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("recoPfMetOnGenMetProjectionPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPfMetOnGenMetProjectionPhi", [](event_type const& event, product_type const& product) {
 		return TVector2::Phi_mpi_pi(product.m_recoPfMetOnGenMetProjection.Phi());
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPlusVisLepsOnGenBosonPtOverGenBosonPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metPlusVisLepsOnGenBosonPtOverGenBosonPt", [](event_type const& event, product_type const& product) {
 		return product.m_metPlusVisLepsOnGenBosonPtOverGenBosonPt;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt", [](event_type const& event, product_type const& product) {
 		return product.m_pfmetPlusVisLepsOnGenBosonPtOverGenBosonPt;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPullX", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metPullX", [](event_type const& event, product_type const& product) {
 		return product.m_metPull.X();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("metPullY", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metPullY", [](event_type const& event, product_type const& product) {
 		return product.m_metPull.Y();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfmetPullX", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfmetPullX", [](event_type const& event, product_type const& product) {
 		return product.m_pfmetPull.X();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfmetPullY", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfmetPullY", [](event_type const& event, product_type const& product) {
 		return product.m_pfmetPull.Y();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetSumEt", [](event_type const& event, product_type const& product) 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMetSumEt", [](event_type const& event, product_type const& product) 
 	{
 		return (!(event.m_genMet) ? DefaultValues::UndefinedFloat : event.m_genMet->sumEt);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetPt", [] (event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMetPt", [] (event_type const& event, product_type const& product)
 	{
 		return (!(event.m_genMet) ? DefaultValues::UndefinedFloat : event.m_genMet->p4.Pt());
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genMetPhi", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMetPhi", [](event_type const& event, product_type const& product)
 	{
 		return (!(event.m_genMet) ? DefaultValues::UndefinedFloat : event.m_genMet->p4.Phi());
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genBosonPt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genBosonPt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genBosonPt;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genBosonPhi", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genBosonPhi", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genBosonPhi;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("chiSquare", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "chiSquare", [](event_type const& event, product_type const& product)
 	{
 		return product.m_chiSquare;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("probChiSquare", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "probChiSquare", [](event_type const& event, product_type const& product)
 	{
 		return TMath::Prob(product.m_chiSquare, 2);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("chiSquarePf", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "chiSquarePf", [](event_type const& event, product_type const& product)
 	{
 		return product.m_chiSquarePf;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("probChiSquarePf", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "probChiSquarePf", [](event_type const& event, product_type const& product)
 	{
 		return TMath::Prob(product.m_chiSquarePf, 2);
 	});

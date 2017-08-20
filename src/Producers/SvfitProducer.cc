@@ -31,47 +31,47 @@ void SvfitProducer::Init(setting_type const& settings, metadata_type& metadata)
 	
 	svfitCacheMissBehaviour = HttEnumTypes::ToSvfitCacheMissBehaviour(settings.GetSvfitCacheMissBehaviour());
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitAvailable", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "svfitAvailable", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedHiggsLV ? true : false);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitPt", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedHiggsLV ? product.m_svfitResults.fittedHiggsLV->Pt() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitEta", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitEta", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedHiggsLV ? product.m_svfitResults.fittedHiggsLV->Eta() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitPhi", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedHiggsLV ? product.m_svfitResults.fittedHiggsLV->Phi() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitMass", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitMass", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedHiggsLV ? product.m_svfitResults.fittedHiggsLV->mass() : DefaultValues::UndefinedFloat);
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("svfitLV", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "svfitLV", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedHiggsLV ? *(product.m_svfitResults.fittedHiggsLV) : DefaultValues::UndefinedRMFLV);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTransverseMass", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitTransverseMass", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedTransverseMass ? static_cast<float>(product.m_svfitResults.fittedTransverseMass) : DefaultValues::UndefinedFloat);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitTau1Available", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "svfitTau1Available", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedTau1LV ? true : false);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("svfitTau1LV", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "svfitTau1LV", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedTau1LV ? *(product.m_svfitResults.fittedTau1LV) : DefaultValues::UndefinedRMFLV);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTau1ERatio", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitTau1ERatio", [](event_type const& event, product_type const& product) {
 		return product.m_svfitResults.fittedTau1ERatio;
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("svfitTau2Available", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "svfitTau2Available", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedTau2LV ? true : false);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("svfitTau2LV", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "svfitTau2LV", [](event_type const& event, product_type const& product) {
 		return (product.m_svfitResults.fittedTau2LV ? *(product.m_svfitResults.fittedTau2LV) : DefaultValues::UndefinedRMFLV);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("svfitTau2ERatio", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitTau2ERatio", [](event_type const& event, product_type const& product) {
 		return product.m_svfitResults.fittedTau2ERatio;
 	});
 }

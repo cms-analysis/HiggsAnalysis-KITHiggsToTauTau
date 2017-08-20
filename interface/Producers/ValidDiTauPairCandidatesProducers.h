@@ -46,11 +46,11 @@ public:
 		m_hltFiredBranchNames = Utility::ParseVectorToMap(settings.GetHLTBranchNames());
 		
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiTauPairCandidates", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiTauPairCandidates", [](event_type const& event, product_type const& product)
 		{
 			return static_cast<int>(product.m_validDiTauPairCandidates.size());
 		});
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nAllDiTauPairCandidates", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nAllDiTauPairCandidates", [](event_type const& event, product_type const& product)
 		{
 			return static_cast<int>(product.m_validDiTauPairCandidates.size()+product.m_invalidDiTauPairCandidates.size());
 		});
@@ -77,7 +77,7 @@ public:
 		{
 			std::map<std::string, std::vector<float>> lepton1LowerPtCutsByHltName = m_lepton1LowerPtCutsByHltName;
 			std::map<std::string, std::vector<float>> lepton2LowerPtCutsByHltName = m_lepton2LowerPtCutsByHltName;
-			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(hltNames.first, [hltNames, hltPathsWithoutCommonMatch, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName](event_type const& event, product_type const& product)
+			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, hltNames.first, [hltNames, hltPathsWithoutCommonMatch, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName](event_type const& event, product_type const& product)
 			{
 				bool diTauPairFiredTrigger = false;
 				//std::cout << "Beginning of lambda function for " << hltNames.first << std::endl;
