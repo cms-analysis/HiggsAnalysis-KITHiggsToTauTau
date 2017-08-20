@@ -28,18 +28,15 @@
 class MinimalPlotlevelFilter: public FilterBase<HttTypes> 
 {
 public:
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
 	typedef std::function<float(event_type const&, product_type const&)> float_extractor_lambda;
-	MinimalPlotlevelFilter(){}
+	
 	virtual std::string GetFilterId() const override {
 			return "MinimalPlotlevelFilter";
 	}
 	
-	void Init(setting_type const& settings) override
+	void Init(setting_type const& settings, metadata_type& metadata) override
 	{
-		FilterBase<HttTypes>::Init(settings);
+		FilterBase<HttTypes>::Init(settings, metadata);
 		// construct extractors vector
 		m_ExpressionQuantities.clear();
 		m_ExpressionNames.clear();
@@ -165,7 +162,7 @@ public:
 		}
 	}
 	virtual bool DoesEventPass(event_type const& event,
-		product_type const& product, setting_type const& settings) const override
+		product_type const& product, setting_type const& settings, metadata_type const& metadata) const override
 		{
 			(m_SubExpressions).clear();
 			std::vector<std::string> temp_string;
