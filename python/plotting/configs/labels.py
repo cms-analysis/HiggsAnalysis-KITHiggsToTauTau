@@ -28,6 +28,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ttjt"] = "t#bar{t} + jets (tau)"
 			self.labels_dict["ttjl"] = "t#bar{t} + jets (lep)"
 			self.labels_dict["ttt"] = "t#bar{t} + jets (tau)"
+			self.labels_dict["zmt"] = "Z #rightarrow #mu#tau"
 			self.labels_dict["ttjj"] = "t#bar{t} + jets (jet)"
 			self.labels_dict["wj"] = "W + jets"
 			self.labels_dict["wjt"] = "W + jets (tau)"
@@ -62,13 +63,10 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_mt_nobtag"] = "#mu#tau_{h}, no b-tag"
 			self.labels_dict["channel_et_nobtag"] = "e#tau_{h}, no b-tag"
 			self.labels_dict["channel_em_nobtag"] = "e#mu, no b-tag"
-
-			self.labels_dict["channel_tt_large"] = "#scale[1.5]{#tau_{h}#tau_{h}}"
-			self.labels_dict["channel_mt_large"] = "#scale[1.5]{#mu#tau_{h}}"
-			self.labels_dict["channel_et_large"] = "#scale[1.5]{e#tau_{h}}"
-			self.labels_dict["channel_em_large"] = "#scale[1.5]{e#mu}"
-			self.labels_dict["channel_mm_large"] = "#scale[1.5]{#mu#mu}"
-			self.labels_dict["channel_ee_large"] = "#scale[1.5]{ee}"
+			
+			self.labels_dict["cat_oneprong"] = "#pi^{#pm} / l^{#pm}"
+			self.labels_dict["cat_rho"] = "#rho^{#pm} #rightarrow #pi^{#pm} #pi^{0}"
+			self.labels_dict["cat_a1"] = "a_{1}^{#pm} #rightarrow #pi^{#pm} #pi^{#pm} #pi^{#mp}"
 			
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
@@ -89,6 +87,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_lep2SumChargedHadronsLV.Pt()"] = "E_{#pi^{#pm}} / GeV"
 				self.labels_dict[channel+"_lep1SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
+				self.labels_dict["catZttPol13TeV_"+channel+"_index"] = ""
 			
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict["channel_"+channel+"_0jet_inclusive"] = self.labels_dict["channel_"+channel]+": 0-Jet-inclusive"
@@ -622,9 +621,10 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["bbh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["bbh"].replace("H", "H({mass:d})".format(mass=higgs_mass))+" (\\times {scale:d})".format(scale=scale)
-
-
-
+			
+			for alias, label in self.labels_dict.items():
+				self.labels_dict[alias+"_large"] = "#scale[1.5]{"+label+"}"
+		
 		else:
 			self.labels_dict["totalbkg"] = "$\\mathrm{Exp.} unc.$"
 			self.labels_dict["data"] = "$\\mathrm{Data}$"

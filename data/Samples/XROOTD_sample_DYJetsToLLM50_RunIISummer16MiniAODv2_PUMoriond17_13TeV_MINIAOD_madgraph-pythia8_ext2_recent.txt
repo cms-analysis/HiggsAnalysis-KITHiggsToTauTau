@@ -1,1 +1,1 @@
-2017/DY_HTT_moreTrackInfo_2017-07-28/DYJetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext2.txt
+XROOTD_sample_DYJetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext2_2017-08-04.txt

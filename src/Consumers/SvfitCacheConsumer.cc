@@ -5,16 +5,20 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/SvfitCacheConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
+#include <TDirectory.h>
+
 
 void SvfitCacheConsumer::Init(setting_type const& settings)
 {
 	ConsumerBase<HttTypes>::Init(settings);
 
+	TDirectory* tmpDirectory = gDirectory;
 	RootFileHelper::SafeCd(settings.GetRootOutFile(),
 	                       settings.GetRootFileFolder());
 	
 	m_svfitCacheTree = new TTree(settings.GetSvfitCacheTree().c_str(),
 	                             settings.GetSvfitCacheTree().c_str());
+	gDirectory = tmpDirectory;
 	m_svfitCacheTreeInitialised = false;
 }
 

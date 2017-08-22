@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e # exit on errors
 
 export SCRAM_ARCH=slc6_amd64_gcc491
@@ -9,12 +9,24 @@ source $VO_CMS_SW_DIR/cmsset_default.sh
 scramv1 project CMSSW CMSSW_7_4_7; cd CMSSW_7_4_7/src # slc6 # Combine requires this version
 eval `scramv1 runtime -sh`
 
+export BRANCH="master"
+while getopts :b:g:e:n: option
+do
+	case "${option}"
+	in
+	b) export BRANCH=${OPTARG};;
+	g) git config --global user.github ${OPTARG};;
+	e) git config --global user.email ${OPTARG};;
+	n) git config --global user.name "\"${OPTARG}\"";;
+	esac
+done
+
 # JEC
 git cms-addpkg CondFormats/JetMETObjects
 
 # From Kappa, only the DataFormats are needed
 # Mind that for certain skims, you need exactly the Kappa git tag that has been used for the production
-git clone https://github.com/KappaAnalysis/Kappa.git 
+git clone https://github.com/KappaAnalysis/Kappa.git -b getByToken
 cd Kappa
 echo docs/ >> .git/info/sparse-checkout
 echo DataFormats/ >> .git/info/sparse-checkout
@@ -23,12 +35,12 @@ git config core.sparsecheckout true
 git read-tree -mu HEAD
 cd ..
 
-git clone https://github.com/KappaAnalysis/KappaTools.git 
-git clone https://github.com/artus-analysis/Artus.git 
+git clone https://github.com/KappaAnalysis/KappaTools.git  -b getByToken
+git clone https://github.com/artus-analysis/Artus.git -b getByToken
 git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau 
+git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.git HiggsAnalysis/KITHiggsToTauTau/doc/wiki
 #svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
 

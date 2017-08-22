@@ -129,7 +129,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		
 			//Decision for a certain weight calculation depending on BosonPdgId
 			if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)) ||
-				Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdHCPOdd)) ||
+				Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdHCPEven)) ||
 				Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdACPOdd)))
 			{
 				// set mixing angle
@@ -163,7 +163,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 
 				double tauSpinnerWeight = 1.0;
 				if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)) ||
-					Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdHCPOdd)) ||
+					Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdHCPEven)) ||
 					Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdACPOdd)))
 				{
 					// set mixing angle

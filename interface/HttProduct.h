@@ -113,11 +113,17 @@ class HttProduct : public KappaProduct
 	// filled by the PolarisationQuantitiesProducer
 	std::map<KLepton*, double> m_visibleOverFullEnergyHHKinFit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_visibleOverFullEnergySvfit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_visibleOverFullEnergySimpleFit; // Keys are only of type KTau*
+	
 	std::map<KLepton*, double> m_visibleToFullAngleHHKinFit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_visibleToFullAngleSvfit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_visibleToFullAngleSimpleFit; // Keys are only of type KTau*
+	
 	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
+	
 	std::map<KLepton*, double> m_a1OmegaHHKinFit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1OmegaSvfit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1OmegaSimpleFit; // Keys are only of type KTau*
 
 	double m_tauPolarisationDiscriminatorHHKinFit = DefaultValues::UndefinedDouble;
 	double m_tauPolarisationDiscriminatorSvfit = DefaultValues::UndefinedDouble;
@@ -213,17 +219,29 @@ class HttProduct : public KappaProduct
 	RMFLV* m_track1p4 = 0;
 	RMFLV* m_track2p4 = 0;
 
+	float m_d3DnewPV1 = DefaultValues::UndefinedFloat;    // IP vector mag calculated with IPTools method
+	float m_err3DnewPV1 = DefaultValues::UndefinedFloat;  // and corresponding error
+	float m_d2DnewPV1 = DefaultValues::UndefinedFloat;
+	float m_err2DnewPV1 = DefaultValues::UndefinedFloat;
+	float m_d3DnewPV2 = DefaultValues::UndefinedFloat;
+	float m_err3DnewPV2 = DefaultValues::UndefinedFloat;
+	float m_d2DnewPV2 = DefaultValues::UndefinedFloat;
+	float m_err2DnewPV2 = DefaultValues::UndefinedFloat;
+
 
 	// filled by GenTauCPProducer
 	RMPoint* m_genPV = 0;
-	double m_genZMinus  = DefaultValues::UndefinedDouble;
+	double m_genZMinus = DefaultValues::UndefinedDouble;
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
-	double m_genZs  = DefaultValues::UndefinedDouble;
+	double m_genZs = DefaultValues::UndefinedDouble;
 
-	double m_genPhiCP  = DefaultValues::UndefinedDouble;
+	double m_genPhiCP = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
-	double m_genPhi  = DefaultValues::UndefinedDouble;
+	double m_genPhi = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
+	double m_genOStarCP  = DefaultValues::UndefinedDouble;
+	double m_genOCP  = DefaultValues::UndefinedDouble;
+	double m_genPhiCPLab  = DefaultValues::UndefinedDouble;
 
 	double m_genPhiCP_rho  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP_rho  = DefaultValues::UndefinedDouble;
@@ -233,10 +251,13 @@ class HttProduct : public KappaProduct
 	double m_gen_posyTauL  = DefaultValues::UndefinedDouble;
 	double m_gen_negyTauL  = DefaultValues::UndefinedDouble;
 
-
 	std::pair <double,double> m_genChargedProngEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
 	KGenParticle* m_genOneProngCharged1 = 0;
 	KGenParticle* m_genOneProngCharged2 = 0;
+	unsigned int m_genTau1ProngsSize = DefaultValues::UndefinedInt;
+	unsigned int m_genTau2ProngsSize = DefaultValues::UndefinedInt;
+	int m_genTau1DecayMode = DefaultValues::UndefinedInt;
+	int m_genTau2DecayMode = DefaultValues::UndefinedInt;
 
 
 	// filled by GenMatchedTauCPProducer
@@ -244,6 +265,8 @@ class HttProduct : public KappaProduct
 	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
 	TVector3 m_genIP1;
 	TVector3 m_genIP2;
+	double m_genCosPsiPlus  = DefaultValues::UndefinedDouble;
+	double m_genCosPsiMinus = DefaultValues::UndefinedDouble;
 
 
 	// filled by RecoTauCPProducer
@@ -254,7 +277,9 @@ class HttProduct : public KappaProduct
 	TVector3 m_recoIP2; // IPvec wrt thePV
 	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
 	TVector3 m_recoIP2_refitPV; // IPvec wrt refitted PV
-	
+	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
+
 	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
@@ -275,6 +300,7 @@ class HttProduct : public KappaProduct
 
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;
@@ -387,4 +413,6 @@ class HttProduct : public KappaProduct
 	std::vector<float> kaonPosDaugterMass;
 	std::vector<float> kaonNegDaugterMass;
 
+	//filled by MadGraphReweightingProducer
+	std::vector<KLHEParticle*> m_lheParticlesSortedForMadGraph;
 };

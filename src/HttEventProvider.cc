@@ -18,25 +18,25 @@ void HttEventProvider::WireEvent(setting_type const& settings)
 	
 	// (Old) MVA MET collections
 	if(! settings.GetMvaMetTT().empty())
-		this->m_event.m_mvaMetTT = this->SecureFileInterfaceGet<KMET>(settings.GetMvaMetTT(), false);
+		this->m_event.m_mvaMetTT = this->SecureFileInterfaceGetEvent<KMET>(settings.GetMvaMetTT(), false);
 	if(! settings.GetMvaMetMT().empty())
-		this->m_event.m_mvaMetMT = this->SecureFileInterfaceGet<KMET>(settings.GetMvaMetMT(), false);
+		this->m_event.m_mvaMetMT = this->SecureFileInterfaceGetEvent<KMET>(settings.GetMvaMetMT(), false);
 	if(! settings.GetMvaMetET().empty())
-		this->m_event.m_mvaMetET = this->SecureFileInterfaceGet<KMET>(settings.GetMvaMetET(), false);
+		this->m_event.m_mvaMetET = this->SecureFileInterfaceGetEvent<KMET>(settings.GetMvaMetET(), false);
 	if(! settings.GetMvaMetEM().empty())
-		this->m_event.m_mvaMetEM = this->SecureFileInterfaceGet<KMET>(settings.GetMvaMetEM(), false);
+		this->m_event.m_mvaMetEM = this->SecureFileInterfaceGetEvent<KMET>(settings.GetMvaMetEM(), false);
 	
 	// (New) MVA MET collections
 	if(! settings.GetMvaMetsTT().empty())
-		this->m_event.m_mvaMetsTT = this->SecureFileInterfaceGet<KMETs>(settings.GetMvaMetsTT());
+		this->m_event.m_mvaMetsTT = this->SecureFileInterfaceGetEvent<KMETs>(settings.GetMvaMetsTT());
 	if(! settings.GetMvaMetsMT().empty())
-		this->m_event.m_mvaMetsMT = this->SecureFileInterfaceGet<KMETs>(settings.GetMvaMetsMT());
+		this->m_event.m_mvaMetsMT = this->SecureFileInterfaceGetEvent<KMETs>(settings.GetMvaMetsMT());
 	if(! settings.GetMvaMetsET().empty())
-		this->m_event.m_mvaMetsET = this->SecureFileInterfaceGet<KMETs>(settings.GetMvaMetsET());
+		this->m_event.m_mvaMetsET = this->SecureFileInterfaceGetEvent<KMETs>(settings.GetMvaMetsET());
 	if(! settings.GetMvaMetsEM().empty())
-		this->m_event.m_mvaMetsEM = this->SecureFileInterfaceGet<KMETs>(settings.GetMvaMetsEM());
+		this->m_event.m_mvaMetsEM = this->SecureFileInterfaceGetEvent<KMETs>(settings.GetMvaMetsEM());
 	if(! settings.GetMvaMets().empty())
-		this->m_event.m_mvaMets = this->SecureFileInterfaceGet<KMETs>(settings.GetMvaMets());
+		this->m_event.m_mvaMets = this->SecureFileInterfaceGetEvent<KMETs>(settings.GetMvaMets());
 	
 }
 

@@ -60,6 +60,15 @@
 		"track2p4y",
 		"track2p4z",
 
+		"d3D_refitPV_1",
+		"err3D_refitPV_1",
+		"d2D_refitPV_1",
+		"err2D_refitPV_1",
+		"d3D_refitPV_2",
+		"err3D_refitPV_2",
+		"d2D_refitPV_2",
+		"err2D_refitPV_2",
+
 		"errD0_1",
 		"errD0_1_newErr",
 		"errD0_2",
@@ -96,6 +105,9 @@
 		"IP_refitPV_2y",
 		"IP_refitPV_2z",
 
+		"cosPsiPlus",
+		"cosPsiMinus",
+
 		"deltaEtaGenRecoIP1",
 		"deltaEtaGenRecoIP2",
 		"deltaPhiGenRecoIP1",
@@ -109,6 +121,7 @@
 		"recoPhiStarCP_rho",
 		"recoPhiStarCP_rho_merged",
 		"recoPhiStarCPrPV",
+		"recoPhiStarCPrPV2",
 		"#recoPhiStarCPrPV_rho",
 
 		"#recoPhiStarCPrPVbs",
