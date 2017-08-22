@@ -2,7 +2,7 @@
 	"#GetBeamSpot" : "offlineBeamSpot",
 	"KaonDebugOutput" : true,
 	"LambdaMassCut": 1,
-	"UseVertex" : true,
+	"UseVertex" : false,
 
 	"VertexFitter" : true,
 	"UseRefTracks" : true,
