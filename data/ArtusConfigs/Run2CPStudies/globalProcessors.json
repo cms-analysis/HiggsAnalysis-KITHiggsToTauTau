@@ -160,7 +160,7 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
-				"#producer:ScaleVariationProducer",
+				"producer:ScaleVariationProducer",
 				"filter:MetFilter"
 			],
 			"SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" : [
