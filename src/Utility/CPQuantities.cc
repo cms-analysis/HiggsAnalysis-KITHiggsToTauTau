@@ -441,18 +441,19 @@ TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KVertex* pv){
 
 // calculate the cosine of the angle psi (alpha in the Berges paper 1408.0798)
 // needed to observe the DY distribution modulation
-double CPQuantities::CalculateCosPsi(RMFLV recoPart, TVector3 ipvec){
+// this function is useable for both gen and reco level
+double CPQuantities::CalculateCosPsi(RMFLV momentum, TVector3 ipvec){
 	
 	TVector3 ez, p, n;
 	ez.SetXYZ(0,0,1);
-	p.SetXYZ(recoPart.Px(), recoPart.Py(), recoPart.Pz());
+	p.SetXYZ(momentum.Px(), momentum.Py(), momentum.Pz());
 	n = ipvec;
 
 	ez = ez.Unit();
 	p = p.Unit();
 	n = n.Unit();
 
-	double cospsi = TMath::Abs( (1./(ez.Cross(p)).Mag()) * (1/(n.Cross(p)).Mag()) * ((ez.Cross(p)).Dot(n.Cross(p))) );
+	double cospsi = TMath::Abs( (ez.Cross(p)).Dot(n.Cross(p)) / (ez.Cross(p).Mag() * n.Cross(p).Mag()) );
 
 	return cospsi;
 
