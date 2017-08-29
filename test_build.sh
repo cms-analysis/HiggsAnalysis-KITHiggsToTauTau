@@ -13,6 +13,6 @@ set -x
     exit 1
 }
 
-scram b unittests
+cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/ && scram b unittests
 
 echo "Success!"
