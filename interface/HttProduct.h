@@ -242,6 +242,8 @@ public:
 	unsigned int m_genTau2ProngsSize = DefaultValues::UndefinedInt;
 	int m_genTau1DecayMode = DefaultValues::UndefinedInt;
 	int m_genTau2DecayMode = DefaultValues::UndefinedInt;
+	int m_genTauTree1DecayMode = DefaultValues::UndefinedInt;
+	int m_genTauTree2DecayMode = DefaultValues::UndefinedInt;
 
 
 	// filled by GenMatchedTauCPProducer
