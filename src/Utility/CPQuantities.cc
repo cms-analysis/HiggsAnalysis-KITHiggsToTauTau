@@ -183,7 +183,7 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
 	ROOT::Math::Boost M(boostvec);
 
-	// normalize IP vectors
+	// normalize IP vectors  // FIXME is it really needed this block?
 	RMFLV::BetaVector n1 = (RMFLV::BetaVector)ipvec1;
 	RMFLV::BetaVector n2 = (RMFLV::BetaVector)ipvec2;
 	n1 = n1.Unit();
@@ -228,6 +228,64 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 	return phiStarCP;
 	
 }
+
+
+// calculation of phiStarCP using the IP+rho combined method using the api-channel
+// (i.e. one tau decays to charged particle a, and the other tau to rho, which decays to pi pi0)
+// The function takes the charge of the particle a as argument,
+// since the calculation of OStarCP depends on which particle is positively charged
+// (which is taken as reference)
+double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMFLV pion, RMFLV pizero, double charge){
+
+	// create boost to the api-ZMF
+	RMFLV ProngImp = chargPart + pion;
+	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
+	ROOT::Math::Boost M(boostvec);
+
+	// create LV for the IP vector
+	RMFLV n_mu;
+	n_mu.SetPxPyPzE(ipvec.X(), ipvec.Y(), ipvec.Z(), 0);
+
+	// boost the LVs into the api-ZMF
+	n_mu = M * n_mu;
+	chargPart = M * chargPart;
+	pion = M * pion;
+	pizero = M * pizero;
+
+	// 3-vectors after boosting
+	RMFLV::BetaVector n, p, q, q0;
+	n.SetXYZ(n_mu.Px(), n_mu.Py(), n_mu.Pz());
+	p.SetXYZ(chargPart.Px(), chargPart.Py(), chargPart.Pz());
+	q.SetXYZ(pion.Px(), pion.Py(), pion.Pz());
+	q0.SetXYZ(pizero.Px(), pizero.Py(), pizero.Pz());
+
+	// get the transverse component of
+	// n wrt p, and q0 wrt q
+	RMFLV::BetaVector nt = n - ( n.Dot(p) / p.Dot(p) ) * p;
+	RMFLV::BetaVector q0t = q0 - ( q0.Dot(q) / q.Dot(q) ) * q;
+
+	// normalized vectors
+	nt = nt.Unit();
+	p = p.Unit();
+	q = q.Unit();
+	q0t = q0t.Unit();
+
+	// calculate phi* and o*cp
+	// the definition of o*cp depends on the sign of the charge of a
+	double phiStar = acos( nt.Dot(q0t) );
+	double oStarCP = 0;
+	if (charge>0) oStarCP = p.Dot( nt.Cross(q0t) );
+	else oStarCP = q.Dot( q0t.Cross(nt) );
+
+	// calculate phi*cp
+	double phiStarCP = 0;
+	if (oStarCP>=0) phiStarCP = phiStar;
+	else phiStarCP = 2*ROOT::Math::Pi() - phiStar;
+
+	return phiStarCP;
+}
+
+
 
 // calculation of the hadron Energies in the approximate diTau restframe
 double CPQuantities::CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad)
