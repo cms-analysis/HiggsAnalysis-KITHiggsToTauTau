@@ -13,4 +13,6 @@ set -x
     exit 1
 }
 
+scram b unittests
+
 echo "Success!"
