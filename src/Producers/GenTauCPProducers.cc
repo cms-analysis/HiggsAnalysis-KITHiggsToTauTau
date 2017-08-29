@@ -383,18 +383,13 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 
 
 			// Calculation of Phi* and Phi*CP
-			product.m_genPhiStarCP = cpq.CalculatePhiStarCP(genTauDecayTree1->m_genParticle->p4, genTauDecayTree2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
-			product.m_genPhiStar = cpq.GetGenPhiStar();
-			product.m_genOStarCP = cpq.GetGenOStarCP();
+			//product.m_genPhiStarCP = cpq.CalculatePhiStarCP(genTauDecayTree1->m_genParticle->p4, genTauDecayTree2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 
 			// Calculation of Phi and PhiCP
 			product.m_genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, genTauDecayTree1->m_genParticle->p4, genTauDecayTree2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 			product.m_genPhi = cpq.GetGenPhi();
 			product.m_genOCP = cpq.GetGenOCP();
 	
-			// Calculate phiCP in the lab frame
-			product.m_genPhiCPLab = cpq.CalculatePhiCPLab(genTauDecayTree1->m_genParticle->p4, genTauDecayTree2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
-
 			if (product.m_genPV != nullptr){
 				// calculate IP vectors of tau daughters
 				product.m_genIP1 = cpq.CalculateIPVector(chargedPart1, product.m_genPV);
@@ -403,6 +398,12 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 				// calculate cosPsi
 				product.m_genCosPsiPlus  = cpq.CalculateCosPsi(chargedPart1->p4, product.m_genIP1);
 				product.m_genCosPsiMinus = cpq.CalculateCosPsi(chargedPart2->p4, product.m_genIP2);
+
+				// Calculate phiCP in the lab frame
+				product.m_genPhiCPLab = cpq.CalculatePhiCPLab(chargedPart1->p4, product.m_genIP1, product.m_genIP2);
+				product.m_genPhiStarCP = cpq.CalculatePhiStarCP(chargedPart1->p4, chargedPart2->p4, product.m_genIP1, product.m_genIP2);
+				product.m_genPhiStar = cpq.GetGenPhiStar();
+				product.m_genOStarCP = cpq.GetGenOStarCP();
 			}
 
 			// ZPlusMinus calculation
