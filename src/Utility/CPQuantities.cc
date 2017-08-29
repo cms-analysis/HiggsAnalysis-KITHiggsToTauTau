@@ -262,8 +262,6 @@ double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV c
 	tau1 = Mh * tau1;
 	tau2 = Mh * tau2;
 
-	//std::cout << tau1 << "               " << -1*tau2 << std::endl;
-
 	chargPart1 = Mh * chargPart1;
 	chargPart2 = Mh * chargPart2;
 
@@ -292,27 +290,28 @@ double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV c
 
 
 // calculate phicp in the lab frame
-double CPQuantities::CalculatePhiCPLab(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
+// this function is useable both at gen and reco level
+double CPQuantities::CalculatePhiCPLab(RMFLV chargPart1, TVector3 ipvec1, TVector3 ipvec2)
 {
 	// creating 3-momentum normal vectors on decay planes
-	RMFLV::BetaVector km, pm, pp, nm, np, ez;
-	km.SetXYZ(tau1.Px(),tau1.Py(),tau1.Pz());
-	pm.SetXYZ(chargPart1.Px(),chargPart1.Py(),chargPart1.Pz());
-	pp.SetXYZ(chargPart2.Px(),chargPart2.Py(),chargPart2.Pz());
+	TVector3 p1, n1, n2;
+	p1.SetXYZ(chargPart1.Px(),chargPart1.Py(),chargPart1.Pz());
+	n1 = ipvec1;
+	n2 = ipvec2;
 
-	nm = (km.Cross(pm)).Unit();
-	np = (km.Cross(pp)).Unit();
-	ez = km.Unit();
+	p1 = p1.Unit();
+	n1 = n1.Unit();
+	n2 = n2.Unit();
 
 	// calculating PhiCP in the lab frame
 	double phiCP = 0;
-	if(ez.Dot(np.Cross(nm))>=0)
+	if(p1.Dot(n1.Cross(n2))>=0)
 	{
-		phiCP = acos(np.Dot(nm));
+		phiCP = acos(n1.Dot(n2));
 	}
 	else
 	{
-		phiCP = 2*ROOT::Math::Pi()-acos(np.Dot(nm));
+		phiCP = 2*ROOT::Math::Pi()-acos(n1.Dot(n2));
 	}
 	return phiCP;
 }
