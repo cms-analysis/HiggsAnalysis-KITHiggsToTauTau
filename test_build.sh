@@ -13,6 +13,9 @@ set -x
     exit 1
 }
 
-cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/ && scram b unittests
+cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/ && scram b unittests || {
+    echo "run tests failed"
+    exit 1
+}
 
 echo "Success!"
