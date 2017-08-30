@@ -355,6 +355,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 					} // loop over genTau1 prongs
 					
 					Pi0P = rhoP_decay_photons.at(0) + rhoP_decay_photons.at(1);
+					product.m_gen_posyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionP, Pi0P);
 				}
 			}
 
@@ -371,6 +372,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 					} // loop over genTau1 prongs
 					
 					Pi0M = rhoM_decay_photons.at(0) + rhoM_decay_photons.at(1);
+					product.m_gen_negyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionM, Pi0M);
 				}
 			}
 
@@ -383,8 +385,8 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 
 					product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(PionP, PionM, Pi0P, Pi0M);
 					product.m_gen_yTau = cpq.CalculateSpinAnalysingDiscriminant_rho(genTauDecayTree1->m_genParticle->p4, genTauDecayTree2->m_genParticle->p4, PionP, PionM, Pi0P, Pi0M);
-					product.m_gen_posyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionP, Pi0P);
-					product.m_gen_negyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionM, Pi0M);
+					//product.m_gen_posyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionP, Pi0P);
+					//product.m_gen_negyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionM, Pi0M);
 
 				}
 			} // tautau --> rhorho channel
