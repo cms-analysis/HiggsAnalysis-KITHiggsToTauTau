@@ -183,7 +183,7 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
 	ROOT::Math::Boost M(boostvec);
 
-	// normalize IP vectors
+	// normalize IP vectors  // FIXME is it really needed this block?
 	RMFLV::BetaVector n1 = (RMFLV::BetaVector)ipvec1;
 	RMFLV::BetaVector n2 = (RMFLV::BetaVector)ipvec2;
 	n1 = n1.Unit();
@@ -229,6 +229,64 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 	
 }
 
+
+// calculation of phiStarCP using the IP+rho combined method using the api-channel
+// (i.e. one tau decays to charged particle a, and the other tau to rho, which decays to pi pi0)
+// The function takes the charge of the particle a as argument,
+// since the calculation of OStarCP depends on which particle is positively charged
+// (which is taken as reference)
+double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMFLV pion, RMFLV pizero, double charge){
+
+	// create boost to the api-ZMF
+	RMFLV ProngImp = chargPart + pion;
+	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
+	ROOT::Math::Boost M(boostvec);
+
+	// create LV for the IP vector
+	RMFLV n_mu;
+	n_mu.SetPxPyPzE(ipvec.X(), ipvec.Y(), ipvec.Z(), 0);
+
+	// boost the LVs into the api-ZMF
+	n_mu = M * n_mu;
+	chargPart = M * chargPart;
+	pion = M * pion;
+	pizero = M * pizero;
+
+	// 3-vectors after boosting
+	RMFLV::BetaVector n, p, q, q0;
+	n.SetXYZ(n_mu.Px(), n_mu.Py(), n_mu.Pz());
+	p.SetXYZ(chargPart.Px(), chargPart.Py(), chargPart.Pz());
+	q.SetXYZ(pion.Px(), pion.Py(), pion.Pz());
+	q0.SetXYZ(pizero.Px(), pizero.Py(), pizero.Pz());
+
+	// get the transverse component of
+	// n wrt p, and q0 wrt q
+	RMFLV::BetaVector nt = n - ( n.Dot(p) / p.Dot(p) ) * p;
+	RMFLV::BetaVector q0t = q0 - ( q0.Dot(q) / q.Dot(q) ) * q;
+
+	// normalized vectors
+	nt = nt.Unit();
+	p = p.Unit();
+	q = q.Unit();
+	q0t = q0t.Unit();
+
+	// calculate phi* and o*cp
+	// the definition of o*cp depends on the sign of the charge of a
+	double phiStar = acos( nt.Dot(q0t) );
+	double oStarCP = 0;
+	if (charge>0) oStarCP = p.Dot( nt.Cross(q0t) );
+	else oStarCP = q.Dot( q0t.Cross(nt) );
+
+	// calculate phi*cp
+	double phiStarCP = 0;
+	if (oStarCP>=0) phiStarCP = phiStar;
+	else phiStarCP = 2*ROOT::Math::Pi() - phiStar;
+
+	return phiStarCP;
+}
+
+
+
 // calculation of the hadron Energies in the approximate diTau restframe
 double CPQuantities::CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad)
 {
@@ -262,8 +320,6 @@ double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV c
 	tau1 = Mh * tau1;
 	tau2 = Mh * tau2;
 
-	//std::cout << tau1 << "               " << -1*tau2 << std::endl;
-
 	chargPart1 = Mh * chargPart1;
 	chargPart2 = Mh * chargPart2;
 
@@ -292,27 +348,28 @@ double CPQuantities::CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV c
 
 
 // calculate phicp in the lab frame
-double CPQuantities::CalculatePhiCPLab(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
+// this function is useable both at gen and reco level
+double CPQuantities::CalculatePhiCPLab(RMFLV chargPart1, TVector3 ipvec1, TVector3 ipvec2)
 {
 	// creating 3-momentum normal vectors on decay planes
-	RMFLV::BetaVector km, pm, pp, nm, np, ez;
-	km.SetXYZ(tau1.Px(),tau1.Py(),tau1.Pz());
-	pm.SetXYZ(chargPart1.Px(),chargPart1.Py(),chargPart1.Pz());
-	pp.SetXYZ(chargPart2.Px(),chargPart2.Py(),chargPart2.Pz());
+	TVector3 p1, n1, n2;
+	p1.SetXYZ(chargPart1.Px(),chargPart1.Py(),chargPart1.Pz());
+	n1 = ipvec1;
+	n2 = ipvec2;
 
-	nm = (km.Cross(pm)).Unit();
-	np = (km.Cross(pp)).Unit();
-	ez = km.Unit();
+	p1 = p1.Unit();
+	n1 = n1.Unit();
+	n2 = n2.Unit();
 
 	// calculating PhiCP in the lab frame
 	double phiCP = 0;
-	if(ez.Dot(np.Cross(nm))>=0)
+	if(p1.Dot(n1.Cross(n2))>=0)
 	{
-		phiCP = acos(np.Dot(nm));
+		phiCP = acos(n1.Dot(n2));
 	}
 	else
 	{
-		phiCP = 2*ROOT::Math::Pi()-acos(np.Dot(nm));
+		phiCP = 2*ROOT::Math::Pi()-acos(n1.Dot(n2));
 	}
 	return phiCP;
 }
@@ -441,18 +498,19 @@ TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KVertex* pv){
 
 // calculate the cosine of the angle psi (alpha in the Berges paper 1408.0798)
 // needed to observe the DY distribution modulation
-double CPQuantities::CalculateCosPsi(RMFLV recoPart, TVector3 ipvec){
+// this function is useable for both gen and reco level
+double CPQuantities::CalculateCosPsi(RMFLV momentum, TVector3 ipvec){
 	
 	TVector3 ez, p, n;
 	ez.SetXYZ(0,0,1);
-	p.SetXYZ(recoPart.Px(), recoPart.Py(), recoPart.Pz());
+	p.SetXYZ(momentum.Px(), momentum.Py(), momentum.Pz());
 	n = ipvec;
 
 	ez = ez.Unit();
 	p = p.Unit();
 	n = n.Unit();
 
-	double cospsi = TMath::Abs( (1./(ez.Cross(p)).Mag()) * (1/(n.Cross(p)).Mag()) * ((ez.Cross(p)).Dot(n.Cross(p))) );
+	double cospsi = TMath::Abs( (ez.Cross(p)).Dot(n.Cross(p)) / (ez.Cross(p).Mag() * n.Cross(p).Mag()) );
 
 	return cospsi;
 

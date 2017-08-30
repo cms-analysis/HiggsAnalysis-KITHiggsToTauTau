@@ -1,14 +1,5 @@
 #!/bin/bash
 
-if ! which wget; then 
-    echo "Try to install wget"; 
-    yum install wget -y
-    if ! which wget; then 
-        echo "Could not get wget"
-        exit 1
-    fi
-fi
-
 echo "Run run-cvmfs.sh"
 /etc/cvmfs/run-cvmfs.sh
 
@@ -21,5 +12,11 @@ set -x
     echo "checkout_packages.sh could not be executed"
     exit 1
 }
+
+# TODO: find way to access files on dCache
+#cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/ && scram b unittests || {
+#    echo "run tests failed"
+#    exit 1
+#}
 
 echo "Success!"

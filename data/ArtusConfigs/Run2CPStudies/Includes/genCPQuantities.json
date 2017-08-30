@@ -158,6 +158,8 @@
 		
 		"Tau1DecayMode",
 		"Tau2DecayMode",
+		"TauTree1DecayMode",
+		"TauTree2DecayMode",
 
 		"OneProngChargedPart1Pt",
 		"OneProngChargedPart1Pz",
