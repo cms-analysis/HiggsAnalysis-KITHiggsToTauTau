@@ -2,16 +2,16 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/ZBosonVetoFilter.h"
 
 
-void ZBosonVetoFilter::Init(setting_type const& settings)
+void ZBosonVetoFilter::Init(setting_type const& settings, metadata_type& metadata)
 {
-	FilterBase<HttTypes>::Init(settings);
+	FilterBase<HttTypes>::Init(settings, metadata);
 	
 	vetoType = ToZBosonVetoType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetZBosonVetoType())));
 }
 
 bool ZBosonVetoFilter::DoesEventPass(event_type const& event,
                                      product_type const& product,
-                                     setting_type const& settings) const
+                                     setting_type const& settings, metadata_type const& metadata) const
 {
 	bool validEvent = true;
 	

@@ -1,15 +1,15 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTbarGenDecayModeProducer.h"
 
-void TTbarGenDecayModeProducer::Init(setting_type const& settings)
+void TTbarGenDecayModeProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("TTbarGenDecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
+	ProducerBase<HttTypes>::Init(settings, metadata);
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "TTbarGenDecayMode", [this](HttTypes::event_type const& event, HttTypes::product_type const& product) {
 		return product.m_TTbarGenDecayMode;
 	});
 }
 
 void TTbarGenDecayModeProducer::Produce(event_type const& event, product_type& product,
-                                setting_type const& settings) const
+                                setting_type const& settings, metadata_type const& metadata) const
 {
 	// meaning: 0 - unspecified, 1 - fullhadronic, 2 - fullleptonic, 3 - semileptonic
 	product.m_TTbarGenDecayMode = 0;

@@ -17,12 +17,14 @@ class HttTauCorrectionsProducer: public TauCorrectionsProducer
 
 public:
 
-	typedef KappaEvent event_type;
-	typedef KappaProduct product_type;
-	typedef KappaSettings setting_type;
+	typedef typename KappaTypes::event_type event_type;
+	typedef typename KappaTypes::product_type product_type;
+	typedef typename KappaTypes::setting_type setting_type;
+	typedef typename KappaTypes::metadata_type metadata_type;
 	typedef typename HttTypes::event_type spec_event_type;
 	typedef typename HttTypes::product_type spec_product_type;
 	typedef typename HttTypes::setting_type spec_setting_type;
+	typedef typename HttTypes::metadata_type spec_metadata_type;
 
 	enum class TauEnergyCorrection : int
 	{
@@ -41,14 +43,14 @@ public:
 		else return TauEnergyCorrection::NONE;
 	}
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 
 protected:
 
 	// Htt type tau energy corrections
 	virtual void AdditionalCorrections(KTau* tau, event_type const& event,
-	                                   product_type& product, setting_type const& settings) const override;
+	                                   product_type& product, setting_type const& settings, metadata_type const& metadata) const override;
 
 
 private:

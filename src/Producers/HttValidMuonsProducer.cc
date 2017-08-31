@@ -56,9 +56,9 @@ HttValidMuonsProducer::HttValidMuonsProducer(std::vector<KMuon*> product_type::*
 
 bool HttValidMuonsProducer::AdditionalCriteria(KMuon* muon,
                                                event_type const& event, product_type& product,
-                                               setting_type const& settings) const
+                                               setting_type const& settings, metadata_type const& metadata) const
 {
-	bool validMuon = ValidMuonsProducer<HttTypes>::AdditionalCriteria(muon, event, product, settings);
+	bool validMuon = ValidMuonsProducer<HttTypes>::AdditionalCriteria(muon, event, product, settings, metadata);
 
 	double chargedIsolationPtSum = DefaultValues::UndefinedDouble;
 	double neutralIsolationPtSum = DefaultValues::UndefinedDouble;

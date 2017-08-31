@@ -19,14 +19,28 @@
 <flags EDM_PLUGIN="1"/>
 <!-- dependencies of TauSpinner -->
 
-<bin name="HiggsAnalysis-KITHiggsToTauTau_SM_Htautau" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
-	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test HiggsAnalysis-KITHiggsToTauTau_SM_Htautau.sh" />
+
+<bin name="Run2Analysis_Nominal__DYJetsToLLM50.sh" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
+	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test Run2Analysis_Nominal__DYJetsToLLM50.sh" />
 </bin>
 
-<bin name="HiggsAnalysis-KITHiggsToTauTau_Sync13TeV" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
-	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test HiggsAnalysis-KITHiggsToTauTau_Sync13TeV.sh" />
+<bin name="Run2Analysis_Nominal__GluGluHToTauTauM125.sh" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
+	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test Run2Analysis_Nominal__GluGluHToTauTauM125.sh" />
 </bin>
 
-<bin name="HiggsAnalysis-KITHiggsToTauTau_Run2Analysis" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
-	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test HiggsAnalysis-KITHiggsToTauTau_Run2Analysis.sh" />
+<bin name="Run2Analysis_Nominal__SingleMuon_Run2016H.sh" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
+	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test Run2Analysis_Nominal__SingleMuon_Run2016H.sh" />
 </bin>
+
+<bin name="Run2CPStudies_Nominal__DYJetsToLLM50.sh" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
+	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test Run2CPStudies_Nominal__DYJetsToLLM50.sh" />
+</bin>
+
+<bin name="Run2CPStudies_Nominal__GluGluHToTauTauM125.sh" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
+	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test Run2CPStudies_Nominal__GluGluHToTauTauM125.sh" />
+</bin>
+
+<bin name="Run2CPStudies_Nominal__SingleMuon_Run2016H.sh" file="HiggsAnalysis-KITHiggsToTauTau_tests.cc">
+	<flags TEST_RUNNER_ARGS="/bin/bash HiggsAnalysis/KITHiggsToTauTau/test Run2CPStudies_Nominal__SingleMuon_Run2016H.sh" />
+</bin>
+

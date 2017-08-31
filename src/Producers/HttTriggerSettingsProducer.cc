@@ -19,9 +19,9 @@ std::string HttTriggerSettingsProducer::GetProducerId() const
 	return "HttTriggerSettingsProducer";
 }
 
-void HttTriggerSettingsProducer::Init(setting_type const& settings)
+void HttTriggerSettingsProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	m_decayChannel = HttEnumTypes::ToDecayChannel(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetChannel())));
 	
@@ -32,7 +32,7 @@ void HttTriggerSettingsProducer::Init(setting_type const& settings)
 }
 
 void HttTriggerSettingsProducer::Produce(event_type const& event, product_type& product,
-                                         setting_type const& settings) const
+                                         setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_eventInfo);
 

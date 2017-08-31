@@ -19,9 +19,9 @@ std::string MadGraphReweightingProducer::GetProducerId() const
 	return "MadGraphReweightingProducer";
 }
 
-void MadGraphReweightingProducer::Init(setting_type const& settings)
+void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	// parsing settings
 	std::map<int, std::vector<std::string> > madGraphProcessDirectoriesByIndex = Utility::ParseMapTypes<int, std::string>(
@@ -69,7 +69,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	{
 		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
 		std::string mixingAngleOverPiHalfLabel = GetLabelForWeightsMap(mixingAngleOverPiHalf);
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(mixingAngleOverPiHalfLabel, [mixingAngleOverPiHalfLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, mixingAngleOverPiHalfLabel, [mixingAngleOverPiHalfLabel](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfLabel, 0.0);
 		});
@@ -83,11 +83,11 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 		assert(Utility::Contains(settings.GetMadGraphMixingAnglesOverPiHalf(), mixingAngleOverPiHalfSample));
 		
 		std::string mixingAngleOverPiHalfSampleLabel = GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(std::string("madGraphWeightSample"), [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, std::string("madGraphWeightSample"), [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, std::string("madGraphWeightSample"), 0.0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(std::string("madGraphWeightInvSample"), [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, std::string("madGraphWeightInvSample"), [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
 			double weight = SafeMap::GetWithDefault(product.m_optionalWeights, std::string("madGraphWeightSample"), 0.0);
 			//return std::min(((weight > 0.0) ? (1.0 / weight) : 0.0), 10.0);   // no physics reason for this
@@ -99,22 +99,22 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 	{
 		std::string particleIndexStr = std::to_string(particleIndex+1);
 		
-		LambdaNtupleConsumer<HttTypes>::AddCartesianRMFLVQuantity("madGraphLheParticle"+particleIndexStr+"LV", [this, particleIndex](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddCartesianRMFLVQuantity(metadata, "madGraphLheParticle"+particleIndexStr+"LV", [this, particleIndex](event_type const& event, product_type const& product)
 		{
 			return product.m_lheParticlesSortedForMadGraph.size() > particleIndex ? product.m_lheParticlesSortedForMadGraph.at(particleIndex)->p4 : DefaultValues::UndefinedCartesianRMFLV;
 		});
 		
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity("madGraphLheParticle"+particleIndexStr+"PdgId", [this, particleIndex](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "madGraphLheParticle"+particleIndexStr+"PdgId", [this, particleIndex](event_type const& event, product_type const& product)
 		{
 			return product.m_lheParticlesSortedForMadGraph.size() > particleIndex ? product.m_lheParticlesSortedForMadGraph.at(particleIndex)->pdgId : DefaultValues::UndefinedInt;
 		});
 	}
 	
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("subProcessCode", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "subProcessCode", [](event_type const& event, product_type const& product)
 	{
 		return event.m_lheParticles->subprocessCode;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("lheParticleJetNumber", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "lheParticleJetNumber", [](event_type const& event, product_type const& product)
 	{
 		return static_cast<int>(product.m_lheParticlesSortedForMadGraph.size()) - 3;
 	});
@@ -122,7 +122,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings)
 
 
 void MadGraphReweightingProducer::Produce(event_type const& event, product_type& product,
-                                          setting_type const& settings) const
+                                          setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_lheParticles);
 	

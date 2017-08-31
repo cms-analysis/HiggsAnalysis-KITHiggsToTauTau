@@ -18,10 +18,6 @@ template<class TLepton>
 class DiLeptonVetoFilterBase: public FilterBase<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	enum class VetoMode : int
 	{
 		NONE  = -1,
@@ -46,15 +42,15 @@ public:
 	{
 	}					
 	
-	virtual void Init(setting_type const& settings) override
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
-		FilterBase<HttTypes>::Init(settings);
+		FilterBase<HttTypes>::Init(settings, metadata);
 	
 		vetoMode = ToVetoMode(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetDiLeptonVetoMode)())));
 	}
 
 	virtual bool DoesEventPass(event_type const& event, product_type const& product,
-							   setting_type const& settings) const override
+							   setting_type const& settings, metadata_type const& metadata) const override
 	{
 		// TODO: This producer should be adapted to use the outputs of the new DiLeptonVetoProducers.
 		
@@ -119,10 +115,6 @@ private:
 class DiVetoElectronVetoFilter : public DiLeptonVetoFilterBase<KElectron> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	virtual std::string GetFilterId() const override {
 			return "DiVetoElectronVetoFilter";
 	}
@@ -138,10 +130,6 @@ public:
 class DiVetoMuonVetoFilter : public DiLeptonVetoFilterBase<KMuon> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	virtual std::string GetFilterId() const override {
 			return "DiVetoMuonVetoFilter";
 	}

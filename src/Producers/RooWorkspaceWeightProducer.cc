@@ -29,9 +29,9 @@ RooWorkspaceWeightProducer::RooWorkspaceWeightProducer():
 {
 }
 
-void RooWorkspaceWeightProducer::Init(setting_type const& settings)
+void RooWorkspaceWeightProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	m_saveTriggerWeightAsOptionalOnly = (settings.*GetSaveRooWorkspaceTriggerWeightAsOptionalOnly)();
 
@@ -62,7 +62,7 @@ void RooWorkspaceWeightProducer::Init(setting_type const& settings)
 }
 
 void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type & product, 
-	                     setting_type const& settings) const
+	                     setting_type const& settings, metadata_type const& metadata) const
 {
 
 	for(auto weightNames:m_weightNames)
@@ -139,7 +139,7 @@ EETriggerWeightProducer::EETriggerWeightProducer() :
 }
 
 void EETriggerWeightProducer::Produce( event_type const& event, product_type & product,
-						   setting_type const& settings) const
+						   setting_type const& settings, metadata_type const& metadata) const
 {
 	double eTrigWeight = 1.0;
 
@@ -189,7 +189,7 @@ MuMuTriggerWeightProducer::MuMuTriggerWeightProducer() :
 }
 
 void MuMuTriggerWeightProducer::Produce( event_type const& event, product_type & product,
-						   setting_type const& settings) const
+						   setting_type const& settings, metadata_type const& metadata) const
 {
 	double muTrigWeight = 1.0;
 
@@ -238,7 +238,7 @@ TauTauTriggerWeightProducer::TauTauTriggerWeightProducer() :
 }
 
 void TauTauTriggerWeightProducer::Produce( event_type const& event, product_type & product,
-						   setting_type const& settings) const
+						   setting_type const& settings, metadata_type const& metadata) const
 {
 	double tauTrigWeight = 1.0;
 
@@ -318,7 +318,7 @@ MuTauTriggerWeightProducer::MuTauTriggerWeightProducer() :
 }
 
 void MuTauTriggerWeightProducer::Produce( event_type const& event, product_type & product,
-						   setting_type const& settings) const
+						   setting_type const& settings, metadata_type const& metadata) const
 {
 	double muTrigWeight(1.0), tauTrigWeight(1.0);
 

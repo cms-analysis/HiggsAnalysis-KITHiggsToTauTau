@@ -5,9 +5,10 @@
 #include "Artus/Core/interface/Pipeline.h"
 #include "Artus/Core/interface/PipelineRunner.h"
 
-#include "HttEvent.h"
-#include "HttProduct.h"
-#include "HttSettings.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEvent.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttProduct.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttSettings.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttMetadata.h"
 
 
 /**
@@ -34,6 +35,9 @@ public:
 	
 	/// configuration settings which are Htt specific? 
 	typedef HttSettings setting_type;
+	
+	/// objects that exist once per pipeline and can be modified in Init functions of processors
+	typedef HttMetadata metadata_type;
 };
 
 typedef Pipeline<HttTypes> HttPipeline;

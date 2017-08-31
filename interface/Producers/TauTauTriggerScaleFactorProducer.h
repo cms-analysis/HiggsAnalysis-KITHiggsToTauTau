@@ -17,15 +17,11 @@
 class TauTauTriggerScaleFactorProducer: public ProducerBase<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 	std::string GetProducerId() const;
 
-	virtual void Init(setting_type const& settings) override
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
-		ProducerBase<HttTypes>::Init(settings);
+		ProducerBase<HttTypes>::Init(settings, metadata);
         TDirectory *savedir(gDirectory);
         TFile *savefile(gFile);
 		TFile f(settings.GetRooWorkspace().c_str());
@@ -39,7 +35,7 @@ public:
 	}
 
 	virtual void Produce(event_type const& event, product_type & product, 
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 private:
     RooWorkspace *m_workspace;
     RooFunctor* m_functorTau1;
