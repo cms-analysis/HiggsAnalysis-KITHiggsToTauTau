@@ -2,9 +2,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EventCountConsumer.h"
 #include "Artus/Utility/interface/RootFileHelper.h"
 
-void EventCountConsumer::Init(setting_type const& settings)
+void EventCountConsumer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ConsumerBase<KappaTypes>::Init(settings);
+	ConsumerBase<HttTypes>::Init(settings, metadata);
 	
 	currentLumi = 0;
 	m_totalEvents = new TH1I("totalEvents", "totalEvents", 2, -1, 1);
@@ -20,7 +20,7 @@ std::string EventCountConsumer::GetConsumerId() const
 	return "EventCountConsumer";
 }
 
-void EventCountConsumer::ProcessEvent(event_type const& event, product_type const& product, setting_type const& settings, FilterResult & result)
+void EventCountConsumer::ProcessEvent(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata, FilterResult & result)
 {
 	assert(event.m_eventInfo);
 	assert(event.m_filterMetadata);
@@ -34,7 +34,7 @@ void EventCountConsumer::ProcessEvent(event_type const& event, product_type cons
 	}
 }
 
-void EventCountConsumer::Finish(setting_type const& settings)
+void EventCountConsumer::Finish(setting_type const& settings, metadata_type const& metadata)
 {
 	RootFileHelper::SafeCd(settings.GetRootOutFile(), "");
 	m_totalEvents->Write(m_totalEvents->GetName());

@@ -6,9 +6,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/MetFilter.h"
 
 
-void MetFilter::Init(setting_type const& settings)
+void MetFilter::Init(setting_type const& settings, metadata_type& metadata)
 {
-	FilterBase<HttTypes>::Init(settings);
+	FilterBase<HttTypes>::Init(settings, metadata);
 	
     std::vector<std::string> tmpMetFilters = settings.GetMetFilter();
 	for(auto filter: tmpMetFilters)
@@ -28,7 +28,7 @@ void MetFilter::Init(setting_type const& settings)
 }
 
 bool MetFilter::DoesEventPass(event_type const& event, product_type const& product,
-                                       setting_type const& settings) const
+                                       setting_type const& settings, metadata_type const& metadata) const
 {
     bool validEvent = true;
     for (auto metfilter : m_metFilters)

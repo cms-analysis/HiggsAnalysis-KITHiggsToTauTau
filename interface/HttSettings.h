@@ -387,6 +387,7 @@ public:
 	IMPL_SETTING_FLOATLIST_DEFAULT(MadGraphMixingAnglesOverPiHalf, {});
 	IMPL_SETTING_DEFAULT(float, MadGraphMixingAnglesOverPiHalfSample, -1.0);
 	IMPL_SETTING(std::string, MadGraphParamCard);
+	IMPL_SETTING(std::string, MadGraphParamCardSample);
 	IMPL_SETTING_STRINGLIST_DEFAULT(MadGraphProcessDirectories, {});
 	
 	// settting for TopPtReweightingProducer

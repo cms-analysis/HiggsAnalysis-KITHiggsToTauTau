@@ -10,20 +10,16 @@
 class DataMcScaleFactorProducerBase: public ProducerBase<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	DataMcScaleFactorProducerBase(std::vector<std::string>& (setting_type::*GetEfficiencyData)(void) const,
 	                              std::vector<std::string>& (setting_type::*GetEfficiencyMc)(void) const,
 	                              std::string (setting_type::*GetEfficiencyHistogram)(void) const,
 	                              std::string (setting_type::*GetEfficiencyMode)(void) const,
 	                              std::string const& weightName);
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 
 
 private:
@@ -46,7 +42,7 @@ private:
 			std::map<std::string, std::vector<TH2F*> > const& efficienciesByHltName,
 			std::map<size_t, std::vector<TH2F*> > const& efficienciesByIndex,
 			event_type const& event, product_type const& product,
-			setting_type const& settings
+			setting_type const& settings, metadata_type const& metadata
 	) const;
 
 };
@@ -62,8 +58,6 @@ private:
  */
 class TriggerWeightProducer: public DataMcScaleFactorProducerBase {
 public:
-
-	typedef typename HttTypes::setting_type setting_type;
 
 	virtual std::string GetProducerId() const override {
 		return "TriggerWeightProducer";
@@ -84,8 +78,6 @@ public:
 class IdentificationWeightProducer: public DataMcScaleFactorProducerBase {
 public:
 
-	typedef typename HttTypes::setting_type setting_type;
-
 	virtual std::string GetProducerId() const override {
 		return "IdentificationWeightProducer";
 	}
@@ -100,17 +92,13 @@ public:
 class LepTauScaleFactorWeightProducer: public ProducerBase<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	LepTauScaleFactorWeightProducer(std::vector<std::string>& (setting_type::*GetWeightFiles)(void) const,
 	                                std::vector<std::string>& (setting_type::*GetWeightHistograms)(void) const);
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 
 private:
 	std::vector<std::string>& (setting_type::*GetWeightFiles)(void) const;
@@ -128,8 +116,6 @@ private:
 class EleTauFakeRateWeightProducer: public LepTauScaleFactorWeightProducer {
 public:
 
-	typedef typename HttTypes::setting_type setting_type;
-
 	virtual std::string GetProducerId() const override {
 		return "EleTauFakeRateWeightProducer";
 	}
@@ -145,8 +131,6 @@ public:
  */
 class MuonTauFakeRateWeightProducer: public LepTauScaleFactorWeightProducer {
 public:
-
-	typedef typename HttTypes::setting_type setting_type;
 
 	virtual std::string GetProducerId() const override {
 		return "MuonTauFakeRateWeightProducer";

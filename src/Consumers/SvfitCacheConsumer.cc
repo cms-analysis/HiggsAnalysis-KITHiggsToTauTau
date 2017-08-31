@@ -5,25 +5,29 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/SvfitCacheConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
+#include <TDirectory.h>
 
-void SvfitCacheConsumer::Init(setting_type const& settings)
+
+void SvfitCacheConsumer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ConsumerBase<HttTypes>::Init(settings);
+	ConsumerBase<HttTypes>::Init(settings, metadata);
 
+	TDirectory* tmpDirectory = gDirectory;
 	RootFileHelper::SafeCd(settings.GetRootOutFile(),
 	                       settings.GetRootFileFolder());
 	
 	m_svfitCacheTree = new TTree(settings.GetSvfitCacheTree().c_str(),
 	                             settings.GetSvfitCacheTree().c_str());
+	gDirectory = tmpDirectory;
 	m_svfitCacheTreeInitialised = false;
 }
 
 void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product,
-                                              setting_type const& settings)
+                                              setting_type const& settings, metadata_type const& metadata)
 {
 	// make sure the SvfitOutputFile option is set reasonably
 	assert((! settings.GetGenerateSvfitInput()) || (settings.GetSvfitOutFile().find(".root") != std::string::npos) || settings.GetUseFirstInputFileNameForSvfit());
-	ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product, settings);
+	ConsumerBase<HttTypes>::ProcessFilteredEvent(event, product, settings, metadata);
 	if (settings.GetGenerateSvfitInput())
 	{
 		if(!settings.GetUpdateSvfitCache() || (settings.GetUpdateSvfitCache() && product.m_svfitResults.recalculated))
@@ -88,7 +92,7 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 }
 
 
-void SvfitCacheConsumer::Finish(setting_type const& settings)
+void SvfitCacheConsumer::Finish(setting_type const& settings, metadata_type const& metadata)
 {
 	if (settings.GetGenerateSvfitInput())
 	{

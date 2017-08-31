@@ -1,16 +1,12 @@
 
 #pragma once
 
-#include "../HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
 
 class DiJetQuantitiesProducer: public ProducerBase<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	typedef std::function<double(RMDLV const&)> dijet_extractor_lambda;
 	
 	static double GetDiJetQuantity(product_type const& product,
@@ -20,9 +16,9 @@ public:
 		return "DiJetQuantitiesProducer";
 	}
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 };
 

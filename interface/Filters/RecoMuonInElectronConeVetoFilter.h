@@ -22,11 +22,11 @@ class RecoMuonInElectronConeVetoFilter: public FilterBase<HttTypes> {
 public:
 	
 	virtual std::string GetFilterId() const override {
-			return "RecoMuonInElectronConeVetoFilter";
+		return "RecoMuonInElectronConeVetoFilter";
 	}
 
 	virtual bool DoesEventPass(event_type const& event, product_type const& product,
-							   setting_type const& settings) const override;
+							   setting_type const& settings, metadata_type const& metadata) const override;
 
 };
 

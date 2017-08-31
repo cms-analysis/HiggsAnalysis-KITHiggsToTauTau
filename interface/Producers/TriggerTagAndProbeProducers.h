@@ -24,10 +24,6 @@ class TriggerTagAndProbeProducerBase: public ProducerBase<HttTypes>
 {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	TriggerTagAndProbeProducerBase(
 			std::vector<TTag*> product_type::*tagObjectsMember,
 			std::vector<TProbe*> product_type::*probeObjectsMember,
@@ -54,13 +50,13 @@ public:
 	{
 	}
 
-	virtual void Init(setting_type const& settings) override
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
-		ProducerBase<HttTypes>::Init(settings);
+		ProducerBase<HttTypes>::Init(settings, metadata);
 	}
 	
 	virtual void Produce(event_type const& event, product_type & product, 
-	                     setting_type const& settings) const override
+	                     setting_type const& settings, metadata_type const& metadata) const override
 	{
 		assert((product.*m_tagObjectsMember).size() > 0);
 		assert((product.*m_probeObjectsMember).size() > 0);

@@ -11,9 +11,9 @@
 #include "TLorentzVector.h"
 
 void HttMuonCorrectionsProducer::AdditionalCorrections(KMuon* muon, event_type const& event,
-                                                       product_type& product, setting_type const& settings) const
+                                                       product_type& product, setting_type const& settings, metadata_type const& metadata) const
 {
-	MuonCorrectionsProducer::AdditionalCorrections(muon, event, product, settings);
+	MuonCorrectionsProducer::AdditionalCorrections(muon, event, product, settings, metadata);
 	
 	float muonEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetMuonEnergyCorrectionShift();
 	if (muonEnergyCorrectionShift != 1.0)

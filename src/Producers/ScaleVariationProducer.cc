@@ -9,14 +9,14 @@ std::string ScaleVariationProducer::GetProducerId() const
 	return "ScaleVariationProducer";
 }
 
-void ScaleVariationProducer::Init(setting_type const& settings)
+void ScaleVariationProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	genEventInfoMetadataMap = Utility::ParseVectorToMap(settings.GetGenEventInfoMetadataNames());
 }
 
-void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const& settings)
+void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const& settings, metadata_type const& metadata)
 {
 	weightNames.clear();
 	for (std::string lheWeightName : event.m_genEventInfoMetadata->lheWeightNames)
@@ -35,7 +35,7 @@ void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const&
 }
 
 void ScaleVariationProducer::Produce(event_type const& event, product_type & product, 
-	                 setting_type const& settings) const
+	                 setting_type const& settings, metadata_type const& metadata) const
 {
 	size_t index = 0;
 	for(std::string weightName : weightNames)

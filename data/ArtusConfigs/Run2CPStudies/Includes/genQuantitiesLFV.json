@@ -1,0 +1,54 @@
+{
+	"property" : [
+		"genBosonLV",
+		"genBosonParticleFound",
+		"genBosonLVFound",
+		
+		"genBosonLep1LV",
+		"genBosonTau1LV",
+		"genBosonTau1VisibleLV",
+		"genBosonTau1DecayMode",
+		"genBosonTau1NProngs",
+		"genBosonTau1NPi0s",
+		
+		"genBosonLep2LV",
+		"genBosonTau2LV",
+		"genBosonTau2VisibleLV",
+		"genBosonTau2DecayMode",
+		"genBosonTau2NProngs",
+		"genBosonTau2NPi0s",
+
+		"genDiLeptonDecayMode",
+		"isZEE",
+		"isZMM",
+		"isZTT",
+		
+		"genTauTauDecayMode",
+		"isZtt",
+		"isZmt",
+		"isZet",
+		"isZem",
+		"isZmm",
+		"isZee",
+
+		"genDiLeptonDecayModeLFV",
+		"isZET",
+		"isZEM",
+		"isZMT",
+		
+		"genTauDecayMode",
+		"isZmt",
+		"isZet",
+		"isZem",
+		"isZmm",
+		"isZee",
+		
+		"lheDiLeptonDecayMode",
+		"lheZtoEE",
+		"lheZtoMM",
+		"lheZtoTT",
+		"lheZtoEM",
+		"lheZtoET",
+		"lheZtoMT"
+	]
+}

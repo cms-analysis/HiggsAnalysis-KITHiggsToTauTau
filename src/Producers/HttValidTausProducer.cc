@@ -3,8 +3,8 @@
 
 
 bool HttValidTausProducer::AdditionalCriteria(KTau* tau,
-                                              KappaEvent const& event, KappaProduct& product,
-                                              KappaSettings const& settings) const
+                                              event_type const& event, product_type& product,
+                                              setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_tauMetadata);
 	assert(event.m_vertexSummary);
@@ -12,7 +12,7 @@ bool HttValidTausProducer::AdditionalCriteria(KTau* tau,
 	HttProduct& specProduct = static_cast<HttProduct&>(product);
 	HttSettings const& specSettings = static_cast<HttSettings const&>(settings);
 
-	bool validTau = ValidTausProducer::AdditionalCriteria(tau, event, product, settings);
+	bool validTau = ValidTausProducer::AdditionalCriteria(tau, event, product, settings, metadata);
 	
 	double isolationPtSum = tau->getDiscriminator(specSettings.GetTauDiscriminatorIsolationName(), event.m_tauMetadata);
 	double isolationPtSumOverPt = isolationPtSum / tau->p4.Pt();
@@ -81,7 +81,7 @@ bool HttValidTausProducer::AdditionalCriteria(KTau* tau,
 }
 
 
-bool HttValidTausProducer::ApplyCustomMvaIsolationCut(KTau* tau, KappaEvent const& event,
+bool HttValidTausProducer::ApplyCustomMvaIsolationCut(KTau* tau, event_type const& event,
 	                                              std::vector<float> MvaIsolationCuts) const
 {
 	bool validTau = true;
@@ -94,7 +94,7 @@ bool HttValidTausProducer::ApplyCustomMvaIsolationCut(KTau* tau, KappaEvent cons
 }
 
 
-bool HttValidTausProducer::ApplyCustomElectronRejection(KTau* tau, KappaEvent const& event,
+bool HttValidTausProducer::ApplyCustomElectronRejection(KTau* tau, event_type const& event,
 	                                                    HttSettings const& settings) const
 {
 	bool validTau = true;

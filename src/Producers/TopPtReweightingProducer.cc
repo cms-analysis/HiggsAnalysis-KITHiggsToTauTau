@@ -6,9 +6,9 @@ std::string TopPtReweightingProducer::GetProducerId() const
 	return "TopPtReweightingProducer";
 }
 
-void TopPtReweightingProducer::Init(setting_type const& settings)
+void TopPtReweightingProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	m_isTTbar = boost::regex_search(settings.GetNickname(), boost::regex("(TT_|TTTo)", boost::regex::icase | boost::regex::extended));
 	std::string strategy = settings.GetTopPtReweightingStrategy();
@@ -18,7 +18,7 @@ void TopPtReweightingProducer::Init(setting_type const& settings)
 
 void TopPtReweightingProducer::Produce( event_type const& event,
 			product_type & product,
-			setting_type const& settings) const
+			setting_type const& settings, metadata_type const& metadata) const
 {
 	if (m_isTTbar)
 	{
