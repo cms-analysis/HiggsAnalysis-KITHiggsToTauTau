@@ -5,88 +5,88 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
 
 
-void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
+void DiLeptonQuantitiesProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("diLepLV", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "diLepLV", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genDiLepLV", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genDiLepLV", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonGenSystem;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("genDiLepFound", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "genDiLepFound", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonGenSystemFound;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("genDiTauLV", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genDiTauLV", [](event_type const& event, product_type const& product) {
 		return product.m_diTauGenSystem;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("genDiTauFound", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "genDiTauFound", [](event_type const& event, product_type const& product) {
 		return product.m_diTauGenSystemFound;
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepPt", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepEta", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepEta", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepPhi", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMass", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMass", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMt", [](event_type const& event, product_type const& product) {
 		return Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepGenMass", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepGenMass", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonGenSystem.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mt_tt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mt_tt", [](event_type const& event, product_type const& product) {
 		return Quantities::CalculateMtH2Tau(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
 	});
 	
 	float smearing = settings.GetMassSmearing();
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMassSmearUp", [smearing](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMassSmearUp", [smearing](event_type const& event, product_type const& product) {
 		double recoGenMassDiff = (product.m_diLeptonSystem.mass() - product.m_diLeptonGenSystem.mass());
 		return product.m_diLeptonGenSystem.mass() + (recoGenMassDiff * (1.0 + smearing));
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMassSmearDown", [smearing](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMassSmearDown", [smearing](event_type const& event, product_type const& product) {
 		float recoGenMassDiff = (product.m_diLeptonSystem.mass() - product.m_diLeptonGenSystem.mass());
 		return product.m_diLeptonGenSystem.mass() + (recoGenMassDiff * (1.0 - smearing));
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMetPt", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonPlusMetSystem.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetEta", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMetEta", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonPlusMetSystem.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMetPhi", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonPlusMetSystem.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetMass", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMetMass", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonPlusMetSystem.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetMt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMetMt", [](event_type const& event, product_type const& product) {
 		return Quantities::CalculateMt(product.m_diLeptonSystem, product.m_met.p4);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pZetaVis", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pZetaVis", [](event_type const& event, product_type const& product) {
 		return product.pZetaVis;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pZetaMiss", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pZetaMiss", [](event_type const& event, product_type const& product) {
 		return product.pZetaMiss;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pZetaMissVis", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pZetaMissVis", [](event_type const& event, product_type const& product) {
 		return product.pZetaMissVis;
 	});
 }
 
 void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& product,
-	                                     setting_type const& settings) const
+	                                     setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(product.m_metUncorr);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);

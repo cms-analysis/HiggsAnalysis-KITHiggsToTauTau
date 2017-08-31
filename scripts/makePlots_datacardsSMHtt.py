@@ -266,6 +266,8 @@ if __name__ == "__main__":
 	
 	# updates with respect to values stored in datasets.json
 	# values are taken from AN2016_355_v10
+	# TODO: remove this once new Artus outputs have been created
+	#       since cross sections are already updated in Kappa
 	signalCrossSectionTimesBR = {
 		"ggh125" : "((48.58*0.0627)/(3.0469376))",
 		"qqh125" : "((3.781*0.0627)/(0.237207))",
@@ -576,6 +578,8 @@ if __name__ == "__main__":
 			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
 		return null_yield
 	
+	# TODO: comment out the following two commands if you want to use
+	#       the SM HTT data card creation method in CombineHarvester
 	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)
 	
 	# convert shapes in control regions to lnN
@@ -685,15 +689,26 @@ if __name__ == "__main__":
 			"tt_Vbf2D" : [12, 24, 36]
 		}
 		
-		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge}, n_processes=args.n_processes)
+		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes)
 		for plot_config in prefit_postfit_plot_configs:
 			plot_category = plot_config["filename"].split("_")[-1]
 			plot_channel = plot_config["title"].split("_")[-1]
+			# NB: in order for the channel to be displayed in the proper position,
+			#     change x_title in plotroot.py from 0.2 to 0.12.
+			# NB2: in order for the lumi text to be displayed in the proper position,
+			#      adjust the first two arguments of latex.DrawLatex(1-r,1-t+lumiTextOffset*t,lumiText)
+			#      in CMS_lumi.py. 0.8875 and 0.94 seem to be ok values.
+			# NB3: in order for pdf output to be readable, the following manual changes are needed:
+			#      1.) defaultrootstyle.py:
+			#           - default_root_style.SetLineWidth(1) (currently line 44)
+			#           - default_root_style.SetFrameLineWidth(1) (currently line 49)
+			#      2.) plotroot.py:
+			#           - line_graph.SetLineWidth(1) (concerns vertical lines, curretnly line 309)
 			if "2D" in plot_category and not ("WJCR" in plot_category or "QCDCR" in plot_category):
 					plot_config["canvas_width"] = 1800
-					plot_config["canvas_heigth"] = 1000
+					plot_config["canvas_height"] = 1000
 					plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
-					plot_config["legend"] = [0.9, 0.1, 1.0, 0.8]
+					plot_config["legend"] = [0.895, 0.1, 0.995, 0.8]
 					plot_config["legend_cols"] = 1
 					plot_config["x_label"] = "m_{vis} (GeV)" if "ZeroJet" in plot_category and plot_channel in ["mt", "et", "em"] else "m_{#tau#tau} (GeV)"
 					plot_config["y_label"] = "Events/bin"
@@ -702,6 +717,7 @@ if __name__ == "__main__":
 					plot_config["y_subplot_title_offset"] = 0.31
 					plot_config["left_pad_margin"] = 0.1
 					plot_config["right_pad_margin"] = 0.11
+					plot_config["line_widths"] = [3]
 					if not (plot_channel == "tt" and plot_category == "ZeroJet2D"):
 						plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
 						plot_config["texts"] = texts[plot_channel+"_"+plot_category]
@@ -712,6 +728,15 @@ if __name__ == "__main__":
 						plot_config["x_title_offset"] = 1.5
 						plot_config["bottom_pad_margin"] = 0.5
 						plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
+					# now stack signal on top manually
+					plot_config["colors"].insert(0, "kRed")
+					plot_config["labels"].insert(0, "htt")
+					plot_config["legend_markers"].insert(0, "F")
+					plot_config["markers"].insert(0, "HIST")
+					plot_config["nicks"].insert(0, "HTT")
+					plot_config["nicks_whitelist"].insert(0, "HTT")
+					plot_config["stacks"].insert(0, "stack")
+					plot_config["x_expressions"].insert(0, "TotalSig")
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 		
 		# create pull plots

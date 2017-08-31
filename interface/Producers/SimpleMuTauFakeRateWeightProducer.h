@@ -13,20 +13,16 @@
 class SimpleMuTauFakeRateWeightProducer : public ProducerBase<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 	SimpleMuTauFakeRateWeightProducer();
 	SimpleMuTauFakeRateWeightProducer(std::vector<float>& (setting_type::*GetSimpleMuTauFakeRateWeightLoose)(void) const,
 									  std::vector<float>& (setting_type::*GetSimpleMuTauFakeRateWeightTight)(void) const);
 
 	std::string GetProducerId() const override;
 
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 	void Produce(event_type const& event, product_type& product,
-				 setting_type const& settings) const override;
+				 setting_type const& settings, metadata_type const& metadata) const override;
 private:
 
 	// the weights within each vector should be ordered by increasing |eta| in your json config

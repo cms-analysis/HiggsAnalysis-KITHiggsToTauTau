@@ -29,9 +29,9 @@ DataMcScaleFactorProducerBase::DataMcScaleFactorProducerBase(
 {
 }
 
-void DataMcScaleFactorProducerBase::Init(setting_type const& settings)
+void DataMcScaleFactorProducerBase::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	// parse settings for efficiency files
 	// and read the histograms from the files
@@ -84,21 +84,21 @@ void DataMcScaleFactorProducerBase::Init(setting_type const& settings)
 }
 
 void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_type& product,
-                                    setting_type const& settings) const
+                                    setting_type const& settings, metadata_type const& metadata) const
 {
 	// read bin contents from ROOT histograms
 	// Data
 	std::vector<std::vector<double> > efficienciesData = GetEfficiencies(
 			efficienciesDataByHltName,
 			efficienciesDataByIndex,
-			event, product, settings
+			event, product, settings, metadata
 	);
 	
 	// MC
 	std::vector<std::vector<double> > efficienciesMc = GetEfficiencies(
 			efficienciesMcByHltName,
 			efficienciesMcByIndex,
-			event, product, settings
+			event, product, settings, metadata
 	);
 	
 	// calculate the weight
@@ -168,7 +168,7 @@ std::vector<double> DataMcScaleFactorProducerBase::GetEfficienciesFromHistograms
 std::vector<std::vector<double> > DataMcScaleFactorProducerBase::GetEfficiencies(
 		std::map<std::string, std::vector<TH2F*> > const& efficienciesByHltName,
 		std::map<size_t, std::vector<TH2F*> > const& efficienciesByIndex,
-		event_type const& event, product_type const& product, setting_type const& settings) const
+		event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) const
 {
 	std::vector<std::vector<double> > efficiencies(efficienciesByHltName.size() + efficienciesByIndex.size(), std::vector<double>());
 	size_t index = 0;
@@ -265,9 +265,9 @@ LepTauScaleFactorWeightProducer::LepTauScaleFactorWeightProducer(
 }
 
 
-void LepTauScaleFactorWeightProducer::Init(setting_type const& settings)
+void LepTauScaleFactorWeightProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	// read the histograms from the weight file
 	std::map<std::string, std::vector<std::string> > weightFilesByName;
@@ -289,7 +289,7 @@ void LepTauScaleFactorWeightProducer::Init(setting_type const& settings)
 }
 
 void LepTauScaleFactorWeightProducer::Produce(event_type const& event, product_type& product,
-                                      setting_type const& settings) const
+                                      setting_type const& settings, metadata_type const& metadata) const
 {
 	for (std::map<size_t, std::vector<TH1F*> >::const_iterator weightByIndex = weightsByIndex.begin();
 	     weightByIndex != weightsByIndex.end(); ++weightByIndex)

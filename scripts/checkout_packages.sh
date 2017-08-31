@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e # exit on errors
 
 export SCRAM_ARCH=slc6_amd64_gcc491
@@ -8,6 +8,18 @@ source $VO_CMS_SW_DIR/cmsset_default.sh
 # set up CMSSW release area
 scramv1 project CMSSW CMSSW_7_4_7; cd CMSSW_7_4_7/src # slc6 # Combine requires this version
 eval `scramv1 runtime -sh`
+
+export BRANCH="master"
+while getopts :b:g:e:n: option
+do
+	case "${option}"
+	in
+	b) export BRANCH=${OPTARG};;
+	g) git config --global user.github ${OPTARG};;
+	e) git config --global user.email ${OPTARG};;
+	n) git config --global user.name "\"${OPTARG}\"";;
+	esac
+done
 
 # JEC
 git cms-addpkg CondFormats/JetMETObjects
@@ -24,11 +36,11 @@ git read-tree -mu HEAD
 cd ..
 
 git clone https://github.com/KappaAnalysis/KappaTools.git 
-git clone https://github.com/artus-analysis/Artus.git 
+git clone https://github.com/artus-analysis/Artus.git -b metadata
 git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau 
+git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.git HiggsAnalysis/KITHiggsToTauTau/doc/wiki
 #svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
 

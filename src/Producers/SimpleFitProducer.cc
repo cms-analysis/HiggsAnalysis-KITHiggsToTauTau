@@ -15,7 +15,6 @@
 #include "TauPolSoftware/SimpleFits/interface/GlobalEventFit.h"
 #include "TauPolSoftware/SimpleFits/interface/LorentzVectorParticle.h"
 //#include "TauPolSoftware/SimpleFits/interface/GEFObject.h"
-#include "Artus/KappaAnalysis/interface/KappaProduct.h"
 
 
 std::string SimpleFitProducer::GetProducerId() const
@@ -23,14 +22,14 @@ std::string SimpleFitProducer::GetProducerId() const
 	return "SimpleFitProducer";
 }
 
-void SimpleFitProducer::Init(setting_type const& settings)
+void SimpleFitProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-    ProducerBase<HttTypes>::Init(settings);
+    ProducerBase<HttTypes>::Init(settings, metadata);
 }
 
 
 void SimpleFitProducer::Produce(event_type const& event, product_type& product,
-                                setting_type const& settings) const
+                                setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	

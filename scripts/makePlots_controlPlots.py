@@ -14,7 +14,7 @@ import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
-from Artus.Utility.tools import make_multiplication, clean_multiplication
+
 
 def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgs_nick):
 	if not "scale_nicks" in config.keys():
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ewkz","tttautau", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvj", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "hww", "hww_gg", "hww_qq", "ff",
-	                             "ggh", "gghsm", "gghmm", "gghps", "qqh", "bbh", "vh", "htt", "data"],
+	                             "ggh", "gghsm", "gghmm", "gghps", "qqh", "bbh", "vh", "htt", "data", "zmt"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
@@ -431,11 +431,16 @@ if __name__ == "__main__":
 				else:
 					binning_string = "binningHtt13TeV"
 				
-				binnings_key = None
-				if binnings_key in binnings_settings.binnings_dict:
-					binnings_key = (binning_string + "_{channel}_{category}").format(channel=channel, category=category)
-				elif channel+"_"+quantity in binnings_settings.binnings_dict:
+				binnings_key = "{binning_string}{channel}{category}_{quantity}".format(
+						binning_string=((binning_string+"_") if binning_string else ""),
+						channel=channel,
+						category=(("_"+category) if category else ""),
+						quantity=quantity
+				)
+				if not binnings_key in binnings_settings.binnings_dict:
 					binnings_key = channel+"_"+quantity
+				if not binnings_key in binnings_settings.binnings_dict:
+					binnings_key = None
 				
 				if not binnings_key is None:
 					config["x_bins"] = [("1,-1,1" if "pol_gen" in nick else json_config.pop("x_bins", [binnings_key])) for nick in config["nicks"]]

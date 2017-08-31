@@ -1,24 +1,21 @@
 
 #pragma once
 
-#include "../HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+
 
 /** Producer for simple di-lepton/di-tau quantities.
  */
 class DiLeptonQuantitiesProducer: public ProducerBase<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 	virtual std::string GetProducerId() const override {
 		return "DiLeptonQuantitiesProducer";
 	}
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 };
 

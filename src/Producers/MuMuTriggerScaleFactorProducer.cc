@@ -9,7 +9,7 @@ std::string MuMuTriggerScaleFactorProducer::GetProducerId() const
 }
 
 void MuMuTriggerScaleFactorProducer::Produce( event_type const& event, product_type & product, 
-	                     setting_type const& settings) const
+	                     setting_type const& settings, metadata_type const& metadata) const
 {
     double WeightMu = 1.0;
 	for(int index = 0; index < 2; index++)

@@ -9,7 +9,7 @@
 
 bool RecoMuonInElectronConeVetoFilter::DoesEventPass(event_type const& event,
                                                      product_type const& product,
-                                                     setting_type const& settings) const
+                                                     setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_muons);
 	

@@ -1,0 +1,25 @@
+sudo: required
+language: cpp
+services:
+  - docker
+compiler:
+  - gcc
+before_install:
+  - docker pull claria/cvmfs-cms
+before_script:
+  - echo $HOME
+  - sudo curl -o $HOME/short_rootfiles.tar https://cernbox.cern.ch/index.php/s/WeawecKp2BD2BH2/download
+  - echo $HOME
+  - ls $HOME
+  - sudo tar -xvf $HOME/short_rootfiles.tar -C /home/
+  - sudo ls /home/short
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+script:
+  - docker run --privileged -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
+                            -v ${TRAVIS_BUILD_DIR}:/home/travis
+                            -v '/home/short:/home/short' claria/cvmfs-cms /bin/bash 
+                            -c "cd /home/; source /home/travis/test_build.sh -b ${TRAVIS_BRANCH} -g 'greyxray' -e 'greyxray@gmail.com' -n 'kappa test'"
+notifications:
+  email: false

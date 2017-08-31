@@ -3,7 +3,7 @@
 
 
 MetSelector::MetSelector() :
-	MetSelectorBase<KMET>(&HttTypes::event_type::m_met, nullptr)
+	MetSelectorBase<KMET>(&event_type::m_met, nullptr)
 {
 }
 
@@ -15,15 +15,15 @@ std::string MetSelector::GetProducerId() const
 
 
 MetSelectorPuppi::MetSelectorPuppi() :
-	MetSelectorBase<KMET>(&HttTypes::event_type::m_puppiMet, nullptr)
+	MetSelectorBase<KMET>(&event_type::m_puppiMet, nullptr)
 {
 }
 
 void MetSelectorPuppi::Produce(event_type const& event, product_type & product, 
-                     setting_type const& settings) const
+                     setting_type const& settings, metadata_type const& metadata) const
 {
 	// temporary fix while PUPPI doesn't  have a significance matrix
-	MetSelectorBase::Produce(event, product, settings);
+	MetSelectorBase::Produce(event, product, settings, metadata);
 	product.m_metUncorr->significance = event.m_met->significance;
 }
 
@@ -33,7 +33,7 @@ std::string MetSelectorPuppi::GetProducerId() const
 }
 
 MvaMetTTSelector::MvaMetTTSelector() :
-	MetSelectorBase(&HttTypes::event_type::m_mvaMetTT, &HttTypes::event_type::m_mvaMetsTT)
+	MetSelectorBase(&event_type::m_mvaMetTT, &event_type::m_mvaMetsTT)
 {
 }
 
@@ -44,7 +44,7 @@ std::string MvaMetTTSelector::GetProducerId() const
 
 
 MvaMetMTSelector::MvaMetMTSelector() :
-	MetSelectorBase(&HttTypes::event_type::m_mvaMetMT, &HttTypes::event_type::m_mvaMetsMT)
+	MetSelectorBase(&event_type::m_mvaMetMT, &event_type::m_mvaMetsMT)
 {
 }
 
@@ -55,7 +55,7 @@ std::string MvaMetMTSelector::GetProducerId() const
 
 
 MvaMetETSelector::MvaMetETSelector() :
-	MetSelectorBase(&HttTypes::event_type::m_mvaMetET, &HttTypes::event_type::m_mvaMetsET)
+	MetSelectorBase(&event_type::m_mvaMetET, &event_type::m_mvaMetsET)
 {
 }
 
@@ -66,7 +66,7 @@ std::string MvaMetETSelector::GetProducerId() const
 
 
 MvaMetEMSelector::MvaMetEMSelector() :
-	MetSelectorBase(&HttTypes::event_type::m_mvaMetEM, &HttTypes::event_type::m_mvaMetsEM)
+	MetSelectorBase(&event_type::m_mvaMetEM, &event_type::m_mvaMetsEM)
 {
 }
 
@@ -76,7 +76,7 @@ std::string MvaMetEMSelector::GetProducerId() const
 }
 
 MvaMetSelector::MvaMetSelector() :
-	MetSelectorBase(&HttTypes::event_type::m_mvaMet, &HttTypes::event_type::m_mvaMets)
+	MetSelectorBase(&event_type::m_mvaMet, &event_type::m_mvaMets)
 {
 }
 
