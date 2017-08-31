@@ -12,7 +12,7 @@ public:
 	
 	MetLowerPtCutsFilter() : CutRangeFilterBase<HttTypes>() {}
 	
-	virtual void Init(HttSettings const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 };
 
 
@@ -23,5 +23,5 @@ public:
 	
 	MetUpperPtCutsFilter() : CutRangeFilterBase<HttTypes>() {}
 	
-	virtual void Init(HttSettings const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 };

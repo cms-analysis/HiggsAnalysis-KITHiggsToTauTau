@@ -13,14 +13,10 @@
 class AcceptanceEfficiencyConsumer : public LambdaNtupleConsumer<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 	virtual std::string GetConsumerId() const override;
-	virtual void Init(setting_type const& settings) override;
-	virtual void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings) override;
-	virtual void Finish(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
+	virtual void ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) override;
+	virtual void Finish(setting_type const& settings, metadata_type const& metadata) override;
 
 private:
 

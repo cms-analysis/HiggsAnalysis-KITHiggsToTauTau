@@ -15,26 +15,26 @@ MetCorrector::MetCorrector() :
 {
 }
 
-void MetCorrector::Init(setting_type const& settings)
+void MetCorrector::Init(setting_type const& settings, metadata_type& metadata)
 {
-	MetCorrectorBase<KMET>::Init(settings);
+	MetCorrectorBase<KMET>::Init(settings, metadata);
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("uncorrmet", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "uncorrmet", [](event_type const& event, product_type const& product) {
 		return product.m_pfmetUncorr->p4.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genpX", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genpX", [](event_type const& event, product_type const& product) {
 		return product.m_pfmetCorrections[0];
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genpY", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genpY", [](event_type const& event, product_type const& product) {
 		return product.m_pfmetCorrections[1];
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("vispX", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "vispX", [](event_type const& event, product_type const& product) {
 		return product.m_pfmetCorrections[2];
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("vispY", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "vispY", [](event_type const& event, product_type const& product) {
 		return product.m_pfmetCorrections[3];
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pfMetCorr", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetCorr", [](event_type const& event, product_type const& product) {
 		return product.m_pfmet.p4.Pt();
 	});
 
@@ -58,44 +58,44 @@ MvaMetCorrector::MvaMetCorrector() :
 {
 }
 
-void MvaMetCorrector::Init(setting_type const& settings)
+void MvaMetCorrector::Init(setting_type const& settings, metadata_type& metadata)
 {
-	MetCorrectorBase<KMET>::Init(settings);
+	MetCorrectorBase<KMET>::Init(settings, metadata);
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetUncorr", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetUncorr", [](event_type const& event, product_type const& product) {
 		return product.m_mvametUncorr->p4.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetCorrectionGenPx", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCorrectionGenPx", [](event_type const& event, product_type const& product) {
 		return product.m_mvametCorrections[0];
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetCorrectionGenPy", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCorrectionGenPy", [](event_type const& event, product_type const& product) {
 		return product.m_mvametCorrections[1];
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetCorrectionVisPx", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCorrectionVisPx", [](event_type const& event, product_type const& product) {
 		return product.m_mvametCorrections[2];
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetCorrectionVisPy", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCorrectionVisPy", [](event_type const& event, product_type const& product) {
 		return product.m_mvametCorrections[3];
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("mvaMetCorr", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCorr", [](event_type const& event, product_type const& product) {
 		return product.m_mvamet.p4.Pt();
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genpX", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genpX", [metadata](event_type const& event, product_type const& product)
 	{
-		return product.m_mvametCorrections.size() > 0 ? LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCorrectionGenPx"](event, product) : DefaultValues::UndefinedFloat;
+		return product.m_mvametCorrections.size() > 0 ? SafeMap::Get(metadata.m_commonFloatQuantities, std::string("mvaMetCorrectionGenPx"))(event, product) : DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("genpY", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genpY", [metadata](event_type const& event, product_type const& product)
 	{
-		return product.m_mvametCorrections.size() > 0 ? LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCorrectionGenPy"](event, product) : DefaultValues::UndefinedFloat;
+		return product.m_mvametCorrections.size() > 0 ? SafeMap::Get(metadata.m_commonFloatQuantities, std::string("mvaMetCorrectionGenPy"))(event, product) : DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("vispX", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "vispX", [metadata](event_type const& event, product_type const& product)
 	{
-		return product.m_mvametCorrections.size() > 0 ? LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCorrectionVisPx"](event, product) : DefaultValues::UndefinedFloat;
+		return product.m_mvametCorrections.size() > 0 ? SafeMap::Get(metadata.m_commonFloatQuantities, std::string("mvaMetCorrectionVisPx"))(event, product) : DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("vispY", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "vispY", [metadata](event_type const& event, product_type const& product)
 	{
-		return product.m_mvametCorrections.size() > 0 ? LambdaNtupleConsumer<HttTypes>::GetFloatQuantities()["mvaMetCorrectionVisPy"](event, product) : DefaultValues::UndefinedFloat;
+		return product.m_mvametCorrections.size() > 0 ? SafeMap::Get(metadata.m_commonFloatQuantities, std::string("mvaMetCorrectionVisPy"))(event, product) : DefaultValues::UndefinedFloat;
 	});
 
 	m_correctGlobalMet = settings.GetChooseMvaMet();

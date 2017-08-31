@@ -9,17 +9,17 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttElectronCorrectionsProducer.h"
 
 
-void HttElectronCorrectionsProducer::Init(setting_type const& settings)
+void HttElectronCorrectionsProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ElectronCorrectionsProducer::Init(settings);
+	ElectronCorrectionsProducer::Init(settings, metadata);
 	
 	eleEnergyCorrection = ToElectronEnergyCorrection(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(static_cast<HttSettings const&>(settings).GetElectronEnergyCorrection())));
 }
 
 void HttElectronCorrectionsProducer::AdditionalCorrections(KElectron* electron, event_type const& event,
-                                                      product_type& product, setting_type const& settings) const
+                                                      product_type& product, setting_type const& settings, metadata_type const& metadata) const
 {
-	ElectronCorrectionsProducer::AdditionalCorrections(electron, event, product, settings);
+	ElectronCorrectionsProducer::AdditionalCorrections(electron, event, product, settings, metadata);
 	
 	if (eleEnergyCorrection == ElectronEnergyCorrection::FALL2015)
 	{

@@ -9,18 +9,14 @@
 class DecayChannelProducer: public ProducerBase<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 	virtual std::string GetProducerId() const override {
 		return "DecayChannelProducer";
 	}
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 	
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 
 protected:
 	HttEnumTypes::DecayChannel m_decayChannel;
@@ -35,16 +31,12 @@ protected:
 class TTHDecayChannelProducer: public DecayChannelProducer {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-
 	virtual std::string GetProducerId() const override {
 		return "TTHDecayChannelProducer";
 	}
 	
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 };
 
 class Run2DecayChannelProducer : public DecayChannelProducer {
@@ -53,9 +45,9 @@ public:
 		return "Run2DecayChannelProducer";
 	}
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 };
 

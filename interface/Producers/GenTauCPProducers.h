@@ -2,8 +2,8 @@
 
 #include "Artus/Utility/interface/Utility.h"
 
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
-#include "../HttTypes.h"
 
 /**
    \brief GlobalProducer, for CP studies of tau decays. Following quantities are calculated from the input of GenTauDecayProducer :
@@ -15,44 +15,32 @@
 class GenTauCPProducerBase : public ProducerBase<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 };
 
 class GenTauCPProducer : public GenTauCPProducerBase {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	virtual std::string GetProducerId() const override;
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 };
 
 class GenMatchedTauCPProducer : public GenTauCPProducerBase {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	virtual std::string GetProducerId() const override;
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 	virtual void Produce(event_type const& event, product_type& product,
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 
 protected:
 	void FindGenTau(product_type& product) const;

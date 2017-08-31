@@ -4,9 +4,9 @@
 
 bool HttValidJetsProducer::AdditionalCriteria(KBasicJet* jet,
                                               event_type const& event, product_type& product,
-                                              setting_type const& settings) const
+                                              setting_type const& settings, metadata_type const& metadata) const
 {
-	bool validJet = ValidJetsProducer::AdditionalCriteria(jet, event, product, settings);
+	bool validJet = ValidJetsProducer::AdditionalCriteria(jet, event, product, settings, metadata);
 	
 	return validJet;
 }
@@ -14,9 +14,9 @@ bool HttValidJetsProducer::AdditionalCriteria(KBasicJet* jet,
 
 bool HttValidTaggedJetsProducer::AdditionalCriteria(KJet* jet,
                                                     event_type const& event, product_type& product,
-                                                    setting_type const& settings) const
+                                                    setting_type const& settings, metadata_type const& metadata) const
 {
-	bool validJet = ValidTaggedJetsProducer::AdditionalCriteria(jet, event, product, settings);
+	bool validJet = ValidTaggedJetsProducer::AdditionalCriteria(jet, event, product, settings, metadata);
 	
 	HttSettings const& specSettings = static_cast<HttSettings const&>(settings);
 	HttProduct const& specProduct = static_cast<HttProduct const&>(product);

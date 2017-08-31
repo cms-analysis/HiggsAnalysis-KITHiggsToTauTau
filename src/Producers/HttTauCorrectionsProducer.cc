@@ -14,17 +14,17 @@
 #include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
 
 	
-void HttTauCorrectionsProducer::Init(setting_type const& settings)
+void HttTauCorrectionsProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	TauCorrectionsProducer::Init(settings);
+	TauCorrectionsProducer::Init(settings, metadata);
 	
 	tauEnergyCorrection = ToTauEnergyCorrection(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(static_cast<HttSettings const&>(settings).GetTauEnergyCorrection())));
 }
 
 void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type const& event,
-                                                      product_type& product, setting_type const& settings) const
+                                                      product_type& product, setting_type const& settings, metadata_type const& metadata) const
 {
-	TauCorrectionsProducer::AdditionalCorrections(tau, event, product, settings);
+	TauCorrectionsProducer::AdditionalCorrections(tau, event, product, settings, metadata);
 	
 	double normalisationFactor = 1.0;
 	
