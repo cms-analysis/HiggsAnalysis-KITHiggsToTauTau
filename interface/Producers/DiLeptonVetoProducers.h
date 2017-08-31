@@ -16,10 +16,6 @@ template<class TLepton>
 class DiLeptonVetoProducerBase: public ProducerBase<HttTypes> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	DiLeptonVetoProducerBase(std::vector<TLepton*> product_type::*leptons,
 	                         float (setting_type::*GetDiLeptonMinDeltaRCut)(void) const,
 	                         int product_type::*nDiLeptonVetoPairsOS,
@@ -32,13 +28,13 @@ public:
 	{
 	}					
 	
-	virtual void Init(setting_type const& settings) override
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
-		ProducerBase<HttTypes>::Init(settings);
+		ProducerBase<HttTypes>::Init(settings, metadata);
 		
 	}
 
-	virtual void Produce(event_type const& event, product_type& product, setting_type const& settings) const override
+	virtual void Produce(event_type const& event, product_type& product, setting_type const& settings, metadata_type const& metadata) const override
 	{
 		(product.*m_nDiLeptonVetoPairsOS) = 0;
 		(product.*m_nDiLeptonVetoPairsSS) = 0;
@@ -81,15 +77,11 @@ private:
 class DiVetoElectronVetoProducer : public DiLeptonVetoProducerBase<KElectron> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	virtual std::string GetProducerId() const override;
 	
 	DiVetoElectronVetoProducer();
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 };
 
 
@@ -100,14 +92,10 @@ public:
 class DiVetoMuonVetoProducer : public DiLeptonVetoProducerBase<KMuon> {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	virtual std::string GetProducerId() const override;
 	
 	DiVetoMuonVetoProducer();
 	
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 };
 

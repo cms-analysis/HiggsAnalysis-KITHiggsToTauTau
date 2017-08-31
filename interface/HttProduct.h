@@ -242,6 +242,7 @@ class HttProduct : public KappaProduct
 	double m_genOStarCP  = DefaultValues::UndefinedDouble;
 	double m_genOCP  = DefaultValues::UndefinedDouble;
 	double m_genPhiCPLab  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCPComb = DefaultValues::UndefinedDouble;
 
 	double m_genPhiCP_rho  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP_rho  = DefaultValues::UndefinedDouble;
@@ -258,6 +259,8 @@ class HttProduct : public KappaProduct
 	unsigned int m_genTau2ProngsSize = DefaultValues::UndefinedInt;
 	int m_genTau1DecayMode = DefaultValues::UndefinedInt;
 	int m_genTau2DecayMode = DefaultValues::UndefinedInt;
+	int m_genTauTree1DecayMode = DefaultValues::UndefinedInt;
+	int m_genTauTree2DecayMode = DefaultValues::UndefinedInt;
 
 
 	// filled by GenMatchedTauCPProducer

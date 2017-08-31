@@ -17,15 +17,15 @@ DiVetoElectronVetoProducer::DiVetoElectronVetoProducer() :
 {
 }
 
-void DiVetoElectronVetoProducer::Init(setting_type const& settings)
+void DiVetoElectronVetoProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	DiLeptonVetoProducerBase<KElectron>::Init(settings);
+	DiLeptonVetoProducerBase<KElectron>::Init(settings, metadata);
 
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiElectronVetoPairsOS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiElectronVetoPairsOS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_nDiElectronVetoPairsOS;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiElectronVetoPairsSS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiElectronVetoPairsSS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_nDiElectronVetoPairsSS;
 	});
@@ -44,15 +44,15 @@ DiVetoMuonVetoProducer::DiVetoMuonVetoProducer() :
 {
 }
 
-void DiVetoMuonVetoProducer::Init(setting_type const& settings)
+void DiVetoMuonVetoProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	DiLeptonVetoProducerBase<KMuon>::Init(settings);
+	DiLeptonVetoProducerBase<KMuon>::Init(settings, metadata);
 
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiMuonVetoPairsOS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiMuonVetoPairsOS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_nDiMuonVetoPairsOS;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("nDiMuonVetoPairsSS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiMuonVetoPairsSS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_nDiMuonVetoPairsSS;
 	});

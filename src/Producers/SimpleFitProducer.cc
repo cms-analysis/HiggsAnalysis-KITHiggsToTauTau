@@ -25,26 +25,26 @@ std::string SimpleFitProducer::GetProducerId() const
 	return "SimpleFitProducer";
 }
 
-void SimpleFitProducer::Init(setting_type const& settings)
+void SimpleFitProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-    ProducerBase<HttTypes>::Init(settings);
+    ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("simpleFitAvailable", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "simpleFitAvailable", [](event_type const& event, product_type const& product) {
 		return (Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0)) &&
 		        Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1)));
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("simpleFitLV", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitLV", [](event_type const& event, product_type const& product) {
 		return product.m_diTauSystemSimpleFit;
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("simpleFitTau1Available", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "simpleFitTau1Available", [](event_type const& event, product_type const& product) {
 		return Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0));
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("simpleFitTau1LV", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau1LV", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedRMFLV);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("simpleFitTau1ERatio", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "simpleFitTau1ERatio", [](event_type const& event, product_type const& product) {
 		if (Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0)))
 		{
 			return product.m_flavourOrderedLeptons.at(0)->p4.E() / SafeMap::Get(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0)).E();
@@ -55,13 +55,13 @@ void SimpleFitProducer::Init(setting_type const& settings)
 		}
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity("simpleFitTau2Available", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "simpleFitTau2Available", [](event_type const& event, product_type const& product) {
 		return Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1));
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity("simpleFitTau2LV", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau2LV", [](event_type const& event, product_type const& product) {
 		return SafeMap::GetWithDefault(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedRMFLV);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("simpleFitTau2ERatio", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "simpleFitTau2ERatio", [](event_type const& event, product_type const& product) {
 		if (Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1)))
 		{
 			return product.m_flavourOrderedLeptons.at(1)->p4.E() / SafeMap::Get(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1)).E();
@@ -74,7 +74,7 @@ void SimpleFitProducer::Init(setting_type const& settings)
 }
 
 void SimpleFitProducer::Produce(event_type const& event, product_type& product,
-                                setting_type const& settings) const
+                                setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	assert(event.m_vertexSummary); // TODO: change to refitted PV

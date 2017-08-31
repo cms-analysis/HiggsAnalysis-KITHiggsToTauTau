@@ -1,9 +1,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EmbeddingConsumer.h"
 
 
-void EmbeddingConsumer::Init(setting_type const& settings)
+void EmbeddingConsumer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ConsumerBase<HttTypes>::Init(settings);
+	ConsumerBase<HttTypes>::Init(settings, metadata);
 	//Histograms initialization for different muons and Pt Flow per DeltaR.
 	//Format of the histograms: PtFlow per DeltaR on y-axis and DeltaR on x-axis.
 	nDeltaRBins = settings.GetDeltaRBinning();
@@ -37,7 +37,7 @@ void EmbeddingConsumer::Init(setting_type const& settings)
 }
 
 
-void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings)
+void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 {
 	// Here is assumed, that validMuons are Pt ordered
 	Muon["leading"] = static_cast<KMuon*>(product.m_zLeptons.first);
@@ -86,7 +86,7 @@ void EmbeddingConsumer::ProcessFilteredEvent(event_type const& event, product_ty
 
 }
 
-void EmbeddingConsumer::Finish(setting_type const& settings)
+void EmbeddingConsumer::Finish(setting_type const& settings, metadata_type const& metadata)
 {
 	for(unsigned int i=0;i<histograms.size();i++)
 	{

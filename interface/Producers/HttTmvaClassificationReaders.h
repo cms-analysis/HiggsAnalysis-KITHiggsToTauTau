@@ -18,13 +18,6 @@ class AntiTtbarDiscriminatorTmvaReader: public TmvaClassificationReaderBase<HttT
 {
 public:
 
-	typedef KappaEvent event_type;
-	typedef KappaProduct product_type;
-	typedef KappaSettings setting_type;
-	typedef typename HttTypes::event_type spec_event_type;
-	typedef typename HttTypes::product_type spec_product_type;
-	typedef typename HttTypes::setting_type spec_setting_type;
-
 	virtual std::string GetProducerId() const override
 	{
 		return "AntiTtbarDiscriminatorTmvaReader";
@@ -32,23 +25,16 @@ public:
 	
 	AntiTtbarDiscriminatorTmvaReader();
 	
-	virtual void Init(spec_setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 	
-	virtual void Produce(spec_event_type const& event, spec_product_type& product,
-	                     spec_setting_type const& settings) const override;
+	virtual void Produce(event_type const& event, product_type& product,
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 
 };
 
 class TauPolarisationTmvaReader: public TmvaClassificationReaderBase<HttTypes>
 {
 public:
-
-	typedef KappaEvent event_type;
-	typedef KappaProduct product_type;
-	typedef KappaSettings setting_type;
-	typedef typename HttTypes::event_type spec_event_type;
-	typedef typename HttTypes::product_type spec_product_type;
-	typedef typename HttTypes::setting_type spec_setting_type;
 
 	virtual std::string GetProducerId() const override
 	{
@@ -57,10 +43,10 @@ public:
 	
 	TauPolarisationTmvaReader();
 	
-	virtual void Init(spec_setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 	
-	virtual void Produce(spec_event_type const& event, spec_product_type& product,
-	                     spec_setting_type const& settings) const override;
+	virtual void Produce(event_type const& event, product_type& product,
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 
 };
 

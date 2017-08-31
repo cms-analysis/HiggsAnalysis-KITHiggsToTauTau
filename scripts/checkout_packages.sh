@@ -26,7 +26,7 @@ git cms-addpkg CondFormats/JetMETObjects
 
 # From Kappa, only the DataFormats are needed
 # Mind that for certain skims, you need exactly the Kappa git tag that has been used for the production
-git clone https://github.com/KappaAnalysis/Kappa.git -b getByToken
+git clone https://github.com/KappaAnalysis/Kappa.git -b dictchanges
 cd Kappa
 echo docs/ >> .git/info/sparse-checkout
 echo DataFormats/ >> .git/info/sparse-checkout
@@ -36,7 +36,7 @@ git read-tree -mu HEAD
 cd ..
 
 git clone https://github.com/KappaAnalysis/KappaTools.git  -b getByToken
-git clone https://github.com/artus-analysis/Artus.git -b getByToken
+git clone https://github.com/artus-analysis/Artus.git -b dictchanges
 git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
 # checkout KITHiggsToTauTau CMSSW analysis package

@@ -2,9 +2,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidGenTausProducer.h"
 
 
-void HttValidGenTausProducer::Init(setting_type const& settings)
+void HttValidGenTausProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	m_deltaR = 0.3; //todo: read in from settings
 	m_validateMatching = true;
@@ -13,22 +13,22 @@ void HttValidGenTausProducer::Init(setting_type const& settings)
 }
 
 void HttValidGenTausProducer::Produce(event_type const& event, product_type& product,
-									  setting_type const& settings) const
+									  setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_genTaus);
 	
 	if (event.m_genTaus->empty()) return; // no genTaus, nothing to do
 
-	CopyVectors(event, product, settings);
-	SortVectors(event, product, settings);
+	CopyVectors(event, product, settings, metadata);
+	SortVectors(event, product, settings, metadata);
 	if (m_validateMatching)
-		ValidateMatching(event, product, settings);
+		ValidateMatching(event, product, settings, metadata);
 
 	return;
 }
 
 void HttValidGenTausProducer::CopyVectors(event_type const& event, product_type& product,
-		setting_type const& settings) const
+		setting_type const& settings, metadata_type const& metadata) const
 {
 	for (unsigned int i = 0; i < event.m_genTaus->size(); i++)
 	{
@@ -46,7 +46,7 @@ void HttValidGenTausProducer::CopyVectors(event_type const& event, product_type&
 }
 
 void HttValidGenTausProducer::SortVectors(event_type const& event, product_type& product,
-		setting_type const& settings) const
+		setting_type const& settings, metadata_type const& metadata) const
 {
 	// count to determine the decay channel according to generator Taus
 	int nElectrons = product.m_validGenTausToElectrons.size();
@@ -92,7 +92,7 @@ void HttValidGenTausProducer::SortVectors(event_type const& event, product_type&
 }
 
 void HttValidGenTausProducer::ValidateMatching(event_type const& event, product_type& product,
-		setting_type const& settings) const
+		setting_type const& settings, metadata_type const& metadata) const
 {
 	if (DoesGenRecoMatch(product.m_ptOrderedLeptons, product.m_ptOrderedGenTaus)) {}  // do something
 	if (DoesGenRecoMatch(product.m_flavourOrderedLeptons , product.m_flavourOrderedGenTaus)) {} // do something

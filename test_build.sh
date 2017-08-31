@@ -13,4 +13,10 @@ set -x
     exit 1
 }
 
+# TODO: find way to access files on dCache
+#cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/ && scram b unittests || {
+#    echo "run tests failed"
+#    exit 1
+#}
+
 echo "Success!"

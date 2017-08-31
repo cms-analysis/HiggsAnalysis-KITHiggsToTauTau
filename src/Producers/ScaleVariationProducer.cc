@@ -13,14 +13,14 @@ std::string ScaleVariationProducer::GetProducerId() const
 	return "ScaleVariationProducer";
 }
 
-void ScaleVariationProducer::Init(setting_type const& settings)
+void ScaleVariationProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 	
 	for (std::vector<std::string>::const_iterator lheWeight = settings.GetPdfLheWeights().begin(); lheWeight != settings.GetPdfLheWeights().end(); ++lheWeight)
 	{
 		std::string lheWeightStr = *lheWeight;
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, lheWeightStr, 1.0);
 		});
@@ -29,7 +29,7 @@ void ScaleVariationProducer::Init(setting_type const& settings)
 	for (std::vector<std::string>::const_iterator lheWeight = settings.GetAlphaSLheWeights().begin(); lheWeight != settings.GetAlphaSLheWeights().end(); ++lheWeight)
 	{
 		std::string lheWeightStr = *lheWeight;
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, lheWeightStr, 1.0);
 		});
@@ -38,14 +38,14 @@ void ScaleVariationProducer::Init(setting_type const& settings)
 	for (std::vector<std::string>::const_iterator lheWeight = settings.GetScaleLheWeights().begin(); lheWeight != settings.GetScaleLheWeights().end(); ++lheWeight)
 	{
 		std::string lheWeightStr = *lheWeight;
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, lheWeightStr, 1.0);
 		});
 	}
 }
 
-void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const& settings)
+void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const& settings, metadata_type const& metadata)
 {
 	assert(event.m_genEventInfoMetadata);
 	assert(event.m_genRunInfo);
@@ -56,7 +56,7 @@ void ScaleVariationProducer::OnLumi(event_type const& event, setting_type const&
 }
 
 void ScaleVariationProducer::Produce(event_type const& event, product_type & product, 
-                                     setting_type const& settings) const
+                                     setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(event.m_genEventInfo);
 	
@@ -129,4 +129,3 @@ void ScaleVariationProducer::DetermineWeights(event_type const& event, product_t
 		}
 	}
 }
-

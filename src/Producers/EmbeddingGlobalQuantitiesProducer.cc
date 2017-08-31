@@ -1,27 +1,27 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EmbeddingGlobalQuantitiesProducer.h"
 
-void EmbeddingGlobalQuantitiesProducer::Init(setting_type const& settings)
+void EmbeddingGlobalQuantitiesProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("PFSumHt", [](event_type const& event, product_type const& product)
+	ProducerBase<HttTypes>::Init(settings, metadata);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "PFSumHt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_pfSumHt;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("PFSumPt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "PFSumPt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_pfSumP4.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("PFSumHtWithoutZMuMu", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "PFSumHtWithoutZMuMu", [](event_type const& event, product_type const& product)
 	{
 		return product.m_pfSumHtWithoutZMuMu;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("PFSumPtWithoutZMuMu", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "PFSumPtWithoutZMuMu", [](event_type const& event, product_type const& product)
 	{
 		return product.m_pfSumP4WithoutZMuMu.Pt();
 	});
 }
 
-void EmbeddingGlobalQuantitiesProducer::Produce(event_type const& event, product_type& product, setting_type const& settings) const
+void EmbeddingGlobalQuantitiesProducer::Produce(event_type const& event, product_type& product, setting_type const& settings, metadata_type const& metadata) const
 {
 	product.m_pfSumP4.SetPxPyPzE(0.,0.,0.,0.);
 	product.m_pfSumP4WithoutZMuMu.SetPxPyPzE(0.,0.,0.,0.);

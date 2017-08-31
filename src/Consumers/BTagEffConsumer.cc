@@ -3,9 +3,9 @@
 //#include "Kappa/DataFormats/interface/Kappa.h"
 
 
-void BTagEffConsumer::Init(setting_type const& settings)
+void BTagEffConsumer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ConsumerBase<HttTypes>::Init(settings);
+	ConsumerBase<HttTypes>::Init(settings, metadata);
 	//Histograms initialization for different muons and Pt Flow per DeltaR.
 	//Format of the histograms: PtFlow per DeltaR on y-axis and DeltaR on x-axis.
 	//nDeltaRBins = settings.GetDeltaRBinning();
@@ -27,11 +27,11 @@ void BTagEffConsumer::Init(setting_type const& settings)
 	m_BTaggingEff_Num_udsg  = new TH2D("bTaggingEff_Num_udsg", ";p_{T} [GeV];#eta", ptNBins-1, ptBins, etaNBins-1, etaBins);
 }
 
-//void ValidBTaggedJetsProducer::Produce(KappaEvent const& event, KappaProduct& product,
-//                                       KappaSettings const& settings) const
+//void ValidBTaggedJetsProducer::Produce(event_type const& event, product_type& product,
+//                                       setting_type const& settings, metadata_type const& metadata) const
 //{
 
-void BTagEffConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings)
+void BTagEffConsumer::ProcessFilteredEvent(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 {
   assert(event.m_jetMetadata);
 
@@ -66,7 +66,7 @@ void BTagEffConsumer::ProcessFilteredEvent(event_type const& event, product_type
     }
 }
 
-void BTagEffConsumer::Finish(setting_type const& settings)
+void BTagEffConsumer::Finish(setting_type const& settings, metadata_type const& metadata)
 {
 	RootFileHelper::SafeCd(settings.GetRootOutFile(), settings.GetRootFileFolder());
   m_BTaggingEff_Denom_b->Write(m_BTaggingEff_Denom_b->GetName());

@@ -1,95 +1,88 @@
 #pragma once
 
-#include "../HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
 class TagAndProbeMuonPairProducer: public ProducerBase<HttTypes> {
 public:
 
-        typedef typename HttTypes::event_type event_type;
-        typedef typename HttTypes::product_type product_type;
-        typedef typename HttTypes::setting_type setting_type;
-        
-        virtual std::string GetProducerId() const override {
-                return "TagAndProbeMuonPairProducer";
-        }
+	virtual std::string GetProducerId() const override {
+		return "TagAndProbeMuonPairProducer";
+	}
     
-        enum class ValidMuonsInput : int
-        {
-                AUTO = 0,
-                UNCORRECTED = 1,
-                CORRECTED = 2,
-        };
-        static ValidMuonsInput ToValidMuonsInput(std::string const& validMuonsInput)
-        {
-                if (validMuonsInput == "uncorrected") return ValidMuonsInput::UNCORRECTED;
-                else if (validMuonsInput == "corrected") return ValidMuonsInput::CORRECTED;
-                else return ValidMuonsInput::AUTO;
-        }
+	enum class ValidMuonsInput : int
+	{
+		AUTO = 0,
+		UNCORRECTED = 1,
+		CORRECTED = 2,
+	};
+	static ValidMuonsInput ToValidMuonsInput(std::string const& validMuonsInput)
+	{
+		if (validMuonsInput == "uncorrected") return ValidMuonsInput::UNCORRECTED;
+		else if (validMuonsInput == "corrected") return ValidMuonsInput::CORRECTED;
+		else return ValidMuonsInput::AUTO;
+	}
 
-        enum class MuonID : int
-        {
-                NONE  = -1,
-                TIGHT = 0,
-                MEDIUM = 1,
-                LOOSE = 2,
-                VETO = 3,
-                FAKEABLE = 4,
-                EMBEDDING = 5
-        };
-        static MuonID ToMuonID(std::string const& muonID)
-        {
-                if (muonID == "tight") return MuonID::TIGHT;
-                else if (muonID == "medium") return MuonID::MEDIUM;
-                else if (muonID == "loose") return MuonID::LOOSE;
-                else if (muonID == "veto") return MuonID::VETO;
-                else if (muonID == "fakeable") return MuonID::FAKEABLE;
-                else if (muonID == "embedding") return MuonID::EMBEDDING;
-                else return MuonID::NONE;
-        }
-        
-        virtual void Init(setting_type const& settings) override;
-        
-        virtual void Produce(event_type const& event, product_type& product,
-                        setting_type const& settings) const override;
+	enum class MuonID : int
+	{
+		NONE  = -1,
+		TIGHT = 0,
+		MEDIUM = 1,
+		LOOSE = 2,
+		VETO = 3,
+		FAKEABLE = 4,
+		EMBEDDING = 5
+	};
+	static MuonID ToMuonID(std::string const& muonID)
+	{
+		if (muonID == "tight") return MuonID::TIGHT;
+		else if (muonID == "medium") return MuonID::MEDIUM;
+		else if (muonID == "loose") return MuonID::LOOSE;
+		else if (muonID == "veto") return MuonID::VETO;
+		else if (muonID == "fakeable") return MuonID::FAKEABLE;
+		else if (muonID == "embedding") return MuonID::EMBEDDING;
+		else return MuonID::NONE;
+	}
+	
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
+	
+	virtual void Produce(event_type const& event, product_type& product,
+			setting_type const& settings, metadata_type const& metadata) const override;
 protected:
 	MuonID muonID;
 private:
-        ValidMuonsInput validMuonsInput;
+	ValidMuonsInput validMuonsInput;
 	float (setting_type::*GetMuonDeltaBetaCorrectionFactor)(void) const;
 	bool MuonIDshortTerm = false;
-        bool IsMediumMuon2016ShortTerm(KMuon* muon, event_type const& event, product_type& product) const;
+	bool IsMediumMuon2016ShortTerm(KMuon* muon, event_type const& event, product_type& product) const;
 	bool IsMediumMuon2016(KMuon* muon, event_type const& event, product_type& product) const;
 };
 
 class TagAndProbeElectronPairProducer: public ProducerBase<HttTypes> {
 public:
 
-        typedef typename HttTypes::event_type event_type;
-        typedef typename HttTypes::product_type product_type;
-        typedef typename HttTypes::setting_type setting_type;
-        
-        virtual std::string GetProducerId() const override {
-                return "TagAndProbeElectronPairProducer";
-        }
+	virtual std::string GetProducerId() const override {
+		return "TagAndProbeElectronPairProducer";
+	}
     
-        enum class ValidElectronsInput : int
-        {
-                AUTO = 0,
-                UNCORRECTED = 1,
-                CORRECTED = 2,
-        };
-        static ValidElectronsInput ToValidElectronsInput(std::string const& validElectronsInput)
-        {
-                if (validElectronsInput == "uncorrected") return ValidElectronsInput::UNCORRECTED;
-                else if (validElectronsInput == "corrected") return ValidElectronsInput::CORRECTED;
-                else return ValidElectronsInput::AUTO;
-        }
+	enum class ValidElectronsInput : int
+	{
+		AUTO = 0,
+		UNCORRECTED = 1,
+		CORRECTED = 2,
+	};
+	static ValidElectronsInput ToValidElectronsInput(std::string const& validElectronsInput)
+	{
+		if (validElectronsInput == "uncorrected") return ValidElectronsInput::UNCORRECTED;
+		else if (validElectronsInput == "corrected") return ValidElectronsInput::CORRECTED;
+		else return ValidElectronsInput::AUTO;
+	}
 
-        enum class ElectronID : int
-        {
-                INVALID = -2,
+	enum class ElectronID : int
+	{
+		INVALID = -2,
 		NONE  = -1,
 		MVANONTRIG = 0,
 		MVATRIG = 1,
@@ -104,8 +97,8 @@ public:
 		MEDIUM = 10,
 		TIGHT = 11,
 		VBTF95_LOOSE_RELAXEDVTXCRITERIA = 12,
-        };
-        static ElectronID ToElectronID(std::string const& electronID)
+	};
+	static ElectronID ToElectronID(std::string const& electronID)
 	{
 		if (electronID == "mvanontrig") return ElectronID::MVANONTRIG;
 		else if (electronID == "mvatrig") return ElectronID::MVATRIG;
@@ -125,15 +118,15 @@ public:
 			LOG(FATAL) << "Could not find ElectronID " << electronID << "! If you want the ValidElectronsProducer to use no special ID, use \"none\" as argument."<< std::endl;
 		return ElectronID::INVALID;
 	}
-        
-        virtual void Init(setting_type const& settings) override;
-        
-        virtual void Produce(event_type const& event, product_type& product,
-                        setting_type const& settings) const override;
+	
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
+	
+	virtual void Produce(event_type const& event, product_type& product,
+			setting_type const& settings, metadata_type const& metadata) const override;
 protected:
 	ElectronID electronID;
 private:
-        ValidElectronsInput validElectronsInput;
+	ValidElectronsInput validElectronsInput;
 	std::string electronIDName;
 	double electronMvaIDCutEB1;
 	double electronMvaIDCutEB2;
@@ -145,9 +138,9 @@ template<class TLepton>
 class TagAndProbeGenLeptonProducer: public ProducerBase<HttTypes> {
 public:
 
-        typedef typename HttTypes::event_type event_type;
-        typedef typename HttTypes::product_type product_type;
-        typedef typename HttTypes::setting_type setting_type;
+	typedef typename HttTypes::event_type event_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
 	
 	TagAndProbeGenLeptonProducer(std::vector<TLepton>* event_type::*leptons,
 				     std::vector<std::shared_ptr<TLepton>> product_type::*leptons_corrected,
@@ -160,12 +153,12 @@ public:
 			m_genleptons(genleptons)
 	{
 	}
-        
-        virtual std::string GetProducerId() const override {
-                return "TagAndProbeGenLeptonProducer";
-        }
+	
+	virtual std::string GetProducerId() const override {
+		return "TagAndProbeGenLeptonProducer";
+	}
     
-        enum class ValidLeptonsInput : int
+	enum class ValidLeptonsInput : int
 	{
 		AUTO = 0,
 		UNCORRECTED = 1,
@@ -178,14 +171,14 @@ public:
 		else if (validLeptonsInput == "corrected") return ValidLeptonsInput::CORRECTED;
 		else return ValidLeptonsInput::AUTO;
 	}
-        
-        virtual void Init(setting_type const& settings) override
-        {
-		ProducerBase<HttTypes>::Init(settings);
+	
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
+	{
+		ProducerBase<HttTypes>::Init(settings, metadata);
 	}
-        
+	
 	virtual void Produce(event_type const& event, product_type& product,
-					setting_type const& settings) const override
+					setting_type const& settings, metadata_type const& metadata) const override
 	{
 		assert(*m_leptons);
 		bool IsData = settings.GetInputIsData();
@@ -227,7 +220,7 @@ public:
 			}
 		}
 	}
-        ValidLeptonsInput validLeptonsInput;
+	ValidLeptonsInput validLeptonsInput;
 private:
 	std::vector<TLepton>* event_type::*m_leptons;
 	std::vector<std::shared_ptr<TLepton>> product_type::*m_leptons_corrected;
@@ -238,8 +231,8 @@ private:
 class TagAndProbeGenElectronProducer: public TagAndProbeGenLeptonProducer<KElectron> {
 public:
 	typedef typename HttTypes::event_type event_type;
-        typedef typename HttTypes::product_type product_type;
-        typedef typename HttTypes::setting_type setting_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
 	
 	enum class ValidLeptonsInput : int
 	{
@@ -250,14 +243,14 @@ public:
 	
 	virtual std::string GetProducerId() const override;
 	TagAndProbeGenElectronProducer();
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 };
 
 class TagAndProbeGenMuonProducer: public TagAndProbeGenLeptonProducer<KMuon> {
 public:
 	typedef typename HttTypes::event_type event_type;
-        typedef typename HttTypes::product_type product_type;
-        typedef typename HttTypes::setting_type setting_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
 	
 	enum class ValidLeptonsInput : int
 	{
@@ -268,14 +261,14 @@ public:
 	
 	virtual std::string GetProducerId() const override;
 	TagAndProbeGenMuonProducer();
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 };
 
 class TagAndProbeGenTauProducer: public TagAndProbeGenLeptonProducer<KTau> {
 public:
 	typedef typename HttTypes::event_type event_type;
-        typedef typename HttTypes::product_type product_type;
-        typedef typename HttTypes::setting_type setting_type;
+	typedef typename HttTypes::product_type product_type;
+	typedef typename HttTypes::setting_type setting_type;
 	
 	enum class ValidLeptonsInput : int
 	{
@@ -286,21 +279,17 @@ public:
 	
 	virtual std::string GetProducerId() const override;
 	TagAndProbeGenTauProducer();
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 };
 */
 class TagAndProbeGenElectronProducer: public ProducerBase<HttTypes> {
 public:
 
-        typedef typename HttTypes::event_type event_type;
-        typedef typename HttTypes::product_type product_type;
-        typedef typename HttTypes::setting_type setting_type;
-        
-        virtual std::string GetProducerId() const override {
-                return "TagAndProbeGenElectronProducer";
-        }
+	virtual std::string GetProducerId() const override {
+		return "TagAndProbeGenElectronProducer";
+	}
     
-        enum class ValidElectronsInput : int
+	enum class ValidElectronsInput : int
 	{
 		AUTO = 0,
 		UNCORRECTED = 1,
@@ -313,15 +302,15 @@ public:
 		else if (validElectronsInput == "corrected") return ValidElectronsInput::CORRECTED;
 		else return ValidElectronsInput::AUTO;
 	}
-        
-        virtual void Init(setting_type const& settings) override
-        {
-		ProducerBase<HttTypes>::Init(settings);
+	
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
+	{
+		ProducerBase<HttTypes>::Init(settings, metadata);
 		validElectronsInput = ToValidElectronsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidElectronsInput())));
 	}
-        
+	
 	virtual void Produce(event_type const& event, product_type& product,
-					setting_type const& settings) const override
+					setting_type const& settings, metadata_type const& metadata) const override
 	{
 		assert(event.m_electrons);
 		bool IsData = settings.GetInputIsData();
@@ -363,7 +352,7 @@ public:
 			}
 		}
 	}
-        
+	
 private:
 	ValidElectronsInput validElectronsInput;
 };
@@ -371,15 +360,11 @@ private:
 class TagAndProbeGenMuonProducer: public ProducerBase<HttTypes> {
 public:
 
-        typedef typename HttTypes::event_type event_type;
-        typedef typename HttTypes::product_type product_type;
-        typedef typename HttTypes::setting_type setting_type;
-        
-        virtual std::string GetProducerId() const override {
-                return "TagAndProbeGenMuonProducer";
-        }
+	virtual std::string GetProducerId() const override {
+		return "TagAndProbeGenMuonProducer";
+	}
     
-        enum class ValidMuonsInput : int
+	enum class ValidMuonsInput : int
 	{
 		AUTO = 0,
 		UNCORRECTED = 1,
@@ -392,15 +377,15 @@ public:
 		else if (validMuonsInput == "corrected") return ValidMuonsInput::CORRECTED;
 		else return ValidMuonsInput::AUTO;
 	}
-        
-        virtual void Init(setting_type const& settings) override
-        {
-		ProducerBase<HttTypes>::Init(settings);
+	
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
+	{
+		ProducerBase<HttTypes>::Init(settings, metadata);
 		validMuonsInput = ToValidMuonsInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidMuonsInput())));
 	}
-        
+	
 	virtual void Produce(event_type const& event, product_type& product,
-					setting_type const& settings) const override
+					setting_type const& settings, metadata_type const& metadata) const override
 	{
 		assert(event.m_muons);
 		bool IsData = settings.GetInputIsData();
@@ -442,7 +427,7 @@ public:
 			}
 		}
 	}
-        
+	
 private:
 	ValidMuonsInput validMuonsInput;
 };
@@ -450,15 +435,11 @@ private:
 class TagAndProbeGenTauProducer: public ProducerBase<HttTypes> {
 public:
 
-        typedef typename HttTypes::event_type event_type;
-        typedef typename HttTypes::product_type product_type;
-        typedef typename HttTypes::setting_type setting_type;
-        
-        virtual std::string GetProducerId() const override {
-                return "TagAndProbeGenTauProducer";
-        }
+	virtual std::string GetProducerId() const override {
+		return "TagAndProbeGenTauProducer";
+	}
     
-        enum class ValidTausInput : int
+	enum class ValidTausInput : int
 	{
 		AUTO = 0,
 		UNCORRECTED = 1,
@@ -471,15 +452,15 @@ public:
 		else if (validTausInput == "corrected") return ValidTausInput::CORRECTED;
 		else return ValidTausInput::AUTO;
 	}
-        
-        virtual void Init(setting_type const& settings) override
-        {
-		ProducerBase<HttTypes>::Init(settings);
+	
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
+	{
+		ProducerBase<HttTypes>::Init(settings, metadata);
 		validTausInput = ToValidTausInput(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetValidTausInput())));
 	}
-        
+	
 	virtual void Produce(event_type const& event, product_type& product,
-					setting_type const& settings) const override
+					setting_type const& settings, metadata_type const& metadata) const override
 	{
 		assert(event.m_taus);
 		bool IsData = settings.GetInputIsData();
@@ -521,7 +502,7 @@ public:
 			}
 		}
 	}
-        
+	
 private:
 	ValidTausInput validTausInput;
 };

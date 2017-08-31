@@ -5,7 +5,6 @@
 
 #include "Artus/Core/interface/ProducerBase.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
-#include "Artus/KappaAnalysis/interface/KappaTypes.h"
 #include "Artus/Utility/interface/SafeMap.h"
 #include "boost/functional/hash.hpp"
 
@@ -21,10 +20,6 @@ class MetSelectorBase: public ProducerBase<HttTypes>
 {
 public:
 
-	typedef typename HttTypes::event_type event_type;
-	typedef typename HttTypes::product_type product_type;
-	typedef typename HttTypes::setting_type setting_type;
-	
 	MetSelectorBase(TMet* event_type::*met, std::vector<TMet>* event_type::*mets) :
 		ProducerBase<HttTypes>(),
 		m_metMember(met),
@@ -32,101 +27,101 @@ public:
 	{
 	}
 
-	virtual void Init(setting_type const& settings) override
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
-		ProducerBase<HttTypes>::Init(settings);
+		ProducerBase<HttTypes>::Init(settings, metadata);
 		
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metSumEt", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metSumEt", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met.sumEt;
+			return product.m_met.sumEt;
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metPt", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metPt", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met.p4.Pt();
+			return product.m_met.p4.Pt();
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metPhi", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metPhi", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met.p4.Phi();
+			return product.m_met.p4.Phi();
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metCov00", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metCov00", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met.significance.At(0, 0);
+			return product.m_met.significance.At(0, 0);
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metCov01", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metCov01", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met.significance.At(0, 1);
+			return product.m_met.significance.At(0, 1);
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metCov10", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metCov10", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met.significance.At(1, 0);
+			return product.m_met.significance.At(1, 0);
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("metCov11", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metCov11", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_met.significance.At(1, 1);
+			return product.m_met.significance.At(1, 1);
 		});
 
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetSumEt", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetSumEt", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_pfmet.sumEt;
+			return product.m_pfmet.sumEt;
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetPt", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetPt", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_pfmet.p4.Pt();
+			return product.m_pfmet.p4.Pt();
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetPhi", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetPhi", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_pfmet.p4.Phi();
+			return product.m_pfmet.p4.Phi();
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetCov00", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetCov00", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_pfmet.significance.At(0, 0);
+			return product.m_pfmet.significance.At(0, 0);
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetCov01", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetCov01", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_pfmet.significance.At(0, 1);
+			return product.m_pfmet.significance.At(0, 1);
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetCov10", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetCov10", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_pfmet.significance.At(1, 0);
+			return product.m_pfmet.significance.At(1, 0);
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("pfMetCov11", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetCov11", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_pfmet.significance.At(1, 1);
+			return product.m_pfmet.significance.At(1, 1);
 		});
 	
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetSumEt", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetSumEt", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_mvamet.sumEt;
+			return product.m_mvamet.sumEt;
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetPt", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetPt", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_mvamet.p4.Pt();
+			return product.m_mvamet.p4.Pt();
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetPhi", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetPhi", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_mvamet.p4.Phi();
+			return product.m_mvamet.p4.Phi();
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetCov00", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCov00", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_mvamet.significance.At(0, 0);
+			return product.m_mvamet.significance.At(0, 0);
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetCov01", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCov01", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_mvamet.significance.At(0, 1);
+			return product.m_mvamet.significance.At(0, 1);
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetCov10", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCov10", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_mvamet.significance.At(1, 0);
+			return product.m_mvamet.significance.At(1, 0);
 		});
-		LambdaNtupleConsumer<KappaTypes>::AddFloatQuantity("mvaMetCov11", [](KappaEvent const& event, KappaProduct const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCov11", [](event_type const& event, product_type const& product)
 		{
-			return (static_cast<HttProduct const&>(product)).m_mvamet.significance.At(1, 1);
+			return product.m_mvamet.significance.At(1, 1);
 		});
 	}
 
 	virtual void Produce(event_type const& event, product_type & product, 
-	                     setting_type const& settings) const override
+	                     setting_type const& settings, metadata_type const& metadata) const override
 	{
 		if ((m_metsMember != nullptr) && ((event.*m_metsMember) != nullptr))
 		{
@@ -238,7 +233,7 @@ class MetSelectorPuppi: public MetSelectorBase<KMET>
 {
 public:
 	virtual void Produce(event_type const& event, product_type & product, 
-	                     setting_type const& settings) const override;
+	                     setting_type const& settings, metadata_type const& metadata) const override;
 	MetSelectorPuppi();
 	virtual std::string GetProducerId() const override;
 };

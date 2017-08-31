@@ -9,9 +9,9 @@
 
 inline std::string KaonsProducer::GetProducerId() const { return "KaonsProducer"; }
 
-void KaonsProducer::Init(setting_type const& settings)
+void KaonsProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	UseVertex = settings.GetUseVertex();
 	VertexFitter = settings.GetVertexFitter();
@@ -35,27 +35,27 @@ void KaonsProducer::Init(setting_type const& settings)
 	LambdaMassCut = settings.GetLambdaMassCut();
 	KaonDebugOutput = settings.GetKaonDebugOutput();
 
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity("kaonNumber", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "kaonNumber", [](event_type const& event, product_type const& product)
 	{
 		return product.kaonNumber;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("kaonMass", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity(metadata, "kaonMass", [](event_type const& event, product_type const& product)
 	{
 		return product.kaonMass;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("kaonMassLV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity(metadata, "kaonMassLV", [](event_type const& event, product_type const& product)
 	{
 		return product.kaonMassLV;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("kaonPosDaugterMass", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity(metadata, "kaonPosDaugterMass", [](event_type const& event, product_type const& product)
 	{
 		return product.kaonPosDaugterMass;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity("kaonNegDaugterMass", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddVFloatQuantity(metadata, "kaonNegDaugterMass", [](event_type const& event, product_type const& product)
 	{
 		return product.kaonNegDaugterMass;
 	});
@@ -110,7 +110,7 @@ bool KaonsProducer::TrackIsGood(KTrack tmpTrack, KBeamSpot theBeamSpot, RMPoint 
 }
 
 void KaonsProducer::Produce(event_type const& event, product_type& product,
-									 setting_type const& settings) const
+                            setting_type const& settings, metadata_type const& metadata) const
 {
 	dout();
 	using std::vector;

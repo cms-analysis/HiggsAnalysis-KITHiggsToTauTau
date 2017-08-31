@@ -129,6 +129,7 @@
 		"genPhiCP",
 		"genPhi",
 		"genOCP",
+		"genPhiStarCPComb",
 		"genPhiCPLab",
 		
 		"genIP1x",
@@ -158,6 +159,8 @@
 		
 		"Tau1DecayMode",
 		"Tau2DecayMode",
+		"TauTree1DecayMode",
+		"TauTree2DecayMode",
 
 		"OneProngChargedPart1Pt",
 		"OneProngChargedPart1Pz",

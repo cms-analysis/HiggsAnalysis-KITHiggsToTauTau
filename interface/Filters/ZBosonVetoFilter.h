@@ -22,10 +22,10 @@ public:
 			return "ZBosonVetoFilter";
 	}
 
-	virtual void Init(setting_type const& settings) override;
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 	
 	virtual bool DoesEventPass(event_type const& event, product_type const& product,
-				   setting_type const& settings) const override;
+				   setting_type const& settings, metadata_type const& metadata) const override;
 
 private:
 	

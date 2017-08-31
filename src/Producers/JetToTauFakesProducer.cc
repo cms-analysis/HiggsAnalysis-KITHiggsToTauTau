@@ -13,9 +13,9 @@ std::string JetToTauFakesProducer::GetProducerId() const
 	return "JetToTauFakesProducer";
 }
 
-void JetToTauFakesProducer::Init(setting_type const& settings)
+void JetToTauFakesProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
-	ProducerBase<HttTypes>::Init(settings);
+	ProducerBase<HttTypes>::Init(settings, metadata);
 
 	std::map<std::string,std::vector<std::string>> ffFiles = Utility::ParseMapTypes<std::string,std::string>(Utility::ParseVectorToMap(settings.GetFakeFaktorFiles()));
 
@@ -48,7 +48,7 @@ void JetToTauFakesProducer::Init(setting_type const& settings)
 }
 
 void JetToTauFakesProducer::Produce(event_type const& event, product_type& product,
-                                    setting_type const& settings) const
+                                    setting_type const& settings, metadata_type const& metadata) const
 {
 	// Fill inputs
 	// to see input vector needs visit:
