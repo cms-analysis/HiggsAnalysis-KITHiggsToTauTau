@@ -49,6 +49,9 @@
 		"lheZtoTT",
 		"lheZtoEM",
 		"lheZtoET",
-		"lheZtoMT"
+		"lheZtoMT",
+
+		"LHE_p_1",
+		"LHE_p_2"
 	]
 }
