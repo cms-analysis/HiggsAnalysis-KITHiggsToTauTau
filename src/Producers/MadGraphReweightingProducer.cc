@@ -134,9 +134,16 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	}
 	
 	// sorting of LHE particles for MadGraph
-	LOG(DEBUG) << "NOW SORTING!!!";
-	std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphReweightingProducer::MadGraphParticleOrdering);
-	std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphReweightingProducer::MadGraphParticleOrdering);
+	if (settings.GetMadGraphSortingHeavyBQuark())
+	{
+		std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphReweightingProducer::MadGraphParticleOrderingHeavyBQuark);
+		std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphReweightingProducer::MadGraphParticleOrderingHeavyBQuark);
+	}
+	else
+	{
+		std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphReweightingProducer::MadGraphParticleOrderingLightBQuark);
+		std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphReweightingProducer::MadGraphParticleOrderingLightBQuark);
+	}
 
 	// preparations for MadGraph
 	std::vector<CartesianRMFLV*> particleFourMomenta;
@@ -208,39 +215,22 @@ std::string MadGraphReweightingProducer::GetLabelForWeightsMap(float mixingAngle
 // puts gluons first
 // up type quarks second
 // downtype quarks third
-// heavy quarks last => the order is: g u c d s u_bar c_bar d_bar s_bar b b_bar
-bool MadGraphReweightingProducer::MadGraphParticleOrdering(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2)
+// => the order is: g u c d s b u_bar c_bar d_bar s_bar b_bar
+bool MadGraphReweightingProducer::MadGraphParticleOrderingLightBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2)
 {
 	int pdgId1 = std::abs(lheParticle1->pdgId);
 	int pdgId2 = std::abs(lheParticle2->pdgId);
 	
 	if ((lheParticle1->pdgId < 0) && (lheParticle2->pdgId > 0))
 	{
-		if ((pdgId1 != DefaultValues::pdgIdBottom) && (pdgId2 == DefaultValues::pdgIdBottom))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 	else if ((lheParticle1->pdgId > 0) && (lheParticle2->pdgId < 0))
 	{
-		if ((pdgId1 == DefaultValues::pdgIdBottom) && (pdgId2 != DefaultValues::pdgIdBottom))
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return true;
 	}
 	else
 	{
-		pdgId1 = std::abs(pdgId1);
-		pdgId2 = std::abs(pdgId2);
-		
 		if (pdgId1 == DefaultValues::pdgIdGluon)
 		{
 			return true;
@@ -293,6 +283,31 @@ bool MadGraphReweightingProducer::MadGraphParticleOrdering(KLHEParticle* lhePart
 		{
 			return true;
 		}
+	}
+}
+
+// pdgParticle->GetName() has no specific order
+// madgraph sorts particle before antiparticle
+// puts gluons first
+// up type quarks second
+// downtype quarks third
+// heavy quarks last => the order is: g u c d s u_bar c_bar d_bar s_bar b b_bar
+bool MadGraphReweightingProducer::MadGraphParticleOrderingHeavyBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2)
+{
+	int pdgId1 = std::abs(lheParticle1->pdgId);
+	int pdgId2 = std::abs(lheParticle2->pdgId);
+	
+	if ((lheParticle1->pdgId < 0) && (lheParticle2->pdgId > 0) && (pdgId1 != DefaultValues::pdgIdBottom) && (pdgId2 == DefaultValues::pdgIdBottom))
+	{
+		return true;
+	}
+	else if ((lheParticle1->pdgId > 0) && (lheParticle2->pdgId < 0) && (pdgId1 == DefaultValues::pdgIdBottom) && (pdgId2 != DefaultValues::pdgIdBottom))
+	{
+		return false;
+	}
+	else
+	{
+		return MadGraphReweightingProducer::MadGraphParticleOrderingLightBQuark(lheParticle1, lheParticle2);
 	}
 }
 

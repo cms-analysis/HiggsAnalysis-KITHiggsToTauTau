@@ -20,6 +20,12 @@
 			"SUSY(BB|GluGlu|GluGluTo)HToTauTau" : 1.0
 		}
 	},
+	"MadGraphSortingHeavyBQuark" : {
+		"nick" : {
+			"GluGluToHToTauTau.*amcatnlo" : false,
+			"VBF.*amcatnlo" : false
+		}
+	},
 	"MadGraphProcessDirectories" : {
 		"nick" : {
 			"GluGluToHToTauTau.*amcatnlo" : [

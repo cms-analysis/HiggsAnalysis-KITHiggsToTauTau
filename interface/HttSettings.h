@@ -389,6 +389,7 @@ public:
 	IMPL_SETTING(std::string, MadGraphParamCard);
 	IMPL_SETTING(std::string, MadGraphParamCardSample);
 	IMPL_SETTING_STRINGLIST_DEFAULT(MadGraphProcessDirectories, {});
+	IMPL_SETTING(bool, MadGraphSortingHeavyBQuark);
 	
 	// settting for TopPtReweightingProducer
 	IMPL_SETTING(std::string, TopPtReweightingStrategy)
