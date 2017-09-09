@@ -531,14 +531,14 @@
 	},
 	"MadGraphParamCard" : {
 		"nick" : {
-			"GluGluToHToTauTau.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/param_card.dat",
-			"VBF.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/param_card.dat"
+			"GluGluToHToTauTau.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/Cards/param_card_cp.dat",
+			"VBF.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/Cards/param_card_cp.dat"
 		}
 	},
 	"MadGraphParamCardSample" : {
 		"nick" : {
-			"GluGluToHToTauTau.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/param_card.dat",
-			"VBF.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/param_card_SM.dat"
+			"GluGluToHToTauTau.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/Cards/param_card_default.dat",
+			"VBF.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/Cards/param_card_default.dat"
 		}
 	}
 }
