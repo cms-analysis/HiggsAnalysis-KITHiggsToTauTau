@@ -237,9 +237,10 @@ public:
 
 	double m_genPhiCP = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
-	double m_genPhi = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCPTEST  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
 	double m_genOStarCP  = DefaultValues::UndefinedDouble;
+	double m_genPhi  = DefaultValues::UndefinedDouble;
 	double m_genOCP  = DefaultValues::UndefinedDouble;
 	double m_genPhiCPLab  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCPComb = DefaultValues::UndefinedDouble;

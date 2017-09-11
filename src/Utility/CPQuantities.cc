@@ -153,13 +153,14 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	if(level=="reco")
 	{
 		this->SetRecoPhiStar(acos(n2t.Dot(n1t)));
+		this->SetRecoOStarCP(p1n.Dot(n2t.Cross(n1t)));
 	}
 	else if (level=="gen")
 	{
 		this->SetGenPhiStar(acos(n2t.Dot(n1t)));
+		this->SetGenOStarCP(p1n.Dot(n2t.Cross(n1t)));
 	}
 
-	this->SetGenOStarCP(p1n.Dot(n2t.Cross(n1t)));
 	//Step 5: Calculating Phi*CP
 	double phiStarCP = 0;
 	if(p1n.Dot(n2t.Cross(n1t))>=0)
@@ -176,7 +177,7 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 
 // calculation of Phi*CP
 // passing the IP vectors as arguments
-double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2){
+double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2, std::string level){
 
 	// create boost to the ZMF of the two particles
 	RMFLV ProngImp = chargPart1 + chargPart2;
@@ -215,6 +216,18 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 	// normalized momentum vector of the reference
 	RMFLV::BetaVector p1n = p1.Unit();
 	
+	// save phi* and O*CP
+	if(level=="reco")
+	{
+		this->SetRecoPhiStar(acos(n2t.Dot(n1t)));
+		this->SetRecoOStarCP(p1n.Dot(n2t.Cross(n1t)));
+	}
+	else if (level=="gen")
+	{
+		this->SetGenPhiStar(acos(n2t.Dot(n1t)));
+		this->SetGenOStarCP(p1n.Dot(n2t.Cross(n1t)));
+	}
+
 	// calculate phi*cp
 	double phiStarCP = 0;
 	if(p1n.Dot(n2t.Cross(n1t))>=0)

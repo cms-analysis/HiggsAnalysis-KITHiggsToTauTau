@@ -79,4 +79,4 @@ cd $CMSSW_BASE/src/
 source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
 # compile everything
-scramv1 b -j 4
+scramv1 b -j `grep -c ^processor /proc/cpuinfo`

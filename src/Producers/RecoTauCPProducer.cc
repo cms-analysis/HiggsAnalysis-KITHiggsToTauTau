@@ -464,7 +464,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		}
 		
 		// calculate phi*cp
-		product.m_recoPhiStarCPrPV2 = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlus, IPMinus);
+		product.m_recoPhiStarCPrPV2 = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlus, IPMinus, "reco");
 			
 
 
