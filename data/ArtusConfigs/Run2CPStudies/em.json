@@ -429,7 +429,9 @@
 					"producer:RooWorkspaceWeightProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL).*(?=(Spring16|Summer16))" : [
@@ -470,7 +472,9 @@
 					"producer:GenMatchedTauCPProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"(LFV).*(?=(Spring16|Summer16))" : [
@@ -511,7 +515,9 @@
 					"producer:GenMatchedTauCPProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
@@ -555,7 +561,9 @@
 					"producer:IdentificationWeightProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL).*(?=Fall15)" : [
@@ -600,7 +608,9 @@
 					"producer:GenMatchedTauCPProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2016" : [
@@ -635,7 +645,9 @@
 					"producer:SimpleFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -671,7 +683,9 @@
 					"producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau).*(?=(Spring16|Summer16))" : [
@@ -712,7 +726,9 @@
 					"producer:GenMatchedTauCPProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
@@ -758,7 +774,9 @@
 					"producer:GenMatchedTauCPProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				]
