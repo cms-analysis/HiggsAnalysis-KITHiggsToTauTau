@@ -50,6 +50,9 @@ git clone https://github.com/CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitS
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
+# polarisation
+git clone https://github.com/TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
+
 # Jet2Tau Fakes
 git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
