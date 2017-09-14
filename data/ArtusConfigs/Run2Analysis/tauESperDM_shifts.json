@@ -5,13 +5,13 @@
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
 				"Embedding2016" : 1.03,
-				"Summer16" : 1.012
+				"Spring16|Summer16" : 1.012
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsOneProngUp"
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016" : "tauEsOneProngUp"
 			}
 		}
 	},
@@ -21,13 +21,13 @@
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
 				"Embedding2016" : 0.97,
-				"Summer16" : 0.988
+				"Spring16|Summer16" : 0.988
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsOneProngDown"
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016" : "tauEsOneProngDown"
 			}
 		}
 	},
@@ -37,13 +37,13 @@
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
 				"Embedding2016" : 1.03,
-				"Summer16" : 1.012
+				"Spring16|Summer16" : 1.012
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsOneProngPiZerosUp"
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016" : "tauEsOneProngPiZerosUp"
 			}
 		}
 	},
@@ -53,13 +53,13 @@
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
 				"Embedding2016" : 0.97,
-				"Summer16" : 0.988
+				"Spring16|Summer16" : 0.988
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsOneProngPiZerosDown"
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016" : "tauEsOneProngPiZerosDown"
 			}
 		}
 	},
@@ -69,13 +69,13 @@
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
 				"Embedding2016" : 1.03,
-				"Summer16" : 1.012
+				"Spring16|Summer16" : 1.012
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsThreeProngUp"
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016" : "tauEsThreeProngUp"
 			}
 		}
 	},
@@ -85,13 +85,13 @@
 				"default" : 1.0,
 				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
 				"Embedding2016" : 0.97,
-				"Summer16" : 0.988
+				"Spring16|Summer16" : 0.988
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Summer16|Embedding2016" : "tauEsThreeProngDown"
+				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016" : "tauEsThreeProngDown"
 			}
 		}
 	}

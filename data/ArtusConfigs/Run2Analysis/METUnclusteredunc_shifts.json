@@ -3,19 +3,19 @@
 		"MetUncertaintyShift" : {
 			"nick" : {
 				"default" : false,
-				"Summer16" : true
+				"Spring16|Summer16" : true
 			}
 		},
 		"MetUncertaintyType" : {
 			"nick" : {
 				"default" : "",
-				"Summer16" : "UnclusteredEnUp"
+				"Spring16|Summer16" : "UnclusteredEnUp"
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"Summer16" : "metUnclusteredEnUp"
+				"Spring16|Summer16" : "metUnclusteredEnUp"
 			}
 		}
 	},
@@ -23,19 +23,19 @@
 		"MetUncertaintyShift" : {
 			"nick" : {
 				"default" : false,
-				"Summer16" : true
+				"Spring16|Summer16" : true
 			}
 		},
 		"MetUncertaintyType" : {
 			"nick" : {
 				"default" : "",
-				"Summer16" : "UnclusteredEnDown"
+				"Spring16|Summer16" : "UnclusteredEnDown"
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"Summer16" : "metUnclusteredEnDown"
+				"Spring16|Summer16" : "metUnclusteredEnDown"
 			}
 		}
 	}
