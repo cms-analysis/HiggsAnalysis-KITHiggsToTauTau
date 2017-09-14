@@ -191,8 +191,8 @@ void PolarisationQuantitiesProducerBase::Produce(
 		TauPolInterface diTauPolInterface(inputs.at(0), types.at(0), inputs.at(1), types.at(1));
 		if (diTauPolInterface.isPairConfigured())
 		{
-			(product.*m_polarisationCombinedOmegaMember) = diTauPolInterface.getOmega();
-			(product.*m_polarisationCombinedOmegaBarMember) = diTauPolInterface.getOmegabar();
+			(product.*m_polarisationCombinedOmegaMember) = diTauPolInterface.getCombOmega();
+			(product.*m_polarisationCombinedOmegaBarMember) = diTauPolInterface.getCombOmegaBar();
 		}
 	}
 	
