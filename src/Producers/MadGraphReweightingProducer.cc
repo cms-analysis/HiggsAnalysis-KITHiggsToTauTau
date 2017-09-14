@@ -173,6 +173,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 			{
 				LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
 				LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
+				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = 0.0;
 			}
 			else
 			{
@@ -187,6 +188,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		{
 			LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
 			LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
+			product.m_optionalWeights["madGraphWeightSample"] = 0.0;
 		}
 		else
 		{
@@ -197,6 +199,12 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	{
 		LOG(ERROR) << "Process directory for production mode \"" << processDirectoryKey << "\" not found in settings with tag \"MadGraphProcessDirectories\"!";
 		LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
+        product.m_optionalWeights["madGraphWeightSample"] = 0.0;
+		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
+             mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
+		{
+        product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = 0.0;
+		}
 	}
 }
 

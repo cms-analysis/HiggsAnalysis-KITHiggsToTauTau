@@ -221,6 +221,7 @@
 		"InvalidateNonMatchingMuons" : true,
 		"InvalidateNonMatchingTaus" : true,
 		"InvalidateNonMatchingJets" : false,
+		"UseUWGenMatching" : "true",
 		"DirectIso" : true,
 		"Quantities" : {
 			"nick" : {
@@ -244,6 +245,8 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
+					"trg_singlemuon",
+					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
@@ -289,6 +292,8 @@
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation",
+					"trg_singlemuon",
+					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
@@ -340,6 +345,8 @@
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation",
+					"trg_singlemuon",
+					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
