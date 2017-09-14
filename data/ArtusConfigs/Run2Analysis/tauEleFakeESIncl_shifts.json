@@ -3,13 +3,13 @@
 		"TauElectronFakeEnergyCorrection" : {
 			"nick" : {
 				"default" : 1.0,
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 1.03
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : 1.03
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : "tauEleFakeEsUp"
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : "tauEleFakeEsUp"
 			}
 		}
 	},
@@ -17,13 +17,13 @@
 		"TauElectronFakeEnergyCorrection" : {
 			"nick" : {
 				"default" : 1.0,
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : 0.97
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : 0.97
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : "tauEleFakeEsDown"
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : "tauEleFakeEsDown"
 			}
 		}
 	}
