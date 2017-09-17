@@ -3513,7 +3513,7 @@ class Samples(samples.SamplesBase):
 				if not kwargs.get("mssm", False):
 					Samples._add_bin_corrections(
 							config,
-							"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 							nick_suffix
 					)
 				Samples._add_plot(
@@ -3521,7 +3521,7 @@ class Samples(samples.SamplesBase):
 						"bkg" if kwargs.get("stack_signal", False) else "qqh",
 						"LINE",
 						"L",
-						"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix
 				)
 		return config

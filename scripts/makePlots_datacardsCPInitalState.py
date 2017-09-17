@@ -236,7 +236,7 @@ if __name__ == "__main__":
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
-							PROCESS=datacards.configs.sample2process(sample.replace("qqh125", "qqh").replace("wh125", "wh").replace("zh125", "zh")),
+							PROCESS=datacards.configs.sample2process(sample.replace("wh125", "wh").replace("zh125", "zh")),
 							BIN=category,
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
