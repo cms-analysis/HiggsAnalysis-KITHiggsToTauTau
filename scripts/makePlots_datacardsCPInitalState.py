@@ -336,16 +336,16 @@ if __name__ == "__main__":
 			gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
 		if "qqh" in args.production_mode:
 			qqhsm_signals = datacards.cb.cp().signals()
-			qqhsm_signals.FilterAll(lambda obj : ("qqhsm" not in obj.process()))
+			qqhsm_signals.FilterAll(lambda obj : ("qqHsm" not in obj.process()))
 			qqhsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
 
 			qqhps_signals = datacards.cb.cp().signals()
-			qqhps_signals.FilterAll(lambda obj : ("qqhps_ALT" not in obj.process()))
+			qqhps_signals.FilterAll(lambda obj : ("qqHps_ALT" not in obj.process()))
 			qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
 			#qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
 
 			qqhmm_signals = datacards.cb.cp().signals()
-			qqhmm_signals.FilterAll(lambda obj : ("qqhmm_ALT" not in obj.process()))
+			qqhmm_signals.FilterAll(lambda obj : ("qqHmm_ALT" not in obj.process()))
 			qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
 			#qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00000000071875)))
 
