@@ -92,7 +92,7 @@ if __name__ == "__main__":
 	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
 						help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
-						help="Use only shape to distinquish between cp hypotheses. [Default: %(default)s]")	
+						help="Use only shape to distinquish between cp hypotheses. [Default: %(default)s]")
 	parser.add_argument("--production-mode", nargs="+",
 	                    default=["ggh", "qqh"],
 	                    choices=["ggh", "qqh"],
@@ -128,11 +128,11 @@ if __name__ == "__main__":
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
 	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
-	# it is necessary to put this
 	if args.no_shape_uncs:
-		print("No shape uncs")
+		log.debug("Deactivate shape uncertainties")
 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
-		datacards.cb.PrintSysts()		
+		if log.isEnabledFor(logging.DEBUG):
+			datacards.cb.PrintSysts()
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -229,21 +229,17 @@ if __name__ == "__main__":
 					else:
 						log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are (see HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/binnings.py):")
 						for key in binnings_settings.binnings_dict:
-							print key
+							log.debug(key)
 						sys.exit()
 						
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
-					#print config["labels"]
-					#print
-					#print 'after'					
 					config["labels"] = [histogram_name_template.replace("$", "").format(
 							PROCESS=datacards.configs.sample2process(sample.replace("qqh125", "qqh").replace("wh125", "wh").replace("zh125", "zh")),
 							BIN=category,
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
-					print config["labels"]
 					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 							ANALYSIS="htt",
 							CHANNEL=channel,
@@ -457,13 +453,13 @@ if __name__ == "__main__":
 		#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
 
 		datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
-		print datacards_hypotestresult
+		log.info(datacards_hypotestresult)
 		if args.use_shape_only:
 			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M MultiDimFit --algo=grid --points 100 -m 125 -v 2 -n \"\"")
 
 		pconfigs_plot=[]
 		for filename in datacards_hypotestresult.values():
-			print filename
+			log.info(filename)
 			pconfigs={}
 			pconfigs["files"]= [filename]
 			pconfigs["nicks"]= ["noplot","alternative_hyptothesis","null_hypothesis", "q_obs"]
@@ -489,8 +485,7 @@ if __name__ == "__main__":
 			pconfigs["labels"]=["pseudoscalar","standardmodel", "q observerd"]
 			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
 			pconfigs_plot.append(pconfigs)
+	
 	#pprint.pprint(pconfigs_plot)
 	higgsplot.HiggsPlotter(list_of_config_dicts=pconfigs_plot, list_of_args_strings=[args.args], n_processes=args.n_processes)
 
-	#print args.n_plots[1]
-	print "hi"
