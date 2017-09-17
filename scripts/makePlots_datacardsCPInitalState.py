@@ -93,6 +93,10 @@ if __name__ == "__main__":
 						help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 						help="Use only shape to distinquish between cp hypotheses. [Default: %(default)s]")	
+	parser.add_argument("--production-mode", nargs="+",
+	                    default=["ggh", "qqh"],
+	                    choices=["ggh", "qqh"],
+						help="Choose the production modes. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -310,31 +314,52 @@ if __name__ == "__main__":
 	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.207)))
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
-		gghsm_signals = datacards.cb.cp().signals()
-		gghsm_signals.FilterAll(lambda obj : ("ggHsm" not in obj.process()))
-		gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
+		if "ggh" in args.production_mode:
+			gghsm_signals = datacards.cb.cp().signals()
+			gghsm_signals.FilterAll(lambda obj : ("ggHsm" not in obj.process()))
+			gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
 
-		gghps_signals = datacards.cb.cp().signals()
-		gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process()))
-		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
-		#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
+			gghps_signals = datacards.cb.cp().signals()
+			gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process()))
+			gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+			#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
 
-		gghmm_signals = datacards.cb.cp().signals()
-		gghmm_signals.FilterAll(lambda obj : ("ggHmm_ALT" not in obj.process()))
-		gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
-		#gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00000000071875)))
-		
-		datacards.replace_observation_by_asimov_dataset("125")
-		
-		gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
-		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
-		gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
-		
-	 	
+			gghmm_signals = datacards.cb.cp().signals()
+			gghmm_signals.FilterAll(lambda obj : ("ggHmm_ALT" not in obj.process()))
+			gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+			#gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00000000071875)))
+			
+			datacards.replace_observation_by_asimov_dataset("125")
+			
+			gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
+			gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
+			gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
+		if "qqh" in args.production_mode:
+			qqhsm_signals = datacards.cb.cp().signals()
+			qqhsm_signals.FilterAll(lambda obj : ("qqhsm" not in obj.process()))
+			qqhsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
+
+			qqhps_signals = datacards.cb.cp().signals()
+			qqhps_signals.FilterAll(lambda obj : ("qqhps_ALT" not in obj.process()))
+			qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+			#qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
+
+			qqhmm_signals = datacards.cb.cp().signals()
+			qqhmm_signals.FilterAll(lambda obj : ("qqhmm_ALT" not in obj.process()))
+			qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+			#qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00000000071875)))
+
+			datacards.replace_observation_by_asimov_dataset("125")
+
+			qqhsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
+			qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
+			qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
+
+
 
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
-	datacards.cb.PrintAll()
+	#datacards.cb.PrintAll()
 	# write datacards and call text2workspace
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
@@ -434,7 +459,7 @@ if __name__ == "__main__":
 		datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
 		print datacards_hypotestresult
 		if args.use_shape_only:
-			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M MultiDimFit --algo=grid --points 100 -m $MH -v 2 -n \"\"")
+			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M MultiDimFit --algo=grid --points 100 -m 125 -v 2 -n \"\"")
 
 		pconfigs_plot=[]
 		for filename in datacards_hypotestresult.values():
