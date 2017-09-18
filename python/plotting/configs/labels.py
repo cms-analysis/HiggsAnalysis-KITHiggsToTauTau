@@ -90,6 +90,13 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_lep1SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict["catZttPol13TeV_"+channel+"_index"] = ""
+				
+				for reco_fit in ["Svfit", "SimpleFit", "HHKinFit"]:
+					self.labels_dict[channel+"_polarisationCombinedOmega"+reco_fit] = "Combined Optimal Observable #Omega"
+					self.labels_dict[channel+"_polarisationCombinedOmegaBar"+reco_fit] = "Combined Optimal Observable #bar{#Omega}"
+					for lepton_index in ["1", "2"]:
+						self.labels_dict[channel+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "Optimal Observable #omega"
+						self.labels_dict[channel+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "Optimal Observable #bar{#omega}"
 			
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict["channel_"+channel+"_0jet_inclusive"] = self.labels_dict["channel_"+channel]+": 0-Jet-inclusive"
