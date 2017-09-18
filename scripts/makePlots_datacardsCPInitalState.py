@@ -126,8 +126,16 @@ if __name__ == "__main__":
 	output_files = []
 	merged_output_files = []
 	hadd_commands = []
-	
-	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
+	signal_processes = []
+
+	if "ggh" in args.production_mode:
+		signal_processes.append("ggHsm")
+		signal_processes.append("ggHps_ALT")
+	if "qqh" in args.production_mode:
+		signal_processes.append("qqHsm")
+		signal_processes.append("qqHps_ALT")
+
+	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes) # TODO: derive own version from this class DONE
 	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
 	if args.no_shape_uncs or args.no_syst_uncs:
