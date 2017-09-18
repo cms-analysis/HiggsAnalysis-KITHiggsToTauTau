@@ -3420,11 +3420,11 @@ class Samples(samples.SamplesBase):
 
 		data_weight, mc_weight = self.projection(kwargs)
 		if (kwargs.get("cp", "sm") == "sm"):
-			matrix_weight = ""
+			matrix_weight = "(madGraphWeightSample>-899)*"
 		elif(kwargs.get("cp", "sm") == "mm"):
-			matrix_weight = "(madGraphWeight050/madGraphWeight000)*(madGraphWeight000>-899)*"
+			matrix_weight = "(madGraphWeight050/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
 		elif(kwargs.get("cp", "sm") == "ps"):
-			matrix_weight = "(madGraphWeight100/madGraphWeight000)*(madGraphWeight000>-899)*"
+			matrix_weight = "(madGraphWeight100/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
@@ -3487,11 +3487,11 @@ class Samples(samples.SamplesBase):
 
 		data_weight, mc_weight = self.projection(kwargs)
 		if (kwargs.get("cp", "sm") == "sm"):
-			matrix_weight = ""
+			matrix_weight = "(madGraphWeight000/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
 		elif(kwargs.get("cp", "sm") == "mm"):
-			matrix_weight = "(madGraphWeight050/madGraphWeight000)*(madGraphWeight000>-899)*"
+			matrix_weight = "(madGraphWeight050/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
 		elif(kwargs.get("cp", "sm") == "ps"):
-			matrix_weight = "(madGraphWeight100/madGraphWeight000)*(madGraphWeight000>-899)*"
+			matrix_weight = "(madGraphWeight100/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
 
 		data_weight, mc_weight = self.projection(kwargs)
 
