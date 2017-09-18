@@ -86,13 +86,19 @@ if __name__ == "__main__":
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
-						help="Do not include shape-uncertainties. [Default: %(default)s]")
+						help="Do not include shape uncertainties. [Default: %(default)s]")
+	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
+						help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--steps", nargs="+",
 	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
 	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
 						help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
-						help="Use only shape to distinquish between cp hypotheses. [Default: %(default)s]")	
+						help="Use only shape to distinquish between cp hypotheses. [Default: %(default)s]")
+	parser.add_argument("--production-mode", nargs="+",
+	                    default=["ggh", "qqh"],
+	                    choices=["ggh", "qqh"],
+						help="Choose the production modes. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -124,11 +130,11 @@ if __name__ == "__main__":
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
 	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
-	# it is necessary to put this
-	if args.no_shape_uncs:
-		print("No shape uncs")
+	if args.no_shape_uncs or args.no_syst_uncs:
+		log.debug("Deactivate shape uncertainties")
 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
-		datacards.cb.PrintSysts()		
+		if log.isEnabledFor(logging.DEBUG):
+			datacards.cb.PrintSysts()
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -225,21 +231,17 @@ if __name__ == "__main__":
 					else:
 						log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are (see HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/binnings.py):")
 						for key in binnings_settings.binnings_dict:
-							print key
+							log.debug(key)
 						sys.exit()
 						
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
-					#print config["labels"]
-					#print
-					#print 'after'					
 					config["labels"] = [histogram_name_template.replace("$", "").format(
-							PROCESS=datacards.configs.sample2process(sample.replace("qqh125", "qqh").replace("wh125", "wh").replace("zh125", "zh")),
+							PROCESS=datacards.configs.sample2process(sample.replace("wh125", "wh").replace("zh125", "zh")),
 							BIN=category,
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
-					print config["labels"]
 					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 							ANALYSIS="htt",
 							CHANNEL=channel,
@@ -284,7 +286,6 @@ if __name__ == "__main__":
 		for output_file in merged_output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
-
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
@@ -293,14 +294,23 @@ if __name__ == "__main__":
 			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 			update_systematics=True
 	)
-
+	
 	# add bin-by-bin uncertainties
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
-
+	
+	# restrict combine to lnN systematics only if no_shape_uncs is set
+	if args.no_syst_uncs:
+		log.debug("Deactivate systematic uncertainties")
+		if not args.use_asimov_dataset:
+			log.warning("Fitting MC to data without systematic uncertainties can lead to unreasonable results.")
+		datacards.cb.FilterSysts(lambda systematic : True)
+		if log.isEnabledFor(logging.DEBUG):
+			datacards.cb.PrintSysts()
+	
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
@@ -310,31 +320,52 @@ if __name__ == "__main__":
 	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.207)))
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
-		gghsm_signals = datacards.cb.cp().signals()
-		gghsm_signals.FilterAll(lambda obj : ("ggHsm" not in obj.process()))
-		gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
+		if "ggh" in args.production_mode:
+			gghsm_signals = datacards.cb.cp().signals()
+			gghsm_signals.FilterAll(lambda obj : ("ggHsm" not in obj.process()))
+			gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
 
-		gghps_signals = datacards.cb.cp().signals()
-		gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process()))
-		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
-		#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
+			gghps_signals = datacards.cb.cp().signals()
+			gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process()))
+			gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+			#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
 
-		gghmm_signals = datacards.cb.cp().signals()
-		gghmm_signals.FilterAll(lambda obj : ("ggHmm_ALT" not in obj.process()))
-		gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
-		#gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00000000071875)))
-		
-		datacards.replace_observation_by_asimov_dataset("125")
-		
-		gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
-		gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
-		gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
-		
-	 	
+			gghmm_signals = datacards.cb.cp().signals()
+			gghmm_signals.FilterAll(lambda obj : ("ggHmm_ALT" not in obj.process()))
+			gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+			#gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00000000071875)))
+			
+			datacards.replace_observation_by_asimov_dataset("125")
+			
+			gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
+			gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
+			gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
+		if "qqh" in args.production_mode:
+			qqhsm_signals = datacards.cb.cp().signals()
+			qqhsm_signals.FilterAll(lambda obj : ("qqHsm" not in obj.process()))
+			qqhsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
+
+			qqhps_signals = datacards.cb.cp().signals()
+			qqhps_signals.FilterAll(lambda obj : ("qqHps_ALT" not in obj.process()))
+			qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+			#qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
+
+			qqhmm_signals = datacards.cb.cp().signals()
+			qqhmm_signals.FilterAll(lambda obj : ("qqHmm_ALT" not in obj.process()))
+			qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+			#qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00000000071875)))
+
+			datacards.replace_observation_by_asimov_dataset("125")
+
+			qqhsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
+			qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
+			qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
+
+
 
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
-	datacards.cb.PrintAll()
+	#datacards.cb.PrintAll()
 	# write datacards and call text2workspace
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
@@ -432,13 +463,13 @@ if __name__ == "__main__":
 		#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
 
 		datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
-		print datacards_hypotestresult
+		log.info(datacards_hypotestresult)
 		if args.use_shape_only:
-			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M MultiDimFit --algo=grid --points 100 -m $MH -v 2 -n \"\"")
+			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M MultiDimFit --algo=grid --points 100 -m 125 -v 2 -n \"\"")
 
 		pconfigs_plot=[]
 		for filename in datacards_hypotestresult.values():
-			print filename
+			log.info(filename)
 			pconfigs={}
 			pconfigs["files"]= [filename]
 			pconfigs["nicks"]= ["noplot","alternative_hyptothesis","null_hypothesis", "q_obs"]
@@ -464,8 +495,7 @@ if __name__ == "__main__":
 			pconfigs["labels"]=["pseudoscalar","standardmodel", "q observerd"]
 			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
 			pconfigs_plot.append(pconfigs)
+	
 	#pprint.pprint(pconfigs_plot)
 	higgsplot.HiggsPlotter(list_of_config_dicts=pconfigs_plot, list_of_args_strings=[args.args], n_processes=args.n_processes)
 
-	#print args.n_plots[1]
-	print "hi"

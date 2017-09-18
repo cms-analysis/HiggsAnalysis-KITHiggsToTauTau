@@ -51,8 +51,6 @@ class SignalCPCalibration(analysisbase.AnalysisBase):
 			dy_histogram_name = "dy_histogram_" + hashlib.md5("_".join([higgscp_nick, dy_nick, calibrated_nick])).hexdigest()
 			new_histogram_name = "calibrated_histogram_" + hashlib.md5("_".join([higgscp_nick, dy_nick, calibrated_nick])).hexdigest()
 	
-			print signal_histogram_name, dy_histogram_name, new_histogram_name
-
 			signal_histogram = plotData.plotdict["root_objects"][higgscp_nick].Clone(signal_histogram_name)
 			dy_histogram = plotData.plotdict["root_objects"][dy_nick].Clone(dy_histogram_name)
 			new_histogram = plotData.plotdict["root_objects"][higgscp_nick].Clone(new_histogram_name)
@@ -61,9 +59,9 @@ class SignalCPCalibration(analysisbase.AnalysisBase):
 			if dy_histogram.Integral() != 0.0:
 				dy_histogram.Scale(signal_histogram.Integral() / dy_histogram.Integral())
 				x = signal_histogram.GetMinimum() + (signal_histogram.GetMaximum() - signal_histogram.GetMinimum())/2
-				new_histogram.Add(dy_histogram, -1)
 				for nbin in range(1, new_histogram.GetNbinsX()+1):
 					new_histogram.AddBinContent(nbin, x)
+				new_histogram.Add(dy_histogram, -1)
 
 			plotData.plotdict["root_objects"][calibrated_nick] = new_histogram
 			

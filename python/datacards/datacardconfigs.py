@@ -45,6 +45,9 @@ class DatacardConfigs(object):
 			"ggHsm" : "gghsm",
 			"ggHmm_ALT" : "gghmm",
 			"ggHps_ALT" : "gghps",
+			"qqHsm" : "qqhsm",
+			"qqHmm_ALT" : "qqhmm",
+			"qqHps_ALT" : "qqhps",
 		}
 
 		self._mapping_category2binid = {

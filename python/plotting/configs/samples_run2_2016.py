@@ -3422,9 +3422,9 @@ class Samples(samples.SamplesBase):
 		if (kwargs.get("cp", "sm") == "sm"):
 			matrix_weight = ""
 		elif(kwargs.get("cp", "sm") == "mm"):
-			matrix_weight = "(madGraphWeight050/madGraphWeight000)*(madGraphWeight050/madGraphWeight000<10)*(madGraphWeight000>-899)*"
+			matrix_weight = "(madGraphWeight050/madGraphWeight000)*(madGraphWeight000>-899)*"
 		elif(kwargs.get("cp", "sm") == "ps"):
-			matrix_weight = "(madGraphWeight100/madGraphWeight000)*(madGraphWeight100/madGraphWeight000<10)*(madGraphWeight000>-899)*"
+			matrix_weight = "(madGraphWeight100/madGraphWeight000)*(madGraphWeight000>-899)*"
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
@@ -3458,15 +3458,15 @@ class Samples(samples.SamplesBase):
 		return config 
 
 	def gghsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="gghsm", **kwargs)
+		config = self.ggh( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="gghsm", **kwargs)
 		return config
 
 	def gghmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="gghmm", **kwargs)
+		config = self.ggh(config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="gghmm", **kwargs)
 		return config
 
 	def gghps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="gghps", **kwargs)
+		config = self.ggh(config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="gghps", **kwargs)
 		return config
 
 	def files_qqh(self, channel, mass=125, **kwargs):
@@ -3489,9 +3489,9 @@ class Samples(samples.SamplesBase):
 		if (kwargs.get("cp", "sm") == "sm"):
 			matrix_weight = ""
 		elif(kwargs.get("cp", "sm") == "mm"):
-			matrix_weight = "(madGraphWeight050/madGraphWeight000)*(madGraphWeight050/madGraphWeight000<10)*(madGraphWeight000>-899)*"
+			matrix_weight = "(madGraphWeight050/madGraphWeight000)*(madGraphWeight000>-899)*"
 		elif(kwargs.get("cp", "sm") == "ps"):
-			matrix_weight = "(madGraphWeight100/madGraphWeight000)*(madGraphWeight100/madGraphWeight000<10)*(madGraphWeight000>-899)*"
+			matrix_weight = "(madGraphWeight100/madGraphWeight000)*(madGraphWeight000>-899)*"
 
 		data_weight, mc_weight = self.projection(kwargs)
 
@@ -3502,7 +3502,7 @@ class Samples(samples.SamplesBase):
 						self.files_qqh(channel, mass, cp=kwargs.get("cp", None)),
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
-						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						matrix_weight+mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 			)
@@ -3513,7 +3513,7 @@ class Samples(samples.SamplesBase):
 				if not kwargs.get("mssm", False):
 					Samples._add_bin_corrections(
 							config,
-							"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 							nick_suffix
 					)
 				Samples._add_plot(
@@ -3521,21 +3521,21 @@ class Samples(samples.SamplesBase):
 						"bkg" if kwargs.get("stack_signal", False) else "qqh",
 						"LINE",
 						"L",
-						"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix
 				)
 		return config
 
 	def qqhsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh( config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="qqhsm", **kwargs)
+		config = self.qqh( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="qqhsm", **kwargs)
 		return config
 
 	def qqhmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="qqhmm", **kwargs)
+		config = self.qqh(config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="qqhmm", **kwargs)
 		return config
 
 	def qqhps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="qqhps", **kwargs)
+		config = self.qqh(config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="qqhps", **kwargs)
 		return config
 
 

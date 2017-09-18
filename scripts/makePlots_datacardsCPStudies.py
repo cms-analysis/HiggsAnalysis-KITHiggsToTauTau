@@ -147,11 +147,11 @@ if __name__ == "__main__":
 	datacards.cb.channel(args.channel)
 
 	# restrict combine to lnN systematics only if no_shape_uncs is set
-	# it is necessary to put this
 	if args.no_shape_uncs:
-		print("No shape uncs")
+		log.debug("Deactivate shape uncertainties")
 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
-		datacards.cb.PrintSysts()
+		if log.isEnabledFor(logging.DEBUG):
+			datacards.cb.PrintSysts()
 
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
