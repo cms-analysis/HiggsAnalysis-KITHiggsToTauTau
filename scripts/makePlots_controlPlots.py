@@ -152,7 +152,7 @@ if __name__ == "__main__":
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", default=[None],
 	                    help="Categories. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantities", nargs="*",
+	parser.add_argument("-x", "--quantities", nargs="+",
 	                    default=["integral",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1", "mt_1",
 	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2", "mt_2",
@@ -176,8 +176,8 @@ if __name__ == "__main__":
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
-	parser.add_argument("-w", "--weight", default="1.0",
-	                    help="Additional weight (cut) expression. [Default: %(default)s]")
+	parser.add_argument("-w", "--weights", default=["1.0"], nargs="+",
+	                    help="Additional weight (cut) expressions. The list of weigths is repeated until it matches the number of quantities [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--controlregions", action="store_true", default=False,
@@ -294,7 +294,6 @@ if __name__ == "__main__":
 	log.debug(" ".join(bkg_samples+sig_samples))
 	binnings_settings = binnings.BinningsDict()
 
-
 	args.categories = [None if category == "None" else category for category in args.categories]
 
 	plot_configs = []
@@ -326,9 +325,11 @@ if __name__ == "__main__":
 			global_cut_type = "smhtt"
 		global_cut_type += "2016"
 
+	args.weights = (args.weights * len(args.quantities))[:len(args.quantities)]
+
 	# Configs construction for HP
 	for category in args.categories:
-		for quantity in args.quantities:
+		for quantity, weight in zip(args.quantities, args.weights):
 			
 			channels_background_methods = zip(args.channels, args.background_method)
 			channel_config = {}
@@ -389,7 +390,7 @@ if __name__ == "__main__":
 						higgs_masses = args.higgs_masses,
 						normalise_signal_to_one_pb = False,
 						ztt_from_mc = args.ztt_from_mc,
-						weight = "((%s)*(%s))" % (json_config.pop("weights", ["1.0"])[0], args.weight),
+						weight = "((%s)*(%s))" % (json_config.pop("weights", ["1.0"])[0], weight),
 						lumi  =  args.lumi * 1000,
 						exclude_cuts = args.exclude_cuts + json_config.pop("exclude_cuts", []),
 						blind_expression = channel + "_" + quantity,
