@@ -419,8 +419,8 @@ if __name__ == "__main__":
 				config["category"] = category
 				
 				if args.new_tau_id:
-					for index, weight in enumerate(config.get("weights", [])):
-						config["weights"][index] = weight.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
+					for weight_index, weight in enumerate(config.get("weights", [])):
+						config["weights"][weight_index] = weight.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
 
 				binning_string = None
 				if args.mssm:
@@ -461,9 +461,9 @@ if __name__ == "__main__":
 						config.pop("stacks")
 					if "colors" in config:
 						config.pop("colors")
-					config["markers"] = "LINE"
-					config["legend_markers"] = "L"
-					config["line_widths"] = 3
+					config["markers"] = ["LINE"]
+					config["legend_markers"] = ["L"]
+					config["line_widths"] = [3]
 
 				if args.shapes:
 					if "stacks" in config:
@@ -471,9 +471,9 @@ if __name__ == "__main__":
 					if not "NormalizeToUnity" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("NormalizeToUnity")
 					config["y_label"] = "arb. u."
-					config["markers"] = "LINE"
-					config["legend_markers"] = "L"
-					config["line_widths"] = 3
+					config["markers"] = ["LINE"]
+					config["legend_markers"] = ["L"]
+					config["line_widths"] = [3]
 
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
