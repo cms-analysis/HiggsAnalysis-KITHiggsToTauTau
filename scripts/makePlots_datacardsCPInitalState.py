@@ -86,7 +86,9 @@ if __name__ == "__main__":
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
-						help="Do not include shape-uncertainties. [Default: %(default)s]")
+						help="Do not include shape uncertainties. [Default: %(default)s]")
+	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
+						help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--steps", nargs="+",
 	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
 	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
@@ -128,7 +130,7 @@ if __name__ == "__main__":
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
 	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
-	if args.no_shape_uncs:
+	if args.no_shape_uncs or args.no_syst_uncs:
 		log.debug("Deactivate shape uncertainties")
 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
 		if log.isEnabledFor(logging.DEBUG):
@@ -284,7 +286,6 @@ if __name__ == "__main__":
 		for output_file in merged_output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
-
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
@@ -293,14 +294,23 @@ if __name__ == "__main__":
 			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 			update_systematics=True
 	)
-
+	
 	# add bin-by-bin uncertainties
 	if args.add_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
-
+	
+	# restrict combine to lnN systematics only if no_shape_uncs is set
+	if args.no_syst_uncs:
+		log.debug("Deactivate systematic uncertainties")
+		if not args.use_asimov_dataset:
+			log.warning("Fitting MC to data without systematic uncertainties can lead to unreasonable results.")
+		datacards.cb.FilterSysts(lambda systematic : True)
+		if log.isEnabledFor(logging.DEBUG):
+			datacards.cb.PrintSysts()
+	
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
