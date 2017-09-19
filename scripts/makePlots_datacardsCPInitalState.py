@@ -126,8 +126,16 @@ if __name__ == "__main__":
 	output_files = []
 	merged_output_files = []
 	hadd_commands = []
-	
-	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era) # TODO: derive own version from this class DONE
+	signal_processes = []
+
+	if "ggh" in args.production_mode:
+		signal_processes.append("ggHsm")
+		signal_processes.append("ggHps_ALT")
+	if "qqh" in args.production_mode:
+		signal_processes.append("qqHsm")
+		signal_processes.append("qqHps_ALT")
+
+	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes) # TODO: derive own version from this class DONE
 	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
 	if args.no_shape_uncs or args.no_syst_uncs:
@@ -320,48 +328,19 @@ if __name__ == "__main__":
 	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.207)))
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
-		if "ggh" in args.production_mode:
-			gghsm_signals = datacards.cb.cp().signals()
-			gghsm_signals.FilterAll(lambda obj : ("ggHsm" not in obj.process()))
-			gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
+		signal_null_hypothesis = datacards.cb.cp().signals()
+		signal_null_hypothesis.FilterAll(lambda obj : ("ALT" in obj.process()))
+		signal_null_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
 
-			gghps_signals = datacards.cb.cp().signals()
-			gghps_signals.FilterAll(lambda obj : ("ggHps_ALT" not in obj.process()))
-			gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
-			#gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
-
-			gghmm_signals = datacards.cb.cp().signals()
-			gghmm_signals.FilterAll(lambda obj : ("ggHmm_ALT" not in obj.process()))
-			gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
-			#gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00000000071875)))
-			
-			datacards.replace_observation_by_asimov_dataset("125")
-			
-			gghsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
-			gghps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
-			gghmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
-		if "qqh" in args.production_mode:
-			qqhsm_signals = datacards.cb.cp().signals()
-			qqhsm_signals.FilterAll(lambda obj : ("qqHsm" not in obj.process()))
-			qqhsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
-
-			qqhps_signals = datacards.cb.cp().signals()
-			qqhps_signals.FilterAll(lambda obj : ("qqHps_ALT" not in obj.process()))
-			qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
-			#qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
-
-			qqhmm_signals = datacards.cb.cp().signals()
-			qqhmm_signals.FilterAll(lambda obj : ("qqHmm_ALT" not in obj.process()))
-			qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
-			#qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.00000000071875)))
-
-			datacards.replace_observation_by_asimov_dataset("125")
-
-			qqhsm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
-			qqhps_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
-			qqhmm_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
-
-
+		signal_alt_hypothesis = datacards.cb.cp().signals()
+		signal_alt_hypothesis.FilterAll(lambda obj : ("ALT" not in obj.process()))
+		signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
+		#signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
+		
+		datacards.replace_observation_by_asimov_dataset("125")
+		
+		signal_null_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
+		signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
 
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
