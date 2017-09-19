@@ -3449,7 +3449,7 @@ class Samples(samples.SamplesBase):
 					)
 				Samples._add_plot(
 						config,
-						kwargs.get("stacks", "ggh"),
+						"bkg" if kwargs.get("stack_signal", False) else kwargs.get("stacks", "ggh"),
 						"LINE",
 						"L",
 						"ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
@@ -3518,7 +3518,7 @@ class Samples(samples.SamplesBase):
 					)
 				Samples._add_plot(
 						config,
-						"bkg" if kwargs.get("stack_signal", False) else "qqh",
+						"bkg" if kwargs.get("stack_signal", False) else kwargs.get("stacks", "qqh"),
 						"LINE",
 						"L",
 						"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
