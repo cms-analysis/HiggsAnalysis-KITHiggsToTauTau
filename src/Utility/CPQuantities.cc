@@ -248,7 +248,7 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 // The function takes the charge of the particle a as argument,
 // since the calculation of OStarCP depends on which particle is positively charged
 // (which is taken as reference)
-double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMFLV pion, RMFLV pizero, double charge){
+double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMFLV pion, RMFLV pizero, int charge){
 
 	// create boost to the api-ZMF
 	RMFLV ProngImp = chargPart + pion;
@@ -401,6 +401,7 @@ double CPQuantities::CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng)
 }
 
 // calculation of the spin analysing discriminant (y^{tau}) using the rest frame of the taus (only gen level)
+// FIXME it is not called in RecoTauCPProducer. Could it be removed?
 double CPQuantities::CalculateSpinAnalysingDiscriminant_rho(RMFLV tau1, RMFLV tau2, RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M)
 {
 	// Step 1: Extract all pion energies in the tau restframe
