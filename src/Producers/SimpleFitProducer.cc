@@ -79,41 +79,47 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	assert(event.m_vertexSummary); // TODO: change to refitted PV
 	
-	KLepton* lepton = nullptr;
+	KLepton* tauToOneProng = nullptr;
 	KTau* tauToA1 = nullptr;
 	
 	for (std::vector<KLepton*>::iterator leptonIt = product.m_flavourOrderedLeptons.begin();
 	     leptonIt != product.m_flavourOrderedLeptons.end(); ++leptonIt)
 	{
-		if ((! tauToA1) && ((*leptonIt)->flavour() == KLeptonFlavour::TAU))
+		if ((*leptonIt)->flavour() == KLeptonFlavour::TAU)
 		{
 			KTau* tau = static_cast<KTau*>(*leptonIt);
-			// https://github.com/cms-sw/cmssw/blob/09c3fce6626f70fd04223e7dacebf0b485f73f54/DataFormats/TauReco/interface/PFTau.h#L34-L54
-			if ((tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
+			
+			if ((! tauToA1) &&
+			    (tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
 			    (tau->chargedHadronCandidates.size() > 2) &&
 			    tau->sv.valid)
 			{
 				tauToA1 = tau;
 			}
+			else if ((! tauToOneProng) &&
+			         (tau->decayMode == reco::PFTau::hadronicDecayMode::kOneProng0PiZero))
+			{
+				tauToOneProng = *leptonIt;
+			}
 		}
-		else if (! lepton)
+		else if (! tauToOneProng)
 		{
-			lepton = *leptonIt;
+			tauToOneProng = *leptonIt;
 		}
 	}
 	
-	if ((lepton != nullptr) && (tauToA1 != nullptr))
+	if ((tauToOneProng != nullptr) && (tauToA1 != nullptr))
 	{
-		// lepton
-		std::vector<float> muonHelixParameters = lepton->track.helixParameters();
+		// one prong decay
+		std::vector<float> muonHelixParameters = tauToOneProng->track.helixParameters();
 		TMatrixT<double> muonHelixParametersInput(TrackParticle::NHelixPar, 1);
 		for (unsigned int parameterIndex1 = 0; parameterIndex1 < TrackParticle::NHelixPar; ++parameterIndex1)
 		{
 			muonHelixParametersInput[parameterIndex1][0] = muonHelixParameters[parameterIndex1];
 		}
-		TMatrixTSym<double> muonHelixCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<float, reco::Track::dimension, reco::Track::dimension, ROOT::Math::MatRepSym<float, reco::Track::dimension> >, TMatrixTSym<double> >(lepton->track.helixCovariance, TrackParticle::NHelixPar);
-		int pdgIdMuon = static_cast<int>(DefaultValues::pdgIdMuon * lepton->charge() / std::abs(lepton->charge()));
-		TrackParticle muonInput(muonHelixParametersInput, muonHelixCovarianceInput, pdgIdMuon, lepton->p4.mass(), lepton->charge(), lepton->track.magneticField);
+		TMatrixTSym<double> muonHelixCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<float, reco::Track::dimension, reco::Track::dimension, ROOT::Math::MatRepSym<float, reco::Track::dimension> >, TMatrixTSym<double> >(tauToOneProng->track.helixCovariance, TrackParticle::NHelixPar);
+		int pdgIdMuon = static_cast<int>(DefaultValues::pdgIdMuon * tauToOneProng->charge() / std::abs(tauToOneProng->charge()));
+		TrackParticle muonInput(muonHelixParametersInput, muonHelixCovarianceInput, pdgIdMuon, tauToOneProng->p4.mass(), tauToOneProng->charge(), tauToOneProng->track.magneticField);
 		
 		// tau
 		// https://github.com/cherepan/LLRHiggsTauTau/blob/VladimirDev/NtupleProducer/plugins/TauFiller.cc#L483
@@ -168,9 +174,9 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		GEFObject fitResult = globalEventFit.Fit();
 		if (fitResult.isValid())
 		{
-			product.m_simpleFitTaus[lepton] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
+			product.m_simpleFitTaus[tauToOneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
 			product.m_simpleFitTaus[tauToA1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauH().LV());
-			product.m_diTauSystemSimpleFit = product.m_simpleFitTaus[lepton] + product.m_simpleFitTaus[tauToA1];
+			product.m_diTauSystemSimpleFit = product.m_simpleFitTaus[tauToOneProng] + product.m_simpleFitTaus[tauToA1];
 		}
 	}
 }
