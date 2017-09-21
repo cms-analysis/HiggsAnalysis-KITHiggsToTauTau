@@ -163,9 +163,9 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		PTObject metInput(metVector, metCovariance);
 		
 		// PV
-		// TODO: change to refitted PV
-		TVector3 pvInput = Utility::ConvertPxPyPzVector<RMPoint, TVector3>(event.m_vertexSummary->pv.position);
-		TMatrixTSym<double> pvCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 3, 3, ROOT::Math::MatRepSym<double, 3> >, TMatrixTSym<double> >(event.m_vertexSummary->pv.covariance, 3);
+		KVertex* pv = (product.m_refitPV ? product.m_refitPV : &(event.m_vertexSummary->pv));
+		TVector3 pvInput = Utility::ConvertPxPyPzVector<RMPoint, TVector3>(pv->position);
+		TMatrixTSym<double> pvCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 3, 3, ROOT::Math::MatRepSym<double, 3> >, TMatrixTSym<double> >(pv->covariance, 3);
 		
 		// Fit
 		GlobalEventFit globalEventFit(muonInput, tauInput, metInput, pvInput, pvCovarianceInput);
