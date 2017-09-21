@@ -24,6 +24,7 @@ public:
 	static double PZetaVis(RMFLV const& lepton1, RMFLV const& lepton2);
 	static double PZetaMissVis(RMFLV const& lepton1, RMFLV const& lepton2,
 	                           RMFLV const& met, float alpha=0.85);
+	static double cosptAngle(RMFLV const& vector1, RMFLV const& vector2);
 
 	static double MetChiSquare(TVector2 const& v, ROOT::Math::SMatrix<double, 2> matrix);
 private:

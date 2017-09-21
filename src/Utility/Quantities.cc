@@ -42,6 +42,11 @@ double Quantities::PZetaMissVis(RMFLV const& lepton1, RMFLV const& lepton2,
 	return (metV.Dot(Quantities::Zeta(lepton1, lepton2)) - (alpha * Quantities::PZetaVis(lepton1, lepton2)));
 }
 
+double Quantities::cosptAngle(RMFLV const& vector1, RMFLV const& vector2)
+{
+	return (vector1.X()*vector2.X())+(vector1.Y()*vector2.Y())+(vector1.Z()*vector2.Z())/(vector1.P()*vector2.P());
+}
+
 double Quantities::MetChiSquare(TVector2 const& v, ROOT::Math::SMatrix<double, 2> matrix)
 {
 	TVector tmp(2);

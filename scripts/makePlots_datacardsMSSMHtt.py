@@ -310,8 +310,17 @@ if __name__ == "__main__":
 	if args.HWW:
 		samples_dict["em"]=[(alpha[0],[beta.replace("ggh","hww_mssm_gg") for beta in alpha[1]]) for alpha in samples_dict["em"]]
 		samples_dict["em"]=[(alpha[0],[beta.replace("bbh","hww_mssm_qq") for beta in alpha[1]]) for alpha in samples_dict["em"]]
-		args.categories=[["em_0jets", "em_1jets", "em_2jets", "em_VBF", "em_inclusive"]]
+		#args.categories=[["em_0jets", "em_1jets", "em_2jets", "em_VBF", "em_inclusive"]]
 		args.quantity="mt_i"
+		args.postfix="-mti"
+		for key in shapes:
+			shapes[key] = shapes[key].replace("_htt_","_hww_")
+		Uanalysis = "Hww"
+		lanalysis = "hww"
+	else:
+		Uanalysis = "Htt"
+		lanalysis = "htt"
+			
 	
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
@@ -370,7 +379,7 @@ if __name__ == "__main__":
 	for mass in looplist:
 		for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 			tmp_output_files = []
-			output_file = os.path.join(args.output_dir, "htt_%s%s%s.inputs-mssm-13TeV%s.root"%(channel.replace("mm","zmm"),prefix,mass,args.postfix))
+			output_file = os.path.join(args.output_dir, lanalysis+"_%s%s%s.inputs-mssm-13TeV%s.root"%(channel.replace("mm","zmm"),prefix,mass,args.postfix))
 			output_files.append(output_file)
 			
 			for categorytemplate in categories:
@@ -441,7 +450,7 @@ if __name__ == "__main__":
 						config = sample_settings.get_config(
 								samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 								channel=channel,
-								category="catHttMSSM13TeV_"+category,
+								category="cat"+Uanalysis+"MSSM13TeV_"+category,
 								weight=args.weight,
 								lumi = args.lumi * 1000,
 								exclude_cuts=args.exclude_cuts,
@@ -624,7 +633,7 @@ if __name__ == "__main__":
 						
 						config["x_expressions"] = [args.quantity.format(mass=mass)] if args.mass_dependent else [args.quantity]
 						
-						binnings_key = "binningHttMSSM13TeV_"+category+"_"+(args.quantity.format(mass=mass) if args.mass_dependent else args.quantity)
+						binnings_key = "binning"+Uanalysis+"MSSM13TeV_"+category+"_"+(args.quantity.format(mass=mass) if args.mass_dependent else args.quantity)
 						if binnings_key in binnings_settings.binnings_dict:
 							config["x_bins"] = [binnings_key]
 						else:
@@ -640,7 +649,7 @@ if __name__ == "__main__":
 						) for sample in config["labels"]]
 						
 						tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
-								ANALYSIS="htt",
+								ANALYSIS=lanalysis,
 								CHANNEL="zmm" if channel == "mm" else channel,
 								BIN=category.replace("mm","zmm"),
 								SYSTEMATIC=systematic,
@@ -676,7 +685,7 @@ if __name__ == "__main__":
 							config = sample_settings.get_config(
 									samples=[getattr(samples.Samples, sample) for sample in ["ggh","qqh","wminush","wplush","zh"]],
 									channel=channel,
-									category="catHttMSSM13TeV_"+category,
+									category="cat"+Uanalysis+"MSSM13TeV_"+category,
 									weight=args.weight+"*"+additional_weight,
 									lumi = args.lumi * 1000,
 									exclude_cuts=args.exclude_cuts,
@@ -733,7 +742,7 @@ if __name__ == "__main__":
 							
 							config["x_expressions"] = [args.quantity.format(mass=mass)] if args.mass_dependent else [args.quantity]
 							
-							binnings_key = "binningHttMSSM13TeV_"+category+"_"+(args.quantity.format(mass=mass) if args.mass_dependent else args.quantity)
+							binnings_key = "binning"+Uanalysis+"MSSM13TeV_"+category+"_"+(args.quantity.format(mass=mass) if args.mass_dependent else args.quantity)
 							if binnings_key in binnings_settings.binnings_dict:
 								config["x_bins"] = [binnings_key]
 							else:
@@ -749,7 +758,7 @@ if __name__ == "__main__":
 							) for sample in config["labels"]]
 							
 							tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
-									ANALYSIS="htt",
+									ANALYSIS=lanalysis,
 									CHANNEL="zmm" if channel == "mm" else channel,
 									BIN=category.replace("mm","zmm")+"_SM",
 									SYSTEMATIC=systematic,

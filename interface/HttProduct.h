@@ -150,8 +150,11 @@ public:
 	double pZetaVis = 0.0;
 	double pZetaMiss = 0.0;
 	double pZetaMissVis = 0.0;
-	double diLepDiffPhi = 0.0;
+	double diLepDPhi = 0.0;
 	double diLepCosThetaStar = 0.0;
+	double diLepCosThetaStarfix = 0.0;
+	double diLepAngle = 0.0;
+	double diLepMetAngle = 0.0;
 
 	// filled by the SvfitProducer
 	mutable SvfitEventKey m_svfitEventKey;

@@ -140,27 +140,31 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nhighpt2"] = self.combine([self.invert(jet1_string), pt2_tight_string])
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nlowpt2"] = self.combine([self.invert(jet1_string), self.invert(pt2_tight_string)])
 
-		# MSSSM
+		# MSSM
 		for channel in ["et","mt","tt","em","mm"]:
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusivemt40"] = "(1.0)"
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_nobtag"] = "(nbtag==0)"
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"] = "(nbtag>=1)"
+			self.expressions_dict["catHwwMSSM13TeV_"+channel+"_inclusive"] = "(1.0)"
+			self.expressions_dict["catHwwMSSM13TeV_"+channel+"_nobtag"] = "(nbtag==0)"
+			self.expressions_dict["catHwwMSSM13TeV_"+channel+"_btag"] = "(nbtag>=1)"
 		for channel in ["et","mt"]:
 			for cat in ["_nobtag","_btag","_inclusive"]:
 				self.expressions_dict["catHttMSSM13TeV_"+channel+cat+"_tight"] =  self.expressions_dict["catHttMSSM13TeV_"+channel+cat]
 				self.expressions_dict["catHttMSSM13TeV_"+channel+cat+"_loosemt"] =  self.expressions_dict["catHttMSSM13TeV_"+channel+cat]
 				self.expressions_dict["catHttMSSM13TeV_"+channel+cat+"_looseiso"] =  self.expressions_dict["catHttMSSM13TeV_"+channel+cat]
 		for cat in ["_nobtag","_btag","_inclusive"]:
-			self.expressions_dict["catHttMSSM13TeV_em"+cat+"_lowPzeta"] = self.expressions_dict["catHttMSSM13TeV_em"+cat]+"*(pZetaMissVis > -50)*(pZetaMissVis < -10)"
-			self.expressions_dict["catHttMSSM13TeV_em"+cat+"_mediumPzeta"] = self.expressions_dict["catHttMSSM13TeV_em"+cat]+"*(pZetaMissVis > -10)*(pZetaMissVis < 30)"
-			self.expressions_dict["catHttMSSM13TeV_em"+cat+"_highPzeta"] = self.expressions_dict["catHttMSSM13TeV_em"+cat]+"*(pZetaMissVis > 30)"
+			self.expressions_dict["catHwwMSSM13TeV_em"+cat+"_lowPzeta"] = self.expressions_dict["catHwwMSSM13TeV_em"+cat]+"*(pZetaMissVis > -50)*(pZetaMissVis < -10)"
+			self.expressions_dict["catHwwMSSM13TeV_em"+cat+"_mediumPzeta"] = self.expressions_dict["catHwwMSSM13TeV_em"+cat]+"*(pZetaMissVis > -10)*(pZetaMissVis < 30)"
+			self.expressions_dict["catHwwMSSM13TeV_em"+cat+"_highPzeta"] = self.expressions_dict["catHwwMSSM13TeV_em"+cat]+"*(pZetaMissVis > 30)"
 
-		for channel in ["em"]:
-			self.expressions_dict["catHttMSSM13TeV_em_0jets"] = "(1.0)"
-			self.expressions_dict["catHttMSSM13TeV_em_1jets"] = "(1.0)"
-			self.expressions_dict["catHttMSSM13TeV_em_2jets"] = "(1.0)"
-			self.expressions_dict["catHttMSSM13TeV_em_VBF"] = "(1.0)"
+		for channel in ["em"]: # HWW
+			self.expressions_dict["catHwwMSSM13TeV_em_0jets"] = "(1.0)"
+			self.expressions_dict["catHwwMSSM13TeV_em_1jets"] = "(1.0)"
+			self.expressions_dict["catHwwMSSM13TeV_em_2jets"] = "(1.0)"
+			self.expressions_dict["catHwwMSSM13TeV_em_VBF"] = "(1.0)"
+			self.expressions_dict["catHwwMSSM13TeV_em_inclusive"] = "(1.0)"
 
 		for channel in ["et","mt","tt"]:
 			pt_var = "pt_2" if channel in ["mt", "et"] else "pt_1"

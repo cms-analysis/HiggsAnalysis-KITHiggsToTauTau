@@ -83,14 +83,20 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("pZetaMissVis", [](event_type const& event, product_type const& product) {
 		return product.pZetaMissVis;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepDiffPhi", [](event_type const& event, product_type const& product) {
-		return product.diLepDiffPhi;
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepDPhi", [](event_type const& event, product_type const& product) {
+		return product.diLepDPhi;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepCosPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepCosDPhi", [](event_type const& event, product_type const& product) {
 		return cos(product.m_flavourOrderedLeptons.at(1)->p4.Phi() - product.m_flavourOrderedLeptons.at(0)->p4.Phi());
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetCosDPhi", [](event_type const& event, product_type const& product) {
+		return cos(product.m_diLeptonSystem.Phi() - product.m_met.p4.Phi());
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepTheta", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonSystem.Theta();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepDTheta", [](event_type const& event, product_type const& product) {
+		return std::abs(product.m_flavourOrderedLeptons.at(1)->p4.Theta() - product.m_flavourOrderedLeptons.at(0)->p4.Theta());
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepAbsCosTheta", [](event_type const& event, product_type const& product) {
 		return std::abs(cos(product.m_diLeptonSystem.Theta()));
@@ -100,6 +106,15 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepCosThetaStar", [](event_type const& event, product_type const& product) {
 		return product.diLepCosThetaStar;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepCosThetaStarfix", [](event_type const& event, product_type const& product) {
+		return product.diLepCosThetaStarfix;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepAngle", [](event_type const& event, product_type const& product) {
+		return product.diLepAngle;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetAngle", [](event_type const& event, product_type const& product) {
+		return product.diLepMetAngle;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepMetMtImp", [](event_type const& event, product_type const& product) {
 		return sqrt(pow(product.m_diLeptonSystem.P()+product.m_met.p4.Pt(),2)-product.m_diLeptonPlusMetSystem.P2());
@@ -179,14 +194,17 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	                                             product.m_met.p4, 0.0);
 	product.pZetaMissVis = Quantities::PZetaMissVis(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
 	                                                product.m_met.p4, 0.85);
-	product.diLepDiffPhi = product.m_flavourOrderedLeptons.at(1)->p4.Phi() - product.m_flavourOrderedLeptons.at(0)->p4.Phi();
-	if (product.diLepDiffPhi > acos(-1)){
-		product.diLepDiffPhi = product.diLepDiffPhi - (2*acos(-1));
+	product.diLepDPhi = product.m_flavourOrderedLeptons.at(1)->p4.Phi() - product.m_flavourOrderedLeptons.at(0)->p4.Phi();
+	if (product.diLepDPhi > acos(-1)){
+		product.diLepDPhi = product.diLepDPhi - (2*acos(-1));
 	}
-	if (product.diLepDiffPhi < -1*acos(-1)){
-		product.diLepDiffPhi = product.diLepDiffPhi + (2*acos(-1));
+	if (product.diLepDPhi < -1*acos(-1)){
+		product.diLepDPhi = product.diLepDPhi + (2*acos(-1));
 	}
 	product.diLepRestFrame = product.m_diLeptonSystem.BoostToCM();
 	ROOT::Math::Boost boostedHighptLepton(product.diLepRestFrame);
 	product.diLepCosThetaStar = cos((boostedHighptLepton * product.m_ptOrderedLeptons[0]->p4).Theta()-product.m_diLeptonSystem.Theta());
+	product.diLepCosThetaStarfix = Quantities::cosptAngle(boostedHighptLepton * product.m_ptOrderedLeptons[0]->p4, product.m_diLeptonSystem);
+	product.diLepAngle = Quantities::cosptAngle(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
+	product.diLepMetAngle = Quantities::cosptAngle(product.m_diLeptonSystem, product.m_met.p4);
 }
