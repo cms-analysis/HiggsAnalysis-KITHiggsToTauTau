@@ -290,6 +290,7 @@ public:
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPComb  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCP_rho_merged  = DefaultValues::UndefinedDouble;
