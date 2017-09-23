@@ -79,8 +79,8 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 	assert(event.m_vertexSummary); // TODO: change to refitted PV
 	
-	KLepton* tauToOneProng = nullptr;
-	KTau* tauToA1 = nullptr;
+	KLepton* oneProng = nullptr;
+	KTau* a1 = nullptr;
 	
 	for (std::vector<KLepton*>::iterator leptonIt = product.m_flavourOrderedLeptons.begin();
 	     leptonIt != product.m_flavourOrderedLeptons.end(); ++leptonIt)
@@ -89,37 +89,45 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		{
 			KTau* tau = static_cast<KTau*>(*leptonIt);
 			
-			if ((! tauToA1) &&
+			if ((! a1) &&
 			    (tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
 			    (tau->chargedHadronCandidates.size() > 2) &&
 			    tau->sv.valid)
 			{
-				tauToA1 = tau;
+				a1 = tau;
 			}
-			else if ((! tauToOneProng) &&
+			else if ((! oneProng) &&
 			         (tau->decayMode == reco::PFTau::hadronicDecayMode::kOneProng0PiZero))
 			{
-				tauToOneProng = *leptonIt;
+				oneProng = *leptonIt;
 			}
 		}
-		else if (! tauToOneProng)
+		else if (! oneProng)
 		{
-			tauToOneProng = *leptonIt;
+			oneProng = *leptonIt;
 		}
 	}
 	
-	if ((tauToOneProng != nullptr) && (tauToA1 != nullptr))
+	if ((oneProng != nullptr) && (a1 != nullptr))
 	{
 		// one prong decay
-		std::vector<float> muonHelixParameters = tauToOneProng->track.helixParameters();
-		TMatrixT<double> muonHelixParametersInput(TrackParticle::NHelixPar, 1);
+		std::vector<float> oneProngHelixParameters = oneProng->track.helixParameters();
+		TMatrixT<double> oneProngHelixParametersInput(TrackParticle::NHelixPar, 1);
 		for (unsigned int parameterIndex1 = 0; parameterIndex1 < TrackParticle::NHelixPar; ++parameterIndex1)
 		{
-			muonHelixParametersInput[parameterIndex1][0] = muonHelixParameters[parameterIndex1];
+			oneProngHelixParametersInput[parameterIndex1][0] = oneProngHelixParameters[parameterIndex1];
 		}
-		TMatrixTSym<double> muonHelixCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<float, reco::Track::dimension, reco::Track::dimension, ROOT::Math::MatRepSym<float, reco::Track::dimension> >, TMatrixTSym<double> >(tauToOneProng->track.helixCovariance, TrackParticle::NHelixPar);
-		int pdgIdMuon = static_cast<int>(DefaultValues::pdgIdMuon * tauToOneProng->charge() / std::abs(tauToOneProng->charge()));
-		TrackParticle muonInput(muonHelixParametersInput, muonHelixCovarianceInput, pdgIdMuon, tauToOneProng->p4.mass(), tauToOneProng->charge(), tauToOneProng->track.magneticField);
+		TMatrixTSym<double> oneProngHelixCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<float, reco::Track::dimension, reco::Track::dimension, ROOT::Math::MatRepSym<float, reco::Track::dimension> >, TMatrixTSym<double> >(oneProng->track.helixCovariance, TrackParticle::NHelixPar);
+		
+		// LOG(WARNING) << "\n\nSimpleFits inputs (oneProng):";
+		// LOG(INFO) << "\noneProngHelixParametersInput:";
+		// oneProngHelixParametersInput.Print();
+		// LOG(INFO) << "\noneProngHelixCovarianceInput:";
+		// oneProngHelixCovarianceInput.Print();
+		// LOG(INFO) << "\noneProng->pdgId(): " << oneProng->pdgId();
+		// LOG(INFO) << "oneProng->p4.mass(): " << oneProng->p4.mass();
+		// LOG(INFO) << "oneProng->charge(): " << oneProng->charge();
+		TrackParticle oneProngInput(oneProngHelixParametersInput, oneProngHelixCovarianceInput, oneProng->pdgId(), oneProng->p4.mass(), oneProng->charge(), oneProng->track.magneticField);
 		
 		// tau
 		// https://github.com/cherepan/LLRHiggsTauTau/blob/VladimirDev/NtupleProducer/plugins/TauFiller.cc#L483
@@ -127,14 +135,14 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		// https://github.com/cherepan/LLRHiggsTauTau/blob/VladimirDev/NtupleProducer/src/ParticleBuilder.cc#L11-L40
 		unsigned int nLorentzAndVertexParameters = TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::NExtraPar+TrackHelixVertexFitter::MassOffSet; // LorentzVectorParticle::NLorentzandVertexPar
 		TMatrixT<double> tauParameters(nLorentzAndVertexParameters, 1);
-		tauParameters[TrackHelixVertexFitter::x0][0] = tauToA1->sv.position.X();
-		tauParameters[TrackHelixVertexFitter::y0][0] = tauToA1->sv.position.Y();
-		tauParameters[TrackHelixVertexFitter::z0][0] = tauToA1->sv.position.Z();
-		tauParameters[TrackHelixVertexFitter::kappa0][0] = tauToA1->track.qOverP();
-		tauParameters[TrackHelixVertexFitter::lambda0][0] = tauToA1->track.lambda();
-		tauParameters[TrackHelixVertexFitter::phi0][0] = tauToA1->track.phi();
+		tauParameters[TrackHelixVertexFitter::x0][0] = a1->sv.position.X();
+		tauParameters[TrackHelixVertexFitter::y0][0] = a1->sv.position.Y();
+		tauParameters[TrackHelixVertexFitter::z0][0] = a1->sv.position.Z();
+		tauParameters[TrackHelixVertexFitter::kappa0][0] = a1->track.qOverP();
+		tauParameters[TrackHelixVertexFitter::lambda0][0] = a1->track.lambda();
+		tauParameters[TrackHelixVertexFitter::phi0][0] = a1->track.phi();
 		tauParameters[TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::MassOffSet][0] = DefaultValues::ChargedPionMass;
-		tauParameters[TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::BField0][0] = tauToA1->track.magneticField;
+		tauParameters[TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::BField0][0] = a1->track.magneticField;
 		TMatrixT<double> tauParametersInput = TrackHelixVertexFitter::ComputeLorentzVectorPar(tauParameters);
 		
 		TMatrixTSym<double> tauCovariance(nLorentzAndVertexParameters);
@@ -142,16 +150,23 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		{
 			for (unsigned int parameterIndex2 = 0; parameterIndex2 < TrackHelixVertexFitter::NFreeVertexPar; ++parameterIndex2)
 			{
-				tauCovariance[parameterIndex1][parameterIndex2] = tauToA1->sv.covariance[parameterIndex1][parameterIndex2];
+				tauCovariance[parameterIndex1][parameterIndex2] = a1->sv.covariance[parameterIndex1][parameterIndex2];
 			}
 		}
-		tauCovariance[TrackHelixVertexFitter::kappa0][TrackHelixVertexFitter::kappa0] = tauToA1->track.helixCovariance(reco::Track::i_qoverp, reco::Track::i_qoverp);
-		tauCovariance[TrackHelixVertexFitter::lambda0][TrackHelixVertexFitter::lambda0] = tauToA1->track.helixCovariance(reco::Track::i_lambda, reco::Track::i_lambda);
-		tauCovariance[TrackHelixVertexFitter::phi0][TrackHelixVertexFitter::phi0] = tauToA1->track.helixCovariance(reco::Track::i_phi, reco::Track::i_phi);
+		tauCovariance[TrackHelixVertexFitter::kappa0][TrackHelixVertexFitter::kappa0] = a1->track.helixCovariance(reco::Track::i_qoverp, reco::Track::i_qoverp);
+		tauCovariance[TrackHelixVertexFitter::lambda0][TrackHelixVertexFitter::lambda0] = a1->track.helixCovariance(reco::Track::i_lambda, reco::Track::i_lambda);
+		tauCovariance[TrackHelixVertexFitter::phi0][TrackHelixVertexFitter::phi0] = a1->track.helixCovariance(reco::Track::i_phi, reco::Track::i_phi);
 		TMatrixTSym<double> tauCovarianceInput = ErrorMatrixPropagator::PropagateError(&TrackHelixVertexFitter::ComputeLorentzVectorPar, tauParameters, tauCovariance);
 		
-		int pdgIdTau = static_cast<int>(DefaultValues::pdgIdTau * tauToA1->charge() / std::abs(tauToA1->charge()));
-		LorentzVectorParticle tauInput(tauParametersInput, tauCovarianceInput, pdgIdTau, tauToA1->charge(), tauToA1->track.magneticField);
+		// LOG(WARNING) << "\n\nSimpleFits inputs (a1):";
+		// LOG(INFO) << "\ntauParametersInput:";
+		// tauParametersInput.Print();
+		// LOG(INFO) << "\ntauCovarianceInput:";
+		// tauCovarianceInput.Print();
+		// LOG(INFO) << "\na1->pdgId(): " << a1->pdgId();
+		// LOG(INFO) << "a1->charge(): " << a1->charge();
+		// LOG(INFO) << "a1->track.magneticField: " << a1->track.magneticField;
+		LorentzVectorParticle tauInput(tauParametersInput, tauCovarianceInput, a1->pdgId(), a1->charge(), a1->track.magneticField);
 		
 		// MET
 		unsigned int nMetComponents = 2;
@@ -160,6 +175,12 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		metVector[1][0] = product.m_met.p4.Vect().Y();
 		
 		TMatrixTSym<double> metCovariance = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >, TMatrixTSym<double> >(product.m_met.significance, nMetComponents);
+		
+		// LOG(WARNING) << "\n\nSimpleFits inputs (MET):";
+		// LOG(INFO) << "\nmetVector:";
+		// metVector.Print();
+		// LOG(INFO) << "\nmetCovariance:";
+		// metCovariance.Print();
 		PTObject metInput(metVector, metCovariance);
 		
 		// PV
@@ -167,14 +188,23 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		TVector3 pvInput = Utility::ConvertPxPyPzVector<RMPoint, TVector3>(pv->position);
 		TMatrixTSym<double> pvCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 3, 3, ROOT::Math::MatRepSym<double, 3> >, TMatrixTSym<double> >(pv->covariance, 3);
 		
+		// LOG(WARNING) << "\nSimpleFits inputs (PV):";
+		// LOG(INFO) << "\npvInput:";
+		// pvInput.Print();
+		// LOG(INFO) << "\npvCovarianceInput:";
+		// pvCovarianceInput.Print();
+		
 		// Fit
-		GlobalEventFit globalEventFit(muonInput, tauInput, metInput, pvInput, pvCovarianceInput);
+		GlobalEventFit globalEventFit(oneProngInput, tauInput, metInput, pvInput, pvCovarianceInput);
 		GEFObject fitResult = globalEventFit.Fit();
+		// LOG(ERROR) << "\n\nSimpleFits outputs:";
 		if (fitResult.isValid())
 		{
-			product.m_simpleFitTaus[tauToOneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
-			product.m_simpleFitTaus[tauToA1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauH().LV());
-			product.m_diTauSystemSimpleFit = product.m_simpleFitTaus[tauToOneProng] + product.m_simpleFitTaus[tauToA1];
+			product.m_simpleFitTaus[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
+			product.m_simpleFitTaus[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauH().LV());
+			product.m_diTauSystemSimpleFit = product.m_simpleFitTaus[oneProng] + product.m_simpleFitTaus[a1];
+			// LOG(INFO) << "tauToOneProng: " << product.m_simpleFitTaus[oneProng];
+			// LOG(INFO) << "tauToA1: " << product.m_simpleFitTaus[a1];
 		}
 	}
 }
