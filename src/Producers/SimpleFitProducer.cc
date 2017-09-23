@@ -135,27 +135,17 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		// https://github.com/cherepan/LLRHiggsTauTau/blob/VladimirDev/NtupleProducer/src/ParticleBuilder.cc#L11-L40
 		unsigned int nLorentzAndVertexParameters = TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::NExtraPar+TrackHelixVertexFitter::MassOffSet; // LorentzVectorParticle::NLorentzandVertexPar
 		TMatrixT<double> tauParameters(nLorentzAndVertexParameters, 1);
-		tauParameters[TrackHelixVertexFitter::x0][0] = a1->sv.position.X();
-		tauParameters[TrackHelixVertexFitter::y0][0] = a1->sv.position.Y();
-		tauParameters[TrackHelixVertexFitter::z0][0] = a1->sv.position.Z();
-		tauParameters[TrackHelixVertexFitter::kappa0][0] = a1->track.qOverP();
-		tauParameters[TrackHelixVertexFitter::lambda0][0] = a1->track.lambda();
-		tauParameters[TrackHelixVertexFitter::phi0][0] = a1->track.phi();
-		tauParameters[TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::MassOffSet][0] = DefaultValues::ChargedPionMass;
-		tauParameters[TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::BField0][0] = a1->track.magneticField;
-		TMatrixT<double> tauParametersInput = TrackHelixVertexFitter::ComputeLorentzVectorPar(tauParameters);
-		
 		TMatrixTSym<double> tauCovariance(nLorentzAndVertexParameters);
-		for (unsigned int parameterIndex1 = 0; parameterIndex1 < TrackHelixVertexFitter::NFreeVertexPar; ++parameterIndex1)
+		for (int parameterIndex1 = 0; parameterIndex1 < 7; ++parameterIndex1)
 		{
-			for (unsigned int parameterIndex2 = 0; parameterIndex2 < TrackHelixVertexFitter::NFreeVertexPar; ++parameterIndex2)
+			tauParameters[parameterIndex1][0] = a1->refittedThreeProngParameters[parameterIndex1];
+			for (int parameterIndex2 = 0; parameterIndex2 < 7; ++parameterIndex2)
 			{
-				tauCovariance[parameterIndex1][parameterIndex2] = a1->sv.covariance[parameterIndex1][parameterIndex2];
+				tauCovariance[parameterIndex1][parameterIndex1] = a1->refittedThreeProngCovariance[parameterIndex1][parameterIndex2];
 			}
 		}
-		tauCovariance[TrackHelixVertexFitter::kappa0][TrackHelixVertexFitter::kappa0] = a1->track.helixCovariance(reco::Track::i_qoverp, reco::Track::i_qoverp);
-		tauCovariance[TrackHelixVertexFitter::lambda0][TrackHelixVertexFitter::lambda0] = a1->track.helixCovariance(reco::Track::i_lambda, reco::Track::i_lambda);
-		tauCovariance[TrackHelixVertexFitter::phi0][TrackHelixVertexFitter::phi0] = a1->track.helixCovariance(reco::Track::i_phi, reco::Track::i_phi);
+		tauParameters[TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::BField0][0] = a1->track.magneticField;
+		TMatrixT<double> tauParametersInput = TrackHelixVertexFitter::ComputeLorentzVectorPar(tauParameters);
 		TMatrixTSym<double> tauCovarianceInput = ErrorMatrixPropagator::PropagateError(&TrackHelixVertexFitter::ComputeLorentzVectorPar, tauParameters, tauCovariance);
 		
 		// LOG(WARNING) << "\n\nSimpleFits inputs (a1):";
