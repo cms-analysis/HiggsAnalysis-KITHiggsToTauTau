@@ -360,6 +360,11 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return product.m_deltaGenRecoIP2;
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "gend0s", [](event_type const& event, product_type const& product)
+	{
+		return product.m_gend0s;
+	});
+
 }
 
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings, metadata_type const& metadata) const
@@ -422,6 +427,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		else product.m_recoPhiStarCP_rho_merged = phiStarCP_rho + ROOT::Math::Pi();
 	}
 
+
+	product.m_gend0s = cpq.CalculateD0s((product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble), (product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble));
 
 	// ---------
 	// ip-method

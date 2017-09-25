@@ -35,6 +35,7 @@ public:
 	double CalculateTrackReferenceError(KTrack track);
 	double CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart);
 	double CalculateZs(double zPlus, double zMinus);
+	double CalculateD0s(double d0_1, double d0_2);
 	double PhiTransform(double phi);
 	TVector3 CalculateIPVector(KGenParticle* genParticle, RMPoint* pv);
 	TVector3 CalculateIPVector(KLepton* recoParticle, KVertex* pv);
