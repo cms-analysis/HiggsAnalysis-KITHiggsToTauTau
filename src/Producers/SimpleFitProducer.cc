@@ -156,7 +156,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		// LOG(INFO) << "\na1->pdgId(): " << a1->pdgId();
 		// LOG(INFO) << "a1->charge(): " << a1->charge();
 		// LOG(INFO) << "a1->track.magneticField: " << a1->track.magneticField;
-		LorentzVectorParticle tauInput(tauParametersInput, tauCovarianceInput, a1->pdgId(), a1->charge(), a1->track.magneticField);
+		LorentzVectorParticle tauInput(tauParametersInput, tauCovarianceInput, a1->resonancePdgId(), a1->charge(), a1->track.magneticField);
 		
 		// MET
 		unsigned int nMetComponents = 2;
