@@ -438,11 +438,11 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 				
 				// the tau1 decays into a rho
 				if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()!=1)
-					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, chargedPart2->p4, PionP, Pi0P, chargedPart2->charge());
+					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, chargedPart2->p4, PionP, Pi0P, (int)chargedPart2->charge());
 
 				// the tau2 decays into a rho
 				if (genTau1->genDecayMode()!=1 && genTau2->genDecayMode()==1)
-					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP1, chargedPart1->p4, PionM, Pi0M, chargedPart1->charge());
+					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP1, chargedPart1->p4, PionM, Pi0M, (int)chargedPart1->charge());
 
 				///////////////////// IP+rho method
 

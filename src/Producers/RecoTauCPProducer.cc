@@ -129,6 +129,10 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_recoPhiStarCPrPV2;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPComb", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPComb;
+	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPVbs", [](event_type const& event, product_type const& product)
 	{
@@ -419,8 +423,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}
 
 
-
-
 	// ---------
 	// ip-method
 	// ---------
@@ -466,6 +468,30 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		// calculate phi*cp
 		product.m_recoPhiStarCPrPV2 = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlus, IPMinus, "reco");
 			
+
+		// ---------
+		// comb-method
+		// ---------
+		// The combined method is possible if one tau_h->rho is present in the channel (i.e. et, mt, tt).
+		// In the tt ch., we want to use the combined method when only one of the two taus decays to rho.
+		// If both taus decay to rho, then the rho method is preferred.
+		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET ){
+			KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
+			product.m_recoPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+		}  // if et or mt ch.
+		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ){
+			KTau* recoTau1 = static_cast<KTau*>(recoParticle1);
+			KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
+			
+			// tau1->rho, tau2->a
+			if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1)
+				product.m_recoPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_recoIP2_refitPV, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+
+			// tau1->a, tau2->rho
+			if (recoTau1->decayMode != 1 && recoTau2->decayMode ==1)
+				product.m_recoPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+			
+		}  // if tt ch.
 
 
 		if (!m_isData){
