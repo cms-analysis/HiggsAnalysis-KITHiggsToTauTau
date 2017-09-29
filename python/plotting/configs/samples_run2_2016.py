@@ -3419,11 +3419,12 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ggh", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		if (kwargs.get("cp", "sm") == "sm"):
+		matrix_weight = "(1.0)*"
+		if (kwargs.get("cp", None) == "sm"):
 			matrix_weight = "(madGraphWeightSample>-899)*"
-		elif(kwargs.get("cp", "sm") == "mm"):
+		elif(kwargs.get("cp", None) == "mm"):
 			matrix_weight = "(madGraphWeight050/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
-		elif(kwargs.get("cp", "sm") == "ps"):
+		elif(kwargs.get("cp", None) == "ps"):
 			matrix_weight = "(madGraphWeight100/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
 
 		for mass in higgs_masses:
@@ -3449,7 +3450,7 @@ class Samples(samples.SamplesBase):
 					)
 				Samples._add_plot(
 						config,
-						kwargs.get("stacks", "ggh"),
+						"bkg" if kwargs.get("stack_signal", False) else kwargs.get("stacks", "ggh"),
 						"LINE",
 						"L",
 						"ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
@@ -3486,11 +3487,12 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("qqH", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		if (kwargs.get("cp", "sm") == "sm"):
+		matrix_weight = "(1.0)*"
+		if (kwargs.get("cp", None) == "sm"):
 			matrix_weight = "(madGraphWeight000/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
-		elif(kwargs.get("cp", "sm") == "mm"):
+		elif(kwargs.get("cp", None) == "mm"):
 			matrix_weight = "(madGraphWeight050/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
-		elif(kwargs.get("cp", "sm") == "ps"):
+		elif(kwargs.get("cp", None) == "ps"):
 			matrix_weight = "(madGraphWeight100/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
 
 		data_weight, mc_weight = self.projection(kwargs)
@@ -3518,7 +3520,7 @@ class Samples(samples.SamplesBase):
 					)
 				Samples._add_plot(
 						config,
-						"bkg" if kwargs.get("stack_signal", False) else "qqh",
+						"bkg" if kwargs.get("stack_signal", False) else kwargs.get("stacks", "qqh"),
 						"LINE",
 						"L",
 						"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),

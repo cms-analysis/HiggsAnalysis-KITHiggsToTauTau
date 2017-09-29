@@ -252,7 +252,11 @@ public:
 	RMPoint* m_genPV = 0;
 	double m_genZMinus = DefaultValues::UndefinedDouble;
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
-	double m_genZs = DefaultValues::UndefinedDouble;
+	double m_genZs  = DefaultValues::UndefinedDouble;
+
+	double m_gend0_1 = DefaultValues::UndefinedDouble;
+	double m_gend0_2 = DefaultValues::UndefinedDouble;
+	double m_gend0s  = DefaultValues::UndefinedDouble;
 
 	double m_genPhiCP = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
@@ -325,6 +329,7 @@ public:
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPComb  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCP_rho_merged  = DefaultValues::UndefinedDouble;

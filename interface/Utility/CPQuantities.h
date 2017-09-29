@@ -24,7 +24,7 @@ public:
 	double CalculatePhiStarCP(KRefitVertex* pv, KTrack track1, KTrack track2, RMFLV chargPart1, RMFLV chargPart2);
 	double CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2, std::string level);
 	double CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM);
-	double CalculatePhiStarCPComb(TVector3 ipvec, RMFLV daughter, RMFLV pion, RMFLV pizero, double daughterCharge);
+	double CalculatePhiStarCPComb(TVector3 ipvec, RMFLV daughter, RMFLV pion, RMFLV pizero, int daughterCharge);
 	double CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad);
 	double CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
 	double CalculatePhiCPLab(RMFLV chargPart1, TVector3 ipvec1, TVector3 ipvec2);
@@ -35,6 +35,7 @@ public:
 	double CalculateTrackReferenceError(KTrack track);
 	double CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart);
 	double CalculateZs(double zPlus, double zMinus);
+	double CalculateD0s(double d0_1, double d0_2);
 	double PhiTransform(double phi);
 	TVector3 CalculateIPVector(KGenParticle* genParticle, RMPoint* pv);
 	TVector3 CalculateIPVector(KLepton* recoParticle, KVertex* pv);

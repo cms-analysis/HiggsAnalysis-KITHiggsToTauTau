@@ -251,6 +251,12 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	{
 		return product.m_genZs;
 	});
+
+
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "gend0s", [](event_type const& event, product_type const& product)
+	//{
+	//	return product.m_gend0s;
+	//});
 }
 
 void GenTauCPProducerBase::Produce(event_type const& event, product_type& product,
@@ -438,11 +444,11 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 				
 				// the tau1 decays into a rho
 				if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()!=1)
-					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, chargedPart2->p4, PionP, Pi0P, chargedPart2->charge());
+					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, chargedPart2->p4, PionP, Pi0P, (int)chargedPart2->charge());
 
 				// the tau2 decays into a rho
 				if (genTau1->genDecayMode()!=1 && genTau2->genDecayMode()==1)
-					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP1, chargedPart1->p4, PionM, Pi0M, chargedPart1->charge());
+					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP1, chargedPart1->p4, PionM, Pi0M, (int)chargedPart1->charge());
 
 				///////////////////// IP+rho method
 
@@ -459,6 +465,8 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			product.m_genZPlus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart1->p4);
 			product.m_genZMinus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart2->p4);
 			product.m_genZs = cpq.CalculateZs(product.m_genZPlus, product.m_genZMinus);
+
+			//product.m_gend0s = cpq.CalculateD0s(d0_refitPV_1, d0_refitPV_2);
 		}
 	}
 }

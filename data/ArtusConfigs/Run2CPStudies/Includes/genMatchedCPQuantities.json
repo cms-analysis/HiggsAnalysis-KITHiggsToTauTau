@@ -176,6 +176,8 @@
 
 		"genZPlus",
 		"genZMinus",
-		"genZs"
+		"genZs",
+
+		"gend0s"
 	]
 }
