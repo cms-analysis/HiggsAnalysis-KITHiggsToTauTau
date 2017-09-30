@@ -107,9 +107,6 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepCosThetaStar", [](event_type const& event, product_type const& product) {
 		return product.diLepCosThetaStar;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepCosThetaStarfix", [](event_type const& event, product_type const& product) {
-		return product.diLepCosThetaStarfix;
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity("diLepAngle", [](event_type const& event, product_type const& product) {
 		return product.diLepAngle;
 	});
@@ -203,8 +200,7 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	}
 	product.diLepRestFrame = product.m_diLeptonSystem.BoostToCM();
 	ROOT::Math::Boost boostedHighptLepton(product.diLepRestFrame);
-	product.diLepCosThetaStar = cos((boostedHighptLepton * product.m_ptOrderedLeptons[0]->p4).Theta()-product.m_diLeptonSystem.Theta());
-	product.diLepCosThetaStarfix = Quantities::cosptAngle(boostedHighptLepton * product.m_ptOrderedLeptons[0]->p4, product.m_diLeptonSystem);
+	product.diLepCosThetaStar = Quantities::cosptAngle(boostedHighptLepton * product.m_ptOrderedLeptons[0]->p4, product.m_diLeptonSystem);
 	product.diLepAngle = Quantities::cosptAngle(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
 	product.diLepMetAngle = Quantities::cosptAngle(product.m_diLeptonSystem, product.m_met.p4);
 }

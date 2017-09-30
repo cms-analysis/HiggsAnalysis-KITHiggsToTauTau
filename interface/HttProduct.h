@@ -152,7 +152,6 @@ public:
 	double pZetaMissVis = 0.0;
 	double diLepDPhi = 0.0;
 	double diLepCosThetaStar = 0.0;
-	double diLepCosThetaStarfix = 0.0;
 	double diLepAngle = 0.0;
 	double diLepMetAngle = 0.0;
 

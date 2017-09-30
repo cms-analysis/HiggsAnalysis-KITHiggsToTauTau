@@ -167,7 +167,7 @@
 		"InvalidateNonMatchingJets" : false,
 		"DirectIso" : true,
 		"BTagWPs" : [
-			"medium"
+			"loose"
 		],
 		"Quantities" : [
 			{
