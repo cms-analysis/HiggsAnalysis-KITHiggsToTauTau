@@ -1,6 +1,6 @@
 # KITHiggsToTauTau Analysis Code
 
-[![Build Status](https://travis-ci.org/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.svg)](https://travis-ci.org/cms-analysis/HiggsAnalysis-KITHiggsToTauTau)
+[![Build Status](https://travis-ci.org/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.svg?branch=master)](https://travis-ci.org/cms-analysis/HiggsAnalysis-KITHiggsToTauTau)
 
 Documentation is found in the [GitHub wiki](https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/wiki). A similar wiki exists for [Artus](https://github.com/artus-analysis/Artus/wiki).
 
