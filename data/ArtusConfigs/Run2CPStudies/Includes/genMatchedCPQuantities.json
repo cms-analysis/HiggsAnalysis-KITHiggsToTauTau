@@ -178,6 +178,7 @@
 		"genZMinus",
 		"genZs",
 
-		"gend0s"
+		"d0s_area",
+		"d0s_dist"
 	]
 }

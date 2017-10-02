@@ -219,9 +219,10 @@ public:
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
 	double m_genZs  = DefaultValues::UndefinedDouble;
 
-	double m_gend0_1 = DefaultValues::UndefinedDouble;
-	double m_gend0_2 = DefaultValues::UndefinedDouble;
-	double m_gend0s  = DefaultValues::UndefinedDouble;
+	double m_d0_1 = DefaultValues::UndefinedDouble;
+	double m_d0_2 = DefaultValues::UndefinedDouble;
+	double m_d0s_area  = DefaultValues::UndefinedDouble;
+	double m_d0s_dist  = DefaultValues::UndefinedDouble;
 
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCPTEST  = DefaultValues::UndefinedDouble;

@@ -251,12 +251,6 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	{
 		return product.m_genZs;
 	});
-
-
-	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "gend0s", [](event_type const& event, product_type const& product)
-	//{
-	//	return product.m_gend0s;
-	//});
 }
 
 void GenTauCPProducerBase::Produce(event_type const& event, product_type& product,
@@ -465,8 +459,6 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			product.m_genZPlus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart1->p4);
 			product.m_genZMinus = cpq.CalculateZPlusMinus(product.m_genBosonLV, chargedPart2->p4);
 			product.m_genZs = cpq.CalculateZs(product.m_genZPlus, product.m_genZMinus);
-
-			//product.m_gend0s = cpq.CalculateD0s(d0_refitPV_1, d0_refitPV_2);
 		}
 	}
 }
