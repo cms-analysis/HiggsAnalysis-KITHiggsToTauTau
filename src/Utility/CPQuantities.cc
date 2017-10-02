@@ -503,9 +503,17 @@ double CPQuantities::CalculateD0sDist(double d0_1, double d0_2)
 	}
 	else
 	{	
-		ds = a/(std::sqrt(2.0));
+		if (a >= 0)
+		{
+			ds = a/(std::sqrt(2.0));
+		}
+		else
+		{
+			a = -a;
+			ds = a/(std::sqrt(2.0));
+			ds = -ds;
+		}
 	}
-
 	return ds;
 }
 
