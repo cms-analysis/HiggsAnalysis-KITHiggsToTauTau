@@ -467,16 +467,16 @@ double CPQuantities::CalculateD0sArea(double d0_1, double d0_2)
 	//calculate the surface between d0_1 = d0_2 and d0_1 = d0_2 + a for each event
 	//d0_1 and d0_2 are constricted between 0 and 0.05. So maximum surface is 1.25x10^-3
 	//negative a defines the surface below the diagonal line
-	double a = abs(d0_1) - abs(d0_2);
-	double ds = 0;
+	double a = std::abs(d0_1) - std::abs(d0_2);
+	double ds = 0.0;
 	if (a >= 0)
 	{
-		ds = 0.5 * ((1/400) - (((1/20) - a) * (1/20 - a)));
+		ds = 0.5 * ((1.0/400.0) - (((1.0/20.0) - a) * (1.0/20.0 - a)));
 	}
 	else
 	{
 		a = -a;
-		ds = 0.5 * ((1/400) - (((1/20) - a) * (1/20 - a)));
+		ds = 0.5 * ((1.0/400.0) - (((1.0/20.0) - a) * (1.0/20.0 - a)));
 		ds = -ds;
 	}
 	return ds;
@@ -487,10 +487,10 @@ double CPQuantities::CalculateD0sDist(double d0_1, double d0_2)
 	//calculate the surface between d0_1 = d0_2 and d0_1 = d0_2 + a for each event
 	//d0_1 and d0_2 are constricted between 0 and 0.05. So maximum surface is 1.25x10^-3
 	//negative a defines the surface below the diagonal line
-	double a = abs(d0_1) - abs(d0_2);
-	double ds = 0;
+	double a = std::abs(d0_1) - std::abs(d0_2);
+	double ds = 0.0;
 		
-	ds = a/(sqrt(2.0));
+	ds = a/(std::sqrt(2.0));
 
 	return ds;
 }
