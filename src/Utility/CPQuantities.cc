@@ -469,7 +469,7 @@ double CPQuantities::CalculateD0sArea(double d0_1, double d0_2)
 	//negative a defines the surface below the diagonal line
 	double a = std::abs(d0_1) - std::abs(d0_2);
 	double ds = 0.0;
-	if (d0_1 == -1000 || d0_2 == -1000 )
+	if (d0_1 < -900 || d0_2 < -900 )
 	{
 		ds = -1000;
 	}
@@ -497,7 +497,7 @@ double CPQuantities::CalculateD0sDist(double d0_1, double d0_2)
 	double a = std::abs(d0_1) - std::abs(d0_2);
 	double ds = 0.0;
 	
-	if (d0_1 == -1000 || d0_2 == -1000 )
+	if (d0_1 < -900 || d0_2 < -900 )
 	{
 		ds = -1000;
 	}
