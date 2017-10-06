@@ -32,6 +32,10 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	{
 		return product.m_genPhiStarCP;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiStarCPTEST", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genPhiStarCPTEST;
+	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiStarCP_rho", [](event_type const& event, product_type const& product)
 	{
@@ -419,7 +423,8 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 				product.m_genCosPsiMinus = cpq.CalculateCosPsi(chargedPart2->p4, product.m_genIP2);
 
 				// Calculation of Phi* and Phi*CP
-				product.m_genPhiStarCP = cpq.CalculatePhiStarCP(chargedPart1->p4, chargedPart2->p4, product.m_genIP1, product.m_genIP2);
+				product.m_genPhiStarCP = cpq.CalculatePhiStarCP(chargedPart1->p4, chargedPart2->p4, product.m_genIP1, product.m_genIP2, "gen");
+				product.m_genPhiStarCPTEST = cpq.CalculatePhiStarCP(chargedPart2->p4, chargedPart1->p4, product.m_genIP2, product.m_genIP1, "gen");
 				product.m_genPhiStar = cpq.GetGenPhiStar();
 				product.m_genOStarCP = cpq.GetGenOStarCP();
 
@@ -433,11 +438,11 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 				
 				// the tau1 decays into a rho
 				if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()!=1)
-					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, chargedPart2->p4, PionP, Pi0P, chargedPart2->charge());
+					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, chargedPart2->p4, PionP, Pi0P, (int)chargedPart2->charge());
 
 				// the tau2 decays into a rho
 				if (genTau1->genDecayMode()!=1 && genTau2->genDecayMode()==1)
-					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP1, chargedPart1->p4, PionM, Pi0M, chargedPart1->charge());
+					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP1, chargedPart1->p4, PionM, Pi0M, (int)chargedPart1->charge());
 
 				///////////////////// IP+rho method
 
@@ -614,11 +619,11 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 				if (genParticle1->charge() > 0){
 					product.m_genCosPsiPlus  = cpq.CalculateCosPsi(genParticle1->p4, product.m_genIP1);
 					product.m_genCosPsiMinus = cpq.CalculateCosPsi(genParticle2->p4, product.m_genIP2);
-					product.m_genPhiStarCP = cpq.CalculatePhiStarCP(genParticle1->p4, genParticle2->p4, product.m_genIP1, product.m_genIP2);
+					product.m_genPhiStarCP = cpq.CalculatePhiStarCP(genParticle1->p4, genParticle2->p4, product.m_genIP1, product.m_genIP2, "gen");
 				} else {
 					product.m_genCosPsiPlus  = cpq.CalculateCosPsi(genParticle2->p4, product.m_genIP2);
 					product.m_genCosPsiMinus = cpq.CalculateCosPsi(genParticle1->p4, product.m_genIP1);
-					product.m_genPhiStarCP = cpq.CalculatePhiStarCP(genParticle2->p4, genParticle1->p4, product.m_genIP2, product.m_genIP1);
+					product.m_genPhiStarCP = cpq.CalculatePhiStarCP(genParticle2->p4, genParticle1->p4, product.m_genIP2, product.m_genIP1, "gen");
 				}
 					
 			}

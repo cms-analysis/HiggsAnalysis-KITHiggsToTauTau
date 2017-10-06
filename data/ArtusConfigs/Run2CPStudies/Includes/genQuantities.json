@@ -29,6 +29,8 @@
 		"isZet",
 		"isZem",
 		"isZmm",
-		"isZee"
+		"isZee",
+
+		"npartons"
 	]
 }

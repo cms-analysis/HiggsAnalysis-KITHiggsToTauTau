@@ -153,13 +153,14 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	if(level=="reco")
 	{
 		this->SetRecoPhiStar(acos(n2t.Dot(n1t)));
+		this->SetRecoOStarCP(p1n.Dot(n2t.Cross(n1t)));
 	}
 	else if (level=="gen")
 	{
 		this->SetGenPhiStar(acos(n2t.Dot(n1t)));
+		this->SetGenOStarCP(p1n.Dot(n2t.Cross(n1t)));
 	}
 
-	this->SetGenOStarCP(p1n.Dot(n2t.Cross(n1t)));
 	//Step 5: Calculating Phi*CP
 	double phiStarCP = 0;
 	if(p1n.Dot(n2t.Cross(n1t))>=0)
@@ -176,7 +177,7 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 
 // calculation of Phi*CP
 // passing the IP vectors as arguments
-double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2){
+double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2, std::string level){
 
 	// create boost to the ZMF of the two particles
 	RMFLV ProngImp = chargPart1 + chargPart2;
@@ -215,6 +216,18 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 	// normalized momentum vector of the reference
 	RMFLV::BetaVector p1n = p1.Unit();
 	
+	// save phi* and O*CP
+	if(level=="reco")
+	{
+		this->SetRecoPhiStar(acos(n2t.Dot(n1t)));
+		this->SetRecoOStarCP(p1n.Dot(n2t.Cross(n1t)));
+	}
+	else if (level=="gen")
+	{
+		this->SetGenPhiStar(acos(n2t.Dot(n1t)));
+		this->SetGenOStarCP(p1n.Dot(n2t.Cross(n1t)));
+	}
+
 	// calculate phi*cp
 	double phiStarCP = 0;
 	if(p1n.Dot(n2t.Cross(n1t))>=0)
@@ -235,7 +248,7 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 // The function takes the charge of the particle a as argument,
 // since the calculation of OStarCP depends on which particle is positively charged
 // (which is taken as reference)
-double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMFLV pion, RMFLV pizero, double charge){
+double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMFLV pion, RMFLV pizero, int charge){
 
 	// create boost to the api-ZMF
 	RMFLV ProngImp = chargPart + pion;
@@ -388,6 +401,7 @@ double CPQuantities::CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng)
 }
 
 // calculation of the spin analysing discriminant (y^{tau}) using the rest frame of the taus (only gen level)
+// FIXME it is not called in RecoTauCPProducer. Could it be removed?
 double CPQuantities::CalculateSpinAnalysingDiscriminant_rho(RMFLV tau1, RMFLV tau2, RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M)
 {
 	// Step 1: Extract all pion energies in the tau restframe
@@ -447,6 +461,61 @@ double CPQuantities::CalculateZs(double zPlus, double zMinus)
 	return zs;
 }
 
+
+double CPQuantities::CalculateD0sArea(double d0_1, double d0_2)
+{
+	//calculate the surface between d0_1 = d0_2 and d0_1 = d0_2 + a for each event
+	//d0_1 and d0_2 are constricted between 0 and 0.05. So maximum surface is 1.25x10^-3
+	//negative a defines the surface below the diagonal line
+	double a = std::abs(d0_1) - std::abs(d0_2);
+	double ds = 0.0;
+	if (d0_1 < -900 || d0_2 < -900 )
+	{
+		ds = -1000;
+	}
+	else
+	{		
+		if (a >= 0)
+		{
+			ds = 0.5 * ((1.0/400.0) - (((1.0/20.0) - a) * (1.0/20.0 - a)));
+		}
+		else
+		{
+			a = -a;
+			ds = 0.5 * ((1.0/400.0) - (((1.0/20.0) - a) * (1.0/20.0 - a)));
+			ds = -ds;
+		}
+	}
+	return ds;
+}
+
+double CPQuantities::CalculateD0sDist(double d0_1, double d0_2)
+{
+	//calculate the distance of a point from the d0_1 = d0_2 diagonal line for each event
+	//d0_1 and d0_2 are constricted between 0 and 0.05. So maximum length is 0.03
+	//negative a defines the surface below the diagonal line
+	double a = std::abs(d0_1) - std::abs(d0_2);
+	double ds = 0.0;
+	
+	if (d0_1 < -900 || d0_2 < -900 )
+	{
+		ds = -1000;
+	}
+	else
+	{	
+		if (a >= 0)
+		{
+			ds = a/(std::sqrt(2.0));
+		}
+		else
+		{
+			a = -a;
+			ds = a/(std::sqrt(2.0));
+			ds = -ds;
+		}
+	}
+	return ds;
+}
 
 double CPQuantities::PhiTransform(double phi)
 {

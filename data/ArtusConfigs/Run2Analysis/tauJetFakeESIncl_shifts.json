@@ -3,13 +3,13 @@
 		"TauJetFakeEnergyCorrection" : {
 			"nick" : {
 				"default" : 0.0,
-				"Summer16" : 1.0
+				"Spring16|Summer16" : 1.0
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"Summer16" : "tauJetFakeEsUp"
+				"Spring16|Summer16" : "tauJetFakeEsUp"
 			}
 		}
 	},
@@ -17,13 +17,13 @@
 		"TauJetFakeEnergyCorrection" : {
 			"nick" : {
 				"default" : 0.0,
-				"Summer16" : -1.0
+				"Spring16|Summer16" : -1.0
 			}
 		},
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"Summer16" : "tauJetFakeEsDown"
+				"Spring16|Summer16" : "tauJetFakeEsDown"
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 	"Year" : {
 		"nick" : {
 			"default" : 2015,
-			"(Summer16|Run2016|Embedding2016)" : 2016
+			"(Spring16|Summer16|Run2016|Embedding2016)" : 2016
 		}
 	},
 	"MuonID" : {
@@ -21,7 +21,7 @@
 	"MuonIsoTypeUserMode" : {
 		"nick" : {
 			"default" : "fromcmssw",
-			"(Summer16|Run2016|Embedding2016)" : "fromcmsswr04"
+			"(Spring16|Summer16|Run2016|Embedding2016)" : "fromcmsswr04"
 		}
 	},
 	
