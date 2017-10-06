@@ -66,7 +66,7 @@ if [ "$MODE" = "artus" -o "$MODE" = "both" ]; then
     source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
     # compile everything
-    scram b -j 10
+    scram b -j `grep -c ^processor /proc/cpuinfo`
     popd
 fi
 
@@ -81,6 +81,6 @@ if [ "$MODE" = "limit" -o "$MODE" = "both" ]; then
 
     git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
     git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
-    scram b -j 4
+    scram b -j `grep -c ^processor /proc/cpuinfo`
     popd
 fi

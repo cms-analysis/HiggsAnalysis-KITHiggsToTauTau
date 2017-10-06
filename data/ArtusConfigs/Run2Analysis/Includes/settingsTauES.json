@@ -2,7 +2,7 @@
 	"TauEnergyCorrection" : {
 		"nick" : {
 			"default" : "none",
-			"Summer16" : "smhtt2016"
+			"Spring16|Summer16" : "smhtt2016"
 		}
 	},
 	"TauEnergyCorrectionOneProng" : 0.982,
@@ -10,32 +10,32 @@
 	"TauEnergyCorrectionThreeProng" : 1.004,
 	"TauElectronFakeEnergyCorrectionOneProng" : {
 		"nick" : {
-			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=Summer16)" : 1.0
+			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))" : 1.0
 		}
 	},
 	"TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
 		"nick" : {
-			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=Summer16)" : 1.095
+			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))" : 1.095
 		}
 	},
 	"TauElectronFakeEnergyCorrectionThreeProng" : {
 		"nick" : {
-			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=Summer16)" : 1.0
+			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))" : 1.0
 		}
 	},
 	"TauMuonFakeEnergyCorrectionOneProng" : {
 		"nick" : {
-			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=Summer16)" : 0.998
+			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))" : 0.998
 		}
 	},
 	"TauMuonFakeEnergyCorrectionOneProngPiZeros" : {
 		"nick" : {
-			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=Summer16)" : 1.015
+			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))" : 1.015
 		}
 	},
 	"TauMuonFakeEnergyCorrectionThreeProng" : {
 		"nick" : {
-			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=Summer16)" : 1.0
+			"(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))" : 1.0
 		}
 	}
 }

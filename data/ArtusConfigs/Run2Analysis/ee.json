@@ -24,7 +24,7 @@
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_Ele23_WPLoose_Gsf"
 				],
-				"Run2016|Summer16" : [
+				"Run2016|Spring16|Summer16" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf"
 				],
 				"Embedding(2016|MC)" : [
@@ -75,7 +75,7 @@
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_Ele23_WPLoose_Gsf_v"
 				],
-				"Run2016|Summer16|Embedding(2016|MC)" : [
+				"Run2016|Spring16|Summer16|Embedding(2016|MC)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v"
 				]
 			}
@@ -147,7 +147,7 @@
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"
 				],
-				"Run2016|Summer16|Embedding(2016|MC)" : [
+				"Run2016|Spring16|Summer16|Embedding(2016|MC)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"
 				]
 			}
@@ -208,7 +208,7 @@
 					"producer:EETriggerWeightProducer",
 					"producer:EventWeightProducer"
 				],
-				"(DY.?JetsToLL|EWKZ2Jets).*(?=Summer16)" : [
+				"(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",

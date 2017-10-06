@@ -151,6 +151,8 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["zj"]  = "#000000 #64DE6A"
 			self.colors_dict["ztt"] = "#000000 #FFCC66"
 			self.colors_dict["zmt"] = "#000000 #CE66FF"
+			self.colors_dict["zet"] = "#000000 #CE66FF"
+			self.colors_dict["zem"] = "#000000 #CE66FF"
 			self.colors_dict["zttpospol"] = "#000000 #FFEEBB"
 			self.colors_dict["zttnegpol"] = "#000000 #FFCC66"
 			self.colors_dict["tt"] = "#000000 #9999CC"
@@ -183,6 +185,11 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["gghps_alt"] = self.colors_dict["kit_cyanblau_1"]
 			self.colors_dict["gghmm_alt"] = self.colors_dict["kit_rot_1"]
 			self.colors_dict["qqh"] = self.colors_dict["kit_gruen_1"]
+			self.colors_dict["qqhsm"] = self.colors_dict["kit_gelb_2"]
+			self.colors_dict["qqhmm"] = self.colors_dict["kit_rot_2"]
+			self.colors_dict["qqhps"] = self.colors_dict["kit_cyanblau_2"]
+			self.colors_dict["qqhps_alt"] = self.colors_dict["kit_gruen_1"]
+			self.colors_dict["qqhmm_alt"] = self.colors_dict["kit_rot_2"]
 			self.colors_dict["bbh"] = self.colors_dict["kit_gruen_1"]
 			self.colors_dict["vh"]  = self.colors_dict["kit_lila_1"]
 			self.colors_dict["zh"]  = self.colors_dict["kit_lila_1"]

@@ -219,7 +219,13 @@ public:
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
 	double m_genZs  = DefaultValues::UndefinedDouble;
 
+	double m_d0_1 = DefaultValues::UndefinedDouble;
+	double m_d0_2 = DefaultValues::UndefinedDouble;
+	double m_d0s_area  = DefaultValues::UndefinedDouble;
+	double m_d0s_dist  = DefaultValues::UndefinedDouble;
+
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCPTEST  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
 	double m_genOStarCP  = DefaultValues::UndefinedDouble;
 	double m_genPhiCP  = DefaultValues::UndefinedDouble;
@@ -289,6 +295,8 @@ public:
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPComb  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMerged  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCP_rho_merged  = DefaultValues::UndefinedDouble;

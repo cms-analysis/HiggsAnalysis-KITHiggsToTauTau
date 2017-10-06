@@ -113,6 +113,8 @@
 		"recoPhiStarCP_rho_merged",
 		"recoPhiStarCPrPV",
 		"recoPhiStarCPrPV2",
+		"recoPhiStarCPComb",
+		"recoPhiStarCPCombMerged",
 		"#recoPhiStarCPrPV_rho",
 
 		"#recoPhiStarCPrPVbs",
@@ -142,6 +144,9 @@
 		"#recoImpactParameter2",
 
 		"recoTrackRefError1",
-		"recoTrackRefError2"
+		"recoTrackRefError2",
+
+		"d0s_area",
+		"d0s_dist"
 	]
 }

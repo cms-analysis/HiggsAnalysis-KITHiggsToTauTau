@@ -23,6 +23,8 @@ class CategoriesDict(object):
 		auto_rebin_binning = " ".join([str(float(f)) for f in range(0,251,10)])
 		self.pp = pprint.PrettyPrinter(indent=4)
 		self.categoriesDict = {}
+		
+		"""
 		for mjj in range(0,1001,100):
 			for jdeta in np.linspace(0.0, 6.0, 13):
 				vbf_string = ("(mjj>" + str(mjj) + ")") if mjj >0 else ""
@@ -135,7 +137,8 @@ class CategoriesDict(object):
 						}
 				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) + "{discriminator}"] = copy.deepcopy(self.categoriesDict["{analysis}{channel}0jet_" + str(h_pt) +"_"+ str(pt_2) + "{discriminator}"])
 				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) +"{discriminator}"]["expressions"]["global"] = self.combine([self.invert(cut_string), jet0_string])
-				
+		"""
+		
 		self.categoriesDict["{analysis}{channel}ZeroJet2D{discriminator}"] = {
 				"channel": [
 					"mm_",
@@ -471,6 +474,8 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		
+		"""
 		self.categoriesDict["{analysis}{channel}FT_InsteadQCuts{discriminator}"] = {
 				"channel": [
 					"mt_"
@@ -1505,10 +1510,13 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		"""
+		
 		#print self.categoriesDict
 		self.calculateBinnings()
 		self.calculateExpressions()
 		self.calculateDataCards()
+	
 	def calculateBinnings(self):
 		self.binnings = {}
 		for name, info in self.categoriesDict.iteritems():

@@ -75,7 +75,7 @@ git clone https://github.com/artus-analysis/grid-control.git
 source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
 # compile everything
-scram b -j 4
+scram b -j `grep -c ^processor /proc/cpuinfo`
 cd HiggsAnalysis/KITHiggsToTauTau
 cd -
 
