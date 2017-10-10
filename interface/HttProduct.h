@@ -225,7 +225,6 @@ public:
 	double m_d0s_dist  = DefaultValues::UndefinedDouble;
 
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
-	double m_genPhiStarCPTEST  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
 	double m_genOStarCP  = DefaultValues::UndefinedDouble;
 	double m_genPhiCP  = DefaultValues::UndefinedDouble;
