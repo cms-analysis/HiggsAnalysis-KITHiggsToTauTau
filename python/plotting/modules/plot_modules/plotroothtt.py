@@ -23,7 +23,11 @@ class PlotRootHtt(plotroot.PlotRoot):
 		super(PlotRootHtt, self).modify_argument_parser(parser, args)
 		
 		self.axis_options.add_argument("--angular-plot", action="store_true", default=False,
-									   help="Use proper x tick labels for angular plots. [Default: %(default)s]")
+									   help="Use proper x tick labels for angular plots. [Default: %(default)s]")	
+		self.axis_options.add_argument("--absjdphi-plot", action="store_true", default=False,
+									   help="Use proper x tick labels for abs(jdphi) plots. [Default: %(default)s]")
+									
+									   
 	
 	def prepare_args(self, parser, plotData):
 		if self.predefined_colors is None:
@@ -42,7 +46,21 @@ class PlotRootHtt(plotroot.PlotRoot):
 			self.axes_histogram.GetXaxis().SetBinLabel(750, "3#pi/2")		
 			self.axes_histogram.GetXaxis().SetBinLabel(1000, "2#pi")
 			#TODO: Figure out why this adjustment is necessary to obtain equally sized labels on both axes.
+		
 			self.axes_histogram.GetXaxis().SetLabelSize(1.35*self.axes_histogram.GetYaxis().GetLabelSize())
+			self.axes_histogram.LabelsOption("h", "X")
+			#TODO: Set Number of divisions such that the tick marks are aligned with the custom tick labels.
+		
+		if plotData.plotdict["absjdphi_plot"]:		
+			self.axes_histogram.GetXaxis().Set(1000,0,math.pi)
+			self.axes_histogram.GetXaxis().SetBinLabel(1, "0")
+			self.axes_histogram.GetXaxis().SetBinLabel(250, "#pi/4")
+			self.axes_histogram.GetXaxis().SetBinLabel(500, "#pi/2")
+			self.axes_histogram.GetXaxis().SetBinLabel(750, "3#pi/4")		
+			self.axes_histogram.GetXaxis().SetBinLabel(1000, "#pi")
+			#TODO: Figure out why this adjustment is necessary to obtain equally sized labels on both axes.
+			self.axes_histogram.GetXaxis().SetLabelSize(1.35*self.axes_histogram.GetYaxis().GetLabelSize())
+			self.axes_histogram.GetXaxis().SetNdivisions(4, 1, 0, True)
 			self.axes_histogram.LabelsOption("h", "X")
 	
 	
