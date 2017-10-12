@@ -529,20 +529,14 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 	if(product.m_genBosonLVFound && product.m_genBosonTree.m_daughters.size() > 1){
 
 		// initialization
-		// chargedPart1 = +, chargedPart2 = -
 		KGenParticle* genParticle1 = nullptr;
 		KGenParticle* genParticle2 = nullptr;
-		KGenParticle* chargedPart1 = nullptr;
-		KGenParticle* chargedPart2 = nullptr;
-		product.m_genIP1.SetXYZ(-999,-999,-999);
-		product.m_genIP2.SetXYZ(-999,-999,-999);
-		TVector3 IPPlus, IPMinus;
-		IPPlus.SetXYZ(-999,-999,-999);
-		IPMinus.SetXYZ(-999,-999,-999);
 		GenParticleDecayTree* genTauDecayTree1 = nullptr; // necessary to access the tau prongs
 		GenParticleDecayTree* genTauDecayTree2 = nullptr; // necessary to access the tau prongs
 		KGenTau* genTau1 = nullptr; // necessary to access the tau decay mode
 		KGenTau* genTau2 = nullptr; // necessary to access the tau decay mode
+		product.m_genIP1.SetXYZ(-999,-999,-999);
+		product.m_genIP2.SetXYZ(-999,-999,-999);
 		// object for rho method
 		RMFLV pi1, pi01, pi2, pi02;
 		std::vector<RMFLV> rho1DecayPhotons, rho2DecayPhotons;
@@ -552,6 +546,13 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 		pi02.SetXYZT(-999,-999,-999,-999);
 		double genY1L = DefaultValues::UndefinedDouble;
 		double genY2L = DefaultValues::UndefinedDouble;
+		// auxiliary variables: charged ordered
+		// chargedPart1 = +, chargedPart2 = -
+		KGenParticle* chargedPart1 = nullptr;
+		KGenParticle* chargedPart2 = nullptr;
+		TVector3 IPPlus, IPMinus;
+		IPPlus.SetXYZ(-999,-999,-999);
+		IPMinus.SetXYZ(-999,-999,-999);
 
 		// defining object of type CPQuantities to access variables and functions of this class
 		CPQuantities cpq;
@@ -676,7 +677,7 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 						product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(pi2, pi1, pi02, pi01);
 				}
 			}
-			// +++ rho method +++
+			///////////////////////////// rho method
 
 			// =================
 			// === ip method ===
@@ -706,9 +707,19 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 				product.m_genCosPsiMinus = cpq.CalculateCosPsi(chargedPart2->p4, IPMinus);
 
 				product.m_genPhiStarCP = cpq.CalculatePhiStarCP(chargedPart1->p4, chargedPart2->p4, IPPlus, IPMinus, "gen");
+			///////////////////////////// ip method
+
+			// ===================
+			// === comb method ===
+			// ===================
+			if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()!=1)
+				product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, genParticle2->p4, pi1, pi01, genParticle2->charge());
+			if (genTau1->genDecayMode()!=1 && genTau2->genDecayMode()==1)
+				product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP1, genParticle1->p4, pi2, pi02, genParticle1->charge());
+			///////////////////////////// comb method
 
 			} // if genPV != nullptr
-			// +++ ip method +++
+
 
 		} // if flavourOrderedGenLeptons is a non-empty vector
 
