@@ -559,7 +559,6 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 
 		// access vectors of gen leptons matched to reco leptons
 		if (product.m_flavourOrderedGenLeptons.at(0) and product.m_flavourOrderedGenLeptons.at(1)){
-			
 			genParticle1 = product.m_flavourOrderedGenLeptons.at(0);
 			genParticle2 = product.m_flavourOrderedGenLeptons.at(1);
 
@@ -656,29 +655,30 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 
 				} // if hadronic decay mode
 			}  // if genParticle2 is a tau
-
+			
 			// ==================
 			// === rho method ===
 			// ==================
-			if (genParticle1->charge() > 0){
-				product.m_gen_posyTauL = genY1L;
-				product.m_gen_negyTauL = genY2L;
+			if (genTau1 != nullptr && genTau2 != nullptr){
+				if (genParticle1->charge() > 0){
+					product.m_gen_posyTauL = genY1L;
+					product.m_gen_negyTauL = genY2L;
 
-				if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()==1){
-					if (pi1.X()!=-999 && pi01.X()!=-999 && pi2.X()!=-999 && pi02.X()!=-999)
-						product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(pi1, pi2, pi01, pi02);
-				}
-			} else {
-				product.m_gen_posyTauL = genY2L;
-				product.m_gen_negyTauL = genY1L;
-
-				if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()==1){
-					if (pi1.X()!=-999 && pi01.X()!=-999 && pi2.X()!=-999 && pi02.X()!=-999)
-						product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(pi2, pi1, pi02, pi01);
+					if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()==1){
+						if (pi1.X()!=-999 && pi01.X()!=-999 && pi2.X()!=-999 && pi02.X()!=-999)
+							product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(pi1, pi2, pi01, pi02);
+					}
+				} else {
+					product.m_gen_posyTauL = genY2L;
+					product.m_gen_negyTauL = genY1L;
+					if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()==1){
+						if (pi1.X()!=-999 && pi01.X()!=-999 && pi2.X()!=-999 && pi02.X()!=-999)
+							product.m_genPhiStarCP_rho = cpq.CalculatePhiStarCP_rho(pi2, pi1, pi02, pi01);
+					}
 				}
 			}
 			///////////////////////////// rho method
-
+			
 			// =================
 			// === ip method ===
 			// =================
@@ -707,15 +707,18 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 				product.m_genCosPsiMinus = cpq.CalculateCosPsi(chargedPart2->p4, IPMinus);
 
 				product.m_genPhiStarCP = cpq.CalculatePhiStarCP(chargedPart1->p4, chargedPart2->p4, IPPlus, IPMinus, "gen");
-			///////////////////////////// ip method
+				///////////////////////////// ip method
+				
 
-			// ===================
-			// === comb method ===
-			// ===================
-			if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()!=1)
-				product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, genParticle2->p4, pi1, pi01, genParticle2->charge());
-			if (genTau1->genDecayMode()!=1 && genTau2->genDecayMode()==1)
-				product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP1, genParticle1->p4, pi2, pi02, genParticle1->charge());
+				// ===================
+				// === comb method ===
+				// ===================
+				if (genTau1 != nullptr && genTau2 != nullptr){
+					if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()!=1)
+						product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, genParticle2->p4, pi1, pi01, genParticle2->charge());
+					if (genTau1->genDecayMode()!=1 && genTau2->genDecayMode()==1)
+						product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP1, genParticle1->p4, pi2, pi02, genParticle1->charge());
+				}
 			///////////////////////////// comb method
 
 			} // if genPV != nullptr
