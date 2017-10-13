@@ -253,7 +253,7 @@ if __name__ == "__main__":
 	                    default=["em"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
-	                    default=[["em_btag_highPzeta", "em_btag_lowPzeta", "em_btag_mediumPzeta", "em_nobtag_highPzeta", "em_nobtag_lowPzeta", "em_nobtag_mediumPzeta", "em_btag" , "em_nobtag", "em_inclusive"]],#
+	                    default=[["em_nobtag_highPzeta", "em_nobtag_lowPzeta", "em_nobtag_mediumPzeta", "em_nobtag", "em_inclusive"]],#"em_btag_highPzeta", "em_btag_lowPzeta", "em_btag_mediumPzeta", , "em_btag" 
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["all"],
 	                    help="Higgs masses. [Default: %(default)s]")
