@@ -73,7 +73,7 @@ samples_dict = {
 			("zptstat40pt",["ztt","zll"]),
 			("zptstat80pt",["ztt","zll"]),
 			("zptttbar",["ztt","zll"]),
-			('nominal',['ztt','zll','ttj','vv','wj','qcd','ggh','bbh']),
+			('nominal',['ztt','zll','ttj','vv','wj','ggh','bbh']),
 			#('jec',['ttj','vv','wj','zll','ztt','ggh','bbh']),
 			("elees",["ztt","ggh","bbh"]),#["ttj","vv","wj","zll","ztt","ggh","bbh"]
 			#("muones",["ttj","vv","wj","zll","ztt","ggh","bbh"]),
