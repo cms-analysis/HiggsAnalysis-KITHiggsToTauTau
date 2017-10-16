@@ -30,6 +30,9 @@ void TauTauRestFrameSelector::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauSystemReconstructed", [](event_type const& event, product_type const& product) {
 		return (product.m_diTauSystemReconstructed ? 1.0 : 0.0);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "collinearMass", [](event_type const& event, product_type const& product) {
+		return product.m_col;
+	});
 }
 
 void TauTauRestFrameSelector::Produce(event_type const& event, product_type& product,

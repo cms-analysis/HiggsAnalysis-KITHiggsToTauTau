@@ -272,7 +272,8 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
 						]
 					},
 					"nVetoMuons",
@@ -297,7 +298,8 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
 						]
 					},
 					"nVetoMuons",
@@ -471,6 +473,7 @@
 					"producer:ValidElectronsProducer",
 					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
+					"producer:TTHTauPairProducer",
 					"filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
 					"filter:MinTausCountFilter",
@@ -484,10 +487,11 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TTHDecayChannelProducer",
 					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
+					"producer:TauTauRestFrameSelector",
 					"producer:DiJetQuantitiesProducer",
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
@@ -517,6 +521,7 @@
 					"producer:ValidElectronsProducer",
 					"producer:TauCorrectionsProducer",
 					"producer:ValidTausProducer",
+					"producer:TTHTauPairProducer",
 					"filter:ValidTausFilter",
 					"producer:TauTriggerMatchingProducer",
 					"filter:MinTausCountFilter",
@@ -530,10 +535,11 @@
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
 					"producer:ValidBTaggedJetsProducer",
+					"producer:TTHDecayChannelProducer",
 					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
+					"producer:TauTauRestFrameSelector",
 					"producer:DiJetQuantitiesProducer",
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
