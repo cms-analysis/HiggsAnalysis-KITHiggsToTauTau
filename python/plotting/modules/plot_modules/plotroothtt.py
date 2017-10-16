@@ -60,7 +60,7 @@ class PlotRootHtt(plotroot.PlotRoot):
 			self.axes_histogram.GetXaxis().SetBinLabel(1000, "#pi")
 			#TODO: Figure out why this adjustment is necessary to obtain equally sized labels on both axes.
 			self.axes_histogram.GetXaxis().SetLabelSize(1.35*self.axes_histogram.GetYaxis().GetLabelSize())
-			self.axes_histogram.GetXaxis().SetNdivisions(4, 1, 0, True)
 			self.axes_histogram.LabelsOption("h", "X")
+
 	
 	
