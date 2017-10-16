@@ -1,0 +1,38 @@
+{
+	"TauEnergyCorrection" : {
+		"nick" : {
+			"default" : "none",
+			"Summer16|Embedding2016" : "mssmhtt2016"
+		}
+	},
+	"TauEnergyCorrectionOneProng" : {
+		"nick" : {
+			"Run201" : 1.0,
+			"default" : 0.995
+		}
+	},
+	"TauEnergyCorrectionOneProngPiZeros" : {
+		"nick" : {
+			"Run201" : 1.0,
+			"default" : 1.011
+		}
+	},
+	"TauEnergyCorrectionThreeProng": {
+		"nick" : {
+			"Run201" : 1.0,
+			"default" : 1.006
+		}
+	},
+	"TauElectronFakeEnergyCorrectionOneProng" : {
+		"nick" : {
+			"Run201" : 1.0,
+			"default" : 1.024
+		}
+	},
+	"TauElectronFakeEnergyCorrectionOneProngPiZeros" : {
+		"nick" : {
+			"Run201" : 1.0,
+			"default" : 1.076
+		}
+	}
+}

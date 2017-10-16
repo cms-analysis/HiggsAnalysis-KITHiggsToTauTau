@@ -1,0 +1,26 @@
+{
+	"include" : [
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsElectronID.json"
+	],
+	
+	"VetoElectronReco" : "none",
+
+	"VetoElectronID" : "user",
+	"VetoElectronIDType" : "cutbased2015andlater",
+	"VetoElectronIDName" : "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
+
+	"VetoElectronIsoType" : "user",
+	"VetoElectronIso" : "none",
+	"VetoElectronIsoPtSumOverPtUpperThresholdEB" : 0.3,
+	"VetoElectronIsoPtSumOverPtUpperThresholdEE" : 0.3,
+
+	"VetoElectronLowerPtCuts" : [
+		"15.0"
+	],
+	"VetoElectronUpperAbsEtaCuts" : [
+		"2.5"
+	],
+	"DiVetoElectronMinDeltaRCut" : "0.15",
+	"DiVetoElectronVetoMode" : "veto_os_keep_ss",
+	"DirectIso" : true
+}

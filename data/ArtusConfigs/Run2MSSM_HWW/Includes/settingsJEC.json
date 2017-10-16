@@ -1,0 +1,59 @@
+{
+	"JetEnergyCorrectionParameters" : {
+		"nick" : {
+			"default" : [
+				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_L1FastJet_AK4PFchs.txt",
+				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_L2Relative_AK4PFchs.txt",
+				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_L3Absolute_AK4PFchs.txt"
+			],
+			"Run2015" : [
+				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_L1FastJet_AK4PFchs.txt",
+				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_L2Relative_AK4PFchs.txt",
+				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_L3Absolute_AK4PFchs.txt",
+				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_L2L3Residual_AK4PFchs.txt"
+			]
+		}
+	},
+	"JetEnergyCorrectionUncertaintyParameters" : {
+		"nick" : {
+			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt",
+			"Run2015" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_Uncertainty_AK4PFchs.txt"
+		}
+	},
+	"JetEnergyCorrectionUncertaintySource" : "",
+	"#JetEnergyCorrectionUncertaintyShift" : 0.0,
+	"JetEnergyCorrectionSplitUncertainty" : true,
+	"JetEnergyCorrectionSplitUncertaintyParameters" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_UncertaintySources_AK4PFchs.txt",
+	"UseJECShiftsForBJets" : true,
+	"JetEnergyCorrectionSplitUncertaintyParameterNames" : [
+		"AbsoluteFlavMap",
+		"AbsoluteMPFBias",
+		"AbsoluteScale",
+		"AbsoluteStat",
+		"FlavorQCD",
+		"Fragmentation",
+		"PileUpDataMC",
+		"PileUpPtBB",
+		"PileUpPtEC1",
+		"PileUpPtEC2",
+		"PileUpPtHF",
+		"PileUpPtRef",
+		"RelativeBal",
+		"RelativeFSR",
+		"RelativeJEREC1",
+		"RelativeJEREC2",
+		"RelativeJERHF",
+		"RelativePtBB",
+		"RelativePtEC1",
+		"RelativePtEC2",
+		"RelativePtHF",
+		"RelativeStatEC",
+		"RelativeStatFSR",
+		"RelativeStatHF",
+		"SinglePionECAL",
+		"SinglePionHCAL",
+		"TimePtEta",
+		"Total",
+		"Closure"
+	]
+}

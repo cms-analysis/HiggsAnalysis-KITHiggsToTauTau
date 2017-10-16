@@ -1,0 +1,22 @@
+{
+	"nominal" : {
+		"BTagShift" : 0.0,
+		"BMistagShift" : 0.0
+	},
+	"btagEffUp" : {
+		"BTagShift" : 1.0,
+		"BMistagShift" : 0.0
+	},
+	"btagEffDown" : {
+		"BTagShift" : -1.0,
+		"BMistagShift" : 0.0
+	},
+	"btagMistagUp" : {
+		"BTagShift" : 0.0,
+		"BMistagShift" : 1.0
+	},
+	"btagMistagDown" : {
+		"BTagShift" : 0.0,
+		"BMistagShift" : -1.0
+	}
+}
