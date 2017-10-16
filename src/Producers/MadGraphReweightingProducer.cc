@@ -147,14 +147,32 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 
 	// preparations for MadGraph
 	std::vector<CartesianRMFLV*> particleFourMomenta;
-	std::string processDirectoryKey = "";
+	std::string processDirectoryKey = ""; 
+	CartesianRMFLV higgsp4 = CartesianRMFLV(0,0,0,1);
 	for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
 	     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
 	{
 		particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
+		//extract 4-momentum of the higgs boson	
+		if ((*madGraphLheParticle)->pdgId == 25) {
+			 higgsp4 = (*madGraphLheParticle)->p4;
+		}
+			
 		processDirectoryKey += (std::string(Utility::Contains(settings.GetBosonPdgIds(), std::abs((*madGraphLheParticle)->pdgId)) ? "_" : "") +
 		                        std::string(m_databasePDG->GetParticle((*madGraphLheParticle)->pdgId)->GetName()));
 	}
+	// Calculate boost to Higgs CMRF and boost particle LV to it. 
+	CartesianRMFLV::BetaVector boostvec = higgsp4.BoostToCM();
+	ROOT::Math::Boost M(boostvec);
+	
+	for (std::vector<CartesianRMFLV*>::iterator particleLV= particleFourMomenta.begin(); particleLV != particleFourMomenta.end(); ++particleLV) {
+		
+		CartesianRMFLV tmpParticleLV = CartesianRMFLV((*particleLV)->Px(), (*particleLV)->Py(), (*particleLV)->Pz(), (*particleLV)->E());
+	 	tmpParticleLV = M * tmpParticleLV;
+		CartesianRMFLV* CmLV = new CartesianRMFLV(tmpParticleLV.Px(), tmpParticleLV.Py(), tmpParticleLV.Pz(), tmpParticleLV.E());
+		(*particleLV) = CmLV;
+	 }
+	
 	
 	if (Utility::Contains(m_madGraphProcessDirectoriesByName, processDirectoryKey))
 	{
