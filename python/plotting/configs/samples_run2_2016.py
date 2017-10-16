@@ -3841,3 +3841,102 @@ class Samples(samples.SamplesBase):
 		
 		Samples._add_plot(config, "bkg", "HIST", "F", "ewk", nick_suffix)
 		return config
+
+	# HWW MSSM
+	def files_hww_mssm_gg(self, channel, mass=125):
+		if int(mass) < 300:
+			return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-JHUgenv628-pythia8"}, 1)
+		else:
+			return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-JHUgenv698-pythia8"}, 1)
+	
+	def hww_mssm_gg(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
+		data_weight, mc_weight = self.projection(kwargs)
+		
+		for mass in higgs_masses:
+			if channel == "em":
+				Samples._add_input(
+					config,
+					self.files_hww_mssm_gg(channel, mass),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"hww_gg"+str(mass),
+					nick_suffix=nick_suffix
+				)
+			else:
+				log.error("Sample config (HWW_MSSM_gg) currently not implemented for channel \"%s\"!" % channel)
+			if not kwargs.get("mssm", False):
+				Samples._add_bin_corrections(config, "hww_gg"+str(mass), nick_suffix)
+		
+			Samples._add_plot(config, "hww_gg", "LINE", "L", "hww_gg"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""), nick_suffix)
+		
+		return config
+
+	def files_hww_mssm_qq(self, channel, mass=125):
+		if int(mass) < 300:
+			return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-JHUgenv628-pythia8"}, 1)
+		else:
+			return self.artus_file_names({"process" : "VBFHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-JHUgenv698-pythia8"}, 1)
+
+	def hww_mssm_qq(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+		
+		data_weight, mc_weight = self.projection(kwargs)
+		
+		for mass in higgs_masses:
+			if channel == "em":
+				Samples._add_input(
+					config,
+					self.files_hww_mssm_qq(channel, mass),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"hww_qq"+str(mass),
+					nick_suffix=nick_suffix
+				)
+			else:
+				log.error("Sample config (HWW_MSSM_qq) currently not implemented for channel \"%s\"!" % channel)
+			if not kwargs.get("mssm", False):
+				Samples._add_bin_corrections(config, "hww_qq"+str(mass), nick_suffix)
+			
+			Samples._add_plot(config, "hww_qq", "LINE", "L", "hww_qq"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""), nick_suffix)
+		
+		return config
+
+	def hww_mssm(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		data_weight, mc_weight = self.projection(kwargs)
+
+		for mass in higgs_masses:
+			if channel == "em":
+				Samples._add_input(
+					config,
+					self.files_hww_mssm_gg(channel, mass),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"hww"+str(mass),
+					nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+					config,
+					self.files_hww_mssm_qq(channel, mass),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					"hww"+str(mass),
+					nick_suffix=nick_suffix
+				)
+			else:
+				log.error("Sample config (HWW_MSSM) currently not implemented for channel \"%s\"!" % channel)
+			if not kwargs.get("mssm", False):
+				Samples._add_bin_corrections(config, "hww"+str(mass), nick_suffix)
+
+			Samples._add_plot(config, "hww", "LINE", "L", "hww"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""), nick_suffix)
+		return config

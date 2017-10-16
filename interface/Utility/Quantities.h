@@ -26,6 +26,9 @@ public:
 	                           RMFLV const& met, float alpha=0.85);
 
 	static double MetChiSquare(TVector2 const& v, ROOT::Math::SMatrix<double, 2> matrix);
+
+	//Kintematic variable used for HWW
+	static double cosptAngle(RMFLV const& vector1, RMFLV const& vector2);
 private:
 	Quantities() {  };
 };

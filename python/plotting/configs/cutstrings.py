@@ -44,12 +44,14 @@ class CutStringsDict:
 				cuts["bveto"] = "(nbtag == 0)"
 				# used to remove overlap with H->WW->emu analysis
 				cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
-			cuts["pzeta"] = "(pZetaMissVis > -35.0)" if "2016" in cut_type and not "mssm" in cut_type else "(pZetaMissVis > -40.0)"
+			if "HWW" not in cut_type:
+				cuts["pzeta"] = "(pZetaMissVis > -35.0)" if "2016" in cut_type and not "mssm" in cut_type else "(pZetaMissVis > -40.0)"
 			if "mssm" in cut_type:
 				cuts["pzeta"] = "(pZetaMissVis > -50.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.2)" if "2016" in cut_type else "(iso_2 < 0.15)"
+				
 		elif channel == "mt":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
@@ -122,6 +124,14 @@ class CutStringsDict:
 				iso_2_cut = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 			cuts["mt"] = "(mt_1<40.0)" if cut_type == "mssm2016tight" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<70.0)"
 			cuts["iso_2"] = iso_2_cut
+		elif channel == "em" and "HWW" in cut_type:
+			cuts["pt_1"] = "(pt_1 > 20.0)"
+			cuts["pt_2"] = "(pt_2 > 20.0)"
+			cuts["ptvis"] = "(ptvis > 30.0)"
+			cuts["met"] = "(met > 40.0)"
+			cuts["mt_llmet"] = "(mt_llmet > 60.0)"
+			cuts["m_vis"] = "(m_vis > 12)"
+			cuts["bpt_1"] = "(bpt_1 < 20)"
 		return cuts
 	
 	@staticmethod
@@ -590,6 +600,24 @@ class CutStringsDict:
 		
 		elif cut_type=="ztt2015cs":
 			cuts = CutStringsDict.ztt2015cs(channel, cut_type)
+
+		# HWW
+		elif cut_type=="mssm2016lowpzeta":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016mediumpzeta":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016highpzeta":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016HWW0j":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016HWW1j":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016HWW2j":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016HWWvbf":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
+		elif cut_type=="mssm2016HWW":
+			cuts = CutStringsDict.mssm2016(channel, cut_type)
 
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)

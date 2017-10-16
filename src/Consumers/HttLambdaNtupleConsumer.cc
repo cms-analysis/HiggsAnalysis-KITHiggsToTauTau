@@ -201,6 +201,19 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mt_sv", metadata.m_commonFloatQuantities["svfitTransverseMass"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "met_sv", metadata.m_commonFloatQuantities["svfitMet"]);
 
+	//Variables used for HWW, some just for testing
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mt_llmet", metadata.m_commonFloatQuantities["diLepMetMt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mt_i", metadata.m_commonFloatQuantities["diLepMetMtImp"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dphi", metadata.m_commonFloatQuantities["diLepDPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dcosphi", metadata.m_commonFloatQuantities["diLepCosDPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "llangle", metadata.m_commonFloatQuantities["diLepAngle"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "llmetangle", metadata.m_commonFloatQuantities["diLepMetAngle"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theta", metadata.m_commonFloatQuantities["diLepTheta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dtheta", metadata.m_commonFloatQuantities["diLepDTheta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "abscostheta", metadata.m_commonFloatQuantities["diLepAbsCosTheta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "eta", metadata.m_commonFloatQuantities["diLepEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "costhetastar", metadata.m_commonFloatQuantities["diLepCosThetaStar"]);
+
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "npartons", [](event_type const& event, product_type const& product)
 	{
 		return event.m_genEventInfo ? event.m_genEventInfo->lheNOutPartons : DefaultValues::UndefinedInt;

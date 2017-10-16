@@ -86,6 +86,42 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings, metadata_typ
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "collinearMass", [](event_type const& event, product_type const& product) {
 		return product.m_col;
 	});
+
+	//Variables used for HWW, some just for testing
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepDPhi", [](event_type const& event, product_type const& product) {
+		return product.diLepDPhi;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepCosDPhi", [](event_type const& event, product_type const& product) {
+		return cos(product.m_flavourOrderedLeptons.at(1)->p4.Phi() - product.m_flavourOrderedLeptons.at(0)->p4.Phi());
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMetCosDPhi", [](event_type const& event, product_type const& product) {
+		return cos(product.m_diLeptonSystem.Phi() - product.m_met.p4.Phi());
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepTheta", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Theta();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepDTheta", [](event_type const& event, product_type const& product) {
+		return std::abs(product.m_flavourOrderedLeptons.at(1)->p4.Theta() - product.m_flavourOrderedLeptons.at(0)->p4.Theta());
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepAbsCosTheta", [](event_type const& event, product_type const& product) {
+		return std::abs(cos(product.m_diLeptonSystem.Theta()));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepEta", [](event_type const& event, product_type const& product) {
+		return product.m_diLeptonSystem.Eta();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepCosThetaStar", [](event_type const& event, product_type const& product) {
+		return product.diLepCosThetaStar;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepAngle", [](event_type const& event, product_type const& product) {
+		return product.diLepAngle;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMetAngle", [](event_type const& event, product_type const& product) {
+		return product.diLepMetAngle;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMetMtImp", [](event_type const& event, product_type const& product) {
+		return sqrt(pow(product.m_diLeptonSystem.P()+product.m_met.p4.Pt(),2)-product.m_diLeptonPlusMetSystem.P2());
+		// Using "product.m_met.p4.Pt()" instead of "product.m_met.p4.E()" because E is sometimes 0.
+	});
 }
 
 void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& product,
@@ -171,4 +207,18 @@ void DiLeptonQuantitiesProducer::Produce(event_type const& event, product_type& 
 	                                             product.m_met.p4, 0.0);
 	product.pZetaMissVis = Quantities::PZetaMissVis(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
 	                                                product.m_met.p4, 0.85);
+
+	//Variables used for HWW, some just for testing
+	product.diLepDPhi = product.m_flavourOrderedLeptons.at(1)->p4.Phi() - product.m_flavourOrderedLeptons.at(0)->p4.Phi();
+	if (product.diLepDPhi > acos(-1)){
+		product.diLepDPhi = product.diLepDPhi - (2*acos(-1));
+	}
+	if (product.diLepDPhi < -1*acos(-1)){
+		product.diLepDPhi = product.diLepDPhi + (2*acos(-1));
+	}
+	product.diLepRestFrame = product.m_diLeptonSystem.BoostToCM();
+	ROOT::Math::Boost boostedHighptLepton(product.diLepRestFrame);
+	product.diLepCosThetaStar = Quantities::cosptAngle(boostedHighptLepton * product.m_ptOrderedLeptons[0]->p4, product.m_diLeptonSystem);
+	product.diLepAngle = Quantities::cosptAngle(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
+	product.diLepMetAngle = Quantities::cosptAngle(product.m_diLeptonSystem, product.m_met.p4);
 }

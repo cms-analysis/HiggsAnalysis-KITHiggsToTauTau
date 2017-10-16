@@ -107,6 +107,7 @@ public:
 	RMFLV m_diTauGenSystem;
 	bool m_diTauGenSystemFound = false;
 	double m_col;
+	RMFLV::BetaVector diLepRestFrame; //Used for HWW
 
 	// filled by the TauSpinnerProducer
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
@@ -148,6 +149,11 @@ public:
 	double pZetaVis = 0.0;
 	double pZetaMiss = 0.0;
 	double pZetaMissVis = 0.0;
+
+	double diLepDPhi = 0.0; // Used for HWW
+	double diLepCosThetaStar = 0.0;
+	double diLepAngle = 0.0;
+	double diLepMetAngle = 0.0;
 
 	// filled by the SvfitProducer
 	mutable SvfitEventKey m_svfitEventKey;
