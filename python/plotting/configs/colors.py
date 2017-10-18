@@ -72,6 +72,85 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["kit_grau_4"] = "#BDBCBC"
 		self.colors_dict["kit_grau_5"] = "#DEDDDE"
 
+		# rwth colors
+		self.colors_dict["rwth_blau_100"] = "#00549F"
+		self.colors_dict["rwth_blau_075"] = "#407FB7"
+		self.colors_dict["rwth_blau_050"] = "#8EBAE5"
+		self.colors_dict["rwth_blau_025"] = "#C7DDF2"
+		self.colors_dict["rwth_blau_010"] = "#E8F1FA"
+
+		self.colors_dict["rwth_schwarz_100"] = "#000000"
+		self.colors_dict["rwth_schwarz_075"] = "#646567"
+		self.colors_dict["rwth_schwarz_050"] = "#9C9E9F"
+		self.colors_dict["rwth_schwarz_025"] = "#CFD1D2"
+		self.colors_dict["rwth_schwarz_010"] = "#ECEDED"
+
+		self.colors_dict["rwth_magenta_100"] = "#E30066"
+		self.colors_dict["rwth_magenta_075"] = "#E96088"
+		self.colors_dict["rwth_magenta_050"] = "#F19EB1"
+		self.colors_dict["rwth_magenta_025"] = "#F9D2DA"
+		self.colors_dict["rwth_magenta_010"] = "#FDEEF0"
+
+		self.colors_dict["rwth_gelb_100"] = "#FFED00"
+		self.colors_dict["rwth_gelb_075"] = "#FFF055"
+		self.colors_dict["rwth_gelb_050"] = "#FFF59B"
+		self.colors_dict["rwth_gelb_025"] = "#FFFAD1"
+		self.colors_dict["rwth_gelb_010"] = "#FFFDEE"
+
+		self.colors_dict["rwth_petrol_100"] = "#006165"
+		self.colors_dict["rwth_petrol_075"] = "#2D7F83"
+		self.colors_dict["rwth_petrol_050"] = "#7DA4A7"
+		self.colors_dict["rwth_petrol_025"] = "#BFD0D1"
+		self.colors_dict["rwth_petrol_010"] = "#E6ECEC"
+
+		self.colors_dict["rwth_tuerkis_100"] = "#0098A1"
+		self.colors_dict["rwth_tuerkis_075"] = "#00B1B7"
+		self.colors_dict["rwth_tuerkis_050"] = "#89CCCF"
+		self.colors_dict["rwth_tuerkis_025"] = "#CAE7E7"
+		self.colors_dict["rwth_tuerkis_010"] = "#EBF6F6"
+
+		self.colors_dict["rwth_gruen_100"] = "#57AB27"
+		self.colors_dict["rwth_gruen_075"] = "#8DC060"
+		self.colors_dict["rwth_gruen_050"] = "#B8D698"
+		self.colors_dict["rwth_gruen_025"] = "#DDEBCE"
+		self.colors_dict["rwth_gruen_010"] = "#F2F7EC"
+
+		self.colors_dict["rwth_maigruen_100"] = "#BDCD00"
+		self.colors_dict["rwth_maigruen_075"] = "#D0D95C"
+		self.colors_dict["rwth_maigruen_050"] = "#E0E69A"
+		self.colors_dict["rwth_maigruen_025"] = "#F0F3D0"
+		self.colors_dict["rwth_maigruen_010"] = "#F9FAED"
+
+		self.colors_dict["rwth_orange_100"] = "#F6A800"
+		self.colors_dict["rwth_orange_075"] = "#FABE50"
+		self.colors_dict["rwth_orange_050"] = "#FDD48F"
+		self.colors_dict["rwth_orange_025"] = "#FEEAC9"
+		self.colors_dict["rwth_orange_010"] = "#FFF7EA"
+
+		self.colors_dict["rwth_rot_100"] = "#CC071E"
+		self.colors_dict["rwth_rot_075"] = "#D85C41"
+		self.colors_dict["rwth_rot_050"] = "#E69679"
+		self.colors_dict["rwth_rot_025"] = "#F3CDBB"
+		self.colors_dict["rwth_rot_010"] = "#FAEBE3"
+
+		self.colors_dict["rwth_bordeaux_100"] = "#A11035"
+		self.colors_dict["rwth_bordeaux_075"] = "#B65256"
+		self.colors_dict["rwth_bordeaux_050"] = "#CD8B87"
+		self.colors_dict["rwth_bordeaux_025"] = "#E5C5C0"
+		self.colors_dict["rwth_bordeaux_010"] = "#F5E8E5"
+
+		self.colors_dict["rwth_violett_100"] = "#612158"
+		self.colors_dict["rwth_violett_075"] = "#834E75"
+		self.colors_dict["rwth_violett_050"] = "#A8859E"
+		self.colors_dict["rwth_violett_025"] = "#D2C0CD"
+		self.colors_dict["rwth_violett_010"] = "#EDE5EA"
+
+		self.colors_dict["rwth_lila_100"] = "#7A6FAC"
+		self.colors_dict["rwth_lila_075"] = "#9B91C1"
+		self.colors_dict["rwth_lila_050"] = "#BCB5D7"
+		self.colors_dict["rwth_lila_025"] = "#DEDAEB"
+		self.colors_dict["rwth_lila_010"] = "#F2F0F7"
+
 		#vega 10-color categorical palette as used by mlp2
 		self.colors_dict["vega_cat1_01"] = "#1f77b4"
 		self.colors_dict["vega_cat1_02"] = "#ff7f0e"
@@ -138,6 +217,9 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["hww_qq130"] = self.colors_dict["hww"]
 			self.colors_dict["totalbkg"] = "#000000 transgrey"
 			self.colors_dict["ff"] = self.colors_dict["kit_grau_2"]
+			self.colors_dict["httcpeven"] = self.colors_dict["rwth_blau_050"]
+			self.colors_dict["httcpmix"] = self.colors_dict["rwth_gruen_100"]
+			self.colors_dict["httcpodd"] = self.colors_dict["rwth_rot_100"]
 
 			self.colors_dict["channel_tt"] = self.colors_dict["kit_blau_1"]
 			self.colors_dict["channel_mt"] = self.colors_dict["kit_rot_1"]
@@ -207,6 +289,9 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["hww_qq130"] = self.colors_dict["hww"]
 			self.colors_dict["totalbkg"] = "#000000 transgrey"
 			self.colors_dict["ff"] = self.colors_dict["kit_grau_2"]
+			self.colors_dict["httcpeven"] = self.colors_dict["rwth_blau_050"]
+			self.colors_dict["httcpmix"] = self.colors_dict["rwth_gruen_100"]
+			self.colors_dict["httcpodd"] = self.colors_dict["rwth_rot_100"]
 			
 
 		for higgs_mass in xrange(90, 161, 5):
@@ -216,6 +301,10 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["gghsm{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghsm"]
 			self.colors_dict["gghmm{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghmm"]
 			self.colors_dict["gghps{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghps"]
+
+			self.colors_dict["httcpeven{mass:d}".format(mass=higgs_mass)] = self.colors_dict["httcpeven"]
+			self.colors_dict["httcpmix{mass:d}".format(mass=higgs_mass)] = self.colors_dict["httcpmix"]
+			self.colors_dict["httcpodd{mass:d}".format(mass=higgs_mass)] = self.colors_dict["httcpodd"]
 
 			self.colors_dict["gghmm_alt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghmm"]
 			self.colors_dict["gghps_alt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghps"]
@@ -229,6 +318,10 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["gghsm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghsm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["gghmm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghmm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["gghps{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghps{mass:d}".format(mass=higgs_mass)]
+
+				self.colors_dict["httcpeven{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["httcpeven{mass:d}".format(mass=higgs_mass)]
+				self.colors_dict["httcpmix{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["httcpmix{mass:d}".format(mass=higgs_mass)]
+				self.colors_dict["httcpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["httcpodd{mass:d}".format(mass=higgs_mass)]
 
 				self.colors_dict["gghmm_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghmm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["gghps_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghps{mass:d}".format(mass=higgs_mass)]
@@ -244,6 +337,10 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["gghmm{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghmm"]
 			self.colors_dict["gghps{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghps"]
 			
+			self.colors_dict["httcpeven{mass:d}".format(mass=higgs_mass)] = self.colors_dict["httcpeven"]
+			self.colors_dict["httcpmix{mass:d}".format(mass=higgs_mass)] = self.colors_dict["httcpmix"]
+			self.colors_dict["httcpodd{mass:d}".format(mass=higgs_mass)] = self.colors_dict["httcpodd"]
+
 			self.colors_dict["gghmm_alt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghmm"]
 			self.colors_dict["gghps_alt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghps"]
 
@@ -255,6 +352,10 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["gghsm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghsm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["gghmm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghmm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["gghps{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghps{mass:d}".format(mass=higgs_mass)]
+
+				self.colors_dict["httcpeven{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["httcpeven{mass:d}".format(mass=higgs_mass)]
+				self.colors_dict["httcpmix{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["httcpmix{mass:d}".format(mass=higgs_mass)]
+				self.colors_dict["httcpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["httcpodd{mass:d}".format(mass=higgs_mass)]
 
 				self.colors_dict["gghmm_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghmm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["gghps_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghps{mass:d}".format(mass=higgs_mass)]
