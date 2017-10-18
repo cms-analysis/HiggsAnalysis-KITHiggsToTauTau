@@ -49,6 +49,11 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["hww"] = "H #rightarrow WW"
 			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
 			self.labels_dict["ff"] = "Fake Factor"
+			
+			self.labels_dict["qqhsm125"] = "VBF 0^{++}"
+			self.labels_dict["qqhps125"] = "VBF 0^{+-}"
+			self.labels_dict["gghsm125"] = "GF 0^{++}"
+			self.labels_dict["gghps125"] = "GF 0^{+-}"
 
 			self.labels_dict["channel_tt"] = "#tau_{h}#tau_{h}"
 			self.labels_dict["channel_mt"] = "#mu#tau_{h}"
