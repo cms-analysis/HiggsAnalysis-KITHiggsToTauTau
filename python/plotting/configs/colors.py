@@ -217,7 +217,7 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["hww_qq130"] = self.colors_dict["hww"]
 			self.colors_dict["totalbkg"] = "#000000 transgrey"
 			self.colors_dict["ff"] = self.colors_dict["kit_grau_2"]
-			self.colors_dict["httcpeven"] = self.colors_dict["rwth_blau_050"]
+			self.colors_dict["httcpeven"] = self.colors_dict["rwth_magenta_100"]
 			self.colors_dict["httcpmix"] = self.colors_dict["rwth_gruen_100"]
 			self.colors_dict["httcpodd"] = self.colors_dict["rwth_rot_100"]
 
@@ -289,7 +289,7 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["hww_qq130"] = self.colors_dict["hww"]
 			self.colors_dict["totalbkg"] = "#000000 transgrey"
 			self.colors_dict["ff"] = self.colors_dict["kit_grau_2"]
-			self.colors_dict["httcpeven"] = self.colors_dict["rwth_blau_050"]
+			self.colors_dict["httcpeven"] = self.colors_dict["rwth_magenta_100"]
 			self.colors_dict["httcpmix"] = self.colors_dict["rwth_gruen_100"]
 			self.colors_dict["httcpodd"] = self.colors_dict["rwth_rot_100"]
 			
