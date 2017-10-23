@@ -403,4 +403,6 @@ public:
 
 	//filled by MadGraphReweightingProducer
 	std::vector<KLHEParticle*> m_lheParticlesSortedForMadGraph;
+	float m_madGraph_HiggsPt;
+	float m_madGraph_HiggsPt_HiggsCM;
 };
