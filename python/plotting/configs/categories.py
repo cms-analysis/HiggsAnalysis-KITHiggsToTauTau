@@ -305,6 +305,69 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		self.categoriesDict["{analysis}{channel}CP_IPmethod{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(decayMode_2==0)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_RHOmethod{discriminator}"] = {
+				"channel":[
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(decayMode_1==1)*(decayMode_2==1)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_COMBmethod{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_": "(decayMode_2==1)",
+					"et_": "(decayMode_2==1)",
+					"tt_": "((decayMode_1==1 && decayMode_2!=1) || (decayMode_1!=1 && decayMode_2==1)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
 		self.categoriesDict["{analysis}{channel}ZeroJet2D_WJCR{discriminator}"] = {
 				"channel": [
 					"mt_",
