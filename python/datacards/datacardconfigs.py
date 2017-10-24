@@ -48,9 +48,9 @@ class DatacardConfigs(object):
 			"qqHsm" : "qqhsm",
 			"qqHmm_ALT" : "qqhmm",
 			"qqHps_ALT" : "qqhps",
-			"CPeven": "httcpeven",
-			"CPodd_ALT": "httcpodd",
-			"CPmix_ALT": "httcpmix",
+			"CPEVEN": "httcpeven",
+			"CPODD_ALT": "httcpodd",
+			"CPMIX_ALT": "httcpmix",
 		}
 
 		self._mapping_category2binid = {
