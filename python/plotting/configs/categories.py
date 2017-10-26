@@ -283,7 +283,7 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		self.categoriesDict["{analysis}{channel}TwoJet_CP{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_Hpthigh{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -294,7 +294,29 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)",
+					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)*(H_pt > 130.)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_jdphi": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_Hptlow{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)*(H_pt < 130.)",
 					},
 				"binnings":{
 					"analysis": [
