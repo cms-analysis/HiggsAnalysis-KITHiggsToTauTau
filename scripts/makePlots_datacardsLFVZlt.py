@@ -17,7 +17,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
-import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
+import HiggsAnalysis.KITHiggsToTauTau.datacards.lfvzltdatacards as lfvzltdatacards
 
 
 
@@ -99,6 +99,8 @@ if __name__ == "__main__":
 	parser.add_argument("--new-tau-id", default=False, action="store_true",
 	                    help="Use rerun tau Id instead of nominal one. [Default: %(default)s]")
 	
+	print "hello"	
+
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
@@ -126,9 +128,9 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era,noJECuncSplit=args.no_jec_unc_split)
+	datacards = lfvzltdatacards.LFVZltDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era,noJECuncSplit=args.no_jec_unc_split)
 	if args.for_dcsync:
-		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses)
+		datacards = lfvzltdatacards.LFVZltDatacardsForSync(higgs_masses=args.higgs_masses)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -302,7 +304,7 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
 		for category in categories:
-			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+			datacards_per_channel_category = lfvzltdatacards.LFVZltDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			if "TTbarCR" in category and channel == "ttbar":
@@ -321,7 +323,7 @@ if __name__ == "__main__":
 					exclude_cuts += ["iso_1", "iso_2"]
 					do_not_normalize_by_bin_width = True
 				
-				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
+				datacards_per_channel_category = lfvzltdatacards.LFVZltDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
@@ -370,6 +372,9 @@ if __name__ == "__main__":
 						#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1]+("_Up" if shift_up else "_Down"),"(1.0)")
 						zmm_cr_factor = zmm_cr_factors_official.get(category+("_Up" if shift_up else "_Down"),"(1.0)")
 					
+					print "samples.Samples"
+					print samples.Samples
+
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],

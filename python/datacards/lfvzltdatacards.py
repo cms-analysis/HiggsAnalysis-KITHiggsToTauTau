@@ -8,13 +8,13 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.categories as Categories
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import CombineHarvester.CombineTools.ch as ch
 
-class SMHttDatacards(datacards.Datacards):
+class LFVZltDatacards(datacards.Datacards):
 	def __init__(self, higgs_masses=["125"], ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None, signal_processes=None):
-		super(SMHttDatacards, self).__init__(cb)
+		super(LFVZltDatacards, self).__init__(cb)
 
 		if cb is None:
 			if signal_processes is None:
-				signal_processes = ["ggH", "qqH", "WH", "ZH"]
+				signal_processes = ["zet"]
 
 			background_processes_mt = ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
 			background_processes_et = ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
@@ -121,11 +121,8 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, "CMS_ZLShape_et_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
 
 			# e->tau fake rate
-			if year == "2016":
-				self.cb.cp().channel(["et"]).process(["ZL"]).bin(["et_ZeroJet2D", "et_Boosted2D", "et_Vbf2D"]).AddSyst(self.cb, "CMS_eFakeTau_1prong_13TeV", "shape", ch.SystMap()(1.0))
-				self.cb.cp().channel(["et"]).process(["ZL"]).bin(["et_ZeroJet2D", "et_Boosted2D", "et_Vbf2D"]).AddSyst(self.cb, "CMS_eFakeTau_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
-			else:
-				self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.eFakeTau_tight_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZL"]).bin(["et_ZeroJet2D", "et_Boosted2D", "et_Vbf2D"]).AddSyst(self.cb, "CMS_eFakeTau_1prong_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et"]).process(["ZL"]).bin(["et_ZeroJet2D", "et_Boosted2D", "et_Vbf2D"]).AddSyst(self.cb, "CMS_eFakeTau_1prong1pizero_13TeV", "shape", ch.SystMap()(1.0))
 
 			# decay mode reweighting
 			self.cb.cp().channel(["et"]).process(["ZTT"]).bin(["et_ZeroJet2D"]).AddSyst(self.cb, "CMS_tauDMReco_1prong_13TeV", "shape", ch.SystMap()(1.0))
@@ -145,17 +142,12 @@ class SMHttDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			if year == "2016":
-				self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
-				self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
-				self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
-			else:
-				self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.electron_efficiency_syst_args)
-				self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency_syst_args)
-
+			self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
+			self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
+			self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
+			
 			# B-Tag
-			if year == "2016":
-				self.cb.cp().channel(["em"]).process(["TT", "VV"]).bin(["em_ZeroJet2D", "em_Boosted2D", "em_Vbf2D"]).AddSyst(self.cb, *self.btag_efficiency2016_syst_args)
+			self.cb.cp().channel(["em"]).process(["TT", "VV"]).bin(["em_ZeroJet2D", "em_Boosted2D", "em_Vbf2D"]).AddSyst(self.cb, *self.btag_efficiency2016_syst_args)
 
 			# electron ES
 			self.cb.cp().channel(["em"]).process(signal_processes+all_mc_bkgs+["QCD"]).AddSyst(self.cb, *self.ele_es_syst_args)
@@ -174,11 +166,8 @@ class SMHttDatacards(datacards.Datacards):
 
 
 			# efficiencies
-			if year == "2016":
-				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
-				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_syst_args)
-			else:
-				self.cb.cp().channel(["tt"]).process(signal_processes+["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
+			self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
+			self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_syst_args)
 
 			# ======================================================================
 			# MM channel
@@ -193,10 +182,7 @@ class SMHttDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			if year == "2016":
-				self.cb.cp().channel(["mm"]).process(all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
-			else:
-				self.cb.cp().channel(["mm"]).process(all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency_syst_args)
+			self.cb.cp().channel(["mm"]).process(all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 
 			# ======================================================================
 			# ttbar "channel" to extract normalization of ttbar process
@@ -210,11 +196,9 @@ class SMHttDatacards(datacards.Datacards):
 					mass=higgs_masses
 			)
 
-			if year == "2016":
-				self.cb.cp().channel(["ttbar"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
-				self.cb.cp().channel(["ttbar"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
-				self.cb.cp().channel(["ttbar"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
-
+			self.cb.cp().channel(["ttbar"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
+			self.cb.cp().channel(["ttbar"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
+			self.cb.cp().channel(["ttbar"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
 			self.cb.cp().channel(["ttbar"]).bin(["ttbar_TTbarCR"]).process(all_mc_bkgs).AddSyst(self.cb, "CMS_htt_scale_met_13TeV", "lnN", ch.SystMap()(1.01))
 
 			# ======================================================================
@@ -222,20 +206,16 @@ class SMHttDatacards(datacards.Datacards):
 
 			# ======================================================================
 			# lumi
-			if year == "2016":
-				self.cb.cp().process(signal_processes+["VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]).AddSyst(self.cb, *self.lumi2016_syst_args)
-				if not ttbarFit:
-					self.cb.cp().process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
-				if mmFit:
-					self.cb.cp().channel(["mt", "et", "tt", "em", "ttbar"]).process(["ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.lumi2016_syst_args)
-					self.cb.cp().channel(["mt", "et"]).process(["ZTT"]).bin([channel + "_" + category + "_" + cr for channel in ["mt", "et"] for category in ["ZeroJet2D", "Boosted2D"] for cr in ["WJCR", "QCDCR"]]).AddSyst(self.cb, *self.lumi2016_syst_args)
-					self.cb.cp().channel(["tt"]).process(["ZTT"]).bin(["tt_" + category + "_QCDCR" for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, *self.lumi2016_syst_args)
-					self.cb.cp().channel(["ttbar"]).process(["ZTT"]).bin(["ttbar_TTbarCR"]).AddSyst(self.cb, *self.lumi2016_syst_args)
-					self.cb.cp().channel(["mm"]).process(["ZTT"]).AddSyst(self.cb, *self.lumi2016_syst_args)
-				self.cb.cp().process(["W"]).channel(["em", "tt", "mm", "ttbar"]).AddSyst(self.cb, *self.lumi2016_syst_args)
-			else:
-				self.cb.cp().process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.lumi_syst_args)
-				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi_syst_args)
+			self.cb.cp().process(signal_processes+["VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+			if not ttbarFit:
+				self.cb.cp().process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+			if mmFit:
+				self.cb.cp().channel(["mt", "et", "tt", "em", "ttbar"]).process(["ZL", "ZJ", "ZLL"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().channel(["mt", "et"]).process(["ZTT"]).bin([channel + "_" + category + "_" + cr for channel in ["mt", "et"] for category in ["ZeroJet2D", "Boosted2D"] for cr in ["WJCR", "QCDCR"]]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().channel(["tt"]).process(["ZTT"]).bin(["tt_" + category + "_QCDCR" for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().channel(["ttbar"]).process(["ZTT"]).bin(["ttbar_TTbarCR"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().channel(["mm"]).process(["ZTT"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+			self.cb.cp().process(["W"]).channel(["em", "tt", "mm", "ttbar"]).AddSyst(self.cb, *self.lumi2016_syst_args)
 
 			# ======================================================================
 			# cross section
@@ -263,20 +243,12 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
 			if not ttbarFit:
 				self.cb.cp().process(["TT", "TTT", "TTJJ"]).channel(["mt", "et", "em", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
-			if year == "2016":
-				self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
-			else:
-				self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
-			self.cb.cp().process(["W"]).channel(["em"]).AddSyst(self.cb, "CMS_htt_jetFakeLep_13TeV", "lnN", ch.SystMap()(1.20))
-			self.cb.cp().process(["W"]).channel(["tt", "mm"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
+			self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
 
 			# ======================================================================
 			# tau id efficiency
-			if year == "2016":
-				self.cb.cp().channel(["mt", "et"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
-				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_corr_syst_args)
-			else:
-				self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
+			self.cb.cp().channel(["mt", "et"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
+			self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_corr_syst_args)
 
 			# ======================================================================
 			# energy scales
@@ -303,12 +275,9 @@ class SMHttDatacards(datacards.Datacards):
 					self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).bin(["tt_ZeroJet2D_QCDCR", "tt_Boosted2D_QCDCR", "tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "CMS_scale_j_"+jecUncert+"_13TeV", "shape", ch.SystMap()(1.0))
 
 			# jet->tau fake ES
-			if year == "2016":
-				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "TTJJ", "VVJ"]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
-				self.cb.cp().channel(["et", "mt", "tt"]).process(["W"]).bin([channel+"_"+category for channel in ["et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
-				self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_"+category for channel in ["et", "mt"] for category in ["ZeroJet2D_QCDCR", "Boosted2D_QCDCR"]]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
-			else:
-				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "W", "TTJJ", "VVJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
+			self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "TTJJ", "VVJ"]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt", "tt"]).process(["W"]).bin([channel+"_"+category for channel in ["et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_"+category for channel in ["et", "mt"] for category in ["ZeroJet2D_QCDCR", "Boosted2D_QCDCR"]]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
 
 			# MET ES
 			self.cb.cp().channel(["et", "mt", "tt", "em"]).process(signal_processes+all_mc_bkgs).bin([channel+"_"+category for channel in ["et", "mt", "tt", "em"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
@@ -459,12 +428,12 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.PrintAll()
 
 # simplified version just for the purpose of datacard synchronization (no systematics)
-class SMHttDatacardsForSync(datacards.Datacards):
+class LFVZltDatacardsForSync(datacards.Datacards):
 	def __init__(self, higgs_masses=["125"], cb=None):
-		super(SMHttDatacardsForSync, self).__init__(cb)
+		super(LFVZltDatacardsForSync, self).__init__(cb)
 
 		if cb is None:
-			signal_processes = ["ggH", "qqH", "WH", "ZH"]
+			signal_processes = ["zet"]
 
 			background_processes_mt = ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
 			background_processes_et = ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
