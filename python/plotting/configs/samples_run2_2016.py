@@ -3355,15 +3355,74 @@ class Samples(samples.SamplesBase):
 				)
 		return config
 
+	# samples which merge susy_ggh and bbh
+	def susy(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
+		
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		# susy ggh
+		config = self.susy_ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
+		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
+		# bbh
+		config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
+		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
+		
+		def final_nick(tmp_sample, tmp_mass, add_nick_suffix=True):
+			return tmp_sample+str(kwargs.get("cp", ""))+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
+
+		for index, mass in enumerate(additional_higgs_masses_for_shape+higgs_masses):
+			is_additional_mass = (index < len(additional_higgs_masses_for_shape))
+			
+			if not "AddHistograms" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("AddHistograms")
+			config.setdefault("add_nicks", []).append(" ".join([final_nick(sample, mass)+"_noplot" for sample in ["susy_ggh"]+["bbh"] ]))
+			config.setdefault("add_result_nicks", []).append(final_nick("susy", mass)+"_noplot")
+			
+			if not is_additional_mass:
+				config.setdefault("add_nicks", []).append(" ".join([final_nick("susy", m)+"_noplot" for m in [mass]+additional_higgs_masses_for_shape]))
+				config.setdefault("add_result_nicks", []).append(final_nick("susy", mass)+"_noplot_shape")
+				
+				if not "ShapeYieldMerge" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("ShapeYieldMerge")
+				config.setdefault("shape_nicks", []).append(final_nick("susy", mass)+"_noplot_shape")
+				config.setdefault("yield_nicks", []).append(final_nick("susy", mass)+("_sm" if mssm and normalise_to_sm_xsec else "")+"_noplot")
+				config.setdefault("shape_yield_nicks", []).append(final_nick("susy", mass))
+			
+			if (not kwargs.get("no_plot", False)) and (not is_additional_mass):
+				if not mssm:
+					Samples._add_bin_corrections(
+							config,
+							final_nick("susy", mass),
+							nick_suffix
+					)
+				Samples._add_plot(
+						config,
+						"bkg" if kwargs.get("stack_signal", False) else "susy",
+						"LINE",
+						"L",
+						final_nick("susy", mass, False),
+						nick_suffix
+				)
+		return config
+
 	# signal samples for CP studies in the final state
+	# cp-even state
 	def httcpeven(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.htt( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpeven"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpeven", stacks="httcpeven", **kwargs)
 		return config
-
+	
+	# cp-odd state from SM samples
 	def httcpodd(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.htt( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpodd", stacks="httcpodd", **kwargs)
 		return config
 
+	# cp-odd state from SUSY samples
+	def susycpodd(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.susy( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpodd", stacks="susycpodd", **kwargs)
+		return config
+
+	# cp-mix state from SM samples
 	def httcpmix(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.htt( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpmix"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpmix", stacks="httcpmix", **kwargs)
 		return config
@@ -3390,7 +3449,7 @@ class Samples(samples.SamplesBase):
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
-						"bbh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						"bbh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
 			else:
@@ -3400,16 +3459,16 @@ class Samples(samples.SamplesBase):
 				if not kwargs.get("mssm", False):
 					Samples._add_bin_corrections(
 							config,
-							"bbh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-							nick_suffix
+							"bbh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							str(kwargs.get("cp", ""))+nick_suffix
 					)
 				Samples._add_plot(
 						config,
 						"bkg" if kwargs.get("stack_signal", False) else "bbh",
 						"LINE",
 						"L",
-						"bbh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix
+						"bbh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						str(kwargs.get("cp", ""))+nick_suffix
 				)
 		return config
 
@@ -3442,7 +3501,7 @@ class Samples(samples.SamplesBase):
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
-						"susy_ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						"susy_ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 				)
 			else:
@@ -3452,16 +3511,16 @@ class Samples(samples.SamplesBase):
 				if not mssm:
 					Samples._add_bin_corrections(
 							config,
-							"susy_ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-							nick_suffix
+							"susy_ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							str(kwargs.get("cp", ""))+nick_suffix
 					)
 				Samples._add_plot(
 						config,
 						"bkg" if kwargs.get("stack_signal", False) else kwargs.get("stacks", "susy_ggh"),
 						"LINE",
 						"L",
-						"susy_ggh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						nick_suffix
+						"susy_ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						str(kwargs.get("cp", ""))+nick_suffix
 				)
 		return config
 		
