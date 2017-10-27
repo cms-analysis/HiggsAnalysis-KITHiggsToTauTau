@@ -283,7 +283,7 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_Hpthigh{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_boosted{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -294,7 +294,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)*(H_pt > 130.)",
+					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.)*(njets>1)*(H_pt > 150.)",
 					},
 				"binnings":{
 					"analysis": [
@@ -305,7 +305,7 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_Hptlow{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}TwoJet_CP{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -316,7 +316,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)*(H_pt < 130.)",
+					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)*(H_pt < 150.)",
 					},
 				"binnings":{
 					"analysis": [
