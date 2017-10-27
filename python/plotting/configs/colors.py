@@ -220,9 +220,9 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["httcpeven"] = self.colors_dict["rwth_magenta_100"]
 			self.colors_dict["httcpmix"] = self.colors_dict["rwth_gruen_100"]
 			self.colors_dict["httcpodd"] = self.colors_dict["rwth_rot_100"]
-			self.colors_dict["cpeven"] = self.colors_dict["rwth_magenta_100"]
-			self.colors_dict["cpmix_alt"] = self.colors_dict["rwth_gruen_100"]
-			self.colors_dict["cpodd_alt"] = self.colors_dict["rwth_rot_100"]
+			self.colors_dict["cpeven"] = self.colors_dict["rwth_blau_050"]
+			self.colors_dict["cpmix_alt"] = self.colors_dict["rwth_gelb_100"]
+			self.colors_dict["cpodd_alt"] = self.colors_dict["rwth_gelb_100"]
 
 			self.colors_dict["channel_tt"] = self.colors_dict["kit_blau_1"]
 			self.colors_dict["channel_mt"] = self.colors_dict["kit_rot_1"]
@@ -295,9 +295,9 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["httcpeven"] = self.colors_dict["rwth_magenta_100"]
 			self.colors_dict["httcpmix"] = self.colors_dict["rwth_gruen_100"]
 			self.colors_dict["httcpodd"] = self.colors_dict["rwth_rot_100"]
-			self.colors_dict["cpeven"] = self.colors_dict["rwth_magenta_100"]
-			self.colors_dict["cpmix_alt"] = self.colors_dict["rwth_gruen_100"]
-			self.colors_dict["cpodd_alt"] = self.colors_dict["rwth_rot_100"]
+			self.colors_dict["cpeven"] = self.colors_dict["rwth_blau_050"]
+			self.colors_dict["cpmix_alt"] = self.colors_dict["rwth_gelb_100"]
+			self.colors_dict["cpodd_alt"] = self.colors_dict["rwth_gelb_100"]
 			
 
 		for higgs_mass in xrange(90, 161, 5):
