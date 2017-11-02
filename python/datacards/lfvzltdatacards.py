@@ -9,8 +9,8 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import CombineHarvester.CombineTools.ch as ch
 
 class LFVZltDatacards(datacards.Datacards):
-	#def __init__(self, higgs_masses=["90"], ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None, signal_processes=None):
-	def __init__(self, ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None, signal_processes=None):
+	def __init__(self, higgs_masses=["90"], ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None, signal_processes=None):
+	#def __init__(self, ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None, signal_processes=None):
 		super(LFVZltDatacards, self).__init__(cb)
 
 		if cb is None:
@@ -67,7 +67,8 @@ class LFVZltDatacards(datacards.Datacards):
 					bkg_processes=background_processes_mt,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			# efficiencies
@@ -103,7 +104,8 @@ class LFVZltDatacards(datacards.Datacards):
 					bkg_processes=background_processes_et,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			# efficiencies
@@ -136,7 +138,8 @@ class LFVZltDatacards(datacards.Datacards):
 					bkg_processes=background_processes_em,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					 era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			# efficiencies
@@ -158,7 +161,8 @@ class LFVZltDatacards(datacards.Datacards):
 					bkg_processes=background_processes_tt,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					 era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 
@@ -174,7 +178,8 @@ class LFVZltDatacards(datacards.Datacards):
 					bkg_processes=background_processes_mm,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					 era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			# efficiencies
@@ -188,7 +193,8 @@ class LFVZltDatacards(datacards.Datacards):
 					bkg_processes=background_processes_ttbar,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					 era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			self.cb.cp().channel(["ttbar"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_em_syst_args)
@@ -424,8 +430,8 @@ class LFVZltDatacards(datacards.Datacards):
 
 # simplified version just for the purpose of datacard synchronization (no systematics)
 class LFVZltDatacardsForSync(datacards.Datacards):
-	#def __init__(self, higgs_masses=["90"], cb=None):
-	def __init__(self, cb=None):
+	def __init__(self, higgs_masses=["90"], cb=None):
+	#def __init__(self, cb=None):
 		super(LFVZltDatacardsForSync, self).__init__(cb)
 
 		if cb is None:
@@ -442,55 +448,65 @@ class LFVZltDatacardsForSync(datacards.Datacards):
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=Categories.CategoriesDict().getCategories(["mt"])["mt"],
+					categories=["mt_"+category for category in ["LFV"]],					
+					#categories=Categories.CategoriesDict().getCategories(["mt"])["mt"],
 					bkg_processes=background_processes_mt,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					 era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			# ======================================================================
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=Categories.CategoriesDict().getCategories(["et"])["et"],
+					categories=["et_"+category for category in ["LFV"]],					
+					#categories=Categories.CategoriesDict().getCategories(["et"])["et"],
 					bkg_processes=background_processes_et,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					 era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			# ======================================================================
 			# EM channel
 			self.add_processes(
 					channel="em",
-					categories=Categories.CategoriesDict().getCategories(["em"])["em"],
+					categories=["em_"+category for category in ["LFV"]],					
+					#categories=Categories.CategoriesDict().getCategories(["em"])["em"],
 					bkg_processes=background_processes_em,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					 era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			# ======================================================================
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=Categories.CategoriesDict().getCategories(["tt"])["tt"],
+					categories=["tt_"+category for category in ["LFV"]],					
+					#categories=Categories.CategoriesDict().getCategories(["tt"])["tt"],
 					bkg_processes=background_processes_tt,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					 era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			# ======================================================================
 			# MM channel
 			self.add_processes(
 					channel="mm",
-					categories=Categories.CategoriesDict().getCategories(["mm"])["mm"],
+					categories=["mm_"+category for category in ["LFV"]],					
+					#categories=Categories.CategoriesDict().getCategories(["mm"])["mm"],
 					bkg_processes=background_processes_mm,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					 era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			# ======================================================================
@@ -501,7 +517,8 @@ class LFVZltDatacardsForSync(datacards.Datacards):
 					bkg_processes=background_processes_ttbar,
 					sig_processes=signal_processes,
 					analysis=["LFV"],
-					era=["13TeV"] 
+					 era=["13TeV"],
+					mass=higgs_masses 
 			)
 
 			if log.isEnabledFor(logging.DEBUG):
