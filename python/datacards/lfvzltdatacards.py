@@ -65,7 +65,8 @@ class LFVZltDatacards(datacards.Datacards):
 					channel="mt",
 					categories=Categories.CategoriesDict().getCategories(["mt"])["mt"],
 					bkg_processes=background_processes_mt,
-					sig_processes=signal_processes,
+					#sig_processes=signal_processes,
+					sig_processes = ["zmt"],
 					analysis=["LFV"],
 					era=["13TeV"],
 					mass=higgs_masses 
@@ -102,7 +103,8 @@ class LFVZltDatacards(datacards.Datacards):
 					channel="et",
 					categories=Categories.CategoriesDict().getCategories(["et"])["et"],
 					bkg_processes=background_processes_et,
-					sig_processes=signal_processes,
+					#sig_processes=signal_processes,
+					sig_processes = ["zet"],
 					analysis=["LFV"],
 					era=["13TeV"],
 					mass=higgs_masses 
@@ -136,7 +138,8 @@ class LFVZltDatacards(datacards.Datacards):
 					channel="em",
 					categories=Categories.CategoriesDict().getCategories(["em"])["em"]+["em_inclusive"],
 					bkg_processes=background_processes_em,
-					sig_processes=signal_processes,
+					#sig_processes=signal_processes,
+					sig_processes = ["zem"],
 					analysis=["LFV"],
 					 era=["13TeV"],
 					mass=higgs_masses 
@@ -159,7 +162,8 @@ class LFVZltDatacards(datacards.Datacards):
 					channel="tt",
 					categories=Categories.CategoriesDict().getCategories(["tt"])["tt"],
 					bkg_processes=background_processes_tt,
-					sig_processes=signal_processes,
+					#sig_processes=signal_processes,
+					sig_processes = ["ztt"],
 					analysis=["LFV"],
 					 era=["13TeV"],
 					mass=higgs_masses 
@@ -176,7 +180,8 @@ class LFVZltDatacards(datacards.Datacards):
 					channel="mm",
 					categories=Categories.CategoriesDict().getCategories(["mm"])["mm"],
 					bkg_processes=background_processes_mm,
-					sig_processes=signal_processes,
+					#sig_processes=signal_processes,
+					sig_processes = ["zmm"],
 					analysis=["LFV"],
 					 era=["13TeV"],
 					mass=higgs_masses 
@@ -451,7 +456,8 @@ class LFVZltDatacardsForSync(datacards.Datacards):
 					categories=["mt_"+category for category in ["LFV"]],					
 					#categories=Categories.CategoriesDict().getCategories(["mt"])["mt"],
 					bkg_processes=background_processes_mt,
-					sig_processes=signal_processes,
+					#sig_processes=signal_processes,
+					sig_processes = ["zmt"],
 					analysis=["LFV"],
 					 era=["13TeV"],
 					mass=higgs_masses 
@@ -464,7 +470,8 @@ class LFVZltDatacardsForSync(datacards.Datacards):
 					categories=["et_"+category for category in ["LFV"]],					
 					#categories=Categories.CategoriesDict().getCategories(["et"])["et"],
 					bkg_processes=background_processes_et,
-					sig_processes=signal_processes,
+					#sig_processes=signal_processes,
+					sig_processes = ["zet"],
 					analysis=["LFV"],
 					 era=["13TeV"],
 					mass=higgs_masses 
@@ -477,7 +484,8 @@ class LFVZltDatacardsForSync(datacards.Datacards):
 					categories=["em_"+category for category in ["LFV"]],					
 					#categories=Categories.CategoriesDict().getCategories(["em"])["em"],
 					bkg_processes=background_processes_em,
-					sig_processes=signal_processes,
+					#sig_processes=signal_processes,
+					sig_processes = ["zem"],
 					analysis=["LFV"],
 					 era=["13TeV"],
 					mass=higgs_masses 
@@ -490,7 +498,8 @@ class LFVZltDatacardsForSync(datacards.Datacards):
 					categories=["tt_"+category for category in ["LFV"]],					
 					#categories=Categories.CategoriesDict().getCategories(["tt"])["tt"],
 					bkg_processes=background_processes_tt,
-					sig_processes=signal_processes,
+					#sig_processes=signal_processes,
+					sig_processes = ["ztt"],
 					analysis=["LFV"],
 					 era=["13TeV"],
 					mass=higgs_masses 
@@ -503,7 +512,8 @@ class LFVZltDatacardsForSync(datacards.Datacards):
 					categories=["mm_"+category for category in ["LFV"]],					
 					#categories=Categories.CategoriesDict().getCategories(["mm"])["mm"],
 					bkg_processes=background_processes_mm,
-					sig_processes=signal_processes,
+					#sig_processes=signal_processes,
+					sig_processes = ["zmm"],
 					analysis=["LFV"],
 					 era=["13TeV"],
 					mass=higgs_masses 

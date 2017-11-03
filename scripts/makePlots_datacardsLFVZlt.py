@@ -135,9 +135,11 @@ if __name__ == "__main__":
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
-	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
+	#sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
+	sig_histogram_name_template = "${BIN}/${PROCESS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
+	#sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
+	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.LFV_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"	
 	
