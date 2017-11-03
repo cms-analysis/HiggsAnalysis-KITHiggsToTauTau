@@ -61,6 +61,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["httcpmix"] = "CP-mix"
 			self.labels_dict["httcpodd"] = "CP-odd"
 			self.labels_dict["susycpodd"] = "CP-odd"
+			self.labels_dict["susycpodd_alt"] = "CP-odd"
 			self.labels_dict["cpeven"] = "CP-even"
 			self.labels_dict["cpmix_alt"] = "CP-mix"
 			self.labels_dict["cpodd_alt"] = "CP-odd"
@@ -629,6 +630,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict["httcpmix{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpmix"]
 				self.labels_dict["httcpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpodd"]
 				self.labels_dict["susycpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susycpodd"]
+				self.labels_dict["susycpodd_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susycpodd_alt"]
 				self.labels_dict["cpeven{mass:d}".format(mass=higgs_mass)] = self.labels_dict["cpeven"]
 				self.labels_dict["cpmix_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["cpmix_alt"]
 				self.labels_dict["cpodd_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["cpodd_alt"]
@@ -644,6 +646,7 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["httcpmix{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpmix"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpodd"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["susycpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd"]+" (#times {scale:d})".format(scale=scale)
+					self.labels_dict["susycpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd_alt"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["cpeven{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpeven"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["cpmix_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpmix_alt"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["cpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpodd_alt"]+" (#times {scale:d})".format(scale=scale)
@@ -658,6 +661,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict["httcpmix{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpmix"]
 				self.labels_dict["httcpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpodd"]
 				self.labels_dict["susycpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susycpodd"]
+				self.labels_dict["susycpodd_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susycpodd_alt"]
 				self.labels_dict["cpeven{mass:d}".format(mass=higgs_mass)] = self.labels_dict["cpeven"]
 				self.labels_dict["cpmix_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["cpmix_alt"]
 				self.labels_dict["cpodd_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["cpodd_alt"]
@@ -671,6 +675,7 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["httcpmix{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpmix"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpodd"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susycpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd"]+" (\\times {scale:d})".format(scale=scale)
+					self.labels_dict["susycpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd_alt"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["cpeven{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpeven"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["cpmix_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpmix_alt"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["cpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpodd_alt"]+" (\\times {scale:d})".format(scale=scale)
@@ -702,6 +707,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["httcpmix"] = "CP-mix"
 			self.labels_dict["httcpodd"] = "CP-odd"
 			self.labels_dict["susycpodd"] = "CP-odd"
+			self.labels_dict["susycpodd_alt"] = "CP-odd"
 
 			self.labels_dict["channel_tt"] = "$\\tau_{\\mathrm{h}}\\tau_{\\mathrm{h}}$"
 			self.labels_dict["channel_mt"] = "$\\mu\\tau_{\\mathrm{h}}$"
@@ -1202,6 +1208,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict["httcpmix{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpmix"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["httcpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpodd"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["susycpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susycpodd"].replace("H", "H({mass:d})".format(mass=higgs_mass))
+				self.labels_dict["susycpodd_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susycpodd_alt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 
 				for scale in [10, 25, 100, 250]:
 					self.labels_dict["htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["htt"]+" (\\times {scale:d})".format(scale=scale)
@@ -1214,6 +1221,7 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["httcpmix{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpmix"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpodd"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susycpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd"]+" (\\times {scale:d})".format(scale=scale)
+					self.labels_dict["susycpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd_alt"]+" (\\times {scale:d})".format(scale=scale)
 					
 			for higgs_mass in xrange(90, 3201, 10):
 				self.labels_dict["htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
@@ -1225,6 +1233,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict["httcpmix{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpmix"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["httcpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpodd"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["susycpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susycpodd"].replace("H", "H({mass:d})".format(mass=higgs_mass))
+				self.labels_dict["susycpodd_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susycpodd_alt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				for scale in [10, 25, 100, 250]:
 					self.labels_dict["htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["htt"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["ggh"]+" (\\times {scale:d})".format(scale=scale)
@@ -1235,6 +1244,7 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["httcpmix{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpmix"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpodd"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susycpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd"]+" (\\times {scale:d})".format(scale=scale)
+					self.labels_dict["susycpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd_alt"]+" (\\times {scale:d})".format(scale=scale)
 
 		self.labels_dict["data_obs"] = "Observed"
 		self.labels_dict["ttj"] = self.labels_dict["tt"]
