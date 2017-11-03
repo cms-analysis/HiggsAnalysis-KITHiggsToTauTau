@@ -5,6 +5,7 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
+import pprint
 import copy
 import sys
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
@@ -765,7 +766,7 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoMT > 0.0)"+"*1/1000",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoMT > 0.0)"+"*(1.2e-5)/(0.033658)",
 				"zmt",
 				nick_suffix=nick_suffix
 		)
@@ -790,7 +791,7 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoET > 0.0)"+"*1/1000",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoET > 0.0)"+"*(9.8e-6)/(0.033658)",
 				"zet",
 				nick_suffix=nick_suffix
 		)
@@ -815,7 +816,7 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoEM > 0.0)"+"*1/1000",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoEM > 0.0)"+"*(7.3e-7)/(0.033658)",
 				"zem",
 				nick_suffix=nick_suffix
 		)
@@ -3356,17 +3357,19 @@ class Samples(samples.SamplesBase):
 		return config
 
 	# samples which merge susy_ggh and bbh
+	# susy ssamples to be used with SM analysis (mssm = False)
 	def susy(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
 		
 		if exclude_cuts is None:
 			exclude_cuts = []
 
+		# lumi multiplied by a factor of 1.9 to correctly normalize samples to SM samples
 		# susy ggh
 		config = self.susy_ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
+		                  normalise_signal_to_one_pb, lumi=lumi*1.9, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
 		# bbh
 		config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
+		                  normalise_signal_to_one_pb, lumi=lumi*1.9, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
 		
 		def final_nick(tmp_sample, tmp_mass, add_nick_suffix=True):
 			return tmp_sample+str(kwargs.get("cp", ""))+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
@@ -3408,8 +3411,8 @@ class Samples(samples.SamplesBase):
 
 	# signal samples for CP studies in the final state
 	# cp-even state
-	def httcpeven(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.htt( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpeven"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpeven", stacks="httcpeven", **kwargs)
+	def httcpeven(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, normalise_to_sm_xsec=True, **kwargs):
+		config = self.htt( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpeven"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, cp="cpeven", stacks="httcpeven", **kwargs)
 		return config
 	
 	# cp-odd state from SM samples
@@ -3418,8 +3421,8 @@ class Samples(samples.SamplesBase):
 		return config
 
 	# cp-odd state from SUSY samples
-	def susycpodd(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.susy( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpodd", stacks="susycpodd", **kwargs)
+	def susycpodd(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, normalise_to_sm_xsec=True, **kwargs):
+		config = self.susy( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, cp="cpodd", stacks="susycpodd", **kwargs)
 		return config
 
 	# cp-mix state from SM samples

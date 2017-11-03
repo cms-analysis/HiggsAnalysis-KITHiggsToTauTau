@@ -184,6 +184,27 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		self.categoriesDict["{analysis}{channel}LFV{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"m_vis > 10",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_vis": auto_rebin_binning,
+						}
+					}
+				}
 		self.categoriesDict["{analysis}{channel}Boosted2D{discriminator}"] = {
 				"channel":[
 					"mm_",

@@ -37,7 +37,7 @@ if __name__ == "__main__":
 	                    default=["et", "mt", "tt", "em", "mm"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=[["inclusive"]],
+	                    default=[["ZeroJet2D"]],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["90"],
 	                    help="Higgs masses. [Default: %(default)s]")
@@ -128,15 +128,18 @@ if __name__ == "__main__":
 	
 	datacards = lfvzltdatacards.LFVZltDatacards(ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era,noJECuncSplit=args.no_jec_unc_split)
 	if args.for_dcsync:
+		print "for dcsync"
 		datacards = lfvzltdatacards.LFVZltDatacardsForSync()
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
-	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
+	#sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
+	sig_histogram_name_template = "${BIN}/${PROCESS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
+	#sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
+	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.LFV_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"	
 	
@@ -146,13 +149,24 @@ if __name__ == "__main__":
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
 
+	print "args.categories"
+	print args.categories
+
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
+
+	print "args.categories"
+	print args.categories
 
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
 	
+	print "args.channel"
+	print args.channel
+	print "args.categories"
+	print args.categories
+
 	# list of JEC uncertainties
 	jecUncertNames = [
 		"AbsoluteFlavMap",
@@ -287,13 +301,23 @@ if __name__ == "__main__":
 
 	#restriction to CH
 	datacards.cb.channel(args.channel)
+	print "datacards.cb.channel(args.channel)"
+	print datacards.cb.channel(args.channel)
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		# include channel prefix
 		categories = [channel + "_" + category for category in categories]
+		print "categories"
+		print categories
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
+		print "categories_save"
+		print categories_save
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
+		print "categories"
+		print categories	
+		print "sorted(categories)"
+		print sorted(categories)		
 		if(categories_save != sorted(categories)) and args.do_not_ignore_category_removal:
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
@@ -302,6 +326,11 @@ if __name__ == "__main__":
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
+		print "category"
+		print category
+		print "categories"
+		print categories
+
 		for category in categories:
 			datacards_per_channel_category = lfvzltdatacards.LFVZltDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
@@ -324,7 +353,14 @@ if __name__ == "__main__":
 				
 				datacards_per_channel_category = lfvzltdatacards.LFVZltDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
-			#higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
+			#print "!=================HIGGS_MASSES=================!"
+			#print higgs_masses
+
+			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
+			higgs_masses = ['90']
+
+			print "!=================HIGGS_MASSES=================!"
+			print higgs_masses
 			
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="LFV",
@@ -338,7 +374,7 @@ if __name__ == "__main__":
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
-
+				
 				# This is needed because wj and qcd are interdependent when using the new background estimation method
 				# NB: CH takes care to only use the templates for processes that you specified. This means that any
 				#     superfluous histograms created as a result of this problem do not influence the result
@@ -370,7 +406,7 @@ if __name__ == "__main__":
 					if "zmumuShape_VBF" in shape_systematic:
 						#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1]+("_Up" if shift_up else "_Down"),"(1.0)")
 						zmm_cr_factor = zmm_cr_factors_official.get(category+("_Up" if shift_up else "_Down"),"(1.0)")
-
+					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
@@ -379,7 +415,7 @@ if __name__ == "__main__":
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
-							higgs_masses=125,
+							higgs_masses=90,
 							cut_type="smhtt2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
@@ -389,7 +425,7 @@ if __name__ == "__main__":
 							useRelaxedIsolationForW = (category.split("_")[1] in categoriesWithRelaxedIsolationForW),
 							useRelaxedIsolationForQCD = (category.split("_")[1] in categoriesWithRelaxedIsolationForQCD)
 					)
-
+					
 					if "CMS_scale_gg_13TeV" in shape_systematic:
 						systematics_settings = systematics_factory.get(shape_systematic)(config, category)
 					elif "CMS_scale_j_" in shape_systematic and shape_systematic.split("_")[-2] in jecUncertNames:
@@ -471,8 +507,8 @@ if __name__ == "__main__":
 					# Unroll 2d distribution to 1d in order for combine to fit it
 					if "2D" in category and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and "ZeroJet2D" in category):
 						two_d_inputs = []
-						#for mass in higgs_masses:
-							#two_d_inputs.extend([sample+(mass if sample in ["wh","zh","ggh",'qqh'] else "") for sample in list_of_samples])
+						for mass in higgs_masses:
+							two_d_inputs.extend([sample+(mass if sample in ["wh","zh","ggh",'qqh'] else "") for sample in list_of_samples])
 						if not "UnrollTwoDHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollTwoDHistogram")
 						config.setdefault("two_d_input_nicks", two_d_inputs)
@@ -522,6 +558,8 @@ if __name__ == "__main__":
 			os.remove(output_file)
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	output_files = list(set(output_files))
+	
+	# print plot_configs
 
 	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
@@ -613,8 +651,12 @@ if __name__ == "__main__":
 	if args.use_asimov_dataset:
 		datacards.replace_observation_by_asimov_dataset("90")
 
+	print "after asimov"
+
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
+
+	print "after rebin"
 
 	# write datacards and call text2workspace
 	datacards_cbs = {}
@@ -640,8 +682,18 @@ if __name__ == "__main__":
 			else:
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 	
+	print "before datacards_workspaces"
+	print "-------------datacards_cbs-------------"
+	print datacards_cbs
+	print "-----------args.n_processes------------"
+	print args.n_processes
+	print "------------higgs_masses---------------"
+	print higgs_masses
+
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
+	print "after datacards_workspaces"
+
 	if not args.for_dcsync:
 		#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 		
