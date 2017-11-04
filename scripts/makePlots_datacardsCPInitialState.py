@@ -36,7 +36,7 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("--cpstudy", nargs="+", required=True,
-	                    default=["initial", "final"],
+	                    default=["initial"],
 	                    choices=["initial", "final"],
 						help="Choose which CP study to do: initial state or final state. [Default: %(default)s]")
 	parser.add_argument("-c", "--channel", action = "append",
@@ -104,8 +104,8 @@ if __name__ == "__main__":
 	                    choices=["ggh", "qqh"],
 						help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")
 	parser.add_argument("--hypothesis", nargs="+",
-	                    default=["cpodd", "cpmix"],
-	                    choices=["cpodd", "cpmix"],
+	                    default=["susycpodd"],
+	                    choices=["susycpodd", "cpodd", "cpmix"],
 						help="Choose the hypothesis to test against CPeven hypothsesis. Option needed for final state studies. [Default: %(default)s]")
 
 	args = parser.parse_args()
@@ -147,6 +147,9 @@ if __name__ == "__main__":
 			signal_processes.append("qqHps_ALT")
 	# final state studies
 	if "final" in args.cpstudy:
+		if "susycpodd" in args.hypothesis:
+			signal_processes.append("CPEVEN")
+			signal_processes.append("SUSYCPODD_ALT")
 		if "cpodd" in args.hypothesis:
 			signal_processes.append("CPEVEN")
 			signal_processes.append("CPODD_ALT")
@@ -502,10 +505,14 @@ if __name__ == "__main__":
 			if "initial" in args.cpstudy:
 				pconfigs["labels"]=["pseudoscalar","standardmodel", "q observerd"]
 			if "final" in args.cpstudy:
-				if "cpodd" in args.hypothesis:
-					pconfigs["labels"]=["CP-odd","CP-even", "observerd"]
+				if "susycpodd" or "cpodd" in args.hypothesis:
+					pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
+					if args.use_asimov_dataset:
+						pconfigs["labels"]=["CP-even", "CP-odd", "asimov"]
 				if "cpmix" in args.hypothesis:
-					pconfigs["labels"]=["CP-mix","CP-even", "observerd"]
+					pconfigs["labels"]=["CP-even", "CP-mix", "observed"]
+					if args.use_asimov_dataset:
+						pconfigs["labels"]=["CP-even", "CP-mix", "asimov"]
 
 	
 	#pprint.pprint(pconfigs_plot)

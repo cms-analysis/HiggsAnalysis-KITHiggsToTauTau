@@ -34,7 +34,7 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action = "append",
-	                    default=["et", "mt", "tt", "em", "mm"],
+	                    default=["et", "mt", "em"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
 	                    default=[["ZeroJet2D"]],
@@ -149,6 +149,8 @@ if __name__ == "__main__":
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
 
+	print "datacards"
+	print datacards
 	print "args.categories"
 	print args.categories
 
@@ -356,7 +358,12 @@ if __name__ == "__main__":
 			#print "!=================HIGGS_MASSES=================!"
 			#print higgs_masses
 
+			print "datacards_per_channel_category.cb.mass_set()" 
+			print datacards_per_channel_category.cb.mass_set() 
+
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
+			print "higgs_masses"
+			print higgs_masses
 			higgs_masses = ['90']
 
 			print "!=================HIGGS_MASSES=================!"
@@ -570,7 +577,8 @@ if __name__ == "__main__":
 		for output_file in output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
-	
+
+
 	#print "bkg_histogram_name_template"
 	#print bkg_histogram_name_template
 	#print "sig_histogram_name_template"
@@ -666,6 +674,14 @@ if __name__ == "__main__":
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
+
+	print "write datacards and call text2workspace"
+	print 'datacard_filename_template.replace("{", "").replace("}", "")'
+	print datacard_filename_template.replace("{", "").replace("}", "")
+	print 'output_root_filename_template.replace("{", "").replace("}", "")'
+	print output_root_filename_template.replace("{", "").replace("}", "")
+	print "args.output_dir"
+	print args.output_dir
 	
 	datacards_poi_ranges = {}
 	for datacard, cb in datacards_cbs.iteritems():
@@ -673,7 +689,7 @@ if __name__ == "__main__":
 		categories = cb.bin_set()
 		if len(channels) == 1:
 			if len(categories) == 1:
-				datacards_poi_ranges[datacard] = [-100.0, 100.0]
+				datacards_poi_ranges[datacard] = [0, 2.0]
 			else:
 				datacards_poi_ranges[datacard] = [-50.0, 50.0]
 		else:
@@ -689,16 +705,22 @@ if __name__ == "__main__":
 	print args.n_processes
 	print "------------higgs_masses---------------"
 	print higgs_masses
+	print "datacards"
+	print datacards
 
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
+
+
 	print "after datacards_workspaces"
 
-	if not args.for_dcsync:
+	if True or not args.for_dcsync:
 		#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 		
 		# Max. likelihood fit and postfit plots
 		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+		import sys
+		sys.exit(1)
 		#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	
