@@ -42,7 +42,7 @@ if __name__ == "__main__":
 	                    default=[["LFV"]],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir",
-	                    default="plots/LFV_datacards/",
+	                    default="$CMSSW_BASE/src/plots/LFV_datacards/",
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
@@ -78,6 +78,7 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
+	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 
 	# initialisations for plotting
 	sample_settings = samples.Samples()
@@ -284,7 +285,7 @@ if __name__ == "__main__":
 		categories = cb.bin_set()
 		if len(channels) == 1:
 			if len(categories) == 1:
-				datacards_poi_ranges[datacard] = [-100.0, 100.0]
+				datacards_poi_ranges[datacard] = [0.0, 2.0]
 			else:
 				datacards_poi_ranges[datacard] = [-50.0, 50.0]
 		else:
