@@ -184,6 +184,27 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		self.categoriesDict["{analysis}{channel}LFV{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"m_vis > 10",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_vis": auto_rebin_binning,
+						}
+					}
+				}
 		self.categoriesDict["{analysis}{channel}Boosted2D{discriminator}"] = {
 				"channel":[
 					"mm_",
@@ -283,7 +304,7 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		self.categoriesDict["{analysis}{channel}TwoJet_CP{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_boosted{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -294,7 +315,73 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)",
+					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.)*(njets>1)*(H_pt > 150.)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_jdphi": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_mvislow{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)*(H_pt < 150.)*(m_vis < 80.)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_jdphi": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_mvishigh{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)*(H_pt < 150.)*(m_vis > 80.)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_jdphi": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_mjjlow{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(jeta_1*jeta_2<0)*(mjj>300)*(mjj<500)*(njets>1)",
 					},
 				"binnings":{
 					"analysis": [

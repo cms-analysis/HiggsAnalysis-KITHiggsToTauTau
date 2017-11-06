@@ -49,6 +49,7 @@ class DatacardConfigs(object):
 			"qqHmm_ALT" : "qqhmm",
 			"qqHps_ALT" : "qqhps",
 			"CPEVEN": "httcpeven",
+			"SUSYCPODD_ALT": "susycpodd",
 			"CPODD_ALT": "httcpodd",
 			"CPMIX_ALT": "httcpmix",
 		}
@@ -227,6 +228,13 @@ class DatacardConfigs(object):
 			for i, cat in enumerate(categories[chan]):
 				self._mapping_category2binid[chan][cat] = max_number + i
 		self.htt_datacard_filename_templates = [
+			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+			"datacards/category/${BINID}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
+			"datacards/combined/${MASS}/${ANALYSIS}_${ERA}.txt",
+		]
+
+		self.LFV_datacard_filename_templates = [
 			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
 			"datacards/category/${BINID}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",

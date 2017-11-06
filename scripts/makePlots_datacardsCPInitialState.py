@@ -35,6 +35,10 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
+	parser.add_argument("--cpstudy", nargs="+", required=True,
+	                    default=["initial"],
+	                    choices=["initial", "final"],
+						help="Choose which CP study to do: initial state or final state. [Default: %(default)s]")
 	parser.add_argument("-c", "--channel", action = "append",
 	                    default=["et", "mt", "tt", "em"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
@@ -98,7 +102,11 @@ if __name__ == "__main__":
 	parser.add_argument("--production-mode", nargs="+",
 	                    default=["ggh", "qqh"],
 	                    choices=["ggh", "qqh"],
-						help="Choose the production modes. [Default: %(default)s]")
+						help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")
+	parser.add_argument("--hypothesis", nargs="+",
+	                    default=["susycpodd"],
+	                    choices=["susycpodd", "cpodd", "cpmix"],
+						help="Choose the hypothesis to test against CPeven hypothsesis. Option needed for final state studies. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -128,12 +136,27 @@ if __name__ == "__main__":
 	hadd_commands = []
 	signal_processes = []
 
-	if "ggh" in args.production_mode:
-		signal_processes.append("ggHsm")
-		signal_processes.append("ggHps_ALT")
-	if "qqh" in args.production_mode:
-		signal_processes.append("qqHsm")
-		signal_processes.append("qqHps_ALT")
+	# set the signal processes
+	# initial state studies
+	if "initial" in args.cpstudy:
+		if "ggh" in args.production_mode:
+			signal_processes.append("ggHsm")
+			signal_processes.append("ggHps_ALT")
+		if "qqh" in args.production_mode:
+			signal_processes.append("qqHsm")
+			signal_processes.append("qqHps_ALT")
+	# final state studies
+	if "final" in args.cpstudy:
+		if "susycpodd" in args.hypothesis:
+			signal_processes.append("CPEVEN")
+			signal_processes.append("SUSYCPODD_ALT")
+		if "cpodd" in args.hypothesis:
+			signal_processes.append("CPEVEN")
+			signal_processes.append("CPODD_ALT")
+		if "cpmix" in args.hypothesis:
+			signal_processes.append("CPEVEN")
+			signal_processes.append("CPMIX_ALT")
+	
 
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes) # TODO: derive own version from this class DONE
 	
@@ -231,9 +254,15 @@ if __name__ == "__main__":
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 
-					binnings_key = "tt_jdphi"
+					if "initial" in args.cpstudy:
+						binnings_key = "tt_jdphi"
+					if "final" in args.cpstudy:
+						binnings_key = "tt_phiStarCP"
 					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
-						config["x_bins"] = ["25,-3.15,3.15"]
+						if "initial" in args.cpstudy:
+							config["x_bins"] = ["25,-3.15,3.15"]
+						if "final" in args.cpstudy:
+							config["x_bins"] = ["25,0,6.28"]
 					elif args.x_bins != None:
 						config["x_bins"] = [args.x_bins]
 					else:
@@ -370,7 +399,17 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 	#cb.PrintAll()
 
-	'''
+	# Physics model used for H->ZZ spin/CP studies
+	# https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit/blob/74x-root6/python/HiggsJPC.py
+	datacards_workspaces = datacards.text2workspace(
+			datacards_cbs,
+			args.n_processes,
+			"-P {MODEL} {MODEL_PARAMETERS}".format(
+				MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
+				MODEL_PARAMETERS=("--PO=muFloating" args.use_shape_only else "")
+			)
+	)
+	""" custom physics model
 	datacards_workspaces = datacards.text2workspace(
 			datacards_cbs,
 			args.n_processes,
@@ -378,26 +417,8 @@ if __name__ == "__main__":
 				MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.higgsmodels:HiggsCPI",
 				MODEL_PARAMETERS=""
 			)
-	) # TODO: use JPC physics model
-	'''
-	if args.use_shape_only:
-		datacards_workspaces = datacards.text2workspace(
-				datacards_cbs,
-				args.n_processes,
-				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-					MODEL_PARAMETERS="--PO=muFloating"
-				)
-		) # TODO: use JPC physics model
-	else:
-		datacards_workspaces = datacards.text2workspace(
-				datacards_cbs,
-				args.n_processes,
-				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-					MODEL_PARAMETERS=""
-				)
-		) # TODO: use JPC physics model
+	)
+	"""
 
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 
@@ -471,9 +492,20 @@ if __name__ == "__main__":
 			pconfigs["p_value_alternative_hypothesis_nicks"]=["alternative_hyptothesis"]
 			pconfigs["p_value_null_hypothesis_nicks"]=["null_hypothesis"]
 			pconfigs["p_value_observed_nicks"]=["q_obs"]
-			pconfigs["labels"]=["pseudoscalar","standardmodel", "q observerd"]
 			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
 			pconfigs_plot.append(pconfigs)
+			if "initial" in args.cpstudy:
+				pconfigs["labels"]=["pseudoscalar","standardmodel", "q observerd"]
+			if "final" in args.cpstudy:
+				if "susycpodd" or "cpodd" in args.hypothesis:
+					pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
+					if args.use_asimov_dataset:
+						pconfigs["labels"]=["CP-even", "CP-odd", "asimov"]
+				if "cpmix" in args.hypothesis:
+					pconfigs["labels"]=["CP-even", "CP-mix", "observed"]
+					if args.use_asimov_dataset:
+						pconfigs["labels"]=["CP-even", "CP-mix", "asimov"]
+
 	
 	#pprint.pprint(pconfigs_plot)
 	higgsplot.HiggsPlotter(list_of_config_dicts=pconfigs_plot, list_of_args_strings=[args.args], n_processes=args.n_processes)
