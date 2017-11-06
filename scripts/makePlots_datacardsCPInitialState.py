@@ -399,7 +399,16 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 	#cb.PrintAll()
 
-	'''
+	# Physics model used for H->ZZ spin/CP studies
+	datacards_workspaces = datacards.text2workspace(
+			datacards_cbs,
+			args.n_processes,
+			"-P {MODEL} {MODEL_PARAMETERS}".format(
+				MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
+				MODEL_PARAMETERS=("--PO=muFloating" args.use_shape_only else "")
+			)
+	)
+	""" custom physics model
 	datacards_workspaces = datacards.text2workspace(
 			datacards_cbs,
 			args.n_processes,
@@ -407,26 +416,8 @@ if __name__ == "__main__":
 				MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.higgsmodels:HiggsCPI",
 				MODEL_PARAMETERS=""
 			)
-	) # TODO: use JPC physics model
-	'''
-	if args.use_shape_only:
-		datacards_workspaces = datacards.text2workspace(
-				datacards_cbs,
-				args.n_processes,
-				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-					MODEL_PARAMETERS="--PO=muFloating"
-				)
-		) # TODO: use JPC physics model
-	else:
-		datacards_workspaces = datacards.text2workspace(
-				datacards_cbs,
-				args.n_processes,
-				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-					MODEL_PARAMETERS=""
-				)
-		) # TODO: use JPC physics model
+	)
+	"""
 
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 
