@@ -49,7 +49,6 @@ class DatacardConfigs(object):
 			"qqHmm_ALT" : "qqhmm",
 			"qqHps_ALT" : "qqhps",
 			"CPEVEN": "httcpeven",
-			"SUSYCPODD_ALT": "susycpodd",
 			"CPODD_ALT": "httcpodd",
 			"CPMIX_ALT": "httcpmix",
 		}
