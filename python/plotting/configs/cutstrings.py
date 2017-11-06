@@ -132,6 +132,14 @@ class CutStringsDict:
 			cuts["mt_llmet"] = "(mt_llmet > 60.0)"
 			cuts["m_vis"] = "(m_vis > 12)"
 			cuts["bpt_1"] = "(bpt_1 < 20)"
+			if cut_type == "mssm2016HWW0j":
+				cuts["jets"] = "(njets == 0)"
+			elif cut_type == "mssm2016HWW1j":
+				cuts["jets"] = "(njets == 1)"
+			elif cut_type == "mssm2016HWW2j":
+				cuts["jets"] = "(njets == 2)*((jdeta < 3.5)*(mjj >= 500)+(jdeta >= 3.5)*(mjj < 500))"
+			elif cut_type == "mssm2016HWWvbf":
+				cuts["jets"] = "(njets == 2)*(jdeta < 3.5)*(mjj < 500)"
 		return cuts
 	
 	@staticmethod

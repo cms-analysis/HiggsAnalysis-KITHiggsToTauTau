@@ -310,7 +310,7 @@ if __name__ == "__main__":
 	if args.HWW:
 		samples_dict["em"]=[(alpha[0],[beta.replace("ggh","hww_mssm_gg") for beta in alpha[1]]) for alpha in samples_dict["em"]]
 		samples_dict["em"]=[(alpha[0],[beta.replace("bbh","hww_mssm_qq") for beta in alpha[1]]) for alpha in samples_dict["em"]]
-		#args.categories=[["em_0jets", "em_1jets", "em_2jets", "em_VBF", "em_inclusive"]]
+		args.categories=[["em_0jets", "em_1jets", "em_2jets", "em_VBF", "em_inclusive"]]
 		args.quantity="mt_i"
 		args.postfix="-mti"
 		for key in shapes:
