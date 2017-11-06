@@ -400,6 +400,7 @@ if __name__ == "__main__":
 	#cb.PrintAll()
 
 	# Physics model used for H->ZZ spin/CP studies
+	# https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit/blob/74x-root6/python/HiggsJPC.py
 	datacards_workspaces = datacards.text2workspace(
 			datacards_cbs,
 			args.n_processes,
