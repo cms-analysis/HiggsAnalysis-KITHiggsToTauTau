@@ -42,7 +42,7 @@ if __name__ == "__main__":
 	                    default=[["LFV"]],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir",
-	                    default="$CMSSW_BASE/src/plots/LFV_datacards/",
+	                    default="plots/LFV_datacards/",
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
@@ -124,10 +124,14 @@ if __name__ == "__main__":
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
-	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
+	sig_histogram_name_template = "${BIN}/${PROCESS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
-	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
+	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
+	datacard_filename_templates =  [
+			"datacards/individual/${BIN}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+			"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+			"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
+			"datacards/combined/${ANALYSIS}_${ERA}.txt",]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 
 	#restriction to CH
@@ -273,6 +277,7 @@ if __name__ == "__main__":
 				args.output_dir
 		))
 
+
 	datacards_poi_ranges = {}
 	for datacard, cb in datacards_cbs.iteritems():
 		channels = cb.channel_set()
@@ -289,6 +294,14 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 	
 	#write the datacards
-	datacards_workspaces = datacards.texttoworkspace(datacards_cbs, n_processes=args.n_processes)
+	
+	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
+
+	# Max. likelihood fit and postfit plots
+	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+	#datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+
+
+
 	
 

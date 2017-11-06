@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 import logging
 import Artus.Utility.logger as logger
 import Artus.Utility.tools as tools
@@ -53,6 +54,8 @@ class LFVDatacards(datacards.Datacards):
 					sig_processes=signal_processes,
 					analysis=["LFV"],
 					era=["13TeV"],
+					mass=higgs_masses
+					
 					
 			)
 
@@ -65,6 +68,7 @@ class LFVDatacards(datacards.Datacards):
 					sig_processes=signal_processes,
 					analysis=["LFV"],
 					era=["13TeV"],
+					mass=higgs_masses
 					
 			)
 
@@ -77,6 +81,7 @@ class LFVDatacards(datacards.Datacards):
 					sig_processes=signal_processes,
 					analysis=["LFV"],
 					era=["13TeV"],
+					mass=higgs_masses
 					
 			)
 
@@ -89,6 +94,7 @@ class LFVDatacards(datacards.Datacards):
 					sig_processes=signal_processes,
 					analysis=["LFV"],
 					era=["13TeV"],
+					mass=higgs_masses
 					
 			)
 
@@ -101,6 +107,7 @@ class LFVDatacards(datacards.Datacards):
 					sig_processes=signal_processes,
 					analysis=["LFV"],
 					era=["13TeV"],
+					mass=higgs_masses
 					
 			)
 
@@ -113,21 +120,11 @@ class LFVDatacards(datacards.Datacards):
 					sig_processes=signal_processes,
 					analysis=["LFV"],
 					era=["13TeV"],
+					mass=higgs_masses
 			)
 
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()
 
 
-	def texttoworkspace(self, datacards_cbs, n_processes=1, *args):
-		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
-				MASS="125",
-				ARGS=" ".join(args),
-				DATACARD=datacard,
-				OUTPUT=os.path.splitext(datacard)[0]+".root"
-		) for datacard, cb in datacards_cbs.iteritems()]
-
-		tools.parallelize(_call_command, commands, n_processes=n_processes, description="text2workspace.py")
-
-		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_cbs.keys()}
 	
