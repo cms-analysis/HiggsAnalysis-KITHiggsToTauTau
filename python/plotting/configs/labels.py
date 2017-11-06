@@ -638,9 +638,13 @@ class LabelsDict(labels.LabelsDict):
 				for scale in [10, 25, 100, 250]:
 					self.labels_dict["htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["htt"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["ggh"]+" (#times {scale:d})".format(scale=scale)
+					self.labels_dict["gghsm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["gghsm125"]+" (#times {scale:d})".format(scale=scale)
+					self.labels_dict["gghps{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["gghps125"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["susy_ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susy_ggh"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["susy{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susy"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["qqh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["qqh"]+" (#times {scale:d})".format(scale=scale)
+					self.labels_dict["qqhsm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["qqhsm125"]+" (#times {scale:d})".format(scale=scale)
+					self.labels_dict["qqhps{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["qqhps125"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["vh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["vh"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpeven{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpeven"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpmix{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpmix"]+" (#times {scale:d})".format(scale=scale)
