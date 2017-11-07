@@ -87,10 +87,6 @@ void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_ty
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, std::string("madGraphWeightSample"), 0.0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, std::string("madGraphWeightSample_HiggsCM"), [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
-		{
-			return SafeMap::GetWithDefault(product.m_optionalWeights, std::string("madGraphWeightSample_HiggsCM"), 0.0);
-		});
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, std::string("madGraphWeightInvSample"), [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
 			double weight = SafeMap::GetWithDefault(product.m_optionalWeights, std::string("madGraphWeightSample"), 0.0);
@@ -121,14 +117,6 @@ void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_ty
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "lheParticleJetNumber", [](event_type const& event, product_type const& product)
 	{
 		return static_cast<int>(product.m_lheParticlesSortedForMadGraph.size()) - 3;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "madGraph_HiggsPt", [](event_type const& event, product_type const& product)
-	{
-		return product.m_madGraph_HiggsPt;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "madGraph_HiggsPt_HiggsCM", [](event_type const& event, product_type const& product)
-	{
-		return product.m_madGraph_HiggsPt_HiggsCM;
 	});
 }
 
@@ -169,7 +157,6 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		//extract 4-momentum of the higgs boson	
 		if ((*madGraphLheParticle)->pdgId == 25) {
 			 higgsp4 = (*madGraphLheParticle)->p4;
-			 product.m_madGraph_HiggsPt = higgsp4.Pt();
 		}
 			
 		processDirectoryKey += (std::string(Utility::Contains(settings.GetBosonPdgIds(), std::abs((*madGraphLheParticle)->pdgId)) ? "_" : "") +
@@ -178,7 +165,6 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	// Calculate boost to Higgs CMRF and boost particle LV to it. 
 	CartesianRMFLV::BetaVector boostvec = higgsp4.BoostToCM();
 	ROOT::Math::Boost M(boostvec);
-	product.m_madGraph_HiggsPt_HiggsCM = (M * higgsp4).Pt();
 	
 	for (std::vector<CartesianRMFLV*>::iterator particleLV= particleFourMomenta.begin(); particleLV != particleFourMomenta.end(); ++particleLV) {
 		
@@ -201,37 +187,31 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
 			MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
-			float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
-			float matrixElementSquared_HiggsCM = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM);
+			float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM);
 			if (matrixElementSquared < 0.0)
 			{
 				LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
 				LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
 				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = 0.0;
-				product.m_optionalWeights[GetLabelForHiggsCMWeightsMap(*mixingAngleOverPiHalf)] = 0.0;
 			}
 			else
 			{
 				product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = matrixElementSquared;
-				product.m_optionalWeights[GetLabelForHiggsCMWeightsMap(*mixingAngleOverPiHalf)] = matrixElementSquared_HiggsCM;
 			}
 		}
 		
 		//calculate the old matrix element for reweighting
 		MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, -1);
-		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
-		float matrixElementSquared_HiggsCM = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM);
-		if (matrixElementSquared < 0.0 || matrixElementSquared_HiggsCM < 0.0)
+		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM);
+		if (matrixElementSquared < 0.0)
 		{
 			LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
 			LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
 			product.m_optionalWeights["madGraphWeightSample"] = 0.0;
-			product.m_optionalWeights["madGraphWeightSample_HiggsCM"] = 0.0;
 		}
 		else
 		{
 			product.m_optionalWeights["madGraphWeightSample"] = matrixElementSquared;
-			product.m_optionalWeights["madGraphWeightSample_HiggsCM"] = matrixElementSquared_HiggsCM;
 		}
 	}
 	else
@@ -239,7 +219,6 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		LOG(ERROR) << "Process directory for production mode \"" << processDirectoryKey << "\" not found in settings with tag \"MadGraphProcessDirectories\"!";
 		LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
         product.m_optionalWeights["madGraphWeightSample"] = 0.0;
-        product.m_optionalWeights["madGraphWeightSample_HiggsCM"] = 0.0;
 		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
              mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
@@ -258,10 +237,6 @@ std::string MadGraphReweightingProducer::GetLabelForWeightsMap(float mixingAngle
 	return ("madGraphWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)));
 }
 
-std::string MadGraphReweightingProducer::GetLabelForHiggsCMWeightsMap(float mixingAngleOverPiHalf) const
-{
-	return ("madGraphWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)) + "_HiggsCM");
-}
 
 // pdgParticle->GetName() has no specific order
 // madgraph sorts particle before antiparticle
@@ -363,4 +338,3 @@ bool MadGraphReweightingProducer::MadGraphParticleOrderingHeavyBQuark(KLHEPartic
 		return MadGraphReweightingProducer::MadGraphParticleOrderingLightBQuark(lheParticle1, lheParticle2);
 	}
 }
-

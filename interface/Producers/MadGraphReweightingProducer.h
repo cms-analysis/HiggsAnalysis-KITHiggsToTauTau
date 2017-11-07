@@ -24,7 +24,6 @@ private:
 	
 	int GetMixingAngleKey(float mixingAngleOverPiHalf) const;
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
-	std::string GetLabelForHiggsCMWeightsMap(float mixingAngleOverPiHalf) const;
 	static bool MadGraphParticleOrderingLightBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2);
 	static bool MadGraphParticleOrderingHeavyBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2);
 };
