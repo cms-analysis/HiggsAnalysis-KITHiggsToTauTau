@@ -41,10 +41,10 @@ if __name__ == "__main__":
 						help="Choose which CP study to do: initial state or final state. [Default: %(default)s]")
 	parser.add_argument("-c", "--channel", action = "append",
 	                    default=["et", "mt", "tt", "em"],
-	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
+	                    help="Channel. This argument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
 	                    default=[["inclusive"]],
-	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
+	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="jdphi",
