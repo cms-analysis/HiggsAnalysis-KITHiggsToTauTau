@@ -56,7 +56,7 @@ if __name__ == "__main__":
 	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
 	parser.add_argument("--no-shape-uncs", default=True, action="store_true",
 						help="Do not include shape uncertainties. [Default: %(default)s]")
-	parser.add_argument("--no-syst-uncs", default=True, action="store_true",
+	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 						help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
 						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
@@ -67,8 +67,6 @@ if __name__ == "__main__":
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
 	                    help="Manualy set the binning. Default is taken from configuration files.")
-	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
-	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--debug-plots", default=False, action="store_true",
 	                    help="Produce debug Plots [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
@@ -77,7 +75,7 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 	logger.initLogger(args)
-	
+
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 
 	# initialisations for plotting
@@ -152,8 +150,6 @@ if __name__ == "__main__":
 		
 		#Loop over all categories
 		for category in categories:
-			exclude_cuts = args.exclude_cuts
-			higgs_masses = [mass for mass in datacards.cb.mass_set() if mass != "*"]
 			
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="LFV",
@@ -183,12 +179,11 @@ if __name__ == "__main__":
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel,
-							category="catHtt13TeV_"+category,
+							category="LFV13TeV_"+category,
 							weight=args.weight,
 							lumi = args.lumi * 1000,
-							exclude_cuts=exclude_cuts,
-							higgs_masses=higgs_masses,
-							cut_type="baseline2016" if args.era == "2016" else "baseline",
+							higgs_masses=["125"],
+							cut_type="LFV",
 							estimationMethod=args.background_method
 					)
 					
@@ -269,7 +264,7 @@ if __name__ == "__main__":
 		datacards.replace_observation_by_asimov_dataset()
 
 	
-	#Libary for writing the data cards
+	#Writing datacards and produce libary for them
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
 		datacards_cbs.update(datacards.write_datacards(
@@ -286,21 +281,22 @@ if __name__ == "__main__":
 		if len(channels) == 1:
 			if len(categories) == 1:
 				datacards_poi_ranges[datacard] = [0.0, 2.0]
+				datacards_poi_ranges[datacard] = [0, 2.0]
 			else:
-				datacards_poi_ranges[datacard] = [-50.0, 50.0]
+				datacards_poi_ranges[datacard] = [0., 2.0]
 		else:
 			if len(categories) == 1:
-				datacards_poi_ranges[datacard] = [-50.0, 50.0]
+				datacards_poi_ranges[datacard] = [0.0, 2.0]
 			else:
-				datacards_poi_ranges[datacard] = [-25.0, 25.0]
+				datacards_poi_ranges[datacard] = [0.0, 2.0]
 	
 	#write the datacards
 	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 
-	# Max. likelihood fit and postfit plots
+	# Max. likelihood fit
 	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
-	#datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
 
 
 
