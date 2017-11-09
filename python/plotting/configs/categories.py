@@ -184,17 +184,19 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		self.categoriesDict["{analysis}{channel}LFV{discriminator}"] = {
-				"channel":[
+
+
+		self.categoriesDict["{analysis}{channel}LFVZeroJet{discriminator}"] = {
+				"channel": [
 					"mt_",
 					"et_",
 					"em_",
 					],
 				"expressions":{
 					"analysis": [
-						"catHtt13TeV_"
+						"LFV13TeV_"
 						],
-					"global":"m_vis > 10",
+					"global": "(njetspt30==0)*((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2 < 100)*(3.70>abs(phi_1-phi_2)>2.70)"
 					},
 				"binnings":{
 					"analysis": [
@@ -202,9 +204,35 @@ class CategoriesDict(object):
 						],
 					"global": {
 						"_m_vis": auto_rebin_binning,
-						}
+						},
 					}
 				}
+
+		self.categoriesDict["{analysis}{channel}LFVJet{discriminator}"] = {
+				"channel": [
+					"mt_",
+					"et_",
+					"em_",
+					],
+				"expressions":{
+					"analysis": [
+						"LFV13TeV_"
+						],
+					"global": "(njetspt30>=1)*(nbtag == 0)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_m_vis": auto_rebin_binning,
+						},
+					}
+				}
+
+
+
+
 		self.categoriesDict["{analysis}{channel}Boosted2D{discriminator}"] = {
 				"channel":[
 					"mm_",
