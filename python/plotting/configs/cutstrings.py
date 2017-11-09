@@ -125,6 +125,20 @@ class CutStringsDict:
 		return cuts
 	
 	@staticmethod
+	def LFV(channel, cut_type):
+		cuts = CutStringsDict.baseline(channel, cut_type)
+		
+		if channel == "em":
+			cuts["mt"] = "mt_2 < 50"
+		elif channel == "et":
+			cuts["mt"] = "mt_2 < 60"
+		elif channel == "mt":
+			cuts["mt"] = "mt_2 < 105"
+			
+		return cuts
+			
+	
+	@staticmethod
 	def antievloosepass(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
@@ -620,6 +634,9 @@ class CutStringsDict:
 
 		elif cut_type=="ztt2015cs":
 			cuts = CutStringsDict.ztt2015cs(channel, cut_type)
+
+		elif cut_type=="LFV":
+			cuts = CutStringsDict.baseline(channel, cut_type)
 
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
