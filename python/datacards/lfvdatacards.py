@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
-import re
 import logging
 import Artus.Utility.logger as logger
 import Artus.Utility.tools as tools
@@ -9,27 +7,6 @@ log = logging.getLogger(__name__)
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.categories as Categories
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import CombineHarvester.CombineTools.ch as ch
-
-def _call_command(args):
-	command = None
-	cwd = None
-	if isinstance(args, basestring):
-		command = args
-	else:
-		command = args[0]
-		if len(args) > 1:
-			cwd = args[1]
-
-	old_cwd = None
-	if not cwd is None:
-		old_cwd = os.getcwd()
-		os.chdir(cwd)
-	print command
-	#log.debug(command)
-	logger.subprocessCall(command, shell=True)
-
-	if not cwd is None:
-		os.chdir(old_cwd)
 
 
 
@@ -45,6 +22,10 @@ class LFVDatacards(datacards.Datacards):
 			background_processes_mm = ["ZLL", "TT", "VV", "W"]
 			background_processes_ttbar = ["ZTT", "ZLL", "EWKZ", "TT", "VV", "W", "QCD"]
 
+			all_mc_bkgs = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
+			all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]
+			all_mc_bkgs_no_TTJ = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
+
 			# ======================================================================
 			# MT channel
 			self.add_processes(
@@ -58,6 +39,13 @@ class LFVDatacards(datacards.Datacards):
 					
 					
 			)
+			
+			#efficencies
+			self.cb.cp().channel(["mt"]).process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
+			self.cb.cp().channel(["mt"]).process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
+			self.cb.cp().channel(["mt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+
+			
 
 			# ======================================================================
 			# ET channel
