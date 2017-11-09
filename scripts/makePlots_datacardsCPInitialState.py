@@ -262,10 +262,7 @@ if __name__ == "__main__":
 					if "final" in args.cpstudy:
 						binnings_key = "tt_phiStarCP"
 					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
-						if "initial" in args.cpstudy:
-							config["x_bins"] = ["25,-3.15,3.15"]
-						if "final" in args.cpstudy:
-							config["x_bins"] = ["25,0,6.28"]
+						config["x_bins"] = [binnings_key]
 					elif args.x_bins != None:
 						config["x_bins"] = [args.x_bins]
 					else:
@@ -273,7 +270,7 @@ if __name__ == "__main__":
 						for key in binnings_settings.binnings_dict:
 							log.debug(key)
 						sys.exit()
-						
+
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
