@@ -236,6 +236,7 @@ if __name__ == "__main__":
 							systematic=systematic
 					))
 					
+					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
@@ -245,7 +246,7 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="baseline2016" if args.era == "2016" else "baseline",
+							cut_type="cp2016",
 							estimationMethod=args.background_method
 					)
 					
