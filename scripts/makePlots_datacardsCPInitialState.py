@@ -496,8 +496,7 @@ if __name__ == "__main__":
 			pconfigs["p_value_observed_nicks"]=["q_obs"]
 			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
 			pconfigs_plot.append(pconfigs)
-			if "initial" in args.cpstudy:
-				pconfigs["labels"]=["pseudoscalar","standardmodel", "q observerd"]
+			pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
 			if "final" in args.cpstudy:
 				if "susycpodd" or "cpodd" in args.hypothesis:
 					pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
