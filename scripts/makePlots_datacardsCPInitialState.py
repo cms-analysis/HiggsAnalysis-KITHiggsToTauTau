@@ -77,8 +77,6 @@ if __name__ == "__main__":
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--scale-lumi", default=False,
                         help="Scale datacard to luminosity specified. [Default: %(default)s]")
-	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
-		                help="Produce nuisance impact plots. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
@@ -96,8 +94,8 @@ if __name__ == "__main__":
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 						help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--steps", nargs="+",
-	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
-	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue"],
+	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts"],
+	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts"],
 						help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 						help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
@@ -436,7 +434,7 @@ if __name__ == "__main__":
 		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
 		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
-		if args.plot_nuisance_impacts:
+		if "nuisanceimpacts" in args.steps:
 			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	#datacards.annotate_trees(
 			#datacards_workspaces,
