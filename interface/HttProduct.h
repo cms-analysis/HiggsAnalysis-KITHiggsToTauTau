@@ -106,6 +106,7 @@ public:
 	bool m_diLeptonGenSystemFound = false;
 	RMFLV m_diTauGenSystem;
 	bool m_diTauGenSystemFound = false;
+	double m_col;
 
 	// filled by the TauSpinnerProducer
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
@@ -254,13 +255,13 @@ public:
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
 	double m_genZs  = DefaultValues::UndefinedDouble;
 
-	double m_gend0_1 = DefaultValues::UndefinedDouble;
-	double m_gend0_2 = DefaultValues::UndefinedDouble;
-	double m_gend0s  = DefaultValues::UndefinedDouble;
+	double m_d0_1 = DefaultValues::UndefinedDouble;
+	double m_d0_2 = DefaultValues::UndefinedDouble;
+	double m_d0s_area  = DefaultValues::UndefinedDouble;
+	double m_d0s_dist  = DefaultValues::UndefinedDouble;
 
 	double m_genPhiCP = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
-	double m_genPhiStarCPTEST  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
 	double m_genOStarCP  = DefaultValues::UndefinedDouble;
 	double m_genPhi  = DefaultValues::UndefinedDouble;
@@ -330,6 +331,7 @@ public:
 	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPComb  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMerged  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCP_rho_merged  = DefaultValues::UndefinedDouble;
@@ -436,4 +438,6 @@ public:
 
 	//filled by MadGraphReweightingProducer
 	std::vector<KLHEParticle*> m_lheParticlesSortedForMadGraph;
+	float m_madGraph_HiggsPt;
+	float m_madGraph_HiggsPt_HiggsCM;
 };

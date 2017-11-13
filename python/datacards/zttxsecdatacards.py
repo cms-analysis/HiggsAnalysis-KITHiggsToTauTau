@@ -213,9 +213,12 @@ class ZttEffDatacards(datacards.Datacards):
 
 
 class ZttLepTauFakeRateDatacards(datacards.Datacards):
-	def __init__(self, cb=None):
+	def __init__(self, year="", noJECuncSplit=True, cb=None):
 		super(ZttLepTauFakeRateDatacards, self).__init__(cb)
 		
+		all_mc_bkgs = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VV", "W"]
+		all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ","TTT", "TTJJ", "VV"]
+
 		if cb is None:
 			# ======================================================================
 			# MT channel
@@ -249,9 +252,15 @@ class ZttLepTauFakeRateDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.electron_efficiency_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
-			self.cb.cp().channel(["et"]).process(["ZTT", "TT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
+			if year == "2016":
+				self.cb.cp().channel(["et"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
+				self.cb.cp().channel(["et"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)   
+				self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args) 
+				self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+			else:
+				self.cb.cp().channel(["et"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, *self.electron_efficiency_syst_args)
+				self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
+				self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
 
 			# Probe Tau ES
 			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.probetau_es_syst_args)
@@ -268,22 +277,36 @@ class ZttLepTauFakeRateDatacards(datacards.Datacards):
 			# additional nuisance for possible differences in Z -> ee norm., in addition to the Z->tautau norm.
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *self.zee_norm_syst_args)
 			
-			# ======================================================================
+			# ===========================================================================
 			# All channels
 			# lumi
-			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *self.lumi_syst_args)
+			if year == "2016":
+				self.cb.cp().process(all_mc_bkgs_no_W).AddSyst(self.cb, *self.lumi2016_syst_args)
+			else:
+				self.cb.cp().process(all_mc_bkgs_no_W).AddSyst(self.cb, *self.lumi_syst_args)
 		
 			# cross section
 			self.cb.cp().process(["ZTT", "ZL", "ZJ"]).AddSyst(self.cb, *self.ztt_cross_section_syst_args)
-			self.cb.cp().process(["TT"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
-			self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
+			self.cb.cp().process(["TTJ", "TTJJ"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
 			self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
-			
+			if year == "2016":
+				self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
+			else:
+				self.cb.cp().process(["VV"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
+
 			# W+jets extrapolation
 			self.cb.cp().process(["W"]).AddSyst(self.cb, *self.wj_extrapol_syst_args)
 			
 			# QCD systematic
 			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *self.qcd_syst_args)
+
+			# QCD systematic
+			self.cb.cp().channel(["mt", "et"]).process(["QCD"]).AddSyst(self.cb, "QCD_Extrap_Iso_nonIso_lt_13TeV", "lnN", ch.SystMap()(1.20))
+			self.cb.cp().channel(["mt", "et"]).process(["QCD"]).AddSyst(self.cb, "WSFUncert_lt_13TeV", "shape", ch.SystMap()(1.0))
+
+			# W+jets high->low mt extrapolation uncertainty
+			#self.cb.cp().channel(["mt", "et"]).process(["W"]).AddSyst(self.cb, "WHighMTtoLowMT_13TeV", "lnN", ch.SystMap()(1.10))
+
 		
 			if log.isEnabledFor(logging.DEBUG):
 				self.cb.PrintAll()

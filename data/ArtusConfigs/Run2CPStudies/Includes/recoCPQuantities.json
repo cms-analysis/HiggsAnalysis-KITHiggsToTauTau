@@ -123,6 +123,7 @@
 		"recoPhiStarCPrPV",
 		"recoPhiStarCPrPV2",
 		"recoPhiStarCPComb",
+		"recoPhiStarCPCombMerged",
 		"#recoPhiStarCPrPV_rho",
 
 		"#recoPhiStarCPrPVbs",
@@ -154,6 +155,7 @@
 		"recoTrackRefError1",
 		"recoTrackRefError2",
 
-		"gend0s"
+		"d0s_area",
+		"d0s_dist"
 	]
 }
