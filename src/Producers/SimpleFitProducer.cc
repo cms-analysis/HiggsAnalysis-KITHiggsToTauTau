@@ -1,7 +1,7 @@
-#include <algorithm>
-#include <math.h>
 
-#include <boost/format.hpp>
+#include "TMatrixT.h"
+#include "TMatrixTSym.h"
+#include "TVector3.h"
 
 #include "DataFormats/TauReco/interface/PFTau.h"
 
@@ -12,9 +12,12 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"
 
+#include "TauPolSoftware/SimpleFits/interface/ErrorMatrixPropagator.h"
+#include "TauPolSoftware/SimpleFits/interface/GEFObject.h"
 #include "TauPolSoftware/SimpleFits/interface/GlobalEventFit.h"
 #include "TauPolSoftware/SimpleFits/interface/LorentzVectorParticle.h"
-//#include "TauPolSoftware/SimpleFits/interface/GEFObject.h"
+#include "TauPolSoftware/SimpleFits/interface/TrackHelixVertexFitter.h"
+#include "TauPolSoftware/SimpleFits/interface/PTObject.h"
 
 
 std::string SimpleFitProducer::GetProducerId() const
@@ -25,207 +28,173 @@ std::string SimpleFitProducer::GetProducerId() const
 void SimpleFitProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
     ProducerBase<HttTypes>::Init(settings, metadata);
+	
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "simpleFitAvailable", [](event_type const& event, product_type const& product) {
+		return (Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0)) &&
+		        Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1)));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitLV", [](event_type const& event, product_type const& product) {
+		return product.m_diTauSystemSimpleFit;
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "simpleFitTau1Available", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau1LV", [](event_type const& event, product_type const& product) {
+		return SafeMap::GetWithDefault(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "simpleFitTau1ERatio", [](event_type const& event, product_type const& product) {
+		if (Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0)))
+		{
+			return product.m_flavourOrderedLeptons.at(0)->p4.E() / SafeMap::Get(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(0)).E();
+		}
+		else
+		{
+			return DefaultValues::UndefinedFloat;
+		}
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "simpleFitTau2Available", [](event_type const& event, product_type const& product) {
+		return Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau2LV", [](event_type const& event, product_type const& product) {
+		return SafeMap::GetWithDefault(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "simpleFitTau2ERatio", [](event_type const& event, product_type const& product) {
+		if (Utility::Contains(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1)))
+		{
+			return product.m_flavourOrderedLeptons.at(1)->p4.E() / SafeMap::Get(product.m_simpleFitTaus, product.m_flavourOrderedLeptons.at(1)).E();
+		}
+		else
+		{
+			return DefaultValues::UndefinedFloat;
+		}
+	});
 }
-
 
 void SimpleFitProducer::Produce(event_type const& event, product_type& product,
                                 setting_type const& settings, metadata_type const& metadata) const
 {
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
+	assert(event.m_vertexSummary); // TODO: change to refitted PV
 	
-	KMuon* muon = nullptr;
-	KTau* tauToA1 = nullptr;
+	KLepton* oneProng = nullptr;
+	KTau* a1 = nullptr;
 	
-	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
-	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
+	for (std::vector<KLepton*>::iterator leptonIt = product.m_flavourOrderedLeptons.begin();
+	     leptonIt != product.m_flavourOrderedLeptons.end(); ++leptonIt)
 	{
-		if ((! muon) && ((*lepton)->flavour() == KLeptonFlavour::MUON))
+		if ((*leptonIt)->flavour() == KLeptonFlavour::TAU)
 		{
-			muon = static_cast<KMuon*>(*lepton);
-		}
-		else if ((! tauToA1) && ((*lepton)->flavour() == KLeptonFlavour::TAU))
-		{
-			KTau* tau = static_cast<KTau*>(*lepton);
-			if ((tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
-			    (tau->chargedHadronCandidates.size() > 2))
+			KTau* tau = static_cast<KTau*>(*leptonIt);
+			
+			if ((! a1) &&
+			    (tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
+			    (tau->chargedHadronCandidates.size() > 2) &&
+			    tau->sv.valid)
 			{
-				tauToA1 = tau;
+				a1 = tau;
+			}
+			else if ((! oneProng) &&
+			         (tau->decayMode == reco::PFTau::hadronicDecayMode::kOneProng0PiZero))
+			{
+				oneProng = *leptonIt;
 			}
 		}
+		else if (! oneProng)
+		{
+			oneProng = *leptonIt;
+		}
 	}
 	
-	if ((muon != nullptr) && (tauToA1 != nullptr))
+	if ((oneProng != nullptr) && (a1 != nullptr))
 	{
-		// TODO
-	}
-
-	int muonPdgid = 0;
-	double muonMass = 0; 
-	double muonCharge = 0;
-	double muonB = 0; 
-
-	// Muon Track Properties
-	TMatrixT<double> muonPar(TrackParticle::NHelixPar,1);
-	double pt;
-	double pz;
-
-	TMatrixTSym<double> muonCov(TrackParticle::NHelixPar);
-
-	bool muonFound = false;
-	bool tauFound = false;
-
-	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
-	     lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
-	{
-		if (! muonFound)
+		// one prong decay
+		std::vector<float> oneProngHelixParameters = oneProng->track.helixParameters();
+		TMatrixT<double> oneProngHelixParametersInput(TrackParticle::NHelixPar, 1);
+		for (unsigned int parameterIndex1 = 0; parameterIndex1 < TrackParticle::NHelixPar; ++parameterIndex1)
 		{
-			if ((*lepton)->flavour() == KLeptonFlavour::MUON)
+			oneProngHelixParametersInput[parameterIndex1][0] = oneProngHelixParameters[parameterIndex1];
+		}
+		TMatrixTSym<double> oneProngHelixCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<float, reco::Track::dimension, reco::Track::dimension, ROOT::Math::MatRepSym<float, reco::Track::dimension> >, TMatrixTSym<double> >(oneProng->track.helixCovariance, TrackParticle::NHelixPar);
+		
+		// LOG(WARNING) << "\n\nSimpleFits inputs (oneProng):";
+		// LOG(INFO) << "\noneProngHelixParametersInput:";
+		// oneProngHelixParametersInput.Print();
+		// LOG(INFO) << "\noneProngHelixCovarianceInput:";
+		// oneProngHelixCovarianceInput.Print();
+		// LOG(INFO) << "\noneProng->pdgId(): " << oneProng->pdgId();
+		// LOG(INFO) << "oneProng->p4.mass(): " << oneProng->p4.mass();
+		// LOG(INFO) << "oneProng->charge(): " << oneProng->charge();
+		TrackParticle oneProngInput(oneProngHelixParametersInput, oneProngHelixCovarianceInput, oneProng->pdgId(), oneProng->p4.mass(), oneProng->charge(), oneProng->track.magneticField);
+		
+		// tau
+		// https://github.com/cherepan/LLRHiggsTauTau/blob/VladimirDev/NtupleProducer/plugins/TauFiller.cc#L483
+		// https://github.com/cherepan/LLRHiggsTauTau/blob/VladimirDev/NtupleProducer/plugins/TauFiller.cc#L464
+		// https://github.com/cherepan/LLRHiggsTauTau/blob/VladimirDev/NtupleProducer/src/ParticleBuilder.cc#L11-L40
+		unsigned int nLorentzAndVertexParameters = TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::NExtraPar+TrackHelixVertexFitter::MassOffSet; // LorentzVectorParticle::NLorentzandVertexPar
+		TMatrixT<double> tauParameters(nLorentzAndVertexParameters, 1);
+		TMatrixTSym<double> tauCovariance(nLorentzAndVertexParameters);
+		for (int parameterIndex1 = 0; parameterIndex1 < 7; ++parameterIndex1)
+		{
+			tauParameters[parameterIndex1][0] = a1->refittedThreeProngParameters[parameterIndex1];
+			for (int parameterIndex2 = 0; parameterIndex2 < 7; ++parameterIndex2)
 			{
-				//LOG(INFO) << "Type of Lepton: "<< (*lepton)->flavour()  << " Is it a muon: " << KLeptonFlavour::MUON << ", or electron: "<< KLeptonFlavour::ELECTRON << ", or tau: "<< KLeptonFlavour::TAU ;
-				muonFound = true;
-				//LOG(INFO) << "This is a MUON!.. " << "TrackParticle::NHelixPar: "<<  TrackParticle::NHelixPar << " LorentzVectorParticle::NLorentzandVertexPar: " << LorentzVectorParticle::NLorentzandVertexPar ;
-
-				//LOG(INFO) << "Inside leptons list if it is MUON: " << product.m_flavourOrderedLeptons[0]->p4.mass() << ", and: "<< product.m_flavourOrderedLeptons[1]->p4.mass() ;
-				muonPdgid = 13;
-				muonMass = (*lepton)->p4.mass(); //0.105; //GeV
-				muonCharge = (*lepton)->charge();
-				muonB = 1; 
-
-				// Muon Track Properties
-				pt = (*lepton)->p4.Pt();
-				pz = (*lepton)->p4.Pz();
-				muonPar[0] = muonCharge/pt;   // kappa
-				muonPar[1] = std::atan(pz/pt);   // lambda
-				muonPar[2] = (*lepton)->p4.Phi(); // phi
-				muonPar[3] = (*lepton)->track.getDz(&event.m_vertexSummary->pv);   // dz
-				muonPar[4] = (*lepton)->track.getDxy(&event.m_vertexSummary->pv);    // dxy
-
-
-				muonCov[0][0] = 0.5;
-				muonCov[0][1] = 0.5;
-				muonCov[0][2] = 0.5;
-				muonCov[0][3] = 0.5;
-				muonCov[0][4] = 0.5;
-
-				muonCov[1][1] = 0.5;
-				muonCov[1][2] = 0.5;
-				muonCov[1][3] = 0.5;
-				muonCov[1][4] = 0.5;
-
-				muonCov[2][2] = 0.5;
-				muonCov[2][3] = 0.5;
-				muonCov[2][4] = 0.5;
-
-				muonCov[3][3] = (*lepton)->track.errDxy;
-				muonCov[3][4] = (*lepton)->track.errDxy;
-
-				muonCov[4][4] = 0.5;
+				tauCovariance[parameterIndex1][parameterIndex1] = a1->refittedThreeProngCovariance[parameterIndex1][parameterIndex2];
 			}
 		}
-	}
-
-	//LOG(INFO) <<  "muonMass: " << muonMass ;
-	TMatrixT<double> tauhPar(LorentzVectorParticle::NLorentzandVertexPar,1);
-	TMatrixTSym<double> tauhCov(LorentzVectorParticle::NLorentzandVertexPar);
-	int tauhPdgid = 0;
-	double tauhCharge = 0;
-	double tauhB = 0;
-
-	for (std::vector<KTau*>::iterator tau = product.m_validTaus.begin(); tau != product.m_validTaus.end(); ++tau)
-	{
-		if (! tauFound)
+		tauParameters[TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::BField0][0] = a1->track.magneticField;
+		TMatrixT<double> tauParametersInput = TrackHelixVertexFitter::ComputeLorentzVectorPar(tauParameters);
+		TMatrixTSym<double> tauCovarianceInput = ErrorMatrixPropagator::PropagateError(&TrackHelixVertexFitter::ComputeLorentzVectorPar, tauParameters, tauCovariance);
+		
+		// LOG(WARNING) << "\n\nSimpleFits inputs (a1):";
+		// LOG(INFO) << "\ntauParametersInput:";
+		// tauParametersInput.Print();
+		// LOG(INFO) << "\ntauCovarianceInput:";
+		// tauCovarianceInput.Print();
+		// LOG(INFO) << "\na1->pdgId(): " << a1->pdgId();
+		// LOG(INFO) << "a1->charge(): " << a1->charge();
+		// LOG(INFO) << "a1->track.magneticField: " << a1->track.magneticField;
+		LorentzVectorParticle tauInput(tauParametersInput, tauCovarianceInput, a1->resonancePdgId(), a1->charge(), a1->track.magneticField);
+		
+		// MET
+		unsigned int nMetComponents = 2;
+		TMatrixT<double> metVector(nMetComponents, 1);
+		metVector[0][0] = product.m_met.p4.Vect().X();
+		metVector[1][0] = product.m_met.p4.Vect().Y();
+		
+		TMatrixTSym<double> metCovariance = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >, TMatrixTSym<double> >(product.m_met.significance, nMetComponents);
+		
+		// LOG(WARNING) << "\n\nSimpleFits inputs (MET):";
+		// LOG(INFO) << "\nmetVector:";
+		// metVector.Print();
+		// LOG(INFO) << "\nmetCovariance:";
+		// metCovariance.Print();
+		PTObject metInput(metVector, metCovariance);
+		
+		// PV
+		KVertex* pv = (product.m_refitPV ? product.m_refitPV : &(event.m_vertexSummary->pv));
+		TVector3 pvInput = Utility::ConvertPxPyPzVector<RMPoint, TVector3>(pv->position);
+		TMatrixTSym<double> pvCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 3, 3, ROOT::Math::MatRepSym<double, 3> >, TMatrixTSym<double> >(pv->covariance, 3);
+		
+		// LOG(WARNING) << "\nSimpleFits inputs (PV):";
+		// LOG(INFO) << "\npvInput:";
+		// pvInput.Print();
+		// LOG(INFO) << "\npvCovarianceInput:";
+		// pvCovarianceInput.Print();
+		
+		// Fit
+		GlobalEventFit globalEventFit(oneProngInput, tauInput, metInput, pvInput, pvCovarianceInput);
+		GEFObject fitResult = globalEventFit.Fit();
+		// LOG(ERROR) << "\n\nSimpleFits outputs:";
+		if (fitResult.isValid())
 		{
-			//LOG(INFO) << "NchargedPart: "<< (*tau)->chargedHadronCandidates.size() << ", decaymode: " << (*tau)->decayMode;
-			if (((*tau)->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
-			    ((*tau)->chargedHadronCandidates.size() > 2))
-			{
-				// a1(3 prong pion) Vector Particle Properties *** for now it includes all hadronic decay products
-				tauFound = true;
-				tauhPar[0] = (*tau)->p4.Px(); // px
-				tauhPar[1] = (*tau)->p4.Py(); // py
-				tauhPar[2] = (*tau)->p4.Pz();  // pz
-				tauhPar[3] = (*tau)->p4.mass();  // m
-				tauhPar[4] = (*tau)->p4.x();  // vx   #TODO this is momentums
-				tauhPar[5] = (*tau)->p4.y();  // vy
-				tauhPar[6] = (*tau)->p4.z();  // vz
-
-				//sLOG(INFO) << "tau_vx " <<  product.m_flavourOrderedLeptons[0]->vertex.x(); << ", tau_px:" << product.m_flavourOrderedLeptons[0]->p4.Px() << std::endl;
-
-				tauhCov[0][0] = (*tau)->track.errDxy; //0.5;
-				tauhCov[0][1] = 0.5;
-				tauhCov[0][2] = 0.5;
-				tauhCov[0][3] = 0.5;
-				tauhCov[0][4] = 0.5;
-				tauhCov[0][5] = 0.5;
-				tauhCov[0][6] = 0.5;
-				tauhCov[1][1] = 0.5;
-				tauhCov[1][2] = 0.5;
-				tauhCov[1][3] = 0.5;
-				tauhCov[1][4] = 0.5;
-				tauhCov[1][5] = 0.5;
-				tauhCov[1][6] = 0.5;
-				tauhCov[2][2] = 0.5;
-				tauhCov[2][3] = 0.5;
-				tauhCov[2][4] = 0.5;
-				tauhCov[2][5] = 0.5;
-				tauhCov[2][6] = 0.5;
-				tauhCov[3][3] = 0.5;
-				tauhCov[3][4] = 0.5;
-				tauhCov[3][5] = 0.5;
-				tauhCov[3][6] = 0.5;
-				tauhCov[4][4] = 0.5;
-				tauhCov[4][5] = 0.5;
-				tauhCov[4][6] = 0.5;
-
-				// LOG(INFO) << "tracK_Dxy " <<  product.m_flavourOrderedLeptons[0]->track.getDxy(&event.m_vertexSummary->pv) << ", tracK_errDxy " <<  product.m_flavourOrderedLeptons[0]->track.errDxy << std::endl;
-				tauhPdgid = 13;
-				tauhCharge =  (*tau)->charge();
-				tauhB = 1;
-			}
-		}
-	}
-
-	// ====== MET info =======
-	TMatrixT<double> metPar(2,1);
-	metPar[0] = product.m_met.p4.Px();
-	metPar[1] = product.m_met.p4.Py();
-
-	TMatrixTSym<double> metCov(2);
-	metCov[0][0] = product.m_met.significance[0][0];
-	metCov[0][1] = product.m_met.significance[0][1];
-	metCov[1][1] = product.m_met.significance[1][1];
-
-	// TMatrixD metCov = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >,   TMatrixTSym<double>>(product.m_met.significance, 2, 4);
-	//LOG(INFO) << "MtCov: " << metCov[0][0] << std::endl;
-
-	PTObject MET(metPar, metCov); //   // ????
-	// ====== Primary Vertex Info ======
-	TVector3 PV(0.5, 0.4, 0.3);  // pv->position.x()   in KTrack.h
-	TMatrixTSym<double> PVCov(3);  // pv->covariance  in KTrack.h
-	PVCov[0][0]= 0.5;
-	PVCov[0][1]= 0.5;
-	PVCov[0][2]= 0.5;
-	PVCov[1][1]= 0.5;
-	PVCov[1][2]= 0.5;
-	PVCov[2][2]= 0.5;
-
-	if( muonFound && tauFound)
-	{
-		//LOG(INFO) << "PER EVENT: this a new event with one muon and one tau_h";
-		TrackParticle Muon(muonPar, muonCov, muonPdgid, muonMass, muonCharge, muonB);
-		LorentzVectorParticle Tauh(tauhPar, tauhCov, tauhPdgid, tauhCharge, tauhB);
-		GlobalEventFit SimpleFit(Muon, Tauh,  MET,  PV, PVCov);
-		//GlobalEventFit::GlobalEventFit(TrackParticle Muon, LorentzVectorParticle A1, double Phi_Res, TVector3 PV, TMatrixTSym<double> PVCov){  }
-		// GlobalEventFit::GlobalEventFit(TrackParticle Muon, LorentzVectorParticle A1, PTObject MET, TVector3 PV, TMatrixTSym<double> PVCov){  }
-
-		GEFObject GEF = SimpleFit.Fit();
-		if( GEF.isValid() )
-		{
-			//TLorentzVector EventFitTauA1 =GEF.getTauH().LV();
-			//product.m_simpleFitTaus[product.m_flavourOrderedLeptons[0]] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(GEF.getTauH().LV());
-			product.m_simpleFitTaus[product.m_flavourOrderedLeptons[1]] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(GEF.getTauH().LV());
-			//LOG(INFO) << " I am hereQ" << GEF.getTauH().LV().M() << "  " << product.m_simpleFitTaus[product.m_flavourOrderedLeptons[0]].M();
-			//LOG(INFO) << "Fit is valid and implemented\n\n" ;
+			product.m_simpleFitTaus[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
+			product.m_simpleFitTaus[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauH().LV());
+			product.m_diTauSystemSimpleFit = product.m_simpleFitTaus[oneProng] + product.m_simpleFitTaus[a1];
+			// LOG(INFO) << "tauToOneProng: " << product.m_simpleFitTaus[oneProng];
+			// LOG(INFO) << "tauToA1: " << product.m_simpleFitTaus[a1];
 		}
 	}
 }

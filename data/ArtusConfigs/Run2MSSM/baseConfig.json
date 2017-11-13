@@ -1,7 +1,6 @@
 {
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json",
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/lheWeightAssignment.json",
 		"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2MSSM/Includes/settingsJEC.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSampleStitchingWeights.json"
 	],
@@ -109,7 +108,7 @@
 			],
 			"TT(To|_|Jets)" : [
 				"#filter:RunLumiEventFilter",
-				"producer:ScaleVariationProducer",
+				"#producer:ScaleVariationProducer",
 				"filter:MetFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
@@ -150,7 +149,7 @@
 			],
 			"DY.?JetsToLLM(50|150)|LFV" : [
 				"#filter:RunLumiEventFilter",
-				"producer:ScaleVariationProducer",
+				"#producer:ScaleVariationProducer",
 				"filter:MetFilter",
 				"producer:CrossSectionWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",

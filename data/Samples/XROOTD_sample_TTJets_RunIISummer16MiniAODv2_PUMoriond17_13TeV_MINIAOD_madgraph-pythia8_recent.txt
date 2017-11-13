@@ -1,1 +1,1 @@
-Summer16/TTJets_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8.txt
+XROOTD_sample_TTJets_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_2017-10-10.txt

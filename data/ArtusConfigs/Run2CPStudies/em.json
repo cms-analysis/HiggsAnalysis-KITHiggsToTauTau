@@ -231,10 +231,12 @@
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
 						]
 					},
 					"nLooseElectrons",
@@ -265,9 +267,11 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/lheWeightsDYQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
 						]
 					},
 					"nLooseElectrons",
@@ -304,9 +308,11 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/lheWeightsHttQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
 						]
 					},
 					"nLooseElectrons",
@@ -355,7 +361,8 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
 						]
 					},
 					"nLooseElectrons",
@@ -416,14 +423,16 @@
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"#producer:HHKinFitProducer",
-					"#producer:SimpleFitProducer",
+					"producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL).*(?=(Spring16|Summer16))" : [
@@ -459,13 +468,15 @@
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
 					"#producer:HHKinFitProducer",
-					"#producer:SimpleFitProducer",
+					"producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:GenMatchedTauCPProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"(LFV).*(?=(Spring16|Summer16))" : [
@@ -507,7 +518,9 @@
 					"producer:GenMatchedTauCPProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
@@ -546,12 +559,14 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"#producer:HHKinFitProducer",
-					"#producer:SimpleFitProducer",
+					"producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"(DY.?JetsToLL).*(?=Fall15)" : [
@@ -590,13 +605,15 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"#producer:HHKinFitProducer",
-					"#producer:SimpleFitProducer",
+					"producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"producer:GenMatchedTauCPProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2016" : [
@@ -628,10 +645,12 @@
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
 					"#producer:HHKinFitProducer",
-					"#producer:SimpleFitProducer",
+					"producer:SimpleFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"Run2015" : [
@@ -664,10 +683,12 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"#producer:HHKinFitProducer",
-					"#producer:SimpleFitProducer",
+					"producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau).*(?=(Spring16|Summer16))" : [
@@ -702,13 +723,15 @@
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
 					"#producer:HHKinFitProducer",
-					"#producer:SimpleFitProducer",
+					"producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:GenMatchedTauCPProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
@@ -754,7 +777,9 @@
 					"producer:GenMatchedTauCPProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"#producer:PolarisationQuantitiesHHKinFitProducer",
 					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				]

@@ -19,6 +19,7 @@
 <use name="HTTutilities/Jet2TauFakes" />
 <use name="HTT-utilities/QCDModelingEMu" />
 <use name="TauPolSoftware/SimpleFits" />
+<use name="TauPolSoftware/TauDecaysInterface" />
 
 
 <flags ADD_SUBDIR="1"/>
