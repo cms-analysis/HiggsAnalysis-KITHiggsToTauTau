@@ -54,14 +54,12 @@ if __name__ == "__main__":
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
 	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
-	parser.add_argument("--no-shape-uncs", default=True, action="store_true",
+	parser.add_argument("--shape-uncs", default= False, action="store_true",
 						help="Do not include shape uncertainties. [Default: %(default)s]")
-	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
-						help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
+	parser.add_argument("--lnN-uncs", default= False, action="store_true",
+						help="Do not include shape uncertainties. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
 						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
-	parser.add_argument("--era", default="2016",
-	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("-b", "--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
@@ -98,10 +96,10 @@ if __name__ == "__main__":
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
 
+
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 
-	print args.categories
 
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
@@ -112,18 +110,10 @@ if __name__ == "__main__":
 		signal_processes.append(process)
 
 	#datacard initialization
-	datacards = lfvdatacards.LFVDatacards(higgs_masses=["125"],useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes, categories = args.categories) 
-	datacards.cb.PrintSysts()
-
-	# restrict combine to lnN systematics only if no_shape_uncs is set
-	if args.no_shape_uncs or args.no_syst_uncs:
-		log.debug("Deactivate shape uncertainties")
-		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
-		if log.isEnabledFor(logging.DEBUG):
-			datacards.cb.PrintSysts()
-
-	print datacards.cb.PrintSysts()
+	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs) 
+	#datacards.cb.PrintAll()
 	
+
 	# Prepare name templates
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
@@ -144,18 +134,8 @@ if __name__ == "__main__":
 
 	#Loop over all channel
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
-		# include channel prefix
-		categories= [channel + "_" + category for category in categories]
-		# prepare category settings based on args and datacards
-		categories_save = sorted(categories)
-		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-		
-		# restrict CombineHarvester to configured categories:
-		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
-		
 		#Loop over all categories
 		for category in categories:
-			
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="LFV",
 					CHANNEL=channel,
@@ -168,11 +148,11 @@ if __name__ == "__main__":
 			
 			for shape_systematic, list_of_samples in datacards.get_samples_per_shape_systematic(channel, category).iteritems():
 				nominal = (shape_systematic == "nominal")
+				print list_of_samples
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 				
 				for shift_up in ([True] if nominal else [True, False]):
-					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
-					
+					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))					
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 							samples="\", \"".join(list_of_samples),
 							channel=channel,
@@ -184,11 +164,11 @@ if __name__ == "__main__":
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel,
-							category="LFV13TeV_"+category,
+							category="catLFV13TeV_" + channel + "_" + category,
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							higgs_masses=["125"],
-							cut_type="LFV",
+							cut_type="lfv",
 							estimationMethod=args.background_method
 					)
 					
@@ -238,6 +218,7 @@ if __name__ == "__main__":
 	if log.isEnabledFor(logging.DEBUG):
 		pprint.pprint(plot_configs)
 	
+	
 	# delete existing output files
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
 	for output_file_iterator in tmp_output_files:
@@ -247,7 +228,6 @@ if __name__ == "__main__":
 	output_files = list(set(output_files))
 	
 	# create input histograms with HarryPlotter
-	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
