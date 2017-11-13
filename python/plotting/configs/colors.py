@@ -155,13 +155,21 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["vega_cat1_01"] = "#1f77b4"
 		self.colors_dict["vega_cat1_02"] = "#ff7f0e"
 		self.colors_dict["vega_cat1_03"] = "#2ca02c"
-		self.colors_dict["vega_cat1_04"] = "#d62728"
+		self.colors_dict["vega_cat1_04"] = "#E31A1C"
 		self.colors_dict["vega_cat1_05"] = "#9467bd"
 		self.colors_dict["vega_cat1_06"] = "#8c564b"
 		self.colors_dict["vega_cat1_07"] = "#e377c2"
 		self.colors_dict["vega_cat1_08"] = "#7f7f7f"
 		self.colors_dict["vega_cat1_09"] = "#bcbd22"
 		self.colors_dict["vega_cat1_10"] = "#17becf"
+		
+		#light colors for backgrounds
+		self.colors_dict["ztt_light"] = "#FFCC66"
+		self.colors_dict["zll_light"] = "#80B1D3"
+		self.colors_dict["ttj_light"] = "#BEBADA"
+		self.colors_dict["vv_light"] = "#9D755D"
+		self.colors_dict["wj_light"] = "#DE5A6A"
+		self.colors_dict["qcd_light"] = "#FCBFD2"
 
 		self.colors_dict["data"] = "#000000"
 		self.colors_dict["data_obs"] = self.colors_dict["data"]
@@ -274,13 +282,13 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["bbh"] = self.colors_dict["kit_gruen_1"]
 			self.colors_dict["gghsm"] = self.colors_dict["vega_cat1_01"]
 			self.colors_dict["gghmm"] = self.colors_dict["vega_cat1_05"]
-			self.colors_dict["gghps"] = self.colors_dict["vega_cat1_02"]
+			self.colors_dict["gghps"] = self.colors_dict["vega_cat1_04"]
 			self.colors_dict["gghps_alt"] = self.colors_dict["kit_cyanblau_1"]
 			self.colors_dict["gghmm_alt"] = self.colors_dict["kit_rot_1"]
 			self.colors_dict["qqh"] = self.colors_dict["kit_gruen_1"]
-			self.colors_dict["qqhsm"] = self.colors_dict["vega_cat1_03"]
+			self.colors_dict["qqhsm"] = self.colors_dict["vega_cat1_02"]
 			self.colors_dict["qqhmm"] = self.colors_dict["vega_cat1_06"]
-			self.colors_dict["qqhps"] = self.colors_dict["vega_cat1_04"]
+			self.colors_dict["qqhps"] = self.colors_dict["vega_cat1_03"]
 			self.colors_dict["qqhps_alt"] = self.colors_dict["kit_gruen_1"]
 			self.colors_dict["qqhmm_alt"] = self.colors_dict["kit_rot_2"]
 			self.colors_dict["vh"]  = self.colors_dict["kit_lila_1"]

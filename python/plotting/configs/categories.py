@@ -194,7 +194,7 @@ class CategoriesDict(object):
 					],
 				"expressions":{
 					"analysis": [
-						"LFV13TeV_"
+						"catLFV13TeV_"
 						],
 					"global": "(njetspt30==0)*((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2 < 100)*(3.70>abs(phi_1-phi_2)>2.70)"
 					},
@@ -216,7 +216,7 @@ class CategoriesDict(object):
 					],
 				"expressions":{
 					"analysis": [
-						"LFV13TeV_"
+						"catLFV13TeV_"
 						],
 					"global": "(njetspt30>=1)*(nbtag == 0)"
 					},
@@ -387,7 +387,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0)*(mjj>500)*(abs(jdeta)>2.)*(njets>1)*(H_pt<150.)*(m_sv>100)",
+					"global":"(jeta_1*jeta_2<0)*(mjj>500)*(abs(jdeta)>2.)*(njets>1)*(H_pt<150.)*(m_sv>100)"
 					},
 				"binnings":{
 					"analysis": [
@@ -398,7 +398,7 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_mjjlow1{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_mjjlow{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -409,29 +409,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0)*(mjj>300)*(mjj<500)*(njets>1)*(m_sv>100)",
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_jdphi": auto_rebin_binning,
-						}
-					}
-				}
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_mjjlow2{discriminator}"] = {
-				"channel":[
-					"mt_",
-					"et_",
-					"em_",
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(jeta_1*jeta_2<0)*(mjj>300)*(mjj<500)*(njets>1)*(m_sv<100)",
+					"global":"(jeta_1*jeta_2<0)*(mjj>300)*(mjj<500)*(njets>1)",
 					},
 				"binnings":{
 					"analysis": [

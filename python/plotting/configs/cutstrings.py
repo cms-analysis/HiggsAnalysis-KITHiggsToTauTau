@@ -125,7 +125,7 @@ class CutStringsDict:
 		return cuts
 	
 	@staticmethod
-	def LFV(channel, cut_type):
+	def lfv(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
 		
 		if channel == "em":
@@ -635,7 +635,7 @@ class CutStringsDict:
 		elif cut_type=="ztt2015cs":
 			cuts = CutStringsDict.ztt2015cs(channel, cut_type)
 
-		elif cut_type=="LFV":
+		elif cut_type=="lfv":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 
 		else:
