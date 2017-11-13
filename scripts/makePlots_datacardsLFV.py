@@ -39,7 +39,7 @@ if __name__ == "__main__":
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=[["LFV"]],
+	                    default=["LFV"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/LFV_datacards/",
@@ -101,6 +101,8 @@ if __name__ == "__main__":
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 
+	print args.categories
+
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
 
@@ -110,7 +112,8 @@ if __name__ == "__main__":
 		signal_processes.append(process)
 
 	#datacard initialization
-	datacards = lfvdatacards.LFVDatacards(higgs_masses=["125"],useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes) 
+	datacards = lfvdatacards.LFVDatacards(higgs_masses=["125"],useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes, categories = args.categories) 
+	datacards.cb.PrintSysts()
 
 	# restrict combine to lnN systematics only if no_shape_uncs is set
 	if args.no_shape_uncs or args.no_syst_uncs:
@@ -118,6 +121,8 @@ if __name__ == "__main__":
 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
 		if log.isEnabledFor(logging.DEBUG):
 			datacards.cb.PrintSysts()
+
+	print datacards.cb.PrintSysts()
 	
 	# Prepare name templates
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"

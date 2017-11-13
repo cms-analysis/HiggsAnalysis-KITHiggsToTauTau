@@ -194,7 +194,7 @@ class CategoriesDict(object):
 					],
 				"expressions":{
 					"analysis": [
-						"LFV13TeV_"
+						"catLFV13TeV_"
 						],
 					"global": "(njetspt30==0)*((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2 < 100)*(3.70>abs(phi_1-phi_2)>2.70)"
 					},
@@ -216,7 +216,7 @@ class CategoriesDict(object):
 					],
 				"expressions":{
 					"analysis": [
-						"LFV13TeV_"
+						"catLFV13TeV_"
 						],
 					"global": "(njetspt30>=1)*(nbtag == 0)"
 					},
