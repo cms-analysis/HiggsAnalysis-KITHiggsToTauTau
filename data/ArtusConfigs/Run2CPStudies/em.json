@@ -458,7 +458,7 @@
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
+					"producer:SvfitProducer",
 					"#producer:HHKinFitProducer",
 					"#producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
