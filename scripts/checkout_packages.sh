@@ -35,7 +35,6 @@ git config core.sparsecheckout true
 git read-tree -mu HEAD
 cd ..
 
-git clone https://github.com/KappaAnalysis/KappaTools.git
 git clone https://github.com/artus-analysis/Artus.git
 git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
