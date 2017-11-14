@@ -26,6 +26,13 @@
 		"#hhKinFitTau1LV",
 		"#hhKinFitTau2LV",
 
+		"simpleFitAvailable",
+		"simpleFitLV",
+		"simpleFitTau1Available",
+		"simpleFitTau1LV",
+		"simpleFitTau2Available",
+		"simpleFitTau2LV",
+
 		"leadingTauDecayMode",
 		"leadingTauSumChargedHadronsLV",
 		"leadingTauSumNeutralHadronsLV",
@@ -36,17 +43,38 @@
 
 		"#a1OmegaHHKinFit_1",
 		"#a1OmegaHHKinFit_2",
+		"#a1OmegaSimpleFit_1",
+		"#a1OmegaSimpleFit_2",
 		
-		"rhoNeutralChargedAsymmetry_1",
-		"rhoNeutralChargedAsymmetry_2",
+		"#rhoNeutralChargedAsymmetry_1",
+		"#rhoNeutralChargedAsymmetry_2",
 
 		"#visibleOverFullEnergyHHKinFit_1",
 		"#visibleOverFullEnergyHHKinFit_2",
-		"visibleToFullAngleHHKinFit_1",
-		"visibleToFullAngleHHKinFit_2",
+		"#visibleOverFullEnergySimpleFit_1",
+		"#visibleOverFullEnergySimpleFit_2",
+		"#visibleToFullAngleHHKinFit_1",
+		"#visibleToFullAngleHHKinFit_2",
+		"#visibleToFullAngleSimpleFit_1",
+		"#visibleToFullAngleSimpleFit_2",
 
 		"#tauPolarisationDiscriminatorHHKinFit",
-
-		"tauPolarisationDiscriminatorSimpleFit"
+		"#tauPolarisationDiscriminatorSimpleFit",
+		
+		"polarisationOmegaSimpleFit_1",
+		"polarisationOmegaSimpleFit_2",
+		"#polarisationOmegaHHKinFit_1",
+		"#polarisationOmegaHHKinFit_2",
+		
+		"polarisationOmegaBarSimpleFit_1",
+		"polarisationOmegaBarSimpleFit_2",
+		"#polarisationOmegaBarHHKinFit_1",
+		"#polarisationOmegaBarHHKinFit_2",
+		
+		"polarisationCombinedOmegaSimpleFit",
+		"#polarisationCombinedOmegaHHKinFit",
+		
+		"polarisationCombinedOmegaBarSimpleFit",
+		"#polarisationCombinedOmegaBarHHKinFit"
 	]
 }

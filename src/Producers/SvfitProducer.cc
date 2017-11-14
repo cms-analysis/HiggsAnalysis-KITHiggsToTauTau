@@ -168,6 +168,15 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 				svfitCacheMissBehaviour
 		);
 		
+		if (product.m_svfitResults.fittedTau1LV)
+		{
+			product.m_svfitTaus[product.m_flavourOrderedLeptons.at(0)] = *(product.m_svfitResults.fittedTau1LV);
+		}
+		if (product.m_svfitResults.fittedTau2LV)
+		{
+			product.m_svfitTaus[product.m_flavourOrderedLeptons.at(1)] = *(product.m_svfitResults.fittedTau2LV);
+		}
+		
 		// apply systematic shifts
 		if(product.m_svfitResults.fittedHiggsLV)
 		{

@@ -3,12 +3,6 @@
 		"EventWeight" : "eventWeight",
 		"Quantities" : 
 		[
-			{
-				"include" : 
-				[
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/lheWeights.json"
-				]
-			},
 			"isZtt",
 			"isZmt",
 			"isZet",

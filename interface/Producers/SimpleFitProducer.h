@@ -4,16 +4,6 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
-#include "TauPolSoftware/SimpleFits/interface/TrackParticle.h"
-#include "TauPolSoftware/SimpleFits/interface/LorentzVectorParticle.h"
-#include "TauPolSoftware/SimpleFits/interface/Particle.h"
-//#include "TauPolSoftware/SimpleFits/interface/PTObject.h"
-
-#include "TMatrixT.h"
-#include "TMatrixTSym.h"
-#include "TVector3.h"
-
-//using namespace std;
 
 class SimpleFitProducer: public ProducerBase<HttTypes>
 {
@@ -27,5 +17,3 @@ public:
 	                     setting_type const& settings, metadata_type const& metadata) const override;
 	
 };
-
-

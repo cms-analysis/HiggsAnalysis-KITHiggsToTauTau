@@ -147,14 +147,33 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 
 	// preparations for MadGraph
 	std::vector<CartesianRMFLV*> particleFourMomenta;
-	std::string processDirectoryKey = "";
+	std::vector<CartesianRMFLV*> particleFourMomenta_HiggsCM;
+	std::string processDirectoryKey = ""; 
+	CartesianRMFLV higgsp4 = CartesianRMFLV(0,0,0,1);
 	for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
 	     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
 	{
 		particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
+		//extract 4-momentum of the higgs boson	
+		if ((*madGraphLheParticle)->pdgId == 25) {
+			 higgsp4 = (*madGraphLheParticle)->p4;
+		}
+			
 		processDirectoryKey += (std::string(Utility::Contains(settings.GetBosonPdgIds(), std::abs((*madGraphLheParticle)->pdgId)) ? "_" : "") +
 		                        std::string(m_databasePDG->GetParticle((*madGraphLheParticle)->pdgId)->GetName()));
 	}
+	// Calculate boost to Higgs CMRF and boost particle LV to it. 
+	CartesianRMFLV::BetaVector boostvec = higgsp4.BoostToCM();
+	ROOT::Math::Boost M(boostvec);
+	
+	for (std::vector<CartesianRMFLV*>::iterator particleLV= particleFourMomenta.begin(); particleLV != particleFourMomenta.end(); ++particleLV) {
+		
+		CartesianRMFLV tmpParticleLV = CartesianRMFLV((*particleLV)->Px(), (*particleLV)->Py(), (*particleLV)->Pz(), (*particleLV)->E());
+	 	tmpParticleLV = M * tmpParticleLV;
+		CartesianRMFLV* CmLV = new CartesianRMFLV(tmpParticleLV.Px(), tmpParticleLV.Py(), tmpParticleLV.Pz(), tmpParticleLV.E());
+		particleFourMomenta_HiggsCM.push_back(CmLV);
+	 }
+	
 	
 	if (Utility::Contains(m_madGraphProcessDirectoriesByName, processDirectoryKey))
 	{
@@ -168,7 +187,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
 			MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
-			float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
+			float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM);
 			if (matrixElementSquared < 0.0)
 			{
 				LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
@@ -183,7 +202,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 		//calculate the old matrix element for reweighting
 		MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, -1);
-		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta);
+		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM);
 		if (matrixElementSquared < 0.0)
 		{
 			LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
@@ -217,6 +236,7 @@ std::string MadGraphReweightingProducer::GetLabelForWeightsMap(float mixingAngle
 {
 	return ("madGraphWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)));
 }
+
 
 // pdgParticle->GetName() has no specific order
 // madgraph sorts particle before antiparticle
@@ -318,4 +338,3 @@ bool MadGraphReweightingProducer::MadGraphParticleOrderingHeavyBQuark(KLHEPartic
 		return MadGraphReweightingProducer::MadGraphParticleOrderingLightBQuark(lheParticle1, lheParticle2);
 	}
 }
-

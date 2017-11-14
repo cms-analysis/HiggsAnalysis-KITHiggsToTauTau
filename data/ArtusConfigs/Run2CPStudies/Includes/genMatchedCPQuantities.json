@@ -143,14 +143,13 @@
 		"genCosPsiMinus",
 
 		"genPhiStarCP",
-		"genPhiCP",
 		"genPhiStar",
-		"genPhi",
-
+		"genOStarCP",
+		"genPhiStarCPComb",
 		"genPhiStarCP_rho",
-		"genPhiCP_rho",
-		"genPhiStar_rho",
-		"genPhi_rho",
+
+		"gen_posyTauL",
+		"gen_negyTauL",
 
 		"TauMProngEnergy",
 		"TauPProngEnergy",

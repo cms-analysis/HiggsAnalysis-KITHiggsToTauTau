@@ -106,22 +106,47 @@ public:
 	bool m_diLeptonGenSystemFound = false;
 	RMFLV m_diTauGenSystem;
 	bool m_diTauGenSystemFound = false;
+	double m_col;
 
 	// filled by the TauSpinnerProducer
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
 
 	// filled by the PolarisationQuantitiesProducer
+	std::map<KLepton*, double> m_polarisationOmegasSvfit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_polarisationOmegasSimpleFit; // Keys are only of type KTau*
+	//std::map<KLepton*, double> m_polarisationOmegasHHKinFit; // Keys are only of type KTau*
+	
+	std::map<KLepton*, double> m_polarisationOmegaBarsSvfit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_polarisationOmegaBarsSimpleFit; // Keys are only of type KTau*
+	//std::map<KLepton*, double> m_polarisationOmegaBarsHHKinFit; // Keys are only of type KTau*
+	
+	double m_polarisationCombinedOmegaSvfit = DefaultValues::UndefinedDouble;
+	double m_polarisationCombinedOmegaSimpleFit = DefaultValues::UndefinedDouble;
+	//double m_polarisationCombinedOmegaHHKinFit = DefaultValues::UndefinedDouble;
+	
+	double m_polarisationCombinedOmegaBarSvfit = DefaultValues::UndefinedDouble;
+	double m_polarisationCombinedOmegaBarSimpleFit = DefaultValues::UndefinedDouble;
+	//double m_polarisationCombinedOmegaBarHHKinFit = DefaultValues::UndefinedDouble;
+	
+	/* old version
 	std::map<KLepton*, double> m_visibleOverFullEnergyHHKinFit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_visibleOverFullEnergySvfit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_visibleOverFullEnergySimpleFit; // Keys are only of type KTau*
+	
 	std::map<KLepton*, double> m_visibleToFullAngleHHKinFit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_visibleToFullAngleSvfit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_visibleToFullAngleSimpleFit; // Keys are only of type KTau*
+	
 	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
+	
 	std::map<KLepton*, double> m_a1OmegaHHKinFit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_a1OmegaSvfit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_a1OmegaSimpleFit; // Keys are only of type KTau*
 
 	double m_tauPolarisationDiscriminatorHHKinFit = DefaultValues::UndefinedDouble;
 	double m_tauPolarisationDiscriminatorSvfit = DefaultValues::UndefinedDouble;
 	double m_tauPolarisationDiscriminatorSimpleFit = DefaultValues::UndefinedDouble;
+	*/
 
 	// filled by the MetprojectionProducer
 	TVector2 m_recoMetOnGenMetProjection;
@@ -153,12 +178,14 @@ public:
 	mutable SvfitInputs m_svfitInputs;
 	mutable SvfitResults m_svfitResults;
 	bool m_svfitCalculated = false;
+	std::map<KLepton*, RMFLV> m_svfitTaus;
 
 	// filled by the HHKinFitProducer
-	std::map<KLepton*, RMFLV> m_hhKinFitTaus;
+	//std::map<KLepton*, RMFLV> m_hhKinFitTaus;
 
 	// filled by the SimpleFitProducer
 	std::map<KLepton*, RMFLV> m_simpleFitTaus;
+	RMFLV m_diTauSystemSimpleFit = DefaultValues::UndefinedRMFLV;
 
 	// filled by the DiJetQuantitiesProducer
 	RMDLV m_diJetSystem;
@@ -212,10 +239,19 @@ public:
 	RMFLV* m_track1p4 = 0;
 	RMFLV* m_track2p4 = 0;
 
+	float m_d3DnewPV1 = DefaultValues::UndefinedFloat;    // IP vector mag calculated with IPTools method
+	float m_err3DnewPV1 = DefaultValues::UndefinedFloat;  // and corresponding error
+	float m_d2DnewPV1 = DefaultValues::UndefinedFloat;
+	float m_err2DnewPV1 = DefaultValues::UndefinedFloat;
+	float m_d3DnewPV2 = DefaultValues::UndefinedFloat;
+	float m_err3DnewPV2 = DefaultValues::UndefinedFloat;
+	float m_d2DnewPV2 = DefaultValues::UndefinedFloat;
+	float m_err2DnewPV2 = DefaultValues::UndefinedFloat;
+
 
 	// filled by GenTauCPProducer
 	RMPoint* m_genPV = 0;
-	double m_genZMinus  = DefaultValues::UndefinedDouble;
+	double m_genZMinus = DefaultValues::UndefinedDouble;
 	double m_genZPlus  = DefaultValues::UndefinedDouble;
 	double m_genZs  = DefaultValues::UndefinedDouble;
 
@@ -224,11 +260,10 @@ public:
 	double m_d0s_area  = DefaultValues::UndefinedDouble;
 	double m_d0s_dist  = DefaultValues::UndefinedDouble;
 
+	double m_genPhiCP = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCP  = DefaultValues::UndefinedDouble;
-	double m_genPhiStarCPTEST  = DefaultValues::UndefinedDouble;
 	double m_genPhiStar  = DefaultValues::UndefinedDouble;
 	double m_genOStarCP  = DefaultValues::UndefinedDouble;
-	double m_genPhiCP  = DefaultValues::UndefinedDouble;
 	double m_genPhi  = DefaultValues::UndefinedDouble;
 	double m_genOCP  = DefaultValues::UndefinedDouble;
 	double m_genPhiCPLab  = DefaultValues::UndefinedDouble;
@@ -403,4 +438,6 @@ public:
 
 	//filled by MadGraphReweightingProducer
 	std::vector<KLHEParticle*> m_lheParticlesSortedForMadGraph;
+	float m_madGraph_HiggsPt;
+	float m_madGraph_HiggsPt_HiggsCM;
 };

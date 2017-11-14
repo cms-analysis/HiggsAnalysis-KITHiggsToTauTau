@@ -60,6 +60,15 @@
 		"track2p4y",
 		"track2p4z",
 
+		"d3D_refitPV_1",
+		"err3D_refitPV_1",
+		"d2D_refitPV_1",
+		"err2D_refitPV_1",
+		"d3D_refitPV_2",
+		"err3D_refitPV_2",
+		"d2D_refitPV_2",
+		"err2D_refitPV_2",
+
 		"errD0_1",
 		"errD0_1_newErr",
 		"errD0_2",

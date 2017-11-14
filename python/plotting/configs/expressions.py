@@ -52,21 +52,54 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZttPol13TeV_"+channel+"_inclusive"] = "(1.0)"
 
 		for channel in ["em"]:
-			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(1.0)"
+			for category in ["a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(0.0)"
+			for category in ["oneprong", "oneprong_1", "oneprong_2"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(1.0)"
+			
+			for category in ["a1_a1", "a1_rho", "a1_oneprong", "rho_rho", "rho_oneprong"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "(0.0)"
+			for category in ["oneprong_oneprong"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "(1.0)"
 
 		for channel in ["mt", "et"]:
-			self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "(decayMode_2 == 10)"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(decayMode_2 == 1)"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_2 != 10) * (decayMode_2 != 1))"
-			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(decayMode_2 == 1)"
-			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "(decayMode_2 != 1)"
+			for category in ["a1", "a1_2"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(decayMode_2 == 10)"
+			for category in ["rho", "rho_2"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(decayMode_2 == 1)"
+			for category in ["oneprong", "oneprong_2"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "((decayMode_2 != 10) * (decayMode_2 != 1))"
+			for category in ["a1_1", "rho_1"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(0.0)"
+			for category in ["oneprong_1"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(1.0)"
+			
+			for category in ["a1_a1", "a1_rho", "rho_rho"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "(0.0)"
+			for category in ["a1_oneprong", "rho_oneprong", "oneprong_oneprong"]:
+				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "catZttPol13TeV_"+channel+"_"+(category.split("_")[0])
 
 		for channel in ["tt"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "((decayMode_1 == 10) || (decayMode_2 == 10))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_a1_1"] = "(decayMode_1 == 10)"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_a1_2"] = "(decayMode_2 == 10)"
+			
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(((decayMode_1 != 10) * (decayMode_2 != 10)) * ((decayMode_1 == 1) || (decayMode_2 == 1)))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_rho_1"] = "((decayMode_1 != 10) * (decayMode_1 == 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_rho_2"] = "((decayMode_2 != 10) * (decayMode_2 == 1))"
+			
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 10) * (decayMode_2 != 10) * (decayMode_1 != 1) * (decayMode_2 != 1))"
-			#self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "((decayMode_1 == 1) || (decayMode_2 == 1))"
-			#self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 1) * (decayMode_2 != 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong_1"] = "((decayMode_1 != 10) * (decayMode_1 != 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong_2"] = "((decayMode_2 != 10) * (decayMode_2 != 1))"
+			
+			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_a1_a1"] = "((decayMode_1 == 10) * (decayMode_2 == 10))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_a1_rho"] = "(((decayMode_1 == 10) * (decayMode_2 == 1)) || ((decayMode_1 == 1) * (decayMode_2 == 10)))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_a1_oneprong"] = "(((decayMode_1 == 10) * (decayMode_2 != 10) * (decayMode_2 != 1)) || ((decayMode_1 != 10) * (decayMode_1 != 1) * (decayMode_2 == 10)))"
+			
+			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_rho_rho"] = "((decayMode_1 == 1) * (decayMode_2 == 1))"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_rho_oneprong"] = "(((decayMode_1 == 1) * (decayMode_2 != 10) * (decayMode_2 != 1)) || ((decayMode_1 != 10) * (decayMode_1 != 1) * (decayMode_2 == 1)))"
+			
+			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_oneprong_oneprong"] = "((decayMode_1 != 1) * (decayMode_1 != 10) * (decayMode_2 != 10) * (decayMode_2 != 1))"
 		
 		for channel in ["em", "mt", "et", "tt"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_index"] = " + ".join(["(catZttPol13TeV_"+channel+"_"+cat+" * "+str(index)+")" for index, cat in enumerate(["oneprong"] if channel == "em" else ["oneprong", "rho", "a1"])])

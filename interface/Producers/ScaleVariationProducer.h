@@ -27,7 +27,11 @@ public:
 	                     setting_type const& settings, metadata_type const& metadata) const override;
 
 private:
-	std::map<std::string, std::vector<std::string> > genEventInfoMetadataMap;
-	std::vector<std::string> weightNames;
+	std::map<std::string, unsigned int> m_pdfLheWeightNamesIndices;
+	std::map<std::string, unsigned int> m_alphaSLheWeightNamesIndices;
+	std::map<std::string, unsigned int> m_scaleLheWeightNamesIndices;
+
+	virtual void DetermineWeights(event_type const& event, product_type & product, setting_type const& settings,
+	                              std::map<std::string, unsigned int> const& lheWeightNamesIndices, std::string const& variationName) const;
 
 };
