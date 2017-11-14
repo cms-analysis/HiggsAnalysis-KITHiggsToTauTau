@@ -125,7 +125,8 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_metProjectionPar"] = "20,-100.0,300.0"
 		self.binnings_dict["tt_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["tt_metProjectionPhi"] = "20,-3.141,3.141"
-		
+		self.binnings_dict["tt_phiStarCP"] = "20,0.0,6.28"
+
 		self.binnings_dict["mt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["mt_eta_1"] = "30,-3,3"
 		self.binnings_dict["mt_eta_2"] = "30,-3,3"
@@ -191,6 +192,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_metProjectionPhi"] = "20,-3.141,3.141"
 		self.binnings_dict["mt_gen_match_1"] = "7,0,7"
 		self.binnings_dict["mt_gen_match_2"] = "7,0,7"
+		self.binnings_dict["mt_phiStarCP"] = "20,0.0,6.28"
 
 		self.binnings_dict["et_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["et_eta_1"] = "30,-3,3"
@@ -255,10 +257,12 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["et_metProjectionPar"] = "21,-20.0,200.0"
 		self.binnings_dict["et_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["et_metProjectionPhi"] = "20,-3.141,3.141"
-		self.binnings_dict["em_eta_1"] = "30,-3,3"
-		self.binnings_dict["em_eta_2"] = "30,-3,3"
 		self.binnings_dict["et_gen_match_1"] = "7,0,7"
 		self.binnings_dict["et_gen_match_2"] = "7,0,7"
+		self.binnings_dict["et_phiStarCP"] = "20,0.0,6.28"
+
+		self.binnings_dict["em_eta_1"] = "30,-3,3"
+		self.binnings_dict["em_eta_2"] = "30,-3,3"
 		self.binnings_dict["em_eta_ll"] = "25,-5.0,5.0"
 		self.binnings_dict["em_eta_llmet"] = "25,-5.0,5.0"
 		self.binnings_dict["em_eta_sv"] = "25,-5.0,5.0"
@@ -316,6 +320,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["em_pZetaMissVis"] = "50,-150.0,100.0"
 		self.binnings_dict["em_pzetamiss"] = "50,-150.0,100.0"
 		self.binnings_dict["em_pzetavis"] = "20,0.0,100.0"
+		self.binnings_dict["em_phiStarCP"] = "20,0.0,6.28"
 		
 		self.binnings_dict["mm_eta_1"] = "30,-3.0,3.0"
 		self.binnings_dict["mm_eta_2"] = "30,-3.0,3.0"
@@ -366,6 +371,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mm_svfitMass"] = "30,0.0,300"
 		self.binnings_dict["mm_trigweight_1"] = "20,0.5,1.5"
 		self.binnings_dict["mm_trigweight_2"] = "20,0.5,1.5"
+		self.binnings_dict["mm_phiStarCP"] = "20,0.0,6.28"
 		
 		self.binnings_dict["ee_eta_1"] = "30,-3.0,3.0"
 		self.binnings_dict["ee_eta_2"] = "30,-3.0,3.0"
@@ -416,6 +422,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["ee_svfitMass"] = "30,0.0,300"
 		self.binnings_dict["ee_trigweight_1"] = "20,0.5,1.5"
 		self.binnings_dict["ee_trigweight_2"] = "20,0.5,1.5"
+		self.binnings_dict["ee_phiStarCP"] = "20,0.0,6.28"
 		
 		self.binnings_dict["binningHtt8TeV_"+"ee_1jet_high"] = "0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 1.0"
 		self.binnings_dict["binningHtt8TeV_"+"ee_1jet_low"] = "0.0 0.2 0.4 0.6 0.8 1.0"

@@ -186,7 +186,8 @@
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
 						]
 					},
 					"nLooseElectrons",
@@ -200,7 +201,8 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantitiesLFV.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/weightQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
 						]
 					},
 					"nLooseElectrons",
@@ -270,6 +272,7 @@
 					"filter:MinMuonsCountFilter",
 					"producer:ValidElectronsProducer",
 					"producer:ValidTausProducer",
+					"producer:TTHTauPairProducer",
 					"producer:ValidMMPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:HttValidLooseElectronsProducer",
@@ -280,8 +283,8 @@
 					"producer:ValidBTaggedJetsProducer",
 					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
+					"producer:TauTauRestFrameSelector",
 					"producer:DiJetQuantitiesProducer",
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter",
@@ -304,6 +307,7 @@
 					"filter:MinMuonsCountFilter",
 					"producer:ValidElectronsProducer",
 					"producer:ValidTausProducer",
+					"producer:TTHTauPairProducer",
 					"producer:ValidMMPairCandidatesProducer",
 					"filter:ValidDiTauPairCandidatesFilter",
 					"producer:HttValidLooseElectronsProducer",
@@ -314,8 +318,8 @@
 					"producer:ValidBTaggedJetsProducer",
 					"producer:TaggedJetUncertaintyShiftProducer",
 					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
+					"producer:TauTauRestFrameSelector",
 					"producer:DiJetQuantitiesProducer",
 					"producer:ZPtReweightProducer",
 					"#filter:MinimalPlotlevelFilter",

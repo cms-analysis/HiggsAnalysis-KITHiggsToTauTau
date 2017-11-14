@@ -107,7 +107,8 @@ if __name__ == "__main__":
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ewkz","tttautau", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvj", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "hww", "hww_gg", "hww_qq", "ff",
-	                             "ggh", "gghsm", "gghmm", "gghps", "qqh", "qqhsm", "qqhmm", "qqhps", "bbh", "vh", "htt", "data", "zmt", "zet", "zem"],
+	                             "ggh", "susy_ggh", "gghsm", "gghmm", "gghps", "qqh", "qqhsm", "qqhmm", "qqhps", "bbh", "vh", "htt", "data", "zmt", "zet", "zem",
+								 "susy", "httcpeven", "httcpodd", "httcpmix", "susycpodd"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
@@ -152,7 +153,7 @@ if __name__ == "__main__":
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", default=[None],
 	                    help="Categories. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantities", nargs="*",
+	parser.add_argument("-x", "--quantities", nargs="+",
 	                    default=["integral",
 	                             "pt_1", "eta_1", "phi_1", "m_1", "iso_1", "mt_1",
 	                             "pt_2", "eta_2", "phi_2", "m_2", "iso_2", "mt_2",
@@ -176,8 +177,8 @@ if __name__ == "__main__":
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
-	parser.add_argument("-w", "--weight", default="1.0",
-	                    help="Additional weight (cut) expression. [Default: %(default)s]")
+	parser.add_argument("-w", "--weights", default=["1.0"], nargs="+",
+	                    help="Additional weight (cut) expressions. The list of weigths is repeated until it matches the number of quantities [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--controlregions", action="store_true", default=False,
@@ -195,6 +196,8 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the polarisation analysis. [Default: %(default)s]")
 	parser.add_argument("--smhtt", default=False, action="store_true",
 	                    help="Produce the plots for the SM HTT analysis. [Default: %(default)s]")
+	parser.add_argument("--cp", default=False, action="store_true",
+	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")
 	parser.add_argument("--taues", default=False, action="store_true",
 	                    help="Produce the plots for the tau energy scale analysis. [Default: %(default)s]")
 	parser.add_argument("--etaufakerate", default=False, action="store_true",
@@ -294,7 +297,6 @@ if __name__ == "__main__":
 	log.debug(" ".join(bkg_samples+sig_samples))
 	binnings_settings = binnings.BinningsDict()
 
-
 	args.categories = [None if category == "None" else category for category in args.categories]
 
 	plot_configs = []
@@ -315,6 +317,8 @@ if __name__ == "__main__":
 		global_cut_type = "baseline_low_mvis"
 	elif args.taues:
 		global_cut_type = "tauescuts"
+	elif args.cp:
+		global_cut_type = "cp"
 	elif args.etaufakerate:
 		global_category_string = "catETauFakeRate13TeV"
 		global_cut_type = "etaufake"
@@ -326,9 +330,11 @@ if __name__ == "__main__":
 			global_cut_type = "smhtt"
 		global_cut_type += "2016"
 
+	args.weights = (args.weights * len(args.quantities))[:len(args.quantities)]
+
 	# Configs construction for HP
 	for category in args.categories:
-		for quantity in args.quantities:
+		for quantity, weight in zip(args.quantities, args.weights):
 			
 			channels_background_methods = zip(args.channels, args.background_method)
 			channel_config = {}
@@ -389,7 +395,7 @@ if __name__ == "__main__":
 						higgs_masses = args.higgs_masses,
 						normalise_signal_to_one_pb = False,
 						ztt_from_mc = args.ztt_from_mc,
-						weight = "((%s)*(%s))" % (json_config.pop("weights", ["1.0"])[0], args.weight),
+						weight = "((%s)*(%s))" % (json_config.pop("weights", ["1.0"])[0], weight),
 						lumi  =  args.lumi * 1000,
 						exclude_cuts = args.exclude_cuts + json_config.pop("exclude_cuts", []),
 						blind_expression = channel + "_" + quantity,
@@ -418,8 +424,8 @@ if __name__ == "__main__":
 				config["category"] = category
 				
 				if args.new_tau_id:
-					for index, weight in enumerate(config.get("weights", [])):
-						config["weights"][index] = weight.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
+					for weight_index, weight in enumerate(config.get("weights", [])):
+						config["weights"][weight_index] = weight.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
 
 				binning_string = None
 				if args.mssm:
@@ -460,9 +466,9 @@ if __name__ == "__main__":
 						config.pop("stacks")
 					if "colors" in config:
 						config.pop("colors")
-					config["markers"] = "LINE"
-					config["legend_markers"] = "L"
-					config["line_widths"] = 3
+					config["markers"] = ["LINE"]
+					config["legend_markers"] = ["L"]
+					config["line_widths"] = [3]
 
 				if args.shapes:
 					if "stacks" in config:
@@ -470,9 +476,9 @@ if __name__ == "__main__":
 					if not "NormalizeToUnity" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("NormalizeToUnity")
 					config["y_label"] = "arb. u."
-					config["markers"] = "LINE"
-					config["legend_markers"] = "L"
-					config["line_widths"] = 3
+					config["markers"] = ["LINE"]
+					config["legend_markers"] = ["L"]
+					config["line_widths"] = [3]
 
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]

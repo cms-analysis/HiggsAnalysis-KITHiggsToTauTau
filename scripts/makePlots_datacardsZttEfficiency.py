@@ -19,7 +19,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.zttxsecdatacards as zttxsecdatacards
 import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 
 
 def _call_command(command):
@@ -80,6 +80,10 @@ if __name__ == "__main__":
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
+	parser.add_argument("-a", "--args", default="",
+	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	parser.add_argument("-b", "--background-method", default="new",
+	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=True,
 	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
@@ -112,10 +116,6 @@ if __name__ == "__main__":
 	#weight_string = "1.0"
 	
 	# initialisations for plotting
-	if args.model == "etaufakerate":
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_etaufakerate as samples
-	else:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 	
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
@@ -193,7 +193,13 @@ if __name__ == "__main__":
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
-				
+
+				if args.background_method == "new":
+					if "qcd" in list_of_samples and "wj" not in list_of_samples:
+						list_of_samples += ["wj"]
+					elif "wj" in list_of_samples and "qcd" not in list_of_samples:
+						list_of_samples += ["qcd"]
+
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 					
@@ -203,7 +209,11 @@ if __name__ == "__main__":
 							category=category,
 							systematic=systematic
 					))
-				
+
+					wj_sf_shift = 0.0
+					if "WSFUncert_lt" in shape_systematic:
+						wj_sf_shift = 1.1 if shift_up else 0.9
+
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
@@ -212,7 +222,9 @@ if __name__ == "__main__":
 							weight = weight_string,
 							lumi = args.lumi * 1000,
 							exclude_cuts=excludecut_settings,
-							cut_type=category[3:]
+							cut_type=category[3:],
+							estimationMethod=args.background_method,	
+							wj_sf_shift=wj_sf_shift
 					)
 					
 					if args.model in ["etaufakerate", "mutaufakerate"]:
@@ -282,7 +294,7 @@ if __name__ == "__main__":
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	
 	# create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
 	# update CombineHarvester with the yields and shapes
@@ -299,7 +311,27 @@ if __name__ == "__main__":
 				processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
-	
+		
+	# remove processes with zero yield
+	def matching_process(obj1, obj2):
+		matches = (obj1.bin() == obj2.bin())
+		matches = matches and (obj1.process() == obj2.process())
+		matches = matches and (obj1.signal() == obj2.signal())
+		matches = matches and (obj1.analysis() == obj2.analysis())
+		matches = matches and (obj1.era() == obj2.era())
+		matches = matches and (obj1.channel() == obj2.channel())
+		matches = matches and (obj1.bin_id() == obj2.bin_id())
+		matches = matches and (obj1.mass() == obj2.mass())
+		return matches
+		
+	def remove_procs_and_systs_with_zero_yield(proc):
+		null_yield = not proc.rate() > 0.
+		if null_yield:
+			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
+		return null_yield
+
+	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)
+
 	# write datacards and call text2workspace
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
@@ -411,11 +443,11 @@ if __name__ == "__main__":
 				
 				processes_to_plot = list(processes)
 				if category[:2] in ["et", "mt", "tt"]:
-					processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+					#processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
 					processes_to_plot = [p for p in processes if not "noplot" in p]
 					processes_to_plot.insert(3, "EWK")
-					config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
-					config["sum_scale_factors"].append("1.0 1.0 1.0")
+					#config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
+					#config["sum_scale_factors"].append("1.0 1.0 1.0")
 					config["sum_result_nicks"].append("EWK")
 				
 				config["files"] = [postfit_shapes]
@@ -467,4 +499,4 @@ if __name__ == "__main__":
 			print "\tefficiency ({}) = Npass/(Npass+Nfail) = {:6.5f}".format(level, nPass/(nPass+nFail))
 	
 	# create plots using HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])

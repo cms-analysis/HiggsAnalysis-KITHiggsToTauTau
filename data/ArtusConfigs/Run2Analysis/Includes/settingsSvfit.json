@@ -4,7 +4,7 @@
 	"#DiTauMassConstraint" : 125.0,
 	"GenerateSvfitInput" : false,
 	"UseFirstInputFileNameForSvfit" : false,
-	"SvfitCacheMissBehaviour" : "recalculate",
+	"SvfitCacheMissBehaviour" : "undefined",
 	"SvfitInputCutOff" : 10000,
 	"UpdateSvfitCache" : true,
 	"SvfitOutFile" : "SvfitCache.root",

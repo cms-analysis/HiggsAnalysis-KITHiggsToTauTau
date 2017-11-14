@@ -125,6 +125,20 @@ class CutStringsDict:
 		return cuts
 	
 	@staticmethod
+	def lfv(channel, cut_type):
+		cuts = CutStringsDict.baseline(channel, cut_type)
+		
+		if channel == "em":
+			cuts["mt"] = "mt_2 < 50"
+		elif channel == "et":
+			cuts["mt"] = "mt_2 < 60"
+		elif channel == "mt":
+			cuts["mt"] = "mt_2 < 105"
+			
+		return cuts
+			
+	
+	@staticmethod
 	def antievloosepass(channel, cut_type):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
@@ -449,6 +463,33 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
+	def cp2016(channel, cut_type):
+		if channel == "mt":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["pt_1"] = "(pt_1 > 20.0)"
+			cuts["pt_2"] = "(pt_2 > 20.0)"
+		elif channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["pt_1"] = "(pt_1 > 26.0)"
+			cuts["pt_2"] = "(pt_2 > 20.0)"
+		elif channel == "tt":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["pt_1"] = "(pt_1 > 40.0)"
+			cuts["pt_2"] = "(pt_2 > 40.0)"
+		elif channel == "mm":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["pt_1"] = "(pt_1 > 10.0)"
+			cuts["pt_2"] = "(pt_2 > 10.0)"
+		elif channel == "em":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["pt_1"] = "(pt_1 > 13.0)"
+			cuts["pt_2"] = "(pt_2 > 10.0)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+	
+	@staticmethod
 	def ztt2015cs(channel, cut_type):
 		cuts = {}
 		cuts["blind"] = "{blind}"
@@ -588,8 +629,14 @@ class CutStringsDict:
 		elif cut_type=="baseline_low_mvis2016":
 			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
 		
+		elif cut_type=="cp2016":
+			cuts = CutStringsDict.cp2016(channel, cut_type)
+
 		elif cut_type=="ztt2015cs":
 			cuts = CutStringsDict.ztt2015cs(channel, cut_type)
+
+		elif cut_type=="lfv":
+			cuts = CutStringsDict.baseline(channel, cut_type)
 
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)

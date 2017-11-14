@@ -26,7 +26,7 @@ git cms-addpkg CondFormats/JetMETObjects
 
 # From Kappa, only the DataFormats are needed
 # Mind that for certain skims, you need exactly the Kappa git tag that has been used for the production
-git clone https://github.com/KappaAnalysis/Kappa.git 
+git clone https://github.com/KappaAnalysis/Kappa.git
 cd Kappa
 echo docs/ >> .git/info/sparse-checkout
 echo DataFormats/ >> .git/info/sparse-checkout
@@ -35,7 +35,6 @@ git config core.sparsecheckout true
 git read-tree -mu HEAD
 cd ..
 
-git clone https://github.com/KappaAnalysis/KappaTools.git 
 git clone https://github.com/artus-analysis/Artus.git
 git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
@@ -50,6 +49,10 @@ git clone https://github.com/CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitS
 git clone https://github.com/SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit
 git clone https://github.com/SVfit/SVfitTF.git TauAnalysis/SVfitTF
 git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
+git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
+
+# polarisation
+git clone https://github.com/TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
 
 # Jet2Tau Fakes
 git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
@@ -59,9 +62,6 @@ cd $CMSSW_BASE/src/
 
 # EmuQCD Method
 git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
-
-# Fit Package for tau polarisation
-git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester

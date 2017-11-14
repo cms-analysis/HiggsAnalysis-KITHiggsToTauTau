@@ -1,5 +1,7 @@
 {
 	"property" : [
+		"svfitAvailable",
+		"svfitLV",
 		"svfitTau1Available",
 		"svfitTau1LV",
 		"svfitTau1ERatio",
@@ -13,15 +15,25 @@
 		"svfitPhi",
 		"svfitMass",
 		
-		"a1OmegaSvfit_1",
-		"a1OmegaSvfit_2",
+		"#a1OmegaSvfit_1",
+		"#a1OmegaSvfit_2",
 		
-		"visibleOverFullEnergySvfit_1",
-		"visibleOverFullEnergySvfit_2",
+		"#visibleOverFullEnergySvfit_1",
+		"#visibleOverFullEnergySvfit_2",
 		
-		"visibleToFullAngleSvfit_1",
-		"visibleToFullAngleSvfit_2",
+		"#visibleToFullAngleSvfit_1",
+		"#visibleToFullAngleSvfit_2",
 		
-		"tauPolarisationDiscriminatorSvfit"
+		"#tauPolarisationDiscriminatorSvfit",
+		
+		"polarisationOmegaSvfit_1",
+		"polarisationOmegaSvfit_2",
+		
+		"polarisationOmegaBarSvfit_1",
+		"polarisationOmegaBarSvfit_2",
+		
+		"polarisationCombinedOmegaSvfit",
+		
+		"polarisationCombinedOmegaBarSvfit"
 	]
 }
