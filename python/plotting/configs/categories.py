@@ -412,7 +412,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0)*(mjj>300)*(mjj<500)*(njets>1)",
+					"global":"(jeta_1*jeta_2<0)*(mjj>200)*(mjj<500)*(njets>1)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{
