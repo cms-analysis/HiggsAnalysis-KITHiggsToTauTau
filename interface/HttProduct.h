@@ -114,19 +114,19 @@ public:
 	// filled by the PolarisationQuantitiesProducer
 	std::map<KLepton*, double> m_polarisationOmegasSvfit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_polarisationOmegasSimpleFit; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_polarisationOmegasHHKinFit; // Keys are only of type KTau*
+	//std::map<KLepton*, double> m_polarisationOmegasHHKinFit; // Keys are only of type KTau*
 	
 	std::map<KLepton*, double> m_polarisationOmegaBarsSvfit; // Keys are only of type KTau*
 	std::map<KLepton*, double> m_polarisationOmegaBarsSimpleFit; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_polarisationOmegaBarsHHKinFit; // Keys are only of type KTau*
+	//std::map<KLepton*, double> m_polarisationOmegaBarsHHKinFit; // Keys are only of type KTau*
 	
 	double m_polarisationCombinedOmegaSvfit = DefaultValues::UndefinedDouble;
 	double m_polarisationCombinedOmegaSimpleFit = DefaultValues::UndefinedDouble;
-	double m_polarisationCombinedOmegaHHKinFit = DefaultValues::UndefinedDouble;
+	//double m_polarisationCombinedOmegaHHKinFit = DefaultValues::UndefinedDouble;
 	
 	double m_polarisationCombinedOmegaBarSvfit = DefaultValues::UndefinedDouble;
 	double m_polarisationCombinedOmegaBarSimpleFit = DefaultValues::UndefinedDouble;
-	double m_polarisationCombinedOmegaBarHHKinFit = DefaultValues::UndefinedDouble;
+	//double m_polarisationCombinedOmegaBarHHKinFit = DefaultValues::UndefinedDouble;
 	
 	/* old version
 	std::map<KLepton*, double> m_visibleOverFullEnergyHHKinFit; // Keys are only of type KTau*
@@ -181,7 +181,7 @@ public:
 	std::map<KLepton*, RMFLV> m_svfitTaus;
 
 	// filled by the HHKinFitProducer
-	std::map<KLepton*, RMFLV> m_hhKinFitTaus;
+	//std::map<KLepton*, RMFLV> m_hhKinFitTaus;
 
 	// filled by the SimpleFitProducer
 	std::map<KLepton*, RMFLV> m_simpleFitTaus;

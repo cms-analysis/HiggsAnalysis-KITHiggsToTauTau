@@ -56,10 +56,11 @@ public:
 	virtual std::string GetProducerId() const override;
 };
 
+/*
 class PolarisationQuantitiesHHKinFitProducer: public PolarisationQuantitiesProducerBase {
 public:
 
 	PolarisationQuantitiesHHKinFitProducer();
 	virtual std::string GetProducerId() const override;
 };
-
+*/

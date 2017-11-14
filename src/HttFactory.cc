@@ -33,7 +33,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenDiTauPairAcceptanceProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TriggerTagAndProbeProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVATestMethodsProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HHKinFitProducer.h"
+//#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HHKinFitProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MVAInputQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TopPtReweightingProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ZPtReweightProducer.h"
@@ -209,8 +209,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new ETTriggerTagAndProbeProducer();
 	else if(id == MVATestMethodsProducer().GetProducerId())
 		return new MVATestMethodsProducer();
-	else if(id == HHKinFitProducer().GetProducerId())
-		return new HHKinFitProducer();
+	//else if(id == HHKinFitProducer().GetProducerId())
+	//	return new HHKinFitProducer();
 	else if(id == MVAInputQuantitiesProducer().GetProducerId())
 		return new MVAInputQuantitiesProducer();
 	else if(id == TopPtReweightingProducer().GetProducerId())
@@ -227,8 +227,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new PolarisationQuantitiesSvfitProducer();
 	else if(id == PolarisationQuantitiesSimpleFitProducer().GetProducerId())
 		return new PolarisationQuantitiesSimpleFitProducer();
-	else if(id == PolarisationQuantitiesHHKinFitProducer().GetProducerId())
-		return new PolarisationQuantitiesHHKinFitProducer();
+	//else if(id == PolarisationQuantitiesHHKinFitProducer().GetProducerId())
+	//	return new PolarisationQuantitiesHHKinFitProducer();
 	else if(id == SimpleFitProducer().GetProducerId())
 		return new SimpleFitProducer();
 	else if(id == ScaleVariationProducer().GetProducerId())
