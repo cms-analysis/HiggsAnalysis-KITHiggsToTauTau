@@ -48,7 +48,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauTriggerScaleFactorProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MuMuTriggerScaleFactorProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EmbeddingGlobalQuantitiesProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/BoostRestFrameProducer.h"
+//#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/BoostRestFrameProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiGenJetQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
@@ -251,8 +251,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MuTauTriggerWeightProducer();
 	else if(id == EmbeddingGlobalQuantitiesProducer().GetProducerId())
 		return new EmbeddingGlobalQuantitiesProducer();
-	else if(id == BoostRestFrameProducer().GetProducerId())
-		return new BoostRestFrameProducer();
+	//else if(id == BoostRestFrameProducer().GetProducerId())
+	//	return new BoostRestFrameProducer();
 	else if(id == DiGenJetQuantitiesProducer().GetProducerId())
 		return new DiGenJetQuantitiesProducer();
 	else if(id == TagAndProbeMuonPairProducer().GetProducerId())
