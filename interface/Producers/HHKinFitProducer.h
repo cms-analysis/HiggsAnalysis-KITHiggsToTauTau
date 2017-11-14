@@ -1,6 +1,6 @@
 
 #pragma once
-
+/*
 #include <TLorentzVector.h>
 #include <TVector2.h>
 #include <TMatrixD.h>
@@ -8,7 +8,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
 
-/** Producer for the HHKinFit
+*//** Producer for the HHKinFit
  *
  *  Required config tags:
  *  - ...
@@ -20,7 +20,7 @@
  *
  *  Documentation:
  *  https://twiki.cern.ch/twiki/bin/viewauth/CMS/HHKinFit2
- */
+ *//*
 class HHKinFitProducer: public ProducerBase<HttTypes> {
 public:
 
@@ -32,4 +32,4 @@ public:
 	                     setting_type const& settings, metadata_type const& metadata) const override;
 
 };
-
+*/

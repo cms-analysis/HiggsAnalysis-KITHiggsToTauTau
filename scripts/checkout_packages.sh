@@ -43,12 +43,11 @@ git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAn
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.git HiggsAnalysis/KITHiggsToTauTau/doc/wiki
 #svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
 
-# Svfit and HHKinFit
+# Di-tau system reconstruction
 # git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
 git clone https://github.com/CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
 git clone https://github.com/SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit
 git clone https://github.com/SVfit/SVfitTF.git TauAnalysis/SVfitTF
-git clone https://github.com/artus-analysis/HHKinFit2.git -b artus
 git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # polarisation
