@@ -170,7 +170,13 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["vv_light"] = "#9D755D"
 		self.colors_dict["wj_light"] = "#DE5A6A"
 		self.colors_dict["qcd_light"] = "#FCBFD2"
-
+		
+		#phil harris paper colors
+		self.colors_dict["harris_teal"] = "#34AEAE"
+		self.colors_dict["harris_violet"] = "#990099"
+		self.colors_dict["harris_orange"] = "#CC6600"
+		
+		
 		self.colors_dict["data"] = "#000000"
 		self.colors_dict["data_obs"] = self.colors_dict["data"]
 		self.colors_dict["tttautau"] = "#000000 #00FF00"
