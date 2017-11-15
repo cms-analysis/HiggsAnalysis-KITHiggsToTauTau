@@ -87,6 +87,11 @@ class DatacardConfigs(object):
 				"mt_a1" : 1010,
 				"mt_rho" : 1020,
 				"mt_oneprong" : 1030,
+				
+				"mt_TwoJet_CP_boosted" : 2001, 
+				"mt_TwoJet_CP_mvishigh" : 2002, 
+				"mt_TwoJet_CP_mvislow" : 2003, 
+				"mt_TwoJet_CP_mjjlow" : 2004 
 			},
 			"et" : {
 				"et_inclusive" : 0,
@@ -120,6 +125,11 @@ class DatacardConfigs(object):
 				"et_a1" : 1010,
 				"et_rho" : 1020,
 				"et_oneprong" : 1030,
+				
+				"et_TwoJet_CP_boosted" : 2001, 
+				"et_TwoJet_CP_mvishigh" : 2002, 
+				"et_TwoJet_CP_mvislow" : 2003, 
+				"et_TwoJet_CP_mjjlow" : 2004
 			},
 			"em" : {
 				"em_inclusive" : 0,
@@ -151,6 +161,11 @@ class DatacardConfigs(object):
 				"em_Vbf2D" : 102,
 				
 				"em_oneprong" : 1030,
+				
+				"em_TwoJet_CP_boosted" : 2001, 
+				"em_TwoJet_CP_mvishigh" : 2002, 
+				"em_TwoJet_CP_mvislow" : 2003, 
+				"em_TwoJet_CP_mjjlow" : 2004
 			},
 			"tt" : {
 				"tt_inclusive" : 0,
@@ -184,6 +199,11 @@ class DatacardConfigs(object):
 				"tt_a1" : 1010,
 				"tt_rho" : 1020,
 				"tt_oneprong" : 1030,
+				
+				"tt_TwoJet_CP_boosted" : 2001, 
+				"tt_TwoJet_CP_mvishigh" : 2002, 
+				"tt_TwoJet_CP_mvislow" : 2003, 
+				"tt_TwoJet_CP_mjjlow" : 2004
 			},
 			"mm" : {
 				"mm_inclusive" : 0,
