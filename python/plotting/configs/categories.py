@@ -332,6 +332,11 @@ class CategoriesDict(object):
 						}
 					}
 				}
+				
+		"""
+		Categories used in CP Initial State studies.
+		"""
+		
 		self.categoriesDict["{analysis}{channel}TwoJet_CP_boosted{discriminator}"] = {
 				"channel":[
 					"mt_",
@@ -424,6 +429,11 @@ class CategoriesDict(object):
 						}
 					}
 				}
+				
+		"""
+		Categories used in CP Final State studies.
+		"""
+		
 		self.categoriesDict["{analysis}{channel}CP_IPmethod{discriminator}"] = {
 				"channel":[
 					"mt_",
@@ -487,6 +497,9 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		"""
+		-----------------------------------------------------------------------------
+		"""
 		self.categoriesDict["{analysis}{channel}ZeroJet2D_WJCR{discriminator}"] = {
 				"channel": [
 					"mt_",
