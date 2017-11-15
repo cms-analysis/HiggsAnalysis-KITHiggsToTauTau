@@ -670,6 +670,140 @@ class Datacards(object):
 				(["13TeV"], ["qqH", "WH", "ZH", "VH"], ["tt_inclusive"], 1.025) # copied from 8TeV
 		]
 
+		self.zl_shape_1prong_syst_args = [
+			"CMS_ZLShape_$CHANNEL_1prong_$ERA",
+			"shape",
+			ch.SystMap("channel", "era", "process")
+				(["et"], ["13TeV"], ["ZL"], 1.0)
+				(["mt"], ["13TeV"], ["ZL"], 1.0)
+		]
+
+		self.zl_shape_1prong1pizero_syst_args = [
+			"CMS_ZLShape_$CHANNEL_1prong1pizero_$ERA",
+			"shape",
+			ch.SystMap("channel", "era", "process")
+				(["et"], ["13TeV"], ["ZL"], 1.0)
+				(["mt"], ["13TeV"], ["ZL"], 1.0)
+		]
+
+
+		self.mFakeTau_1prong_syst_args = [
+			"CMS_mFakeTau_1prong_$ERA",
+			"shape",
+			ch.SystMap("channel", "era", "process")
+				(["mt"], ["13TeV"], ["ZL"], 1.0)
+		]
+
+		
+		self.mFakeTau_1prong1pizero_syst_args = [
+			"CMS_mFakeTau_1prong1pizero_$ERA",
+			"shape",
+			ch.SystMap("channel", "era", "process")
+				(["mt"], ["13TeV"], ["ZL"], 1.0)
+		]
+
+
+		self.eFakeTau_1prong_syst_args = [
+			"CMS_eFakeTau_1prong_$ERA",
+			"shape",
+			ch.SystMap("channel", "era", "process")
+				(["et"], ["13TeV"], ["ZL"], 1.0)
+		]
+
+		
+		self.eFakeTau_1prong1pizero_syst_args = [
+			"CMS_eFakeTau_1prong1pizero_$ERA",
+			"shape",
+			ch.SystMap("channel", "era", "process")
+				(["et"], ["13TeV"], ["ZL"], 1.0)
+		]
+
+		self.scale_t_1prong_syst_args = [
+			"CMS_scale_t_1prong_$ERA",
+			"shape",
+			ch.SystMap("channel", "era")
+				(["et"], ["13TeV"], 1.0)
+				(["mt"], ["13TeV"], 1.0)
+				(["tt"], ["13TeV"], 1.0)
+		]
+
+		self.scale_t_3prong_syst_args = [
+			"CMS_scale_t_3prong_$ERA",
+			"shape",
+			ch.SystMap("channel", "era")
+				(["et"], ["13TeV"], 1.0)
+				(["mt"], ["13TeV"], 1.0)
+				(["tt"], ["13TeV"], 1.0)
+		]
+
+
+		self.scale_t_1prong1pizero_syst_args = [
+			"CMS_scale_t_1prong1pizero_$ERA",
+			"shape",
+			ch.SystMap("channel", "era")
+				(["et"], ["13TeV"], 1.0)
+				(["mt"], ["13TeV"], 1.0)
+				(["tt"], ["13TeV"], 1.0)
+		]
+		
+		self.htt_jetFakeLep_syst_args = [
+			"CMS_htt_jetFakeLep_$ERA",
+			"lnN",
+			ch.SystMap("channel", "era", "process")
+				(["em"], ["13TeV"], ["W"], 1.20)
+		]
+
+		
+		self.htt_QCD_0jet_syst_args = [
+			"CMS_htt_QCD_0jet_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("channel", "era", "process")
+				(["em"], ["13TeV"], ["QCD"], 1.10)
+		]
+
+		self.htt_QCD_boosted_syst_args = [
+			"CMS_htt_QCD_boosted_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("channel", "era", "process")
+				(["em"], ["13TeV"], ["QCD"], 1.20)
+		]
+			
+		self.QCD_Extrap_Iso_nonIso_syst_args = [
+			"CMS_QCD_Extrap_Iso_nonIso_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("channel", "era", "process")
+				(["mt"], ["13TeV"], ["QCD"], 1.20)
+				(["et"], ["13TeV"], ["QCD"], 1.20)
+		]
+
+		
+		self.WHighMTtoLowMT_0jet_syst_args = [
+			"CMS_WHighMTtoLowMT_0jet_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("channel", "era", "process")
+				(["mt"], ["13TeV"], ["W"], 1.10)
+				(["et"], ["13TeV"], ["W"], 1.10)
+		]
+
+		
+		self.WHighMTtoLowMT_boosted_syst_args = [
+			"CMS_WHighMTtoLowMT_boosted_$CHANNEL_$ERA",
+			"lnN",
+			ch.SystMap("channel", "era", "process")
+				(["mt"], ["13TeV"], ["W"], 1.05)
+				(["et"], ["13TeV"], ["W"], 1.05)
+		]
+
+		self.lfv_BR_syst_args = [
+			"CMS_lfv_BR_$PROCESS_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(["13TeV"], ["zem"], 1.05)
+				(["13TeV"], ["zet"], 1.05)
+				(["13TeV"], ["zmt"], 1.05)
+				
+		]
+
 		path=os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/")
 		self.mva_bdt_syst_uncs =[
 			"mva_regular_BDT_shifts",
