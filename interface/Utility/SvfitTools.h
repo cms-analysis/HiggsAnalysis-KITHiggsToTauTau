@@ -79,10 +79,10 @@ public:
 	TauTauHistogramAdapter(std::vector<classic_svFit::SVfitQuantity*> const& quantities = std::vector<classic_svFit::SVfitQuantity*>());
 
 	RMFLV GetFittedHiggsLV() const;
-	
+
 	float GetFittedTau1ERatio() const;
 	RMFLV GetFittedTau1LV() const;
-	
+
 	float GetFittedTau2ERatio() const;
 	RMFLV GetFittedTau2LV() const;
 
@@ -117,7 +117,7 @@ public:
 		else if (integrationMethod == "fit") return IntegrationMethod::FIT;
 		else return IntegrationMethod::NONE;
 	}
-	
+
 	ULong64_t runLumiEvent;
 	int decayType1;
 	int decayType2;
@@ -125,26 +125,27 @@ public:
 	float systematicShiftSigma;
 	int integrationMethod;
 	float diTauMassConstraint;
+	bool tau1Constraint;
 	ULong64_t hash;
-	
+
 	SvfitEventKey() {};
 	SvfitEventKey(ULong64_t const& runLumiEvent,
 	              classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
 	              HttEnumTypes::SystematicShift const& systematicShift,
-	              float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, ULong64_t const &hash);
-	
+	              float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, bool const& tau1Constraint, ULong64_t const &hash);
+
 	void Set(ULong64_t const& runLumiEvent,
 	         classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
 	         HttEnumTypes::SystematicShift const& systematicShift,
-	         float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, ULong64_t const &hash);
-	
+	         float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, bool const& tau1Constraint, ULong64_t const &hash);
+
 	HttEnumTypes::SystematicShift GetSystematicShift() const;
 	IntegrationMethod GetIntegrationMethod() const;
-	
+
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
 	void ActivateBranches(TTree* tree, bool activate=true);
-	
+
 	bool operator<(SvfitEventKey const& rhs) const;
 	bool operator==(SvfitEventKey const& rhs) const;
 	bool operator!=(SvfitEventKey const& rhs) const;
@@ -164,30 +165,30 @@ class SvfitInputs {
 public:
 	RMFLV* leptonMomentum1 = 0;
 	RMFLV* leptonMomentum2 = 0;
-	
+
 	RMDataV* metMomentum = 0;
 	RMSM2x2* metCovariance = 0;
 
 	int decayMode1 = 0;
 	int decayMode2 = 0;
-	
+
 	SvfitInputs() {};
 	SvfitInputs(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
 	            RMDataV const& metMomentum, RMSM2x2 const& metCovariance,
 	            int const& decayMode1, int const& decayMode2);
 	~SvfitInputs();
-	
+
 	void Set(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
 	         RMDataV const& metMomentum, RMSM2x2 const& metCovariance,
 	         int const& decayMode1, int const& decayMode2);
-	
+
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
 	void ActivateBranches(TTree* tree, bool activate=true);
-	
+
 	bool operator==(SvfitInputs const& rhs) const;
 	bool operator!=(SvfitInputs const& rhs) const;
-	
+
 	void Integrate(SvfitEventKey const& svfitEventKey, ClassicSVfit& svfitAlgorithm) const;
 
 private:
@@ -207,24 +208,24 @@ public:
 	RMFLV* fittedTau1LV = nullptr;
 	float fittedTau2ERatio;
 	RMFLV* fittedTau2LV = nullptr;
-	
+
 	SvfitResults() {};
 	SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV);
 	SvfitResults(ClassicSVfit const& svfitAlgorithm);
 	~SvfitResults();
-	
+
 	void Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV);
 	void Set(ClassicSVfit const& svfitAlgorithm);
 	inline void FromRecalculation() { recalculated = true; }
 	inline void FromCache() { recalculated = false; }
-	
+
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
 	void ActivateBranches(TTree* tree, bool activate=true);
-	
+
 	bool operator==(SvfitResults const& rhs) const;
 	bool operator!=(SvfitResults const& rhs) const;
-	
+
 	bool recalculated;
 
 private:
@@ -244,7 +245,7 @@ class SvfitTools {
 public:
 	SvfitTools();
 	~SvfitTools();
-	
+
 	void Init(std::string const& cacheFileName, std::string const& cacheTreeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
 	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour, float const& svfitKappa=6.0);
@@ -252,16 +253,15 @@ public:
 
 private:
 	ClassicSVfit svfitAlgorithm;
-	
+
 	static std::map<std::string, TFile*> svfitCacheInputFiles;
 	static std::map<std::string, TTree*> svfitCacheInputTrees;
 	static std::map<std::string, std::map<SvfitEventKey, uint64_t> > svfitCacheInputTreeIndices;
-	
+
 	std::string cacheFileName;
 	std::string cacheFileTreeName;
-	
+
 	SvfitEventKey svfitEventKey;
 	SvfitInputs svfitInputs;
 	SvfitResults svfitResults;
 };
-

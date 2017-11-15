@@ -135,15 +135,15 @@ RMFLV TauTauHistogramAdapter::GetFittedTau2LV() const
 SvfitEventKey::SvfitEventKey(ULong64_t const& runLumiEvent,
                              classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
                              HttEnumTypes::SystematicShift const& systematicShift,
-                             float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, ULong64_t const& hash)
+                             float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, bool const& tau1Constraint, ULong64_t const& hash)
 {
-	Set(runLumiEvent, decayType1, decayType2, systematicShift, systematicShiftSigma, integrationMethod, diTauMassConstraint, hash);
+	Set(runLumiEvent, decayType1, decayType2, systematicShift, systematicShiftSigma, integrationMethod, diTauMassConstraint, tau1Constraint, hash);
 }
 
 void SvfitEventKey::Set(ULong64_t const& runLumiEvent,
                         classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
                         HttEnumTypes::SystematicShift const& systematicShift,
-                        float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, ULong64_t const& hash)
+                        float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, bool const& tau1Constraint, ULong64_t const& hash)
 {
 	this->runLumiEvent = runLumiEvent;
 	this->decayType1 = Utility::ToUnderlyingValue(decayType1);
@@ -152,6 +152,7 @@ void SvfitEventKey::Set(ULong64_t const& runLumiEvent,
 	this->systematicShiftSigma = systematicShiftSigma;
 	this->integrationMethod = Utility::ToUnderlyingValue<IntegrationMethod>(integrationMethod);
 	this->diTauMassConstraint = diTauMassConstraint;
+    this->tau1Constraint = tau1Constraint;
 	this->hash = hash;
 }
 
@@ -174,6 +175,7 @@ void SvfitEventKey::CreateBranches(TTree* tree)
 	tree->Branch("systematicShiftSigma", &systematicShiftSigma);
 	tree->Branch("integrationMethod", &integrationMethod);
 	tree->Branch("diTauMassConstraint", &diTauMassConstraint);
+    tree->Branch("tau1Constraint", &tau1Constraint);
 	tree->Branch("hash", &hash, "hash/l");
 }
 
@@ -186,6 +188,7 @@ void SvfitEventKey::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("systematicShiftSigma", &systematicShiftSigma);
 	tree->SetBranchAddress("integrationMethod", &integrationMethod);
 	tree->SetBranchAddress("diTauMassConstraint", &diTauMassConstraint);
+    tree->SetBranchAddress("tau1Constraint", &tau1Constraint);
 	tree->SetBranchAddress("hash", &hash);
 	ActivateBranches(tree, true);
 }
@@ -199,7 +202,8 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 	tree->SetBranchStatus("systematicShiftSigma", activate);
 	tree->SetBranchStatus("integrationMethod", activate);
 	tree->SetBranchStatus("diTauMassConstraint", activate);
-	tree->SetBranchStatus("hash", activate);
+    tree->SetBranchStatus("tau1Constraint", &tau1Constraint);
+    tree->SetBranchStatus("hash", activate);
 }
 
 bool SvfitEventKey::operator<(SvfitEventKey const& rhs) const
@@ -282,6 +286,7 @@ std::string std::to_string(SvfitEventKey const& svfitEventKey)
 			"systematicShiftSigma=" + std::to_string(svfitEventKey.systematicShiftSigma) + ", " +
 			"integrationMethod=" + std::to_string(svfitEventKey.integrationMethod) + "," +
 			"diTauMassConstraint=" + std::to_string(svfitEventKey.diTauMassConstraint) + "," +
+            "tau1Constraint=" + std::to_string(svfitEventKey.tau1Constraint) + "," +
 			"hash=" + std::to_string(svfitEventKey.hash) + ")";
 }
 
@@ -684,6 +689,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 {
 	svfitAlgorithm.addLogM_fixed(true, svfitKappa);
 	svfitAlgorithm.setDiTauMassConstraint(svfitEventKey.diTauMassConstraint);
+    svfitAlgorithm.setTau1Constraint(svfitEventKey.tau1Constraint);
 	
 	neededRecalculation = true;
 	if (Utility::Contains(SvfitTools::svfitCacheInputTrees, cacheFileTreeName) && Utility::Contains(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName))
