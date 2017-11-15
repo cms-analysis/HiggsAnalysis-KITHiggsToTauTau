@@ -110,10 +110,10 @@ if __name__ == "__main__":
 		signal_processes.append(process)
 
 	#datacard initialization
-	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs) 
-	#datacards.cb.PrintAll()
+	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs, shape_syst_enable = args.shape_uncs) 
+	datacards.cb.PrintAll()
 	
-
+	
 	# Prepare name templates
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
