@@ -15,7 +15,7 @@
 <use name="Artus/Utility" />
 <use name="TauAnalysis/SVfitStandalone" />
 <use name="CombineHarvester/CombineTools" />
-<use name="HHKinFit2/HHKinFit2" />
+<!-- <use name="HHKinFit2/HHKinFit2" /> -->
 <use name="HTTutilities/Jet2TauFakes" />
 <use name="HTT-utilities/QCDModelingEMu" />
 <use name="TauPolSoftware/SimpleFits" />

@@ -499,6 +499,7 @@ std::string PolarisationQuantitiesSimpleFitProducer::GetProducerId() const
 }
 
 
+/*
 PolarisationQuantitiesHHKinFitProducer::PolarisationQuantitiesHHKinFitProducer() :
 	PolarisationQuantitiesProducerBase(
 			"HHKinFit",
@@ -515,3 +516,4 @@ std::string PolarisationQuantitiesHHKinFitProducer::GetProducerId() const
 {
 	return "PolarisationQuantitiesHHKinFitProducer";
 }
+*/

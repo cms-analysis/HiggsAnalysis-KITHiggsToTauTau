@@ -1,4 +1,4 @@
-
+/*
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/SafeMap.h"
@@ -107,3 +107,4 @@ void BoostRestFrameProducer::Produce(event_type const& event, product_type& prod
 		}
 	}
 }
+*/
