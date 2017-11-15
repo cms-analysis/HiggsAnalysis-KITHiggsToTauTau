@@ -20,6 +20,7 @@ class LFVDatacards(datacards.Datacards):
 			backgrounds = {
 					"em": ["ZTT", "ZLL", "EWKZ", "TT", "VV", "hww_gg125", "hww_qq125", "W", "QCD"],
 					"et": ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"],
+					"mt": ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
 			}
 			
 			all_mc_bkgs = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
@@ -35,22 +36,53 @@ class LFVDatacards(datacards.Datacards):
 						[self.trigger_efficiency2016_em_syst_args, 	signal_list+all_mc_bkgs,		""],
 						[self.electron_efficiency2016_syst_args, 	signal_list+all_mc_bkgs,		""],
 						[self.muon_efficiency2016_syst_args,		signal_list+all_mc_bkgs, 		""],
-						[self.btag_efficiency2016_syst_args,		["TT", "VV"], 				["LFVZeroJet", "LFVJet"]],
 						[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL"], 			""],
+						[self.htt_jetFakeLep_syst_args, 		["W"], 					""],
+						[self.htt_QCD_0jet_syst_args,			["QCD"],				""],
+						[self.htt_QCD_boosted_syst_args,		["QCD"],				""],
+						[self.lfv_BR_syst_args,				signal_list,				""]
 					],
 	
 					"et": [
 						[self.trigger_efficiency2016_em_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
 						[self.electron_efficiency2016_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
 						[self.tau_efficiency2016_syst_args,		signal_list+all_mc_bkgs, 		""],
-						[self.btag_efficiency2016_syst_args,		["TT", "VV"], 				["LFVZeroJet", "LFVJet"]],
 						[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL", "ZTT"], 		""],
-						[self.tau_efficiency2016_corr_syst_args, 	signal_list+all_mc_bkgs, 		""]
+						[self.tau_efficiency2016_corr_syst_args, 	signal_list+all_mc_bkgs, 		""],
+						[self.QCD_Extrap_Iso_nonIso_syst_args,		["QCD"],				""],
+						[self.WHighMTtoLowMT_0jet_syst_args,		["W"],					""],
+						[self.WHighMTtoLowMT_boosted_syst_args,		["W"],					""]
+					],
+					
+					"mt": [
+						[self.trigger_efficiency2016_em_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
+						[self.electron_efficiency2016_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
+						[self.tau_efficiency2016_syst_args,		signal_list+all_mc_bkgs, 		""],
+						[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL", "ZTT"], 		""],
+						[self.tau_efficiency2016_corr_syst_args, 	signal_list+all_mc_bkgs, 		""],
+						[self.QCD_Extrap_Iso_nonIso_syst_args,		["QCD"],				""],
+						[self.WHighMTtoLowMT_0jet_syst_args,		["W"],					""],
+						[self.WHighMTtoLowMT_boosted_syst_args,		["W"],					""]
 					]
+						
 			}	
 						
 						 
-			shape_syst = {}			
+			shape_syst = {
+					"et": [
+						[self.zl_shape_1prong_syst_args,		["ZL"],					""],
+						[self.zl_shape_1prong1pizero_syst_args,		["ZL"],					""],
+					],
+					
+					"mt": [	
+						[self.zl_shape_1prong_syst_args,		["ZL"],					""],
+						[self.zl_shape_1prong1pizero_syst_args,		["ZL"],					""],
+						[self.mFakeTau_1prong_syst_args,		["ZL"], 				""],
+						[self.scale_t_1prong_syst_args,			signal_list+all_mc_bkgs,		""],
+						[self.scale_t_3prong_syst_args,			signal_list+all_mc_bkgs, 		""],
+						[self.scale_t_1prong1pizero_syst_args,		signal_list+all_mc_bkgs,		""]
+					]
+			}			
 			
 
 			###Fill Combine Harvester object with relevant information
@@ -79,7 +111,7 @@ class LFVDatacards(datacards.Datacards):
 							self.cb.cp().channel([channel]).process(process).bin(category).AddSyst(self.cb, *systematic)
 			
 				if shape_syst_enable:
-					for (systematic, process) in shape_syst[channel]:
+					for (systematic, process, category) in shape_syst[channel]:
 						if category == "":
 							self.cb.cp().channel([channel]).process(process).AddSyst(self.cb, *systematic)
 						else:
