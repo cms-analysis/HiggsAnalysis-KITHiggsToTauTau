@@ -269,6 +269,14 @@ if __name__ == "__main__":
 							log.debug(key)
 						sys.exit()
 
+					# set quantity x depending on the category
+					if "final" in args.cpstudy and args.x==None:
+						if "RHOmethod" in args.categories:
+							config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
+						if "COMBmethod" in args.categories:
+							config["x_expressions"] = ["recoPhiStarCPCombMerged"]
+
+
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
