@@ -265,7 +265,7 @@ if __name__ == "__main__":
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 
 					if "initial" in args.cpstudy:
-						binnings_key = "tt_jdphi"
+						binnings_key = "tt_absjdphi"
 					if "final" in args.cpstudy:
 						binnings_key = "tt_phiStarCP"
 					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
