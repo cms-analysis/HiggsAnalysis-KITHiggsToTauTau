@@ -110,7 +110,7 @@ if __name__ == "__main__":
 	parser.add_argument("--hypothesis", nargs="+",
 	                    default=["susycpodd"],
 	                    choices=["susycpodd", "cpodd", "cpmix"],
-						help="Choose the hypothesis to test against CPeven hypothsesis. Option needed for final state studies. [Default: %(default)s]")
+						help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
