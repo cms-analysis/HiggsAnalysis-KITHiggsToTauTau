@@ -482,7 +482,7 @@ if __name__ == "__main__":
 		datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
 		log.info(datacards_hypotestresult)
 		if args.use_shape_only:
-			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M MultiDimFit --algo=grid --points 100 -m 125 -v 2 -n \"\"")
+			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"")
 
 		pconfigs_plot=[]
 		for filename in datacards_hypotestresult.values():
