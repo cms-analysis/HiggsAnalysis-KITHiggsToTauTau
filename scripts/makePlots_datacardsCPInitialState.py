@@ -270,7 +270,7 @@ if __name__ == "__main__":
 						sys.exit()
 
 					# set quantity x depending on the category
-					if "final" in args.cpstudy and args.x==None:
+					if "final" in args.cpstudy and args.quantity==None:
 						if "RHOmethod" in args.categories:
 							config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
 						if "COMBmethod" in args.categories:
