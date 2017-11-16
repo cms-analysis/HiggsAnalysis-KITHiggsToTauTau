@@ -10,6 +10,7 @@ import copy
 import os
 import sys
 import pprint
+import numpy
 
 import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
@@ -47,6 +48,9 @@ if __name__ == "__main__":
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
+	parser.add_argument("--cp-mixings", nargs="+", type=float,
+						default=list(numpy.arange(0.0, 1.001, 0.1)),
+						help="CP mixing angles alpha_tau (in units of pi/2) to be probed. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="jdphi",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
@@ -125,6 +129,11 @@ if __name__ == "__main__":
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 	
+	# preparation of CP mixing angles alpha_tau/(pi/2)
+	args.cp_mixings.sort()
+	cp_mixing_angles = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
+	cp_mixings_str = ["{mixing:0.2f}".format(mixing=mixing) for mixing in args.cp_mixings]
+	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
@@ -158,7 +167,7 @@ if __name__ == "__main__":
 			signal_processes.append("CPMIX_ALT")
 	
 
-	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes) # TODO: derive own version from this class DONE
+	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cp_mixings_str, higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes) # TODO: derive own version from this class DONE
 	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
 	if args.no_shape_uncs or args.no_syst_uncs:
@@ -183,8 +192,6 @@ if __name__ == "__main__":
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 
-
-
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
@@ -205,8 +212,10 @@ if __name__ == "__main__":
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
-		for category in categories:
+		for category in categories:	
 			
+			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+
 			exclude_cuts = args.exclude_cuts
 			higgs_masses = [mass for mass in datacards.cb.mass_set() if mass != "*"]
 			
