@@ -282,9 +282,9 @@ class SMHttDatacards(datacards.Datacards):
 			# energy scales
 
 			# tau ES
-			self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.scale_t_1prong_syst_arg)
-			self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.scale_t_3prong_syst_arg)
-			self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.scale_t_1prong1pizero_syst_arg)
+			self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.scale_t_1prong_syst_args)
+			self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.scale_t_3prong_syst_args)
+			self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.scale_t_1prong1pizero_syst_args)
 
 			# jet ES
 			# TODO: use mix of lnN/shape systematics as done in official analysis?
