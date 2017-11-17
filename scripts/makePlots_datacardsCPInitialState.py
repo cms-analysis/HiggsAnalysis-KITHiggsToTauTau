@@ -268,13 +268,17 @@ if __name__ == "__main__":
 						for key in binnings_settings.binnings_dict:
 							log.debug(key)
 						sys.exit()
-
 					# set quantity x depending on the category
-					if "final" in args.cpstudy and args.quantity==None:
-						if "RHOmethod" in args.categories:
+					if "final" in args.cpstudy:
+						if all(["RHOmethod" in c for c in categories]):
 							config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
-						if "COMBmethod" in args.categories:
+							args.quantity = "recoPhiStarCP_rho_merged"
+						elif all(["COMBmethod" in c for c in categories]):
 							config["x_expressions"] = ["recoPhiStarCPCombMerged"]
+							args.quantity = "recoPhiStarCPCombMerged"
+						else:
+							log.fatal("YOU SHALL NOT PASS different types of category (COMB and RHO) to the same channel. Repeat the channel for the each type of category.")
+							raise ValueError("You shall not pass different types of category (COMB and RHO) to the same channel. Repeat the channel for the each type of category.")
 
 
 					config["directories"] = [args.input_dir]
@@ -492,6 +496,8 @@ if __name__ == "__main__":
 			pconfigs["x_expressions"]=["q"]
 			pconfigs[ "output_dir"]=str(os.path.dirname(filename))
 			pconfigs["x_bins"]=["500,-3.15,3.15"]
+			if "final" in args.cpstudy:
+				pconfigs["x_bins"] = ["500,0,6.28"]
 
 			#pconfigs["scale_factors"]=[1,1,1,900]
 			#pconfig["plot_modules"] = ["ExportRoot"]
