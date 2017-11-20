@@ -32,8 +32,7 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genCPQuantities.json"
 						]
-					},
-					"tauSpinnerPolarisation"
+					}
 				],
 				"HToTauTau|H2JetsToTauTau" : [
 					{
@@ -43,7 +42,6 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genCPQuantities.json"
 						]
 					},
-					"tauSpinnerPolarisation",
 					"nJets",
 					"nJets30",
 					"leadingJetLV",

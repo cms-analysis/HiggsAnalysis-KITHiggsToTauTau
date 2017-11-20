@@ -243,8 +243,7 @@
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation"
+					"nAllDiTauPairCandidates"
 				],
 				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
 					{
@@ -296,8 +295,7 @@
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation"
+					"nAllDiTauPairCandidates"
 				],
 				"Embedding2016" : [
 					{
@@ -331,8 +329,7 @@
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation"
+					"nAllDiTauPairCandidates"
 				]
 			}
 		},

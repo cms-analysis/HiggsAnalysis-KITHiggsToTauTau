@@ -314,7 +314,6 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation",
 					"trg_singlemuon",
 					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
@@ -371,8 +370,7 @@
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation"
+					"nAllDiTauPairCandidates"
 				],
 				"Embedding2016" : [
 					{
@@ -410,7 +408,6 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
