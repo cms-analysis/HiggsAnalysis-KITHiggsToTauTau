@@ -798,11 +798,32 @@ class Datacards(object):
 			"CMS_lfv_BR_$PROCESS_$ERA",
 			"lnN",
 			ch.SystMap("era", "process")
-				(["13TeV"], ["zem"], 1.05)
-				(["13TeV"], ["zet"], 1.05)
-				(["13TeV"], ["zmt"], 1.05)
+				(["13TeV"], ["zem"], 1.00)
+				(["13TeV"], ["zet"], 1.00)
+				(["13TeV"], ["zmt"], 1.00)
 				
 		]
+		
+
+		self.htt_zmm_norm_extrap_0jet = [
+			"CMS_htt_zmm_norm_extrap_0jet_$CHANNEL_$ERA", 
+			"lnN", 
+			ch.SystMap("channel", "era", "process")
+				(["em"], ["13TeV"], ["ZTT", "ZLL", "EWKZ"], 1.07)
+				(["et"], ["13TeV"], ["ZTT", "ZL", "ZJ", "EWKZ"], 1.07)
+				(["mt"], ["13TeV"], ["ZTT", "ZL", "ZJ", "EWKZ"], 1.07)
+		]
+
+
+		self.htt_zmm_norm_extrap_boosted = [
+			"CMS_htt_zmm_norm_extrap_boosted_$CHANNEL_$ERA", 
+			"lnN", 
+			ch.SystMap("channel", "era", "process")
+				(["em"], ["13TeV"], ["ZTT", "ZLL", "EWKZ"], 1.07)
+				(["et"], ["13TeV"], ["ZTT", "ZL", "ZJ", "EWKZ"], 1.07)
+				(["mt"], ["13TeV"], ["ZTT", "ZL", "ZJ", "EWKZ"], 1.07)
+		]
+
 
 		path=os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/")
 		self.mva_bdt_syst_uncs =[
