@@ -43,7 +43,7 @@ class LFVDatacards(datacards.Datacards):
 					],
 	
 					"et": [
-						[self.trigger_efficiency2016_em_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
+						[self.trigger_efficiency2016_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
 						[self.electron_efficiency2016_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
 						[self.tau_efficiency2016_syst_args,		signal_list+all_mc_bkgs, 		""],
 						[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL", "ZTT"], 		""],
@@ -57,7 +57,7 @@ class LFVDatacards(datacards.Datacards):
 					],
 					
 					"mt": [
-						[self.trigger_efficiency2016_em_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
+						[self.trigger_efficiency2016_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
 						[self.muon_efficiency2016_syst_args, 		signal_list+all_mc_bkgs_no_W,		""],
 						[self.tau_efficiency2016_syst_args,		signal_list+all_mc_bkgs, 		""],
 						[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL", "ZTT"], 		""],
