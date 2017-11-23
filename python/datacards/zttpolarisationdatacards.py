@@ -102,7 +102,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			# TT channel
 			self.add_processes(
 					channel="tt",
-					categories=["tt_"+category for category in ["rho", "oneprong"]], # "a1"
+					categories=["tt_"+category for category in ["rho", "rho_1", "rho_2", "oneprong", "combined_oneprong_oneprong", "combined_rho_rho"]], # "a1"
 					bkg_processes=["ZL", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=["ZTTPOSPOL", "ZTTNEGPOL"],
 					analysis=["ztt"],
