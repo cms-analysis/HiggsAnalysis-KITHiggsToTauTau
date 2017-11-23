@@ -723,7 +723,7 @@
 					"#filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"#producer:SimpleFitProducer",
+					"producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:GenMatchedTauCPProducer",
 					"producer:RefitVertexSelector",

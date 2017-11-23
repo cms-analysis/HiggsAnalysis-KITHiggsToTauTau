@@ -745,7 +745,7 @@
 					"#filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"#producer:SimpleFitProducer",
+					"producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:GenMatchedTauCPProducer",
