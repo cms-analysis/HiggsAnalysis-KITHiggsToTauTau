@@ -7,7 +7,6 @@ log = logging.getLogger(__name__)
 import CombineHarvester.CombineTools.ch as ch
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_libary as systematics_libary
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_libary as SystLib
 
 
@@ -17,10 +16,6 @@ class ZttPolarisationDatacards(datacards.Datacards):
 		super(ZttPolarisationDatacards, self).__init__(cb)
 		
 		if cb is None:
-			
-			systematics_library = systematics_libary.SystematicLibary()
-			
-
 
 			##Generate instance of systematic libary, in which the relevant information about the systematics are safed
 
