@@ -7,11 +7,9 @@ log = logging.getLogger(__name__)
 import CombineHarvester.CombineTools.ch as ch
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
-<<<<<<< Updated upstream
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_libary as systematics_libary
-=======
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_libary as SystLib
->>>>>>> Stashed changes
+
 
 
 class ZttPolarisationDatacards(datacards.Datacards):
@@ -19,17 +17,15 @@ class ZttPolarisationDatacards(datacards.Datacards):
 		super(ZttPolarisationDatacards, self).__init__(cb)
 		
 		if cb is None:
-<<<<<<< Updated upstream
 			
 			systematics_library = systematics_libary.SystematicLibary()
 			
-=======
+
 
 			##Generate instance of systematic libary, in which the relevant information about the systematics are safed
 
 			systematics_list = SystLib.SystematicLibary()
 	
->>>>>>> Stashed changes
 			# ======================================================================
 			# MT channel
 			self.add_processes(
@@ -43,7 +39,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-<<<<<<< Updated upstream
+
 			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *systematics_library.muon_efficiency_syst_args)
 			
 			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *systematics_library.tau_efficiency_corr_syst_args)
@@ -70,7 +66,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			
 			# Top pT reweight
 			#self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *systematics_library.ttj_syst_args)
-=======
+
 			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *systematics_list.muon_efficiency_syst_args)
 			
 			self.cb.cp().channel(["mt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *systematics_list.tau_efficiency_corr_syst_args)
@@ -97,7 +93,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			
 			# Top pT reweight
 			#self.cb.cp().channel(["mt"]).process(["TT"]).AddSyst(self.cb, *systematics_list.ttj_syst_args)
->>>>>>> Stashed changes
+
 		
 			# ======================================================================
 			# ET channel
@@ -112,7 +108,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-<<<<<<< Updated upstream
+
 			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *systematics_library.electron_efficiency_syst_args)
 			
 			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *systematics_library.tau_efficiency_corr_syst_args)
@@ -139,7 +135,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			
 			# Top pT reweight
 			#self.cb.cp().channel(["et"]).process(["TT"]).AddSyst(self.cb, *systematics_library.ttj_syst_args)
-=======
+
 			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *systematics_list.electron_efficiency_syst_args)
 			
 			self.cb.cp().channel(["et"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *systematics_list.tau_efficiency_corr_syst_args)
@@ -166,7 +162,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			
 			# Top pT reweight
 			#self.cb.cp().channel(["et"]).process(["TT"]).AddSyst(self.cb, *systematics_list.ttj_syst_args)
->>>>>>> Stashed changes
+
 		
 			# ======================================================================
 			# TT channel
@@ -181,7 +177,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-<<<<<<< Updated upstream
+
 			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *systematics_library.tau_efficiency_corr_syst_args)
 			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *systematics_library.tau_es_syst_args)
 			#self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *systematics_library.tau_efficiency_syst_args)
@@ -206,7 +202,6 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			
 			# Top pT reweight
 			#self.cb.cp().channel(["tt"]).process(["TT"]).AddSyst(self.cb, *systematics_library.ttj_syst_args)
-=======
 			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *systematics_list.tau_efficiency_corr_syst_args)
 			self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *systematics_list.tau_es_syst_args)
 			#self.cb.cp().channel(["tt"]).process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, *systematics_list.tau_efficiency_syst_args)
@@ -231,7 +226,6 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			
 			# Top pT reweight
 			#self.cb.cp().channel(["tt"]).process(["TT"]).AddSyst(self.cb, *systematics_list.ttj_syst_args)
->>>>>>> Stashed changes
 		
 			# ======================================================================
 			# EM channel
@@ -246,7 +240,6 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			)
 		
 			# efficiencies
-<<<<<<< Updated upstream
 			self.cb.cp().channel(["em"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *systematics_library.electron_efficiency_syst_args)
 			self.cb.cp().channel(["em"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *systematics_library.muon_efficiency_syst_args)
 			
@@ -262,7 +255,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			
 			# Top pT reweight
 			#self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *systematics_library.ttj_syst_args)
-=======
+
 			self.cb.cp().channel(["em"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *systematics_list.electron_efficiency_syst_args)
 			self.cb.cp().channel(["em"]).process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *systematics_list.muon_efficiency_syst_args)
 			
@@ -278,14 +271,14 @@ class ZttPolarisationDatacards(datacards.Datacards):
 			
 			# Top pT reweight
 			#self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *systematics_list.ttj_syst_args)
->>>>>>> Stashed changes
+
 
 			# ======================================================================
 			# All channels
 			#self.cb.cp().process(["ZTTPOSPOL", "ZTTNEGPOL"]).AddSyst(self.cb, "ZTTPOSPOL_uniform_2", "ZTTNEGPOL_uniform_2", "lnU", ch.SystMap()(2.0))
 		
 			# lumi
-<<<<<<< Updated upstream
+
 			self.cb.cp().process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *systematics_library.lumi_syst_args)
 		
 			# cross section
@@ -300,7 +293,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 
 			# QCD systematic
 			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *systematics_library.qcd_syst_inclusive_args)
-=======
+
 			self.cb.cp().process(["ZTTPOSPOL", "ZTTNEGPOL", "ZL", "ZJ", "TT", "VV"]).AddSyst(self.cb, *systematics_list.lumi_syst_args)
 		
 			# cross section
@@ -315,7 +308,7 @@ class ZttPolarisationDatacards(datacards.Datacards):
 
 			# QCD systematic
 			self.cb.cp().process(["QCD"]).AddSyst(self.cb, *systematics_list.qcd_syst_inclusive_args)
->>>>>>> Stashed changes
+
 			
 			# ======================================================================
 			# Groups of systematics
