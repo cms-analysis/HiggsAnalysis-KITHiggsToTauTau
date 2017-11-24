@@ -51,7 +51,7 @@ git clone https://github.com/TauPolSoftware/TauDecaysInterface.git TauPolSoftwar
 # MELA/JHU
 git clone https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
 cd ZZMatrixElement
-./setup.sh -j `grep -c ^processor /proc/cpuinfo`)
+./setup.sh -j `grep -c ^processor /proc/cpuinfo`
 cd $CMSSW_BASE/src/
 
 # Jet2Tau Fakes
