@@ -101,8 +101,8 @@ if __name__ == "__main__":
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 						help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--steps", nargs="+",
-	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts"],
-	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts", "likelihoodScan", "TwoHypothesisTest"],
+	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts", "likelihoodScan"],
+	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts", "likelihoodScan", "yields"],
 						help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 						help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
@@ -157,10 +157,10 @@ if __name__ == "__main__":
 	if "initial" in args.cpstudy:
 		if "ggh" in args.production_mode:
 			signal_processes.append("ggHsm")
-			# signal_processes.append("ggHps_ALT")
+			#signal_processes.append("ggHps_ALT")
 		if "qqh" in args.production_mode:
 			signal_processes.append("qqHsm")
-			# signal_processes.append("qqHps_ALT")
+			#signal_processes.append("qqHps_ALT")
 	# final state studies
 	if "final" in args.cpstudy:
 		if "susycpodd" in args.hypothesis:
@@ -231,7 +231,6 @@ if __name__ == "__main__":
 			exclude_cuts = args.exclude_cuts
 			# higgs_masses = [mass for mass in datacards.cb.mass_set() if mass != "*"]
 			higgs_masses = args.higgs_masses[:1]
-			print(higgs_masses)
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="htt",
 					CHANNEL=channel,
@@ -448,25 +447,74 @@ if __name__ == "__main__":
 	
 	
 	if args.use_asimov_dataset and "pvalue" in args.steps:
+		# First, we need to choose two hypothesis to test.
+		# The histogram with mixing angle 0.00 is the standard model = null hypothesis.
+		# The histogram with mixing angle 1.00 is the CP-odd hypothesis which we want to test.
+		# TODO: For inital state and final state the string for the two hypothesis might be different.
+		# TODO: Someone might be interested in testing other mixings angles against SM prediction.
+			
 		signal_null_hypothesis = datacards.cb.cp().signals()
-		signal_null_hypothesis.FilterAll(lambda obj : ("ALT" in obj.process()))
+		signal_null_hypothesis.FilterAll(lambda obj : ("0.00" not in obj.process()))
 		signal_null_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
 
 		signal_alt_hypothesis = datacards.cb.cp().signals()
-		signal_alt_hypothesis.FilterAll(lambda obj : ("ALT" not in obj.process()))
+		signal_alt_hypothesis.FilterAll(lambda obj : ("1.00" not in obj.process()))
+		# TODO: Why rate set to 10^-9?
 		signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
-		#signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000000451)))
 		
+		# TODO: Why is it not possible to use "125" here? 
 		datacards.replace_observation_by_asimov_dataset()
 		
 		signal_null_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
 		signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
-
+	
+	"""
+	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
+	The fractino of signal events is also evaluated.
+	It considers the 
+	"""
+	# TODO: WIP: More elegant programming style planned.
+	if "yields" in args.steps:
+		for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
+			categories= [channel + "_" + category for category in categories]
+			# prepare category settings based on args and datacards
+			categories_save = sorted(categories)
+			categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
+			if(categories_save != sorted(categories)):
+				log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
+				log.fatal(list(set(categories_save) - set(categories)))
+				sys.exit(1)
+			
+			# restrict CombineHarvester to configured categories:
+			datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
+			for category in categories:
+				bkg_yield = {}
+				sig_yield = {}
+				print("\n"+ "Channel: "+str(channel)+ " Category: "+str(category)+"\n")
+				bkg_procs = datacards.cb.cp().channel([channel]).bin([category]).cp().backgrounds().process_set()
+				sig_procs = datacards.cb.cp().channel([channel]).bin([category]).cp().signals().process_set()
+				for bkg in bkg_procs:
+					bkg_yield[bkg] = datacards.cb.cp().channel([channel]).bin([category]).process([bkg]).GetRate()
+				tot_bkg = sum(bkg_yield.values())
+				for sig in sig_procs:
+					sig_yield[sig] = datacards.cb.cp().channel([channel]).bin([category]).process([sig]).GetRate()
+				tot_sig = sum(sig_yield.values())
+				print("TotalBkg: "+str(tot_bkg)+ " TotalSig: "+str(tot_sig)+"\n")
+				for sig in sig_procs:
+					print(str(sig)+"/tot_bkg: ", str(sig_yield[sig]/tot_bkg))
+					print(str(sig)+"/tot_sig: ", str(sig_yield[sig]/tot_sig))
+		
+			
+		
+		
+		
 
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
-	#datacards.cb.PrintAll()
+
+	
 	datacards.create_morphing_signals("cpmixing", 0.0, 0.0, 1.0)
+	
 	# write datacards and call text2workspace
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
@@ -612,7 +660,7 @@ if __name__ == "__main__":
 		if args.use_shape_only:
 			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"")
 
-		reesult_plot_configs=[]
+		result_plot_configs=[]
 		for filename in datacards_hypotestresult.values():
 			log.info(filename)
 			pconfigs={}
@@ -638,7 +686,7 @@ if __name__ == "__main__":
 			pconfigs["p_value_null_hypothesis_nicks"]=["null_hypothesis"]
 			pconfigs["p_value_observed_nicks"]=["q_obs"]
 			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
-			reesult_plot_configs.append(pconfigs)
+			result_plot_configs.append(pconfigs)
 			pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
 			if "final" in args.cpstudy:
 				if "susycpodd" or "cpodd" in args.hypothesis:
