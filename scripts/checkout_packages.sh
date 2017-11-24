@@ -48,6 +48,12 @@ git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/Simple
 # polarisation
 git clone https://github.com/TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
 
+# MELA/JHU
+git clone https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
+cd ZZMatrixElement
+./setup.sh -j `grep -c ^processor /proc/cpuinfo`)
+cd $CMSSW_BASE/src/
+
 # Jet2Tau Fakes
 git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
