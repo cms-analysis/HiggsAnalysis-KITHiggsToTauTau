@@ -250,11 +250,9 @@ if __name__ == "__main__":
 
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
-					
-					
+										
 					config={}
 					
-					#TODO: Understand what is happening here. Is it ok to include really the whole list of samples?
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 							samples="\", \"".join(list_of_samples),
 							channel=channel,
@@ -488,10 +486,10 @@ if __name__ == "__main__":
 				bkg_procs = datacards.cb.cp().channel([channel]).bin([category]).cp().backgrounds().process_set()
 				sig_procs = datacards.cb.cp().channel([channel]).bin([category]).cp().signals().process_set()
 				for bkg in bkg_procs:
-					bkg_yield[bkg] = datacards.cb.cp().channel([channel]).bin([category]).process([bkg]).GetRate()
+					bkg_yield[bkg] = datacards.cb.cp().channel([channel]).bin([category]).process([bkg]).no_norm_rate()
 				tot_bkg = sum(bkg_yield.values())
 				for sig in sig_procs:
-					sig_yield[sig] = datacards.cb.cp().channel([channel]).bin([category]).process([sig]).GetRate()
+					sig_yield[sig] = datacards.cb.cp().channel([channel]).bin([category]).process([sig]).no_norm_rate()
 				tot_sig = sum(sig_yield.values())
 				print("TotalBkg: "+str(tot_bkg)+ " TotalSig: "+str(tot_sig)+"\n")
 				for sig in sig_procs:
@@ -689,4 +687,4 @@ if __name__ == "__main__":
 	
 	#pprint.pprint(reesult_plot_configs)
 	
-	higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
+	#higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
