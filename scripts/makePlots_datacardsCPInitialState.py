@@ -50,7 +50,7 @@ if __name__ == "__main__":
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--cp-mixings", nargs="+", type=float,
-						default=[0. ,1.],
+						default=list(numpy.arange(0.0, 1.001, 0.1)),
 						help="CP mixing angles alpha_tau (in units of pi/2) to be probed. [Default: %(default)s]")
 	parser.add_argument("--cp-mixing-scan-points", type=int, default=((len(parser.get_default("cp_mixings"))-1)*4)+1,
                         help="Number of points for CP mixing angles alpha_tau (in units of pi/2) to be scanned. [Default: %(default)s]")
@@ -283,28 +283,22 @@ if __name__ == "__main__":
 					
 					config = samples.Samples.merge_configs(config, config_bkg)
 					
-					# Set up the config for the signal samples for each given cp_mixing angle. 
-				
+					# Set up the config for the signal samples for each given cp_mixing angle. 				
 					for cp_mixing, cp_mixing_angle, cp_mixing_str in zip(args.cp_mixings, cp_mixing_angles, cp_mixings_str):
-						# print(cp_mixing)
-						# print(cp_mixing_angle)
-						# print(cp_mixing_str)
+						
 						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 								samples="\", \"".join(list_of_sig_samples),
 								channel=channel,
 								category=category,
 								systematic=systematic
 						))	 
-						print("Make config for mixing: " + str(cp_mixing) + " Angle: " + str(cp_mixing_angle) )
+						# print("Make config for mixing: " + str(cp_mixing) + " Angle: " + str(cp_mixing_angle) )
 						# reweight according to the cp study
 						if "final" in args.cpstudy:
 							signal_reweighting_factor = "*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle
 							print(signal_reweighting_factor)
 						else:
-							signal_reweighting_factor = "*"+"madGraphWeightInvSample"+"*madGraphWeight"+cp_mixing_angle
-
-						
-							
+							signal_reweighting_factor = "*(madGraphWeightSample>-899)"+"*madGraphWeightInvSample"+"*madGraphWeight"+cp_mixing_angle
 						
 						config_sig = sample_settings.get_config(
 								samples=[getattr(samples.Samples, sample) for sample in list_of_sig_samples],
