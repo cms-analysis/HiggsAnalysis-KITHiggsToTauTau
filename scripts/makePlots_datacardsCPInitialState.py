@@ -263,6 +263,8 @@ if __name__ == "__main__":
 					))
 						
 					# prepare plotting configs for retrieving the input histograms
+					
+					# bkg and data do not need a reweighting so seperate sig and bkg.
 					config_bkg = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in (["data"] if nominal else []) + list_of_bkg_samples],
 							channel=channel,
@@ -311,8 +313,7 @@ if __name__ == "__main__":
 								higgs_masses=higgs_masses,
 								cut_type = "cp2016"
 						)
-						# print(config_sig)
-						
+						# config labels need the MASS keyword to find the right histograms.
 						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
 								PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
 								BIN=category,
@@ -464,7 +465,6 @@ if __name__ == "__main__":
 	
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
-	The fractino of signal events is also evaluated.
 	It considers the 
 	"""
 	# TODO: WIP: More elegant programming style planned.
