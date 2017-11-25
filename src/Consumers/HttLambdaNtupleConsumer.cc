@@ -180,7 +180,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mjj", metadata.m_commonFloatQuantities["diJetMass"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdeta", metadata.m_commonFloatQuantities["diJetAbsDeltaEta"]);
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi", metadata.m_commonFloatQuantities["diJetDeltaPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi", metadata.m_commonFloatQuantities["signedDiJetDeltaPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dijetpt", metadata.m_commonFloatQuantities["diJetPt"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dijetphi", metadata.m_commonFloatQuantities["diJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "hdijetphi", metadata.m_commonFloatQuantities["diJetdiLepPhi"]);
