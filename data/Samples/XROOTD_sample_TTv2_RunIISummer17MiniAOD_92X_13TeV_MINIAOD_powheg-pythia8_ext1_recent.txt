@@ -1,0 +1,1 @@
+XROOTD_sample_TTv2_RunIISummer17MiniAOD_92X_13TeV_MINIAOD_powheg-pythia8_ext1_2017-11-20.txt
