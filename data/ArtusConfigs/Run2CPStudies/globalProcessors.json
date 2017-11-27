@@ -153,6 +153,7 @@
 				"producer:MatchedLeptonsProducer",
 				"producer:GenTauDecayProducer",
 				"producer:GenTauCPProducer",
+				"producer:GenHiggsCPProducer",
 				"producer:TauSpinnerProducer",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer",

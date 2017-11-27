@@ -21,6 +21,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetprojectionProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenHiggsCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RefitVertexSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
@@ -154,6 +155,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MetprojectionProducer();
 	else if(id == TauTauRestFrameSelector().GetProducerId())
 		return new TauTauRestFrameSelector();
+	else if(id == GenHiggsCPProducer().GetProducerId())
+		return new GenHiggsCPProducer();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
 	else if(id == GenMatchedTauCPProducer().GetProducerId())
