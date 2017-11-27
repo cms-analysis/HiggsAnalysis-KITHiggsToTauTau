@@ -1146,7 +1146,7 @@ class Datacards(object):
 		commands.extend(["root -q -b \"HiggsAnalysis/KITHiggsToTauTau/scripts/hypoTestResultTree.cxx(\\\"{INPUT}\\\",\\\"{OUTPUT}\\\",{MASS},{RVALUE},\\\"{POINAME}\\\")\"".format(
 				INPUT=os.path.join(os.path.dirname(datacard),"higgsCombine.HybridNew.mH{angle}.root".format(angle = [mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125")),
 				OUTPUT=os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125")),
-				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
+				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125", # TODO: maybe there are more masses?
 				RVALUE= str(rvalue),
 				POINAME=str(poiname)
 				
@@ -1229,6 +1229,7 @@ class Datacards(object):
 								stacked_processes.extend(datacards_cbs[datacard].cp().bin([category]).signals().process_set())
 							stacked_processes.extend(datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set())
 							stacked_processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+							stacked_processes = [process for process in bkg_plotting_order if datacards_cbs[datacard].cp().bin([category]).backgrounds().process([process]).GetRate() > 0.0]
 
 							config = {}
 							
