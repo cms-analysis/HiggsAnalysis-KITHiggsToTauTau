@@ -1013,7 +1013,7 @@ class Datacards(object):
 
 	def text2workspace(self, datacards_cbs, n_processes=1, *args):
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
-				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125", # TODO: maybe there are more masses?
+				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
 				DATACARD=datacard,
 				OUTPUT=os.path.splitext(datacard)[0]+".root"
@@ -1083,7 +1083,7 @@ class Datacards(object):
 			for chunk_index, (chunk_min, chunk_max) in enumerate(chunks):
 				commands.extend([[
 						"combine -m {MASS} {POI_RANGE} {ARGS} {CHUNK_POINTS} {SPLIT_STAT_SYST_UNCS} {WORKSPACE}".format(
-								MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "125", # TODO: maybe there are more masses?
+								MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 								POI_RANGE="--rMin {RMIN} --rMax {RMAX}" if datacard in datacards_poi_ranges else "",
 								ARGS=prepared_tmp_args.format(CHUNK=str(chunk_index), RMIN="{RMIN}", RMAX="{RMAX}"),
 								CHUNK_POINTS = "" if (chunk_min is None) or (chunk_max is None) else "--firstPoint {CHUNK_MIN} --lastPoint {CHUNK_MAX}".format(
@@ -1144,9 +1144,9 @@ class Datacards(object):
 
 		#for fit_type in fit_type_list:
 		commands.extend(["root -q -b \"HiggsAnalysis/KITHiggsToTauTau/scripts/hypoTestResultTree.cxx(\\\"{INPUT}\\\",\\\"{OUTPUT}\\\",{MASS},{RVALUE},\\\"{POINAME}\\\")\"".format(
-				INPUT=os.path.join(os.path.dirname(datacard),"higgsCombine.HybridNew.mH{angle}.root".format(angle = [mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125")),
-				OUTPUT=os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125")),
-				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125", # TODO: maybe there are more masses?
+				INPUT=os.path.join(os.path.dirname(datacard),"higgsCombine.HybridNew.mH{angle}.root".format(angle = [mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")),
+				OUTPUT=os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")),
+				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 				RVALUE= str(rvalue),
 				POINAME=str(poiname)
 				
@@ -1173,7 +1173,7 @@ class Datacards(object):
 			commands.extend(["PostFitShapes --postfit -d {DATACARD} -o {OUTPUT} -m {MASS} -f {FIT_RESULT} {ARGS}".format(
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
-					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125", # TODO: maybe there are more masses?
+					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")+":"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
@@ -1198,7 +1198,7 @@ class Datacards(object):
 					WORKSPACE=datacards_workspaces[datacard],
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
-					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125", # TODO: maybe there are more masses?
+					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")+":"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
@@ -1410,7 +1410,7 @@ class Datacards(object):
 		commandsInitialFit = []
 		commandsInitialFit.extend([[
 				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doInitialFit --allPars {ARGS}".format(
-						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "125",
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace
 				),
@@ -1420,7 +1420,7 @@ class Datacards(object):
 		commandsFits = []
 		commandsFits.extend([[
 				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doFits --parallel {NPROCS} --allPars {ARGS}".format(
-						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "125",
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace,
 						NPROCS=n_processes
@@ -1431,7 +1431,7 @@ class Datacards(object):
 		commandsOutput = []
 		commandsOutput.extend([[
 				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --output impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
-						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "125",
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace,
 						NPROCS=n_processes

@@ -157,7 +157,7 @@ if __name__ == "__main__":
 	if "initial" in args.cpstudy:
 		if "ggh" in args.production_mode:
 			signal_processes.append("ggHsm")
-			#signal_processes.append("ggHps_ALT")
+			signal_processes.append("ggHps_ALT")
 		if "qqh" in args.production_mode:
 			signal_processes.append("qqHsm")
 			#signal_processes.append("qqHps_ALT")
@@ -173,11 +173,8 @@ if __name__ == "__main__":
 			signal_processes.append("CPEVEN")
 			signal_processes.append("CPMIX_ALT")
 	
-
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cp_mixings_str, higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes) # TODO: derive own version from this class DONE
-	
-
-	
+		
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
@@ -443,14 +440,17 @@ if __name__ == "__main__":
 		# First, we need to choose two hypothesis to test.
 		# The histogram with mixing angle 0.00 is the standard model = null hypothesis.
 		# The histogram with mixing angle 1.00 is the CP-odd hypothesis which we want to test.
+		# TODO: WIP: 2017-11-27: This part is kept as before for now becasue combine needs two different processes to compare. The mass alone does not seem to be sufficient.
 		# TODO: For inital state and final state the string for the two hypothesis might be different.
 		# TODO: Someone might be interested in testing other mixings angles against SM prediction.
 			
 		signal_null_hypothesis = datacards.cb.cp().signals()
-		signal_null_hypothesis.FilterAll(lambda obj : ("0.00" not in obj.mass()))
+		#signal_null_hypothesis.FilterAll(lambda obj : ("0.00" not in obj.mass()))
+		signal_null_hypothesis.FilterAll(lambda obj : ("ALT" in obj.process()))
 		signal_null_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
 		signal_alt_hypothesis = datacards.cb.cp().signals()
-		signal_alt_hypothesis.FilterAll(lambda obj : ("1.00" not in obj.mass()))
+		#signal_alt_hypothesis.FilterAll(lambda obj : ("1.00" not in obj.mass()))
+		signal_alt_hypothesis.FilterAll(lambda obj : ("ALT" not in obj.process()))
 		# TODO: Why rate set to 10^-9?
 		signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
 		
@@ -520,8 +520,6 @@ if __name__ == "__main__":
 	if "likelihoodScan" in args.steps:
 		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 
-		
-
 		# Max. likelihood fit and postfit plots
 		# datacards.combine(
 		# 		datacards_cbs,
@@ -530,6 +528,14 @@ if __name__ == "__main__":
 		# 		args.n_processes,
 		# 		"-M MaxLikelihoodFit --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 {stable} -n \"\"".format(stable=datacards.stable_options)
 		# )
+		
+
+
+		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
+
+		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
 		
 		# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF. 
 		datacards.combine(
@@ -542,15 +548,7 @@ if __name__ == "__main__":
 						RANGE="{0:f},{1:f}".format(cp_mixings_combine_range_min, cp_mixings_combine_range_max),
 						POINTS=args.cp_mixing_scan_points
 				)	
-		)	
-
-		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
-
-		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
-
-
+		)			
 
 		for datacard, workspace in datacards_workspaces.iteritems():
 			config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_alphatau.json"))
@@ -591,8 +589,7 @@ if __name__ == "__main__":
 					MODEL_PARAMETERS=("--PO=muFloating" if args.use_shape_only else "")
 				)
 		)
-	 
-	
+	 	
 		# custom physics model
 		# datacards_workspaces = datacards.text2workspace(
 		# 		datacards_cbs,
@@ -603,9 +600,10 @@ if __name__ == "__main__":
 		# 		)
 		# )
 	
-	
-
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
+	# Max. likelihood fit and postfit plots
+	if "maxlikelihoodfit" in args.steps:
+		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\""+" --expectSignal 1.0 -t -1 --setPhysicsModelParameters \"x=1\"")
 	
 	if "prefitpostfitplots" in args.steps:
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else "")) 
