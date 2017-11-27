@@ -520,15 +520,35 @@ if __name__ == "__main__":
 	if "likelihoodScan" in args.steps:
 		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 
-		# Max. likelihood fit and postfit plots
-		# datacards.combine(
-		# 		datacards_cbs,
-		# 		datacards_workspaces,
-		# 		None,
-		# 		args.n_processes,
-		# 		"-M MaxLikelihoodFit --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 {stable} -n \"\"".format(stable=datacards.stable_options)
-		# )
+
+
 		
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
