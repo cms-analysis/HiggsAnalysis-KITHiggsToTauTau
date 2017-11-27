@@ -447,11 +447,10 @@ if __name__ == "__main__":
 		# TODO: Someone might be interested in testing other mixings angles against SM prediction.
 			
 		signal_null_hypothesis = datacards.cb.cp().signals()
-		signal_null_hypothesis.FilterAll(lambda obj : ("0.00" not in obj.process()))
+		signal_null_hypothesis.FilterAll(lambda obj : ("0.00" not in obj.mass()))
 		signal_null_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
-
 		signal_alt_hypothesis = datacards.cb.cp().signals()
-		signal_alt_hypothesis.FilterAll(lambda obj : ("1.00" not in obj.process()))
+		signal_alt_hypothesis.FilterAll(lambda obj : ("1.00" not in obj.mass()))
 		# TODO: Why rate set to 10^-9?
 		signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
 		
@@ -473,7 +472,7 @@ if __name__ == "__main__":
 			categories_save = sorted(categories)
 			categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
 			if(categories_save != sorted(categories)):
-				log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
+				log.fatal("CombineHarvester removed the following categories automatically. Was this intended?")
 				log.fatal(list(set(categories_save) - set(categories)))
 				sys.exit(1)
 			
@@ -686,5 +685,5 @@ if __name__ == "__main__":
 
 	
 	#pprint.pprint(reesult_plot_configs)
-	
-	#higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
+	if "pvalue" or "likelihoodScan" or "prefit_postfit_plots" or "nuisanceimpacts" in args.steps:
+		higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
