@@ -10,40 +10,35 @@ import tempfile
 
 
 def me2(connection):
-	#print "me2"
+	
 	args = connection.recv()
 	cartesian_four_momenta = args[0]
-	madgraph_process_directory = args[1]
-	madgraph_param_card = args[2]
-	alpha_s = args[3]
-	#print alpha_s
+	pdgs = args[1]
+	madgraph_process_directory = args[2]
+	madgraph_param_card = args[3]
+	alpha_s = args[4]
+	
+	
 	
 	cwd = os.getcwd()
 	os.chdir(madgraph_process_directory)
-	"""print madgraph_process_directory
-	print 
-	print cartesian_four_momenta
-	print
-	print zip(*cartesian_four_momenta)
-	print"""
 	sys.path.insert(0, madgraph_process_directory)
-	#print os.getcwd()
-
-	if "matrix2py" not in sys.modules:
-		import matrix2py
-		#print "no"
-	elif "matrix2py" in sys.modules:	
-		#print "yes"
-		del sys.modules["matrix2py"]
-		import matrix2py
 	
-	matrix2py.initialise(madgraph_param_card)
-	result = matrix2py.get_me(zip(*cartesian_four_momenta), alpha_s, 0)
+
+	if "allmatrix2py" not in sys.modules:
+		import allmatrix2py
+		
+	elif "allmatrix2py" in sys.modules:	
+		del sys.modules["allmatrix2py"]
+		import allmatrix2py
+	
+	allmatrix2py.initialise(madgraph_param_card)
+	result = allmatrix2py.smatrixhel(pdgs,zip(*cartesian_four_momenta), alpha_s, 0,-1)
 
 	sys.path.pop(0)
 	os.chdir(cwd)
 	connection.send([result])
-	#print result
+	print result
 	return result
 
 class MadGraphTools(object):
@@ -65,8 +60,8 @@ class MadGraphTools(object):
 	def __del__(self):
 		os.remove(self.madgraph_param_card)
 	
-	def matrix_element_squared(self, cartesian_four_momenta):
-		arguments = [cartesian_four_momenta, self.madgraph_process_directory, self.madgraph_param_card, self.alpha_s]
+	def matrix_element_squared(self, cartesian_four_momenta, pdgs):
+		arguments = [cartesian_four_momenta, pdgs, self.madgraph_process_directory, self.madgraph_param_card, self.alpha_s]
 		parent_connection, child_connection = multiprocessing.Pipe()
 		parent_connection.send(arguments)
 		

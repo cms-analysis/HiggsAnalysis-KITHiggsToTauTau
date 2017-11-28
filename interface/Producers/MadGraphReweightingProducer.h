@@ -18,8 +18,8 @@ public:
 						 setting_type const& settings, metadata_type const& metadata) const override;
 
 private:
-	std::map<std::string, std::vector<std::string> > m_madGraphProcessDirectoriesByName;
-	std::map<std::string, std::map<int, MadGraphTools*> > m_madGraphTools;
+	//std::map<std::string, std::vector<std::string> > m_madGraphProcessDirectoriesByName;
+	std::map<int, MadGraphTools*> m_madGraphTools;
 	TDatabasePDG* m_databasePDG = nullptr;
 	
 	int GetMixingAngleKey(float mixingAngleOverPiHalf) const;
