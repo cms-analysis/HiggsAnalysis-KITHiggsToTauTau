@@ -21,7 +21,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		super(HiggsToTauTauAnalysisWrapper, self)._initArgumentParser(userArgParsers)
 
 	def modify_replacing_dict(self):
-		self.replacingDict["areafiles"] += " auxiliaries/mva_weights"
+		self.replacingDict["areafiles"] += " auxiliaries/mva_weights ZZMatrixElement/MELA"
 
 	def remove_pipeline_copies(self):
 		pipelines = self._config.get("Pipelines", {}).keys()
