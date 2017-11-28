@@ -101,7 +101,7 @@ if __name__ == "__main__":
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 	                    help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--steps", nargs="+",
-	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts", "likelihoodScan"],
+	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "likelihoodScan"],
 	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts", "likelihoodScan", "yields"],
 	                    help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
@@ -184,8 +184,8 @@ if __name__ == "__main__":
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = [
 		"datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
-		"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
+		#"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+		#"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
