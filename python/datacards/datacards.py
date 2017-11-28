@@ -1159,7 +1159,7 @@ class Datacards(object):
 
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="hypoTestResultTree.cxx")
 
-		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH125_qmu.root") for datacard in datacards_cbs.keys()}
+		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")) for datacard in datacards_cbs.keys()}
 
 
 	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1, *args):

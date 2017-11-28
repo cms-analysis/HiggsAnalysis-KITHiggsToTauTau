@@ -495,11 +495,6 @@ if __name__ == "__main__":
 					print(str(sig)+"/tot_bkg: ", str(sig_yield[sig]/tot_bkg))
 					print(str(sig)+"/tot_sig: ", str(sig_yield[sig]/tot_sig))
 		
-			
-		
-		
-		
-
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
 
@@ -519,37 +514,6 @@ if __name__ == "__main__":
 	
 	if "likelihoodScan" in args.steps:
 		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
-
-
-
-		
-
-
-
-
-
-
-
-
-
-
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
@@ -662,13 +626,12 @@ if __name__ == "__main__":
 		log.info(datacards_hypotestresult)
 		if args.use_shape_only:
 			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"")
-
-		result_plot_configs=[]
+		# TODO: I think this line should be deleted.
 		for filename in datacards_hypotestresult.values():
 			log.info(filename)
 			pconfigs={}
 			pconfigs["files"]= [filename]
-			pconfigs["nicks"]= ["noplot","alternative_hyptothesis","null_hypothesis", "q_obs"]
+			pconfigs["nicks"]= ["noplot","alternative_hypothesis","null_hypothesis", "q_obs"]
 			pconfigs["tree_draw_options"]=["","","","TGraph"]
 			#pconfigs[ "marker_sizes"]=[5]
 			#pconfigs["marker_styles"]=[34]
@@ -685,11 +648,10 @@ if __name__ == "__main__":
 			#pconfig["plot_modules"] = ["ExportRoot"]
 
 			pconfigs["analysis_modules"]=["PValue"]
-			pconfigs["p_value_alternative_hypothesis_nicks"]=["alternative_hyptothesis"]
+			pconfigs["p_value_alternative_hypothesis_nicks"]=["alternative_hypothesis"]
 			pconfigs["p_value_null_hypothesis_nicks"]=["null_hypothesis"]
 			pconfigs["p_value_observed_nicks"]=["q_obs"]
 			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
-			result_plot_configs.append(pconfigs)
 			pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
 			if "final" in args.cpstudy:
 				if "susycpodd" or "cpodd" in args.hypothesis:
@@ -700,6 +662,7 @@ if __name__ == "__main__":
 					pconfigs["labels"]=["CP-even", "CP-mix", "observed"]
 					if args.use_asimov_dataset:
 						pconfigs["labels"]=["CP-even", "CP-mix", "asimov"]
+			result_plot_configs.append(pconfigs)
 
 	
 	#pprint.pprint(reesult_plot_configs)
