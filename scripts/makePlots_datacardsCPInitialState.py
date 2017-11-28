@@ -599,7 +599,7 @@ if __name__ == "__main__":
 				args.n_processes,
 				"-P {MODEL} {MODEL_PARAMETERS}".format(
 					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-					MODEL_PARAMETERS=("--PO=muFloating" if args.use_shape_only else "")
+					MODEL_PARAMETERS=(("--PO=muFloating" if args.use_shape_only else "") + " --altSignal=100")
 				)
 		)
 				
