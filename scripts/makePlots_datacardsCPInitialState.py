@@ -317,7 +317,7 @@ if __name__ == "__main__":
 						) for sample in config_sig["labels"]]
 							
 						config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
-						config["analysis_modules"] = []		
+					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					
 					# TODO: evaluate shift from datacards.cb
@@ -449,35 +449,17 @@ if __name__ == "__main__":
 	# The histogram with mixing angle 0.00 is the standard model = null hypothesis.
 	# TODO: For inital state and final state the string for the two hypothesis might be different.
 	# TODO: Someone might be interested in testing other mixings angles against SM prediction.
-			
-	signal_null_hypothesis = datacards.cb.cp().signals()
-	signal_null_hypothesis.FilterAll(lambda obj : ("ALT" in obj.process() or "000" not in obj.mass()))
-    
-	signal_null_hypothesis.ForEachProc(lambda process : process.set_rate(process.no_norm_rate() * (1.)))
-	signal_alt_hypothesis = datacards.cb.cp().signals()
-	signal_alt_hypothesis.FilterAll(lambda obj : ("ALT" not in obj.process() or "000" not in obj.mass()))
-	if log.isEnabledFor(logging.DEBUG):
-		log.debug("Hypothesis testing processes used ")
-		signal_null_hypothesis.PrintProcs()
-		signal_alt_hypothesis.PrintProcs()
-	# The rate need to be scaled dont to produce only null_hypothesis asimov datasets. After that the alternative_hypothesis will be scaled up again.
-	signal_alt_hypothesis.ForEachProc(lambda process : process.set_rate(process.no_norm_rate() * (0.000000001)))
-    
+	
 	# Use an asimov dataset. This line must be here, because otherwise we 
 	if args.use_asimov_dataset:
-		datacards.replace_observation_by_asimov_dataset()
-    
-	signal_null_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
-	signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
-				
-	# import sys
-	# sys.exit(1)
+		datacards.replace_observation_by_asimov_dataset(signal_mass="000")
 	
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
 	It considers the 
 	"""
 
+	"""
 	# TODO: WIP: More elegant programming style planned.
 	if "yields" in args.steps:
 		for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
