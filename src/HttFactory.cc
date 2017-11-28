@@ -52,6 +52,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiGenJetQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MELAProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTbarGenDecayModeProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
 
@@ -267,6 +268,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TagAndProbeGenElectronProducer();
 	else if(id == MadGraphReweightingProducer().GetProducerId())
 		return new MadGraphReweightingProducer();
+	else if(id == MELAProducer().GetProducerId())
+		return new MELAProducer();
 	else if(id == TTbarGenDecayModeProducer().GetProducerId())
 		return new TTbarGenDecayModeProducer();
 	else if(id == TaggedJetUncertaintyShiftProducer().GetProducerId())

@@ -16,7 +16,7 @@
 			"nick" : 
 			{
 				"default" :  [],
-				"HToTauTau|H2JetsToTauTau" : 
+				"HToTauTau|H2JetsToTauTau|Higgs" : 
 				[
 					"KappaLambdaNtupleConsumer"
 				],

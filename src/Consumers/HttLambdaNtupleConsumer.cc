@@ -180,7 +180,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mjj", metadata.m_commonFloatQuantities["diJetMass"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdeta", metadata.m_commonFloatQuantities["diJetAbsDeltaEta"]);
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi", metadata.m_commonFloatQuantities["diJetDeltaPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi", metadata.m_commonFloatQuantities["signedDiJetDeltaPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dijetpt", metadata.m_commonFloatQuantities["diJetPt"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dijetphi", metadata.m_commonFloatQuantities["diJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "hdijetphi", metadata.m_commonFloatQuantities["diJetdiLepPhi"]);
@@ -209,68 +209,6 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genbosonmass", [metadata](event_type const& event, product_type const& product)
 	{
 		return Utility::Contains(metadata.m_commonFloatQuantities, std::string("genBosonMass")) ? SafeMap::Get(metadata.m_commonFloatQuantities, std::string("genBosonMass"))(event, product) : DefaultValues::UndefinedFloat;
-	});
-
-
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "isFake", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedInt;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "visjeteta", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-// 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "ptvis", [](event_type const& event, product_type const& product)
-// 	{
-// 		return DefaultValues::UndefinedFloat;
-// 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jrawf_1", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jrawf_2", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpfid_1", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpfid_2", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpuid_1", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpuid_2", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "brawf_1", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bpfid_1", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bpuid_1", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "brawf_2", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bpfid_2", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bpuid_2", [](event_type const& event, product_type const& product)
-	{
-		return DefaultValues::UndefinedFloat;
 	});
 
 	// need to be called at last

@@ -28,7 +28,7 @@
 	"LheParticles" : {
 		"nick": {
 			"default": "",
-			"HToTauTau.*amcatnlo|LFV": "LHEafter"
+			"HToTauTau|H2JetsToTauTau|Higgs|LFV": "LHEafter"
 		}
 	}
 }

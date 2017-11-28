@@ -196,7 +196,10 @@ class CategoriesDict(object):
 					"analysis": [
 						"catLFV13TeV_"
 						],
-					"global": "(njetspt30==0)*((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2 < 100)*(3.70>abs(phi_1-phi_2)>2.70)"
+					"global": "(njetspt30==0)",
+					"em_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<20)",
+					"et_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)",
+					"mt_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)"
 					},
 				"binnings":{
 					"analysis": [
@@ -218,7 +221,10 @@ class CategoriesDict(object):
 					"analysis": [
 						"catLFV13TeV_"
 						],
-					"global": "(njetspt30>=1)*(nbtag == 0)"
+					"global": "(njetspt30>=1)*(nbtag == 0)",
+					"em_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<20)",
+					"et_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)",
+					"mt_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)"
 					},
 				"binnings":{
 					"analysis": [

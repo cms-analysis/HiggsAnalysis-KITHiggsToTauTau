@@ -24,7 +24,7 @@
 				"#producer:ScaleVariationProducer",
 				"#filter:MetFilter"
 			],
-			"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets|^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)|SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" :
+			"DY.?JetsToLLM(10to50|50|150)|EWKZ2Jets|^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)|SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" :
 			[
 				"#producer:PrintGenParticleDecayTreeProducer",
 				"#filter:RunLumiEventFilter",
