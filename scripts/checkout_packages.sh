@@ -84,3 +84,6 @@ source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
 # compile everything
 scramv1 b -j `grep -c ^processor /proc/cpuinfo`
+
+# copy/link libraries
+cd $CMSSW_BASE/lib/$SCRAM_ARCH && ln -s ../../src/ZZMatrixElement/MELA/data/$SCRAM_ARCH/*.so ./ && cd $CMSSW_BASE/src/
