@@ -1,0 +1,1 @@
+XROOTD_sample_TTJets_RunIISummer17MiniAOD_92X_13TeV_MINIAOD_amcatnlo-pythia8_2017-11-20.txt
