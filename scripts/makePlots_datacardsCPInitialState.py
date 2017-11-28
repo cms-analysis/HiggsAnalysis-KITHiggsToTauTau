@@ -135,7 +135,7 @@ if __name__ == "__main__":
 	# preparation of CP mixing angles alpha_tau/(pi/2)
 	args.cp_mixings.sort()
 	cp_mixing_angles = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
-	cp_mixings_str = ["{mixing:0.2f}".format(mixing=mixing) for mixing in args.cp_mixings]
+	cp_mixings_str = cp_mixing_angles
 	
 	cp_mixings_scan = list(numpy.arange(args.cp_mixings[0], args.cp_mixings[-1]+0.001, (args.cp_mixings[-1]-args.cp_mixings[0])/(args.cp_mixing_scan_points-1)))
 	cp_mixings_combine_range_min = (3*cp_mixings_scan[0]-cp_mixings_scan[1]) / 2.0
@@ -157,7 +157,7 @@ if __name__ == "__main__":
 	if "initial" in args.cpstudy:
 		if "ggh" in args.production_mode:
 			signal_processes.append("ggHsm")
-			signal_processes.append("ggHps_ALT")
+			#signal_processes.append("ggHps_ALT")
 		if "qqh" in args.production_mode:
 			signal_processes.append("qqHsm")
 			#signal_processes.append("qqHps_ALT")
@@ -315,10 +315,9 @@ if __name__ == "__main__":
 								MASS=cp_mixing_str,
 								SYSTEMATIC=systematic
 						) for sample in config_sig["labels"]]
-						
+							
 						config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
-
-					
+						config["analysis_modules"] = []		
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					
 					# TODO: evaluate shift from datacards.cb
@@ -433,41 +432,52 @@ if __name__ == "__main__":
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
-	#after additional cuts
-	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.1)))
-	#befor cuts
-	#datacards.cb.cp().signals().ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.207)))
-	# use asimov dataset for s+b
+		
+	def remove_procs_and_systs_with_zero_yield(proc):
+		# TODO: find out why zero yield should be ok in control regions. until then remove them
+		#null_yield = not (proc.rate() > 0. or is_control_region(proc))
+		null_yield = not proc.rate() > 0.
+		if null_yield:
+			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
+		return null_yield
 	
-	
-	if args.use_asimov_dataset and "pvalue" in args.steps:
-		# First, we need to choose two hypothesis to test.
-		# The histogram with mixing angle 0.00 is the standard model = null hypothesis.
-		# The histogram with mixing angle 1.00 is the CP-odd hypothesis which we want to test.
-		# TODO: WIP: 2017-11-27: This part is kept as before for now becasue combine needs two different processes to compare. The mass alone does not seem to be sufficient.
-		# TODO: For inital state and final state the string for the two hypothesis might be different.
-		# TODO: Someone might be interested in testing other mixings angles against SM prediction.
+	# TODO: comment out the following two commands if you want to use
+	#       the SM HTT data card creation method in CombineHarvester
+	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)	
+		
+	# First, we need to choose two hypothesis to test.
+	# The histogram with mixing angle 0.00 is the standard model = null hypothesis.
+	# TODO: For inital state and final state the string for the two hypothesis might be different.
+	# TODO: Someone might be interested in testing other mixings angles against SM prediction.
 			
-		signal_null_hypothesis = datacards.cb.cp().signals()
-		#signal_null_hypothesis.FilterAll(lambda obj : ("0.00" not in obj.mass()))
-		signal_null_hypothesis.FilterAll(lambda obj : ("ALT" in obj.process()))
-		signal_null_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (1.)))
-		signal_alt_hypothesis = datacards.cb.cp().signals()
-		#signal_alt_hypothesis.FilterAll(lambda obj : ("1.00" not in obj.mass()))
-		signal_alt_hypothesis.FilterAll(lambda obj : ("ALT" not in obj.process()))
-		# TODO: Why rate set to 10^-9?
-		signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (0.000000001)))
-		
-		# TODO: Why is it not possible to use "125" here? 
+	signal_null_hypothesis = datacards.cb.cp().signals()
+	signal_null_hypothesis.FilterAll(lambda obj : ("ALT" in obj.process() or "000" not in obj.mass()))
+    
+	signal_null_hypothesis.ForEachProc(lambda process : process.set_rate(process.no_norm_rate() * (1.)))
+	signal_alt_hypothesis = datacards.cb.cp().signals()
+	signal_alt_hypothesis.FilterAll(lambda obj : ("ALT" not in obj.process() or "000" not in obj.mass()))
+	if log.isEnabledFor(logging.DEBUG):
+		log.debug("Hypothesis testing processes used ")
+		signal_null_hypothesis.PrintProcs()
+		signal_alt_hypothesis.PrintProcs()
+	# The rate need to be scaled dont to produce only null_hypothesis asimov datasets. After that the alternative_hypothesis will be scaled up again.
+	signal_alt_hypothesis.ForEachProc(lambda process : process.set_rate(process.no_norm_rate() * (0.000000001)))
+    
+	# Use an asimov dataset. This line must be here, because otherwise we 
+	if args.use_asimov_dataset:
 		datacards.replace_observation_by_asimov_dataset()
-		
-		signal_null_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
-		signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
+    
+	signal_null_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (1.0)))
+	signal_alt_hypothesis.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (0.000000001)))
+				
+	# import sys
+	# sys.exit(1)
 	
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
 	It considers the 
 	"""
+
 	# TODO: WIP: More elegant programming style planned.
 	if "yields" in args.steps:
 		for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
@@ -513,19 +523,33 @@ if __name__ == "__main__":
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
+	datacards_poi_ranges = {}
+	for datacard, cb in datacards_cbs.iteritems():
+		channels = cb.channel_set()
+		categories = cb.bin_set()
+		if len(channels) == 1:
+			if len(categories) == 1:
+				datacards_poi_ranges[datacard] = [-100.0, 100.0]
+			else:
+				datacards_poi_ranges[datacard] = [-50.0, 50.0]
+		else:
+			if len(categories) == 1:
+				datacards_poi_ranges[datacard] = [-50.0, 50.0]
+			else:
+				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 		
-	result_plot_configs = []
-	
 	if "likelihoodScan" in args.steps:
 		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
-
-		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
-
-		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
 		
-		# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF. 
+		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+		# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF. 					
+		if "prefitpostfitplots" in args.steps:
+			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
+
+			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
+							
 		datacards.combine(
 				datacards_cbs,
 				datacards_workspaces,
@@ -536,8 +560,8 @@ if __name__ == "__main__":
 						RANGE="{0:f},{1:f}".format(cp_mixings_combine_range_min, cp_mixings_combine_range_max),
 						POINTS=args.cp_mixing_scan_points
 				)	
-		)			
-
+		)
+		result_plot_configs = []
 		for datacard, workspace in datacards_workspaces.iteritems():
 			config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_alphatau.json"))
 			config["directories"] = [os.path.dirname(workspace)]
@@ -545,39 +569,13 @@ if __name__ == "__main__":
 			config["output_dir"] = os.path.join(os.path.dirname(workspace), "plots")
 			config["filename"] = "likelihoodScan"
 			result_plot_configs.append(config)
+		
+		higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
+
 
 	"""
 	Pvalue determination to be modified. Treating the mixing angle as MASS the file pattern does not work anymore.
-	"""
-
-	if "pvalue" in args.steps:
-		datacards_poi_ranges = {}
-		for datacard, cb in datacards_cbs.iteritems():
-			channels = cb.channel_set()
-			categories = cb.bin_set()
-			if len(channels) == 1:
-				if len(categories) == 1:
-					datacards_poi_ranges[datacard] = [-100.0, 100.0]
-				else:
-					datacards_poi_ranges[datacard] = [-50.0, 50.0]
-			else:
-				if len(categories) == 1:
-					datacards_poi_ranges[datacard] = [-50.0, 50.0]
-				else:
-					datacards_poi_ranges[datacard] = [-25.0, 25.0]
-		#cb.PrintAll()
-	    
-		# Physics model used for H->ZZ spin/CP studies
-		# https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit/blob/74x-root6/python/HiggsJPC.py
-		datacards_workspaces = datacards.text2workspace(
-				datacards_cbs,
-				args.n_processes,
-				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-					MODEL_PARAMETERS=("--PO=muFloating" if args.use_shape_only else "")
-				)
-		)
-	 	
+	"""	 	
 		# custom physics model
 		# datacards_workspaces = datacards.text2workspace(
 		# 		datacards_cbs,
@@ -590,16 +588,7 @@ if __name__ == "__main__":
 	
 	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 	# Max. likelihood fit and postfit plots
-	if "maxlikelihoodfit" in args.steps:
-		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\""+" --expectSignal 1.0 -t -1 --setPhysicsModelParameters \"x=1\"")
 	
-	if "prefitpostfitplots" in args.steps:
-		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else "")) 
-		datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
-		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
-		if "nuisanceimpacts" in args.steps:
-			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	#datacards.annotate_trees(
 			#datacards_workspaces,
 			#"higgsCombine*MaxLikelihoodFit*mH*.root",
@@ -620,17 +609,36 @@ if __name__ == "__main__":
 	#)
 
 	# Asymptotic limits
-	if "pvalue" in args.steps:
+	if "pvalue" in args.steps:	
+		# Physics model used for H->ZZ spin/CP studies
+		# https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit/blob/74x-root6/python/HiggsJPC.py
+		datacards_workspaces = datacards.text2workspace(
+				datacards_cbs,
+				args.n_processes,
+				"-P {MODEL} {MODEL_PARAMETERS}".format(
+					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
+					MODEL_PARAMETERS=("--PO=muFloating" if args.use_shape_only else "")
+				)
+		)
+				
 		datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
 		#-M HybridNew --testStat=TEV --generateExt=1 --generateNuis=0 fixedMu.root --singlePoint 1 --saveHybridResult --fork 40 -T 1000 -i 1 --clsAcc 0 --fullBToys
 
 		#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
-
+		if "prefitpostfitplots" in args.steps:
+			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else "")) 
+			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
+			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
+			if "nuisanceimpacts" in args.steps:
+				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
+				
 		datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
 		log.info(datacards_hypotestresult)
 		if args.use_shape_only:
 			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"")
 		# TODO: I think this line should be deleted.
+		pconfig_plots=[]
 		for filename in datacards_hypotestresult.values():
 			log.info(filename)
 			pconfigs={}
@@ -659,6 +667,7 @@ if __name__ == "__main__":
 			pconfigs["p_value_observed_nicks"]=["q_obs"]
 			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
 			pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
+			pconfig_plots.append(pconfigs)
 			if "final" in args.cpstudy:
 				if "susycpodd" or "cpodd" in args.hypothesis:
 					pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
@@ -668,9 +677,4 @@ if __name__ == "__main__":
 					pconfigs["labels"]=["CP-even", "CP-mix", "observed"]
 					if args.use_asimov_dataset:
 						pconfigs["labels"]=["CP-even", "CP-mix", "asimov"]
-			result_plot_configs.append(pconfigs)
-
-	
-	#pprint.pprint(reesult_plot_configs)
-	if "pvalue" or "likelihoodScan" or "prefit_postfit_plots" or "nuisanceimpacts" in args.steps:
-		higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
+			higgsplot.HiggsPlotter(list_of_config_dicts=pconfig_plots, list_of_args_strings=[args.args], n_processes=args.n_processes)
