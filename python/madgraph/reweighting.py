@@ -38,7 +38,6 @@ def me2(connection):
 	sys.path.pop(0)
 	os.chdir(cwd)
 	connection.send([result])
-	print result
 	return result
 
 class MadGraphTools(object):
