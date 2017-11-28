@@ -339,7 +339,6 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantitiesHiggs.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json"
 						]
 					},
@@ -665,7 +664,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"producer:MadGraphReweightingProducer",
+					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)" : [
@@ -711,7 +710,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"producer:MadGraphReweightingProducer",
+					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
 				"(LFV).*(?=(Spring16|Summer16))" : [
