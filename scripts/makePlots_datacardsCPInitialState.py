@@ -40,7 +40,7 @@ if __name__ == "__main__":
 	parser.add_argument("--cpstudy", nargs="+", required=True,
 	                    default=["initial"],
 	                    choices=["initial", "final"],
-						help="Choose which CP study to do: initial state or final state. [Default: %(default)s]")
+	                    help="Choose which CP study to do: initial state or final state. [Default: %(default)s]")
 	parser.add_argument("-c", "--channel", action = "append",
 	                    default=["et", "mt", "tt", "em"],
 	                    help="Channel. This argument can be set multiple times. [Default: %(default)s]")
@@ -50,10 +50,10 @@ if __name__ == "__main__":
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--cp-mixings", nargs="+", type=float,
-						default=list(numpy.arange(0.0, 1.001, 0.1)),
-						help="CP mixing angles alpha_tau (in units of pi/2) to be probed. [Default: %(default)s]")
+	                    default=list(numpy.arange(0.0, 1.001, 0.1)),
+	                    help="CP mixing angles alpha_tau (in units of pi/2) to be probed. [Default: %(default)s]")
 	parser.add_argument("--cp-mixing-scan-points", type=int, default=((len(parser.get_default("cp_mixings"))-1)*4)+1,
-                        help="Number of points for CP mixing angles alpha_tau (in units of pi/2) to be scanned. [Default: %(default)s]")
+	                    help="Number of points for CP mixing angles alpha_tau (in units of pi/2) to be scanned. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="jdphi",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
@@ -83,11 +83,11 @@ if __name__ == "__main__":
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--scale-lumi", default=False,
-                        help="Scale datacard to luminosity specified. [Default: %(default)s]")
+	                    help="Scale datacard to luminosity specified. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
-						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
-						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
+	                    help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
@@ -97,23 +97,23 @@ if __name__ == "__main__":
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
-						help="Do not include shape uncertainties. [Default: %(default)s]")
+	                    help="Do not include shape uncertainties. [Default: %(default)s]")
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
-						help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
+	                    help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--steps", nargs="+",
 	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts", "likelihoodScan"],
 	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts", "likelihoodScan", "yields"],
-						help="Steps to perform. [Default: %(default)s]")
+	                    help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
-						help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
+	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
 	parser.add_argument("--production-mode", nargs="+",
 	                    default=["ggh", "qqh"],
 	                    choices=["ggh", "qqh"],
-						help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")
+	                    help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")
 	parser.add_argument("--hypothesis", nargs="+",
 	                    default=["susycpodd"],
 	                    choices=["susycpodd", "cpodd", "cpmix"],
-						help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")
+	                    help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
