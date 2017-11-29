@@ -47,7 +47,7 @@ MadGraphTools::~MadGraphTools()
 	}
 }
 
-double MadGraphTools::GetMatrixElementSquared(std::vector<CartesianRMFLV*> const& particleFourMomenta) const
+double MadGraphTools::GetMatrixElementSquared(std::vector<CartesianRMFLV*> const& particleFourMomenta, std::vector<int> const& particlepdgs) const
 {
 	// construct Python list of four-momenta
 	PyObject* pyParticleFourMomenta = PyList_New(0);
@@ -61,9 +61,16 @@ double MadGraphTools::GetMatrixElementSquared(std::vector<CartesianRMFLV*> const
 		PyList_Append(pyParticleFourMomenta, pyParticleFourMomentum);
 	}
 	
+	//construct list of particle pdgs
+	PyObject* pyParticlepdgs = PyList_New(0);
+	for (std::vector<int>::const_iterator particlepdgId = particlepdgs.begin(); particlepdgId != particlepdgs.end(); ++particlepdgId)
+	{
+		PyList_Append(pyParticlepdgs, PyInt_FromLong(*particlepdgId));
+	}	
+
 	// call MadGraphTools.matrix_element_squared
 	PyObject* pyMethodName = PyString_FromString("matrix_element_squared");
-	PyObject* pyMatrixElementSquared = PyObject_CallMethodObjArgs(m_pyMadGraphTools, pyMethodName, pyParticleFourMomenta, NULL);
+	PyObject* pyMatrixElementSquared = PyObject_CallMethodObjArgs(m_pyMadGraphTools, pyMethodName, pyParticleFourMomenta, pyParticlepdgs, NULL);
 	PyErr_Print();
 	double matrixElementSquared = -1.0;
 	if (pyMatrixElementSquared != nullptr)

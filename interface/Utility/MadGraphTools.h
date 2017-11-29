@@ -14,7 +14,7 @@ public:
 	MadGraphTools(float mixingAngleOverPiHalf, std::string madgraphProcessDirectory, std::string madgraphParamCard, float alphaS);
 	virtual ~MadGraphTools();
 	
-	double GetMatrixElementSquared(std::vector<CartesianRMFLV*> const& particleMomenta) const;
+	double GetMatrixElementSquared(std::vector<CartesianRMFLV*> const& particleMomenta, std::vector<int> const& particlepdgs) const;
 
 private:
 	PyObject* m_pyMadGraphTools = nullptr;

@@ -436,6 +436,11 @@ public:
 	//filled by TTbarGenDecayModeProducer
 	unsigned int m_TTbarGenDecayMode = 0;
 
+	//filled by GenHiggsCPProducer
+	std::vector<KLHEParticle*> m_lheParticlesIn;
+	std::vector<KLHEParticle*> m_lheParticlesOut;
+	std::vector<KLHEParticle*> m_lheParticlesBoson;
+
 	//filled by MadGraphReweightingProducer
 	std::vector<KLHEParticle*> m_lheParticlesSortedForMadGraph;
 	float m_madGraph_HiggsPt;
