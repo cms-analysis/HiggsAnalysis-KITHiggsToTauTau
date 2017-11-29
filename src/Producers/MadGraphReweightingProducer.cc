@@ -22,7 +22,6 @@ std::string MadGraphReweightingProducer::GetProducerId() const
 void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
-
 	
 	//create map that stores a MadGraphTools element for every mixing angle
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
@@ -36,9 +35,8 @@ void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_ty
 	MadGraphTools* madGraphTools = new MadGraphTools(0, settings.GetMadGraphProcessDirectories(), settings.GetMadGraphParamCard(), 0.118);
 	m_madGraphTools[-1] = madGraphTools;
 	
-		
 	std::string pdgDatabaseFilename = settings.GetDatabasePDG();
- 	if (! pdgDatabaseFilename.empty())
+	if (! pdgDatabaseFilename.empty())
 	{
 		if (m_databasePDG)
 		{
@@ -144,7 +142,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 	{
-		MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools,GetMixingAngleKey(*mixingAngleOverPiHalf));
+		MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, GetMixingAngleKey(*mixingAngleOverPiHalf));
 		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM, particlepdgs);
 		if (matrixElementSquared < 0.0)
 		{
@@ -158,19 +156,19 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		}
 	}
 		
-		//calculate the old matrix element for reweighting
-		MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, -1);
-		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM, particlepdgs);
-		if (matrixElementSquared < 0.0)
-		{
-			LOG(ERROR) << "Error in calculation of matrix element for \""<< ":" << settings.GetMadGraphProcessDirectories() << "\"";
-			LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
-			product.m_optionalWeights["madGraphWeightSample"] = 0.0;
-		}
-		else
-		{
-			product.m_optionalWeights["madGraphWeightSample"] = matrixElementSquared;
-		}
+	//calculate the old matrix element for reweighting
+	MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, -1);
+	float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM, particlepdgs);
+	if (matrixElementSquared < 0.0)
+	{
+		LOG(ERROR) << "Error in calculation of matrix element for \""<< ":" << settings.GetMadGraphProcessDirectories() << "\"";
+		LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
+		product.m_optionalWeights["madGraphWeightSample"] = 0.0;
+	}
+	else
+	{
+		product.m_optionalWeights["madGraphWeightSample"] = matrixElementSquared;
+	}
 	
 }
 

@@ -233,8 +233,3 @@ std::vector<int> MadGraphTools::pdgID(std::vector<KLHEParticle*> particles)
 	return particlepdgs;
 }
 
-
-
-
-
-
