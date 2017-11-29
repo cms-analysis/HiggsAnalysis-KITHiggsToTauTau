@@ -120,6 +120,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	for (std::vector<KLHEParticle>::const_iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
 	{
 		product.m_lheParticlesSortedForMadGraph.push_back(const_cast<KLHEParticle*>(&(*lheParticle)));
+		
 	}
 	
 	// sorting of LHE particles for MadGraph
@@ -134,45 +135,11 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphTools::MadGraphParticleOrderingLightBQuark);
 	}
 
-	// preparations for MadGraph
-	std::vector<CartesianRMFLV*> particleFourMomenta;
-	std::vector<CartesianRMFLV*> particleFourMomenta_HiggsCM;
-	
-	CartesianRMFLV higgsp4 = CartesianRMFLV(0,0,0,1);
-
-	std::vector<int> particlepdgs;
-
-	for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
-	     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
-	{
-		particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
-
-		particlepdgs.push_back((*madGraphLheParticle)->pdgId);
-
-		//extract 4-momentum of the higgs boson	
-		if ((*madGraphLheParticle)->pdgId == 25) {
-			 higgsp4 = (*madGraphLheParticle)->p4;
-		}
-	}
-	// Calculate boost to Higgs CMRF and boost particle LV to it. 
-	CartesianRMFLV::BetaVector boostvec = higgsp4.BoostToCM();
-	ROOT::Math::Boost M(boostvec);
-	
-	for (std::vector<CartesianRMFLV*>::iterator particleLV= particleFourMomenta.begin(); particleLV != particleFourMomenta.end(); ++particleLV) {
-		
-		CartesianRMFLV tmpParticleLV = CartesianRMFLV((*particleLV)->Px(), (*particleLV)->Py(), (*particleLV)->Pz(), (*particleLV)->E());
-	 	tmpParticleLV = M * tmpParticleLV;
-		CartesianRMFLV* CmLV = new CartesianRMFLV(tmpParticleLV.Px(), tmpParticleLV.Py(), tmpParticleLV.Pz(), tmpParticleLV.E());
-		particleFourMomenta_HiggsCM.push_back(CmLV);
-	 }
-	
-	
-	
+	std::vector<int> particlepdgs = MadGraphTools::pdgID(product.m_lheParticlesSortedForMadGraph);
+	std::vector<CartesianRMFLV*> particleFourMomenta_HiggsCM = MadGraphTools::BoostedCartesianRMFLV(product.m_lheParticlesSortedForMadGraph);	
 	
 	LOG_N_TIMES(50, DEBUG) << "MadGraph process directory: " << settings.GetMadGraphProcessDirectories();
-		
 	
-		
 	// calculate the matrix elements for different mixing angles
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)

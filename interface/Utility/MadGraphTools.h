@@ -17,6 +17,8 @@ public:
 	double GetMatrixElementSquared(std::vector<CartesianRMFLV*> const& particleMomenta, std::vector<int> const& particlepdgs) const;
 	static bool MadGraphParticleOrderingLightBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2);
 	static bool MadGraphParticleOrderingHeavyBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2);
+	static std::vector<CartesianRMFLV*> BoostedCartesianRMFLV(std::vector<KLHEParticle*> particles);
+	static std::vector<int> pdgID(std::vector<KLHEParticle*> particles);
 	
 
 private:
