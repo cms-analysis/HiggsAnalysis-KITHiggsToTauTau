@@ -1,10 +1,9 @@
 
 #pragma once
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MadGraphTools.h"
-#include "TDatabasePDG.h"
+
 
 class MadGraphReweightingProducer: public ProducerBase<HttTypes>
 {
@@ -19,8 +18,7 @@ public:
 
 private:
 	std::map<int, MadGraphTools*> m_madGraphTools;
-	TDatabasePDG* m_databasePDG = nullptr;
 	
-	int GetMixingAngleKey(float mixingAngleOverPiHalf) const;
-	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
+	static int GetMixingAngleKey(float mixingAngleOverPiHalf);
+	static std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf);
 };

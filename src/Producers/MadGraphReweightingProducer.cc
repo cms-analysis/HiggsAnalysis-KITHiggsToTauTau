@@ -27,27 +27,13 @@ void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_ty
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 	{
-		MadGraphTools* madGraphTools = new MadGraphTools(*mixingAngleOverPiHalf, settings.GetMadGraphProcessDirectories(), settings.GetMadGraphParamCard(), 0.118);
-		m_madGraphTools[GetMixingAngleKey(*mixingAngleOverPiHalf)] = madGraphTools;
+		MadGraphTools* madGraphTools = new MadGraphTools(*mixingAngleOverPiHalf, settings.GetMadGraphProcessDirectories(), settings.GetMadGraphParamCard(), 0.118, settings.GetMadGraphSortingHeavyBQuark());
+		m_madGraphTools[MadGraphReweightingProducer::GetMixingAngleKey(*mixingAngleOverPiHalf)] = madGraphTools;
 	}
 	
 	//add the MadGraphTools element needed for reweighting
-	MadGraphTools* madGraphTools = new MadGraphTools(0, settings.GetMadGraphProcessDirectories(), settings.GetMadGraphParamCard(), 0.118);
+	MadGraphTools* madGraphTools = new MadGraphTools(0, settings.GetMadGraphProcessDirectories(), settings.GetMadGraphParamCard(), 0.118, settings.GetMadGraphSortingHeavyBQuark());
 	m_madGraphTools[-1] = madGraphTools;
-	
-	std::string pdgDatabaseFilename = settings.GetDatabasePDG();
-	if (! pdgDatabaseFilename.empty())
-	{
-		if (m_databasePDG)
-		{
-			delete m_databasePDG;
-			m_databasePDG = nullptr;
-		}
-		m_databasePDG = new TDatabasePDG();
-		boost::algorithm::replace_first(pdgDatabaseFilename, "$ROOTSYS", getenv("ROOTSYS"));
-		LOG(DEBUG) << "Read PDG database from \"" << pdgDatabaseFilename << "\"...";
-		m_databasePDG->ReadPDGTable(pdgDatabaseFilename.c_str());
-	}
 	
 	// add possible quantities for the lambda ntuples consumers
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
@@ -55,7 +41,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_ty
 	     ++mixingAngleOverPiHalfIt)
 	{
 		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
-		std::string mixingAngleOverPiHalfLabel = GetLabelForWeightsMap(mixingAngleOverPiHalf);
+		std::string mixingAngleOverPiHalfLabel = MadGraphReweightingProducer::GetLabelForWeightsMap(mixingAngleOverPiHalf);
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, mixingAngleOverPiHalfLabel, [mixingAngleOverPiHalfLabel](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfLabel, 0.0);
@@ -69,7 +55,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_ty
 		// if mixing angle for curent sample is defined, it has to be in the list MadGraphMixingAnglesOverPiHalf
 		assert(Utility::Contains(settings.GetMadGraphMixingAnglesOverPiHalf(), mixingAngleOverPiHalfSample));
 		
-		std::string mixingAngleOverPiHalfSampleLabel = GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
+		std::string mixingAngleOverPiHalfSampleLabel = MadGraphReweightingProducer::GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, std::string("madGraphWeightSample"), [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, std::string("madGraphWeightSample"), 0.0);
@@ -127,17 +113,17 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 	{
-		MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, GetMixingAngleKey(*mixingAngleOverPiHalf));
+		MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, MadGraphReweightingProducer::GetMixingAngleKey(*mixingAngleOverPiHalf));
 		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph);
 		if (matrixElementSquared < 0.0)
 		{
 			LOG(ERROR) << "Error in calculation of matrix element for \"" << ":" << settings.GetMadGraphProcessDirectories() <<  "\"";
 			LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
-			product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = 0.0;
+			product.m_optionalWeights[MadGraphReweightingProducer::GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = 0.0;
 			}
 		else
 		{
-			product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = matrixElementSquared;
+			product.m_optionalWeights[MadGraphReweightingProducer::GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = matrixElementSquared;
 		}
 	}
 		
@@ -157,12 +143,12 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	
 }
 
-int MadGraphReweightingProducer::GetMixingAngleKey(float mixingAngleOverPiHalf) const
+int MadGraphReweightingProducer::GetMixingAngleKey(float mixingAngleOverPiHalf)
 {
 	return int(mixingAngleOverPiHalf * 100.0);
 }
 
-std::string MadGraphReweightingProducer::GetLabelForWeightsMap(float mixingAngleOverPiHalf) const
+std::string MadGraphReweightingProducer::GetLabelForWeightsMap(float mixingAngleOverPiHalf)
 {
 	return ("madGraphWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)));
 }
