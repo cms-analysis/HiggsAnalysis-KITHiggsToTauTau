@@ -470,7 +470,7 @@ if __name__ == "__main__":
 	It considers the 
 	"""
 
-	"""
+	
 	# TODO: WIP: More elegant programming style planned.
 	if "yields" in args.steps:
 		for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
