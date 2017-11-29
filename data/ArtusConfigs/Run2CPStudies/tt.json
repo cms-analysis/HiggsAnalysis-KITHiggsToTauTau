@@ -583,7 +583,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:MadGraphReweightingProducer",
+					"producer:MadGraphReweightingProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],

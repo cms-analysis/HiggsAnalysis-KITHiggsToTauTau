@@ -712,7 +712,7 @@
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:MadGraphReweightingProducer",
+					"producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
 				"(LFV).*(?=(Spring16|Summer16))" : [
