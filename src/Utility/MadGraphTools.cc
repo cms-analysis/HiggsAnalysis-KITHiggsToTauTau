@@ -1,6 +1,7 @@
+#include <algorithm>
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MadGraphTools.h"
-
+#include "Artus/Utility/interface/DefaultValues.h"
 
 MadGraphTools::MadGraphTools(float mixingAngleOverPiHalf, std::string madgraphProcessDirectory, std::string madgraphParamCard, float alphaS)
 {
@@ -84,5 +85,106 @@ double MadGraphTools::GetMatrixElementSquared(std::vector<CartesianRMFLV*> const
 	Py_DECREF(pyMethodName);
 	
 	return matrixElementSquared;
+}
+
+// pdgParticle->GetName() has no specific order
+// madgraph sorts particle before antiparticle
+// puts gluons first
+// up type quarks second
+// downtype quarks third
+// => the order is: g u c d s b u_bar c_bar d_bar s_bar b_bar
+bool MadGraphTools::MadGraphParticleOrderingLightBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2)
+{
+	int pdgId1 = std::abs(lheParticle1->pdgId);
+	int pdgId2 = std::abs(lheParticle2->pdgId);
+	
+	if ((lheParticle1->pdgId < 0) && (lheParticle2->pdgId > 0))
+	{
+		return false;
+	}
+	else if ((lheParticle1->pdgId > 0) && (lheParticle2->pdgId < 0))
+	{
+		return true;
+	}
+	else
+	{
+		if (pdgId1 == DefaultValues::pdgIdGluon)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdGluon)
+		{
+			return false;
+		}
+		else if (pdgId1 == DefaultValues::pdgIdUp)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdUp)
+		{
+			return false;
+		}
+		else if (pdgId1 == DefaultValues::pdgIdCharm)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdCharm)
+		{
+			return false;
+		}
+		else if (pdgId1 == DefaultValues::pdgIdDown)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdDown)
+		{
+			return false;
+		}
+		else if (pdgId1 == DefaultValues::pdgIdStrange)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdStrange)
+		{
+			return false;
+		}
+		else if (pdgId1 == DefaultValues::pdgIdBottom)
+		{
+			return true;
+		}
+		else if (pdgId2 == DefaultValues::pdgIdBottom)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+}
+
+// pdgParticle->GetName() has no specific order
+// madgraph sorts particle before antiparticle
+// puts gluons first
+// up type quarks second
+// downtype quarks third
+// heavy quarks last => the order is: g u c d s u_bar c_bar d_bar s_bar b b_bar
+bool MadGraphTools::MadGraphParticleOrderingHeavyBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2)
+{
+	int pdgId1 = std::abs(lheParticle1->pdgId);
+	int pdgId2 = std::abs(lheParticle2->pdgId);
+	
+	if ((lheParticle1->pdgId < 0) && (lheParticle2->pdgId > 0) && (pdgId1 != DefaultValues::pdgIdBottom) && (pdgId2 == DefaultValues::pdgIdBottom))
+	{
+		return true;
+	}
+	else if ((lheParticle1->pdgId > 0) && (lheParticle2->pdgId < 0) && (pdgId1 == DefaultValues::pdgIdBottom) && (pdgId2 != DefaultValues::pdgIdBottom))
+	{
+		return false;
+	}
+	else
+	{
+		return MadGraphTools::MadGraphParticleOrderingLightBQuark(lheParticle1, lheParticle2);
+	}
 }
 

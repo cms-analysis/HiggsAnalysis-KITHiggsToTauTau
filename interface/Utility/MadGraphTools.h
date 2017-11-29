@@ -15,8 +15,12 @@ public:
 	virtual ~MadGraphTools();
 	
 	double GetMatrixElementSquared(std::vector<CartesianRMFLV*> const& particleMomenta, std::vector<int> const& particlepdgs) const;
+	static bool MadGraphParticleOrderingLightBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2);
+	static bool MadGraphParticleOrderingHeavyBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2);
+	
 
 private:
 	PyObject* m_pyMadGraphTools = nullptr;
+	
 };
 
