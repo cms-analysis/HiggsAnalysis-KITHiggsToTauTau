@@ -3,7 +3,9 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MadGraphTools.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 
-MadGraphTools::MadGraphTools(float mixingAngleOverPiHalf, std::string madgraphProcessDirectory, std::string madgraphParamCard, float alphaS)
+MadGraphTools::MadGraphTools(float mixingAngleOverPiHalf, std::string madgraphProcessDirectory, std::string madgraphParamCard, float alphaS,
+                             bool madGraphSortingHeavyBQuark) :
+	m_madGraphSortingHeavyBQuark(madGraphSortingHeavyBQuark)
 {
 	// initialise interface to Python
 	if (! Py_IsInitialized())
@@ -48,30 +50,45 @@ MadGraphTools::~MadGraphTools()
 	}
 }
 
-double MadGraphTools::GetMatrixElementSquared(std::vector<CartesianRMFLV*> const& particleFourMomenta, std::vector<int> const& particlepdgs) const
+double MadGraphTools::GetMatrixElementSquared(std::vector<KLHEParticle*>& lheParticles) const
 {
+	// sorting of LHE particles for MadGraph
+	if (m_madGraphSortingHeavyBQuark)
+	{
+		std::sort(lheParticles.begin(), lheParticles.begin()+2, &MadGraphTools::MadGraphParticleOrderingHeavyBQuark);
+		std::sort(lheParticles.begin()+3, lheParticles.end(), &MadGraphTools::MadGraphParticleOrderingHeavyBQuark);
+	}
+	else
+	{
+		std::sort(lheParticles.begin(), lheParticles.begin()+2, &MadGraphTools::MadGraphParticleOrderingLightBQuark);
+		std::sort(lheParticles.begin()+3, lheParticles.end(), &MadGraphTools::MadGraphParticleOrderingLightBQuark);
+	}
+	
+	std::vector<CartesianRMFLV> particleFourMomenta = MadGraphTools::BoostToHiggsCMS(lheParticles);
+	std::vector<int> particlePdgIds = MadGraphTools::GetPdgIds(lheParticles);
+
 	// construct Python list of four-momenta
 	PyObject* pyParticleFourMomenta = PyList_New(0);
-	for (std::vector<CartesianRMFLV*>::const_iterator particleLV = particleFourMomenta.begin(); particleLV != particleFourMomenta.end(); ++particleLV)
+	for (std::vector<CartesianRMFLV>::const_iterator particleLV = particleFourMomenta.begin(); particleLV != particleFourMomenta.end(); ++particleLV)
 	{
 		PyObject* pyParticleFourMomentum = PyList_New(0);
-		PyList_Append(pyParticleFourMomentum, PyFloat_FromDouble((*particleLV)->E()));
-		PyList_Append(pyParticleFourMomentum, PyFloat_FromDouble((*particleLV)->Px()));
-		PyList_Append(pyParticleFourMomentum, PyFloat_FromDouble((*particleLV)->Py()));
-		PyList_Append(pyParticleFourMomentum, PyFloat_FromDouble((*particleLV)->Pz()));
+		PyList_Append(pyParticleFourMomentum, PyFloat_FromDouble(particleLV->E()));
+		PyList_Append(pyParticleFourMomentum, PyFloat_FromDouble(particleLV->Px()));
+		PyList_Append(pyParticleFourMomentum, PyFloat_FromDouble(particleLV->Py()));
+		PyList_Append(pyParticleFourMomentum, PyFloat_FromDouble(particleLV->Pz()));
 		PyList_Append(pyParticleFourMomenta, pyParticleFourMomentum);
 	}
 	
 	//construct list of particle pdgs
-	PyObject* pyParticlepdgs = PyList_New(0);
-	for (std::vector<int>::const_iterator particlepdgId = particlepdgs.begin(); particlepdgId != particlepdgs.end(); ++particlepdgId)
+	PyObject* pyParticlePdgIds = PyList_New(0);
+	for (std::vector<int>::const_iterator particlepdgId = particlePdgIds.begin(); particlepdgId != particlePdgIds.end(); ++particlepdgId)
 	{
-		PyList_Append(pyParticlepdgs, PyInt_FromLong(*particlepdgId));
-	}	
-
+		PyList_Append(pyParticlePdgIds, PyInt_FromLong(*particlepdgId));
+	}
+	
 	// call MadGraphTools.matrix_element_squared
 	PyObject* pyMethodName = PyString_FromString("matrix_element_squared");
-	PyObject* pyMatrixElementSquared = PyObject_CallMethodObjArgs(m_pyMadGraphTools, pyMethodName, pyParticleFourMomenta, pyParticlepdgs, NULL);
+	PyObject* pyMatrixElementSquared = PyObject_CallMethodObjArgs(m_pyMadGraphTools, pyMethodName, pyParticleFourMomenta, pyParticlePdgIds, NULL);
 	PyErr_Print();
 	double matrixElementSquared = -1.0;
 	if (pyMatrixElementSquared != nullptr)
@@ -188,48 +205,39 @@ bool MadGraphTools::MadGraphParticleOrderingHeavyBQuark(KLHEParticle* lheParticl
 	}
 }
 
-std::vector<CartesianRMFLV*> MadGraphTools::BoostedCartesianRMFLV(std::vector<KLHEParticle*> particles)
+std::vector<CartesianRMFLV> MadGraphTools::BoostToHiggsCMS(std::vector<KLHEParticle*> lheParticles)
 {
-	std::vector<CartesianRMFLV*> particleFourMomenta;
-	std::vector<CartesianRMFLV*> particleFourMomenta_HiggsCM;
+	std::vector<CartesianRMFLV> particleFourMomentaHiggsCMS;
 	
-	CartesianRMFLV higgsp4 = CartesianRMFLV(0,0,0,1);
-
-	
-
-	for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = particles.begin();
-	     madGraphLheParticle != particles.end(); ++madGraphLheParticle)
+	//extract 4-momentum of the higgs boson
+	CartesianRMFLV higgsFourMomentum = CartesianRMFLV(0,0,0,1);
+	for (std::vector<KLHEParticle*>::iterator lheParticle = lheParticles.begin(); lheParticle != lheParticles.end(); ++lheParticle)
 	{
-		particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
-
-		//extract 4-momentum of the higgs boson	
-		if ((*madGraphLheParticle)->pdgId == 25) {
-			 higgsp4 = (*madGraphLheParticle)->p4;
+		if ((*lheParticle)->pdgId > 20) {
+			 higgsFourMomentum = (*lheParticle)->p4;
 		}
 	}
-	// Calculate boost to Higgs CMRF and boost particle LV to it. 
-	CartesianRMFLV::BetaVector boostvec = higgsp4.BoostToCM();
-	ROOT::Math::Boost M(boostvec);
 	
-	for (std::vector<CartesianRMFLV*>::iterator particleLV= particleFourMomenta.begin(); particleLV != particleFourMomenta.end(); ++particleLV) 
-	{		
-		CartesianRMFLV tmpParticleLV = CartesianRMFLV((*particleLV)->Px(), (*particleLV)->Py(), (*particleLV)->Pz(), (*particleLV)->E());
-	 	tmpParticleLV = M * tmpParticleLV;
-		CartesianRMFLV* CmLV = new CartesianRMFLV(tmpParticleLV.Px(), tmpParticleLV.Py(), tmpParticleLV.Pz(), tmpParticleLV.E());
-		particleFourMomenta_HiggsCM.push_back(CmLV);
-	 }
-	return particleFourMomenta_HiggsCM;
+	// Calculate boost to Higgs CMRF and boost particle LV to it. 
+	CartesianRMFLV::BetaVector betaVector = higgsFourMomentum.BoostToCM();
+	ROOT::Math::Boost boost(betaVector);
+	
+	// boost all particles
+	for (std::vector<KLHEParticle*>::iterator lheParticle = lheParticles.begin(); lheParticle != lheParticles.end(); ++lheParticle)
+	{
+		particleFourMomentaHiggsCMS.push_back(boost * (*lheParticle)->p4);
+	}
+	return particleFourMomentaHiggsCMS;
 }
 
 
-std::vector<int> MadGraphTools::pdgID(std::vector<KLHEParticle*> particles)
+std::vector<int> MadGraphTools::GetPdgIds(std::vector<KLHEParticle*> lheParticles)
 {
-	std::vector<int> particlepdgs;
-	for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = particles.begin();
-	     madGraphLheParticle != particles.end(); ++madGraphLheParticle)
+	std::vector<int> particlePdgIds;
+	for (std::vector<KLHEParticle*>::iterator lheParticle = lheParticles.begin(); lheParticle != lheParticles.end(); ++lheParticle)
 	{
-		particlepdgs.push_back((*madGraphLheParticle)->pdgId);
+		particlePdgIds.push_back((*lheParticle)->pdgId);
 	}
-	return particlepdgs;
+	return particlePdgIds;
 }
 

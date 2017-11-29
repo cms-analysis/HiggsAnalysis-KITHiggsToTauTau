@@ -121,21 +121,6 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 	}
 	
-	// sorting of LHE particles for MadGraph
-	if (settings.GetMadGraphSortingHeavyBQuark())
-	{
-		std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphTools::MadGraphParticleOrderingHeavyBQuark);
-		std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphTools::MadGraphParticleOrderingHeavyBQuark);
-	}
-	else
-	{
-		std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphTools::MadGraphParticleOrderingLightBQuark);
-		std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphTools::MadGraphParticleOrderingLightBQuark);
-	}
-
-	std::vector<int> particlepdgs = MadGraphTools::pdgID(product.m_lheParticlesSortedForMadGraph);
-	std::vector<CartesianRMFLV*> particleFourMomenta_HiggsCM = MadGraphTools::BoostedCartesianRMFLV(product.m_lheParticlesSortedForMadGraph);	
-	
 	LOG_N_TIMES(50, DEBUG) << "MadGraph process directory: " << settings.GetMadGraphProcessDirectories();
 	
 	// calculate the matrix elements for different mixing angles
@@ -143,7 +128,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 	{
 		MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, GetMixingAngleKey(*mixingAngleOverPiHalf));
-		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM, particlepdgs);
+		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph);
 		if (matrixElementSquared < 0.0)
 		{
 			LOG(ERROR) << "Error in calculation of matrix element for \"" << ":" << settings.GetMadGraphProcessDirectories() <<  "\"";
@@ -158,7 +143,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 	//calculate the old matrix element for reweighting
 	MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, -1);
-	float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM, particlepdgs);
+	float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph);
 	if (matrixElementSquared < 0.0)
 	{
 		LOG(ERROR) << "Error in calculation of matrix element for \""<< ":" << settings.GetMadGraphProcessDirectories() << "\"";
