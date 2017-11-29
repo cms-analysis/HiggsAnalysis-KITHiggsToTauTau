@@ -432,6 +432,17 @@ if __name__ == "__main__":
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
+	
+	def matching_process(obj1, obj2):
+		matches = (obj1.bin() == obj2.bin())
+		matches = matches and (obj1.process() == obj2.process())
+		matches = matches and (obj1.signal() == obj2.signal())
+		matches = matches and (obj1.analysis() == obj2.analysis())
+		matches = matches and (obj1.era() == obj2.era())
+		matches = matches and (obj1.channel() == obj2.channel())
+		matches = matches and (obj1.bin_id() == obj2.bin_id())
+		matches = matches and (obj1.mass() == obj2.mass())
+		return matches
 		
 	def remove_procs_and_systs_with_zero_yield(proc):
 		# TODO: find out why zero yield should be ok in control regions. until then remove them
