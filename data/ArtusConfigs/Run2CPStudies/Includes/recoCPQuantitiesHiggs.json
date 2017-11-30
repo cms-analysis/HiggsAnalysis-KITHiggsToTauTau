@@ -13,6 +13,12 @@
 		"madGraphLheParticle5PdgId",
 		"madGraphLheParticle6PdgId",
 		"subProcessCode",
-		"lheParticleJetNumber"
+		"lheParticleJetNumber",
+		
+		"melaProbCPEven",
+		"melaProbCPOdd",
+		"melaProbCPMix",
+		"melaDiscriminatorD0Minus",
+		"melaDiscriminatorDCP"
 	]
 }

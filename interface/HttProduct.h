@@ -443,6 +443,11 @@ public:
 
 	//filled by MadGraphReweightingProducer
 	std::vector<KLHEParticle*> m_lheParticlesSortedForMadGraph;
-	float m_madGraph_HiggsPt;
-	float m_madGraph_HiggsPt_HiggsCM;
+
+	//filled by MadGraphReweightingProducer
+	float m_melaProbCPEven = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOdd = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMix = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0Minus = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCP = DefaultValues::UndefinedFloat;
 };

@@ -1,6 +1,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MELAProducer.h"
 
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/Utility.h"
 
@@ -22,6 +23,29 @@ void MELAProducer::Init(setting_type const& settings, metadata_type& metadata)
 	// https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement/blob/v2.1.1/MELA/interface/Mela.h
 	// https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement/blob/v2.1.1/MELA/interface/TVar.hh
 	m_mela = std::unique_ptr<Mela>(new Mela(13.0, 125.0, TVar::SILENT));
+	
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPEven", [](event_type const& event, product_type const& product)
+	{
+		return product.m_melaProbCPEven;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPOdd", [](event_type const& event, product_type const& product)
+	{
+		return product.m_melaProbCPOdd;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPMix", [](event_type const& event, product_type const& product)
+	{
+		return product.m_melaProbCPMix;
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorD0Minus", [](event_type const& event, product_type const& product)
+	{
+		return product.m_melaDiscriminatorD0Minus;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorDCP", [](event_type const& event, product_type const& product)
+	{
+		return product.m_melaDiscriminatorDCP;
+	});
 }
 
 
@@ -57,8 +81,7 @@ void MELAProducer::Produce(event_type const& event, product_type& product,
 		{
 			m_mela->setProcess(TVar::HSMHiggs, TVar::JHUGen, TVar::JJVBF);
 		}
-		float probCPEven = 0.0;
-		m_mela->computeProdP(probCPEven, false);
+		m_mela->computeProdP(product.m_melaProbCPEven, false);
 		
 		// CP odd
 		if (m_higgsProductionMode == HttEnumTypes::MELAHiggsProductionMode::GGH)
@@ -69,8 +92,7 @@ void MELAProducer::Produce(event_type const& event, product_type& product,
 		{
 			m_mela->setProcess(TVar::H0minus, TVar::JHUGen, TVar::JJVBF);
 		}
-		float probCPOdd = 0.0;
-		m_mela->computeProdP(probCPOdd, false);
+		m_mela->computeProdP(product.m_melaProbCPOdd, false);
 		
 		// CP mixing (maximum)
 		if (m_higgsProductionMode == HttEnumTypes::MELAHiggsProductionMode::GGH)
@@ -85,19 +107,13 @@ void MELAProducer::Produce(event_type const& event, product_type& product,
 			m_mela->selfDHzzcoupl[0][gHIGGS_VV_1][0] = 1; // a1
 			m_mela->selfDHzzcoupl[0][gHIGGS_VV_4][0] = 0.297979; // a3
 		}
-		float probCPMix = 0.0;
-		m_mela->computeProdP(probCPMix, false);
+		m_mela->computeProdP(product.m_melaProbCPMix, false);
 		
-		LOG(WARNING) << "probabilities: " << probCPEven << ", " << probCPOdd << ", " << probCPMix;
-		
-		float discriminatorD0minus = DefaultValues::UndefinedFloat;
-		float discriminatorDCP = DefaultValues::UndefinedFloat;
-		if ((probCPEven + probCPOdd) != 0.0)
+		if ((product.m_melaProbCPEven + product.m_melaProbCPOdd) != 0.0)
 		{
-			discriminatorD0minus = probCPEven / (probCPEven + probCPOdd) if ;
-			discriminatorDCP = (probCPMix - probCPEven - probCPOdd) / (probCPEven + probCPOdd);
+			product.m_melaDiscriminatorD0Minus = product.m_melaProbCPEven / (product.m_melaProbCPEven + product.m_melaProbCPOdd);
+			product.m_melaDiscriminatorDCP = (product.m_melaProbCPMix - product.m_melaProbCPEven - product.m_melaProbCPOdd) / (product.m_melaProbCPEven + product.m_melaProbCPOdd);
 		}
-		LOG(WARNING) << "discriminators: " << discriminatorD0minus << ", " << discriminatorDCP;
 		
 		m_mela->resetInputEvent();
 	}
