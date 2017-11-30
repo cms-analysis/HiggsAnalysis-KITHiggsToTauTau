@@ -101,9 +101,9 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	
 	// copy LHE particles to new vector which can be sorted
 	product.m_lheParticlesSortedForMadGraph.clear();
-	for (std::vector<KLHEParticle>::const_iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
+	for (std::vector<KLHEParticle>::iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
 	{
-		product.m_lheParticlesSortedForMadGraph.push_back(const_cast<KLHEParticle*>(&(*lheParticle)));
+		product.m_lheParticlesSortedForMadGraph.push_back(&(*lheParticle));
 		
 	}
 	
@@ -129,7 +129,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 	//calculate the old matrix element for reweighting
 	MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, -1);
-	float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph);
+	float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared<KLHEParticle>(product.m_lheParticlesSortedForMadGraph);
 	if (matrixElementSquared < 0.0)
 	{
 		LOG(ERROR) << "Error in calculation of matrix element for \""<< ":" << settings.GetMadGraphProcessDirectories() << "\"";
