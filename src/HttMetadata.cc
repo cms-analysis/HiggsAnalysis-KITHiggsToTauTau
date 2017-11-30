@@ -7,9 +7,5 @@ HttMetadata::HttMetadata() : KappaMetadata()
 
 HttMetadata::~HttMetadata()
 {
-	if (m_mela)
-	{
-		delete m_mela;
-	}
 }
 

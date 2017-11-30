@@ -12,6 +12,5 @@ public:
 	HttMetadata();
 	virtual ~HttMetadata();
 
-	Mela* m_mela = nullptr; // Fortran code behind this class should not be initialised multiple times
 };
 

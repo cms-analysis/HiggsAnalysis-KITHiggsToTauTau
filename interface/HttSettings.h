@@ -393,6 +393,8 @@ public:
 	IMPL_SETTING(std::string,MadGraphProcessDirectories);
 	IMPL_SETTING(bool, MadGraphSortingHeavyBQuark);
 	
+	IMPL_SETTING(std::string, MELAHiggsProductionMode);
+	
 	// settting for TopPtReweightingProducer
 	IMPL_SETTING(std::string, TopPtReweightingStrategy)
 };

@@ -1,14 +1,14 @@
 {
 	"MadGraphParamCard" : {
 		"nick" : {
-			"GluGlu":"$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh/Cards/param_card_cp.dat",
-			"VBF":"$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf/Cards/param_card_cp.dat"
+			"GluGlu" : "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh/Cards/param_card_cp.dat",
+			"VBF" : "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf/Cards/param_card_cp.dat"
 		}
 	},
 	"MadGraphParamCardSample" : {
 		"nick" : {
-			"GluGlu":"$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh/Cards/param_card_default.dat",
-			"VBF":"$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf/Cards/param_card_default.dat"
+			"GluGlu" : "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh/Cards/param_card_default.dat",
+			"VBF" : "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf/Cards/param_card_default.dat"
 		}
 	},
 	"MadGraphMixingAnglesOverPiHalf" : {
@@ -46,9 +46,14 @@
 	},
 	"MadGraphProcessDirectories" : {
 		"nick" : {
-			"GluGlu" :"$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh/SubProcesses/",
+			"GluGlu" : "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh/SubProcesses/",
 			"VBF" : "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf/SubProcesses/"
-				
+		}
+	},
+	"MELAHiggsProductionMode" : {
+		"nick" : {
+			"GluGlu" : "ggh",
+			"VBF" : "vbf"
 		}
 	}
 }

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 
 // https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement/tree/v2.1.1/MELA
 // https://twiki.cern.ch/twiki/bin/viewauth/CMS/MELAProject
@@ -19,6 +20,11 @@ public:
 
 	virtual void Produce(event_type const& event, product_type& product,
 						 setting_type const& settings, metadata_type const& metadata) const override;
+
+private:
+	HttEnumTypes::MELAHiggsProductionMode m_higgsProductionMode = HttEnumTypes::MELAHiggsProductionMode::UNDEFINED;
+	
+	std::unique_ptr<Mela> m_mela;
 
 };
 

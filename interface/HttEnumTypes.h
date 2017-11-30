@@ -195,5 +195,18 @@ public:
 		else return KMETUncertainty::NoShift;
 		LOG(FATAL) << "You need to specify an implemented MET uncertainty in your config.";
 	};
+
+	enum class MELAHiggsProductionMode : int
+	{
+		UNDEFINED = 0,
+		GGH  = 1,
+		VBF = 2
+	};
+	static MELAHiggsProductionMode ToMELAHiggsProductionMode(std::string const& melaHiggsProductionMode)
+	{
+		if (melaHiggsProductionMode == "ggh") return MELAHiggsProductionMode::GGH;
+		else if (melaHiggsProductionMode == "vbf") return MELAHiggsProductionMode::VBF;
+		else return MELAHiggsProductionMode::UNDEFINED;
+	};
 };
 
