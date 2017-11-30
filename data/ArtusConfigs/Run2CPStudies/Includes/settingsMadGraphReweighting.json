@@ -1,14 +1,14 @@
 {
 	"MadGraphParamCard" : {
 		"nick" : {
-			"GluGluToHToTauTau.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/Cards/param_card_cp.dat",
-			"VBF.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/Cards/param_card_cp.dat"
+			"GluGluToHToTauTau.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh/Cards/param_card_cp.dat",
+			"VBF.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf/Cards/param_card_cp.dat"
 		}
 	},
 	"MadGraphParamCardSample" : {
 		"nick" : {
-			"GluGluToHToTauTau.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/Cards/param_card_default.dat",
-			"VBF.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/Cards/param_card_default.dat"
+			"GluGluToHToTauTau.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh/Cards/param_card_default.dat",
+			"VBF.*amcatnlo":"$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf/Cards/param_card_default.dat"
 		}
 	},
 	"MadGraphMixingAnglesOverPiHalf" : {
@@ -46,8 +46,8 @@
 	},
 	"MadGraphProcessDirectories" : {
 		"nick" : {
-			"GluGluToHToTauTau.*amcatnlo" :"$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/ggh/SubProcesses/",
-			"VBF.*amcatnlo" : "$CMSSW_BASE/src/CMSAachen3B/GeneratorTools/data/vbf/SubProcesses/"
+			"GluGluToHToTauTau.*amcatnlo" :"$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh/SubProcesses/",
+			"VBF.*amcatnlo" : "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf/SubProcesses/"
 				
 		}
 	}
