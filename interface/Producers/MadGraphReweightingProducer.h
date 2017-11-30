@@ -2,7 +2,7 @@
 #pragma once
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MadGraphTools.h"
+#include "CMSAachen3B/MadGraphReweighting/interface/MadGraphTools.h"
 
 
 class MadGraphReweightingProducer: public ProducerBase<HttTypes>
