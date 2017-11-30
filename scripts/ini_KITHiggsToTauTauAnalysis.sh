@@ -35,3 +35,7 @@ elif [[ `hostname` == *ekp* ]]; then
 elif [[ `hostname` == *cern* ]]; then
 	export ARTUS_WORK_BASE="/afs/cern.ch/work/${USER:0:1}/${USER}/htautau/artus/"
 fi
+
+# copy/link libraries
+cd $CMSSW_BASE/lib/$SCRAM_ARCH && ln -s ../../src/ZZMatrixElement/MELA/data/$SCRAM_ARCH/*.so ./ && cd $CMSSW_BASE/src/
+
