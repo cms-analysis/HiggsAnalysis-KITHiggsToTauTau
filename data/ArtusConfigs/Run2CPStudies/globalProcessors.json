@@ -135,7 +135,7 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer"
 			],
-			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
+			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)" : [
 				"#producer:PrintGenParticleDecayTreeProducer",
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonFromGenParticlesProducer",
@@ -153,6 +153,7 @@
 				"producer:MatchedLeptonsProducer",
 				"producer:GenTauDecayProducer",
 				"producer:GenTauCPProducer",
+				"producer:GenHiggsCPProducer",
 				"producer:TauSpinnerProducer",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer",

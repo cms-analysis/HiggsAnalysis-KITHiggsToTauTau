@@ -1,10 +1,9 @@
 
 #pragma once
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MadGraphTools.h"
-#include "TDatabasePDG.h"
+#include "CMSAachen3B/MadGraphReweighting/interface/MadGraphTools.h"
+
 
 class MadGraphReweightingProducer: public ProducerBase<HttTypes>
 {
@@ -18,12 +17,8 @@ public:
 						 setting_type const& settings, metadata_type const& metadata) const override;
 
 private:
-	std::map<std::string, std::vector<std::string> > m_madGraphProcessDirectoriesByName;
-	std::map<std::string, std::map<int, MadGraphTools*> > m_madGraphTools;
-	TDatabasePDG* m_databasePDG = nullptr;
+	std::map<int, MadGraphTools*> m_madGraphTools;
 	
-	int GetMixingAngleKey(float mixingAngleOverPiHalf) const;
-	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
-	static bool MadGraphParticleOrderingLightBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2);
-	static bool MadGraphParticleOrderingHeavyBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2);
+	static int GetMixingAngleKey(float mixingAngleOverPiHalf);
+	static std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf);
 };

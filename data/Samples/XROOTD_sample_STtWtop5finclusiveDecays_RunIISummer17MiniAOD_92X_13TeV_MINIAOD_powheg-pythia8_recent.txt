@@ -1,0 +1,1 @@
+XROOTD_sample_STtWtop5finclusiveDecays_RunIISummer17MiniAOD_92X_13TeV_MINIAOD_powheg-pythia8_2017-11-20.txt

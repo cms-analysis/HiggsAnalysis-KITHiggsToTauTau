@@ -1,0 +1,20 @@
+{
+	"property" : [
+		"lheSignedDiJetDeltaPhi",
+		"lheDiJetAbsDeltaEta",
+		"lheDiJetMass",
+		"lheNJets",
+		
+		"lheParticleIn1LV",
+		"lheParticleIn2LV",
+		"lheParticleOut1LV",
+		"lheParticleOut2LV",
+		"lheParticleBoson1LV",
+		
+		"lheParticleIn1PdgId",
+		"lheParticleIn2PdgId",
+		"lheParticleOut1PdgId",
+		"lheParticleOut2PdgId",
+		"lheParticleBoson1PdgId"
+	]
+}

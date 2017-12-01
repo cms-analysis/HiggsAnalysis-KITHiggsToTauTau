@@ -78,7 +78,6 @@ if __name__ == "__main__":
 
 	# initialisations for plotting
 	sample_settings = samples.Samples()
-	binnings_settings = binnings.BinningsDict()
 	systematics_factory = systematics.SystematicsFactory()
 	
 	plot_configs = []
@@ -101,19 +100,15 @@ if __name__ == "__main__":
 		args.categories = args.categories[1:]
 
 
-	if(len(args.categories) == 1):
-		args.categories = [args.categories[0]] * len(args.channel)
-
-
 	# set the signal processes
 	for process in args.signal:
 		signal_processes.append(process)
 
 	#datacard initialization
-	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs) 
-	#datacards.cb.PrintAll()
+	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs, shape_syst_enable = args.shape_uncs) 
+	#datacards.cb.PrintSysts()
 	
-
+	
 	# Prepare name templates
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
@@ -128,18 +123,16 @@ if __name__ == "__main__":
 			"datacards/combined/${ANALYSIS}_${ERA}.txt",]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 
-	#restriction to CH
-	datacards.cb.channel(args.channel)
+	#Loop over all channel/categories
+	for channel in args.channel:
+		for category in args.categories[0]:
+		
+			category = channel + "_" + category	#Important to rename category like this, otherwise you get trouble with extract_shape from datacard.py
 
-
-	#Loop over all channel
-	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
-		#Loop over all categories
-		for category in categories:
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="LFV",
-					CHANNEL=channel,
-					BIN=category,
+					CHANNEL= channel,
+					BIN= category,
 					ERA="13TeV"
 			))
 			merged_output_files.append(output_file)
@@ -148,9 +141,9 @@ if __name__ == "__main__":
 			
 			for shape_systematic, list_of_samples in datacards.get_samples_per_shape_systematic(channel, category).iteritems():
 				nominal = (shape_systematic == "nominal")
-				print list_of_samples
+
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
-				
+
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))					
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
@@ -163,8 +156,8 @@ if __name__ == "__main__":
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
-							channel=channel,
-							category="catLFV13TeV_" + channel + "_" + category,
+	 						channel=channel,
+							category="catLFV13TeV_" + category,
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							higgs_masses=["125"],
@@ -174,9 +167,7 @@ if __name__ == "__main__":
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					
-					# TODO: evaluate shift from datacards.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-					#config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] = [args.quantity]
 
 					config["x_bins"] = ["25,0,200"]
@@ -193,7 +184,7 @@ if __name__ == "__main__":
 					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 							ANALYSIS="LFV",
 							CHANNEL=channel,
-							BIN=category,
+							BIN= category,
 							SYSTEMATIC=systematic,
 							ERA="13TeV"
 					))
@@ -214,7 +205,7 @@ if __name__ == "__main__":
 					DST=output_file,
 					SRC=" ".join(tmp_output_files)
 			))
-
+		
 	if log.isEnabledFor(logging.DEBUG):
 		pprint.pprint(plot_configs)
 	
