@@ -1,6 +1,7 @@
 
 #include <algorithm>
 #include <math.h>
+#include <cmath>
 
 #include <boost/format.hpp>
 
@@ -115,12 +116,12 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	{
 		MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, MadGraphReweightingProducer::GetMixingAngleKey(*mixingAngleOverPiHalf));
 		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph);
-		if (matrixElementSquared < 0.0)
+		if (std::isnan(matrixElementSquared) || (matrixElementSquared < 0.0))
 		{
 			LOG(ERROR) << "Error in calculation of matrix element for \"" << ":" << settings.GetMadGraphProcessDirectories() <<  "\"";
 			LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
 			product.m_optionalWeights[MadGraphReweightingProducer::GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = 0.0;
-			}
+		}
 		else
 		{
 			product.m_optionalWeights[MadGraphReweightingProducer::GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = matrixElementSquared;
@@ -130,7 +131,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	//calculate the old matrix element for reweighting
 	MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, -1);
 	float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared<KLHEParticle>(product.m_lheParticlesSortedForMadGraph);
-	if (matrixElementSquared < 0.0)
+	if (std::isnan(matrixElementSquared) || (matrixElementSquared < 0.0))
 	{
 		LOG(ERROR) << "Error in calculation of matrix element for \""<< ":" << settings.GetMadGraphProcessDirectories() << "\"";
 		LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
