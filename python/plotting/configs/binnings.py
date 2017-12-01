@@ -78,6 +78,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_iso_2"] = "25,0.0,2.0"
 		self.binnings_dict["tt_jdeta"] = "20,0.0,10.0"
 		self.binnings_dict["tt_jdphi"] = "20,-3.2,3.2"
+		self.binnings_dict["tt_absjdphi"] = "20,0,3.2"
 		self.binnings_dict["tt_jeta_1"] = "10,-4.7,4.7"
 		self.binnings_dict["tt_jeta_2"] = "10,-4.7,4.7"
 		self.binnings_dict["tt_jphi_1"] = "10,-3.2,3.2"

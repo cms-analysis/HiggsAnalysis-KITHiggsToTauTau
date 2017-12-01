@@ -1,0 +1,24 @@
+{
+	"property" : [
+		"madGraphLheParticle1LV",
+		"madGraphLheParticle2LV",
+		"madGraphLheParticle3LV",
+		"madGraphLheParticle4LV",
+		"madGraphLheParticle5LV",
+		"madGraphLheParticle6LV",
+		"madGraphLheParticle1PdgId",
+		"madGraphLheParticle2PdgId",
+		"madGraphLheParticle3PdgId",
+		"madGraphLheParticle4PdgId",
+		"madGraphLheParticle5PdgId",
+		"madGraphLheParticle6PdgId",
+		"subProcessCode",
+		"lheParticleJetNumber",
+		
+		"melaProbCPEven",
+		"melaProbCPOdd",
+		"melaProbCPMix",
+		"melaDiscriminatorD0Minus",
+		"melaDiscriminatorDCP"
+	]
+}

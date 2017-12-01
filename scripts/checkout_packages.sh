@@ -36,12 +36,9 @@ git read-tree -mu HEAD
 cd ..
 
 git clone https://github.com/artus-analysis/Artus.git
-git clone https://github.com/artus-analysis/Artus.wiki.git Artus/Core/doc/wiki
 
 # checkout KITHiggsToTauTau CMSSW analysis package
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
-git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.wiki.git HiggsAnalysis/KITHiggsToTauTau/doc/wiki
-#svn co https://ekptrac.physik.uni-karlsruhe.de/svn/KITHiggsToTauTau-auxiliaries/trunk HiggsAnalysis/KITHiggsToTauTau/auxiliaries
 
 # Di-tau system reconstruction
 # git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
@@ -52,6 +49,15 @@ git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/Simple
 
 # polarisation
 git clone https://github.com/TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
+
+# MadGraph
+git clone https://github.com/CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
+
+# MELA/JHU
+git clone https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
+cd ZZMatrixElement
+./setup.sh -j `grep -c ^processor /proc/cpuinfo`
+cd $CMSSW_BASE/src/
 
 # Jet2Tau Fakes
 git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
@@ -83,3 +89,4 @@ source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
 # compile everything
 scramv1 b -j `grep -c ^processor /proc/cpuinfo`
+

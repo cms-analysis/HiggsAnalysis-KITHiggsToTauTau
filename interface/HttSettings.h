@@ -393,8 +393,10 @@ public:
 	IMPL_SETTING_DEFAULT(float, MadGraphMixingAnglesOverPiHalfSample, -1.0);
 	IMPL_SETTING(std::string, MadGraphParamCard);
 	IMPL_SETTING(std::string, MadGraphParamCardSample);
-	IMPL_SETTING_STRINGLIST_DEFAULT(MadGraphProcessDirectories, {});
+	IMPL_SETTING(std::string,MadGraphProcessDirectories);
 	IMPL_SETTING(bool, MadGraphSortingHeavyBQuark);
+	
+	IMPL_SETTING(std::string, MELAHiggsProductionMode);
 	
 	// settting for TopPtReweightingProducer
 	IMPL_SETTING(std::string, TopPtReweightingStrategy)

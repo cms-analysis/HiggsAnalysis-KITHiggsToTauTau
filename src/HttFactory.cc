@@ -21,6 +21,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetprojectionProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenHiggsCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RefitVertexSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
@@ -52,6 +53,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiGenJetQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MELAProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTbarGenDecayModeProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
 
@@ -153,6 +155,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MetprojectionProducer();
 	else if(id == TauTauRestFrameSelector().GetProducerId())
 		return new TauTauRestFrameSelector();
+	else if(id == GenHiggsCPProducer().GetProducerId())
+		return new GenHiggsCPProducer();
 	else if(id == GenTauCPProducer().GetProducerId())
 		return new GenTauCPProducer();
 	else if(id == GenMatchedTauCPProducer().GetProducerId())
@@ -267,6 +271,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TagAndProbeGenElectronProducer();
 	else if(id == MadGraphReweightingProducer().GetProducerId())
 		return new MadGraphReweightingProducer();
+	else if(id == MELAProducer().GetProducerId())
+		return new MELAProducer();
 	else if(id == TTbarGenDecayModeProducer().GetProducerId())
 		return new TTbarGenDecayModeProducer();
 	else if(id == TaggedJetUncertaintyShiftProducer().GetProducerId())

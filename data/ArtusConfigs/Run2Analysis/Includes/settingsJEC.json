@@ -16,7 +16,9 @@
 	},
 	"JetEnergyCorrectionUncertaintyParameters" : {
 		"nick" : {
-			"default" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_MC_Uncertainty_AK4PFchs.txt",
+			"Summer17" : " ",
+			"Run2017" : " ",
+			"Spring16|Summer16" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_MC_Uncertainty_AK4PFchs.txt",
 			"Run2016|Embedding2016" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_Uncertainty_AK4PFchs.txt",
 			"Fall15MiniAODv2" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt",
 			"Run2015|Embedding2015" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_Uncertainty_AK4PFchs.txt"

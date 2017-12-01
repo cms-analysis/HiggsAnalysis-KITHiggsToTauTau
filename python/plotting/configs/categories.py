@@ -196,7 +196,10 @@ class CategoriesDict(object):
 					"analysis": [
 						"catLFV13TeV_"
 						],
-					"global": "(njetspt30==0)*((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2 < 100)*(3.70>abs(phi_1-phi_2)>2.70)"
+					"global": "(njetspt30==0)",
+					"em_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<20)",
+					"et_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)",
+					"mt_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)"
 					},
 				"binnings":{
 					"analysis": [
@@ -218,7 +221,10 @@ class CategoriesDict(object):
 					"analysis": [
 						"catLFV13TeV_"
 						],
-					"global": "(njetspt30>=1)*(nbtag == 0)"
+					"global": "(njetspt30>=1)*(nbtag == 0)",
+					"em_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<20)",
+					"et_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)",
+					"mt_": "((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)"
 					},
 				"binnings":{
 					"analysis": [
@@ -332,6 +338,11 @@ class CategoriesDict(object):
 						}
 					}
 				}
+				
+		"""
+		Categories used in CP Initial State studies.
+		"""
+		
 		self.categoriesDict["{analysis}{channel}TwoJet_CP_boosted{discriminator}"] = {
 				"channel":[
 					"mt_",
@@ -424,6 +435,11 @@ class CategoriesDict(object):
 						}
 					}
 				}
+				
+		"""
+		Categories used in CP Final State studies.
+		"""
+		
 		self.categoriesDict["{analysis}{channel}CP_IPmethod{discriminator}"] = {
 				"channel":[
 					"mt_",
@@ -452,7 +468,121 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(decayMode_1==1)*(decayMode_2==1)",
+					"global":"(recoPhiStarCP_rho_merged!=-999)*(decayMode_1==1)*(decayMode_2==1)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_RHOmethod_0jets_lowmass{discriminator}"] = {
+				"channel":[
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(recoPhiStarCP_rho_merged!=-999)*(decayMode_1==1)*(decayMode_2==1)*(njets==0)*(m_sv<100)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_RHOmethod_0jets_highmass{discriminator}"] = {
+				"channel":[
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(recoPhiStarCP_rho_merged!=-999)*(decayMode_1==1)*(decayMode_2==1)*(njets==0)*(m_sv>100)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_RHOmethod_1jets_lowmass{discriminator}"] = {
+				"channel":[
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(recoPhiStarCP_rho_merged!=-999)*(decayMode_1==1)*(decayMode_2==1)*(njets==1)*(m_sv<100)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_RHOmethod_1jets_highmass{discriminator}"] = {
+				"channel":[
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(recoPhiStarCP_rho_merged!=-999)*(decayMode_1==1)*(decayMode_2==1)*(njets==1)*(m_sv>100)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_RHOmethod_2jets_lowmass{discriminator}"] = {
+				"channel":[
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(recoPhiStarCP_rho_merged!=-999)*(decayMode_1==1)*(decayMode_2==1)*(njets==2)*(m_sv<100)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_RHOmethod_2jets_highmass{discriminator}"] = {
+				"channel":[
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(recoPhiStarCP_rho_merged!=-999)*(decayMode_1==1)*(decayMode_2==1)*(njets==2)*(m_sv>100)",
 					},
 				"binnings":{
 					"analysis": [
@@ -474,9 +604,9 @@ class CategoriesDict(object):
 						"catHtt13TeV_"
 						],
 					"global":"(1.0)",
-					"mt_": "(decayMode_2==1)",
-					"et_": "(decayMode_2==1)",
-					"tt_": "((decayMode_1==1 && decayMode_2!=1) || (decayMode_1!=1 && decayMode_2==1)"
+					"mt_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)",
+					"et_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)",
+					"tt_": "(recoPhiStarCPCombMerged!=-999)*((decayMode_1==1 && decayMode_2!=1) || (decayMode_1!=1 && decayMode_2==1))"
 					},
 				"binnings":{
 					"analysis": [
@@ -487,6 +617,153 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		self.categoriesDict["{analysis}{channel}CP_COMBmethod_0jets_lowmass{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==0)*(m_sv<100)",
+					"et_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==0)*(m_sv<100)",
+					"tt_": "(recoPhiStarCPCombMerged!=-999)*((decayMode_1==1 && decayMode_2!=1) || (decayMode_1!=1 && decayMode_2==1))*(njets==0)*(m_sv<100)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_COMBmethod_0jets_highmass{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==0)*(m_sv>100)",
+					"et_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==0)*(m_sv>100)",
+					"tt_": "(recoPhiStarCPCombMerged!=-999)*((decayMode_1==1 && decayMode_2!=1) || (decayMode_1!=1 && decayMode_2==1))*(njets==0)*(m_sv>100)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_COMBmethod_1jets_lowmass{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==1)*(m_sv<100)",
+					"et_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==1)*(m_sv<100)",
+					"tt_": "(recoPhiStarCPCombMerged!=-999)*((decayMode_1==1 && decayMode_2!=1) || (decayMode_1!=1 && decayMode_2==1))*(njets==1)*(m_sv<100)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_COMBmethod_1jets_highmass{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==1)*(m_sv>100)",
+					"et_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==1)*(m_sv>100)",
+					"tt_": "(recoPhiStarCPCombMerged!=-999)*((decayMode_1==1 && decayMode_2!=1) || (decayMode_1!=1 && decayMode_2==1))*(njets==1)*(m_sv>100)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_COMBmethod_2jets_lowmass{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==2)*(m_sv<100)",
+					"et_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==2)*(m_sv<100)",
+					"tt_": "(recoPhiStarCPCombMerged!=-999)*((decayMode_1==1 && decayMode_2!=1) || (decayMode_1!=1 && decayMode_2==1))*(njets==2)*(m_sv<100)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}CP_COMBmethod_2jets_highmass{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mt_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==2)*(m_sv>100)",
+					"et_": "(recoPhiStarCPCombMerged!=-999)*(decayMode_2==1)*(njets==2)*(m_sv>100)",
+					"tt_": "(recoPhiStarCPCombMerged!=-999)*((decayMode_1==1 && decayMode_2!=1) || (decayMode_1!=1 && decayMode_2==1))*(njets==2)*(m_sv>100)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_phiStarCP": auto_rebin_binning,
+						}
+					}
+				}
+		"""
+		-----------------------------------------------------------------------------
+		"""
 		self.categoriesDict["{analysis}{channel}ZeroJet2D_WJCR{discriminator}"] = {
 				"channel": [
 					"mt_",

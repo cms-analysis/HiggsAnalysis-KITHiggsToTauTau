@@ -202,6 +202,8 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the tau energy scale analysis. [Default: %(default)s]")
 	parser.add_argument("--etaufakerate", default=False, action="store_true",
 	                    help="Produce the plots for the electron tau fake rate analysis. [Default: %(default)s]")
+	parser.add_argument("--lfv", default=False, action="store_true",
+	                    help="Produce the plots for the lepton flavour violation analysis. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
@@ -312,6 +314,8 @@ if __name__ == "__main__":
 		global_cut_type = "mssm"
 	elif args.mva:
 		global_category_string = "catMVAStudies"
+	elif args.lfv:
+		global_category_string = "catLFV13TeV"
 	elif args.polarisation:
 		global_category_string = "catZttPol13TeV"
 		global_cut_type = "baseline_low_mvis"
