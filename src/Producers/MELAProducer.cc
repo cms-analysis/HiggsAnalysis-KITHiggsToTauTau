@@ -5,9 +5,6 @@
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/Utility.h"
 
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/trim.hpp>
-
 
 std::string MELAProducer::GetProducerId() const
 {
@@ -17,8 +14,6 @@ std::string MELAProducer::GetProducerId() const
 void MELAProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
-	
-	m_higgsProductionMode = HttEnumTypes::ToMELAHiggsProductionMode(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetMELAHiggsProductionMode())));
 	
 	// https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement/blob/v2.1.1/MELA/interface/Mela.h
 	// https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement/blob/v2.1.1/MELA/interface/TVar.hh

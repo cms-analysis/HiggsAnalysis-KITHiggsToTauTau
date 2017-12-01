@@ -49,11 +49,5 @@
 			"GluGlu" : "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh/SubProcesses/",
 			"VBF" : "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf/SubProcesses/"
 		}
-	},
-	"MELAHiggsProductionMode" : {
-		"nick" : {
-			"GluGlu" : "ggh",
-			"VBF" : "vbf"
-		}
 	}
 }

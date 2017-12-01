@@ -32,8 +32,6 @@ private:
 	void CalculateDiscriminators(float probCPEven, float probCPOdd, float probCPMix,
 	                             float& discriminatorD0Minus, float& discriminatorDCP) const;
 
-	HttEnumTypes::MELAHiggsProductionMode m_higgsProductionMode = HttEnumTypes::MELAHiggsProductionMode::UNDEFINED;
-	
 	std::unique_ptr<Mela> m_mela;
 
 };
