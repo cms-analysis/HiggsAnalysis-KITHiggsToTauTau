@@ -445,9 +445,41 @@ public:
 	std::vector<KLHEParticle*> m_lheParticlesSortedForMadGraph;
 
 	//filled by MadGraphReweightingProducer
-	float m_melaProbCPEven = DefaultValues::UndefinedFloat;
-	float m_melaProbCPOdd = DefaultValues::UndefinedFloat;
-	float m_melaProbCPMix = DefaultValues::UndefinedFloat;
-	float m_melaDiscriminatorD0Minus = DefaultValues::UndefinedFloat;
-	float m_melaDiscriminatorDCP = DefaultValues::UndefinedFloat;
+	float m_melaProbCPEvenGGH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddGGH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixGGH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusGGH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPGGH = DefaultValues::UndefinedFloat;
+	
+	float m_melaProbCPEvenVBF = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddVBF = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixVBF = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusVBF = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPVBF = DefaultValues::UndefinedFloat;
+	
+	/*
+	float m_melaProbCPEvenWlepH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddWlepH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixWlepH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusWlepH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPWlepH = DefaultValues::UndefinedFloat;
+	
+	float m_melaProbCPEvenWhadH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddWhadH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixWhadH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusWhadH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPWhadH = DefaultValues::UndefinedFloat;
+	
+	float m_melaProbCPEvenZlepH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddZlepH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixZlepH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusZlepH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPZlepH = DefaultValues::UndefinedFloat;
+	
+	float m_melaProbCPEvenZhadH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddZhadH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixZhadH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusZhadH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPZhadH = DefaultValues::UndefinedFloat;
+	*/
 };
