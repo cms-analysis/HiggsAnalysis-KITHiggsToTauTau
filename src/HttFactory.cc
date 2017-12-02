@@ -78,7 +78,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EventCountConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EmbeddingConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/BTagEffConsumer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/AcceptanceEfficiencyConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/TagAndProbePairConsumer.h"
 
 ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
@@ -341,8 +340,6 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new EmbeddingConsumer();
 	else if(id == BTagEffConsumer().GetConsumerId())
 		return new BTagEffConsumer();
-	else if (id == AcceptanceEfficiencyConsumer().GetConsumerId())
-		return new AcceptanceEfficiencyConsumer();
 	else if(id == TagAndProbeMuonPairConsumer().GetConsumerId())
 		return new TagAndProbeMuonPairConsumer();
 	else if(id == TagAndProbeElectronPairConsumer().GetConsumerId())
