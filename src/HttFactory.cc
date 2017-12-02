@@ -74,7 +74,6 @@
 // consumers
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/SvfitCacheConsumer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/TriggerTagAndProbeConsumers.h"
 
 ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 {
@@ -322,14 +321,6 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new HttLambdaNtupleConsumer();
 	else if(id == SvfitCacheConsumer().GetConsumerId())
 		return new SvfitCacheConsumer();
-	else if(id == EETriggerTagAndProbeConsumer().GetConsumerId())
-		return new EETriggerTagAndProbeConsumer();
-	else if(id == MMTriggerTagAndProbeConsumer().GetConsumerId())
-		return new MMTriggerTagAndProbeConsumer();
-	else if(id == MTTriggerTagAndProbeConsumer().GetConsumerId())
-		return new MTTriggerTagAndProbeConsumer();
-	else if(id == ETTriggerTagAndProbeConsumer().GetConsumerId())
-		return new ETTriggerTagAndProbeConsumer();
 	else
 		return KappaFactory::createConsumer( id );
 }
