@@ -75,7 +75,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/HttLambdaNtupleConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/SvfitCacheConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/TriggerTagAndProbeConsumers.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/EventCountConsumer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Consumers/TagAndProbePairConsumer.h"
 
 ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
@@ -332,8 +331,6 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 		return new MTTriggerTagAndProbeConsumer();
 	else if(id == ETTriggerTagAndProbeConsumer().GetConsumerId())
 		return new ETTriggerTagAndProbeConsumer();
-	else if(id == EventCountConsumer().GetConsumerId())
-		return new EventCountConsumer();
 	else if(id == TagAndProbeMuonPairConsumer().GetConsumerId())
 		return new TagAndProbeMuonPairConsumer();
 	else if(id == TagAndProbeElectronPairConsumer().GetConsumerId())
