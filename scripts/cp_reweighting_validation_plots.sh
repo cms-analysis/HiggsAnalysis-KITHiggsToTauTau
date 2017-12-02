@@ -33,6 +33,7 @@ for x in 10 20 30 40 50 60 70 80 90; do
 	"#alpha=0.5#times#pi/2 (interference)" \
 	"#alpha=0`echo "scale=1; ${x}/100" | bc`#times#pi/2 (w interference)" \
 	"#alpha=0`echo "scale=1; ${x}/100" | bc`#times#pi/2 (w/o interference)" \
+	"#alpha=0`echo "scale=1; ${x}/100" | bc`#times#pi/2 (interference)" \
 	"#alpha=0`echo "scale=1; ${x}/100" | bc`#times#pi/2 (parametrisation)" \
 	--legend-markers L L L L L L L L ELP --legend 0.2 0.5 0.9 0.85 --legend-cols 2 \
 	--y-rel-lims 0 1.6 --y-label "arb. units" --y-subplot-label Interference \
