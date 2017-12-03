@@ -54,9 +54,7 @@ git clone https://github.com/CMSAachen3B/MadGraphReweighting.git CMSAachen3B/Mad
 # MELA/JHU
 git clone https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
 cd ZZMatrixElement
-./setup.sh -j `grep -c ^processor /proc/cpuinfo`
-cd $CMSSW_BASE/lib/$SCRAM_ARCH
-ln -s -f ../../src/ZZMatrixElement/MELA/data/$SCRAM_ARCH/*.so ./
+source ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
 cd $CMSSW_BASE/src/
 
 # Jet2Tau Fakes
