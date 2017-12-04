@@ -173,7 +173,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
 			MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
-			float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph);
+			float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph, settings.GetBosonPdgIds());
 			if (std::isnan(matrixElementSquared) || (matrixElementSquared < 0.0))
 			{
 				LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
@@ -188,7 +188,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 		//calculate the old matrix element for reweighting
 		MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, -1);
-		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph);
+		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph, settings.GetBosonPdgIds());
 		if (std::isnan(matrixElementSquared) || (matrixElementSquared < 0.0))
 		{
 			LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
@@ -218,7 +218,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 	{
 		MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, MadGraphReweightingProducer::GetMixingAngleKey(*mixingAngleOverPiHalf));
-		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph);
+		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph, settings.GetBosonPdgIds());
 		if (std::isnan(matrixElementSquared) || (matrixElementSquared < 0.0))
 		{
 			LOG(ERROR) << "Error in calculation of matrix element for \"" << ":" << settings.GetMadGraph2p6ProcessDirectory() <<  "\"";
@@ -233,7 +233,7 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 	//calculate the old matrix element for reweighting
 	MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, -1);
-	float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared<KLHEParticle>(product.m_lheParticlesSortedForMadGraph);
+	float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared<KLHEParticle>(product.m_lheParticlesSortedForMadGraph, settings.GetBosonPdgIds());
 	if (std::isnan(matrixElementSquared) || (matrixElementSquared < 0.0))
 	{
 		LOG(ERROR) << "Error in calculation of matrix element for \""<< ":" << settings.GetMadGraph2p6ProcessDirectory() << "\"";
