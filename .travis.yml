@@ -6,6 +6,10 @@ compiler:
   - gcc
 before_install:
   - docker pull claria/cvmfs-cms
+addons:
+  apt:
+    packages:
+    - wget
 before_script:
   - echo $HOME
   - sudo curl -o $HOME/short_rootfiles.tar https://cernbox.cern.ch/index.php/s/WeawecKp2BD2BH2/download
