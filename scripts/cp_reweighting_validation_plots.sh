@@ -17,10 +17,10 @@ for x in 10 20 30 40 50 60 70 80 90; do
 	--add-scale-factors \
 	"0.5 0.5" \
 	"1 -1" \
-	"0`echo "1-s(${x}*2*a(1)/100)^2" | bc -l` 0`echo "s(${x}*2*a(1)/100)^2" | bc -l`" \
+	"0`echo "c(${x}*2*a(1)/100)^2" | bc -l` 0`echo "s(${x}*2*a(1)/100)^2" | bc -l`" \
 	"1 -1" \
-	"0`echo "1-s(${x}*2*a(1)/100)^2" | bc -l` 0`echo "s(${x}*2*a(1)/100)^2" | bc -l` 0`echo "sqrt((1-s(${x}*2*a(1)/100)^2)*(s(${x}*2*a(1)/100)^2))" | bc -l`" \
-	--add-nicks "000 100" "wi050 woi050" "000 100" "xwi0${x} xwoi0${x}" "000 100 i050" \
+	"`echo "c(${x}*2*a(1)/100)^2-c(${x}*2*a(1)/100)*s(${x}*2*a(1)/100)" | bc -l` `echo "s(${x}*2*a(1)/100)^2-c(${x}*2*a(1)/100)*s(${x}*2*a(1)/100)" | bc -l` `echo "2*c(${x}*2*a(1)/100)*s(${x}*2*a(1)/100)" | bc -l`" \
+	--add-nicks "000 100" "wi050 woi050" "000 100" "xwi0${x} xwoi0${x}" "000 100 wi050" \
 	--add-result-nicks woi050 i050 xwoi0${x} xi0${x} xp0${x} \
 	--filename jdphi_0${x} \
 	--nicks-whitelist ^000\$ ^100\$ ^wi050\$ ^woi050\$ ^i050\$ ^xwi0${x}\$ ^xwoi0${x}\$ ^xi0${x}\$ ^xp0${x}\$ \
@@ -41,3 +41,4 @@ for x in 10 20 30 40 50 60 70 80 90; do
 	--formats pdf png \
 	-x "(leadingJetLV.Phi()-trailingJetLV.Phi()) * (-1 * (leadingJetLV.Eta() > 0) + (leadingJetLV.Eta() < 0))" &
 done
+
