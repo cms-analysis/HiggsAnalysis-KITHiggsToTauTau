@@ -157,7 +157,8 @@ if __name__ == "__main__":
 	if "initial" in args.cpstudy:
 		if "ggh" in args.production_mode:
 			signal_processes.append("ggHsm")
-			#signal_processes.append("ggHps_ALT")
+			if "pvalue" in args.steps:
+				signal_processes.append("ggHps_ALT")
 		if "qqh" in args.production_mode:
 			signal_processes.append("qqHsm")
 			#signal_processes.append("qqHps_ALT")
@@ -610,7 +611,7 @@ if __name__ == "__main__":
 				args.n_processes,
 				"-P {MODEL} {MODEL_PARAMETERS}".format(
 					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-					MODEL_PARAMETERS=(("--PO=muFloating" if args.use_shape_only else "") + " --altSignal=100")
+					MODEL_PARAMETERS=(("--PO=muFloating" if args.use_shape_only else ""))
 				)
 		)
 				
