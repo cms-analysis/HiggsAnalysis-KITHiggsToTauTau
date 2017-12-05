@@ -1,5 +1,41 @@
 {
 	"property" : [
+		"melaProbCPEvenGGH",
+		"melaProbCPOddGGH",
+		"melaProbCPMixGGH",
+		"melaDiscriminatorD0MinusGGH",
+		"melaDiscriminatorDCPGGH",
+		
+		"melaProbCPEvenVBF",
+		"melaProbCPOddVBF",
+		"melaProbCPMixVBF",
+		"melaDiscriminatorD0MinusVBF",
+		"melaDiscriminatorDCPVBF",
+		
+		"#melaProbCPEvenWlepH",
+		"#melaProbCPOddWlepH",
+		"#melaProbCPMixWlepH",
+		"#melaDiscriminatorD0MinusWlepH",
+		"#melaDiscriminatorDCPWlepH",
+		
+		"#melaProbCPEvenWhadH",
+		"#melaProbCPOddWhadH",
+		"#melaProbCPMixWhadH",
+		"#melaDiscriminatorD0MinusWhadH",
+		"#melaDiscriminatorDCPWhadH",
+		
+		"#melaProbCPEvenZlepH",
+		"#melaProbCPOddZlepH",
+		"#melaProbCPMixZlepH",
+		"#melaDiscriminatorD0MinusZlepH",
+		"#melaDiscriminatorDCPZlepH",
+		
+		"#melaProbCPEvenZhadH",
+		"#melaProbCPOddZhadH",
+		"#melaProbCPMixZhadH",
+		"#melaDiscriminatorD0MinusZhadH",
+		"#melaDiscriminatorDCPZhadH",
+		
 		"thePVx",
 		"thePVy",
 		"thePVz",

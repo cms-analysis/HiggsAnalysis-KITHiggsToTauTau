@@ -22,8 +22,16 @@ public:
 						 setting_type const& settings, metadata_type const& metadata) const override;
 
 private:
-	HttEnumTypes::MELAHiggsProductionMode m_higgsProductionMode = HttEnumTypes::MELAHiggsProductionMode::UNDEFINED;
+	void CalculateProbabilitiesGGH(float& probCPEven, float& probCPOdd, float& probCPMix) const;
+	void CalculateProbabilitiesVBF(float& probCPEven, float& probCPOdd, float& probCPMix) const;
+	void CalculateProbabilitiesWlepH(float& probCPEven, float& probCPOdd, float& probCPMix) const;
+	void CalculateProbabilitiesWhadH(float& probCPEven, float& probCPOdd, float& probCPMix) const;
+	void CalculateProbabilitiesZlepH(float& probCPEven, float& probCPOdd, float& probCPMix) const;
+	void CalculateProbabilitiesZhadH(float& probCPEven, float& probCPOdd, float& probCPMix) const;
 	
+	void CalculateDiscriminators(float probCPEven, float probCPOdd, float probCPMix,
+	                             float& discriminatorD0Minus, float& discriminatorDCP) const;
+
 	std::unique_ptr<Mela> m_mela;
 
 };

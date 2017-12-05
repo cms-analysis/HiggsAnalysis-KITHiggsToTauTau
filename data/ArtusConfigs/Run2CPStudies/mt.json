@@ -371,7 +371,19 @@
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"
+					"nAllDiTauPairCandidates",
+					
+					"melaProbCPEvenGGH",
+					"melaProbCPOddGGH",
+					"melaProbCPMixGGH",
+					"melaDiscriminatorD0MinusGGH",
+					"melaDiscriminatorDCPGGH",
+		
+					"melaProbCPEvenVBF",
+					"melaProbCPOddVBF",
+					"melaProbCPMixVBF",
+					"melaDiscriminatorD0MinusVBF",
+					"melaDiscriminatorDCPVBF"
 				],
 				"Embedding2016" : [
 					{
@@ -453,6 +465,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:MELAProducer",
 					"producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
@@ -498,6 +511,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:MELAProducer",
 					"producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
@@ -544,6 +558,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:MELAProducer",
 					"#producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -589,6 +604,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:MELAProducer",
 					"#producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -631,6 +647,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:MELAProducer",
 					"producer:SimpleFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
@@ -670,6 +687,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:MELAProducer",
 					"#producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
@@ -712,6 +730,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:MELAProducer",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
@@ -758,6 +777,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:MELAProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
 					"producer:GenMatchedTauCPProducer",
@@ -767,7 +787,6 @@
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"#producer:MadGraphReweightingProducer",
-					"#producer:MELAProducer",
 					"producer:EventWeightProducer"
 				],
 				"(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)" : [
@@ -805,6 +824,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:MELAProducer",
 					"#producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -816,7 +836,6 @@
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:MadGraphReweightingProducer",
-					"producer:MELAProducer",
 					"producer:EventWeightProducer"
 				],
 				"(LFV).*(?=(Spring16|Summer16))" : [
