@@ -22,8 +22,8 @@
 		"HltPaths" : { 
 			"nick": {
 				"Run2017|Summer17" : [
-					"HLT_Ele32_WPTight_Gsf",
-					"HLT_Ele35_WPTight_Gsf"
+					"HLT_Ele35_WPTight_Gsf",
+					"HLT_Ele32_WPTight_Gsf"
 				],
 				"Run2016|Summer16" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf"
@@ -47,6 +47,9 @@
 		"ElectronLowerPtCuts" : {
 			"nick" : {
 				"default" : [
+					"36.0"
+				],
+				"(Run2016|Summer16)" : [
 					"26.0"
 				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
@@ -73,8 +76,8 @@
 		"DiTauPairLepton1LowerPtCuts" : {
 			"nick" : {
 				"(Run2017|Summer17)" : [
-					"HLT_Ele32_WPTight_Gsf_v:26.0",
-					"HLT_Ele35_WPTight_Gsf_v:26.0"
+					"HLT_Ele35_WPTight_Gsf_v:36.0",
+					"HLT_Ele32_WPTight_Gsf_v:36.0"
 				],
 				"(Run2016|Summer16)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"
@@ -87,8 +90,8 @@
 		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
 			"nick": {
 				"Run2017|Summer17" : [
-					"HLT_Ele32_WPTight_Gsf_v",
-					"HLT_Ele35_WPTight_Gsf_v"
+					"HLT_Ele35_WPTight_Gsf_v",
+					"HLT_Ele32_WPTight_Gsf_v"
 				],
 				"Run2016|Summer16|Embedding(2016|MC)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v"
@@ -121,14 +124,14 @@
 		],
 		"TriggerEfficiencyData" : {
 			"nick": {
-		 		"default" : "",
+		 		"default" :  ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele25WPTight_eff.root" ],
 				"Run2016|Summer16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele25WPTight_eff.root" ],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root" ]
 			}
 		},
 		"TriggerEfficiencyMc" : {
 			"nick" : {
-				"default" : "",
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele25WPTight_eff.root" ],
 				"Run2016|Summer16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele25WPTight_eff.root" ],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23_fall15.root"]
 			}
@@ -136,14 +139,14 @@
 		"TriggerEfficiencyMode" : "multiply_weights",
 		"IdentificationEfficiencyData" : {
 			"nick" : {
-				"default" : "",
+				"default" :  ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"],
 				"Run2016|Summer16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"]
 			}
 		},
 		"IdentificationEfficiencyMc" : {
 			"nick" : {
-				"default" : "",
+				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"],
 				"Run2016|Summer16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"]
 			}
@@ -151,7 +154,7 @@
 		"IdentificationEfficiencyMode" : "multiply_weights",
 		"EleTauFakeRateWeightFile" : {
 			"nick": {
-				"default" : "",
+				"default" : ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"],
 				"Run2016|Summer16" : ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 				}
 		},		
@@ -159,8 +162,8 @@
 		"ElectronTriggerFilterNames" : {
 			"nick" : {
 				"Run2017|Summer17" : [
-					"HLT_Ele27_WPTight_Gsf_v:hltEle27WPTightGsfTrackIsoFilter",
-					"#HLT_Ele35_WPTight_Gsf_v:hltEle35WPTightGsfTrackIsoFilter"
+					"HLT_Ele35_WPTight_Gsf_v:hltEle35WPTightGsfTrackIsoFilter",
+					"HLT_Ele32_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
 				],
 				"Run2016|Summer16|Embedding(2016|MC)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"
@@ -252,7 +255,6 @@
 					"producer:DiVetoElectronVetoProducer",
 					"producer:TaggedJetCorrectionsProducer",
 					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
 					"producer:MetCorrector",
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
