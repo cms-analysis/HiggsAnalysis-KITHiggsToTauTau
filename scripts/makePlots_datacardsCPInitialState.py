@@ -37,40 +37,43 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("--cpstudy", nargs="+", required=True,
-	                    default=["initial"],
-	                    choices=["initial", "final"],
-	                    help="Choose which CP study to do: initial state or final state. [Default: %(default)s]")
 	parser.add_argument("-c", "--channel", action = "append",
 	                    default=["et", "mt", "tt", "em"],
 	                    help="Channel. This argument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
 	                    default=[["inclusive"]],
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
+	parser.add_argument("-x", "--quantity", default="jdphi",
+	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
+	parser.add_argument("-w", "--weight", default="1.0",
+	                    help="Additional weight (cut) expression. [Default: %(default)s]")
+	parser.add_argument("-a", "--args", default="",
+	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")						
+	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
+	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--auto-rebin", action="store_true", default=False,
+	                    help="Do auto rebinning [Default: %(default)s]")	
+	parser.add_argument("--combinations", nargs="+",
+	                    default=["individual", "channel", "category", "combined"],
+	                    choices=["individual", "channel", "category", "combined"],
+	                    help="Combinations to perform. [Default: %(default)s]")
 	parser.add_argument("--cp-mixings", nargs="+", type=float,
 	                    default=list(numpy.arange(0.0, 1.001, 0.1)),
 	                    help="CP mixing angles alpha_tau (in units of pi/2) to be probed. [Default: %(default)s]")
 	parser.add_argument("--cp-mixing-scan-points", type=int, default=((len(parser.get_default("cp_mixings"))-1)*4)+1,
 	                    help="Number of points for CP mixing angles alpha_tau (in units of pi/2) to be scanned. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantity", default="jdphi",
-	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
-	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
-	parser.add_argument("--auto-rebin", action="store_true", default=False,
-	                    help="Do auto rebinning [Default: %(default)s]")
+	parser.add_argument("--cpstudy", nargs="+", required=True,
+	                    default=["initial"],
+	                    choices=["initial", "final"],
+	                    help="Choose which CP study to do: initial state or final state. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
-	parser.add_argument("-w", "--weight", default="1.0",
-	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--do-not-normalize-by-bin-width", default=False, action="store_true",
 	                    help="Turn off normalization by bin width [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
-	parser.add_argument("-a", "--args", default="",
-	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
-	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("-b", "--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -84,36 +87,37 @@ if __name__ == "__main__":
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--scale-lumi", default=False,
 	                    help="Scale datacard to luminosity specified. [Default: %(default)s]")
-	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
-	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
-	parser.add_argument("--use-rateParam", action="store_true", default=False,
-	                    help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
-	parser.add_argument("--x-bins", default=None,
-	                    help="Manualy set the binning. Default is taken from configuration files.")
 	parser.add_argument("--debug-plots", default=False, action="store_true",
 	                    help="Produce debug Plots [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
+	parser.add_argument("--hypothesis", nargs="+",
+	                    default=["susycpodd"],
+	                    choices=["susycpodd", "cpodd", "cpmix"],
+	                    help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")						
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 	                    help="Do not include shape uncertainties. [Default: %(default)s]")
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 	                    help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
+	parser.add_argument("--production-mode", nargs="+",
+	                    default=["ggh", "qqh"],
+	                    choices=["ggh", "qqh"],
+	                    help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")	
+	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")											
 	parser.add_argument("--steps", nargs="+",
 	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "likelihoodScan"],
 	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts", "likelihoodScan", "yields"],
 	                    help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
-	parser.add_argument("--production-mode", nargs="+",
-	                    default=["ggh", "qqh"],
-	                    choices=["ggh", "qqh"],
-	                    help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")
-	parser.add_argument("--hypothesis", nargs="+",
-	                    default=["susycpodd"],
-	                    choices=["susycpodd", "cpodd", "cpmix"],
-	                    help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")
+	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
+	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	parser.add_argument("--use-rateParam", action="store_true", default=False,
+	                    help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
+	parser.add_argument("--x-bins", default=None,
+	                    help="Manualy set the binning. Default is taken from configuration files.")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -136,10 +140,10 @@ if __name__ == "__main__":
 	args.cp_mixings.sort()
 	cp_mixing_angles = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
 	cp_mixings_str = cp_mixing_angles
-	
-	cp_mixings_scan = list(numpy.arange(args.cp_mixings[0], args.cp_mixings[-1]+0.001, (args.cp_mixings[-1]-args.cp_mixings[0])/(args.cp_mixing_scan_points-1)))
-	cp_mixings_combine_range_min = (3*cp_mixings_scan[0]-cp_mixings_scan[1]) / 2.0
-	cp_mixings_combine_range_max = (3*cp_mixings_scan[-1]-cp_mixings_scan[-2]) / 2.0
+	if "likelihoodScan" in args.steps:
+		cp_mixings_scan = list(numpy.arange(args.cp_mixings[0], args.cp_mixings[-1]+0.001, (args.cp_mixings[-1]-args.cp_mixings[0])/(args.cp_mixing_scan_points-1)))
+		cp_mixings_combine_range_min = (3*cp_mixings_scan[0]-cp_mixings_scan[1]) / 2.0
+		cp_mixings_combine_range_max = (3*cp_mixings_scan[-1]-cp_mixings_scan[-2]) / 2.0
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
@@ -183,12 +187,15 @@ if __name__ == "__main__":
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
-	datacard_filename_templates = [
-		"datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
-		#"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		#"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
-		"datacards/combined/${ANALYSIS}_${ERA}.txt",
-	]
+	datacard_filename_templates = []
+	if "individual" in args.combinations:
+		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
+	if "channel" in args.combinations:
+		datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
+	if "category" in args.combinations:
+		datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
+	if "combined" in args.combinations:
+		datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")		
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 
 	if args.channel != parser.get_default("channel"):
@@ -493,10 +500,10 @@ if __name__ == "__main__":
 				bkg_procs = datacards.cb.cp().channel([channel]).bin([category]).cp().backgrounds().process_set()
 				sig_procs = datacards.cb.cp().channel([channel]).bin([category]).cp().signals().process_set()
 				for bkg in bkg_procs:
-					bkg_yield[bkg] = datacards.cb.cp().channel([channel]).bin([category]).process([bkg]).no_norm_rate()
+					bkg_yield[bkg] = datacards.cb.cp().channel([channel]).bin([category]).process([bkg]).GetRate()
 				tot_bkg = sum(bkg_yield.values())
 				for sig in sig_procs:
-					sig_yield[sig] = datacards.cb.cp().channel([channel]).bin([category]).process([sig]).no_norm_rate()
+					sig_yield[sig] = datacards.cb.cp().channel([channel]).bin([category]).process([sig]).GetRate()
 				tot_sig = sum(sig_yield.values())
 				print("TotalBkg: "+str(tot_bkg)+ " TotalSig: "+str(tot_sig)+"\n")
 				for sig in sig_procs:
