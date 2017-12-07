@@ -65,7 +65,7 @@ class EstimateQcd(estimatebase.EstimateBase):
 				yield_bkg = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 				#print "minus " + nick + "  " + str(yield_bkg)	
 				yield_qcd -= yield_bkg
-			yield_qcd = max(uncertainties.ufloat(0.0, yield_qcd.std_dev), yield_qcd)
+			yield_qcd = uncertainties.ufloat(max(0.0, yield_qcd.nominal_value), yield_qcd.std_dev)
 			if(yield_qcd.nominal_value == 0.0):
 				log.warning("QCD yield is 0!")
 			#  QCD shape
