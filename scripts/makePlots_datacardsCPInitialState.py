@@ -327,7 +327,7 @@ if __name__ == "__main__":
 					config["x_expressions"] =  [args.quantity]
 
 					if "initial" in args.cpstudy:
-						binnings_key = "tt_absjdphi"
+						binnings_key = "tt_jdphi"
 					if "final" in args.cpstudy:
 						binnings_key = "tt_phiStarCP"
 					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
