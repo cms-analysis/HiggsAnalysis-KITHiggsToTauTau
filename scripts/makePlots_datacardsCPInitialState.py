@@ -50,9 +50,9 @@ if __name__ == "__main__":
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
-	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")						
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
-	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
+	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--auto-rebin", action="store_true", default=False,
 	                    help="Do auto rebinning [Default: %(default)s]")	
 	parser.add_argument("--combinations", nargs="+",
@@ -424,7 +424,7 @@ if __name__ == "__main__":
 	)
 	
 	# add bin-by-bin uncertainties
-	if args.add_bbb_uncs:
+	if not args.no_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True

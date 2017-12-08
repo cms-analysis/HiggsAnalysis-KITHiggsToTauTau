@@ -42,8 +42,8 @@ if __name__ == "__main__":
 						help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
 						help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
-						help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
+	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 						help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=["EstimateQcd"], nargs="+",
@@ -249,7 +249,7 @@ if __name__ == "__main__":
 	)
 
 	# add bin-by-bin uncertainties
-	if args.add_bbb_uncs:
+	if not args.no_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True

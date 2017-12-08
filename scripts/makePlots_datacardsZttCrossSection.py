@@ -75,8 +75,8 @@ if __name__ == "__main__":
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=True,
-	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
+	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--grid-bins", default="50",
 	                    help="Binning of the grid for the logL scan. [Default: %(default)s]")
 	parser.add_argument("-ff", "--fakefactor-method", choices = ["standard", "comparison"],
@@ -270,7 +270,7 @@ if __name__ == "__main__":
 	)
 	
 	# add bin-by-bin uncertainties
-	#if args.add_bbb_uncs:
+	#if not args.no_bbb_uncs:
 	#	datacards.add_bin_by_bin_uncertainties(
 	#			processes=datacards.cb.cp().backgrounds().process_set(),
 	#			add_threshold=0.1, merge_threshold=0.5, fix_norm=True
