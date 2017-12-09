@@ -512,9 +512,6 @@ if __name__ == "__main__":
 		
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
-
-	
-	datacards.create_morphing_signals("cpmixing", 0.0, 0.0, 1.0)
 	
 	# write datacards and call text2workspace
 	datacards_cbs = {}
@@ -540,11 +537,19 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 		
 	if "likelihoodScan" in args.steps:
-		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
+		datacards_workspaces = datacards.text2workspace(
+				datacards_cbs,
+				args.n_processes,
+				"-P {MODEL} {MODEL_PARAMETERS}".format(
+					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_mixing",
+					MODEL_PARAMETERS=""
+				)
+		)
 		
-		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
-		# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF. 					
 		if "prefitpostfitplots" in args.steps:
+			datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+			# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF.
+			
 			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
 
@@ -556,7 +561,7 @@ if __name__ == "__main__":
 				datacards_workspaces,
 				None,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
+				"-M MultiDimFit --algo grid --redefineSignalPOIs alpha_over_pi_half --expectSignal=1 -t -1 --setPhysicsModelParameters alpha_over_pi_half=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
 						STABLE=datacards.stable_options,
 						RANGE="{0:f},{1:f}".format(cp_mixings_combine_range_min, cp_mixings_combine_range_max),
 						POINTS=args.cp_mixing_scan_points
