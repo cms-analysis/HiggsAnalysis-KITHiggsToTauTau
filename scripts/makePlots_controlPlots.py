@@ -107,7 +107,7 @@ if __name__ == "__main__":
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ewkz","tttautau", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvj", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "hww", "hww_gg", "hww_qq", "ff",
-	                             "ggh", "susy_ggh", "gghsm", "gghmm", "gghps", "qqh", "qqhsm", "qqhmm", "qqhps", "bbh", "vh", "htt", "data", "zmt", "zet", "zem",
+	                             "ggh", "susy_ggh", "gghsm", "gghmm", "gghps", "gghjhusm", "gghjhumm", "gghjhups", "qqh", "qqhsm", "qqhmm", "qqhps", "bbh", "vh", "htt", "data", "zmt", "zet", "zem",
 								 "susy", "httcpeven", "httcpodd", "httcpmix", "susycpodd"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
