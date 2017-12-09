@@ -160,12 +160,14 @@ if __name__ == "__main__":
 	# initial state studies
 	if "initial" in args.cp_study:
 		if "ggh" in args.production_mode:
-			signal_processes.append("ggHsm")
-			if "pvalue" in args.steps:
-				signal_processes.append("ggHps_ALT")
+			signal_processes.extend(["ggHsm", "ggHmm", "ggHps"])
+			if "qqh" not in args.production_mode:
+				pass # TODO: add as background
 		if "qqh" in args.production_mode:
-			signal_processes.append("qqHsm")
-			#signal_processes.append("qqHps_ALT")
+			signal_processes.extend(["qqHsm", "qqHmm", "qqHps"])
+			if "ggh" not in args.production_mode:
+				pass # TODO: add as background
+	
 	# final state studies
 	if "final" in args.cp_study:
 		if "susycpodd" in args.hypothesis:
@@ -184,9 +186,9 @@ if __name__ == "__main__":
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
-	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
+	sig_histogram_name_template = "${BIN}/${PROCESS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
+	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	datacard_filename_templates = []
 	if "individual" in args.combinations:
 		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
@@ -288,43 +290,40 @@ if __name__ == "__main__":
 					
 					config = samples.Samples.merge_configs(config, config_bkg)
 					
-					# Set up the config for the signal samples for each given cp_mixing angle. 				
-					for cp_mixing, cp_mixing_angle, cp_mixing_str in zip(args.cp_mixings, cp_mixing_angles, cp_mixings_str):
-						
-						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
-								samples="\", \"".join(list_of_sig_samples),
-								channel=channel,
-								category=category,
-								systematic=systematic
-						))	 
-						# print("Make config for mixing: " + str(cp_mixing) + " Angle: " + str(cp_mixing_angle) )
-						# reweight according to the cp study
-						if "final" in args.cp_study:
-							signal_reweighting_factor = "*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle
-							print(signal_reweighting_factor)
-						else:
-							signal_reweighting_factor = "*(madGraphWeightSample>-899)"+"*madGraphWeightInvSample"+"*madGraphWeight"+cp_mixing_angle
-						
-						config_sig = sample_settings.get_config(
-								samples=[getattr(samples.Samples, sample) for sample in list_of_sig_samples],
-								channel=channel,
-								category="catHtt13TeV_"+category,
-								nick_suffix="_"+cp_mixing_str,
-								weight=args.weight+signal_reweighting_factor,
-								lumi=args.lumi * 1000,
-								exclude_cuts=exclude_cuts,
-								higgs_masses=higgs_masses,
-								cut_type = "cp2016"
-						)
-						# config labels need the MASS keyword to find the right histograms.
-						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
-								PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
-								BIN=category,
-								MASS=cp_mixing_str,
-								SYSTEMATIC=systematic
-						) for sample in config_sig["labels"]]
-							
-						config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
+					# Set up the config for the signal samples
+					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
+							samples="\", \"".join(list_of_sig_samples),
+							channel=channel,
+							category=category,
+							systematic=systematic
+					))
+					
+					# print("Make config for mixing: " + str(cp_mixing) + " Angle: " + str(cp_mixing_angle) )
+					# reweight according to the cp study
+					signal_reweighting_factor = ""
+					if "final" in args.cp_study:
+						pass #TODO
+						#signal_reweighting_factor = "*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle
+						#print(signal_reweighting_factor)
+					
+					config_sig = sample_settings.get_config(
+							samples=[getattr(samples.Samples, sample) for sample in list_of_sig_samples],
+							channel=channel,
+							category="catHtt13TeV_"+category,
+							weight=args.weight+signal_reweighting_factor,
+							lumi=args.lumi * 1000,
+							exclude_cuts=exclude_cuts,
+							higgs_masses=higgs_masses,
+							cut_type = "cp2016"
+					)
+					# config labels need the MASS keyword to find the right histograms.
+					config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
+							PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
+							BIN=category,
+							SYSTEMATIC=systematic
+					) for sample in config_sig["labels"]]
+					
+					config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					
