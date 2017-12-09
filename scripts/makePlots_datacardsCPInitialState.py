@@ -472,13 +472,12 @@ if __name__ == "__main__":
 	
 	# Use an asimov dataset. This line must be here, because otherwise we 
 	if args.use_asimov_dataset:
-		datacards.replace_observation_by_asimov_dataset(signal_mass="000")
+		datacards.replace_observation_by_asimov_dataset(signal_processes=["ggHsm", "qqHsm"])
 	
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
 	It considers the 
 	"""
-
 	
 	# TODO: WIP: More elegant programming style planned.
 	if "yields" in args.steps:

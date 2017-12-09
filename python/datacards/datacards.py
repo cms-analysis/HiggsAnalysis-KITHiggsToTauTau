@@ -246,11 +246,20 @@ class Datacards(object):
 	def scale_processes(self, scale_factor, processes, no_norm_rate=False):
 		self.cb.cp().process(processes).ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate else process.rate()) * scale_factor))
 
-	def replace_observation_by_asimov_dataset(self, signal_mass=None):
+	def replace_observation_by_asimov_dataset(self, signal_mass=None, signal_processes=None):
 		def _replace_observation_by_asimov_dataset(observation):
 			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
 			background = cb.cp().backgrounds()
-			signal = cb.cp().signals() if signal_mass is None else cb.cp().signals().mass([signal_mass])
+			
+			signal = cb.cp().signals()
+			if signal_mass:
+				if signal_processes:
+					signal = cb.cp().signals().process(signal_processes).mass([signal_mass])
+				else:
+					signal = cb.cp().signals().mass([signal_mass])
+			elif signal_processes:
+				signal = cb.cp().signals().process(signal_processes)
+			
 			observation.set_shape(background.GetShape() + signal.GetShape(), True)
 			observation.set_rate(background.GetRate() + signal.GetRate())
 
