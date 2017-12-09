@@ -64,7 +64,7 @@ if __name__ == "__main__":
 	                    help="CP mixing angles alpha_tau (in units of pi/2) to be probed. [Default: %(default)s]")
 	parser.add_argument("--cp-mixing-scan-points", type=int, default=((len(parser.get_default("cp_mixings"))-1)*4)+1,
 	                    help="Number of points for CP mixing angles alpha_tau (in units of pi/2) to be scanned. [Default: %(default)s]")
-	parser.add_argument("--cpstudy", nargs="+", required=True,
+	parser.add_argument("--cp-study", nargs="+",
 	                    default=["initial"],
 	                    choices=["initial", "final"],
 	                    help="Choose which CP study to do: initial state or final state. [Default: %(default)s]")
@@ -158,7 +158,7 @@ if __name__ == "__main__":
 
 	# set the signal processes
 	# initial state studies
-	if "initial" in args.cpstudy:
+	if "initial" in args.cp_study:
 		if "ggh" in args.production_mode:
 			signal_processes.append("ggHsm")
 			if "pvalue" in args.steps:
@@ -167,7 +167,7 @@ if __name__ == "__main__":
 			signal_processes.append("qqHsm")
 			#signal_processes.append("qqHps_ALT")
 	# final state studies
-	if "final" in args.cpstudy:
+	if "final" in args.cp_study:
 		if "susycpodd" in args.hypothesis:
 			signal_processes.append("CPEVEN")
 			signal_processes.append("SUSYCPODD_ALT")
@@ -299,7 +299,7 @@ if __name__ == "__main__":
 						))	 
 						# print("Make config for mixing: " + str(cp_mixing) + " Angle: " + str(cp_mixing_angle) )
 						# reweight according to the cp study
-						if "final" in args.cpstudy:
+						if "final" in args.cp_study:
 							signal_reweighting_factor = "*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle
 							print(signal_reweighting_factor)
 						else:
@@ -333,9 +333,9 @@ if __name__ == "__main__":
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] =  [args.quantity]
 
-					if "initial" in args.cpstudy:
+					if "initial" in args.cp_study:
 						binnings_key = "tt_jdphi"
-					if "final" in args.cpstudy:
+					if "final" in args.cp_study:
 						binnings_key = "tt_phiStarCP"
 					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 						config["x_bins"] = [binnings_key]
@@ -347,7 +347,7 @@ if __name__ == "__main__":
 							log.debug(key)
 						sys.exit()
 					# set quantity x depending on the category
-					if "final" in args.cpstudy:
+					if "final" in args.cp_study:
 						if all(["RHOmethod" in c for c in categories]):
 							config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
 							args.quantity = "recoPhiStarCP_rho_merged"
@@ -658,7 +658,7 @@ if __name__ == "__main__":
 			pconfigs["x_expressions"]=["q"]
 			pconfigs[ "output_dir"]=str(os.path.dirname(filename))
 			pconfigs["x_bins"]=["500,-3.15,3.15"]
-			if "final" in args.cpstudy:
+			if "final" in args.cp_study:
 				pconfigs["x_bins"] = ["500,0,6.28"]
 
 			#pconfigs["scale_factors"]=[1,1,1,900]
@@ -671,7 +671,7 @@ if __name__ == "__main__":
 			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
 			pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
 			pconfig_plots.append(pconfigs)
-			if "final" in args.cpstudy:
+			if "final" in args.cp_study:
 				if "susycpodd" or "cpodd" in args.hypothesis:
 					pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
 					if args.use_asimov_dataset:
