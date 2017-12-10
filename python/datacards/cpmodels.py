@@ -32,13 +32,13 @@ class CPMixing(PhysicsModel):
 		self.modelBuilder.doVar("muV[1.0,0.0,5.0]")
 		self.modelBuilder.doVar("muF[1.0,0.0,5.0]")
 		self.modelBuilder.doVar("alpha_over_pi_half[0.0,0.0,1.0]") # cp mixing angle from 0 to pi/2
-		self.modelBuilder.factory_('expr::cosalpha("cos(@1*{pi}/2)", alpha_over_pi_half)'.format(pi=math.pi))
-		self.modelBuilder.factory_('expr::sinalpha("sin(@1*{pi}/2)", alpha_over_pi_half)'.format(pi=math.pi))
-		self.modelBuilder.factory_('expr::a("@1", cosalpha)')
-		self.modelBuilder.factory_('expr::b("@1", sinalpha)')
-		self.modelBuilder.factory_('expr::sm_scaling("@1*@1-@1*@2*{a_tilde}/{b_tilde}", a, b)'.format(**maxmix))
-		self.modelBuilder.factory_('expr::ps_scaling("@2*@2-@1*@2*{b_tilde}/{a_tilde}", a, b)'.format(**maxmix))
-		self.modelBuilder.factory_('expr::mm_scaling("@1*@2/({a_tilde}*{b_tilde})", a, b)'.format(**maxmix))
+		self.modelBuilder.factory_('expr::cosalpha("cos(@0*{pi}/2)", alpha_over_pi_half)'.format(pi=math.pi))
+		self.modelBuilder.factory_('expr::sinalpha("sin(@0*{pi}/2)", alpha_over_pi_half)'.format(pi=math.pi))
+		self.modelBuilder.factory_('expr::a("@0", cosalpha)')
+		self.modelBuilder.factory_('expr::b("@0", sinalpha)')
+		self.modelBuilder.factory_('expr::sm_scaling("@0*@0-@0*@1*{a_tilde}/{b_tilde}", a, b)'.format(**maxmix))
+		self.modelBuilder.factory_('expr::ps_scaling("@1*@1-@0*@1*{b_tilde}/{a_tilde}", a, b)'.format(**maxmix))
+		self.modelBuilder.factory_('expr::mm_scaling("@0*@1/({a_tilde}*{b_tilde})", a, b)'.format(**maxmix))
 
 		self.modelBuilder.doSet("POI", "alpha_over_pi_half, muV, muV")
 
