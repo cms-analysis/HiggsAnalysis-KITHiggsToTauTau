@@ -29,38 +29,50 @@ class CPMixing(PhysicsModel):
 			"b_tilde" : 1.0,
 		}
 		
-		self.modelBuilder.doVar("muV[1.0,0.0,5.0]")
 		self.modelBuilder.doVar("muF[1.0,0.0,5.0]")
+		self.modelBuilder.doVar("muV[1.0,0.0,5.0]")
 		self.modelBuilder.doVar("alpha_over_pi_half[0.0,0.0,1.0]") # cp mixing angle from 0 to pi/2
+		
 		self.modelBuilder.factory_('expr::cosalpha("cos(@0*{pi}/2)", alpha_over_pi_half)'.format(pi=math.pi))
 		self.modelBuilder.factory_('expr::sinalpha("sin(@0*{pi}/2)", alpha_over_pi_half)'.format(pi=math.pi))
+		
 		self.modelBuilder.factory_('expr::a("@0", cosalpha)')
 		self.modelBuilder.factory_('expr::b("@0", sinalpha)')
+		
 		self.modelBuilder.factory_('expr::sm_scaling("@0*@0-@0*@1*{a_tilde}/{b_tilde}", a, b)'.format(**maxmix))
 		self.modelBuilder.factory_('expr::ps_scaling("@1*@1-@0*@1*{b_tilde}/{a_tilde}", a, b)'.format(**maxmix))
 		self.modelBuilder.factory_('expr::mm_scaling("@0*@1/({a_tilde}*{b_tilde})", a, b)'.format(**maxmix))
-
-		self.modelBuilder.doSet("POI", "alpha_over_pi_half, muV, muV")
+		
+		for production in ["muF", "muV"]:
+			for decay in ["muF"]:
+				for cp in ["sm_scaling", "ps_scaling", "mm_scaling"]:
+					self.modelBuilder.factory_('expr::{production}_{decay}_{cp}("@0*@1*@2", {production}, {decay}, {cp})'.format(
+							production=production, decay=decay, cp=cp)
+					)
+		
+		self.modelBuilder.doSet("POI", "muF,muV,alpha_over_pi_half")
 
 	def getYieldScale(self, bin, process):
 		if self.DC.isSignal[process]:
-			signal_scaling = ["muF"]
+			production_decay_cp = []
 			
 			if "ggh" in process.lower():
-				signal_scaling.append("muF")
+				production_decay_cp.append("muF")
 			elif "qqh" in process.lower():
-				signal_scaling.append("muV")
+				production_decay_cp.append("muV")
 			else:
-				pass # TODO
+				pass # TODO: other production modes
+			
+			production_decay_cp.append("muF")
 			
 			if "sm" in process.lower():
-				signal_scaling.append("sm_scaling")
+				production_decay_cp.append("sm_scaling")
 			elif "ps" in process.lower():
-				signal_scaling.append("ps_scaling")
+				production_decay_cp.append("ps_scaling")
 			elif "mm" in process.lower():
-				signal_scaling.append("mm_scaling")
+				production_decay_cp.append("mm_scaling")
 			
-			return "*".join(signal_scaling)
+			return "_".join(production_decay_cp)
 		
 		else:
 			return 1
