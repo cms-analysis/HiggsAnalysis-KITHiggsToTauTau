@@ -31,10 +31,10 @@ class CPMixing(PhysicsModel):
 		
 		self.modelBuilder.doVar("muF[1.0,0.0,5.0]")
 		self.modelBuilder.doVar("muV[1.0,0.0,5.0]")
-		self.modelBuilder.doVar("alpha_over_pi_half[0.0,0.0,1.0]") # cp mixing angle from 0 to pi/2
+		self.modelBuilder.doVar("cpmixing[0.0,0.0,1.0]") # CP mixing angle in units of pi/2
 		
-		self.modelBuilder.factory_('expr::cosalpha("cos(@0*{pi}/2)", alpha_over_pi_half)'.format(pi=math.pi))
-		self.modelBuilder.factory_('expr::sinalpha("sin(@0*{pi}/2)", alpha_over_pi_half)'.format(pi=math.pi))
+		self.modelBuilder.factory_('expr::cosalpha("cos(@0*{pi}/2)", cpmixing)'.format(pi=math.pi))
+		self.modelBuilder.factory_('expr::sinalpha("sin(@0*{pi}/2)", cpmixing)'.format(pi=math.pi))
 		
 		self.modelBuilder.factory_('expr::a("@0", cosalpha)')
 		self.modelBuilder.factory_('expr::b("@0", sinalpha)')
@@ -50,7 +50,7 @@ class CPMixing(PhysicsModel):
 							production=production, decay=decay, cp=cp)
 					)
 		
-		self.modelBuilder.doSet("POI", "muF,muV,alpha_over_pi_half")
+		self.modelBuilder.doSet("POI", "muF,muV,cpmixing")
 
 	def getYieldScale(self, bin, process):
 		if self.DC.isSignal[process]:
