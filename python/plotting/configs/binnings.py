@@ -127,7 +127,13 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["tt_metProjectionPhi"] = "20,-3.141,3.141"
 		self.binnings_dict["tt_phiStarCP"] = "20,0.0,6.28"
-
+		
+		for ch in ["em_", "et_", "mt_", "tt_"]:
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"] = "4,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "2,-1.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "4,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "2,-1.0,1.0"
+		
 		self.binnings_dict["mt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["mt_eta_1"] = "30,-3,3"
 		self.binnings_dict["mt_eta_2"] = "30,-3,3"
