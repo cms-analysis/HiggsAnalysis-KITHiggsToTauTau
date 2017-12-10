@@ -180,15 +180,21 @@ if __name__ == "__main__":
 			signal_processes.append("CPEVEN")
 			signal_processes.append("CPMIX_ALT")
 	
-	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cp_mixings_str, higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes) # TODO: derive own version from this class DONE
+	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
+			cp_mixing_angles=cp_mixings_str,
+			higgs_masses=args.higgs_masses,
+			useRateParam=args.use_rateParam,
+			year=args.era,
+			signal_processes=signal_processes
+	)
 		
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
-	sig_histogram_name_template = "${BIN}/${PROCESS}"
+	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
+	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = []
 	if "individual" in args.combinations:
 		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
@@ -320,6 +326,7 @@ if __name__ == "__main__":
 					config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
 							PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
 							BIN=category,
+							MASS=str(higgs_masses[0]),
 							SYSTEMATIC=systematic
 					) for sample in config_sig["labels"]]
 					
