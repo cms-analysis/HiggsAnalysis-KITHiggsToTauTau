@@ -136,15 +136,6 @@ if __name__ == "__main__":
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 	
-	# preparation of CP mixing angles alpha_tau/(pi/2)
-	args.cp_mixings.sort()
-	cp_mixing_angles = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
-	cp_mixings_str = cp_mixing_angles
-	if "likelihoodScan" in args.steps:
-		cp_mixings_scan = list(numpy.arange(args.cp_mixings[0], args.cp_mixings[-1]+0.001, (args.cp_mixings[-1]-args.cp_mixings[0])/(args.cp_mixing_scan_points-1)))
-		cp_mixings_combine_range_min = (3*cp_mixings_scan[0]-cp_mixings_scan[1]) / 2.0
-		cp_mixings_combine_range_max = (3*cp_mixings_scan[-1]-cp_mixings_scan[-2]) / 2.0
-	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
@@ -181,7 +172,6 @@ if __name__ == "__main__":
 			signal_processes.append("CPMIX_ALT")
 	
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
-			cp_mixing_angles=cp_mixings_str,
 			higgs_masses=args.higgs_masses,
 			useRateParam=args.use_rateParam,
 			year=args.era,
@@ -568,9 +558,8 @@ if __name__ == "__main__":
 				datacards_workspaces_cp_mixing,
 				None,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
+				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format(
 						STABLE=datacards.stable_options,
-						RANGE="{0:f},{1:f}".format(cp_mixings_combine_range_min, cp_mixings_combine_range_max),
 						POINTS=args.cp_mixing_scan_points
 				)	
 		)

@@ -10,7 +10,7 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
 import CombineHarvester.CombineTools.ch as ch
 
 class InitialStateCPStudiesDatacards(smhttdatacards.SMHttDatacards):
-	def __init__(self, cp_mixing_angles=[], higgs_masses=["125"], useRateParam=False, year="", cb=None, signal_processes=[ "ggHsm","ggHps_ALT", "qqHsm", "qqHps_ALT"]):
+	def __init__(self, higgs_masses=["125"], useRateParam=False, year="", cb=None, signal_processes=[ "ggHsm","ggHps_ALT", "qqHsm", "qqHps_ALT"]):
 		super(InitialStateCPStudiesDatacards, self).__init__(
 				higgs_masses=higgs_masses,
 				year=year,
