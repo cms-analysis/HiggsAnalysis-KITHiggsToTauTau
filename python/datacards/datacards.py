@@ -293,7 +293,7 @@ class Datacards(object):
 
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="text2workspace.py")
 
-		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_cbs.keys()}
+		return {datacard : os.path.splitext(datacard)[0]+"_"+physics_model.get("physics_model", "default")+".root" for datacard in datacards_cbs.keys()}
 
 	def combine(self, datacards_cbs, datacards_workspaces, datacards_poi_ranges=None, n_processes=1, *args, **kwargs):
 		if datacards_poi_ranges is None:
