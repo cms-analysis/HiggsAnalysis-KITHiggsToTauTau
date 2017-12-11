@@ -278,11 +278,17 @@ class Datacards(object):
 		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
 
 	def text2workspace(self, datacards_cbs, n_processes=1, *args):
+		physics_model = re.search("(-P|--physics-model)[\s=\"\']*\S*:(?P<physics_model>\S*)[\"\']?\s", " ".join(args))
+		if physics_model is None:
+			physics_model = {}
+		else:
+			physics_model = physics_model.groupdict()
+		
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
 				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
 				DATACARD=datacard,
-				OUTPUT=os.path.splitext(datacard)[0]+".root"
+				OUTPUT=os.path.splitext(datacard)[0]+"_"+physics_model.get("physics_model", "default")+".root"
 		) for datacard, cb in datacards_cbs.iteritems()]
 
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="text2workspace.py")
