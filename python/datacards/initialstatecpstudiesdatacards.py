@@ -18,8 +18,8 @@ class InitialStateCPStudiesDatacards(smhttdatacards.SMHttDatacards):
 				signal_processes=signal_processes
 		)
 		
-		#self.cb.cp().signals().ForEachProc(lambda process: process.set_signal(False if process.process() in ["qqH"] else True) )
-		#self.cb.cp().process(["qqH"]).ForEachSyst(lambda systematic: systematic.set_signal(False) )
+		#self.cb.cp().signals().ForEachProc(lambda process: process.set_signal(False if process.process() in ["qqHsm", "qqHmm", "qqHps"] else True) )
+		#self.cb.cp().process(["qqH", "qqHsm", "qqHmm", "qqHps"]).ForEachSyst(lambda systematic: systematic.set_signal(False) )
 		#self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_mass("*"))
 		#self.cb.cp().backgrounds().ForEachSyst(lambda systematic: systematic.set_mass("*"))
 		
