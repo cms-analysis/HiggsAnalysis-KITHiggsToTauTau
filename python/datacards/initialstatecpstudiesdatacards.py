@@ -10,18 +10,45 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
 import CombineHarvester.CombineTools.ch as ch
 
 class InitialStateCPStudiesDatacards(smhttdatacards.SMHttDatacards):
-	def __init__(self, higgs_masses=["125"], useRateParam=False, year="", cb=None, signal_processes=[ "ggHsm","ggHps_ALT", "qqHsm", "qqHps_ALT"]):
+                 
+	def __init__(self, higgs_masses=["125"], ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None, cp_study="ggh"):
+		
+		sm_signal_processes = ["ggH", "qqH"]#, "WH", "ZH"]
+		cp_signal_processes = {
+			"ggh" : ["ggHsm", "ggHps", "ggHmm"],
+			"vbf" : ["qqHsm", "qqHps", "qqHmm"],
+			"final" : [], # TODO
+		}
+		
 		super(InitialStateCPStudiesDatacards, self).__init__(
 				higgs_masses=higgs_masses,
+				ttbarFit=ttbarFit,
+				mmFit=mmFit,
 				year=year,
+				noJECuncSplit=noJECuncSplit,
 				cb=cb,
-				signal_processes=signal_processes
+				signal_processes=sm_signal_processes+cp_signal_processes.get(cp_study, [])
 		)
 		
-		#self.cb.cp().signals().ForEachProc(lambda process: process.set_signal(False if process.process() in ["qqHsm", "qqHmm", "qqHps"] else True) )
-		#self.cb.cp().process(["qqH", "qqHsm", "qqHmm", "qqHps"]).ForEachSyst(lambda systematic: systematic.set_signal(False) )
-		#self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_mass("*"))
-		#self.cb.cp().backgrounds().ForEachSyst(lambda systematic: systematic.set_mass("*"))
+		def remove_redundant_signal(obj):
+			if not obj.signal():
+				return False
+			else:
+				if any([key in obj.bin().lower() for key in ["twojet", "vbf"]]):
+					if (cp_study == "ggh") and (obj.process() == "ggH"):
+						return True
+					elif (cp_study == "vbf") and (obj.process() == "qqH"):
+						return True
+					elif cp_study == "final":
+						return False # TODO
+					else:
+						return False
+				else:
+					if any([obj.process() == key for key in cp_signal_processes.get("analysis", [])]):
+						return True
+					else:
+						return False
 		
-		#self.cb.cp().signals().ForEachProc(lambda process: process.set_process("ggHps_alt","ggHps")
-		#self.cb.PrintAll()
+		self.cb.FilterProcs(remove_redundant_signal)
+		self.cb.FilterSysts(remove_redundant_signal)
+
