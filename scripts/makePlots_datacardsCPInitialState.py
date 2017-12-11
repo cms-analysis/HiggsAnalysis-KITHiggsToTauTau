@@ -619,7 +619,7 @@ if __name__ == "__main__":
 				args.n_processes,
 				"-P {MODEL} {MODEL_PARAMETERS}".format(
 					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.higgsmodels:twoHypothesisHiggs",
-					MODEL_PARAMETERS=(("--PO=muFloating" if args.use_shape_only else ""))
+					MODEL_PARAMETERS=("--PO altSignal=ps --PO ignoreSignal=mm "+("--PO=muFloating" if args.use_shape_only else ""))
 				)
 		)
 				

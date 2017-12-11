@@ -13,6 +13,7 @@ class TwoHypotesisHiggs(PhysicsModel):
 		self.pois	= {}
 		self.verbose = False
 		self.altSignal  = "ALT"
+		self.ignoreSignal  = "IGNORE"
 	def setModelBuilder(self, modelBuilder):
 		PhysicsModel.setModelBuilder(self, modelBuilder)
 		self.modelBuilder.doModelBOnly = False
@@ -20,6 +21,10 @@ class TwoHypotesisHiggs(PhysicsModel):
 		"Split in production and decay, and call getHiggsSignalYieldScale; return 1 for backgrounds "
 		if not self.DC.isSignal[process]: return 1
 
+		if self.ignoreSignal in process:
+			print "Will ignore", process, "signal"
+			return 0
+		
 		isAlt = (self.altSignal in process)
 
 		if self.pois:
@@ -71,7 +76,8 @@ class TwoHypotesisHiggs(PhysicsModel):
 			if po == "muFloating": 
 				print "Will consider the signal strength as a floating parameter (as a parameter of interest if --PO muAsPOI is specified, as a nuisance otherwise)"
 				self.muFloating = True
-			if po.startswith("altSignal="): self.altSignal = po.split(",")[1]
+			if po.startswith("altSignal="): self.altSignal = po.replace("altSignal=", "")
+			if po.startswith("ignoreSignal="): self.ignoreSignal = po.replace("ignoreSignal=", "")
 			if po.startswith("higgsMassRange="):
 				self.mHRange = po.replace("higgsMassRange=","").split(",")
 				if len(self.mHRange) != 2:
