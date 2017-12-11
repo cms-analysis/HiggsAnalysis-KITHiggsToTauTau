@@ -358,10 +358,10 @@ class SMHttDatacards(datacards.Datacards):
 
 			# ======================================================================
 			# Theory uncertainties
-			self.cb.cp().channel(["mt", "et", "tt", "em"]).process(["ggH"]).bin([channel+"_"+category for channel in ["et", "mt", "em", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D", "TwoJet_CP_boosted", "TwoJet_CP_mvishigh", "TwoJet_CP_mvislow", "TwoJet_CP_mjjlow"]]).AddSyst(self.cb, "CMS_scale_gg_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().process(["qqH"]).AddSyst(self.cb, *systematics_list.htt_qcd_scale_qqh_syst_args)
-			self.cb.cp().process(["ggH", "qqH"]).AddSyst(self.cb, *systematics_list.htt_pdf_scale_smhtt_syst_args)
-			self.cb.cp().process(["ggH", "qqH"]).AddSyst(self.cb, *systematics_list.htt_ueps_smhtt_syst_args)
+			self.cb.cp().channel(["mt", "et", "tt", "em"]).process(["ggH", "ggHsm", "ggHps", "ggHmm"]).bin([channel+"_"+category for channel in ["et", "mt", "em", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D", "TwoJet_CP_boosted", "TwoJet_CP_mvishigh", "TwoJet_CP_mvislow", "TwoJet_CP_mjjlow"]]).AddSyst(self.cb, "CMS_scale_gg_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().process(["qqH", "qqHsm", "qqHps", "qqHmm"]).AddSyst(self.cb, *systematics_list.htt_qcd_scale_qqh_syst_args)
+			self.cb.cp().process(["ggH", "ggHsm", "ggHps", "ggHmm", "qqH", "qqHsm", "qqHps", "qqHmm"]).AddSyst(self.cb, *systematics_list.htt_pdf_scale_smhtt_syst_args)
+			self.cb.cp().process(["ggH", "ggHsm", "ggHps", "ggHmm", "qqH", "qqHsm", "qqHps", "qqHmm"]).AddSyst(self.cb, *systematics_list.htt_ueps_smhtt_syst_args)
 
 			# Uncertainty on BR of HTT @ 125 GeV
 			self.cb.cp().signals().AddSyst(self.cb, "BR_htt_THU", "lnN", ch.SystMap()(1.017))
@@ -373,13 +373,13 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().process(["hww_gg125", "hww_qq125"]).AddSyst(self.cb, "BR_hww_PU_mq", "lnN", ch.SystMap()(1.0099))
 			self.cb.cp().process(["hww_gg125", "hww_qq125"]).AddSyst(self.cb, "BR_hww_PU_alphas", "lnN", ch.SystMap()(1.0066))
 
-			self.cb.cp().process(["ggH", "hww_gg125"]).AddSyst(self.cb, "QCDScale_ggH", "lnN", ch.SystMap()(1.039))
-			self.cb.cp().process(["qqH", "hww_qq125"]).AddSyst(self.cb, "QCDScale_qqH", "lnN", ch.SystMap()(1.004))
+			self.cb.cp().process(["ggH", "ggHsm", "ggHps", "ggHmm", "hww_gg125"]).AddSyst(self.cb, "QCDScale_ggH", "lnN", ch.SystMap()(1.039))
+			self.cb.cp().process(["qqH", "qqHsm", "qqHps", "qqHmm", "hww_qq125"]).AddSyst(self.cb, "QCDScale_qqH", "lnN", ch.SystMap()(1.004))
 			self.cb.cp().process(["WH"]).AddSyst(self.cb, "QCDScale_VH", "lnN", ch.SystMap()(1.007))
 			self.cb.cp().process(["ZH"]).AddSyst(self.cb, "QCDScale_VH", "lnN", ch.SystMap()(1.038))
 
-			self.cb.cp().process(["ggH", "hww_gg125"]).AddSyst(self.cb, "pdf_Higgs_gg", "lnN", ch.SystMap()(1.032))
-			self.cb.cp().process(["qqH", "hww_qq125"]).AddSyst(self.cb, "pdf_Higgs_qq", "lnN", ch.SystMap()(1.021))
+			self.cb.cp().process(["ggH", "ggHsm", "ggHps", "ggHmm", "hww_gg125"]).AddSyst(self.cb, "pdf_Higgs_gg", "lnN", ch.SystMap()(1.032))
+			self.cb.cp().process(["qqH", "qqHsm", "qqHps", "qqHmm", "hww_qq125"]).AddSyst(self.cb, "pdf_Higgs_qq", "lnN", ch.SystMap()(1.021))
 			self.cb.cp().process(["WH"]).AddSyst(self.cb, "pdf_Higgs_VH", "lnN", ch.SystMap()(1.019))
 			self.cb.cp().process(["ZH"]).AddSyst(self.cb, "pdf_Higgs_VH", "lnN", ch.SystMap()(1.016))
 
