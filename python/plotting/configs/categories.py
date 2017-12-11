@@ -358,7 +358,7 @@ class CategoriesDict(object):
 					"mt_":"((njetspt30==1)||(njetspt30>1&&!(mjj>200&&pt_2>40&&H_pt>50)))",
 					"et_":"((njetspt30==1)||(njetspt30>1&&!(mjj>200&&H_pt>50)))",
 					"em_":"((njetspt30==1)||(njetspt30==2&&!(mjj>200&&pZetaMissVis>-10))||(njetspt30>2))",
-					"tt_":"((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))"
+					"tt_":"((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100&&mjj>200)))"
 					},
 				"binnings":{
 					"analysis": [

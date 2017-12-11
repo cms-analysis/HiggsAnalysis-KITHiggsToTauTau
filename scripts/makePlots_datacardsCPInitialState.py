@@ -331,11 +331,11 @@ if __name__ == "__main__":
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] =  [args.quantity]
-					if "initial" in args.cp_study:
+					if "initial" in args.cp_study and "OneJet_CP_boosted" not in category:
 						binnings_key = "tt_jdphi"
 					if "final" in args.cp_study:
 						binnings_key = "tt_phiStarCP"
-					if category=="OneJet_CP_boosted":
+					if "OneJet_CP_boosted" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
@@ -343,12 +343,12 @@ if __name__ == "__main__":
 
 						two_d_inputs = []
 						for mass in higgs_masses:
-							two_d_inputs.extend([sample+(mass if sample in ["wh","zh","ggHsm","ggHmm","ggHps",'qqh'] else "") for sample in list_of_samples])
+							two_d_inputs.extend([sample+(mass if sample in signal_processes else "") for sample in list_of_samples])
 						if not "UnrollTwoDHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollTwoDHistogram")
 						config.setdefault("two_d_input_nicks", two_d_inputs)
 						config.setdefault("unrolled_hist_nicks", two_d_inputs)
-
+										
 
 					elif (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 						config["x_bins"] = [binnings_key]
@@ -359,6 +359,7 @@ if __name__ == "__main__":
 						for key in binnings_settings.binnings_dict:
 							log.debug(key)
 						sys.exit()
+					
 					# set quantity x depending on the category
 					if "final" in args.cp_study:
 						if all(["RHOmethod" in c for c in categories]):
