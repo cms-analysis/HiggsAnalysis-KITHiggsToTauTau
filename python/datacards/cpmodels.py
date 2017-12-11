@@ -45,6 +45,9 @@ class CPMixing(PhysicsModel):
 		
 		for production in ["muF", "muV"]:
 			for decay in ["muF"]:
+				self.modelBuilder.factory_('expr::{production}_{decay}("@0*@1", {production}, {decay})'.format(
+						production=production, decay=decay)
+				)
 				for cp in ["sm_scaling", "ps_scaling", "mm_scaling"]:
 					self.modelBuilder.factory_('expr::{production}_{decay}_{cp}("@0*@1*@2", {production}, {decay}, {cp})'.format(
 							production=production, decay=decay, cp=cp)
@@ -60,8 +63,12 @@ class CPMixing(PhysicsModel):
 				production_decay_cp.append("muF")
 			elif "qqh" in process.lower():
 				production_decay_cp.append("muV")
-			else:
-				pass # TODO: other production modes
+			elif "wh" in process.lower():
+				production_decay_cp.append("muV")
+			elif "zh" in process.lower():
+				production_decay_cp.append("muV")
+			elif "tth" in process.lower():
+				production_decay_cp.append("muF")
 			
 			production_decay_cp.append("muF")
 			
