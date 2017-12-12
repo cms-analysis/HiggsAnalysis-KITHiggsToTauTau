@@ -3476,9 +3476,12 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_ggh(self, channel, mass=125, **kwargs):
-		cp=kwargs.get("cp", None)
-		if cp in ["sm", "mm", "ps"] and not "jhu" in cp:
-			return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+		cp = kwargs.get("cp", None)
+		
+		if cp is None:
+			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
+			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
+		
 		elif "jhu" in cp:
 			if "sm" in cp:
 				return "GluGluH2JetsToTauTauM125CPmixingsmJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"		
@@ -3486,11 +3489,9 @@ class Samples(samples.SamplesBase):
 				return "GluGluH2JetsToTauTauM125CPmixingpseudoscalarJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
 			if "mm" in cp:
 				return "GluGluH2JetsToTauTauM125CPmixingmaxmixJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
-			
-		else:
-			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
-			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
-
+		elif cp in ["sm", "mm", "ps"]:
+			return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+	
 	def files_susy_ggh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "SUSYGluGluToHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
@@ -3617,9 +3618,12 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def files_qqh(self, channel, mass=125, **kwargs):
-		cp=kwargs.get("cp", None)
-		if cp in ["sm", "mm", "ps"]:
-			return "VBFHToTauTauM125_RunIISpring16MiniAODv2reHLT_PUSpring16RAWAODSIM_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+		cp = kwargs.get("cp", None)
+		
+		if cp is None:
+			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
+			return self.artus_file_names({"process" : "VBFHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
+		
 		elif "jhu" in cp:
 			if "sm" in cp:
 				return "VBFHiggs0PMM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6//*.root"		
@@ -3627,11 +3631,9 @@ class Samples(samples.SamplesBase):
 				return "VBFHiggs0MM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6/*.root"
 			if "mm" in cp:
 				return "VBFHiggs0Mf05ph0M125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6/*.root"
-			
-		else:
-			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
-			return self.artus_file_names({"process" : "VBFHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
-
+		elif cp in ["sm", "mm", "ps"]:
+			return "VBFHToTauTauM125_RunIISpring16MiniAODv2reHLT_PUSpring16RAWAODSIM_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+	
 	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
