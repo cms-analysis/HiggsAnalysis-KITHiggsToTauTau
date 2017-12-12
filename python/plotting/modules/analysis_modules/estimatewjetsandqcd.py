@@ -122,7 +122,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			for nick in wjets_os_substract_nick:
 				yield_wjets_os_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 			yield_wjets_os_highmt -= qcd_extrapolation_factor_ss_os*yield_qcd_ss_highmt
-			yield_wjets_os_highmt = max(uncertainties.ufloat(0.0, yield_wjets_os_highmt.std_dev), yield_wjets_os_highmt)
+			yield_wjets_os_highmt = uncertainties.ufloat(max(0.0, yield_wjets_os_highmt.nominal_value), yield_wjets_os_highmt.std_dev)
 			if yield_wjets_os_highmt.nominal_value == 0.0:
 				log.warning("W+jets & QCD estimation: data yield in high mT region after background subtraction is 0!")
 			

@@ -1,20 +1,5 @@
-{
+anch{
 	"property" : [
-		"svfitAvailable",
-		"svfitLV",
-		"svfitTau1Available",
-		"svfitTau1LV",
-		"svfitTau1ERatio",
-		"svfitTau2Available",
-		"svfitTau2LV",
-		"svfitTau2ERatio",
-
-		"svfitLV",
-		"svfitPt",
-		"svfitEta",
-		"svfitPhi",
-		"svfitMass",
-		
 		"#a1OmegaSvfit_1",
 		"#a1OmegaSvfit_2",
 		

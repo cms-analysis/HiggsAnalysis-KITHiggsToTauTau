@@ -37,40 +37,42 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("--cpstudy", nargs="+", required=True,
-	                    default=["initial"],
-	                    choices=["initial", "final"],
-	                    help="Choose which CP study to do: initial state or final state. [Default: %(default)s]")
 	parser.add_argument("-c", "--channel", action = "append",
 	                    default=["et", "mt", "tt", "em"],
 	                    help="Channel. This argument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
 	                    default=[["inclusive"]],
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
+	parser.add_argument("-x", "--quantity", default="jdphi",
+	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
+	parser.add_argument("-w", "--weight", default="1.0",
+	                    help="Additional weight (cut) expression. [Default: %(default)s]")
+	parser.add_argument("-a", "--args", default="",
+	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
+	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--auto-rebin", action="store_true", default=False,
+	                    help="Do auto rebinning [Default: %(default)s]")	
+	parser.add_argument("--combinations", nargs="+",
+	                    default=["individual", "channel", "category", "combined"],
+	                    choices=["individual", "channel", "category", "combined"],
+	                    help="Combinations to perform. [Default: %(default)s]")
 	parser.add_argument("--cp-mixings", nargs="+", type=float,
 	                    default=list(numpy.arange(0.0, 1.001, 0.1)),
 	                    help="CP mixing angles alpha_tau (in units of pi/2) to be probed. [Default: %(default)s]")
 	parser.add_argument("--cp-mixing-scan-points", type=int, default=((len(parser.get_default("cp_mixings"))-1)*4)+1,
 	                    help="Number of points for CP mixing angles alpha_tau (in units of pi/2) to be scanned. [Default: %(default)s]")
-	parser.add_argument("-x", "--quantity", default="jdphi",
-	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
-	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
-	parser.add_argument("--auto-rebin", action="store_true", default=False,
-	                    help="Do auto rebinning [Default: %(default)s]")
+	parser.add_argument("--cp-study", default="ggh",
+	                    choices=["ggh", "vbf", "final"],
+	                    help="Choose which CP study to do. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
-	parser.add_argument("-w", "--weight", default="1.0",
-	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--do-not-normalize-by-bin-width", default=False, action="store_true",
 	                    help="Turn off normalization by bin width [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
-	parser.add_argument("-a", "--args", default="",
-	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
-	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("-b", "--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -84,36 +86,37 @@ if __name__ == "__main__":
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--scale-lumi", default=False,
 	                    help="Scale datacard to luminosity specified. [Default: %(default)s]")
-	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
-	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
-	parser.add_argument("--use-rateParam", action="store_true", default=False,
-	                    help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
-	parser.add_argument("--x-bins", default=None,
-	                    help="Manualy set the binning. Default is taken from configuration files.")
 	parser.add_argument("--debug-plots", default=False, action="store_true",
 	                    help="Produce debug Plots [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
+	parser.add_argument("--hypothesis", nargs="+",
+	                    default=["susycpodd"],
+	                    choices=["susycpodd", "cpodd", "cpmix"],
+	                    help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")						
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 	                    help="Do not include shape uncertainties. [Default: %(default)s]")
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 	                    help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
-	parser.add_argument("--steps", nargs="+",
-	                    default=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "likelihoodScan"],
-	                    choices=["maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts", "likelihoodScan", "yields"],
-	                    help="Steps to perform. [Default: %(default)s]")
-	parser.add_argument("--use-shape-only", action="store_true", default=False,
-	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
 	parser.add_argument("--production-mode", nargs="+",
 	                    default=["ggh", "qqh"],
 	                    choices=["ggh", "qqh"],
-	                    help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")
-	parser.add_argument("--hypothesis", nargs="+",
-	                    default=["susycpodd"],
-	                    choices=["susycpodd", "cpodd", "cpmix"],
-	                    help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")
+	                    help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")	
+	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")											
+	parser.add_argument("--steps", nargs="+",
+	                    default=["inputs","maxlikelihoodfit", "prefitpostfitplots", "pvalue", "likelihoodScan"],
+	                    choices=["inputs","maxlikelihoodfit", "prefitpostfitplots", "pvalue", "nuisanceimpacts", "likelihoodScan", "yields"],
+	                    help="Steps to perform. [Default: %(default)s]")
+	parser.add_argument("--use-shape-only", action="store_true", default=False,
+	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
+	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
+	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	parser.add_argument("--use-rateParam", action="store_true", default=False,
+	                    help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
+	parser.add_argument("--x-bins", default=None,
+	                    help="Manualy set the binning. Default is taken from configuration files.")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -132,15 +135,6 @@ if __name__ == "__main__":
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 	
-	# preparation of CP mixing angles alpha_tau/(pi/2)
-	args.cp_mixings.sort()
-	cp_mixing_angles = ["{mixing:03d}".format(mixing=int(mixing*100)) for mixing in args.cp_mixings]
-	cp_mixings_str = cp_mixing_angles
-	
-	cp_mixings_scan = list(numpy.arange(args.cp_mixings[0], args.cp_mixings[-1]+0.001, (args.cp_mixings[-1]-args.cp_mixings[0])/(args.cp_mixing_scan_points-1)))
-	cp_mixings_combine_range_min = (3*cp_mixings_scan[0]-cp_mixings_scan[1]) / 2.0
-	cp_mixings_combine_range_max = (3*cp_mixings_scan[-1]-cp_mixings_scan[-2]) / 2.0
-	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
@@ -150,19 +144,10 @@ if __name__ == "__main__":
 	output_files = []
 	merged_output_files = []
 	hadd_commands = []
-	signal_processes = []
-
-	# set the signal processes
-	# initial state studies
-	if "initial" in args.cpstudy:
-		if "ggh" in args.production_mode:
-			signal_processes.append("ggHsm")
-			#signal_processes.append("ggHps_ALT")
-		if "qqh" in args.production_mode:
-			signal_processes.append("qqHsm")
-			#signal_processes.append("qqHps_ALT")
+	
+	"""
 	# final state studies
-	if "final" in args.cpstudy:
+	if args.cp_study == "final":
 		if "susycpodd" in args.hypothesis:
 			signal_processes.append("CPEVEN")
 			signal_processes.append("SUSYCPODD_ALT")
@@ -172,8 +157,13 @@ if __name__ == "__main__":
 		if "cpmix" in args.hypothesis:
 			signal_processes.append("CPEVEN")
 			signal_processes.append("CPMIX_ALT")
+	"""
 	
-	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cp_mixings_str, higgs_masses=args.higgs_masses,useRateParam=args.use_rateParam,year=args.era, signal_processes=signal_processes) # TODO: derive own version from this class DONE
+	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
+			higgs_masses=args.higgs_masses,
+			year=args.era,
+			cp_study=args.cp_study
+	)
 		
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -182,12 +172,15 @@ if __name__ == "__main__":
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
-	datacard_filename_templates = [
-		"datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
-		#"datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-		#"datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt",
-		"datacards/combined/${ANALYSIS}_${ERA}.txt",
-	]
+	datacard_filename_templates = []
+	if "individual" in args.combinations:
+		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
+	if "channel" in args.combinations:
+		datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
+	if "category" in args.combinations:
+		datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
+	if "combined" in args.combinations:
+		datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")		
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 
 	if args.channel != parser.get_default("channel"):
@@ -216,6 +209,8 @@ if __name__ == "__main__":
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
+		print categories_save
+		print sorted(categories)
 		if(categories_save != sorted(categories)):
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
@@ -280,43 +275,41 @@ if __name__ == "__main__":
 					
 					config = samples.Samples.merge_configs(config, config_bkg)
 					
-					# Set up the config for the signal samples for each given cp_mixing angle. 				
-					for cp_mixing, cp_mixing_angle, cp_mixing_str in zip(args.cp_mixings, cp_mixing_angles, cp_mixings_str):
-						
-						log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
-								samples="\", \"".join(list_of_sig_samples),
-								channel=channel,
-								category=category,
-								systematic=systematic
-						))	 
-						# print("Make config for mixing: " + str(cp_mixing) + " Angle: " + str(cp_mixing_angle) )
-						# reweight according to the cp study
-						if "final" in args.cpstudy:
-							signal_reweighting_factor = "*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle
-							print(signal_reweighting_factor)
-						else:
-							signal_reweighting_factor = "*(madGraphWeightSample>-899)"+"*madGraphWeightInvSample"+"*madGraphWeight"+cp_mixing_angle
-						
-						config_sig = sample_settings.get_config(
-								samples=[getattr(samples.Samples, sample) for sample in list_of_sig_samples],
-								channel=channel,
-								category="catHtt13TeV_"+category,
-								nick_suffix="_"+cp_mixing_str,
-								weight=args.weight+signal_reweighting_factor,
-								lumi=args.lumi * 1000,
-								exclude_cuts=exclude_cuts,
-								higgs_masses=higgs_masses,
-								cut_type = "cp2016"
-						)
-						# config labels need the MASS keyword to find the right histograms.
-						config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
-								PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
-								BIN=category,
-								MASS=cp_mixing_str,
-								SYSTEMATIC=systematic
-						) for sample in config_sig["labels"]]
-							
-						config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
+					# Set up the config for the signal samples
+					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
+							samples="\", \"".join(list_of_sig_samples),
+							channel=channel,
+							category=category,
+							systematic=systematic
+					))
+					
+					# print("Make config for mixing: " + str(cp_mixing) + " Angle: " + str(cp_mixing_angle) )
+					# reweight according to the cp study
+					signal_reweighting_factor = ""
+					if args.cp_study == "final":
+						pass #TODO
+						#signal_reweighting_factor = "*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle
+						#print(signal_reweighting_factor)
+					
+					config_sig = sample_settings.get_config(
+							samples=[getattr(samples.Samples, sample) for sample in list_of_sig_samples],
+							channel=channel,
+							category="catHtt13TeV_"+category,
+							weight=args.weight+signal_reweighting_factor,
+							lumi=args.lumi * 1000,
+							exclude_cuts=exclude_cuts,
+							higgs_masses=higgs_masses,
+							cut_type = "cp2016"
+					)
+					# config labels need the MASS keyword to find the right histograms.
+					config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
+							PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
+							BIN=category,
+							MASS=str(higgs_masses[0]),
+							SYSTEMATIC=systematic
+					) for sample in config_sig["labels"]]
+					
+					config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					
@@ -324,12 +317,28 @@ if __name__ == "__main__":
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] =  [args.quantity]
-
-					if "initial" in args.cpstudy:
-						binnings_key = "tt_absjdphi"
-					if "final" in args.cpstudy:
+					
+					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "OneJet_CP_boosted" not in category:
+						binnings_key = "tt_jdphi"
+					elif args.cp_study == "final":
 						binnings_key = "tt_phiStarCP"
-					if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
+					
+					if "OneJet_CP_boosted" in category:
+						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+						config["y_expressions"] = ["H_pt"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
+
+						two_d_inputs = []
+						for mass in higgs_masses:
+							two_d_inputs.extend([sample+(mass if sample in signal_processes else "") for sample in list_of_samples])
+						if not "UnrollTwoDHistogram" in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UnrollTwoDHistogram")
+						config.setdefault("two_d_input_nicks", two_d_inputs)
+						config.setdefault("unrolled_hist_nicks", two_d_inputs)
+										
+
+					elif (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 						config["x_bins"] = [binnings_key]
 					elif args.x_bins != None:
 						config["x_bins"] = [args.x_bins]
@@ -338,8 +347,9 @@ if __name__ == "__main__":
 						for key in binnings_settings.binnings_dict:
 							log.debug(key)
 						sys.exit()
+					
 					# set quantity x depending on the category
-					if "final" in args.cpstudy:
+					if args.cp_study == "final":
 						if all(["RHOmethod" in c for c in categories]):
 							config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
 							args.quantity = "recoPhiStarCP_rho_merged"
@@ -396,7 +406,9 @@ if __name__ == "__main__":
 	output_files = list(set(output_files))
 	
 	# create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	if "inputs" in args.steps:
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	if args.debug_plots:
@@ -414,7 +426,7 @@ if __name__ == "__main__":
 	)
 	
 	# add bin-by-bin uncertainties
-	if args.add_bbb_uncs:
+	if not args.no_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
@@ -461,15 +473,14 @@ if __name__ == "__main__":
 	# TODO: For inital state and final state the string for the two hypothesis might be different.
 	# TODO: Someone might be interested in testing other mixings angles against SM prediction.
 	
-	# Use an asimov dataset. This line must be here, because otherwise we 
+	# Use an asimov dataset. This line must be here, because otherwise we
 	if args.use_asimov_dataset:
-		datacards.replace_observation_by_asimov_dataset(signal_mass="000")
+		datacards.replace_observation_by_asimov_dataset(signal_processes=["ggHsm", "qqHsm"])
 	
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
-	It considers the 
+	It considers the
 	"""
-
 	
 	# TODO: WIP: More elegant programming style planned.
 	if "yields" in args.steps:
@@ -492,10 +503,10 @@ if __name__ == "__main__":
 				bkg_procs = datacards.cb.cp().channel([channel]).bin([category]).cp().backgrounds().process_set()
 				sig_procs = datacards.cb.cp().channel([channel]).bin([category]).cp().signals().process_set()
 				for bkg in bkg_procs:
-					bkg_yield[bkg] = datacards.cb.cp().channel([channel]).bin([category]).process([bkg]).no_norm_rate()
+					bkg_yield[bkg] = datacards.cb.cp().channel([channel]).bin([category]).process([bkg]).GetRate()
 				tot_bkg = sum(bkg_yield.values())
 				for sig in sig_procs:
-					sig_yield[sig] = datacards.cb.cp().channel([channel]).bin([category]).process([sig]).no_norm_rate()
+					sig_yield[sig] = datacards.cb.cp().channel([channel]).bin([category]).process([sig]).GetRate()
 				tot_sig = sum(sig_yield.values())
 				print("TotalBkg: "+str(tot_bkg)+ " TotalSig: "+str(tot_sig)+"\n")
 				for sig in sig_procs:
@@ -504,9 +515,6 @@ if __name__ == "__main__":
 		
 	if args.auto_rebin:
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
-
-	
-	datacards.create_morphing_signals("cpmixing", 0.0, 0.0, 1.0)
 	
 	# write datacards and call text2workspace
 	datacards_cbs = {}
@@ -532,12 +540,20 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 		
 	if "likelihoodScan" in args.steps:
-		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
+		datacards_workspaces_cp_mixing = datacards.text2workspace(
+				datacards_cbs,
+				args.n_processes,
+				"-P {MODEL} {MODEL_PARAMETERS}".format(
+					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_mixing",
+					MODEL_PARAMETERS=""
+				)
+		)
 		
-		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
-		# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF. 					
 		if "prefitpostfitplots" in args.steps:
-			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+			# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF.
+			
+			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
 
 			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
@@ -545,17 +561,16 @@ if __name__ == "__main__":
 							
 		datacards.combine(
 				datacards_cbs,
-				datacards_workspaces,
+				datacards_workspaces_cp_mixing,
 				None,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
+				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format(
 						STABLE=datacards.stable_options,
-						RANGE="{0:f},{1:f}".format(cp_mixings_combine_range_min, cp_mixings_combine_range_max),
 						POINTS=args.cp_mixing_scan_points
 				)	
 		)
 		result_plot_configs = []
-		for datacard, workspace in datacards_workspaces.iteritems():
+		for datacard, workspace in datacards_workspaces_cp_mixing.iteritems():
 			config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_alphatau.json"))
 			config["directories"] = [os.path.dirname(workspace)]
 			config["labels"] = ["TODO"]
@@ -605,31 +620,31 @@ if __name__ == "__main__":
 	if "pvalue" in args.steps:	
 		# Physics model used for H->ZZ spin/CP studies
 		# https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit/blob/74x-root6/python/HiggsJPC.py
-		datacards_workspaces = datacards.text2workspace(
+		datacards_workspaces_twoHypothesisHiggs = datacards.text2workspace(
 				datacards_cbs,
 				args.n_processes,
 				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs",
-					MODEL_PARAMETERS=(("--PO=muFloating" if args.use_shape_only else "") + " --altSignal=100")
+					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.higgsmodels:twoHypothesisHiggs",
+					MODEL_PARAMETERS=("--PO altSignal=ps --PO ignoreSignal=mm "+("--PO=muFloating" if args.use_shape_only else ""))
 				)
 		)
 				
-		datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
+		datacards.combine(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
 		#-M HybridNew --testStat=TEV --generateExt=1 --generateNuis=0 fixedMu.root --singlePoint 1 --saveHybridResult --fork 40 -T 1000 -i 1 --clsAcc 0 --fullBToys
 
-		#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
+		#datacards.combine(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
 		if "prefitpostfitplots" in args.steps:
-			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else "")) 
+			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
 			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
 			if "nuisanceimpacts" in args.steps:
-				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
+				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, args.n_processes)
 				
 		datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
 		log.info(datacards_hypotestresult)
 		if args.use_shape_only:
-			datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"")
+			datacards.combine(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"")
 		# TODO: I think this line should be deleted.
 		pconfig_plots=[]
 		for filename in datacards_hypotestresult.values():
@@ -648,7 +663,7 @@ if __name__ == "__main__":
 			pconfigs["x_expressions"]=["q"]
 			pconfigs[ "output_dir"]=str(os.path.dirname(filename))
 			pconfigs["x_bins"]=["500,-3.15,3.15"]
-			if "final" in args.cpstudy:
+			if args.cp_study == "final":
 				pconfigs["x_bins"] = ["500,0,6.28"]
 
 			#pconfigs["scale_factors"]=[1,1,1,900]
@@ -661,7 +676,7 @@ if __name__ == "__main__":
 			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
 			pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
 			pconfig_plots.append(pconfigs)
-			if "final" in args.cpstudy:
+			if args.cp_study == "final":
 				if "susycpodd" or "cpodd" in args.hypothesis:
 					pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
 					if args.use_asimov_dataset:

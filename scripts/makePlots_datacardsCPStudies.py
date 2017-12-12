@@ -48,8 +48,8 @@ if __name__ == "__main__":
 	                    help="Higgs masses. The first mass defines the mass of interest and additional masses are used to increase the statistics by preserving the yield given by the first mass. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
-	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
+	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
@@ -345,7 +345,7 @@ if __name__ == "__main__":
 	datacards.create_morphing_signals("cpmixing", 0.0, 0.0, 1.0)
 
 	# add bin-by-bin uncertainties
-	if args.add_bbb_uncs:
+	if not args.no_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True

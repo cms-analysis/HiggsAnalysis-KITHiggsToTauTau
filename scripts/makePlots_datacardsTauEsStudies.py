@@ -66,8 +66,8 @@ def addArguments(parser):
 	                    default=["OneProngPiZeros"],
 	                    choices=["AllDMs","OneProng","OneProngPiZeros","ThreeProng"],
 	                    help="Decay modes of reconstructed hadronic tau leptons in Z #rightarrow #tau#tau. [Default: %(default)s]")
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=True,
-	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
+	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
@@ -464,7 +464,7 @@ if __name__ == "__main__":
 	datacards.create_morphing_signals("mes", 1.0, args.shift_ranges[0], args.shift_ranges[1])
 	
 	# Add bin-by-bin uncertainties
-	if args.add_bbb_uncs:
+	if not args.no_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 			processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
 			add_threshold=0.1, merge_threshold=0.5, fix_norm=False

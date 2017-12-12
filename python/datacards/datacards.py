@@ -246,11 +246,20 @@ class Datacards(object):
 	def scale_processes(self, scale_factor, processes, no_norm_rate=False):
 		self.cb.cp().process(processes).ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate else process.rate()) * scale_factor))
 
-	def replace_observation_by_asimov_dataset(self, signal_mass=None):
+	def replace_observation_by_asimov_dataset(self, signal_mass=None, signal_processes=None):
 		def _replace_observation_by_asimov_dataset(observation):
 			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
 			background = cb.cp().backgrounds()
-			signal = cb.cp().signals() if signal_mass is None else cb.cp().signals().mass([signal_mass])
+			
+			signal = cb.cp().signals()
+			if signal_mass:
+				if signal_processes:
+					signal = cb.cp().signals().process(signal_processes).mass([signal_mass])
+				else:
+					signal = cb.cp().signals().mass([signal_mass])
+			elif signal_processes:
+				signal = cb.cp().signals().process(signal_processes)
+			
 			observation.set_shape(background.GetShape() + signal.GetShape(), True)
 			observation.set_rate(background.GetRate() + signal.GetRate())
 
@@ -269,16 +278,22 @@ class Datacards(object):
 		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
 
 	def text2workspace(self, datacards_cbs, n_processes=1, *args):
+		physics_model = re.search("(-P|--physics-model)[\s=\"\']*\S*:(?P<physics_model>\S*)[\"\']?\s", " ".join(args))
+		if physics_model is None:
+			physics_model = {}
+		else:
+			physics_model = physics_model.groupdict()
+		
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
 				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
 				DATACARD=datacard,
-				OUTPUT=os.path.splitext(datacard)[0]+".root"
+				OUTPUT=os.path.splitext(datacard)[0]+"_"+physics_model.get("physics_model", "default")+".root"
 		) for datacard, cb in datacards_cbs.iteritems()]
 
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="text2workspace.py")
 
-		return {datacard : os.path.splitext(datacard)[0]+".root" for datacard in datacards_cbs.keys()}
+		return {datacard : os.path.splitext(datacard)[0]+"_"+physics_model.get("physics_model", "default")+".root" for datacard in datacards_cbs.keys()}
 
 	def combine(self, datacards_cbs, datacards_workspaces, datacards_poi_ranges=None, n_processes=1, *args, **kwargs):
 		if datacards_poi_ranges is None:

@@ -342,7 +342,59 @@ class CategoriesDict(object):
 		"""
 		Categories used in CP Initial State studies.
 		"""
-		
+		self.categoriesDict["{analysis}{channel}OneJet_CP_boosted{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mm_":"((njetspt30==1)||((njetspt30>1&&mjj<=200)))",
+					"mt_":"((njetspt30==1)||(njetspt30>1&&!(mjj>200&&pt_2>40&&H_pt>50)))",
+					"et_":"((njetspt30==1)||(njetspt30>1&&!(mjj>200&&H_pt>50)))",
+					"em_":"((njetspt30==1)||(njetspt30==2&&!(mjj>200&&pZetaMissVis>-10))||(njetspt30>2))",
+					"tt_":"((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100&&mjj>200)))"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_H_pt": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning,
+						"_ptvis": auto_rebin_binning
+						},
+					"mm_": {
+						"_ptvis":"0.0 100.0 150.0 200.0 250.0 300.0 1000.0"
+						},
+					"mt_": {
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+						},
+					"et_": {
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+						},
+					"em_": {
+						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
+						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+						},
+					"tt_": {
+						"_H_pt":"0.0 100.0 170.0 300.0 10000.0",
+						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
+						}
+					}
+				}		
+
+
 		self.categoriesDict["{analysis}{channel}TwoJet_CP_boosted{discriminator}"] = {
 				"channel":[
 					"mt_",

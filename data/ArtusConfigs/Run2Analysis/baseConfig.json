@@ -96,7 +96,7 @@
 		"nick" : {
 			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root",
 			"(Run2016|Spring16|Summer16)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root",
-			"(Run2017|Summer17)": ""
+			"(Run2017|Summer17)": "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root"
 		}
 	},
 	"MvaMetRecoilCorrectorFile" : {
@@ -118,7 +118,7 @@
 	},
 	"ZptReweightProducerWeights" : {
 		"nick" : {
-			"(Run2017|Summer17)": "",
+			"(Run2017|Summer17)": "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root",
 			"(Run2016|Spring16|Summer16)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root",
 			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights.root"
 		}
