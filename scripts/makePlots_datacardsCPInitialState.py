@@ -341,7 +341,7 @@ if __name__ == "__main__":
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
-					if not (channel == "tt" and "ZeroJet2D" in category)
+					if not (channel == "tt" and "ZeroJet2D" in category):
 						two_d_inputs = []
 						for mass in higgs_masses:                                  #TODO if vh samples are added they should be added here as well
 							two_d_inputs.extend([sample for sample in config["nicks"]])    #+(mass if sample in [ "ggHsm", "ggHmm", "ggHps", "qqH" ] else "")    
