@@ -511,6 +511,16 @@ class BinningsDict(binnings.BinningsDict):
 				self.binnings_dict["binningMVA13TeV_"+channel+"_vbf_%i"%i] = self.binnings_dict["mt_vbf_1"]
 		self.binnings_dict["binningHtt13TeV_tt_inclusive_svfitMass"] = " ".join([str(float(f)) for f in [0, 50]+range(90, 171, 20)+[200, 350]])
 		
+		#H->tautau CP binnings
+		for channel in ["mt", "et", "em", "tt", "mm"]:
+			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_CP_boosted_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
+			
+			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_CP_boosted_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 20)+range(200, 351, 50)])
+			
+			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_CP_boosted_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+
+			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_CP_boosted_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+
 		# H->tautau MSSM binnings
 		for channel in ["mt", "et", "em", "tt"]:
 			self.binnings_dict[channel+"_mt_2"] = "30,0,150"

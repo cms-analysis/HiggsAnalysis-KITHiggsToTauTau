@@ -414,7 +414,7 @@ class SMHttDatacards(datacards.Datacards):
 				self.cb.cp().process(["ZTT"]).bin(["em_ZeroJet2D"]).AddSyst(self.cb, "rate_mm_ZTT_0jet", "rateParam", ch.SystMap()(1.0))
 				self.cb.cp().process(["ZLL"]).bin(["mm_ZeroJet2D"]).AddSyst(self.cb, "rate_mm_ZTT_0jet", "rateParam", ch.SystMap()(1.0))
 
-				self.cb.cp().process(["ZTT"]).bin(["mt_Boosted2D"]).AddSyst(self.cb, "rate_mm_ZTT_boosted", "rateParam", ch.SystMap()(1.0))
+				self.cb.cp().process(["ZTT"]).bin(["mt_Boosted2D", "mt_1jet_CP_boosted"]).AddSyst(self.cb, "rate_mm_ZTT_boosted", "rateParam", ch.SystMap()(1.0))
 				self.cb.cp().process(["ZTT"]).bin(["et_Boosted2D"]).AddSyst(self.cb, "rate_mm_ZTT_boosted", "rateParam", ch.SystMap()(1.0))
 				self.cb.cp().process(["ZTT"]).bin(["tt_Boosted2D"]).AddSyst(self.cb, "rate_mm_ZTT_boosted", "rateParam", ch.SystMap()(1.0))
 				self.cb.cp().process(["ZTT"]).bin(["em_Boosted2D"]).AddSyst(self.cb, "rate_mm_ZTT_boosted", "rateParam", ch.SystMap()(1.0))
@@ -432,17 +432,17 @@ class SMHttDatacards(datacards.Datacards):
 
 			# ======================================================================
 			# control region rate parameters
-			self.cb.cp().process(["W"]).bin(["mt_ZeroJet2D", "mt_ZeroJet2D_WJCR"]).AddSyst(self.cb, "rate_W_cr_0jet_mt", "rateParam", ch.SystMap()(1.0))
-			self.cb.cp().process(["W"]).bin(["mt_Boosted2D", "mt_Boosted2D_WJCR", "mt_Vbf2D"]).AddSyst(self.cb, "rate_W_cr_boosted_mt", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["W"]).bin(["mt_ZeroJet2D", "mt_ZeroJet2D_WJCR", "mt_1jet_CP_boosted"]).AddSyst(self.cb, "rate_W_cr_0jet_mt", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["W"]).bin(["mt_Boosted2D", "mt_Boosted2D_WJCR", "mt_1jet_CP_boosted", "mt_Vbf2D"]).AddSyst(self.cb, "rate_W_cr_boosted_mt", "rateParam", ch.SystMap()(1.0))
 			self.cb.cp().process(["W"]).bin(["et_ZeroJet2D", "et_ZeroJet2D_WJCR"]).AddSyst(self.cb, "rate_W_cr_0jet_et", "rateParam", ch.SystMap()(1.0))
-			self.cb.cp().process(["W"]).bin(["et_Boosted2D", "et_Boosted2D_WJCR", "et_Vbf2D"]).AddSyst(self.cb, "rate_W_cr_boosted_et", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["W"]).bin(["et_Boosted2D", "et_1jet_CP_boosted", "et_Boosted2D_WJCR", "et_Vbf2D"]).AddSyst(self.cb, "rate_W_cr_boosted_et", "rateParam", ch.SystMap()(1.0))
 
 			self.cb.cp().process(["QCD"]).bin(["mt_ZeroJet2D", "mt_ZeroJet2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_0jet_mt", "rateParam", ch.SystMap()(1.0))
-			self.cb.cp().process(["QCD"]).bin(["mt_Boosted2D", "mt_Boosted2D_QCDCR", "mt_Vbf2D"]).AddSyst(self.cb, "rate_QCD_cr_boosted_mt", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["QCD"]).bin(["mt_Boosted2D", "mt_1jet_CP_boosted", "mt_Boosted2D_QCDCR", "mt_Vbf2D"]).AddSyst(self.cb, "rate_QCD_cr_boosted_mt", "rateParam", ch.SystMap()(1.0))
 			self.cb.cp().process(["QCD"]).bin(["et_ZeroJet2D", "et_ZeroJet2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_0jet_et", "rateParam", ch.SystMap()(1.0))
-			self.cb.cp().process(["QCD"]).bin(["et_Boosted2D", "et_Boosted2D_QCDCR", "et_Vbf2D"]).AddSyst(self.cb, "rate_QCD_cr_boosted_et", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["QCD"]).bin(["et_Boosted2D", "et_1jet_CP_boosted", "et_Boosted2D_QCDCR", "et_Vbf2D"]).AddSyst(self.cb, "rate_QCD_cr_boosted_et", "rateParam", ch.SystMap()(1.0))
 			self.cb.cp().process(["QCD"]).bin(["tt_ZeroJet2D", "tt_ZeroJet2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_0jet_tt", "rateParam", ch.SystMap()(1.0))
-			self.cb.cp().process(["QCD"]).bin(["tt_Boosted2D", "tt_Boosted2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_boosted_tt", "rateParam", ch.SystMap()(1.0))
+			self.cb.cp().process(["QCD"]).bin(["tt_Boosted2D", "tt_1jet_CP_boosted", "tt_Boosted2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_boosted_tt", "rateParam", ch.SystMap()(1.0))
 			self.cb.cp().process(["QCD"]).bin(["tt_Vbf2D", "tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "rate_QCD_cr_vbf_tt", "rateParam", ch.SystMap()(1.0))
 
 			self.cb.cp().GetParameter("rate_W_cr_0jet_mt").set_range(0, 5)

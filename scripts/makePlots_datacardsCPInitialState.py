@@ -312,7 +312,8 @@ if __name__ == "__main__":
 					config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
-					
+
+
 					# TODO: evaluate shift from datacards.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
@@ -323,15 +324,15 @@ if __name__ == "__main__":
 					elif args.cp_study == "final":
 						binnings_key = "tt_phiStarCP"
 					
-					if "OneJet_CP_boosted" in category:
+					if "1jet_CP_boosted" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
 
 						two_d_inputs = []
-						for mass in higgs_masses:
-							two_d_inputs.extend([sample+(mass if sample in signal_processes else "") for sample in list_of_samples])
+						for mass in higgs_masses:                                  #TODO if vh samples are added they should be added here as well
+							two_d_inputs.extend([sample for sample in config["nicks"]])    #+(mass if sample in [ "ggHsm", "ggHmm", "ggHps", "qqH" ] else "")    
 						if not "UnrollTwoDHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollTwoDHistogram")
 						config.setdefault("two_d_input_nicks", two_d_inputs)
@@ -382,10 +383,9 @@ if __name__ == "__main__":
 				
 					config["plot_modules"] = ["ExportRoot"]
 					config["file_mode"] = "UPDATE"
-			
+						
 					if "legend_markers" in config:
 						config.pop("legend_markers")
-					
 					plot_configs.append(config)
 			
 			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(

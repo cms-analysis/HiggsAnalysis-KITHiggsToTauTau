@@ -342,7 +342,7 @@ class CategoriesDict(object):
 		"""
 		Categories used in CP Initial State studies.
 		"""
-		self.categoriesDict["{analysis}{channel}OneJet_CP_boosted{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}1jet_CP_boosted{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
