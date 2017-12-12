@@ -341,8 +341,53 @@ class CategoriesDict(object):
 				
 		"""
 		Categories used in CP Initial State studies.
-		"""
-		self.categoriesDict["{analysis}{channel}1jet_CP_boosted{discriminator}"] = {
+		"""		
+		self.categoriesDict["{analysis}{channel}ZeroJet_CP{discriminator}"] = {
+				"channel": [
+					"mm_",
+					"ee_",
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":jet0_string
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_pt_2": auto_rebin_binning,
+						"_m_vis": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning,
+						"_decayMode_2": auto_rebin_binning
+						},
+					"mm_" : {
+						"_m_vis" : "70.0 110.0"
+						},
+					"mt_" : {
+						"_decayMode_2" : "0 1 10 11",
+						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+						},
+					"et_" : {
+						"_decayMode_2" : "0 1 10 11",
+						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+						},
+					"em_" : {
+						"_pt_2" : " ".join([str(float(f)) for f in range(15, 35, 10)+range(35,10001,9965)]),
+						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(50, 100, 5)+range(100,401,300)])
+						},
+					"tt_" : {
+						"_m_sv" : "0.0 "+" ".join([str(float(f)) for f in range(50,301,10)])
+						}
+					}
+				}			
+		self.categoriesDict["{analysis}{channel}OneJet_CP_boosted{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",

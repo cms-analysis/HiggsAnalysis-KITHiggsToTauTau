@@ -323,13 +323,25 @@ if __name__ == "__main__":
 						binnings_key = "tt_jdphi"
 					elif args.cp_study == "final":
 						binnings_key = "tt_phiStarCP"
-					
-					if "1jet_CP_boosted" in category:
+						
+					if "ZeroJet_CP" in category:
+						config["x_expressions"] = ["m_vis"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+						if channel in ["mt", "et"]:
+							config["y_expressions"] = ["decayMode_2"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_decayMode_2"]]
+						elif channel == "em":
+							config["y_expressions"] = ["pt_2"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
+						elif channel == "tt":
+							config["x_expressions"] = ["m_sv"]
+							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]					
+					elif "Onejet_CP_boosted" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
-
+					if not (channel == "tt" and "ZeroJet2D" in category)
 						two_d_inputs = []
 						for mass in higgs_masses:                                  #TODO if vh samples are added they should be added here as well
 							two_d_inputs.extend([sample for sample in config["nicks"]])    #+(mass if sample in [ "ggHsm", "ggHmm", "ggHps", "qqH" ] else "")    
