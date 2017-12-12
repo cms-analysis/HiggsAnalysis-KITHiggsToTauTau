@@ -532,6 +532,28 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(jeta_1*jeta_2<0)*(mjj>200)*(njets>1)*(abs(jdeta)>2.)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_jdphi": auto_rebin_binning,
+						}
+					}
+				}			
 				
 		"""
 		Categories used in CP Final State studies.
