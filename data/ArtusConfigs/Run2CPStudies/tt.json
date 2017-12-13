@@ -290,6 +290,7 @@
 			}
 		},
 		"OSChargeLeptons" : true,
+		"SvfitKappaParameter" : 5.0,
 		"Processors" : {
 			"nick" : {
 				"default" : [

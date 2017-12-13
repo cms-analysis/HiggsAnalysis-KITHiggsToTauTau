@@ -1,7 +1,6 @@
 {
 	"SvfitIntegrationMethod" : "MarkovChain",
-	"SvfitKappaParameter" : 0.0,
-	"DiTauMassConstraint" : 125.0,
+	"#DiTauMassConstraint" : 125.0,
 	"Tau1Constraint" : true,
 	"GenerateSvfitInput" : false,
 	"UseFirstInputFileNameForSvfit" : false,
