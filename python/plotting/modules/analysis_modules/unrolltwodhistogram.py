@@ -72,5 +72,4 @@ class UnrollTwoDHistogram(analysisbase.AnalysisBase):
 			#print unrolled_histogram.GetEntries(), unrolled_histogram.GetEffectiveEntries(), array.array("d", unrolled_histogram.GetSumw2())
 			
 			plotData.plotdict.setdefault("root_objects", {})[unrolled_hist_nick] = unrolled_histogram
-			plotData.plotdict["root_objects"][unrolled_hist_nick].SetName(unrolled_hist_nick)
-			plotData.plotdict["root_objects"][unrolled_hist_nick].SetTitle("")
+
