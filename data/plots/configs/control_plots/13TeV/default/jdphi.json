@@ -7,6 +7,6 @@
 	],
 	"x_label": "#Delta#phi_{jj}",
 	"weights": [
-		"(jeta_1*jeta_2<0) * (mjj>500) * (abs(jdeta)>2.0) * (njets>1)"
+		"(jeta_1*jeta_2<0) * (mjj>200) * (abs(jdeta)>2.0) * (njets>1)"
 	]
 }

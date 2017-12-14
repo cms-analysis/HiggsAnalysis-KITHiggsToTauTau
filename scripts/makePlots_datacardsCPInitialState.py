@@ -312,7 +312,8 @@ if __name__ == "__main__":
 					config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
-					
+
+
 					# TODO: evaluate shift from datacards.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
@@ -323,21 +324,54 @@ if __name__ == "__main__":
 					elif args.cp_study == "final":
 						binnings_key = "tt_phiStarCP"
 					
-					if "OneJet_CP_boosted" in category:
+					# define quantities and binning for control regions
+					if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
+						config["x_expressions"] = ["mt_1"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mt_1"]]
+					if "ZeroJet2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
+						if channel in ["mt", "et"]:
+							config["x_expressions"] = ["m_vis"]
+							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+						elif channel == "tt":
+							config["x_expressions"] = ["m_sv"]
+							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					if "Boosted2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					if "Vbf2D_QCDCR" in category and channel == "tt":
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					if "TTbarCR" in category and channel == "ttbar":
+						config["x_expressions"] = ["m_vis"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+					
+					# Use 2d plots for 2d categories
+					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
+						config["x_expressions"] = ["m_vis"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+						if channel in ["mt", "et"]:
+							config["y_expressions"] = ["decayMode_2"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_decayMode_2"]]
+						elif channel == "em":
+							config["y_expressions"] = ["pt_2"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
+						elif channel == "tt":
+							config["x_expressions"] = ["m_sv"]
+							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
-
-						two_d_inputs = []
-						for mass in higgs_masses:
-							two_d_inputs.extend([sample+(mass if sample in signal_processes else "") for sample in list_of_samples])
-						if not "UnrollTwoDHistogram" in config.get("analysis_modules", []):
-							config.setdefault("analysis_modules", []).append("UnrollTwoDHistogram")
-						config.setdefault("two_d_input_nicks", two_d_inputs)
-						config.setdefault("unrolled_hist_nicks", two_d_inputs)
-										
-
+					elif ("Vbf2D" in category or "Vbf3D" in category) and not "QCDCR" in category:
+						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+						config["y_expressions"] = ["mjj"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
+						if "Vbf3D" in category and channel != "mm":
+							config["z_expressions"] = ["jdphi"]
+							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
+					
 					elif (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 						config["x_bins"] = [binnings_key]
 					elif args.x_bins != None:
@@ -360,6 +394,10 @@ if __name__ == "__main__":
 							log.fatal("YOU SHALL NOT PASS different types of category (COMB and RHO) to the same channel. Repeat the channel for the each type of category.")
 							raise ValueError("You shall not pass different types of category (COMB and RHO) to the same channel. Repeat the channel for the each type of category.")
 
+					# Unroll 2d distribution to 1d in order for combine to fit it
+					if ("2D" in category or "3D" in category) and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and "ZeroJet2D" in category):
+						if not "UnrollHistogram" in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UnrollHistogram")
 
 					config["directories"] = [args.input_dir]
 					
@@ -382,10 +420,9 @@ if __name__ == "__main__":
 				
 					config["plot_modules"] = ["ExportRoot"]
 					config["file_mode"] = "UPDATE"
-			
+						
 					if "legend_markers" in config:
 						config.pop("legend_markers")
-					
 					plot_configs.append(config)
 			
 			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(

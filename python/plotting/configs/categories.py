@@ -338,12 +338,10 @@ class CategoriesDict(object):
 						}
 					}
 				}
-				
-		"""
-		Categories used in CP Initial State studies.
-		"""
-		self.categoriesDict["{analysis}{channel}OneJet_CP_boosted{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}Vbf3D{discriminator}"] = {
 				"channel":[
+					"mm_",
+					"ee_",
 					"mt_",
 					"et_",
 					"em_",
@@ -354,47 +352,51 @@ class CategoriesDict(object):
 						"catHtt13TeV_"
 						],
 					"global":"(1.0)",
-					"mm_":"((njetspt30==1)||((njetspt30>1&&mjj<=200)))",
-					"mt_":"((njetspt30==1)||(njetspt30>1&&!(mjj>200&&pt_2>40&&H_pt>50)))",
-					"et_":"((njetspt30==1)||(njetspt30>1&&!(mjj>200&&H_pt>50)))",
-					"em_":"((njetspt30==1)||(njetspt30==2&&!(mjj>200&&pZetaMissVis>-10))||(njetspt30>2))",
-					"tt_":"((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100&&mjj>200)))"
+					"mm_":"(njetspt30>1)*(mjj>300)",
+					"mt_":"(pt_2>40)*(njetspt30>1)*(mjj>300)*(H_pt>50)",
+					"et_":"(njetspt30>1)*(mjj>300)*(H_pt>50)",
+					"em_":"(pZetaMissVis>-10)*(njetspt30==2)*(mjj>300)",
+					"tt_":"(njetspt30>1)*(jdeta>2.5)*(H_pt>100)"
 					},
 				"binnings":{
 					"analysis": [
 						"binningHtt13TeV_"
 						],
-					"analysis": [
-						"binningHtt13TeV_"
-						],
 					"global": {
-						"_H_pt": auto_rebin_binning,
+						"_mjj": auto_rebin_binning,
 						"_m_sv": auto_rebin_binning,
-						"_ptvis": auto_rebin_binning
+						"_jdphi": auto_rebin_binning,
 						},
 					"mm_": {
-						"_ptvis":"0.0 100.0 150.0 200.0 250.0 300.0 1000.0"
+						"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
 						},
 					"mt_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
-						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
 						},
 					"et_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
-						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
 						},
 					"em_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
-						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
 						},
 					"tt_": {
-						"_H_pt":"0.0 100.0 170.0 300.0 10000.0",
-						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
 						}
 					}
-				}		
-
-
+				}
+				
+		"""
+		Categories used in CP Initial State studies.
+		"""		
+		
 		self.categoriesDict["{analysis}{channel}TwoJet_CP_boosted{discriminator}"] = {
 				"channel":[
 					"mt_",
@@ -406,7 +408,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0)*(mjj>500)*(abs(jdeta)>2.)*(njets>1)*(H_pt>150.)*(m_sv>100)",
+					"global":"(mjj>500)*(abs(jdeta)>0.)*(njets>1)*(H_pt>100.)*(m_sv>100)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{
@@ -418,6 +420,52 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_tightJet{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(jeta_1*jeta_2<0)*(mjj>700)*(abs(jdeta)>4.5)*(njets>1)*(H_pt>100.)*(m_sv>100)",
+					"em_":"(nbtag<1)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_jdphi": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_looseJet{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(jeta_1*jeta_2<0)*(mjj>500)*(mjj<700)*(abs(jdeta)>3.5)*(abs(jdeta)<3.5)*(njets>1)*(H_pt>100.)*(m_sv>100)",
+					"em_":"(nbtag<1)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_jdphi": auto_rebin_binning,
+						}
+					}
+				}		
 		self.categoriesDict["{analysis}{channel}TwoJet_CP_mvislow{discriminator}"] = {
 				"channel":[
 					"mt_",
@@ -429,7 +477,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0) *(mjj>500) *(abs(jdeta)>2.) *(njets>1)*(H_pt<150.)*(m_sv<100)",
+					"global":"(mjj>500) *(abs(jdeta)>0.) *(njets>1)*(H_pt<150.)*(m_sv<100)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{
@@ -452,7 +500,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0)*(mjj>500)*(abs(jdeta)>2.)*(njets>1)*(H_pt<150.)*(m_sv>100)",
+					"global":"(mjj>500)*(abs(jdeta)>0.)*(njets>1)*(H_pt<150.)*(m_sv>100)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{
@@ -475,7 +523,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0)*(mjj>200)*(mjj<500)*(njets>1)",
+					"global":"(mjj>200)*(mjj<500)*(njets>1)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{
@@ -487,6 +535,28 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(jeta_1*jeta_2<0)*(mjj>200)*(njets>1)*(abs(jdeta)>2.)",
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_jdphi": auto_rebin_binning,
+						}
+					}
+				}			
 				
 		"""
 		Categories used in CP Final State studies.
