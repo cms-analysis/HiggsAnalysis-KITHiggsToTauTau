@@ -420,6 +420,52 @@ class CategoriesDict(object):
 						}
 					}
 				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_tightJet{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(jeta_1*jeta_2<0)*(mjj>700)*(abs(jdeta)>4.5)*(njets>1)*(H_pt>100.)*(m_sv>100)",
+					"em_":"(nbtag<1)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_jdphi": auto_rebin_binning,
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}TwoJet_CP_looseJet{discriminator}"] = {
+				"channel":[
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(jeta_1*jeta_2<0)*(mjj>500)*(mjj<700)*(abs(jdeta)>3.5)*(abs(jdeta)<3.5)*(njets>1)*(H_pt>100.)*(m_sv>100)",
+					"em_":"(nbtag<1)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_jdphi": auto_rebin_binning,
+						}
+					}
+				}		
 		self.categoriesDict["{analysis}{channel}TwoJet_CP_mvislow{discriminator}"] = {
 				"channel":[
 					"mt_",
