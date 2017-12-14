@@ -15,6 +15,7 @@
 		"svfitTau1ERatio",
 		"svfitTau2Available",
 		"svfitTau2LV",
-		"svfitTau2ERatio"
+		"svfitTau2ERatio",
+		"svfitPhiStarCP"
 	]
 }

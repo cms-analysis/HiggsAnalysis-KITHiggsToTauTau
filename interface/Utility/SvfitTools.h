@@ -15,6 +15,7 @@
 #include "Kappa/DataFormats/interface/Kappa.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 
 
 typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
@@ -72,6 +73,16 @@ public:
 	virtual double fitFunction(const classic_svFit::LorentzVector& tau1P4, const classic_svFit::LorentzVector& tau2P4, const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
 };
 
+class PhiStarCPSVfitQuantity : public classic_svFit::SVfitQuantity
+{
+public:
+	virtual TH1* createHistogram(const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
+	virtual double fitFunction(const classic_svFit::LorentzVector& tau1P4, const classic_svFit::LorentzVector& tau2P4, const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
+
+private:
+	mutable CPQuantities cpQuantities;
+};
+
 class TauTauHistogramAdapter : public classic_svFit::DiTauSystemHistogramAdapter
 {
 
@@ -86,6 +97,8 @@ public:
 	float GetFittedTau2ERatio() const;
 	RMFLV GetFittedTau2LV() const;
 
+	float GetFittedPhiStarCP() const;
+
 private:
 	unsigned int indexTau1ERatio = 0;
 	unsigned int indexTau1Pt = 0;
@@ -95,6 +108,7 @@ private:
 	unsigned int indexTau2Pt = 0;
 	unsigned int indexTau2Eta = 0;
 	unsigned int indexTau2Phi = 0;
+	unsigned int indexPhiStarCP = 0;
 };
 
 /**
@@ -208,13 +222,14 @@ public:
 	RMFLV* fittedTau1LV = nullptr;
 	float fittedTau2ERatio;
 	RMFLV* fittedTau2LV = nullptr;
+	float fittedPhiStarCP;
 
 	SvfitResults() {};
-	SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV);
+	SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV, float fittedPhiStarCP);
 	SvfitResults(ClassicSVfit const& svfitAlgorithm);
 	~SvfitResults();
 
-	void Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV);
+	void Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV, float fittedPhiStarCP);
 	void Set(ClassicSVfit const& svfitAlgorithm);
 	inline void FromRecalculation() { recalculated = true; }
 	inline void FromCache() { recalculated = false; }
@@ -235,6 +250,7 @@ private:
 	RMFLV GetFittedTau1LV(ClassicSVfit const& svfitAlgorithm) const;
 	float GetFittedTau2ERatio(ClassicSVfit const& svfitAlgorithm) const;
 	RMFLV GetFittedTau2LV(ClassicSVfit const& svfitAlgorithm) const;
+	float GetFittedPhiStarCP(ClassicSVfit const& svfitAlgorithm) const;
 };
 
 
