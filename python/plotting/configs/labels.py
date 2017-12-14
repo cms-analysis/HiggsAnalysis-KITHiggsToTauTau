@@ -53,17 +53,17 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ff"] = "Fake Factor"
 			
 			self.labels_dict["qqhsm125"] = "VBF 0^{++}"
-			self.labels_dict["qqhps125"] = "VBF 0^{+-}"
+			self.labels_dict["qqhps125"] = "VBF 0^{-+}"
 			self.labels_dict["qqhmm125"] = "VBF CPmix"			
 			self.labels_dict["gghsm125"] = "GF 0^{++}"
-			self.labels_dict["gghps125"] = "GF 0^{+-}"
+			self.labels_dict["gghps125"] = "GF 0^{-+}"
 			self.labels_dict["gghmm125"] = "GF CPmix"		
 
 			self.labels_dict["qqhjhusm125"] = "VBF 0^{++}"
-			self.labels_dict["qqhjhups125"] = "VBF 0^{+-}"
+			self.labels_dict["qqhjhups125"] = "VBF 0^{-+}"
 			self.labels_dict["qqhjhumm125"] = "VBF CPmix"			
 			self.labels_dict["gghjhusm125"] = "GF 0^{++}"
-			self.labels_dict["gghjhups125"] = "GF 0^{+-}"
+			self.labels_dict["gghjhups125"] = "GF 0^{-+}"
 			self.labels_dict["gghjhumm125"] = "GF CPmix"	
 			
 
