@@ -543,13 +543,13 @@ void SvfitResults::Set(ClassicSVfit const& svfitAlgorithm)
 	}
 	else
 	{
-		Set(DefaultValues::UndefinedDouble,
+		Set(DefaultValues::UndefinedFloat,
 		    DefaultValues::UndefinedRMFLV,
-		    DefaultValues::UndefinedDouble,
+		    DefaultValues::UndefinedFloat,
 		    DefaultValues::UndefinedRMFLV,
-		    DefaultValues::UndefinedDouble,
+		    DefaultValues::UndefinedFloat,
 		    DefaultValues::UndefinedRMFLV,
-		    DefaultValues::UndefinedDouble);
+		    DefaultValues::UndefinedFloat);
 	}
 }
 
