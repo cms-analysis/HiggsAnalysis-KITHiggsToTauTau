@@ -78,6 +78,21 @@ double TauPhiSVfitQuantity::fitFunction(const classic_svFit::LorentzVector& tau1
 	return (m_tauIndex == 0 ? tau1P4 : tau2P4).phi();
 }
 
+TH1* PhiCPSVfitQuantity::createHistogram(const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const
+{
+	return new TH1D(std::string("svfitAlgorithm_histogram_phiCP").c_str(), std::string("svfitAlgorithm_histogram_phiCP").c_str(), 180, 0.0, 2.0*TMath::Pi());
+}
+double PhiCPSVfitQuantity::fitFunction(const classic_svFit::LorentzVector& tau1P4, const classic_svFit::LorentzVector& tau2P4, const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const
+{
+	return cpQuantities.CalculatePhiCP(
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(tau1P4+tau2P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(tau1P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(tau2P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(vis1P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(vis2P4)
+	);
+}
+
 TH1* PhiStarCPSVfitQuantity::createHistogram(const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const
 {
 	return new TH1D(std::string("svfitAlgorithm_histogram_phiStarCP").c_str(), std::string("svfitAlgorithm_histogram_phiStarCP").c_str(), 180, 0.0, 2.0*TMath::Pi());
@@ -103,6 +118,7 @@ TauTauHistogramAdapter::TauTauHistogramAdapter(std::vector<classic_svFit::SVfitQ
 	indexTau2Pt = registerQuantity(new TauPtSVfitQuantity(1));
 	indexTau2Eta = registerQuantity(new TauEtaSVfitQuantity(1));
 	indexTau2Phi = registerQuantity(new TauPhiSVfitQuantity(1));
+	indexPhiCP = registerQuantity(new PhiCPSVfitQuantity());
 	indexPhiStarCP = registerQuantity(new PhiStarCPSVfitQuantity());
 }
 
@@ -144,6 +160,11 @@ RMFLV TauTauHistogramAdapter::GetFittedTau2LV() const
 	momentum.SetPhi(extractValue(indexTau2Phi));
 	momentum.SetM(DefaultValues::TauMassGeV);
 	return momentum;
+}
+
+float TauTauHistogramAdapter::GetFittedPhiCP() const
+{
+	return extractValue(indexPhiCP);
 }
 
 float TauTauHistogramAdapter::GetFittedPhiStarCP() const
@@ -474,10 +495,10 @@ TMatrixD SvfitInputs::GetMetCovarianceMatrix() const
 	return metCovarianceMatrix;
 }
 
-SvfitResults::SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV, float fittedPhiStarCP) :
+SvfitResults::SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV, float fittedPhiCP, float fittedPhiStarCP) :
 	SvfitResults()
 {
-	Set(fittedTransverseMass, fittedHiggsLV, fittedTau1ERatio, fittedTau1LV, fittedTau2ERatio, fittedTau2LV, fittedPhiStarCP);
+	Set(fittedTransverseMass, fittedHiggsLV, fittedTau1ERatio, fittedTau1LV, fittedTau2ERatio, fittedTau2LV, fittedPhiCP, fittedPhiStarCP);
 	recalculated = false;
 }
 
@@ -505,7 +526,7 @@ SvfitResults::~SvfitResults()
 	*/
 }
 
-void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV, float fittedPhiStarCP)
+void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV, float fittedPhiCP, float fittedPhiStarCP)
 {
 	if (! this->fittedHiggsLV)
 	{
@@ -526,6 +547,7 @@ void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, 
 	*(this->fittedTau1LV) = fittedTau1LV;
 	this->fittedTau2ERatio = fittedTau2ERatio;
 	*(this->fittedTau2LV) = fittedTau2LV;
+	this->fittedPhiCP = fittedPhiCP;
 	this->fittedPhiStarCP = fittedPhiStarCP;
 }
 
@@ -539,6 +561,7 @@ void SvfitResults::Set(ClassicSVfit const& svfitAlgorithm)
 		    GetFittedTau1LV(svfitAlgorithm),
 		    GetFittedTau2ERatio(svfitAlgorithm),
 		    GetFittedTau2LV(svfitAlgorithm),
+		    GetFittedPhiCP(svfitAlgorithm),
 		    GetFittedPhiStarCP(svfitAlgorithm));
 	}
 	else
@@ -549,6 +572,7 @@ void SvfitResults::Set(ClassicSVfit const& svfitAlgorithm)
 		    DefaultValues::UndefinedRMFLV,
 		    DefaultValues::UndefinedFloat,
 		    DefaultValues::UndefinedRMFLV,
+		    DefaultValues::UndefinedFloat,
 		    DefaultValues::UndefinedFloat);
 	}
 }
@@ -561,6 +585,7 @@ void SvfitResults::CreateBranches(TTree* tree)
 	tree->Branch("svfitTau1LV", &fittedTau1LV);
 	tree->Branch("svfitTau2ERatio", &fittedTau2ERatio, "svfitTau2ERatio/F");
 	tree->Branch("svfitTau2LV", &fittedTau2LV);
+	tree->Branch("svfitPhiCP", &fittedPhiCP, "svfitPhiCP/F");
 	tree->Branch("svfitPhiStarCP", &fittedPhiStarCP, "svfitPhiStarCP/F");
 }
 
@@ -572,6 +597,7 @@ void SvfitResults::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("svfitTau1LV", &fittedTau1LV);
 	tree->SetBranchAddress("svfitTau2ERatio", &fittedTau2ERatio);
 	tree->SetBranchAddress("svfitTau2LV", &fittedTau2LV);
+	tree->SetBranchAddress("svfitPhiCP", &fittedPhiCP);
 	tree->SetBranchAddress("svfitPhiStarCP", &fittedPhiStarCP);
 	ActivateBranches(tree, true);
 }
@@ -584,6 +610,7 @@ void SvfitResults::ActivateBranches(TTree* tree, bool activate)
 	tree->SetBranchStatus("svfitTau1LV", activate);
 	tree->SetBranchStatus("svfitTau2ERatio", activate);
 	tree->SetBranchStatus("svfitTau2LV", activate);
+	tree->SetBranchStatus("svfitPhiCP", activate);
 	tree->SetBranchStatus("svfitPhiStarCP", activate);
 }
 
@@ -595,6 +622,7 @@ bool SvfitResults::operator==(SvfitResults const& rhs) const
 	        Utility::ApproxEqual(*fittedTau1LV, *(rhs.fittedTau1LV)) &&
 	        Utility::ApproxEqual(fittedTau2ERatio, rhs.fittedTau2ERatio) &&
 	        Utility::ApproxEqual(*fittedTau2LV, *(rhs.fittedTau2LV)) &&
+	        Utility::ApproxEqual(fittedPhiCP, rhs.fittedPhiCP) &&
 	        Utility::ApproxEqual(fittedPhiStarCP, rhs.fittedPhiStarCP));
 }
 
@@ -626,6 +654,10 @@ float SvfitResults::GetFittedTau2ERatio(ClassicSVfit const& svfitAlgorithm) cons
 RMFLV SvfitResults::GetFittedTau2LV(ClassicSVfit const& svfitAlgorithm) const
 {
 	return static_cast<TauTauHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->GetFittedTau2LV();
+}
+float SvfitResults::GetFittedPhiCP(ClassicSVfit const& svfitAlgorithm) const
+{
+	return static_cast<TauTauHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->GetFittedPhiCP();
 }
 float SvfitResults::GetFittedPhiStarCP(ClassicSVfit const& svfitAlgorithm) const
 {
