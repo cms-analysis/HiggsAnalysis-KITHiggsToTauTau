@@ -365,9 +365,15 @@ if __name__ == "__main__":
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
 					elif ("Vbf2D" in category or "Vbf3D" in category) and not "QCDCR" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
-						config["y_expressions"] = ["mjj"]
+						
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
-						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
+						if ("Vbf3D_CP_jdeta" in category):
+							config["y_expressions"] = ["jdeta"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdeta"]]
+						else:
+							config["y_expressions"] = ["mjj"]	
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
+						
 						if "Vbf3D" in category and channel != "mm":
 							config["z_expressions"] = ["jdphi"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
