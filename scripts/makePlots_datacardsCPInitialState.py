@@ -319,8 +319,10 @@ if __name__ == "__main__":
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] =  [args.quantity]
 					
-					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "OneJet_CP_boosted" not in category:
+					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" not in category:
 						binnings_key = "tt_jdphi"
+					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" in category:
+						binnings_key = "tt_melaDiscriminatorD0Minus"
 					elif args.cp_study == "final":
 						binnings_key = "tt_phiStarCP"
 					
@@ -374,9 +376,13 @@ if __name__ == "__main__":
 							config["y_expressions"] = ["mjj"]	
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
 						
-						if "Vbf3D" in category and channel != "mm":
+						if "Vbf3D" in category and channel != "mm" and "mela" not in category:
 							config["z_expressions"] = ["jdphi"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
+						if "Vbf3D" in category and channel != "mm" and "mela" in category:
+							config["z_expressions"] = ["melaDiscriminatorD0MinusGGH"]
+							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]
+							
 					
 					elif (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 						config["x_bins"] = [binnings_key]
