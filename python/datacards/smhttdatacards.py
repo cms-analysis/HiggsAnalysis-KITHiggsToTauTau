@@ -27,7 +27,10 @@ class SMHttDatacards(datacards.Datacards):
 			all_mc_bkgs = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
 			all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]
 			all_mc_bkgs_no_TTJ = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
-
+			
+			# Lists of categories
+			CP_categories = ["Vbf3D", "Vbf3D_CP", "Vbf3D_CP_jdeta", "Vbf3D_mela_GGH_DCPPlus", "Vbf3D_mela_GGH_DCPMinus"]
+			sm_categories = ["ZeroJet2D", "Boosted2D", "Vbf2D"]
 			##Generate instance of systematic libary, in which the relevant information about the systematics are safed
 
 			systematics_list = SystLib.SystematicLibary()	
