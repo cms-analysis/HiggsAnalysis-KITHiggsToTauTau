@@ -446,7 +446,7 @@ class CategoriesDict(object):
 						}
 					}
 				}
-	    self.categoriesDict["{analysis}{channel}Vbf3D_mela_GGH_DCPMinus{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}Vbf3D_mela_GGH_DCPMinus{discriminator}"] = {
 				"channel":[
 					"mm_",
 					"ee_",

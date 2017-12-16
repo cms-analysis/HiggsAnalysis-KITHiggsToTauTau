@@ -330,7 +330,7 @@ class SMHttDatacards(datacards.Datacards):
 			# QCD normalization
 			self.cb.cp().channel(["em"]).process(["QCD"]).bin(["em_ZeroJet2D"]).AddSyst(self.cb, *systematics_list.htt_QCD_0jet_syst_args)
 			self.cb.cp().channel(["em"]).process(["QCD"]).bin(["em_Boosted2D"]).AddSyst(self.cb, *systematics_list.htt_QCD_boosted_syst_args)
-			self.cb.cp().channel(["em"]).process(["QCD"]).bin([["em_Vbf2D"]+["em_"+category for category in CP_categories]).AddSyst(self.cb, "CMS_htt_QCD_VBF_em_13TeV", "lnN", ch.SystMap()(1.20))
+			self.cb.cp().channel(["em"]).process(["QCD"]).bin(["em_Vbf2D"]+["em_"+category for category in CP_categories]).AddSyst(self.cb, "CMS_htt_QCD_VBF_em_13TeV", "lnN", ch.SystMap()(1.20))
 
 			self.cb.cp().channel(["tt"]).process(["QCD"]).bin(["tt_ZeroJet2D"]).AddSyst(self.cb, "CMS_htt_QCD_0jet_tt_13TeV", "lnN", ch.SystMap()(1.027))
 			self.cb.cp().channel(["tt"]).process(["QCD"]).bin(["tt_Boosted2D"]).AddSyst(self.cb, "CMS_htt_QCD_boosted_tt_13TeV", "lnN", ch.SystMap()(1.027))
