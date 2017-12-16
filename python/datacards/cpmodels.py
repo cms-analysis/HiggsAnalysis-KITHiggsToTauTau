@@ -12,7 +12,8 @@ cp_xsec = PhysicsModel()
 ###   - possibly modifies the systematical uncertainties (does nothing by default)
 
 class CPMixing(PhysicsModel):
-	def __init__(self):
+	def __init__(self, use_mixing_angle=True):
+		self.use_mixing_angle = use_mixing_angle
 		self.verbose = False
 
 	def setPhysicsOptions(self, physOptions):
@@ -24,24 +25,28 @@ class CPMixing(PhysicsModel):
 		"""Create POI and other parameters, and define the POI set."""
 		# --- POI and other parameters ----
 		
-		maxmix = {
-			"a_tilde" : 1.0,
-			"b_tilde" : 1.0,
-		}
-		
 		self.modelBuilder.doVar("muF[1.0,0.0,5.0]")
 		self.modelBuilder.doVar("muV[1.0,0.0,5.0]")
 		self.modelBuilder.doVar("cpmixing[0.0,0.0,1.0]") # CP mixing angle in units of pi/2
 		
-		self.modelBuilder.factory_('expr::cosalpha("cos(@0*{pi}/2)", cpmixing)'.format(pi=math.pi))
-		self.modelBuilder.factory_('expr::sinalpha("sin(@0*{pi}/2)", cpmixing)'.format(pi=math.pi))
+		if self.use_mixing_angle:
+			maxmix = {
+				"a_tilde" : 1.0,
+				"b_tilde" : 1.0,
+			}
+			
+			self.modelBuilder.factory_('expr::a("cos(@0*{pi}/2)", cpmixing)'.format(pi=math.pi))
+			self.modelBuilder.factory_('expr::b("sin(@0*{pi}/2)", cpmixing)'.format(pi=math.pi))
+			
+			self.modelBuilder.factory_('expr::sm_scaling("@0*@0-@0*@1*{a_tilde}/{b_tilde}", a, b)'.format(**maxmix))
+			self.modelBuilder.factory_('expr::ps_scaling("@1*@1-@0*@1*{b_tilde}/{a_tilde}", a, b)'.format(**maxmix))
+			self.modelBuilder.factory_('expr::mm_scaling("@0*@1/({a_tilde}*{b_tilde})", a, b)'.format(**maxmix))
 		
-		self.modelBuilder.factory_('expr::a("@0", cosalpha)')
-		self.modelBuilder.factory_('expr::b("@0", sinalpha)')
-		
-		self.modelBuilder.factory_('expr::sm_scaling("@0*@0-@0*@1*{a_tilde}/{b_tilde}", a, b)'.format(**maxmix))
-		self.modelBuilder.factory_('expr::ps_scaling("@1*@1-@0*@1*{b_tilde}/{a_tilde}", a, b)'.format(**maxmix))
-		self.modelBuilder.factory_('expr::mm_scaling("@0*@1/({a_tilde}*{b_tilde})", a, b)'.format(**maxmix))
+		else:
+			#TODO: each scaling parameter is missing a factor 1/(a^2 + b^2)
+			self.modelBuilder.factory_('expr::sm_scaling("1-@0-sqrt((1-@0)*@0)", cpmixing)')
+			self.modelBuilder.factory_('expr::ps_scaling("@0-sqrt((1-@0)*@0)", cpmixing)')
+			self.modelBuilder.factory_('expr::mm_scaling("sqrt((1-@0)*@0)", cpmixing)')
 		
 		for production in ["muF", "muV"]:
 			for decay in ["muF"]:
@@ -84,5 +89,6 @@ class CPMixing(PhysicsModel):
 		else:
 			return 1
 
-cp_mixing = CPMixing()
+cp_mixing_angle = CPMixing(use_mixing_angle=True)
+cp_fa3 = CPMixing(use_mixing_angle=False)
 
