@@ -264,11 +264,11 @@ class SMHttDatacards(datacards.Datacards):
 
 				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL", "EWKZ"]).bin(["em_Vbf2D"]+["em_"+category for category in CP_categories]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_VBF_em_13TeV", "lnN", ch.SystMap()(1.15))
 				self.cb.cp().channel(["tt"]).process(["ZTT", "ZL", "ZJ", "EWKZ"]).bin(["tt_Vbf2D", "tt_Vbf2D_QCDCR"]+["tt_"+category for category in CP_categories]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_VBF_tt_13TeV", "lnN", ch.SystMap()(1.15))
-				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "ZL", "ZJ", "EWKZ"]).bin(["mt_Vbf2D", "mt_Vbf3D", "mt_Vbf3D_CP", "mt_Vbf3D_CP_jdeta", "et_Vbf2D", "et_Vbf3D", "et_Vbf3D_CP", "et_Vbf3D_CP_jdeta", "et_TwoJet_CP_boosted", "et_TwoJet_CP_mvishigh", "et_TwoJet_CP_mvislow", "et_TwoJet_CP_mjjlow"]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_VBF_lt_13TeV", "lnN", ch.SystMap()(1.10))
+				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "ZL", "ZJ", "EWKZ"]).bin(["et_Vbf2D"]+["et_"+category for category in CP_categories]+["mt_Vbf2D"]+["mt_"+category for category in CP_categories]).AddSyst(self.cb, "CMS_htt_zmm_norm_extrap_VBF_lt_13TeV", "lnN", ch.SystMap()(1.10))
 
 				self.cb.cp().channel(["mt", "et", "tt"]).process(["ZTT", "ZL", "ZJ", "EWKZ"]).bin([channel + "_Vbf2D" for channel in ["mt", "et", "tt"]]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
 				self.cb.cp().channel(["tt"]).process(["ZTT", "ZL", "ZJ", "EWKZ"]).bin(["tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
-				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).bin(["em_Vbf2D", "em_Vbf3D", "em_Vbf3D_CP", "em_Vbf3D_CP_jdeta", "em_TwoJet_CP_boosted", "em_TwoJet_CP_mvishigh", "em_TwoJet_CP_mvislow", "em_TwoJet_CP_mjjlow"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
+				self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).bin(["em_Vbf2D"]+["em_"+category for category in CP_categories]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
 			if not ttbarFit:
 				self.cb.cp().process(["TT", "TTT", "TTJJ"]).channel(["mt", "et", "em", "tt"]).AddSyst(self.cb, *systematics_list.ttj_cross_section_syst_args)
 			if year == "2016":
@@ -330,11 +330,11 @@ class SMHttDatacards(datacards.Datacards):
 			# QCD normalization
 			self.cb.cp().channel(["em"]).process(["QCD"]).bin(["em_ZeroJet2D"]).AddSyst(self.cb, *systematics_list.htt_QCD_0jet_syst_args)
 			self.cb.cp().channel(["em"]).process(["QCD"]).bin(["em_Boosted2D"]).AddSyst(self.cb, *systematics_list.htt_QCD_boosted_syst_args)
-			self.cb.cp().channel(["em"]).process(["QCD"]).bin(["em_Vbf2D", "em_Vbf3D", "em_Vbf3D_CP", "em_Vbf3D_CP_jdeta", "em_TwoJet_CP_boosted", "em_TwoJet_CP_mvishigh", "em_TwoJet_CP_mvislow", "em_TwoJet_CP_mjjlow"]).AddSyst(self.cb, "CMS_htt_QCD_VBF_em_13TeV", "lnN", ch.SystMap()(1.20))
+			self.cb.cp().channel(["em"]).process(["QCD"]).bin([["em_Vbf2D"]+["em_"+category for category in CP_categories]).AddSyst(self.cb, "CMS_htt_QCD_VBF_em_13TeV", "lnN", ch.SystMap()(1.20))
 
 			self.cb.cp().channel(["tt"]).process(["QCD"]).bin(["tt_ZeroJet2D"]).AddSyst(self.cb, "CMS_htt_QCD_0jet_tt_13TeV", "lnN", ch.SystMap()(1.027))
 			self.cb.cp().channel(["tt"]).process(["QCD"]).bin(["tt_Boosted2D"]).AddSyst(self.cb, "CMS_htt_QCD_boosted_tt_13TeV", "lnN", ch.SystMap()(1.027))
-			self.cb.cp().channel(["tt"]).process(["QCD"]).bin(["tt_Vbf2D", "tt_Vbf3D", "tt_Vbf3D_CP", "tt_Vbf3D_CP_jdeta", "tt_TwoJet_CP_boosted", "tt_TwoJet_CP_mvishigh", "tt_TwoJet_CP_mvislow", "tt_TwoJet_CP_mjjlow"]).AddSyst(self.cb, "CMS_htt_QCD_VBF_tt_13TeV", "lnN", ch.SystMap()(1.15))
+			self.cb.cp().channel(["tt"]).process(["QCD"]).bin(["tt_Vbf2D"]+["tt_"+category for category in CP_categories]).AddSyst(self.cb, "CMS_htt_QCD_VBF_tt_13TeV", "lnN", ch.SystMap()(1.15))
 
 			self.cb.cp().channel(["mt"]).process(["QCD"]).bin(["mt_"+category for category in sm_categories+CP_categories]).AddSyst(self.cb, *systematics_list.QCD_Extrap_Iso_nonIso_syst_args)
 			self.cb.cp().channel(["et"]).process(["QCD"]).bin(["et_"+category for category in sm_categories+CP_categories]).AddSyst(self.cb, *systematics_list.QCD_Extrap_Iso_nonIso_syst_args)
@@ -347,9 +347,7 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WHighMTtoLowMT_0jet_syst_args)
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WHighMTtoLowMT_boosted_syst_args)
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_Vbf2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WHighMTtoLowMT_vbf_13TeV", "lnN", ch.SystMap()(1.10))
-			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_Vbf3D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WHighMTtoLowMT_vbf_13TeV", "lnN", ch.SystMap()(1.10))
-			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_Vbf3D_CP" for channel in ["et", "mt"]]).AddSyst(self.cb, "WHighMTtoLowMT_vbf_13TeV", "lnN", ch.SystMap()(1.10))
-			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_Vbf3D_CP_jdeta" for channel in ["et", "mt"]]).AddSyst(self.cb, "WHighMTtoLowMT_vbf_13TeV", "lnN", ch.SystMap()(1.10))
+			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+category for category in CP_categories for channel in ["et", "mt"]]).AddSyst(self.cb, "WHighMTtoLowMT_vbf_13TeV", "lnN", ch.SystMap()(1.10))
 
 			# ======================================================================
 			# pt reweighting uncertainties
