@@ -253,6 +253,8 @@ if __name__ == "__main__":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 		elif args.era == "2016":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+		elif args.era == "2017":
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017 as samples
 			if args.lumi == parser.get_default("lumi"):
 				args.lumi = samples.default_lumi/1000.0
 		else:
@@ -269,7 +271,7 @@ if __name__ == "__main__":
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
-	
+
 	if args.run1 and (args.emb or args.ttbar_retuned):
 			log.critical("Embedding --emb and --ttbar-retuned only valid for run2. Remove --emb and --tbar-retuned or select run2 samples.")
 			sys.exit(1)
@@ -339,7 +341,7 @@ if __name__ == "__main__":
 	# Configs construction for HP
 	for category in args.categories:
 		for quantity, weight in zip(args.quantities, args.weights):
-			
+
 			channels_background_methods = zip(args.channels, args.background_method)
 			channel_config = {}
 			for index, (channel, background_method) in enumerate(channels_background_methods):
@@ -378,7 +380,7 @@ if __name__ == "__main__":
 						global_cut_type = "etaufake2016_antievtightfail"
 
 				last_loop = (index == len(channels_background_methods) - 1)
-				
+
 				if category != None:
 					category_string = (global_category_string + "_{channel}_{category}").format(channel = channel, category = category)
 				else:
@@ -390,7 +392,7 @@ if __name__ == "__main__":
 					if os.path.exists(json_filename):
 						json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
 						break
-				
+
 				quantity = json_config.pop("x_expressions", [quantity])[0]
 				config = sample_settings.get_config(
 						samples = list_of_samples,
@@ -426,7 +428,24 @@ if __name__ == "__main__":
 
 				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 				config["category"] = category
-				
+
+
+				# Introduced due to missing samples in 2017 MCv1, can be removed when 2017 MCv2 samples are out, and samples_rnu2_2017.py script is updated correspondingly.
+				index=0
+				while (index < len(config["files"])):
+					if config["files"][index] is None:
+						config["files"].pop(index)
+						config["x_expressions"].pop(index)
+						config["scale_factors"].pop(index)
+						config["folders"].pop(index)
+						config["weights"].pop(index)
+						config["nicks"].pop(index)
+					else:
+						index +=1
+
+				import pprint
+				pprint.pprint(config)
+
 				if args.new_tau_id:
 					for weight_index, weight in enumerate(config.get("weights", [])):
 						config["weights"][weight_index] = weight.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
@@ -440,7 +459,7 @@ if __name__ == "__main__":
 					binning_string = "binningZttPol13TeV"
 				else:
 					binning_string = "binningHtt13TeV"
-				
+
 				binnings_key = "{binning_string}{channel}{category}_{quantity}".format(
 						binning_string=((binning_string+"_") if binning_string else ""),
 						channel=channel,
@@ -451,7 +470,7 @@ if __name__ == "__main__":
 					binnings_key = channel+"_"+quantity
 				if not binnings_key in binnings_settings.binnings_dict:
 					binnings_key = None
-				
+
 				if not binnings_key is None:
 					config["x_bins"] = [("1,-1,1" if "pol_gen" in nick else json_config.pop("x_bins", [binnings_key])) for nick in config["nicks"]]
 
@@ -577,7 +596,7 @@ if __name__ == "__main__":
 					log.debug(bkg_samples_used)
 					log.debug(sig_samples_used)
 					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, sig_samples_used)
-					
+
 				#add FullIntegral
 				if(args.full_integral):
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
@@ -585,7 +604,7 @@ if __name__ == "__main__":
 					if args.emb:
 						config["full_integral_outputs"]='./IntegralValues_Embedded.txt'
 					config["full_integral_nicks"]=[" ".join(bkg_samples_used)]
-					config["analysis_modules"].append("FullIntegral")		
+					config["analysis_modules"].append("FullIntegral")
 
 				# add s/sqrt(b) subplot
 				if(args.sbratio or args.blinding_threshold > 0):
@@ -608,7 +627,7 @@ if __name__ == "__main__":
 						channel if (len(args.channels) > 1 and (not args.channel_comparison)) else "",
 						category if len(args.categories) > 1 else ""
 				))
-				
+
 				if not args.www is None:
 					config["www"] = os.path.join(
 							args.www,
@@ -617,13 +636,11 @@ if __name__ == "__main__":
 					)
 
 				config.update(json_config)
-				
+
 				if (not args.channel_comparison) or last_loop:
 					plot_configs.append(config)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-		
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
-
