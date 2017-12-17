@@ -443,9 +443,6 @@ if __name__ == "__main__":
 					else:
 						index +=1
 
-				import pprint
-				pprint.pprint(config)
-
 				if args.new_tau_id:
 					for weight_index, weight in enumerate(config.get("weights", [])):
 						config["weights"][weight_index] = weight.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
