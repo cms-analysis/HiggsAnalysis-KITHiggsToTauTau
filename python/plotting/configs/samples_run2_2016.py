@@ -425,7 +425,9 @@ class Samples(samples.SamplesBase):
 				nick_suffix=nick_suffix
 		)
 
-		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
+
 		return config
 
 	def files_dy_m50(self, channel):
@@ -611,8 +613,9 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zll", nick_suffix)
 		
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zll"), nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "zll", nick_suffix)
 		return config
 
 	def zl(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -662,7 +665,9 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (ZL) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zl", nick_suffix)
-		Samples._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
+	
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zl"), nick_suffix)
 		return config
 
 	def zj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -712,7 +717,10 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (ZJ) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zj", nick_suffix)
-		Samples._add_plot(config, "bkg", "HIST", "F", "zj", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zj"), nick_suffix)
+
 		return config
 		
 	def files_ttj(self, channel):
@@ -745,7 +753,9 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttt", nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "ttt", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ttt"), nick_suffix)
+
 		return config
 
 	def files_lfv(self, channel):
@@ -773,7 +783,9 @@ class Samples(samples.SamplesBase):
 
 		Samples._add_bin_corrections(config, "zmt", nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "zmt", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)
+		
 		return config
 
 	def zet(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -795,10 +807,12 @@ class Samples(samples.SamplesBase):
 				"zet",
 				nick_suffix=nick_suffix
 		)
+				
+		Samples._add_bin_corrections(config, "zet", nick_suffix)		
 
-		Samples._add_bin_corrections(config, "zet", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zet"), nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "zet", nick_suffix)
 		return config
 
 	def zem(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -822,8 +836,10 @@ class Samples(samples.SamplesBase):
 		)
 
 		Samples._add_bin_corrections(config, "zem", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zem"), nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "zem", nick_suffix)
 		return config
 
 
@@ -850,8 +866,10 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttjj", nick_suffix)
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "ttjj", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ttjj"), nick_suffix)
+	
 		return config
 
 	def tttautau(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=None, **kwargs):
@@ -874,8 +892,10 @@ class Samples(samples.SamplesBase):
 		if channel not in ["em", "et", "mt", "tt", "mm", "ee", "ttbar"]:
 			log.error("Sample config (TTTAUTAU) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
-			Samples._add_bin_corrections(config, "tttautau", nick_suffix)		
-		Samples._add_plot(config, "bkg", "HIST", "F", "tttautau", nick_suffix)
+			Samples._add_bin_corrections(config, "tttautau", nick_suffix)	
+		
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "tttautau"), nick_suffix)
 		return config
 
 	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=None, **kwargs):
@@ -1046,8 +1066,9 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttj", nick_suffix)
 		
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ttj"), nick_suffix)
+
 		return config
 
 	def files_diboson(self, channel):
@@ -1099,7 +1120,8 @@ class Samples(samples.SamplesBase):
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "hww_gg"+str(mass), nick_suffix)
 		
-			Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg"+str(mass), nick_suffix)
+			if not kwargs.get("no_plot", False):
+				Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg"+str(mass), nick_suffix)
 		
 		return config
 
@@ -1124,7 +1146,8 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "hww_gg125", nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg125", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg125", nick_suffix)
 		
 		return config
 
@@ -1153,7 +1176,8 @@ class Samples(samples.SamplesBase):
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "hww_qq"+str(mass), nick_suffix)
 			
-			Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq"+str(mass), nick_suffix)
+			if not kwargs.get("no_plot", False):
+				Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq"+str(mass), nick_suffix)
 		
 		return config
 
@@ -1177,8 +1201,8 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (HWW_qq125) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "hww_qq125", nick_suffix)
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq125", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq125", nick_suffix)
 		
 		return config
 
@@ -1212,8 +1236,8 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (HWW) currently not implemented for channel \"%s\"!" % channel)
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "hww"+str(mass), nick_suffix)
-
-			Samples._add_plot(config, "bkg", "HIST", "F", "hww"+str(mass), nick_suffix)
+			if not kwargs.get("no_plot", False):
+				Samples._add_plot(config, "bkg", "HIST", "F", "hww"+str(mass), nick_suffix)
 		return config
 
 	def vvt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -1249,8 +1273,12 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (VVT) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vvt", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvt"), nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "vvt", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", "vvt", nick_suffix)
 		return config
 
 	def vvj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -1284,10 +1312,14 @@ class Samples(samples.SamplesBase):
 			)
 		else:
 			log.error("Sample config (VVJ) currently not implemented for channel \"%s\"!" % channel)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvj"), nick_suffix)
+
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vvj", nick_suffix)
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "vvj", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", "vvj", nick_suffix)
 		return config
 
 	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -1324,8 +1356,10 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vv", nick_suffix)
 		
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vv"), nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 
 	def files_wj(self, channel):
@@ -1408,8 +1442,8 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ewkz", nick_suffix)
 		
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "ewkz", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ewkz"), nick_suffix)
 		return config
 
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
