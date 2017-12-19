@@ -122,10 +122,9 @@ class ConfigMaster(object):
 
 		return self._shapeplot
 
-	def __datacard__(self, x_expressions, labels, plot_modules, file_mode):
+	def __datacard__(self, labels, plot_modules, file_mode):
 
 		self._datacard = {
-					"x_expressions":		x_expressions,
 					"labels":			labels,
 					"plot_modules":			plot_modules,
 					"file_mode":			file_mode
