@@ -19,6 +19,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samp
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.lfvdatacards as lfvdatacards
 import HiggsAnalysis.KITHiggsToTauTau.lfv.ConfigMaster as configmaster
+import HiggsAnalysis.KITHiggsToTauTau.lfv.ParameterMaster as parametermaster
 
 def _call_command(command):
 	log.debug(command)
@@ -59,8 +60,9 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 
-	# initialisations for plotting
+	#Instances of classes needed for filling the config
 	systematics_factory = systematics.SystematicsFactory()
+	parameter_info = parametermaster.ParameterMaster()
 	
 	plot_configs = []
 	output_files = []
@@ -75,10 +77,7 @@ if __name__ == "__main__":
 		args.channel = args.channel[len(parser.get_default("channel")):]
 
 	if args.categories != parser.get_default("categories"):
-		args.categories = args.categories[1:]
-
-	#datacard initialization
-	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs, shape_syst_enable = args.shape_uncs) 
+		args.categories = args.categories[1:] 
 	
 	# Prepare name templates
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}"
@@ -94,14 +93,31 @@ if __name__ == "__main__":
 			"datacards/combined/${ANALYSIS}_${ERA}.txt",]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 
+
+	##Dictionary for categories
+	categories = {
+			"LFVZeroJet":	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization/CutValues")) + "/cut_values_zerojet.ini",
+			"LFVOneJet":	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization/CutValues")) + "/cut_values_onejet.ini"
+	}
+		
+	#datacard initialization
+	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs, shape_syst_enable = args.shape_uncs)
+
 	#Loop over all channel/categories
 	for channel in args.channel:
 		list_of_samples = datacards.cb.process_set()
 
 		for category in [args.categories[0]]:
 			tmp_output_files = []
+
+			#Weight for the category saved in cut ini files
+			filename = categories[category]
+			cut_parameter, cut_values = parameter_info.cutconfigreader(filename, "Iteration4")
+			weight = parameter_info.weightaddition(parameter_info.get_parameter_info(cut_parameter,2), cut_values)
+
+			print weight
 			category = channel + "_" + category
-			
+
 			for shape_systematic in ["nominal"] + [shape for shape in datacards.cb.cp().syst_type(["shape"]).syst_name_set()]:
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
@@ -125,10 +141,10 @@ if __name__ == "__main__":
 					sample_values  = [
 							list_of_samples,
 							channel,
-							"catLFV13TeV_" + category,
+							None,
 							False,
 							"",	
-							"1"
+							weight
 					]
 	
 					datacard_values = [
