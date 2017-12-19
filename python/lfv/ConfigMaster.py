@@ -1,7 +1,6 @@
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 import Artus.Utility.jsonTools as jsonTools
 
-
 ### Enumeration class for possible plotting/analysis modules
 
 class Plotmodule():
@@ -11,10 +10,12 @@ class Plotmodule():
 	shape_plot = 3
 	datacard = 4
 
-
 ### Class to create harry plotter configs for your special desire. All configs are safed as dictionaries and can be combined to the final config which is needed	
 
 class ConfigMaster(object):
+
+	##Constructor for loading sample information from samples_run2_2016.py
+
 	def __init__(self, base_values, sample_values):
 
 		###Config list which is initiliazed with information for each sample from samples_run2.py
@@ -40,6 +41,12 @@ class ConfigMaster(object):
 					Plotmodule.shape_plot:			self.__shapeplot__,
 					Plotmodule.datacard:			self.__datacard__
 		}
+
+
+	##Pythonic way of overloaded constructor not using sample information and doing any other plot you wish
+	@classmethod
+	def init(self):
+		return "Work in progress"
 
 	
 	###Dictionaries for information for each plotting/analysis modules
@@ -136,7 +143,7 @@ class ConfigMaster(object):
 
 	def add_config_info(self, module_values, module):
 		
-		###Fill config will all module information
+		###Fill config will all module information checking if values are already avaible as list or string
 		for (key, value) in self._modules_dict[module](*module_values).iteritems():
 			try:
 				self._config[key].append(value)
