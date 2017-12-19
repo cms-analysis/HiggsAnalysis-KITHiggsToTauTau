@@ -3,7 +3,6 @@
 import CombineHarvester.CombineTools.ch as ch
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.categories as Categories
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_libary as SystLib
 
 
@@ -33,7 +32,7 @@ class LFVDatacards(datacards.Datacards):
 	
 				self.add_processes(
 					channel=channel,
-					categories= [channel + "_" + category for category in category_list[0]],
+					categories= [channel + "_" + category for category in [category_list[0]]],
 					bkg_processes=backgrounds[channel],  
 					sig_processes=signal_list,
 					analysis=["LFV"],
