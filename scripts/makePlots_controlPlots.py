@@ -253,6 +253,8 @@ if __name__ == "__main__":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 		elif args.era == "2016":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+			if args.lumi == parser.get_default("lumi"):
+				args.lumi = samples.default_lumi/1000.0
 		elif args.era == "2017":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017 as samples
 			if args.lumi == parser.get_default("lumi"):
@@ -431,17 +433,18 @@ if __name__ == "__main__":
 
 
 				# Introduced due to missing samples in 2017 MCv1, can be removed when 2017 MCv2 samples are out, and samples_rnu2_2017.py script is updated correspondingly.
-				index=0
-				while (index < len(config["files"])):
-					if config["files"][index] is None:
-						config["files"].pop(index)
-						config["x_expressions"].pop(index)
-						config["scale_factors"].pop(index)
-						config["folders"].pop(index)
-						config["weights"].pop(index)
-						config["nicks"].pop(index)
-					else:
-						index +=1
+				if args.era == "2017":
+					sub_conf_index = 0
+					while (sub_conf_index < len(config["files"])):
+						if config["files"][sub_conf_index] is None:
+							config["files"].pop(sub_conf_index)
+							config["x_expressions"].pop(sub_conf_index)
+							config["scale_factors"].pop(sub_conf_index)
+							config["folders"].pop(sub_conf_index)
+							config["weights"].pop(sub_conf_index)
+							config["nicks"].pop(sub_conf_index)
+						else:
+							sub_conf_index +=1
 
 				if args.new_tau_id:
 					for weight_index, weight in enumerate(config.get("weights", [])):
