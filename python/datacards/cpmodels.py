@@ -74,7 +74,12 @@ class CPMixing(PhysicsModel):
 							production=production, decay=decay, cp=cp)
 					)
 		
-		self.modelBuilder.doSet("POI", "muF,muV,cpmixing")
+		if self.inclusive_scaling == "muV_muF":
+			self.modelBuilder.doSet("POI", "muF,muV,cpmixing")
+		elif self.inclusive_scaling == "kappa":
+			self.modelBuilder.doSet("POI", "kappa,cpmixing")
+		elif self.inclusive_scaling == "free":
+			self.modelBuilder.doSet("POI", "kappa_ggh,kappa_qqh,kappa_vh,kappa_tth,cpmixing")
 
 	def getYieldScale(self, bin, process):
 		if self.DC.isSignal[process]:
