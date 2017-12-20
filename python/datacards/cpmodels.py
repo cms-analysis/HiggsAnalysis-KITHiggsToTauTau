@@ -57,12 +57,19 @@ class CPMixing(PhysicsModel):
 			self.modelBuilder.factory_('expr::ps_scaling("@0-sqrt((1-@0)*@0)", cpmixing)')
 			self.modelBuilder.factory_('expr::mm_scaling("sqrt((1-@0)*@0)", cpmixing)')
 		
-		for production in ["muF", "muV", "kappa", "kappa_ggh", "kappa_qqh", "kappa_vh", "kappa_tth"]:
-			for decay in ["muF"]:
+		productions = ["muF", "muV", "kappa", "kappa_ggh", "kappa_qqh", "kappa_vh", "kappa_tth"]
+		decays = ["muF"]
+		cps = ["sm_scaling", "ps_scaling", "mm_scaling"]
+		for production in productions:
+			for cp in cps:
+				self.modelBuilder.factory_('expr::{production}_{cp}("@0*@1", {production}, {cp})'.format(
+						production=production, cp=cp)
+				)
+			for decay in decays:
 				self.modelBuilder.factory_('expr::{production}_{decay}("@0*@1", {production}, {decay})'.format(
 						production=production, decay=decay)
 				)
-				for cp in ["sm_scaling", "ps_scaling", "mm_scaling"]:
+				for cp in cps:
 					self.modelBuilder.factory_('expr::{production}_{decay}_{cp}("@0*@1*@2", {production}, {decay}, {cp})'.format(
 							production=production, decay=decay, cp=cp)
 					)
