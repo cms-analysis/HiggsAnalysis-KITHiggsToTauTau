@@ -597,25 +597,25 @@ class CategoriesDict(object):
 						
 						},
 					"mt_": {
-						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 1000, 8500]]),
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 8500]]),
 						#"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
 						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
 						"_jdphi":"12,-3.2,3.2",
 						},
 					"et_": {
-						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 1000, 8500]]),
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 8500]]),
 						#"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
 						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
 						"_jdphi":"12,-3.2,3.2",
 						},
 					"em_": {
-						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 1000, 8500]]),
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 8500]]),
 						#"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
 						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
 						"_jdphi":"12,-3.2,3.2",
 						},
 					"tt_": {
-						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 1000, 8500]]),
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 8500]]),
 						#"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
 						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
 						"_jdphi":"12,-3.2,3.2",
