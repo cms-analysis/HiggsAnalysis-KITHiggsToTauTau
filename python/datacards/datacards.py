@@ -59,7 +59,7 @@ class Datacards(object):
 
 		self.configs = datacardconfigs.DatacardConfigs()
 		
-		self.stable_options = r"--robustFit 1 --preFitValue 1.0 --minimizerAlgoForMinos Minuit2 --minimizerAlgo Minuit2 --minimizerStrategy 0 --minimizerTolerance 0.1 --cminFallbackAlgo Minuit2,0:1.0"
+		self.stable_options = r"--robustFit 1 --preFitValue 1.0 --cminDefaultMinimizerType Minuit2 --cminDefaultMinimizerAlgo Minuit2 --cminDefaultMinimizerStrategy 0 --cminFallbackAlgo Minuit2,0:1.0"
 
 		path=os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/")
 		self.mva_bdt_syst_uncs =[

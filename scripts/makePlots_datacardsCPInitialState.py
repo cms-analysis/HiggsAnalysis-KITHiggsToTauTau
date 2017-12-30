@@ -614,7 +614,7 @@ if __name__ == "__main__":
 				datacards_workspaces_cp_mixing_angle,
 				None,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format( # -n \"cp_mixing_angle\"
+				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format( # -n \"cp_mixing_angle\"
 						STABLE=datacards.stable_options,
 						POINTS=args.cp_mixing_scan_points
 				)
@@ -635,7 +635,7 @@ if __name__ == "__main__":
 				datacards_workspaces_cp_fa3,
 				None,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"cp_fa3\"".format(
+				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"cp_fa3\"".format(
 						STABLE=datacards.stable_options,
 						POINTS=args.cp_mixing_scan_points
 				)	
