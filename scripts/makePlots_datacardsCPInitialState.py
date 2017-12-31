@@ -599,7 +599,7 @@ if __name__ == "__main__":
 		)
 		
 		if "prefitpostfitplots" in args.steps:
-			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M FitDiagnostics --saveShapes "+datacards.stable_options+" -n \"\"")
 			# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF.
 			
 			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
@@ -621,25 +621,25 @@ if __name__ == "__main__":
 		)
 		
 		# Determine fa3 parameter
-		datacards_workspaces_cp_fa3 = datacards.text2workspace(
-				datacards_cbs,
-				args.n_processes,
-				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_fa3",
-					MODEL_PARAMETERS=""
-				)
-		)
-		
-		datacards.combine(
-				datacards_cbs,
-				datacards_workspaces_cp_fa3,
-				None,
-				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"cp_fa3\"".format(
-						STABLE=datacards.stable_options,
-						POINTS=args.cp_mixing_scan_points
-				)	
-		)
+		# datacards_workspaces_cp_fa3 = datacards.text2workspace(
+		# 		datacards_cbs,
+		# 		args.n_processes,
+		# 		"-P {MODEL} {MODEL_PARAMETERS}".format(
+		# 			MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_fa3",
+		# 			MODEL_PARAMETERS=""
+		# 		)
+		# )
+        # 
+		# datacards.combine(
+		# 		datacards_cbs,
+		# 		datacards_workspaces_cp_fa3,
+		# 		None,
+		# 		args.n_processes,
+		# 		"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"cp_fa3\"".format(
+		# 				STABLE=datacards.stable_options,
+		# 				POINTS=args.cp_mixing_scan_points
+		# 		)	
+		# )
 		
 		result_plot_configs = []
 		for datacard, workspace in datacards_workspaces_cp_mixing_angle.iteritems():
@@ -647,8 +647,16 @@ if __name__ == "__main__":
 			config["directories"] = [os.path.dirname(workspace)]
 			config["labels"] = ["TODO"]
 			config["output_dir"] = os.path.join(os.path.dirname(workspace), "plots")
-			config["filename"] = "likelihoodScan"
+			config["filename"] = "likelihoodScan_alpha"
 			result_plot_configs.append(config)
+			
+		# for datacard, workspace in datacards_workspaces_cp_fa3.iteritems():
+		# 	config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_alphatau.json"))
+		# 	config["directories"] = [os.path.dirname(workspace)]
+		# 	config["labels"] = ["TODO"]
+		# 	config["output_dir"] = os.path.join(os.path.dirname(workspace), "plots")
+		# 	config["filename"] = "likelihoodScan_fa3"
+		# 	result_plot_configs.append(config)
 		
 		higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
 
