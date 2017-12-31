@@ -374,7 +374,7 @@ if __name__ == "__main__":
 	
 	# Max. likelihood fit and postfit plots
 	#--expectSignal=1 --toys -1 for Asimov dataset
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit {STABLE} -n \"\"".format(
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M FitDiagnostics --saveShapes {STABLE} -n \"\"".format(
 			STABLE=datacards.stable_options
 	))
 	#datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))

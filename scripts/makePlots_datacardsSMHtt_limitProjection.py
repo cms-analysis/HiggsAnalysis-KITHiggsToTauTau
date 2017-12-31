@@ -124,19 +124,19 @@ if __name__ == "__main__":
 			"fit" : {
 				"CV" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P CV --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"CV={RMIN},{RMAX}:CF={RMIN},{RMAX}\"",
+					"options" : "--algo singles -P CV --floatOtherPOIs 1 --setParameterRanges \"CV={RMIN},{RMAX}:CF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_vector,
 					"poi_ranges_bbb" : poi_ranges_vector_bbb,
 				},
 				"CF" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P CF --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"CV={RMIN},{RMAX}:CF={RMIN},{RMAX}\"",
+					"options" : "--algo singles -P CF --floatOtherPOIs 1 --setParameterRanges \"CV={RMIN},{RMAX}:CF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_fermion,
 					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
 				"CVCF" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo grid --points {CVCF_BINS} --setPhysicsModelParameterRanges \"CV={CV_MIN},{CV_MAX}:CF={CF_MIN},{CF_MAX}\"",
+					"options" : "--algo grid --points {CVCF_BINS} --setParameterRanges \"CV={CV_MIN},{CV_MAX}:CF={CF_MIN},{CF_MAX}\"",
 					"plots_per_lumi" : [
 						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan.json",
 					],
@@ -162,19 +162,19 @@ if __name__ == "__main__":
 			"fit" : {
 				"RV" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P RV --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
+					"options" : "--algo singles -P RV --floatOtherPOIs 1 --setParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_vector,
 					"poi_ranges_bbb" : poi_ranges_vector_bbb,
 				},
 				"RF" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P RF --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
+					"options" : "--algo singles -P RF --floatOtherPOIs 1 --setParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_rf,
 					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
 				"RVRF" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo grid --points {RVRF_BINS} --setPhysicsModelParameterRanges \"RV={RV_MIN},{RV_MAX}:RF={RF_MIN},{RF_MAX}\"",
+					"options" : "--algo grid --points {RVRF_BINS} --setParameterRanges \"RV={RV_MIN},{RV_MAX}:RF={RF_MIN},{RF_MAX}\"",
 					"plots_per_lumi" : [
 						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/rv_rf_scan.json",
 					],
@@ -378,7 +378,7 @@ if __name__ == "__main__":
 							name="\"\"" if fit_name == "" else (fit_name + ("{CHUNK}" if "--points" in tmp_fit_options else ""))
 					))
 					
-					if fit_options.get("method", "MaxLikelihoodFit") == "MaxLikelihoodFit":
+					if fit_options.get("method", "FitDiagnostics") == "FitDiagnostics":
 						datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 						datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
 						datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)

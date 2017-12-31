@@ -718,7 +718,7 @@ if __name__ == "__main__":
 		#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 		
 		# Max. likelihood fit and postfit plots
-		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M FitDiagnostics --saveShapes "+datacards.stable_options+" -n \"\"")
 		import sys
 		sys.exit(1)
 		#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
