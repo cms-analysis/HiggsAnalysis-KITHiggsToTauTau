@@ -229,15 +229,12 @@ if __name__ == "__main__":
 	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=1)
 
-	# Max. likelihood fit (Do you want a MultiDimFit or Prefit Postfit plots?)
-	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MultiDimFit "+datacards.stable_options+" -n \"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
-	#Here you would need combine with FitDiagnostics --saveShapes
+	# Max. likelihood fit  (Do you want a MultiDimFit or Prefit Postfit plots?)
+	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, 1, "-M MultiDimFit "+datacards.stable_options+" -n \"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, 1, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
+	#For this part you would need to call combine with method FitDiagnostics --saveShapes
 	"""datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )"""
-
-
-
 
 	
