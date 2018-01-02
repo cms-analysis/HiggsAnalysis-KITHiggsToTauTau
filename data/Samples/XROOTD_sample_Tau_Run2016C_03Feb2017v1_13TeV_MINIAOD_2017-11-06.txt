@@ -271,4 +271,3 @@ root://cms-xrd-global.cern.ch//store/user/mfackeld/higgs-kit/skimming/Skim_Morio
 root://cms-xrd-global.cern.ch//store/user/mfackeld/higgs-kit/skimming/Skim_Moriond17_Data_re-MiniAOD_retry/Tau/crab_Tau_Run2016C_03Feb2017v1_13TeV_MINIAOD/171024_082849/0000/kappa_Tau_Run2016C_03Feb2017v1_13TeV_MINIAOD_271.root
 root://cms-xrd-global.cern.ch//store/user/mfackeld/higgs-kit/skimming/Skim_Moriond17_Data_re-MiniAOD_retry/Tau/crab_Tau_Run2016C_03Feb2017v1_13TeV_MINIAOD/171024_082849/0000/kappa_Tau_Run2016C_03Feb2017v1_13TeV_MINIAOD_272.root
 root://cms-xrd-global.cern.ch//store/user/mfackeld/higgs-kit/skimming/Skim_Moriond17_Data_re-MiniAOD_retry/Tau/crab_Tau_Run2016C_03Feb2017v1_13TeV_MINIAOD/171024_082849/0000/kappa_Tau_Run2016C_03Feb2017v1_13TeV_MINIAOD_273.root
-
