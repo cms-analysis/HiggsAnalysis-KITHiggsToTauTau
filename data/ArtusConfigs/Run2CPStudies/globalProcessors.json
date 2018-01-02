@@ -135,7 +135,7 @@
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer"
 			],
-			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)" : [
+			"(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)" : [
 				"#producer:PrintGenParticleDecayTreeProducer",
 				"#filter:RunLumiEventFilter",
 				"producer:GenBosonFromGenParticlesProducer",
@@ -162,33 +162,6 @@
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
 				"producer:ScaleVariationProducer",
-				"filter:MetFilter"
-			],
-			"SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau" : [
-				"#producer:PrintGenParticleDecayTreeProducer",
-				"#filter:RunLumiEventFilter",
-				"producer:GenBosonFromGenParticlesProducer",
-				"producer:GenBosonDiLeptonDecayModeProducer",
-				"producer:GenBosonProductionProducer",
-				"producer:ValidGenTausProducer",
-				"producer:GenDiLeptonDecayModeProducer",
-				"producer:GenParticleProducer",
-				"producer:RecoElectronGenParticleMatchingProducer",
-				"producer:RecoMuonGenParticleMatchingProducer",
-				"producer:RecoTauGenParticleMatchingProducer",
-				"producer:RecoElectronGenTauMatchingProducer",
-				"producer:RecoMuonGenTauMatchingProducer",
-				"producer:RecoTauGenTauMatchingProducer",
-				"producer:MatchedLeptonsProducer",
-				"producer:GenTauDecayProducer",
-				"producer:GenTauCPProducer",
-				"producer:TauSpinnerProducer",
-				"#producer:TaggedJetCorrectionsProducer",
-				"producer:NicknameProducer",
-				"producer:CrossSectionWeightProducer",
-				"producer:GeneratorWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer",
-				"producer:PUWeightProducer",
 				"filter:MetFilter"
 			]
 		}
