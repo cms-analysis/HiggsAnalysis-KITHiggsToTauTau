@@ -20,7 +20,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetprojectionProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
-// #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenHiggsCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RefitVertexSelector.h"
@@ -143,8 +143,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new EleTauFakeRateWeightProducer();
 	else if(id == MuonTauFakeRateWeightProducer().GetProducerId())
 		return new MuonTauFakeRateWeightProducer();
-	// else if(id == TauSpinnerProducer().GetProducerId())
-	// 	return new TauSpinnerProducer();
+	else if(id == TauSpinnerProducer().GetProducerId())
+		return new TauSpinnerProducer();
 	else if(id == DiLeptonQuantitiesProducer().GetProducerId())
 		return new DiLeptonQuantitiesProducer();
 	else if(id == DiJetQuantitiesProducer().GetProducerId())
