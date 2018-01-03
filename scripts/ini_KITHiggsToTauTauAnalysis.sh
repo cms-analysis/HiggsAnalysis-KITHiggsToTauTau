@@ -13,9 +13,8 @@ export KITHIGGSTOTAUTAUPATH=$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau
 export PATH=${CMSSW_BASE}/src/grid-control/:${CMSSW_BASE}/src/grid-control/scripts/:${PATH}
 
 # setup TauSpinner
-# cp $KITHIGGSTOTAUTAUPATH/data/tauspinner.xml $CMSSW_BASE/config/toolbox/$SCRAM_ARCH/tools/selected/tauspinner.xml
-# scram setup tauspinner
-
+cp $KITHIGGSTOTAUTAUPATH/data/tauspinner.xml $CMSSW_BASE/config/toolbox/$SCRAM_ARCH/tools/selected/tauspinner.xml
+scram setup tauspinner
 
 # overwrite artus settings
 if [[ `hostname` == *naf* ]]; then
@@ -38,4 +37,3 @@ fi
 
 # copy/link libraries
 cd $CMSSW_BASE/lib/$SCRAM_ARCH && ln -s -f ../../src/ZZMatrixElement/MELA/data/$SCRAM_ARCH/*.so ./ && cd $CMSSW_BASE/src/
-
