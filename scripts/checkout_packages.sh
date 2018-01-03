@@ -9,7 +9,7 @@ source $VO_CMS_SW_DIR/cmsset_default.sh
 scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
 eval `scramv1 runtime -sh`
 
-export BRANCH="master"
+export BRANCH="CMSSW_810"
 while getopts :b:g:e:n: option
 do
 	case "${option}"
