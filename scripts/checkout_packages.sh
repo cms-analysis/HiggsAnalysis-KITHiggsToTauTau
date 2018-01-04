@@ -9,7 +9,7 @@ source $VO_CMS_SW_DIR/cmsset_default.sh
 scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
 eval `scramv1 runtime -sh`
 
-export BRANCH="CMSSW_810"
+export BRANCH="master"
 while getopts :b:g:e:n: option
 do
 	case "${option}"
@@ -88,4 +88,3 @@ source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
 # compile everything
 scramv1 b -j `grep -c ^processor /proc/cpuinfo`
-
