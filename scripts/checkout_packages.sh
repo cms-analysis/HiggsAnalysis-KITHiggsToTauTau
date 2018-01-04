@@ -1,12 +1,12 @@
 #!/bin/sh
 set -e # exit on errors
 
-export SCRAM_ARCH=slc6_amd64_gcc491
+export SCRAM_ARCH=slc6_amd64_gcc530
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 source $VO_CMS_SW_DIR/cmsset_default.sh
 
 # set up CMSSW release area
-scramv1 project CMSSW CMSSW_7_4_7; cd CMSSW_7_4_7/src # slc6 # Combine requires this version
+scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
 eval `scramv1 runtime -sh`
 
 export BRANCH="master"
@@ -68,9 +68,10 @@ git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelin
 
 # needed for plotting and statistical inference
 git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
-git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b 74x-root6
+git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 cd HiggsAnalysis/CombinedLimit
-git checkout 3cb65246555d094734a81e20181e399714d22c7e
+git fetch origin
+git checkout v7.0.4
 cd -
 
 # needed for error propagation e.g. in the background estimations
