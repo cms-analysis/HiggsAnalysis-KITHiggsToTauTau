@@ -319,8 +319,10 @@ if __name__ == "__main__":
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] =  [args.quantity]
 					
-					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "OneJet_CP_boosted" not in category:
+					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" not in category:
 						binnings_key = "tt_jdphi"
+					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" in category:
+						binnings_key = "tt_melaDiscriminatorD0Minus"
 					elif args.cp_study == "final":
 						binnings_key = "tt_phiStarCP"
 					
@@ -365,12 +367,22 @@ if __name__ == "__main__":
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
 					elif ("Vbf2D" in category or "Vbf3D" in category) and not "QCDCR" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
-						config["y_expressions"] = ["mjj"]
+						
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
-						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
-						if "Vbf3D" in category and channel != "mm":
+						if ("Vbf3D_CP_jdeta" in category):
+							config["y_expressions"] = ["jdeta"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdeta"]]
+						else:
+							config["y_expressions"] = ["mjj"]	
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
+						
+						if "Vbf3D" in category and channel != "mm" and "mela" not in category:
 							config["z_expressions"] = ["jdphi"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
+						if "Vbf3D" in category and channel != "mm" and "mela" in category:
+							config["z_expressions"] = ["melaDiscriminatorD0MinusGGH"]
+							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]
+							
 					
 					elif (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 						config["x_bins"] = [binnings_key]
@@ -577,37 +589,60 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 		
 	if "likelihoodScan" in args.steps:
-		datacards_workspaces_cp_mixing = datacards.text2workspace(
+		datacards_workspaces_cp_mixing_angle = datacards.text2workspace(
 				datacards_cbs,
 				args.n_processes,
 				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_mixing",
+					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_mixing_angle",
 					MODEL_PARAMETERS=""
 				)
 		)
 		
 		if "prefitpostfitplots" in args.steps:
-			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
 			# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF.
 			
-			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
 
 			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
-							
+		
+		# Determine mixing angle parameter
 		datacards.combine(
 				datacards_cbs,
-				datacards_workspaces_cp_mixing,
+				datacards_workspaces_cp_mixing_angle,
 				None,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format(
+				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format( # -n \"cp_mixing_angle\"
+						STABLE=datacards.stable_options,
+						POINTS=args.cp_mixing_scan_points
+				)
+		)
+		
+		# Determine fa3 parameter
+		datacards_workspaces_cp_fa3 = datacards.text2workspace(
+				datacards_cbs,
+				args.n_processes,
+				"-P {MODEL} {MODEL_PARAMETERS}".format(
+					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_fa3",
+					MODEL_PARAMETERS=""
+				)
+		)
+		
+		datacards.combine(
+				datacards_cbs,
+				datacards_workspaces_cp_fa3,
+				None,
+				args.n_processes,
+				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"cp_fa3\"".format(
 						STABLE=datacards.stable_options,
 						POINTS=args.cp_mixing_scan_points
 				)	
 		)
+		
 		result_plot_configs = []
-		for datacard, workspace in datacards_workspaces_cp_mixing.iteritems():
+		for datacard, workspace in datacards_workspaces_cp_mixing_angle.iteritems():
 			config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_alphatau.json"))
 			config["directories"] = [os.path.dirname(workspace)]
 			config["labels"] = ["TODO"]

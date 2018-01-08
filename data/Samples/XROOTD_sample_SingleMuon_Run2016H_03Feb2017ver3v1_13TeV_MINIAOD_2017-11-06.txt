@@ -28,4 +28,3 @@ root://cms-xrd-global.cern.ch//store/user/mfackeld/higgs-kit/skimming/Skim_Morio
 root://cms-xrd-global.cern.ch//store/user/mfackeld/higgs-kit/skimming/Skim_Moriond17_Data_re-MiniAOD_retry/SingleMuon/crab_SingleMuon_Run2016H_03Feb2017ver3v1_13TeV_MINIAOD/171024_082744/0000/kappa_SingleMuon_Run2016H_03Feb2017ver3v1_13TeV_MINIAOD_28.root
 root://cms-xrd-global.cern.ch//store/user/mfackeld/higgs-kit/skimming/Skim_Moriond17_Data_re-MiniAOD_retry/SingleMuon/crab_SingleMuon_Run2016H_03Feb2017ver3v1_13TeV_MINIAOD/171024_082744/0000/kappa_SingleMuon_Run2016H_03Feb2017ver3v1_13TeV_MINIAOD_29.root
 root://cms-xrd-global.cern.ch//store/user/mfackeld/higgs-kit/skimming/Skim_Moriond17_Data_re-MiniAOD_retry/SingleMuon/crab_SingleMuon_Run2016H_03Feb2017ver3v1_13TeV_MINIAOD/171024_082744/0000/kappa_SingleMuon_Run2016H_03Feb2017ver3v1_13TeV_MINIAOD_30.root
-

@@ -15,15 +15,14 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
 
-
 def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgs_nick):
 	if not "scale_nicks" in config.keys():
-		config["scale_nicks"]=[]
-		config["scales"]=[]
-		config["scale_result_nicks"]=[]
+		config["scale_nicks"] = []
+		config["scales"] = []
+		config["scale_result_nicks"] = []
 	config["analysis_modules"].append("ScaleHistograms")
 	config["scale_nicks"].append(higgs_nick)
-	config["scales"].append(1.0/args.scale_signal)
+	config["scales"].append(1.0 / args.scale_signal)
 	config["scale_result_nicks"].append("%s_SoB_Scaled"%higgs_nick)
 
 	config["analysis_modules"].append("BlindingPolicy")
@@ -39,7 +38,7 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgs_nick
 		config["blinding_signal_nicks"].append("%s_SoB_Scaled"%higgs_nick)
 		config["blinding_parameters"].append(args.blinding_parameter)
 
-	if( show_subplot ):
+	if show_subplot:
 		config["y_subplot_label"] = ""
 		config["subplot_lines"] = [0.1, 0.5, 1.0 ]
 		config["y_subplot_lims"] = [0, 1.5]
@@ -47,7 +46,7 @@ def add_s_over_sqrtb_subplot(config, args, bkg_samples, show_subplot, higgs_nick
 		for method in args.blinding_methods:
 			config["markers"].append("LINE")
 			config["legend_markers"].append("L")
-			if(method == "soversqrtb"):
+			if method == "soversqrtb":
 				config["colors"].append("kit_blau_1")
 				config["labels"].append("sbratio")
 			elif(method == "ams"):
@@ -63,7 +62,7 @@ def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, s
 	config["sob_integral_result_nicks"] = []
 	config["sob_integral_method"] = []
 	config["sob_integral_outputs"] = args.integration_output
-	config["sob_integral_direction"]=[]
+	config["sob_integral_direction"] = []
 	for i,direction in enumerate(args.integration_directions):
 		config["sob_integral_direction"].append(direction)
 		config["sob_integral_method"].append(args.integration_methods)
@@ -71,7 +70,7 @@ def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, s
 		config["sob_integral_background_nicks"].append(" ".join(bkg_samples))
 		config["sob_integral_signal_nicks"].append(" ".join(signal_samples))
 		#config["sob_integral_outputs"].append(args.integration_output)
-	if(show_subplot):
+	if show_subplot:
 		config["y_subplot_label"] = "int.(S)/#sqrt{int.(B)+int(S)}"
 		config["y_subplot_lims"] = None
 		config["subplot_nicks"] = ["integration"]
@@ -79,7 +78,7 @@ def add_s_over_sqrtb_integral_subplot(config, args, bkg_samples, show_subplot, s
 			config["markers"].append("LINE")
 			config["legend_markers"].append("L")
 			config["labels"].append("#int{S}/#sqrt{#int{B}}")
-			if(direction == "righttoleft"):
+			if direction == "righttoleft":
 				config["colors"].append("kit_blau_1")
 			elif(direction == "lefttoright"):
 				config["colors"].append("kit_rot_1")
@@ -95,7 +94,6 @@ def blind_signal(config, blinding_threshold, ratio_true):
 	config["mask_histogram_nicks"] = "data"
 	if ratio_true:
 		config["mask_histogram_nicks"] = ["data", "ratio_Data"]
-
 
 if __name__ == "__main__":
 
@@ -255,6 +253,10 @@ if __name__ == "__main__":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 			if args.lumi == parser.get_default("lumi"):
 				args.lumi = samples.default_lumi/1000.0
+		elif args.era == "2017":
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017 as samples
+			if args.lumi == parser.get_default("lumi"):
+				args.lumi = samples.default_lumi/1000.0
 		else:
 			log.critical("Invalid era string selected: " + args.era)
 			sys.exit(1)
@@ -269,7 +271,7 @@ if __name__ == "__main__":
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
-	
+
 	if args.run1 and (args.emb or args.ttbar_retuned):
 			log.critical("Embedding --emb and --ttbar-retuned only valid for run2. Remove --emb and --tbar-retuned or select run2 samples.")
 			sys.exit(1)
@@ -293,7 +295,7 @@ if __name__ == "__main__":
 				#sig_samples.append(sample+"%s"%(mass))
 			#else:
 				#sig_samples.append(sample+"%s%s"%(mass, scale_str))
-			sig_samples.append(sample+"%s%s"%(mass, scale_str))
+			sig_samples.append(sample + "%s%s"%(mass, scale_str))
 
 	log.debug("used bkg + signal nicks")
 	log.debug(" ".join(bkg_samples+sig_samples))
@@ -326,7 +328,7 @@ if __name__ == "__main__":
 	elif args.etaufakerate:
 		global_category_string = "catETauFakeRate13TeV"
 		global_cut_type = "etaufake"
-		if args.categories ==   [None]:
+		if args.categories == [None]:
 			args.categories = ["vloose_pass", "vloose_fail", "loose_pass", "loose_fail", "medium_pass", "medium_fail", "tight_pass", "tight_fail", "vtight_pass", "vtight_fail"]
 		log.info("Use the following option to exclude the necessary cuts for etaufakerate studies: [ --exclude-cuts 'dilepton_veto' 'extra_lepton_veto' 'anti_e_tau_discriminators' ]")
 	if args.era == "2016":
@@ -339,11 +341,12 @@ if __name__ == "__main__":
 	# Configs construction for HP
 	for category in args.categories:
 		for quantity, weight in zip(args.quantities, args.weights):
-			
+
 			channels_background_methods = zip(args.channels, args.background_method)
 			channel_config = {}
 			for index, (channel, background_method) in enumerate(channels_background_methods):
 				if args.mssm:
+					cut_type = "mssm2016full"
 					if args.era == "2016":
 						cut_type = "mssm2016"
 					elif "looseiso" in category:
@@ -352,10 +355,9 @@ if __name__ == "__main__":
 						cut_type = "mssm2016loosemt"
 					elif "tight" in category:
 						cut_type = "mssm2016tight"
-					else:
-						cut_type = "mssm2016full"
 
 				if args.etaufakerate:
+					# TODO: add the default global_cut_type
 					if "vloose_pass" in category:
 						global_cut_type = "etaufake2016_antievloosepass"
 					elif "vloose_fail" in category:
@@ -377,12 +379,12 @@ if __name__ == "__main__":
 					elif "vtight_fail" in category:
 						global_cut_type = "etaufake2016_antievtightfail"
 
-				last_loop = (index == len(channels_background_methods) - 1)
-				
+				last_loop = index == len(channels_background_methods) - 1
+
+				category_string = None
 				if category != None:
 					category_string = (global_category_string + "_{channel}_{category}").format(channel = channel, category = category)
-				else:
-					category_string = None
+
 				json_config = {}
 				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity + ".json") for channel_dir in [channel, "default"]]
 				for json_filename in json_filenames:
@@ -390,7 +392,7 @@ if __name__ == "__main__":
 					if os.path.exists(json_filename):
 						json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
 						break
-				
+
 				quantity = json_config.pop("x_expressions", [quantity])[0]
 				config = sample_settings.get_config(
 						samples = list_of_samples,
@@ -426,58 +428,68 @@ if __name__ == "__main__":
 
 				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
 				config["category"] = category
-				
+
+
+				# Introduced due to missing samples in 2017 MCv1, can be removed when 2017 MCv2 samples are out, and samples_rnu2_2017.py script is updated correspondingly.
+				if args.era == "2017":
+					sub_conf_index = 0
+					while (sub_conf_index < len(config["files"])):
+						if config["files"][sub_conf_index] is None:
+							config["files"].pop(sub_conf_index)
+							config["x_expressions"].pop(sub_conf_index)
+							config["scale_factors"].pop(sub_conf_index)
+							config["folders"].pop(sub_conf_index)
+							config["weights"].pop(sub_conf_index)
+							config["nicks"].pop(sub_conf_index)
+						else:
+							sub_conf_index +=1
+
 				if args.new_tau_id:
 					for weight_index, weight in enumerate(config.get("weights", [])):
 						config["weights"][weight_index] = weight.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
 
-				binning_string = None
+				binning_string = "binningHtt13TeV"
 				if args.mssm:
 					binning_string = "binningHttMSSM13TeV"
 				elif args.mva:
 					binning_string = "binningMVAStudies"
 				elif args.polarisation:
 					binning_string = "binningZttPol13TeV"
-				else:
-					binning_string = "binningHtt13TeV"
-				
+
 				binnings_key = "{binning_string}{channel}{category}_{quantity}".format(
-						binning_string=((binning_string+"_") if binning_string else ""),
-						channel=channel,
-						category=(("_"+category) if category else ""),
-						quantity=quantity
+						binning_string = binning_string + "_" if binning_string else "",
+						channel = channel,
+						category = "_" + category if category else "",
+						quantity = quantity
 				)
-				if not binnings_key in binnings_settings.binnings_dict:
-					binnings_key = channel+"_"+quantity
-				if not binnings_key in binnings_settings.binnings_dict:
+				if  binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict:
+					binnings_key = channel + "_" + quantity
+				else:
 					binnings_key = None
-				
-				if not binnings_key is None:
+
+				if binnings_key is not None:
 					config["x_bins"] = [("1,-1,1" if "pol_gen" in nick else json_config.pop("x_bins", [binnings_key])) for nick in config["nicks"]]
 
-				config["x_label"] = json_config.pop("x_label", channel+"_"+quantity)
+				config["x_label"] = json_config.pop("x_label", channel + "_" + quantity)
 
 				if args.channel_comparison:
-					config["labels"] = ["channel_"+channel for channel in args.channels]
+					config["labels"] = ["channel_" + channel for channel in args.channels]
 					config["title"] = ", ".join(args.samples)
 				else:
-					config["title"] = "channel_"+channel
+					config["title"] = "channel_" + channel
 
 				config["directories"] = [args.input_dir]
 
 				if args.channel_comparison:
-					if "stacks" in config:
-						config.pop("stacks")
-					if "colors" in config:
-						config.pop("colors")
+					if "stacks" in config: config.pop("stacks")
+					if "colors" in config: config.pop("colors")
 					config["markers"] = ["LINE"]
 					config["legend_markers"] = ["L"]
 					config["line_widths"] = [3]
 
 				if args.shapes:
-					if "stacks" in config:
-						config.pop("stacks")
-					if not "NormalizeToUnity" in config.get("analysis_modules", []):
+					if "stacks" in config: config.pop("stacks")
+					if "NormalizeToUnity" not in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("NormalizeToUnity")
 					config["y_label"] = "arb. u."
 					config["markers"] = ["LINE"]
@@ -486,26 +498,26 @@ if __name__ == "__main__":
 
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
-					if not "Ratio" in config.get("analysis_modules", []):
+					if "Ratio" not in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
 					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(bkg_samples_used)] * 2)
 					config.setdefault("ratio_result_nicks", []).extend(["ratio_MC", "ratio_Data"])
 					config.setdefault("colors", []).extend(["#000000"] * 2)
 					config.setdefault("markers", []).extend(["E2", "E"])
-					config.setdefault("legend_markers", []).extend(["ELP"]*2)
+					config.setdefault("legend_markers", []).extend(["ELP"] * 2)
 					config.setdefault("labels", []).extend([""] * 2)
 					config.setdefault("stacks", []).extend(["unc", "ratio"])
 
 
 				for analysis_module in args.analysis_modules:
-					if not analysis_module in config.get("analysis_modules", []):
+					if analysis_module not in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append(analysis_module)
 
-				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config.get("analysis_modules", [])):
+				if log.isEnabledFor(logging.DEBUG) and "PrintInfos" not in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("PrintInfos")
 
-				if not "--y-log" in args.args:
+				if "--y-log" not in args.args:
 					config["y_lims"] = [0.0]
 				if args.cms:
 					config["cms"] = True
@@ -518,14 +530,14 @@ if __name__ == "__main__":
 					config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio or args.integrated_sob or args.sbratio else [0.23, 0.73, 0.9, 0.89]
 					config["legend_cols"] = 3
 				if not args.shapes:
-					if not args.lumi is None:
+					if args.lumi is not None:
 						config["lumis"] = [float("%.1f" % args.lumi)]
 					config["energies"] = [8] if args.run1 else [13]
 					if not args.run1:
 						config["year"] = args.era
 
 				#add integrated s/sqrt(b) subplot
-				if(args.integrated_sob):
+				if args.integrated_sob:
 					scale_nicks_temp = []
 					scale_nicks = []
 					replaced_sig_nicks = []
@@ -565,30 +577,30 @@ if __name__ == "__main__":
 					sig_samples_used = [nick if nick not in scale_nicks else "%s_Scaled"%nick for nick in replaced_sig_nicks]
 					if not "scale_nicks" in config.keys():
 						config["analysis_modules"].append("ScaleHistograms")
-						config["scale_nicks"]=[]
-						config["scales"]=[]
-						config["scale_result_nicks"]=[]
+						config["scale_nicks"] = []
+						config["scales"] = []
+						config["scale_result_nicks"] = []
 					for sample in scale_nicks:
 						config["scale_nicks"].append(sample)
-						config["scales"].append(1.0/args.scale_signal)
-						config["scale_result_nicks"].append(sample+"_Scaled")
+						config["scales"].append(1.0 / args.scale_signal)
+						config["scale_result_nicks"].append(sample + "_Scaled")
 					log.debug(config["scale_nicks"])
 					log.debug(scale_nicks)
 					log.debug(bkg_samples_used)
 					log.debug(sig_samples_used)
 					add_s_over_sqrtb_integral_subplot(config, args, bkg_samples_used, args.integrated_sob, sig_samples_used)
-					
+
 				#add FullIntegral
-				if(args.full_integral):
+				if args.full_integral:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
 					bkg_samples_used.append('data')
 					if args.emb:
-						config["full_integral_outputs"]='./IntegralValues_Embedded.txt'
-					config["full_integral_nicks"]=[" ".join(bkg_samples_used)]
-					config["analysis_modules"].append("FullIntegral")		
+						config["full_integral_outputs"] = './IntegralValues_Embedded.txt'
+					config["full_integral_nicks"] = [" ".join(bkg_samples_used)]
+					config["analysis_modules"].append("FullIntegral")
 
 				# add s/sqrt(b) subplot
-				if(args.sbratio or args.blinding_threshold > 0):
+				if args.sbratio or args.blinding_threshold > 0:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
 					higgs_temp = "htt125"
 					if len(args.higgs_masses) > 0 and "125" not in args.higgs_masses:
@@ -599,31 +611,29 @@ if __name__ == "__main__":
 							break
 					add_s_over_sqrtb_subplot(config, args, bkg_samples_used, args.sbratio, higgs_temp)
 
-				if(args.blinding_threshold > 0):
-					if(args.blinding_variables[0] == "all" or quantity in args.blinding_variables):
+				if args.blinding_threshold > 0:
+					if args.blinding_variables[0] == "all" or quantity in args.blinding_variables:
 						blind_signal(config, args.blinding_threshold, args.ratio)
 
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
-						channel if (len(args.channels) > 1 and (not args.channel_comparison)) else "",
+						channel if len(args.channels) > 1 and not args.channel_comparison else "",
 						category if len(args.categories) > 1 else ""
 				))
-				
+
 				if not args.www is None:
 					config["www"] = os.path.join(
 							args.www,
-							channel if (len(args.channels) > 1 and (not args.channel_comparison)) else "",
+							channel if len(args.channels) > 1 and not args.channel_comparison else "",
 							"" if category is None else category
 					)
 
 				config.update(json_config)
-				
+
 				if (not args.channel_comparison) or last_loop:
 					plot_configs.append(config)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-		
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
-

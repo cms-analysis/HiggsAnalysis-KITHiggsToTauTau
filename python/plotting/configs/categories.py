@@ -392,7 +392,236 @@ class CategoriesDict(object):
 						}
 					}
 				}
-				
+		self.categoriesDict["{analysis}{channel}Vbf3D_mela_GGH_DCPPlus{discriminator}"] = {
+				"channel":[
+					"mm_",
+					"ee_",
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)*(melaDiscriminatorDCPGGH > 0)",
+					"mm_":"(njetspt30>1)*(mjj>300)",
+					"mt_":"(pt_2>40)*(njetspt30>1)*(mjj>300)*(H_pt>50)",
+					"et_":"(njetspt30>1)*(mjj>300)*(H_pt>50)",
+					"em_":"(pZetaMissVis>-10)*(njetspt30==2)*(mjj>300)",
+					"tt_":"(njetspt30>1)*(jdeta>2.5)*(H_pt>100)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_mjj": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning,
+						"_melaDiscriminatorD0MinusGGH": auto_rebin_binning,
+						},
+					"mm_": {
+						"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
+						},
+					"mt_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_melaDiscriminatorD0MinusGGH":"4,0,1",
+						},
+					"et_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_melaDiscriminatorD0MinusGGH":"4,0,1",
+						},
+					"em_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_melaDiscriminatorD0MinusGGH":"4,0,1",
+						},
+					"tt_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_melaDiscriminatorD0MinusGGH":"4,0,1",
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}Vbf3D_mela_GGH_DCPMinus{discriminator}"] = {
+				"channel":[
+					"mm_",
+					"ee_",
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)*(melaDiscriminatorDCPGGH < 0)",
+					"mm_":"(njetspt30>1)*(mjj>300)",
+					"mt_":"(pt_2>40)*(njetspt30>1)*(mjj>300)*(H_pt>50)",
+					"et_":"(njetspt30>1)*(mjj>300)*(H_pt>50)",
+					"em_":"(pZetaMissVis>-10)*(njetspt30==2)*(mjj>300)",
+					"tt_":"(njetspt30>1)*(jdeta>2.5)*(H_pt>100)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_mjj": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning,
+						"_melaDiscriminatorD0MinusGGH": auto_rebin_binning,
+						},
+					"mm_": {
+						"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
+						},
+					"mt_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_melaDiscriminatorD0MinusGGH":"4,0,1",
+						},
+					"et_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_melaDiscriminatorD0MinusGGH":"4,0,1",
+						},
+					"em_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_melaDiscriminatorD0MinusGGH":"4,0,1",
+						},
+					"tt_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_melaDiscriminatorD0MinusGGH":"4,0,1",
+						}
+					}
+				}		
+		self.categoriesDict["{analysis}{channel}Vbf3D_CP_jdeta{discriminator}"] = {
+				"channel":[
+					"mm_",
+					"ee_",
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mm_":"(njetspt30>1)*(mjj>300)",
+					"mt_":"(pt_2>40)*(njetspt30>1)*(mjj>300)*(H_pt>150)",
+					"et_":"(njetspt30>1)*(mjj>300)*(H_pt>150)",
+					"em_":"(pZetaMissVis>-10)*(njetspt30==2)*(mjj>300)*(H_pt>150)",
+					"tt_":"(njetspt30>1)*(jdeta>2.5)*(H_pt>150)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						#"_mjj": auto_rebin_binning,
+						"_jdeta": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning,
+						"_jdphi": auto_rebin_binning,
+						},
+					"mm_": {
+						#"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
+						"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
+						
+						},
+					"mt_": {
+						#"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
+						},
+					"et_": {
+						#"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
+						},
+					"em_": {
+						#"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
+						},
+					"tt_": {
+						#"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
+						"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
+						}
+					}
+				}
+		self.categoriesDict["{analysis}{channel}Vbf3D_CP{discriminator}"] = {
+				"channel":[
+					"mm_",
+					"ee_",
+					"mt_",
+					"et_",
+					"em_",
+					"tt_"
+					],
+				"expressions":{
+					"analysis": [
+						"catHtt13TeV_"
+						],
+					"global":"(1.0)",
+					"mm_":"(njetspt30>1)*(mjj>300)",
+					"mt_":"(pt_2>40)*(njetspt30>1)*(mjj>300)*(H_pt>150)",
+					"et_":"(njetspt30>1)*(mjj>300)*(H_pt>150)",
+					"em_":"(pZetaMissVis>-10)*(njetspt30==2)*(mjj>300)*(H_pt>150)",
+					"tt_":"(njetspt30>1)*(jdeta>2.5)*(H_pt>150)"
+					},
+				"binnings":{
+					"analysis": [
+						"binningHtt13TeV_"
+						],
+					"global": {
+						"_mjj": auto_rebin_binning,
+						#"_jdeta": auto_rebin_binning,
+						"_m_sv": auto_rebin_binning,
+						"_jdphi": auto_rebin_binning,
+						},
+					"mm_": {
+						"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
+						#"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
+						
+						},
+					"mt_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 8500]]),
+						#"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
+						},
+					"et_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 8500]]),
+						#"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
+						},
+					"em_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 8500]]),
+						#"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
+						},
+					"tt_": {
+						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 8500]]),
+						#"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
+						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
+						"_jdphi":"12,-3.2,3.2",
+						}
+					}
+				}
 		"""
 		Categories used in CP Initial State studies.
 		"""		
@@ -408,7 +637,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(mjj>500)*(abs(jdeta)>0.)*(njets>1)*(H_pt>100.)*(m_sv>100)",
+					"global":"(mjj>300)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{
@@ -477,7 +706,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(mjj>500) *(abs(jdeta)>0.) *(njets>1)*(H_pt<150.)*(m_sv<100)",
+					"global":"(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{
@@ -500,7 +729,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(mjj>500)*(abs(jdeta)>0.)*(njets>1)*(H_pt<150.)*(m_sv>100)",
+					"global":"(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{
@@ -523,7 +752,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(mjj>200)*(mjj<500)*(njets>1)",
+					"global":"(mjj>300)*(mjj<500)*(njets>1)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{
@@ -546,7 +775,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(jeta_1*jeta_2<0)*(mjj>200)*(njets>1)*(abs(jdeta)>2.)",
+					"global":"(jeta_1*jeta_2<0)*(mjj>300)*(njets>1)*(abs(jdeta)>2.)",
 					},
 				"binnings":{
 					"analysis": [
