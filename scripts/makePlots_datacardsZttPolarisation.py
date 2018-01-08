@@ -363,7 +363,7 @@ if __name__ == "__main__":
 						datacards_workspaces,
 						None,
 						args.n_processes,
-						"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
+						"-M FitDiagnostics --saveShapes --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
 						split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
 				)
 			
