@@ -151,19 +151,18 @@ public:
 	float systematicShiftSigma;
 	int integrationMethod;
 	float diTauMassConstraint;
-	bool tau1Constraint;
 	ULong64_t hash;
 
 	SvfitEventKey() {};
 	SvfitEventKey(ULong64_t const& runLumiEvent,
 	              classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
 	              HttEnumTypes::SystematicShift const& systematicShift,
-	              float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, bool const& tau1Constraint, ULong64_t const &hash);
+	              float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, ULong64_t const &hash);
 
 	void Set(ULong64_t const& runLumiEvent,
 	         classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
 	         HttEnumTypes::SystematicShift const& systematicShift,
-	         float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, bool const& tau1Constraint, ULong64_t const &hash);
+	         float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, float const& diTauMassConstraint, ULong64_t const &hash);
 
 	HttEnumTypes::SystematicShift GetSystematicShift() const;
 	IntegrationMethod GetIntegrationMethod() const;

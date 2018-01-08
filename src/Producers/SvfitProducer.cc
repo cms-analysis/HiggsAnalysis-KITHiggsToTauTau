@@ -158,7 +158,7 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 
 	product.m_svfitEventKey.Set(runLumiEvent, decayType1, decayType2,
 	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod, settings.GetDiTauMassConstraint(),
-                                settings.GetTau1Constraint(),product.m_met.leptonSelectionHash);
+	                            product.m_met.leptonSelectionHash);
 
 //	if (settings.GetGenerateSvfitInput())
 //	{
