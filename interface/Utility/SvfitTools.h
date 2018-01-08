@@ -56,14 +56,9 @@ public:
 	float GetFittedTau2ERatio() const;
 	RMFLV GetFittedTau2LV() const;
 
-	float GetFittedPhiCP() const;
-	float GetFittedPhiStarCP() const;
-
 private:
 	unsigned int indexTau1ERatio = 0;
 	unsigned int indexTau2ERatio = 0;
-	unsigned int indexPhiCP = 0;
-	unsigned int indexPhiStarCP = 0;
 };
 
 /**
@@ -176,15 +171,13 @@ public:
 	RMFLV* fittedTau1LV = nullptr;
 	float fittedTau2ERatio;
 	RMFLV* fittedTau2LV = nullptr;
-	float fittedPhiCP;
-	float fittedPhiStarCP;
 
 	SvfitResults() {};
-	SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV, float fittedPhiCP, float fittedPhiStarCP);
+	SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV);
 	SvfitResults(ClassicSVfit const& svfitAlgorithm);
 	~SvfitResults();
 
-	void Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV, float fittedPhiCP, float fittedPhiStarCP);
+	void Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, float fittedTau1ERatio, RMFLV const& fittedTau1LV, float fittedTau2ERatio, RMFLV const& fittedTau2LV);
 	void Set(ClassicSVfit const& svfitAlgorithm);
 	inline void FromRecalculation() { recalculated = true; }
 	inline void FromCache() { recalculated = false; }
@@ -205,8 +198,6 @@ private:
 	RMFLV GetFittedTau1LV(ClassicSVfit const& svfitAlgorithm) const;
 	float GetFittedTau2ERatio(ClassicSVfit const& svfitAlgorithm) const;
 	RMFLV GetFittedTau2LV(ClassicSVfit const& svfitAlgorithm) const;
-	float GetFittedPhiCP(ClassicSVfit const& svfitAlgorithm) const;
-	float GetFittedPhiStarCP(ClassicSVfit const& svfitAlgorithm) const;
 };
 
 
