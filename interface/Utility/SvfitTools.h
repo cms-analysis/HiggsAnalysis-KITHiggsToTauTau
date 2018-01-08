@@ -22,57 +22,6 @@ typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Ma
 typedef ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> > RMSM2x2;
 
 
-class TauSVfitQuantity : public classic_svFit::SVfitQuantity
-{
-
-public:
-	TauSVfitQuantity(size_t tauIndex);
-
-protected:
-	size_t m_tauIndex;
-	std::string m_tauLabel;
-};
-
-class TauESVfitQuantity : public TauSVfitQuantity
-{
-public:
-	TauESVfitQuantity(size_t tauIndex);
-	virtual TH1* createHistogram(const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
-	virtual double fitFunction(const classic_svFit::LorentzVector& tau1P4, const classic_svFit::LorentzVector& tau2P4, const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
-};
-
-class TauERatioSVfitQuantity : public TauSVfitQuantity
-{
-public:
-	TauERatioSVfitQuantity(size_t tauIndex);
-	virtual TH1* createHistogram(const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
-	virtual double fitFunction(const classic_svFit::LorentzVector& tau1P4, const classic_svFit::LorentzVector& tau2P4, const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
-};
-
-class TauPtSVfitQuantity : public TauSVfitQuantity
-{
-public:
-	TauPtSVfitQuantity(size_t tauIndex);
-	virtual TH1* createHistogram(const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
-	virtual double fitFunction(const classic_svFit::LorentzVector& tau1P4, const classic_svFit::LorentzVector& tau2P4, const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
-};
-
-class TauEtaSVfitQuantity : public TauSVfitQuantity
-{
-public:
-	TauEtaSVfitQuantity(size_t tauIndex);
-	virtual TH1* createHistogram(const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
-	virtual double fitFunction(const classic_svFit::LorentzVector& tau1P4, const classic_svFit::LorentzVector& tau2P4, const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
-};
-
-class TauPhiSVfitQuantity : public TauSVfitQuantity
-{
-public:
-	TauPhiSVfitQuantity(size_t tauIndex);
-	virtual TH1* createHistogram(const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
-	virtual double fitFunction(const classic_svFit::LorentzVector& tau1P4, const classic_svFit::LorentzVector& tau2P4, const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const;
-};
-
 class PhiCPSVfitQuantity : public classic_svFit::SVfitQuantity
 {
 public:
@@ -93,7 +42,7 @@ private:
 	mutable CPQuantities cpQuantities;
 };
 
-class TauTauHistogramAdapter : public classic_svFit::DiTauSystemHistogramAdapter
+class TauTauHistogramAdapter : public classic_svFit::TauTauHistogramAdapter
 {
 
 public:
@@ -112,13 +61,7 @@ public:
 
 private:
 	unsigned int indexTau1ERatio = 0;
-	unsigned int indexTau1Pt = 0;
-	unsigned int indexTau1Eta = 0;
-	unsigned int indexTau1Phi = 0;
 	unsigned int indexTau2ERatio = 0;
-	unsigned int indexTau2Pt = 0;
-	unsigned int indexTau2Eta = 0;
-	unsigned int indexTau2Phi = 0;
 	unsigned int indexPhiCP = 0;
 	unsigned int indexPhiStarCP = 0;
 };
