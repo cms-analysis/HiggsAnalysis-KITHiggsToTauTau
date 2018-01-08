@@ -35,7 +35,7 @@ git config core.sparsecheckout true
 git read-tree -mu HEAD
 cd ..
 
-git clone https://github.com/artus-analysis/Artus.git -b CMSSW_810
+git clone https://github.com/artus-analysis/Artus.git
 
 # checkout KITHiggsToTauTau CMSSW analysis package
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
