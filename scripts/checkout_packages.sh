@@ -72,6 +72,7 @@ git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/Simple
 
 # polarisation
 git clone https://github.com/TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
+git clone https://github.com/TauPolSoftware/StatisticalAnalysis.git TauPolSoftware/StatisticalAnalysis
 
 # MadGraph
 git clone https://github.com/CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
