@@ -352,7 +352,7 @@ if __name__ == "__main__":
 					datacards_cbs,
 					args.n_processes,
 					"-P {MODEL} {MODEL_PARAMETERS}".format(
-							MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_pol",
+							MODEL="TauPolSoftware.StatisticalAnalysis.taupolarisationmodels:ztt_pol",
 							MODEL_PARAMETERS=""
 					)
 			)
