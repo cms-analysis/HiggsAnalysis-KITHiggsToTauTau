@@ -52,7 +52,11 @@ class DatacardConfigs(object):
 			"SUSYCPODD_ALT": "susycpodd",
 			"CPODD_ALT": "httcpodd",
 			"CPMIX_ALT": "httcpmix",
+			"ZEM": "zem",
+			"ZET": "zet",
+			"ZMT": "zmt"
 		}
+
 
 		self._mapping_category2binid = {
 			"mt" : {
@@ -91,7 +95,12 @@ class DatacardConfigs(object):
 				"mt_TwoJet_CP_boosted" : 2001, 
 				"mt_TwoJet_CP_mvishigh" : 2002, 
 				"mt_TwoJet_CP_mvislow" : 2003, 
-				"mt_TwoJet_CP_mjjlow" : 2004 
+				"mt_TwoJet_CP_mjjlow" : 2004, 
+
+				"mt_LFVZeroJet_mt": 	3001,
+				"mt_LFVZeroJet":	3002,
+				"mt_LFVOneJet_mt":	3003,
+				"mt_LFVOneJet":		3004
 			},
 			"et" : {
 				"et_inclusive" : 0,
@@ -129,7 +138,13 @@ class DatacardConfigs(object):
 				"et_TwoJet_CP_boosted" : 2001, 
 				"et_TwoJet_CP_mvishigh" : 2002, 
 				"et_TwoJet_CP_mvislow" : 2003, 
-				"et_TwoJet_CP_mjjlow" : 2004
+				"et_TwoJet_CP_mjjlow" : 2004,
+			
+				"et_LFVZeroJet_mt": 	3001,
+				"et_LFVZeroJet":	3002,
+				"et_LFVOneJet_mt":	3003,
+				"et_LFVOneJet":		3004
+
 			},
 			"em" : {
 				"em_inclusive" : 0,
@@ -165,7 +180,13 @@ class DatacardConfigs(object):
 				"em_TwoJet_CP_boosted" : 2001, 
 				"em_TwoJet_CP_mvishigh" : 2002, 
 				"em_TwoJet_CP_mvislow" : 2003, 
-				"em_TwoJet_CP_mjjlow" : 2004
+				"em_TwoJet_CP_mjjlow" : 2004,
+
+				"em_LFVZeroJet_mt": 	3001,
+				"em_LFVZeroJet":	57,
+				"em_LFVOneJet_mt":	3003,
+				"em_LFVOneJet":		3004
+
 			},
 			"tt" : {
 				"tt_inclusive" : 0,
