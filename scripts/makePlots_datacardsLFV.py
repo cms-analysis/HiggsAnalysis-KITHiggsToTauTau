@@ -31,16 +31,14 @@ if __name__ == "__main__":
 	                                 parents=[logger.loggingParser])
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("-c", "--channel", action="append",
-	                    default=["et"],
+	parser.add_argument("-c", "--channel", nargs="+",
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
-	parser.add_argument("-s", "--signal", action="append",
-	                    default=["zet"],
+	parser.add_argument("-s", "--signal", nargs="+",
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=["LFVZeroJet", "LFVJet"],
+	parser.add_argument("--categories", nargs="+",
+	                    default=["LFVZeroJet_mt", "LFVOneJet_mt"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/LFV_datacards/",
@@ -68,16 +66,6 @@ if __name__ == "__main__":
 	output_files = []
 	merged_output_files = []
 	hadd_commands = []
-
-	#Set up informations if not default values are used
-	if args.signal != parser.get_default("signal"):
-		args.signal = args.signal[len(parser.get_default("signal")):]
-
-	if args.channel != parser.get_default("channel"):
-		args.channel = args.channel[len(parser.get_default("channel")):]
-
-	if args.categories != parser.get_default("categories"):
-		args.categories = args.categories[1:] 
 	
 	# Prepare name templates
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}"
@@ -96,18 +84,21 @@ if __name__ == "__main__":
 
 	##Dictionary for categories
 	categories = {
-			"LFVZeroJet":	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization/CutValues")) + "/cut_values_zerojet.ini",
-			"LFVOneJet":	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization/CutValues")) + "/cut_values_onejet.ini"
+			"LFVZeroJet_mt":	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization")) + "/cutvalues_zerojet_mt.ini",
+			"LFVZeroJet":		os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization")) + "/cutvalues_zerojet.ini",
+			"LFVOneJet_mt":		os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization")) + "/cutvalues_onejet_mt.ini",
+			"LFVOneJet":		os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization")) + "/cutvalues_onejet.ini",
 	}
 		
 	#datacard initialization
 	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs, shape_syst_enable = args.shape_uncs)
+	print datacards.cb.PrintAll()
 
 	#Loop over all channel/categories
 	for channel in args.channel:
 		list_of_samples = datacards.cb.process_set()
 
-		for category in [args.categories[0]]:
+		for category in args.categories:
 			tmp_output_files = []
 
 			#Weight for the category saved in cut ini files
@@ -115,7 +106,6 @@ if __name__ == "__main__":
 			cut_parameter, cut_values = parameter_info.cutconfigreader(filename, "Iteration4")
 			weight = parameter_info.weightaddition(parameter_info.get_parameter_info(cut_parameter,2), cut_values)
 
-			print weight
 			category = channel + "_" + category
 
 			for shape_systematic in ["nominal"] + [shape for shape in datacards.cb.cp().syst_type(["shape"]).syst_name_set()]:
@@ -146,13 +136,13 @@ if __name__ == "__main__":
 							"",	
 							weight
 					]
-	
+
 					datacard_values = [
 							[histogram_name_template.replace("$", "").format(PROCESS=datacards.configs.sample2process(sample), CHANNEL = channel, BIN=category, SYSTEMATIC=systematic) for sample in list_of_samples],
 							["ExportRoot"],
 							"UPDATE"
 					]
-			
+
 		
 				##Fill config with ConfigMaster and SystematicFactory
 				config = configmaster.ConfigMaster(base_values, sample_values)
@@ -181,7 +171,6 @@ if __name__ == "__main__":
 		##Hadd command for merging the tmp output files
 		hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(DST=output_file, SRC=" ".join(tmp_output_files)))
 	
-
 	# delete existing output files
 	for output_file_iterator in tmp_output_files:
 		if os.path.exists(output_file_iterator):
@@ -229,12 +218,7 @@ if __name__ == "__main__":
 	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=1)
 
-	# Max. likelihood fit  (Do you want a MultiDimFit or Prefit Postfit plots?)
-	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, 1, "-M MultiDimFit "+datacards.stable_options+" -n \"\"")
+	# Max. likelihood fit
+	#datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, 1, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
 	datacards.combine(datacards_cbs, datacards_workspaces, None, 1, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
-	#For this part you would need to call combine with method FitDiagnostics --saveShapes
-	"""datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )"""
-
 	
