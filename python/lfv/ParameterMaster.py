@@ -16,6 +16,7 @@ class Parameter():
 	pzeta = 9
 	impact_1 = 10	
 	impact_2 = 11
+	limit = 12
 
 class ParameterInfo():
 	plot_info = 0
@@ -36,6 +37,8 @@ class ParameterMaster(object):
 	## Function saving information about the parameter
 
 	def __plotinfo__(self):
+
+		##Info saved as x_expression, x_bins, filename
 		self._plotinfo = {
 					Parameter.m_vis:		["m_vis", "100,0,170", "VisibleMass"],
 					Parameter.ptofsumdilep:		["diLepLV.Pt()", "100,0,200", "PtOfMomentaSumDiLep"],
@@ -48,7 +51,8 @@ class ParameterMaster(object):
 					Parameter.delta_pt_jetdilep:	["abs(diLepLV.Pt() -  leadingJetLV.Pt())", "100,0,200", "DeltaPtJetDilep"],
 					Parameter.pzeta:		["pZetaMissVis", "100,-130,130", "PZeta"],
 					Parameter.impact_1:		["abs(d0_1)", "100,0,0.03", "ImpactParameter1"],
-					Parameter.impact_2:		["abs(d0_2)", "100,0,0.03", "ImpactParameter2"]
+					Parameter.impact_2:		["abs(d0_2)", "100,0,0.03", "ImpactParameter2"],
+					Parameter.limit:		[["limit_exp:limit_exp-two_sigma_down:two_sigma_up-limit_exp", "limit_exp:limit_exp-one_sigma_down:one_sigma_up-limit_exp" , "limit_exp", "limit_obs"], "1,1,1", "limit"]
 		}
 
 	
@@ -67,7 +71,8 @@ class ParameterMaster(object):
 					Parameter.delta_pt_jetdilep:	"|p_{T}(jet) - (#sump^{#mu})_{T}|",
 					Parameter.pzeta:		"#left(p^{miss}_{#zeta} #minus 0.85 p^{vis}_{#zeta}#right)",
 					Parameter.impact_1:		"|d_{0}|",
-					Parameter.impact_2:		"|d_{0}|"
+					Parameter.impact_2:		"|d_{0}|",
+					Parameter.limit:		"95% CL Limit on BR(Z#rightarrowLFV)/BR(Z#rightarrowLFV)^{current}"
 		}
 
 		return self._labelinfo
