@@ -9,22 +9,23 @@ class Plotmodule():
 	efficiency_plot = 2
 	shape_plot = 3
 	datacard = 4
+	limit = 5
 
 ### Class to create harry plotter configs for your special desire. All configs are safed as dictionaries and can be combined to the final config which is needed	
 
 class ConfigMaster(object):
 
-	##Constructor for loading sample information from samples_run2_2016.py
+	##Constructor
 
-	def __init__(self, base_values, sample_values):
+	def __init__(self, base_values, sample_values = None):
 
-		###Config list which is initiliazed with information for each sample from samples_run2.py
+		self._config = {}
 
-		self._config = 0
-		sample_settings = samples.Samples()
-	
-		sample_list, channel, category, no_plot, nick_suffix, weight = sample_values
-		self._config = sample_settings.get_config(samples=[getattr(samples.Samples, sample) for sample in sample_list], channel = channel, category = category, no_plot = no_plot, nick_suffix = nick_suffix, weight = weight)
+		###Config which is initiliazed with information for each sample from samples_run2_201X.py if wished
+		if sample_values != None:
+			sample_settings = samples.Samples()	
+			sample_list, channel, category, no_plot, nick_suffix, weight = sample_values
+			self._config = sample_settings.get_config(samples=[getattr(samples.Samples, sample) for sample in sample_list], channel = channel, category = category, no_plot = no_plot, nick_suffix = nick_suffix, weight = weight)
 
 		###Fill config with basic information
 
@@ -39,16 +40,10 @@ class ConfigMaster(object):
 					Plotmodule.sum_of_hists:		self.__sumofhists__,
 					Plotmodule.efficiency_plot:		self.__efficiencyplot__,
 					Plotmodule.shape_plot:			self.__shapeplot__,
-					Plotmodule.datacard:			self.__datacard__
+					Plotmodule.datacard: 			self.__datacard__,
+					Plotmodule.limit:			self.__limitplot__
 		}
 
-
-	##Pythonic way of overloaded constructor not using sample information and doing any other plot you wish
-	@classmethod
-	def init(self):
-		return "Work in progress"
-
-	
 	###Dictionaries for information for each plotting/analysis modules
 
 	def __base__(self, input_dir, output_dir, output_file, formats, www, www_nodate, x_expressions, x_bins):
@@ -129,6 +124,7 @@ class ConfigMaster(object):
 
 		return self._shapeplot
 
+
 	def __datacard__(self, labels, plot_modules, file_mode):
 
 		self._datacard = {
@@ -138,6 +134,35 @@ class ConfigMaster(object):
 		}
 
 		return self._datacard
+
+	def __limitplot__(self, x_label, y_label, files, folders, y_expressions, markers, colors, fill_styles, marker_styles, line_widths, tree_draw_options, y_tick_labels, www, title, lumis, energies, year, legend, nicks, x_lims, y_lims):
+
+		self._limitplot = {
+					"x_label":			x_label,
+					"y_label":			y_label,
+					"files":			files,
+					"folders":			folders,
+					"y_expressions":		y_expressions,
+					"markers":			markers,
+					"colors":			colors,
+					"fill_styles":			fill_styles,
+					"marker_styles":		marker_styles,
+					"line_widths":			line_widths,
+					"tree_draw_options":		tree_draw_options,
+					"y_tick_labels":		y_tick_labels,
+					"www":				www,
+					"title":			title,
+					"lumis"	:			lumis,
+					"energies":			energies,
+					"year":				year,
+					"legend":			legend,
+					"nicks":			nicks,
+					"x_lims":			x_lims,
+					"y_lims":			y_lims
+					
+		}
+
+		return self._limitplot
 
 	###Function for adding information to the config
 
