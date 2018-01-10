@@ -526,7 +526,7 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings, metadata_type& 
 	{
 		return product.m_genD02;
 	});
-
+	
 	// charge of leptons
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "genQ_1", [](event_type const& event, product_type const& product)
 	{
