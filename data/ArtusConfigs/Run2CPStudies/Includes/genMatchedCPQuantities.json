@@ -132,6 +132,9 @@
 		"genSV2y",
 		"genSV2z",
 
+		"genD01",
+		"genD02",
+
 		"genIP1x",
 		"genIP1y",
 		"genIP1z",
