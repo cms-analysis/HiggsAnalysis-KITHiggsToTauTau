@@ -291,6 +291,8 @@ public:
 	// filled by GenMatchedTauCPProducer
 	RMPoint* m_genSV1 = 0; // vertex of production of tau daughter 1
 	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
+	double m_genD01 = DefaultValues::UndefinedDouble;
+	double m_genD02 = DefaultValues::UndefinedDouble;
 	TVector3 m_genIP1;
 	TVector3 m_genIP2;
 	double m_genCosPsiPlus  = DefaultValues::UndefinedDouble;
