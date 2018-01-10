@@ -268,7 +268,7 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	// IP vectors wrt thePV
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_1mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1 != nullptr) ? ( sqrt( (product.m_recoIP1).x()*(product.m_recoIP1).x() + (product.m_recoIP1).y()*(product.m_recoIP1).y() + (product.m_recoIP1).z()*(product.m_recoIP1).z() ) ) : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIP1).x() != -999) ? ( sqrt( (product.m_recoIP1).x()*(product.m_recoIP1).x() + (product.m_recoIP1).y()*(product.m_recoIP1).y() + (product.m_recoIP1).z()*(product.m_recoIP1).z() ) ) : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_1x", [](event_type const& event, product_type const& product)
 	{
@@ -284,7 +284,7 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_2mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2 != nullptr) ? ( sqrt( (product.m_recoIP2).x()*(product.m_recoIP2).x() + (product.m_recoIP2).y()*(product.m_recoIP2).y() + (product.m_recoIP2).z()*(product.m_recoIP2).z() ) ) : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIP2).x() != -999) ? ( sqrt( (product.m_recoIP2).x()*(product.m_recoIP2).x() + (product.m_recoIP2).y()*(product.m_recoIP2).y() + (product.m_recoIP2).z()*(product.m_recoIP2).z() ) ) : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_2x", [](event_type const& event, product_type const& product)
 	{
@@ -302,7 +302,7 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	// IP vectors wrt refitted PV
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_refitPV != nullptr) ? ( sqrt( (product.m_recoIP1_refitPV).x()*(product.m_recoIP1_refitPV).x() + (product.m_recoIP1_refitPV).y()*(product.m_recoIP1_refitPV).y() + (product.m_recoIP1_refitPV).z()*(product.m_recoIP1_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIP1_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP1_refitPV).x()*(product.m_recoIP1_refitPV).x() + (product.m_recoIP1_refitPV).y()*(product.m_recoIP1_refitPV).y() + (product.m_recoIP1_refitPV).z()*(product.m_recoIP1_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1x", [](event_type const& event, product_type const& product)
 	{
@@ -318,7 +318,7 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_refitPV != nullptr) ? ( sqrt( (product.m_recoIP2_refitPV).x()*(product.m_recoIP2_refitPV).x() + (product.m_recoIP2_refitPV).y()*(product.m_recoIP2_refitPV).y() + (product.m_recoIP2_refitPV).z()*(product.m_recoIP2_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIP2_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP2_refitPV).x()*(product.m_recoIP2_refitPV).x() + (product.m_recoIP2_refitPV).y()*(product.m_recoIP2_refitPV).y() + (product.m_recoIP2_refitPV).z()*(product.m_recoIP2_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2x", [](event_type const& event, product_type const& product)
 	{

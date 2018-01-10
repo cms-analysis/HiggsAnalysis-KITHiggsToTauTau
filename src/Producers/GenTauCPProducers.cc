@@ -141,6 +141,10 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	});
 	
 	// MC-truth IP vectors
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1mag", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_genIP1).x() != -999) ? ( sqrt( (product.m_genIP1).x()*(product.m_genIP1).x() + (product.m_genIP1).y()*(product.m_genIP1).y() + (product.m_genIP1).z()*(product.m_genIP1).z() ) ) : DefaultValues::UndefinedFloat);
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1x", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).x() : DefaultValues::UndefinedFloat);
@@ -152,6 +156,10 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1z", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP2mag", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_genIP2).x() != -999) ? ( sqrt( (product.m_genIP2).x()*(product.m_genIP2).x() + (product.m_genIP2).y()*(product.m_genIP2).y() + (product.m_genIP2).z()*(product.m_genIP2).z() ) ) : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP2x", [](event_type const& event, product_type const& product)
 	{
