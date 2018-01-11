@@ -13,6 +13,7 @@ class SystematicsFactory(dict):
 		super(SystematicsFactory, self).__init__()
 		
 		self["nominal"] = Nominal
+		self["TopMassTreatment_13TeV"] = Nominal
 		self["CMS_scale_j_13TeV"] = JecUncSystematic
 		self["CMS_scale_t_13TeV"] = TauEsSystematic
 		self["CMS_ztt_scale_mFakeTau_13TeV"] = MuFakeTauEsSystematic
