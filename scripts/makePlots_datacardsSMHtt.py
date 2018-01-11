@@ -7,8 +7,12 @@ log = logging.getLogger(__name__)
 
 import argparse
 import copy
+import glob
 import os
+import shlex
 import sys
+
+import CombineHarvester.CombineTools.ch as ch
 
 import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
@@ -126,9 +130,30 @@ if __name__ == "__main__":
 	merged_output_files = []
 	hadd_commands = []
 	
-	datacards = smhttdatacards.SMHttDatacards(higgs_masses=args.higgs_masses,ttbarFit=args.ttbar_fit,mmFit=args.mm_fit,year=args.era,noJECuncSplit=args.no_jec_unc_split)
+	datacards = None
 	if args.for_dcsync:
 		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses)
+	else:
+		# get "official" configuration
+		init_directory = os.path.join(args.output_dir, "init")
+		command = "MorphingSM2016 --only_init " + init_directory
+		log.debug(command)
+		exit_code = logger.subprocessCall(shlex.split(command))
+		assert(exit_code == 0)
+		
+		init_cb = ch.CombineHarvester()
+		for init_datacard in glob.glob(os.path.join(init_directory, "*.txt")):
+			init_cb.QuickParseDatacard(init_datacard, "$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt", False)
+			#init_cb.cp().backgrounds().ForEachObj(lambda obj: obj.set_mass("*"))
+		
+		datacards = smhttdatacards.SMHttDatacards(
+				cb=init_cb,
+				higgs_masses=args.higgs_masses,
+				ttbarFit=args.ttbar_fit,
+				mmFit=args.mm_fit,
+				year=args.era,
+				noJECuncSplit=args.no_jec_unc_split
+		)
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"

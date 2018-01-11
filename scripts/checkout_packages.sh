@@ -67,10 +67,11 @@ cd $CMSSW_BASE/src/
 git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
 
 # needed for plotting and statistical inference
-git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
-git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b 74x-root6
+git clone https://github.com/thomas-mueller/CombineHarvester.git CombineHarvester -b SM2016-dev
+git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 cd HiggsAnalysis/CombinedLimit
-git checkout 3cb65246555d094734a81e20181e399714d22c7e
+git fetch origin
+git checkout v6.3.1
 cd -
 
 # needed for error propagation e.g. in the background estimations
