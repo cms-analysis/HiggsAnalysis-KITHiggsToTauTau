@@ -30,6 +30,19 @@ def _call_command(command):
 	logger.subprocessCall(command, shell=True)
 
 
+def official2private(category, category_replacements):
+	result = copy.deepcopy(category)
+	for official, private in category_replacements.iteritems():
+		result = result.replace(official, private)
+	return result
+
+def private2official(category, category_replacements):
+	result = copy.deepcopy(category)
+	for official, private in category_replacements.iteritems():
+		result = result.replace(private, official)
+	return result
+
+
 if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for SM HTT analysis.",
@@ -38,10 +51,10 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action = "append",
-	                    default=["et", "mt", "tt", "em", "mm"],
+	                    default=["all"],
 	                    help="Channel. This argument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=[["inclusive"]],
+	                    default=[["all"]] * len(parser.get_default("channel")),
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
@@ -131,6 +144,7 @@ if __name__ == "__main__":
 	hadd_commands = []
 	
 	datacards = None
+	category_replacements = {}
 	if args.for_dcsync:
 		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses)
 	else:
@@ -154,6 +168,10 @@ if __name__ == "__main__":
 				year=args.era,
 				noJECuncSplit=args.no_jec_unc_split
 		)
+		
+		category_replacements["vbf"] = "Vbf2D"
+		category_replacements["boosted"] = "Boosted2D"
+		category_replacements["0jet"] = "ZeroJet2D"
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -309,12 +327,23 @@ if __name__ == "__main__":
 	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
 
-	#restriction to CH
-	datacards.cb.channel(args.channel)
-
+	#restriction to requested masses
+	datacards.cb.mass(args.higgs_masses)
+	
+	#restriction to requested channels
+	if not ("all" in args.channel):
+		datacards.cb.channel(args.channel)
+	args.channel = datacards.cb.cp().channel_set()
+	
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
-		# include channel prefix
-		categories = [channel + "_" + category for category in categories]
+		#print index, (channel, categories)
+		
+		if "all" in categories:
+			categories = datacards.cb.cp().channel([channel]).bin_set()
+		else:
+			# include channel prefix
+			categories = [channel + "_" + category for category in categories]
+		
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
@@ -326,8 +355,11 @@ if __name__ == "__main__":
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
-		for category in categories:
-			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+		for official_category in categories:
+			category = official2private(official_category, category_replacements)
+			#print "\t", category
+			
+			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			if "TTbarCR" in category and channel == "ttbar":
@@ -346,7 +378,7 @@ if __name__ == "__main__":
 					exclude_cuts += ["iso_1", "iso_2"]
 					do_not_normalize_by_bin_width = True
 				
-				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([category]))
+				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
@@ -360,6 +392,8 @@ if __name__ == "__main__":
 			tmp_output_files = []
 			
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
+				#print "\t\t", shape_systematic, list_of_samples
+				
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 				
@@ -373,6 +407,8 @@ if __name__ == "__main__":
 						list_of_samples += ["qcd"]
 				
 				for shift_up in ([True] if nominal else [True, False]):
+					#print "\t\t\t", shift_up
+					
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 					
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
@@ -507,14 +543,14 @@ if __name__ == "__main__":
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
 							PROCESS=datacards.configs.sample2process(sample),
-							BIN=category,
+							BIN=official_category,
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
 					
 					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 							ANALYSIS="htt",
 							CHANNEL=channel,
-							BIN=category,
+							BIN=official_category,
 							SYSTEMATIC=systematic,
 							ERA="13TeV"
 					))
