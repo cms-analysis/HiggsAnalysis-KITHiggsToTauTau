@@ -132,6 +132,8 @@ if __name__ == "__main__":
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
+	if not os.path.exists(args.output_dir):
+		os.makedirs(args.output_dir)
 	
 	# initialisations for plotting
 	sample_settings = samples.Samples()
