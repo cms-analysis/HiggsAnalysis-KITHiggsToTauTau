@@ -49,6 +49,9 @@ class EstimateWjets(estimatebase.EstimateBase):
 		self.prepare_list_args(plotData, self._plotdict_keys)
 		
 		plotData.plotdict["wjets_data_substract_nicks"] = [nicks.split() for nicks in plotData.plotdict["wjets_data_substract_nicks"]]
+	
+	def run(self, plotData=None):
+		super(EstimateWjets, self).run(plotData)
 		
 		# make sure that all necessary histograms are available
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
@@ -58,9 +61,6 @@ class EstimateWjets(estimatebase.EstimateBase):
 				elif not isinstance(nick, bool):
 					for subnick in nick:
 						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
-	
-	def run(self, plotData=None):
-		super(EstimateWjets, self).run(plotData)
 		
 		for wjets_from_mc, wjets_shape_nick, wjets_data_control_nick, wjets_data_substract_nicks, wjets_mc_signal_nick, wjets_mc_control_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			if not wjets_from_mc:

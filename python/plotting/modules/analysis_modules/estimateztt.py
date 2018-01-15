@@ -34,6 +34,9 @@ class EstimateZtt(estimatebase.EstimateBase):
 		
 		self._plotdict_keys = ["ztt_from_mc", "ztt_plot_nicks", "ztt_mc_inc_nicks", "ztt_emb_inc_nicks"]
 		self.prepare_list_args(plotData, self._plotdict_keys)
+	
+	def run(self, plotData=None):
+		super(EstimateZtt, self).run(plotData)
 		
 		# make sure that all necessary histograms are available
 		for ztt_from_mc, ztt_plot_nick, ztt_mc_inc_nick, ztt_emb_inc_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
@@ -41,9 +44,6 @@ class EstimateZtt(estimatebase.EstimateBase):
 			if not ztt_from_mc:
 				assert isinstance(plotData.plotdict["root_objects"].get(ztt_mc_inc_nick), ROOT.TH1)
 				assert isinstance(plotData.plotdict["root_objects"].get(ztt_emb_inc_nick), ROOT.TH1)
-	
-	def run(self, plotData=None):
-		super(EstimateZtt, self).run(plotData)
 		
 		for ztt_from_mc, ztt_plot_nick, ztt_mc_inc_nick, ztt_emb_inc_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			if not ztt_from_mc:
