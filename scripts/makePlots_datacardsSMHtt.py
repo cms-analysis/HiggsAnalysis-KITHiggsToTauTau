@@ -174,6 +174,7 @@ if __name__ == "__main__":
 		category_replacements["vbf"] = "Vbf2D"
 		category_replacements["boosted"] = "Boosted2D"
 		category_replacements["0jet"] = "ZeroJet2D"
+		category_replacements["all"] = "TTbarCR"
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"

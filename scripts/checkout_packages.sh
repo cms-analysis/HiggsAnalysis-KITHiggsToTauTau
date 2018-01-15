@@ -68,6 +68,9 @@ git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelin
 
 # needed for plotting and statistical inference
 git clone https://github.com/thomas-mueller/CombineHarvester.git CombineHarvester -b SM2016-dev
+cd CombineHarvester/HTTSM2016
+git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
+cd -
 git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 cd HiggsAnalysis/CombinedLimit
 git fetch origin

@@ -499,7 +499,10 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_high_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_vbf_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+		
+		self.binnings_dict["binningHtt13TeV_ttbar_TTbarCR_0"] = "1,0,1000"
 
+		for channel in ["mt", "et", "em", "tt", "mm"]:
 			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
