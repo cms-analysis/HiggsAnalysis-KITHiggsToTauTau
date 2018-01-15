@@ -331,9 +331,11 @@ if __name__ == "__main__":
 	datacards.cb.mass(args.higgs_masses)
 	
 	#restriction to requested channels
-	if not ("all" in args.channel):
+	if args.channel != parser.get_default("channel"):
 		datacards.cb.channel(args.channel)
 	args.channel = datacards.cb.cp().channel_set()
+	if args.categories == parser.get_default("categories"):
+		args.categories = len(args.channel) * args.categories
 	
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		#print index, (channel, categories)
