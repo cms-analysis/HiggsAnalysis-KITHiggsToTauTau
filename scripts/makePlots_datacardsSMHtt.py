@@ -390,7 +390,7 @@ if __name__ == "__main__":
 				#print "\t\t", shape_systematic, list_of_samples
 				
 				nominal = (shape_systematic == "nominal")
-				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
+				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process).replace("zl", "zll" if channel=="em" else "zl") for process in list_of_samples]
 				
 				# This is needed because wj and qcd are interdependent when using the new background estimation method
 				# NB: CH takes care to only use the templates for processes that you specified. This means that any
@@ -533,7 +533,7 @@ if __name__ == "__main__":
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
-							PROCESS=datacards.configs.sample2process(sample),
+							PROCESS=datacards.configs.sample2process(sample.replace("zl", "zll" if channel=="em" else "zl")),
 							BIN=official_category,
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
