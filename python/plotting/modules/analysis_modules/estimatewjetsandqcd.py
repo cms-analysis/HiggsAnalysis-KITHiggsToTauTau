@@ -82,7 +82,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 		super(EstimateWjetsAndQCD, self).run(plotData)
 		
 		# make sure that all necessary histograms are available
-		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
+		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys[:-1]]):
 			for nick in nicks:
 				if isinstance(nick, basestring):
 					assert isinstance(plotData.plotdict["root_objects"].get(nick), ROOT.TH1)
