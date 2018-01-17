@@ -9,6 +9,7 @@ import argparse
 import copy
 import glob
 import os
+import re
 import shlex
 import sys
 
@@ -33,13 +34,13 @@ def _call_command(command):
 def official2private(category, category_replacements):
 	result = copy.deepcopy(category)
 	for official, private in category_replacements.iteritems():
-		result = result.replace(official, private)
+		result = re.sub(official+"$", private, result)
 	return result
 
 def private2official(category, category_replacements):
 	result = copy.deepcopy(category)
 	for official, private in category_replacements.iteritems():
-		result = result.replace(private, official)
+		result = re.sub(private+"$", official, result)
 	return result
 
 
@@ -156,15 +157,20 @@ if __name__ == "__main__":
 	else:
 		# get "official" configuration
 		init_directory = os.path.join(args.output_dir, "init")
-		command = "MorphingSM2016 --only_init " + init_directory
+		command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
 		log.debug(command)
 		exit_code = logger.subprocessCall(shlex.split(command))
 		assert(exit_code == 0)
 		
 		init_cb = ch.CombineHarvester()
-		for init_datacard in glob.glob(os.path.join(init_directory, "*.txt")):
+		all_datacards = glob.glob(os.path.join(init_directory, "*_*_*_*.txt"))
+		mass_datacards = glob.glob(os.path.join(init_directory, "*_*_*_*_*.txt"))
+		no_mass_datacards = list(set(all_datacards) - set(mass_datacards))
+		for init_datacard in mass_datacards:
 			init_cb.QuickParseDatacard(init_datacard, "$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt", False)
-			#init_cb.cp().backgrounds().ForEachObj(lambda obj: obj.set_mass("*"))
+		for init_datacard in no_mass_datacards:
+			init_cb.QuickParseDatacard(init_datacard, "$ANALYSIS_$ERA_$CHANNEL_$BINID.txt", False)
+		init_cb.ForEachObj(lambda obj: obj.set_mass("*" if obj.mass() == "" else obj.mass()))
 		
 		datacards = smhttdatacards.SMHttDatacards(
 				cb=init_cb,
@@ -175,10 +181,19 @@ if __name__ == "__main__":
 				noJECuncSplit=args.no_jec_unc_split
 		)
 		
-		category_replacements["vbf"] = "Vbf2D"
-		category_replacements["boosted"] = "Boosted2D"
 		category_replacements["0jet"] = "ZeroJet2D"
+		category_replacements["boosted"] = "Boosted2D"
+		category_replacements["vbf"] = "Vbf2D"
 		category_replacements["all"] = "TTbarCR"
+		category_replacements["wjets_0jet_cr"] = "ZeroJet2D_WJCR"
+		category_replacements["wjets_boosted_cr"] = "Boosted2D_WJCR"
+		category_replacements["wjets_vbf_cr"] = "Vbf2D_WJCR"
+		category_replacements["antiiso_0jet_cr"] = "ZeroJet2D_QCDCR"
+		category_replacements["antiiso_boosted_cr"] = "Boosted2D_QCDCR"
+		category_replacements["antiiso_vbf_cr"] = "Vbf2D_QCDCR"
+		category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR"
+		category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
+		category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -321,7 +336,7 @@ if __name__ == "__main__":
 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
 	
 	#restriction to requested masses
-	datacards.cb.mass(args.higgs_masses)
+	datacards.cb.mass(["*"]+args.higgs_masses)
 	
 	#restriction to requested channels
 	if args.channel != parser.get_default("channel"):
@@ -350,6 +365,7 @@ if __name__ == "__main__":
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
+		log.info("Building configs for channel = {channel}, categories = {categories}".format(channel=channel, categories=str(categories)))
 		for official_category in categories:
 			category = official2private(official_category, category_replacements)
 			#print "\t", category
@@ -380,7 +396,7 @@ if __name__ == "__main__":
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="htt",
 					CHANNEL=channel,
-					BIN=category,
+					BIN=official_category,
 					ERA="13TeV"
 			))
 			output_files.append(output_file)
