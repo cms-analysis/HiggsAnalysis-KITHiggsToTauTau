@@ -348,6 +348,8 @@ if __name__ == "__main__":
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		#print index, (channel, categories)
 		
+		tmp_output_files = []
+		
 		if "all" in categories:
 			categories = datacards.cb.cp().channel([channel]).bin_set()
 		else:
@@ -399,7 +401,6 @@ if __name__ == "__main__":
 					ERA="13TeV"
 			))
 			output_files.append(output_file)
-			tmp_output_files = []
 			
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				#print "\t\t", shape_systematic, list_of_samples
@@ -572,10 +573,10 @@ if __name__ == "__main__":
 					
 					plot_configs.append(config)
 			
-			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
-					DST=output_file,
-					SRC=" ".join(tmp_output_files)
-			))
+		hadd_commands.append("hadd -f {DST} {SRC}".format(
+				DST=output_file,
+				SRC=" ".join(tmp_output_files)
+		))
 	
 	#if log.isEnabledFor(logging.DEBUG):
 	#	import pprint
