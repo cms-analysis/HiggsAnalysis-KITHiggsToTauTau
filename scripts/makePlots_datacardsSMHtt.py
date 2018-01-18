@@ -163,14 +163,8 @@ if __name__ == "__main__":
 		assert(exit_code == 0)
 		
 		init_cb = ch.CombineHarvester()
-		all_datacards = glob.glob(os.path.join(init_directory, "*_*_*_*.txt"))
-		mass_datacards = glob.glob(os.path.join(init_directory, "*_*_*_*_*.txt"))
-		no_mass_datacards = list(set(all_datacards) - set(mass_datacards))
-		for init_datacard in mass_datacards:
+		for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):
 			init_cb.QuickParseDatacard(init_datacard, "$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt", False)
-		for init_datacard in no_mass_datacards:
-			init_cb.QuickParseDatacard(init_datacard, "$ANALYSIS_$ERA_$CHANNEL_$BINID.txt", False)
-		init_cb.ForEachObj(lambda obj: obj.set_mass("*" if obj.mass() == "" else obj.mass()))
 		
 		datacards = smhttdatacards.SMHttDatacards(
 				cb=init_cb,
