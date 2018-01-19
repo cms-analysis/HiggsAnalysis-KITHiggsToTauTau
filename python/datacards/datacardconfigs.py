@@ -97,10 +97,8 @@ class DatacardConfigs(object):
 				"mt_TwoJet_CP_mvislow" : 2003, 
 				"mt_TwoJet_CP_mjjlow" : 2004, 
 
-				"mt_LFVZeroJet_mt": 	3001,
-				"mt_LFVZeroJet":	3002,
-				"mt_LFVOneJet_mt":	3003,
-				"mt_LFVOneJet":		3004
+				"mt_ZeroJet_LFV": 	3001,
+				"mt_OneJet_LFV":	3002,
 			},
 			"et" : {
 				"et_inclusive" : 0,
@@ -140,10 +138,8 @@ class DatacardConfigs(object):
 				"et_TwoJet_CP_mvislow" : 2003, 
 				"et_TwoJet_CP_mjjlow" : 2004,
 			
-				"et_LFVZeroJet_mt": 	3001,
-				"et_LFVZeroJet":	3002,
-				"et_LFVOneJet_mt":	3003,
-				"et_LFVOneJet":		3004
+				"et_ZeroJet_LFV": 	3001,
+				"et_OneJet_LFV":	3002,
 
 			},
 			"em" : {
@@ -182,10 +178,8 @@ class DatacardConfigs(object):
 				"em_TwoJet_CP_mvislow" : 2003, 
 				"em_TwoJet_CP_mjjlow" : 2004,
 
-				"em_LFVZeroJet_mt": 	3001,
-				"em_LFVZeroJet":	57,
-				"em_LFVOneJet_mt":	3003,
-				"em_LFVOneJet":		3004
+				"em_ZeroJet_LFV": 	3001,
+				"em_OneJet_LFV":	3002,
 
 			},
 			"tt" : {
@@ -269,13 +263,6 @@ class DatacardConfigs(object):
 			for i, cat in enumerate(categories[chan]):
 				self._mapping_category2binid[chan][cat] = max_number + i
 		self.htt_datacard_filename_templates = [
-			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
-			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-			"datacards/category/${BINID}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
-			"datacards/combined/${MASS}/${ANALYSIS}_${ERA}.txt",
-		]
-
-		self.LFV_datacard_filename_templates = [
 			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
 			"datacards/category/${BINID}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
