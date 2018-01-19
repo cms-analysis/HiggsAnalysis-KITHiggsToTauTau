@@ -175,6 +175,29 @@ if __name__ == "__main__":
 				noJECuncSplit=args.no_jec_unc_split
 		)
 		
+		
+		datacards.configs._mapping_process2sample = {
+			"data_obs" : "data",
+			"ZTT" : "ztt",
+			"ZL" : "zl",
+			"ZJ" : "zj",
+			"EWKZ" : "ewkz",
+			"TT" : "ttj",
+			"TTT" : "ttt",
+			"TTJ" : "ttj",
+			"VV" : "vv",
+			"VVT" : "vvt",
+			"VVJ" : "vvj",
+			"W" : "wj",
+			"QCD" : "qcd",
+			"ggH_htt" : "ggh",
+			"qqH_htt" : "qqh",
+			"WH_htt" : "wh",
+			"ZH_htt" : "zh",
+			"ggH_hww" : "hww_gg",
+			"qqH_hww" : "hww_qq",
+		}
+		
 		category_replacements["0jet"] = "ZeroJet2D"
 		category_replacements["boosted"] = "Boosted2D"
 		category_replacements["vbf"] = "Vbf2D"
@@ -342,6 +365,20 @@ if __name__ == "__main__":
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		#print index, (channel, categories)
 		
+		if channel in ["em", "ttbar"]:
+			datacards.configs._mapping_process2sample["ZL"] = "zll"
+		else:
+			datacards.configs._mapping_process2sample["ZL"] = "zl"
+		
+		if channel in ["et", "mt", "tt"]:
+			datacards.configs._mapping_process2sample.pop("TT", None)
+			datacards.configs._mapping_process2sample["TTT"]= "ttt"
+			datacards.configs._mapping_process2sample["TTJ"]= "ttj"
+		else:
+			datacards.configs._mapping_process2sample["TT"] = "ttj"
+			datacards.configs._mapping_process2sample.pop("TTT")
+			datacards.configs._mapping_process2sample.pop("TTJ")
+		
 		tmp_output_files = []
 		
 		if "all" in categories:
@@ -400,7 +437,7 @@ if __name__ == "__main__":
 				#print "\t\t", shape_systematic, list_of_samples
 				
 				nominal = (shape_systematic == "nominal")
-				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process).replace("zl", "zll" if channel=="em" else "zl") for process in list_of_samples]
+				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 				
 				# This is needed because wj and qcd are interdependent when using the new background estimation method
 				# NB: CH takes care to only use the templates for processes that you specified. This means that any
@@ -543,7 +580,7 @@ if __name__ == "__main__":
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
-							PROCESS=datacards.configs.sample2process(sample.replace("zl", "zll" if channel=="em" else "zl")),
+							PROCESS=datacards.configs.sample2process(sample),
 							BIN=official_category,
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
