@@ -121,24 +121,26 @@ if __name__ == "__main__":
 		log.critical("Invalid era string selected: " + args.era)
 		sys.exit(1)
 
-	
+
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-	
+
 	# initialisations for plotting
+	print("###################### 1 ######################")
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
 	systematics_factory = systematics.SystematicsFactory()
-	
+
 	plot_configs = []
 	output_files = []
 	merged_output_files = []
 	hadd_commands = []
-	
+
 	datacards = zttpolarisationdatacards.ZttPolarisationDatacards() # useRateParam=args.use_rate_parameter
-	
+
 	# initialise datacards
+	print("###################### 2 ######################")
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
@@ -155,37 +157,41 @@ if __name__ == "__main__":
 		datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
 	if "combined" in args.combinations:
 		datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")
-	
+
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
-	
+
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[len(parser.get_default("categories")):]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
-	
+
 	# restrict CombineHarvester to configured channels
+	print("###################### 3 ######################")
 	datacards.cb.channel(args.channel)
 
 	if args.no_shape_uncs:
-		datacards.remove_shape_uncertainties()
+ 		print("No shape uncs")
+ 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+ 		#datacards.cb.PrintSysts()
+
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
-		
+
 		# prepare category settings based on args and datacards
 		if (len(categories) == 1) and (categories[0] == "all"):
 			categories = datacards.cb.cp().channel([channel]).bin_set()
 		else:
 			categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
 		args.categories[index] = categories
-		
+
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
-		
+
 		for category in categories:
 			datacards_per_channel_category = zttpolarisationdatacards.ZttPolarisationDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
-			
+
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
-			
+
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="ztt",
 					CHANNEL=channel,
@@ -255,37 +261,39 @@ if __name__ == "__main__":
 					tmp_output_files.append(tmp_output_file)
 					config["output_dir"] = os.path.dirname(tmp_output_file)
 					config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
-				
+
 					config["plot_modules"] = ["ExportRoot"]
 					config["file_mode"] = "UPDATE"
-			
+
 					if "legend_markers" in config:
 						config.pop("legend_markers")
-					
+
 					plot_configs.append(config)
-			
+
 			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
 					DST=output_file,
 					SRC=" ".join(tmp_output_files)
 			))
-	
+
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-	
+
 	# delete existing output files
+	print("###################### 4 ######################")
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
 	for output_file in tmp_output_files:
 		if os.path.exists(output_file):
 			os.remove(output_file)
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	output_files = list(set(output_files))
-	
+
 	# create input histograms with HarryPlotter
+	print("###################### 5 ######################")
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
-	
+
 	debug_plot_configs = []
 	for output_file in (output_files):
 		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
@@ -293,34 +301,38 @@ if __name__ == "__main__":
 		for debug_plot_config in debug_plot_configs:
 			debug_plot_config["www"] = debug_plot_config["output_dir"].replace(args.output_dir, args.www)
 	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
-	
+
 	# update CombineHarvester with the yields and shapes
+	print("###################### 6 ######################")
 	datacards.extract_shapes(
 			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
 			bkg_histogram_name_template, sig_histogram_name_template,
 			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 			update_systematics=True
 	)
-	
+
 	# add bin-by-bin uncertainties
+	print("###################### 7 ######################")
 	if not args.no_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
-	
+
 	plot_configs = []
-	
+
 	# lumi scale
+
+	print("###################### 8 ######################")
 	for scaled_lumi in [None]+args.lumi_projection:
 		tmp_output_dir = os.path.join(args.output_dir, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
 		tmp_www = None
 		if args.www:
 			tmp_www = os.path.join(args.www, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
-		
+
 		if not scaled_lumi is None:
 			datacards.scale_expectation(scaled_lumi / args.lumi)
-		
+
 		# linearity
 		polarisation_values_tree_files = {}
 		for asimov_polarisation in [None]+(args.check_linearity if scaled_lumi is None else []):
@@ -338,6 +350,7 @@ if __name__ == "__main__":
 				datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
 
 			# write datacards and call text2workspace
+			print("###################### datacards,text2workspace ######################")
 			datacards_cbs = {}
 			for datacard_filename_template in datacard_filename_templates:
 				datacards_cbs.update(datacards.write_datacards(
@@ -364,8 +377,10 @@ if __name__ == "__main__":
 						"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
 						split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
 				)
-			
+
+			print("###################### prefitpostfitplots,pulls,nuisanceimpacts ######################")
 			if (scaled_lumi is None) and (asimov_polarisation is None):
+				print("###################### 1.1 ######################")
 				if "prefitpostfitplots" in args.steps:
 					datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(
 							datacards_cbs,
@@ -376,7 +391,7 @@ if __name__ == "__main__":
 							#fit_type_list=["fit_mdf"],
 							#fit_result="multidimfit.root"
 					)
-	
+
 					datacards.prefit_postfit_plots(
 							datacards_cbs,
 							datacards_postfit_shapes,
@@ -384,7 +399,8 @@ if __name__ == "__main__":
 							n_processes=args.n_processes,
 							signal_stacked_on_bkg=True
 					)
-				
+
+				print("###################### 1.2 ######################")
 				if "pulls" in args.steps:
 					datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
 					datacards.pull_plots(
@@ -393,10 +409,12 @@ if __name__ == "__main__":
 							plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
 							n_processes=args.n_processes
 					)
-				
+
+				print("###################### 1.3 ######################")
 				if "nuisanceimpacts" in args.steps:
 					datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "-P pol --redefineSignalPOIs pol")
-				
+
+				print("###################### 1.4 ######################")
 				if "deltanll" in args.steps:
 					datacards.combine(
 							datacards_cbs,
@@ -405,18 +423,20 @@ if __name__ == "__main__":
 							args.n_processes,
 							"-M MultiDimFit --algo grid --points 200 -P pol --redefineSignalPOIs pol "+datacards.stable_options+" -n Scan "
 					)
-	
+
+			print("###################### annotations ######################")
 			if "totstatuncs" in args.steps: # (scaled_lumi is None) and (asimov_polarisation is None):
 				datacards.combine(
 						datacards_cbs,
 						datacards_workspaces,
 						None,
 						args.n_processes,
-						"-M MultiDimFit --algo singles -P pol --redefineSignalPOIs pol "+datacards.stable_options+" -n ",
+						"-M MultiDimFit --algo singles -P pol --redefineSignalPOIs pol "+datacards.stable_options+" -n",
 						split_stat_syst_uncs=True,
 						additional_freeze_nuisances=["r"]
 				)
-	
+
+			print("###################### annotations ######################")
 			annotation_replacements = {channel : index for (index, channel) in enumerate(["combined"] + args.channel)}
 			annotation_replacements.update({binid : index+1 for (index, binid) in enumerate(sorted(list(set([datacards.configs.category2binid(category, channel=category[:2]) for category in tools.flattenList(args.categories)]))))})
 			if not asimov_polarisation is None:
@@ -446,8 +466,9 @@ if __name__ == "__main__":
 				)
 			if not asimov_polarisation is None:
 				polarisation_values_tree_files.update(values_tree_files)
-	
+
 			# plot best fit values of parameter pol from physics model
+			print("###################### best fit value, channel ######################")
 			if "channel" in args.combinations:
 				for template in ([
 						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json",
@@ -487,7 +508,8 @@ if __name__ == "__main__":
 						if args.www:
 							config["www"] = os.path.join(www, "combined/plots")
 						plot_configs.append(config)
-	
+
+			print("###################### best fit value, category ######################")
 			if "category" in args.combinations:
 				for template in ([
 						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category.json",
@@ -556,10 +578,14 @@ if __name__ == "__main__":
 				if args.www:
 					config["www"] = os.path.join(args.www, "pol/combined/plots")
 				plot_configs.append(config)
-		
+
 		# scale back to preserve initial state
 		if not scaled_lumi is None:
 			datacards.scale_expectation(args.lumi / scaled_lumi)
-	
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
+	print("###################### 9 ######################")
+	if log.isEnabledFor(logging.DEBUG):
+		import pprint
+		pprint.pprint(plot_configs)
+
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
