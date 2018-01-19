@@ -16,7 +16,8 @@ class Parameter():
 	pzeta = 9
 	impact_1 = 10	
 	impact_2 = 11
-	limit = 12
+	sum_impact = 12
+	limit = 13
 
 class ParameterInfo():
 	plot_info = 0
@@ -41,17 +42,18 @@ class ParameterMaster(object):
 		##Info saved as x_expression, x_bins, filename
 		self._plotinfo = {
 					Parameter.m_vis:		["m_vis", "100,0,170", "VisibleMass"],
-					Parameter.ptofsumdilep:		["diLepLV.Pt()", "100,0,200", "PtOfMomentaSumDiLep"],
+					Parameter.ptofsumdilep:		["diLepLV.Pt()", "100,0,150", "PtOfMomentaSumDiLep"],
 					Parameter.mt_1:			["mt_1", "100,0,200", "TransverseMass1"],
 					Parameter.mt_2:			["mt_2", "100,0,200", "TransverseMass2"],
 					Parameter.number_jets:		["njetspt30", "4,0,4", "NumberOfJets"], 
 					Parameter.met:			["met", "100,0,140", "MissingTranverseEnergy"],
 					Parameter.delta_phi:		["abs(abs(phi_1 - phi_2) - 3.14)", "100,0,3", "DeltaPhi"],
 					Parameter.delta_phi_CM:		["abs(abs(lep1LV.BoostToCM().phi() - lep2LV.BoostToCM().phi()) - 3.14)", "100,0,3", "DeltaPhiCM"],
-					Parameter.delta_pt_jetdilep:	["abs(diLepLV.Pt() -  leadingJetLV.Pt())", "100,0,200", "DeltaPtJetDilep"],
+					Parameter.delta_pt_jetdilep:	["abs(diLepLV.Pt() -  leadingJetLV.Pt())", "100,0,150", "DeltaPtJetDilep"],
 					Parameter.pzeta:		["pZetaMissVis", "100,-130,130", "PZeta"],
-					Parameter.impact_1:		["abs(d0_1)", "100,0,0.03", "ImpactParameter1"],
-					Parameter.impact_2:		["abs(d0_2)", "100,0,0.03", "ImpactParameter2"],
+					Parameter.impact_1:		["abs(d0_1)", "100,0,0.02", "ImpactParameter1"],
+					Parameter.impact_2:		["abs(d0_2)", "100,0,0.02", "ImpactParameter2"],
+					Parameter.sum_impact:		["abs(d0_1 + d0_2)", "100,0,0.02", "SumOfImpactParameter"],
 					Parameter.limit:		[["limit_exp:limit_exp-two_sigma_down:two_sigma_up-limit_exp", "limit_exp:limit_exp-one_sigma_down:one_sigma_up-limit_exp" , "limit_exp", "limit_obs"], "1,1,1", "limit"]
 		}
 
@@ -72,7 +74,8 @@ class ParameterMaster(object):
 					Parameter.pzeta:		"#left(p^{miss}_{#zeta} #minus 0.85 p^{vis}_{#zeta}#right)",
 					Parameter.impact_1:		"|d_{0}|",
 					Parameter.impact_2:		"|d_{0}|",
-					Parameter.limit:		"95% CL Limit on BR(Z#rightarrowLFV)/BR(Z#rightarrowLFV)^{current}"
+					Parameter.sum_impact:		"|#sum_{lepton} d_{0}_{lepton}|",
+					Parameter.limit:		"95% CL Limit on BR(LFV)/BR(LFV)^{current}"
 		}
 
 		return self._labelinfo
@@ -121,20 +124,6 @@ class ParameterMaster(object):
 		return parameter_info
 
 
-	##Sum weights of different parameter to get string using for harry plotter weight input
-
-	def weightaddition(self, cut_strings, cut_values):
-		weight = ""
-		for index, (cut, value) in enumerate(zip(cut_strings, cut_values)):
-			if index == 0:
-				weight = cut.format(cut = value)
-
-			else:
-				weight = weight + "*" + cut.format(cut = value)
-
-		return weight
-
-
 	##Function writing and reading cut configs sectionwise
 
 	def cutconfigwriter(self, path, filename, section, dictionary):
@@ -168,3 +157,28 @@ class ParameterMaster(object):
 			cut_values.append(value)
 		
 		return cut_parameter, cut_values
+
+	
+	##Sum weights of different parameter to get string using for harry plotter weight input
+
+	def weightaddition(self, cut_strings, cut_values):
+		weight = ""
+		for index, (cut, value) in enumerate(zip(cut_strings, cut_values)):
+			if index == 0:
+				weight = cut.format(cut = value)
+
+			else:
+				weight = weight + "*" + cut.format(cut = value)
+
+		return weight
+
+	##Returns weight for harry plotter made from optimal cut parameters
+
+	def weightmaster(self, filename):
+		cut_parameter, cut_values = self.cutconfigreader(filename, "Iteration3")
+		
+		return self.weightaddition(self.get_parameter_info(cut_parameter,2), cut_values)
+
+
+
+
