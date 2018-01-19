@@ -117,7 +117,13 @@ class SystematicsFactory(dict):
 		self["WSFUncert_et_vbf_13TeV"] = Nominal
 		self["WSFUncert_lt_13TeV"] = Nominal
 		self["CMS_htt_zmumuShape_VBF_13TeV"] = Nominal
-
+	
+	def get(self, key, default_value=None):
+		value = super(SystematicsFactory, self).get(key, default_value)
+		if value is None:
+			log.error("Could not find implementation for shape systematic \"{syst}\" in SystematicsFactory! Continue with \"nominal\"".format(syst=key))
+			value = super(SystematicsFactory, self).get("nominal")
+		return value
 
 class SystematicShiftBase(object):
 
