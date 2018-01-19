@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e # exit on errors
+#set -e # exit on errors
 
 export SCRAM_ARCH=slc6_amd64_gcc491
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch

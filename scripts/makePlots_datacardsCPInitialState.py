@@ -28,7 +28,26 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.initialstatecpstudiesdatacards a
 def _call_command(command):
 	log.debug(command)
 	logger.subprocessCall(command, shell=True)
-
+	
+def matching_process(obj1, obj2):
+	matches = (obj1.bin() == obj2.bin())
+	matches = matches and (obj1.process() == obj2.process())
+	matches = matches and (obj1.signal() == obj2.signal())
+	matches = matches and (obj1.analysis() == obj2.analysis())
+	matches = matches and (obj1.era() == obj2.era())
+	matches = matches and (obj1.channel() == obj2.channel())
+	matches = matches and (obj1.bin_id() == obj2.bin_id())
+	matches = matches and (obj1.mass() == obj2.mass())
+	return matches		
+	
+def remove_procs_and_systs_with_zero_yield(proc):
+	# TODO: find out why zero yield should be ok in control regions. until then remove them
+	#null_yield = not (proc.rate() > 0. or is_control_region(proc))
+	null_yield = not proc.rate() > 0.
+	if null_yield:
+		datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
+	return null_yield
+	
 
 if __name__ == "__main__":
 
@@ -195,7 +214,7 @@ if __name__ == "__main__":
 
 	#restriction to CH
 	datacards.cb.channel(args.channel)
-
+	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
 	if args.no_shape_uncs or args.no_syst_uncs:
 		log.debug("Deactivate shape uncertainties")
@@ -218,6 +237,7 @@ if __name__ == "__main__":
 		
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
+
 	
 		for category in categories:			
 			exclude_cuts = args.exclude_cuts
@@ -444,8 +464,8 @@ if __name__ == "__main__":
 			merged_output_files.append(output_file)
 
 	if log.isEnabledFor(logging.DEBUG):
-		pprint.pprint(plot_configs)
-	
+		pprint.pprint(plot_configs) 
+		
 	# delete existing output files
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
 	for output_file_iterator in tmp_output_files:
@@ -489,33 +509,21 @@ if __name__ == "__main__":
 		datacards.cb.FilterSysts(lambda systematic : True)
 		if log.isEnabledFor(logging.DEBUG):
 			datacards.cb.PrintSysts()
+			
+	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)
+
 	
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
 	
-	def matching_process(obj1, obj2):
-		matches = (obj1.bin() == obj2.bin())
-		matches = matches and (obj1.process() == obj2.process())
-		matches = matches and (obj1.signal() == obj2.signal())
-		matches = matches and (obj1.analysis() == obj2.analysis())
-		matches = matches and (obj1.era() == obj2.era())
-		matches = matches and (obj1.channel() == obj2.channel())
-		matches = matches and (obj1.bin_id() == obj2.bin_id())
-		matches = matches and (obj1.mass() == obj2.mass())
-		return matches
+
 		
-	def remove_procs_and_systs_with_zero_yield(proc):
-		# TODO: find out why zero yield should be ok in control regions. until then remove them
-		#null_yield = not (proc.rate() > 0. or is_control_region(proc))
-		null_yield = not proc.rate() > 0.
-		if null_yield:
-			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
-		return null_yield
+
 	
 	# TODO: comment out the following two commands if you want to use
 	#       the SM HTT data card creation method in CombineHarvester
-	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)	
+		
 		
 	# First, we need to choose two hypothesis to test.
 	# The histogram with mixing angle 0.00 is the standard model = null hypothesis.
@@ -593,7 +601,7 @@ if __name__ == "__main__":
 				datacards_cbs,
 				args.n_processes,
 				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_mixing_angle",
+					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels_old:cp_mixing",
 					MODEL_PARAMETERS=""
 				)
 		)
@@ -619,27 +627,27 @@ if __name__ == "__main__":
 						POINTS=args.cp_mixing_scan_points
 				)
 		)
-		
-		# Determine fa3 parameter
-		datacards_workspaces_cp_fa3 = datacards.text2workspace(
-				datacards_cbs,
-				args.n_processes,
-				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_fa3",
-					MODEL_PARAMETERS=""
-				)
-		)
-		
-		datacards.combine(
-				datacards_cbs,
-				datacards_workspaces_cp_fa3,
-				None,
-				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"cp_fa3\"".format(
-						STABLE=datacards.stable_options,
-						POINTS=args.cp_mixing_scan_points
-				)	
-		)
+        # 
+		# # Determine fa3 parameter
+		# datacards_workspaces_cp_fa3 = datacards.text2workspace(
+		# 		datacards_cbs,
+		# 		args.n_processes,
+		# 		"-P {MODEL} {MODEL_PARAMETERS}".format(
+		# 			MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_fa3",
+		# 			MODEL_PARAMETERS=""
+		# 		)
+		# )
+        # 
+		# datacards.combine(
+		# 		datacards_cbs,
+		# 		datacards_workspaces_cp_fa3,
+		# 		None,
+		# 		args.n_processes,
+		# 		"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"cp_fa3\"".format(
+		# 				STABLE=datacards.stable_options,
+		# 				POINTS=args.cp_mixing_scan_points
+		# 		)	
+		# )
 		
 		result_plot_configs = []
 		for datacard, workspace in datacards_workspaces_cp_mixing_angle.iteritems():
