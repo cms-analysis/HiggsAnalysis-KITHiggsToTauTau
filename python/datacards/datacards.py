@@ -99,7 +99,7 @@ class Datacards(object):
 		if "mass" in non_sig_kwargs:
 			non_sig_kwargs.pop("mass")
 
-		if add_data:		
+		if add_data:
 			self.cb.AddObservations(channel=[channel], mass=["*"], bin=bin, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
@@ -116,12 +116,19 @@ class Datacards(object):
 				cb = cb.cp().bin([category])
 			else:
 				cb = cb.cp().bin(category)
-		samples_per_shape_systematic = {}		
+		samples_per_shape_systematic = {}
+		samples_per_shape_systematic.setdefault("nominal", set([])).update(set(cb.process_set()))
+		# Maybe not needed any more (updated by next block) but kept for safety
 
-		samples_per_shape_systematic["nominal"] = cb.process_set()
 		for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
-			samples_per_shape_systematic[shape_systematic] = cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)
+			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
 
+		# There are systematics, which can have a mixed type of lnN/shape, where CH returns only lnN as type. Such which values 1.0 and 0.0 are assumed to be shape uncertainties.
+		cbOnlyShapeUncs = cb.cp()
+		cbOnlyShapeUncs.FilterSysts(lambda systematic : (systematic.value_u() != 1.0) or (systematic.value_d() != 0.0))
+		for shape_systematic in cbOnlyShapeUncs.syst_name_set():
+			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cbOnlyShapeUncs.cp().syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
+		
 		return samples_per_shape_systematic
 
 	def extract_shapes(self, root_filename_template,
@@ -199,17 +206,17 @@ class Datacards(object):
 
 		if log.isEnabledFor(logging.DEBUG):
 			self.cb.PrintAll()
-	
+
 	def create_morphing_signals(self, morphing_variable_name, nominal_value, min_value, max_value):
 		self.workspace = ROOT.RooWorkspace("workspace", "workspace")
 		self.morphing_variable = ROOT.RooRealVar(morphing_variable_name, morphing_variable_name, nominal_value, min_value, max_value)
-		
+
 		cb_signals = self.cb.cp().signals()
 		for category in cb_signals.bin_set():
 			cb_signals_category = cb_signals.cp().bin([category])
 			for signal_process in cb_signals_category.process_set():
 				morphing.BuildRooMorphing(self.workspace, self.cb, category, signal_process, self.morphing_variable, "norm", True, log.isEnabledFor(logging.DEBUG))
-		
+
 		self.cb.AddWorkspace(self.workspace, False)
 		self.cb.cp().signals().ExtractPdfs(self.cb, "workspace", "$BIN_$PROCESS_morph", "")
 
@@ -237,14 +244,14 @@ class Datacards(object):
 		bin_by_bin_factory.MergeBinErrors(self.cb.cp().process(processes))
 		bin_by_bin_factory.AddBinByBin(self.cb.cp().process(processes), self.cb)
 		#ch.SetStandardBinNames(self.cb) # TODO: this line seems to mix up the categories
-		
+
 		self.cb.SetGroup("bbb", [".*_bin_\\d+"])
 		self.cb.SetGroup("syst_plus_bbb", [".*"])
 
 	def scale_expectation(self, scale_factor, no_norm_rate_bkg=False, no_norm_rate_sig=False):
 		self.cb.cp().backgrounds().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_bkg else process.rate()) * scale_factor))
 		self.cb.cp().signals().ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate_sig else process.rate()) * scale_factor))
-	
+
 	def scale_processes(self, scale_factor, processes, no_norm_rate=False):
 		self.cb.cp().process(processes).ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate else process.rate()) * scale_factor))
 	
@@ -258,7 +265,7 @@ class Datacards(object):
 		def _replace_observation_by_asimov_dataset(observation):
 			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
 			background = cb.cp().backgrounds()
-			
+
 			signal = cb.cp().signals()
 			if signal_mass:
 				if signal_processes:
@@ -267,7 +274,7 @@ class Datacards(object):
 					signal = cb.cp().signals().mass([signal_mass])
 			elif signal_processes:
 				signal = cb.cp().signals().process(signal_processes)
-			
+
 			observation.set_shape(background.GetShape() + signal.GetShape(), True)
 			observation.set_rate(background.GetRate() + signal.GetRate())
 
@@ -278,7 +285,7 @@ class Datacards(object):
 		                       os.path.join("$TAG", root_filename_template))
 		if log.isEnabledFor(logging.DEBUG):
 			writer.SetVerbosity(1)
-		
+
 		# enable writing datacards in cases where the mass does not have its original meaning
 		if (len(self.cb.mass_set()) == 1) and (self.cb.mass_set()[0] == "*"):
 			writer.SetWildcardMasses([])
@@ -320,15 +327,15 @@ class Datacards(object):
 			n_points = int(splited_args[splited_args.index("--points") + 1])
 			n_points_per_chunk = 199
 			chunks = [[chunk*n_points_per_chunk, (chunk+1)*n_points_per_chunk-1] for chunk in xrange(n_points/n_points_per_chunk+1)]
-		
+
 		method = re.search("(-M|--method)[\s=\"\']*(?P<method>\w*)[\"\']?\s", tmp_args)
 		if not method is None:
 			method = method.groupdict()["method"]
-		
+
 		name = re.search("(-n|--name)[\s=\"\']*(?P<name>\w*)[\"\']?\s", tmp_args)
 		if not name is None:
 			name = name.groupdict()["name"]
-		
+
 		split_stat_syst_uncs = kwargs.get("split_stat_syst_uncs", False)
 		if split_stat_syst_uncs and (method is None):
 			log.error("Uncertainties are not split into stat. and syst. components, since the method for combine is unknown!")
@@ -336,21 +343,21 @@ class Datacards(object):
 		if split_stat_syst_uncs and (not "MultiDimFit" in method):
 			log.error("Uncertainties are not split into stat. and syst. components. This is only supported for the MultiDimFit method!")
 			split_stat_syst_uncs = False
-		
+
 		split_stat_syst_uncs_options = [""]
 		split_stat_syst_uncs_names = [""]
 		if split_stat_syst_uncs:
 			split_stat_syst_uncs_options = [
 				"--saveWorkspace",
 				"--snapshotName {method} -w w".format(method=method),
-				"--snapshotName {method} -w w --freezeNuisances {uncs}".format(method=method, uncs="{uncs}"),
+				"--snapshotName {method} -w w --freezeNuisanceGroups syst_plus_bbb".format(method=method, uncs="{uncs}"), #DBUG TEST!!!!!!!!!18.1.2017 --freezeNuisances
 			]
 			split_stat_syst_uncs_names = [
 				"Workspace",
 				"TotUnc",
 				"StatUnc",
 			]
-		
+
 		for split_stat_syst_uncs_index, (split_stat_syst_uncs_option, split_stat_syst_uncs_name) in enumerate(zip(split_stat_syst_uncs_options, split_stat_syst_uncs_names)):
 			prepared_tmp_args = None
 			new_name = None
@@ -385,7 +392,7 @@ class Datacards(object):
 				] for datacard, workspace in datacards_workspaces.iteritems()])
 
 			tools.parallelize(_call_command, commands, n_processes=n_processes, description="combine")
-			
+
 			if split_stat_syst_uncs and (split_stat_syst_uncs_index == 0):
 				# replace workspaces by saved versions from the first fit including the postfit nuisance parameter values
 				for datacard, workspace in datacards_workspaces.iteritems():
@@ -397,7 +404,7 @@ class Datacards(object):
 
 		if values_tree_files is None:
 			values_tree_files = {}
-		
+
 		commands = []
 		for datacard, workspace in datacards_workspaces.iteritems():
 			float_values = []
@@ -410,7 +417,7 @@ class Datacards(object):
 					found_match = True
 				else:
 					float_values.append(-999.0)
-			
+
 			if found_match:
 				files = os.path.join(os.path.dirname(workspace), root_filename)
 				values_tree_files.setdefault(tuple(float_values), []).extend(glob.glob(files))
@@ -420,15 +427,15 @@ class Datacards(object):
 						VALUES=" ".join([str(value) for value in float_values]),
 						ARGS=" ".join(args)
 				))
-		
+
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="annotate-trees.py")
 		return values_tree_files
 
 	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="x"):
 		commands = []
 		hypotestresulttree = {}
-		
-		
+
+
 
 		#for fit_type in fit_type_list:
 		commands.extend(["root -q -b \"HiggsAnalysis/KITHiggsToTauTau/scripts/hypoTestResultTree.cxx(\\\"{INPUT}\\\",\\\"{OUTPUT}\\\",{MASS},{RVALUE},\\\"{POINAME}\\\")\"".format(
@@ -437,7 +444,7 @@ class Datacards(object):
 				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
 				RVALUE= str(rvalue),
 				POINAME=str(poiname)
-				
+
 				#ARGS=", ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
 
@@ -529,9 +536,9 @@ class Datacards(object):
 	def prefit_postfit_plots(self, datacards_cbs, datacards_postfit_shapes, plotting_args=None, n_processes=1, signal_stacked_on_bkg=False, *args):
 		if plotting_args is None:
 			plotting_args = {}
-		
+
 		base_path = reduce(lambda datacard1, datacard2: tools.longest_common_substring(datacard1, datacard2), datacards_cbs.keys())
-		
+
 		plot_configs = []
 		bkg_plotting_order = ["ZTTPOSPOL", "ZTTNEGPOL", "ZTT", "ZLL", "ZL", "ZJ", "EWKZ", "TTTAUTAU", "TTT", "TTJJ", "TTJ", "TT", "VVT", "VVJ", "VV", "WJ", "W", "hww_gg125", "hww_qq125", "EWK", "QCD"]
 		for level in ["prefit", "postfit"]:
@@ -544,16 +551,16 @@ class Datacards(object):
 								stacked_processes.extend(datacards_cbs[datacard].cp().bin([category]).signals().process_set())
 							stacked_processes.extend(datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set())
 							stacked_processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
-							stacked_processes = [process for process in bkg_plotting_order if datacards_cbs[datacard].cp().bin([category]).backgrounds().process([process]).GetRate() > 0.0]
+							#stacked_processes = [process for process in bkg_plotting_order if datacards_cbs[datacard].cp().bin([category]).backgrounds().process([process]).GetRate() > 0.0]
 
 							config = {}
-							
+
 							processes_to_plot = list(stacked_processes)
 							# merge backgrounds from dictionary if provided
 							if plotting_args.get("merge_backgrounds", False):
 								if not "SumOfHistograms" in config.get("analysis_modules", []):
 									config.setdefault("analysis_modules", []).append("SumOfHistograms")
-								
+
 								merge_backgrounds = plotting_args.get("merge_backgrounds", {})
 								for new_background, backgrounds_to_merge in merge_backgrounds.iteritems():
 									if new_background not in stacked_processes:
@@ -564,15 +571,15 @@ class Datacards(object):
 												backgrounds_to_remove += background + "_noplot "
 										config.setdefault("sum_nicks", []).append(backgrounds_to_remove)
 										config.setdefault("sum_result_nicks", []).append(new_background)
-								
+
 								processes_to_plot = [p for p in stacked_processes if not "noplot" in p]
-								
+
 								for new_background in merge_backgrounds:
 									if new_background not in stacked_processes:
 										processes_to_plot.append(new_background)
-								
+
 								processes_to_plot.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
-							
+
 							config["files"] = [postfit_shapes]
 							config["folders"] = [category+"_"+level]
 							config["x_expressions"] = [p.strip("_noplot") for p in stacked_processes] + ["TotalSig"] + ["data_obs", "TotalBkg"]
@@ -607,7 +614,7 @@ class Datacards(object):
 										config.setdefault("analysis_modules", []).append("SumOfHistograms")
 									config.setdefault("sum_nicks", []).append("TotalBkg_noplot TotalSig_noplot")
 									config.setdefault("sum_result_nicks", []).append("TotalBkg")
-								
+
 								if not "Ratio" in config.get("analysis_modules", []):
 									config.setdefault("analysis_modules", []).append("Ratio")
 								# add signal/bkg ratio first
@@ -624,7 +631,7 @@ class Datacards(object):
 								config.setdefault("ratio_denominator_nicks", []).extend(["TotalBkg"] * 2)
 								config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
 								config["ratio_denominator_no_errors"] = True
-								
+
 								if plotting_args.get("add_soverb_ratio", False):
 									config.setdefault("colors", []).append("kRed")
 									config.setdefault("markers", []).append("LINE")
@@ -640,7 +647,7 @@ class Datacards(object):
 								config["subplot_grid"] = "True"
 								config["y_subplot_lims"] = [0.5, 1.5]
 								config["y_subplot_label"] = "Obs./Exp."
-							
+
 							# update ordering if backgrounds were merged
 							if plotting_args.get("merge_backgrounds", False):
 								config["nicks_whitelist"] = processes_to_plot + ["TotalSig" + ("_noplot" if signal_stacked_on_bkg else "")] + ["data_obs", "TotalBkg" + ("_noplot" if signal_stacked_on_bkg else "")]
@@ -678,7 +685,7 @@ class Datacards(object):
 	def pull_plots(self, datacards_postfit_shapes, s_fit_only=False, plotting_args=None, n_processes=1, *args):
 		if plotting_args is None:
 			plotting_args = {}
-		
+
 		datacards = []
 		for fit_type, datacards_postfit_shapes_dict in datacards_postfit_shapes.iteritems():
 			datacards.extend(datacards_postfit_shapes_dict.keys())
@@ -733,7 +740,7 @@ class Datacards(object):
 				),
 				os.path.dirname(workspace)
 		] for datacard, workspace in datacards_workspaces.iteritems()])
-		
+
 		commandsFits = []
 		commandsFits.extend([[
 				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doFits --parallel {NPROCS} --allPars {ARGS}".format(
@@ -744,7 +751,7 @@ class Datacards(object):
 				),
 				os.path.dirname(workspace)
 		] for datacard, workspace in datacards_workspaces.iteritems()])
-		
+
 		commandsOutput = []
 		commandsOutput.extend([[
 				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --output impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
@@ -755,7 +762,7 @@ class Datacards(object):
 				),
 				os.path.dirname(workspace)
 		] for datacard, workspace in datacards_workspaces.iteritems()])
-		
+
 		commandsPlot = []
 		commandsPlot.extend([[
 				"plotImpacts.py -i {INPUT} -o {OUTPUT}".format(
