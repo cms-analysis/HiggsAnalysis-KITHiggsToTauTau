@@ -116,20 +116,10 @@ class Datacards(object):
 				cb = cb.cp().bin([category])
 			else:
 				cb = cb.cp().bin(category)
-		
 		samples_per_shape_systematic = {}
-		samples_per_shape_systematic.setdefault("nominal", set([])).update(set(cb.process_set()))
-		
-		# Maybe not needed any more (updated by next block) but kept for safety
+		samples_per_shape_systematic["nominal"] = cb.process_set()
 		for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
-			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
-		
-		# There are systematics, which can have a mixed type of lnN/shape, where CH returns only lnN as type. Such which values 1.0 and 0.0 are assumed to be shape uncertainties.
-		cbOnlyShapeUncs = cb.cp()
-		cbOnlyShapeUncs.FilterSysts(lambda systematic : (systematic.value_u() != 1.0) or (systematic.value_d() != 0.0))
-		for shape_systematic in cbOnlyShapeUncs.syst_name_set():
-			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cbOnlyShapeUncs.cp().syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
-		
+			samples_per_shape_systematic[shape_systematic] = cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)
 		return samples_per_shape_systematic
 
 	def extract_shapes(self, root_filename_template,
@@ -360,7 +350,9 @@ class Datacards(object):
 					prepared_tmp_args = re.sub("(-n|--name)([\s=\"\']*)(\w*)([\"\']?\s)", "\\1\\2"+new_name+"\\4", prepared_tmp_args)
 			else:
 				prepared_tmp_args = tmp_args
-			
+
+			prepared_tmp_args = re.sub("-n -n", "-n", prepared_tmp_args)
+
 			commands = []
 			for chunk_index, (chunk_min, chunk_max) in enumerate(chunks):
 				commands.extend([[
@@ -452,6 +444,7 @@ class Datacards(object):
 			fit_type_list.remove("fit_b")
 
 		for fit_type in fit_type_list:
+			#if assert(os.path.join(os.path.dirname(datacard)))
 			commands.extend(["PostFitShapes --postfit -d {DATACARD} -o {OUTPUT} -m {MASS} -f {FIT_RESULT} {ARGS}".format(
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
