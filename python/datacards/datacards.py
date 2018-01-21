@@ -642,8 +642,11 @@ class Datacards(object):
 				] for datacard in datacards_cbs.keys()])
 
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="diffNuisances.py")
-
+	
 	def pull_plots(self, datacards_postfit_shapes, s_fit_only=False, plotting_args=None, n_processes=1, *args):
+		"""
+		This method is depreceated since there exists an official way to produce the impacts of nuisance parameters.
+		"""
 		if plotting_args is None:
 			plotting_args = {}
 
@@ -692,7 +695,7 @@ class Datacards(object):
 
 		commandsInitialFit = []
 		commandsInitialFit.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doInitialFit --allPars {ARGS}".format(
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --doInitialFit --allPars {ARGS}".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace
@@ -702,7 +705,7 @@ class Datacards(object):
 
 		commandsFits = []
 		commandsFits.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doFits --parallel {NPROCS} --allPars {ARGS}".format(
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --doFits --parallel {NPROCS} --allPars {ARGS}".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace,
@@ -713,7 +716,7 @@ class Datacards(object):
 
 		commandsOutput = []
 		commandsOutput.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --output impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 -o impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace,
