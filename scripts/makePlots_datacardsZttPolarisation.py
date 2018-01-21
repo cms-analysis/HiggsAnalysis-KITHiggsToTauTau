@@ -402,12 +402,13 @@ if __name__ == "__main__":
 				print("###################### 1.2 ######################")
 				if "pulls" in args.steps:
 					datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
-					datacards.pull_plots(
-							datacards_postfit_shapes,
-							s_fit_only=True,
-							plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
-							n_processes=args.n_processes
-					)
+					#use nuisance_impacts instead pull_plots!
+					# datacards.pull_plots(
+					# 		datacards_postfit_shapes,
+					# 		s_fit_only=True,
+					# 		plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
+					# 		n_processes=args.n_processes
+					# )
 
 				print("###################### 1.3 ######################")
 				if "nuisanceimpacts" in args.steps:

@@ -410,7 +410,8 @@ if __name__ == "__main__":
 		n_processes=args.n_processes,
 		signal_stacked_on_bkg=True
 		)
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']],"formats" : ["pdf", "png"], "args" : args.args}, n_processes=args.n_processes)
+	#use nuisance_impacts instead pull_plots!
+	#datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']],"formats" : ["pdf", "png"], "args" : args.args}, n_processes=args.n_processes)
 
 	# plotting
 	plot_configs = []
