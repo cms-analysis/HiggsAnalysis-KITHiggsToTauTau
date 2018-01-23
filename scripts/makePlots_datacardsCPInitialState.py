@@ -183,6 +183,29 @@ if __name__ == "__main__":
 			year=args.era,
 			cp_study=args.cp_study
 	)
+	
+	datacards.configs._mapping_process2sample = {
+		"data_obs" : "data",
+		"ZTT" : "ztt",
+		"ZL" : "zl",
+		"ZLL" : "zll",
+		"ZJ" : "zj",
+		"EWKZ" : "ewkz",
+		"TT" : "ttj",
+		"TTT" : "ttt",
+		"TTJJ" : "ttjj",
+		"VV" : "vv",
+		"VVT" : "vvt",
+		"VVJ" : "vvj",
+		"W" : "wj",
+		"QCD" : "qcd",
+		"ggHps"	: "gghjhups",
+		"ggHmm"	: "gghjhumm",
+		"ggHsm"	: "gghjhusm",
+		"qqH"	: "qqh",
+		"ggH" : "ggh"
+	}
+			
 		
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -509,26 +532,14 @@ if __name__ == "__main__":
 		datacards.cb.FilterSysts(lambda systematic : True)
 		if log.isEnabledFor(logging.DEBUG):
 			datacards.cb.PrintSysts()
-			
-	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)
 
-	
 	# scale
 	if(args.scale_lumi):
 		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
 	
-
-		
-
-	
 	# TODO: comment out the following two commands if you want to use
 	#       the SM HTT data card creation method in CombineHarvester
-		
-		
-	# First, we need to choose two hypothesis to test.
-	# The histogram with mixing angle 0.00 is the standard model = null hypothesis.
-	# TODO: For inital state and final state the string for the two hypothesis might be different.
-	# TODO: Someone might be interested in testing other mixings angles against SM prediction.
+	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)		
 	
 	# Use an asimov dataset. This line must be here, because otherwise we
 	if args.use_asimov_dataset:
