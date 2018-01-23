@@ -8,7 +8,7 @@
 		"#ff0000"
 	],
 	"files": [
-		"higgsCombine-*.Asymptotic.mH*.root"
+		"higgsCombine*.Asymptotic.mH*.root"
 	],
 	"fill_styles": [
 		1001
