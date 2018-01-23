@@ -29,6 +29,18 @@ def _call_command(command):
 	log.debug(command)
 	logger.subprocessCall(command, shell=True)
 	
+def official2private(category, category_replacements):
+	result = copy.deepcopy(category)
+	for official, private in category_replacements.iteritems():
+		result = re.sub(official+"$", private, result)
+	return result
+
+def private2official(category, category_replacements):
+	result = copy.deepcopy(category)
+	for official, private in category_replacements.iteritems():
+		result = re.sub(private+"$", official, result)
+	return result
+	
 def matching_process(obj1, obj2):
 	matches = (obj1.bin() == obj2.bin())
 	matches = matches and (obj1.process() == obj2.process())
@@ -92,8 +104,12 @@ if __name__ == "__main__":
 	                    help="Turn off normalization by bin width [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
-	parser.add_argument("-b", "--background-method", default="new",
+	parser.add_argument("--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
+	parser.add_argument("-b", "--batch", default=None, const="rwthcondor", nargs="?",
+	                    help="Run with grid-control. Optionally select backend. [Default: %(default)s]")
+	parser.add_argument("--remote", action="store_true", default=False,
+	                    help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
@@ -163,7 +179,6 @@ if __name__ == "__main__":
 	output_files = []
 	merged_output_files = []
 	hadd_commands = []
-	
 	"""
 	# final state studies
 	if args.cp_study == "final":
@@ -247,6 +262,9 @@ if __name__ == "__main__":
 			
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		# include channel prefix
+
+
+			
 		categories= [channel + "_" + category for category in categories]
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
