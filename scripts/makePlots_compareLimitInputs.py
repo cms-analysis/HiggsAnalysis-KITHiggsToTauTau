@@ -36,6 +36,8 @@ if __name__ == "__main__":
 	                    help="Labels. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	parser.add_argument("--www", nargs="?", default=None, const="limi_inputs",
+	                    help="Publish plots. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int,
@@ -49,8 +51,6 @@ if __name__ == "__main__":
 	root_files = [root_file.Close() for root_file in root_files]
 	
 	renamings = {
-		"muTau" : "mt",
-		"mutau" : "mt",
 	}
 	
 	renamed_histogram_paths = [[multi_rename(path, renamings) for path in paths] for paths in histogram_paths]
@@ -64,9 +64,12 @@ if __name__ == "__main__":
 					"files" : args.inputs,
 					"folders" : [os.path.dirname(histogram_paths_1), os.path.dirname(histogram_path_2)],
 					"x_expressions" : [os.path.basename(histogram_paths_1), os.path.basename(histogram_path_2)],
+					"title" : os.path.join(os.path.basename(args.inputs[0]), os.path.dirname(histogram_paths_1)),
 					"labels" : args.labels+[""],
-					"legend" : [0.6, 0.7, 0.9, 0.9],
+					"legend" : [0.6, 0.65, 0.9, 0.85],
 					"colors" : ["kBlack", "kRed", "kBlack"],
+					"markers" : ["E", "LINE", "E"],
+					"legend_markers" : ["ELP", "L", "ELP"],
 					"output_dir" : os.path.join("plots", "comparison", os.path.dirname(histogram_paths_1)),
 					"filename" : os.path.basename(histogram_paths_1),
 					"nicks" : ["1", "2"],
@@ -76,6 +79,8 @@ if __name__ == "__main__":
 					"ratio_result_nicks" : ["ratio"],
 				}
 		)
+		if args.www:
+			plot_configs[-1]["www"] = os.path.join(args.www, os.path.basename(args.inputs[0]), os.path.dirname(histogram_paths_1))
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
 
