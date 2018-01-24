@@ -146,6 +146,8 @@ if __name__ == "__main__":
 	                    help="Steps to perform. [Default: %(default)s]")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
+	parser.add_argument("--get-official-dc", action="store_true", default=False,
+	                    help="Get official CP datacards. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
@@ -179,6 +181,7 @@ if __name__ == "__main__":
 	output_files = []
 	merged_output_files = []
 	hadd_commands = []
+	
 	"""
 	# final state studies
 	if args.cp_study == "final":
@@ -193,33 +196,96 @@ if __name__ == "__main__":
 			signal_processes.append("CPMIX_ALT")
 	"""
 	
-	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
-			higgs_masses=args.higgs_masses,
-			year=args.era,
-			cp_study=args.cp_study
-	)
+	datacards = None
+	category_replacements = {}
 	
-	datacards.configs._mapping_process2sample = {
-		"data_obs" : "data",
-		"ZTT" : "ztt",
-		"ZL" : "zl",
-		"ZLL" : "zll",
-		"ZJ" : "zj",
-		"EWKZ" : "ewkz",
-		"TT" : "ttj",
-		"TTT" : "ttt",
-		"TTJJ" : "ttjj",
-		"VV" : "vv",
-		"VVT" : "vvt",
-		"VVJ" : "vvj",
-		"W" : "wj",
-		"QCD" : "qcd",
-		"ggHps"	: "gghjhups",
-		"ggHmm"	: "gghjhumm",
-		"ggHsm"	: "gghjhusm",
-		"qqH"	: "qqh",
-		"ggH" : "ggh"
-	}
+	if args.get_official_dc:
+		# get "official" configuration
+		init_directory = os.path.join(args.output_dir, "init")
+		command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
+		log.debug(command)
+		exit_code = logger.subprocessCall(shlex.split(command))
+		assert(exit_code == 0)
+		
+		init_cb = ch.CombineHarvester()
+		for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):
+			init_cb.QuickParseDatacard(init_datacard, "$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt", False)
+		
+		datacards = smhttdatacards.SMHttDatacards(
+				cb=init_cb,
+				higgs_masses=args.higgs_masses,
+				ttbarFit=args.ttbar_fit,
+				mmFit=args.mm_fit,
+				year=args.era,
+				noJECuncSplit=args.no_jec_unc_split
+		)
+		
+		
+		datacards.configs._mapping_process2sample = {
+			"data_obs" : "data",
+			"ZTT" : "ztt",
+			"ZL" : "zl",
+			"ZJ" : "zj",
+			"EWKZ" : "ewkz",
+			"TT" : "ttj",
+			"TTT" : "ttt",
+			"TTJ" : "ttj",
+			"VV" : "vv",
+			"VVT" : "vvt",
+			"VVJ" : "vvj",
+			"W" : "wj",
+			"QCD" : "qcd",
+			"ggH_htt" : "ggh",
+			"qqH_htt" : "qqh",
+			"WH_htt" : "wh",
+			"ZH_htt" : "zh",
+			"ggH_hww" : "hww_gg",
+			"qqH_hww" : "hww_qq",
+		}
+		
+		category_replacements["0jet"] = "ZeroJet2D"
+		category_replacements["boosted"] = "Boosted2D"
+		category_replacements["vbf"] = "Vbf2D"
+		category_replacements["all"] = "TTbarCR"
+		category_replacements["wjets_0jet_cr"] = "ZeroJet2D_WJCR"
+		category_replacements["wjets_boosted_cr"] = "Boosted2D_WJCR"
+		category_replacements["wjets_vbf_cr"] = "Vbf2D_WJCR"
+		category_replacements["antiiso_0jet_cr"] = "ZeroJet2D_QCDCR"
+		category_replacements["antiiso_boosted_cr"] = "Boosted2D_QCDCR"
+		category_replacements["antiiso_vbf_cr"] = "Vbf2D_QCDCR"
+		category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR"
+		category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
+		category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
+	
+	else:
+		# use the datacards created within Artus.
+		datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
+				higgs_masses=args.higgs_masses,
+				year=args.era,
+				cp_study=args.cp_study
+		)
+	
+		datacards.configs._mapping_process2sample = {
+			"data_obs" : "data",
+			"ZTT" : "ztt",
+			"ZL" : "zl",
+			"ZLL" : "zll",
+			"ZJ" : "zj",
+			"EWKZ" : "ewkz",
+			"TT" : "ttj",
+			"TTT" : "ttt",
+			"TTJJ" : "ttjj",
+			"VV" : "vv",
+			"VVT" : "vvt",
+			"VVJ" : "vvj",
+			"W" : "wj",
+			"QCD" : "qcd",
+			"ggHps"	: "gghjhups",
+			"ggHmm"	: "gghjhumm",
+			"ggHsm"	: "gghjhusm",
+			"qqH"	: "qqh",
+			"ggH" : "ggh"
+		}
 			
 		
 	# initialise datacards
