@@ -8,9 +8,14 @@ log = logging.getLogger(__name__)
 import argparse
 import copy
 import os
+import glob
+import re
 import sys
 import pprint
+import shlex
 import numpy
+
+import CombineHarvester.CombineTools.ch as ch
 
 import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
@@ -202,25 +207,24 @@ if __name__ == "__main__":
 	if args.get_official_dc:
 		# get "official" configuration
 		init_directory = os.path.join(args.output_dir, "init")
-		command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
+		command = "MorphingSMCP2016 --control_region=1  --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
 		log.debug(command)
 		exit_code = logger.subprocessCall(shlex.split(command))
 		assert(exit_code == 0)
 		
 		init_cb = ch.CombineHarvester()
-		for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):
-			init_cb.QuickParseDatacard(init_datacard, "$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt", False)
+		for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):			
+			init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt', False)
 		
-		datacards = smhttdatacards.SMHttDatacards(
+		datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
 				cb=init_cb,
 				higgs_masses=args.higgs_masses,
-				ttbarFit=args.ttbar_fit,
-				mmFit=args.mm_fit,
 				year=args.era,
-				noJECuncSplit=args.no_jec_unc_split
+				cp_study=args.cp_study
 		)
 		
-		
+		# The processes have different names in the official SM datacards
+		# So this workaround is needed to match the right processes
 		datacards.configs._mapping_process2sample = {
 			"data_obs" : "data",
 			"ZTT" : "ztt",
@@ -241,8 +245,10 @@ if __name__ == "__main__":
 			"ZH_htt" : "zh",
 			"ggH_hww" : "hww_gg",
 			"qqH_hww" : "hww_qq",
-		}
-		
+			}
+			
+		# Also the categories have different names.
+		# Match SM categories and control regions. 
 		category_replacements["0jet"] = "ZeroJet2D"
 		category_replacements["boosted"] = "Boosted2D"
 		category_replacements["vbf"] = "Vbf2D"
@@ -256,6 +262,14 @@ if __name__ == "__main__":
 		category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR"
 		category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
 		category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
+		
+		# Match 2-jet categories with IC.
+		category_replacements["dijet_boosted"] = "TwoJet_CP_boosted"
+		category_replacements["dijet_highM"] = "TwoJet_CP_mvishigh"
+		category_replacements["dijet_lowM"] = "TwoJet_CP_mvislow"
+		category_replacements["dijet_lowMjj"] = "TwoJet_CP_mjjlow"
+		
+
 	
 	else:
 		# use the datacards created within Artus.
