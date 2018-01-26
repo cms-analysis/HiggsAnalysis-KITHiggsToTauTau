@@ -742,3 +742,4 @@ class Datacards(object):
 		rebin.SetPerformRebin(True)
 		rebin.SetVerbosity(0)
 		rebin.Rebin(self.cb, self.cb)
+

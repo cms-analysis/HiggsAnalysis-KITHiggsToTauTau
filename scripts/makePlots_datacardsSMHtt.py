@@ -23,6 +23,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samp
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
+import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards_module
 
 
 
@@ -213,8 +214,8 @@ if __name__ == "__main__":
 		category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
 	
 	# initialise datacards
-	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
+	tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
@@ -630,6 +631,14 @@ if __name__ == "__main__":
 		for output_file in output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	# call official script again with shapes that have just been created
+	datacards_module._call_command([
+			"MorphingSM2016 --output_folder RWTH --postfix \"-2D\" --control_region=1 --manual_rebin=false --real_data=true --mm_fit=false --ttbar_fit=true --input_folder_em RWTH --input_folder_et RWTH --input_folder_mt RWTH --input_folder_tt RWTH --input_folder_mm RWTH --input_folder_ttbar RWTH",
+			args.output_dir
+	])
+	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/RWTH")))
+	sys.exit(0)
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
