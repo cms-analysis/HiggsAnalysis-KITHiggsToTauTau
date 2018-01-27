@@ -263,14 +263,6 @@ if __name__ == "__main__":
 		category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
 		category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
 		
-		# Match 2-jet categories with IC.
-		category_replacements["dijet_boosted"] = "TwoJet_CP_boosted"
-		category_replacements["dijet_highM"] = "TwoJet_CP_mvishigh"
-		category_replacements["dijet_lowM"] = "TwoJet_CP_mvislow"
-		category_replacements["dijet_lowMjj"] = "TwoJet_CP_mjjlow"
-		
-
-	
 	else:
 		# use the datacards created within Artus.
 		datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(

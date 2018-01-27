@@ -626,7 +626,7 @@ class CategoriesDict(object):
 		Categories used in CP Initial State studies.
 		"""		
 		
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_boosted{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}dijet_boosted{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -695,7 +695,7 @@ class CategoriesDict(object):
 						}
 					}
 				}		
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_mvislow{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}dijet_lowM{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -718,7 +718,7 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_mvishigh{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}dijet_highM{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -741,7 +741,7 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_mjjlow{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}dijet_lowMjj{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
