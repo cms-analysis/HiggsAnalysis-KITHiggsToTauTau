@@ -77,14 +77,14 @@
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv",
 			"Spring16|Summer16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv",
-			"Summer17" : ""
+			"Summer17|Fall17" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
 		}
 	},
 	"BTagEfficiencyFile" : {
 		"nick" : {
 			"default" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies.root",
 			"Spring16|Summer16" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root",
-			"Summer17" : ""
+			"Summer17|Fall17" : "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root"
 		}
 	},
 	"MetCorrectionMethod" : {
@@ -97,14 +97,14 @@
 		"nick" : {
 			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root",
 			"(Run2016|Spring16|Summer16)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root",
-			"(Run2017|Summer17)": "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root"
+			"(Run2017|Summer17|Fall17)": "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root"
 		}
 	},
 	"MvaMetRecoilCorrectorFile" : {
 		"nick" : {
 			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root",
 			"(Run2016|Spring16|Summer16)" :  "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root",
-			"(Run2017|Summer17)": ""
+			"(Run2017|Summer17|Fall17)": ""
 		}
 	},
 	"MetShiftCorrectorFile" : {
@@ -119,7 +119,7 @@
 	},
 	"ZptReweightProducerWeights" : {
 		"nick" : {
-			"(Run2017|Summer17)": "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root",
+			"(Run2017|Summer17|Fall17)": "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root",
 			"(Run2016|Spring16|Summer16)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root",
 			"(Fall15MiniAODv2|Run2015D|Embedding2015)" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights.root"
 		}
@@ -149,28 +149,28 @@
 	},
 	"SimpleMuTauFakeRateWeightLoose" : {
 		"nick" : {
-			"Summer17" : [1.0, 1.0, 1.0, 1.0, 1.0],
+			"Summer17|Fall17" : [1.0, 1.0, 1.0, 1.0, 1.0],
 			"Spring16|Summer16" : [1.01, 1.007, 0.87, 1.154, 2.281],
 			"Fall15MiniAODv2" : [1.0, 1.0, 1.0, 1.0, 1.0]
 		}
 	},
 	"SimpleMuTauFakeRateWeightTight" : {
 		"nick" : {
-			"Summer17" : [1.0, 1.0, 1.0, 1.0, 1.0],
+			"Summer17|Fall17" : [1.0, 1.0, 1.0, 1.0, 1.0],
 			"Spring16|Summer16" : [1.263, 1.364, 0.854, 1.712, 2.324],
 			"Fall15MiniAODv2" : [1.0, 1.0, 1.0, 1.0, 1.0]
 		}
 	},
 	"SimpleEleTauFakeRateWeightVLoose" : {
 		"nick" : {
-			"Summer17" : [1.0, 1.0],
+			"Summer17|Fall17" : [1.0, 1.0],
 			"Spring16|Summer16" : [1.213, 1.375],
 			"Fall15MiniAODv2" : [1.02, 1.11]
 		}
 	},
 	"SimpleEleTauFakeRateWeightTight" : {
 		"nick" : {
-			"Summer17" : [1.0, 1.0],
+			"Summer17|Fall17" : [1.0, 1.0],
 			"Spring16|Summer16" : [1.402, 1.90],
 			"Fall15MiniAODv2" : [1.80, 1.30]
 		}
