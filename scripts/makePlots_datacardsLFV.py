@@ -10,6 +10,7 @@ import copy
 import os
 import sys
 import shutil
+import yaml
 
 import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
@@ -29,7 +30,7 @@ if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for LFV analysis.",
 	                                 parents=[logger.loggingParser])
-	parser.add_argument("-i", "--input-dir", default = "/net/scratch_cms3b/croote/artus/2017-11-09_14-46_SM-control/merged/",
+	parser.add_argument("-i", "--input-dir", default = "/net/scratch_cms3b/brunner/artus/AllSamples/merged/",
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", nargs="+",
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
@@ -38,7 +39,7 @@ if __name__ == "__main__":
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+",
-	                    default=["LFVZeroJet_mt", "LFVOneJet_mt"],
+	                    default=["ZeroJet_LFV", "OneJet_LFV"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/LFV_datacards/",
@@ -64,7 +65,6 @@ if __name__ == "__main__":
 
 	#Instances of classes needed for filling the config
 	systematics_factory = systematics.SystematicsFactory()
-	parameter_info = parametermaster.ParameterMaster()
 	
 	plot_configs = []
 	output_files = []
@@ -89,22 +89,28 @@ if __name__ == "__main__":
 	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs, shape_syst_enable = args.shape_uncs)
 	#datacards.cb.PrintAll()
 
+	cut_info 	= yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/cuts.yaml")), "r"))
+	parameter_info  = yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/parameter.yaml")), "r"))
+
 	#Loop over all channel/categories
 	for channel in args.channel:
 		list_of_samples = datacards.cb.process_set()
 	
 		##Dictionary for categories with list of [path of file with optimized cuts, weight for numbers of jets]
 		categories = {
-				"ZeroJet_LFV":		[os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization") + "/cutvalues_" + channel + "_zerojet.ini"), "njetspt30==0"],
-				"OneJet_LFV":		[os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization") + "/cutvalues_" + channel + "_onejet.ini"), "njetspt30==1"],
+				"ZeroJet_LFV":	 [0, "(njetspt30==0)"],
+				"OneJet_LFV":	 [1, "(njetspt30==1)"],
 		}
 
 		for category in args.categories:
 			tmp_output_files = []
 
 			#Weight for the category saved in cut ini files
-			filename = categories[category][0]
-			weight = parametermaster.ParameterMaster().weightmaster(filename) + "*" + categories[category][1]
+			cut_strings = [parameter_info[param][4] for param in cut_info[categories[category][0]][channel].keys()]
+			cut_values, cut_side = [[entry[index] for entry in cut_info[categories[category][0]][channel].values()] for index in [0,1]]
+			weight = "*".join([cut_strings[index].format(side = side, cut = value) for index, (side, value) in enumerate(zip(cut_side, cut_values))] + [categories[category][1]])
+
+			print weight
 
 			category = channel + "_" + category
 
@@ -117,27 +123,31 @@ if __name__ == "__main__":
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template				
 	
+
+					#input_dir, output_dir, formats, www_nodate, www, x_expressions, x_bins, output_file
 					##Define values to fill Harry Plotter config
 					base_values = [
 							[args.input_dir], 
 							args.output_dir, 
-							tmp_input_root_filename_template.replace("$", "").format(ANALYSIS="LFV", CHANNEL = channel, BIN= category,SYSTEMATIC=systematic, ERA="13TeV"),
 							["png"],
-							"",
 							True,
+							"",
 							[args.quantity],
-							["25,0,200"]
+							["25,0,200"],
+							tmp_input_root_filename_template.replace("$", "").format(ANALYSIS="LFV", CHANNEL = channel, BIN= category,SYSTEMATIC=systematic, ERA="13TeV"),
 					]
+
+					#sample_list, channel, category, estimationMethod, cut_type, nick_suffix, no_plot, weight= sample_values
 
 					sample_values  = [
 							samples,
 							channel,
 							None,
-							False,
-							"",	
-							weight,
 							"new",
-							"lfv"
+							"lfv",
+							"",
+							False,
+							weight,
 					]
 
 					datacard_values = [
@@ -157,8 +167,7 @@ if __name__ == "__main__":
 				config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))				
 
 				##Do specific config change
-				config["labels"] = config["labels"][len(samples):]
-
+				config["labels"] = config["labels"][-1]
 				plot_configs.append(config)
 
 				##File list with tmp output files
@@ -179,8 +188,12 @@ if __name__ == "__main__":
 			os.remove(output_file_iterator)
 	output_files = list(set(output_files))
 
+	#import pprint
+	#pprint.pprint(plot_configs)
+	#sys.exit()
+
 	# create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes= 1, n_plots=args.n_plots[0])
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes= 1, n_plots=len(plot_configs))
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=1)
 
@@ -220,7 +233,7 @@ if __name__ == "__main__":
 	# Max. likelihood fit
 
 	#datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, 1, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, 1, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, 1, "--expectSignal=1 -t -1 -M AsymptoticLimits -n \"\"")
 
 	
 
