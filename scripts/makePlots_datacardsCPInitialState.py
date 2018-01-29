@@ -685,8 +685,8 @@ if __name__ == "__main__":
 	output_files = list(set(output_files))
 	
 	# create input histograms with HarryPlotter
-	if "inputs" in args.steps:
-		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	log.info("\n Creating input histograms with HarryPlotter.")
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 	
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
@@ -697,6 +697,7 @@ if __name__ == "__main__":
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
 	# update CombineHarvester with the yields and shapes
+	log.info("\n ------------------Extract shapes from histogram templates.--------------------")
 	datacards.extract_shapes(
 			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
 			bkg_histogram_name_template, sig_histogram_name_template,
@@ -704,8 +705,10 @@ if __name__ == "__main__":
 			update_systematics=True
 	)
 	
+	
 	# add bin-by-bin uncertainties
 	if not args.no_bbb_uncs:
+		log.info("\n---------------- Added bin-by-bin uncertainties.---------------------")
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
@@ -713,7 +716,7 @@ if __name__ == "__main__":
 	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
 	if args.no_syst_uncs:
-		log.debug("Deactivate systematic uncertainties")
+		log.debug("----------------------Deactivate systematic uncertainties-------------------------")
 		if not args.use_asimov_dataset:
 			log.warning("Fitting MC to data without systematic uncertainties can lead to unreasonable results.")
 		datacards.cb.FilterSysts(lambda systematic : True)
@@ -730,7 +733,8 @@ if __name__ == "__main__":
 	
 	# Use an asimov dataset. This line must be here, because otherwise we
 	if args.use_asimov_dataset:
-		datacards.replace_observation_by_asimov_dataset(signal_processes=["ggHsm", "qqHsm"])
+		log.info("\n --------------------Using asimov dataset instead of actual data.----------------------")
+		datacards.replace_observation_by_asimov_dataset(signal_processes=["ggHsm_htt", "qqHsm_htt"])
 	
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
@@ -739,6 +743,7 @@ if __name__ == "__main__":
 	
 	# TODO: WIP: More elegant programming style planned.
 	if "yields" in args.steps:
+		log.info("\n -------------------------------------- Yields ---------------------------------")
 		for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 			categories= [channel + "_" + category for category in categories]
 			# prepare category settings based on args and datacards
@@ -772,6 +777,7 @@ if __name__ == "__main__":
 		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
 	
 	# write datacards and call text2workspace
+	log.info("\n ---------------Writing datacards and call text2workspace.----------------------------")
 	datacards_cbs = {}
 	for datacard_filename_template in datacard_filename_templates:
 		datacards_cbs.update(datacards.write_datacards(
