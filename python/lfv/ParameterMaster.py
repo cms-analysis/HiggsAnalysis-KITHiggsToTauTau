@@ -56,7 +56,7 @@ class ParameterMaster(object):
 
 	def __labelinfo__(self):
 		self._labelinfo = {
-					Parameter.m_vis:		"m_{vis}",
+					Parameter.m_vis:		"m_{vis} [GeV]",
 					Parameter.ptofsumdilep:		"(#sump^{#mu})_{T}",
 					Parameter.mt_1:			"m_{T}",
 					Parameter.mt_2:			"m_{T}",
@@ -163,3 +163,68 @@ class ParameterMaster(object):
 			cut_values.append(value)
 		
 		return cut_parameter, cut_values
+<<<<<<< Updated upstream
+=======
+
+	
+	##Sum weights of different parameter to get string using for harry plotter weight input
+
+	def weightaddition(self, cut_strings, cut_values):
+		weight = ""
+		for index, (cut, value) in enumerate(zip(cut_strings, cut_values)):
+			if index == 0:
+				weight = cut.format(cut = value)
+
+			else:
+				weight = weight + "*" + cut.format(cut = value)
+
+		return weight
+
+	##Returns weight for harry plotter made from optimal cut parameters
+
+	def weightmaster(self, filename):
+		cut_parameter, cut_values = self.cutconfigreader(filename, "Iteration3")
+		
+		return self.weightaddition(self.get_parameter_info(cut_parameter,2), cut_values)
+
+
+
+"""
+	file_name = "cutvalues_" + channel + "_onejet2.ini"
+	if os.path.exists(path + "/" + file_name):
+		os.remove(path + "/" + file_name)
+
+	for index in range(4):	
+		for parameter in x:
+			##For first itereration no cuts are used, then N-1 cuts are applied for the N th parameter you look at
+			if(index != 0):
+				cut_parameters = list(set(x).difference(set([parameter])))
+				cut_strings = parameter_info.get_parameter_info(cut_parameters, 2)
+				weight = parameter_info.weightaddition(cut_strings, [cut_values[str(cut)] for cut in cut_parameters])
+		
+			##Fill harry plotter config to get S/sqrt(S+B) histograms 
+			config = configmaster.ConfigMaster(*base_config(channel, parameter, parameter_info, nick_suffix = "noplot", no_plot = True, weights = "1" if index==0 else weight))
+			config.add_config_info(sumofhists_config(["zttnoplot zllnoplot ttjnoplot vvnoplot wjnoplot qcdnoplot"], ["bkg_sum"]), 1)
+			config.add_config_info(efficiency_config(channel, parameter, parameter_info, plot_modules = ["ExportRoot"])[1], 2)
+			config.pop(["www", "www_nodate"])
+			config.change_config_info("filename", "_" + channel)
+
+			##Call harry.py the MVP to get your job done
+			harry = higgsplot.HiggsPlotter(list_of_config_dicts=[config.return_config()], n_plots = 1)
+
+			##Read out produced histogramm for the N th parameter and find best cut value
+			cut_file = ROOT.TFile.Open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization/")) + "/" +  parameter_info.get_parameter_info(parameter, 0)[-1] + "_" + channel + ".root")
+			histogram = cut_file.Get("sOverSqrtSB_" + str(parameter))	
+			cut_values[str(parameter)] = histogram.GetXaxis().GetBinCenter(histogram.GetMaximumBin())
+
+			##Clear up output directory to only have ini files
+			os.remove(path + "/" + config.return_config()["filename"] + ".root")
+			os.remove(path + "/" + config.return_config()["filename"] + ".json")
+			
+		##Write cut values from Iteration into cut config
+		parameter_info.cutconfigwriter(path, file_name, "Iteration" + str(index), cut_values)
+	
+	sys.exit()
+"""
+
+>>>>>>> Stashed changes

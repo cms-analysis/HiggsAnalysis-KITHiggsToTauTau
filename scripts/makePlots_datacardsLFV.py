@@ -9,7 +9,8 @@ import argparse
 import copy
 import os
 import sys
-import pprint
+import shutil
+import yaml
 
 import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
@@ -19,7 +20,6 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samp
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.lfvdatacards as lfvdatacards
 import HiggsAnalysis.KITHiggsToTauTau.lfv.ConfigMaster as configmaster
-import HiggsAnalysis.KITHiggsToTauTau.lfv.ParameterMaster as parametermaster
 
 def _call_command(command):
 	log.debug(command)
@@ -29,7 +29,8 @@ if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for LFV analysis.",
 	                                 parents=[logger.loggingParser])
-	parser.add_argument("-i", "--input-dir", required=True,
+
+	parser.add_argument("-i", "--input-dir", default = "/net/scratch_cms3b/brunner/artus/AllSamples/merged/",
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action="append",
 	                    default=["et"],
@@ -39,8 +40,8 @@ if __name__ == "__main__":
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=["LFVZeroJet", "LFVJet"],
+	parser.add_argument("--categories", nargs="+",
+	                    default=["ZeroJet_LFV", "OneJet_LFV"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/LFV_datacards/",
@@ -62,7 +63,6 @@ if __name__ == "__main__":
 
 	#Instances of classes needed for filling the config
 	systematics_factory = systematics.SystematicsFactory()
-	parameter_info = parametermaster.ParameterMaster()
 	
 	plot_configs = []
 	output_files = []
@@ -103,6 +103,16 @@ if __name__ == "__main__":
 	#datacard initialization
 	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs, shape_syst_enable = args.shape_uncs)
 
+	##Open file with information about category cut values
+	parameter_info	= yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/parameter.yaml")), "r"))
+	cut_info	= yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/cuts.yaml")), "r"))
+
+	##Dictionary for categories with list of [path of file with optimized cuts, weight for numbers of jets]
+	categories = {
+			"ZeroJet_LFV":		[0, "njetspt30==0"],
+			"OneJet_LFV":		[1, "njetspt30==1"],
+	}
+
 	#Loop over all channel/categories
 	for channel in args.channel:
 		list_of_samples = datacards.cb.process_set()
@@ -110,10 +120,12 @@ if __name__ == "__main__":
 		for category in [args.categories[0]]:
 			tmp_output_files = []
 
+
 			#Weight for the category saved in cut ini files
-			filename = categories[category]
-			cut_parameter, cut_values = parameter_info.cutconfigreader(filename, "Iteration4")
-			weight = parameter_info.weightaddition(parameter_info.get_parameter_info(cut_parameter,2), cut_values)
+			cut_strings = [parameter_info[param][4] for param in cut_info[categories[category][0]][channel].keys()]
+			cut_values, cut_side = [[entry[index] for entry in cut_info[categories[category][0]][channel].values()] for index in [0,1]]
+			weight = "*".join([cut_strings[index].format(side = side, cut = value) for index, (side, value) in enumerate(zip(cut_side, cut_values))] + [categories[category][1]])
+
 
 			print weight
 			category = channel + "_" + category
@@ -152,7 +164,9 @@ if __name__ == "__main__":
 							["ExportRoot"],
 							"UPDATE"
 					]
+
 			
+
 		
 				##Fill config with ConfigMaster and SystematicFactory
 				config = configmaster.ConfigMaster(base_values, sample_values)
@@ -230,11 +244,9 @@ if __name__ == "__main__":
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=1)
 
 	# Max. likelihood fit  (Do you want a MultiDimFit or Prefit Postfit plots?)
-	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, 1, "-M MultiDimFit "+datacards.stable_options+" -n \"\"")
+	#datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, 1, "-M MultiDimFit "+datacards.stable_options+" -n \"\"")
 	datacards.combine(datacards_cbs, datacards_workspaces, None, 1, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
-	#For this part you would need to call combine with method FitDiagnostics --saveShapes
-	"""datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )"""
+
+
 
 	
