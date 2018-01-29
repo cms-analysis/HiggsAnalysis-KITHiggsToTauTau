@@ -291,14 +291,86 @@ if __name__ == "__main__":
 			"VVJ" : "vvj",
 			"W" : "wj",
 			"QCD" : "qcd",
-			"ggHps"	: "gghjhups",
-			"ggHmm"	: "gghjhumm",
-			"ggHsm"	: "gghjhusm",
 			"qqH"	: "qqh",
 			"ggH" : "ggh"
 		}
-			
-		
+	# os/ss factors for different categories
+	ss_os_factors = {
+		"mt_ZeroJet2D" : 1.07,
+		"mt_Boosted2D" : 1.06,
+		"mt_Vbf2D" : 1.0,
+		"et_ZeroJet2D" : 1.0,
+		"et_Boosted2D" : 1.28,
+		"et_Vbf2D" : 1.0,
+		"em_ZeroJet2D" : 2.27,
+		"em_Boosted2D" : 2.26,
+		"em_Vbf2D" : 2.84
+	}	
+	# w+jets scale factor shifts for different categories
+	# same uncertainties as used for WHighMTtoLowMT_$BIN_13TeV
+	wj_sf_shifts = {
+		"mt_ZeroJet2D" : 0.10,
+		"mt_Boosted2D" : 0.05,
+		"mt_Vbf2D" : 0.10,
+		"et_ZeroJet2D" : 0.10,
+		"et_Boosted2D" : 0.05,
+		"et_Vbf2D" : 0.10
+	}
+
+	# correction factors from ZMM control region
+	zmm_cr_factors = {
+		"ZeroJet2D" : "(1.0395)",
+		"Boosted2D" : "(((ptvis<100)*1.0321) + ((ptvis>=100)*(ptvis<150)*1.023) + ((ptvis>=150)*(ptvis<200)*1.007) + ((ptvis>=200)*(ptvis<250)*1.016) + ((ptvis>=250)*(ptvis<300)*1.02) + ((ptvis>=300)*1.03))",
+		"Vbf2D" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.0605) + ((mjj>=700)*(mjj<1100)*1.017) + ((mjj>=1100)*(mjj<1500)*0.975) + ((mjj>=1500)*0.97))",
+		"Vbf2D_Up" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.121) + ((mjj>=700)*(mjj<1100)*1.034) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.94))",
+		"Vbf2D_Down" : "(1.0)"
+	}
+
+	# corrections factors from ZMM control regions as written on SM HTT Twiki
+	zmm_cr_0jet_global = "(1.0)"
+	zmm_cr_boosted_global = "(1.0)"
+	zmm_cr_vbf_global = "(1.02)"
+	zmm_cr_factors_official = {
+		"mt_ZeroJet2D" : zmm_cr_0jet_global,
+		"et_ZeroJet2D" : zmm_cr_0jet_global,
+		"em_ZeroJet2D" : "(1.02)",
+		"tt_ZeroJet2D" : zmm_cr_0jet_global,
+		"mt_Boosted2D" : zmm_cr_boosted_global,
+		"et_Boosted2D" : zmm_cr_boosted_global,
+		"em_Boosted2D" : zmm_cr_boosted_global,
+		"tt_Boosted2D" : zmm_cr_boosted_global,
+		"mt_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"et_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"em_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
+		"tt_Vbf2D" : "(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
+		"mt_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"et_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"em_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
+		"tt_Vbf2D_Up" : "(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
+		"mt_Vbf2D_Down" : zmm_cr_vbf_global,
+		"et_Vbf2D_Down" : zmm_cr_vbf_global,
+		"em_Vbf2D_Down" : zmm_cr_vbf_global,
+		"tt_Vbf2D_Down" : "(1.0)"
+	}
+
+	# ttbar nicks for which to apply different top pt reweighting
+	top_pt_reweight_nicks = [
+		"noplot_ttj_ss_lowmt", # mt & et channels: qcd yield subtract
+		"noplot_ttj_shape_ss_qcd_control", # mt & et channels: qcd shape subtract
+		"noplot_ttj_os_highmt", # mt & et channels: w+jets yield subtract
+		"noplot_ttj_ss_highmt" # mt & et channels: qcd high mt yield subtract
+	]
+
+	categoriesWithRelaxedIsolationForW = [
+		"Boosted2D",
+		"Vbf2D"
+	]
+
+	categoriesWithRelaxedIsolationForQCD = [
+		"ZeroJet2D",
+		"Boosted2D",
+		"Vbf2D"
+	]
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
@@ -360,30 +432,56 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 
 	
-		for category in categories:			
+		for official_category in categories:
+			category = official2private(official_category, category_replacements)	
+
+			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
+					
 			exclude_cuts = args.exclude_cuts
-			# higgs_masses = [mass for mass in datacards.cb.mass_set() if mass != "*"]
-			higgs_masses = args.higgs_masses[:1]
+			if "TTbarCR" in category and channel == "ttbar":
+				exclude_cuts += ["pzeta"]
+				do_not_normalize_by_bin_width = True
+			# TODO: check that this does what it should in samples_run2_2016.py !!!
+			#       a workaround solution may be necessary
+			if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
+				exclude_cuts += ["mt"]
+				do_not_normalize_by_bin_width = True
+			if ("ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category)  and channel in ["mt", "et", "tt"]:
+				if channel in ["mt", "et"]:
+					exclude_cuts += ["iso_1"]
+					do_not_normalize_by_bin_width = True
+				elif channel == "tt":
+					exclude_cuts += ["iso_1", "iso_2"]
+					do_not_normalize_by_bin_width = True
+				
+				datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
+			
+			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set()]
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="htt",
 					CHANNEL=channel,
-					BIN=category,
+					BIN=category, # why is this necessary?
 					ERA="13TeV"
 			))
 			#merged_output_files.append(output_file)
 			output_files.append(output_file)
 			tmp_output_files = []
 			
-			for shape_systematic, list_of_samples in datacards.get_samples_per_shape_systematic(channel, category).iteritems():
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
-				list_of_bkg_samples = [datacards.configs.process2sample(process) for process in list_of_samples if process in datacards.cb.cp().channel([channel]).bin([category]).cp().backgrounds().process_set()]
-				list_of_sig_samples = [datacards.configs.process2sample(process) for process in list_of_samples if process in datacards.cb.cp().channel([channel]).bin([category]).cp().signals().process_set()]
-
-				# list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
-
+				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
+				# This is needed because wj and qcd are interdependent when using the new background estimation method
+				# NB: CH takes care to only use the templates for processes that you specified. This means that any
+				#     superfluous histograms created as a result of this problem do not influence the result
+				if args.background_method == "new":
+					if "qcd" in list_of_samples and "wj" not in list_of_samples:
+						list_of_samples += ["wj"]
+					elif "wj" in list_of_samples and "qcd" not in list_of_samples:
+						list_of_samples += ["qcd"]
+				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
-										
+									
 					config={}
 					
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
@@ -393,64 +491,54 @@ if __name__ == "__main__":
 							systematic=systematic
 					))
 						
-					# prepare plotting configs for retrieving the input histograms
+					ss_os_factor = ss_os_factors.get(category,0.0)
+					wj_sf_shift = wj_sf_shifts.get(category,0.0)
+					if "WSFUncert" in shape_systematic and wj_sf_shift != 0.0:
+						wj_sf_shift = 1.0 + wj_sf_shift if shift_up else 1.0 - wj_sf_shift
+					else:
+						wj_sf_shift = 0.0
+					# Use official zmm corrections factors for now
+					#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1],"(1.0)")
+					zmm_cr_factor = zmm_cr_factors_official.get(category, "(1.0)")
+					if "zmumuShape_VBF" in shape_systematic:
+						#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1]+("_Up" if shift_up else "_Down"),"(1.0)")
+						zmm_cr_factor = zmm_cr_factors_official.get(category+("_Up" if shift_up else "_Down"),"(1.0)")
 					
-					# bkg and data do not need a reweighting so seperate sig and bkg.
-					config_bkg = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample) for sample in (["data"] if nominal else []) + list_of_bkg_samples],
+					# prepare plotting configs for retrieving the input histograms
+					config = sample_settings.get_config(
+							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel,
 							category="catHtt13TeV_"+category,
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
-							cut_type="cp2016",
-							estimationMethod=args.background_method
-					)
-			
-					# config the labels used for the different systematics.
-					config_bkg["labels"] = [(bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template).replace("$", "").format(
-						PROCESS=datacards.configs.sample2process(sample),
-						BIN=category,
-						SYSTEMATIC=systematic
-					) for sample in config_bkg["labels"]]
-					
-					config = samples.Samples.merge_configs(config, config_bkg)
-					
-					# Set up the config for the signal samples
-					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
-							samples="\", \"".join(list_of_sig_samples),
-							channel=channel,
-							category=category,
-							systematic=systematic
-					))
-					
-					# print("Make config for mixing: " + str(cp_mixing) + " Angle: " + str(cp_mixing_angle) )
-					# reweight according to the cp study
-					signal_reweighting_factor = ""
-					if args.cp_study == "final":
-						pass #TODO
-						#signal_reweighting_factor = "*"+"tauSpinnerWeightInvSample"+"*tauSpinnerWeight"+cp_mixing_angle
-						#print(signal_reweighting_factor)
-					
-					config_sig = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample) for sample in list_of_sig_samples],
-							channel=channel,
-							category="catHtt13TeV_"+category,
-							weight=args.weight+signal_reweighting_factor,
-							lumi=args.lumi * 1000,
-							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type = "cp2016"
+							cut_type="cp2016" if args.era == "2016" else "baseline",
+							estimationMethod=args.background_method,
+							ss_os_factor=ss_os_factor,
+							wj_sf_shift=wj_sf_shift,
+							zmm_cr_factor=zmm_cr_factor,
+							useRelaxedIsolationForW = (category.split("_")[1] in categoriesWithRelaxedIsolationForW),
+							useRelaxedIsolationForQCD = (category.split("_")[1] in categoriesWithRelaxedIsolationForQCD)
 					)
-					# config labels need the MASS keyword to find the right histograms.
-					config_sig["labels"] = [(sig_histogram_name_template if nominal else sig_syst_histogram_name_template).replace("$", "").format(
-							PROCESS=datacards.configs.sample2process(sample).replace("120", "").replace("125", "").replace("130", ""),
-							BIN=category,
-							MASS=str(higgs_masses[0]),
-							SYSTEMATIC=systematic
-					) for sample in config_sig["labels"]]
 					
-					config = samples.Samples.merge_configs(config, config_sig, additional_keys=["shape_nicks", "yield_nicks", "shape_yield_nicks"])
+					if "CMS_scale_gg_13TeV" in shape_systematic:
+						systematics_settings = systematics_factory.get(shape_systematic)(config, category)
+					elif "CMS_scale_j_" in shape_systematic and shape_systematic.split("_")[-2] in jecUncertNames:
+						systematics_settings = systematics_factory.get(shape_systematic)(config, shape_systematic.split("_")[-2])
+					else:
+						systematics_settings = systematics_factory.get(shape_systematic)(config)
+					# TODO: evaluate shift from datacards_per_channel_category.cb
+					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+					
+					for index, weight in enumerate(config.get("weights", [])):
+						weightAtIndex = config["weights"][index]
+						if channel in ["mt", "et", "tt"]:
+							if config["nicks"][index] in top_pt_reweight_nicks or channel == "tt":
+								weightAtIndex = weightAtIndex.replace("topPtReweightWeight", "topPtReweightWeightRun1")
+					
+						config["weights"][index] = weightAtIndex
+					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 
@@ -554,16 +642,17 @@ if __name__ == "__main__":
 
 					config["directories"] = [args.input_dir]
 					
-					# histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
-					# config["labels"] = [histogram_name_template.replace("$", "").format(
-					# 		PROCESS=datacards.configs.sample2process(sample.replace("wh125", "wh").replace("zh125", "zh")),
-					# 		BIN=category,
-					# 		SYSTEMATIC=systematic
-					# ) for sample in config["labels"]]
+					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
+					config["labels"] = [histogram_name_template.replace("$", "").format(
+							PROCESS=datacards.configs.sample2process(sample),
+							BIN=official_category,
+							SYSTEMATIC=systematic
+					) for sample in config["labels"]]
+					
 					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 							ANALYSIS="htt",
 							CHANNEL=channel,
-							BIN=category,
+							BIN=official_category,
 							SYSTEMATIC=systematic,
 							ERA="13TeV"
 					))
