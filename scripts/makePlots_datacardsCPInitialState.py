@@ -321,9 +321,12 @@ if __name__ == "__main__":
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
-
+	
 	#restriction to CH
 	datacards.cb.channel(args.channel)
+	
+	#restriction to requested masses
+	datacards.cb.mass(["*"]+args.higgs_masses)
 	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
 	if args.no_shape_uncs or args.no_syst_uncs:
@@ -698,31 +701,34 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]
 		
 	if "likelihoodScan" in args.steps:
+		log.info("\n -------------------------------------- Likelihood scan ---------------------------------")
+		log.info("\n -------------------------------------- Text2Workspace ---------------------------------")
 		datacards_workspaces_cp_mixing_angle = datacards.text2workspace(
 				datacards_cbs,
 				args.n_processes,
+				"125",
 				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels_old:cp_mixing",
+					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_mixing_angle",
 					MODEL_PARAMETERS=""
 				)
 		)
 		
 		if "prefitpostfitplots" in args.steps:
+			log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")
 			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
-			# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF.
-			
-			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "125", "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
-
-			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
-		
+			if "nuisanceimpacts" in args.steps:
+				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_cp_mixing_angle, args.n_processes, "125")
+
 		# Determine mixing angle parameter
 		datacards.combine(
 				datacards_cbs,
 				datacards_workspaces_cp_mixing_angle,
 				None,
 				args.n_processes,
+				"125",
 				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format( # -n \"cp_mixing_angle\"
 						STABLE=datacards.stable_options,
 						POINTS=args.cp_mixing_scan_points
