@@ -128,13 +128,9 @@ class CutStringsDict:
 	def lfv(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
 		
-		if channel == "em":
-			cuts["mt"] = "1"
-		elif channel == "et":
-			cuts["mt"] = "1"
-		elif channel == "mt":
-			cuts["mt"] = "1"
-			
+		cuts["mt"] = "1"
+		cuts["bveto"] = "(nbtag == 0)"	
+	
 		return cuts
 			
 	
@@ -637,7 +633,7 @@ class CutStringsDict:
 
 		elif cut_type=="lfv":
 			cuts = CutStringsDict.lfv(channel, cut_type)
-
+		
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
 			sys.exit(1)
