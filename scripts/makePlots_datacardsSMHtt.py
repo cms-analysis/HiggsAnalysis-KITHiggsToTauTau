@@ -569,13 +569,9 @@ if __name__ == "__main__":
 					
 					# Unroll 2d distribution to 1d in order for combine to fit it
 					if "2D" in category and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and "ZeroJet2D" in category):
-						two_d_inputs = []
-						for mass in higgs_masses:
-							two_d_inputs.extend([sample+(mass if sample in ["wh","zh","ggh",'qqh'] else "") for sample in list_of_samples])
-						if not "UnrollTwoDHistogram" in config.get("analysis_modules", []):
-							config.setdefault("analysis_modules", []).append("UnrollTwoDHistogram")
-						config.setdefault("two_d_input_nicks", two_d_inputs)
-						config.setdefault("unrolled_hist_nicks", two_d_inputs)
+						if not "UnrollHistogram" in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UnrollHistogram")
+						config["unroll_ordering"] = "zyx"
 						
 					config["directories"] = [args.input_dir]
 					
