@@ -37,7 +37,8 @@ def _call_command(command):
 def official2private(category, category_replacements):
 	result = copy.deepcopy(category)
 	for official, private in category_replacements.iteritems():
-		result = re.sub(official+"$", private, result)
+		if not "dijet_boosted" in result:
+			result = re.sub(official+"$", private, result)
 	return result
 
 def private2official(category, category_replacements):
@@ -241,6 +242,10 @@ if __name__ == "__main__":
 			"QCD" : "qcd",
 			"ggH_htt" : "ggh",
 			"qqH_htt" : "qqh",
+			"ggHps_htt"	: "gghjhups",
+			"ggHmm_htt"	: "gghjhumm",
+			"ggHsm_htt"	: "gghjhusm",
+			"qqHsm_htt"	: "qqhjhusm",
 			"WH_htt" : "wh",
 			"ZH_htt" : "zh",
 			"ggH_hww" : "hww_gg",
@@ -336,16 +341,16 @@ if __name__ == "__main__":
 			datacards.cb.PrintSysts()
 			
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
-		# include channel prefix
-
-
+		
+		if "all" in categories:
+			categories = datacards.cb.cp().channel([channel]).bin_set()
+		else:
+			# include channel prefix
+			categories = [channel + "_" + category for category in categories]
 			
-		categories= [channel + "_" + category for category in categories]
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
-		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-		print categories_save
-		print sorted(categories)
+		categories = sorted(list(set(categories).intersection([official2private(category, category_replacements) for category in set(datacards.cb.cp().channel([channel]).bin_set())])))
 		if(categories_save != sorted(categories)):
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
@@ -496,7 +501,7 @@ if __name__ == "__main__":
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
+					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category or "dijet" in category):
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
