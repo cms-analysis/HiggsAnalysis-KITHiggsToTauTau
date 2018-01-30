@@ -448,7 +448,20 @@ class Datacards(object):
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="hypoTestResultTree.cxx")
 
 		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")) for datacard in datacards_cbs.keys()}
-
+	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, higgs_mass="0", *args):
+		tmp_args = "".join(args)
+		commandsPlot = []
+		commandsPlot.extend([[
+				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} -o {OUTPUT} higgsCombine.MultiDimFit.mH{MASS}.root".format(
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
+						POI=poi,
+						OUTPUT="plots/likelihoodscan",
+						ARGS=tmp_args.format()				
+				),
+				os.path.dirname(workspace)
+		] for datacard, workspace in datacards_workspaces.iteritems()])
+		
+		tools.parallelize(_call_command, commandsPlot, n_processes=n_processes, description="combineTool.py (plots)")	
 
 	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1, *args):
 		commands = []
@@ -694,9 +707,11 @@ class Datacards(object):
 					plot_configs.append(config)
 
 		# create result plots HarryPlotter
+
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
 	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args):
+
 		tmp_args = " ".join(args)
 
 		commandsInitialFit = []
