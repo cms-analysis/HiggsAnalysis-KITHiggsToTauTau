@@ -441,6 +441,7 @@ class Datacards(object):
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="hypoTestResultTree.cxx")
 
 		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")) for datacard in datacards_cbs.keys()}
+	
 	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, higgs_mass="0", *args):
 		tmp_args = "".join(args)
 		commandsPlot = []
