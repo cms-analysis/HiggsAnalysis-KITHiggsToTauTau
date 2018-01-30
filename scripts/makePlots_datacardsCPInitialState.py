@@ -833,8 +833,15 @@ if __name__ == "__main__":
 						STABLE=datacards.stable_options,
 						POINTS=args.cp_mixing_scan_points
 				)
-		)
-        # 
+		)		
+		datacards.plot1DScan(datacards_cbs, 
+			datacards_workspaces_cp_mixing_angle, 
+			"cpmixing", 
+			args.n_processes, 
+			"125",
+			"Asimov")
+
+		 
 		# # Determine fa3 parameter
 		# datacards_workspaces_cp_fa3 = datacards.text2workspace(
 		# 		datacards_cbs,
