@@ -294,7 +294,7 @@ class Datacards(object):
 		else:
 			physics_model = physics_model.groupdict()
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
-				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else str(higgs_mass), # TODO: maybe there are more masses?
+				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
 				DATACARD=datacard,
 				OUTPUT=os.path.splitext(datacard)[0]+"_"+physics_model.get("physics_model", "default")+".root"
@@ -444,12 +444,15 @@ class Datacards(object):
 	
 	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, higgs_mass="0", *args):
 		tmp_args = "".join(args)
+		for datacard, workspace in datacards_workspaces.iteritems():
+			if not os.path.exists(os.path.join(os.path.dirname(workspace), "plots/")):
+				os.makedirs(os.path.join(os.path.dirname(workspace), "plots/"))
+				
 		commandsPlot = []
 		commandsPlot.extend([[
-				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} -o {OUTPUT} higgsCombine.MultiDimFit.mH{MASS}.root".format(
+				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} higgsCombine.MultiDimFit.mH{MASS}.root".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						POI=poi,
-						OUTPUT="plots/likelihoodscan",
 						ARGS=tmp_args.format()				
 				),
 				os.path.dirname(workspace)
