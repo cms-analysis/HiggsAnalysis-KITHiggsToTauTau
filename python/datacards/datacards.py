@@ -255,11 +255,11 @@ class Datacards(object):
 		self.cb.cp().process(processes).ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate else process.rate()) * scale_factor))
 	
 	def remove_shape_uncertainties(self):
+		# Filter all systematics of type shape.
 		self.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		# There are also systematics, which can have a mixed type of lnN/shape, where CH returns only lnN as type. Such which values 1.0 and 0.0 are assumed to be shape uncertainties.
 		self.cb.FilterSysts(lambda systematic : (systematic.value_u() == 1.0) and (systematic.value_d() == 0.0))
-		#self.cb.PrintSysts()
-		
-		
+			
 	def replace_observation_by_asimov_dataset(self, signal_mass=None, signal_processes=None):
 		def _replace_observation_by_asimov_dataset(observation):
 			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
