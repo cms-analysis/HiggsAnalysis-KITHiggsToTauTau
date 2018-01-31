@@ -253,7 +253,13 @@ class Datacards(object):
 
 	def scale_processes(self, scale_factor, processes, no_norm_rate=False):
 		self.cb.cp().process(processes).ForEachProc(lambda process: process.set_rate((process.no_norm_rate() if no_norm_rate else process.rate()) * scale_factor))
-
+	
+	def remove_shape_uncertainties(self):
+		self.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		self.cb.FilterSysts(lambda systematic : (systematic.value_u() == 1.0) and (systematic.value_d() == 0.0))
+		#self.cb.PrintSysts()
+		
+		
 	def replace_observation_by_asimov_dataset(self, signal_mass=None, signal_processes=None):
 		def _replace_observation_by_asimov_dataset(observation):
 			cb = self.cb.cp().analysis([observation.analysis()]).era([observation.era()]).channel([observation.channel()]).bin([observation.bin()])
