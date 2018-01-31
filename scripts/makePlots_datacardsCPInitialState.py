@@ -75,10 +75,10 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action = "append",
-	                    default=["et", "mt", "tt", "em"],
+	                    default=["all"],
 	                    help="Channel. This argument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=[["inclusive"]],
+	                    default=[["all"]] * len(parser.get_default("channel")),
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="jdphi",
 	                    help="Quantity. [Default: %(default)s]")
@@ -230,6 +230,7 @@ if __name__ == "__main__":
 			"data_obs" : "data",
 			"ZTT" : "ztt",
 			"ZL" : "zl",
+			"ZLL" : "zll",
 			"ZJ" : "zj",
 			"EWKZ" : "ewkz",
 			"TT" : "ttj",
@@ -254,9 +255,6 @@ if __name__ == "__main__":
 			
 		# Also the categories have different names.
 		# Match SM categories and control regions. 
-		category_replacements["0jet"] = "ZeroJet2D"
-		category_replacements["boosted"] = "Boosted2D"
-		category_replacements["vbf"] = "Vbf2D"
 		category_replacements["all"] = "TTbarCR"
 		category_replacements["wjets_0jet_cr"] = "ZeroJet2D_WJCR"
 		category_replacements["wjets_boosted_cr"] = "Boosted2D_WJCR"
@@ -267,6 +265,10 @@ if __name__ == "__main__":
 		category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR"
 		category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
 		category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
+		
+		category_replacements["0jet"] = "ZeroJet2D"
+		category_replacements["boosted"] = "Boosted2D"
+		category_replacements["vbf"] = "Vbf2D"
 		
 	else:
 		# use the datacards created within Artus.
@@ -427,30 +429,46 @@ if __name__ == "__main__":
 		datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")		
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 
-	if args.channel != parser.get_default("channel"):
-		args.channel = args.channel[len(parser.get_default("channel")):]
-
-	if args.categories != parser.get_default("categories"):
-		args.categories = args.categories[1:]
+	# if args.channel != parser.get_default("channel"):
+	# 	args.channel = args.channel[len(parser.get_default("channel")):]
+    # 
+	# if args.categories != parser.get_default("categories"):
+	# 	args.categories = args.categories[1:]
 
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
 	
-	#restriction to CH
-	datacards.cb.channel(args.channel)
-	
 	#restriction to requested masses
-	datacards.cb.mass(["*"]+args.higgs_masses)
+	datacards.cb.mass(args.higgs_masses)
+	
+	#restriction to requested channels
+	if not ("all" in args.channel):
+		datacards.cb.channel(args.channel)
+	args.channel = datacards.cb.cp().channel_set()
 	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
 	if args.no_shape_uncs or args.no_syst_uncs:
 		log.debug("Deactivate shape uncertainties")
-		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		datacards.remove_shape_uncertainties()
 		if log.isEnabledFor(logging.DEBUG):
 			datacards.cb.PrintSysts()
 			
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
+		
+		if channel in ["em", "ttbar"]:
+			datacards.configs._mapping_process2sample["ZL"] = "zll"
+		else:
+			datacards.configs._mapping_process2sample["ZL"] = "zl"
+		
+		if channel in ["et", "mt", "tt"]:
+			datacards.configs._mapping_process2sample.pop("TT", None)
+			datacards.configs._mapping_process2sample["TTT"]= "ttt"
+			datacards.configs._mapping_process2sample["TTJ"]= "ttj"
+		else:
+			datacards.configs._mapping_process2sample["TT"] = "ttj"
+			datacards.configs._mapping_process2sample.pop("TTT", None)
+			datacards.configs._mapping_process2sample.pop("TTJ", None)
 		
 		if "all" in categories:
 			categories = datacards.cb.cp().channel([channel]).bin_set()
@@ -460,12 +478,8 @@ if __name__ == "__main__":
 		
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
-
-		categories = sorted(list(set(categories).intersection([official2private(category, category_replacements) for category in set(datacards.cb.cp().channel([channel]).bin_set())])))
-		# print(set(datacards.cb.cp().channel([channel]).bin_set()))
-		# print(categories_save)
-		# print(categories)
-		if(categories_save != sorted(categories)):
+		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
+		if(categories_save != sorted(categories)) and args.do_not_ignore_category_removal:
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
 			sys.exit(1)
