@@ -293,12 +293,16 @@ class Datacards(object):
 
 		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
 
-	def text2workspace(self, datacards_cbs, n_processes=1, higgs_mass="0", *args):
+	def text2workspace(self, datacards_cbs, n_processes=1, *args, **kwargs):
 		physics_model = re.search("(-P|--physics-model)[\s=\"\']*\S*:(?P<physics_model>\S*)[\"\']?\s", " ".join(args))
 		if physics_model is None:
 			physics_model = {}
 		else:
 			physics_model = physics_model.groupdict()
+		
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"
+	
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
 				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
@@ -310,10 +314,13 @@ class Datacards(object):
 
 		return {datacard : os.path.splitext(datacard)[0]+"_"+physics_model.get("physics_model", "default")+".root" for datacard in datacards_cbs.keys()}
 
-	def combine(self, datacards_cbs, datacards_workspaces, datacards_poi_ranges=None, n_processes=1, higgs_mass="0", *args, **kwargs):
+	def combine(self, datacards_cbs, datacards_workspaces, datacards_poi_ranges=None, n_processes=1, *args, **kwargs):
 		if datacards_poi_ranges is None:
 			datacards_poi_ranges = {}
 		tmp_args = " ".join(args)
+		
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"		
 
 		chunks = [[None, None]]
 		if "{CHUNK}" in tmp_args and "--points" in tmp_args:
@@ -448,8 +455,12 @@ class Datacards(object):
 
 		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")) for datacard in datacards_cbs.keys()}
 	
-	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, higgs_mass="0", *args):
+	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, *args, **kwargs):
 		tmp_args = "".join(args)
+		
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"
+					
 		for datacard, workspace in datacards_workspaces.iteritems():
 			if not os.path.exists(os.path.join(os.path.dirname(workspace), "plots/")):
 				os.makedirs(os.path.join(os.path.dirname(workspace), "plots/"))
@@ -466,7 +477,9 @@ class Datacards(object):
 		
 		tools.parallelize(_call_command, commandsPlot, n_processes=n_processes, description="combineTool.py (plots)")	
 
-	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1, higgs_mass="0", *args):
+	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1,  *args, **kwargs):		
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"
 		commands = []
 		datacards_postfit_shapes = {}
 		fit_type_list = kwargs.get("fit_type_list", ["fit_s", "fit_b"])
@@ -490,7 +503,10 @@ class Datacards(object):
 
 		return datacards_postfit_shapes
 
-	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, higgs_mass="0", *args, **kwargs):
+	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, *args, **kwargs):
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"	
+				
 		commands = []
 		datacards_postfit_shapes = {}
 		fit_type_list = kwargs.get("fit_type_list", ["fit_s", "fit_b"])
@@ -708,8 +724,10 @@ class Datacards(object):
 		# create result plots HarryPlotter
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)		
 	
-	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, higgs_mass="0", *args):
+	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args, **kwargs):
 		tmp_args = " ".join(args)
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"	
 		
 		commandsInitialFit = []
 		commandsInitialFit.extend([[
