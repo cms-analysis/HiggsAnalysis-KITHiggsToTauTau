@@ -247,6 +247,8 @@ if __name__ == "__main__":
 			"ggHmm_htt"	: "gghjhumm",
 			"ggHsm_htt"	: "gghjhusm",
 			"qqHsm_htt"	: "qqhjhusm",
+			"qqHmm_htt"	: "qqhjhumm",
+			"qqHps_htt"	: "qqhjhups",
 			"WH_htt" : "wh",
 			"ZH_htt" : "zh",
 			"ggH_hww" : "hww_gg",
@@ -301,6 +303,15 @@ if __name__ == "__main__":
 			"ggH" : "ggh"
 		}
 		
+	if args.channel != parser.get_default("channel"):
+		args.channel = args.channel[len(parser.get_default("channel")):]
+
+	if args.categories != parser.get_default("categories"):
+		args.categories = args.categories[1:]
+
+		# catch if on command-line only one set has been specified and repeat it
+	if(len(args.categories) == 1):
+		args.categories = [args.categories[0]] * len(args.channel)
 	# list of JEC uncertainties
 	jecUncertNames = [
 		"AbsoluteFlavMap",
@@ -873,21 +884,21 @@ if __name__ == "__main__":
 		datacards_workspaces_cp_mixing_angle = datacards.text2workspace(
 				datacards_cbs,
 				args.n_processes,
-				"125",
-				"-P {MODEL} {MODEL_PARAMETERS}".format(
+				" -P {MODEL} {MODEL_PARAMETERS} ".format(
 					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_mixing_angle",
 					MODEL_PARAMETERS=""
-				)
+				),
+				higgs_mass="125"
 		)
 		
 		if "prefitpostfitplots" in args.steps:
 			log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")
-			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
-			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "125", "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"", higgs_mass="125")
+			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
 			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
 			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
 			if "nuisanceimpacts" in args.steps:
-				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_cp_mixing_angle, args.n_processes, "125")
+				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_cp_mixing_angle, args.n_processes, higgs_mass="125")
 
 		# Determine mixing angle parameter
 		datacards.combine(
@@ -895,18 +906,18 @@ if __name__ == "__main__":
 				datacards_workspaces_cp_mixing_angle,
 				None,
 				args.n_processes,
-				"125",
 				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format( # -n \"cp_mixing_angle\"
 						STABLE=datacards.stable_options,
 						POINTS=args.cp_mixing_scan_points
-				)
+				),
+				higgs_mass="125"
 		)		
 		datacards.plot1DScan(datacards_cbs, 
 			datacards_workspaces_cp_mixing_angle, 
 			"cpmixing", 
 			args.n_processes, 
-			"125",
-			"Asimov")
+			"",
+			higgs_mass="125")
 
 		
 	"""
