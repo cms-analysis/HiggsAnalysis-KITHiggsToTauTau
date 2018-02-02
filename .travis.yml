@@ -30,7 +30,7 @@ before_script:
 env:
   - TEST_CMSSW_VERSION=CMSSW_8_1_0 SCRAM_ARCH=slc6_amd64_gcc530
 script:
-  - publish_docs.sh
+  - bash publish_docs.sh
   - docker run --privileged -e TEST_CMSSW_VERSION=${TEST_CMSSW_VERSION}
                             -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
                             -v ${TRAVIS_BUILD_DIR}:/home/travis
