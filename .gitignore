@@ -10,3 +10,4 @@ python/uncertainties/
 wiki
 *.pcm
 param.log
+build
