@@ -17,7 +17,7 @@ addons:
     - graphviz
 before_script:
   - chmod +x ./docs/py_filter
-  - chmod +x publish-docs.sh
+  - chmod +x publish_docs.sh
   - echo $HOME
   - sudo curl -o $HOME/short_rootfiles.tar https://cernbox.cern.ch/index.php/s/WeawecKp2BD2BH2/download
   - echo $HOME
@@ -30,7 +30,7 @@ before_script:
 env:
   - TEST_CMSSW_VERSION=CMSSW_8_1_0 SCRAM_ARCH=slc6_amd64_gcc530
 script:
-  - publish-docs.sh
+  - publish_docs.sh
   - docker run --privileged -e TEST_CMSSW_VERSION=${TEST_CMSSW_VERSION}
                             -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
                             -v ${TRAVIS_BUILD_DIR}:/home/travis
