@@ -16,8 +16,8 @@ addons:
     - doxygen-gui
     - graphviz
 before_script:
-  - chmod +x ./docs/py_filter
-  - chmod +x publish_docs.sh
+  - chmod a+x ./docs/py_filter
+  - chmod a+x publish_docs.sh
   - echo $HOME
   - sudo curl -o $HOME/short_rootfiles.tar https://cernbox.cern.ch/index.php/s/WeawecKp2BD2BH2/download
   - echo $HOME
