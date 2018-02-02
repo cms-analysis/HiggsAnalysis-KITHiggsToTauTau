@@ -10,6 +10,11 @@ addons:
   apt:
     packages:
     - wget
+    - doxygen
+    - doxygen-doc
+    - doxygen-latex
+    - doxygen-gui
+    - graphviz
 before_script:
   - echo $HOME
   - sudo curl -o $HOME/short_rootfiles.tar https://cernbox.cern.ch/index.php/s/WeawecKp2BD2BH2/download
@@ -23,6 +28,7 @@ before_script:
 env:
   - TEST_CMSSW_VERSION=CMSSW_8_1_0 SCRAM_ARCH=slc6_amd64_gcc530
 script:
+  - publish-doxygen.sh
   - docker run --privileged -e TEST_CMSSW_VERSION=${TEST_CMSSW_VERSION}
                             -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
                             -v ${TRAVIS_BUILD_DIR}:/home/travis
@@ -30,3 +36,7 @@ script:
                             -c "cd /home/; source /home/travis/test_build.sh -b ${TRAVIS_BRANCH} -g 'greyxray' -e 'greyxray@gmail.com' -n 'kappa test'"
 notifications:
   email: false
+# Blacklist
+branches:
+  except:
+    - gh-pages
