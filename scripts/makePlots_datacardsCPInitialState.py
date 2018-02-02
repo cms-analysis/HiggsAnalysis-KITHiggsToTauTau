@@ -154,6 +154,8 @@ if __name__ == "__main__":
 	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
 	parser.add_argument("--get-official-dc", action="store_true", default=False,
 	                    help="Get official CP datacards. [Default: %(default)s]")
+	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
+						help="Exit program in case categories are removed from CH. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
@@ -501,9 +503,10 @@ if __name__ == "__main__":
 	 	
 		log.info("Building configs for channel = {channel}, categories = {categories}".format(channel=channel, categories=str(categories)))
 		for official_category in categories:
+			
 			category = official2private(official_category, category_replacements)	
-			print(category)
-			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))	
+
+			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))	
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			if "TTbarCR" in category and channel == "ttbar":
 				exclude_cuts += ["pzeta"]
@@ -761,10 +764,11 @@ if __name__ == "__main__":
 			os.remove(output_file_iterator)
 			log.debug("Removed file \""+output_file_iterator+"\" before it is recreated again.")
 	output_files = list(set(output_files))
-	
+
 	# create input histograms with HarryPlotter
-	log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------")
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
+	if "inputs" in args.steps:
+		log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------")
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
