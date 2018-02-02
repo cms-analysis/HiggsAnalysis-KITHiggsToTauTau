@@ -29,6 +29,6 @@ git add .
 git config user.name "${COMMIT_USER}"
 git config user.email "${COMMIT_EMAIL}"
 git commit -m "Automated documentation build for changeset ${CHANGESET}." || true
-git push https://${GH_TOKEN}@github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau gh-pages
+git push -f https://${GH_TOKEN}@github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau gh-pages
 cd -
 
