@@ -13,62 +13,92 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
 
 
+SvfitProducer::SvfitProducer(
+		std::string name,
+		float diTauMassConstraint,
+		SvfitEventKey product_type::*svfitEventKeyMember,
+		SvfitResults product_type::*svfitResultsMember,
+		std::string (setting_type::*GetSvfitCacheFileMember)(void) const,
+		std::string (setting_type::*GetSvfitCacheFileFolderMember)(void) const,
+		std::string (setting_type::*GetSvfitCacheTreeMember)(void) const
+) :
+	ProducerBase<HttTypes>(),
+	m_name(name),
+	m_diTauMassConstraint(diTauMassConstraint),
+	m_svfitEventKeyMember(svfitEventKeyMember),
+	m_svfitResultsMember(svfitResultsMember),
+	GetSvfitCacheFileMember(GetSvfitCacheFileMember),
+	GetSvfitCacheFileFolderMember(GetSvfitCacheFileFolderMember),
+	GetSvfitCacheTreeMember(GetSvfitCacheTreeMember)
+{
+}
+
+std::string SvfitProducer::GetProducerId() const
+{
+	return "SvfitProducer";
+}
+
 void SvfitProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
 	
-	if (! settings.GetSvfitCacheFile().empty())
+	if (! (settings.*GetSvfitCacheFileMember)().empty())
 	{
 		svfitTools.Init(
-				settings.GetSvfitCacheFile(),
-				boost::algorithm::to_lower_copy(settings.GetChannel())+"_"+settings.GetSvfitCacheFileFolder()+"/"+settings.GetSvfitCacheTree()
+				(settings.*GetSvfitCacheFileMember)(),
+				boost::algorithm::to_lower_copy(settings.GetChannel())+"_"+(settings.*GetSvfitCacheFileFolderMember)()+"/"+(settings.*GetSvfitCacheTreeMember)()
 		);
 	}
+	m_svfitCacheMissBehaviour = HttEnumTypes::ToSvfitCacheMissBehaviour(settings.GetSvfitCacheMissBehaviour());
 	
-	svfitCacheMissBehaviour = HttEnumTypes::ToSvfitCacheMissBehaviour(settings.GetSvfitCacheMissBehaviour());
+	if (m_diTauMassConstraint <= 0.0)
+	{
+		m_diTauMassConstraint = settings.GetDiTauMassConstraint();
+	}
+	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "svfitAvailable", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedHiggsLV ? true : false);
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "svfit"+m_name+"Available", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedHiggsLV ? true : false);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitPt", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedHiggsLV ? product.m_svfitResults.fittedHiggsLV->Pt() : DefaultValues::UndefinedFloat);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfit"+m_name+"Pt", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedHiggsLV ? (product.*m_svfitResultsMember).fittedHiggsLV->Pt() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitEta", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedHiggsLV ? product.m_svfitResults.fittedHiggsLV->Eta() : DefaultValues::UndefinedFloat);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfit"+m_name+"Eta", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedHiggsLV ? (product.*m_svfitResultsMember).fittedHiggsLV->Eta() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitPhi", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedHiggsLV ? product.m_svfitResults.fittedHiggsLV->Phi() : DefaultValues::UndefinedFloat);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfit"+m_name+"Phi", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedHiggsLV ? (product.*m_svfitResultsMember).fittedHiggsLV->Phi() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitMass", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedHiggsLV ? product.m_svfitResults.fittedHiggsLV->mass() : DefaultValues::UndefinedFloat);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfit"+m_name+"Mass", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedHiggsLV ? (product.*m_svfitResultsMember).fittedHiggsLV->mass() : DefaultValues::UndefinedFloat);
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "svfitLV", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedHiggsLV ? *(product.m_svfitResults.fittedHiggsLV) : DefaultValues::UndefinedRMFLV);
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "svfit"+m_name+"LV", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedHiggsLV ? *((product.*m_svfitResultsMember).fittedHiggsLV) : DefaultValues::UndefinedRMFLV);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitTransverseMass", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedTransverseMass ? static_cast<float>(product.m_svfitResults.fittedTransverseMass) : DefaultValues::UndefinedFloat);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfit"+m_name+"TransverseMass", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedTransverseMass ? static_cast<float>((product.*m_svfitResultsMember).fittedTransverseMass) : DefaultValues::UndefinedFloat);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "svfitTau1Available", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedTau1LV ? true : false);
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "svfit"+m_name+"Tau1Available", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedTau1LV ? true : false);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "svfitTau1LV", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedTau1LV ? *(product.m_svfitResults.fittedTau1LV) : DefaultValues::UndefinedRMFLV);
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "svfit"+m_name+"Tau1LV", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedTau1LV ? *((product.*m_svfitResultsMember).fittedTau1LV) : DefaultValues::UndefinedRMFLV);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitTau1ERatio", [](event_type const& event, product_type const& product) {
-		return product.m_svfitResults.fittedTau1ERatio;
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfit"+m_name+"Tau1ERatio", [this](event_type const& event, product_type const& product) {
+		return (product.*m_svfitResultsMember).fittedTau1ERatio;
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "svfitTau2Available", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedTau2LV ? true : false);
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "svfit"+m_name+"Tau2Available", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedTau2LV ? true : false);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "svfitTau2LV", [](event_type const& event, product_type const& product) {
-		return (product.m_svfitResults.fittedTau2LV ? *(product.m_svfitResults.fittedTau2LV) : DefaultValues::UndefinedRMFLV);
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "svfit"+m_name+"Tau2LV", [this](event_type const& event, product_type const& product) {
+		return ((product.*m_svfitResultsMember).fittedTau2LV ? *((product.*m_svfitResultsMember).fittedTau2LV) : DefaultValues::UndefinedRMFLV);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfitTau2ERatio", [](event_type const& event, product_type const& product) {
-		return product.m_svfitResults.fittedTau2ERatio;
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svfit"+m_name+"Tau2ERatio", [this](event_type const& event, product_type const& product) {
+		return (product.*m_svfitResultsMember).fittedTau2ERatio;
 	});
 }
 
@@ -129,32 +159,32 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	boost::hash_combine(runLumiEvent, event.m_eventInfo->nLumi);
 	boost::hash_combine(runLumiEvent, event.m_eventInfo->nEvent);
 
-	product.m_svfitEventKey.Set(runLumiEvent, decayType1, decayType2, decayMode1, decayMode2,
-	                            product.m_systematicShift, product.m_systematicShiftSigma,
-	                            settings.GetDiTauMassConstraint());
+	(product.*m_svfitEventKeyMember).Set(runLumiEvent, decayType1, decayType2, decayMode1, decayMode2,
+	                                     product.m_systematicShift, product.m_systematicShiftSigma,
+	                                     m_diTauMassConstraint);
 
 	// calculate results
-	product.m_svfitResults = svfitTools.GetResults(
-			product.m_svfitEventKey,
+	(product.*m_svfitResultsMember) = svfitTools.GetResults(
+			(product.*m_svfitEventKeyMember),
 			product.m_svfitInputs,
 			product.m_svfitCalculated,
-			svfitCacheMissBehaviour,
+			m_svfitCacheMissBehaviour,
 			settings.GetSvfitKappaParameter()
 	);
 	
-	if (product.m_svfitResults.fittedTau1LV)
+	if ((product.*m_svfitResultsMember).fittedTau1LV)
 	{
-		product.m_svfitTaus[lepton1] = *(product.m_svfitResults.fittedTau1LV);
+		product.m_svfitTaus[lepton1] = *((product.*m_svfitResultsMember).fittedTau1LV);
 	}
-	if (product.m_svfitResults.fittedTau2LV)
+	if ((product.*m_svfitResultsMember).fittedTau2LV)
 	{
-		product.m_svfitTaus[lepton2] = *(product.m_svfitResults.fittedTau2LV);
+		product.m_svfitTaus[lepton2] = *((product.*m_svfitResultsMember).fittedTau2LV);
 	}
 	
 	// apply systematic shifts
-	if(product.m_svfitResults.fittedHiggsLV)
+	if((product.*m_svfitResultsMember).fittedHiggsLV)
 	{
-		product.m_svfitResults.fittedHiggsLV->SetM(product.m_svfitResults.fittedHiggsLV->M() * settings.GetSvfitMassShift());
+		(product.*m_svfitResultsMember).fittedHiggsLV->SetM((product.*m_svfitResultsMember).fittedHiggsLV->M() * settings.GetSvfitMassShift());
 	}
 }
 
