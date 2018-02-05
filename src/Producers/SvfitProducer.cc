@@ -17,10 +17,6 @@ void SvfitProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
 	
-	integrationMethod = SvfitEventKey::ToIntegrationMethod(
-			boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetSvfitIntegrationMethod()))
-	);
-	
 	if (! settings.GetSvfitCacheFile().empty())
 	{
 		svfitTools.Init(
@@ -83,65 +79,49 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 
 	// consider only the first two leptons
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
+	KLepton* lepton1 = product.m_flavourOrderedLeptons[0];
+	KLepton* lepton2 = product.m_flavourOrderedLeptons[1];
 	
-	// construct decay types
+	// construct decay types/modes
 	classic_svFit::MeasuredTauLepton::kDecayType decayType1 = classic_svFit::MeasuredTauLepton::kTauToHadDecay;
-	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::MM)
-	{
-		decayType1 = classic_svFit::MeasuredTauLepton::kTauToMuDecay;
-	}
-	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET || product.m_decayChannel == HttEnumTypes::DecayChannel::EM || product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
+	int decayMode1 = -1;
+	if (lepton1->flavour() == KLeptonFlavour::ELECTRON)
 	{
 		decayType1 = classic_svFit::MeasuredTauLepton::kTauToElecDecay;
+		decayMode1 = -1;
+	}
+	else if (lepton1->flavour() == KLeptonFlavour::MUON)
+	{
+		decayType1 = classic_svFit::MeasuredTauLepton::kTauToMuDecay;
+		decayMode1 = -1;
+	}
+	else if (lepton1->flavour() == KLeptonFlavour::TAU)
+	{
+		decayType1 = classic_svFit::MeasuredTauLepton::kTauToHadDecay;
+		decayMode1 = static_cast<KTau*>(lepton1)->decayMode;
 	}
 	
 	classic_svFit::MeasuredTauLepton::kDecayType decayType2 = classic_svFit::MeasuredTauLepton::kTauToHadDecay;
-	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MM || product.m_decayChannel == HttEnumTypes::DecayChannel::EM)
-	{
-		decayType2 = classic_svFit::MeasuredTauLepton::kTauToMuDecay;
-	}
-	else if (product.m_decayChannel == HttEnumTypes::DecayChannel::EE)
+	int decayMode2 = -1;
+	if (lepton2->flavour() == KLeptonFlavour::ELECTRON)
 	{
 		decayType2 = classic_svFit::MeasuredTauLepton::kTauToElecDecay;
-	}
-
-	// set decayModes. For hadronic taus use the one from the decayModeFinding (OldDMs). Else set it to -1 (this is the default)
-	int decayMode1, decayMode2;
-	if (decayType1 == classic_svFit::MeasuredTauLepton::kTauToHadDecay)
-	{
-		KLepton* lepton = product.m_flavourOrderedLeptons[0];
-		if (lepton->flavour() == KLeptonFlavour::TAU)
-		{
-			decayMode1 = static_cast<KTau*>(lepton)->decayMode;
-		}
-		else
-		{
-			decayMode1 = -1;
-		}
-	}
-	else
-	{
-		decayMode1 = -1;
-	}
-	if (decayType2 == classic_svFit::MeasuredTauLepton::kTauToHadDecay)
-	{
-		KLepton* lepton = product.m_flavourOrderedLeptons[1];
-		if (lepton->flavour() == KLeptonFlavour::TAU)
-		{
-			decayMode2 = static_cast<KTau*>(lepton)->decayMode;
-		}
-		else
-		{
-			decayMode2 = -1;
-		}
-	}
-	else
-	{
 		decayMode2 = -1;
 	}
+	else if (lepton2->flavour() == KLeptonFlavour::MUON)
+	{
+		decayType2 = classic_svFit::MeasuredTauLepton::kTauToMuDecay;
+		decayMode2 = -1;
+	}
+	else if (lepton2->flavour() == KLeptonFlavour::TAU)
+	{
+		decayType2 = classic_svFit::MeasuredTauLepton::kTauToHadDecay;
+		decayMode2 = static_cast<KTau*>(lepton2)->decayMode;
+	}
+	
 	// construct inputs
-	product.m_svfitInputs.Set(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4,
-	                          product.m_met.p4.Vect(), product.m_met.significance, decayMode1, decayMode2);
+	product.m_svfitInputs.Set(lepton1->p4, lepton2->p4,
+	                          product.m_met.p4.Vect(), product.m_met.significance);
 	
 	// construct event key
 	size_t runLumiEvent = 0;
@@ -149,42 +129,32 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	boost::hash_combine(runLumiEvent, event.m_eventInfo->nLumi);
 	boost::hash_combine(runLumiEvent, event.m_eventInfo->nEvent);
 
-	product.m_svfitEventKey.Set(runLumiEvent, decayType1, decayType2,
-	                            product.m_systematicShift, product.m_systematicShiftSigma, integrationMethod, settings.GetDiTauMassConstraint(),
-	                            product.m_met.leptonSelectionHash);
+	product.m_svfitEventKey.Set(runLumiEvent, decayType1, decayType2, decayMode1, decayMode2,
+	                            product.m_systematicShift, product.m_systematicShiftSigma,
+	                            settings.GetDiTauMassConstraint());
 
-//	if (settings.GetGenerateSvfitInput())
-//	{
-//		// set dummy result
-//		product.m_svfitResults = SvfitResults();
-//		product.m_svfitCalculated = true;
-//	}
-//	else
+	// calculate results
+	product.m_svfitResults = svfitTools.GetResults(
+			product.m_svfitEventKey,
+			product.m_svfitInputs,
+			product.m_svfitCalculated,
+			svfitCacheMissBehaviour,
+			settings.GetSvfitKappaParameter()
+	);
+	
+	if (product.m_svfitResults.fittedTau1LV)
 	{
-		// calculate results
-		product.m_svfitResults = svfitTools.GetResults(
-				product.m_svfitEventKey,
-				product.m_svfitInputs,
-				product.m_svfitCalculated,
-				svfitCacheMissBehaviour,
-				settings.GetSvfitKappaParameter()
-		);
-		
-		if (product.m_svfitResults.fittedTau1LV)
-		{
-			product.m_svfitTaus[product.m_flavourOrderedLeptons.at(0)] = *(product.m_svfitResults.fittedTau1LV);
-		}
-		if (product.m_svfitResults.fittedTau2LV)
-		{
-			product.m_svfitTaus[product.m_flavourOrderedLeptons.at(1)] = *(product.m_svfitResults.fittedTau2LV);
-		}
-		
-		// apply systematic shifts
-		if(product.m_svfitResults.fittedHiggsLV)
-		{
-			product.m_svfitResults.fittedHiggsLV->SetM(product.m_svfitResults.fittedHiggsLV->M() * settings.GetSvfitMassShift());
-		}
+		product.m_svfitTaus[lepton1] = *(product.m_svfitResults.fittedTau1LV);
+	}
+	if (product.m_svfitResults.fittedTau2LV)
+	{
+		product.m_svfitTaus[lepton2] = *(product.m_svfitResults.fittedTau2LV);
 	}
 	
+	// apply systematic shifts
+	if(product.m_svfitResults.fittedHiggsLV)
+	{
+		product.m_svfitResults.fittedHiggsLV->SetM(product.m_svfitResults.fittedHiggsLV->M() * settings.GetSvfitMassShift());
+	}
 }
 
