@@ -42,4 +42,3 @@ notifications:
 branches:
   except:
     - gh-page
-s
