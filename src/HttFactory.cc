@@ -17,7 +17,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DataMcScaleFactorProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetprojectionProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
@@ -151,6 +151,10 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new DiJetQuantitiesProducer();
 	else if(id == SvfitProducer().GetProducerId())
 		return new SvfitProducer();
+	else if(id == SvfitM91Producer().GetProducerId())
+		return new SvfitM91Producer();
+	else if(id == SvfitM125Producer().GetProducerId())
+		return new SvfitM125Producer();
 	else if(id == MetprojectionProducer().GetProducerId())
 		return new MetprojectionProducer();
 	else if(id == TauTauRestFrameSelector().GetProducerId())

@@ -41,3 +41,23 @@ private:
 
 };
 
+
+class SvfitM91Producer: public SvfitProducer {
+public:
+
+	SvfitM91Producer();
+	
+	virtual std::string GetProducerId() const override;
+
+};
+
+
+class SvfitM125Producer: public SvfitProducer {
+public:
+
+	SvfitM125Producer();
+	
+	virtual std::string GetProducerId() const override;
+
+};
+
