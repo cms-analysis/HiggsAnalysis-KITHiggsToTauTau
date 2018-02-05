@@ -19,6 +19,7 @@ cd -
 
 # Generate the HTML documentation.
 doxygen Doxyfile
+cp docs/resize.js docs/html/
 
 # Create and commit the documentation repo.
 cd ${HTML_PATH}
@@ -31,4 +32,3 @@ git config user.email "${COMMIT_EMAIL}"
 git commit -m "Automated documentation build for changeset ${CHANGESET}." || true
 git push -f https://${GH_TOKEN}@github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau gh-pages
 cd -
-
