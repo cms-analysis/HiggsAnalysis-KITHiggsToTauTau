@@ -17,18 +17,8 @@ cd ${HTML_PATH}
 git rm -rf .
 cd -
 
+echo ${TEST_ENV}
+
 # Generate the HTML documentation.
 doxygen Doxyfile
-cp docs/resize.js docs/html/
-
-# Create and commit the documentation repo.
-cd ${HTML_PATH}
-# create a .nojekyll file to allow html files starting with
-# an underscore to be displayed
-touch .nojekyll
-git add .
-git config user.name "${COMMIT_USER}"
-git config user.email "${COMMIT_EMAIL}"
-git commit -m "Automated documentation build for changeset ${CHANGESET}." || true
-git push -f https://${GH_TOKEN}@github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau gh-pages
-cd -
+cp docs/resize.js docs/html/-
