@@ -41,6 +41,13 @@ class DatacardConfigs(object):
 			"VH" : "vh",
 			"WH" : "wh",
 			"ZH" : "zh",
+			"ggH_htt" : "ggh",
+			"qqH_htt" : "qqh",
+			"VH_htt" : "vh",
+			"WH_htt" : "wh",
+			"ZH_htt" : "zh",
+			"ggH_hww" : "hww_gg",
+			"qqH_hww" : "hww_qq",
 			"HTT" : "htt",
 			"ggHsm" : "gghjhusm",
 			"ggHmm" : "gghjhumm",
@@ -92,13 +99,14 @@ class DatacardConfigs(object):
 				"mt_rho" : 1020,
 				"mt_oneprong" : 1030,
 				
-				"mt_TwoJet_CP_boosted" : 2001, 
-				"mt_TwoJet_CP_mvishigh" : 2002, 
-				"mt_TwoJet_CP_mvislow" : 2003, 
-				"mt_TwoJet_CP_mjjlow" : 2004, 
+				"mt_dijet_boosted" : 2001, 
+				"mt_dijet_highM" : 2002, 
+				"mt_dijet_lowM" : 2003, 
+				"mt_dijet_lowMjj" : 2004 
 
 				"mt_ZeroJet_LFV": 	3001,
 				"mt_OneJet_LFV":	3002,
+
 			},
 			"et" : {
 				"et_inclusive" : 0,
@@ -133,11 +141,12 @@ class DatacardConfigs(object):
 				"et_rho" : 1020,
 				"et_oneprong" : 1030,
 				
-				"et_TwoJet_CP_boosted" : 2001, 
-				"et_TwoJet_CP_mvishigh" : 2002, 
-				"et_TwoJet_CP_mvislow" : 2003, 
-				"et_TwoJet_CP_mjjlow" : 2004,
-			
+
+				"et_dijet_boosted" : 2001, 
+				"et_dijet_highM" : 2002, 
+				"et_dijet_lowM" : 2003, 
+				"et_dijet_lowMjj" : 2004
+
 				"et_ZeroJet_LFV": 	3001,
 				"et_OneJet_LFV":	3002,
 
@@ -173,10 +182,10 @@ class DatacardConfigs(object):
 				
 				"em_oneprong" : 1030,
 				
-				"em_TwoJet_CP_boosted" : 2001, 
-				"em_TwoJet_CP_mvishigh" : 2002, 
-				"em_TwoJet_CP_mvislow" : 2003, 
-				"em_TwoJet_CP_mjjlow" : 2004,
+				"em_dijet_boosted" : 2001, 
+				"em_dijet_highM" : 2002, 
+				"em_dijet_lowM" : 2003, 
+				"em_dijet_lowMjj" : 2004
 
 				"em_ZeroJet_LFV": 	3001,
 				"em_OneJet_LFV":	3002,
@@ -215,10 +224,10 @@ class DatacardConfigs(object):
 				"tt_rho" : 1020,
 				"tt_oneprong" : 1030,
 				
-				"tt_TwoJet_CP_boosted" : 2001, 
-				"tt_TwoJet_CP_mvishigh" : 2002, 
-				"tt_TwoJet_CP_mvislow" : 2003, 
-				"tt_TwoJet_CP_mjjlow" : 2004
+				"tt_dijet_boosted" : 2001, 
+				"tt_dijet_highM" : 2002, 
+				"tt_dijet_lowM" : 2003, 
+				"tt_dijet_lowMjj" : 2004
 			},
 			"mm" : {
 				"mm_inclusive" : 0,

@@ -626,7 +626,7 @@ class CategoriesDict(object):
 		Categories used in CP Initial State studies.
 		"""		
 		
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_boosted{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}dijet_boosted{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -637,7 +637,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(mjj>300)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)",
+					"global":"(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{
@@ -695,7 +695,7 @@ class CategoriesDict(object):
 						}
 					}
 				}		
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_mvislow{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}dijet_lowM{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -718,7 +718,7 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_mvishigh{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}dijet_highM{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -741,7 +741,7 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		self.categoriesDict["{analysis}{channel}TwoJet_CP_mjjlow{discriminator}"] = {
+		self.categoriesDict["{analysis}{channel}dijet_lowMjj{discriminator}"] = {
 				"channel":[
 					"mt_",
 					"et_",
@@ -752,7 +752,7 @@ class CategoriesDict(object):
 					"analysis": [
 						"catHtt13TeV_"
 						],
-					"global":"(mjj>300)*(mjj<500)*(njets>1)",
+					"global":"(mjj>200)*(mjj<500)*(njets>1)",
 					"em_":"(nbtag<1)"
 					},
 				"binnings":{

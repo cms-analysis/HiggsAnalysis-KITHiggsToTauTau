@@ -207,7 +207,25 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_boost_low"] = self.combine([jet1_string, self.invert(boosted_higgs_low_string)])
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nhighpt2"] = self.combine([self.invert(jet1_string), pt2_tight_string])
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nlowpt2"] = self.combine([self.invert(jet1_string), self.invert(pt2_tight_string)])
+			
+		# Standard Model Control regions
+		self.expressions_dict["catHtt13TeV_mt_0jet_qcd_cr"] = "(njetspt30>1)*(iso_1>0.15)*(iso_1<0.30)"
+		self.expressions_dict["catHtt13TeV_et_0jet_qcd_cr"] = "(njetspt30>1)*(iso_1>0.10)*(iso_1<0.30)"
+		self.expressions_dict["catHtt13TeV_tt_antiiso_0jet_cr"] = "(njetspt30>1)*((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+		
+		self.expressions_dict["catHtt13TeV_mt_wjets_0jet_cr"] = "(njetspt30>1)*(nbtag==0)*(mt_1>80.0)"
+		self.expressions_dict["catHtt13TeV_et_wjets_0jet_cr"] = "(njetspt30>1)*(nbtag==0)*(mt_1>80.0)"
+        
+		self.expressions_dict["catHtt13TeV_mt_boosted_qcd_cr"] = "(njetspt30>1)*(iso_1>0.15)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))"
+		self.expressions_dict["catHtt13TeV_et_boosted_qcd_cr"] = "(njetspt30>1)*(iso_1>0.10)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))"
+		self.expressions_dict["catHtt13TeV_tt_antiiso_boosted_cr"] = "(njetspt30>1)*((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))*((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))"
+		
+		self.expressions_dict["catHtt13TeV_mt_wjets_boosted_cr"] = "(njetspt30>1)*(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))"
+		self.expressions_dict["catHtt13TeV_et_wjets_boosted_cr"] = "(njetspt30>1)*(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))"
 
+		# self.expressions_dict["catHtt13TeV_"+channel+"_vbf_qcd_cr"] = "(njetspt30>1)"
+		# self.expressions_dict["catHtt13TeV_"+channel+"_wjets_vbf_cr"] = "(njetspt30>1)"
+		
 		# MSSSM
 		for channel in ["et","mt","tt","em","mm"]:
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusive"] = "(1.0)"
