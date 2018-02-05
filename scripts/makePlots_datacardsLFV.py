@@ -9,7 +9,8 @@ import argparse
 import copy
 import os
 import sys
-import pprint
+import shutil
+import yaml
 
 import Artus.Utility.tools as tools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
@@ -29,18 +30,16 @@ if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for LFV analysis.",
 	                                 parents=[logger.loggingParser])
-	parser.add_argument("-i", "--input-dir", required=True,
+	parser.add_argument("-i", "--input-dir", default = "/net/scratch_cms3b/brunner/artus/AllSamples/merged/",
 	                    help="Input directory.")
-	parser.add_argument("-c", "--channel", action="append",
-	                    default=["et"],
+	parser.add_argument("-c", "--channel", nargs="+",
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
-	parser.add_argument("-s", "--signal", action="append",
-	                    default=["zet"],
+	parser.add_argument("-s", "--signal", nargs="+",
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=["LFVZeroJet", "LFVJet"],
+	parser.add_argument("--categories", nargs="+",
+	                    default=["ZeroJet_LFV", "OneJet_LFV"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/LFV_datacards/",
@@ -49,7 +48,7 @@ if __name__ == "__main__":
 	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
 	parser.add_argument("--shape-uncs", default= False, action="store_true",
 						help="Do not include shape uncertainties. [Default: %(default)s]")
-	parser.add_argument("--lnN-uncs", default= False, action="store_true",
+	parser.add_argument("--lnN-uncs", default= True, action="store_true",
 						help="Do not include shape uncertainties. [Default: %(default)s]")
 	parser.add_argument("--use-rateParam", action="store_true", default=False,
 						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
@@ -60,24 +59,17 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 
+	##Delete old datacards
+	if os.path.exists(args.output_dir + "/datacards"):
+		shutil.rmtree(args.output_dir + "/datacards")
+
 	#Instances of classes needed for filling the config
 	systematics_factory = systematics.SystematicsFactory()
-	parameter_info = parametermaster.ParameterMaster()
 	
 	plot_configs = []
 	output_files = []
 	merged_output_files = []
 	hadd_commands = []
-
-	#Set up informations if not default values are used
-	if args.signal != parser.get_default("signal"):
-		args.signal = args.signal[len(parser.get_default("signal")):]
-
-	if args.channel != parser.get_default("channel"):
-		args.channel = args.channel[len(parser.get_default("channel")):]
-
-	if args.categories != parser.get_default("categories"):
-		args.categories = args.categories[1:] 
 	
 	# Prepare name templates
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}"
@@ -93,105 +85,114 @@ if __name__ == "__main__":
 			"datacards/combined/${ANALYSIS}_${ERA}.txt",]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 
-
-	##Dictionary for categories
-	categories = {
-			"LFVZeroJet":	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization/CutValues")) + "/cut_values_zerojet.ini",
-			"LFVOneJet":	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/CutOptimization/CutValues")) + "/cut_values_onejet.ini"
-	}
-		
 	#datacard initialization
 	datacards = lfvdatacards.LFVDatacards(channel_list = args.channel, signal_list=args.signal, category_list = args.categories, lnN_syst_enable = args.lnN_uncs, shape_syst_enable = args.shape_uncs)
+	#datacards.cb.PrintAll()
+
+	cut_info 	= yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/cuts.yaml")), "r"))
+	parameter_info  = yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/parameter.yaml")), "r"))
 
 	#Loop over all channel/categories
 	for channel in args.channel:
 		list_of_samples = datacards.cb.process_set()
+	
+		##Dictionary for categories with list of [path of file with optimized cuts, weight for numbers of jets]
+		categories = {
+				"ZeroJet_LFV":	 [0, "(njetspt30==0)"],
+				"OneJet_LFV":	 [1, "(njetspt30==1)"],
+		}
 
-		for category in [args.categories[0]]:
+		for category in args.categories:
 			tmp_output_files = []
 
 			#Weight for the category saved in cut ini files
-			filename = categories[category]
-			cut_parameter, cut_values = parameter_info.cutconfigreader(filename, "Iteration4")
-			weight = parameter_info.weightaddition(parameter_info.get_parameter_info(cut_parameter,2), cut_values)
+			cut_strings = [parameter_info[param][4] for param in cut_info[categories[category][0]][channel].keys()]
+			cut_values, cut_side = [[entry[index] for entry in cut_info[categories[category][0]][channel].values()] for index in [0,1]]
+			weight = "*".join([cut_strings[index].format(side = side, cut = value) for index, (side, value) in enumerate(zip(cut_side, cut_values))] + [categories[category][1]])
 
 			print weight
+
 			category = channel + "_" + category
 
 			for shape_systematic in ["nominal"] + [shape for shape in datacards.cb.cp().syst_type(["shape"]).syst_name_set()]:
 				nominal = (shape_systematic == "nominal")
-				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
+				samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
 
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template				
 	
+
+					#input_dir, output_dir, formats, www_nodate, www, x_expressions, x_bins, output_file
 					##Define values to fill Harry Plotter config
 					base_values = [
 							[args.input_dir], 
 							args.output_dir, 
-							tmp_input_root_filename_template.replace("$", "").format(ANALYSIS="LFV", CHANNEL = channel, BIN= category,SYSTEMATIC=systematic, ERA="13TeV"),
 							["png"],
-							"",
 							True,
+							"",
 							[args.quantity],
-							["25,0,200"]
+							["25,0,200"],
+							tmp_input_root_filename_template.replace("$", "").format(ANALYSIS="LFV", CHANNEL = channel, BIN= category,SYSTEMATIC=systematic, ERA="13TeV"),
 					]
 
+					#sample_list, channel, category, estimationMethod, cut_type, nick_suffix, no_plot, weight= sample_values
+
 					sample_values  = [
-							list_of_samples,
+							samples,
 							channel,
 							None,
+							"new",
+							"lfv",
+							"",
 							False,
-							"",	
-							weight
+							weight,
 					]
-	
+
 					datacard_values = [
-							[histogram_name_template.replace("$", "").format(PROCESS=datacards.configs.sample2process(sample), CHANNEL = channel, BIN=category, SYSTEMATIC=systematic) for sample in list_of_samples],
+							[histogram_name_template.replace("$", "").format(PROCESS=datacards.configs.sample2process(sample), CHANNEL = channel, BIN=category, SYSTEMATIC=systematic) for sample in samples],
 							["ExportRoot"],
 							"UPDATE"
 					]
-			
+
 		
 				##Fill config with ConfigMaster and SystematicFactory
 				config = configmaster.ConfigMaster(base_values, sample_values)
 				config.add_config_info(datacard_values, 4)
+				config.pop(["www", "legend_markers"])
 				config = config.return_config()
 
 				systematics_settings = systematics_factory.get(shape_systematic)(config)
 				config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))				
 
-				##Delete options not needed
-				config.pop("www")
-				config.pop("legend_markers")
+				##Do specific config change
 				config["labels"] = config["labels"][-1]
-
 				plot_configs.append(config)
 
 				##File list with tmp output files
 				tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(ANALYSIS="LFV", CHANNEL = channel,BIN= category,SYSTEMATIC=systematic, ERA="13TeV") + ".root")
 				tmp_output_files.append(tmp_output_file)
 
-		##File list with merged outputs
-		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(ANALYSIS="LFV", CHANNEL = channel, BIN= category, ERA="13TeV"))
-		merged_output_files.append(output_file)
-		output_files.append(output_file)
+			##File list with merged outputs
+			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(ANALYSIS="LFV", CHANNEL = channel, BIN= category, ERA="13TeV"))
+			merged_output_files.append(output_file)
+			output_files.append(output_file)
 
-		##Hadd command for merging the tmp output files
-		hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(DST=output_file, SRC=" ".join(tmp_output_files)))
+			##Hadd command for merging the tmp output files
+			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(DST=output_file, SRC=" ".join(tmp_output_files)))
 	
-
 	# delete existing output files
 	for output_file_iterator in tmp_output_files:
 		if os.path.exists(output_file_iterator):
 			os.remove(output_file_iterator)
 	output_files = list(set(output_files))
 
-	#pprint.pprint(plot_configs[0])
+	#import pprint
+	#pprint.pprint(plot_configs)
+	#sys.exit()
 
 	# create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes= 1, n_plots=args.n_plots[0])
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes= 1, n_plots=len(plot_configs))
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=1)
 
@@ -226,18 +227,9 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [0.0, 2.0]
 	
 	#write the datacards
-	
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=1)
 
 	# Max. likelihood fit
-	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, 1, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
-	datacards.combine(datacards_cbs, datacards_workspaces, None, 1, "--expectSignal=1 -t -1 -M Asymptotic -n \"\"")
-
-	"""datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )"""
-
-
-
+	#datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, 1, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+	datacards.combine(datacards_cbs, datacards_workspaces, None, 1, "--expectSignal=1 -t -1 -M AsymptoticLimits -n \"\"")
 	
-

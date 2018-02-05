@@ -35,7 +35,7 @@ if __name__ == "__main__":
 			"P" : "HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_xsec",
 			"fit" : {
 				"" : {
-					"method" : "MaxLikelihoodFit",#"MaxLikelihoodFit",#"GoodnessOfFit",
+					"method" : "FitDiagnostics",#"MaxLikelihoodFit",#"GoodnessOfFit",
 					"options" : "--skipBOnlyFit",#"--skipBOnlyFit",#"--algo saturated --toys 100 -s 54321",#--expectSignal=1 --toys -1
 					"poi" : "r",
 				},
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 			"fit" : {
 				"" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo grid --points {GRID_BINS} --minimizerStrategy 0 --setPhysicsModelParameterRanges \"r=0.8,1.2:eff=0.8,1.2\"", #--expectSignal=1 --toys -1
+					"options" : "--algo grid --points {GRID_BINS} --minimizerStrategy 0 --setParameterRanges \"r=0.8,1.2:eff=0.8,1.2\"", #--expectSignal=1 --toys -1
 					"poi" : "r",
 				}
 			},
@@ -318,12 +318,13 @@ if __name__ == "__main__":
 		)
 
 		datacards_postfit_shapes = {}
-		if fit_options.get("method", "MaxLikelihoodFit") == "MaxLikelihoodFit":
+		if fit_options.get("method", "FitDiagnostics") == "FitDiagnostics":
 			if args.fit_dir is None:
 				datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 			else:
 				datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), fit_results_path=args.fit_dir)
-			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : fit_options["poi"]}, n_processes=args.n_processes)
+			#use nuisance_impacts instead pull_plots!
+			#datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : fit_options["poi"]}, n_processes=args.n_processes)
 
 	# plotting
 	plot_configs = []

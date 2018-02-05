@@ -162,6 +162,8 @@ if __name__ == "__main__":
 	                    help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
 	                    help="Manualy set the binning. Default is taken from configuration files.")
+        parser.add_argument("-b", "--batch", default=None, const="rwthcondor", nargs="?",
+			    help="Run with grid-control. Optionally select backend. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -897,23 +899,24 @@ if __name__ == "__main__":
 		
 		if "prefitpostfitplots" in args.steps:
 			log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")
-			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"", higgs_mass="125")
+			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M FitDiagnostics "+datacards.stable_options+" -n \"\"", higgs_mass="125")
 			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
 			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
 			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
 			if "nuisanceimpacts" in args.steps:
 				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_cp_mixing_angle, args.n_processes, higgs_mass="125")
 
+  
 		# Determine mixing angle parameter
 		datacards.combine(
 				datacards_cbs,
 				datacards_workspaces_cp_mixing_angle,
 				None,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format( # -n \"cp_mixing_angle\"
+				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format( # -n \"cp_mixing_angle\"
 						STABLE=datacards.stable_options,
 						POINTS=args.cp_mixing_scan_points
-				),
+        ),
 				higgs_mass="125"
 		)		
 		datacards.plot1DScan(datacards_cbs, 
@@ -922,8 +925,7 @@ if __name__ == "__main__":
 			args.n_processes, 
 			"",
 			higgs_mass="125")
-
-		
+	
 	"""
 	Pvalue determination to be modified. Treating the mixing angle as MASS the file pattern does not work anymore.
 	"""	 	
@@ -979,7 +981,6 @@ if __name__ == "__main__":
 		if "prefitpostfitplots" in args.steps:
 			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
-			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
 			if "nuisanceimpacts" in args.steps:
 				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, args.n_processes)

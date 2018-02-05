@@ -362,7 +362,7 @@ if __name__ == "__main__":
 	args.channel = datacards.cb.cp().channel_set()
 	if args.categories == parser.get_default("categories"):
 		args.categories = len(args.channel) * args.categories
-	
+    
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		#print index, (channel, categories)
 		
@@ -726,7 +726,7 @@ if __name__ == "__main__":
 		#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 		
 		# Max. likelihood fit and postfit plots
-		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M FitDiagnostics --saveShapes "+datacards.stable_options+" -n \"\"")
 		#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	
@@ -844,7 +844,6 @@ if __name__ == "__main__":
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 		
 		# create pull plots
-		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
 		if args.plot_nuisance_impacts:
 			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
