@@ -1,0 +1,78 @@
+#Config_ID in ConfigMaster defined:
+#-input of harry plotter config      #key for the harry potter config
+
+-2:
+- "/net/scratch_cms3b/brunner/artus/AllSamples/merged/"                                                         #"input_dir"
+- ["pdf", "png"]                                                                                                #"formats"
+- True                                                                                                          #"www_nodate"
+
+-1:
+- null                               #category
+- "new"                              #estimation method
+- "lfv"                              #cut type
+
+0:
+- [0.65, 0.65, 1.00, 0.88]           #"legend"
+- [35.87]                            #"lumis"
+- [13]                               #"energies"
+- "2016"                             #"year"
+- "Controlplot"                      #"www"
+
+1:
+- "CutEfficiency"                    #"analysis_modules"
+- ["bkg_sum"]                        #"cut_efficiency_bkg_nicks"
+- ["L"]                              #"markers"
+- "S/#sqrt{S+B}"                     #"y_label"
+- ["sOverSqrtSB"]                    #"cut_efficiency_modes"
+- ["sOverSqrtSB"]                    #"cut_efficiency_nicks"
+- ["sOverSqrtSB"]                    #"nicks_whitelist"
+- null                               #"legend"
+- [35.87]                            #"lumis"
+- [13]                               #"energies
+- "2016"                             #"year"
+- "CutEfficiency"                    #"www"
+
+2:
+- "arb. units"                       #"y_label"
+- "NormalizeToUnity"                 #"analysis_modules"
+- [0.65, 0.65, 1.00, 0.88]           #"legend"
+- [35.87]                            #"lumis"
+- [13]                               #"energies
+- "2016"                             #"year"
+- "ShapePlot"                        #"www"
+
+4:
+- [0.67, 0.70, 0.92, 0.88]           #"legend"
+- [35.87]                            #"lumis"
+- [13]                               #"energies
+- "2016"                             #"year"
+- "Nminus1Plot"                      #"www"
+
+5:
+- ["soverb"]                         #"subplot_nicks"
+- "S/#sqrt{S+B}"                     #"y_subplot_label"
+- [0.75, 0.60, 1, 0.83]              #"legend"
+- [35.87]                            #"lumis"
+- [13]                               #"energies
+- "2016"                             #"year"
+- "Cutflow"                          #"www"
+
+6:
+- ""                                                                    #"y_label"
+- ["limit"]                                                             #"folders"
+- ["category"]                                                          #"y_expressions"
+- ["E5", "E5", "P", "P"]                                                #"markers"
+- ["kYellow", "kGreen", "kBlack", "kBlack"]                             #"colors
+- [3001]                                                                #"fill_styles"
+- [20, 20, 20, 21]                                                      #"marker_styles"
+- [40, 40, 1, 1]                                                        #"line_widths"
+- ["TGraphAsymmErrorsX", "TGraphAsymmErrorsX", "TGraph", "TGraph"]      #"tree_draw_options"
+- []                                                                    #"y_ticks_label
+- ["95% excepted", "68% excepted", "Excepted", "Observed"]              #"nicks"
+- [0.0000001, 0.00001]                                                  #"x_lims"
+- [-0.5]                                                                #"y_lims"
+- [0.65, 0.65, 0.95, 0.88]
+- [35.87]
+- [13]
+- "2016"
+- "Limitplots"
