@@ -91,44 +91,29 @@ public:
 class SvfitEventKey {
 
 public:
-
-	enum class IntegrationMethod : int
-	{
-		NONE = -1,
-		MARKOV_CHAIN = 0,
-		VEGAS = 1,
-		FIT = 2,
-	};
-	static IntegrationMethod ToIntegrationMethod(std::string const& integrationMethod)
-	{
-		if (integrationMethod == "markovchain") return IntegrationMethod::MARKOV_CHAIN;
-		else if (integrationMethod == "vegas") return IntegrationMethod::VEGAS;
-		else if (integrationMethod == "fit") return IntegrationMethod::FIT;
-		else return IntegrationMethod::NONE;
-	}
-	
 	ULong64_t runLumiEvent;
 	int decayType1;
 	int decayType2;
+	int decayMode1 = 0;
+	int decayMode2 = 0;
 	int systematicShift;
 	float systematicShiftSigma;
-	int integrationMethod;
-	ULong64_t hash;
-	
+	float diTauMassConstraint;
+
 	SvfitEventKey() {};
 	SvfitEventKey(ULong64_t const& runLumiEvent,
-	              svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	              HttEnumTypes::SystematicShift const& systematicShift,
-	              float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, ULong64_t const &hash);
-	
+	              classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
+	              int const& decayMode1, int const& decayMode2,
+	              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
+	              float const& diTauMassConstraint);
+
 	void Set(ULong64_t const& runLumiEvent,
-	         svFitStandalone::kDecayType const& decayType1, svFitStandalone::kDecayType const& decayType2,
-	         HttEnumTypes::SystematicShift const& systematicShift,
-	         float const& systematicShiftSigma, IntegrationMethod const& integrationMethod, ULong64_t const &hash);
-	
+	         classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
+	         int const& decayMode1, int const& decayMode2,
+	         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
+	         float const& diTauMassConstraint);
+
 	HttEnumTypes::SystematicShift GetSystematicShift() const;
-	IntegrationMethod GetIntegrationMethod() const;
-	
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
 	void ActivateBranches(TTree* tree, bool activate=true);
@@ -152,23 +137,17 @@ class SvfitInputs {
 public:
 	RMFLV* leptonMomentum1 = 0;
 	RMFLV* leptonMomentum2 = 0;
-	
 	RMDataV* metMomentum = 0;
 	RMSM2x2* metCovariance = 0;
 
-	int decayMode1 = 0;
-	int decayMode2 = 0;
-	
 	SvfitInputs() {};
 	SvfitInputs(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
-	            RMDataV const& metMomentum, RMSM2x2 const& metCovariance,
-	            int const& decayMode1, int const& decayMode2);
+	            RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
 	~SvfitInputs();
 	
 	void Set(RMFLV const& leptonMomentum1, RMFLV const& leptonMomentum2,
-	         RMDataV const& metMomentum, RMSM2x2 const& metCovariance,
-	         int const& decayMode1, int const& decayMode2);
-	
+	         RMDataV const& metMomentum, RMSM2x2 const& metCovariance);
+
 	void CreateBranches(TTree* tree);
 	void SetBranchAddresses(TTree* tree);
 	void ActivateBranches(TTree* tree, bool activate=true);
