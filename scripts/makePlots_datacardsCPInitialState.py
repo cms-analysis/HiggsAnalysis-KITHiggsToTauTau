@@ -424,6 +424,9 @@ if __name__ == "__main__":
 		"Boosted2D",
 		"Vbf2D"
 	]
+	
+	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
+	
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
@@ -480,7 +483,7 @@ if __name__ == "__main__":
 			datacards.configs._mapping_process2sample["TTJ"]= "ttj"
 		else:
 			datacards.configs._mapping_process2sample["TT"] = "ttj"
-			datacards.configs._mapping_process2sample.pop("TTT", None)
+			#datacards.configs._mapping_process2sample.pop("TTT")
 			datacards.configs._mapping_process2sample.pop("TTJ", None)
 		
 		if "all" in categories:
@@ -530,7 +533,7 @@ if __name__ == "__main__":
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="htt",
 					CHANNEL=channel,
-					BIN=category, # why is this necessary?
+					BIN=official_category, # why is this necessary?
 					ERA="13TeV"
 			))
 			#merged_output_files.append(output_file)
@@ -538,7 +541,7 @@ if __name__ == "__main__":
 			tmp_output_files = []
 			
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
-				print(shape_systematic, list_of_samples)
+				# print(shape_systematic, list_of_samples)
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
 
@@ -692,16 +695,17 @@ if __name__ == "__main__":
 							config["z_expressions"] = ["melaDiscriminatorD0MinusGGH"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]
 							
-                    # 
-					# elif (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
-					# 	config["x_bins"] = [binnings_key]
-					# elif args.x_bins != None:
-					# 	config["x_bins"] = [args.x_bins]
-					# else:
-					# 	log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are (see HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/binnings.py):")
-					# 	for key in binnings_settings.binnings_dict:
-					# 		log.debug(key)
-					# 	sys.exit()
+                    
+					elif (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
+						# print(binnings_key)
+						config["x_bins"] = [binnings_key]
+					elif args.x_bins != None:
+						config["x_bins"] = [args.x_bins]
+					else:
+						log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are (see HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/binnings.py):")
+						for key in binnings_settings.binnings_dict:
+							log.debug(key)
+						sys.exit()
 					
 					# set quantity x depending on the category
 					if args.cp_study == "final":
@@ -777,15 +781,15 @@ if __name__ == "__main__":
 		for output_file in merged_output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
-	
-	# update CombineHarvester with the yields and shapes
-	log.info("\n -------------------------------------- Extract shapes from histogram templates ---------------------------------")
-	datacards.extract_shapes(
-			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
-			bkg_histogram_name_template, sig_histogram_name_template,
-			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
-			update_systematics=True
-	)
+	if "inputs" in args.steps:
+		# update CombineHarvester with the yields and shapes
+		log.info("\n -------------------------------------- Extract shapes from histogram templates ---------------------------------")
+		datacards.extract_shapes(
+				os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
+				bkg_histogram_name_template, sig_histogram_name_template,
+				bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
+				update_systematics=True
+		)
 	
 	
 	# add bin-by-bin uncertainties
@@ -811,12 +815,17 @@ if __name__ == "__main__":
 	
 	# TODO: comment out the following two commands if you want to use
 	#       the SM HTT data card creation method in CombineHarvester
-	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)		
+	# print(datacards.cb.process_set())
+	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)	
+	# print(datacards.cb.process_set())	
 	
 	# Use an asimov dataset. This line must be here, because otherwise we
 	if args.use_asimov_dataset:
 		log.info("\n -------------------------------------- Using asimov dataset instead of actual data ---------------------------------")
-		datacards.replace_observation_by_asimov_dataset(signal_processes=["ggHsm_htt", "qqHsm_htt"])
+		# signal_processes makes combine filter those signal processes that appear in the datacards and can be replaced.
+		# if you observe the error that ROOT wasn't able to add up the background and signal histograms due to unequal binnings
+		# the reason is possibly a missing signal_process here.
+		datacards.replace_observation_by_asimov_dataset(signal_processes=["ggHsm_htt", "qqHsm_htt", "ggH_htt"])
 	
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
@@ -889,7 +898,7 @@ if __name__ == "__main__":
 				datacards_cbs,
 				args.n_processes,
 				" -P {MODEL} {MODEL_PARAMETERS} ".format(
-					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_mixing_angle",
+					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels_old:cp_mixing",
 					MODEL_PARAMETERS=""
 				),
 				higgs_mass="125"
@@ -899,10 +908,24 @@ if __name__ == "__main__":
 			log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")
 			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"", higgs_mass="125")
 			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
-			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
+			
+			# divide plots by bin width and change the label correspondingly
+			if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
+				args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
+		
+			# adapt prefit and postfit plot configs
+			backgrounds_to_merge = {
+				"ZLL" : ["ZL", "ZJ"],
+				"TT" : ["TTT", "TTJJ"],
+				"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
+			}
+			
+			prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes)
 			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
 			if "nuisanceimpacts" in args.steps:
 				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_cp_mixing_angle, args.n_processes, higgs_mass="125")
+				
+			higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 		# Determine mixing angle parameter
 		datacards.combine(
