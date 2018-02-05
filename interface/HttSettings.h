@@ -257,8 +257,14 @@ public:
 	IMPL_SETTING_DEFAULT(float, SvfitKappaParameter, 6.0);
 	IMPL_SETTING_DEFAULT(float, DiTauMassConstraint, -1.0);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFile, "");
+	IMPL_SETTING_DEFAULT(std::string, SvfitM91CacheFile, "");
+	IMPL_SETTING_DEFAULT(std::string, SvfitM125CacheFile, "");
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheTree, "svfitCache");
+	IMPL_SETTING_DEFAULT(std::string, SvfitM91CacheTree, "svfitCache");
+	IMPL_SETTING_DEFAULT(std::string, SvfitM125CacheTree, "svfitCache");
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheFileFolder, "");
+	IMPL_SETTING_DEFAULT(std::string, SvfitM91CacheFileFolder, "");
+	IMPL_SETTING_DEFAULT(std::string, SvfitM125CacheFileFolder, "");
 	IMPL_SETTING_DEFAULT(bool, UseFirstInputFileNameForSvfit, false);
 	IMPL_SETTING_DEFAULT(std::string, SvfitCacheMissBehaviour, "assert");
 	IMPL_SETTING_DEFAULT(std::string, SvfitOutFile, "");

@@ -175,8 +175,12 @@ public:
 
 	// filled by the SvfitProducer
 	mutable SvfitEventKey m_svfitEventKey;
+	mutable SvfitEventKey m_svfitM91EventKey;
+	mutable SvfitEventKey m_svfitM125EventKey;
 	mutable SvfitInputs m_svfitInputs;
 	mutable SvfitResults m_svfitResults;
+	mutable SvfitResults m_svfitM91Results;
+	mutable SvfitResults m_svfitM125Results;
 	bool m_svfitCalculated = false;
 	std::map<KLepton*, RMFLV> m_svfitTaus;
 

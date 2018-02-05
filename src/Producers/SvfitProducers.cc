@@ -10,7 +10,7 @@
 #include "Artus/Utility/interface/DefaultValues.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducers.h"
 
 
 SvfitProducer::SvfitProducer(
@@ -186,5 +186,45 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	{
 		(product.*m_svfitResultsMember).fittedHiggsLV->SetM((product.*m_svfitResultsMember).fittedHiggsLV->M() * settings.GetSvfitMassShift());
 	}
+}
+
+
+SvfitM91Producer::SvfitM91Producer(
+) :
+	SvfitProducer(
+			"M91",
+			DefaultValues::ZBosonMassGeV,
+			&product_type::m_svfitM91EventKey,
+			&product_type::m_svfitM91Results,
+			&setting_type::GetSvfitM91CacheFile,
+			&setting_type::GetSvfitM91CacheFileFolder,
+			&setting_type::GetSvfitM91CacheTree
+	)
+{
+}
+
+std::string SvfitM91Producer::GetProducerId() const
+{
+	return "SvfitM91Producer";
+}
+
+
+SvfitM125Producer::SvfitM125Producer(
+) :
+	SvfitProducer(
+			"M125",
+			125.0,
+			&product_type::m_svfitM125EventKey,
+			&product_type::m_svfitM125Results,
+			&setting_type::GetSvfitM125CacheFile,
+			&setting_type::GetSvfitM125CacheFileFolder,
+			&setting_type::GetSvfitM125CacheTree
+	)
+{
+}
+
+std::string SvfitM125Producer::GetProducerId() const
+{
+	return "SvfitM125Producer";
 }
 
