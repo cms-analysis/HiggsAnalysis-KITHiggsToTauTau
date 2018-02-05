@@ -52,7 +52,11 @@ class DatacardConfigs(object):
 			"SUSYCPODD_ALT": "susycpodd",
 			"CPODD_ALT": "httcpodd",
 			"CPMIX_ALT": "httcpmix",
+			"ZEM": "zem",
+			"ZET": "zet",
+			"ZMT": "zmt"
 		}
+
 
 		self._mapping_category2binid = {
 			"mt" : {
@@ -91,7 +95,10 @@ class DatacardConfigs(object):
 				"mt_TwoJet_CP_boosted" : 2001, 
 				"mt_TwoJet_CP_mvishigh" : 2002, 
 				"mt_TwoJet_CP_mvislow" : 2003, 
-				"mt_TwoJet_CP_mjjlow" : 2004 
+				"mt_TwoJet_CP_mjjlow" : 2004, 
+
+				"mt_ZeroJet_LFV": 	3001,
+				"mt_OneJet_LFV":	3002,
 			},
 			"et" : {
 				"et_inclusive" : 0,
@@ -129,7 +136,11 @@ class DatacardConfigs(object):
 				"et_TwoJet_CP_boosted" : 2001, 
 				"et_TwoJet_CP_mvishigh" : 2002, 
 				"et_TwoJet_CP_mvislow" : 2003, 
-				"et_TwoJet_CP_mjjlow" : 2004
+				"et_TwoJet_CP_mjjlow" : 2004,
+			
+				"et_ZeroJet_LFV": 	3001,
+				"et_OneJet_LFV":	3002,
+
 			},
 			"em" : {
 				"em_inclusive" : 0,
@@ -165,7 +176,11 @@ class DatacardConfigs(object):
 				"em_TwoJet_CP_boosted" : 2001, 
 				"em_TwoJet_CP_mvishigh" : 2002, 
 				"em_TwoJet_CP_mvislow" : 2003, 
-				"em_TwoJet_CP_mjjlow" : 2004
+				"em_TwoJet_CP_mjjlow" : 2004,
+
+				"em_ZeroJet_LFV": 	3001,
+				"em_OneJet_LFV":	3002,
+
 			},
 			"tt" : {
 				"tt_inclusive" : 0,
@@ -248,13 +263,6 @@ class DatacardConfigs(object):
 			for i, cat in enumerate(categories[chan]):
 				self._mapping_category2binid[chan][cat] = max_number + i
 		self.htt_datacard_filename_templates = [
-			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
-			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-			"datacards/category/${BINID}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
-			"datacards/combined/${MASS}/${ANALYSIS}_${ERA}.txt",
-		]
-
-		self.LFV_datacard_filename_templates = [
 			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
 			"datacards/category/${BINID}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",

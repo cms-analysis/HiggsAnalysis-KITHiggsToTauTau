@@ -19,7 +19,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.zttxsecdatacards as zttxsecdatacards
 import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017 as samples
 
 
 def _call_command(command):
@@ -89,7 +89,9 @@ if __name__ == "__main__":
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
-	                    help="Additional analysis Modules. [Default: %(default)s]")	
+	                    help="Additional analysis Modules. [Default: %(default)s]")
+	parser.add_argument("--era", default="2016",
+	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=True, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -106,6 +108,12 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
+	if args.era == "2016":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+	elif args.era == "2017":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017 as samples
+
+	# Clean the output dir
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
@@ -247,6 +255,20 @@ if __name__ == "__main__":
 					config["x_expressions"] = [args.quantity]
 					config["directories"] = [args.input_dir]
 					
+					if args.era == "2017":
+						sub_conf_index = 0
+						while (sub_conf_index < len(config["files"])):
+							if config["files"][sub_conf_index] is None:
+								config["files"].pop(sub_conf_index)
+								#config["x_expressions"].pop(sub_conf_index)
+								#config["x_bins"].pop(index)
+								config["scale_factors"].pop(sub_conf_index)
+								config["folders"].pop(sub_conf_index)
+								config["weights"].pop(sub_conf_index)
+								config["nicks"].pop(sub_conf_index)
+							else:
+								sub_conf_index +=1
+
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
@@ -374,12 +396,22 @@ if __name__ == "__main__":
 	
 	# Max. likelihood fit and postfit plots
 	#--expectSignal=1 --toys -1 for Asimov dataset
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit {STABLE} -n \"\"".format(
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M FitDiagnostics --saveShapes {STABLE} -n \"\"".format(
 			STABLE=datacards.stable_options
 	))
 	#datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']]}, n_processes=args.n_processes)
+	#datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']]}, n_processes=args.n_processes)
+
+	datacards.prefit_postfit_plots(
+		datacards_cbs,
+		datacards_postfit_shapes,
+		plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "m_vis", "era" : "2016"},
+		n_processes=args.n_processes,
+		signal_stacked_on_bkg=True
+		)
+	#use nuisance_impacts instead pull_plots!
+	#datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']],"formats" : ["pdf", "png"], "args" : args.args}, n_processes=args.n_processes)
 
 	# plotting
 	plot_configs = []
@@ -397,7 +429,8 @@ if __name__ == "__main__":
 	# prefit-postfit plots
 	plot_configs = []
 	if args.model in ["etaufakerate", "mutaufakerate"]:
-		bkg_plotting_order = ["ZLL", "ZL", "ZTT", "ZJ", "TT", "VV", "W", "QCD"]
+		#bkg_plotting_order = ["ZLL", "ZL", "ZTT", "ZJ", "TT", "VV", "W", "QCD"]
+		bkg_plotting_order = ["ZL", "ZTT", "ZJ", "TT", "VV", "QCD"]
 	elif args.model == "tauideff":
 		bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
 	
@@ -411,10 +444,10 @@ if __name__ == "__main__":
 			for category in datacards_cbs[datacard].cp().bin_set():
 				print "category = ", category
 				
-				results_file = ROOT.TFile(os.path.join(os.path.dirname(datacard), "mlfit.root"))
+				results_file = ROOT.TFile(os.path.join(os.path.dirname(datacard), "fitDiagnostics.root"))
 				results_tree = results_file.Get("tree_fit_sb")
 				results_tree.GetEntry(0)
-				bestfit = results_tree.mu
+				bestfit = results_tree.r
 				
 				bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
 				sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
@@ -443,13 +476,19 @@ if __name__ == "__main__":
 				
 				processes_to_plot = list(processes)
 				if category[:2] in ["et", "mt", "tt"]:
-					#processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+					processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
 					processes_to_plot = [p for p in processes if not "noplot" in p]
 					processes_to_plot.insert(3, "EWK")
 					#config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
 					#config["sum_scale_factors"].append("1.0 1.0 1.0")
-					config["sum_result_nicks"].append("EWK")
-				
+					if "W_noplot" in processes:
+						config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
+						config["sum_scale_factors"].append("1.0 1.0 1.0")
+					else:
+						config["sum_nicks"].append("ZJ_noplot VV_noplot")
+						config["sum_scale_factors"].append("1.0 1.0")
+				config["sum_result_nicks"].append("EWK")
+
 				config["files"] = [postfit_shapes]
 				config["folders"] = [category+"_"+level]
 				config["nicks"] = processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]
@@ -487,6 +526,7 @@ if __name__ == "__main__":
 					config.setdefault("markers", []).extend(["E2", "E"])
 					config.setdefault("legend_markers", []).extend(["F", "ELP"])
 					config.setdefault("labels", []).extend([""] * 2)
+					config.setdefault("stacks", []).extend(["unc", "ratio"])
 					config["legend"] = [0.65, 0.4, 0.92, 0.82]
 					config["y_subplot_lims"] = [0.5, 1.5]
 					config["y_subplot_label"] = "Obs./Exp."

@@ -46,6 +46,9 @@ class EstimateTtbar(estimatebase.EstimateBase):
 		self.prepare_list_args(plotData, self._plotdict_keys)
 		
 		plotData.plotdict["ttbar_data_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["ttbar_data_subtract_nicks"]]
+	
+	def run(self, plotData=None):
+		super(EstimateTtbar, self).run(plotData)
 		
 		# make sure that all necessary histograms are available
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
@@ -55,9 +58,6 @@ class EstimateTtbar(estimatebase.EstimateBase):
 				elif not isinstance(nick, bool):
 					for subnick in nick:
 						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
-	
-	def run(self, plotData=None):
-		super(EstimateTtbar, self).run(plotData)
 		
 		for ttbar_shape_nick, ttbar_data_control_nick, ttbar_data_subtract_nicks, ttbar_mc_signal_nick, ttbar_mc_control_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 				yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][ttbar_data_control_nick])()

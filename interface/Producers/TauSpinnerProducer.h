@@ -21,7 +21,7 @@ public:
 	{
 		return "TauSpinnerProducer";
 	}
-	
+
 	~TauSpinnerProducer();
 
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
@@ -36,9 +36,9 @@ private:
 			GenParticleDecayTree& mother,
 			std::vector<TauSpinner::SimpleParticle>& resultVector) const;
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
-	
+
 	std::vector<float> mixingAnglesOverPiHalf;
-	
+
 	std::string pipelineName;
 	mutable int numberOfNanWeights = 0;
 };

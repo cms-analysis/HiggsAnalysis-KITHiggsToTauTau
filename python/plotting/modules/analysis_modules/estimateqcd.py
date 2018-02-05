@@ -43,6 +43,9 @@ class EstimateQcd(estimatebase.EstimateBase):
 
 		plotData.plotdict["qcd_shape_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_shape_subtract_nicks"]]	
 		plotData.plotdict["qcd_yield_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_yield_subtract_nicks"]]	
+	
+	def run(self, plotData=None):
+		super(EstimateQcd, self).run(plotData)
 		
 		# make sure that all necessary histograms are available
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
@@ -52,9 +55,6 @@ class EstimateQcd(estimatebase.EstimateBase):
 				elif (not isinstance(nick, float) and not isinstance(nick, bool)):
 					for subnick in nick:
 						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
-	
-	def run(self, plotData=None):
-		super(EstimateQcd, self).run(plotData)
 		
 		for qcd_shape_nick, qcd_yield_nick, qcd_yield_subtract_nicks, qcd_shape_subtract_nicks, qcd_extrapolation_factor_ss_os in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			

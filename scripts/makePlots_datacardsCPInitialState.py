@@ -73,7 +73,7 @@ if __name__ == "__main__":
 	                    help="Turn off normalization by bin width [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
-	parser.add_argument("-b", "--background-method", default="new",
+	parser.add_argument("--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
@@ -117,6 +117,8 @@ if __name__ == "__main__":
 	                    help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
 	                    help="Manualy set the binning. Default is taken from configuration files.")
+        parser.add_argument("-b", "--batch", default=None, const="rwthcondor", nargs="?",
+			    help="Run with grid-control. Optionally select backend. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -456,7 +458,7 @@ if __name__ == "__main__":
 	
 	# create input histograms with HarryPlotter
 	if "inputs" in args.steps:
-		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
@@ -599,47 +601,48 @@ if __name__ == "__main__":
 		)
 		
 		if "prefitpostfitplots" in args.steps:
-			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M FitDiagnostics --saveShapes "+datacards.stable_options+" -n \"\"")
 			# -M MaxLikelihoodFit is no longer supported. Indtead MultiDimFit should be used. Without specifying any --algo it perfoerms the usual MLF.
 			
 			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
-
-			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)			
 			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
-		
+			if "nuisanceimpacts" in args.steps:
+				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_cp_mixing_angle, args.n_processes)
+            # 
 		# Determine mixing angle parameter
 		datacards.combine(
 				datacards_cbs,
 				datacards_workspaces_cp_mixing_angle,
 				None,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format( # -n \"cp_mixing_angle\"
+				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format( # -n \"cp_mixing_angle\"
 						STABLE=datacards.stable_options,
 						POINTS=args.cp_mixing_scan_points
 				)
 		)
 		
 		# Determine fa3 parameter
-		datacards_workspaces_cp_fa3 = datacards.text2workspace(
-				datacards_cbs,
-				args.n_processes,
-				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_fa3",
-					MODEL_PARAMETERS=""
-				)
-		)
-		
-		datacards.combine(
-				datacards_cbs,
-				datacards_workspaces_cp_fa3,
-				None,
-				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"cp_fa3\"".format(
-						STABLE=datacards.stable_options,
-						POINTS=args.cp_mixing_scan_points
-				)	
-		)
+
+		# datacards_workspaces_cp_fa3 = datacards.text2workspace(
+		# 		datacards_cbs,
+		# 		args.n_processes,
+		# 		"-P {MODEL} {MODEL_PARAMETERS}".format(
+		# 			MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels:cp_fa3",
+		# 			MODEL_PARAMETERS=""
+		# 		)
+		# )
+        # 
+		# datacards.combine(
+		# 		datacards_cbs,
+		# 		datacards_workspaces_cp_fa3,
+		# 		None,
+		# 		args.n_processes,
+		# 		"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"cp_fa3\"".format(
+		# 				STABLE=datacards.stable_options,
+		# 				POINTS=args.cp_mixing_scan_points
+		# 		)	
+		# )
 		
 		result_plot_configs = []
 		for datacard, workspace in datacards_workspaces_cp_mixing_angle.iteritems():
@@ -647,8 +650,16 @@ if __name__ == "__main__":
 			config["directories"] = [os.path.dirname(workspace)]
 			config["labels"] = ["TODO"]
 			config["output_dir"] = os.path.join(os.path.dirname(workspace), "plots")
-			config["filename"] = "likelihoodScan"
+			config["filename"] = "likelihoodScan_alpha"
 			result_plot_configs.append(config)
+			
+		# for datacard, workspace in datacards_workspaces_cp_fa3.iteritems():
+		# 	config = jsonTools.JsonDict(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_alphatau.json"))
+		# 	config["directories"] = [os.path.dirname(workspace)]
+		# 	config["labels"] = ["TODO"]
+		# 	config["output_dir"] = os.path.join(os.path.dirname(workspace), "plots")
+		# 	config["filename"] = "likelihoodScan_fa3"
+		# 	result_plot_configs.append(config)
 		
 		higgsplot.HiggsPlotter(list_of_config_dicts=result_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes)
 
@@ -708,7 +719,6 @@ if __name__ == "__main__":
 		if "prefitpostfitplots" in args.steps:
 			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
-			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
 			if "nuisanceimpacts" in args.steps:
 				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, args.n_processes)

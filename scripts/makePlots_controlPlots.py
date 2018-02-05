@@ -184,7 +184,7 @@ if __name__ == "__main__":
 	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
-	parser.add_argument("-b", "--background-method", default=["new"], nargs="+",
+	parser.add_argument("--background-method", default=["new"], nargs="+",
 	                    help="Background estimation method to be used, channel dependent. [Default: %(default)s]")
 	parser.add_argument("--mssm", default=False, action="store_true",
 	                    help="Produce the plots for the MSSM. [Default: %(default)s]")
@@ -216,6 +216,8 @@ if __name__ == "__main__":
 	                    help="Show channel comparisons. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
+	parser.add_argument("-b", "--batch", default=None, const="rwthcondor", nargs="?",
+	                    help="Run with grid-control. Optionally select backend. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int,
 	                    help="Number of plots. [Default: all]")
 	parser.add_argument("-o", "--output-dir",
@@ -636,4 +638,8 @@ if __name__ == "__main__":
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
+	higgsplot.HiggsPlotter(
+			list_of_config_dicts=plot_configs, list_of_args_strings=[args.args],
+			n_processes=args.n_processes, n_plots=args.n_plots, batch=args.batch
+	)
+

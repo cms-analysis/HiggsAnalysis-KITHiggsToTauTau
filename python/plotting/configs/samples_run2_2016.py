@@ -766,6 +766,8 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
+		branching_ratio = "1.2e-5"
+
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
@@ -776,7 +778,7 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoMT > 0.0)"+"*(1.2e-5)",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.0)"+"*"+branching_ratio,
 				"zmt",
 				nick_suffix=nick_suffix
 		)
@@ -793,6 +795,8 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
+		branching_ratio = "9.8e-6"
+	
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
@@ -803,7 +807,7 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoET > 0.0)"+"*(9.8e-6)",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoET > 0.0)"+"*"+branching_ratio,
 				"zet",
 				nick_suffix=nick_suffix
 		)
@@ -820,6 +824,8 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
+		branching_ratio = "7.3e-7"
+
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
@@ -830,7 +836,7 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoEM > 0.0)"+"*(7.3e-7)",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.0)"+"*"+ branching_ratio,
 				"zem",
 				nick_suffix=nick_suffix
 		)
@@ -1276,9 +1282,6 @@ class Samples(samples.SamplesBase):
 
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvt"), nick_suffix)
-		
-		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", "vvt", nick_suffix)
 		return config
 
 	def vvj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -1318,8 +1321,6 @@ class Samples(samples.SamplesBase):
 
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vvj", nick_suffix)
-		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", "vvj", nick_suffix)
 		return config
 
 	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
