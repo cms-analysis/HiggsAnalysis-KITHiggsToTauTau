@@ -228,6 +228,14 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# self.expressions_dict["catHtt13TeV_"+channel+"_vbf_qcd_cr"] = "(njetspt30>1)"
 		# self.expressions_dict["catHtt13TeV_"+channel+"_wjets_vbf_cr"] = "(njetspt30>1)"
 		
+		# CP initial state category
+		for channel in ["em", "et", "mt", "tt"]:
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_boosted"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)*(nbtag<1)"  
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowM"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)*(nbtag<1)"  
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_highM"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)*(nbtag<1)"  
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowMjj"] = "(mjj>200)*(mjj<500)*(njets>1)*(m_sv>100)" if channel != "em" else "(mjj>200)*(mjj<500)*(njets>1)*(nbtag<1)"  
+
+		
 		# MSSSM
 		for channel in ["et","mt","tt","em","mm"]:
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusive"] = "(1.0)"
