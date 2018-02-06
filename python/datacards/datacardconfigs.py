@@ -102,7 +102,7 @@ class DatacardConfigs(object):
 				"mt_dijet_boosted" : 2001, 
 				"mt_dijet_highM" : 2002, 
 				"mt_dijet_lowM" : 2003, 
-				"mt_dijet_lowMjj" : 2004, 
+				"mt_dijet_lowMjj" : 2004 
 
 				"mt_ZeroJet_LFV": 	3001,
 				"mt_OneJet_LFV":	3002,
@@ -145,7 +145,7 @@ class DatacardConfigs(object):
 				"et_dijet_boosted" : 2001, 
 				"et_dijet_highM" : 2002, 
 				"et_dijet_lowM" : 2003, 
-				"et_dijet_lowMjj" : 2004,
+				"et_dijet_lowMjj" : 2004
 
 				"et_ZeroJet_LFV": 	3001,
 				"et_OneJet_LFV":	3002,
@@ -185,7 +185,7 @@ class DatacardConfigs(object):
 				"em_dijet_boosted" : 2001, 
 				"em_dijet_highM" : 2002, 
 				"em_dijet_lowM" : 2003, 
-				"em_dijet_lowMjj" : 2004,
+				"em_dijet_lowMjj" : 2004
 
 				"em_ZeroJet_LFV": 	3001,
 				"em_OneJet_LFV":	3002,
@@ -227,7 +227,7 @@ class DatacardConfigs(object):
 				"tt_dijet_boosted" : 2001, 
 				"tt_dijet_highM" : 2002, 
 				"tt_dijet_lowM" : 2003, 
-				"tt_dijet_lowMjj" : 2004,
+				"tt_dijet_lowMjj" : 2004
 			},
 			"mm" : {
 				"mm_inclusive" : 0,
