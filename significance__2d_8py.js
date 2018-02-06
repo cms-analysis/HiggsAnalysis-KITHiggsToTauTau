@@ -1,0 +1,26 @@
+var significance__2d_8py =
+[
+    [ "args", "significance__2d_8py.html#ad26c1b99d4ab92a16b5f24af22b2a570", null ],
+    [ "ax", "significance__2d_8py.html#a1da5cd57e7820cd19b017f50db023a78", null ],
+    [ "channels", "significance__2d_8py.html#afba096f195d2f9dc8b0045bd65d6e864", null ],
+    [ "current_chain", "significance__2d_8py.html#a1c476a2633c224162765baa5ed266b31", null ],
+    [ "fig", "significance__2d_8py.html#ad90ff385689d4bb32a6a292048276cdc", null ],
+    [ "im", "significance__2d_8py.html#a7506238ac62ffe141c0036214bc268c4", null ],
+    [ "in_file", "significance__2d_8py.html#a29d66384da56adc0696047a8b175777a", null ],
+    [ "in_raw", "significance__2d_8py.html#a8a7b3af4d72f62df1fd49d38d4baa3f6", null ],
+    [ "labels", "significance__2d_8py.html#ae04a3fb8d79bc2fac9aea25e97b6c568", null ],
+    [ "log", "significance__2d_8py.html#a36ed43cb21e061fa0e3df8730a5606f1", null ],
+    [ "mass", "significance__2d_8py.html#a1666cb391509d62e4bd3562cf1e247e2", null ],
+    [ "matrix", "significance__2d_8py.html#afe0b90bcd5230ff6b8af64f6b1ddb3c0", null ],
+    [ "min_value", "significance__2d_8py.html#a9acf03cc16e2781224f8a43af41553a1", null ],
+    [ "npmatrix", "significance__2d_8py.html#a320be8d3d8a1e53d168262f2beb38c67", null ],
+    [ "p1_width", "significance__2d_8py.html#a800c08cc903c9b6a352c9594f6cb5734", null ],
+    [ "p1s", "significance__2d_8py.html#a5fc00c0dd9196d95f0996a5ee419570f", null ],
+    [ "p2_width", "significance__2d_8py.html#aea6557478b291af0f619b6d0accdfcf5", null ],
+    [ "p2s", "significance__2d_8py.html#a6f4eb1f2aac92fe3476b083d27c3386a", null ],
+    [ "parser", "significance__2d_8py.html#ab99c05329f7f3efe1de7654fe3b4a4cc", null ],
+    [ "plots", "significance__2d_8py.html#a4a8ad6f007a1c05803c5591e33cce7f2", null ],
+    [ "x_range", "significance__2d_8py.html#a4242b46059e52756444de65ff09b9c1c", null ],
+    [ "y", "significance__2d_8py.html#a71df27da88a28b3ec54d32fa6bef0fe7", null ],
+    [ "y_range", "significance__2d_8py.html#a22e8200d593788a1b0d56c19d97931ac", null ]
+];

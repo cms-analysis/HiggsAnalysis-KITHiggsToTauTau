@@ -1,0 +1,26 @@
+var plot__BDTSeparation_8py =
+[
+    [ "makePlot", "plot__BDTSeparation_8py.html#ab1466213c6eabd3e1cb09de2e0a2860c", null ],
+    [ "args", "plot__BDTSeparation_8py.html#aead2c1544e1ccffc47945f5ed0945fef", null ],
+    [ "bdt_name", "plot__BDTSeparation_8py.html#a8d6574abb590870a3f9bdbca7cfc4695", null ],
+    [ "begin", "plot__BDTSeparation_8py.html#abcbd6dde152695178c6a44dcac5bc6ef", null ],
+    [ "cat", "plot__BDTSeparation_8py.html#a9f8c420dda2585e9776aa462bbc32f34", null ],
+    [ "cat1", "plot__BDTSeparation_8py.html#a3c0d25baddffe84197d249690ca9a901", null ],
+    [ "cat2", "plot__BDTSeparation_8py.html#a789f58509e8b93594cb2d174cfcdd668", null ],
+    [ "default", "plot__BDTSeparation_8py.html#a2c20b82fe7f2e66ec1d14f8c66c0a9ce", null ],
+    [ "end_string", "plot__BDTSeparation_8py.html#a37da3c0c694e123ad1d7ce1ee5340b1d", null ],
+    [ "help", "plot__BDTSeparation_8py.html#ab827c1353479d9991c0c6dc9f7a54234", null ],
+    [ "log", "plot__BDTSeparation_8py.html#a439f9d8d1002bb5a5644717100d2306e", null ],
+    [ "parser", "plot__BDTSeparation_8py.html#a2e23cdefd86c1e26d9df6ce9abee3b70", null ],
+    [ "val", "plot__BDTSeparation_8py.html#aac5633c0decf029722af5d215d4bbe42", null ],
+    [ "var1_err", "plot__BDTSeparation_8py.html#aa177de892a2ad0fc95a3795c69ac527c", null ],
+    [ "var1_names", "plot__BDTSeparation_8py.html#a415dbf04726ad2d677b65a0620f2a183", null ],
+    [ "var1_y", "plot__BDTSeparation_8py.html#aa00f30204d6da5654a5a1e13992d82f3", null ],
+    [ "var2_err", "plot__BDTSeparation_8py.html#a857d458d3181167791461978386b1696", null ],
+    [ "var2_names", "plot__BDTSeparation_8py.html#a91e8bb95abeecb15fdba5c72315b8e8a", null ],
+    [ "var2_y", "plot__BDTSeparation_8py.html#ab3312fbb6f4b5b4fedde951ecbb212ee", null ],
+    [ "vars1", "plot__BDTSeparation_8py.html#a8466563d5cf0718de15327b3367a1a35", null ],
+    [ "vars2", "plot__BDTSeparation_8py.html#ac7942c5cd0cf47bcc44ef4f27ee12830", null ],
+    [ "x_names", "plot__BDTSeparation_8py.html#a208bde2e4dd27d6d80ef93aeea972f7d", null ],
+    [ "x_range", "plot__BDTSeparation_8py.html#ae3ec4390803156cbd31867034bfa7eba", null ]
+];
