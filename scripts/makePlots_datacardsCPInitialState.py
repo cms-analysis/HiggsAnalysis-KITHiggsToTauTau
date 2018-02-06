@@ -621,8 +621,9 @@ if __name__ == "__main__":
 					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] =  [args.quantity]
 					
-					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" not in category:
+					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" not in category:	
 						binnings_key = "tt_jdphi"
+						#print(binnings_key)
 					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" in category:
 						binnings_key = "tt_melaDiscriminatorD0Minus"
 					elif args.cp_study == "final":
@@ -637,7 +638,10 @@ if __name__ == "__main__":
 						else:
 							log.fatal("binnings key " + binnings_key + " not found in binnings_dict!")
 							sys.exit()
-					
+					if "dijet" in category:
+						#print([binnings_settings.binnings_dict[binnings_key]])
+						config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
+						
 					# define quantities and binning for control regions
 					if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
 						config["x_expressions"] = ["mt_1"]
@@ -751,13 +755,13 @@ if __name__ == "__main__":
 					if "legend_markers" in config:
 						config.pop("legend_markers")
 					plot_configs.append(config)		
-			
-			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
-					DST=output_file,
-					SRC=" ".join(tmp_output_files)
-			))
+			if "inputs" in args.steps:
+				hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
+						DST=output_file,
+						SRC=" ".join(tmp_output_files)
+				))
 			merged_output_files.append(output_file)
-			
+
 	if log.isEnabledFor(logging.DEBUG):
 		pprint.pprint(plot_configs) 
 		
