@@ -626,29 +626,29 @@ class CategoriesDict(object):
 		Categories used in CP Initial State studies.
 		"""		
 		
-		self.categoriesDict["{analysis}{channel}dijet_boosted{discriminator}"] = {
-				"channel":[
-					"mt_",
-					"et_",
-					"em_",
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)",
-					"em_":"(nbtag<1)"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_jdphi": auto_rebin_binning,
-						}
-					}
-				}
+		# self.categoriesDict["{analysis}{channel}dijet_boosted{discriminator}"] = {
+		# 		"channel":[
+		# 			"mt_",
+		# 			"et_",
+		# 			"em_",
+		# 			"tt_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":"(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)",
+		# 			"em_":"(nbtag<1)"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_jdphi": "12,-3.2,3.2",
+		# 				}
+		# 			}
+		# 		}
 		self.categoriesDict["{analysis}{channel}TwoJet_CP_tightJet{discriminator}"] = {
 				"channel":[
 					"mt_",
@@ -695,75 +695,75 @@ class CategoriesDict(object):
 						}
 					}
 				}		
-		self.categoriesDict["{analysis}{channel}dijet_lowM{discriminator}"] = {
-				"channel":[
-					"mt_",
-					"et_",
-					"em_",
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)",
-					"em_":"(nbtag<1)"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_jdphi": auto_rebin_binning,
-						}
-					}
-				}
-		self.categoriesDict["{analysis}{channel}dijet_highM{discriminator}"] = {
-				"channel":[
-					"mt_",
-					"et_",
-					"em_",
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)",
-					"em_":"(nbtag<1)"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_jdphi": auto_rebin_binning,
-						}
-					}
-				}
-		self.categoriesDict["{analysis}{channel}dijet_lowMjj{discriminator}"] = {
-				"channel":[
-					"mt_",
-					"et_",
-					"em_",
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(mjj>200)*(mjj<500)*(njets>1)",
-					"em_":"(nbtag<1)"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_jdphi": auto_rebin_binning,
-						}
-					}
-				}
+		# self.categoriesDict["{analysis}{channel}dijet_lowM{discriminator}"] = {
+		# 		"channel":[
+		# 			"mt_",
+		# 			"et_",
+		# 			"em_",
+		# 			"tt_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":"(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)",
+		# 			"em_":"(nbtag<1)"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_jdphi": auto_rebin_binning,
+		# 				}
+		# 			}
+		# 		}
+		# self.categoriesDict["{analysis}{channel}dijet_highM{discriminator}"] = {
+		# 		"channel":[
+		# 			"mt_",
+		# 			"et_",
+		# 			"em_",
+		# 			"tt_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":"(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)",
+		# 			"em_":"(nbtag<1)"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_jdphi": auto_rebin_binning,
+		# 				}
+		# 			}
+		# 		}
+		# self.categoriesDict["{analysis}{channel}dijet_lowMjj{discriminator}"] = {
+		# 		"channel":[
+		# 			"mt_",
+		# 			"et_",
+		# 			"em_",
+		# 			"tt_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":"(mjj>200)*(mjj<500)*(njets>1)",
+		# 			"em_":"(nbtag<1)"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_jdphi": auto_rebin_binning,
+		# 				}
+		# 			}
+		# 		}
 		self.categoriesDict["{analysis}{channel}TwoJet_CP{discriminator}"] = {
 				"channel":[
 					"mt_",
