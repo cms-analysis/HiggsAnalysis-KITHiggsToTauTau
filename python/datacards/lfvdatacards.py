@@ -32,9 +32,9 @@ class LFVDatacards(datacards.Datacards):
 	
 				self.add_processes(
 					channel=channel,
-					categories= [channel + "_" + category for category in category_list],
+					categories= [channel + "_" + category for category in [category_list[0]]],
 					bkg_processes=backgrounds[channel],  
-					sig_processes= [self.configs.sample2process(signal) for signal in signal_list],
+					sig_processes=signal_list,
 					analysis=["LFV"],
 					era=["13TeV"],
 					mass=["125"]

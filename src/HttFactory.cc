@@ -356,3 +356,4 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 	else
 		return KappaFactory::createConsumer( id );
 }
+

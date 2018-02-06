@@ -63,9 +63,9 @@ if __name__ == "__main__":
 		for probe_trigger in probe_triggers:
 			config = {}
 			for mode in ['MC', 'data']:
-				if not "FunctionFit" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("FunctionFit")
-				#config["analysis_modules"] = ["FunctionFit"]
+				if not "FunctionPlot" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("FunctionPlot")
+				#config["analysis_modules"] = ["FunctionPlot"]			
 				config["directories"] = [args.input_dir]		
 				config["folders"] = [channel+"_"+probe_trigger+"/"+channel+"TriggerTP"]
 				if mode == 'MC':

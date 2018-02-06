@@ -144,19 +144,14 @@ void PolarisationQuantitiesProducerBase::Produce(
 	
 	std::vector<std::vector<TLorentzVector> > inputs;
 	std::vector<std::string> types;
-	std::vector<int> charges;
-
 	
 	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
 		 lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
 	{
-
 		if (((*lepton)->flavour() == KLeptonFlavour::ELECTRON) || ((*lepton)->flavour() == KLeptonFlavour::MUON))
 		{
 			inputs.push_back(GetInputLepton(product, *lepton));
 			types.push_back("lepton");
-			charges.push_back((*lepton)->charge());
-
 		}
 		else if ((*lepton)->flavour() == KLeptonFlavour::TAU)
 		{
@@ -165,7 +160,6 @@ void PolarisationQuantitiesProducerBase::Produce(
 			{
 				inputs.push_back(GetInputA1(product, *lepton));
 				types.push_back("a1");
-				charges.push_back((*lepton)->charge());
 			}
 			else if ((tau->decayMode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero) &&
 			         (tau->chargedHadronCandidates.size() > 0) &&
@@ -173,20 +167,17 @@ void PolarisationQuantitiesProducerBase::Produce(
 			{
 				inputs.push_back(GetInputRho(product, *lepton));
 				types.push_back("rho");
-				charges.push_back((*lepton)->charge());
 			}
 			else
 			{
 				inputs.push_back(GetInputPion(product, *lepton));
 				types.push_back("pion");
-				charges.push_back((*lepton)->charge());
 			}
 		}
 		
-
 		if (inputs.back().size() > 0)
 		{
-			TauPolInterface singleTauPolInterface(inputs.back(), types.back(), charges.back());
+			TauPolInterface singleTauPolInterface(inputs.back(), types.back());
 			if (singleTauPolInterface.isConfigured())
 			{
 				(product.*m_polarisationOmegasMember)[*lepton] = singleTauPolInterface.getOmega();
@@ -197,7 +188,7 @@ void PolarisationQuantitiesProducerBase::Produce(
 	
 	if ((inputs.at(0).size() > 0) && (inputs.at(1).size() > 0))
 	{
-		TauPolInterface diTauPolInterface(inputs.at(0), types.at(0), inputs.at(1), types.at(1), charges.at(0), charges.at(1));
+		TauPolInterface diTauPolInterface(inputs.at(0), types.at(0), inputs.at(1), types.at(1));
 		if (diTauPolInterface.isPairConfigured())
 		{
 			(product.*m_polarisationCombinedOmegaMember) = diTauPolInterface.getCombOmega();

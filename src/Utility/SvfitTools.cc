@@ -739,7 +739,6 @@ SvfitTools::~SvfitTools()
 	if (Utility::Contains(SvfitTools::svfitCacheInputFiles, cacheFileName) && SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName)->IsOpen())
 	{
 		SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName)->Close();
-		delete SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName);
 		SvfitTools::svfitCacheInputFiles.erase(cacheFileName);
 	}
 	

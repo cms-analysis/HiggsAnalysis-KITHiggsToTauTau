@@ -20,11 +20,8 @@ before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
-env:
-  - TEST_CMSSW_VERSION=CMSSW_8_1_0 SCRAM_ARCH=slc6_amd64_gcc530
 script:
-  - docker run --privileged -e TEST_CMSSW_VERSION=${TEST_CMSSW_VERSION}
-                            -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
+  - docker run --privileged -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
                             -v ${TRAVIS_BUILD_DIR}:/home/travis
                             -v '/home/short:/home/short' claria/cvmfs-cms /bin/bash 
                             -c "cd /home/; source /home/travis/test_build.sh -b ${TRAVIS_BRANCH} -g 'greyxray' -e 'greyxray@gmail.com' -n 'kappa test'"

@@ -374,14 +374,13 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M FitDiagnostics --saveShapes --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0 {stable} -n \"\"".format(stable=datacards.stable_options)
+			"-M MaxLikelihoodFit --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 {stable} -n \"\"".format(stable=datacards.stable_options)
 	)
 
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity}, n_processes=args.n_processes)
-	
-	#use nuisance_impacts instead pull_plots! 
-	#datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+
+	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["cpmixing"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
 
 	datacards.combine(
@@ -389,7 +388,7 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0 --setParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
+			"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
 					STABLE=datacards.stable_options,
 					RANGE="{0:f},{1:f}".format(cp_mixings_combine_range_min, cp_mixings_combine_range_max),
 					POINTS=args.cp_mixing_scan_points

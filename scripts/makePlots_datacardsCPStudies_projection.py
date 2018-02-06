@@ -185,7 +185,7 @@ if __name__ == "__main__":
 							datacards_workspaces,
 							None,
 							args.n_processes,
-							"-M FitDiagnostics --saveShapes --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0 {stable} -n \"\"".format(stable=datacards.stable_options)
+							"-M MaxLikelihoodFit --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 {stable} -n \"\"".format(stable=datacards.stable_options)
 					)
 					
 					datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
@@ -199,7 +199,7 @@ if __name__ == "__main__":
 							datacards_workspaces,
 							None,
 							args.n_processes,
-							"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0 --setParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
+							"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing={RANGE} --points {POINTS} {STABLE} -n \"\"".format(
 									STABLE=datacards.stable_options,
 									RANGE="{0:f},{1:f}".format(args.cp_mixings[0]-(args.cp_mixings[1]-args.cp_mixings[0])/2.0, args.cp_mixings[-1]+(args.cp_mixings[-1]-args.cp_mixings[-2])/2.0),
 									POINTS=len(args.cp_mixings)
@@ -211,7 +211,7 @@ if __name__ == "__main__":
 							datacards_workspaces,
 							None,
 							args.n_processes,
-							"--expectSignal=1 -t -1 -M Asymptotic --redefineSignalPOIs cpmixing --setParameters cpmixing=0.0 --setParameterRanges cpmixing=0,1 --rMin 0 --rMax 100 {STABLE} -n \"\"".format(STABLE=datacards.stable_options)
+							"--expectSignal=1 -t -1 -M Asymptotic --redefineSignalPOIs cpmixing --setPhysicsModelParameters cpmixing=0.0 --setPhysicsModelParameterRanges cpmixing=0,1 --rMin 0 --rMax 100 {STABLE} -n \"\"".format(STABLE=datacards.stable_options)
 					)
 					
 					#getting limits of the tree:

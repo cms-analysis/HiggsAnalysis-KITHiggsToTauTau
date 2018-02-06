@@ -72,7 +72,6 @@ git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/Simple
 
 # polarisation
 git clone https://github.com/TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
-git clone https://github.com/TauPolSoftware/StatisticalAnalysis.git TauPolSoftware/StatisticalAnalysis
 
 # MadGraph
 git clone https://github.com/CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
@@ -151,3 +150,4 @@ source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
 # compile everything
 scramv1 b -j `grep -c ^processor /proc/cpuinfo`
+
