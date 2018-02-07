@@ -10,3 +10,5 @@ python/uncertainties/
 wiki
 *.pcm
 param.log
+latex
+html
