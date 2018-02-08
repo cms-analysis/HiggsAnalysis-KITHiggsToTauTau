@@ -130,6 +130,10 @@ class Datacards(object):
 		for shape_systematic in cbOnlyShapeUncs.syst_name_set():
 			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cbOnlyShapeUncs.cp().syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
 		
+		# sort samples for easiert comparisons of HP configs
+		for shape_systematic, list_of_samples in samples_per_shape_systematic.iteritems():
+			samples_per_shape_systematic[shape_systematic] = sorted(list(list_of_samples))
+		
 		return samples_per_shape_systematic
 
 	def extract_shapes(self, root_filename_template,
