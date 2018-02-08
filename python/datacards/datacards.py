@@ -118,7 +118,7 @@ class Datacards(object):
 				cb = cb.cp().bin(category)
 		
 		samples_per_shape_systematic = {}
-		samples_per_shape_systematic.setdefault("nominal", set([])).update(set(cb.process_set()))
+		samples_per_shape_systematic.setdefault("nominal", set(["data_obs"])).update(set(cb.process_set()))
 		
 		# Maybe not needed any more (updated by next block) but kept for safety
 		for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
