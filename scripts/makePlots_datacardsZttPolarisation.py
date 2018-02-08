@@ -90,7 +90,7 @@ if __name__ == "__main__":
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--lumi-projection", type=float, nargs="+", default=[],
-                        help="Specify luminosity values in fb^(-1) for a projection. [Default: %(default)s]")
+	                    help="Specify luminosity values in fb^(-1) for a projection. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--check-linearity", type=float, nargs="+", default=[],
@@ -167,9 +167,7 @@ if __name__ == "__main__":
 	datacards.cb.channel(args.channel)
 
 	if args.no_shape_uncs:
- 		print("No shape uncs")
- 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
- 		datacards.cb.PrintSysts()
+		datacards.remove_shape_uncertainties()
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		

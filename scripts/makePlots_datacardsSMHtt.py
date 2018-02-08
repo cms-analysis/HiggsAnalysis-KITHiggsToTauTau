@@ -350,7 +350,7 @@ if __name__ == "__main__":
 
 	#restriction to requested systematics
 	if args.no_shape_uncs:
-		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		datacards.remove_shape_uncertainties()
 	
 	#restriction to requested masses
 	datacards.cb.mass(["*"]+args.higgs_masses)

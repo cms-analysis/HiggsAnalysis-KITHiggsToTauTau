@@ -149,7 +149,7 @@ if __name__ == "__main__":
 	# restrict combine to lnN systematics only if no_shape_uncs is set
 	if args.no_shape_uncs:
 		log.debug("Deactivate shape uncertainties")
-		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+		datacards.remove_shape_uncertainties()
 		if log.isEnabledFor(logging.DEBUG):
 			datacards.cb.PrintSysts()
 
