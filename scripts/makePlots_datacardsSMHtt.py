@@ -380,6 +380,12 @@ if __name__ == "__main__":
 			datacards.configs._mapping_process2sample.pop("TTJ")
 		
 		tmp_output_files = []
+		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
+				ANALYSIS="htt",
+				CHANNEL=channel,
+				ERA="13TeV"
+		))
+		output_files.append(output_file)
 		
 		if "all" in categories:
 			categories = datacards.cb.cp().channel([channel]).bin_set()
@@ -425,13 +431,6 @@ if __name__ == "__main__":
 				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
-			
-			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
-					ANALYSIS="htt",
-					CHANNEL=channel,
-					ERA="13TeV"
-			))
-			output_files.append(output_file)
 			
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				#print "\t\t", shape_systematic, list_of_samples
