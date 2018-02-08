@@ -113,7 +113,7 @@ if __name__ == "__main__":
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
 	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
 	                    help="Exit program in case categories are removed from CH. [Default: %(default)s]")
-	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
+	parser.add_argument("--no-ewkz-as-dy", default=True, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	parser.add_argument("--no-jec-unc-split", default=False, action="store_true",
 	                    help="Do not split JEC uncertainties into the 27 different sources but use the envelope instead. [Default: %(default)s]")
@@ -175,7 +175,6 @@ if __name__ == "__main__":
 				year=args.era,
 				noJECuncSplit=args.no_jec_unc_split
 		)
-		
 		
 		datacards.configs._mapping_process2sample = {
 			"data_obs" : "data",
