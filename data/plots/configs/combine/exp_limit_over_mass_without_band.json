@@ -1,6 +1,6 @@
 {
 	"files": [
-		"higgsCombine-*.Asymptotic.mH*.root"
+		"higgsCombine*.Asymptotic.mH*.root"
 	],
 	"folders": [
 		"limit"

@@ -45,6 +45,9 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 		plotData.plotdict["qcd_data_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_data_subtract_nicks"]]
 		plotData.plotdict["qcd_control_signal_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_signal_subtract_nicks"]]
 		plotData.plotdict["qcd_control_relaxed_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_relaxed_subtract_nicks"]]
+	
+	def run(self, plotData=None):
+		super(EstimateQcdTauHadTauHad, self).run(plotData)
 		
 		# make sure that all necessary histograms are available
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
@@ -54,9 +57,6 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 				elif (not isinstance(nick, float) and not isinstance(nick, bool)):
 					for subnick in nick:
 						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
-	
-	def run(self, plotData=None):
-		super(EstimateQcdTauHadTauHad, self).run(plotData)
 		
 		for qcd_data_shape_nick, qcd_data_signal_control_nick, qcd_data_relaxed_control_nick, qcd_data_subtract_nicks, qcd_control_signal_subtract_nicks, qcd_control_relaxed_subtract_nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			

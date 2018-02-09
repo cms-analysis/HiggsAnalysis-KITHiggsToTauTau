@@ -1276,9 +1276,6 @@ class Samples(samples.SamplesBase):
 
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvt"), nick_suffix)
-		
-		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", "vvt", nick_suffix)
 		return config
 
 	def vvj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -1318,8 +1315,6 @@ class Samples(samples.SamplesBase):
 
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vvj", nick_suffix)
-		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", "vvj", nick_suffix)
 		return config
 
 	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):

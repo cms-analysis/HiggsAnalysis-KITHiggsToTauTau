@@ -1,15 +1,40 @@
 #!/bin/sh
-set -e # exit on errors
+#set -e # exit on errors
 
-export SCRAM_ARCH=slc6_amd64_gcc491
+
+echo -n "Enter the CMMSW release you want to use (747, 810) and press [ENTER] : "
+read cmssw_version
+
+echo -n "Enter the CombineHarvester developper branch you want to checkout (master, SM2016-dev, SMCP2016-dev) and press [ENTER] : "
+read ch_branch
+
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 source $VO_CMS_SW_DIR/cmsset_default.sh
 
-# set up CMSSW release area
-scramv1 project CMSSW CMSSW_7_4_7; cd CMSSW_7_4_7/src # slc6 # Combine requires this version
-eval `scramv1 runtime -sh`
+if [ $cmssw_version = "747" ]; then
+	# set up CMSSW release area
+	export SCRAM_ARCH=slc6_amd64_gcc491
+	scramv1 project CMSSW CMSSW_7_4_7; cd CMSSW_7_4_7/src # slc6 # Combine requires this version
+	eval `scramv1 runtime -sh`
 
-export BRANCH="master"
+	export BRANCH="CMSSW_747"
+	
+
+
+elif [ $cmssw_version = "810" ]; then
+        # set up CMSSW release area
+        export SCRAM_ARCH=slc6_amd64_gcc530
+        scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
+        eval `scramv1 runtime -sh`
+
+        export BRANCH="master"
+
+else
+	echo "Not a valid version."
+	exit 1
+fi
+
+
 while getopts :b:g:e:n: option
 do
 	case "${option}"
@@ -35,7 +60,7 @@ git config core.sparsecheckout true
 git read-tree -mu HEAD
 cd ..
 
-git clone https://github.com/artus-analysis/Artus.git
+git clone https://github.com/artus-analysis/Artus.git -b $BRANCH
 
 # checkout KITHiggsToTauTau CMSSW analysis package
 git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
@@ -47,6 +72,7 @@ git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/Simple
 
 # polarisation
 git clone https://github.com/TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
+git clone https://github.com/TauPolSoftware/StatisticalAnalysis.git TauPolSoftware/StatisticalAnalysis
 
 # MadGraph
 git clone https://github.com/CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
@@ -67,11 +93,49 @@ cd $CMSSW_BASE/src/
 git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
 
 # needed for plotting and statistical inference
-git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
-git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b 74x-root6
-cd HiggsAnalysis/CombinedLimit
-git checkout 3cb65246555d094734a81e20181e399714d22c7e
-cd -
+if [ $ch_branch == "SM2016-dev" ] && [ $cmssw_version == "747" ]; then
+	git clone https://github.com/thomas-mueller/CombineHarvester.git CombineHarvester -b SM2016-dev
+	cd CombineHarvester/HTTSM2016
+	git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
+	cd -
+	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	cd HiggsAnalysis/CombinedLimit
+	git fetch origin
+	git checkout v6.3.1
+	cd -
+
+elif [ $ch_branch == "SMCP2016-dev" ]  && [ $cmssw_version == "747" ]; then
+	git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester -b SMCP2016-dev
+        cd CombineHarvester/HTTSMCP2016
+        git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
+        cd -
+        git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+        cd HiggsAnalysis/CombinedLimit
+        git fetch origin
+        git checkout v6.3.1
+        cd -
+
+elif [ $ch_branch == "master" ]  && [ $cmssw_version == "747" ]; then
+	# needed for plotting and statistical inference
+	git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
+	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b 74x-root6
+	cd HiggsAnalysis/CombinedLimit
+	git checkout 3cb65246555d094734a81e20181e399714d22c7e
+	cd -
+
+elif [ $cmssw_version == "810" ]; then
+        # needed for plotting and statistical inference
+	git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
+	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	cd HiggsAnalysis/CombinedLimit
+	git fetch origin
+	git checkout v7.0.4
+	cd -
+
+else 
+	echo "No valid combination. Compilation won't work."
+	exit 1
+fi
 
 # needed for error propagation e.g. in the background estimations
 git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties

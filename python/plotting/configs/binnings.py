@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import numpy
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
@@ -499,7 +500,25 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_high_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_vbf_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+			
+			self.binnings_dict["binningHtt13TeV_"+channel+"_ZeroJet2D_WJCR_mt_1"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_Boosted2D_WJCR_mt_1"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+		
+		self.binnings_dict["binningHtt13TeV_ttbar_TTbarCR_0"] = "1,0,1000"
+		
+		self.binnings_dict["binningHtt13TeV_em_ZeroJet2D_m_vis"] = "0.0 "+" ".join([str(float(f)) for f in range(50, 100, 5)+range(100,401,300)])
+		
+		self.binnings_dict["binningHtt13TeV_mt_ZeroJet2D_QCDCR_m_vis"] = "40.0 80.0 120.0 160.0 200.0"
+		self.binnings_dict["binningHtt13TeV_mt_ZeroJet2D_m_vis"] = "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+		
+		self.binnings_dict["binningHtt13TeV_et_ZeroJet2D_QCDCR_m_vis"] = "40.0 80.0 120.0 160.0 200.0"
+		self.binnings_dict["binningHtt13TeV_et_ZeroJet2D_m_vis"] = "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+		
+		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_QCDCR_m_sv"] = "0.0 300.0"
+		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_m_sv"] = "0.0 "+" ".join([str(float(f)) for f in range(50,301,10)])
 
+		for channel in ["mt", "et", "em", "tt", "mm"]:
 			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
@@ -520,6 +539,10 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_CP_boosted_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 
 			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_CP_boosted_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_boosted_jdphi"] = "12,-3.2,3.2"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_lowM_jdphi"] = "12,-3.2,3.2"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_highM_jdphi"] = "12,-3.2,3.2"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_lowMjj_jdphi"] = "12,-3.2,3.2"
 
 		# H->tautau MSSM binnings
 		for channel in ["mt", "et", "em", "tt"]:
