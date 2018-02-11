@@ -368,6 +368,22 @@ public:
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar_rho = DefaultValues::UndefinedDouble;
 
+	// azimuthal angles of the tau decay planes
+	// ip method
+	double m_recoPhiPlus_ipmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinus_ipmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlus_ipmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinus_ipmeth = DefaultValues::UndefinedDouble;
+	// comb method
+	double m_recoPhiPlus_combmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinus_combmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlus_combmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinus_combmeth = DefaultValues::UndefinedDouble;
+	// rho method
+	double m_recoPhiPlus_rhometh = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinus_rhometh = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlus_rhometh = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinus_rhometh = DefaultValues::UndefinedDouble;
 
 	double m_recoChargedPiPlus_rho_pt = DefaultValues::UndefinedDouble;
 	double m_recoChargedPiMinus_pt = DefaultValues::UndefinedDouble;

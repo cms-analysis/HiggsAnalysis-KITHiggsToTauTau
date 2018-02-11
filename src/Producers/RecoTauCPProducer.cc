@@ -96,10 +96,10 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	});
 
 	// CP-related quantities
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP", [](event_type const& event, product_type const& product)
-	{
-		return product.m_recoPhiStarCP;
-	});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP", [](event_type const& event, product_type const& product)
+	//{
+	//	return product.m_recoPhiStarCP;
+	//});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP_rho", [](event_type const& event, product_type const& product)
 	{
@@ -125,10 +125,10 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_recoPhiStarCPrPV;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPV2", [](event_type const& event, product_type const& product)
-	{
-		return product.m_recoPhiStarCPrPV2;
-	});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPV2", [](event_type const& event, product_type const& product)
+	//{
+	//	return product.m_recoPhiStarCPrPV2;
+	//});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPComb", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStarCPComb;
@@ -138,10 +138,10 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return product.m_recoPhiStarCPCombMerged;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPVbs", [](event_type const& event, product_type const& product)
-	{
-		return product.m_recoPhiStarCPrPVbs;
-	});
+	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPVbs", [](event_type const& event, product_type const& product)
+	//{
+	//	return product.m_recoPhiStarCPrPVbs;
+	//});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStar", [](event_type const& event, product_type const& product)
 	{
@@ -151,6 +151,59 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStar_rho", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStar_rho;
+	});
+
+	// azimuthal angles of the tau decay planes
+	// ip method
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiPlus_ipmeth", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiPlus_ipmeth;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiMinus_ipmeth", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiMinus_ipmeth;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarPlus_ipmeth", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarPlus_ipmeth;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarMinus_ipmeth", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarMinus_ipmeth;
+	});
+	// comb method
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiPlus_combmeth", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiPlus_combmeth;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiMinus_combmeth", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiMinus_combmeth;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarPlus_combmeth", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarPlus_combmeth;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarMinus_combmeth", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarMinus_combmeth;
+	});
+	// rho method
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiPlus_rhometh", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiPlus_rhometh;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiMinus_rhometh", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiMinus_rhometh;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarPlus_rhometh", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarPlus_rhometh;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarMinus_rhometh", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarMinus_rhometh;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoChargedHadron1HiggsFrameEnergy", [](event_type const& event, product_type const& product)
@@ -488,6 +541,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	double phiStarCP_rho = cpq.CalculatePhiStarCP_rho(momentumP, momentumM, piZeroP, piZeroM);
 	double posyL_rho = cpq.CalculateSpinAnalysingDiscriminant_rho(momentumP, piZeroP);
 	double negyL_rho = cpq.CalculateSpinAnalysingDiscriminant_rho(momentumM, piZeroM);
+	// azimuthal angles of the tau decay planes
+	product.m_recoPhiPlus_rhometh = cpq.GetRecoPhiPlus_rhometh();
+	product.m_recoPhiMinus_rhometh = cpq.GetRecoPhiMinus_rhometh();
+	product.m_recoPhiStarPlus_rhometh = cpq.GetRecoPhiStarPlus_rhometh();
+	product.m_recoPhiStarMinus_rhometh = cpq.GetRecoPhiStarMinus_rhometh();
 
 	product.m_recoPhiStarCP_rho = phiStarCP_rho;
 	product.m_reco_posyTauL = posyL_rho;
@@ -513,7 +571,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// ip-method
 	// ---------
 	// phi*CP wrt thePV
-	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(product.m_thePV, trackP, trackM, momentumP, momentumM);
+	// FIXME is it still needed?
+	// product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(product.m_thePV, trackP, trackM, momentumP, momentumM);
 
 	if (product.m_refitPV != nullptr){
 		// calculation of the IP vectors and relative errors
@@ -546,6 +605,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		// FIXME two functions are called, need to remove one of the two
 		// in this case, the ipvectors are calculated within the CalculatePhiStarCP functions
 		product.m_recoPhiStarCPrPV = cpq.CalculatePhiStarCP(product.m_refitPV, trackP, trackM, momentumP, momentumM);
+		// azimuthal angles of the tau decay planes
+		product.m_recoPhiPlus_ipmeth = cpq.GetRecoPhiPlus_ipmeth();
+		product.m_recoPhiMinus_ipmeth = cpq.GetRecoPhiMinus_ipmeth();
+		product.m_recoPhiStarPlus_ipmeth = cpq.GetRecoPhiStarPlus_ipmeth();
+		product.m_recoPhiStarMinus_ipmeth = cpq.GetRecoPhiStarMinus_ipmeth();
 
 		// calcalute phi*cp by passing ipvectors as arguments
 		// get the IP vectors corresponding to charge+ and charge- particles
@@ -557,8 +621,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			IPMinus = product.m_recoIP1_refitPV;
 		}
 		
-		// calculate phi*cp
-		product.m_recoPhiStarCPrPV2 = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlus, IPMinus, "reco");
+		// calculate phi*cp, by taking the IP vectors as an argument
+		// FIXME keep it and remove the previous call, or the other way around
+		// product.m_recoPhiStarCPrPV2 = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlus, IPMinus, "reco");
 			
 
 		// ---------
@@ -597,6 +662,12 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			// tau1->rho, tau2->a
 			if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
 				product.m_recoPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_recoIP2_refitPV, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+				
+				// azimuthal angles of the tau decay planes
+				product.m_recoPhiPlus_combmeth = cpq.GetRecoPhiPlus_combmeth();
+				product.m_recoPhiMinus_combmeth = cpq.GetRecoPhiMinus_combmeth();
+				product.m_recoPhiStarPlus_combmeth = cpq.GetRecoPhiStarPlus_combmeth();
+				product.m_recoPhiStarMinus_combmeth = cpq.GetRecoPhiStarMinus_combmeth();
 
 				// merged variable
 				if (recoTau1->charge() > 0) {
