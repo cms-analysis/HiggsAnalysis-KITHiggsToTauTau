@@ -524,8 +524,9 @@ double CPQuantities::PhiTransform(double phi)
 }
 
 
-// calculate the gen IP vector
-TVector3 CPQuantities::CalculateIPVector(KGenParticle* genParticle, RMPoint* pv){
+// Calculate shortest distance between the track and a point - gen level.
+// When distance between track and PV -> shortest distance is the IP vector.
+TVector3 CPQuantities::CalculateShortestDistance(KGenParticle* genParticle, RMPoint* pv){
 
 	TVector3 k, p, IP;
 
@@ -546,13 +547,13 @@ TVector3 CPQuantities::CalculateIPVector(KGenParticle* genParticle, RMPoint* pv)
 }
 
 
-// calculate the reco IP vector wrt the PV or the refitted PV
-// in case recoParticle is a tau, the track of the lead. PF candidate is consider
-// (see KLepton struct)
-TVector3 CPQuantities::CalculateIPVector(KLepton* recoParticle, KVertex* pv){
+// Calculate the shortest distance between a track and a point - reco level.
+// When distance between track and PV => shortest distance is the IP vector.
+// In case recoParticle is a tau, the track of the leading PF candidate is considered (see KLepton struct).
+TVector3 CPQuantities::CalculateShortestDistance(KLepton* recoParticle, RMPoint pv){
 
 	TVector3 k, p, IP;
-	k.SetXYZ(recoParticle->track.ref.x() - pv->position.x(), recoParticle->track.ref.y() - pv->position.y(), recoParticle->track.ref.z() - pv->position.z());
+	k.SetXYZ(recoParticle->track.ref.x() - pv.x(), recoParticle->track.ref.y() - pv.y(), recoParticle->track.ref.z() - pv.z());
 
 	p.SetXYZ(recoParticle->p4.Px(), recoParticle->p4.Py(), recoParticle->p4.Pz());
 

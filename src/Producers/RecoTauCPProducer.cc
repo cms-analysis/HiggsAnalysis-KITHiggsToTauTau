@@ -483,13 +483,13 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 	if (product.m_refitPV != nullptr){
 		// calculation of the IP vectors and relative errors
-		product.m_recoIP1 = cpq.CalculateIPVector(recoParticle1, product.m_thePV);
-		product.m_recoIP2 = cpq.CalculateIPVector(recoParticle2, product.m_thePV);
+		product.m_recoIP1 = cpq.CalculateShortestDistance(recoParticle1, product.m_thePV->position);
+		product.m_recoIP2 = cpq.CalculateShortestDistance(recoParticle2, product.m_thePV->position);
 		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &product.m_recoIP1);
 		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &product.m_recoIP2);
 
-		product.m_recoIP1_refitPV = cpq.CalculateIPVector(recoParticle1, product.m_refitPV);
-		product.m_recoIP2_refitPV = cpq.CalculateIPVector(recoParticle2, product.m_refitPV);
+		product.m_recoIP1_refitPV = cpq.CalculateShortestDistance(recoParticle1, product.m_refitPV->position);
+		product.m_recoIP2_refitPV = cpq.CalculateShortestDistance(recoParticle2, product.m_refitPV->position);
 		product.m_errorIP1vec_refitPV = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &product.m_recoIP1_refitPV);
 		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &product.m_recoIP2_refitPV);
 
