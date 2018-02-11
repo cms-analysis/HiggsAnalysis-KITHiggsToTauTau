@@ -416,8 +416,8 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	
 			if (product.m_genPV != nullptr){
 				// calculate IP vectors of tau daughters
-				product.m_genIP1 = cpq.CalculateIPVector(chargedPart1, product.m_genPV);
-				product.m_genIP2 = cpq.CalculateIPVector(chargedPart2, product.m_genPV);
+				product.m_genIP1 = cpq.CalculateShortestDistance(chargedPart1, product.m_genPV);
+				product.m_genIP2 = cpq.CalculateShortestDistance(chargedPart2, product.m_genPV);
 
 				// calculate cosPsi
 				product.m_genCosPsiPlus  = cpq.CalculateCosPsi(chargedPart1->p4, product.m_genIP1);
@@ -712,8 +712,9 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 									* ( -( (product.m_genSV2)->x() - (product.m_genPV)->x() )*genParticle2->p4.Py()
 									+ ( (product.m_genSV2)->y() - (product.m_genPV)->y() )*genParticle2->p4.Px() );
 
-				product.m_genIP1 = cpq.CalculateIPVector(genParticle1, product.m_genPV);
-				product.m_genIP2 = cpq.CalculateIPVector(genParticle2, product.m_genPV);
+
+				product.m_genIP1 = cpq.CalculateShortestDistance(genParticle1, product.m_genPV);
+				product.m_genIP2 = cpq.CalculateShortestDistance(genParticle2, product.m_genPV);
 				
 				// calculate phi*cp
 				if (genParticle1->charge() > 0){

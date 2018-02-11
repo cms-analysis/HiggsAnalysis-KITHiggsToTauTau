@@ -38,8 +38,8 @@ public:
 	double CalculateD0sArea(double d0_1, double d0_2);
 	double CalculateD0sDist(double d0_1, double d0_2);
 	double PhiTransform(double phi);
-	TVector3 CalculateIPVector(KGenParticle* genParticle, RMPoint* pv);
-	TVector3 CalculateIPVector(KLepton* recoParticle, KVertex* pv);
+	TVector3 CalculateShortestDistance(KGenParticle* genParticle, RMPoint* pv);
+	TVector3 CalculateShortestDistance(KLepton* recoParticle, RMPoint pv);
 	double CalculateCosPsi(RMFLV recoPart, TVector3 ipvec);
 	std::vector<double> CalculateIPErrors(KLepton* lepton, KVertex* pv, TVector3* ipvec);
 	inline double GetGenPhiStar()
