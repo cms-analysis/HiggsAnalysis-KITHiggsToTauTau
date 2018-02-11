@@ -280,6 +280,40 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).z() : DefaultValues::UndefinedFloat);
 	});
 
+	// distance between track and theBS
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_1mag", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_track1FromBS).x() != -999) ? ( sqrt( (product.m_track1FromBS).x()*(product.m_track1FromBS).x() + (product.m_track1FromBS).y()*(product.m_track1FromBS).y() + (product.m_track1FromBS).z()*(product.m_track1FromBS).z() ) ) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_1x", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_track1FromBS != nullptr) ? (product.m_track1FromBS).x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_1y", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_track1FromBS != nullptr) ? (product.m_track1FromBS).y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_1z", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_track1FromBS != nullptr) ? (product.m_track1FromBS).z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_2mag", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_track2FromBS).x() != -999) ? ( sqrt( (product.m_track2FromBS).x()*(product.m_track2FromBS).x() + (product.m_track2FromBS).y()*(product.m_track2FromBS).y() + (product.m_track2FromBS).z()*(product.m_track2FromBS).z() ) ) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_2x", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_track2FromBS != nullptr) ? (product.m_track2FromBS).x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_2y", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_track2FromBS != nullptr) ? (product.m_track2FromBS).y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_2z", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_track2FromBS != nullptr) ? (product.m_track2FromBS).z() : DefaultValues::UndefinedFloat);
+	});
+
 	// cosPsi
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiPlus", [](event_type const& event, product_type const& product)
 	{
@@ -499,16 +533,21 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 	if (product.m_refitPV != nullptr){
 		// calculation of the IP vectors and relative errors
+		// IP wrt thePV
 		product.m_recoIP1 = cpq.CalculateShortestDistance(recoParticle1, product.m_thePV->position);
 		product.m_recoIP2 = cpq.CalculateShortestDistance(recoParticle2, product.m_thePV->position);
 		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &product.m_recoIP1);
 		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &product.m_recoIP2);
 
+		// IP wrt refitPV
 		product.m_recoIP1_refitPV = cpq.CalculateShortestDistance(recoParticle1, product.m_refitPV->position);
 		product.m_recoIP2_refitPV = cpq.CalculateShortestDistance(recoParticle2, product.m_refitPV->position);
 		product.m_errorIP1vec_refitPV = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &product.m_recoIP1_refitPV);
 		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &product.m_recoIP2_refitPV);
 
+		// distance between track and BS center
+		product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, product.m_theBS->position);
+		product.m_track2FromBS = cpq.CalculateShortestDistance(recoParticle2, product.m_theBS->position);
 
 		// calculate cosPsi
 		if (recoParticle1->charge() == +1){
