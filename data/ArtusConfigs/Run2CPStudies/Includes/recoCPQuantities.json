@@ -181,6 +181,15 @@
 		"IP_refitPV_2y",
 		"IP_refitPV_2z",
 
+		"trackFromBS_1mag",
+		"trackFromBS_1x",
+		"trackFromBS_1y",
+		"trackFromBS_1z",
+		"trackFromBS_2mag",
+		"trackFromBS_2x",
+		"trackFromBS_2y",
+		"trackFromBS_2z",
+
 		"cosPsiPlus",
 		"cosPsiMinus",
 
