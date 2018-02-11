@@ -316,6 +316,8 @@ public:
 	std::vector<double> m_errorIP1vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
+	// comparison genIP-recoIP
+	// wrt thePV
 	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;
 	double m_deltaPhiGenRecoIP1  = DefaultValues::UndefinedDouble;
@@ -324,10 +326,21 @@ public:
 	double m_deltaRGenRecoIP2  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP2  = DefaultValues::UndefinedDouble;
+	// wrt refitPV
+	double m_deltaEtaGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
 
+	// comparison between recoIP(thePV) and recoIP(refitPV)
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
 
+	// CP-sensitive observable
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
