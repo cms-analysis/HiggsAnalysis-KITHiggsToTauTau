@@ -330,7 +330,7 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	});
 
 
-	// deltaEta, deltaPhi, deltaR and angle delta between IP vectors
+	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP(thePV)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_deltaEtaGenRecoIP1;
@@ -362,6 +362,40 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_deltaGenRecoIP2;
+	});
+
+	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP(refitPV)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP1_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaEtaGenRecoIP1_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP2_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaEtaGenRecoIP2_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP1_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaPhiGenRecoIP1_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP2_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaPhiGenRecoIP2_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP1_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRGenRecoIP1_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP2_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRGenRecoIP2_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP1_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIP1_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP2_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIP2_refitPV;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0s_area", [](event_type const& event, product_type const& product)
@@ -571,15 +605,22 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 		if (!m_isData){
 			// calculate deltaR, deltaEta, deltaPhi and delta between recoIPvec and genIPvec
-			// only for recoIPvec wrt refitted PV
 			if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
-				product.m_deltaEtaGenRecoIP1 = product.m_recoIP1_refitPV.Eta() - product.m_genIP1.Eta();
-				product.m_deltaPhiGenRecoIP1 = product.m_recoIP1_refitPV.DeltaPhi(product.m_genIP1);
-				product.m_deltaRGenRecoIP1   = product.m_recoIP1_refitPV.DeltaR(product.m_genIP1);
-				product.m_deltaGenRecoIP1    = product.m_recoIP1_refitPV.Angle(product.m_genIP1);
+				// wrt thePV
+				product.m_deltaEtaGenRecoIP1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIP1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
+				product.m_deltaRGenRecoIP1   = product.m_recoIP1.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIP1    = product.m_recoIP1.Angle(product.m_genIP1);
+
+				// wrt refitted PV
+				product.m_deltaEtaGenRecoIP1_refitPV = product.m_recoIP1_refitPV.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIP1_refitPV = product.m_recoIP1_refitPV.DeltaPhi(product.m_genIP1);
+				product.m_deltaRGenRecoIP1_refitPV   = product.m_recoIP1_refitPV.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIP1_refitPV    = product.m_recoIP1_refitPV.Angle(product.m_genIP1);
 			} // if genIP1 exists
 
 			if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
+				// wrt refitted PV
 				product.m_deltaEtaGenRecoIP2 = product.m_recoIP2_refitPV.Eta() - product.m_genIP2.Eta();
 				product.m_deltaPhiGenRecoIP2 = product.m_recoIP2_refitPV.DeltaPhi(product.m_genIP2);
 				product.m_deltaRGenRecoIP2   = product.m_recoIP2_refitPV.DeltaR(product.m_genIP2);
