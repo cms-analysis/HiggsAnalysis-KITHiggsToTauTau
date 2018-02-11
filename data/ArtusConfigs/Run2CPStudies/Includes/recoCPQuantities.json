@@ -193,6 +193,15 @@
 		"deltaGenRecoIP1",
 		"deltaGenRecoIP2",
 
+		"deltaEtaGenRecoIP1_refitPV",
+		"deltaEtaGenRecoIP2_refitPV",
+		"deltaPhiGenRecoIP1_refitPV",
+		"deltaPhiGenRecoIP2_refitPV",
+		"deltaRGenRecoIP1_refitPV",
+		"deltaRGenRecoIP2_refitPV",
+		"deltaGenRecoIP1_refitPV",
+		"deltaGenRecoIP2_refitPV",
+
 		"recoPhiStarCP",
 		"recoPhiStarCP_rho",
 		"recoPhiStarCP_rho_merged",
