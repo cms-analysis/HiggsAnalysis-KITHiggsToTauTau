@@ -370,11 +370,7 @@ if __name__ == "__main__":
 		else:
 			datacards.configs._mapping_process2sample["ZL"] = "zl"
 		
-		if channel in ["et", "mt"]:
-			datacards.configs._mapping_process2sample.pop("TT", None)
-			datacards.configs._mapping_process2sample["TTT"]= "ttt"
-			datacards.configs._mapping_process2sample["TTJ"]= "ttj"
-		elif channel in ["tt"]:
+		if channel in ["et", "mt", "tt"]:
 			datacards.configs._mapping_process2sample.pop("TT", None)
 			datacards.configs._mapping_process2sample["TTT"]= "ttt"
 			datacards.configs._mapping_process2sample["TTJ"]= "ttjj"
