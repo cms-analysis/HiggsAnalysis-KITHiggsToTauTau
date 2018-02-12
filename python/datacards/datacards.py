@@ -116,18 +116,23 @@ class Datacards(object):
 				cb = cb.cp().bin([category])
 			else:
 				cb = cb.cp().bin(category)
+		
 		samples_per_shape_systematic = {}
-		samples_per_shape_systematic.setdefault("nominal", set([])).update(set(cb.process_set()))
+		samples_per_shape_systematic.setdefault("nominal", set(["data_obs"])).update(set(cb.process_set()))
+		
 		# Maybe not needed any more (updated by next block) but kept for safety
-
 		for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
 			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
-
+		
 		# There are systematics, which can have a mixed type of lnN/shape, where CH returns only lnN as type. Such which values 1.0 and 0.0 are assumed to be shape uncertainties.
 		cbOnlyShapeUncs = cb.cp()
 		cbOnlyShapeUncs.FilterSysts(lambda systematic : (systematic.value_u() != 1.0) or (systematic.value_d() != 0.0))
 		for shape_systematic in cbOnlyShapeUncs.syst_name_set():
 			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cbOnlyShapeUncs.cp().syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
+		
+		# sort samples for easiert comparisons of HP configs
+		for shape_systematic, list_of_samples in samples_per_shape_systematic.iteritems():
+			samples_per_shape_systematic[shape_systematic] = sorted(list(list_of_samples))
 		
 		return samples_per_shape_systematic
 
