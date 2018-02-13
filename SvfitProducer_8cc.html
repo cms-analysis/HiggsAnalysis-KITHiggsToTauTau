@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>HiggsAnalysis-KITHiggsToTauTau: interface/Producers/SvfitProducers.h File Reference</title>
+<title>HiggsAnalysis-KITHiggsToTauTau: src/Producers/SvfitProducer.cc File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('SvfitProducers_8h.html','');});
+$(document).ready(function(){initNavTree('SvfitProducer_8cc.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -88,27 +88,20 @@ $(document).ready(function(){initNavTree('SvfitProducers_8h.html','');});
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
-<div class="title">SvfitProducers.h File Reference</div>  </div>
+<div class="title">SvfitProducer.cc File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h&quot;</code><br/>
-<code>#include &quot;HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h&quot;</code><br/>
-</div>
-<p><a href="SvfitProducers_8h_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html">SvfitProducer</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitM91Producer.html">SvfitM91Producer</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitM125Producer.html">SvfitM125Producer</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-</div><!-- contents -->
+<div class="textblock"><code>#include &lt;boost/algorithm/string.hpp&gt;</code><br/>
+<code>#include &lt;boost/algorithm/string/trim.hpp&gt;</code><br/>
+<code>#include &lt;boost/filesystem/convenience.hpp&gt;</code><br/>
+<code>#include &quot;boost/functional/hash.hpp&quot;</code><br/>
+<code>#include &quot;TauAnalysis/SVfitStandalone/interface/SVfitStandaloneAlgorithm.h&quot;</code><br/>
+<code>#include &quot;Artus/Consumer/interface/LambdaNtupleConsumer.h&quot;</code><br/>
+<code>#include &quot;Artus/Utility/interface/DefaultValues.h&quot;</code><br/>
+<code>#include &quot;HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h&quot;</code><br/>
+<code>#include &quot;HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h&quot;</code><br/>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->

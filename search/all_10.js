@@ -20,8 +20,6 @@ var searchData=
   ['pdfkey',['pdfkey',['../namespacemakePlots__ZTTtheoryUnc.html#a6d07c28b8b38a3953f3f23d8633bbc1a',1,'makePlots_ZTTtheoryUnc']]],
   ['peakwidth',['peakwidth',['../namespaceembedding__plot__bib.html#ad3cba2a7fc27e95fc7ae32303b85e114',1,'embedding_plot_bib']]],
   ['period',['period',['../classsamples_1_1SamplesBase.html#a607268e210c7e7ab5ff53ef3a7b58e37',1,'samples.SamplesBase.period()'],['../classsamples__run1_1_1Samples.html#ae6932d2345ca117c61c3ad22978e435e',1,'samples_run1.Samples.period()'],['../classsamples__run2__2016_1_1Samples.html#a0bff70dd0775af73506cf66c8aa4504d',1,'samples_run2_2016.Samples.period()'],['../classsamples__run2__etaufakerate_1_1Samples.html#ab14bd8c0c7fdc541bbb5801807b9f736',1,'samples_run2_etaufakerate.Samples.period()'],['../classsamples__run2__etaufakerate__2016_1_1Samples.html#a346b3143396d765fea706313ae754279',1,'samples_run2_etaufakerate_2016.Samples.period()']]],
-  ['phicpsvfitquantity',['PhiCPSVfitQuantity',['../classPhiCPSVfitQuantity.html',1,'']]],
-  ['phistarcpsvfitquantity',['PhiStarCPSVfitQuantity',['../classPhiStarCPSVfitQuantity.html',1,'']]],
   ['phitransform',['PhiTransform',['../classCPQuantities.html#a5e9cd0d191719349777eb5d8b5bc919c',1,'CPQuantities']]],
   ['pileupdatamc',['PileUpDataMC',['../classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0a997740b8c07d63a3d3d69ef99b0eb74a',1,'HttEnumTypes']]],
   ['pileupptbb',['PileUpPtBB',['../classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0a1f8589698ccc8fee2ded4ecfb95b4c97',1,'HttEnumTypes']]],
@@ -57,8 +55,8 @@ var searchData=
   ['plot_5fvv_5fvariable',['plot_VV_variable',['../namespaceembedding__plot__bib.html#a5b0fa0fb8d0aaa000040ec785a9508a1',1,'embedding_plot_bib']]],
   ['plotlines',['plotlines',['../classembedding__plot__classes_1_1single__plot.html#a206d3cb6969df42868252d1c6a5e1e20',1,'embedding_plot_classes::single_plot']]],
   ['plotmodule',['Plotmodule',['../classConfigMaster_1_1Plotmodule.html',1,'ConfigMaster']]],
-  ['plotroothtt',['plotroothtt',['../namespaceplotroothtt.html',1,'']]],
   ['plotroothtt',['PlotRootHtt',['../classplotroothtt_1_1PlotRootHtt.html',1,'plotroothtt']]],
+  ['plotroothtt',['plotroothtt',['../namespaceplotroothtt.html',1,'']]],
   ['plotroothtt_2epy',['plotroothtt.py',['../plotroothtt_8py.html',1,'']]],
   ['plots',['plots',['../namespacelimit__collector.html#a0517de84f4f04fb362381b1003b84a1f',1,'limit_collector.plots()'],['../namespacesignificance__2d.html#a4a8ad6f007a1c05803c5591e33cce7f2',1,'significance_2d.plots()'],['../namespacesignificance__collector.html#a4cff286fedcf62407c31134be7b32799',1,'significance_collector.plots()']]],
   ['plotting_5fargs',['plotting_args',['../namespacemakePlots__datacardsZttEfficiency.html#a15097f1cd17c48a74aaecd2abd96ce09',1,'makePlots_datacardsZttEfficiency.plotting_args()'],['../namespacemakePlots__datacardsZttPolarisation.html#a4aeee61096fac6cf61eed408872ac95a',1,'makePlots_datacardsZttPolarisation.plotting_args()']]],
@@ -147,5 +145,5 @@ var searchData=
   ['pullvalues_5foptions',['pullvalues_options',['../classpullvalues_1_1ComputePullValues.html#a93f4bf8bacf46a276913ad5747b9cbc3',1,'pullvalues::ComputePullValues']]],
   ['pzetamiss',['pZetaMiss',['../classHttProduct.html#a75672ea51e6fd225c866ade315ba0982',1,'HttProduct']]],
   ['pzetamissvis',['PZetaMissVis',['../classQuantities.html#a70c44bbcb5e39b7cac66c77e0a13752a',1,'Quantities::PZetaMissVis()'],['../classHttProduct.html#abba102385ce7747d70c597409670aad8',1,'HttProduct::pZetaMissVis()']]],
-  ['pzetavis',['PZetaVis',['../classQuantities.html#a91b49158b83fd623138f6b5968d0d294',1,'Quantities::PZetaVis()'],['../classHttProduct.html#afc00696a0a2e05df1472fa9023b8ce57',1,'HttProduct::pZetaVis()']]]
+  ['pzetavis',['pZetaVis',['../classHttProduct.html#afc00696a0a2e05df1472fa9023b8ce57',1,'HttProduct::pZetaVis()'],['../classQuantities.html#a91b49158b83fd623138f6b5968d0d294',1,'Quantities::PZetaVis()']]]
 ];
