@@ -1,3 +1,6 @@
+
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/program_options.hpp>
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -57,6 +60,17 @@ int main(int argc, const char *argv[])
 	svfitResults.SetBranchAddresses(inputTree);
 	
 	float diTauMassConstraint = vm["massconstraint"].as<float>();
+	
+	// TODO: remove these changes as soon as kappa parameter is available in the svfit inputs (SvfitEventKey)
+	float kappa = 3.0;
+	if (boost::starts_with(treePath, "tt"))
+	{
+		kappa = 5.0;
+	}
+	else if (boost::starts_with(treePath, "mt") || boost::starts_with(treePath, "et"))
+	{
+		kappa = 4.0;
+	}
 
 	std::string outputFilename = vm["outputfile"].as<std::string>();
 	TFile *outputFile = new TFile(outputFilename.c_str(), "RECREATE");
@@ -75,6 +89,7 @@ int main(int argc, const char *argv[])
 		std::cout << "Entry: " << entry+1 << " / " << nEntries << std::endl;
 		inputTree->GetEntry(entry);
 		svfitEventKey.diTauMassConstraint = diTauMassConstraint;
+		svfitEventKey.kappa = kappa;
 		
 		svfitResults = svfitTools.GetResults(svfitEventKey, svfitInputs, svfitCalculated, svfitCacheMissBehaviour);
 		outputTree->Fill();
