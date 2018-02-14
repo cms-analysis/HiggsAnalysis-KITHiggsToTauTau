@@ -7,6 +7,7 @@ log = logging.getLogger(__name__)
 
 import argparse
 import datetime
+import glob
 from httplib import HTTPException
 from multiprocessing import Process
 import os
@@ -14,6 +15,7 @@ import re
 import shutil
 import shlex
 import string
+import tempfile
 
 from CRABAPI.RawCommand import crabCommand
 from CRABClient.ClientExceptions import ClientException
@@ -142,6 +144,46 @@ def submission(base_paths, di_tau_mass_constraint, name, n_processes=1):
 	tools.parallelize(submit, submit_args, n_processes=1, description="Submitting crab tasks")
 
 
+def clear_environment():
+	candidates_to_keep = ["TauAnalysis", "Kappa", "Artus", "HiggsAnalysis", "CombineHarvester", "grid-control"]
+	candidates_to_move = glob.glob(os.path.expandvars("$CMSSW_BASE/src/*"))
+	objects_to_move = sorted([candidate for candidate in candidates_to_move if not any([keep in candidate for keep in candidates_to_keep])])
+	
+	tmp_path = tempfile.mkdtemp(prefix="submitCrabSvfitJobs_"+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")+"_")
+	for object_to_move in objects_to_move:
+		if os.path.isdir(object_to_move):
+			cwd = os.getcwd()
+			os.chdir(object_to_move)
+			logger.subprocessCall("scram b clean", shell=True)
+			os.chdir(cwd)
+		
+		log.info("Temporarily move {src} to {dst} ...".format(src=object_to_move, dst=tmp_path))
+		shutil.move(object_to_move, tmp_path)
+	
+	symlinks_map = {}
+	libs = sorted(glob.glob(os.path.expandvars("$CMSSW_BASE/lib/$SCRAM_ARCH/*")))
+	for lib in libs:
+		if not os.path.exists(lib):
+			symlinks_map[lib] = os.readlink(lib)
+			log.info("Remove temporarily broken symlink {src} ...".format(src=lib))
+			os.remove(lib)
+	
+	return tmp_path, symlinks_map
+
+
+def restore_environment(tmp_path, symlinks_map):
+	objects_to_move = sorted(glob.glob(os.path.join(tmp_path, "*")))
+	for object_to_move in objects_to_move:
+		log.info("Move {src} to {dst} ...".format(src=object_to_move, dst="$CMSSW_BASE/src/"))
+		shutil.move(object_to_move, os.path.expandvars("$CMSSW_BASE/src/"))
+	log.info("Remove {src} ...".format(src=tmp_path))
+	os.rmdir(tmp_path) # only remove if empty (for safety reasons)
+	
+	for link_name, src in symlinks_map.iteritems():
+		log.info("Recreate symlink {link_name} to {src} ...".format(link_name=link_name, src=src))
+		os.symlink(src, link_name)
+
+
 if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description="crab submission script for standalone Svfit calculation.",
@@ -155,9 +197,18 @@ if __name__ == "__main__":
 	                    help="Project name to be put in output path. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
+	parser.add_argument("--smaller-input-sandbox", default=False, action="store_true",
+	                    help="Clear CMSSW environment before submitting by moving non-needed packages to a temporary directory in order to ensure sufficiently small crab input sandbox. In each of these packages \"scram b clean\" is called. After submission, the environment is restored. It is recommended to compile the complete CMSSW environment after submission. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
+	# to keep crab input sandbox tarball small
+	if args.smaller_input_sandbox:
+		tmp_path, symlinks_map = clear_environment()
+	
 	submission(args.base_paths, args.di_tau_mass_constraint, args.name, args.n_processes)
+	
+	if args.smaller_input_sandbox:
+		restore_environment(tmp_path, symlinks_map)
 
