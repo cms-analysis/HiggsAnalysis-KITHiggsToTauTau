@@ -61,7 +61,7 @@ def build_configs(filenames_per_sample_per_pipeline, di_tau_mass_constraint, nam
 	for index, filenames_chunk in enumerate(filenames_chunks):
 		
 		# create job scripts
-		jobfiles.append(str("svfit_%s_%d.sh" % (today, index)))
+		jobfiles.append(str("svfit_%s_%s_%d.sh" % (today, name, index)))
 		with open(jobfiles[-1], "w+") as jobfile:
 			jobfile.write(read_file(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/templates/crab_userjob_prefix.sh")))
 			
@@ -79,7 +79,7 @@ def build_configs(filenames_per_sample_per_pipeline, di_tau_mass_constraint, nam
 		configs[-1].General.workArea = os.path.abspath(os.path.expandvars("$ARTUS_WORK_BASE/../svfit_caches/%s_%s/" % (today, name)))
 		configs[-1].General.transferOutputs = True
 		configs[-1].General.transferLogs = True
-		configs[-1].General.requestName = ("svfit_%s_%d" % (today, index))[:100]
+		configs[-1].General.requestName = ("svfit_%s_%s_%d" % (today, name, index))[:100]
 		log.debug("Job name: " + configs[-1].General.requestName)
 		configs[-1].Data.outputPrimaryDataset = "Svfit"
 		configs[-1].Data.splitting = "EventBased"
@@ -87,7 +87,7 @@ def build_configs(filenames_per_sample_per_pipeline, di_tau_mass_constraint, nam
 		configs[-1].Data.totalUnits = len(filenames_chunk)
 		configs[-1].Data.publication = False
 		configs[-1].Data.outputDatasetTag = configs[-1].General.requestName
-		configs[-1].Data.outLFNDirBase = "/store/user/%s/higgs-kit/Svfit/%s/"%(getUsernameFromSiteDB(), today)
+		configs[-1].Data.outLFNDirBase = "/store/user/%s/higgs-kit/Svfit/%s_%s/"%(getUsernameFromSiteDB(), today, name)
 		log.debug("Output directory: " + configs[-1].Data.outLFNDirBase)
 		configs[-1].Data.publication = False
 		configs[-1].User.voGroup = "dcms"
