@@ -141,7 +141,7 @@ def submission(base_paths, di_tau_mass_constraint, name, n_processes=1):
 
 
 def clear_environment():
-	candidates_to_keep = ["TauAnalysis", "Kappa", "Artus", "HiggsAnalysis", "CombineHarvester", "grid-control"]
+	candidates_to_keep = ["TauAnalysis", "Kappa", "Artus", "HiggsAnalysis", "CombineHarvester", "grid-control", "ZZMatrixElement"]
 	candidates_to_move = glob.glob(os.path.expandvars("$CMSSW_BASE/src/*"))
 	objects_to_move = sorted([candidate for candidate in candidates_to_move if not any([keep in candidate for keep in candidates_to_keep])])
 	
