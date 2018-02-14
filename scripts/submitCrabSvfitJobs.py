@@ -44,7 +44,7 @@ def get_filenames(args):
 	
 	return filenames_per_sample_per_pipeline
 
-def build_configs(filenames_per_sample_per_pipeline):
+def build_configs(filenames_per_sample_per_pipeline, di_tau_mass_constraint, name):
 	today = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")
 	max_n_files_per_task = 8000
 	
@@ -66,14 +66,15 @@ def build_configs(filenames_per_sample_per_pipeline):
 			svfit_code = string.Template(read_file(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/templates/crab_svfit.sh")))
 			jobfile.write(svfit_code.safe_substitute(
 					input_files = "\n".join("arr[%d,0]=%s" % (i+1, f) for i, f in enumerate(filenames_chunk)),
-					cwd=os.getcwd()
+					cwd=os.getcwd(),
+					args="--massconstraint "+str(di_tau_mass_constraint)
 			))
 			
 			jobfile.close()
 		
 		# crab configuration
 		configs.append(CRABClient.UserUtilities.config())
-		configs[-1].General.workArea = os.path.abspath(os.path.expandvars("$ARTUS_WORK_BASE/../svfit_caches/%s/" % (today)))
+		configs[-1].General.workArea = os.path.abspath(os.path.expandvars("$ARTUS_WORK_BASE/../svfit_caches/%s_%s/" % (today, name)))
 		configs[-1].General.transferOutputs = True
 		configs[-1].General.transferLogs = True
 		configs[-1].General.requestName = ("svfit_%s_%d" % (today, index))[:100]
@@ -116,7 +117,7 @@ def read_file(filename):
 		content = input_file.read()
 	return content
 
-def submission(base_paths, n_processes=1):
+def submission(base_paths, di_tau_mass_constraint, name, n_processes=1):
 	
 	# retrieve and prepare input files
 	filenames_per_sample_per_pipeline = {}
@@ -132,7 +133,7 @@ def submission(base_paths, n_processes=1):
 			for sample, filenames_per_pipeline in item.iteritems():
 				for pipeline, tmp_filenames in filenames_per_pipeline.iteritems():
 					filenames_per_sample_per_pipeline.setdefault(sample, {}).setdefault("pipeline", []).extend(tmp_filenames)
-	configs, jobfiles = build_configs(filenames_per_sample_per_pipeline)
+	configs, jobfiles = build_configs(filenames_per_sample_per_pipeline, di_tau_mass_constraint, name)
 	
 	# submit tasks
 	submit_args = []
@@ -148,11 +149,15 @@ if __name__ == "__main__":
 	
 	parser.add_argument("base_paths", nargs="+",
 	                    help="/pnfs/[path(s) to storage element(s) with SvfitCache input files]")
+	parser.add_argument("-m", "--di-tau-mass-constraint", type=float, default=-1.0,
+	                    help="Di-tau mass constraint. Suggestions: -1.0 (no constraint), 91.1876 (Z), 125.0 (H). [Default: %(default)s]")
+	parser.add_argument("--name", default="svfit_caches",
+	                    help="Project name to be put in output path. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	submission(args.base_paths, args.n_processes)
+	submission(args.base_paths, args.di_tau_mass_constraint, args.name, args.n_processes)
 
