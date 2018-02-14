@@ -74,20 +74,21 @@ public:
 	int decayMode2 = 0;
 	int systematicShift;
 	float systematicShiftSigma;
-	float diTauMassConstraint;
+	float diTauMassConstraint = -1.0;
+	float kappa = -1.0;
 
 	SvfitEventKey() {};
 	SvfitEventKey(ULong64_t const& runLumiEvent,
 	              classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
 	              int const& decayMode1, int const& decayMode2,
 	              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
-	              float const& diTauMassConstraint);
+	              float const& diTauMassConstraint, float const& kappa);
 
 	void Set(ULong64_t const& runLumiEvent,
 	         classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
 	         int const& decayMode1, int const& decayMode2,
 	         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
-	         float const& diTauMassConstraint);
+	         float const& diTauMassConstraint, float const& kappa);
 
 	HttEnumTypes::SystematicShift GetSystematicShift() const;
 
@@ -191,7 +192,7 @@ public:
 
 	void Init(std::string const& cacheFileName, std::string const& cacheTreeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
-	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour, float const& svfitKappa=6.0);
+	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
 	TFile * m_visPtResolutionFile = nullptr;
 
 private:
