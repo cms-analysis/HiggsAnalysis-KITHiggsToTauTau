@@ -25,7 +25,8 @@ int main(int argc, const char *argv[])
 		("help,h", "Print help message")
 		("inputfile,i",  boost::program_options::value<std::string>(), "Path to the input ROOT file")
 		//("inputtree,t", boost::program_options::value<std::string>(), "Path to input tree in ROOT file")
-		("outputfile,o", boost::program_options::value<std::string>(), "Output filename");
+		("massconstraint,m", boost::program_options::value<float>()->default_value(-1.0), "Di-tau mass constraint")
+		("outputfile,o", boost::program_options::value<std::string>()->default_value("svfit.root"), "Output filename");
 
 	// parse the options
 	boost::program_options::variables_map vm;
@@ -54,6 +55,8 @@ int main(int argc, const char *argv[])
 	svfitEventKey.SetBranchAddresses(inputTree);
 	svfitInputs.SetBranchAddresses(inputTree);
 	svfitResults.SetBranchAddresses(inputTree);
+	
+	float diTauMassConstraint = vm["massconstraint"].as<float>();
 
 	std::string outputFilename = vm["outputfile"].as<std::string>();
 	TFile *outputFile = new TFile(outputFilename.c_str(), "RECREATE");
@@ -71,16 +74,21 @@ int main(int argc, const char *argv[])
 	{
 		std::cout << "Entry: " << entry+1 << " / " << nEntries << std::endl;
 		inputTree->GetEntry(entry);
+		svfitEventKey.diTauMassConstraint = diTauMassConstraint;
 		
 		svfitResults = svfitTools.GetResults(svfitEventKey, svfitInputs, svfitCalculated, svfitCacheMissBehaviour);
-		svfitResults.SetBranchAddresses(outputTree);
 		outputTree->Fill();
 	}
 	
 	inputFile->Close();
+	delete inputFile;
+	inputFile = nullptr;
 	
 	RootFileHelper::WriteRootObject(outputFile, outputTree, treePath);
 	outputFile->Close();
+	delete outputFile;
+	outputFile = nullptr;
+	
 	std::cout << "Outputs written to \"" << outputFilename << "\"." << std::endl;
 	
 	return 0;
