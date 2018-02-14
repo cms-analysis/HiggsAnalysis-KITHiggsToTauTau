@@ -161,7 +161,7 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 
 	(product.*m_svfitEventKeyMember).Set(runLumiEvent, decayType1, decayType2, decayMode1, decayMode2,
 	                                     product.m_systematicShift, product.m_systematicShiftSigma,
-	                                     m_diTauMassConstraint);
+	                                     m_diTauMassConstraint, settings.GetSvfitKappaParameter());
 
 
 	// calculate results
@@ -169,8 +169,7 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 			(product.*m_svfitEventKeyMember),
 			product.m_svfitInputs,
 			product.m_svfitCalculated,
-			m_svfitCacheMissBehaviour,
-			settings.GetSvfitKappaParameter()
+			m_svfitCacheMissBehaviour
 	);
 	
 	if ((product.*m_svfitResultsMember).fittedTau1LV)

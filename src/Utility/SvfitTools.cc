@@ -87,16 +87,16 @@ SvfitEventKey::SvfitEventKey(ULong64_t const& runLumiEvent,
                              classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
                              int const& decayMode1, int const& decayMode2,
                              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
-                             float const& diTauMassConstraint)
+                             float const& diTauMassConstraint, float const& kappa)
 {
-	Set(runLumiEvent, decayType1, decayType2, decayMode1, decayMode2, systematicShift, systematicShiftSigma, diTauMassConstraint);
+	Set(runLumiEvent, decayType1, decayType2, decayMode1, decayMode2, systematicShift, systematicShiftSigma, diTauMassConstraint, kappa);
 }
 
 void SvfitEventKey::Set(ULong64_t const& runLumiEvent,
                         classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
                         int const& decayMode1, int const& decayMode2,
                         HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
-                        float const& diTauMassConstraint)
+                        float const& diTauMassConstraint, float const& kappa)
 {
 	this->runLumiEvent = runLumiEvent;
 	this->decayType1 = Utility::ToUnderlyingValue(decayType1);
@@ -106,6 +106,7 @@ void SvfitEventKey::Set(ULong64_t const& runLumiEvent,
 	this->systematicShift = Utility::ToUnderlyingValue<HttEnumTypes::SystematicShift>(systematicShift);
 	this->systematicShiftSigma = systematicShiftSigma;
 	this->diTauMassConstraint = diTauMassConstraint;
+	this->kappa = kappa;
 }
 
 HttEnumTypes::SystematicShift SvfitEventKey::GetSystematicShift() const
@@ -123,6 +124,7 @@ void SvfitEventKey::CreateBranches(TTree* tree)
 	tree->Branch("systematicShift", &systematicShift);
 	tree->Branch("systematicShiftSigma", &systematicShiftSigma);
 	tree->Branch("diTauMassConstraint", &diTauMassConstraint);
+	tree->Branch("kappa", &kappa);
 }
 
 void SvfitEventKey::SetBranchAddresses(TTree* tree)
@@ -135,6 +137,7 @@ void SvfitEventKey::SetBranchAddresses(TTree* tree)
 	tree->SetBranchAddress("systematicShift", &systematicShift);
 	tree->SetBranchAddress("systematicShiftSigma", &systematicShiftSigma);
 	tree->SetBranchAddress("diTauMassConstraint", &diTauMassConstraint);
+	tree->SetBranchAddress("kappa", &kappa);
 	ActivateBranches(tree, true);
 }
 
@@ -148,6 +151,7 @@ void SvfitEventKey::ActivateBranches(TTree* tree, bool activate)
 	tree->SetBranchStatus("systematicShift", activate);
 	tree->SetBranchStatus("systematicShiftSigma", activate);
 	tree->SetBranchStatus("diTauMassConstraint", activate);
+	tree->SetBranchStatus("kappa", activate);
 }
 
 bool SvfitEventKey::operator<(SvfitEventKey const& rhs) const
@@ -164,7 +168,21 @@ bool SvfitEventKey::operator<(SvfitEventKey const& rhs) const
 					{
 						if (systematicShift == rhs.systematicShift)
 						{
-							return (systematicShiftSigma < rhs.systematicShiftSigma);
+							if (Utility::ApproxEqual(systematicShiftSigma, rhs.systematicShiftSigma))
+							{
+								if (Utility::ApproxEqual(diTauMassConstraint, rhs.diTauMassConstraint))
+								{
+									return (kappa < rhs.kappa);
+								}
+								else
+								{
+									return (diTauMassConstraint < rhs.diTauMassConstraint);
+								}
+							}
+							else
+							{
+								return (systematicShiftSigma < rhs.systematicShiftSigma);
+							}
 						}
 						else
 						{
@@ -205,7 +223,8 @@ bool SvfitEventKey::operator==(SvfitEventKey const& rhs) const
 	        (decayMode2 == rhs.decayMode2) &&
 	        (systematicShift == rhs.systematicShift) &&
 	        Utility::ApproxEqual(systematicShiftSigma, rhs.systematicShiftSigma) &&
-	        Utility::ApproxEqual(diTauMassConstraint, rhs.diTauMassConstraint));
+	        Utility::ApproxEqual(diTauMassConstraint, rhs.diTauMassConstraint) &&
+	        Utility::ApproxEqual(kappa, rhs.kappa));
 }
 
 bool SvfitEventKey::operator!=(SvfitEventKey const& rhs) const
@@ -223,7 +242,8 @@ std::string std::to_string(SvfitEventKey const& svfitEventKey)
 			"decayMode2=" + std::to_string(svfitEventKey.decayMode2) + ", " +
 			"systematicShift=" + std::to_string(svfitEventKey.systematicShift) + ", " +
 			"systematicShiftSigma=" + std::to_string(svfitEventKey.systematicShiftSigma) + ", " +
-			"diTauMassConstraint=" + std::to_string(svfitEventKey.diTauMassConstraint) + ")";
+			"diTauMassConstraint=" + std::to_string(svfitEventKey.diTauMassConstraint) + ", " +
+			"kappa=" + std::to_string(svfitEventKey.kappa) + ")";
 }
 
 std::ostream& operator<<(std::ostream& os, SvfitEventKey const& svfitEventKey)
@@ -652,6 +672,8 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm(svfitEventKey, 0, false, m_visPtResolutionFile);
 	
 		// execute integration
+		svfitAlgorithm.addLogM_fixed(true, svfitEventKey.kappa);
+		svfitAlgorithm.setDiTauMassConstraint(svfitEventKey.diTauMassConstraint);
 		svfitInputs.Integrate(svfitEventKey, svfitAlgorithm);
 	
 		// retrieve results
