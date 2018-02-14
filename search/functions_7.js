@@ -43,7 +43,7 @@ var searchData=
   ['getrecoip2',['GetRecoIP2',['../classCPQuantities.html#a2045f55f5ee2cde785b01464b3fe822a',1,'CPQuantities']]],
   ['getrecoostarcp',['GetRecoOStarCP',['../classCPQuantities.html#aa84d24d23086f4ecb1f144180ab3adca',1,'CPQuantities']]],
   ['getrecophistar',['GetRecoPhiStar',['../classCPQuantities.html#a778283bd3af9c19d9498d9763d0facb5',1,'CPQuantities']]],
-  ['getresults',['GetResults',['../classSvfitTools.html#ad576a23f49a78087ccc1642703be7135',1,'SvfitTools']]],
+  ['getresults',['GetResults',['../classSvfitTools.html#a131289c85e27ee4e9020019ec739c86f',1,'SvfitTools']]],
   ['getsysinformation',['getSysInformation',['../namespacecheckoutScriptsHelper.html#af2a96b1f5ec2a81dbd0f7587e06ed909',1,'checkoutScriptsHelper']]],
   ['getsystematicshift',['GetSystematicShift',['../classSvfitEventKey.html#ab524322fe4600f72cc28a83fa5ce31b1',1,'SvfitEventKey']]],
   ['getyieldscale',['getYieldScale',['../classcpmodels_1_1CPMixing.html#ae35921a11b5e99cba4962ad25b239c03',1,'cpmodels.CPMixing.getYieldScale()'],['../classhiggsmodels_1_1TwoHypotesisHiggs.html#acc376a2d4ac0cca036de5247be549e98',1,'higgsmodels.TwoHypotesisHiggs.getYieldScale()'],['../classzttmodels_1_1ZttEffAndXsec.html#a6c5c412e63a47dafac730c18df7f88e7',1,'zttmodels.ZttEffAndXsec.getYieldScale()'],['../classzttmodels_1_1ZttEff.html#a2599a3dbbabb9dd796652708b7de6ac7',1,'zttmodels.ZttEff.getYieldScale()']]],

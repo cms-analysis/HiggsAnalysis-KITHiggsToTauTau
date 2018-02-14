@@ -1,9 +1,10 @@
 var NAVTREEINDEX7 =
 {
+"classSvfitTools.html":[1,0,289],
+"classSvfitTools.html#a131289c85e27ee4e9020019ec739c86f":[1,0,289,2],
 "classSvfitTools.html#a3ee4e5c67da74ca1da44be0be5e23105":[1,0,289,0],
 "classSvfitTools.html#a946db8077e348912ac31945c749efbb0":[1,0,289,1],
 "classSvfitTools.html#ab20f7b07a94189526b22b6d8dd8ecfb4":[1,0,289,3],
-"classSvfitTools.html#ad576a23f49a78087ccc1642703be7135":[1,0,289,2],
 "classSvfitTools.html#ae505dd685534e19cf4c4fa662f0e84af":[1,0,289,4],
 "classTTHDecayChannelProducer.html":[1,0,312],
 "classTTHDecayChannelProducer.html#a156d33176c768ffd652292bf365f73a0":[1,0,312,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "classcutOptimizer_1_1CutOptimizer.html#a86c56409c1c75006e09887384fa4ba61":[1,0,23,0,8],
 "classcutOptimizer_1_1CutOptimizer.html#a9f43d2fd7dee5d016b708a38dcbd7b30":[1,0,23,0,9],
 "classcutOptimizer_1_1CutOptimizer.html#aa42b60689dc1af9accf91cf39bc8ca20":[1,0,23,0,6],
-"classcutOptimizer_1_1CutOptimizer.html#ab442907fcdbb5005b86785c9a1cf3acf":[1,0,23,0,10],
-"classcutOptimizer_1_1CutOptimizer.html#ab9f344ac23f8b91d72a81945f2c892c7":[1,0,23,0,1]
+"classcutOptimizer_1_1CutOptimizer.html#ab442907fcdbb5005b86785c9a1cf3acf":[1,0,23,0,10]
 };

@@ -1,5 +1,7 @@
 var NAVTREEINDEX13 =
 {
+"getInclusiveWeight_8py.html#af26ecb85638f8bcbe7b9d266d8fcc455":[2,0,2,19,7],
+"getInclusiveWeight_8py.html#af61ffdd21b13d5405af924696505997f":[2,0,2,19,4],
 "globals.html":[2,1,0],
 "globals_defs.html":[2,1,3],
 "globals_func.html":[2,1,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX13 =
 "makePlots__ZTTtheoryUnc_8py.html#afddb3557a37e23c395764616ecad5e9c":[2,0,2,75,24],
 "makePlots__ZTTtheoryUnc_8py.html#afe959d57af0b855a9dc6a90691a33f9f":[2,0,2,75,36],
 "makePlots__ZTTtheoryUnc_8py.html#aff6827b28fdbf586aafa170c6164ad33":[2,0,2,75,35],
-"makePlots__allGenPhiCPPlots_8py.html":[2,0,2,26],
-"makePlots__allGenPhiCPPlots_8py.html#a07aeed2356d176070b16c4fd9b322d51":[2,0,2,26,1],
-"makePlots__allGenPhiCPPlots_8py.html#a1be8eaee6dfcb48e34546f63413c49f4":[2,0,2,26,6]
+"makePlots__allGenPhiCPPlots_8py.html":[2,0,2,26]
 };

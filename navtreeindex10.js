@@ -1,5 +1,6 @@
 var NAVTREEINDEX10 =
 {
+"classsamples__run2__etaufakerate__2016_1_1Samples.html#a7d636f3b3c03beb8549e2a7a20a65bda":[1,0,134,0,38],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a7ddba66f647bc81929d744bac7f2aa46":[1,0,134,0,3],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a86ac749900eaa4219c5c2e9a5ad6ff1b":[1,0,134,0,28],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a86ecf59808d56b6d45c1ebb2a721323d":[1,0,134,0,27],
@@ -248,6 +249,5 @@ var NAVTREEINDEX10 =
 "correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#ad0480edf1dfa99821c3803028c95d311":[2,0,2,5,2],
 "correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#ae0ced0f5072227444a49f308bf9d48e5":[2,0,2,5,11],
 "correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#aed11c7c12f64a5ae0da3895e07e6efea":[2,0,2,5,6],
-"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#af07a131d36e8ba751cdb230555399d1f":[2,0,2,5,5],
-"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#af2fd9e368625e17b9ccf6018a7ce6c94":[2,0,2,5,4]
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#af07a131d36e8ba751cdb230555399d1f":[2,0,2,5,5]
 };
