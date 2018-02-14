@@ -23,14 +23,11 @@ import CRABClient.UserUtilities
 from CRABClient.UserUtilities import getUsernameFromSiteDB
 
 import Artus.Utility.tools as tools
+import Artus.Utility.dcachetools as dcachetools
 
 
 def get_filenames(args):
 	base_path, sample = args[0], args[1]
-
-	filename_replacements = {
-		"srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN=/pnfs/physik.rwth-aachen.de/cms/store/user/" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/"
-	}
 	
 	filenames_per_sample_per_pipeline = {}
 	
@@ -39,8 +36,7 @@ def get_filenames(args):
 	if len(filenames) > 0:
 		filenames = [os.path.join(base_path, sample, filename) for filename in filenames]
 		for filename in filenames:
-			for src, dst in filename_replacements.iteritems():
-				filename = filename.replace(src, dst)
+			filename = dcachetools.xrd2xrd(dcachetools.srm2xrd(dcachetools.dcap2xrd(dcachetools.local2xrd(filename))))
 			pipeline = re.search("SvfitCache(?P<pipeline>.*)\d+.root", filename).groupdict()["pipeline"]
 			filenames_per_sample_per_pipeline.setdefault(sample, {}).setdefault(pipeline, []).append(filename)
 	
@@ -151,12 +147,6 @@ def clear_environment():
 	
 	tmp_path = tempfile.mkdtemp(prefix="submitCrabSvfitJobs_"+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")+"_")
 	for object_to_move in objects_to_move:
-		if os.path.isdir(object_to_move):
-			cwd = os.getcwd()
-			os.chdir(object_to_move)
-			logger.subprocessCall("scram b clean", shell=True)
-			os.chdir(cwd)
-		
 		log.info("Temporarily move {src} to {dst} ...".format(src=object_to_move, dst=tmp_path))
 		shutil.move(object_to_move, tmp_path)
 	
@@ -198,7 +188,7 @@ if __name__ == "__main__":
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("--smaller-input-sandbox", default=False, action="store_true",
-	                    help="Clear CMSSW environment before submitting by moving non-needed packages to a temporary directory in order to ensure sufficiently small crab input sandbox. In each of these packages \"scram b clean\" is called. After submission, the environment is restored. It is recommended to compile the complete CMSSW environment after submission. [Default: %(default)s]")
+	                    help="Clear CMSSW environment before submitting by moving non-needed packages to a temporary directory in order to ensure sufficiently small crab input sandbox. After submission, the environment is restored. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
