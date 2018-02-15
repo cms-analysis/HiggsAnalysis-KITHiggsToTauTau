@@ -27,6 +27,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
 import HiggsAnalysis.KITHiggsToTauTau.datacards.initialstatecpstudiesdatacards as initialstatecpstudiesdatacards
+import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards_module
 
 
 
@@ -56,12 +57,15 @@ def matching_process(obj1, obj2):
 	matches = matches and (obj1.channel() == obj2.channel())
 	matches = matches and (obj1.bin_id() == obj2.bin_id())
 	matches = matches and (obj1.mass() == obj2.mass())
-	return matches		
+	return matches	
+	
+def is_control_region(obj):
+	return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "TTbarCR" in obj.bin() or obj.channel() == "mm")	
 	
 def remove_procs_and_systs_with_zero_yield(proc):
 	# TODO: find out why zero yield should be ok in control regions. until then remove them
-	#null_yield = not (proc.rate() > 0. or is_control_region(proc))
-	null_yield = not proc.rate() > 0.
+	null_yield = not (proc.rate() > 0. or is_control_region(proc))
+	#null_yield = not proc.rate() > 0.
 	if null_yield:
 		datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
 	return null_yield
@@ -116,6 +120,8 @@ if __name__ == "__main__":
 	                    help="Run with grid-control. Optionally select backend. [Default: %(default)s]")
 	parser.add_argument("--remote", action="store_true", default=False,
 	                    help="Pack result to tarball, necessary for grid-control. [Default: %(default)s]")
+	parser.add_argument("--only-config", action="store_true", default=False,
+					    help="Only build configs and terminate after that. For debug purposes. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
@@ -162,6 +168,8 @@ if __name__ == "__main__":
 	                    help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
 	                    help="Manualy set the binning. Default is taken from configuration files.")
+	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
+	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")						
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -177,7 +185,7 @@ if __name__ == "__main__":
 		sys.exit(1)
 	
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
-	if args.clear_output_dir and os.path.exists(args.output_dir):
+	if args.clear_output_dir and os.path.exists(args.output_dir) and "plots/htt_datacards" in args.output_dir:
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 	
 	# initialisations for plotting
@@ -210,7 +218,7 @@ if __name__ == "__main__":
 	if args.get_official_dc:
 		# get "official" configuration
 		init_directory = os.path.join(args.output_dir, "init")
-		command = "MorphingSMCP2016 --control_region=1  --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
+		command = "MorphingSMCP2016 --control_region=1 --postfix='-2D' --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
 		log.debug(command)
 		exit_code = logger.subprocessCall(shlex.split(command))
 		assert(exit_code == 0)
@@ -268,7 +276,7 @@ if __name__ == "__main__":
 		category_replacements["antiiso_vbf_cr"] = "Vbf2D_QCDCR"
 		category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR"
 		category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
-		category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
+		category_replacements["dijet_boosted_qcd_cr"] = "Vbf2D_QCDCR"
 		
 		category_replacements["0jet"] = "ZeroJet2D"
 		category_replacements["boosted"] = "Boosted2D"
@@ -305,13 +313,35 @@ if __name__ == "__main__":
 			"ggH" : "ggh"
 		}
 		
+	# initialise datacards
+	# tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	# input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
+
+	tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
+	bkg_histogram_name_template = "${BIN}/${PROCESS}"
+	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
+	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
+	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
+	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
+	# if "individual" in args.combinations:
+	# 	datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
+	# if "channel" in args.combinations:
+	# 	datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
+	# if "category" in args.combinations:
+	# 	datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
+	# if "combined" in args.combinations:
+	# 	datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")		
+	output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-2D.root"
+	
+		
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
 
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 
-		# catch if on command-line only one set has been specified and repeat it
+	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
 	# list of JEC uncertainties
@@ -426,42 +456,16 @@ if __name__ == "__main__":
 	]
 	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
-	
-	# initialise datacards
-	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
-	bkg_histogram_name_template = "${BIN}/${PROCESS}"
-	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
-	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
-	datacard_filename_templates = []
-	if "individual" in args.combinations:
-		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
-	if "channel" in args.combinations:
-		datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
-	if "category" in args.combinations:
-		datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
-	if "combined" in args.combinations:
-		datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")		
-	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
-
-	# if args.channel != parser.get_default("channel"):
-	# 	args.channel = args.channel[len(parser.get_default("channel")):]
-    # 
-	# if args.categories != parser.get_default("categories"):
-	# 	args.categories = args.categories[1:]
-
-	# catch if on command-line only one set has been specified and repeat it
-	if(len(args.categories) == 1):
-		args.categories = [args.categories[0]] * len(args.channel)
-	
+		
 	#restriction to requested masses
 	datacards.cb.mass(args.higgs_masses)
-	
+
 	#restriction to requested channels
-	if not ("all" in args.channel):
+	if args.channel != parser.get_default("channel"):
 		datacards.cb.channel(args.channel)
 	args.channel = datacards.cb.cp().channel_set()
+	if args.categories == parser.get_default("categories"):
+		args.categories = len(args.channel) * args.categories
 	
 	# restrict combine to lnN systematics only if no_shape_uncs is set
 	if args.no_shape_uncs or args.no_syst_uncs:
@@ -472,19 +476,27 @@ if __name__ == "__main__":
 			
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		
-		# if channel in ["em", "ttbar"]:
-		# 	datacards.configs._mapping_process2sample["ZL"] = "zll"
-		# else:
-		# 	datacards.configs._mapping_process2sample["ZL"] = "zl"
+		if channel in ["em", "ttbar"]:
+			datacards.configs._mapping_process2sample["ZL"] = "zll"
+		else:
+			datacards.configs._mapping_process2sample["ZL"] = "zl"
 		
 		if channel in ["et", "mt", "tt"]:
 			datacards.configs._mapping_process2sample.pop("TT", None)
 			datacards.configs._mapping_process2sample["TTT"]= "ttt"
-			datacards.configs._mapping_process2sample["TTJ"]= "ttj"
+			datacards.configs._mapping_process2sample["TTJ"]= "ttjj"			
 		else:
 			datacards.configs._mapping_process2sample["TT"] = "ttj"
-			#datacards.configs._mapping_process2sample.pop("TTT")
-			datacards.configs._mapping_process2sample.pop("TTJ", None)
+			datacards.configs._mapping_process2sample.pop("TTT")
+			datacards.configs._mapping_process2sample.pop("TTJ")
+			
+		tmp_output_files = []
+		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
+				ANALYSIS="htt",
+				CHANNEL=channel,
+				ERA="13TeV"
+		))
+		output_files.append(output_file)
 		
 		if "all" in categories:
 			categories = datacards.cb.cp().channel([channel]).bin_set()
@@ -499,17 +511,18 @@ if __name__ == "__main__":
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
 			sys.exit(1)
-		
-		
+				
 		# restrict CombineHarvester to configured categories:
+		# print(datacards.cb.process_set())
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
-	 	
+	 	# print(datacards.cb.process_set())
 		log.info("Building configs for channel = {channel}, categories = {categories}".format(channel=channel, categories=str(categories)))
-		for official_category in categories:
-			
+		for official_category in categories:			
 			category = official2private(official_category, category_replacements)	
-
+			print(category)
+			# print(datacards.cb.process_set())
 			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))	
+			
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			if "TTbarCR" in category and channel == "ttbar":
 				exclude_cuts += ["pzeta"]
@@ -529,22 +542,15 @@ if __name__ == "__main__":
 				
 				datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
-			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set()]
-			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
-					ANALYSIS="htt",
-					CHANNEL=channel,
-					BIN=official_category, # why is this necessary?
-					ERA="13TeV"
-			))
+			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			#merged_output_files.append(output_file)
-			output_files.append(output_file)
-			tmp_output_files = []
-			
+				
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				# print(shape_systematic, list_of_samples)
 				nominal = (shape_systematic == "nominal")
+				#list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
 				list_of_samples = [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
-
+				# print(list_of_samples)
 				# This is needed because wj and qcd are interdependent when using the new background estimation method
 				# NB: CH takes care to only use the templates for processes that you specified. This means that any
 				#     superfluous histograms created as a result of this problem do not influence the result
@@ -588,11 +594,12 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="cp2016" if args.era == "2016" else "baseline",
+							cut_type="smhtt2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
 							wj_sf_shift=wj_sf_shift,
 							zmm_cr_factor=zmm_cr_factor,
+							no_ewkz_as_dy = args.no_ewkz_as_dy,
 							useRelaxedIsolationForW = (category.split("_")[1] in categoriesWithRelaxedIsolationForW),
 							useRelaxedIsolationForQCD = (category.split("_")[1] in categoriesWithRelaxedIsolationForQCD)
 					)
@@ -618,7 +625,7 @@ if __name__ == "__main__":
 
 					# TODO: evaluate shift from datacards.cb
 					#config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-					config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
+					#config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
 					config["x_expressions"] =  [args.quantity]
 					
 					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" not in category:	
@@ -629,7 +636,7 @@ if __name__ == "__main__":
 					elif args.cp_study == "final":
 						binnings_key = "tt_phiStarCP"
 						
-					if "2D" not in category:
+					if "2D" not in category and not any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "ttbar"]):
 						binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
 						if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 							config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
@@ -638,10 +645,8 @@ if __name__ == "__main__":
 						else:
 							log.fatal("binnings key " + binnings_key + " not found in binnings_dict!")
 							sys.exit()
-					if "dijet" in category:
 						#print([binnings_settings.binnings_dict[binnings_key]])
 						config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
-						
 					# define quantities and binning for control regions
 					if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
 						config["x_expressions"] = ["mt_1"]
@@ -650,13 +655,14 @@ if __name__ == "__main__":
 						if channel in ["mt", "et"]:
 							config["x_expressions"] = ["m_vis"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+							log.info("ZeroJet2D QCd Control region: binningHtt13TeV_"+category+"_m_vis")
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
 					if "Boosted2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "Vbf2D_QCDCR" in category and channel == "tt":
+					if "Vbf2D_QCDCR" in category or "dijet_*_qcd_cr" in category and channel == "tt":
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
 					if "TTbarCR" in category and channel == "ttbar":
@@ -699,17 +705,16 @@ if __name__ == "__main__":
 							config["z_expressions"] = ["melaDiscriminatorD0MinusGGH"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]
 							
-                    
-					elif (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
-						# print(binnings_key)
-						config["x_bins"] = [binnings_key]
-					elif args.x_bins != None:
-						config["x_bins"] = [args.x_bins]
-					else:
-						log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are (see HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/binnings.py):")
-						for key in binnings_settings.binnings_dict:
-							log.debug(key)
-						sys.exit()
+					# elif (binnings_key  not in binnings_settings.binnings_dict) or args.x_bins == None:
+					# 	# print(binnings_key)
+					# 	config["x_bins"] = [binnings_key]
+					# elif args.x_bins != None:
+					# 	config["x_bins"] = [args.x_bins]
+					# else:
+					# 	log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are (see HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/binnings.py):")
+					# 	for key in binnings_settings.binnings_dict:
+					# 		log.debug(key)
+					# 	sys.exit()
 					
 					# set quantity x depending on the category
 					if args.cp_study == "final":
@@ -730,7 +735,8 @@ if __name__ == "__main__":
 						config["unroll_ordering"] = "zyx"
 
 					config["directories"] = [args.input_dir]
-					
+					# print(config['x_bins'])
+					# print(config['x_expressions'])
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
 							PROCESS=datacards.configs.sample2process(sample),
@@ -756,11 +762,11 @@ if __name__ == "__main__":
 						config.pop("legend_markers")
 					plot_configs.append(config)		
 			if "inputs" in args.steps:
-				hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
+				hadd_commands.append("hadd -f {DST} {SRC}".format(
 						DST=output_file,
 						SRC=" ".join(tmp_output_files)
 				))
-			merged_output_files.append(output_file)
+			# merged_output_files.append(output_file)
 
 	if log.isEnabledFor(logging.DEBUG):
 		pprint.pprint(plot_configs) 
@@ -772,7 +778,9 @@ if __name__ == "__main__":
 			os.remove(output_file_iterator)
 			log.debug("Removed file \""+output_file_iterator+"\" before it is recreated again.")
 	output_files = list(set(output_files))
-
+	
+	if args.only_config:
+		sys.exit(1)
 	# create input histograms with HarryPlotter
 	if "inputs" in args.steps:
 		log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------")
@@ -785,6 +793,17 @@ if __name__ == "__main__":
 		for output_file in merged_output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	# call official script again with shapes that have just been created
+	datacards_module._call_command([
+			"MorphingSMCP2016 --output_folder RWTH --postfix \"-2D\" --control_region=1 --mm_fit=false --ttbar_fit=true --input_folder_em RWTH --input_folder_et RWTH --input_folder_mt RWTH --input_folder_tt RWTH --input_folder_mm RWTH --input_folder_ttbar RWTH ".format(
+			OUTPUT_FOLDER=args.output_dir
+			),
+			args.output_dir
+	])
+	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "shapes/RWTH")))
+	sys.exit(0)	
+	
 	if "inputs" in args.steps:
 		# update CombineHarvester with the yields and shapes
 		log.info("\n -------------------------------------- Extract shapes from histogram templates ---------------------------------")
@@ -819,9 +838,8 @@ if __name__ == "__main__":
 	
 	# TODO: comment out the following two commands if you want to use
 	#       the SM HTT data card creation method in CombineHarvester
-	# print(datacards.cb.process_set())
 	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)	
-	# print(datacards.cb.process_set())	
+		
 	
 	# Use an asimov dataset. This line must be here, because otherwise we
 	if args.use_asimov_dataset:
@@ -829,7 +847,7 @@ if __name__ == "__main__":
 		# signal_processes makes combine filter those signal processes that appear in the datacards and can be replaced.
 		# if you observe the error that ROOT wasn't able to add up the background and signal histograms due to unequal binnings
 		# the reason is possibly a missing signal_process here.
-		datacards.replace_observation_by_asimov_dataset(signal_processes=["ggHsm_htt", "qqHsm_htt", "ggH_htt"])
+		datacards.replace_observation_by_asimov_dataset(signal_processes=["ggHsm_htt", "qqHsm_htt", "ggH_htt", "qqH_htt"])
 	
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
@@ -909,6 +927,7 @@ if __name__ == "__main__":
 		)
 		
 		if "prefitpostfitplots" in args.steps:
+			# https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsWG/HiggsPAGPreapprovalChecks
 			log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")
 			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"", higgs_mass="125")
 			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
@@ -916,7 +935,11 @@ if __name__ == "__main__":
 			# divide plots by bin width and change the label correspondingly
 			if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
 				args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
-		
+			if args.quantity == "m_vis" and not(do_not_normalize_by_bin_width):
+				args.args += " --y-label 'dN / dm_{vis}  (1 / GeV)'"
+			if args.quantity == "jdphi" and not(do_not_normalize_by_bin_width):
+				args.args += " --y-label 'dN / d#Delta#phi_{jj}'"	
+					
 			# adapt prefit and postfit plot configs
 			backgrounds_to_merge = {
 				"ZLL" : ["ZL", "ZJ"],
@@ -928,7 +951,7 @@ if __name__ == "__main__":
 			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
 			if "nuisanceimpacts" in args.steps:
 				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_cp_mixing_angle, args.n_processes, higgs_mass="125")
-				
+			print(prefit_postfit_plot_configs)	
 			higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 		# Determine mixing angle parameter
