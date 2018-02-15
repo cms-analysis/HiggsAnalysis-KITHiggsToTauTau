@@ -480,10 +480,10 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["pt_1"] = "(pt_1 > 10.0)"
 			cuts["pt_2"] = "(pt_2 > 10.0)"
-		elif channel == "em":
+		elif channel == "em" or channel == "ttbar":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["pt_1"] = "(pt_1 > 13.0)"
-			cuts["pt_2"] = "(pt_2 > 10.0)"
+			cuts["pt_2"] = "(pt_2 > 10.0)"		
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
