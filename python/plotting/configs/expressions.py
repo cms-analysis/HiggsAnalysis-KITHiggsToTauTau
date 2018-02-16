@@ -50,43 +50,43 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# Z->tautau polarisation categories
 		for channel in ["mt", "et", "tt", "em"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_inclusive"] = "(1.0)"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_inclusive"] = "tauPolarisationDiscriminatorSvfit"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_inclusive"] = "polarisationCombinedOmegaBarSvfit"
 
 		for channel in ["em"]:
 			for category in ["a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(0.0)"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "tauPolarisationDiscriminatorSvfit"
+				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "polarisationOmegaBarSvfit_2"
 			for category in ["oneprong", "oneprong_1", "oneprong_2"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(1.0)"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "tauPolarisationDiscriminatorSvfit"
-			
+				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "polarisationOmegaBarSvfit_2"
+
 			for category in ["a1_a1", "a1_rho", "a1_oneprong", "rho_rho", "rho_oneprong"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "(0.0)"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "tauPolarisationDiscriminatorSvfit"
+				self.expressions_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "polarisationCombinedOmegaBarSvfit"
 			for category in ["oneprong_oneprong"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "(1.0)"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "tauPolarisationDiscriminatorSvfit"
+				self.expressions_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "polarisationCombinedOmegaBarSvfit"
 
 		for channel in ["mt", "et"]:
 			for category in ["a1", "a1_2"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(decayMode_2 == 10)"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "tauPolarisationDiscriminatorSvfit"
+				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "((decayMode_2 == 10) * polarisationOmegaBarSvfit_2)"
 			for category in ["rho", "rho_2"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(decayMode_2 == 1)"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "polarisationOmegaSvfit_1"#"rhoNeutralChargedAsymmetry_2"
+				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "((decayMode_2 == 1) * polarisationOmegaBarSvfit_2)"#"rhoNeutralChargedAsymmetry_2"
 			for category in ["oneprong", "oneprong_2"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "((decayMode_2 != 10) * (decayMode_2 != 1))"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "tauPolarisationDiscriminatorSvfit"
+				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "polarisationOmegaBarSvfit_2"
 			for category in ["a1_1", "rho_1"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(0.0)"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "tauPolarisationDiscriminatorSvfit"
+				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "polarisationOmegaBarSvfit_1"
 			for category in ["oneprong_1"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(1.0)"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "tauPolarisationDiscriminatorSvfit"
-			
+				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "polarisationOmegaBarSvfit_1"
+
 			for category in ["a1_a1", "a1_rho", "rho_rho"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "(0.0)"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "tauPolarisationDiscriminatorSvfit"
+				self.expressions_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "polarisationCombinedOmegaBarSvfit"
 			for category in ["a1_oneprong", "rho_oneprong", "oneprong_oneprong"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "catZttPol13TeV_"+channel+"_"+(category.split("_")[0])
 				self.expressions_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "testZttPol13TeV_"+channel+"_"+(category.split("_")[0])
@@ -95,42 +95,44 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZttPol13TeV_"+channel+"_a1"] = "((decayMode_1 == 10) || (decayMode_2 == 10))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_a1_1"] = "(decayMode_1 == 10)"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_a1_2"] = "(decayMode_2 == 10)"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_a1"] = "tauPolarisationDiscriminatorSvfit"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_a1_1"] = "tauPolarisationDiscriminatorSvfit"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_a1_2"] = "tauPolarisationDiscriminatorSvfit"
+
+			self.expressions_dict["testZttPol13TeV_"+channel+"_a1"] = "(((decayMode_1 == 10) * polarisationOmegaSvfit_1) + ((decayMode_1 != 10) * polarisationOmegaSvfit_2))"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_a1_1"] = "polarisationOmegaBarSvfit_1"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_a1_2"] = "polarisationOmegaBarSvfit_2"
+
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho"] = "(((decayMode_1 != 10) * (decayMode_2 != 10)) * ((decayMode_1 == 1) || (decayMode_2 == 1)))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho_1"] = "((decayMode_1 != 10) * (decayMode_1 == 1) * (decayMode_2 != 1))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho_2"] = "((decayMode_2 != 10) * (decayMode_2 == 1) * (decayMode_1 != 1))"
 
-			self.expressions_dict["testZttPol13TeV_"+channel+"_rho"] = "tauPolarisationDiscriminatorSvfit"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_rho_1"] = "polarisationOmegaSvfit_1" #"rhoNeutralChargedAsymmetry_1"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_rho_2"] = "polarisationOmegaSvfit_2" #"rhoNeutralChargedAsymmetry_2"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_rho"] = "(((decayMode_1 == 1) * polarisationOmegaSvfit_1) + ((decayMode_1 != 1) * polarisationOmegaSvfit_2))"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_rho_1"] = "polarisationOmegaBarSvfit_1"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_rho_2"] = "polarisationOmegaBarSvfit_2"
 
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong"] = "((decayMode_1 != 10) * (decayMode_2 != 10) * (decayMode_1 != 1) * (decayMode_2 != 1))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong_1"] = "((decayMode_1 != 10) * (decayMode_1 != 1))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong_2"] = "((decayMode_2 != 10) * (decayMode_2 != 1))"
 
-			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong"] = "tauPolarisationDiscriminatorSvfit"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong_1"] = "tauPolarisationDiscriminatorSvfit"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong_2"] = "tauPolarisationDiscriminatorSvfit"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong"] = "(((decayMode_1 != 10) *(decayMode_1 != 1) * polarisationOmegaSvfit_1) + ((decayMode_2 != 10) *(decayMode_2 != 1) * polarisationOmegaSvfit_2))"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong_1"] = "polarisationOmegaBarSvfit_1"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong_2"] = "polarisationOmegaBarSvfit_2"
 
 			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_a1_a1"] = "((decayMode_1 == 10) * (decayMode_2 == 10))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_a1_rho"] = "(((decayMode_1 == 10) * (decayMode_2 == 1)) || ((decayMode_1 == 1) * (decayMode_2 == 10)))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_a1_oneprong"] = "(((decayMode_1 == 10) * (decayMode_2 != 10) * (decayMode_2 != 1)) || ((decayMode_1 != 10) * (decayMode_1 != 1) * (decayMode_2 == 10)))"
 
-			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_a1_a1"] = "tauPolarisationDiscriminatorSvfit"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_a1_rho"] = "tauPolarisationDiscriminatorSvfit"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_a1_oneprong"] = "tauPolarisationDiscriminatorSvfit"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_a1_a1"] = "polarisationCombinedOmegaBarSvfit"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_a1_rho"] = "polarisationCombinedOmegaBarSvfit"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_a1_oneprong"] = "polarisationCombinedOmegaBarSvfit"
 
 			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_rho_rho"] = "((decayMode_1 == 1) * (decayMode_2 == 1))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_rho_oneprong"] = "(((decayMode_1 == 1) * (decayMode_2 != 10) * (decayMode_2 != 1)) || ((decayMode_1 != 10) * (decayMode_1 != 1) * (decayMode_2 == 1)))"
 
-			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_rho_rho"] = "(rhoNeutralChargedAsymmetry_1+rhoNeutralChargedAsymmetry_1)/(1+rhoNeutralChargedAsymmetry_1*rhoNeutralChargedAsymmetry_1)"
-			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_rho_oneprong"] = "tauPolarisationDiscriminatorSvfit"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_rho_rho"] = "(polarisationOmegaBarSvfit_1+polarisationOmegaBarSvfit_2)/(1+polarisationOmegaBarSvfit_1*polarisationOmegaBarSvfit_2)"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_rho_oneprong"] = "polarisationCombinedOmegaBarSvfit"
 
 			self.expressions_dict["catZttPol13TeV_"+channel+"_combined_oneprong_oneprong"] = "((decayMode_1 != 1) * (decayMode_1 != 10) * (decayMode_2 != 10) * (decayMode_2 != 1))"
 
-			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_oneprong_oneprong"] = "m_vis"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_oneprong_oneprong"] = "polarisationCombinedOmegaBarSvfit"
 
 		for channel in ["em", "mt", "et", "tt"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_index"] = " + ".join(["(catZttPol13TeV_"+channel+"_"+cat+" * "+str(index)+")" for index, cat in enumerate(["oneprong"] if channel == "em" else ["oneprong", "rho", "a1"])])
@@ -207,7 +209,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_boost_low"] = self.combine([jet1_string, self.invert(boosted_higgs_low_string)])
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nhighpt2"] = self.combine([self.invert(jet1_string), pt2_tight_string])
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nlowpt2"] = self.combine([self.invert(jet1_string), self.invert(pt2_tight_string)])
-			
+
 		# Standard Model Control regions
 		self.expressions_dict["catHtt13TeV_mt_0jet_qcd_cr"] = "(njetspt30>1)*(iso_1>0.15)*(iso_1<0.30)"
 		self.expressions_dict["catHtt13TeV_et_0jet_qcd_cr"] = "(njetspt30>1)*(iso_1>0.10)*(iso_1<0.30)"
@@ -218,25 +220,25 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["catHtt13TeV_tt_dijet_lowMjj_qcd_cr"] = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))*(njetspt30>1)*(jdeta>2.5)*(mjj>200)*(mjj<500)*(njets>1)*(nbtag<1)"
 		self.expressions_dict["catHtt13TeV_mt_wjets_0jet_cr"] = "(njetspt30>1)*(nbtag==0)*(mt_1>80.0)"
 		self.expressions_dict["catHtt13TeV_et_wjets_0jet_cr"] = "(njetspt30>1)*(nbtag==0)*(mt_1>80.0)"
-        
+
 		self.expressions_dict["catHtt13TeV_mt_boosted_qcd_cr"] = "(njetspt30>1)*(iso_1>0.15)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))"
 		self.expressions_dict["catHtt13TeV_et_boosted_qcd_cr"] = "(njetspt30>1)*(iso_1>0.10)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))"
 		self.expressions_dict["catHtt13TeV_tt_antiiso_boosted_cr"] = "(njetspt30>1)*((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))*((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))"
-		
+
 		self.expressions_dict["catHtt13TeV_mt_wjets_boosted_cr"] = "(njetspt30>1)*(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))"
 		self.expressions_dict["catHtt13TeV_et_wjets_boosted_cr"] = "(njetspt30>1)*(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))"
 
 		# self.expressions_dict["catHtt13TeV_"+channel+"_vbf_qcd_cr"] = "(njetspt30>1)"
 		# self.expressions_dict["catHtt13TeV_"+channel+"_wjets_vbf_cr"] = "(njetspt30>1)"
-		
+
 		# CP initial state category
 		for channel in ["em", "et", "mt", "tt"]:
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_boosted"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)*(nbtag<1)"  
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowM"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)*(nbtag<1)"  
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_highM"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)*(nbtag<1)"  
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowMjj"] = "(mjj>200)*(mjj<500)*(njets>1)*(m_sv>100)" if channel != "em" else "(mjj>200)*(mjj<500)*(njets>1)*(nbtag<1)"  
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_boosted"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)*(nbtag<1)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowM"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)*(nbtag<1)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_highM"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)*(nbtag<1)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowMjj"] = "(mjj>200)*(mjj<500)*(njets>1)*(m_sv>100)" if channel != "em" else "(mjj>200)*(mjj<500)*(njets>1)*(nbtag<1)"
 
-		
+
 		# MSSSM
 		for channel in ["et","mt","tt","em","mm"]:
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusive"] = "(1.0)"
