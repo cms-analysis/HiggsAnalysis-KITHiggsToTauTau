@@ -1,5 +1,10 @@
 var NAVTREEINDEX24 =
 {
+"tmvaWrapper_8py.html#ac1bf7e6c51968ebaa19421b2b91317e7":[2,0,2,96,14],
+"tmvaWrapper_8py.html#ac4015b05628f7119de66c44b1c40dae1":[2,0,2,96,9],
+"tmvaWrapper_8py.html#ac42bbcd525e7620887131e85234f7188":[2,0,2,96,4],
+"tmvaWrapper_8py.html#accb8f2cfa0694e00b472e3bf55ed291e":[2,0,2,96,20],
+"tmvaWrapper_8py.html#acded00976209bf878429f68dfaad3634":[2,0,2,96,22],
 "tmvaWrapper_8py.html#ae3ea804298277529649fb2b29c64793d":[2,0,2,96,21],
 "tmvaWrapper_8py.html#af78203fb115b0da0e02915737a3e528a":[2,0,2,96,26],
 "tmvaWrapper_8py.html#af7d23fd0f5954a0ddd9f342ebf6c937d":[2,0,2,96,17],
