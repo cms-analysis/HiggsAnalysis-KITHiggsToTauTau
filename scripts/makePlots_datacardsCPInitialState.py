@@ -276,7 +276,7 @@ if __name__ == "__main__":
 		category_replacements["antiiso_vbf_cr"] = "Vbf2D_QCDCR"
 		category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR"
 		category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
-		category_replacements["dijet_boosted_qcd_cr"] = "Vbf2D_QCDCR"
+		category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
 		
 		category_replacements["0jet"] = "ZeroJet2D"
 		category_replacements["boosted"] = "Boosted2D"
@@ -539,6 +539,9 @@ if __name__ == "__main__":
 				elif channel == "tt":
 					exclude_cuts += ["iso_1", "iso_2"]
 					do_not_normalize_by_bin_width = True
+			if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr"]) and channel == "tt":
+				exclude_cuts += ["iso_1", "iso_2"]
+				do_not_normalize_by_bin_width = True
 				
 				datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
@@ -662,12 +665,17 @@ if __name__ == "__main__":
 					if "Boosted2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "Vbf2D_QCDCR" in category or "dijet_*_qcd_cr" in category and channel == "tt":
+					if "Vbf2D_QCDCR" in category  and channel == "tt":
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
 					if "TTbarCR" in category and channel == "ttbar":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+					if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr"]) and channel == "tt":
+						print("------------")
+						config["x_expressions"] = ["jdphi"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
+						print(config["x_bins"])
 					
 					# Use 2d plots for 2d categories
 					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
@@ -715,7 +723,8 @@ if __name__ == "__main__":
 					# 	for key in binnings_settings.binnings_dict:
 					# 		log.debug(key)
 					# 	sys.exit()
-					
+					print("------------")
+					print(config["x_bins"])
 					# set quantity x depending on the category
 					if args.cp_study == "final":
 						if all(["RHOmethod" in c for c in categories]):
@@ -796,7 +805,7 @@ if __name__ == "__main__":
 	
 	# call official script again with shapes that have just been created
 	datacards_module._call_command([
-			"MorphingSMCP2016 --output_folder RWTH --postfix \"-2D\" --control_region=1 --mm_fit=false --ttbar_fit=true --input_folder_em RWTH --input_folder_et RWTH --input_folder_mt RWTH --input_folder_tt RWTH --input_folder_mm RWTH --input_folder_ttbar RWTH ".format(
+			"MorphingSMCP2016 --output_folder RWTH --postfix -2D --control_region=1 --no_shape_systs=true --mm_fit=false --ttbar_fit=true --input_folder_em RWTH --input_folder_et RWTH --input_folder_mt RWTH --input_folder_tt RWTH --input_folder_mm RWTH --input_folder_ttbar RWTH ".format(
 			OUTPUT_FOLDER=args.output_dir
 			),
 			args.output_dir
