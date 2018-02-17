@@ -127,7 +127,7 @@ if __name__ == "__main__":
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
 	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
 	parser.add_argument("-o", "--output-dir",
-	                    default="$CMSSW_BASE/src/CombineHarvester/output/RWTH",
+	                    default="$CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/output/RWTH",
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--output-suffix",
 	                    default="RWTH",
@@ -799,20 +799,40 @@ if __name__ == "__main__":
 			args.output_dir
 	])
 	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/RWTH")))
-	
+
 	# Create workspaces from the datacards 
-	datacards_module._call_command([
-			"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/* -o ws.root --parallel {N_PROCESSES}".format(
-			OUTPUT_SUFFIX=args.output_suffix,
-			N_PROCESSES=args.n_processes			
-			),
-			args.output_dir	
-	]) 
-	log.info("\nWorkspaces have been created in \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/*".format(
-			OUTPUT_SUFFIX=args.output_suffix
-			)
-			)))	
+	if "t2w" in args.steps:
+		datacards_module._call_command([
+				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i {{cmb,em,et,mt,tt}}/* -o ws.root --parallel {N_PROCESSES}".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				N_PROCESSES=args.n_processes			
+				),
+				args.output_dir	
+		]) 
+		log.info("\nWorkspaces have been created in \"%s\"." % os.path.join(os.path.join(args.output_dir, "/{{cmb,em,et,mt,tt}}/*".format(
+				OUTPUT_SUFFIX=args.output_suffix
+				)
+				)))	
+	# Perform likelihoodscan
+	if "likelihoodscan" in args.steps:
+		log.info("\nScanning alpha with muF=1,muV=1,alpha=0,f=0 with asimov dataset.")
+		datacards_module._call_command([
+				"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d {{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .alpha".format(
+				OUTPUT_SUFFIX=args.output_suffix		
+				),
+				args.output_dir	
+		])
+		for channel in ["cmb","em","et","mt","tt"]:
+			directory = channel+"/125/"
+			datacards_module._call_command([
+					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2})' --y-max=3.0".format(
+					INPUT_FILE=directory+"higgsCombine.alpha.MultiDimFit.mH125.root",
+					OUTPUT_FILE=directory+"alpha"	
+					),
+					args.output_dir	
+			])	 		
 	sys.exit(0)	
+	
 	
 	if "inputs" in args.steps:
 		# update CombineHarvester with the yields and shapes
