@@ -127,7 +127,7 @@ if __name__ == "__main__":
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
 	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
 	parser.add_argument("-o", "--output-dir",
-	                    default="$CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/output/RWTH",
+	                    default="$CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/",
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--output-suffix",
 	                    default="RWTH",
@@ -324,13 +324,13 @@ if __name__ == "__main__":
 	# tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	# input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 
-	tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
+	tmp_input_root_filename_template = "shapes/{OUTPUT_SUFFIX}/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root".format(OUTPUT_SUFFIX=args.output_suffix)
+	input_root_filename_template = "shapes/{OUTPUT_SUFFIX}/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root".format(OUTPUT_SUFFIX=args.output_suffix)
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
-	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
+	datacard_filename_templates = datacards.configs.cp_datacard_filename_templates
 	# if "individual" in args.combinations:
 	# 	datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
 	# if "channel" in args.combinations:
@@ -762,7 +762,7 @@ if __name__ == "__main__":
 						DST=output_file,
 						SRC=" ".join(tmp_output_files)
 				))
-			# merged_output_files.append(output_file)
+			merged_output_files.append(output_file)
 
 	if log.isEnabledFor(logging.DEBUG):
 		pprint.pprint(plot_configs) 
@@ -798,18 +798,18 @@ if __name__ == "__main__":
 			),
 			args.output_dir
 	])
-	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/RWTH")))
+	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir)))
 
 	# Create workspaces from the datacards 
 	if "t2w" in args.steps:
 		datacards_module._call_command([
-				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i {{cmb,em,et,mt,tt}}/* -o ws.root --parallel {N_PROCESSES}".format(
+				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/* -o ws.root --parallel {N_PROCESSES}".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				N_PROCESSES=args.n_processes			
 				),
 				args.output_dir	
 		]) 
-		log.info("\nWorkspaces have been created in \"%s\"." % os.path.join(os.path.join(args.output_dir, "/{{cmb,em,et,mt,tt}}/*".format(
+		log.info("\nWorkspaces have been created in \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/*".format(
 				OUTPUT_SUFFIX=args.output_suffix
 				)
 				)))	
@@ -817,32 +817,49 @@ if __name__ == "__main__":
 	if "likelihoodscan" in args.steps:
 		log.info("\nScanning alpha with muF=1,muV=1,alpha=0,f=0 with asimov dataset.")
 		datacards_module._call_command([
-				"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d {{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .alpha".format(
+				"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .alpha".format(
 				OUTPUT_SUFFIX=args.output_suffix		
 				),
 				args.output_dir	
 		])
 		for channel in ["cmb","em","et","mt","tt"]:
-			directory = channel+"/125/"
+			directory = "output/"+args.output_suffix+"/"+channel+"/125/"
 			datacards_module._call_command([
 					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2})' --y-max=3.0".format(
 					INPUT_FILE=directory+"higgsCombine.alpha.MultiDimFit.mH125.root",
 					OUTPUT_FILE=directory+"alpha"	
 					),
 					args.output_dir	
-			])	 		
-	sys.exit(0)	
+			])
+		# fit diagnostics	
+	if "prefitpostfitplots" in args.steps:
+		# https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsWG/HiggsPAGPreapprovalChecks
+		# TODO: Somehow I need provide an interface to the old prefitpost fit functions.
+		# TODO: I need a function that takes the created workspaces and datacards and wraps them up in the form of datacards_cbs and  
+		log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")	
+		directory = "/cmb/125/"
+		datacards_module._call_command([
+			"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2})' --y-max=3.0".format(
+			INPUT_FILE=directory+"higgsCombine.alpha.MultiDimFit.mH125.root",
+			OUTPUT_FILE=directory+"alpha"	
+			),
+			args.output_dir	
+			])									
+	sys.exit(0)		 			
+	
+	
 	
 	
 	if "inputs" in args.steps:
 		# update CombineHarvester with the yields and shapes
 		log.info("\n -------------------------------------- Extract shapes from histogram templates ---------------------------------")
 		datacards.extract_shapes(
-				os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
+				os.path.join(args.output_dir, input_root_filename_template.replace("$", "")).replace("output/{SUFFIX}/".format(SUFFIX=args.output_suffix), ""),
 				bkg_histogram_name_template, sig_histogram_name_template,
 				bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 				update_systematics=True
 		)
+	
 	
 	
 	# add bin-by-bin uncertainties
