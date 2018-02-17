@@ -286,6 +286,7 @@ class Datacards(object):
 		self.cb.cp().ForEachObs(_replace_observation_by_asimov_dataset)
 
 	def write_datacards(self, datacard_filename_template, root_filename_template, output_directory="."):
+		# http://cms-analysis.github.io/CombineHarvester/classch_1_1_card_writer.html#details
 		writer = ch.CardWriter(os.path.join("$TAG", datacard_filename_template),
 		                       os.path.join("$TAG", root_filename_template))
 		if log.isEnabledFor(logging.DEBUG):
