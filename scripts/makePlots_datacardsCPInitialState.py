@@ -127,7 +127,7 @@ if __name__ == "__main__":
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
 	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
 	parser.add_argument("-o", "--output-dir",
-	                    default="$CMSSW_BASE/src/plots/htt_datacards/",
+	                    default="$CMSSW_BASE/src/CombineHarvester/output/RWTH",
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
@@ -808,13 +808,14 @@ if __name__ == "__main__":
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
 	# call official script again with shapes that have just been created
+	# this steps creates the filled datacards in the output folder. 
 	datacards_module._call_command([
 			"MorphingSMCP2016 --output_folder RWTH --postfix -2D --control_region=1 --no_shape_systs=true --mm_fit=false --ttbar_fit=true --input_folder_em RWTH --input_folder_et RWTH --input_folder_mt RWTH --input_folder_tt RWTH --input_folder_mm RWTH --input_folder_ttbar RWTH ".format(
 			OUTPUT_FOLDER=args.output_dir
 			),
 			args.output_dir
 	])
-	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "shapes/RWTH")))
+	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/RWTH")))
 	sys.exit(0)	
 	
 	if "inputs" in args.steps:
