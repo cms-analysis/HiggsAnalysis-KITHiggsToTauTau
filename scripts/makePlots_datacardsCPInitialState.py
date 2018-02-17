@@ -185,7 +185,11 @@ if __name__ == "__main__":
 		sys.exit(1)
 	
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
-	if args.clear_output_dir and os.path.exists(args.output_dir) and "plots/htt_datacards" in args.output_dir:
+	if args.clear_output_dir:
+		clear_output_dir = raw_input("Do you really want to clear the output directory? [yes]").lower() == "yes"
+		if not clear_output_dir:
+			log.info("Terminate. Remove the clear_output_dir option and run the programm again.")
+			sys.exit(1)
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 	
 	# initialisations for plotting
