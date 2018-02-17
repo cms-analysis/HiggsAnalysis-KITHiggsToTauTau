@@ -129,6 +129,9 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/CombineHarvester/output/RWTH",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("--output-suffix",
+	                    default="RWTH",
+	                    help="Output folder within output directory. [Default: %(default)s]")						
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--scale-lumi", default=False,
@@ -222,7 +225,7 @@ if __name__ == "__main__":
 	if args.get_official_dc:
 		# get "official" configuration
 		init_directory = os.path.join(args.output_dir, "init")
-		command = "MorphingSMCP2016 --control_region=1 --postfix='-2D' --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
+		command = "MorphingSMCP2016 --control_region=1 --postfix -2D --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
 		log.debug(command)
 		exit_code = logger.subprocessCall(shlex.split(command))
 		assert(exit_code == 0)
@@ -812,12 +815,25 @@ if __name__ == "__main__":
 	# call official script again with shapes that have just been created
 	# this steps creates the filled datacards in the output folder. 
 	datacards_module._call_command([
-			"MorphingSMCP2016 --output_folder RWTH --postfix -2D --control_region=1 --no_shape_systs=true --mm_fit=false --ttbar_fit=true --input_folder_em RWTH --input_folder_et RWTH --input_folder_mt RWTH --input_folder_tt RWTH --input_folder_mm RWTH --input_folder_ttbar RWTH ".format(
-			OUTPUT_FOLDER=args.output_dir
+			"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --control_region=1 --no_shape_systs=true --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
+			OUTPUT_SUFFIX=args.output_suffix
 			),
 			args.output_dir
 	])
 	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/RWTH")))
+	
+	# Create workspaces from the datacards 
+	datacards_module._call_command([
+			"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/* -o ws.root --parallel {N_PROCESSES}".format(
+			OUTPUT_SUFFIX=args.output_suffix,
+			N_PROCESSES=args.n_processes			
+			),
+			args.output_dir	
+	]) 
+	log.info("\nWorkspaces have been created in \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/*".format(
+			OUTPUT_SUFFIX=args.output_suffix
+			)
+			)))	
 	sys.exit(0)	
 	
 	if "inputs" in args.steps:
