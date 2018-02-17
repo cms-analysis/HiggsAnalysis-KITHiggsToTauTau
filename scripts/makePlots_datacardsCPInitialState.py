@@ -480,8 +480,10 @@ if __name__ == "__main__":
 			
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		
-		if channel in ["em", "ttbar"]:
+		if channel in ["ttbar"]:
 			datacards.configs._mapping_process2sample["ZL"] = "zll"
+		elif channel in ["em"]:
+			datacards.configs._mapping_process2sample["ZLL"] = "zll"	
 		else:
 			datacards.configs._mapping_process2sample["ZL"] = "zl"
 		
