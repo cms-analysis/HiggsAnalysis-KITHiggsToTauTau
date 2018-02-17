@@ -522,14 +522,10 @@ if __name__ == "__main__":
 			sys.exit(1)
 				
 		# restrict CombineHarvester to configured categories:
-		# print(datacards.cb.process_set())
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
-	 	# print(datacards.cb.process_set())
 		log.info("Building configs for channel = {channel}, categories = {categories}".format(channel=channel, categories=str(categories)))
 		for official_category in categories:			
 			category = official2private(official_category, category_replacements)	
-			print(category)
-			# print(datacards.cb.process_set())
 			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))	
 			
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
@@ -557,12 +553,10 @@ if __name__ == "__main__":
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			#merged_output_files.append(output_file)
 				
-			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
-				# print(shape_systematic, list_of_samples)
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():	
 				nominal = (shape_systematic == "nominal")
-				#list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
 				list_of_samples = [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
-				# print(list_of_samples)
+
 				# This is needed because wj and qcd are interdependent when using the new background estimation method
 				# NB: CH takes care to only use the templates for processes that you specified. This means that any
 				#     superfluous histograms created as a result of this problem do not influence the result
@@ -642,7 +636,7 @@ if __name__ == "__main__":
 					
 					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" not in category:	
 						binnings_key = "tt_jdphi"
-						#print(binnings_key)
+
 					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" in category:
 						binnings_key = "tt_melaDiscriminatorD0Minus"
 					elif args.cp_study == "final":
@@ -657,7 +651,6 @@ if __name__ == "__main__":
 						else:
 							log.fatal("binnings key " + binnings_key + " not found in binnings_dict!")
 							sys.exit()
-						#print([binnings_settings.binnings_dict[binnings_key]])
 						config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
 					# define quantities and binning for control regions
 					if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
@@ -681,10 +674,8 @@ if __name__ == "__main__":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 					if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr"]) and channel == "tt":
-						print("------------")
 						config["x_expressions"] = ["jdphi"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
-						print(config["x_bins"])
 					
 					# Use 2d plots for 2d categories
 					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
@@ -721,19 +712,7 @@ if __name__ == "__main__":
 						if "Vbf3D" in category and channel != "mm" and "mela" in category:
 							config["z_expressions"] = ["melaDiscriminatorD0MinusGGH"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]
-							
-					# elif (binnings_key  not in binnings_settings.binnings_dict) or args.x_bins == None:
-					# 	# print(binnings_key)
-					# 	config["x_bins"] = [binnings_key]
-					# elif args.x_bins != None:
-					# 	config["x_bins"] = [args.x_bins]
-					# else:
-					# 	log.fatal("binnings key " + binnings_key + " not found in binnings_dict! Available binnings are (see HiggsAnalysis/KITHiggsToTauTau/python/plotting/configs/binnings.py):")
-					# 	for key in binnings_settings.binnings_dict:
-					# 		log.debug(key)
-					# 	sys.exit()
-					print("------------")
-					print(config["x_bins"])
+
 					# set quantity x depending on the category
 					if args.cp_study == "final":
 						if all(["RHOmethod" in c for c in categories]):
@@ -753,8 +732,7 @@ if __name__ == "__main__":
 						config["unroll_ordering"] = "zyx"
 
 					config["directories"] = [args.input_dir]
-					# print(config['x_bins'])
-					# print(config['x_expressions'])
+
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
 							PROCESS=datacards.configs.sample2process(sample),
