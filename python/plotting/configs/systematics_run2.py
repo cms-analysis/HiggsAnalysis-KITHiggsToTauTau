@@ -154,7 +154,56 @@ class SystematicShiftBase(object):
 		
 		return plot_config
 
-
+# class GGHSTXSVBF2jSystematic(SystematicShiftBase):
+# 
+# 	def __init__(self, plot_config, category):
+# 		super(GGHSTXSVBF2jSystematic, self).__init__(plot_config)
+# 		self.plot_config = plot_config
+# 		self.channel = category.split("_")[0]
+# 		self.category = category.split("_")[1]
+# 
+# 	def get_config(self, shift=0.0):
+# 		plot_config = super(GGHSTXSVBF2jSystematic, self).get_config(shift=shift)
+# 
+# 		w = "(1.0)"
+# 		if any(cat == args.category for cat in ["dijet_boosted", "dijet_lowM", "dijet_highM", "dijet_lowMjj"]):
+# 			w = "1.2"
+# 
+# 		for index, weight in enumerate(plot_config.get("weights", [])):
+# 			if not "Run201" in plot_config["files"][index]:
+# 				if shift > 0.0:
+# 					plot_config["weights"][index] = weight+"*"+w
+# 				elif shift < 0.0:
+# 					plot_config["weights"][index] = weight+"*(2-"+w+")"	
+# 
+# 		return plot_config
+# 
+# class GGHSTXSmig12Systematic(SystematicShiftBase):
+# 
+# 	def __init__(self, plot_config, category):
+# 		super(GGHSTXSmig12Systematic, self).__init__(plot_config)
+# 		self.plot_config = plot_config
+# 		self.channel = category.split("_")[0]
+# 		self.category = category.split("_")[1]
+# 
+# 	def get_config(self, shift=0.0):
+# 		plot_config = super(GGHSTXSmig12Systematic, self).get_config(shift=shift)
+# 
+# 		w = "(1.0)"
+# 		if args.category == "Boosted2D":
+# 			w = "(0.932)"
+# 		if any(cat in args.category for cat in ["dijet_boosted", "dijet_lowM", "dijet_highM", "dijet_lowMjj"]):
+# 			w = "(1.161)"
+# 
+# 		for index, weight in enumerate(plot_config.get("weights", [])):
+# 			if not "Run201" in plot_config["files"][index]:
+# 				if shift > 0.0:
+# 					plot_config["weights"][index] = weight+"*"+w
+# 				elif shift < 0.0:
+# 					plot_config["weights"][index] = weight+"*(2-"+w+")"	
+# 
+# 		return plot_config		
+		
 class GGHRenormalizationScaleSystematic(SystematicShiftBase):
 	
 	def __init__(self, plot_config, category):
