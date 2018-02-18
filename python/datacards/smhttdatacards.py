@@ -342,7 +342,10 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_0jet_13TeV", "shape", ch.SystMap()(1.0))			
 			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_boosted_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Vbf2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_vbf_13TeV", "shape", ch.SystMap()(1.0))
-
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_boosted" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_boosted_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_lowM" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_lowM_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_highM" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_highM_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_lowMjj" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_lowMjj_13TeV", "shape", ch.SystMap()(1.0))
 			# W+jets high->low mt extrapolation uncertainty
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WHighMTtoLowMT_0jet_syst_args)
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WHighMTtoLowMT_boosted_syst_args)

@@ -114,8 +114,20 @@ class SystematicsFactory(dict):
 		self["WSFUncert_et_boosted_13TeV"] = Nominal
 		self["WSFUncert_mt_vbf_13TeV"] = Nominal
 		self["WSFUncert_et_vbf_13TeV"] = Nominal
+		self["WSFUncert_mt_dijet_boosted_13TeV"] = Nominal
+		self["WSFUncert_et_dijet_boosted_13TeV"] = Nominal	
+		self["WSFUncert_mt_dijet_lowM_13TeV"] = Nominal
+		self["WSFUncert_et_dijet_lowM_13TeV"] = Nominal	
+		self["WSFUncert_mt_dijet_highM_13TeV"] = Nominal
+		self["WSFUncert_et_dijet_highM_13TeV"] = Nominal	
+		self["WSFUncert_mt_dijet_lowMjj_13TeV"] = Nominal
+		self["WSFUncert_et_dijet_lowMjj_13TeV"] = Nominal								
 		self["WSFUncert_lt_13TeV"] = Nominal
 		self["CMS_htt_zmumuShape_VBF_13TeV"] = Nominal
+		
+		# TODO: Where are these systematics to be implemented?
+		self["CMS_ggH_STXSVBF2j"] = Nominal
+		self["CMS_ggH_STXSmig12"] = Nominal	
 	
 	def get(self, key, default_value=None):
 		value = super(SystematicsFactory, self).get(key, default_value)
