@@ -457,7 +457,30 @@ class SystematicLibary(object):
 		]
 	
 		##-------------------------------Uncategorized-------------------------------##
+		
+		self.CMS_ggH_STXSVBF2j_syst_args = [
+			"CMS_ggH_STXSVBF2j",
+			"lnN",
+			ch.SystMap("bin", "process")
+				(["em_ZeroJet2D"], ["ggH"], 1.000)
+				(["em_Boosted2D"], ["ggH"], 1.000)
+				(["em_dijet_boosted"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.2)
+				(["em_dijet_lowM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.2)
+				(["em_dijet_highM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.2)
+				(["em_dijet_lowMjj"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.2)
 
+				(["et_ZeroJet2D"], ["ggH"], 1.000)
+				(["et_Boosted2D"], ["ggH"], 1.000)
+				(["et_Vbf2D"], ["ggH"], 1.2)
+				
+				(["mt_ZeroJet2D"], ["ggH"], 1.000)
+				(["mt_Boosted2D"], ["ggH"], 1.000)
+				(["mt_Vbf2D"], ["ggH"], 1.2)
+				
+				(["tt_ZeroJet2D"], ["ggH"], 1.000)
+				(["tt_Boosted2D"], ["ggH"], 1.000)
+				(["tt_Vbf2D"], ["ggH"], 1.2) 								
+		]
 		self.htt_ueps_smhtt_syst_args = [
 			"CMS_$PROCESS_UEPS",
 			"lnN",
