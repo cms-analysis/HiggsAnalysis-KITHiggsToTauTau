@@ -157,7 +157,7 @@ if __name__ == "__main__":
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")											
 	parser.add_argument("--steps", nargs="+",
 	                    default=["inputs", "t2w", "likelihoodscan"],
-	                    choices=["inputs", "t2w", "likelihoodscan"],
+	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots"],
 	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
@@ -324,8 +324,8 @@ if __name__ == "__main__":
 	# tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	# input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
 
-	tmp_input_root_filename_template = "shapes/{OUTPUT_SUFFIX}/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root".format(OUTPUT_SUFFIX=args.output_suffix)
-	input_root_filename_template = "shapes/{OUTPUT_SUFFIX}/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root".format(OUTPUT_SUFFIX=args.output_suffix)
+	tmp_input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
@@ -782,7 +782,7 @@ if __name__ == "__main__":
 		log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------")
 		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	
-	if args.n_plots[0] != 0:
+	if args.n_plots[0] != 0 and "inputs" in args.steps:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	if args.debug_plots:
 		debug_plot_configs = []
@@ -793,13 +793,28 @@ if __name__ == "__main__":
 	# call official script again with shapes that have just been created
 	# this steps creates the filled datacards in the output folder. 
 	datacards_module._call_command([
-			"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --control_region=1 --no_shape_systs=true --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
+			"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --control_region=1 --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
 			OUTPUT_SUFFIX=args.output_suffix
 			),
 			args.output_dir
 	])
 	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir)))
-
+		
+	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/cmb/125/"
+	official_cb = ch.CombineHarvester()
+	for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):			
+		official_cb.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
+	
+	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
+			cb=official_cb,
+			higgs_masses=args.higgs_masses,
+			year=args.era,
+			cp_study=args.cp_study
+	)
+	# datacards_cbs = {}
+	# for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):
+	# 	datacards_cbs.update()
+	
 	# Create workspaces from the datacards 
 	if "t2w" in args.steps:
 		datacards_module._call_command([
@@ -813,6 +828,9 @@ if __name__ == "__main__":
 				OUTPUT_SUFFIX=args.output_suffix
 				)
 				)))	
+				
+	
+						
 	# Perform likelihoodscan
 	if "likelihoodscan" in args.steps:
 		log.info("\nScanning alpha with muF=1,muV=1,alpha=0,f=0 with asimov dataset.")
@@ -831,20 +849,56 @@ if __name__ == "__main__":
 					),
 					args.output_dir	
 			])
+			
+	datacards_cbs = {datacards_path+"htt_tt_4_13TeV.txt" : datacards.cb.cp()}		
+	datacards_workspaces_alpha = {datacards_path+"htt_tt_4_13TeV.txt" : datacards_path+"ws.root"}
+	
+	datacards_poi_ranges = {}
+	for datacard, cb in datacards_cbs.iteritems():
+		channels = cb.channel_set()
+		categories = cb.bin_set()
+		if len(channels) == 1:
+			if len(categories) == 1:
+				datacards_poi_ranges[datacard] = [-100.0, 100.0]
+			else:
+				datacards_poi_ranges[datacard] = [-50.0, 50.0]
+		else:
+			if len(categories) == 1:
+				datacards_poi_ranges[datacard] = [-50.0, 50.0]
+			else:
+				datacards_poi_ranges[datacard] = [-25.0, 25.0]	
+							
 		# fit diagnostics	
 	if "prefitpostfitplots" in args.steps:
 		# https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsWG/HiggsPAGPreapprovalChecks
 		# TODO: Somehow I need provide an interface to the old prefitpost fit functions.
 		# TODO: I need a function that takes the created workspaces and datacards and wraps them up in the form of datacards_cbs and  
 		log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")	
-		directory = "/cmb/125/"
-		datacards_module._call_command([
-			"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2})' --y-max=3.0".format(
-			INPUT_FILE=directory+"higgsCombine.alpha.MultiDimFit.mH125.root",
-			OUTPUT_FILE=directory+"alpha"	
-			),
-			args.output_dir	
-			])									
+		datacards.combine(datacards_cbs, datacards_workspaces_alpha, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"", higgs_mass="125")	
+		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_alpha, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
+		
+		# divide plots by bin width and change the label correspondingly
+		if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
+			args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
+		if args.quantity == "m_vis" and not(do_not_normalize_by_bin_width):
+			args.args += " --y-label 'dN / dm_{vis}  (1 / GeV)'"
+		if args.quantity == "jdphi" and not(do_not_normalize_by_bin_width):
+			args.args += " --y-label 'dN / d#Delta#phi_{jj}'"	
+
+		# adapt prefit and postfit plot configs
+		backgrounds_to_merge = {
+			"ZLL" : ["ZL", "ZJ"],
+			"TT" : ["TTT", "TTJJ"],
+			"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
+		}
+		# prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes)
+		# datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
+		# if "nuisanceimpacts" in args.steps:
+		# 	datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_alpha, args.n_processes, higgs_mass="125")
+        # 
+		# higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+        # 
+										
 	sys.exit(0)		 			
 	
 	
