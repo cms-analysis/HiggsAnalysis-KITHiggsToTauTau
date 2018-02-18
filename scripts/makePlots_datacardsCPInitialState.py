@@ -660,7 +660,6 @@ if __name__ == "__main__":
 						if channel in ["mt", "et"]:
 							config["x_expressions"] = ["m_vis"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
-							log.info("ZeroJet2D QCd Control region: binningHtt13TeV_"+category+"_m_vis")
 						elif channel == "tt":
 							config["x_expressions"] = ["m_sv"]
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
@@ -793,8 +792,9 @@ if __name__ == "__main__":
 	# call official script again with shapes that have just been created
 	# this steps creates the filled datacards in the output folder. 
 	datacards_module._call_command([
-			"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --control_region=1 --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
-			OUTPUT_SUFFIX=args.output_suffix
+			"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} --control_region=1 --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
+			OUTPUT_SUFFIX=args.output_suffix,
+			SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else ""
 			),
 			args.output_dir
 	])
