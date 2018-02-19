@@ -553,7 +553,7 @@ if __name__ == "__main__":
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			#merged_output_files.append(output_file)
 				
-			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():	
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"]).iteritems():	
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
 

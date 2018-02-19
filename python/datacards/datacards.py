@@ -104,7 +104,7 @@ class Datacards(object):
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 
-	def get_samples_per_shape_systematic(self, channel=None, category=None):
+	def get_samples_per_shape_systematic(self, channel=None, category=None, **kwargs):
 		cb = self.cb
 		if not channel is None:
 			if isinstance(channel, basestring):
@@ -127,6 +127,11 @@ class Datacards(object):
 		# There are systematics, which can have a mixed type of lnN/shape, where CH returns only lnN as type. Such which values 1.0 and 0.0 are assumed to be shape uncertainties.
 		cbOnlyShapeUncs = cb.cp()
 		cbOnlyShapeUncs.FilterSysts(lambda systematic : (systematic.value_u() != 1.0) or (systematic.value_d() != 0.0))
+		# Some uncertainties which are indeed lnN are not filter with the command above. It can be avoided to transform them into shape type 
+		# by passing a list of these systematics in the args of this function.
+		if "lnN_syst" in kwargs:
+			cbOnlyShapeUncs.FilterSysts(lambda systematic : systematic not in kwargs["lnN_syst"])
+			log.warning("Combine did not convert the systematic uncertainties in {UNC} of type lnN to shape although they have the signature of a mixed type uncertainty. Was this intended?".format(UNC=kwargs["lnN_syst"]))
 		for shape_systematic in cbOnlyShapeUncs.syst_name_set():
 			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cbOnlyShapeUncs.cp().syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
 		
