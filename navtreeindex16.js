@@ -1,12 +1,5 @@
 var NAVTREEINDEX16 =
 {
-"makePlots__datacardsMVATest_8py.html#a4e6653c7416a4b1ec970ec94726b83aa":[2,0,2,40,14],
-"makePlots__datacardsMVATest_8py.html#a5075e17ad72ae29c3768a3369742c63d":[2,0,2,40,52],
-"makePlots__datacardsMVATest_8py.html#a5a8d60e88c83d3d542129437a1ba70aa":[2,0,2,40,3],
-"makePlots__datacardsMVATest_8py.html#a5eb7af585b6d3692c25542f572bf9e82":[2,0,2,40,42],
-"makePlots__datacardsMVATest_8py.html#a6e349e4af811d43564e8e39b56b1927e":[2,0,2,40,27],
-"makePlots__datacardsMVATest_8py.html#a6fbb6a90c56daa328dfc8e6f8e4b1153":[2,0,2,40,34],
-"makePlots__datacardsMVATest_8py.html#a719f0ba0ff3c3e005b1bb7dc0b64bf43":[2,0,2,40,50],
 "makePlots__datacardsMVATest_8py.html#a7547f10b1aca6137e78b92842811f85a":[2,0,2,40,22],
 "makePlots__datacardsMVATest_8py.html#a7d862d846b9d7168a3d3d10df3f338b8":[2,0,2,40,32],
 "makePlots__datacardsMVATest_8py.html#a8f1f676ba5d52be73ce5a636c118a0f4":[2,0,2,40,38],
@@ -249,5 +242,12 @@ var NAVTREEINDEX16 =
 "makePlots__datacardsSMHtt__nDim_8py.html#aa22f48a0849a544ecf8e67f6e0ef2b2f":[2,0,2,44,29],
 "makePlots__datacardsSMHtt__nDim_8py.html#aa2cf4c4b6355d9b8ed7798bcdc514217":[2,0,2,44,17],
 "makePlots__datacardsSMHtt__nDim_8py.html#aa371369be6c5981d1e440f306203670e":[2,0,2,44,54],
-"makePlots__datacardsSMHtt__nDim_8py.html#aa5b2ddd49e2da48c1b5889793fca10c6":[2,0,2,44,27]
+"makePlots__datacardsSMHtt__nDim_8py.html#aa5b2ddd49e2da48c1b5889793fca10c6":[2,0,2,44,27],
+"makePlots__datacardsSMHtt__nDim_8py.html#aa82cc4deab9993224d5441ed5a0066cc":[2,0,2,44,35],
+"makePlots__datacardsSMHtt__nDim_8py.html#ab1ba2b01cc4861ddab37b3d075f89a73":[2,0,2,44,48],
+"makePlots__datacardsSMHtt__nDim_8py.html#ab57c3648a0bf97f0641dff924da7f591":[2,0,2,44,58],
+"makePlots__datacardsSMHtt__nDim_8py.html#abd23f8eee0fd1c36a3baf77f6d8e6f7a":[2,0,2,44,5],
+"makePlots__datacardsSMHtt__nDim_8py.html#abe26cf692fa9d4aebaad92347fd81a9e":[2,0,2,44,1],
+"makePlots__datacardsSMHtt__nDim_8py.html#abea947cb88c452cb368bb19572da7179":[2,0,2,44,57],
+"makePlots__datacardsSMHtt__nDim_8py.html#ad3abfaca725c7ee45081dec6cfab3765":[2,0,2,44,37]
 };

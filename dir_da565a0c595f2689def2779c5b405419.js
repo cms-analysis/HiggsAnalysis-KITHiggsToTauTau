@@ -42,7 +42,7 @@ var dir_da565a0c595f2689def2779c5b405419 =
     [ "SimpleEleTauFakeRateWeightProducer.cc", "SimpleEleTauFakeRateWeightProducer_8cc.html", null ],
     [ "SimpleFitProducer.cc", "SimpleFitProducer_8cc.html", null ],
     [ "SimpleMuTauFakeRateWeightProducer.cc", "SimpleMuTauFakeRateWeightProducer_8cc.html", null ],
-    [ "SvfitProducer.cc", "SvfitProducer_8cc.html", null ],
+    [ "SvfitProducers.cc", "SvfitProducers_8cc.html", null ],
     [ "TagAndProbePairProducer.cc", "TagAndProbePairProducer_8cc.html", null ],
     [ "TaggedJetUncertaintyShiftProducer.cc", "TaggedJetUncertaintyShiftProducer_8cc.html", null ],
     [ "TauSpinnerProducer.cc", "TauSpinnerProducer_8cc.html", "TauSpinnerProducer_8cc" ],

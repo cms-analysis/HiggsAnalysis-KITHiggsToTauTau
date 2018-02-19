@@ -1,12 +1,5 @@
 var NAVTREEINDEX18 =
 {
-"makePlots__datacardsZttEfficiency_8py.html#a341ab09f0a9d6c87217fe72f8dafda1c":[2,0,2,47,45],
-"makePlots__datacardsZttEfficiency_8py.html#a360ec5bda5ed4f81477d78c3680378cd":[2,0,2,47,43],
-"makePlots__datacardsZttEfficiency_8py.html#a37695b9c41804b1a9a63e9236475de5b":[2,0,2,47,42],
-"makePlots__datacardsZttEfficiency_8py.html#a38117d6f5bc1b7478dd8aba536969cd3":[2,0,2,47,39],
-"makePlots__datacardsZttEfficiency_8py.html#a4456adf086b83581020978e4f9c43c18":[2,0,2,47,40],
-"makePlots__datacardsZttEfficiency_8py.html#a45ca762ec7007b67f1a3d83e9195274c":[2,0,2,47,6],
-"makePlots__datacardsZttEfficiency_8py.html#a4cd1ac5f4a7ef2176b881b98c128aa5a":[2,0,2,47,5],
 "makePlots__datacardsZttEfficiency_8py.html#a4cd61df7e9f31536a1f5a3533f53c7c7":[2,0,2,47,56],
 "makePlots__datacardsZttEfficiency_8py.html#a53daab92371e61cfceaabfb7610155d5":[2,0,2,47,55],
 "makePlots__datacardsZttEfficiency_8py.html#a57ccef5f9b88873827eba20b4b68b6b8":[2,0,2,47,10],
@@ -249,5 +242,12 @@ var NAVTREEINDEX18 =
 "makePlots__genCPPlots__reco_8py.html#a28001605aa1f2dcf70a33d5fb4c3dc84":[2,0,2,54,10],
 "makePlots__genCPPlots__reco_8py.html#a3c821283d00eb43fc25aa2ecd238910d":[2,0,2,54,15],
 "makePlots__genCPPlots__reco_8py.html#a3e64858564a0c8fbc431c7fcd2bf2702":[2,0,2,54,17],
-"makePlots__genCPPlots__reco_8py.html#a52dcd9b728aef9ebd28df36f2c94959f":[2,0,2,54,3]
+"makePlots__genCPPlots__reco_8py.html#a52dcd9b728aef9ebd28df36f2c94959f":[2,0,2,54,3],
+"makePlots__genCPPlots__reco_8py.html#a5e974f65e3691a3d6774ec220327ce9a":[2,0,2,54,11],
+"makePlots__genCPPlots__reco_8py.html#a7690bf528f9305c8c6af1bcf236c024b":[2,0,2,54,23],
+"makePlots__genCPPlots__reco_8py.html#a7ab1f6165367a819668b36b9c407a269":[2,0,2,54,21],
+"makePlots__genCPPlots__reco_8py.html#a838690a36c63e57ac57e8e4e041b7bec":[2,0,2,54,4],
+"makePlots__genCPPlots__reco_8py.html#a84df91418373e04952b12d827a1792b3":[2,0,2,54,9],
+"makePlots__genCPPlots__reco_8py.html#a854628a299c0b4c635886b62b14cb5fb":[2,0,2,54,22],
+"makePlots__genCPPlots__reco_8py.html#a965bcd010829fd378abd25b853385dad":[2,0,2,54,8]
 };
