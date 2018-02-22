@@ -527,8 +527,8 @@ class CategoriesDict(object):
 					"global": {
 						"_mjj": auto_rebin_binning,
 						"_m_sv": auto_rebin_binning,
-						"_melaDiscriminatorD0MinusGGH": auto_rebin_binning,
-						"_melaDiscriminatorDCPGGH": auto_rebin_binning,
+						"_TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH": auto_rebin_binning,
+
 						},
 					"mm_": {
 						"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
@@ -536,26 +536,22 @@ class CategoriesDict(object):
 					"mt_": {
 						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
 						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
-						"_melaDiscriminatorD0MinusGGH":"4,0,1",
-						"_melaDiscriminatorDCPGGH":"2,-1,1",
+						"_TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH":"8,-1,1",
 						},
 					"et_": {
 						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
 						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
-						"_melaDiscriminatorD0MinusGGH":"4,0,1",
-						"_melaDiscriminatorDCPGGH":"2,-1,1",
+						"_TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH": "8,-1,1",
 						},
 					"em_": {
 						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
 						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
-						"_melaDiscriminatorD0MinusGGH":"4,0,1",
-						"_melaDiscriminatorDCPGGH":"2,-1,1",
+						"_TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH": "8,-1,1",
 						},
 					"tt_": {
 						"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
 						"_m_sv":" ".join([str(float(f)) for f in [0, 100, 400]]),
-						"_melaDiscriminatorD0MinusGGH":"4,0,1",
-						"_melaDiscriminatorDCPGGH":"2,-1,1",
+						"_TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH": "8,-1,1",
 						}
 					}
 				}
