@@ -296,7 +296,7 @@ if __name__ == "__main__":
 				year=args.era,
 				cp_study=args.cp_study
 		)
-	
+		
 		datacards.configs._mapping_process2sample = {
 			"data_obs" : "data",
 			"ZTT" : "ztt",
@@ -465,7 +465,8 @@ if __name__ == "__main__":
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
 		
 	#restriction to requested masses
-	datacards.cb.mass(args.higgs_masses)
+	if args.get_official_dc:
+		datacards.cb.mass(args.higgs_masses)
 
 	#restriction to requested channels
 	if args.channel != parser.get_default("channel"):
@@ -482,22 +483,22 @@ if __name__ == "__main__":
 			datacards.cb.PrintSysts()
 			
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
-		
-		if channel in ["ttbar"]:
-			datacards.configs._mapping_process2sample["ZL"] = "zll"
-		elif channel in ["em"]:
-			datacards.configs._mapping_process2sample["ZLL"] = "zll"	
-		else:
-			datacards.configs._mapping_process2sample["ZL"] = "zl"
-		
-		if channel in ["et", "mt", "tt"]:
-			datacards.configs._mapping_process2sample.pop("TT", None)
-			datacards.configs._mapping_process2sample["TTT"]= "ttt"
-			datacards.configs._mapping_process2sample["TTJ"]= "ttjj"			
-		else:
-			datacards.configs._mapping_process2sample["TT"] = "ttj"
-			datacards.configs._mapping_process2sample.pop("TTT")
-			datacards.configs._mapping_process2sample.pop("TTJ")
+		if args.get_official_dc:
+			if channel in ["ttbar"]:
+				datacards.configs._mapping_process2sample["ZL"] = "zll"
+			elif channel in ["em"]:
+				datacards.configs._mapping_process2sample["ZLL"] = "zll"	
+			else:
+				datacards.configs._mapping_process2sample["ZL"] = "zl"
+
+			if channel in ["et", "mt", "tt"] :
+				datacards.configs._mapping_process2sample.pop("TT", None)
+				datacards.configs._mapping_process2sample["TTT"]= "ttt"
+				datacards.configs._mapping_process2sample["TTJ"]= "ttjj"			
+			else:
+				datacards.configs._mapping_process2sample["TT"] = "ttj"
+				datacards.configs._mapping_process2sample.pop("TTT")
+				datacards.configs._mapping_process2sample.pop("TTJ")
 			
 		tmp_output_files = []
 		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
@@ -525,9 +526,9 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		log.info("Building configs for channel = {channel}, categories = {categories}".format(channel=channel, categories=str(categories)))
 		for official_category in categories:			
-			category = official2private(official_category, category_replacements)	
+			category = official2private(official_category, category_replacements)
 			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))	
-			
+
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			if "TTbarCR" in category and channel == "ttbar":
 				exclude_cuts += ["pzeta"]
@@ -552,10 +553,10 @@ if __name__ == "__main__":
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			#merged_output_files.append(output_file)
-				
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"]).iteritems():	
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
+
 
 				# This is needed because wj and qcd are interdependent when using the new background estimation method
 				# NB: CH takes care to only use the templates for processes that you specified. This means that any
@@ -590,7 +591,6 @@ if __name__ == "__main__":
 					if "zmumuShape_VBF" in shape_systematic:
 						#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1]+("_Up" if shift_up else "_Down"),"(1.0)")
 						zmm_cr_factor = zmm_cr_factors_official.get(category+("_Up" if shift_up else "_Down"),"(1.0)")
-					
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
@@ -639,10 +639,13 @@ if __name__ == "__main__":
 
 					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" in category:
 						binnings_key = "tt_melaDiscriminatorD0Minus"
+					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" in category and "Vbf4D" in category:
+						binnings_key = "tt_melaDiscriminatorD0Minus_signDCP"
 					elif args.cp_study == "final":
 						binnings_key = "tt_phiStarCP"
+					
 						
-					if "2D" not in category and not any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "ttbar"]):
+					if "2D" not in category and not any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "ttbar", "Vbf4D_mela_GGH"]):
 						binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
 						if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 							config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
@@ -694,7 +697,7 @@ if __name__ == "__main__":
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
-					elif ("Vbf2D" in category or "Vbf3D" in category) and not "QCDCR" in category:
+					elif ("Vbf2D" in category or "Vbf3D" in category or "Vbf4D" in category) and not "QCDCR" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
@@ -712,6 +715,10 @@ if __name__ == "__main__":
 							config["z_expressions"] = ["melaDiscriminatorD0MinusGGH"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]
 
+						if "Vbf4D" in category and channel != "mm" and "mela" in category:
+							config["z_expressions"] = ["TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH"]
+							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH"]]
+
 					# set quantity x depending on the category
 					if args.cp_study == "final":
 						if all(["RHOmethod" in c for c in categories]):
@@ -725,7 +732,7 @@ if __name__ == "__main__":
 							raise ValueError("You shall not pass different types of category (COMB and RHO) to the same channel. Repeat the channel for the each type of category.")
 
 					# Unroll 2d distribution to 1d in order for combine to fit it
-					if ("2D" in category or "3D" in category) and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and "ZeroJet2D" in category):
+					if ("2D" in category or "3D" in category or "Vbf4D" in category) and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and "ZeroJet2D" in category):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollHistogram")
 						config["unroll_ordering"] = "zyx"
@@ -738,7 +745,6 @@ if __name__ == "__main__":
 							BIN=official_category,
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
-					
 					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 							ANALYSIS="htt",
 							CHANNEL=channel,
@@ -752,7 +758,6 @@ if __name__ == "__main__":
 				
 					config["plot_modules"] = ["ExportRoot"]
 					config["file_mode"] = "UPDATE"
-						
 					if "legend_markers" in config:
 						config.pop("legend_markers")
 					plot_configs.append(config)		

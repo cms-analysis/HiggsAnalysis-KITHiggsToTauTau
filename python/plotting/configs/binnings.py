@@ -134,6 +134,8 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "2,-1.0,1.0"
 			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "4,0.0,1.0"
 			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "2,-1.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"] = "8,-1.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"] = "8,-1.0,1.0"
 		
 		self.binnings_dict["mt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["mt_eta_1"] = "30,-3,3"
