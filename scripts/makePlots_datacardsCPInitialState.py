@@ -60,7 +60,7 @@ def matching_process(obj1, obj2):
 	return matches	
 	
 def is_control_region(obj):
-	return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "TTbarCR" in obj.bin() or obj.channel() == "mm")	
+	return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "qcd_cr" in obj.bin() or "TTbarCR" in obj.bin() or obj.channel() == "mm")	
 	
 def remove_procs_and_systs_with_zero_yield(proc):
 	# TODO: find out why zero yield should be ok in control regions. until then remove them
@@ -240,7 +240,8 @@ if __name__ == "__main__":
 				year=args.era,
 				cp_study=args.cp_study
 		)
-		
+		datacards.lnN2shape(is_lnN=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"])
+
 		# The processes have different names in the official SM datacards
 		# So this workaround is needed to match the right processes
 		datacards.configs._mapping_process2sample = {
@@ -463,10 +464,14 @@ if __name__ == "__main__":
 	]
 	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
-		
+	
+	#restriction to requested systematics
+	if args.no_shape_uncs:
+		datacards.remove_shape_uncertainties()		
 	#restriction to requested masses
+
 	if args.get_official_dc:
-		datacards.cb.mass(args.higgs_masses)
+		datacards.cb.mass(["*"]+args.higgs_masses)
 
 	#restriction to requested channels
 	if args.channel != parser.get_default("channel"):
@@ -474,13 +479,6 @@ if __name__ == "__main__":
 	args.channel = datacards.cb.cp().channel_set()
 	if args.categories == parser.get_default("categories"):
 		args.categories = len(args.channel) * args.categories
-	
-	# restrict combine to lnN systematics only if no_shape_uncs is set
-	if args.no_shape_uncs or args.no_syst_uncs:
-		log.debug("Deactivate shape uncertainties")
-		datacards.remove_shape_uncertainties()
-		if log.isEnabledFor(logging.DEBUG):
-			datacards.cb.PrintSysts()
 			
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		if args.get_official_dc:
@@ -550,10 +548,11 @@ if __name__ == "__main__":
 				do_not_normalize_by_bin_width = True
 				
 				datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
-			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
+
 			#merged_output_files.append(output_file)
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"]).iteritems():	
+
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
 
