@@ -105,6 +105,10 @@ class Datacards(object):
 		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 
 	def get_samples_per_shape_systematic(self, channel=None, category=None, **kwargs):
+		"""
+		This function returns a dictionary which contains a list of samples associated 
+		with each shape systematic. { 'shape_systematic_name': [list of samples]}
+		"""
 		cb = self.cb
 		if not channel is None:
 			if isinstance(channel, basestring):
@@ -141,6 +145,24 @@ class Datacards(object):
 		
 		return samples_per_shape_systematic
 
+	def lnN2shape(self, **kwargs):
+		"""
+		This member function is used to replace 'lnN' type systematics by 'shape' type systematics.
+		If you parse datacards in a combine instance it may happen that some processes will have an incorrectly assigned systematics type.
+		A 'lnN' is replaced by a 'shape' under the assumption that wrongly assigned 'lnN' systematics have exactly the up_shift value == 1.0.
+		In case a lnN systematic has indeed the up_shift value 1.0 a replacement to 'shape' is not intended and can be avoided passing the name
+		of the uncertainty in the is_lnN = [] list argument of this member function.
+ 		"""
+		for channel in self.cb.cp().channel_set():
+			for category in self.cb.cp().channel([channel]).bin_set():		
+				for lnN_systematic in self.cb.cp().channel([channel]).bin([category]).syst_type(["lnN"]).syst_name_set():
+					if not lnN_systematic in kwargs["is_lnN"]:
+						for process in self.cb.cp().channel([channel]).bin([category]).syst_name([lnN_systematic]).SetFromSysts(ch.Systematic.process):
+							self.cb.cp().channel([channel]).bin([category]).syst_name([lnN_systematic]).process([process]).ForEachSyst(lambda sys: sys.set_type("shape" if sys.value_u() == 1.0 else "lnN"))
+							# self.cb.cp().channel([channel]).bin([category]).syst_name([lnN_systematic]).syst_type("shape").process([process]).ForEachSyst(lambda sys: sys.set_shapes())
+
+			
+			 
 	def extract_shapes(self, root_filename_template,
 	                   bkg_histogram_name_template, sig_histogram_name_template,
 	                   bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
