@@ -14,7 +14,6 @@
 <use name="Artus/KappaAnalysis" />
 <use name="Artus/Utility" />
 <use name="CMSAachen3B/MadGraphReweighting" />
-<use name="TauAnalysis/SVfitStandalone" />
 <use name="TauAnalysis/ClassicSVfit" />
 <use name="TauAnalysis/SVfitTF" />
 <use name="CombineHarvester/CombineTools" />

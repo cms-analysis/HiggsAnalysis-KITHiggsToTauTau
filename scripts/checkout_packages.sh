@@ -5,7 +5,7 @@
 echo -n "Enter the CMMSW release you want to use (747, 810) and press [ENTER] : "
 read cmssw_version
 
-echo -n "Enter the CombineHarvester developper branch you want to checkout (master, SM2016-dev, SMCP2016-dev) and press [ENTER] : "
+echo -n "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev, classicsvfit) and press [ENTER] : "
 read ch_branch
 
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
