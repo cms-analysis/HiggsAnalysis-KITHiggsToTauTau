@@ -356,23 +356,23 @@ if __name__ == "__main__":
 		args.categories = [args.categories[0]] * len(args.channel)
 		
 	aachen_sig_xsecs = {
-	"ggHsm" : 0.921684152,
-	"ggHmm" : 1.84349344,
-	"ggHps" : 0.909898616,
-	"qqHsm" : 0.689482928,
-	"qqHmm" : 0.12242788,
-	"qqHps" : 0.0612201968
+	"ggHsm_htt" : 0.921684152,
+	"ggHmm_htt" : 1.84349344,
+	"ggHps_htt" : 0.909898616,
+	"qqHsm_htt" : 0.689482928,
+	"qqHmm_htt" : 0.12242788,
+	"qqHps_htt" : 0.0612201968
 	}	
 	
 	IC_sig_xsecs = {
-	"ggHsm" : 0.3987,
-	"ggHmm" : 0.7893,
-	"ggHps" : 0.3858,
-	"qqHsm" : 2.6707,
-	"qqHmm" : 0.47421,
-	"qqHps" : 0.2371314
+	"ggHsm_htt" : 0.3987,
+	"ggHmm_htt" : 0.7893,
+	"ggHps_htt" : 0.3858,
+	"qqHsm_htt" : 2.6707,
+	"qqHmm_htt" : 0.47421,
+	"qqHps_htt" : 0.2371314
 	}
-	sig_processes = ["ggHsm", "ggHmm", "ggHps", "qqHsm", "qqHmm", "qqHps"]	
+	sig_processes = ["ggHsm_htt", "ggHmm_htt", "ggHps_htt", "qqHsm_htt", "qqHmm_htt", "qqHps_htt"]	
 
 	if args.scale_sig_IC:
 		for process in sig_processes:
