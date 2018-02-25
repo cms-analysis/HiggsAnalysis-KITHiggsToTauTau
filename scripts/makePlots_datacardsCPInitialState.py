@@ -148,6 +148,8 @@ if __name__ == "__main__":
 	                    help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")						
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 	                    help="Do not include shape uncertainties. [Default: %(default)s]")
+	parser.add_argument("--scale-sig-IC", default=False, action="store_true",
+	                    help="Scale signal cross section to IC cross section. [Default: %(default)s]")						
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 	                    help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--production-mode", nargs="+",
@@ -352,6 +354,30 @@ if __name__ == "__main__":
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
+		
+	aachen_sig_xsecs = {
+	"ggHsm" : 0.921684152,
+	"ggHmm" : 1.84349344,
+	"ggHps" : 0.909898616,
+	"qqHsm" : 0.689482928,
+	"qqHmm" : 0.12242788,
+	"qqHps" : 0.0612201968
+	}	
+	
+	IC_sig_xsecs = {
+	"ggHsm" : 0.3987,
+	"ggHmm" : 0.7893,
+	"ggHps" : 0.3858,
+	"qqHsm" : 2.6707,
+	"qqHmm" : 0.47421,
+	"qqHps" : 0.2371314
+	}
+	sig_processes = ["ggHsm", "ggHmm", "ggHps", "qqHsm", "qqHmm", "qqHps"]	
+
+	if args.scale_sig_IC:
+		for process in sig_processes:
+			datacards.scale_processes(IC_sig_xsecs[process] / aachen_sig_xsecs[process], process)		
+		
 	# list of JEC uncertainties
 	jecUncertNames = [
 		"AbsoluteFlavMap",
