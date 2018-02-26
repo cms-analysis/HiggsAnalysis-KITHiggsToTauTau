@@ -455,9 +455,111 @@ class SystematicLibary(object):
 				(["13TeV"], ["zmt"], 1.00)
 				
 		]
-	
-		##-------------------------------Uncategorized-------------------------------##
+		
+		# Uncertainties on the jet bin acceptance for the Higgs boson signal - Stewart-Tackamnn method (ST)
+		# https://cds.cern.ch/record/2227475/files/CERN-2017-002-M.pdf Section: I.4.2.b
+		
+		ggH_signal_processes = ["ggH", "gghjhusm", "gghjhumm", "gghjhups"]
+		
+		self.CMS_ggH_STXSVBF2j_syst_args = [
+			"CMS_ggH_STXSVBF2j",
+			"lnN",
+			ch.SystMap("bin", "process")
+				(["em_ZeroJet2D"], ggH_signal_processes, 1.000)
+				(["em_Boosted2D"], ggH_signal_processes, 1.000)
+				(["em_dijet_boosted"], ggH_signal_processes, 1.2)
+				(["em_dijet_lowM"], ggH_signal_processes, 1.2)
+				(["em_dijet_highM"], ggH_signal_processes, 1.2)
+				(["em_dijet_lowMjj"], ggH_signal_processes, 1.2)
 
+				(["et_ZeroJet2D"], ["ggH"], 1.000)
+				(["et_Boosted2D"], ["ggH"], 1.000)
+				(["et_dijet_boosted"], ggH_signal_processes, 1.2)
+				(["et_dijet_lowM"], ggH_signal_processes, 1.2)
+				(["et_dijet_highM"], ggH_signal_processes, 1.2)
+				(["et_dijet_lowMjj"], ggH_signal_processes, 1.2)
+				
+				(["mt_ZeroJet2D"], ["ggH"], 1.000)
+				(["mt_Boosted2D"], ["ggH"], 1.000)
+				(["mt_dijet_boosted"], ggH_signal_processes, 1.2)
+				(["mt_dijet_lowM"], ggH_signal_processes, 1.2)
+				(["mt_dijet_highM"], ggH_signal_processes, 1.2)
+				(["mt_dijet_lowMjj"], ggH_signal_processes, 1.2)
+				
+				(["tt_ZeroJet2D"], ["ggH"], 1.000)
+				(["tt_Boosted2D"], ["ggH"], 1.000)
+				(["tt_dijet_boosted"], ggH_signal_processes, 1.2)
+				(["tt_dijet_lowM"], ggH_signal_processes, 1.2)
+				(["tt_dijet_highM"], ggH_signal_processes, 1.2)
+				(["tt_dijet_lowMjj"], ggH_signal_processes, 1.2) 								
+		]	
+		self.CMS_ggH_STXSmig12_syst_args = [
+			"CMS_ggH_STXSmig12",
+			"lnN",
+			ch.SystMap("bin", "process")
+				(["em_ZeroJet2D"], ["ggH"], 1.000)
+				(["em_Boosted2D"], ["ggH"], 0.932)
+				(["em_dijet_boosted"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["em_dijet_lowM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["em_dijet_highM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["em_dijet_lowMjj"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+
+				(["et_ZeroJet2D"], ["ggH"], 1.000)
+				(["et_Boosted2D"], ["ggH"], 0.932)
+				(["et_dijet_boosted"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["et_dijet_lowM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["et_dijet_highM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["et_dijet_lowMjj"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				
+				(["mt_ZeroJet2D"], ["ggH"], 1.000)
+				(["mt_Boosted2D"], ["ggH"], 0.932)
+				(["mt_dijet_boosted"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["mt_dijet_lowM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["mt_dijet_highM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["mt_dijet_lowMjj"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				
+				(["tt_ZeroJet2D"], ["ggH"], 1.000)
+				(["tt_Boosted2D"], ["ggH"], 0.932)
+				(["tt_dijet_boosted"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["tt_dijet_lowM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["tt_dijet_highM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161)
+				(["tt_dijet_lowMjj"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.161) 								
+		]				
+		self.CMS_ggH_STXSmig01_syst_args = [
+			"CMS_ggH_STXSmig01",
+			"lnN",
+			ch.SystMap("bin", "process")
+				(["em_ZeroJet2D"], ["ggH"], 0.959)
+				(["em_Boosted2D"], ["ggH"], 1.079)
+				(["em_dijet_boosted"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["em_dijet_lowM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["em_dijet_highM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["em_dijet_lowMjj"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+
+				(["et_ZeroJet2D"], ["ggH"], 0.959)
+				(["et_Boosted2D"], ["ggH"], 1.079)
+				(["et_dijet_boosted"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["et_dijet_lowM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["et_dijet_highM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["et_dijet_lowMjj"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				
+				(["mt_ZeroJet2D"], ["ggH"], 0.959)
+				(["mt_Boosted2D"], ["ggH"], 1.079)
+				(["mt_dijet_boosted"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["mt_dijet_lowM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["mt_dijet_highM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["mt_dijet_lowMjj"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				
+				(["tt_ZeroJet2D"], ["ggH"], 0.959)
+				(["tt_Boosted2D"], ["ggH"], 1.079)
+				(["tt_dijet_boosted"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["tt_dijet_lowM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["tt_dijet_highM"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079)
+				(["tt_dijet_lowMjj"], ["ggH", "gghjhusm", "gghjhumm", "gghjhups"], 1.079) 								
+		]			
+		##-------------------------------Uncategorized-------------------------------##
+		
+	
 		self.htt_ueps_smhtt_syst_args = [
 			"CMS_$PROCESS_UEPS",
 			"lnN",

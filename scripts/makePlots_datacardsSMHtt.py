@@ -370,11 +370,7 @@ if __name__ == "__main__":
 		else:
 			datacards.configs._mapping_process2sample["ZL"] = "zl"
 		
-		if channel in ["et", "mt"]:
-			datacards.configs._mapping_process2sample.pop("TT", None)
-			datacards.configs._mapping_process2sample["TTT"]= "ttt"
-			datacards.configs._mapping_process2sample["TTJ"]= "ttj"
-		elif channel in ["tt"]:
+		if channel in ["et", "mt", "tt"]:
 			datacards.configs._mapping_process2sample.pop("TT", None)
 			datacards.configs._mapping_process2sample["TTT"]= "ttt"
 			datacards.configs._mapping_process2sample["TTJ"]= "ttjj"
@@ -436,7 +432,7 @@ if __name__ == "__main__":
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
-			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"]).iteritems():
 				#print "\t\t", shape_systematic, list_of_samples
 				
 				nominal = (shape_systematic == "nominal")

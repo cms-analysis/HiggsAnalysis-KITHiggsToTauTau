@@ -2892,10 +2892,10 @@ class Samples(samples.SamplesBase):
 								ss_os_factor = 1.06 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.07 if "ZeroJet2D" in category else 1.0
 					if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
-					elif channel == "et":
+					
+					if channel in ["et", "mt"]:
 						config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
-					elif channel == "mt":
-						config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
+					
 					if controlregions:
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
 						config.setdefault("qcd_yield_nicks", []).append("data_ss_lowmt"+nick_suffix)

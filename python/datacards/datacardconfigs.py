@@ -261,6 +261,11 @@ class DatacardConfigs(object):
 			"datacards/category/${BINID}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
 			"datacards/combined/${MASS}/${ANALYSIS}_${ERA}.txt",
 		]
+		self.cp_datacard_filename_templates = [
+			"/cmb/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
+			"/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
+
+		]
 
 		self.LFV_datacard_filename_templates = [
 			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
