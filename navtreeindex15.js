@@ -1,5 +1,12 @@
 var NAVTREEINDEX15 =
 {
+"makePlots__datacardsCPStudies_8py.html#aca632d3dafc9c1a57792660fd1d58fd1":[2,0,2,35,48],
+"makePlots__datacardsCPStudies_8py.html#acd37456cd91c095ae11b976e8424e2ef":[2,0,2,35,22],
+"makePlots__datacardsCPStudies_8py.html#acf6d2bce77abb06b7969e7c7b74fb10b":[2,0,2,35,24],
+"makePlots__datacardsCPStudies_8py.html#acfbd3f06a439c7d09ea3a33f3204658f":[2,0,2,35,13],
+"makePlots__datacardsCPStudies_8py.html#ad4512e70439a1f467830ed8f4213e145":[2,0,2,35,57],
+"makePlots__datacardsCPStudies_8py.html#ad655294a9233df9327e362a8bcfc93ab":[2,0,2,35,6],
+"makePlots__datacardsCPStudies_8py.html#adee0589ec9ee2d90b90aab71f11855e7":[2,0,2,35,61],
 "makePlots__datacardsCPStudies_8py.html#ae735bcc4a57c8643ad81cc87e33aef05":[2,0,2,35,18],
 "makePlots__datacardsCPStudies_8py.html#aea578709f9ad08fce848859822d578b9":[2,0,2,35,16],
 "makePlots__datacardsCPStudies_8py.html#aeaeaf882a85d72a25e3cad721a44974f":[2,0,2,35,7],
@@ -242,12 +249,5 @@ var NAVTREEINDEX15 =
 "makePlots__datacardsMVATest_8py.html#a2eb0f6b453fccc4a7878e0dd25337677":[2,0,2,40,35],
 "makePlots__datacardsMVATest_8py.html#a346a78418ed8b09d42aec05893b8d29e":[2,0,2,40,9],
 "makePlots__datacardsMVATest_8py.html#a3fd59d613f696acd18b5b97648321e04":[2,0,2,40,46],
-"makePlots__datacardsMVATest_8py.html#a4dc41f08460e597a96dc863c4ad10249":[2,0,2,40,1],
-"makePlots__datacardsMVATest_8py.html#a4e6653c7416a4b1ec970ec94726b83aa":[2,0,2,40,14],
-"makePlots__datacardsMVATest_8py.html#a5075e17ad72ae29c3768a3369742c63d":[2,0,2,40,52],
-"makePlots__datacardsMVATest_8py.html#a5a8d60e88c83d3d542129437a1ba70aa":[2,0,2,40,3],
-"makePlots__datacardsMVATest_8py.html#a5eb7af585b6d3692c25542f572bf9e82":[2,0,2,40,42],
-"makePlots__datacardsMVATest_8py.html#a6e349e4af811d43564e8e39b56b1927e":[2,0,2,40,27],
-"makePlots__datacardsMVATest_8py.html#a6fbb6a90c56daa328dfc8e6f8e4b1153":[2,0,2,40,34],
-"makePlots__datacardsMVATest_8py.html#a719f0ba0ff3c3e005b1bb7dc0b64bf43":[2,0,2,40,50]
+"makePlots__datacardsMVATest_8py.html#a4dc41f08460e597a96dc863c4ad10249":[2,0,2,40,1]
 };
