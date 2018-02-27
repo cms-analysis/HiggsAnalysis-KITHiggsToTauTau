@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ # -*- coding: utf-8 -*-
 
 import CombineHarvester.CombineTools.ch as ch
 
@@ -538,7 +538,15 @@ class SystematicLibary(object):
 	##----------------------------------------------------------Shape uncertanties----------------------------------------------------------##
 		
 		##-------------------------------Fake Taus-------------------------------##		
-		
+
+		self.htt_jetToTauFake_syst_args = [
+			"CMS_htt_jetToTauFake_$ERA",
+			"shape",
+			ch.SystMap("channel", "era", "process")
+				(["et"], ["13TeV"], ["ZJ", "TTJJ", "VVJ", "W"], 1.0)
+				(["mt"], ["13TeV"], ["ZJ", "TTJJ", "VVJ", "W"], 1.0)
+				(["tt"], ["13TeV"], ["ZJ", "TTJJ", "VVJ", "W"], 1.0)
+		]
 		self.mFakeTau_1prong_syst_args = [
 			"CMS_mFakeTau_1prong_$ERA",
 			"shape",
@@ -702,6 +710,31 @@ class SystematicLibary(object):
 				(["mt"], ["13TeV"], ["ZL"], 1.0)
 		]
 
+
+		##--------------------------Decay mode reweighting------------------##
+
+		self.tauDMReco_1prong_syst_args = [
+			"CMS_tauDMReco_1prong_$ERA",
+			"shape",
+			ch.SystMap("channel", "era", "process")
+				(["mt"], ["13TeV"], ["ZTT"], 1.0)
+				(["et"], ["13TeV"], ["ZTT"], 1.0)
+		]
+
+		self.tauDMReco_1prong1pizero_syst_args = [
+			"CMS_tauDMReco_1prong1pizero_$ERA",
+			"shape",
+			ch.SystMap("channel", "era", "process")
+				(["mt"], ["13TeV"], ["ZTT"], 1.0)
+				(["et"], ["13TeV"], ["ZTT"], 1.0)
+		]
+		self.tauDMReco_3prong_syst_args = [
+			"CMS_tauDMReco_3prong_$ERA",
+			"shape",
+			ch.SystMap("channel", "era", "process")
+				(["mt"], ["13TeV"], ["ZTT"], 1.0)
+				(["et"], ["13TeV"], ["ZTT"], 1.0)
+		]
 		##-------------------------------Scale-------------------------------##
 
 		self.scale_t_1prong_syst_args = [
@@ -756,8 +789,29 @@ class SystematicLibary(object):
 				(["em"], ["13TeV"], ["W"], 1.20)
 		]
 		
-		##-------------------------------Uncategorized-------------------------------##
-	
+		self.WSFUncert_0jet_syst_args = [
+			"CMS_WSFUncert_$CHANNEL_0jet_$ERA",
+			"shape",
+			ch.SystMap("era", "channel", "process")
+				(["13TeV"], ["et","mt"], ["QCD"], 1.0)
+		]
+
+		self.WSFUncert_boosted_syst_args = [
+			"CMS_WSFUncert_$CHANNEL_boosted_$ERA",
+			"shape",
+			ch.SystMap("era", "channel", "process")
+				(["13TeV"], ["et","mt"], ["QCD"], 1.0)
+		]
+
+		self.WSFUncert_Vbf_syst_args = [
+			"CMS_WSFUncert_$CHANNEL_vbf_$ERA",
+			"shape",
+			ch.SystMap("era", "channel", "process")
+				(["13TeV"], ["et","mt"], ["QCD"], 1.0)
+		]
+
+		##-------------------------------MET-------------------------------##
+		
 		self.met_resp_syst_args = [
 			"CMS_scale_met_$CHANNEL_$ERA",
 			"shape",
@@ -767,6 +821,27 @@ class SystematicLibary(object):
 				(["13TeV"], ["mt"], 1.0)
 				(["13TeV"], ["tt"], 1.0)
 		]
+		self.scale_met_clustered_syst_args = [
+			"CMS_scale_met_clustered_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["em"], 1.0)
+				(["13TeV"], ["et"], 1.0)
+				(["13TeV"], ["mt"], 1.0)
+				(["13TeV"], ["tt"], 1.0)
+		]
+		self.scale_met_unclustered_syst_args = [
+			"CMS_scale_met_unclustered_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["em"], 1.0)
+				(["13TeV"], ["et"], 1.0)
+				(["13TeV"], ["mt"], 1.0)
+				(["13TeV"], ["tt"], 1.0)
+		]	
+				
+
+
 		self.massres_syst_args = [
 			"CMS_scale_massRes_$CHANNEL_$ERA",
 			"shape",
@@ -781,72 +856,101 @@ class SystematicLibary(object):
 	
 		##Define background processes
 		
-		all_mc_bkgs = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
-		all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]	
+		all_mc_bkgs = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "QCD"]
+		all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "QCD"]	
 		
 		##Define dictionary for with channel as keys, where a list is saved as [systematic, processes, category]. If no special category is choosen, an empty string "" is given
 
 		lnN_syst = {
 			"em": [
-				[self.trigger_efficiency2016_em_syst_args, 	["zem"]+all_mc_bkgs,			""],
-				[self.electron_efficiency2016_syst_args, 	["zem"]+all_mc_bkgs,			""],
-				[self.muon_efficiency2016_syst_args,		["zem"]+all_mc_bkgs, 			""],
+				[self.trigger_efficiency2016_em_syst_args, 	["ZEM"]+all_mc_bkgs,			""],
+				[self.electron_efficiency2016_syst_args, 	["ZEM"]+all_mc_bkgs,			""],
+				[self.muon_efficiency2016_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
 				[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL"], 			""],
 				[self.htt_jetFakeLep_syst_args, 		["W"], 					""],
-				[self.htt_QCD_0jet_syst_args,			["QCD"],				"em_LFVZeroJet"],
+				[self.htt_QCD_0jet_syst_args,			["QCD"],				"em_ZeroJet_LFV"],
 				[self.htt_QCD_boosted_syst_args,		["QCD"],				"em_LFVJet"],
-				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZLL", "EWKZ"],			"em_LFVZeroJet"],
+				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZLL", "EWKZ"],			"em_ZeroJet_LFV"],
 				[self.ttj_cross_section_syst_args,		["TT", "TTT", "TTJJ"],			""],				
 				[self.vv_cross_section2016_syst_args, 		["VV", "VVT", "VVJ"], 			""]
 			],
 
 			"et": [
-				[self.trigger_efficiency2016_syst_args, 	["zet"]+all_mc_bkgs_no_W,		""],
-				[self.electron_efficiency2016_syst_args, 	["zet"]+all_mc_bkgs_no_W,		""],
-				[self.tau_efficiency2016_syst_args,		["zet"]+all_mc_bkgs, 		""],
+				[self.trigger_efficiency2016_syst_args, 	["ZET"]+all_mc_bkgs_no_W,		""],
+				[self.electron_efficiency2016_syst_args, 	["ZET"]+all_mc_bkgs_no_W,		""],
+				[self.tau_efficiency2016_syst_args,		["ZET"]+all_mc_bkgs, 			""],
 				[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL", "ZTT"], 		""],
-				[self.tau_efficiency2016_corr_syst_args, 	["zet"]+all_mc_bkgs, 		""],
+				[self.tau_efficiency2016_corr_syst_args, 	["ZET"]+all_mc_bkgs, 			""],
 				[self.QCD_Extrap_Iso_nonIso_syst_args,		["QCD"],				""],
-				[self.WHighMTtoLowMT_0jet_syst_args,		["W"],					"et_LFVZeroJet"],
+				[self.WHighMTtoLowMT_0jet_syst_args,		["W"],					"et_ZeroJet_LFV"],
 				[self.WHighMTtoLowMT_boosted_syst_args,		["W"],					"et_LFVJet"],
-				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZL", "ZJ", "EWKZ"],		"et_LFVZeroJet"],
+				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZL", "ZJ", "EWKZ"],		"et_ZeroJet_LFV"],
 				[self.ttj_cross_section_syst_args,		["TT", "TTT", "TTJJ"],			""],
 				[self.vv_cross_section2016_syst_args, 		["VV", "VVT", "VVJ"], 			""]
 			],
 				
 			"mt": [
-				[self.trigger_efficiency2016_syst_args, 	["zmt"]+all_mc_bkgs_no_W,		""],
-				[self.muon_efficiency2016_syst_args, 		["zmt"]+all_mc_bkgs_no_W,		""],
-				[self.tau_efficiency2016_syst_args,		["zmt"]+all_mc_bkgs, 		""],
+				[self.trigger_efficiency2016_syst_args, 	["ZMT"]+all_mc_bkgs_no_W,		""],
+				[self.muon_efficiency2016_syst_args, 		["ZMT"]+all_mc_bkgs_no_W,		""],
+				[self.tau_efficiency2016_syst_args,		["ZMT"]+all_mc_bkgs, 		""],
 				[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL", "ZTT"], 		""],
 				[self.tau_efficiency2016_corr_syst_args, 	["zmt"]+all_mc_bkgs, 		""],
 				[self.QCD_Extrap_Iso_nonIso_syst_args,		["QCD"],				""],
-				[self.WHighMTtoLowMT_0jet_syst_args,		["W"],					"mt_LVFZeroJet"],
+				[self.WHighMTtoLowMT_0jet_syst_args,		["W"],					"mt_ZeroJet_LFV"],
 				[self.WHighMTtoLowMT_boosted_syst_args,		["W"],					"mt_LFVJet"],
-				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZL", "ZJ", "EWKZ"],		"mt_LFVZeroJet"],
+				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZL", "ZJ", "EWKZ"],		"mt_ZeroJet_LFV"],
 				[self.ttj_cross_section_syst_args,		["TT", "TTT", "TTJJ"],			""],
 				[self.vv_cross_section2016_syst_args, 		["VV", "VVT", "VVJ"], 			""]	
 			]
 						
 		}
 
-
 		shape_syst = {
-				"em" : [],
+			"em" : [
+				[self.jec_syst_args,				["ZEM"]+all_mc_bkgs, 			""],
+				[self.scale_met_clustered_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
+				[self.scale_met_unclustered_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
+				[self.scale_t_1prong_syst_args,			["ZEM"]+all_mc_bkgs, 			""],
+				[self.scale_t_3prong_syst_args,			["ZEM"]+all_mc_bkgs, 			""],
+				[self.scale_t_1prong1pizero_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
+				[self.ele_es_syst_args,				["ZEM"]+all_mc_bkgs, 			""],
+
+			],
+				
+			"et": [
+				[self.jec_syst_args,				["ZET"]+all_mc_bkgs, 			""],
+				[self.scale_met_clustered_syst_args,		["ZET"]+all_mc_bkgs, 			""],
+				[self.scale_met_unclustered_syst_args,		["ZET"]+all_mc_bkgs, 			""],
+				[self.scale_t_1prong_syst_args,			["ZET"]+all_mc_bkgs, 			""],
+				[self.scale_t_3prong_syst_args,			["ZET"]+all_mc_bkgs, 			""],
+				[self.scale_t_1prong1pizero_syst_args,		["ZET"]+all_mc_bkgs, 			""],
+				[self.zl_shape_1prong_syst_args,		["ZL"],		 			""],
+				[self.zl_shape_1prong1pizero_syst_args,		["ZL"],		 			""],
+				[self.htt_jetToTauFake_syst_args,		["ZJ", "TTJJ", "VVJ", "W"],		""],
+				[self.tauDMReco_1prong_syst_args,		["ZTT"],		 		"et_ZeroJet_LFV"],
+				[self.tauDMReco_1prong1pizero_syst_args,	["ZTT"],		 		"et_ZeroJet_LFV"],
+				[self.tauDMReco_3prong_syst_args,		["ZTT"],		 		"et_ZeroJet_LFV"],
+				[self.WSFUncert_0jet_syst_args,			["QCD"],				""],
+				[self.WSFUncert_boosted_syst_args,		["QCD"],				""]
+	
+			],
 					
-				"et": [
-					[self.zl_shape_1prong_syst_args,		["ZL"],					""],
-					[self.zl_shape_1prong1pizero_syst_args,		["ZL"],					""],
-				],
-					
-				"mt": [	
-					[self.zl_shape_1prong_syst_args,		["ZL"],					""],
-					[self.zl_shape_1prong1pizero_syst_args,		["ZL"],					""],
-					[self.mFakeTau_1prong_syst_args,		["ZL"], 				""],
-					[self.scale_t_1prong_syst_args,			["zmt"]+all_mc_bkgs,		""],
-					[self.scale_t_3prong_syst_args,			["zmt"]+all_mc_bkgs, 		""],
-					[self.scale_t_1prong1pizero_syst_args,		["zmt"]+all_mc_bkgs,		""]
-				]
+			"mt": [
+				[self.jec_syst_args,				["ZMT"]+all_mc_bkgs, 			""],
+				[self.scale_met_clustered_syst_args,		["ZMT"]+all_mc_bkgs, 			""],
+				[self.scale_met_unclustered_syst_args,		["ZMT"]+all_mc_bkgs, 			""],
+				[self.scale_t_1prong_syst_args,			["ZMT"]+all_mc_bkgs, 			""],
+				[self.scale_t_3prong_syst_args,			["ZMT"]+all_mc_bkgs, 			""],
+				[self.scale_t_1prong1pizero_syst_args,		["ZMT"]+all_mc_bkgs, 			""],
+				[self.zl_shape_1prong_syst_args,		["ZL"],		 			""],
+				[self.zl_shape_1prong1pizero_syst_args,		["ZL"],					""],
+				[self.htt_jetToTauFake_syst_args,		["ZJ", "TTJJ", "VVJ", "W"],		""],
+				[self.tauDMReco_1prong_syst_args,		["ZTT"],		 		"mt_ZeroJet_LFV"],
+				[self.tauDMReco_1prong1pizero_syst_args,	["ZTT"],		 		"mt_ZeroJet_LFV"],
+				[self.tauDMReco_3prong_syst_args,		["ZTT"],		 		"mt_ZeroJet_LFV"],
+				[self.WSFUncert_0jet_syst_args,			["QCD"],				""],
+				[self.WSFUncert_boosted_syst_args,		["QCD"],				""]
+			]
 		}
 			
 			
