@@ -76,6 +76,7 @@ var searchData=
   ['configs_5flist',['configs_list',['../namespacemakePlots__rocCurves.html#a25c93500d75ad967798c16f1f8ae3287',1,'makePlots_rocCurves']]],
   ['container',['container',['../namespacecorrelation__SampleProducer.html#a6f04f4ac6a3e7240c8fae8b9a0009dd2',1,'correlation_SampleProducer']]],
   ['control_5fplot',['control_plot',['../classConfigMaster_1_1Plotmodule.html#a86cab97ceac54f35b25d75072f2afef8',1,'ConfigMaster.Plotmodule.control_plot()'],['../classLepFlaVio_1_1Analysismodule.html#a15a690fe131199dac4917ee543453b8b',1,'LepFlaVio.Analysismodule.control_plot()']]],
+  ['control_5fregions',['control_regions',['../namespacemakePlots__datacardsLFV.html#ae1a9f614f5a85d2c20ff27b1c56bbd09',1,'makePlots_datacardsLFV']]],
   ['copy_5fcargs',['copy_cargs',['../namespacetmvaWrapper.html#ac4015b05628f7119de66c44b1c40dae1',1,'tmvaWrapper']]],
   ['copy_5fpath',['copy_path',['../namespacetmvaWrapper.html#a7aab405d0c85702979ed8973637a386d',1,'tmvaWrapper']]],
   ['copy_5fprint_5fstring',['copy_print_string',['../namespacemvaConfigWriter.html#ae45240ebb3e38b4292a1acc29525afc3',1,'mvaConfigWriter']]],

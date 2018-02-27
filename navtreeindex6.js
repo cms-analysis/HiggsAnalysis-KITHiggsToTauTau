@@ -1,6 +1,5 @@
 var NAVTREEINDEX6 =
 {
-"classMetCorrector.html#a8ec4144ce4dadeb9b5bad31a0a52b8c6":[1,0,238,0],
 "classMetCorrectorBase.html":[1,0,239],
 "classMetCorrectorBase.html#a06f1a4a2b3884caa0a01ef47654e3040":[1,0,239,3],
 "classMetCorrectorBase.html#a12111218c46fcb7d0076b3eb68723c2e":[1,0,239,12],
@@ -249,5 +248,6 @@ var NAVTREEINDEX6 =
 "classSvfitTools.html#ae505dd685534e19cf4c4fa662f0e84af":[1,0,286,4],
 "classTTHDecayChannelProducer.html":[1,0,314],
 "classTTHDecayChannelProducer.html#a156d33176c768ffd652292bf365f73a0":[1,0,314,1],
-"classTTHDecayChannelProducer.html#aace688b4843340b15df45ba5b7481739":[1,0,314,0]
+"classTTHDecayChannelProducer.html#aace688b4843340b15df45ba5b7481739":[1,0,314,0],
+"classTTHTauPairProducer.html":[1,0,315]
 };
