@@ -1,12 +1,5 @@
 var NAVTREEINDEX10 =
 {
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a6331c78d172c0e6e1cc25ccda51f61ae":[1,0,134,0,5],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a63abe55235f76b897d90ae50cfe26bb0":[1,0,134,0,15],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a68b9764037611181685c1a63aa36eb0b":[1,0,134,0,17],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a6cf03c7a9789a6203b7ddeeb6da6bde7":[1,0,134,0,37],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a709cd63947e644bea650ac660c91ad5e":[1,0,134,0,26],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a77e1c7b206ea74ca04d03a621912ae62":[1,0,134,0,7],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a7b0ec5a77c40420a311d0a815b85328b":[1,0,134,0,39],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a7d636f3b3c03beb8549e2a7a20a65bda":[1,0,134,0,38],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a7ddba66f647bc81929d744bac7f2aa46":[1,0,134,0,3],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a86ac749900eaa4219c5c2e9a5ad6ff1b":[1,0,134,0,28],
@@ -249,5 +242,12 @@ var NAVTREEINDEX10 =
 "correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#a00fc2f6102108f32ba22fbfb714185c9":[2,0,2,5,13],
 "correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#a0eda1d4af12cc20c0eb59de3254fe4cf":[2,0,2,5,0],
 "correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#a2447b8cd93d7cea239731abad7f04718":[2,0,2,5,7],
-"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#a294b00b9bde0a754fd434d258e58c8ff":[2,0,2,5,10]
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#a294b00b9bde0a754fd434d258e58c8ff":[2,0,2,5,10],
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#a4d0d074cb8ea38bbf9c04da79ac0c048":[2,0,2,5,1],
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#a6144b0d80a3938fab41ba889874b332b":[2,0,2,5,12],
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#ac5327c40b2b068ec3eff15bdb0864445":[2,0,2,5,8],
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#ad0480edf1dfa99821c3803028c95d311":[2,0,2,5,2],
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#ae0ced0f5072227444a49f308bf9d48e5":[2,0,2,5,11],
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#aed11c7c12f64a5ae0da3895e07e6efea":[2,0,2,5,6],
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#af07a131d36e8ba751cdb230555399d1f":[2,0,2,5,5]
 };
