@@ -8,7 +8,9 @@ log = logging.getLogger(__name__)
 import argparse
 import glob
 import os
+import re
 import shlex
+import tempfile
 
 import Artus.Utility.tools as tools
 
@@ -22,6 +24,20 @@ def _call_command(command):
 		pass
 		#log.critical("Could not execute command \""+command+"\"! Exit program!")
 		#sys.exit(1)
+
+def _get_crab_outputs(args):
+	crab_dir = args[0]
+	jobids = args[1]
+	stdout, stderr = tools.subprocessCall(shlex.split("crab getoutput --dump --jobids {jobids} -d {crab_dir}".format(crab_dir=crab_dir, jobids=jobids)))
+	return re.findall("PFN:\s*(?P<path>.*)\s", stdout)
+
+def _download_untar(args):
+	tar_file = args[0]
+	output_dir = args[1]
+	downloaded_tar_file = os.path.join(tempfile.mkdtemp(), os.path.basename(tar_file))
+	tools.subprocessCall(shlex.split("gfal-copy {tar_file} {downloaded_tar_file}".format(tar_file=tar_file, downloaded_tar_file=downloaded_tar_file)))
+	tools.subprocessCall(shlex.split("tar -x -f {downloaded_tar_file} -C {output_dir} --overwrite".format(downloaded_tar_file=downloaded_tar_file, output_dir=output_dir)))
+	tools.subprocessCall(shlex.split("rm -rf {temp_dir}".format(temp_dir=os.path.dirname(downloaded_tar_file))))
 
 def main():
 	parser = argparse.ArgumentParser(description="Collect matching trees from input files into one output tree",
@@ -52,13 +68,21 @@ def main():
 	if args.output_dir is None:
 		args.output_dir = os.path.join(args.input_dirs[0], "results")
 	
-	tar_files = []
+	# get paths to crab outputs
+	max_n_jobs = 8000
+	max_n_retrieve = 500
+	get_crab_outputs_args = []
 	for input_dir in args.input_dirs:
-		tar_files.extend(glob.glob(os.path.join(input_dir, "*/results/*.tar")))
-		tar_files.extend(glob.glob(os.path.join(input_dir, "results/*.tar")))
-		
-	tar_commands = ["tar -x -f "+tar_file+" -C "+args.output_dir+" --overwrite" for tar_file in tar_files]
-	tools.parallelize(_call_command, tar_commands, args.n_processes, description="un-tar crab outputs")
+		for jobid_start in xrange(1, max_n_jobs, max_n_retrieve):
+			jobid_end = jobid_start + max_n_retrieve - 1
+			get_crab_outputs_args.append([input_dir, "{jobid_start}-{jobid_end}".format(jobid_start=jobid_start, jobid_end=jobid_end)])
+	
+	tar_files = tools.parallelize(_get_crab_outputs, get_crab_outputs_args, args.n_processes, description="crab getoutput --dump")
+	tar_files = tools.flattenList(tar_files)
+	
+	# download and un-tar
+	download_untar_args = [[tar_file, args.output_dir] for tar_file in tar_files]
+	tools.parallelize(_download_untar, download_untar_args, args.n_processes, description="download and un-tar crab outputs")
 	
 	root_files = glob.glob(os.path.join(args.output_dir, "*.root"))
 	# TODO: maybe add more root files from -i arguments, that did not need to be un-tared
