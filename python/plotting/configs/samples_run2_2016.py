@@ -3444,7 +3444,7 @@ class Samples(samples.SamplesBase):
 		config = self.htt( config, channel, category, weight, "cpeven"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, cp="cpeven", stacks="httcpeven", **kwargs)
 		return config
 	
-	# cp-odd state from SM samples
+	# cp-odd state from SM samples %FIXME 
 	def httcpodd(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.htt( config, channel, category, weight, "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpodd", stacks="httcpodd", **kwargs)
 		return config
@@ -3507,7 +3507,7 @@ class Samples(samples.SamplesBase):
 	def files_ggh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
 		
-		if cp is None:
+		if cp is None or "cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 		
@@ -3584,12 +3584,12 @@ class Samples(samples.SamplesBase):
 
 		# tauSpinner weight for CP study in the final state
 		tauSpinner_weight = "(1.0)"
-		if (kwargs.get("cp", None) == "cpeven"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
-		if (kwargs.get("cp", None) == "cpmix"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
-		if (kwargs.get("cp", None) == "cpodd"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
+		#if (kwargs.get("cp", None) == "cpeven"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
+		#if (kwargs.get("cp", None) == "cpmix"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
+		#if (kwargs.get("cp", None) == "cpodd"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
@@ -3649,7 +3649,7 @@ class Samples(samples.SamplesBase):
 	def files_qqh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
 		
-		if cp is None:
+		if cp is None or "cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "VBFHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 		
@@ -3682,12 +3682,12 @@ class Samples(samples.SamplesBase):
 
 		# tauSpinner weight for CP study in the final state
 		tauSpinner_weight = "(1.0)"
-		if (kwargs.get("cp", None) == "cpeven"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
-		if (kwargs.get("cp", None) == "cpmix"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
-		if (kwargs.get("cp", None) == "cpodd"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
+		#if (kwargs.get("cp", None) == "cpeven"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
+		#if (kwargs.get("cp", None) == "cpmix"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
+		#if (kwargs.get("cp", None) == "cpodd"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
 
 		data_weight, mc_weight = self.projection(kwargs)
 
@@ -3699,7 +3699,6 @@ class Samples(samples.SamplesBase):
 						self.root_file_folder(channel),
 						lumi*kwargs.get("scale_signal", 1.0),
 						tauSpinner_weight+"*"+matrix_weight+mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
-						#"qqh"+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
 			)
@@ -3711,7 +3710,6 @@ class Samples(samples.SamplesBase):
 					Samples._add_bin_corrections(
 							config,
 							"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-							#nick_suffix
 							str(kwargs.get("cp", ""))+nick_suffix
 					)
 				Samples._add_plot(
@@ -3720,7 +3718,6 @@ class Samples(samples.SamplesBase):
 						"LINE",
 						"L",
 						"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
-						#nick_suffix
 						str(kwargs.get("cp", ""))+nick_suffix
 				)
 		return config
@@ -3800,12 +3797,12 @@ class Samples(samples.SamplesBase):
 
 		# tauSpinner weight for CP study in the final state
 		tauSpinner_weight = "(1.0)"
-		if (kwargs.get("cp", None) == "cpeven"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
-		if (kwargs.get("cp", None) == "cpmix"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
-		if (kwargs.get("cp", None) == "cpodd"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
+		#if (kwargs.get("cp", None) == "cpeven"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
+		#if (kwargs.get("cp", None) == "cpmix"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
+		#if (kwargs.get("cp", None) == "cpodd"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
@@ -3868,12 +3865,12 @@ class Samples(samples.SamplesBase):
 
 		# tauSpinner weight for CP study in the final state
 		tauSpinner_weight = "(1.0)"
-		if (kwargs.get("cp", None) == "cpeven"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
-		if (kwargs.get("cp", None) == "cpmix"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
-		if (kwargs.get("cp", None) == "cpodd"):
-			tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
+		#if (kwargs.get("cp", None) == "cpeven"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
+		#if (kwargs.get("cp", None) == "cpmix"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
+		#if (kwargs.get("cp", None) == "cpodd"):
+		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
