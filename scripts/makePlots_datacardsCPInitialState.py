@@ -324,9 +324,6 @@ if __name__ == "__main__":
 		}
 		
 	# initialise datacards
-	# tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	# input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
-
 	tmp_input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
@@ -334,14 +331,6 @@ if __name__ == "__main__":
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.cp_datacard_filename_templates
-	# if "individual" in args.combinations:
-	# 	datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
-	# if "channel" in args.combinations:
-	# 	datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
-	# if "category" in args.combinations:
-	# 	datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
-	# if "combined" in args.combinations:
-	# 	datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")		
 	output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-2D.root"
 	
 		
@@ -354,30 +343,7 @@ if __name__ == "__main__":
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
-		
-	aachen_sig_xsecs = {
-	"ggHsm_htt" : 0.921684152,
-	"ggHmm_htt" : 1.84349344,
-	"ggHps_htt" : 0.909898616,
-	"qqHsm_htt" : 0.689482928,
-	"qqHmm_htt" : 0.12242788,
-	"qqHps_htt" : 0.0612201968
-	}	
-	
-	IC_sig_xsecs = {
-	"ggHsm_htt" : 0.3987,
-	"ggHmm_htt" : 0.7893,
-	"ggHps_htt" : 0.3858,
-	"qqHsm_htt" : 2.6707,
-	"qqHmm_htt" : 0.47421,
-	"qqHps_htt" : 0.2371314
-	}
-	sig_processes = ["ggHsm_htt", "ggHmm_htt", "ggHps_htt", "qqHsm_htt", "qqHmm_htt", "qqHps_htt"]	
-
-	if args.scale_sig_IC:
-		for process in sig_processes:
-			datacards.scale_processes(IC_sig_xsecs[process] / aachen_sig_xsecs[process], process)		
-		
+				
 	# list of JEC uncertainties
 	jecUncertNames = [
 		"AbsoluteFlavMap",
@@ -831,18 +797,34 @@ if __name__ == "__main__":
 		
 	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/cmb/125/"
 	official_cb = ch.CombineHarvester()
+	
+	datacards_cbs = {}
+	datacards_workspaces_alpha = {}
+	
 	for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):			
 		official_cb.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
-	
+		
+		if "prefitpostfitplots" in args.steps:
+			tmp_datacard = ch.CombineHarvester()	
+			tmp_datacard.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
+			if int(official_datacard.split("_")[-2]) < 10: #this statement avoid the creation of workspaces for single CR only.
+				datacards_cbs[official_datacard] = tmp_datacard.cp()
+				datacards_module._call_command([
+						"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i {DATACARD} -o {OUTPUT} --parallel {N_PROCESSES}".format(
+						DATACARD=official_datacard,
+						OUTPUT=os.path.splitext(official_datacard)[0]+"_cpmixture.root",
+						N_PROCESSES=args.n_processes			
+						),
+						args.output_dir	
+				]) 
+				datacards_workspaces_alpha[official_datacard] = os.path.splitext(official_datacard)[0]+"_cpmixture.root"
+		
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
 			cb=official_cb,
 			higgs_masses=args.higgs_masses,
 			year=args.era,
 			cp_study=args.cp_study
 	)
-	# datacards_cbs = {}
-	# for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):
-	# 	datacards_cbs.update()
 	
 	# Create workspaces from the datacards 
 	if "t2w" in args.steps:
