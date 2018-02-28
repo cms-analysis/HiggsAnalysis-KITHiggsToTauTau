@@ -47,6 +47,12 @@ class SystematicsFactory(dict):
 		self["CMS_scale_t_1prong_13TeV"] = TauESOneProngSystematic
 		self["CMS_scale_t_1prong1pizero_13TeV"] = TauESOneProngPiZerosSystematic
 		self["CMS_scale_t_3prong_13TeV"] = TauESThreeProngSystematic
+		self["CMS_WSFUncert_mt_0jet_13TeV"] = WJetScaleFactor0JetSystematic
+		self["CMS_WSFUncert_et_0jet_13TeV"] = WJetScaleFactor0JetSystematic
+		self["CMS_WSFUncert_mt_boosted_13TeV"] = WJetScaleFactorBoostedSystematic
+		self["CMS_WSFUncert_et_boosted_13TeV"] = WJetScaleFactorBoostedSystematic
+		self["CMS_WSFUncert_mt_vbf_13TeV"] = WJetScaleFactorVbfSystematic
+		self["CMS_WSFUncert_et_vbf_13TeV"] = WJetScaleFactorVbfSystematic
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
@@ -123,6 +129,7 @@ class SystematicsFactory(dict):
 		self["WSFUncert_mt_dijet_lowMjj_13TeV"] = Nominal
 		self["WSFUncert_et_dijet_lowMjj_13TeV"] = Nominal								
 		self["WSFUncert_lt_13TeV"] = Nominal
+		self["CMS_WSFUncert_lt_13TeV"] = Nominale
 		self["CMS_htt_zmumuShape_VBF_13TeV"] = Nominal
 		
 		# TODO: Where are these systematics to be implemented?
@@ -203,7 +210,53 @@ class SystematicShiftBase(object):
 # 					plot_config["weights"][index] = weight+"*(2-"+w+")"	
 # 
 # 		return plot_config		
+
+# w+jets scale factor shifts for different categories
+# same uncertainties as used for WHighMTtoLowMT_$BIN_13TeV implented in systematics_libary.py
+class WJetScaleFactor0JetSystematic(SystematicShiftBase):
+	def get_config(self, shift=0.0):
+		plot_config = super(WJetScaleFactor0JetSystematic, self).get_config(shift=shift)	
 		
+		if not "Run201" in [filenames[index] for filenames in plot_config["files"] for index in range(len(filenames))]:
+			if shift > 0.0:
+				plot_config.setdefault("wjets_scale_factor_shifts", []).append(1.0 + 0.1)
+
+			elif shift < 0.0:
+				plot_config.setdefault("wjets_scale_factor_shifts", []).append(1.0 - 0.1)
+
+		return plot_config
+
+
+class WJetScaleFactorBoostedSystematic(SystematicShiftBase):
+	def get_config(self, shift=0.0):
+		plot_config = super(WJetScaleFactorBoostedSystematic, self).get_config(shift=shift)	
+				
+		if not "Run201" in [filenames[index] for filenames in plot_config["files"] for index in range(len(filenames))]:
+			if shift > 0.0:
+				plot_config.setdefault("wjets_scale_factor_shifts", []).append(1.0 + 0.05)
+
+			elif shift < 0.0:
+				plot_config.setdefault("wjets_scale_factor_shifts", []).append(1.0 - 0.05)
+
+
+		return plot_config
+		
+
+class WJetScaleFactorVbfSystematic(SystematicShiftBase):
+	def get_config(self, shift=0.0):
+		plot_config = super(WJetScaleFactorVbfSystematic, self).get_config(shift=shift)	
+				
+		if not "Run201" in [filenames[index] for filenames in plot_config["files"] for index in range(len(filenames))]:
+			if shift > 0.0:
+				plot_config.setdefault("wjets_scale_factor_shifts", []).append(1.0 + 0.1)
+
+			elif shift < 0.0:
+				plot_config.setdefault("wjets_scale_factor_shifts", []).append(1.0 - 0.1)
+
+
+		return plot_config
+
+
 class GGHRenormalizationScaleSystematic(SystematicShiftBase):
 	
 	def __init__(self, plot_config, category):
