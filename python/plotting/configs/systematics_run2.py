@@ -129,7 +129,7 @@ class SystematicsFactory(dict):
 		self["WSFUncert_mt_dijet_lowMjj_13TeV"] = Nominal
 		self["WSFUncert_et_dijet_lowMjj_13TeV"] = Nominal								
 		self["WSFUncert_lt_13TeV"] = Nominal
-		self["CMS_WSFUncert_lt_13TeV"] = Nominale
+		self["CMS_WSFUncert_lt_13TeV"] = Nominal
 		self["CMS_htt_zmumuShape_VBF_13TeV"] = Nominal
 		
 		# TODO: Where are these systematics to be implemented?
