@@ -1,5 +1,12 @@
 var NAVTREEINDEX8 =
 {
+"classcutOptimizer_1_1CutOptimizer.html#a00f34f62663779aeaf95c34f89efc4ab":[1,0,23,0,12],
+"classcutOptimizer_1_1CutOptimizer.html#a395ab82dbaed44b1f419a5756da74307":[1,0,23,0,2],
+"classcutOptimizer_1_1CutOptimizer.html#a5984dbaedd36f5fc979c21a86fc5dac4":[1,0,23,0,4],
+"classcutOptimizer_1_1CutOptimizer.html#a86c56409c1c75006e09887384fa4ba61":[1,0,23,0,8],
+"classcutOptimizer_1_1CutOptimizer.html#a9f43d2fd7dee5d016b708a38dcbd7b30":[1,0,23,0,9],
+"classcutOptimizer_1_1CutOptimizer.html#aa42b60689dc1af9accf91cf39bc8ca20":[1,0,23,0,6],
+"classcutOptimizer_1_1CutOptimizer.html#ab442907fcdbb5005b86785c9a1cf3acf":[1,0,23,0,10],
 "classcutOptimizer_1_1CutOptimizer.html#ab9f344ac23f8b91d72a81945f2c892c7":[1,0,23,0,1],
 "classcutOptimizer_1_1CutOptimizer.html#ac10bfbfc3937f7db8121f1509f8903ec":[1,0,23,0,5],
 "classcutOptimizer_1_1CutOptimizer.html#ad1174bf05db24eb5b0390e79e59bb38d":[1,0,23,0,11],
@@ -242,12 +249,5 @@ var NAVTREEINDEX8 =
 "classmvadatacards__base_1_1Datacards.html#a7bf8e212ab7ba773f8860fc7113eb392":[1,0,113,0,0],
 "classmvadatacards__base_1_1Datacards.html#a80bc416a4160987a1f71a3f6ce8d87c9":[1,0,113,0,24],
 "classmvadatacards__base_1_1Datacards.html#a853b90758628c4fed362de3aca23260a":[1,0,113,0,15],
-"classmvadatacards__base_1_1Datacards.html#a8692bca85d088728798a8ff87a5c74a8":[1,0,113,0,21],
-"classmvadatacards__base_1_1Datacards.html#aa313ab7f407843ccc3de97411d9ca6b6":[1,0,113,0,4],
-"classmvadatacards__base_1_1Datacards.html#aa7615ac12ccf49b157a32ec848e607d1":[1,0,113,0,1],
-"classmvadatacards__base_1_1Datacards.html#ab014d972f3f3617aa94cca993a5a084c":[1,0,113,0,40],
-"classmvadatacards__base_1_1Datacards.html#ab97f2c1e927f0ad642fd4235f77b054e":[1,0,113,0,9],
-"classmvadatacards__base_1_1Datacards.html#abe67ac1cdd679bd49abef8e404456dcf":[1,0,113,0,38],
-"classmvadatacards__base_1_1Datacards.html#ac51e9749dc5e42329ad5cca4a1477077":[1,0,113,0,29],
-"classmvadatacards__base_1_1Datacards.html#ac77f9f24bbd2dadd0e66626745753ebf":[1,0,113,0,28]
+"classmvadatacards__base_1_1Datacards.html#a8692bca85d088728798a8ff87a5c74a8":[1,0,113,0,21]
 };
