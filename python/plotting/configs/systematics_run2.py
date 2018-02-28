@@ -121,7 +121,12 @@ class SystematicsFactory(dict):
 		self["WSFUncert_mt_vbf_13TeV"] = Nominal
 		self["WSFUncert_et_vbf_13TeV"] = Nominal
 		self["WSFUncert_mt_dijet_boosted_13TeV"] = Nominal
+		self["WSFUncert_mt_dijet2D_boosted_13TeV"] = Nominal
+		self["WSFUncert_mt_dijet_lowboost_13TeV"] = Nominal
 		self["WSFUncert_et_dijet_boosted_13TeV"] = Nominal	
+		self["WSFUncert_et_dijet2D_boosted_13TeV"] = Nominal	
+		self["WSFUncert_et_dijet_lowboost_13TeV"] = Nominal	
+		self["WSFUncert_et_dijet_lowboost_13TeV"] = Nominal	
 		self["WSFUncert_mt_dijet_lowM_13TeV"] = Nominal
 		self["WSFUncert_et_dijet_lowM_13TeV"] = Nominal	
 		self["WSFUncert_mt_dijet_highM_13TeV"] = Nominal
