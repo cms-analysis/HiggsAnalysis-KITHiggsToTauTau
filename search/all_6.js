@@ -69,7 +69,7 @@ var searchData=
   ['fit',['FIT',['../classSvfitEventKey.html#a8805e580d1bf5c8ebccfd7ded2d1406ca12197f0373bd373681e99d73fd509954',1,'SvfitEventKey']]],
   ['fit_5fconfigs',['fit_configs',['../namespacemakePlots__tauEsStudies.html#aad2a9a5fcb17d72bc98865f16b33e33a',1,'makePlots_tauEsStudies']]],
   ['fit_5fmethod',['FIT_METHOD',['../namespacemakePlots__datacardsZttCrossSection.html#a111d591bb752820a00dbf121d5133247',1,'makePlots_datacardsZttCrossSection']]],
-  ['fit_5foptions',['fit_options',['../namespacemakePlots__datacardsSMHtt__limitProjection.html#a7a7ab211d6a92b28af34912cce0eb95a',1,'makePlots_datacardsSMHtt_limitProjection.fit_options()'],['../namespacemakePlots__datacardsZttCrossSection.html#ad62a795f4e8b97fb4e401ee07e0c4f73',1,'makePlots_datacardsZttCrossSection.FIT_OPTIONS()']]],
+  ['fit_5foptions',['FIT_OPTIONS',['../namespacemakePlots__datacardsZttCrossSection.html#ad62a795f4e8b97fb4e401ee07e0c4f73',1,'makePlots_datacardsZttCrossSection.FIT_OPTIONS()'],['../namespacemakePlots__datacardsSMHtt__limitProjection.html#a7a7ab211d6a92b28af34912cce0eb95a',1,'makePlots_datacardsSMHtt_limitProjection.fit_options()']]],
   ['fit_5fpolone',['fit_polOne',['../namespacemakePlots__datacardsTauEsStudies.html#a1d9976fd9222783509a1a78b6b755a9d',1,'makePlots_datacardsTauEsStudies']]],
   ['fit_5fpolzero',['fit_polZero',['../namespacemakePlots__datacardsTauEsStudies.html#a9fd8f280b087adcd31550e92c0860c3a',1,'makePlots_datacardsTauEsStudies']]],
   ['fit_5fresult',['fit_result',['../namespacemakePlots__datacardsPostfitPlots.html#ab34c93e12b90a6e7a03954f02ed0c3d7',1,'makePlots_datacardsPostfitPlots']]],

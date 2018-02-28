@@ -208,10 +208,7 @@ var hierarchy =
         [ "systematics_run2.TauESOneProngSystematic", "classsystematics__run2_1_1TauESOneProngSystematic.html", null ],
         [ "systematics_run2.TauEsSystematic", "classsystematics__run2_1_1TauEsSystematic.html", null ],
         [ "systematics_run2.TauESThreeProngSystematic", "classsystematics__run2_1_1TauESThreeProngSystematic.html", null ],
-        [ "systematics_run2.TTBarShapeSystematic", "classsystematics__run2_1_1TTBarShapeSystematic.html", null ],
-        [ "systematics_run2.WJetScaleFactor0JetSystematic", "classsystematics__run2_1_1WJetScaleFactor0JetSystematic.html", null ],
-        [ "systematics_run2.WJetScaleFactorBoostedSystematic", "classsystematics__run2_1_1WJetScaleFactorBoostedSystematic.html", null ],
-        [ "systematics_run2.WJetScaleFactorVbfSystematic", "classsystematics__run2_1_1WJetScaleFactorVbfSystematic.html", null ]
+        [ "systematics_run2.TTBarShapeSystematic", "classsystematics__run2_1_1TTBarShapeSystematic.html", null ]
       ] ],
       [ "tools.PoissonYield", "classtools_1_1PoissonYield.html", null ]
     ] ],

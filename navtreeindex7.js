@@ -1,5 +1,6 @@
 var NAVTREEINDEX7 =
 {
+"classTTHTauPairProducer.html":[1,0,315],
 "classTTHTauPairProducer.html#a5b7682157f545adaf9a449e2507321e9":[1,0,315,1],
 "classTTHTauPairProducer.html#aaf6b62a254a117838bc6a46525df61d8":[1,0,315,2],
 "classTTHTauPairProducer.html#aef3c8c8e85b3b7ed9174521bdf9895cd":[1,0,315,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a834cb31eb9432d300691b876726f623a":[1,0,22,0,2],
 "classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a92683ac3da8a08d5d051bde2e1a60246":[1,0,22,0,1],
 "classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#aacd25bc9235c0f2344e3ff0b752d91c5":[1,0,22,0,0],
-"classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#ab50fffc67cd182fa7fbed364150b52ea":[1,0,22,0,4],
-"classcutOptimizer_1_1CutOptimizer.html":[1,0,23,0]
+"classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#ab50fffc67cd182fa7fbed364150b52ea":[1,0,22,0,4]
 };

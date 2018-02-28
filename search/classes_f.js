@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['samples',['Samples',['../classsamples__run2__2015_1_1Samples.html',1,'samples_run2_2015']]],
-  ['samples',['Samples',['../classsamples__ff_1_1Samples.html',1,'samples_ff']]],
-  ['samples',['Samples',['../classsamples__run2__etaufakerate__2016_1_1Samples.html',1,'samples_run2_etaufakerate_2016']]],
-  ['samples',['Samples',['../classsamples__run1_1_1Samples.html',1,'samples_run1']]],
-  ['samples',['Samples',['../classsamples__run2__embedding__selection_1_1Samples.html',1,'samples_run2_embedding_selection']]],
-  ['samples',['Samples',['../classsamples__run2__2016_1_1Samples.html',1,'samples_run2_2016']]],
-  ['samples',['Samples',['../classsamples__run2__etaufakerate_1_1Samples.html',1,'samples_run2_etaufakerate']]],
   ['samples',['Samples',['../classsamples__run2__2017_1_1Samples.html',1,'samples_run2_2017']]],
+  ['samples',['Samples',['../classsamples__run2__2016_1_1Samples.html',1,'samples_run2_2016']]],
+  ['samples',['Samples',['../classsamples__run2__2015_1_1Samples.html',1,'samples_run2_2015']]],
+  ['samples',['Samples',['../classsamples__run2__etaufakerate__2016_1_1Samples.html',1,'samples_run2_etaufakerate_2016']]],
+  ['samples',['Samples',['../classsamples__run2__etaufakerate_1_1Samples.html',1,'samples_run2_etaufakerate']]],
+  ['samples',['Samples',['../classsamples__ff_1_1Samples.html',1,'samples_ff']]],
+  ['samples',['Samples',['../classsamples__run2__embedding__selection_1_1Samples.html',1,'samples_run2_embedding_selection']]],
+  ['samples',['Samples',['../classsamples__run1_1_1Samples.html',1,'samples_run1']]],
   ['samplesbase',['SamplesBase',['../classsamples_1_1SamplesBase.html',1,'samples']]],
   ['scalevariationproducer',['ScaleVariationProducer',['../classScaleVariationProducer.html',1,'']]],
   ['signalcpcalibration',['SignalCPCalibration',['../classsignalcpcalibration_1_1SignalCPCalibration.html',1,'signalcpcalibration']]],
@@ -27,6 +27,6 @@ var searchData=
   ['svfittools',['SvfitTools',['../classSvfitTools.html',1,'']]],
   ['systematiclibary',['SystematicLibary',['../classsystematics__libary_1_1SystematicLibary.html',1,'systematics_libary']]],
   ['systematicsfactory',['SystematicsFactory',['../classsystematics__run2_1_1SystematicsFactory.html',1,'systematics_run2']]],
-  ['systematicshiftbase',['SystematicShiftBase',['../classsystematics__run2_1_1SystematicShiftBase.html',1,'systematics_run2']]],
-  ['systematicshiftbase',['SystematicShiftBase',['../classsystematics__run1_1_1SystematicShiftBase.html',1,'systematics_run1']]]
+  ['systematicshiftbase',['SystematicShiftBase',['../classsystematics__run1_1_1SystematicShiftBase.html',1,'systematics_run1']]],
+  ['systematicshiftbase',['SystematicShiftBase',['../classsystematics__run2_1_1SystematicShiftBase.html',1,'systematics_run2']]]
 ];
