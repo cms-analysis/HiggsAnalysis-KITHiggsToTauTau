@@ -879,11 +879,34 @@ if __name__ == "__main__":
 	if "likelihoodscan" in args.steps:
 		log.info("\nScanning alpha with muF=1,muV=1,alpha=0,f=0 with asimov dataset.")
 		datacards_module._call_command([
-				"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .alpha".format(
-				OUTPUT_SUFFIX=args.output_suffix		
+				"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .alpha --parallel={N_PROCESSES}".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				N_PROCESSES=args.n_processes	
 				),
 				args.output_dir	
 		])
+		# datacards_module._call_command([
+		# 		"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges muF=0,4 --points 20 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
+		# 		OUTPUT_SUFFIX=args.output_suffix,
+		# 		N_PROCESSES=args.n_processes		
+		# 		),
+		# 		args.output_dir	
+		# ])
+		# datacards_module._call_command([
+		# 		"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f,muF --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha_freezemuF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
+		# 		OUTPUT_SUFFIX=args.output_suffix,
+		# 		N_PROCESSES=args.n_processes			
+		# 		),
+		# 		args.output_dir	
+		# ])
+		# datacards_module._call_command([
+		# 		"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges alpha=0,1 --redefineSignalPOIs alpha,muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --points 500 --algo grid -t -1 --there -n .2DScan --parallel={N_PROCESSES}".format(
+		# 		OUTPUT_SUFFIX=args.output_suffix,
+		# 		N_PROCESSES=args.n_processes			
+		# 		),
+		# 		args.output_dir	
+		# ])
+								
 		for channel in ["cmb","em","et","mt","tt"]:
 			directory = "output/"+args.output_suffix+"/"+channel+"/125/"
 			datacards_module._call_command([
@@ -893,9 +916,28 @@ if __name__ == "__main__":
 					),
 					args.output_dir	
 			])
-			
-	datacards_cbs = {datacards_path+"htt_tt_4_13TeV.txt" : datacards.cb.cp()}		
-	datacards_workspaces_alpha = {datacards_path+"htt_tt_4_13TeV.txt" : datacards_path+"ws.root"}
+			# datacards_module._call_command([
+			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=muF --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#mu_{F}' --y-max=10.0".format(
+			# 		INPUT_FILE=directory+"higgsCombine.muF.MultiDimFit.mH125.root",
+			# 		OUTPUT_FILE=directory+"muF"	
+			# 		),
+			# 		args.output_dir	
+			# ])
+			# datacards_module._call_command([
+			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0".format(
+			# 		INPUT_FILE=directory+"higgsCombine.alpha_freezemuF.MultiDimFit.mH125.root",
+			# 		OUTPUT_FILE=directory+"alpha_freezemuF"	
+			# 		),
+			# 		args.output_dir	
+			# ])
+			# datacards_module._call_command([
+			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plotMultiDimFit.py --title-right='35.9 fb^{-1}' --mass=125 --cms-sub='Preliminary' --POI=alpha -o {OUTPUT_FILE}  {INPUT_FILE}".format(
+			# 		INPUT_FILE=directory+"higgsCombine.2DScan.MultiDimFit.mH125.root",
+			# 		OUTPUT_FILE=directory+"muF_vs_alpha"	
+			# 		),
+			# 		args.output_dir	
+			# ])						
+						
 	
 	datacards_poi_ranges = {}
 	for datacard, cb in datacards_cbs.iteritems():
