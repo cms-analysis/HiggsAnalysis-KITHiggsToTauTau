@@ -17,8 +17,13 @@
 		"polarisationOmegaBarSvfit_1",
 		"polarisationOmegaBarSvfit_2",
 		
+		"polarisationOmegaVisibleSvfit_1",
+		"polarisationOmegaVisibleSvfit_2",
+		
 		"polarisationCombinedOmegaSvfit",
 		
-		"polarisationCombinedOmegaBarSvfit"
+		"polarisationCombinedOmegaBarSvfit",
+		
+		"polarisationCombinedOmegaVisibleSvfit"
 	]
 }

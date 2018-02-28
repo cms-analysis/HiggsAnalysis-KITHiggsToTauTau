@@ -18,15 +18,19 @@ PolarisationQuantitiesProducerBase::PolarisationQuantitiesProducerBase(
 		std::map<KLepton*, RMFLV> product_type::*fittedTausMember,
 		std::map<KLepton*, double> product_type::*polarisationOmegasMember,
 		std::map<KLepton*, double> product_type::*polarisationOmegaBarsMember,
+		std::map<KLepton*, double> product_type::*polarisationOmegaVisiblesMember,
 		double product_type::*polarisationCombinedOmegaMember,
-		double product_type::*polarisationCombinedOmegaBarMember
+		double product_type::*polarisationCombinedOmegaBarMember,
+		double product_type::*polarisationCombinedOmegaVisibleMember
 ) :
 	m_name(name),
 	m_fittedTausMember(fittedTausMember),
 	m_polarisationOmegasMember(polarisationOmegasMember),
 	m_polarisationOmegaBarsMember(polarisationOmegaBarsMember),
+	m_polarisationOmegaVisiblesMember(polarisationOmegaVisiblesMember),
 	m_polarisationCombinedOmegaMember(polarisationCombinedOmegaMember),
-	m_polarisationCombinedOmegaBarMember(polarisationCombinedOmegaBarMember)
+	m_polarisationCombinedOmegaBarMember(polarisationCombinedOmegaBarMember),
+	m_polarisationCombinedOmegaVisibleMember(polarisationCombinedOmegaVisibleMember)
 {
 }
 
@@ -46,6 +50,10 @@ void PolarisationQuantitiesProducerBase::Init(setting_type const& settings, meta
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaBar"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
 			return static_cast<float>(SafeMap::GetWithDefault((product.*m_polarisationOmegaBarsMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedDouble));
 		});
+		
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaVisible"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
+			return static_cast<float>(SafeMap::GetWithDefault((product.*m_polarisationOmegaVisiblesMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedDouble));
+		});
 	}
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmega"+m_name, [this](event_type const& event, product_type const& product) {
@@ -54,6 +62,10 @@ void PolarisationQuantitiesProducerBase::Init(setting_type const& settings, meta
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaBar"+m_name, [this](event_type const& event, product_type const& product) {
 		return (product.*m_polarisationCombinedOmegaBarMember);
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaVisible"+m_name, [this](event_type const& event, product_type const& product) {
+		return (product.*m_polarisationCombinedOmegaVisibleMember);
 	});
 	
 	/* old version
@@ -145,7 +157,6 @@ void PolarisationQuantitiesProducerBase::Produce(
 	std::vector<std::vector<TLorentzVector> > inputs;
 	std::vector<std::string> types;
 	std::vector<int> charges;
-
 	
 	for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
 		 lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
@@ -191,6 +202,7 @@ void PolarisationQuantitiesProducerBase::Produce(
 			{
 				(product.*m_polarisationOmegasMember)[*lepton] = singleTauPolInterface.getOmega();
 				(product.*m_polarisationOmegaBarsMember)[*lepton] = singleTauPolInterface.getOmegabar();
+				(product.*m_polarisationOmegaVisiblesMember)[*lepton] = singleTauPolInterface.getVisibleOmega();
 			}
 		}
 	}
@@ -202,6 +214,7 @@ void PolarisationQuantitiesProducerBase::Produce(
 		{
 			(product.*m_polarisationCombinedOmegaMember) = diTauPolInterface.getCombOmega();
 			(product.*m_polarisationCombinedOmegaBarMember) = diTauPolInterface.getCombOmegaBar();
+			(product.*m_polarisationCombinedOmegaVisibleMember) = diTauPolInterface.getCombVisibleOmega();
 		}
 	}
 	
@@ -478,7 +491,9 @@ PolarisationQuantitiesSvfitProducer::PolarisationQuantitiesSvfitProducer() :
 			&product_type::m_svfitTaus,
 			&product_type::m_polarisationOmegasSvfit,
 			&product_type::m_polarisationOmegaBarsSvfit,
+			&product_type::m_polarisationOmegaBarsSvfit,
 			&product_type::m_polarisationCombinedOmegaSvfit,
+			&product_type::m_polarisationCombinedOmegaBarSvfit,
 			&product_type::m_polarisationCombinedOmegaBarSvfit
 	)
 {
@@ -496,7 +511,9 @@ PolarisationQuantitiesSimpleFitProducer::PolarisationQuantitiesSimpleFitProducer
 			&product_type::m_simpleFitTaus,
 			&product_type::m_polarisationOmegasSimpleFit,
 			&product_type::m_polarisationOmegaBarsSimpleFit,
+			&product_type::m_polarisationOmegaBarsSimpleFit,
 			&product_type::m_polarisationCombinedOmegaSimpleFit,
+			&product_type::m_polarisationCombinedOmegaBarSimpleFit,
 			&product_type::m_polarisationCombinedOmegaBarSimpleFit
 	)
 {
@@ -515,7 +532,9 @@ PolarisationQuantitiesHHKinFitProducer::PolarisationQuantitiesHHKinFitProducer()
 			&product_type::m_hhKinFitTaus,
 			&product_type::m_polarisationOmegasHHKinFit,
 			&product_type::m_polarisationOmegaBarsHHKinFit,
+			&product_type::m_polarisationOmegaBarsHHKinFit,
 			&product_type::m_polarisationCombinedOmegaHHKinFit,
+			&product_type::m_polarisationCombinedOmegaBarHHKinFit,
 			&product_type::m_polarisationCombinedOmegaBarHHKinFit
 	)
 {

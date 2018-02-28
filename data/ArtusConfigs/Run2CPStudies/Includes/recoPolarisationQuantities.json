@@ -71,10 +71,18 @@
 		"#polarisationOmegaBarHHKinFit_1",
 		"#polarisationOmegaBarHHKinFit_2",
 		
+		"polarisationOmegaVisibleSimpleFit_1",
+		"polarisationOmegaVisibleSimpleFit_2",
+		"#polarisationOmegaVisibleHHKinFit_1",
+		"#polarisationOmegaVisibleHHKinFit_2",
+		
 		"polarisationCombinedOmegaSimpleFit",
 		"#polarisationCombinedOmegaHHKinFit",
 		
 		"polarisationCombinedOmegaBarSimpleFit",
-		"#polarisationCombinedOmegaBarHHKinFit"
+		"#polarisationCombinedOmegaBarHHKinFit",
+		
+		"polarisationCombinedOmegaVisibleSimpleFit",
+		"#polarisationCombinedOmegaVisibleHHKinFit"
 	]
 }
