@@ -39,7 +39,13 @@ def official2private(category, category_replacements):
 	result = copy.deepcopy(category)
 	for official, private in category_replacements.iteritems():
 		if not "dijet_boosted" in result:
-			result = re.sub(official+"$", private, result)
+			result = re.sub(official+"$", private, result)	
+		if "dijet2D_boosted" in private and "dijet_boosted" in official:
+			result = re.sub("dijet_boosted", "dijet2D_boosted", result)
+		if "dijet2D_Boosted2D" in result:
+			result = re.sub("Boosted2D", "boosted", result)
+		if "dijet2D_boosted" in result and "QCDCR" in result:
+			result = re.sub("QCDCR", "qcd_cr", result)	
 	return result
 
 def private2official(category, category_replacements):
@@ -149,7 +155,9 @@ if __name__ == "__main__":
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 	                    help="Do not include shape uncertainties. [Default: %(default)s]")
 	parser.add_argument("--scale-sig-IC", default=False, action="store_true",
-	                    help="Scale signal cross section to IC cross section. [Default: %(default)s]")						
+	                    help="Scale signal cross section to IC cross section. [Default: %(default)s]")	
+	parser.add_argument("--dijet-2D", default=False, action="store_true",
+	                    help="Use unrolled 2D distributions of m_sv/jdphi or mela discriminators. [Default: %(default)s]")											
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 	                    help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--production-mode", nargs="+",
@@ -227,7 +235,10 @@ if __name__ == "__main__":
 	if args.get_official_dc:
 		# get "official" configuration
 		init_directory = os.path.join(args.output_dir, "init")
-		command = "MorphingSMCP2016 --control_region=1 --postfix -2D --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
+		command = "MorphingSMCP2016 --control_region=1 {DIJET_2D} --postfix -2D --mm_fit=false --ttbar_fit=true {INIT}".format(
+		DIJET_2D="--dijet_2d=true" if args.dijet_2D else "",
+		INIT="--only_init="+os.path.join(args.output_dir, "init")
+		) 
 		log.debug(command)
 		exit_code = logger.subprocessCall(shlex.split(command))
 		assert(exit_code == 0)
@@ -291,6 +302,12 @@ if __name__ == "__main__":
 		category_replacements["0jet"] = "ZeroJet2D"
 		category_replacements["boosted"] = "Boosted2D"
 		category_replacements["vbf"] = "Vbf2D"
+		if args.dijet_2D:
+			category_replacements["dijet_boosted"] = "dijet2D_boosted"
+			category_replacements["dijet_boosted_qcd_cr"] = "dijet2D_boosted_qcd_cr"
+			category_replacements["dijet_lowboost"] = "dijet2D_lowboost"
+			category_replacements["dijet_lowboost_qcd_cr"] = "dijet2D_lowboost_qcd_cr"
+			
 		
 	else:
 		# use the datacards created within Artus.
@@ -665,10 +682,13 @@ if __name__ == "__main__":
 					if "TTbarCR" in category and channel == "ttbar":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
-					if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr"]) and channel == "tt":
-						config["x_expressions"] = ["jdphi"]
+						
+					if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
-					
+						
+					if any( cr in category for cr in ["dijet2D_lowboost_qcd_cr", "dijet2D_boosted_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
+										
 					# Use 2d plots for 2d categories
 					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_vis"]
@@ -709,6 +729,17 @@ if __name__ == "__main__":
 							config["z_expressions"] = ["TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH"]]
 
+					if "dijet2D" in category and not "qcd_cr" in category:
+						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+						if "jdphi" in args.quantity:
+							config["y_expressions"] = ["jdphi"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
+						elif "dcp_star" in args.quantity:
+							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH*TMath::Sign(1, melaDiscriminatorDCPGGH)"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
+							
+							
 					# set quantity x depending on the category
 					if args.cp_study == "final":
 						if all(["RHOmethod" in c for c in categories]):
@@ -787,9 +818,11 @@ if __name__ == "__main__":
 	# call official script again with shapes that have just been created
 	# this steps creates the filled datacards in the output folder. 
 	datacards_module._call_command([
-			"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} --control_region=1 --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
+			"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --control_region=1 {DIJET_2D} --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
 			OUTPUT_SUFFIX=args.output_suffix,
-			SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else ""
+			SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
+			SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else "",
+			DIJET_2D="--dijet_2d=true" if args.dijet_2D else ""
 			),
 			args.output_dir
 	])
