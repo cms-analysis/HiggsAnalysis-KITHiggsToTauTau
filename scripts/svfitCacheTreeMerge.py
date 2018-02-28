@@ -96,7 +96,7 @@ def main():
 	merged_output_dir = os.path.join(args.output_dir, "merged")
 	if not os.path.exists(merged_output_dir):
 		os.makedirs(merged_output_dir)
-	hadd_commands = ["hadd.py "+(" ".join(tmp_root_files))+" -t "+os.path.join(merged_output_dir, sample_nick+".root")+" -a \" -f -v 0\"" for sample_nick, tmp_root_files in root_files_per_sample_nick.iteritems()]
+	hadd_commands = ["hadd.py "+(" ".join(tmp_root_files))+" -t "+os.path.join(merged_output_dir, sample_nick+".root")+" -a \" -f \"" for sample_nick, tmp_root_files in root_files_per_sample_nick.iteritems()]
 	tools.parallelize(_call_command, hadd_commands, args.n_processes, description="merging")
 	
 	if args.dcache_target:
