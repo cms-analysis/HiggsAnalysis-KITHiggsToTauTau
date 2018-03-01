@@ -552,7 +552,7 @@ if __name__ == "__main__":
 				elif channel == "tt":
 					exclude_cuts += ["iso_1", "iso_2"]
 					do_not_normalize_by_bin_width = True
-			if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr"]) and channel == "tt":
+			if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt":
 				exclude_cuts += ["iso_1", "iso_2"]
 				do_not_normalize_by_bin_width = True
 				
@@ -652,7 +652,7 @@ if __name__ == "__main__":
 						binnings_key = "tt_phiStarCP"
 					
 						
-					if "2D" not in category and not any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "ttbar", "Vbf4D_mela_GGH"]):
+					if "2D" not in category and not any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet2D_lowboost_qcd_cr", "dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "ttbar", "Vbf4D_mela_GGH"]):
 						binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
 						if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 							config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
@@ -683,10 +683,10 @@ if __name__ == "__main__":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						
-					if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
+					if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
 						
-					if any( cr in category for cr in ["dijet2D_lowboost_qcd_cr", "dijet2D_boosted_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
+					if any( cr in category for cr in ["dijet2D_lowboost_qcd_cr", "dijet2D_boosted_qcd_cr"]) and channel == "tt" and "mela" in args.quantity:
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
 										
 					# Use 2d plots for 2d categories
@@ -729,18 +729,18 @@ if __name__ == "__main__":
 							config["z_expressions"] = ["TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH"]]
 
-					if "dijet2D" in category and not "qcd_cr" in category:
+					elif "dijet2D" in category and not "qcd_cr" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]	
 						config["y_expressions"] = ["jdphi"]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
-						if "dcp_star" in args.quantity:
-							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH*TMath::Sign(1, melaDiscriminatorDCPGGH)"]
+						if "mela" in args.quantity:
+							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH*ROOT::TMath::Sign(1, melaDiscriminatorDCPGGH)"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
 							
 							
 					# set quantity x depending on the category
-					if args.cp_study == "final":
+					if args.cp_study == "final":# NOTE: 
 						if all(["RHOmethod" in c for c in categories]):
 							config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
 							args.quantity = "recoPhiStarCP_rho_merged"
@@ -752,7 +752,7 @@ if __name__ == "__main__":
 							raise ValueError("You shall not pass different types of category (COMB and RHO) to the same channel. Repeat the channel for the each type of category.")
 
 					# Unroll 2d distribution to 1d in order for combine to fit it
-					if ("2D" in category or "3D" in category or "Vbf4D" in category) and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and "ZeroJet2D" in category):
+					if ("2D" in category or "3D" in category or "Vbf4D" in category) and not ("WJCR" in category or "QCDCR" in category) and not "qcd_cr" in category and not (channel == "tt" and "ZeroJet2D" in category):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollHistogram")
 						config["unroll_ordering"] = "zyx"
