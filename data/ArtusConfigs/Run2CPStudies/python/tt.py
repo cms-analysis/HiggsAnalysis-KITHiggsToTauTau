@@ -14,17 +14,23 @@ class tt_ArtusConfig(dict)
 
 
 
-	def __init__(self, nick, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
+	def __init__(self, nickname, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
 		import HiggsAnalysis.KITHiggsToTauTau.data.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
-		"""
+		import HiggsAnalysis.KITHiggsToTauTau.data.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
+		
 		#KIT is using this, not a bad idea. If done add year and runnumber as wel
 		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
-		isData = datasetsHelper.isData(nick)
-		isEmbedding = datasetsHelper.isEmbedding(nick)
-		isTTbar = re.match("TT(To|_|Jets)", nick)
-		isDY = re.match("DY.?JetsToLLM(50|150)", nick)
-		isWjets = re.match("W.?JetsToLNu", nick)
-		"""
+		isData = datasetsHelper.isData(nickname)
+		isSignal = datasetsHelper.isSignal(nickname)
+		isEmbedding = datasetsHelper.isEmbedding(nickname)
+		isTTbar = re.match("TT(To|_|Jets)", nickname)
+		isDY = re.match("DY.?JetsToLLM(50|150)", nickname)
+		isWjets = re.match("W.?JetsToLNu", nickname)
+		isLFV = ("LFV" in nickname)
+		is2015 = re.match("(.*)15", nickname) #I am not 100% sure if this is exclusive
+		is2016 = re.match("(.*)16", nickname) #I am not 100% sure if this is exclusive	
+		is2017 = re.match("(.*)17", nickname) #I am not 100% sure if this is exclusive
+				
 		#Change this json config files as well?
 		self["include"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json", 
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
@@ -76,10 +82,23 @@ class tt_ArtusConfig(dict)
 		self["NoHltFiltering"]=False
 		self["DiTauPairNoHLT"]= True		
 
+		self["OSChargeLeptons"] = True
 
+		self["AddGenMatchedTaus"] = True,
+		self["AddGenMatchedTauJets"] = True,
+		self["BranchGenMatchedTaus"] = True,
 
+		self["Consumers"] = ["KappaLambdaNtupleConsumer",
+			"cutflow_histogram",
+			"SvfitCacheConsumer",
+			#"CutFlowTreeConsumer",
+			#"KappaTausConsumer",
+			#"KappaTaggedJetsConsumer",
+			#"RunTimeConsumer",
+			#"PrintEventsConsumer",
+			#"PrintGenParticleDecayTreeConsumer"]
 
-		if "Embedding" in nick:
+		if isEmbedding:
 			self["NoHltFiltering"]= True
 			self["DiTauPairNoHLT"]= True
 		else:
@@ -92,36 +111,471 @@ class tt_ArtusConfig(dict)
 		self["TauTriggerFilterNames"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg",   #here are : in string
 						"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"]
 
-		if "Run2016" in nick and not "Run2016H" in nick:
+		if "Run2016" in nickname and not "Run2016H" in nickname:
 			self["HltPaths"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"]
 			self["TauTriggerFilterNames"]=["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"]
 
 
-		elif "Run2016H" in nick:
+		elif "Run2016H" in nickname:
 			self["HltPaths"] = ["HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"]
 			self["TauTriggerFilterNames"] = ["HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"]
 
-		elif "Fall15MiniAODv2" in nick or "Run2015D" in nick or "Embedding2015" in nick:
+		elif "Fall15MiniAODv2" in nickname or "Run2015D" in nickname or "Embedding2015" in nickname:
 			self["HltPaths"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"]
 			self["TauTriggerFilterNames"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"]
 
-		elif "Spring16" in nick or "Embedding2016" in nick or "EmbeddingMC" in nick:	 #TODO Ask thomas what it should be line 40 in json
+		elif "Spring16" in nickname or "Embedding2016" in nickname or "EmbeddingMC" in nickname:	 #TODO Ask thomas what it should be line 40 in json
 			self["HltPaths"] = [""]
 
-
+		#Quantities, this looks for tt em mt et very similar, check if it is the same and if so put it in baseconfig for all channels
 		self["Quantities"]=[]
-		if "Run2015" in nick:
+		if isData and is2015:
+			self["Quantities"] += r2q.fourVectorQuantities()
+			self["Quantities"] += r2q.syncQuantities()
+			self["Quantities"] += r2cpq.weightQuantities()
+			self["Quantities"] += r2cpq.recoPolarisationQuantities()
+			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+		elif isDY and is2016:
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.svfitSyncQuantities()
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
+			self["Quantities"] += r2cpq.genQuantities()
+			self["Quantities"] += r2cpq.weightQuantities()
+			self["Quantities"] += r2cpq.genMatchedCPQuantities()
+			self["Quantities"] += r2cpq.recoCPQuantities()
+			self["Quantities"] += r2cpq.recoPolarisationQuantities()
+			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
+			self["Quantities"] += [] #TODO "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += ["tauSpinnerPolarisation"]
+		elif isSignal and is2016:
+			self["Quantities"] += r2q.fourVectorQuantities()
+			self["Quantities"] += r2q.syncQuantities()
+			self["Quantities"] += r2q.svfitSyncQuantities()
+			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
+			self["Quantities"] += r2cpq.genQuantities()
+			self["Quantities"] += r2cpq.genHiggsQuantities()
+			self["Quantities"] += r2cpq.weightQuantities()
+			self["Quantities"] += r2cpq.genMatchedCPQuantities()
+			self["Quantities"] += r2cpq.recoCPQuantities()
+			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+		elif not (isDY or isSignal) and is2015:
+			self["Quantities"] += r2q.fourVectorQuantities()
+			self["Quantities"] += r2q.syncQuantities()
+			self["Quantities"] += r2cpq.weightQuantities()
+			self["Quantities"] += r2cpq.recoPolarisationQuantities()
+			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+		elif isDY and is2015:
+			self["Quantities"] += r2q.fourVectorQuantities()
+			self["Quantities"] += r2q.syncQuantities()
+			self["Quantities"] += r2cpq.genQuantities()			
+			self["Quantities"] += r2cpq.weightQuantities()
+			self["Quantities"] += r2cpq.genMatchedCPQuantities()
+			self["Quantities"] += r2cpq.recoPolarisationQuantities()
+			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list			
+		elif isSignal and is2015:    #almost the same as 2016 signal, no splitJecUncertaintyQuantities()
+			self["Quantities"] += r2q.fourVectorQuantities()
+			self["Quantities"] += r2q.syncQuantities()
+			self["Quantities"] += r2q.svfitSyncQuantities()
+			self["Quantities"] += r2cpq.genQuantities()
+			self["Quantities"] += r2cpq.genHiggsQuantities()
+			self["Quantities"] += r2cpq.weightQuantities()
+			self["Quantities"] += r2cpq.genMatchedCPQuantities()
+			self["Quantities"] += r2cpq.recoCPQuantities()
+			self["Quantities"] += r2cpq.melaQuantities()
+			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"]
+		elif isEmbedding and is2016:
+			self["Quantities"] += r2q.fourVectorQuantities()
+			self["Quantities"] += r2q.syncQuantities()
+			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
+			self["Quantities"] += r2cpq.genQuantities()
+			self["Quantities"] += r2cpq.weightQuantities()			
+			self["Quantities"] += r2cpq.recoPolarisationQuantities()
+			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += ["tauSpinnerPolarisation"]
+		elif isLFV and is2016:
+			self["Quantities"] += r2q.fourVectorQuantities()
+			self["Quantities"] += r2q.syncQuantities()
+			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
+			self["Quantities"] += r2cpq.genQuantities()
+			self["Quantities"] += r2cpq.weightQuantities()
 		else:
-			self["Quantities"]+=r2q.fourVectorQuantities()
-			self["Quantities"]+=r2q.syncQuantities()
-			self["Quantities"]+=r2q.svfitSyncQuantities()
-			self["Quantities"]+=r2q.splitJecUncertaintyQuantities() #TODO cp quantities to python file
-			
+			self["Quantities"] += r2q.fourVectorQuantities()
+			self["Quantities"] += r2q.syncQuantities()
+			self["Quantities"] += r2q.svfitSyncQuantities()
+			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
+			self["Quantities"] += r2cpq.weightQuantities()
+			self["Quantities"] += r2cpq.recoCPQuantities()
+			self["Quantities"] += r2cpq.recoPolarisationQuantities()			
+			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
+			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+
+		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
+		
+		#Producers and filters, TODO filter everything which is the same and use this as the startint list, then just add the other variables per sample
+		self["Processors"]=[]
+		if isDY and is2016:
+			self["Processors"] = ["producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:MetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
+					"producer:ZPtReweightProducer",
+					"filter:MinimalPlotlevelFilter",
+					#"producer:MVATestMethodsProducer",
+					"producer:SvfitProducer",
+					"producer:MELAProducer",
+					"producer:SimpleFitProducer",
+					"producer:TauTauTriggerWeightProducer",
+					"producer:GenMatchedTauCPProducer",
+					"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					#"producer:TauPolarisationTmvaReader",
+					"producer:EventWeightProducer"]
+
+		elif not (isDY or isSignal) and is2015:
+			self["Processors"] = ["producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetSelector",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					#"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:MetCorrector",
+					"producer:MvaMetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:TopPtReweightingProducer",
+					"filter:MinimalPlotlevelFilter",
+					#"producer:MVATestMethodsProducer",
+					#"producer:SvfitProducer",
+					#"producer:MELAProducer",
+					#"producer:SimpleFitProducer",
+					#"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					#"producer:TauPolarisationTmvaReader",
+					"producer:EventWeightProducer"]
+		
+		elif isDY and is2015:
+			self["Processors"] = ["producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetSelector",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					#"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:MetCorrector",
+					"producer:MvaMetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:ZPtReweightProducer",
+					"filter:MinimalPlotlevelFilter",
+					#"producer:MVATestMethodsProducer",
+					#"producer:SvfitProducer",
+					#"producer:MELAProducer",
+					#"producer:SimpleFitProducer",
+					"producer:EleTauFakeRateWeightProducer",
+					"producer:GenMatchedTauCPProducer",
+					#"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					#"producer:TauPolarisationTmvaReader",
+					"producer:EventWeightProducer"]
+		elif isData and is2016:
+			self["Processors"] = ["producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"filter:MinimalPlotlevelFilter",
+					#"producer:MVATestMethodsProducer",
+					"producer:SvfitProducer",
+					"producer:MELAProducer",
+					"producer:SimpleFitProducer",
+					"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					#"producer:TauPolarisationTmvaReader",
+					"producer:EventWeightProducer"]
+		
+		elif isData and is2015:
+			self["Processors"] = ["producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetSelector",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					#"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"filter:MinimalPlotlevelFilter",
+					#"producer:MVATestMethodsProducer",
+					#"producer:SvfitProducer",
+					#"producer:MELAProducer",
+					#"producer:SimpleFitProducer",
+					#"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					#"producer:TauPolarisationTmvaReader",
+					"producer:EventWeightProducer"]
+		elif isSignal and is2016:
+			self["Processors"] = ["producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:MetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
+					"producer:TopPtReweightingProducer",
+					"filter:MinimalPlotlevelFilter",
+					#"producer:MVATestMethodsProducer",
+					"producer:SvfitProducer",
+					"producer:MELAProducer",
+					"producer:TauTauTriggerWeightProducer",
+					"producer:GenMatchedTauCPProducer",
+					"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					#"producer:MadGraphReweightingProducer",
+					#"producer:TauPolarisationTmvaReader",
+					"producer:EventWeightProducer"]
+		elif isSignal and is2015: 
+			self["Processors"] = ["producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:MvaMetSelector",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					#"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:MetCorrector",
+					"producer:MvaMetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:TopPtReweightingProducer",
+					"filter:MinimalPlotlevelFilter",
+					#"producer:MVATestMethodsProducer",
+					"producer:SvfitProducer",
+					"producer:MELAProducer",
+					#"producer:SimpleFitProducer",
+					"producer:EleTauFakeRateWeightProducer",
+					"producer:GenMatchedTauCPProducer",
+					#"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					"producer:MadGraphReweightingProducer",
+					#"producer:TauPolarisationTmvaReader",
+					"producer:EventWeightProducer"]
+		elif isLFV and is2016:
+			self["Processors"] = ["producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:MetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
+					"producer:ZPtReweightProducer",
+					#"filter:MinimalPlotlevelFilter",
+					#"producer:MVATestMethodsProducer",
+					#"producer:SvfitProducer",
+					"producer:TauTauTriggerWeightProducer",
+					"producer:GenMatchedTauCPProducer",
+					"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					#"producer:TauPolarisationTmvaReader",
+					"producer:EventWeightProducer"]
+		
+		else
+			self["Processors"] = ["producer:HltProducer",
+					"filter:HltFilter",
+					"producer:MetSelector",
+					"producer:TauCorrectionsProducer",
+					"producer:ValidTausProducer",
+					"filter:ValidTausFilter",
+					"producer:TauTriggerMatchingProducer",
+					"filter:MinTausCountFilter",
+					"producer:ValidElectronsProducer",
+					"producer:ValidMuonsProducer",
+					"producer:ValidTTPairCandidatesProducer",
+					"filter:ValidDiTauPairCandidatesFilter",
+					"producer:HttValidLooseElectronsProducer",
+					"producer:HttValidLooseMuonsProducer",
+					"producer:Run2DecayChannelProducer",
+					"producer:TaggedJetCorrectionsProducer",
+					"producer:ValidTaggedJetsProducer",
+					"producer:ValidBTaggedJetsProducer",
+					"producer:TaggedJetUncertaintyShiftProducer",
+					"producer:MetCorrector",
+					"producer:TauTauRestFrameSelector",
+					"producer:DiLeptonQuantitiesProducer",
+					"producer:DiJetQuantitiesProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer",
+					"producer:TopPtReweightingProducer",
+					"filter:MinimalPlotlevelFilter",
+					#"producer:MVATestMethodsProducer",
+					"producer:SvfitProducer",
+					"producer:MELAProducer",
+					"producer:SimpleFitProducer",
+					"producer:TauTauTriggerWeightProducer",
+					"producer:RefitVertexSelector",
+					"producer:RecoTauCPProducer",
+					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSimpleFitProducer",
+					#"producer:TauPolarisationTmvaReader",
+					"producer:EventWeightProducer"]
+
+				self["Processors"]=list(set(self["Processors"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
+		
+
+
+
+
+
+
+
+
+
+
+
 
 
 
