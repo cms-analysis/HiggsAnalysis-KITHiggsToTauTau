@@ -13,6 +13,7 @@ import shlex
 import tempfile
 
 import Artus.Utility.tools as tools
+import Artus.Utility.dcachetools as dcachetools
 
 filename_replacements = {
 	"srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN=/pnfs/physik.rwth-aachen.de/cms/store/user/" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/"
@@ -28,8 +29,21 @@ def _call_command(command):
 def _get_crab_outputs(args):
 	crab_dir = args[0]
 	jobids = args[1]
-	stdout, stderr = tools.subprocessCall(shlex.split("crab getoutput --dump --jobids {jobids} -d {crab_dir}".format(crab_dir=crab_dir, jobids=jobids)))
-	return re.findall("PFN:\s*(?P<path>.*)\s", stdout)
+	command = "crab getoutput --dump --jobids {jobids} -d {crab_dir}".format(crab_dir=crab_dir, jobids=jobids)
+	log.debug(command)
+	stdout, stderr = tools.subprocessCall(shlex.split(command))
+	files = re.findall("PFN:\s*(?P<path>.*)\s", stdout)
+	#return files
+	
+	search_pattern = re.sub("SvfitCache_[0-9]*.tar", "SvfitCache_*.tar", files[0])
+	while True:
+		new_search_pattern = re.sub("/[0-9_]+/", "/*/", search_pattern)
+		if search_pattern == new_search_pattern:
+			break
+		search_pattern = new_search_pattern
+	files = dcachetools.list_of_files(path=search_pattern, recursive=False, gfal_ls_args="")
+	return files
+	
 
 def _download_untar(args):
 	tar_file = args[0]
@@ -73,9 +87,10 @@ def main():
 	max_n_retrieve = 500
 	get_crab_outputs_args = []
 	for input_dir in args.input_dirs:
-		for jobid_start in xrange(1, max_n_jobs, max_n_retrieve):
-			jobid_end = jobid_start + max_n_retrieve - 1
-			get_crab_outputs_args.append([input_dir, "{jobid_start}-{jobid_end}".format(jobid_start=jobid_start, jobid_end=jobid_end)])
+		#for jobid_start in xrange(1, max_n_jobs, max_n_retrieve):
+		#	jobid_end = jobid_start + max_n_retrieve - 1
+		#	get_crab_outputs_args.append([input_dir, "{jobid_start}-{jobid_end}".format(jobid_start=jobid_start, jobid_end=jobid_end)])
+		get_crab_outputs_args.append([input_dir, "1-10"])
 	
 	tar_files = tools.parallelize(_get_crab_outputs, get_crab_outputs_args, args.n_processes, description="crab getoutput --dump")
 	tar_files = tools.flattenList(tar_files)
