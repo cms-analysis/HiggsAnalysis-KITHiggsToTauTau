@@ -83,8 +83,8 @@ def main():
 		args.output_dir = os.path.join(args.input_dirs[0], "results")
 	
 	# get paths to crab outputs
-	max_n_jobs = 8000
-	max_n_retrieve = 500
+	#max_n_jobs = 8000
+	#max_n_retrieve = 500
 	get_crab_outputs_args = []
 	for input_dir in args.input_dirs:
 		#for jobid_start in xrange(1, max_n_jobs, max_n_retrieve):
@@ -92,7 +92,7 @@ def main():
 		#	get_crab_outputs_args.append([input_dir, "{jobid_start}-{jobid_end}".format(jobid_start=jobid_start, jobid_end=jobid_end)])
 		get_crab_outputs_args.append([input_dir, "1-10"])
 	
-	tar_files = tools.parallelize(_get_crab_outputs, get_crab_outputs_args, args.n_processes, description="crab getoutput --dump")
+	tar_files = tools.parallelize(_get_crab_outputs, get_crab_outputs_args, 1, description="crab getoutput --dump")
 	tar_files = tools.flattenList(tar_files)
 	
 	# download and un-tar
