@@ -234,17 +234,17 @@ if __name__ == "__main__":
 	
 	if args.get_official_dc:
 		# get "official" configuration
-		init_directory = os.path.join(args.output_dir, "init")
+		init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix)) 
 		command = "MorphingSMCP2016 --control_region=1 {DIJET_2D} --postfix -2D --mm_fit=false --ttbar_fit=true {INIT}".format(
 		DIJET_2D="--dijet_2d=true" if args.dijet_2D else "",
-		INIT="--only_init="+os.path.join(args.output_dir, "init")
-		) 
+		INIT="--only_init="+os.path.join(init_directory, "init")
+		)
 		log.debug(command)
 		exit_code = logger.subprocessCall(shlex.split(command))
 		assert(exit_code == 0)
 		
 		init_cb = ch.CombineHarvester()
-		for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):			
+		for init_datacard in glob.glob(os.path.join(os.path.join(init_directory, "init"), "*_*_*_*.txt")):			
 			init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt', False)
 		
 		datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
@@ -341,8 +341,8 @@ if __name__ == "__main__":
 		}
 		
 	# initialise datacards
-	tmp_input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
+	tmp_input_root_filename_template = "shapes/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	input_root_filename_template = "shapes/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
@@ -731,11 +731,10 @@ if __name__ == "__main__":
 
 					if "dijet2D" in category and not "qcd_cr" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
-						if "jdphi" in args.quantity:
-							config["y_expressions"] = ["jdphi"]
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
-						elif "dcp_star" in args.quantity:
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]	
+						config["y_expressions"] = ["jdphi"]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
+						if "dcp_star" in args.quantity:
 							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH*TMath::Sign(1, melaDiscriminatorDCPGGH)"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
 							
