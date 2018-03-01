@@ -1,8 +1,6 @@
 var searchData=
 [
   ['particleisolation',['ParticleIsolation',['../classParticleIsolation.html',1,'']]],
-  ['phicpsvfitquantity',['PhiCPSVfitQuantity',['../classPhiCPSVfitQuantity.html',1,'']]],
-  ['phistarcpsvfitquantity',['PhiStarCPSVfitQuantity',['../classPhiStarCPSVfitQuantity.html',1,'']]],
   ['plotmodule',['Plotmodule',['../classConfigMaster_1_1Plotmodule.html',1,'ConfigMaster']]],
   ['plotroothtt',['PlotRootHtt',['../classplotroothtt_1_1PlotRootHtt.html',1,'plotroothtt']]],
   ['poissonyield',['PoissonYield',['../classtools_1_1PoissonYield.html',1,'tools']]],
