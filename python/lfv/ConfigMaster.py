@@ -50,12 +50,6 @@ class ConfigMaster(object):
 					Plotmodule.limit:			self.__limitplot__
 		}
 
-
-	##Pythonic way of overloaded constructor not using sample information and doing any other plot you wish
-	@classmethod
-	def init(self):
-		return "Work in progress"
-
 	
 	###Dictionaries for information for each plotting/analysis modules
 
@@ -101,7 +95,7 @@ class ConfigMaster(object):
 		return self._sumofhists
 
 
-	def __efficiencyplot__(self, analysis_mod, bkg_nicks, markers, y_label, cut_modes, sig_nicks, cut_nicks, whitelist, lower_cut, plot_modules):
+	def __efficiencyplot__(self, analysis_mod, bkg_nicks, markers, y_label, cut_modes, sig_nicks, cut_nicks, whitelist, lower_cut):
 		
 		self._efficiencyplot = {
 					"analysis_modules":		analysis_mod,
@@ -111,25 +105,15 @@ class ConfigMaster(object):
 					"cut_efficiency_modes":		cut_modes,
 					"nicks_whitelist":		whitelist,
 					"markers":			markers,
-					"x_label":			x_label,
 					"y_label":			y_label,
-					"www":				www,
 					"select_lower_values":		lower_cut,
-					"plot_modules":			plot_modules
 		}
 
 		return self._efficiencyplot
 
-	def __shapeplot__(self, x_label, title, legend, lumis, energies, year, www, y_label, analysis_mod):
+	def __shapeplot__(self, y_label, analysis_mod):
 		
 		self._shapeplot = {
-					"x_label":			x_label,
-					"legend":			legend,
-					"lumis"	:			lumis,
-					"energies":			energies,
-					"title"	:			title,
-					"year":				year,
-					"www":				www,
 					"y_label":			y_label,
 					"analysis_modules":		analysis_mod					
 		}

@@ -1,6 +1,7 @@
 #!/bin/sh
 #set -e # exit on errors
 
+ssh -vT git@github.com
 
 echo -n "Enter the CMMSW release you want to use (747, 810) and press [ENTER] : "
 read cmssw_version
@@ -51,7 +52,7 @@ git cms-addpkg CondFormats/JetMETObjects
 
 # From Kappa, only the DataFormats are needed
 # Mind that for certain skims, you need exactly the Kappa git tag that has been used for the production
-git clone https://github.com/KappaAnalysis/Kappa.git
+git clone git@github.com:KappaAnalysis/Kappa.git
 cd Kappa
 echo docs/ >> .git/info/sparse-checkout
 echo DataFormats/ >> .git/info/sparse-checkout
@@ -60,58 +61,58 @@ git config core.sparsecheckout true
 git read-tree -mu HEAD
 cd ..
 
-git clone https://github.com/artus-analysis/Artus.git -b $BRANCH
+git clone git@github.com:artus-analysis/Artus.git -b $BRANCH
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
+git clone git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
 
 # Di-tau system reconstruction
-# git clone https://github.com/veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
-git clone https://github.com/CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
-git clone https://github.com/SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit
-git clone https://github.com/SVfit/SVfitTF.git TauAnalysis/SVfitTF
-git clone https://github.com/TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
+# git clone git@github.com:veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
+git clone git@github.com:CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
+git clone git@github.com:SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit
+git clone git@github.com:SVfit/SVfitTF.git TauAnalysis/SVfitTF
+git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # polarisation
-git clone https://github.com/TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
-git clone https://github.com/TauPolSoftware/StatisticalAnalysis.git TauPolSoftware/StatisticalAnalysis
+git clone git@github.com:TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
+git clone git@github.com:TauPolSoftware/StatisticalAnalysis.git TauPolSoftware/StatisticalAnalysis
 
 # MadGraph
-git clone https://github.com/CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
+git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
 
 # MELA/JHU
-git clone https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
+git clone git@github.com:cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
 cd ZZMatrixElement
 ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
 cd $CMSSW_BASE/src/
 
 # Jet2Tau Fakes
-git clone https://github.com/CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
+git clone git@github.com:CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
 git checkout v0.2.1
 cd $CMSSW_BASE/src/
 
 # EmuQCD Method
-git clone https://github.com/CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
+git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
 
 # needed for plotting and statistical inference
 if [ $ch_branch == "SM2016-dev" ] && [ $cmssw_version == "747" ]; then
-	git clone https://github.com/thomas-mueller/CombineHarvester.git CombineHarvester -b SM2016-dev
+	git clone git@github.com:thomas-mueller/CombineHarvester.git CombineHarvester -b SM2016-dev
 	cd CombineHarvester/HTTSM2016
 	git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
 	cd -
-	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
 	git fetch origin
 	git checkout v6.3.1
 	cd -
 
 elif [ $ch_branch == "SMCP2016-dev" ]  && [ $cmssw_version == "747" ]; then
-	git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester -b SMCP2016-dev
+	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester -b SMCP2016-dev
         cd CombineHarvester/HTTSMCP2016
         git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
         cd -
-        git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+        git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
         cd HiggsAnalysis/CombinedLimit
         git fetch origin
         git checkout v6.3.1
@@ -119,16 +120,16 @@ elif [ $ch_branch == "SMCP2016-dev" ]  && [ $cmssw_version == "747" ]; then
 
 elif [ $ch_branch == "master" ]  && [ $cmssw_version == "747" ]; then
 	# needed for plotting and statistical inference
-	git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
-	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b 74x-root6
+	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
+	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b 74x-root6
 	cd HiggsAnalysis/CombinedLimit
 	git checkout 3cb65246555d094734a81e20181e399714d22c7e
 	cd -
 
 elif [ $cmssw_version == "810" ]; then
         # needed for plotting and statistical inference
-	git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
-	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
+	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
 	git fetch origin
 	git checkout v7.0.4
@@ -140,10 +141,10 @@ else
 fi
 
 # needed for error propagation e.g. in the background estimations
-git clone https://github.com/lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
+git clone git@github.com:lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
 
 # Grid-Control
-git clone https://github.com/grid-control/grid-control.git -b testing
+git clone git@github.com:grid-control/grid-control.git -b testing
 cd grid-control
 git reset --hard 3f93692
 cd $CMSSW_BASE/src/
