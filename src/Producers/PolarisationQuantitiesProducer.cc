@@ -88,6 +88,7 @@ void PolarisationQuantitiesProducerBase::Produce(
 		{
 			inputs.push_back(GetInputLepton(product, *lepton));
 			types.push_back("lepton");
+			charges.push_back((*lepton)->charge());
 		}
 		else if ((*lepton)->flavour() == KLeptonFlavour::TAU)
 		{
@@ -231,7 +232,7 @@ PolarisationQuantitiesSvfitProducer::PolarisationQuantitiesSvfitProducer() :
 			&product_type::m_polarisationOmegaBarsSvfit,
 			&product_type::m_polarisationCombinedOmegaSvfit,
 			&product_type::m_polarisationCombinedOmegaBarSvfit,
-			&product_type::m_polarisationCombinedOmegaBarSvfit
+			&product_type::m_polarisationCombinedOmegaVisibleSvfit
 	)
 {
 }
@@ -251,7 +252,7 @@ PolarisationQuantitiesSimpleFitProducer::PolarisationQuantitiesSimpleFitProducer
 			&product_type::m_polarisationOmegaBarsSimpleFit,
 			&product_type::m_polarisationCombinedOmegaSimpleFit,
 			&product_type::m_polarisationCombinedOmegaBarSimpleFit,
-			&product_type::m_polarisationCombinedOmegaBarSimpleFit
+			&product_type::m_polarisationCombinedOmegaVisibleSimpleFit
 	)
 {
 }
