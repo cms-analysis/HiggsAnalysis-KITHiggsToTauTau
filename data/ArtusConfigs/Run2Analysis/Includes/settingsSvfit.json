@@ -188,5 +188,13 @@
 			"ZZTo2L2Q_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_amcatnlo-pythia8" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/tmuller/higgs-kit/Svfit/MergedCaches/2018-02-15_00-16_classivSvfit_inputs2017-12-26_noMassConstraint/ZZTo2L2Q_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_amcatnlo-pythia8.root",
 			"ZZTo4L_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_amcatnlo-pythia8_ext1" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/tmuller/higgs-kit/Svfit/MergedCaches/2018-02-15_00-16_classivSvfit_inputs2017-12-26_noMassConstraint/ZZTo4L_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_amcatnlo-pythia8_ext1.root"
 		}
+	},
+	"SvfitM91CacheFile": {
+		"nick" : {
+		}
+	},
+	"SvfitM125CacheFile": {
+		"nick" : {
+		}
 	}
 }
