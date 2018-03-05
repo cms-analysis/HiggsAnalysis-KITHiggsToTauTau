@@ -14,6 +14,7 @@ var searchData=
   ['replace',['replace',['../classConfigMaster_1_1ConfigMaster.html#a17700721b143b746d2f71dbaeddbe421',1,'ConfigMaster::ConfigMaster']]],
   ['replace_5fobservation_5fby_5fasimov_5fdataset',['replace_observation_by_asimov_dataset',['../classdatacards_1_1Datacards.html#a553dc8683854ed65bbb5ec7711f0f330',1,'datacards.Datacards.replace_observation_by_asimov_dataset()'],['../classmvadatacards__base_1_1Datacards.html#ae645aa63df76b1ea39b1461a1c300edc',1,'mvadatacards_base.Datacards.replace_observation_by_asimov_dataset()'],['../namespacemakePlots__datacardsZttPolarisation.html#aec8a773cb20f7d7fba3897a392b2c3a4',1,'makePlots_datacardsZttPolarisation.replace_observation_by_asimov_dataset()']]],
   ['replacelines',['replaceLines',['../namespacebatchComputeSvfit.html#a5fc1663fee9b5617fdb0d892307b9c23',1,'batchComputeSvfit']]],
+  ['restore_5fenvironment',['restore_environment',['../namespacesubmitCrabSvfitJobs.html#a766eb8f858ec0c425c35c0649fa1c772',1,'submitCrabSvfitJobs']]],
   ['return_5fconfig',['return_config',['../classConfigMaster_1_1ConfigMaster.html#a79233b8ce28d992c162ca1d0fe468068',1,'ConfigMaster::ConfigMaster']]],
   ['return_5fjson_5fwith_5fchanged_5fx_5fand_5fweight',['return_json_with_changed_x_and_weight',['../classembedding__plot__classes_1_1single__plot.html#abd4a54fc97b774962539f20f33113dbd',1,'embedding_plot_classes::single_plot']]],
   ['return_5fnevents',['return_nevents',['../classembedding__plot__classes_1_1single__plotline.html#a08bc0e1463a7ce4381ffbf2054c1f698',1,'embedding_plot_classes::single_plotline']]],
