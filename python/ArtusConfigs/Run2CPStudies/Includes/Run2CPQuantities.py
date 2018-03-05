@@ -347,9 +347,8 @@ def genQuantities():
 		"isZee",
 		"npartons"]
 
-def genQuantitiesLFV()
-	return "property" : [
-		"genBosonLV",
+def genQuantitiesLFV():
+	return  ["genBosonLV",
 		"genBosonParticleFound",
 		"genBosonLVFound",
 		"genBosonLep1LV",
@@ -395,7 +394,7 @@ def genQuantitiesLFV()
 		"LHE_p_1",
 		"LHE_p_2"]
 
-def recoCPQuantities()
+def recoCPQuantities():
 	return ["melaProbCPEvenGGH",
 		"melaProbCPOddGGH",
 		"melaProbCPMixGGH",
@@ -577,7 +576,7 @@ def recoCPQuantitiesHiggs():
 		"subProcessCode",
 		"lheParticleJetNumber"]
 
-def recoPolarisationQuantities()
+def recoPolarisationQuantities():
 	return ["lep1SumChargedHadronsLV",
 		"lep1SumNeutralHadronsLV",
 		"genMatchedTau1LV",
@@ -637,9 +636,10 @@ def recoPolarisationQuantities()
 		"polarisationCombinedOmegaSimpleFit",
 		#"polarisationCombinedOmegaHHKinFit",
 		"polarisationCombinedOmegaBarSimpleFit",
-		#"polarisationCombinedOmegaBarHHKinFit"]
+		#"polarisationCombinedOmegaBarHHKinFit"
+		]
 
-def recoPolarisationQuantitiesSVfit():
+def recoPolarisationQuantitiesSvfit():
 	return [#"a1OmegaSvfit_1",
 		#"a1OmegaSvfit_2",
 		#"visibleOverFullEnergySvfit_1",
@@ -654,7 +654,7 @@ def recoPolarisationQuantitiesSVfit():
 		"polarisationCombinedOmegaSvfit",
 		"polarisationCombinedOmegaBarSvfit"]
 
-def weightQuantities()
+def weightQuantities():
 	return ["hltWeight",
 		"triggerWeight_1",
 		"triggerWeight_2",

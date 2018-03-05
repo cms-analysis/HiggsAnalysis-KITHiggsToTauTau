@@ -9,30 +9,30 @@ import json
 import Artus.Utility.jsonTools as jsonTools
 import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
 
-class tt_ArtusConfig(dict)
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
 
+class tt_ArtusConfig(dict):
 
+	def __init__(self):
+		self.base_copy = deep.copy(self)
+		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
+			
 
-
-	def __init__(self, nickname, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
-		import HiggsAnalysis.KITHiggsToTauTau.data.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
-		import HiggsAnalysis.KITHiggsToTauTau.data.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
-		
-		#KIT is using this, not a bad idea. If done add year and runnumber as wel
-		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
-		isData = datasetsHelper.isData(nickname)
-		isSignal = datasetsHelper.isSignal(nickname)
-		isEmbedding = datasetsHelper.isEmbedding(nickname)
+	def build_config(self, nickname):                #Maybe change this the arguments to process/year and DATA/MC
+		isData = self.datasetsHelper.isData(nickname)
+		isSignal = self.datasetsHelper.isSignal(nickname)
+		isEmbedding = self.datasetsHelper.isEmbedded(nickname)
 		isTTbar = re.match("TT(To|_|Jets)", nickname)
 		isDY = re.match("DY.?JetsToLLM(50|150)", nickname)
 		isWjets = re.match("W.?JetsToLNu", nickname)
 		isLFV = ("LFV" in nickname)
 		is2015 = re.match("(.*)15", nickname) #I am not 100% sure if this is exclusive
 		is2016 = re.match("(.*)16", nickname) #I am not 100% sure if this is exclusive	
-		is2017 = re.match("(.*)17", nickname) #I am not 100% sure if this is exclusive
-				
+		is2017 = re.match("(.*)17", nickname) #I am not 100% sure if this is exclusive		
 		#Change this json config files as well?
-		self["include"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json", 
+
+		self["include"] += ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json", 
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
@@ -59,7 +59,7 @@ class tt_ArtusConfig(dict)
 		self["DiTauPairMinDeltaRCut"] = 0.5
 		self["DiTauPairIsTauIsoMVA"] = True
 		self["EventWeight"] = "eventWeight"
-		self["RooWorkspace" = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 		self["TauTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 
 		self["TauTauTriggerWeightWorkspaceWeightNames"] = ["0:triggerWeight", "1:triggerWeight"] 
@@ -90,7 +90,7 @@ class tt_ArtusConfig(dict)
 
 		self["Consumers"] = ["KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
-			"SvfitCacheConsumer",
+			"SvfitCacheConsumer"]#,
 			#"CutFlowTreeConsumer",
 			#"KappaTausConsumer",
 			#"KappaTaggedJetsConsumer",
@@ -98,12 +98,12 @@ class tt_ArtusConfig(dict)
 			#"PrintEventsConsumer",
 			#"PrintGenParticleDecayTreeConsumer"]
 
-		if isEmbedding:
+		if isEmbedding or "Spring16" in nickname:
 			self["NoHltFiltering"]= True
 			self["DiTauPairNoHLT"]= True
 		else:
 			self["NoHltFiltering"]=False
-			self["DiTauPairNoHLT"]= True	
+			self["DiTauPairNoHLT"]= False	
 		
 
 		 #set it here and if it is something else then change it in the ifs below
@@ -523,7 +523,7 @@ class tt_ArtusConfig(dict)
 					#"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"]
 		
-		else
+		else:
 			self["Processors"] = ["producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -563,12 +563,13 @@ class tt_ArtusConfig(dict)
 					#"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"]
 
-				self["Processors"]=list(set(self["Processors"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
-		
+		self["Processors"]=list(set(self["Processors"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
+		 
 
 
 
-
+	def clear_config(self):
+		self = self.base_copy
 
 
 

@@ -382,7 +382,7 @@ def lheWeightsHTTQuantities():
 		"scale_variation__muR_0_5_muF_0_5"
 	]
 
-def splitJecUnceraintyQuantities():
+def splitJecUncertaintyQuantities():
 	return ["njetspt30_AbsoluteFlavMap",
 		"njetspt30_AbsoluteMPFBias",
 		"njetspt30_AbsoluteScale",
@@ -471,7 +471,7 @@ def splitJecUnceraintyQuantities():
 		"jdeta_Total",
 		"jdeta_Closure"]
 
-def svfitSyncQuantities.py():
+def svfitSyncQuantities():
 	return ["m_sv",
 		"pt_sv",
 		"eta_sv",
