@@ -43,7 +43,6 @@ def _get_crab_outputs(args):
 		search_pattern = new_search_pattern
 	files = dcachetools.list_of_files(path=search_pattern, recursive=False, gfal_ls_args="")
 	return files
-	
 
 def _download_untar(args):
 	tar_file = args[0]
@@ -52,6 +51,12 @@ def _download_untar(args):
 	tools.subprocessCall(shlex.split("gfal-copy {tar_file} {downloaded_tar_file}".format(tar_file=tar_file, downloaded_tar_file=downloaded_tar_file)))
 	tools.subprocessCall(shlex.split("tar -x -f {downloaded_tar_file} -C {output_dir} --overwrite".format(downloaded_tar_file=downloaded_tar_file, output_dir=output_dir)))
 	tools.subprocessCall(shlex.split("rm -rf {temp_dir}".format(temp_dir=os.path.dirname(downloaded_tar_file))))
+
+def _merge_outputs(args):
+	target_file = args[0]
+	source_files = args[1]
+	hadd_args = args[2]
+	return tools.hadd(target_file=target_file, source_files=source_files, hadd_args=hadd_args)
 
 def main():
 	parser = argparse.ArgumentParser(description="Collect matching trees from input files into one output tree",
@@ -111,11 +116,11 @@ def main():
 	merged_output_dir = os.path.join(args.output_dir, "merged")
 	if not os.path.exists(merged_output_dir):
 		os.makedirs(merged_output_dir)
-	hadd_commands = ["hadd.py "+(" ".join(tmp_root_files))+" -t "+os.path.join(merged_output_dir, sample_nick+".root")+" -a \" -f \"" for sample_nick, tmp_root_files in root_files_per_sample_nick.iteritems()]
-	tools.parallelize(_call_command, hadd_commands, args.n_processes, description="merging")
+	merge_outputs_args = [[os.path.join(merged_output_dir, sample_nick+".root"), tmp_root_files, "-f"] for sample_nick, tmp_root_files in root_files_per_sample_nick.iteritems()]
+	tools.parallelize(_merge_outputs, merge_outputs_args, args.n_processes, description="merging")
 	
 	if args.dcache_target:
-		dcache_copy_commands = ["gfal-copy -f -r "+merged_output_dir+" "+args.dcache_target]
+		dcache_copy_commands = ["gfal-copy -v -f -r "+merged_output_dir+" "+args.dcache_target]
 		tools.parallelize(_call_command, dcache_copy_commands, args.n_processes, description="copying to dCache")
 	
 	rm_commands = ["rm "+root_file for root_file in root_files]
