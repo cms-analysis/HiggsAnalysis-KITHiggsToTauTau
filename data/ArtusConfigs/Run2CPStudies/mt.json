@@ -413,7 +413,8 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantitiesLFV.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json"
 						]
 					},
 					"nVetoMuons",
@@ -423,7 +424,8 @@
 					"nAllDiTauPairCandidates",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
-					"triggerWeight_muTauCross_2"
+					"triggerWeight_muTauCross_2",
+					"jetCorrectionWeight"
 				]
 			}
 		},
@@ -881,7 +883,8 @@
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:LFVJetCorrection2016Producer" 
 				]
 			}
 		},
