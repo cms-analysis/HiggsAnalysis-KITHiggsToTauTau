@@ -17,7 +17,7 @@ var searchData=
   ['poi_5franges_5frf',['poi_ranges_rf',['../namespacemakePlots__datacardsSMHtt__limitProjection.html#a50d58fc431e5719d61ebe17ef897aab9',1,'makePlots_datacardsSMHtt_limitProjection']]],
   ['poi_5franges_5fvector',['poi_ranges_vector',['../namespacemakePlots__datacardsSMHtt__limitProjection.html#aaea3f428349855f1a00daec503108d7d',1,'makePlots_datacardsSMHtt_limitProjection']]],
   ['poi_5franges_5fvector_5fbbb',['poi_ranges_vector_bbb',['../namespacemakePlots__datacardsSMHtt__limitProjection.html#a61fe1ba2e1d4f02298f7c44f94ac14f6',1,'makePlots_datacardsSMHtt_limitProjection']]],
-  ['polarisationquantitiesproducerbase',['PolarisationQuantitiesProducerBase',['../classPolarisationQuantitiesProducerBase.html#a8705f148184bcc3dbd10391b9ec46de5',1,'PolarisationQuantitiesProducerBase']]],
+  ['polarisationquantitiesproducerbase',['PolarisationQuantitiesProducerBase',['../classPolarisationQuantitiesProducerBase.html#a2d1b02c1ddccb2f2e115fd19fd05217b',1,'PolarisationQuantitiesProducerBase']]],
   ['polarisationquantitiessimplefitproducer',['PolarisationQuantitiesSimpleFitProducer',['../classPolarisationQuantitiesSimpleFitProducer.html#a8e1a369ce6aff08e80e35812055b0966',1,'PolarisationQuantitiesSimpleFitProducer']]],
   ['polarisationquantitiessvfitproducer',['PolarisationQuantitiesSvfitProducer',['../classPolarisationQuantitiesSvfitProducer.html#ac9b1c65c379dac6026684e47c2572d08',1,'PolarisationQuantitiesSvfitProducer']]],
   ['pop',['pop',['../classConfigMaster_1_1ConfigMaster.html#ad9aed9fd46eeb34fd265fa39b814c7b5',1,'ConfigMaster::ConfigMaster']]],
