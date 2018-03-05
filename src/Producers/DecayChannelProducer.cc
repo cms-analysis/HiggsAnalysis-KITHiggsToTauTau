@@ -579,6 +579,7 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("againstMuonLoose3");
 	tauDiscriminators.push_back("againstMuonTight3");
 	tauDiscriminators.push_back("byIsolationMVArun2v1DBoldDMwLTraw");
+	tauDiscriminators.push_back("byVVLooseIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byVLooseIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byLooseIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byMediumIsolationMVArun2v1DBoldDMwLT");
@@ -592,6 +593,16 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Tight");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VTight");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1raw");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Loose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Medium");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Tight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
 	tauDiscriminators.push_back("chargedIsoPtSum");
 	tauDiscriminators.push_back("decayModeFinding");
 	tauDiscriminators.push_back("decayModeFindingNewDMs");
