@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>HiggsAnalysis-KITHiggsToTauTau: Member List</title>
+<title>HiggsAnalysis-KITHiggsToTauTau: interface/Producers/LFVJetCorrection2016Producer.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('classSvfitM125Producer.html','');});
+$(document).ready(function(){initNavTree('LFVJetCorrection2016Producer_8h_source.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -89,18 +89,27 @@ $(document).ready(function(){initNavTree('classSvfitM125Producer.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SvfitM125Producer Member List</div>  </div>
+<div class="title">LFVJetCorrection2016Producer.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>This is the complete list of members for <a class="el" href="classSvfitM125Producer.html">SvfitM125Producer</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classSvfitM125Producer.html#a779ff621378d80e7e199d1907e01a84b">GetProducerId</a>() const override</td><td class="entry"><a class="el" href="classSvfitM125Producer.html">SvfitM125Producer</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classSvfitProducer.html#a4a9cbb8accbcec85effd108d5d6c0ee8">Init</a>(setting_type const &amp;settings, metadata_type &amp;metadata) override</td><td class="entry"><a class="el" href="classSvfitProducer.html">SvfitProducer</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classSvfitProducer.html#a46759a532a1e02fce1fc1d5a4a173d03">Produce</a>(event_type const &amp;event, product_type &amp;product, setting_type const &amp;settings, metadata_type const &amp;metadata) const override</td><td class="entry"><a class="el" href="classSvfitProducer.html">SvfitProducer</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classSvfitM125Producer.html#a07003fbee3993fe6f3a479de44df9237">SvfitM125Producer</a>()</td><td class="entry"><a class="el" href="classSvfitM125Producer.html">SvfitM125Producer</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classSvfitProducer.html#a0e0b601c7af72d4315c9252f8b939d55">SvfitProducer</a>(std::string name=&quot;&quot;, float diTauMassConstraint=-1.0, SvfitEventKey product_type::*svfitEventKeyMember=&amp;product_type::m_svfitEventKey, SvfitResults product_type::*svfitResultsMember=&amp;product_type::m_svfitResults, std::string(setting_type::*GetSvfitCacheFileMember)(void) const =&amp;setting_type::GetSvfitCacheFile, std::string(setting_type::*GetSvfitCacheFileFolderMember)(void) const =&amp;setting_type::GetSvfitCacheFileFolder, std::string(setting_type::*GetSvfitCacheTreeMember)(void) const =&amp;setting_type::GetSvfitCacheTree)</td><td class="entry"><a class="el" href="classSvfitProducer.html">SvfitProducer</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<a href="LFVJetCorrection2016Producer_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="classLFVJetCorrection2016Producer.html">    6</a></span>&#160;<span class="keyword">class </span><a class="code" href="classLFVJetCorrection2016Producer.html">LFVJetCorrection2016Producer</a>: <span class="keyword">public</span> ProducerBase&lt;HttTypes&gt; {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classLFVJetCorrection2016Producer.html#a0fa1dc6f22839ffc2c4a07811c62ad3f">Init</a>(setting_type <span class="keyword">const</span>&amp; settings, metadata_type&amp; metadata) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classLFVJetCorrection2016Producer.html#a8d351cacaaa7c5acae07c1e503986d39">Produce</a>(event_type <span class="keyword">const</span>&amp; event, product_type&amp; product,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                             setting_type <span class="keyword">const</span>&amp; settings, metadata_type <span class="keyword">const</span>&amp; metadata) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;};</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="ttc" id="classLFVJetCorrection2016Producer_html_a0fa1dc6f22839ffc2c4a07811c62ad3f"><div class="ttname"><a href="classLFVJetCorrection2016Producer.html#a0fa1dc6f22839ffc2c4a07811c62ad3f">LFVJetCorrection2016Producer::Init</a></div><div class="ttdeci">virtual void Init(setting_type const &amp;settings, metadata_type &amp;metadata) override</div><div class="ttdef"><b>Definition:</b> LFVJetCorrection2016Producer.cc:5</div></div>
+<div class="ttc" id="classLFVJetCorrection2016Producer_html_a8d351cacaaa7c5acae07c1e503986d39"><div class="ttname"><a href="classLFVJetCorrection2016Producer.html#a8d351cacaaa7c5acae07c1e503986d39">LFVJetCorrection2016Producer::Produce</a></div><div class="ttdeci">virtual void Produce(event_type const &amp;event, product_type &amp;product, setting_type const &amp;settings, metadata_type const &amp;metadata) const override</div><div class="ttdef"><b>Definition:</b> LFVJetCorrection2016Producer.cc:14</div></div>
+<div class="ttc" id="classLFVJetCorrection2016Producer_html"><div class="ttname"><a href="classLFVJetCorrection2016Producer.html">LFVJetCorrection2016Producer</a></div><div class="ttdef"><b>Definition:</b> LFVJetCorrection2016Producer.h:6</div></div>
+</div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
