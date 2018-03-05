@@ -1,13 +1,5 @@
 var NAVTREEINDEX10 =
 {
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a3de0779ca5c958b57830e33e94f60572":[1,0,134,0,22],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a44e10a5b9460613a320388b5f1c96469":[1,0,134,0,11],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a48c1162a208b64dbe775dbc84fdd1784":[1,0,134,0,1],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a55c3bddb9fa12a5a47ef1705f2978e5e":[1,0,134,0,42],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a59f933d6a7bffd0866a9c9190d4534a4":[1,0,134,0,4],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a5f859cf3cba5da495e7b72b2cd492557":[1,0,134,0,12],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a6331c78d172c0e6e1cc25ccda51f61ae":[1,0,134,0,5],
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#a63abe55235f76b897d90ae50cfe26bb0":[1,0,134,0,15],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a68b9764037611181685c1a63aa36eb0b":[1,0,134,0,17],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a6cf03c7a9789a6203b7ddeeb6da6bde7":[1,0,134,0,37],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a709cd63947e644bea650ac660c91ad5e":[1,0,134,0,26],
@@ -249,5 +241,13 @@ var NAVTREEINDEX10 =
 "correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#a1c3cb794786064ea5f1c6207259be5c2":[2,0,2,4,1],
 "correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#a253e597cefd34abf91714ee4211956df":[2,0,2,4,10],
 "correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#a2b567bc8716ce9b8399781b23331c0d4":[2,0,2,4,4],
-"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#a5af1494dba1f9489b8d415b050bf2938":[2,0,2,4,3]
+"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#a5af1494dba1f9489b8d415b050bf2938":[2,0,2,4,3],
+"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#a64826a8061ca7af9ac6e29e50cb85bf5":[2,0,2,4,11],
+"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#a6d0e32ad7d446a5d62db4681f4b47b08":[2,0,2,4,8],
+"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#ab74cb13bb86af0a1c43bab05db5b3c66":[2,0,2,4,12],
+"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#ab7585e2a6d1d4f8ed093efa3cb862883":[2,0,2,4,7],
+"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#ac1ca79d7eec7b92a9142ffa895786bce":[2,0,2,4,2],
+"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#ac7c5b4d26e2c6ce6f4b895a1979d93eb":[2,0,2,4,6],
+"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#af268d3da91f42f35a5f5a63b1f6c8a30":[2,0,2,4,5],
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html":[2,0,2,5]
 };

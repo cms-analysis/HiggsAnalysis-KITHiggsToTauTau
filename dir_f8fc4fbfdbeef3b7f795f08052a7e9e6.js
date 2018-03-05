@@ -161,8 +161,10 @@ var dir_f8fc4fbfdbeef3b7f795f08052a7e9e6 =
     [ "SimpleMuTauFakeRateWeightProducer.h", "SimpleMuTauFakeRateWeightProducer_8h.html", [
       [ "SimpleMuTauFakeRateWeightProducer", "classSimpleMuTauFakeRateWeightProducer.html", "classSimpleMuTauFakeRateWeightProducer" ]
     ] ],
-    [ "SvfitProducer.h", "SvfitProducer_8h.html", [
-      [ "SvfitProducer", "classSvfitProducer.html", "classSvfitProducer" ]
+    [ "SvfitProducers.h", "SvfitProducers_8h.html", [
+      [ "SvfitProducer", "classSvfitProducer.html", "classSvfitProducer" ],
+      [ "SvfitM91Producer", "classSvfitM91Producer.html", "classSvfitM91Producer" ],
+      [ "SvfitM125Producer", "classSvfitM125Producer.html", "classSvfitM125Producer" ]
     ] ],
     [ "TagAndProbePairProducer.h", "TagAndProbePairProducer_8h.html", [
       [ "TagAndProbeMuonPairProducer", "classTagAndProbeMuonPairProducer.html", "classTagAndProbeMuonPairProducer" ],
