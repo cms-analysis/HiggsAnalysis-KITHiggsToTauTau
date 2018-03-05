@@ -1,12 +1,8 @@
 var SvfitTools_8h =
 [
-    [ "TauSVfitQuantity", "classTauSVfitQuantity.html", "classTauSVfitQuantity" ],
-    [ "TauESVfitQuantity", "classTauESVfitQuantity.html", "classTauESVfitQuantity" ],
-    [ "TauERatioSVfitQuantity", "classTauERatioSVfitQuantity.html", "classTauERatioSVfitQuantity" ],
-    [ "TauPtSVfitQuantity", "classTauPtSVfitQuantity.html", "classTauPtSVfitQuantity" ],
-    [ "TauEtaSVfitQuantity", "classTauEtaSVfitQuantity.html", "classTauEtaSVfitQuantity" ],
-    [ "TauPhiSVfitQuantity", "classTauPhiSVfitQuantity.html", "classTauPhiSVfitQuantity" ],
-    [ "MCTauTauQuantitiesAdapter", "classMCTauTauQuantitiesAdapter.html", "classMCTauTauQuantitiesAdapter" ],
+    [ "PhiCPSVfitQuantity", "classPhiCPSVfitQuantity.html", "classPhiCPSVfitQuantity" ],
+    [ "PhiStarCPSVfitQuantity", "classPhiStarCPSVfitQuantity.html", "classPhiStarCPSVfitQuantity" ],
+    [ "TauTauHistogramAdapter", "classTauTauHistogramAdapter.html", "classTauTauHistogramAdapter" ],
     [ "SvfitEventKey", "classSvfitEventKey.html", "classSvfitEventKey" ],
     [ "SvfitInputs", "classSvfitInputs.html", "classSvfitInputs" ],
     [ "SvfitResults", "classSvfitResults.html", "classSvfitResults" ],

@@ -139,8 +139,8 @@ var searchData=
   ['estimatewjets',['EstimateWjets',['../classestimatewjets_1_1EstimateWjets.html',1,'estimatewjets']]],
   ['estimatewjets',['estimatewjets',['../namespaceestimatewjets.html',1,'']]],
   ['estimatewjets_2epy',['estimatewjets.py',['../estimatewjets_8py.html',1,'']]],
-  ['estimatewjetsandqcd',['estimatewjetsandqcd',['../namespaceestimatewjetsandqcd.html',1,'']]],
   ['estimatewjetsandqcd',['EstimateWjetsAndQCD',['../classestimatewjetsandqcd_1_1EstimateWjetsAndQCD.html',1,'estimatewjetsandqcd']]],
+  ['estimatewjetsandqcd',['estimatewjetsandqcd',['../namespaceestimatewjetsandqcd.html',1,'']]],
   ['estimatewjetsandqcd_2epy',['estimatewjetsandqcd.py',['../estimatewjetsandqcd_8py.html',1,'']]],
   ['estimateztt',['estimateztt',['../namespaceestimateztt.html',1,'']]],
   ['estimateztt',['EstimateZtt',['../classestimateztt_1_1EstimateZtt.html',1,'estimateztt']]],
@@ -188,6 +188,5 @@ var searchData=
   ['expressionsdict',['ExpressionsDict',['../classexpressions_1_1ExpressionsDict.html',1,'expressions']]],
   ['extra',['extra',['../namespacegc__binning__scan.html#a02b20dba42308f833a5ff03e6b85402d',1,'gc_binning_scan.extra()'],['../namespacegc__makePlots__datacardsSMHtt1.html#a4004c01abb9785a6762d0cc20f71967d',1,'gc_makePlots_datacardsSMHtt1.extra()']]],
   ['extra_5fweights',['extra_weights',['../namespacemakePlots__datacardsTauEsStudies.html#a603272920b08e41680b6b9c24c913a8f',1,'makePlots_datacardsTauEsStudies']]],
-  ['extract_5fshapes',['extract_shapes',['../classdatacards_1_1Datacards.html#aa579d1a02ff5430711d7d8797bc1e7e4',1,'datacards.Datacards.extract_shapes()'],['../classmvadatacards__base_1_1Datacards.html#a30a92f812697f8cdd8b882a76f63be0b',1,'mvadatacards_base.Datacards.extract_shapes()']]],
-  ['extratauquantities',['ExtraTauQuantities',['../namespaceRun2Quantities.html#a22d3fd93b375142e5c255735015d2f0e',1,'Run2Quantities']]]
+  ['extract_5fshapes',['extract_shapes',['../classdatacards_1_1Datacards.html#aa579d1a02ff5430711d7d8797bc1e7e4',1,'datacards.Datacards.extract_shapes()'],['../classmvadatacards__base_1_1Datacards.html#a30a92f812697f8cdd8b882a76f63be0b',1,'mvadatacards_base.Datacards.extract_shapes()']]]
 ];
