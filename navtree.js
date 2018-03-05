@@ -59,7 +59,7 @@ var NAVTREEINDEX =
 "namespacecorrectionFactorsToRoot__triggerEfficiency__IsoMu18__DataSingleMuon2015D.html",
 "namespacemvadatacards__base.html",
 "read__datacardshapes_8py.html#ab49d308aa1400c2c84a07a752296b7ab",
-"tmvaWrapper_8py.html#a54328ceffca720f8c117435dfbde7650"
+"tmvaWrapper_8py.html#a51fbc12c20d38d6478befcf7fd9dfd38"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
