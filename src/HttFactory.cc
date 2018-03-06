@@ -53,7 +53,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiGenJetQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MELAProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MELAProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTbarGenDecayModeProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
 
