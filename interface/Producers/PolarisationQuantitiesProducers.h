@@ -14,12 +14,12 @@ public:
 	PolarisationQuantitiesProducerBase(
 			std::string name,
 			std::map<KLepton*, RMFLV> product_type::*fittedTausMember,
-			std::map<KLepton*, double> product_type::*polarisationOmegasMember,
-			std::map<KLepton*, double> product_type::*polarisationOmegaBarsMember,
-			std::map<KLepton*, double> product_type::*polarisationOmegaVisiblesMember,
-			double product_type::*polarisationCombinedOmegaMember,
-			double product_type::*polarisationCombinedOmegaBarMember,
-			double product_type::*polarisationCombinedOmegaVisibleMember
+			std::map<KLepton*, float> product_type::*polarisationOmegasMember,
+			std::map<KLepton*, float> product_type::*polarisationOmegaBarsMember,
+			std::map<KLepton*, float> product_type::*polarisationOmegaVisiblesMember,
+			float product_type::*polarisationCombinedOmegaMember,
+			float product_type::*polarisationCombinedOmegaBarMember,
+			float product_type::*polarisationCombinedOmegaVisibleMember
 	);
 	
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
@@ -30,12 +30,12 @@ public:
 protected:
 	std::string m_name;
 	std::map<KLepton*, RMFLV> product_type::*m_fittedTausMember;
-	std::map<KLepton*, double> product_type::*m_polarisationOmegasMember;
-	std::map<KLepton*, double> product_type::*m_polarisationOmegaBarsMember;
-	std::map<KLepton*, double> product_type::*m_polarisationOmegaVisiblesMember;
-	double product_type::*m_polarisationCombinedOmegaMember;
-	double product_type::*m_polarisationCombinedOmegaBarMember;
-	double product_type::*m_polarisationCombinedOmegaVisibleMember;
+	std::map<KLepton*, float> product_type::*m_polarisationOmegasMember;
+	std::map<KLepton*, float> product_type::*m_polarisationOmegaBarsMember;
+	std::map<KLepton*, float> product_type::*m_polarisationOmegaVisiblesMember;
+	float product_type::*m_polarisationCombinedOmegaMember;
+	float product_type::*m_polarisationCombinedOmegaBarMember;
+	float product_type::*m_polarisationCombinedOmegaVisibleMember;
 
 private:
 	std::vector<TLorentzVector> GetInputLepton(product_type& product, KLepton* lepton) const;
