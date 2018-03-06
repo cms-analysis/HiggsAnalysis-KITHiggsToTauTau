@@ -497,4 +497,42 @@ public:
 	float m_melaDiscriminatorD0MinusZhadH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorDCPZhadH = DefaultValues::UndefinedFloat;
 	*/
+	
+	float m_melaM125ProbCPEvenGGH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddGGH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixGGH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusGGH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPGGH = DefaultValues::UndefinedFloat;
+	
+	float m_melaM125ProbCPEvenVBF = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddVBF = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixVBF = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusVBF = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPVBF = DefaultValues::UndefinedFloat;
+	
+	/*
+	float m_melaM125ProbCPEvenWlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddWlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixWlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusWlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPWlepH = DefaultValues::UndefinedFloat;
+	
+	float m_melaM125ProbCPEvenWhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddWhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixWhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusWhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPWhadH = DefaultValues::UndefinedFloat;
+	
+	float m_melaM125ProbCPEvenZlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddZlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixZlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusZlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPZlepH = DefaultValues::UndefinedFloat;
+	
+	float m_melaM125ProbCPEvenZhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddZhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixZhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusZhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPZhadH = DefaultValues::UndefinedFloat;
+	*/
 };
