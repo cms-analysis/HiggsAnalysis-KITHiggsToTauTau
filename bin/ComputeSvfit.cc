@@ -64,16 +64,13 @@ int main(int argc, const char *argv[])
 	svfitResults.CreateBranches(outputTree);
 
 	HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour = HttEnumTypes::SvfitCacheMissBehaviour::recalculate;
-	bool svfitCalculated = false;
 
 	unsigned int nEntries = inputTree->GetEntries();
 	for(unsigned int entry = 0; entry < nEntries; entry++)
 	{
 		std::cout << "Entry: " << entry+1 << " / " << nEntries << std::endl;
 		inputTree->GetEntry(entry);
-		
-		svfitResults = svfitTools.GetResults(svfitEventKey, svfitInputs, svfitCalculated, svfitCacheMissBehaviour);
-		svfitResults.SetBranchAddresses(outputTree);
+		svfitResults = svfitTools.GetResults(svfitEventKey, svfitInputs, svfitCacheMissBehaviour);
 		outputTree->Fill();
 	}
 	

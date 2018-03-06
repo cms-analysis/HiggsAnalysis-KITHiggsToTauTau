@@ -634,12 +634,10 @@ void SvfitTools::Init(std::string const& cacheFileName, std::string const& cache
 	}
 }
 
-SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
-                                    SvfitInputs const& svfitInputs,
-                                    bool& neededRecalculation,
+SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
                                     HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour)
 {
-	neededRecalculation = true;
+	bool needRecalculation = true;
 	TTree* svfitCacheInputTree = SafeMap::GetWithDefault(SvfitTools::svfitCacheInputTrees, cacheFileTreeName, static_cast<TTree*>(nullptr));
 	if (svfitCacheInputTree && Utility::Contains(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName))
 	{
@@ -648,10 +646,10 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 			svfitResults.SetBranchAddresses(svfitCacheInputTree);
 			svfitCacheInputTree->GetEntry(SafeMap::Get(SafeMap::Get(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName), svfitEventKey));
 			svfitResults.FromCache();
-			neededRecalculation = false;
+			needRecalculation = false;
 		}
 	}
-	if (neededRecalculation)
+	if (needRecalculation)
 	{
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::recalculate)
 		{
@@ -686,11 +684,6 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
 
 SvfitTools::~SvfitTools()
 {
-	if (m_visPtResolutionFile)
-	{
-		m_visPtResolutionFile->Close();
-	}
-	
 	if (Utility::Contains(SvfitTools::svfitCacheInputFiles, cacheFileName) && SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName)->IsOpen())
 	{
 		SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName)->Close();

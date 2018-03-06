@@ -165,12 +165,8 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 
 
 	// calculate results
-	(product.*m_svfitResultsMember) = svfitTools.GetResults(
-			(product.*m_svfitEventKeyMember),
-			product.m_svfitInputs,
-			product.m_svfitCalculated,
-			m_svfitCacheMissBehaviour
-	);
+	(product.*m_svfitResultsMember) = svfitTools.GetResults((product.*m_svfitEventKeyMember), product.m_svfitInputs,
+	                                                        m_svfitCacheMissBehaviour);
 	
 	if ((product.*m_svfitResultsMember).fittedTau1LV)
 	{
