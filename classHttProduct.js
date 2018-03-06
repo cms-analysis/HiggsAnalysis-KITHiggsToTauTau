@@ -1,5 +1,6 @@
 var classHttProduct =
 [
+    [ "lfvjetcorr", "classHttProduct.html#a06e9b4f40b62e11472cf7f5f583caaf0", null ],
     [ "m_antiTtbarDiscriminators", "classHttProduct.html#acabaf148b0c74108cceed4250817b299", null ],
     [ "m_boostsToTauRestFrames", "classHttProduct.html#ad47b7fcac7b589b6a4f9a3f8f6816388", null ],
     [ "m_boostToDiTauRestFrame", "classHttProduct.html#ac7288a01a3f35dc7b5ef2d0b4c713cd8", null ],
@@ -249,14 +250,9 @@ var classHttProduct =
     [ "m_refP1", "classHttProduct.html#a485baa2ac1d1ecbdb55366c9865d27fe", null ],
     [ "m_refP2", "classHttProduct.html#adc963cf8394312ce7d86c8ae53f0c6cd", null ],
     [ "m_simpleFitTaus", "classHttProduct.html#a169a364722b7ef30ef64c0cc9ab41047", null ],
+    [ "m_svfitCalculated", "classHttProduct.html#accdce5615fc40068d8411be69b349f1c", null ],
     [ "m_svfitEventKey", "classHttProduct.html#a417c202e5be95c4971c52d7f51e92fd5", null ],
     [ "m_svfitInputs", "classHttProduct.html#a40ff729dcc44f180cb51b6532f5cbcc3", null ],
-    [ "m_svfitM125EventKey", "classHttProduct.html#a9779a8e2d1f3b3f5c1c1f1ce67860006", null ],
-    [ "m_svfitM125Results", "classHttProduct.html#afb83f030e5afd9c100cbf07c8f8a53ea", null ],
-    [ "m_svfitM125Taus", "classHttProduct.html#afa1c8bf646465e0fedd69bf1cab00538", null ],
-    [ "m_svfitM91EventKey", "classHttProduct.html#a768e44cd4ef86eecafafff48ef508373", null ],
-    [ "m_svfitM91Results", "classHttProduct.html#a016f3905a2645168c5325dc054f7362c", null ],
-    [ "m_svfitM91Taus", "classHttProduct.html#a2512fe9ceffa21d8ac2e4d4cdf288c4c", null ],
     [ "m_svfitResults", "classHttProduct.html#ae13b0856479d03387c5319192f4c7b77", null ],
     [ "m_svfitTaus", "classHttProduct.html#afb683c52b390000148389a34a3b66a17", null ],
     [ "m_systematicShift", "classHttProduct.html#ad96ec3ff0504af461f0e71ed57853ef7", null ],

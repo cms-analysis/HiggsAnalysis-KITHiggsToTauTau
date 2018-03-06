@@ -6,7 +6,7 @@ var searchData=
   ['makeplot',['makePlot',['../namespaceplot__BDTSeparation.html#ab1466213c6eabd3e1cb09de2e0a2860c',1,'plot_BDTSeparation']]],
   ['makeplots',['makePlots',['../namespacecorrelation__TProfilePlots.html#a78406c3888bdf57f67a9d5884d91440d',1,'correlation_TProfilePlots']]],
   ['matching_5fprocess',['matching_process',['../namespacemakePlots__datacardsCPInitialState.html#a284cef4c5f94ce85479bf0f7135d19ac',1,'makePlots_datacardsCPInitialState.matching_process()'],['../namespacemakePlots__datacardsLFVZlt.html#a2aa144c16186f953eb5886ca780cfa5e',1,'makePlots_datacardsLFVZlt.matching_process()'],['../namespacemakePlots__datacardsSMHtt.html#a35554026319497c1e18c48da2c9b9cd2',1,'makePlots_datacardsSMHtt.matching_process()'],['../namespacemakePlots__datacardsTauEsStudies.html#a4f67030ea8218fc162db80bea4a62378',1,'makePlots_datacardsTauEsStudies.matching_process()'],['../namespacemakePlots__datacardsZttEfficiency.html#ac3f133a67857e98704156aed04e38ec7',1,'makePlots_datacardsZttEfficiency.matching_process()']]],
-  ['melaproducer',['MELAProducer',['../classMELAProducer.html#a886b22b2fc891baf629d512067fc2815',1,'MELAProducer']]],
+  ['mctautauquantitiesadapter',['MCTauTauQuantitiesAdapter',['../classMCTauTauQuantitiesAdapter.html#a614a45754a49329f090e9289585e110e',1,'MCTauTauQuantitiesAdapter']]],
   ['merge',['merge',['../namespacemakePlots__ZTTtheoryUnc.html#a5bec0e684c0eedc395494935e6cda79e',1,'makePlots_ZTTtheoryUnc']]],
   ['merge_5fby_5fkeys',['merge_by_keys',['../classConfigMaster_1_1ConfigMaster.html#a85b257269703a331cdf23460241ed5ab',1,'ConfigMaster::ConfigMaster']]],
   ['merge_5fconfigs',['merge_configs',['../classsamples_1_1SamplesBase.html#a303dc2b3ea7b799d8f82daed28226cc4',1,'samples::SamplesBase']]],

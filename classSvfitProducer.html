@@ -90,13 +90,14 @@ $(document).ready(function(){initNavTree('classSvfitProducer.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classSvfitProducer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">SvfitProducer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="SvfitProducers_8h_source.html">SvfitProducers.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="SvfitProducer_8h_source.html">SvfitProducer.h</a>&gt;</code></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for SvfitProducer:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -105,89 +106,37 @@ $(document).ready(function(){initNavTree('classSvfitProducer.html','');});
  <div class="center">
   <img src="classSvfitProducer.png" usemap="#SvfitProducer_map" alt=""/>
   <map id="SvfitProducer_map" name="SvfitProducer_map">
-<area href="classSvfitM125Producer.html" alt="SvfitM125Producer" shape="rect" coords="0,112,166,136"/>
-<area href="classSvfitM91Producer.html" alt="SvfitM91Producer" shape="rect" coords="176,112,342,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9f0284ba41b4de5037d7d70d05d92b99"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a9f0284ba41b4de5037d7d70d05d92b99">SvfitProducer</a> (std::string name=&quot;&quot;, float diTauMassConstraint=-1.0, <a class="el" href="classSvfitEventKey.html">SvfitEventKey</a> product_type::*svfitEventKeyMember=&amp;product_type::m_svfitEventKey, <a class="el" href="classSvfitResults.html">SvfitResults</a> product_type::*svfitResultsMember=&amp;product_type::m_svfitResults, std::map&lt; KLepton *, RMFLV &gt; product_type::*svfitTausMember=&amp;product_type::m_svfitTaus, std::string(setting_type::*GetSvfitCacheFileMember)(void) const =&amp;setting_type::GetSvfitCacheFile, std::string(setting_type::*GetSvfitCacheFileFolderMember)(void) const =&amp;setting_type::GetSvfitCacheFileFolder, std::string(setting_type::*GetSvfitCacheTreeMember)(void) const =&amp;setting_type::GetSvfitCacheTree)</td></tr>
-<tr class="separator:a9f0284ba41b4de5037d7d70d05d92b99"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a845538ba81e7c3c42207402a715900ed"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a845538ba81e7c3c42207402a715900ed">GetProducerId</a> () const override</td></tr>
-<tr class="separator:a845538ba81e7c3c42207402a715900ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d3e01005d6b27e53359d8d1ebf9cdd6"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a4d3e01005d6b27e53359d8d1ebf9cdd6">GetProducerId</a> () const override</td></tr>
+<tr class="separator:a4d3e01005d6b27e53359d8d1ebf9cdd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a9cbb8accbcec85effd108d5d6c0ee8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a4a9cbb8accbcec85effd108d5d6c0ee8">Init</a> (setting_type const &amp;settings, metadata_type &amp;metadata) override</td></tr>
 <tr class="separator:a4a9cbb8accbcec85effd108d5d6c0ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46759a532a1e02fce1fc1d5a4a173d03"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a46759a532a1e02fce1fc1d5a4a173d03">Produce</a> (event_type const &amp;event, product_type &amp;product, setting_type const &amp;settings, metadata_type const &amp;metadata) const override</td></tr>
 <tr class="separator:a46759a532a1e02fce1fc1d5a4a173d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a74c771b1c8d35938af552a7635844c76"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classHttEnumTypes.html#a59de7941a5c0c729fb10c39759859649">HttEnumTypes::SvfitCacheMissBehaviour</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a74c771b1c8d35938af552a7635844c76">svfitCacheMissBehaviour</a></td></tr>
+<tr class="separator:a74c771b1c8d35938af552a7635844c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c2ef16c786f2db347ef45f1cc54500a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSvfitTools.html">SvfitTools</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a5c2ef16c786f2db347ef45f1cc54500a">svfitTools</a></td></tr>
+<tr class="separator:a5c2ef16c786f2db347ef45f1cc54500a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Producer for SVfit </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a9f0284ba41b4de5037d7d70d05d92b99"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">SvfitProducer::SvfitProducer </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>name</em> = <code>&quot;&quot;</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>diTauMassConstraint</em> = <code>-1.0</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classSvfitEventKey.html">SvfitEventKey</a> product_type::*&#160;</td>
-          <td class="paramname"><em>svfitEventKeyMember</em> = <code>&amp;product_type::m_svfitEventKey</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classSvfitResults.html">SvfitResults</a> product_type::*&#160;</td>
-          <td class="paramname"><em>svfitResultsMember</em> = <code>&amp;product_type::m_svfitResults</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::map&lt; KLepton *, RMFLV &gt; product_type::*&#160;</td>
-          <td class="paramname"><em>svfitTausMember</em> = <code>&amp;product_type::m_svfitTaus</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string(setting_type::*)(void) const&#160;</td>
-          <td class="paramname"><em>GetSvfitCacheFileMember</em> = <code>&amp;setting_type::GetSvfitCacheFile</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string(setting_type::*)(void) const&#160;</td>
-          <td class="paramname"><em>GetSvfitCacheFileFolderMember</em> = <code>&amp;setting_type::GetSvfitCacheFileFolder</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string(setting_type::*)(void) const&#160;</td>
-          <td class="paramname"><em>GetSvfitCacheTreeMember</em> = <code>&amp;setting_type::GetSvfitCacheTree</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a845538ba81e7c3c42207402a715900ed"></a>
+<div class="textblock"><p>Producer for SVfit</p>
+<p>Required config tags:</p>
+<ul>
+<li>SvfitIntegrationMethod (possible values: markovchain, vegas)</li>
+<li>GetSvfitCacheFile (need to be implemented as global setting, default: empty)</li>
+<li>GetSvfitCacheTree (need to be implemented as global setting, default: svfitCache)</li>
+</ul>
+<p>Required packages: git clone <a href="https://github.com:veelken/SVfit_standalone.git">https://github.com:veelken/SVfit_standalone.git</a> TauAnalysis/SVfitStandalone</p>
+<p>Old version: <a href="http://cms-sw.github.io/faq.html#how-do-i-access-the-old-cvs-repository-to-check-what-was-really-there">http://cms-sw.github.io/faq.html#how-do-i-access-the-old-cvs-repository-to-check-what-was-really-there</a> cvs co -r V00-02-03s TauAnalysis/CandidateTools <a href="https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Di_Tau_Mass_Reconstruction">https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorkingSummer2013#Di_Tau_Mass_Reconstruction</a> </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a4d3e01005d6b27e53359d8d1ebf9cdd6"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -195,7 +144,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string SvfitProducer::GetProducerId </td>
+          <td class="memname">virtual std::string SvfitProducer::GetProducerId </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -203,12 +152,10 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Reimplemented in <a class="el" href="classSvfitM125Producer.html#a779ff621378d80e7e199d1907e01a84b">SvfitM125Producer</a>, and <a class="el" href="classSvfitM91Producer.html#a8a13090174fe865bd863e628e5c5be40">SvfitM91Producer</a>.</p>
 
 </div>
 </div>
@@ -292,9 +239,42 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a74c771b1c8d35938af552a7635844c76"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classHttEnumTypes.html#a59de7941a5c0c729fb10c39759859649">HttEnumTypes::SvfitCacheMissBehaviour</a> SvfitProducer::svfitCacheMissBehaviour</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a5c2ef16c786f2db347ef45f1cc54500a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classSvfitTools.html">SvfitTools</a> SvfitProducer::svfitTools</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>interface/Producers/<a class="el" href="SvfitProducers_8h_source.html">SvfitProducers.h</a></li>
-<li>src/Producers/<a class="el" href="SvfitProducers_8cc.html">SvfitProducers.cc</a></li>
+<li>interface/Producers/<a class="el" href="SvfitProducer_8h_source.html">SvfitProducer.h</a></li>
+<li>src/Producers/<a class="el" href="SvfitProducer_8cc.html">SvfitProducer.cc</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
