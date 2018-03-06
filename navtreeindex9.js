@@ -1,12 +1,5 @@
 var NAVTREEINDEX9 =
 {
-"classmvadatacards__base_1_1Datacards.html#a20ee291853aedc383be96f8645a3ac8c":[1,0,113,0,36],
-"classmvadatacards__base_1_1Datacards.html#a27a2fe2c99fbdbb070556b7d0b412b70":[1,0,113,0,11],
-"classmvadatacards__base_1_1Datacards.html#a2acf9f9688cc14e6cc41010376ccca30":[1,0,113,0,32],
-"classmvadatacards__base_1_1Datacards.html#a2e3794d5fa01f8667b1a0973f5f40ce1":[1,0,113,0,39],
-"classmvadatacards__base_1_1Datacards.html#a30a92f812697f8cdd8b882a76f63be0b":[1,0,113,0,5],
-"classmvadatacards__base_1_1Datacards.html#a41dac2c36f331e22ad28cd355b0b6d34":[1,0,113,0,22],
-"classmvadatacards__base_1_1Datacards.html#a45101ca1f3bf467a507478b62f0dc5c5":[1,0,113,0,2],
 "classmvadatacards__base_1_1Datacards.html#a458195673e640b74498df77eaea4920d":[1,0,113,0,41],
 "classmvadatacards__base_1_1Datacards.html#a48fecda28bab9677c3d077584c9ae28f":[1,0,113,0,17],
 "classmvadatacards__base_1_1Datacards.html#a5414544dbb13b621a94578b430a10c58":[1,0,113,0,26],
@@ -249,5 +242,12 @@ var NAVTREEINDEX9 =
 "classsamples__run2__etaufakerate_1_1Samples.html#a1f5b205306bccf24c572134c73caad6b":[1,0,133,0,9],
 "classsamples__run2__etaufakerate_1_1Samples.html#a289efac30b8c8fd5b1ea5ce2c7caa9aa":[1,0,133,0,7],
 "classsamples__run2__etaufakerate_1_1Samples.html#a6bbd92fdf29e70a80026ae9fafc29bd0":[1,0,133,0,0],
-"classsamples__run2__etaufakerate_1_1Samples.html#a766af2265554db3aa12a4ede10df7178":[1,0,133,0,3]
+"classsamples__run2__etaufakerate_1_1Samples.html#a766af2265554db3aa12a4ede10df7178":[1,0,133,0,3],
+"classsamples__run2__etaufakerate_1_1Samples.html#ab051c32d40840438ff7f2c1040361161":[1,0,133,0,1],
+"classsamples__run2__etaufakerate_1_1Samples.html#ab14bd8c0c7fdc541bbb5801807b9f736":[1,0,133,0,11],
+"classsamples__run2__etaufakerate_1_1Samples.html#ab7a2485db495df4ec6ab9414c9073e02":[1,0,133,0,10],
+"classsamples__run2__etaufakerate_1_1Samples.html#ac21d366b30db633cb363dd88ef1e86e7":[1,0,133,0,2],
+"classsamples__run2__etaufakerate_1_1Samples.html#ac56a9fd9c4f92b94bc6480deb8e8a074":[1,0,133,0,5],
+"classsamples__run2__etaufakerate_1_1Samples.html#ad82cbc0e520cf09561be62b433eeff0b":[1,0,133,0,6],
+"classsamples__run2__etaufakerate__2016_1_1Samples.html":[1,0,134,0]
 };

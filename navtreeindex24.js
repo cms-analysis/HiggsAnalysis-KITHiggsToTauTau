@@ -1,18 +1,5 @@
 var NAVTREEINDEX24 =
 {
-"svfitCacheTreeMerge_8py.html#abfbb7e99d03725386eaa183c1ea91448":[2,0,2,95,2],
-"svfitCacheTreeMerge_8py.html#ac1ee184291e618ad2a9e80af09943072":[2,0,2,95,1],
-"svfitCacheTreeMerge_8py.html#ad0a4c621ba19d402381f02258825cb47":[2,0,2,95,4],
-"svfitCacheTreeMerge_8py.html#aea445d21c30cbb2964fbf2ce1f57470e":[2,0,2,95,3],
-"systematics__libary_8py.html":[2,0,1,3,0,15],
-"systematics__run1_8py.html":[2,0,1,3,0,16],
-"systematics__run1_8py.html#a49f9b1c8fd4411a233b2cb845d3cd2ad":[2,0,1,3,0,16,4],
-"systematics__run2_8py.html":[2,0,1,3,0,17],
-"systematics__run2_8py.html#ac7accb36b98b2137787d81a66d366492":[2,0,1,3,0,17,48],
-"tauesstudies_8py.html":[2,0,1,3,2,0,12],
-"tauesstudies_8py.html#af18ba07a9f93f69e0d8f26a311f9e5ed":[2,0,1,3,2,0,12,1],
-"taupogdatacards_8py.html":[2,0,1,0,11],
-"taupogdatacards_8py.html#a9d3854ef11ee8e3ed1df49f7717da295":[2,0,1,0,11,1],
 "tmvaWrapper_8py.html":[2,0,2,96],
 "tmvaWrapper_8py.html#a05b6233fa8e1308586c661dbe8f8e63b":[2,0,2,96,12],
 "tmvaWrapper_8py.html#a0df3ec56fc8d9605c7055cf8e8ef9fce":[2,0,2,96,19],
