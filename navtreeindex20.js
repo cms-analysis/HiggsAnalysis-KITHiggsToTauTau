@@ -1,5 +1,6 @@
 var NAVTREEINDEX20 =
 {
+"makePlots__tauEsStudies_8py.html#a40cb87cbd3668cadd15d6521d8ff3e4f":[2,0,2,69,6],
 "makePlots__tauEsStudies_8py.html#a454c35dd73a6697a759ab0ec5a6fcd46":[2,0,2,69,32],
 "makePlots__tauEsStudies_8py.html#a469e7f1d7c8913174e3e6d6851768b88":[2,0,2,69,13],
 "makePlots__tauEsStudies_8py.html#a5ab62f12ca522581ce62153baab845f4":[2,0,2,69,15],
@@ -223,8 +224,8 @@ var NAVTREEINDEX20 =
 "nFold__DiffScan_8py.html#ae9e17f6ded254e192e6837947fea8be0":[2,0,2,79,13],
 "namespaceAddMVATrainingToTrees.html":[0,0,0],
 "namespaceAddMVATrainingToTrees.html":[1,0,0],
-"namespaceAddMVATrainingToTrees__Wrapper.html":[0,0,1],
 "namespaceAddMVATrainingToTrees__Wrapper.html":[1,0,1],
+"namespaceAddMVATrainingToTrees__Wrapper.html":[0,0,1],
 "namespaceConfigMaster.html":[1,0,7],
 "namespaceConfigMaster.html":[0,0,7],
 "namespaceGetFocussedTrainingCut.html":[0,0,42],
@@ -233,8 +234,8 @@ var NAVTREEINDEX20 =
 "namespaceHiggsToTauTauAnalysis.html":[1,0,47],
 "namespaceLepFlaVio.html":[1,0,53],
 "namespaceLepFlaVio.html":[0,0,53],
-"namespacebatchComputeSvfit.html":[0,0,2],
 "namespacebatchComputeSvfit.html":[1,0,2],
+"namespacebatchComputeSvfit.html":[0,0,2],
 "namespacebinnings.html":[0,0,3],
 "namespacebinnings.html":[1,0,3],
 "namespacecategories.html":[0,0,4],
@@ -245,9 +246,8 @@ var NAVTREEINDEX20 =
 "namespacecolors.html":[0,0,6],
 "namespaceconvertEfficienciesToArtusRootInput.html":[1,0,8],
 "namespaceconvertEfficienciesToArtusRootInput.html":[0,0,8],
-"namespacecorrectionFactorsToRoot__antiElectronDiscrFakeRateWeights.html":[0,0,9],
 "namespacecorrectionFactorsToRoot__antiElectronDiscrFakeRateWeights.html":[1,0,9],
-"namespacecorrectionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID.html":[1,0,10],
+"namespacecorrectionFactorsToRoot__antiElectronDiscrFakeRateWeights.html":[0,0,9],
 "namespacecorrectionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID.html":[0,0,10],
-"namespacecorrectionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__LooseRelIso.html":[1,0,11]
+"namespacecorrectionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID.html":[1,0,10]
 };

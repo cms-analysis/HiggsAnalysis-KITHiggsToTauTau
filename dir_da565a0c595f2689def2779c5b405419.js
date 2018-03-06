@@ -27,7 +27,7 @@ var dir_da565a0c595f2689def2779c5b405419 =
     [ "HttValidTausProducer.cc", "HttValidTausProducer_8cc.html", null ],
     [ "JetToTauFakesProducer.cc", "JetToTauFakesProducer_8cc.html", null ],
     [ "MadGraphReweightingProducer.cc", "MadGraphReweightingProducer_8cc.html", null ],
-    [ "MELAProducer.cc", "MELAProducer_8cc.html", null ],
+    [ "MELAProducers.cc", "MELAProducers_8cc.html", null ],
     [ "MetCorrectors.cc", "MetCorrectors_8cc.html", null ],
     [ "MetprojectionProducer.cc", "MetprojectionProducer_8cc.html", null ],
     [ "MetSelectors.cc", "MetSelectors_8cc.html", null ],

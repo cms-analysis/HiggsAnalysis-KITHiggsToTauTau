@@ -200,9 +200,10 @@ var NAVTREEINDEX5 =
 "classLooseMuonsCountFilter.html#a494858cc791d4765dd421a36aafcd3ef":[1,0,232,2],
 "classLooseMuonsCountFilter.html#a557a83e2f449d46c65d7a1245c83fe20":[1,0,232,1],
 "classMELAProducer.html":[1,0,236],
-"classMELAProducer.html#a7c01509443cf2a8b3c64347153c00abd":[1,0,236,0],
-"classMELAProducer.html#aa44138887fbffc7532695727226d068b":[1,0,236,2],
-"classMELAProducer.html#abbf59864ab6d88fed3ae26fc01301f7f":[1,0,236,1],
+"classMELAProducer.html#a7c01509443cf2a8b3c64347153c00abd":[1,0,236,1],
+"classMELAProducer.html#a886b22b2fc891baf629d512067fc2815":[1,0,236,0],
+"classMELAProducer.html#aa44138887fbffc7532695727226d068b":[1,0,236,3],
+"classMELAProducer.html#abbf59864ab6d88fed3ae26fc01301f7f":[1,0,236,2],
 "classMEtSys.html":[1,0,245],
 "classMEtSys.html#a1a0d2275df8de195a44d8d19bf593b48":[1,0,245,4],
 "classMEtSys.html#a275f454299d9a8de1a88fb25e6ce7295":[1,0,245,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "classMadGraphReweightingProducer.html#a96bff51580315adc573dba50c5412f91":[1,0,233,2],
 "classMadGraphReweightingProducer.html#ac328cc517c9eaf3f374c64a1d7cb3bdf":[1,0,233,0],
 "classMaxLooseElectronsCountFilter.html":[1,0,234],
-"classMaxLooseElectronsCountFilter.html#a1c3982b0f7faf50d8158da566825251f":[1,0,234,1],
-"classMaxLooseElectronsCountFilter.html#a6da7a592ef0e21bdf5e2241f4dd4506a":[1,0,234,0]
+"classMaxLooseElectronsCountFilter.html#a1c3982b0f7faf50d8158da566825251f":[1,0,234,1]
 };

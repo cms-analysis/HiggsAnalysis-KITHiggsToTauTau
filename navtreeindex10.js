@@ -1,5 +1,6 @@
 var NAVTREEINDEX10 =
 {
+"classsamples__run2__etaufakerate__2016_1_1Samples.html#a59f933d6a7bffd0866a9c9190d4534a4":[1,0,134,0,4],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a5f859cf3cba5da495e7b72b2cd492557":[1,0,134,0,12],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a6331c78d172c0e6e1cc25ccda51f61ae":[1,0,134,0,5],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a63abe55235f76b897d90ae50cfe26bb0":[1,0,134,0,15],
@@ -248,6 +249,5 @@ var NAVTREEINDEX10 =
 "correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#a64826a8061ca7af9ac6e29e50cb85bf5":[2,0,2,4,11],
 "correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#a6d0e32ad7d446a5d62db4681f4b47b08":[2,0,2,4,8],
 "correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#ab74cb13bb86af0a1c43bab05db5b3c66":[2,0,2,4,12],
-"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#ab7585e2a6d1d4f8ed093efa3cb862883":[2,0,2,4,7],
-"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#ac1ca79d7eec7b92a9142ffa895786bce":[2,0,2,4,2]
+"correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html#ab7585e2a6d1d4f8ed093efa3cb862883":[2,0,2,4,7]
 };

@@ -96,7 +96,7 @@ $(document).ready(function(){initNavTree('classMELAProducer.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="MELAProducer_8h_source.html">MELAProducer.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="MELAProducers_8h_source.html">MELAProducers.h</a>&gt;</code></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for MELAProducer:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -110,6 +110,8 @@ $(document).ready(function(){initNavTree('classMELAProducer.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a886b22b2fc891baf629d512067fc2815"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMELAProducer.html#a886b22b2fc891baf629d512067fc2815">MELAProducer</a> (std::string name=&quot;&quot;, <a class="el" href="classSvfitResults.html">SvfitResults</a> product_type::*m_svfitResultsMember=&amp;product_type::m_svfitResults, float product_type::*m_melaProbCPEvenGGHMember=&amp;product_type::m_melaProbCPEvenGGH, float product_type::*m_melaProbCPOddGGHMember=&amp;product_type::m_melaProbCPOddGGH, float product_type::*m_melaProbCPMixGGHMember=&amp;product_type::m_melaProbCPMixGGH, float product_type::*m_melaDiscriminatorD0MinusGGHMember=&amp;product_type::m_melaDiscriminatorD0MinusGGH, float product_type::*m_melaDiscriminatorDCPGGHMember=&amp;product_type::m_melaDiscriminatorDCPGGH, float product_type::*m_melaProbCPEvenVBFMember=&amp;product_type::m_melaProbCPEvenVBF, float product_type::*m_melaProbCPOddVBFMember=&amp;product_type::m_melaProbCPOddVBF, float product_type::*m_melaProbCPMixVBFMember=&amp;product_type::m_melaProbCPMixVBF, float product_type::*m_melaDiscriminatorD0MinusVBFMember=&amp;product_type::m_melaDiscriminatorD0MinusVBF, float product_type::*m_melaDiscriminatorDCPVBFMember=&amp;product_type::m_melaDiscriminatorDCPVBF)</td></tr>
+<tr class="separator:a886b22b2fc891baf629d512067fc2815"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c01509443cf2a8b3c64347153c00abd"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMELAProducer.html#a7c01509443cf2a8b3c64347153c00abd">GetProducerId</a> () const override</td></tr>
 <tr class="separator:a7c01509443cf2a8b3c64347153c00abd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbf59864ab6d88fed3ae26fc01301f7f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMELAProducer.html#abbf59864ab6d88fed3ae26fc01301f7f">Init</a> (setting_type const &amp;settings, metadata_type &amp;metadata) override</td></tr>
@@ -117,6 +119,93 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa44138887fbffc7532695727226d068b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMELAProducer.html#aa44138887fbffc7532695727226d068b">Produce</a> (event_type const &amp;event, product_type &amp;product, setting_type const &amp;settings, metadata_type const &amp;metadata) const override</td></tr>
 <tr class="separator:aa44138887fbffc7532695727226d068b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a886b22b2fc891baf629d512067fc2815"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MELAProducer::MELAProducer </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classSvfitResults.html">SvfitResults</a> product_type::*&#160;</td>
+          <td class="paramname"><em>m_svfitResultsMember</em> = <code>&amp;product_type::m_svfitResults</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float product_type::*&#160;</td>
+          <td class="paramname"><em>m_melaProbCPEvenGGHMember</em> = <code>&amp;product_type::m_melaProbCPEvenGGH</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float product_type::*&#160;</td>
+          <td class="paramname"><em>m_melaProbCPOddGGHMember</em> = <code>&amp;product_type::m_melaProbCPOddGGH</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float product_type::*&#160;</td>
+          <td class="paramname"><em>m_melaProbCPMixGGHMember</em> = <code>&amp;product_type::m_melaProbCPMixGGH</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float product_type::*&#160;</td>
+          <td class="paramname"><em>m_melaDiscriminatorD0MinusGGHMember</em> = <code>&amp;product_type::m_melaDiscriminatorD0MinusGGH</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float product_type::*&#160;</td>
+          <td class="paramname"><em>m_melaDiscriminatorDCPGGHMember</em> = <code>&amp;product_type::m_melaDiscriminatorDCPGGH</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float product_type::*&#160;</td>
+          <td class="paramname"><em>m_melaProbCPEvenVBFMember</em> = <code>&amp;product_type::m_melaProbCPEvenVBF</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float product_type::*&#160;</td>
+          <td class="paramname"><em>m_melaProbCPOddVBFMember</em> = <code>&amp;product_type::m_melaProbCPOddVBF</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float product_type::*&#160;</td>
+          <td class="paramname"><em>m_melaProbCPMixVBFMember</em> = <code>&amp;product_type::m_melaProbCPMixVBF</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float product_type::*&#160;</td>
+          <td class="paramname"><em>m_melaDiscriminatorD0MinusVBFMember</em> = <code>&amp;product_type::m_melaDiscriminatorD0MinusVBF</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float product_type::*&#160;</td>
+          <td class="paramname"><em>m_melaDiscriminatorDCPVBFMember</em> = <code>&amp;product_type::m_melaDiscriminatorDCPVBF</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a7c01509443cf2a8b3c64347153c00abd"></a>
 <div class="memitem">
@@ -222,8 +311,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>interface/Producers/<a class="el" href="MELAProducer_8h_source.html">MELAProducer.h</a></li>
-<li>src/Producers/<a class="el" href="MELAProducer_8cc.html">MELAProducer.cc</a></li>
+<li>interface/Producers/<a class="el" href="MELAProducers_8h_source.html">MELAProducers.h</a></li>
+<li>src/Producers/<a class="el" href="MELAProducers_8cc.html">MELAProducers.cc</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

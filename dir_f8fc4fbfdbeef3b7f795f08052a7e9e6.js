@@ -100,7 +100,7 @@ var dir_f8fc4fbfdbeef3b7f795f08052a7e9e6 =
     [ "MadGraphReweightingProducer.h", "MadGraphReweightingProducer_8h.html", [
       [ "MadGraphReweightingProducer", "classMadGraphReweightingProducer.html", "classMadGraphReweightingProducer" ]
     ] ],
-    [ "MELAProducer.h", "MELAProducer_8h.html", [
+    [ "MELAProducers.h", "MELAProducers_8h.html", [
       [ "MELAProducer", "classMELAProducer.html", "classMELAProducer" ]
     ] ],
     [ "MetCorrectors.h", "MetCorrectors_8h.html", [

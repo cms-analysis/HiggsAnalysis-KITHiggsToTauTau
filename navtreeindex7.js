@@ -1,5 +1,6 @@
 var NAVTREEINDEX7 =
 {
+"classSvfitResults.html#aa81f0fc890b1d57d6e780c195dc8a956":[1,0,289,12],
 "classSvfitResults.html#aaba068409d3add0da88e9ec02124e4cc":[1,0,289,2],
 "classSvfitResults.html#aacb68d5010cb4ca046f01d846c074fe7":[1,0,289,0],
 "classSvfitResults.html#abc44ddb612f169968a7c53e254d15579":[1,0,289,10],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a80f9138e2a7947e18a6dd4936d0dc174":[1,0,22,0,6],
 "classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a834cb31eb9432d300691b876726f623a":[1,0,22,0,2],
 "classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a92683ac3da8a08d5d051bde2e1a60246":[1,0,22,0,1],
-"classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#aacd25bc9235c0f2344e3ff0b752d91c5":[1,0,22,0,0],
-"classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#ab50fffc67cd182fa7fbed364150b52ea":[1,0,22,0,4]
+"classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#aacd25bc9235c0f2344e3ff0b752d91c5":[1,0,22,0,0]
 };

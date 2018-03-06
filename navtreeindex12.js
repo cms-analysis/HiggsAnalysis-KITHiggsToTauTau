@@ -1,5 +1,6 @@
 var NAVTREEINDEX12 =
 {
+"embedding__plot__bib_8py.html#a3661ac7dcfbe8a6932fbdb8d072b63bf":[2,0,2,17,21],
 "embedding__plot__bib_8py.html#a457430f8291dc13c9bb9f8233c529d7f":[2,0,2,17,10],
 "embedding__plot__bib_8py.html#a49cd53ef611ebf0fd22c63c002d1c9a6":[2,0,2,17,7],
 "embedding__plot__bib_8py.html#a5256bbdd6bd1e2d799ff308be23abbe7":[2,0,2,17,27],
@@ -248,6 +249,5 @@ var NAVTREEINDEX12 =
 "gc__makePlots__datacardsSMHtt1_8py.html#a2e7535ca3c6a6deef5db238ac3a43767":[2,0,1,1,1,5],
 "gc__makePlots__datacardsSMHtt1_8py.html#a4004c01abb9785a6762d0cc20f71967d":[2,0,1,1,1,6],
 "gc__makePlots__datacardsSMHtt1_8py.html#a546498c6ffad9ad63cf7f5aedb8ab449":[2,0,1,1,1,10],
-"gc__makePlots__datacardsSMHtt1_8py.html#a5de93a9266884d16b868f23ed411cf27":[2,0,1,1,1,11],
-"gc__makePlots__datacardsSMHtt1_8py.html#a8c31d54d857f53e8100068d3a220334f":[2,0,1,1,1,3]
+"gc__makePlots__datacardsSMHtt1_8py.html#a5de93a9266884d16b868f23ed411cf27":[2,0,1,1,1,11]
 };

@@ -1,5 +1,6 @@
 var NAVTREEINDEX6 =
 {
+"classMaxLooseElectronsCountFilter.html#a6da7a592ef0e21bdf5e2241f4dd4506a":[1,0,234,0],
 "classMaxLooseElectronsCountFilter.html#ae0fd3396d0f69343224627fa33ce8595":[1,0,234,2],
 "classMaxLooseMuonsCountFilter.html":[1,0,235],
 "classMaxLooseMuonsCountFilter.html#a9b8ffc6d02a83e06623ab8a16777a1db":[1,0,235,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX6 =
 "classSvfitResults.html#a8331554fc6ab67e2a2856c61f8b2286a":[1,0,289,1],
 "classSvfitResults.html#a94a0917e8fac0662ad460800b77aa71e":[1,0,289,16],
 "classSvfitResults.html#aa0a9d6018105c2c242239e66d0af4a51":[1,0,289,4],
-"classSvfitResults.html#aa2dfd4bb75cdb81445d4a7f12ff13765":[1,0,289,6],
-"classSvfitResults.html#aa81f0fc890b1d57d6e780c195dc8a956":[1,0,289,12]
+"classSvfitResults.html#aa2dfd4bb75cdb81445d4a7f12ff13765":[1,0,289,6]
 };
