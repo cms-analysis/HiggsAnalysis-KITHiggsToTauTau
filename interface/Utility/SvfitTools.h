@@ -192,8 +192,7 @@ public:
 
 	void Init(std::string const& cacheFileName, std::string const& cacheTreeName);
 	SvfitResults GetResults(SvfitEventKey const& svfitEventKey, SvfitInputs const& svfitInputs,
-	                        bool& neededRecalculation, HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
-	TFile * m_visPtResolutionFile = nullptr;
+	                        HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour);
 
 private:
 	ClassicSVfit svfitAlgorithm;

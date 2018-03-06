@@ -81,7 +81,6 @@ int main(int argc, const char *argv[])
 	svfitResults.CreateBranches(outputTree);
 
 	HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour = HttEnumTypes::SvfitCacheMissBehaviour::recalculate;
-	bool svfitCalculated = false;
 
 	unsigned int nEntries = inputTree->GetEntries();
 	for(unsigned int entry = 0; entry < nEntries; entry++)
@@ -91,7 +90,7 @@ int main(int argc, const char *argv[])
 		svfitEventKey.diTauMassConstraint = diTauMassConstraint;
 		svfitEventKey.kappa = kappa;
 		
-		svfitResults = svfitTools.GetResults(svfitEventKey, svfitInputs, svfitCalculated, svfitCacheMissBehaviour);
+		svfitResults = svfitTools.GetResults(svfitEventKey, svfitInputs, svfitCacheMissBehaviour);
 		outputTree->Fill();
 	}
 	

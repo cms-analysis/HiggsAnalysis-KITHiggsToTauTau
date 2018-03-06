@@ -189,7 +189,6 @@ public:
 	mutable SvfitResults m_svfitResults;
 	mutable SvfitResults m_svfitM91Results;
 	mutable SvfitResults m_svfitM125Results;
-	bool m_svfitCalculated = false;
 	std::map<KLepton*, RMFLV> m_svfitTaus;
 
 	// filled by the HHKinFitProducer
