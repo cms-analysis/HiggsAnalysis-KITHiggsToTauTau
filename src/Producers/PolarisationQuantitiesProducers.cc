@@ -239,7 +239,7 @@ PolarisationQuantitiesSvfitProducer::PolarisationQuantitiesSvfitProducer() :
 
 std::string PolarisationQuantitiesSvfitM91Producer::GetProducerId() const
 {
-	return "PolarisationQuantitiesSvfitM91Producer";
+	return "PolarisationQuantitiesSvfitProducer";
 }
 
 
@@ -247,19 +247,19 @@ PolarisationQuantitiesSvfitM91Producer::PolarisationQuantitiesSvfitM91Producer()
 	PolarisationQuantitiesProducerBase(
 			"SvfitM91",
 			&product_type::m_svfitM91Taus,
-			&product_type::m_polarisationOmegasSvfit,
-			&product_type::m_polarisationOmegaBarsSvfit,
-			&product_type::m_polarisationOmegaBarsSvfit,
-			&product_type::m_polarisationCombinedOmegaSvfit,
-			&product_type::m_polarisationCombinedOmegaBarSvfit,
-			&product_type::m_polarisationCombinedOmegaVisibleSvfit
+			&product_type::m_polarisationOmegasSvfitM91,
+			&product_type::m_polarisationOmegaBarsSvfitM91,
+			&product_type::m_polarisationOmegaBarsSvfitM91,
+			&product_type::m_polarisationCombinedOmegaSvfitM91,
+			&product_type::m_polarisationCombinedOmegaBarSvfitM91,
+			&product_type::m_polarisationCombinedOmegaVisibleSvfitM91
 	)
 {
 }
 
 std::string PolarisationQuantitiesSvfitProducer::GetProducerId() const
 {
-	return "PolarisationQuantitiesSvfitProducer";
+	return "PolarisationQuantitiesSvfitM91Producer";
 }
 
 
