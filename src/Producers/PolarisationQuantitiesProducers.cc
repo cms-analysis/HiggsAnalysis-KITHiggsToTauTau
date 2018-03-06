@@ -6,7 +6,7 @@
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducers.h"
 
 #include "TauPolSoftware/TauDecaysInterface/interface/TauPolInterface.h"
 
@@ -232,6 +232,26 @@ PolarisationQuantitiesSvfitProducer::PolarisationQuantitiesSvfitProducer() :
 	PolarisationQuantitiesProducerBase(
 			"Svfit",
 			&product_type::m_svfitTaus,
+			&product_type::m_polarisationOmegasSvfit,
+			&product_type::m_polarisationOmegaBarsSvfit,
+			&product_type::m_polarisationOmegaBarsSvfit,
+			&product_type::m_polarisationCombinedOmegaSvfit,
+			&product_type::m_polarisationCombinedOmegaBarSvfit,
+			&product_type::m_polarisationCombinedOmegaVisibleSvfit
+	)
+{
+}
+
+std::string PolarisationQuantitiesSvfitM91Producer::GetProducerId() const
+{
+	return "PolarisationQuantitiesSvfitM91Producer";
+}
+
+
+PolarisationQuantitiesSvfitM91Producer::PolarisationQuantitiesSvfitM91Producer() :
+	PolarisationQuantitiesProducerBase(
+			"SvfitM91",
+			&product_type::m_svfitM91Taus,
 			&product_type::m_polarisationOmegasSvfit,
 			&product_type::m_polarisationOmegaBarsSvfit,
 			&product_type::m_polarisationOmegaBarsSvfit,

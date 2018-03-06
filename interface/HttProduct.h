@@ -190,6 +190,8 @@ public:
 	mutable SvfitResults m_svfitM91Results;
 	mutable SvfitResults m_svfitM125Results;
 	std::map<KLepton*, RMFLV> m_svfitTaus;
+	std::map<KLepton*, RMFLV> m_svfitM91Taus;
+	std::map<KLepton*, RMFLV> m_svfitM125Taus;
 
 	// filled by the HHKinFitProducer
 	//std::map<KLepton*, RMFLV> m_hhKinFitTaus;

@@ -1,29 +1,23 @@
 {
 	"property" : [
-		"#a1OmegaSvfit_1",
-		"#a1OmegaSvfit_2",
-		
-		"#visibleOverFullEnergySvfit_1",
-		"#visibleOverFullEnergySvfit_2",
-		
-		"#visibleToFullAngleSvfit_1",
-		"#visibleToFullAngleSvfit_2",
-		
-		"#tauPolarisationDiscriminatorSvfit",
-		
 		"polarisationOmegaSvfit_1",
 		"polarisationOmegaSvfit_2",
-		
 		"polarisationOmegaBarSvfit_1",
 		"polarisationOmegaBarSvfit_2",
-		
 		"polarisationOmegaVisibleSvfit_1",
 		"polarisationOmegaVisibleSvfit_2",
-		
 		"polarisationCombinedOmegaSvfit",
-		
 		"polarisationCombinedOmegaBarSvfit",
+		"polarisationCombinedOmegaVisibleSvfit",
 		
-		"polarisationCombinedOmegaVisibleSvfit"
+		"polarisationOmegaSvfitM91_1",
+		"polarisationOmegaSvfitM91_2",
+		"polarisationOmegaBarSvfitM91_1",
+		"polarisationOmegaBarSvfitM91_2",
+		"polarisationOmegaVisibleSvfitM91_1",
+		"polarisationOmegaVisibleSvfitM91_2",
+		"polarisationCombinedOmegaSvfitM91",
+		"polarisationCombinedOmegaBarSvfitM91",
+		"polarisationCombinedOmegaVisibleSvfitM91"
 	]
 }
