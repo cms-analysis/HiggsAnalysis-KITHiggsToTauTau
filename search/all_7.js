@@ -76,7 +76,7 @@ var searchData=
   ['getrecoip2',['GetRecoIP2',['../classCPQuantities.html#a2045f55f5ee2cde785b01464b3fe822a',1,'CPQuantities']]],
   ['getrecoostarcp',['GetRecoOStarCP',['../classCPQuantities.html#aa84d24d23086f4ecb1f144180ab3adca',1,'CPQuantities']]],
   ['getrecophistar',['GetRecoPhiStar',['../classCPQuantities.html#a778283bd3af9c19d9498d9763d0facb5',1,'CPQuantities']]],
-  ['getresults',['GetResults',['../classSvfitTools.html#a131289c85e27ee4e9020019ec739c86f',1,'SvfitTools']]],
+  ['getresults',['GetResults',['../classSvfitTools.html#a36394a2e137a868bcfa080e925f40de7',1,'SvfitTools']]],
   ['getsysinformation',['getSysInformation',['../namespacecheckoutScriptsHelper.html#af2a96b1f5ec2a81dbd0f7587e06ed909',1,'checkoutScriptsHelper']]],
   ['getsystematicshift',['GetSystematicShift',['../classSvfitEventKey.html#ab524322fe4600f72cc28a83fa5ce31b1',1,'SvfitEventKey']]],
   ['getupdatemetwithcorrectedleptons',['GetUpdateMetWithCorrectedLeptons',['../classMetCorrectorBase.html#a9ee54f0240f3285b68a6a8290618cfad',1,'MetCorrectorBase']]],

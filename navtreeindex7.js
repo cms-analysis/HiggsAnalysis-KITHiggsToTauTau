@@ -1,16 +1,14 @@
 var NAVTREEINDEX7 =
 {
-"classSvfitResults.html#ad1b5371d1ebf4c5cc04c029f280a46cb":[1,0,288,17],
 "classSvfitResults.html#ad4822dc697bd45db7b7aa76c00ebd8e1":[1,0,288,5],
 "classSvfitResults.html#ad53212bbbb3ed120e696fe36fa4ad215":[1,0,288,13],
 "classSvfitResults.html#ad5d54373ccfdfb31d2a2c6006cd7c472":[1,0,288,19],
 "classSvfitResults.html#ad860def3a21ca2fd51f942464317136d":[1,0,288,11],
 "classSvfitTools.html":[1,0,289],
-"classSvfitTools.html#a131289c85e27ee4e9020019ec739c86f":[1,0,289,2],
+"classSvfitTools.html#a36394a2e137a868bcfa080e925f40de7":[1,0,289,2],
 "classSvfitTools.html#a3ee4e5c67da74ca1da44be0be5e23105":[1,0,289,0],
 "classSvfitTools.html#a946db8077e348912ac31945c749efbb0":[1,0,289,1],
 "classSvfitTools.html#ab20f7b07a94189526b22b6d8dd8ecfb4":[1,0,289,3],
-"classSvfitTools.html#ae505dd685534e19cf4c4fa662f0e84af":[1,0,289,4],
 "classTTHDecayChannelProducer.html":[1,0,312],
 "classTTHDecayChannelProducer.html#a156d33176c768ffd652292bf365f73a0":[1,0,312,1],
 "classTTHDecayChannelProducer.html#aace688b4843340b15df45ba5b7481739":[1,0,312,0],
@@ -249,5 +247,7 @@ var NAVTREEINDEX7 =
 "classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#ab50fffc67cd182fa7fbed364150b52ea":[1,0,22,0,4],
 "classcutOptimizer_1_1CutOptimizer.html":[1,0,23,0],
 "classcutOptimizer_1_1CutOptimizer.html#a00f34f62663779aeaf95c34f89efc4ab":[1,0,23,0,12],
-"classcutOptimizer_1_1CutOptimizer.html#a395ab82dbaed44b1f419a5756da74307":[1,0,23,0,2]
+"classcutOptimizer_1_1CutOptimizer.html#a395ab82dbaed44b1f419a5756da74307":[1,0,23,0,2],
+"classcutOptimizer_1_1CutOptimizer.html#a5984dbaedd36f5fc979c21a86fc5dac4":[1,0,23,0,4],
+"classcutOptimizer_1_1CutOptimizer.html#a86c56409c1c75006e09887384fa4ba61":[1,0,23,0,8]
 };

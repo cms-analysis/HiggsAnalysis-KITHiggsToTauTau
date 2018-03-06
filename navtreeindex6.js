@@ -1,6 +1,5 @@
 var NAVTREEINDEX6 =
 {
-"classMaxLooseMuonsCountFilter.html":[1,0,235],
 "classMaxLooseMuonsCountFilter.html#a9b8ffc6d02a83e06623ab8a16777a1db":[1,0,235,1],
 "classMaxLooseMuonsCountFilter.html#ab7cee67d21f4e51ac1098f2ec372bfdf":[1,0,235,2],
 "classMaxLooseMuonsCountFilter.html#afa57cf1998c0ea1958154102426bfe33":[1,0,235,0],
@@ -249,5 +248,6 @@ var NAVTREEINDEX6 =
 "classSvfitResults.html#aaba068409d3add0da88e9ec02124e4cc":[1,0,288,2],
 "classSvfitResults.html#aacb68d5010cb4ca046f01d846c074fe7":[1,0,288,0],
 "classSvfitResults.html#abc44ddb612f169968a7c53e254d15579":[1,0,288,10],
-"classSvfitResults.html#ad041804809054ef7c2646c60917ba4df":[1,0,288,8]
+"classSvfitResults.html#ad041804809054ef7c2646c60917ba4df":[1,0,288,8],
+"classSvfitResults.html#ad1b5371d1ebf4c5cc04c029f280a46cb":[1,0,288,17]
 };

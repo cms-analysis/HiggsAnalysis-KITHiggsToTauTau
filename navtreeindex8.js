@@ -1,7 +1,5 @@
 var NAVTREEINDEX8 =
 {
-"classcutOptimizer_1_1CutOptimizer.html#a5984dbaedd36f5fc979c21a86fc5dac4":[1,0,23,0,4],
-"classcutOptimizer_1_1CutOptimizer.html#a86c56409c1c75006e09887384fa4ba61":[1,0,23,0,8],
 "classcutOptimizer_1_1CutOptimizer.html#a9f43d2fd7dee5d016b708a38dcbd7b30":[1,0,23,0,9],
 "classcutOptimizer_1_1CutOptimizer.html#aa42b60689dc1af9accf91cf39bc8ca20":[1,0,23,0,6],
 "classcutOptimizer_1_1CutOptimizer.html#ab442907fcdbb5005b86785c9a1cf3acf":[1,0,23,0,10],
@@ -249,5 +247,7 @@ var NAVTREEINDEX8 =
 "classmvadatacards__base_1_1Datacards.html#a853b90758628c4fed362de3aca23260a":[1,0,113,0,15],
 "classmvadatacards__base_1_1Datacards.html#a8692bca85d088728798a8ff87a5c74a8":[1,0,113,0,21],
 "classmvadatacards__base_1_1Datacards.html#aa313ab7f407843ccc3de97411d9ca6b6":[1,0,113,0,4],
-"classmvadatacards__base_1_1Datacards.html#aa7615ac12ccf49b157a32ec848e607d1":[1,0,113,0,1]
+"classmvadatacards__base_1_1Datacards.html#aa7615ac12ccf49b157a32ec848e607d1":[1,0,113,0,1],
+"classmvadatacards__base_1_1Datacards.html#ab014d972f3f3617aa94cca993a5a084c":[1,0,113,0,40],
+"classmvadatacards__base_1_1Datacards.html#ab97f2c1e927f0ad642fd4235f77b054e":[1,0,113,0,9]
 };

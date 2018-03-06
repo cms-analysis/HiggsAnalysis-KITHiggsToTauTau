@@ -249,7 +249,6 @@ var classHttProduct =
     [ "m_refP1", "classHttProduct.html#a485baa2ac1d1ecbdb55366c9865d27fe", null ],
     [ "m_refP2", "classHttProduct.html#adc963cf8394312ce7d86c8ae53f0c6cd", null ],
     [ "m_simpleFitTaus", "classHttProduct.html#a169a364722b7ef30ef64c0cc9ab41047", null ],
-    [ "m_svfitCalculated", "classHttProduct.html#accdce5615fc40068d8411be69b349f1c", null ],
     [ "m_svfitEventKey", "classHttProduct.html#a417c202e5be95c4971c52d7f51e92fd5", null ],
     [ "m_svfitInputs", "classHttProduct.html#a40ff729dcc44f180cb51b6532f5cbcc3", null ],
     [ "m_svfitM125EventKey", "classHttProduct.html#a9779a8e2d1f3b3f5c1c1f1ce67860006", null ],
