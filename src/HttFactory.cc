@@ -42,7 +42,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleEleTauFakeRateWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleMuTauFakeRateWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/JetToTauFakesProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EmuQcdWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RooWorkspaceWeightProducer.h"
@@ -233,6 +233,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new JetToTauFakesProducer();
 	else if(id == PolarisationQuantitiesSvfitProducer().GetProducerId())
 		return new PolarisationQuantitiesSvfitProducer();
+	else if(id == PolarisationQuantitiesSvfitM91Producer().GetProducerId())
+		return new PolarisationQuantitiesSvfitM91Producer();
 	else if(id == PolarisationQuantitiesSimpleFitProducer().GetProducerId())
 		return new PolarisationQuantitiesSimpleFitProducer();
 	//else if(id == PolarisationQuantitiesHHKinFitProducer().GetProducerId())

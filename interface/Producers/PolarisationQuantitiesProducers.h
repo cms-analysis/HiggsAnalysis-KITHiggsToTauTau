@@ -53,6 +53,13 @@ public:
 	virtual std::string GetProducerId() const override;
 };
 
+class PolarisationQuantitiesSvfitM91Producer: public PolarisationQuantitiesProducerBase {
+public:
+
+	PolarisationQuantitiesSvfitM91Producer();
+	virtual std::string GetProducerId() const override;
+};
+
 class PolarisationQuantitiesSimpleFitProducer: public PolarisationQuantitiesProducerBase {
 public:
 

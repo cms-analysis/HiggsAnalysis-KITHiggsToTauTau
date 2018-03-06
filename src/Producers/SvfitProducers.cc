@@ -18,6 +18,7 @@ SvfitProducer::SvfitProducer(
 		float diTauMassConstraint,
 		SvfitEventKey product_type::*svfitEventKeyMember,
 		SvfitResults product_type::*svfitResultsMember,
+		std::map<KLepton*, RMFLV> product_type::*svfitTausMember,
 		std::string (setting_type::*GetSvfitCacheFileMember)(void) const,
 		std::string (setting_type::*GetSvfitCacheFileFolderMember)(void) const,
 		std::string (setting_type::*GetSvfitCacheTreeMember)(void) const
@@ -27,6 +28,7 @@ SvfitProducer::SvfitProducer(
 	m_diTauMassConstraint(diTauMassConstraint),
 	m_svfitEventKeyMember(svfitEventKeyMember),
 	m_svfitResultsMember(svfitResultsMember),
+	m_svfitTausMember(svfitTausMember),
 	GetSvfitCacheFileMember(GetSvfitCacheFileMember),
 	GetSvfitCacheFileFolderMember(GetSvfitCacheFileFolderMember),
 	GetSvfitCacheTreeMember(GetSvfitCacheTreeMember)
@@ -170,11 +172,11 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	
 	if ((product.*m_svfitResultsMember).fittedTau1LV)
 	{
-		product.m_svfitTaus[lepton1] = *((product.*m_svfitResultsMember).fittedTau1LV);
+		(product.*m_svfitTausMember)[lepton1] = *((product.*m_svfitResultsMember).fittedTau1LV);
 	}
 	if ((product.*m_svfitResultsMember).fittedTau2LV)
 	{
-		product.m_svfitTaus[lepton2] = *((product.*m_svfitResultsMember).fittedTau2LV);
+		(product.*m_svfitTausMember)[lepton2] = *((product.*m_svfitResultsMember).fittedTau2LV);
 	}
 	
 	// apply systematic shifts
@@ -191,6 +193,7 @@ SvfitM91Producer::SvfitM91Producer(
 			DefaultValues::ZBosonMassGeV,
 			&product_type::m_svfitM91EventKey,
 			&product_type::m_svfitM91Results,
+			&product_type::m_svfitM91Taus,
 			&setting_type::GetSvfitM91CacheFile,
 			&setting_type::GetSvfitM91CacheFileFolder,
 			&setting_type::GetSvfitM91CacheTree
@@ -211,6 +214,7 @@ SvfitM125Producer::SvfitM125Producer(
 			125.0,
 			&product_type::m_svfitM125EventKey,
 			&product_type::m_svfitM125Results,
+			&product_type::m_svfitM125Taus,
 			&setting_type::GetSvfitM125CacheFile,
 			&setting_type::GetSvfitM125CacheFileFolder,
 			&setting_type::GetSvfitM125CacheTree

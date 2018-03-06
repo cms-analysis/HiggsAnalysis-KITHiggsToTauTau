@@ -390,6 +390,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
@@ -436,6 +437,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
@@ -482,6 +484,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
@@ -530,6 +533,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
@@ -569,6 +573,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
@@ -609,6 +614,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
@@ -654,6 +660,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"#producer:MadGraphReweightingProducer",
@@ -703,6 +710,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:MadGraphReweightingProducer",
@@ -748,6 +756,7 @@
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
+					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
