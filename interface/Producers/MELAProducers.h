@@ -122,3 +122,14 @@ private:
 
 };
 
+
+class MELAM125Producer: public MELAProducer
+{
+public:
+	
+	MELAM125Producer();
+	
+	virtual std::string GetProducerId() const override;
+
+};
+

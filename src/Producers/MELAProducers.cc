@@ -106,129 +106,129 @@ void MELAProducer::Init(setting_type const& settings, metadata_type& metadata)
 	m_mela = std::unique_ptr<Mela>(new Mela(13.0, 125.0, TVar::SILENT));
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPEvenGGH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPEvenGGH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPEvenGGHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPOddGGH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPOddGGH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPOddGGHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPMixGGH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPMixGGH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPMixGGHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorD0MinusGGH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorD0MinusGGH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorD0MinusGGHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorDCPGGH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorDCPGGH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorDCPGGHMember);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPEvenVBF"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPEvenVBF", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPEvenVBFMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPOddVBF"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPOddVBF", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPOddVBFMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPMixVBF"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPMixVBF", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPMixVBFMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorD0MinusVBF"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorD0MinusVBF", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorD0MinusVBFMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorDCPVBF"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorDCPVBF", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorDCPVBFMember);
 	});
 	
 	/*
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPEvenWlepH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPEvenWlepH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPEvenWlepHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPOddWlepH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPOddWlepH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPOddWlepHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPMixWlepH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPMixWlepH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPMixWlepHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorD0MinusWlepH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorD0MinusWlepH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorD0MinusWlepHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorDCPWlepH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorDCPWlepH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorDCPWlepHMember);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPEvenWhadH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPEvenWhadH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPEvenWhadHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPOddWhadH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPOddWhadH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPOddWhadHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPMixWhadH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPMixWhadH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPMixWhadHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorD0MinusWhadH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorD0MinusWhadH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorD0MinusWhadHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorDCPWhadH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorDCPWhadH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorDCPWhadHMember);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPEvenZlepH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPEvenZlepH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPEvenZlepHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPOddZlepH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPOddZlepH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPOddZlepHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPMixZlepH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPMixZlepH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPMixZlepHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorD0MinusZlepH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorD0MinusZlepH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorD0MinusZlepHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorDCPZlepH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorDCPZlepH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorDCPZlepHMember);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPEvenZhadH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPEvenZhadH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPEvenZhadHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPOddZhadH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPOddZhadH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPOddZhadHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaProbCPMixZhadH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"ProbCPMixZhadH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaProbCPMixZhadHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorD0MinusZhadH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorD0MinusZhadH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorD0MinusZhadHMember);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "melaDiscriminatorDCPZhadH"+m_name, [this](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mela"+m_name+"DiscriminatorDCPZhadH", [this](event_type const& event, product_type const& product)
 	{
 		return (product.*m_melaDiscriminatorDCPZhadHMember);
 	});
@@ -405,5 +405,58 @@ void MELAProducer::CalculateDiscriminators(float probCPEven, float probCPOdd, fl
 		discriminatorD0Minus = DefaultValues::UndefinedFloat;
 		discriminatorDCP = DefaultValues::UndefinedFloat;
 	}
+}
+
+
+MELAM125Producer::MELAM125Producer(
+) :
+	MELAProducer(
+			"M125",
+			&product_type::m_svfitM125Results,
+			
+			&product_type::m_melaM125ProbCPEvenGGH,
+			&product_type::m_melaM125ProbCPOddGGH,
+			&product_type::m_melaM125ProbCPMixGGH,
+			&product_type::m_melaM125DiscriminatorD0MinusGGH,
+			&product_type::m_melaM125DiscriminatorDCPGGH,
+	
+			&product_type::m_melaM125ProbCPEvenVBF,
+			&product_type::m_melaM125ProbCPOddVBF,
+			&product_type::m_melaM125ProbCPMixVBF,
+			&product_type::m_melaM125DiscriminatorD0MinusVBF,
+			&product_type::m_melaM125DiscriminatorDCPVBF
+	
+			/*
+			&product_type::m_melaM125ProbCPEvenWlepH,
+			&product_type::m_melaM125ProbCPOddWlepH,
+			&product_type::m_melaM125ProbCPMixWlepH,
+			&product_type::m_melaM125DiscriminatorD0MinusWlepH,
+			&product_type::m_melaM125DiscriminatorDCPWlepH,
+	
+			&product_type::m_melaM125ProbCPEvenWhadH,
+			&product_type::m_melaM125ProbCPOddWhadH,
+			&product_type::m_melaM125ProbCPMixWhadH,
+			&product_type::m_melaM125DiscriminatorD0MinusWhadH,
+			&product_type::m_melaM125DiscriminatorDCPWhadH,
+	
+			&product_type::m_melaM125ProbCPEvenZlepH,
+			&product_type::m_melaM125ProbCPOddZlepH,
+			&product_type::m_melaM125ProbCPMixZlepH,
+			&product_type::m_melaM125DiscriminatorD0MinusZlepH,
+			&product_type::m_melaM125DiscriminatorDCPZlepH,
+	
+			&product_type::m_melaM125ProbCPEvenZhadH,
+			&product_type::m_melaM125ProbCPOddZhadH,
+			&product_type::m_melaM125ProbCPMixZhadH,
+			&product_type::m_melaM125DiscriminatorD0MinusZhadH,
+			&product_type::m_melaM125DiscriminatorDCPZhadH
+			*/
+	)
+{
+}
+
+std::string MELAM125Producer::GetProducerId() const
+{
+	return "MELAM125Producer";
 }
 

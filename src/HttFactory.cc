@@ -279,6 +279,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MadGraphReweightingProducer();
 	else if(id == MELAProducer().GetProducerId())
 		return new MELAProducer();
+	else if(id == MELAM125Producer().GetProducerId())
+		return new MELAM125Producer();
 	else if(id == TTbarGenDecayModeProducer().GetProducerId())
 		return new TTbarGenDecayModeProducer();
 	else if(id == TaggedJetUncertaintyShiftProducer().GetProducerId())
