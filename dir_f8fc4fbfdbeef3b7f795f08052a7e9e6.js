@@ -103,9 +103,8 @@ var dir_f8fc4fbfdbeef3b7f795f08052a7e9e6 =
     [ "MadGraphReweightingProducer.h", "MadGraphReweightingProducer_8h.html", [
       [ "MadGraphReweightingProducer", "classMadGraphReweightingProducer.html", "classMadGraphReweightingProducer" ]
     ] ],
-    [ "MELAProducers.h", "MELAProducers_8h.html", [
-      [ "MELAProducer", "classMELAProducer.html", "classMELAProducer" ],
-      [ "MELAM125Producer", "classMELAM125Producer.html", "classMELAM125Producer" ]
+    [ "MELAProducer.h", "MELAProducer_8h.html", [
+      [ "MELAProducer", "classMELAProducer.html", "classMELAProducer" ]
     ] ],
     [ "MetCorrectors.h", "MetCorrectors_8h.html", [
       [ "MetCorrectorBase", "classMetCorrectorBase.html", "classMetCorrectorBase" ],
@@ -134,10 +133,9 @@ var dir_f8fc4fbfdbeef3b7f795f08052a7e9e6 =
     [ "MVATestMethodsProducer.h", "MVATestMethodsProducer_8h.html", [
       [ "MVATestMethodsProducer", "classMVATestMethodsProducer.html", "classMVATestMethodsProducer" ]
     ] ],
-    [ "PolarisationQuantitiesProducers.h", "PolarisationQuantitiesProducers_8h.html", [
+    [ "PolarisationQuantitiesProducer.h", "PolarisationQuantitiesProducer_8h.html", [
       [ "PolarisationQuantitiesProducerBase", "classPolarisationQuantitiesProducerBase.html", "classPolarisationQuantitiesProducerBase" ],
       [ "PolarisationQuantitiesSvfitProducer", "classPolarisationQuantitiesSvfitProducer.html", "classPolarisationQuantitiesSvfitProducer" ],
-      [ "PolarisationQuantitiesSvfitM91Producer", "classPolarisationQuantitiesSvfitM91Producer.html", "classPolarisationQuantitiesSvfitM91Producer" ],
       [ "PolarisationQuantitiesSimpleFitProducer", "classPolarisationQuantitiesSimpleFitProducer.html", "classPolarisationQuantitiesSimpleFitProducer" ]
     ] ],
     [ "RecoTauCPProducer.h", "RecoTauCPProducer_8h.html", [
@@ -166,10 +164,8 @@ var dir_f8fc4fbfdbeef3b7f795f08052a7e9e6 =
     [ "SimpleMuTauFakeRateWeightProducer.h", "SimpleMuTauFakeRateWeightProducer_8h.html", [
       [ "SimpleMuTauFakeRateWeightProducer", "classSimpleMuTauFakeRateWeightProducer.html", "classSimpleMuTauFakeRateWeightProducer" ]
     ] ],
-    [ "SvfitProducers.h", "SvfitProducers_8h.html", [
-      [ "SvfitProducer", "classSvfitProducer.html", "classSvfitProducer" ],
-      [ "SvfitM91Producer", "classSvfitM91Producer.html", "classSvfitM91Producer" ],
-      [ "SvfitM125Producer", "classSvfitM125Producer.html", "classSvfitM125Producer" ]
+    [ "SvfitProducer.h", "SvfitProducer_8h.html", [
+      [ "SvfitProducer", "classSvfitProducer.html", "classSvfitProducer" ]
     ] ],
     [ "TagAndProbePairProducer.h", "TagAndProbePairProducer_8h.html", [
       [ "TagAndProbeMuonPairProducer", "classTagAndProbeMuonPairProducer.html", "classTagAndProbeMuonPairProducer" ],
