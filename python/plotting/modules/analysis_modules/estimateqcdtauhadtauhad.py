@@ -45,6 +45,9 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 		plotData.plotdict["qcd_data_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_data_subtract_nicks"]]
 		plotData.plotdict["qcd_control_signal_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_signal_subtract_nicks"]]
 		plotData.plotdict["qcd_control_relaxed_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_relaxed_subtract_nicks"]]
+	
+	def run(self, plotData=None):
+		super(EstimateQcdTauHadTauHad, self).run(plotData)
 		
 		# make sure that all necessary histograms are available
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
@@ -54,9 +57,6 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 				elif (not isinstance(nick, float) and not isinstance(nick, bool)):
 					for subnick in nick:
 						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
-	
-	def run(self, plotData=None):
-		super(EstimateQcdTauHadTauHad, self).run(plotData)
 		
 		for qcd_data_shape_nick, qcd_data_signal_control_nick, qcd_data_relaxed_control_nick, qcd_data_subtract_nicks, qcd_control_signal_subtract_nicks, qcd_control_relaxed_subtract_nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			
@@ -67,13 +67,13 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 			for nick in qcd_control_signal_subtract_nicks:
 				yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 				yield_control_signal -= yield_bgk_control
-			yield_control_signal = max(0.0, yield_control_signal)
+			yield_control_signal = uncertainties.ufloat(max(0.0, yield_control_signal.nominal_value), yield_control_signal.std_dev)
 
 			yield_control_relaxed = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_relaxed_control_nick])()
 			for nick in qcd_control_relaxed_subtract_nicks:
 				yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 				yield_control_relaxed -= yield_bgk_control
-			yield_control_relaxed = max(0.0, yield_control_relaxed)
+			yield_control_relaxed = uncertainties.ufloat(max(0.0, yield_control_relaxed.nominal_value), yield_control_relaxed.std_dev)
 
 			scale_factor = yield_control_signal
 			if yield_control_relaxed != 0.0:

@@ -42,17 +42,21 @@ class DatacardConfigs(object):
 			"WH" : "wh",
 			"ZH" : "zh",
 			"HTT" : "htt",
-			"ggHsm" : "gghsm",
-			"ggHmm_ALT" : "gghmm",
-			"ggHps_ALT" : "gghps",
-			"qqHsm" : "qqhsm",
-			"qqHmm_ALT" : "qqhmm",
-			"qqHps_ALT" : "qqhps",
+			"ggHsm" : "gghjhusm",
+			"ggHmm" : "gghjhumm",
+			"ggHps" : "gghjhups",
+			"qqHsm" : "qqhjhusm",
+			"qqHmm" : "qqhjhumm",
+			"qqHps" : "qqhjhups",
 			"CPEVEN": "httcpeven",
 			"SUSYCPODD_ALT": "susycpodd",
 			"CPODD_ALT": "httcpodd",
 			"CPMIX_ALT": "httcpmix",
+			"ZEM": "zem",
+			"ZET": "zet",
+			"ZMT": "zmt"
 		}
+
 
 		self._mapping_category2binid = {
 			"mt" : {
@@ -87,6 +91,14 @@ class DatacardConfigs(object):
 				"mt_a1" : 1010,
 				"mt_rho" : 1020,
 				"mt_oneprong" : 1030,
+				
+				"mt_TwoJet_CP_boosted" : 2001, 
+				"mt_TwoJet_CP_mvishigh" : 2002, 
+				"mt_TwoJet_CP_mvislow" : 2003, 
+				"mt_TwoJet_CP_mjjlow" : 2004, 
+
+				"mt_ZeroJet_LFV": 	3001,
+				"mt_OneJet_LFV":	3002,
 			},
 			"et" : {
 				"et_inclusive" : 0,
@@ -120,6 +132,15 @@ class DatacardConfigs(object):
 				"et_a1" : 1010,
 				"et_rho" : 1020,
 				"et_oneprong" : 1030,
+				
+				"et_TwoJet_CP_boosted" : 2001, 
+				"et_TwoJet_CP_mvishigh" : 2002, 
+				"et_TwoJet_CP_mvislow" : 2003, 
+				"et_TwoJet_CP_mjjlow" : 2004,
+			
+				"et_ZeroJet_LFV": 	3001,
+				"et_OneJet_LFV":	3002,
+
 			},
 			"em" : {
 				"em_inclusive" : 0,
@@ -151,6 +172,15 @@ class DatacardConfigs(object):
 				"em_Vbf2D" : 102,
 				
 				"em_oneprong" : 1030,
+				
+				"em_TwoJet_CP_boosted" : 2001, 
+				"em_TwoJet_CP_mvishigh" : 2002, 
+				"em_TwoJet_CP_mvislow" : 2003, 
+				"em_TwoJet_CP_mjjlow" : 2004,
+
+				"em_ZeroJet_LFV": 	3001,
+				"em_OneJet_LFV":	3002,
+
 			},
 			"tt" : {
 				"tt_inclusive" : 0,
@@ -184,6 +214,11 @@ class DatacardConfigs(object):
 				"tt_a1" : 1010,
 				"tt_rho" : 1020,
 				"tt_oneprong" : 1030,
+				
+				"tt_TwoJet_CP_boosted" : 2001, 
+				"tt_TwoJet_CP_mvishigh" : 2002, 
+				"tt_TwoJet_CP_mvislow" : 2003, 
+				"tt_TwoJet_CP_mjjlow" : 2004
 			},
 			"mm" : {
 				"mm_inclusive" : 0,
@@ -228,13 +263,6 @@ class DatacardConfigs(object):
 			for i, cat in enumerate(categories[chan]):
 				self._mapping_category2binid[chan][cat] = max_number + i
 		self.htt_datacard_filename_templates = [
-			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
-			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
-			"datacards/category/${BINID}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",
-			"datacards/combined/${MASS}/${ANALYSIS}_${ERA}.txt",
-		]
-
-		self.LFV_datacard_filename_templates = [
 			"datacards/individual/${BIN}/${MASS}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt",
 			"datacards/channel/${CHANNEL}/${MASS}/${ANALYSIS}_${CHANNEL}_${ERA}.txt",
 			"datacards/category/${BINID}/${MASS}/${ANALYSIS}_${BINID}_${ERA}.txt",

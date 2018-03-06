@@ -1,2 +1,0 @@
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_SM_Run2Analysis_Summer16_MConly.txt
-$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_SM_Run2Analysis_Summer16_HToTauTauM110-140.txt

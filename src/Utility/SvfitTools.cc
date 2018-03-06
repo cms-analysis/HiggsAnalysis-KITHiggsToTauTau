@@ -674,11 +674,13 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey,
                                     HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour)
 {
 	neededRecalculation = true;
-	if (Utility::Contains(SvfitTools::svfitCacheInputTrees, cacheFileTreeName) && Utility::Contains(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName))
+	TTree* svfitCacheInputTree = SafeMap::GetWithDefault(SvfitTools::svfitCacheInputTrees, cacheFileTreeName, static_cast<TTree*>(nullptr));
+	if (svfitCacheInputTree && Utility::Contains(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName))
 	{
 		if (Utility::Contains(SafeMap::Get(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName), svfitEventKey))
 		{
-			SafeMap::Get(SvfitTools::svfitCacheInputTrees, cacheFileTreeName)->GetEntry(SafeMap::Get(SafeMap::Get(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName), svfitEventKey));
+			svfitResults.SetBranchAddresses(svfitCacheInputTree);
+			svfitCacheInputTree->GetEntry(SafeMap::Get(SafeMap::Get(SvfitTools::svfitCacheInputTreeIndices, cacheFileTreeName), svfitEventKey));
 			svfitResults.FromCache();
 			neededRecalculation = false;
 		}
@@ -739,6 +741,7 @@ SvfitTools::~SvfitTools()
 	if (Utility::Contains(SvfitTools::svfitCacheInputFiles, cacheFileName) && SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName)->IsOpen())
 	{
 		SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName)->Close();
+		delete SafeMap::Get(SvfitTools::svfitCacheInputFiles, cacheFileName);
 		SvfitTools::svfitCacheInputFiles.erase(cacheFileName);
 	}
 	

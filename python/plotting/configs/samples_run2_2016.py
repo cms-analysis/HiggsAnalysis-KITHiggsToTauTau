@@ -425,7 +425,9 @@ class Samples(samples.SamplesBase):
 				nick_suffix=nick_suffix
 		)
 
-		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
+
 		return config
 
 	def files_dy_m50(self, channel):
@@ -610,8 +612,9 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zll", nick_suffix)
 		
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zll"), nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "zll", nick_suffix)
 		return config
 
 	def zl(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -661,7 +664,9 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (ZL) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zl", nick_suffix)
-		Samples._add_plot(config, "bkg", "HIST", "F", "zl", nick_suffix)
+	
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zl"), nick_suffix)
 		return config
 
 	def zj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -711,7 +716,10 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (ZJ) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zj", nick_suffix)
-		Samples._add_plot(config, "bkg", "HIST", "F", "zj", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zj"), nick_suffix)
+
 		return config
 		
 	def files_ttj(self, channel):
@@ -744,7 +752,9 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttt", nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "ttt", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ttt"), nick_suffix)
+
 		return config
 
 	def files_lfv(self, channel):
@@ -755,6 +765,8 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
+		branching_ratio = "1.2e-5"
+
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
@@ -765,14 +777,16 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoMT > 0.0)"+"*(1.2e-5)/(0.033658)",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.0)"+"*"+branching_ratio,
 				"zmt",
 				nick_suffix=nick_suffix
 		)
 
 		Samples._add_bin_corrections(config, "zmt", nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "zmt", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)
+		
 		return config
 
 	def zet(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -780,6 +794,8 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
+		branching_ratio = "9.8e-6"
+	
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
@@ -790,14 +806,16 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoET > 0.0)"+"*(9.8e-6)/(0.033658)",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoET > 0.0)"+"*"+branching_ratio,
 				"zet",
 				nick_suffix=nick_suffix
 		)
+				
+		Samples._add_bin_corrections(config, "zet", nick_suffix)		
 
-		Samples._add_bin_corrections(config, "zet", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zet"), nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "zet", nick_suffix)
 		return config
 
 	def zem(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -805,6 +823,8 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
+		branching_ratio = "7.3e-7"
+
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
@@ -815,14 +835,16 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*(lheZtoEM > 0.0)"+"*(7.3e-7)/(0.033658)",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.0)"+"*"+ branching_ratio,
 				"zem",
 				nick_suffix=nick_suffix
 		)
 
 		Samples._add_bin_corrections(config, "zem", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zem"), nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "zem", nick_suffix)
 		return config
 
 
@@ -849,8 +871,10 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttjj", nick_suffix)
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "ttjj", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ttjj"), nick_suffix)
+	
 		return config
 
 	def tttautau(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=None, **kwargs):
@@ -873,8 +897,10 @@ class Samples(samples.SamplesBase):
 		if channel not in ["em", "et", "mt", "tt", "mm", "ee", "ttbar"]:
 			log.error("Sample config (TTTAUTAU) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
-			Samples._add_bin_corrections(config, "tttautau", nick_suffix)		
-		Samples._add_plot(config, "bkg", "HIST", "F", "tttautau", nick_suffix)
+			Samples._add_bin_corrections(config, "tttautau", nick_suffix)	
+		
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "tttautau"), nick_suffix)
 		return config
 
 	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=None, **kwargs):
@@ -1045,8 +1071,9 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttj", nick_suffix)
 		
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "ttj", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ttj"), nick_suffix)
+
 		return config
 
 	def files_diboson(self, channel):
@@ -1098,7 +1125,8 @@ class Samples(samples.SamplesBase):
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "hww_gg"+str(mass), nick_suffix)
 		
-			Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg"+str(mass), nick_suffix)
+			if not kwargs.get("no_plot", False):
+				Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg"+str(mass), nick_suffix)
 		
 		return config
 
@@ -1123,7 +1151,8 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "hww_gg125", nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg125", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg125", nick_suffix)
 		
 		return config
 
@@ -1152,7 +1181,8 @@ class Samples(samples.SamplesBase):
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "hww_qq"+str(mass), nick_suffix)
 			
-			Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq"+str(mass), nick_suffix)
+			if not kwargs.get("no_plot", False):
+				Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq"+str(mass), nick_suffix)
 		
 		return config
 
@@ -1176,8 +1206,8 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (HWW_qq125) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "hww_qq125", nick_suffix)
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq125", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq125", nick_suffix)
 		
 		return config
 
@@ -1211,8 +1241,8 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (HWW) currently not implemented for channel \"%s\"!" % channel)
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "hww"+str(mass), nick_suffix)
-
-			Samples._add_plot(config, "bkg", "HIST", "F", "hww"+str(mass), nick_suffix)
+			if not kwargs.get("no_plot", False):
+				Samples._add_plot(config, "bkg", "HIST", "F", "hww"+str(mass), nick_suffix)
 		return config
 
 	def vvt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -1248,8 +1278,9 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (VVT) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vvt", nick_suffix)
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "vvt", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvt"), nick_suffix)
 		return config
 
 	def vvj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -1283,10 +1314,12 @@ class Samples(samples.SamplesBase):
 			)
 		else:
 			log.error("Sample config (VVJ) currently not implemented for channel \"%s\"!" % channel)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvj"), nick_suffix)
+
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vvj", nick_suffix)
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "vvj", nick_suffix)
 		return config
 
 	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -1323,8 +1356,10 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vv", nick_suffix)
 		
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vv"), nick_suffix)
 		
-		Samples._add_plot(config, "bkg", "HIST", "F", "vv", nick_suffix)
 		return config
 
 	def files_wj(self, channel):
@@ -1407,8 +1442,8 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ewkz", nick_suffix)
 		
-		
-		Samples._add_plot(config, "bkg", "HIST", "F", "ewkz", nick_suffix)
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ewkz"), nick_suffix)
 		return config
 
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
@@ -2862,10 +2897,10 @@ class Samples(samples.SamplesBase):
 								ss_os_factor = 1.06 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.07 if "ZeroJet2D" in category else 1.0
 					if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
-					elif channel == "et":
+					
+					if channel in ["et", "mt"]:
 						config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
-					elif channel == "mt":
-						config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
+					
 					if controlregions:
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
 						config.setdefault("qcd_yield_nicks", []).append("data_ss_lowmt"+nick_suffix)
@@ -3411,22 +3446,22 @@ class Samples(samples.SamplesBase):
 	# signal samples for CP studies in the final state
 	# cp-even state
 	def httcpeven(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, normalise_to_sm_xsec=True, **kwargs):
-		config = self.htt( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpeven"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, cp="cpeven", stacks="httcpeven", **kwargs)
+		config = self.htt( config, channel, category, weight, "cpeven"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, cp="cpeven", stacks="httcpeven", **kwargs)
 		return config
 	
 	# cp-odd state from SM samples
 	def httcpodd(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.htt( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpodd", stacks="httcpodd", **kwargs)
+		config = self.htt( config, channel, category, weight, "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpodd", stacks="httcpodd", **kwargs)
 		return config
 
 	# cp-odd state from SUSY samples
 	def susycpodd(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, normalise_to_sm_xsec=True, **kwargs):
-		config = self.susy( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, cp="cpodd", stacks="susycpodd", **kwargs)
+		config = self.susy( config, channel, category, weight, "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, cp="cpodd", stacks="susycpodd", **kwargs)
 		return config
 
 	# cp-mix state from SM samples
 	def httcpmix(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.htt( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "cpmix"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpmix", stacks="httcpmix", **kwargs)
+		config = self.htt( config, channel, category, weight, "cpmix"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpmix", stacks="httcpmix", **kwargs)
 		return config
 
 
@@ -3475,13 +3510,22 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_ggh(self, channel, mass=125, **kwargs):
-		cp=kwargs.get("cp", None)
-		if cp in ["sm", "mm", "ps"]:
-			return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
-		else:
+		cp = kwargs.get("cp", None)
+		
+		if cp is None:
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
-
+		
+		elif "jhu" in cp:
+			if "sm" in cp:
+				return "GluGluH2JetsToTauTauM125CPmixingsmJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"		
+			if "ps" in cp:
+				return "GluGluH2JetsToTauTauM125CPmixingpseudoscalarJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
+			if "mm" in cp:
+				return "GluGluH2JetsToTauTauM125CPmixingmaxmixJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
+		elif cp in ["sm", "mm", "ps"]:
+			return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+	
 	def files_susy_ggh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "SUSYGluGluToHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
@@ -3584,25 +3628,46 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def gghsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="gghsm", **kwargs)
+		config = self.ggh( config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="gghsm", **kwargs)
 		return config
+	
+	def gghjhusm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.ggh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhusm", stacks="gghjhusm", **kwargs)
+		return config	
 
 	def gghmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="gghmm", **kwargs)
+		config = self.ggh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="gghmm", **kwargs)
 		return config
 
+	def gghjhumm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.ggh(config, channel, category, weight, "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhumm", stacks="gghjhumm", **kwargs)
+		return config
+	
 	def gghps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="gghps", **kwargs)
+		config = self.ggh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="gghps", **kwargs)
 		return config
-
+	 
+	def gghjhups(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.ggh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhups", stacks="gghjhups", **kwargs)
+		return config
+	
 	def files_qqh(self, channel, mass=125, **kwargs):
-		cp=kwargs.get("cp", None)
-		if cp in ["sm", "mm", "ps"]:
-			return "VBFHToTauTauM125_RunIISpring16MiniAODv2reHLT_PUSpring16RAWAODSIM_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
-		else:
+		cp = kwargs.get("cp", None)
+		
+		if cp is None:
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "VBFHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
-
+		
+		elif "jhu" in cp:
+			if "sm" in cp:
+				return "VBFHiggs0PMM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6//*.root"		
+			if "ps" in cp:
+				return "VBFHiggs0MM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6/*.root"
+			if "mm" in cp:
+				return "VBFHiggs0Mf05ph0M125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6/*.root"
+		elif cp in ["sm", "mm", "ps"]:
+			return "VBFHToTauTauM125_RunIISpring16MiniAODv2reHLT_PUSpring16RAWAODSIM_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+	
 	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -3666,18 +3731,29 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def qqhsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh( config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="qqhsm", **kwargs)
+		config = self.qqh( config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="qqhsm", **kwargs)
 		return config
 
 	def qqhmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh(config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="qqhmm", **kwargs)
+		config = self.qqh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="qqhmm", **kwargs)
 		return config
 
 	def qqhps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh(config, channel, category, weight+"*(crossSectionPerEventWeight*numberGeneratedEventsWeight)/eventWeight", "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="qqhps", **kwargs)
+		config = self.qqh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="qqhps", **kwargs)
+		return config	
+
+	def qqhjhusm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.qqh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhusm", stacks="qqhjhusm", **kwargs)
 		return config
 
+	def qqhjhumm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.qqh(config, channel, category, weight, "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhumm", stacks="qqhjhumm", **kwargs)
+		return config
 
+	def qqhjhups(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.qqh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhups", stacks="qqhjhups", **kwargs)
+		return config	
+	
 	def vh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []

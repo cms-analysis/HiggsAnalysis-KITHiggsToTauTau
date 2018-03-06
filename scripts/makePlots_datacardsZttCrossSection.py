@@ -35,7 +35,7 @@ if __name__ == "__main__":
 			"P" : "HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_xsec",
 			"fit" : {
 				"" : {
-					"method" : "MaxLikelihoodFit",#"MaxLikelihoodFit",#"GoodnessOfFit",
+					"method" : "FitDiagnostics",#"MaxLikelihoodFit",#"GoodnessOfFit",
 					"options" : "--skipBOnlyFit",#"--skipBOnlyFit",#"--algo saturated --toys 100 -s 54321",#--expectSignal=1 --toys -1
 					"poi" : "r",
 				},
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 			"fit" : {
 				"" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo grid --points {GRID_BINS} --minimizerStrategy 0 --setPhysicsModelParameterRanges \"r=0.8,1.2:eff=0.8,1.2\"", #--expectSignal=1 --toys -1
+					"options" : "--algo grid --points {GRID_BINS} --minimizerStrategy 0 --setParameterRanges \"r=0.8,1.2:eff=0.8,1.2\"", #--expectSignal=1 --toys -1
 					"poi" : "r",
 				}
 			},
@@ -75,8 +75,8 @@ if __name__ == "__main__":
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=True,
-	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
+	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--grid-bins", default="50",
 	                    help="Binning of the grid for the logL scan. [Default: %(default)s]")
 	parser.add_argument("-ff", "--fakefactor-method", choices = ["standard", "comparison"],
@@ -270,7 +270,7 @@ if __name__ == "__main__":
 	)
 	
 	# add bin-by-bin uncertainties
-	#if args.add_bbb_uncs:
+	#if not args.no_bbb_uncs:
 	#	datacards.add_bin_by_bin_uncertainties(
 	#			processes=datacards.cb.cp().backgrounds().process_set(),
 	#			add_threshold=0.1, merge_threshold=0.5, fix_norm=True
@@ -318,12 +318,13 @@ if __name__ == "__main__":
 		)
 
 		datacards_postfit_shapes = {}
-		if fit_options.get("method", "MaxLikelihoodFit") == "MaxLikelihoodFit":
+		if fit_options.get("method", "FitDiagnostics") == "FitDiagnostics":
 			if args.fit_dir is None:
 				datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 			else:
 				datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), fit_results_path=args.fit_dir)
-			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : fit_options["poi"]}, n_processes=args.n_processes)
+			#use nuisance_impacts instead pull_plots!
+			#datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : fit_options["poi"]}, n_processes=args.n_processes)
 
 	# plotting
 	plot_configs = []

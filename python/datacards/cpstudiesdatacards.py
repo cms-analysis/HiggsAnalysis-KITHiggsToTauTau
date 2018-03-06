@@ -6,7 +6,9 @@ log = logging.getLogger(__name__)
 
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_libary as SystLib
 import CombineHarvester.CombineTools.ch as ch
+
 
 #TODO: Class should be editing such that it is derived from smhttdatacards. Currently it
 # is just copied from there.
@@ -29,6 +31,11 @@ class CPStudiesDatacards(datacards.Datacards):
 			all_mc_bkgs = ["ZTT", "ZL", "ZJ", "ZLL", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
 			all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]
 			all_mc_bkgs_no_TTJ = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
+
+
+			##Generate instance of systematic libary, in which the relevant information about the systematics are safed
+
+			systematics_list = SystLib.SystematicLibary()
 
 			jecUncertNames = [
 				"AbsoluteFlavMap",
@@ -76,20 +83,20 @@ class CPStudiesDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
-			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *systematics_list.muon_efficiency2016_syst_args)
+			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *systematics_list.muon_efficiency2016_syst_args)
 
-			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
-			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
-			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
-			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *systematics_list.tau_efficiency2016_syst_args)
+			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *systematics_list.tau_efficiency2016_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *systematics_list.tau_efficiency2016_corr_syst_args)
+			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *systematics_list.tau_efficiency2016_corr_syst_args)
 
 			# Tau ES
-			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
-			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZTT"]).AddSyst(self.cb, *systematics_list.tau_es_syst_args)
+			self.cb.cp().channel(["mt"]).signals().AddSyst(self.cb, *systematics_list.tau_es_syst_args)
 
 			# fake-rate
-			self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
+			self.cb.cp().channel(["mt"]).process(["ZLL"]).AddSyst(self.cb, *systematics_list.zllFakeTau_syst_args)
 
 			# ======================================================================
 			# ET channel
@@ -106,18 +113,18 @@ class CPStudiesDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
-			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *systematics_list.electron_efficiency2016_syst_args)
+			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *systematics_list.electron_efficiency2016_syst_args)
 
-			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
-			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *systematics_list.tau_efficiency2016_syst_args)
+			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *systematics_list.tau_efficiency2016_syst_args)
 
 			# Tau ES
-			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *self.tau_es_syst_args)
-			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZTT"]).AddSyst(self.cb, *systematics_list.tau_es_syst_args)
+			self.cb.cp().channel(["et"]).signals().AddSyst(self.cb, *systematics_list.tau_es_syst_args)
 
 			# fake-rate
-			self.cb.cp().channel(["et"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
+			self.cb.cp().channel(["et"]).process(["ZLL"]).AddSyst(self.cb, *systematics_list.zllFakeTau_syst_args)
 
 			# ======================================================================
 			# EM channel
@@ -134,11 +141,11 @@ class CPStudiesDatacards(datacards.Datacards):
 			)
 
 			# efficiencies
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
-			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.electron_efficiency2016_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *systematics_list.electron_efficiency2016_syst_args)
+			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *systematics_list.electron_efficiency2016_syst_args)
 
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
-			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *self.muon_efficiency2016_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *systematics_list.muon_efficiency2016_syst_args)
+			self.cb.cp().channel(["em"]).signals().AddSyst(self.cb, *systematics_list.muon_efficiency2016_syst_args)
 
 			# ======================================================================
 			# TT channel
@@ -190,22 +197,22 @@ class CPStudiesDatacards(datacards.Datacards):
 
 			# efficiencies
 			if year == "2016":
-				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.trigger_efficiency2016_syst_args)
-				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_syst_args)
+				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *systematics_list.trigger_efficiency2016_syst_args)
+				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *systematics_list.tau_efficiency2016_tt_syst_args)
 			else:
-				self.cb.cp().channel(["tt"]).process(signal_processes+["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_syst_args)
+				self.cb.cp().channel(["tt"]).process(signal_processes+["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *systematics_list.tau_efficiency_syst_args)
 
 
 			# # efficiencies
-			# self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
-			# #self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_efficiency2016_syst_args)
+			# self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *systematics_list.tau_efficiency2016_syst_args)
+			# #self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *systematics_list.tau_efficiency2016_syst_args)
 			#
 			# # Tau ES
-			# self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_es_syst_args)
-			# #self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *self.tau_es_syst_args)
+			# self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *systematics_list.tau_es_syst_args)
+			# #self.cb.cp().channel(["tt"]).signals().AddSyst(self.cb, *systematics_list.tau_es_syst_args)
 			#
 			# # fake-rate
-			# self.cb.cp().channel(["tt"]).process(["ZLL"]).AddSyst(self.cb, *self.zllFakeTau_syst_args)
+			# self.cb.cp().channel(["tt"]).process(["ZLL"]).AddSyst(self.cb, *systematics_list.zllFakeTau_syst_args)
 
 			# ======================================================================
 			# All channels
@@ -213,13 +220,13 @@ class CPStudiesDatacards(datacards.Datacards):
 			# ======================================================================
 			# lumi
 			if year == "2016":
-				self.cb.cp().process(signal_processes+["VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().process(signal_processes+["VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]).AddSyst(self.cb, *systematics_list.lumi2016_syst_args)
 
-				self.cb.cp().process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *self.lumi2016_syst_args)
-				self.cb.cp().process(["W"]).channel(["em", "tt", "mm", "ttbar"]).AddSyst(self.cb, *self.lumi2016_syst_args)
+				self.cb.cp().process(["TT", "TTT", "TTJJ"]).AddSyst(self.cb, *systematics_list.lumi2016_syst_args)
+				self.cb.cp().process(["W"]).channel(["em", "tt", "mm", "ttbar"]).AddSyst(self.cb, *systematics_list.lumi2016_syst_args)
 			else:
-				self.cb.cp().process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *self.lumi_syst_args)
-				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *self.lumi_syst_args)
+				self.cb.cp().process(signal_processes+all_mc_bkgs_no_W).AddSyst(self.cb, *systematics_list.lumi_syst_args)
+				self.cb.cp().process(["W"]).channel(["em", "tt", "mm"]).AddSyst(self.cb, *systematics_list.lumi_syst_args)
 
 			# ======================================================================
 			# cross section
@@ -240,21 +247,21 @@ class CPStudiesDatacards(datacards.Datacards):
 			self.cb.cp().channel(["tt"]).process(["ZTT", "ZL", "ZJ", "EWKZ"]).bin(["tt_Vbf2D_QCDCR"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).bin(["em_Vbf2D"]).AddSyst(self.cb, "CMS_htt_zmumuShape_VBF_13TeV", "shape", ch.SystMap()(1.0))
 
-			self.cb.cp().process(["TT", "TTT", "TTJJ"]).channel(["mt", "et", "em", "tt"]).AddSyst(self.cb, *self.ttj_cross_section_syst_args)
+			self.cb.cp().process(["TT", "TTT", "TTJJ"]).channel(["mt", "et", "em", "tt"]).AddSyst(self.cb, *systematics_list.ttj_cross_section_syst_args)
 			if year == "2016":
-				self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section2016_syst_args)
+				self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *systematics_list.vv_cross_section2016_syst_args)
 			else:
-				self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *self.vv_cross_section_syst_args)
+				self.cb.cp().process(["VV", "VVT", "VVJ"]).AddSyst(self.cb, *systematics_list.vv_cross_section_syst_args)
 			self.cb.cp().process(["W"]).channel(["em"]).AddSyst(self.cb, "CMS_htt_jetFakeLep_13TeV", "lnN", ch.SystMap()(1.20))
-			self.cb.cp().process(["W"]).channel(["tt", "mm"]).AddSyst(self.cb, *self.wj_cross_section_syst_args)
+			self.cb.cp().process(["W"]).channel(["tt", "mm"]).AddSyst(self.cb, *systematics_list.wj_cross_section_syst_args)
 
 			# ======================================================================
 			# tau id efficiency
 			if year == "2016":
-				self.cb.cp().channel(["mt", "et"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_corr_syst_args)
-				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *self.tau_efficiency2016_tt_corr_syst_args)
+				self.cb.cp().channel(["mt", "et"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *systematics_list.tau_efficiency2016_corr_syst_args)
+				self.cb.cp().channel(["tt"]).process(signal_processes+all_mc_bkgs).AddSyst(self.cb, *systematics_list.tau_efficiency2016_tt_corr_syst_args)
 			else:
-				self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *self.tau_efficiency_corr_syst_args)
+				self.cb.cp().channel(["mt", "et", "tt"]).process(signal_processes+["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *systematics_list.tau_efficiency_corr_syst_args)
 
 			# ======================================================================
 			# energy scales
@@ -280,7 +287,7 @@ class CPStudiesDatacards(datacards.Datacards):
 				self.cb.cp().channel(["et", "mt", "tt"]).process(["W"]).bin([channel+"_"+category for channel in ["et", "mt", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
 				self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_"+category for channel in ["et", "mt"] for category in ["ZeroJet2D_QCDCR", "Boosted2D_QCDCR"]]).AddSyst(self.cb, "CMS_htt_jetToTauFake_13TeV", "shape", ch.SystMap()(1.0))
 			else:
-				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "W", "TTJJ", "VVJ"]).AddSyst(self.cb, *self.jetFakeTau_syst_args)
+				self.cb.cp().channel(["et", "mt", "tt"]).process(["ZJ", "W", "TTJJ", "VVJ"]).AddSyst(self.cb, *systematics_list.jetFakeTau_syst_args)
 
 			# MET ES
 			self.cb.cp().channel(["et", "mt", "tt", "em"]).process(signal_processes+all_mc_bkgs).bin([channel+"_"+category for channel in ["et", "mt", "tt", "em"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_met_clustered_13TeV", "shape", ch.SystMap()(1.0))
@@ -316,19 +323,19 @@ class CPStudiesDatacards(datacards.Datacards):
 			# pt reweighting uncertainties
 
 			# ttbar shape
-			self.cb.cp().channel(["et", "mt", "em", "tt"]).process(["TTT", "TTJJ"]).AddSyst(self.cb, *self.ttj_syst_args)
-			self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *self.ttj_syst_args)
+			self.cb.cp().channel(["et", "mt", "em", "tt"]).process(["TTT", "TTJJ"]).AddSyst(self.cb, *systematics_list.ttj_syst_args)
+			self.cb.cp().channel(["em"]).process(["TT"]).AddSyst(self.cb, *systematics_list.ttj_syst_args)
 
 			# dy shape
-			self.cb.cp().channel(["et", "mt", "tt"]).process(["ZTT", "ZL", "ZJ"]).AddSyst(self.cb, *self.dy_shape_syst_args)
-			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *self.dy_shape_syst_args)
+			self.cb.cp().channel(["et", "mt", "tt"]).process(["ZTT", "ZL", "ZJ"]).AddSyst(self.cb, *systematics_list.dy_shape_syst_args)
+			self.cb.cp().channel(["em"]).process(["ZTT", "ZLL"]).AddSyst(self.cb, *systematics_list.dy_shape_syst_args)
 
 			# ======================================================================
 			# Theory uncertainties
 			self.cb.cp().channel(["mt", "et", "tt", "em"]).process(["ggH"]).bin([channel+"_"+category for channel in ["et", "mt", "em", "tt"] for category in ["ZeroJet2D", "Boosted2D", "Vbf2D"]]).AddSyst(self.cb, "CMS_scale_gg_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().process(["qqH"]).AddSyst(self.cb, *self.htt_qcd_scale_qqh_syst_args)
-			self.cb.cp().process(["ggH", "qqH"]).AddSyst(self.cb, *self.htt_pdf_scale_smhtt_syst_args)
-			self.cb.cp().process(["ggH", "qqH"]).AddSyst(self.cb, *self.htt_ueps_smhtt_syst_args)
+			self.cb.cp().process(["qqH"]).AddSyst(self.cb, *systematics_list.htt_qcd_scale_qqh_syst_args)
+			self.cb.cp().process(["ggH", "qqH"]).AddSyst(self.cb, *systematics_list.htt_pdf_scale_smhtt_syst_args)
+			self.cb.cp().process(["ggH", "qqH"]).AddSyst(self.cb, *systematics_list.htt_ueps_smhtt_syst_args)
 
 			# Uncertainty on BR of HTT @ 125 GeV
 			self.cb.cp().signals().AddSyst(self.cb, "BR_htt_THU", "lnN", ch.SystMap()(1.017))

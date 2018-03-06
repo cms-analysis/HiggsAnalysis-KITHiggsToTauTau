@@ -20,7 +20,7 @@
 			"DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)|LFV" : [
 				23
 			],
-			"^(GluGlu|GluGluTo|VBF|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau)" : [
+			"^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)" : [
 				25
 			],
 			"W.?JetsToLN|EWKW" : [

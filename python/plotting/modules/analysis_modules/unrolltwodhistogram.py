@@ -32,7 +32,7 @@ class UnrollTwoDHistogram(analysisbase.AnalysisBase):
 		self.prepare_list_args(plotData, self._plotdict_keys)
 		
 		for two_d_input_nick, unrolled_hist_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
-			if not unrolled_hist_nick in plotData.plotdict["nicks"]:
+			if (two_d_input_nick != unrolled_hist_nick) and (not unrolled_hist_nick in plotData.plotdict["nicks"]):
 				plotData.plotdict["nicks"].insert(
 					plotData.plotdict["nicks"].index(two_d_input_nick),
 					unrolled_hist_nick
@@ -72,5 +72,4 @@ class UnrollTwoDHistogram(analysisbase.AnalysisBase):
 			#print unrolled_histogram.GetEntries(), unrolled_histogram.GetEffectiveEntries(), array.array("d", unrolled_histogram.GetSumw2())
 			
 			plotData.plotdict.setdefault("root_objects", {})[unrolled_hist_nick] = unrolled_histogram
-			plotData.plotdict["root_objects"][unrolled_hist_nick].SetName(unrolled_hist_nick)
-			plotData.plotdict["root_objects"][unrolled_hist_nick].SetTitle("")
+

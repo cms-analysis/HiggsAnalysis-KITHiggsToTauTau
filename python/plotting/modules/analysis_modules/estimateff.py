@@ -42,6 +42,10 @@ class EstimateFF(estimatebase.EstimateBase):
 		plotData.plotdict["ff_mc_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["ff_mc_subtract_nicks"]]
 		plotData.plotdict["ff_norm_mc_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["ff_norm_mc_subtract_nicks"]]
 		
+	
+	def run(self, plotData=None):
+		super(EstimateFF, self).run(plotData)
+		
 		# make sure that all necessary histograms are available
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			for nick in nicks:
@@ -50,10 +54,6 @@ class EstimateFF(estimatebase.EstimateBase):
 				elif (not isinstance(nick, float) and not isinstance(nick, bool)):
 					for subnick in nick:
 						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
-		
-	
-	def run(self, plotData=None):
-		super(EstimateFF, self).run(plotData)
 		
 		for (ff_data_nick, ff_mc_subtract_nicks, ff_norm_data_nick, ff_norm_mc_subtract_nicks) in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			for nick in ff_mc_subtract_nicks:

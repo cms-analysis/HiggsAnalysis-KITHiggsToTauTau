@@ -28,6 +28,7 @@
 	"ApplyBTagSF" : {
 		"nick" : {
 			"default" : true,
+			"Summer17" : false,
 			"Fall15|Spring16" : false
 		}
 	},

@@ -292,7 +292,7 @@
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
 				],
-				"(HToTauTau|H2JetsToTauTau).*(?=(Spring16|Summer16))" : [
+				"(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))" : [
 					{
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
@@ -300,11 +300,10 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genHiggsQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json"
 						]
 					},
 					"#tauPolarisationTMVA",
@@ -314,14 +313,13 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation",
 					"trg_singlemuon",
 					"trg_mutaucross",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"
 				],
-				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
+				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15" : [
 					{
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
@@ -354,17 +352,17 @@
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation"
 				],
-				"(HToTauTau|H2JetsToTauTau).*(?=Fall15)" : [
+				"(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)" : [
 					{
 						"include" : [
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/fourVectorQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/syncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/svfitSyncQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genHiggsQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genMatchedCPQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoPolarisationQuantitiesSvfit.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantitiesHiggs.json"
 						]
 					},
 					"#tauPolarisationTMVA",
@@ -374,7 +372,18 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation"
+					
+					"melaProbCPEvenGGH",
+					"melaProbCPOddGGH",
+					"melaProbCPMixGGH",
+					"melaDiscriminatorD0MinusGGH",
+					"melaDiscriminatorDCPGGH",
+		
+					"melaProbCPEvenVBF",
+					"melaProbCPOddVBF",
+					"melaProbCPMixVBF",
+					"melaDiscriminatorD0MinusVBF",
+					"melaDiscriminatorDCPVBF"
 				],
 				"Embedding2016" : [
 					{
@@ -404,7 +413,8 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantitiesLFV.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json"
 						]
 					},
 					"nVetoMuons",
@@ -412,10 +422,10 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation",
 					"triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
-					"triggerWeight_muTauCross_2"
+					"triggerWeight_muTauCross_2",
+					"jetCorrectionWeight"
 				]
 			}
 		},
@@ -457,6 +467,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:MELAProducer",
 					"producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
@@ -502,6 +513,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:MELAProducer",
 					"producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
@@ -513,7 +525,7 @@
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
-				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau)).)*Fall15" : [
+				"^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -548,6 +560,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:MELAProducer",
 					"#producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -593,6 +606,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:MELAProducer",
 					"#producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -635,6 +649,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:MELAProducer",
 					"producer:SimpleFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
@@ -674,6 +689,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:MELAProducer",
 					"#producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
@@ -716,6 +732,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:MELAProducer",
 					"#producer:TriggerWeightProducer",
 					"#producer:IdentificationWeightProducer",
 					"producer:RooWorkspaceWeightProducer",
@@ -727,7 +744,7 @@
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"
 				],
-				"(HToTauTau|H2JetsToTauTau).*(?=(Spring16|Summer16))" : [
+				"(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -762,7 +779,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
-					"producer:SimpleFitProducer",
+					"producer:MELAProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
 					"producer:GenMatchedTauCPProducer",
@@ -774,7 +791,7 @@
 					"#producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
-				"(HToTauTau|H2JetsToTauTau).*(?=Fall15)" : [
+				"(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)" : [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -809,6 +826,7 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:MELAProducer",
 					"#producer:SimpleFitProducer",
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
@@ -819,7 +837,7 @@
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
-					"#producer:MadGraphReweightingProducer",
+					"producer:MadGraphReweightingProducer",
 					"producer:EventWeightProducer"
 				],
 				"(LFV).*(?=(Spring16|Summer16))" : [
@@ -857,16 +875,17 @@
 					"#filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
-					"#producer:SimpleFitProducer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:MuTauTriggerWeightProducer",
 					"producer:GenMatchedTauCPProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:MELAProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:LFVJetCorrection2016Producer" 
 				]
 			}
 		},

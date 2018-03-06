@@ -13,6 +13,7 @@
 <use name="Artus/Filter" />
 <use name="Artus/KappaAnalysis" />
 <use name="Artus/Utility" />
+<use name="CMSAachen3B/MadGraphReweighting" />
 <use name="TauAnalysis/SVfitStandalone" />
 <use name="CombineHarvester/CombineTools" />
 <!-- <use name="HHKinFit2/HHKinFit2" /> -->
@@ -20,6 +21,7 @@
 <use name="HTT-utilities/QCDModelingEMu" />
 <use name="TauPolSoftware/SimpleFits" />
 <use name="TauPolSoftware/TauDecaysInterface" />
+<use name="ZZMatrixElement/MELA" />
 
 
 <flags ADD_SUBDIR="1"/>

@@ -51,7 +51,23 @@
 		"emuQcdWeightNom",
 		"emuQcdWeightDown",
 		"topPtReweightWeight",
+		"topPtReweightWeightRun1",
+		"topPtReweightWeightRun2",
 		"zPtReweightWeight",
-		"eleTauFakeRateWeight"
+		"eleTauFakeRateWeight",
+		"muTauFakeRateWeight",
+		"madGraphWeight000",
+		"madGraphWeight010",
+		"madGraphWeight020",
+		"madGraphWeight030",
+		"madGraphWeight040",
+		"madGraphWeight050",
+		"madGraphWeight060",
+		"madGraphWeight070",
+		"madGraphWeight080",
+		"madGraphWeight090",
+		"madGraphWeight100",
+		"madGraphWeightSample",
+		"madGraphWeightInvSample"
 	]
 }

@@ -27,9 +27,9 @@ TauSpinnerProducer::~TauSpinnerProducer()
 void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
-	
+
 	pipelineName = settings.GetName();
-	
+
 	// interface to TauSpinner
 	// see the print out of this function or tau_reweight_lib.cxx for explanation of paramesters
 	// $CMSSW_RELEASE_BASE/../../../external/tauolapp/1.1.5-cms2/include/TauSpinner/tau_reweight_lib.h
@@ -38,19 +38,19 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 	// https://arxiv.org/pdf/1402.2068v1.pdf
 	Tauolapp::Tauola::initialize();
 	LHAPDF::initPDFSetByName(settings.GetTauSpinnerSettingsPDF());
-	
+
 	TauSpinner::initialize_spinner(settings.GetTauSpinnerSettingsIpp(),
 	                               settings.GetTauSpinnerSettingsIpol(),
 	                               settings.GetTauSpinnerSettingsNonSM2(),
 	                               settings.GetTauSpinnerSettingsNonSMN(),
 	                               settings.GetTauSpinnerSettingsCmsEnergy());
-	
-	
+
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerPolarisation", [](event_type const& event, product_type const& product)
 	{
 		return product.m_tauSpinnerPolarisation;
 	});
-	
+
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
 	     ++mixingAngleOverPiHalfIt)
@@ -62,15 +62,15 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfLabel, 0.0);
 		});
 	}
-	
-	
+
+
 	if (settings.GetTauSpinnerMixingAnglesOverPiHalfSample() >= 0.0)
 	{
 		float mixingAngleOverPiHalfSample = settings.GetTauSpinnerMixingAnglesOverPiHalfSample();
-	
+
 		// if mixing angle for curent sample is defined, it has to be in the list TauSpinnerMixingAnglesOverPiHalf
 		assert(Utility::Contains(settings.GetTauSpinnerMixingAnglesOverPiHalf(), mixingAngleOverPiHalfSample));
-		
+
 		std::string mixingAngleOverPiHalfSampleLabel = GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerWeightSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
@@ -91,7 +91,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 {
 	assert(event.m_eventInfo);
 	assert(! settings.GetBosonPdgIds().empty());
-	
+
 	// A generator level boson and its decay products must exist
 	// The boson is searched for by a GenBosonProducer
 	// and the decay tree is built by the GenTauDecayProducer
@@ -100,7 +100,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 
 		GenParticleDecayTree selectedTau1 = product.m_genBosonTree.m_daughters[0];
 		GenParticleDecayTree selectedTau2 = product.m_genBosonTree.m_daughters[1];
-	
+
 		//TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 		// otherwise the weights are set to 1
 		if ((std::abs(selectedTau1.m_genParticle->pdgId) == DefaultValues::pdgIdTau) && (std::abs(selectedTau2.m_genParticle->pdgId) == DefaultValues::pdgIdTau))
@@ -126,7 +126,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				// product.m_tauSpinnerWeight = DefaultValues::UndefinedDouble; // TODO
 				return;
 			}
-		
+
 			//Decision for a certain weight calculation depending on BosonPdgId
 			if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdH)) ||
 				Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdHCPEven)) ||
@@ -138,7 +138,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				float twoTimesMixingAngleRadSample = M_PI * mixingAngleOverPiHalfSample;
 				TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRadSample), cos(twoTimesMixingAngleRadSample),
 					                             -sin(twoTimesMixingAngleRadSample), -sin(twoTimesMixingAngleRadSample));
-			
+
 				product.m_optionalWeights["tauSpinnerWeight"] = calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 			}
@@ -153,7 +153,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				product.m_optionalWeights["tauSpinnerWeight"] = calculateWeightFromParticlesWorHpn(boson, tau1, tau2, tauFinalStates1);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 			}
-		
+
 			// calculate the weights for different mixing angles
 			for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
 				 mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
@@ -171,7 +171,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 					float twoTimesMixingAngleRad = M_PI * mixingAngleOverPiHalf;
 					TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRad), cos(twoTimesMixingAngleRad),
 						                             -sin(twoTimesMixingAngleRad), -sin(twoTimesMixingAngleRad));
-				
+
 					tauSpinnerWeight = calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 				}
 				else {
@@ -187,7 +187,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 							   << event.m_eventInfo->nRun << ", " << event.m_eventInfo->nLumi << ", "
 							   << event.m_eventInfo->nEvent << ") in the pipeline \"" << pipelineName << "\".";
 				}
-		
+
 				product.m_optionalWeights[GetLabelForWeightsMap(mixingAngleOverPiHalf)] = tauSpinnerWeight;
 			}
 		}

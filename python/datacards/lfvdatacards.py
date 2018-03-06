@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
-import logging
-import Artus.Utility.logger as logger
-import Artus.Utility.tools as tools
-log = logging.getLogger(__name__)
 
-import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
 import CombineHarvester.CombineTools.ch as ch
 
+import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_libary as SystLib
 
 
 class LFVDatacards(datacards.Datacards):
-	def __init__(self, channel_list, signal_list, category_list, cb=None, lnN_syst_enable = False, shape_syst_enable = False):
+	def __init__(self, channel_list, signal_list, category_list, control_region_dic, cb=None, lnN_syst_enable = False, shape_syst_enable = False, rate_param_enable=False):
 		super(LFVDatacards, self).__init__(cb)
 		
 		if cb is None:
@@ -20,70 +17,50 @@ class LFVDatacards(datacards.Datacards):
 			backgrounds = {
 					"em": ["ZTT", "ZLL", "EWKZ", "TT", "VV", "hww_gg125", "hww_qq125", "W", "QCD"],
 					"et": ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"],
+					"mt": ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
 			}
 			
-			all_mc_bkgs = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
-			all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "hww_gg125", "hww_qq125"]
-			all_mc_bkgs_no_TTJ = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
+			##Generate instance of systematic libary, in which the relevant information about the systematics are safed
 
-
-			###Define directory for lnN and shape uncertanty, in which each channel has saved the systematic + process + category. If systematic is not specific for one category, empty string is given. 
-			##The values of each systematic are saved in datacard.py
-	
-			lnN_syst = {
-					"em": [
-						[self.trigger_efficiency2016_em_syst_args, 	signal_list+all_mc_bkgs,		""],
-						[self.electron_efficiency2016_syst_args, 	signal_list+all_mc_bkgs,		""],
-						[self.muon_efficiency2016_syst_args,		signal_list+all_mc_bkgs, 		""],
-						[self.btag_efficiency2016_syst_args,		["TT", "VV"], 				["LFVZeroJet", "LFVJet"]],
-						[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL"], 			""],
-					],
-	
-					"et": [
-						[self.trigger_efficiency2016_em_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
-						[self.electron_efficiency2016_syst_args, 	signal_list+all_mc_bkgs_no_W,		""],
-						[self.tau_efficiency2016_syst_args,		signal_list+all_mc_bkgs, 		""],
-						[self.btag_efficiency2016_syst_args,		["TT", "VV"], 				["LFVZeroJet", "LFVJet"]],
-						[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL", "ZTT"], 		""],
-						[self.tau_efficiency2016_corr_syst_args, 	signal_list+all_mc_bkgs, 		""]
-					]
-			}	
-						
-						 
-			shape_syst = {}			
+			systematics_list = SystLib.SystematicLibary()		
 			
-
 			###Fill Combine Harvester object with relevant information
 			
 			for channel in channel_list:
 			
 				###Add channels as process in Combine Harvester			
 	
-				self.add_processes(
-					channel=channel,
-					categories=category_list[0],
-					bkg_processes=backgrounds[channel],  
-					sig_processes=signal_list,
-					analysis=["LFV"],
-					era=["13TeV"],
-					mass=["125"]
+				for category in category_list + control_region_dic.keys():
+					self.add_processes(
+						channel=channel,
+						categories= [channel + "_" + category],
+						bkg_processes= backgrounds[channel] if not "CR" in category else [control_region_dic[category][0]],  
+						sig_processes= [self.configs.sample2process(signal) for signal in signal_list] if not "CR" in category else [],
+						analysis=["LFV"],
+						era=["13TeV"],
+						mass=["125"]
 					)					
 
 				###Add lnN/shape uncertanty for each channel, process and category
 
 				if lnN_syst_enable:
-					for (systematic, process, category) in lnN_syst[channel]:
+					for (systematic, process, category) in systematics_list.get_LFV_systs(channel, lnN = lnN_syst_enable):
 						if category == "":
 							self.cb.cp().channel([channel]).process(process).AddSyst(self.cb, *systematic)
 						else:
 							self.cb.cp().channel([channel]).process(process).bin(category).AddSyst(self.cb, *systematic)
 			
 				if shape_syst_enable:
-					for (systematic, process) in shape_syst[channel]:
+					for (systematic, process, category) in systematics_list.get_LFV_systs(channel, shape = shape_syst_enable):
 						if category == "":
 							self.cb.cp().channel([channel]).process(process).AddSyst(self.cb, *systematic)
 						else:
 							self.cb.cp().channel([channel]).process(process).bin(category).AddSyst(self.cb, *systematic)
-			
 
-	
+
+				##Add rate parameter
+				
+				if rate_param_enable:
+					for control_region, process in control_region_dic.iteritems(): 
+						self.cb.cp().process([process[0]]).bin([channel + "_" + cat for cat in category_list+[control_region]]).AddSyst(self.cb, "rate_" + channel + "_" + process[0], "rateParam", ch.SystMap()(1.0))
+			

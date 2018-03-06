@@ -41,6 +41,10 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings, metadata_type& 
 		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaPhi(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
 		                                        DefaultValues::UndefinedDouble;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "signedDiJetDeltaPhi", [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaPhi(product.m_validJets[0]->p4, product.m_validJets[1]->p4) * (product.m_validJets[0]->p4.Eta() > 0.0 ? 1.0 : -1.0) :
+		                                        DefaultValues::UndefinedDouble;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diJetAbsDeltaEta", [](event_type const& event, product_type const& product) {
 		return product.m_diJetSystemAvailable ? std::abs(product.m_validJets[0]->p4.Eta() - product.m_validJets[1]->p4.Eta()) :
 		                                        -1;

@@ -3,7 +3,7 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
+				"(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 1.03,
 				"Embedding2016" : 1.03,
 				"Spring16|Summer16" : 1.012
 			}
@@ -11,7 +11,7 @@
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016" : "tauEsUp"
+				"HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016" : "tauEsUp"
 			}
 		}
 	},
@@ -19,7 +19,7 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"(HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
+				"(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)" : 0.97,
 				"Embedding2016" : 0.97,
 				"Spring16|Summer16" : 0.988
 			}
@@ -27,7 +27,7 @@
 		"SvfitCacheFileFolder" : {
 			"nick" : {
 				"default" : "nominal",
-				"HToTauTau|H2JetsToTauTau|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016" : "tauEsDown"
+				"HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016" : "tauEsDown"
 			}
 		}
 	}

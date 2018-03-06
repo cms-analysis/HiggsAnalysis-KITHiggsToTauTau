@@ -43,6 +43,9 @@ class EstimateQcd(estimatebase.EstimateBase):
 
 		plotData.plotdict["qcd_shape_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_shape_subtract_nicks"]]	
 		plotData.plotdict["qcd_yield_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_yield_subtract_nicks"]]	
+	
+	def run(self, plotData=None):
+		super(EstimateQcd, self).run(plotData)
 		
 		# make sure that all necessary histograms are available
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
@@ -52,9 +55,6 @@ class EstimateQcd(estimatebase.EstimateBase):
 				elif (not isinstance(nick, float) and not isinstance(nick, bool)):
 					for subnick in nick:
 						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
-	
-	def run(self, plotData=None):
-		super(EstimateQcd, self).run(plotData)
 		
 		for qcd_shape_nick, qcd_yield_nick, qcd_yield_subtract_nicks, qcd_shape_subtract_nicks, qcd_extrapolation_factor_ss_os in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			
@@ -65,7 +65,7 @@ class EstimateQcd(estimatebase.EstimateBase):
 				yield_bkg = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 				#print "minus " + nick + "  " + str(yield_bkg)	
 				yield_qcd -= yield_bkg
-			yield_qcd = max(uncertainties.ufloat(0.0, yield_qcd.std_dev), yield_qcd)
+			yield_qcd = uncertainties.ufloat(max(0.0, yield_qcd.nominal_value), yield_qcd.std_dev)
 			if(yield_qcd.nominal_value == 0.0):
 				log.warning("QCD yield is 0!")
 			#  QCD shape
@@ -78,9 +78,10 @@ class EstimateQcd(estimatebase.EstimateBase):
 			shape_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_shape_nick])()
 			if shape_yield != 0.0:
 				scale_factor = yield_qcd / shape_yield * qcd_extrapolation_factor_ss_os
-			final_yield_qcd = yield_qcd * qcd_extrapolation_factor_ss_os
+				plotData.plotdict["root_objects"][qcd_shape_nick].Scale(scale_factor.nominal_value)
+				
 			#log.debug("Relative statistical uncertainty of the yield for process QCD (nick \"{nick}\") is {unc}.".format(nick=qcd_data_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
-			plotData.plotdict["root_objects"][qcd_shape_nick].Scale(scale_factor.nominal_value)
+			final_yield_qcd = yield_qcd * qcd_extrapolation_factor_ss_os
 			#print "QCD em estimation summary"
 			#print "scale factor : " + str(scale_factor)
 			#print "shape_yield :"  + str(shape_yield)

@@ -1,6 +1,7 @@
 
 #include <algorithm>
 #include <math.h>
+#include <cmath>
 
 #include <boost/format.hpp>
 
@@ -22,12 +23,19 @@ std::string MadGraphReweightingProducer::GetProducerId() const
 void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
-
+	
 	// parsing settings
-	std::map<int, std::vector<std::string> > madGraphProcessDirectoriesByIndex = Utility::ParseMapTypes<int, std::string>(
-			Utility::ParseVectorToMap(settings.GetMadGraphProcessDirectories()),
-			m_madGraphProcessDirectoriesByName
-	);
+	if (settings.GetUseMadGraph2p5())
+	{
+		std::map<int, std::vector<std::string> > madGraphProcessDirectoriesByIndex = Utility::ParseMapTypes<int, std::string>(
+				Utility::ParseVectorToMap(settings.GetMadGraph2p5ProcessDirectories()),
+				m_madGraphProcessDirectoriesByName
+		);
+	}
+	else
+	{
+		m_madGraphProcessDirectoriesByName["default"] = { settings.GetMadGraph2p6ProcessDirectory() };
+	}
 	
 	// preparations of MadGraphTools objects
 	for (std::map<std::string, std::vector<std::string> >::const_iterator processDirectories = m_madGraphProcessDirectoriesByName.begin();
@@ -39,28 +47,41 @@ void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_ty
 		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
 		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
-			MadGraphTools* madGraphTools = new MadGraphTools(*mixingAngleOverPiHalf, processDirectories->second.at(0), settings.GetMadGraphParamCard(), 0.118);
+			MadGraphTools* madGraphTools = new MadGraphTools(*mixingAngleOverPiHalf, processDirectories->second.at(0), settings.GetMadGraphParamCard(), 0.118,
+			                                                 settings.GetMadGraphSortingHeavyBQuark(), settings.GetUseMadGraph2p5());
 			m_madGraphTools[processDirectories->second.at(0)][GetMixingAngleKey(*mixingAngleOverPiHalf)] = madGraphTools;
 		}
 		
 		//add the MadGraphTools element needed for reweighting
-		MadGraphTools* madGraphTools = new MadGraphTools(0, processDirectories->second.at(0), settings.GetMadGraphParamCardSample(), 0.118);
+		MadGraphTools* madGraphTools = new MadGraphTools(0, processDirectories->second.at(0), settings.GetMadGraphParamCardSample(), 0.118,
+		                                                 settings.GetMadGraphSortingHeavyBQuark(), settings.GetUseMadGraph2p5());
 		m_madGraphTools[processDirectories->second.at(0)][-1] = madGraphTools;
 	}
-		
+	
 	std::string pdgDatabaseFilename = settings.GetDatabasePDG();
- 	if (! pdgDatabaseFilename.empty())
+	if (! settings.GetDatabasePDG().empty())
 	{
 		if (m_databasePDG)
 		{
 			delete m_databasePDG;
 			m_databasePDG = nullptr;
 		}
-		m_databasePDG = new TDatabasePDG();
-		boost::algorithm::replace_first(pdgDatabaseFilename, "$ROOTSYS", getenv("ROOTSYS"));
-		LOG(DEBUG) << "Read PDG database from \"" << pdgDatabaseFilename << "\"...";
-		m_databasePDG->ReadPDGTable(pdgDatabaseFilename.c_str());
+		m_databasePDG = MadGraphTools::GetDatabasePDG(settings.GetDatabasePDG());
 	}
+	
+	/*
+	//create map that stores a MadGraphTools element for every mixing angle
+	for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
+	     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
+	{
+		MadGraphTools* madGraphTools = new MadGraphTools(*mixingAngleOverPiHalf, settings.GetMadGraph2p6ProcessDirectory(), settings.GetMadGraphParamCard(), 0.118, settings.GetMadGraphSortingHeavyBQuark());
+		m_madGraphTools[MadGraphReweightingProducer::GetMixingAngleKey(*mixingAngleOverPiHalf)] = madGraphTools;
+	}
+	
+	//add the MadGraphTools element needed for reweighting
+	MadGraphTools* madGraphTools = new MadGraphTools(0, settings.GetMadGraph2p6ProcessDirectory(), settings.GetMadGraphParamCard(), 0.118, settings.GetMadGraphSortingHeavyBQuark());
+	m_madGraphTools[-1] = madGraphTools;
+	*/
 	
 	// add possible quantities for the lambda ntuples consumers
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
@@ -68,7 +89,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_ty
 	     ++mixingAngleOverPiHalfIt)
 	{
 		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
-		std::string mixingAngleOverPiHalfLabel = GetLabelForWeightsMap(mixingAngleOverPiHalf);
+		std::string mixingAngleOverPiHalfLabel = MadGraphReweightingProducer::GetLabelForWeightsMap(mixingAngleOverPiHalf);
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, mixingAngleOverPiHalfLabel, [mixingAngleOverPiHalfLabel](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfLabel, 0.0);
@@ -82,7 +103,7 @@ void MadGraphReweightingProducer::Init(setting_type const& settings, metadata_ty
 		// if mixing angle for curent sample is defined, it has to be in the list MadGraphMixingAnglesOverPiHalf
 		assert(Utility::Contains(settings.GetMadGraphMixingAnglesOverPiHalf(), mixingAngleOverPiHalfSample));
 		
-		std::string mixingAngleOverPiHalfSampleLabel = GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
+		std::string mixingAngleOverPiHalfSampleLabel = MadGraphReweightingProducer::GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, std::string("madGraphWeightSample"), [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, std::string("madGraphWeightSample"), 0.0);
@@ -128,52 +149,17 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 	
 	// copy LHE particles to new vector which can be sorted
 	product.m_lheParticlesSortedForMadGraph.clear();
-	for (std::vector<KLHEParticle>::const_iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
+	for (std::vector<KLHEParticle>::iterator lheParticle = event.m_lheParticles->particles.begin(); lheParticle != event.m_lheParticles->particles.end(); ++lheParticle)
 	{
-		product.m_lheParticlesSortedForMadGraph.push_back(const_cast<KLHEParticle*>(&(*lheParticle)));
-	}
-	
-	// sorting of LHE particles for MadGraph
-	if (settings.GetMadGraphSortingHeavyBQuark())
-	{
-		std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphReweightingProducer::MadGraphParticleOrderingHeavyBQuark);
-		std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphReweightingProducer::MadGraphParticleOrderingHeavyBQuark);
-	}
-	else
-	{
-		std::sort(product.m_lheParticlesSortedForMadGraph.begin(), product.m_lheParticlesSortedForMadGraph.begin()+2, &MadGraphReweightingProducer::MadGraphParticleOrderingLightBQuark);
-		std::sort(product.m_lheParticlesSortedForMadGraph.begin()+3, product.m_lheParticlesSortedForMadGraph.end(), &MadGraphReweightingProducer::MadGraphParticleOrderingLightBQuark);
-	}
-
-	// preparations for MadGraph
-	std::vector<CartesianRMFLV*> particleFourMomenta;
-	std::vector<CartesianRMFLV*> particleFourMomenta_HiggsCM;
-	std::string processDirectoryKey = ""; 
-	CartesianRMFLV higgsp4 = CartesianRMFLV(0,0,0,1);
-	for (std::vector<KLHEParticle*>::iterator madGraphLheParticle = product.m_lheParticlesSortedForMadGraph.begin();
-	     madGraphLheParticle != product.m_lheParticlesSortedForMadGraph.end(); ++madGraphLheParticle)
-	{
-		particleFourMomenta.push_back(&((*madGraphLheParticle)->p4));
-		//extract 4-momentum of the higgs boson	
-		if ((*madGraphLheParticle)->pdgId == 25) {
-			 higgsp4 = (*madGraphLheParticle)->p4;
-		}
-			
-		processDirectoryKey += (std::string(Utility::Contains(settings.GetBosonPdgIds(), std::abs((*madGraphLheParticle)->pdgId)) ? "_" : "") +
-		                        std::string(m_databasePDG->GetParticle((*madGraphLheParticle)->pdgId)->GetName()));
-	}
-	// Calculate boost to Higgs CMRF and boost particle LV to it. 
-	CartesianRMFLV::BetaVector boostvec = higgsp4.BoostToCM();
-	ROOT::Math::Boost M(boostvec);
-	
-	for (std::vector<CartesianRMFLV*>::iterator particleLV= particleFourMomenta.begin(); particleLV != particleFourMomenta.end(); ++particleLV) {
+		product.m_lheParticlesSortedForMadGraph.push_back(&(*lheParticle));
 		
-		CartesianRMFLV tmpParticleLV = CartesianRMFLV((*particleLV)->Px(), (*particleLV)->Py(), (*particleLV)->Pz(), (*particleLV)->E());
-	 	tmpParticleLV = M * tmpParticleLV;
-		CartesianRMFLV* CmLV = new CartesianRMFLV(tmpParticleLV.Px(), tmpParticleLV.Py(), tmpParticleLV.Pz(), tmpParticleLV.E());
-		particleFourMomenta_HiggsCM.push_back(CmLV);
-	 }
+	}
 	
+	std::string processDirectoryKey = "default";
+	if (settings.GetUseMadGraph2p5())
+	{
+		processDirectoryKey = MadGraphTools::GetProcess(product.m_lheParticlesSortedForMadGraph, m_databasePDG, settings.GetMadGraphSortingHeavyBQuark(), settings.GetBosonPdgIds());
+	}
 	
 	if (Utility::Contains(m_madGraphProcessDirectoriesByName, processDirectoryKey))
 	{
@@ -187,8 +173,8 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
 			MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, GetMixingAngleKey(*mixingAngleOverPiHalf));
-			float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM);
-			if (matrixElementSquared < 0.0)
+			float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph, settings.GetBosonPdgIds());
+			if (std::isnan(matrixElementSquared) || (matrixElementSquared < 0.0))
 			{
 				LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
 				LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
@@ -202,8 +188,8 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		
 		//calculate the old matrix element for reweighting
 		MadGraphTools* tmpMadGraphTools = SafeMap::Get(*tmpMadGraphToolsMap, -1);
-		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(particleFourMomenta_HiggsCM);
-		if (matrixElementSquared < 0.0)
+		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph, settings.GetBosonPdgIds());
+		if (std::isnan(matrixElementSquared) || (matrixElementSquared < 0.0))
 		{
 			LOG(ERROR) << "Error in calculation of matrix element for \"" << processDirectoryKey << ":" << madGraphProcessDirectory << "\"";
 			LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
@@ -222,119 +208,55 @@ void MadGraphReweightingProducer::Produce(event_type const& event, product_type&
 		for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
              mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
 		{
-        product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = 0.0;
+        	product.m_optionalWeights[GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = 0.0;
 		}
 	}
+
+	/*
+	// calculate the matrix elements for different mixing angles
+	for (std::vector<float>::const_iterator mixingAngleOverPiHalf = settings.GetMadGraphMixingAnglesOverPiHalf().begin();
+	     mixingAngleOverPiHalf != settings.GetMadGraphMixingAnglesOverPiHalf().end(); ++mixingAngleOverPiHalf)
+	{
+		MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, MadGraphReweightingProducer::GetMixingAngleKey(*mixingAngleOverPiHalf));
+		float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared(product.m_lheParticlesSortedForMadGraph, settings.GetBosonPdgIds());
+		if (std::isnan(matrixElementSquared) || (matrixElementSquared < 0.0))
+		{
+			LOG(ERROR) << "Error in calculation of matrix element for \"" << ":" << settings.GetMadGraph2p6ProcessDirectory() <<  "\"";
+			LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
+			product.m_optionalWeights[MadGraphReweightingProducer::GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = 0.0;
+		}
+		else
+		{
+			product.m_optionalWeights[MadGraphReweightingProducer::GetLabelForWeightsMap(*mixingAngleOverPiHalf)] = matrixElementSquared;
+		}
+	}
+		
+	//calculate the old matrix element for reweighting
+	MadGraphTools* tmpMadGraphTools = SafeMap::Get(m_madGraphTools, -1);
+	float matrixElementSquared = tmpMadGraphTools->GetMatrixElementSquared<KLHEParticle>(product.m_lheParticlesSortedForMadGraph, settings.GetBosonPdgIds());
+	if (std::isnan(matrixElementSquared) || (matrixElementSquared < 0.0))
+	{
+		LOG(ERROR) << "Error in calculation of matrix element for \""<< ":" << settings.GetMadGraph2p6ProcessDirectory() << "\"";
+		LOG(ERROR) << "in event: run = " << event.m_eventInfo->nRun << ", lumi = " << event.m_eventInfo->nLumi << ", event = " << event.m_eventInfo->nEvent << ", pipeline = \"" << settings.GetName() << "\"!";
+		product.m_optionalWeights["madGraphWeightSample"] = 0.0;
+	}
+	else
+	{
+		product.m_optionalWeights["madGraphWeightSample"] = matrixElementSquared;
+	}
+	*/
 }
 
-int MadGraphReweightingProducer::GetMixingAngleKey(float mixingAngleOverPiHalf) const
+int MadGraphReweightingProducer::GetMixingAngleKey(float mixingAngleOverPiHalf)
 {
 	return int(mixingAngleOverPiHalf * 100.0);
 }
 
-std::string MadGraphReweightingProducer::GetLabelForWeightsMap(float mixingAngleOverPiHalf) const
+std::string MadGraphReweightingProducer::GetLabelForWeightsMap(float mixingAngleOverPiHalf)
 {
 	return ("madGraphWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)));
 }
 
 
-// pdgParticle->GetName() has no specific order
-// madgraph sorts particle before antiparticle
-// puts gluons first
-// up type quarks second
-// downtype quarks third
-// => the order is: g u c d s b u_bar c_bar d_bar s_bar b_bar
-bool MadGraphReweightingProducer::MadGraphParticleOrderingLightBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2)
-{
-	int pdgId1 = std::abs(lheParticle1->pdgId);
-	int pdgId2 = std::abs(lheParticle2->pdgId);
-	
-	if ((lheParticle1->pdgId < 0) && (lheParticle2->pdgId > 0))
-	{
-		return false;
-	}
-	else if ((lheParticle1->pdgId > 0) && (lheParticle2->pdgId < 0))
-	{
-		return true;
-	}
-	else
-	{
-		if (pdgId1 == DefaultValues::pdgIdGluon)
-		{
-			return true;
-		}
-		else if (pdgId2 == DefaultValues::pdgIdGluon)
-		{
-			return false;
-		}
-		else if (pdgId1 == DefaultValues::pdgIdUp)
-		{
-			return true;
-		}
-		else if (pdgId2 == DefaultValues::pdgIdUp)
-		{
-			return false;
-		}
-		else if (pdgId1 == DefaultValues::pdgIdCharm)
-		{
-			return true;
-		}
-		else if (pdgId2 == DefaultValues::pdgIdCharm)
-		{
-			return false;
-		}
-		else if (pdgId1 == DefaultValues::pdgIdDown)
-		{
-			return true;
-		}
-		else if (pdgId2 == DefaultValues::pdgIdDown)
-		{
-			return false;
-		}
-		else if (pdgId1 == DefaultValues::pdgIdStrange)
-		{
-			return true;
-		}
-		else if (pdgId2 == DefaultValues::pdgIdStrange)
-		{
-			return false;
-		}
-		else if (pdgId1 == DefaultValues::pdgIdBottom)
-		{
-			return true;
-		}
-		else if (pdgId2 == DefaultValues::pdgIdBottom)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-}
 
-// pdgParticle->GetName() has no specific order
-// madgraph sorts particle before antiparticle
-// puts gluons first
-// up type quarks second
-// downtype quarks third
-// heavy quarks last => the order is: g u c d s u_bar c_bar d_bar s_bar b b_bar
-bool MadGraphReweightingProducer::MadGraphParticleOrderingHeavyBQuark(KLHEParticle* lheParticle1, KLHEParticle* lheParticle2)
-{
-	int pdgId1 = std::abs(lheParticle1->pdgId);
-	int pdgId2 = std::abs(lheParticle2->pdgId);
-	
-	if ((lheParticle1->pdgId < 0) && (lheParticle2->pdgId > 0) && (pdgId1 != DefaultValues::pdgIdBottom) && (pdgId2 == DefaultValues::pdgIdBottom))
-	{
-		return true;
-	}
-	else if ((lheParticle1->pdgId > 0) && (lheParticle2->pdgId < 0) && (pdgId1 == DefaultValues::pdgIdBottom) && (pdgId2 != DefaultValues::pdgIdBottom))
-	{
-		return false;
-	}
-	else
-	{
-		return MadGraphReweightingProducer::MadGraphParticleOrderingLightBQuark(lheParticle1, lheParticle2);
-	}
-}
+

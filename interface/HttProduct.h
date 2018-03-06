@@ -120,6 +120,10 @@ public:
 	std::map<KLepton*, double> m_polarisationOmegaBarsSimpleFit; // Keys are only of type KTau*
 	//std::map<KLepton*, double> m_polarisationOmegaBarsHHKinFit; // Keys are only of type KTau*
 	
+	std::map<KLepton*, double> m_polarisationOmegaVisiblesSvfit; // Keys are only of type KTau*
+	std::map<KLepton*, double> m_polarisationOmegaVisiblesSimpleFit; // Keys are only of type KTau*
+	//std::map<KLepton*, double> m_polarisationOmegaVisiblesHHKinFit; // Keys are only of type KTau*
+	
 	double m_polarisationCombinedOmegaSvfit = DefaultValues::UndefinedDouble;
 	double m_polarisationCombinedOmegaSimpleFit = DefaultValues::UndefinedDouble;
 	//double m_polarisationCombinedOmegaHHKinFit = DefaultValues::UndefinedDouble;
@@ -127,6 +131,10 @@ public:
 	double m_polarisationCombinedOmegaBarSvfit = DefaultValues::UndefinedDouble;
 	double m_polarisationCombinedOmegaBarSimpleFit = DefaultValues::UndefinedDouble;
 	//double m_polarisationCombinedOmegaBarHHKinFit = DefaultValues::UndefinedDouble;
+	
+	double m_polarisationCombinedOmegaVisibleSvfit = DefaultValues::UndefinedDouble;
+	double m_polarisationCombinedOmegaVisibleSimpleFit = DefaultValues::UndefinedDouble;
+	//double m_polarisationCombinedOmegaVisibleHHKinFit = DefaultValues::UndefinedDouble;
 	
 	/* old version
 	std::map<KLepton*, double> m_visibleOverFullEnergyHHKinFit; // Keys are only of type KTau*
@@ -436,8 +444,53 @@ public:
 	//filled by TTbarGenDecayModeProducer
 	unsigned int m_TTbarGenDecayMode = 0;
 
+	//filled by GenHiggsCPProducer
+	std::vector<KLHEParticle*> m_lheParticlesIn;
+	std::vector<KLHEParticle*> m_lheParticlesOut;
+	std::vector<KLHEParticle*> m_lheParticlesBoson;
+
 	//filled by MadGraphReweightingProducer
 	std::vector<KLHEParticle*> m_lheParticlesSortedForMadGraph;
-	float m_madGraph_HiggsPt;
-	float m_madGraph_HiggsPt_HiggsCM;
+
+	//filled by MadGraphReweightingProducer
+	float m_melaProbCPEvenGGH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddGGH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixGGH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusGGH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPGGH = DefaultValues::UndefinedFloat;
+	
+	float m_melaProbCPEvenVBF = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddVBF = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixVBF = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusVBF = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPVBF = DefaultValues::UndefinedFloat;
+	
+	//filled by LFVJetCorrection2016Producer
+	float lfvjetcorr;
+	
+	/*
+	float m_melaProbCPEvenWlepH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddWlepH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixWlepH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusWlepH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPWlepH = DefaultValues::UndefinedFloat;
+	
+	float m_melaProbCPEvenWhadH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddWhadH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixWhadH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusWhadH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPWhadH = DefaultValues::UndefinedFloat;
+	
+	float m_melaProbCPEvenZlepH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddZlepH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixZlepH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusZlepH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPZlepH = DefaultValues::UndefinedFloat;
+	
+	float m_melaProbCPEvenZhadH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPOddZhadH = DefaultValues::UndefinedFloat;
+	float m_melaProbCPMixZhadH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorD0MinusZhadH = DefaultValues::UndefinedFloat;
+	float m_melaDiscriminatorDCPZhadH = DefaultValues::UndefinedFloat;
+	*/
 };

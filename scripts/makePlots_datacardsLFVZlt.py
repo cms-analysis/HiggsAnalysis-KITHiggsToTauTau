@@ -43,8 +43,8 @@ if __name__ == "__main__":
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")
-	parser.add_argument("--add-bbb-uncs", action="store_true", default=False,
-	                    help="Add bin-by-bin uncertainties. [Default: %(default)s]")
+	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
+	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--auto-rebin", action="store_true", default=False,
 	                    help="Do auto rebinning [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
@@ -610,7 +610,7 @@ if __name__ == "__main__":
 	#print sig_syst_histogram_name_template
 
 	# add bin-by-bin uncertainties
-	if args.add_bbb_uncs:
+	if not args.no_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.05, merge_threshold=0.8, fix_norm=False
@@ -718,7 +718,7 @@ if __name__ == "__main__":
 		#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
 		
 		# Max. likelihood fit and postfit plots
-		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
+		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes, "-M FitDiagnostics --saveShapes "+datacards.stable_options+" -n \"\"")
 		import sys
 		sys.exit(1)
 		#datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
@@ -838,7 +838,6 @@ if __name__ == "__main__":
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 		
 		# create pull plots
-		datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 		datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
 		if args.plot_nuisance_impacts:
 			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)

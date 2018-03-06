@@ -77,7 +77,8 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_iso_1"] = "25,0.0,2.0"
 		self.binnings_dict["tt_iso_2"] = "25,0.0,2.0"
 		self.binnings_dict["tt_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["tt_jdphi"] = "20,-3.2,3.2"
+		self.binnings_dict["tt_jdphi"] = "12,-3.2,3.2"
+		self.binnings_dict["tt_absjdphi"] = "20,0,3.2"
 		self.binnings_dict["tt_jeta_1"] = "10,-4.7,4.7"
 		self.binnings_dict["tt_jeta_2"] = "10,-4.7,4.7"
 		self.binnings_dict["tt_jphi_1"] = "10,-3.2,3.2"
@@ -126,7 +127,13 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_metProjectionPerp"] = "50,-50.0,50.0"
 		self.binnings_dict["tt_metProjectionPhi"] = "20,-3.141,3.141"
 		self.binnings_dict["tt_phiStarCP"] = "20,0.0,6.28"
-
+		
+		for ch in ["em_", "et_", "mt_", "tt_"]:
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"] = "4,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "2,-1.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "4,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "2,-1.0,1.0"
+		
 		self.binnings_dict["mt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["mt_eta_1"] = "30,-3,3"
 		self.binnings_dict["mt_eta_2"] = "30,-3,3"
@@ -136,7 +143,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_iso_1"] = "50,0.0,1.0"
 		self.binnings_dict["mt_iso_2"] = "25,0.5,1.0"
 		self.binnings_dict["mt_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["mt_jdphi"] = "20,-3.2,3.2"
+		self.binnings_dict["mt_jdphi"] = "12,-3.2,3.2"
 		self.binnings_dict["mt_jeta_1"] = "20,-4.7,4.7"
 		self.binnings_dict["mt_jeta_2"] = "20,-4.7,4.7"
 		self.binnings_dict["mt_jphi_1"] = "20,-3.2,3.2"
@@ -203,7 +210,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["et_iso_1"] = "25,0.0,0.1"
 		self.binnings_dict["et_iso_2"] = "25,0.0,2.0"
 		self.binnings_dict["et_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["et_jdphi"] = "20,-3.2,3.2"
+		self.binnings_dict["et_jdphi"] = "12,-3.2,3.2"
 		self.binnings_dict["et_jeta_1"] = "20,-4.7,4.7"
 		self.binnings_dict["et_jeta_2"] = "20,-4.7,4.7"
 		self.binnings_dict["et_jphi_1"] = "20,-3.2,3.2"
@@ -269,7 +276,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["em_iso_1"] = "25,0.0,0.1"
 		self.binnings_dict["em_iso_2"] = "25,0.0,0.1"
 		self.binnings_dict["em_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["em_jdphi"] = "20,-3.2,3.2"
+		self.binnings_dict["em_jdphi"] = "12,-3.2,3.2"
 		self.binnings_dict["em_jeta_1"] = "20,-4.7,4.7"
 		self.binnings_dict["em_jeta_2"] = "20,-4.7,4.7"
 		self.binnings_dict["em_jphi_1"] = "20,-3.2,3.2"
@@ -330,7 +337,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mm_iso_1"] = "25,0.0,0.1"
 		self.binnings_dict["mm_iso_2"] = "25,0.0,0.1"
 		self.binnings_dict["mm_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["mm_jdphi"] = "20,-3.2,3.2"
+		self.binnings_dict["mm_jdphi"] = "12,-3.2,3.2"
 		self.binnings_dict["mm_jeta_1"] = "20,-4.7,4.7"
 		self.binnings_dict["mm_jeta_2"] = "20,-4.7,4.7"
 		self.binnings_dict["mm_jphi_1"] = "20,-3.2,3.2"
@@ -381,7 +388,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["ee_iso_1"] = "25,0.0,0.1"
 		self.binnings_dict["ee_iso_2"] = "25,0.0,0.1"
 		self.binnings_dict["ee_jdeta"] = "20,0.0,10.0"
-		self.binnings_dict["ee_jdphi"] = "20,-3.2,3.2"
+		self.binnings_dict["ee_jdphi"] = "12,-3.2,3.2"
 		self.binnings_dict["ee_jeta_1"] = "20,-4.7,4.7"
 		self.binnings_dict["ee_jeta_2"] = "20,-4.7,4.7"
 		self.binnings_dict["ee_jphi_1"] = "20,-3.2,3.2"
@@ -504,6 +511,16 @@ class BinningsDict(binnings.BinningsDict):
 				self.binnings_dict["binningMVA13TeV_"+channel+"_vbf_%i"%i] = self.binnings_dict["mt_vbf_1"]
 		self.binnings_dict["binningHtt13TeV_tt_inclusive_svfitMass"] = " ".join([str(float(f)) for f in [0, 50]+range(90, 171, 20)+[200, 350]])
 		
+		#H->tautau CP binnings
+		for channel in ["mt", "et", "em", "tt", "mm"]:
+			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_CP_boosted_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
+			
+			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_CP_boosted_svfitMass"] = " ".join([str(float(f)) for f in range(0, 200, 20)+range(200, 351, 50)])
+			
+			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_CP_boosted_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+
+			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_CP_boosted_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+
 		# H->tautau MSSM binnings
 		for channel in ["mt", "et", "em", "tt"]:
 			self.binnings_dict[channel+"_mt_2"] = "30,0,150"
