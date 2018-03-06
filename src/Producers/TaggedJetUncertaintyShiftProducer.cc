@@ -58,7 +58,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 		}
 	}
 
-	for (auto const& uncertainty : individualUncertainties)
+	for (std::string const& uncertainty : individualUncertainties)
 	{
 		// only do string comparison once per uncertainty
 		HttEnumTypes::JetEnergyUncertaintyShiftName individualUncertainty = HttEnumTypes::ToJetEnergyUncertaintyShiftName(uncertainty);
@@ -72,10 +72,10 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			&& individualUncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
 		{
 			JetCorrectorParameters const * jetCorPar = new JetCorrectorParameters(uncertaintyFile, uncertainty);
-			JetCorParMap[individualUncertainty] = jetCorPar;
+			jetCorParMap[individualUncertainty] = jetCorPar;
 
-			JetCorrectionUncertainty * jecUnc(new JetCorrectionUncertainty(*JetCorParMap[individualUncertainty]));
-			JetUncMap[individualUncertainty] = jecUnc;
+			JetCorrectionUncertainty * jecUnc(new JetCorrectionUncertainty(*jetCorParMap[individualUncertainty]));
+			jetUncMap[individualUncertainty] = jecUnc;
 		}
 
 		// add quantities to event
@@ -134,7 +134,7 @@ void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product
 	{
 		// shift copies of previously corrected jets
 		std::vector<double> closureUncertainty((product.m_correctedTaggedJets).size(), 0.);
-		for (auto const& uncertainty : individualUncertaintyEnums)
+		for (HttEnumTypes::JetEnergyUncertaintyShiftName const& uncertainty : individualUncertaintyEnums)
 		{
 
 			// construct copies of jets in order not to modify actual (corrected) jets
@@ -152,9 +152,9 @@ void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product
 
 				if (std::abs((*jet)->p4.Eta()) < 5.2 && (*jet)->p4.Pt() > 9. && uncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
 				{
-					JetUncMap.at(uncertainty)->setJetEta((*jet)->p4.Eta());
-					JetUncMap.at(uncertainty)->setJetPt((*jet)->p4.Pt());
-					unc = JetUncMap.at(uncertainty)->getUncertainty(true);
+					jetUncMap.at(uncertainty)->setJetEta((*jet)->p4.Eta());
+					jetUncMap.at(uncertainty)->setJetPt((*jet)->p4.Pt());
+					unc = jetUncMap.at(uncertainty)->getUncertainty(true);
 				}
 				closureUncertainty.at(iJet) = closureUncertainty.at(iJet) + unc*unc;
 
