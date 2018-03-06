@@ -456,6 +456,9 @@ public:
 	float m_melaDiscriminatorD0MinusVBF = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorDCPVBF = DefaultValues::UndefinedFloat;
 	
+	//filled by LFVJetCorrection2016Producer
+	float lfvjetcorr;
+	
 	/*
 	float m_melaProbCPEvenWlepH = DefaultValues::UndefinedFloat;
 	float m_melaProbCPOddWlepH = DefaultValues::UndefinedFloat;
