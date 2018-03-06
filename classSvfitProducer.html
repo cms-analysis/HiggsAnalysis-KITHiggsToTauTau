@@ -112,8 +112,8 @@ $(document).ready(function(){initNavTree('classSvfitProducer.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0e0b601c7af72d4315c9252f8b939d55"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a0e0b601c7af72d4315c9252f8b939d55">SvfitProducer</a> (std::string name=&quot;&quot;, float diTauMassConstraint=-1.0, <a class="el" href="classSvfitEventKey.html">SvfitEventKey</a> product_type::*svfitEventKeyMember=&amp;product_type::m_svfitEventKey, <a class="el" href="classSvfitResults.html">SvfitResults</a> product_type::*svfitResultsMember=&amp;product_type::m_svfitResults, std::string(setting_type::*GetSvfitCacheFileMember)(void) const =&amp;setting_type::GetSvfitCacheFile, std::string(setting_type::*GetSvfitCacheFileFolderMember)(void) const =&amp;setting_type::GetSvfitCacheFileFolder, std::string(setting_type::*GetSvfitCacheTreeMember)(void) const =&amp;setting_type::GetSvfitCacheTree)</td></tr>
-<tr class="separator:a0e0b601c7af72d4315c9252f8b939d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f0284ba41b4de5037d7d70d05d92b99"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a9f0284ba41b4de5037d7d70d05d92b99">SvfitProducer</a> (std::string name=&quot;&quot;, float diTauMassConstraint=-1.0, <a class="el" href="classSvfitEventKey.html">SvfitEventKey</a> product_type::*svfitEventKeyMember=&amp;product_type::m_svfitEventKey, <a class="el" href="classSvfitResults.html">SvfitResults</a> product_type::*svfitResultsMember=&amp;product_type::m_svfitResults, std::map&lt; KLepton *, RMFLV &gt; product_type::*svfitTausMember=&amp;product_type::m_svfitTaus, std::string(setting_type::*GetSvfitCacheFileMember)(void) const =&amp;setting_type::GetSvfitCacheFile, std::string(setting_type::*GetSvfitCacheFileFolderMember)(void) const =&amp;setting_type::GetSvfitCacheFileFolder, std::string(setting_type::*GetSvfitCacheTreeMember)(void) const =&amp;setting_type::GetSvfitCacheTree)</td></tr>
+<tr class="separator:a9f0284ba41b4de5037d7d70d05d92b99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a845538ba81e7c3c42207402a715900ed"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a845538ba81e7c3c42207402a715900ed">GetProducerId</a> () const override</td></tr>
 <tr class="separator:a845538ba81e7c3c42207402a715900ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a9cbb8accbcec85effd108d5d6c0ee8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSvfitProducer.html#a4a9cbb8accbcec85effd108d5d6c0ee8">Init</a> (setting_type const &amp;settings, metadata_type &amp;metadata) override</td></tr>
@@ -124,7 +124,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Producer for SVfit </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a0e0b601c7af72d4315c9252f8b939d55"></a>
+<a class="anchor" id="a9f0284ba41b4de5037d7d70d05d92b99"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -151,6 +151,12 @@ Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype"><a class="el" href="classSvfitResults.html">SvfitResults</a> product_type::*&#160;</td>
           <td class="paramname"><em>svfitResultsMember</em> = <code>&amp;product_type::m_svfitResults</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::map&lt; KLepton *, RMFLV &gt; product_type::*&#160;</td>
+          <td class="paramname"><em>svfitTausMember</em> = <code>&amp;product_type::m_svfitTaus</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

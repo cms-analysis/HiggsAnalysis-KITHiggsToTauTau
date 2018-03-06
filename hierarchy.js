@@ -292,6 +292,7 @@ var hierarchy =
       [ "MVAInputQuantitiesProducer", "classMVAInputQuantitiesProducer.html", null ],
       [ "PolarisationQuantitiesProducerBase", "classPolarisationQuantitiesProducerBase.html", [
         [ "PolarisationQuantitiesSimpleFitProducer", "classPolarisationQuantitiesSimpleFitProducer.html", null ],
+        [ "PolarisationQuantitiesSvfitM91Producer", "classPolarisationQuantitiesSvfitM91Producer.html", null ],
         [ "PolarisationQuantitiesSvfitProducer", "classPolarisationQuantitiesSvfitProducer.html", null ]
       ] ],
       [ "RecoTauCPProducer", "classRecoTauCPProducer.html", null ],

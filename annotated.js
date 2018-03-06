@@ -269,6 +269,7 @@ var annotated =
     [ "PhiStarCPSVfitQuantity", "classPhiStarCPSVfitQuantity.html", "classPhiStarCPSVfitQuantity" ],
     [ "PolarisationQuantitiesProducerBase", "classPolarisationQuantitiesProducerBase.html", "classPolarisationQuantitiesProducerBase" ],
     [ "PolarisationQuantitiesSimpleFitProducer", "classPolarisationQuantitiesSimpleFitProducer.html", "classPolarisationQuantitiesSimpleFitProducer" ],
+    [ "PolarisationQuantitiesSvfitM91Producer", "classPolarisationQuantitiesSvfitM91Producer.html", "classPolarisationQuantitiesSvfitM91Producer" ],
     [ "PolarisationQuantitiesSvfitProducer", "classPolarisationQuantitiesSvfitProducer.html", "classPolarisationQuantitiesSvfitProducer" ],
     [ "Quantities", "classQuantities.html", null ],
     [ "RecoilCorrector", "classRecoilCorrector.html", "classRecoilCorrector" ],

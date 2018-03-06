@@ -1,8 +1,8 @@
 var NAVTREEINDEX1 =
 {
-"PolarisationQuantitiesProducer_8cc.html":[2,0,3,2,34],
-"PolarisationQuantitiesProducer_8h.html":[2,0,0,2,34],
-"PolarisationQuantitiesProducer_8h_source.html":[2,0,0,2,34],
+"PolarisationQuantitiesProducers_8cc.html":[2,0,3,2,34],
+"PolarisationQuantitiesProducers_8h.html":[2,0,0,2,34],
+"PolarisationQuantitiesProducers_8h_source.html":[2,0,0,2,34],
 "Quantities_8cc.html":[2,0,3,3,5],
 "Quantities_8h.html":[2,0,0,3,5],
 "Quantities_8h.html#aaf454bd335994d52523052c77c343e3d":[2,0,0,3,5,1],

@@ -130,9 +130,10 @@ var dir_f8fc4fbfdbeef3b7f795f08052a7e9e6 =
     [ "MVATestMethodsProducer.h", "MVATestMethodsProducer_8h.html", [
       [ "MVATestMethodsProducer", "classMVATestMethodsProducer.html", "classMVATestMethodsProducer" ]
     ] ],
-    [ "PolarisationQuantitiesProducer.h", "PolarisationQuantitiesProducer_8h.html", [
+    [ "PolarisationQuantitiesProducers.h", "PolarisationQuantitiesProducers_8h.html", [
       [ "PolarisationQuantitiesProducerBase", "classPolarisationQuantitiesProducerBase.html", "classPolarisationQuantitiesProducerBase" ],
       [ "PolarisationQuantitiesSvfitProducer", "classPolarisationQuantitiesSvfitProducer.html", "classPolarisationQuantitiesSvfitProducer" ],
+      [ "PolarisationQuantitiesSvfitM91Producer", "classPolarisationQuantitiesSvfitM91Producer.html", "classPolarisationQuantitiesSvfitM91Producer" ],
       [ "PolarisationQuantitiesSimpleFitProducer", "classPolarisationQuantitiesSimpleFitProducer.html", "classPolarisationQuantitiesSimpleFitProducer" ]
     ] ],
     [ "RecoTauCPProducer.h", "RecoTauCPProducer_8h.html", [

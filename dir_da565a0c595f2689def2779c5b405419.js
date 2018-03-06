@@ -34,7 +34,7 @@ var dir_da565a0c595f2689def2779c5b405419 =
     [ "MuMuTriggerScaleFactorProducer.cc", "MuMuTriggerScaleFactorProducer_8cc.html", null ],
     [ "MVAInputQuantitiesProducer.cc", "MVAInputQuantitiesProducer_8cc.html", null ],
     [ "MVATestMethodsProducer.cc", "MVATestMethodsProducer_8cc.html", null ],
-    [ "PolarisationQuantitiesProducer.cc", "PolarisationQuantitiesProducer_8cc.html", null ],
+    [ "PolarisationQuantitiesProducers.cc", "PolarisationQuantitiesProducers_8cc.html", null ],
     [ "RecoTauCPProducer.cc", "RecoTauCPProducer_8cc.html", null ],
     [ "RefitVertexSelector.cc", "RefitVertexSelector_8cc.html", null ],
     [ "RooWorkspaceWeightProducer.cc", "RooWorkspaceWeightProducer_8cc.html", null ],
