@@ -840,9 +840,10 @@ if __name__ == "__main__":
 		if "prefitpostfitplots" in args.steps:
 			tmp_datacard = ch.CombineHarvester()	
 			tmp_datacard.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
-			if int(official_datacard.split("_")[-2]) < 10: #this statement avoid the creation of workspaces for single CR only.
+				
+			if int(official_datacard.split("_")[-2]) < 10 and not "ttbar" in official_datacard: #this statement avoid the creation of workspaces for single CR only.					
 				datacards_cbs[official_datacard] = tmp_datacard.cp()
-				datacards_module._call_command([
+				datacards_module._call_command([ 
 						"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i {DATACARD} -o {OUTPUT} --parallel {N_PROCESSES}".format(
 						DATACARD=official_datacard,
 						OUTPUT=os.path.splitext(official_datacard)[0]+"_cpmixture.root",
@@ -858,6 +859,34 @@ if __name__ == "__main__":
 			year=args.era,
 			cp_study=args.cp_study
 	)
+	datacards.configs._mapping_process2sample = {
+		"data_obs" : "data",
+		"EWKZ" : "ewkz",
+		"ggH_htt" : "ggh",
+		"ggHps_htt"	: "gghjhups",
+		"ggHmm_htt"	: "gghjhumm",
+		"ggHsm_htt"	: "gghjhusm",
+		"ggH_hww" : "hww_gg",
+		"QCD" : "qcd",				
+		"qqH_htt" : "qqh",				
+		"qqHmm_htt"	: "qqhjhumm",
+		"qqHps_htt"	: "qqhjhups",
+		"qqHsm_htt"	: "qqhjhusm",			
+		"qqH_hww" : "hww_qq",
+		"TT" : "ttj",
+		"TTT" : "ttt",
+		"TTJ" : "ttj",
+		"VV" : "vv",
+		"VVT" : "vvt",
+		"VVJ" : "vvj",
+		"WH_htt125" : "wh",
+		"W" : "wj",				
+		"ZH_htt125" : "zh",	
+		"ZJ" : "zj",
+		"ZL" : "zl",
+		"ZLL" : "zll",	
+		"ZTT" : "ztt",															
+		}
 	
 	# Create workspaces from the datacards 
 	if "t2w" in args.steps:
@@ -974,16 +1003,147 @@ if __name__ == "__main__":
 		# adapt prefit and postfit plot configs
 		backgrounds_to_merge = {
 			"ZLL" : ["ZL", "ZJ"],
-			"TT" : ["TTT", "TTJJ"],
-			"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
+			"TT" : ["TTT", "TTJJ", "TTJ"],
+			"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125", "ggH_hww125", "qqH_hww125"],
+			"qqh" : ["qqHsm_htt125", "qqH", "WH_htt125", "ZH_htt125"]
+			}
+		titles = {
+			"mt_1" : "#mu#tau_{h} - 0jet",
+			"et_1" : "e#tau_{h} - 0jet",
+			"em_1" : "e#mu - 0jet",
+			"tt_1" : "#tau_{h}#tau_{h} - 0jet",
+			"mt_2" : "#mu#tau_{h} - boosted",
+			"et_2" : "e#tau_{h} - boosted",
+			"em_2" : "e#mu - boosted",
+			"tt_2" : "#tau_{h}#tau_{h} - boosted",
+			"mt_3" : "#mu#tau_{h} - dijet lowboost",
+			"et_3" : "e#tau_{h} - dijet lowboost",
+			"em_3" : "e#mu - dijet lowboost",
+			"tt_3" : "#tau_{h}#tau_{h} - dijet lowboost",
+			"mt_4" : "#mu#tau_{h} - dijet boosted",
+			"et_4" : "e#tau_{h} - dijet boosted",
+			"em_4" : "e#mu - dijet boosted",
+			"tt_4" : "#tau_{h}#tau_{h} - dijet boosted"
+		}	
+		x_tick_labels = {
+			"mt_1" : ["0-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-105","105-110","110-400"] * 3,
+			"et_1" : ["0-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-105","105-110","110-400"] * 3,
+			"em_1" : ["0-50","50-55", "55-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-400"] * 3,
+			"mt_2" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 6,
+			"et_2" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 6,
+			"em_2" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 6,
+			"tt_2" : ["0-40","40-60","60-70","70-80","80-90","90-100","100-110","110-120","120-130","130-150","150-200","200-250"] * 4,
+			"mt_3" : ["-3.2--2.7","-2.7--2.1","-2.1--1.6","-1.6--1.1", "-1.1--0.5","-0.5-0", "0-0.5","0.5-1.1","1.1-1.6","1.6-2.1","2.1-2.7","2.7-3.2"] * 6,
+			"et_3" : ["-3.2--2.7","-2.7--2.1","-2.1--1.6","-1.6--1.1", "-1.1--0.5","-0.5-0", "0-0.5","0.5-1.1","1.1-1.6","1.6-2.1","2.1-2.7","2.7-3.2"] * 6,
+			"em_3" : ["-3.2--2.7","-2.7--2.1","-2.1--1.6","-1.6--1.1", "-1.1--0.5","-0.5-0", "0-0.5","0.5-1.1","1.1-1.6","1.6-2.1","2.1-2.7","2.7-3.2"] * 6,
+			"tt_3" : ["-3.2--2.7","-2.7--2.1","-2.1--1.6","-1.6--1.1", "-1.1--0.5","-0.5-0", "0-0.5","0.5-1.1","1.1-1.6","1.6-2.1","2.1-2.7","2.7-3.2"] * 6,
+			"mt_4" : ["-3.2--2.7","-2.7--2.1","-2.1--1.6","-1.6--1.1", "-1.1--0.5","-0.5-0", "0-0.5","0.5-1.1","1.1-1.6","1.6-2.1","2.1-2.7","2.7-3.2"] * 6,
+			"et_4" : ["-3.2--2.7","-2.7--2.1","-2.1--1.6","-1.6--1.1", "-1.1--0.5","-0.5-0", "0-0.5","0.5-1.1","1.1-1.6","1.6-2.1","2.1-2.7","2.7-3.2"] * 6,
+			"em_4" : ["-3.2--2.7","-2.7--2.1","-2.1--1.6","-1.6--1.1", "-1.1--0.5","-0.5-0", "0-0.5","0.5-1.1","1.1-1.6","1.6-2.1","2.1-2.7","2.7-3.2"] * 6,
+			"tt_4" : ["-3.2--2.7","-2.7--2.1","-2.1--1.6","-1.6--1.1", "-1.1--0.5","-0.5-0", "0-0.5","0.5-1.1","1.1-1.6","1.6-2.1","2.1-2.7","2.7-3.2"] * 6
 		}
-		# prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes)
+		texts = {
+			"mt_1" : ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"],
+			"et_1" : ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"],
+			"em_1" : ["15 < p_{T}(#mu) < 25 GeV", "25 < p_{T}(#mu) < 35 GeV", "p_{T}(#mu) > 35 GeV"],
+			"mt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"et_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"em_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"tt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "170 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"mt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
+			"et_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
+			"em_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
+			"tt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"], 
+			"mt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
+			"et_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
+			"em_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
+			"tt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"]		
+		}
+		texts_x = {
+			"mt_1" : [0.14, 0.4, 0.67],
+			"et_1" : [0.14, 0.4, 0.67],
+			"em_1" : [0.2, 0.46, 0.705],
+			"mt_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+			"et_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+			"em_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+			"tt_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+			"mt_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+			"et_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+			"em_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+			"tt_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+			"mt_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+			"et_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+			"em_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+			"tt_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82]			
+		}
+		vertical_lines = {
+			"mt_1" : [12, 24],
+			"et_1" : [12, 24],
+			"em_1" : [12, 24],
+			"mt_2" : [10, 20, 30, 40, 50],
+			"et_2" : [10, 20, 30, 40, 50],
+			"em_2" : [10, 20, 30, 40, 50],
+			"tt_2" : [12, 24, 36, 48, 60],
+			"mt_3" : [12, 24, 36, 48, 60],
+			"et_3" : [12, 24, 36, 48, 60],
+			"em_3" : [12, 24, 36, 48, 60],
+			"tt_3" : [12, 24, 36, 48, 60],
+			"mt_4" : [12, 24, 36, 48, 60],
+			"et_4" : [12, 24, 36, 48, 60],
+			"em_4" : [12, 24, 36, 48, 60],
+			"tt_4" : [12, 24, 36, 48, 60]			
+		}		
+	
+		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes, no_plot=[""])
+		for plot_config in prefit_postfit_plot_configs:
+			plot_category = plot_config["filename"].split("_")[-2]
+			plot_channel = plot_config["filename"].split("_")[-3]
+			if "1" in plot_category or "2" in plot_category or "3" in plot_category or "4" in plot_category and not ("10" in plot_category or "11" in plot_category or "12" in plot_category or "13" in plot_category or "14" in plot_category):
+					plot_config["canvas_width"] = 2100
+					plot_config["canvas_height"] = 1000
+					plot_config["x_label"] = "#Delta#phi_{jj}" if "jdphi" == args.quantity else "D_{CP}^{*}"
+					if "--y-log" in args.args:
+						plot_config["y_lims"] = [0.001, 1000]
+					else: 
+						plot_config["y_rel_lims"] = [0.5, 10]
+					plot_config["legend"] = [0.895, 0.1, 0.995, 0.8]
+					plot_config["legend_cols"] = 1
+					# plot_config["x_label"] = "m_{vis} (GeV)" if "1" in plot_category and plot_channel in ["mt", "et", "em"] else "m_{#tau#tau} (GeV)"
+					plot_config["y_label"] = "Events/bin"
+					plot_config["formats"] = ["pdf", "png"]
+					plot_config["title"] = titles[plot_channel+"_"+plot_category]
+					plot_config["y_title_offset"] = 0.6
+					plot_config["y_subplot_title_offset"] = 0.71
+					plot_config["y_subplot_lims"] = [-4, 4]
+					plot_config["left_pad_margin"] = 0.1
+					plot_config["right_pad_margin"] = 0.11
+					plot_config["line_widths"] = [3]
+					if not (plot_channel == "tt" and plot_category == "1"):
+						plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
+						plot_config["texts"] = texts[plot_channel+"_"+plot_category]
+						plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category]
+						plot_config["texts_y"] = list((0.8 for i in range(len(plot_config["texts"]))))
+						plot_config["texts_size"] = [0.04] if "2" in plot_category and plot_channel in ["mt", "et", "em"] else [0.032]
+						plot_config["x_labels_vertical"] = True
+						plot_config["x_title_offset"] = 1.6
+						plot_config["bottom_pad_margin"] = 0.5
+						plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
+						plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
+					# now stack signal on top manually
+				# plot_config["colors"].insert(0, "kRed")
+				# plot_config["labels"].insert(0, "htt")
+				# plot_config["legend_markers"].insert(0, "F")
+				# plot_config["markers"].insert(0, "HIST")
+				# plot_config["nicks"].insert(0, "HTT")
+				# plot_config["nicks_whitelist"].insert(0, "HTT")
+				# plot_config["stacks"].insert(0, "stack")
+				# plot_config["x_expressions"].insert(0, "TotalSig")
 		# datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
-		# if "nuisanceimpacts" in args.steps:
-		# 	datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_alpha, args.n_processes, higgs_mass="125")
-        # 
-		# higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
-        # 
+		if "nuisanceimpacts" in args.steps:
+			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_alpha, args.n_processes, higgs_mass="125")
+        
+		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+        
 										
 	sys.exit(0)		 			
 	
