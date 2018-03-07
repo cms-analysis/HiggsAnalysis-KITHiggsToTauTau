@@ -6,6 +6,11 @@
 				"default" : 1.0
 			}
 		},
+		"AbsJetEnergyCorrectionSplitUncertaintyShift" : {
+			"nick" : {
+				"default" : 0.0
+			}
+		},
 		"SvfitCacheFileFolder" : "nominal"
 	},
 	"jecUncDown" : {
@@ -13,6 +18,11 @@
 			"nick" : {
 				"Run201|Embedding" : 0.0,
 				"default" : -1.0
+			}
+		},
+		"AbsJetEnergyCorrectionSplitUncertaintyShift" : {
+			"nick" : {
+				"default" : 0.0
 			}
 		},
 		"SvfitCacheFileFolder" : "nominal"

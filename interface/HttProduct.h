@@ -206,8 +206,10 @@ public:
 	bool m_diGenJetSystemAvailable = false;
 
 	// filled by TaggedJetUncertaintyShiftProducer
-	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedJetsBySplitUncertainty;
-	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedBTaggedJetsBySplitUncertainty;
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedJetsBySplitUncertaintyUp;
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedJetsBySplitUncertaintyDown;
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedBTaggedJetsBySplitUncertaintyUp;
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedBTaggedJetsBySplitUncertaintyDown;
 
 	KMET* m_metUncorr = 0;
 	KMET* m_puppiMetUncorr = 0;

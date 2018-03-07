@@ -46,7 +46,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 
 	// initialize b-tag scale factor class only if shifts are to be applied
 	if (settings.GetJetEnergyCorrectionSplitUncertainty()
-		&& settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0
+		&& settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift() != 0.0
 		&& settings.GetUseJECShiftsForBJets())
 	{
 		m_bTagSf = BTagSF(settings.GetBTagScaleFactorFile(), settings.GetBTagEfficiencyFile());
@@ -68,7 +68,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 
 		// create uncertainty map (only if shifts are to be applied)
 		if (settings.GetJetEnergyCorrectionSplitUncertainty()
-			&& settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0
+			&& settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift() != 0.0
 			&& individualUncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
 		{
 			JetCorrectorParameters jetCorPar(uncertaintyFile, uncertainty);
@@ -76,52 +76,97 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 		}
 
 		// add quantities to event
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "njetspt30_"+uncertainty, [individualUncertainty](event_type const& event, product_type const& product) -> int
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "njetspt30_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product) -> int
 		{
 			int nJetsPt30 = DefaultValues::UndefinedInt;
-			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
+			if ((product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyUp).end())
 			{
-				nJetsPt30 = KappaProduct::GetNJetsAbovePtThreshold((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second, 30.0);
+				nJetsPt30 = KappaProduct::GetNJetsAbovePtThreshold((product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty)->second, 30.0);
+			}
+			return nJetsPt30;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "njetspt30_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product) -> int
+		{
+			int nJetsPt30 = DefaultValues::UndefinedInt;
+			if ((product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyDown).end())
+			{
+				nJetsPt30 = KappaProduct::GetNJetsAbovePtThreshold((product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty)->second, 30.0);
 			}
 			return nJetsPt30;
 		});
 
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mjj_"+uncertainty, [individualUncertainty](event_type const& event, product_type const& product) -> float
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mjj_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product) -> float
 		{
-			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
+			if ((product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyUp).end())
 			{
-				std::vector<KJet> const& shiftedJets = (product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second;
+				std::vector<KJet> const& shiftedJets = (product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty)->second;
+				return shiftedJets.size() > 1 ? (shiftedJets.at(0).p4 + shiftedJets.at(1).p4).mass() : DefaultValues::UndefinedFloat;
+			}
+			return DefaultValues::UndefinedFloat;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mjj_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product) -> float
+		{
+			if ((product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyDown).end())
+			{
+				std::vector<KJet> const& shiftedJets = (product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty)->second;
 				return shiftedJets.size() > 1 ? (shiftedJets.at(0).p4 + shiftedJets.at(1).p4).mass() : DefaultValues::UndefinedFloat;
 			}
 			return DefaultValues::UndefinedFloat;
 		});
 
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdeta_"+uncertainty, [individualUncertainty](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdeta_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product)
 		{
-			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
+			if ((product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyUp).end())
 			{
-				std::vector<KJet> const& shiftedJets = (product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second;
+				std::vector<KJet> const& shiftedJets = (product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty)->second;
+				return shiftedJets.size() > 1 ? std::abs(shiftedJets.at(0).p4.Eta() - shiftedJets.at(1).p4.Eta()) : DefaultValues::UndefinedFloat;
+			}
+			return DefaultValues::UndefinedFloat;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdeta_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product)
+		{
+			if ((product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyDown).end())
+			{
+				std::vector<KJet> const& shiftedJets = (product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty)->second;
 				return shiftedJets.size() > 1 ? std::abs(shiftedJets.at(0).p4.Eta() - shiftedJets.at(1).p4.Eta()) : DefaultValues::UndefinedFloat;
 			}
 			return DefaultValues::UndefinedFloat;
 		});
 
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi_"+uncertainty, [individualUncertainty](event_type const& event, product_type const& product) -> float
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product) -> float
 		{
-			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
+			if ((product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyUp).end())
 			{
-				std::vector<KJet> const& shiftedJets = (product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second;
+				std::vector<KJet> const& shiftedJets = (product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty)->second;
+				return shiftedJets.size() > 1 ? ROOT::Math::VectorUtil::DeltaPhi(shiftedJets.at(0).p4, shiftedJets.at(1).p4) * (shiftedJets.at(0).p4.Eta() > 0.0 ? 1.0 : -1.0) : DefaultValues::UndefinedFloat;
+			}
+			return DefaultValues::UndefinedFloat;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product) -> float
+		{
+			if ((product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyDown).end())
+			{
+				std::vector<KJet> const& shiftedJets = (product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty)->second;
 				return shiftedJets.size() > 1 ? ROOT::Math::VectorUtil::DeltaPhi(shiftedJets.at(0).p4, shiftedJets.at(1).p4) * (shiftedJets.at(0).p4.Eta() > 0.0 ? 1.0 : -1.0) : DefaultValues::UndefinedFloat;
 			}
 			return DefaultValues::UndefinedFloat;
 		});
 
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nbtag_"+uncertainty, [individualUncertainty](event_type const& event, product_type const& product) -> int
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nbtag_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product) -> int
 		{
 			int nbtag = DefaultValues::UndefinedInt;
-			if ((product.m_correctedBTaggedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
+			if ((product.m_correctedBTaggedJetsBySplitUncertaintyUp).find(individualUncertainty) != (product.m_correctedBTaggedJetsBySplitUncertaintyUp).end())
 			{
-				nbtag = KappaProduct::GetNJetsAbovePtThreshold((product.m_correctedBTaggedJetsBySplitUncertainty).find(individualUncertainty)->second, 20.0);
+				nbtag = KappaProduct::GetNJetsAbovePtThreshold((product.m_correctedBTaggedJetsBySplitUncertaintyUp).find(individualUncertainty)->second, 20.0);
+			}
+			return nbtag;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nbtag_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product) -> int
+		{
+			int nbtag = DefaultValues::UndefinedInt;
+			if ((product.m_correctedBTaggedJetsBySplitUncertaintyDown).find(individualUncertainty) != (product.m_correctedBTaggedJetsBySplitUncertaintyDown).end())
+			{
+				nbtag = KappaProduct::GetNJetsAbovePtThreshold((product.m_correctedBTaggedJetsBySplitUncertaintyDown).find(individualUncertainty)->second, 20.0);
 			}
 			return nbtag;
 		});
@@ -131,8 +176,22 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product_type& product,
 		setting_type const& settings, metadata_type const& metadata) const
 {
+	ProduceShift(event, product, settings, metadata, true,
+	             product.m_correctedJetsBySplitUncertaintyUp,
+	             product.m_correctedBTaggedJetsBySplitUncertaintyUp);
+	
+	ProduceShift(event, product, settings, metadata, false,
+	             product.m_correctedJetsBySplitUncertaintyDown,
+	             product.m_correctedBTaggedJetsBySplitUncertaintyDown);
+}
+
+void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, product_type& product,
+		setting_type const& settings, metadata_type const& metadata, bool shiftUp,
+		std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>>& correctedJetsBySplitUncertainty,
+		std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>>& correctedBTaggedJetsBySplitUncertainty) const
+{
 	// only do all of this if uncertainty shifts should be applied
-	if (settings.GetJetEnergyCorrectionSplitUncertainty() && settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0)
+	if (settings.GetJetEnergyCorrectionSplitUncertainty() && settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift() != 0.0)
 	{
 		// shift copies of previously corrected jets
 		std::vector<double> closureUncertainty((product.m_correctedTaggedJets).size(), 0.);
@@ -165,7 +224,7 @@ void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product
 				{
 					unc = std::sqrt(closureUncertainty.at(iJet));
 				}
-				jet->p4 = jet->p4 * (1.0 + unc * settings.GetJetEnergyCorrectionUncertaintyShift());
+				jet->p4 = jet->p4 * (1.0 + (shiftUp ? 1.0 : -1.0) * unc * settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift());
 			}
 			// sort vectors of shifted jets by pt
 			std::sort(copiedJets.begin(), copiedJets.end(),
@@ -259,9 +318,9 @@ void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product
 					if (validBJet) shiftedBTaggedJets.push_back(tjet);
 				}
 			}
-
-			(product.m_correctedJetsBySplitUncertainty)[uncertainty] = shiftedJets;
-			(product.m_correctedBTaggedJetsBySplitUncertainty)[uncertainty] = shiftedBTaggedJets;
+			
+			correctedJetsBySplitUncertainty[uncertainty] = shiftedJets;
+			correctedBTaggedJetsBySplitUncertainty[uncertainty] = shiftedBTaggedJets;
 		}
 	}
 }
