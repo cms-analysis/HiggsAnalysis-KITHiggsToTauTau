@@ -19,7 +19,7 @@ class tt_ArtusConfig(dict):
 		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
 			
 
-	def build_config(self, nickname):                #Maybe change this the arguments to process/year and DATA/MC
+	def build_config(self, nickname, systematic):                #Maybe change this the arguments to process/year and DATA/MC
 		isData = self.datasetsHelper.isData(nickname)
 		isSignal = self.datasetsHelper.isSignal(nickname)
 		isEmbedding = self.datasetsHelper.isEmbedded(nickname)
@@ -30,8 +30,8 @@ class tt_ArtusConfig(dict):
 		is2015 = re.match("(.*)15", nickname) #I am not 100% sure if this is exclusive
 		is2016 = re.match("(.*)16", nickname) #I am not 100% sure if this is exclusive	
 		is2017 = re.match("(.*)17", nickname) #I am not 100% sure if this is exclusive		
+		
 		#Change this json config files as well?
-
 		self["include"] += ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json", 
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",
@@ -144,6 +144,7 @@ class tt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
+			self["Quantities"] += r2cpq.melaQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
 			self["Quantities"] += [] #TODO "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
@@ -159,6 +160,7 @@ class tt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
+			self["Quantities"] += r2cpq.melaQuantities()
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
 		elif not (isDY or isSignal) and is2015:
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -207,6 +209,7 @@ class tt_ArtusConfig(dict):
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
+			self["Quantities"] += r2cpq.melaQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()			
 			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
