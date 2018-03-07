@@ -792,12 +792,12 @@ if __name__ == "__main__":
 		pprint.pprint(plot_configs) 
 		
 	# delete existing output files
-	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
-	for output_file_iterator in tmp_output_files:
-		if os.path.exists(output_file_iterator):
-			os.remove(output_file_iterator)
-			log.debug("Removed file \""+output_file_iterator+"\" before it is recreated again.")
-	output_files = list(set(output_files))
+	# tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
+	# for output_file_iterator in tmp_output_files:
+	# 	if os.path.exists(output_file_iterator):
+	# 		os.remove(output_file_iterator)
+	# 		log.info("Removed file \""+output_file_iterator+"\" before it is recreated again.")
+	# output_files = list(set(output_files))
 	
 	if args.only_config:
 		sys.exit(1)
@@ -816,16 +816,17 @@ if __name__ == "__main__":
 	
 	# call official script again with shapes that have just been created
 	# this steps creates the filled datacards in the output folder. 
-	datacards_module._call_command([
-			"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --control_region=1 {DIJET_2D} --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
-			OUTPUT_SUFFIX=args.output_suffix,
-			SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
-			SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else "",
-			DIJET_2D="--dijet_2d=true" if args.dijet_2D else ""
-			),
-			args.output_dir
-	])
-	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir)))
+	if "t2w" in args.steps:	
+		datacards_module._call_command([
+				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --control_region=1 {DIJET_2D} --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
+				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else "",
+				DIJET_2D="--dijet_2d=true" if args.dijet_2D else ""
+				),
+				args.output_dir
+		])
+		log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir)))
 		
 	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/cmb/125/"
 	official_cb = ch.CombineHarvester()
