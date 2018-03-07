@@ -1,8 +1,10 @@
 var submitCrabSvfitJobs_8py =
 [
     [ "build_configs", "submitCrabSvfitJobs_8py.html#a3e3cf6dfd0375311a582e3fa5d2a6d36", null ],
+    [ "clear_environment", "submitCrabSvfitJobs_8py.html#a647a4f72d5dd3f2c97626ced970b8fd0", null ],
     [ "get_filenames", "submitCrabSvfitJobs_8py.html#a5c2a29c0062e5326a302351bf7bd4bfe", null ],
     [ "read_file", "submitCrabSvfitJobs_8py.html#a0ecb9f4bc7e70b5472d247e6cb0e2e6d", null ],
+    [ "restore_environment", "submitCrabSvfitJobs_8py.html#a766eb8f858ec0c425c35c0649fa1c772", null ],
     [ "submission", "submitCrabSvfitJobs_8py.html#a55e931ca155e07f029e583a88b5cd969", null ],
     [ "submit", "submitCrabSvfitJobs_8py.html#ab301153dbf300b9cc987f73f139223c2", null ],
     [ "args", "submitCrabSvfitJobs_8py.html#a8d27493f31e7d3b2e764ac6fb0b6cb9d", null ],

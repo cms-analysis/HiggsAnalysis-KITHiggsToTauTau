@@ -1,10 +1,5 @@
 var NAVTREEINDEX20 =
 {
-"makePlots__shapeUncertainties_8py.html#af4e24a614b9346f63b6e881c528f7f9b":[2,0,2,67,10],
-"makePlots__syncPlots_8py.html":[2,0,2,68],
-"makePlots__syncPlots_8py.html#a02ca29f1dcc69ab9321c0837caf6b4e4":[2,0,2,68,5],
-"makePlots__syncPlots_8py.html#a0b08aae3225ebb9f3602266657196b32":[2,0,2,68,0],
-"makePlots__syncPlots_8py.html#a0c0876ff46aab167f41af73c1155069b":[2,0,2,68,9],
 "makePlots__syncPlots_8py.html#a36b2562282c7fefc003723279df177aa":[2,0,2,68,2],
 "makePlots__syncPlots_8py.html#a3eea5c85e24d261f5caa83c57d57334a":[2,0,2,68,11],
 "makePlots__syncPlots_8py.html#a5f85d26827c1abf7250fc406bf56285d":[2,0,2,68,16],
@@ -233,11 +228,11 @@ var NAVTREEINDEX20 =
 "mvaConfigWriter_8py.html#aeb5c275475d2bafc9d07a164970e1e11":[2,0,2,78,31],
 "mvaConfigWriter_8py.html#af59fd46f45e0ff8789f9756b33f1d133":[2,0,2,78,30],
 "mvaConfigWriter_8py.html#afd75555ffae567f396b5e2213a0976c1":[2,0,2,78,45],
-"mvadatacards_8py.html":[2,0,1,1,8],
-"mvadatacards_8py.html#a28b4580bcaaa896932fb62df0fa89df5":[2,0,1,1,8,1],
-"mvadatacards__base_8py.html":[2,0,1,1,9],
-"mvadatacards__base_8py.html#a7fe5005f8e4a77e68cdd2f5c0e433b07":[2,0,1,1,9,2],
-"mvadatacards__base_8py.html#a87b2ef4f48b53138210f18394d416c74":[2,0,1,1,9,1],
+"mvadatacards_8py.html":[2,0,1,0,8],
+"mvadatacards_8py.html#a28b4580bcaaa896932fb62df0fa89df5":[2,0,1,0,8,1],
+"mvadatacards__base_8py.html":[2,0,1,0,9],
+"mvadatacards__base_8py.html#a7fe5005f8e4a77e68cdd2f5c0e433b07":[2,0,1,0,9,2],
+"mvadatacards__base_8py.html#a87b2ef4f48b53138210f18394d416c74":[2,0,1,0,9,1],
 "nFold__DiffScan_8py.html":[2,0,2,79],
 "nFold__DiffScan_8py.html#a1c39a3b603aecd1731dcfb38d23e51c0":[2,0,2,79,10],
 "nFold__DiffScan_8py.html#a314f6cc86a7737384261e9eca8501e54":[2,0,2,79,6],
@@ -249,5 +244,10 @@ var NAVTREEINDEX20 =
 "nFold__DiffScan_8py.html#a659869f308d5e1156fc400457d517fdf":[2,0,2,79,2],
 "nFold__DiffScan_8py.html#a6eb1ea3e30a49ce90e6955122f842012":[2,0,2,79,1],
 "nFold__DiffScan_8py.html#a8bc00017084cc22e3df3a6893f118ddb":[2,0,2,79,4],
-"nFold__DiffScan_8py.html#aae1d299cd23bfc5a250b68cb2bb03455":[2,0,2,79,0]
+"nFold__DiffScan_8py.html#aae1d299cd23bfc5a250b68cb2bb03455":[2,0,2,79,0],
+"nFold__DiffScan_8py.html#ac7140f19960783c58562ebc7913a1252":[2,0,2,79,7],
+"nFold__DiffScan_8py.html#acde54746b3b6b26b7f697a7104e427e7":[2,0,2,79,8],
+"nFold__DiffScan_8py.html#ae751ba6db681100f4695b860a6f2b7b7":[2,0,2,79,11],
+"nFold__DiffScan_8py.html#ae9e17f6ded254e192e6837947fea8be0":[2,0,2,79,13],
+"namespaceAddMVATrainingToTrees.html":[0,0,0]
 };

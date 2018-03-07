@@ -139,8 +139,8 @@ var searchData=
   ['estimatewjets',['EstimateWjets',['../classestimatewjets_1_1EstimateWjets.html',1,'estimatewjets']]],
   ['estimatewjets',['estimatewjets',['../namespaceestimatewjets.html',1,'']]],
   ['estimatewjets_2epy',['estimatewjets.py',['../estimatewjets_8py.html',1,'']]],
-  ['estimatewjetsandqcd',['estimatewjetsandqcd',['../namespaceestimatewjetsandqcd.html',1,'']]],
   ['estimatewjetsandqcd',['EstimateWjetsAndQCD',['../classestimatewjetsandqcd_1_1EstimateWjetsAndQCD.html',1,'estimatewjetsandqcd']]],
+  ['estimatewjetsandqcd',['estimatewjetsandqcd',['../namespaceestimatewjetsandqcd.html',1,'']]],
   ['estimatewjetsandqcd_2epy',['estimatewjetsandqcd.py',['../estimatewjetsandqcd_8py.html',1,'']]],
   ['estimateztt',['estimateztt',['../namespaceestimateztt.html',1,'']]],
   ['estimateztt',['EstimateZtt',['../classestimateztt_1_1EstimateZtt.html',1,'estimateztt']]],
@@ -169,7 +169,7 @@ var searchData=
   ['eventcountconsumer_2ecc',['EventCountConsumer.cc',['../EventCountConsumer_8cc.html',1,'']]],
   ['eventcountconsumer_2eh',['EventCountConsumer.h',['../EventCountConsumer_8h.html',1,'']]],
   ['eventtree',['eventTree',['../namespacemakePlots__ZTTtheoryUnc.html#a36567647fa97765d21184da98118cb05',1,'makePlots_ZTTtheoryUnc']]],
-  ['ewk',['EWK',['../classMEtSys.html#afab2b6468da059ee0d9c8471ea7e7018a5c42e7fcbbda18b3b0214e7b3950946c',1,'MEtSys::EWK()'],['../classsamples__ff_1_1Samples.html#a734167af7f0bd1b1e03580d2237f2eff',1,'samples_ff.Samples.ewk()'],['../classsamples__run2__2016_1_1Samples.html#a0c9631b945efeb9bb9924f7540a1bf3f',1,'samples_run2_2016.Samples.ewk()']]],
+  ['ewk',['ewk',['../classsamples__ff_1_1Samples.html#a734167af7f0bd1b1e03580d2237f2eff',1,'samples_ff.Samples.ewk()'],['../classsamples__run2__2016_1_1Samples.html#a0c9631b945efeb9bb9924f7540a1bf3f',1,'samples_run2_2016.Samples.ewk()'],['../classMEtSys.html#afab2b6468da059ee0d9c8471ea7e7018a5c42e7fcbbda18b3b0214e7b3950946c',1,'MEtSys::EWK()']]],
   ['ewkwm_5fstitchingweight',['ewkwm_stitchingweight',['../classsamples__run2__2016_1_1Samples.html#aed07b1ae49f5f1d356d8cbccbb7c2121',1,'samples_run2_2016.Samples.ewkwm_stitchingweight()'],['../classsamples__run2__etaufakerate__2016_1_1Samples.html#a6331c78d172c0e6e1cc25ccda51f61ae',1,'samples_run2_etaufakerate_2016.Samples.ewkwm_stitchingweight()']]],
   ['ewkwp_5fstitchingweight',['ewkwp_stitchingweight',['../classsamples__run2__2016_1_1Samples.html#aab5cacfdd4e13e945ed01c366846b3bb',1,'samples_run2_2016.Samples.ewkwp_stitchingweight()'],['../classsamples__run2__etaufakerate__2016_1_1Samples.html#ae573e333d38c39332a406ce4d22640bb',1,'samples_run2_etaufakerate_2016.Samples.ewkwp_stitchingweight()']]],
   ['ewkz',['ewkz',['../classsamples__run2__2016_1_1Samples.html#a0486846e1b5cfefa13e3e40019298de7',1,'samples_run2_2016.Samples.ewkz()'],['../classsamples__run2__etaufakerate__2016_1_1Samples.html#a77e1c7b206ea74ca04d03a621912ae62',1,'samples_run2_etaufakerate_2016.Samples.ewkz()']]],
@@ -188,6 +188,5 @@ var searchData=
   ['expressionsdict',['ExpressionsDict',['../classexpressions_1_1ExpressionsDict.html',1,'expressions']]],
   ['extra',['extra',['../namespacegc__binning__scan.html#a02b20dba42308f833a5ff03e6b85402d',1,'gc_binning_scan.extra()'],['../namespacegc__makePlots__datacardsSMHtt1.html#a4004c01abb9785a6762d0cc20f71967d',1,'gc_makePlots_datacardsSMHtt1.extra()']]],
   ['extra_5fweights',['extra_weights',['../namespacemakePlots__datacardsTauEsStudies.html#a603272920b08e41680b6b9c24c913a8f',1,'makePlots_datacardsTauEsStudies']]],
-  ['extract_5fshapes',['extract_shapes',['../classdatacards_1_1Datacards.html#aa579d1a02ff5430711d7d8797bc1e7e4',1,'datacards.Datacards.extract_shapes()'],['../classmvadatacards__base_1_1Datacards.html#a30a92f812697f8cdd8b882a76f63be0b',1,'mvadatacards_base.Datacards.extract_shapes()']]],
-  ['extratauquantities',['ExtraTauQuantities',['../namespaceRun2Quantities.html#a22d3fd93b375142e5c255735015d2f0e',1,'Run2Quantities']]]
+  ['extract_5fshapes',['extract_shapes',['../classdatacards_1_1Datacards.html#aa579d1a02ff5430711d7d8797bc1e7e4',1,'datacards.Datacards.extract_shapes()'],['../classmvadatacards__base_1_1Datacards.html#a30a92f812697f8cdd8b882a76f63be0b',1,'mvadatacards_base.Datacards.extract_shapes()']]]
 ];
