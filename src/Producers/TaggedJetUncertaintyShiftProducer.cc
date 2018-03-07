@@ -71,11 +71,8 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			&& settings.GetJetEnergyCorrectionUncertaintyShift() != 0.0
 			&& individualUncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
 		{
-			JetCorrectorParameters const * jetCorPar = new JetCorrectorParameters(uncertaintyFile, uncertainty);
-			jetCorParMap[individualUncertainty] = jetCorPar;
-
-			JetCorrectionUncertainty * jecUnc(new JetCorrectionUncertainty(*jetCorParMap[individualUncertainty]));
-			jetUncMap[individualUncertainty] = jecUnc;
+			JetCorrectorParameters jetCorPar(uncertaintyFile, uncertainty);
+			jetUncMap[individualUncertainty] = new JetCorrectionUncertainty(jetCorPar);
 		}
 
 		// add quantities to event
@@ -150,11 +147,12 @@ void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product
 			{
 				double unc = 0;
 
-				if (std::abs((*jet)->p4.Eta()) < 5.2 && (*jet)->p4.Pt() > 9. && uncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
+				if (std::abs((*jet)->p4.Eta()) < 5.2 && (*jet)->p4.Pt() > 9.0 && uncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
 				{
-					jetUncMap.at(uncertainty)->setJetEta((*jet)->p4.Eta());
-					jetUncMap.at(uncertainty)->setJetPt((*jet)->p4.Pt());
-					unc = jetUncMap.at(uncertainty)->getUncertainty(true);
+					JetCorrectionUncertainty* tmpUncertainty = jetUncMap.at(uncertainty);
+					tmpUncertainty->setJetEta((*jet)->p4.Eta());
+					tmpUncertainty->setJetPt((*jet)->p4.Pt());
+					unc = tmpUncertainty->getUncertainty(true);
 				}
 				closureUncertainty.at(iJet) = closureUncertainty.at(iJet) + unc*unc;
 
@@ -162,7 +160,7 @@ void TaggedJetUncertaintyShiftProducer::Produce(event_type const& event, product
 				{
 					unc = std::sqrt(closureUncertainty.at(iJet));
 				}
-				(*jet)->p4 = (*jet)->p4 * (1 + unc * settings.GetJetEnergyCorrectionUncertaintyShift());
+				(*jet)->p4 = (*jet)->p4 * (1.0 + unc * settings.GetJetEnergyCorrectionUncertaintyShift());
 			}
 			// sort vectors of shifted jets by pt
 			std::sort(copiedJets.begin(), copiedJets.end(),

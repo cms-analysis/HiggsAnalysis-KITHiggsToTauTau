@@ -30,8 +30,7 @@ private:
 	std::vector<std::string> individualUncertainties;
 	std::vector<HttEnumTypes::JetEnergyUncertaintyShiftName> individualUncertaintyEnums;
 
-	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, JetCorrectorParameters const*> jetCorParMap;
-	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, JetCorrectionUncertainty *> jetUncMap;
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, JetCorrectionUncertainty*> jetUncMap;
 
 	KappaEnumTypes::JetIDVersion jetIDVersion;
 	KappaEnumTypes::JetID jetID;
