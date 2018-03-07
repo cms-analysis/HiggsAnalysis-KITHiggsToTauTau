@@ -1,5 +1,12 @@
 var NAVTREEINDEX10 =
 {
+"classsamples__run2__etaufakerate_1_1Samples.html#ab051c32d40840438ff7f2c1040361161":[1,0,133,0,1],
+"classsamples__run2__etaufakerate_1_1Samples.html#ab14bd8c0c7fdc541bbb5801807b9f736":[1,0,133,0,11],
+"classsamples__run2__etaufakerate_1_1Samples.html#ab7a2485db495df4ec6ab9414c9073e02":[1,0,133,0,10],
+"classsamples__run2__etaufakerate_1_1Samples.html#ac21d366b30db633cb363dd88ef1e86e7":[1,0,133,0,2],
+"classsamples__run2__etaufakerate_1_1Samples.html#ac56a9fd9c4f92b94bc6480deb8e8a074":[1,0,133,0,5],
+"classsamples__run2__etaufakerate_1_1Samples.html#ad82cbc0e520cf09561be62b433eeff0b":[1,0,133,0,6],
+"classsamples__run2__etaufakerate__2016_1_1Samples.html":[1,0,134,0],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a080432afda8099c4b2cfca22f84b4f39":[1,0,134,0,0],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a0cb1a9e0873aa1683aeab28f8478bd61":[1,0,134,0,33],
 "classsamples__run2__etaufakerate__2016_1_1Samples.html#a0facf711a465376728f1dee776f4252c":[1,0,134,0,35],
@@ -242,12 +249,5 @@ var NAVTREEINDEX10 =
 "convertEfficienciesToArtusRootInput_8py.html#ab33964ee815064966b4a2b9faf331c64":[2,0,2,3,25],
 "convertEfficienciesToArtusRootInput_8py.html#ab62d654c225052e8f5f191ea5c51e18d":[2,0,2,3,3],
 "convertEfficienciesToArtusRootInput_8py.html#abbc441d087cb6b3e4eef2498d9159ca5":[2,0,2,3,19],
-"convertEfficienciesToArtusRootInput_8py.html#aca232152411e6af51638daa5d8419953":[2,0,2,3,4],
-"convertEfficienciesToArtusRootInput_8py.html#acc5cff3f53e00e530527c0abc6806f36":[2,0,2,3,26],
-"convertEfficienciesToArtusRootInput_8py.html#adaeba35abaf2207b15b3c81c3dc3fb41":[2,0,2,3,22],
-"convertEfficienciesToArtusRootInput_8py.html#adba051e80c7db81500ad864c473de7c7":[2,0,2,3,13],
-"convertEfficienciesToArtusRootInput_8py.html#add7800e3c29181d1753e4121eb45ec9c":[2,0,2,3,14],
-"convertEfficienciesToArtusRootInput_8py.html#add78d8b9de4e9d65153d93248b333452":[2,0,2,3,12],
-"convertEfficienciesToArtusRootInput_8py.html#add842d2c10b2d19f23231abd8767830a":[2,0,2,3,24],
-"convertEfficienciesToArtusRootInput_8py.html#ae85dcefd792e92add6f11ad541abaca8":[2,0,2,3,10]
+"convertEfficienciesToArtusRootInput_8py.html#aca232152411e6af51638daa5d8419953":[2,0,2,3,4]
 };

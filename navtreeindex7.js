@@ -1,5 +1,12 @@
 var NAVTREEINDEX7 =
 {
+"classSvfitResults.html#a94a0917e8fac0662ad460800b77aa71e":[1,0,286,16],
+"classSvfitResults.html#aa0a9d6018105c2c242239e66d0af4a51":[1,0,286,4],
+"classSvfitResults.html#aa2dfd4bb75cdb81445d4a7f12ff13765":[1,0,286,6],
+"classSvfitResults.html#aa81f0fc890b1d57d6e780c195dc8a956":[1,0,286,12],
+"classSvfitResults.html#aacb68d5010cb4ca046f01d846c074fe7":[1,0,286,0],
+"classSvfitResults.html#abc44ddb612f169968a7c53e254d15579":[1,0,286,10],
+"classSvfitResults.html#ad041804809054ef7c2646c60917ba4df":[1,0,286,8],
 "classSvfitResults.html#ad1b5371d1ebf4c5cc04c029f280a46cb":[1,0,286,17],
 "classSvfitResults.html#ad4822dc697bd45db7b7aa76c00ebd8e1":[1,0,286,5],
 "classSvfitResults.html#ad53212bbbb3ed120e696fe36fa4ad215":[1,0,286,13],
@@ -242,12 +249,5 @@ var NAVTREEINDEX7 =
 "classcolors_1_1ColorsDict.html#a541a29a34ba96c65a7d8b24e55aeb249":[1,0,6,0,0],
 "classcphypotheses_1_1CPHypotheses.html":[1,0,19,0],
 "classcphypotheses_1_1CPHypotheses.html#a0bbf2ea74194e7b4c9e233f0b6a57173":[1,0,19,0,0],
-"classcphypotheses_1_1CPHypotheses.html#a9e2ce9c6e3f4ca6b28e4ea8d517d0dff":[1,0,19,0,2],
-"classcphypotheses_1_1CPHypotheses.html#ac04a5c4924e0e789ff6865857aada1c4":[1,0,19,0,3],
-"classcphypotheses_1_1CPHypotheses.html#ac3db4d617ca381e165546056467ff131":[1,0,19,0,1],
-"classcpmodels_1_1CPMixing.html":[1,0,20,0],
-"classcpmodels_1_1CPMixing.html#a287bfc55d9ec79c856a056c50099265a":[1,0,20,0,1],
-"classcpmodels_1_1CPMixing.html#a45418e67f8605e4557ec467c5e067e57":[1,0,20,0,6],
-"classcpmodels_1_1CPMixing.html#a55cfae51943989c4af1f2eb59bddcddb":[1,0,20,0,4],
-"classcpmodels_1_1CPMixing.html#a63d40674bd73062cefe1366b21761194":[1,0,20,0,5]
+"classcphypotheses_1_1CPHypotheses.html#a9e2ce9c6e3f4ca6b28e4ea8d517d0dff":[1,0,19,0,2]
 };

@@ -1,5 +1,12 @@
 var NAVTREEINDEX23 =
 {
+"printLaTeX__BDT_8py.html#a6adc70f5055a668ccc6c1f27823486bc":[2,0,2,85,5],
+"printLaTeX__BDT_8py.html#aeea3aeddc0956ae3f418eaea1f40c76e":[2,0,2,85,3],
+"printLaTeX__BDT_8py.html#af22d9a300527b707f85b067d2a2a1e6a":[2,0,2,85,7],
+"pullvalues_8py.html":[2,0,1,3,2,0,10],
+"pullvalues_8py.html#ab1f7bde7c9b9f25e682373d57d00feed":[2,0,1,3,2,0,10,1],
+"python_2plotting_2higgsplot_8py.html":[2,0,1,3,4],
+"python_2plotting_2higgsplot_8py.html#a7537e8a38be40e108b019db497423162":[2,0,1,3,4,1],
 "read__datacardshapes_8py.html":[2,0,2,86],
 "read__datacardshapes_8py.html#a0a643b680399a3bc2210767f1da84e6e":[2,0,2,86,12],
 "read__datacardshapes_8py.html#a0e4cfe9c02ad84fbac04fd595ae18a9b":[2,0,2,86,7],
@@ -242,12 +249,5 @@ var NAVTREEINDEX23 =
 "svfitCacheTreeMerge_8py.html#a9cd0eb9de248f7eb5e22bf922c9d3363":[2,0,2,95,0],
 "svfitCacheTreeMerge_8py.html#ad0a4c621ba19d402381f02258825cb47":[2,0,2,95,1],
 "systematics__libary_8py.html":[2,0,1,3,0,15],
-"systematics__run1_8py.html":[2,0,1,3,0,16],
-"systematics__run1_8py.html#a49f9b1c8fd4411a233b2cb845d3cd2ad":[2,0,1,3,0,16,4],
-"systematics__run2_8py.html":[2,0,1,3,0,17],
-"systematics__run2_8py.html#ac7accb36b98b2137787d81a66d366492":[2,0,1,3,0,17,48],
-"tauesstudies_8py.html":[2,0,1,3,2,0,12],
-"tauesstudies_8py.html#af18ba07a9f93f69e0d8f26a311f9e5ed":[2,0,1,3,2,0,12,1],
-"taupogdatacards_8py.html":[2,0,1,0,11],
-"taupogdatacards_8py.html#a9d3854ef11ee8e3ed1df49f7717da295":[2,0,1,0,11,1]
+"systematics__run1_8py.html":[2,0,1,3,0,16]
 };

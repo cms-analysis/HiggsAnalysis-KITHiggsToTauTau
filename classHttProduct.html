@@ -318,14 +318,22 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ad122b9b5efd27c7a930acb0c0c06c9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add98b9d1ecc7acd2c77861aa295dea19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttProduct.html#add98b9d1ecc7acd2c77861aa295dea19">m_diGenJetSystemAvailable</a> = false</td></tr>
 <tr class="separator:add98b9d1ecc7acd2c77861aa295dea19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4986b08bb3bcca7645f8816844391bd"><td class="memItemLeft" align="right" valign="top">std::map<br class="typebreak"/>
+<tr class="memitem:a99963313dee21e0083025beaa6e62ea0"><td class="memItemLeft" align="right" valign="top">std::map<br class="typebreak"/>
 &lt; <a class="el" href="classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0">HttEnumTypes::JetEnergyUncertaintyShiftName</a>, <br class="typebreak"/>
-std::vector&lt; KJet &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttProduct.html#ac4986b08bb3bcca7645f8816844391bd">m_correctedJetsBySplitUncertainty</a></td></tr>
-<tr class="separator:ac4986b08bb3bcca7645f8816844391bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecf5e79f1f278393a3becf245e18d19a"><td class="memItemLeft" align="right" valign="top">std::map<br class="typebreak"/>
+std::vector&lt; KJet &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttProduct.html#a99963313dee21e0083025beaa6e62ea0">m_correctedJetsBySplitUncertaintyUp</a></td></tr>
+<tr class="separator:a99963313dee21e0083025beaa6e62ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65d2b26756d2b97a74eddd5e34f93d7b"><td class="memItemLeft" align="right" valign="top">std::map<br class="typebreak"/>
 &lt; <a class="el" href="classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0">HttEnumTypes::JetEnergyUncertaintyShiftName</a>, <br class="typebreak"/>
-std::vector&lt; KJet &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttProduct.html#aecf5e79f1f278393a3becf245e18d19a">m_correctedBTaggedJetsBySplitUncertainty</a></td></tr>
-<tr class="separator:aecf5e79f1f278393a3becf245e18d19a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+std::vector&lt; KJet &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttProduct.html#a65d2b26756d2b97a74eddd5e34f93d7b">m_correctedJetsBySplitUncertaintyDown</a></td></tr>
+<tr class="separator:a65d2b26756d2b97a74eddd5e34f93d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f9855b7475dafa616ffd532e4f114f4"><td class="memItemLeft" align="right" valign="top">std::map<br class="typebreak"/>
+&lt; <a class="el" href="classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0">HttEnumTypes::JetEnergyUncertaintyShiftName</a>, <br class="typebreak"/>
+std::vector&lt; KJet &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttProduct.html#a1f9855b7475dafa616ffd532e4f114f4">m_correctedBTaggedJetsBySplitUncertaintyUp</a></td></tr>
+<tr class="separator:a1f9855b7475dafa616ffd532e4f114f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a368ac97d824e4539925e1e605199a5ab"><td class="memItemLeft" align="right" valign="top">std::map<br class="typebreak"/>
+&lt; <a class="el" href="classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0">HttEnumTypes::JetEnergyUncertaintyShiftName</a>, <br class="typebreak"/>
+std::vector&lt; KJet &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttProduct.html#a368ac97d824e4539925e1e605199a5ab">m_correctedBTaggedJetsBySplitUncertaintyDown</a></td></tr>
+<tr class="separator:a368ac97d824e4539925e1e605199a5ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a262e1f83347405eaad1b7f4324f1ca43"><td class="memItemLeft" align="right" valign="top">KMET *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttProduct.html#a262e1f83347405eaad1b7f4324f1ca43">m_metUncorr</a> = 0</td></tr>
 <tr class="separator:a262e1f83347405eaad1b7f4324f1ca43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa787c5a62f9e8fcff5ba469b877864aa"><td class="memItemLeft" align="right" valign="top">KMET *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHttProduct.html#aa787c5a62f9e8fcff5ba469b877864aa">m_puppiMetUncorr</a> = 0</td></tr>
@@ -856,24 +864,48 @@ bool &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" 
 
 </div>
 </div>
-<a class="anchor" id="aecf5e79f1f278393a3becf245e18d19a"></a>
+<a class="anchor" id="a368ac97d824e4539925e1e605199a5ab"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt;<a class="el" href="classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0">HttEnumTypes::JetEnergyUncertaintyShiftName</a>, std::vector&lt;KJet&gt; &gt; HttProduct::m_correctedBTaggedJetsBySplitUncertainty</td>
+          <td class="memname">std::map&lt;<a class="el" href="classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0">HttEnumTypes::JetEnergyUncertaintyShiftName</a>, std::vector&lt;KJet&gt; &gt; HttProduct::m_correctedBTaggedJetsBySplitUncertaintyDown</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ac4986b08bb3bcca7645f8816844391bd"></a>
+<a class="anchor" id="a1f9855b7475dafa616ffd532e4f114f4"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt;<a class="el" href="classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0">HttEnumTypes::JetEnergyUncertaintyShiftName</a>, std::vector&lt;KJet&gt; &gt; HttProduct::m_correctedJetsBySplitUncertainty</td>
+          <td class="memname">std::map&lt;<a class="el" href="classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0">HttEnumTypes::JetEnergyUncertaintyShiftName</a>, std::vector&lt;KJet&gt; &gt; HttProduct::m_correctedBTaggedJetsBySplitUncertaintyUp</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a65d2b26756d2b97a74eddd5e34f93d7b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;<a class="el" href="classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0">HttEnumTypes::JetEnergyUncertaintyShiftName</a>, std::vector&lt;KJet&gt; &gt; HttProduct::m_correctedJetsBySplitUncertaintyDown</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a99963313dee21e0083025beaa6e62ea0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;<a class="el" href="classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0">HttEnumTypes::JetEnergyUncertaintyShiftName</a>, std::vector&lt;KJet&gt; &gt; HttProduct::m_correctedJetsBySplitUncertaintyUp</td>
         </tr>
       </table>
 </div><div class="memdoc">
