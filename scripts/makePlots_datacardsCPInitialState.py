@@ -755,7 +755,7 @@ if __name__ == "__main__":
 					if ("2D" in category or "3D" in category or "Vbf4D" in category) and not ("WJCR" in category or "QCDCR" in category) and not "qcd_cr" in category and not (channel == "tt" and "ZeroJet2D" in category):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollHistogram")
-						config["unroll_ordering"] = "zyx"
+						config["unroll_ordering"] = "zxy"
 
 					config["directories"] = [args.input_dir]
 
