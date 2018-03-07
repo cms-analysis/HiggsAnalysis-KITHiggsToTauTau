@@ -5,12 +5,6 @@
 			"Run2016|Spring16|Summer16" : true
 		}
 	},
-	"JetEnergyCorrectionSplitUncertaintyParameters" : {
-		"nick" : {
-			"default" : "",
-			"Run2016|Spring16|Summer16" : "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_UncertaintySources_AK4PFchs.txt"
-		}
-	},
 	"AbsJetEnergyCorrectionSplitUncertaintyShift" : {
 		"nick" : {
 			"Run201|Embedding" : 0.0,

@@ -20,7 +20,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
 	
-	uncertaintyFile = settings.GetJetEnergyCorrectionSplitUncertaintyParameters();
+	uncertaintyFile = settings.GetJetEnergyCorrectionUncertaintyParameters();
 	individualUncertainties = settings.GetJetEnergyCorrectionSplitUncertaintyParameterNames();
 
 	// make sure the necessary parameters are configured
