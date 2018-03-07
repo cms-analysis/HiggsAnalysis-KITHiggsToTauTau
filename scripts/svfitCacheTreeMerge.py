@@ -97,7 +97,7 @@ def main():
 		#	get_crab_outputs_args.append([input_dir, "{jobid_start}-{jobid_end}".format(jobid_start=jobid_start, jobid_end=jobid_end)])
 		get_crab_outputs_args.append([input_dir, "1-10"])
 	
-	tar_files = tools.parallelize(_get_crab_outputs, get_crab_outputs_args, 1, description="crab getoutput --dump")
+	tar_files = tools.parallelize(_get_crab_outputs, get_crab_outputs_args, max(args.n_processes, 2), description="crab getoutput --dump")
 	tar_files = tools.flattenList(tar_files)
 	
 	# download and un-tar
