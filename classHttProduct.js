@@ -1,6 +1,5 @@
 var classHttProduct =
 [
-    [ "lfvjetcorr", "classHttProduct.html#a06e9b4f40b62e11472cf7f5f583caaf0", null ],
     [ "m_antiTtbarDiscriminators", "classHttProduct.html#acabaf148b0c74108cceed4250817b299", null ],
     [ "m_boostsToTauRestFrames", "classHttProduct.html#ad47b7fcac7b589b6a4f9a3f8f6816388", null ],
     [ "m_boostToDiTauRestFrame", "classHttProduct.html#ac7288a01a3f35dc7b5ef2d0b4c713cd8", null ],
@@ -193,14 +192,10 @@ var classHttProduct =
     [ "m_polarisationCombinedOmegaBarSvfit", "classHttProduct.html#a76ad97fa61bb687121369e7eefd46836", null ],
     [ "m_polarisationCombinedOmegaSimpleFit", "classHttProduct.html#adf20d7ef58760c4a6ded6a6547315b5c", null ],
     [ "m_polarisationCombinedOmegaSvfit", "classHttProduct.html#a829ebf0e411d8e2ad1410ccff493db0e", null ],
-    [ "m_polarisationCombinedOmegaVisibleSimpleFit", "classHttProduct.html#ad42c90a6bb27b45205badc1c537129cf", null ],
-    [ "m_polarisationCombinedOmegaVisibleSvfit", "classHttProduct.html#af8b9d810dce16e315c481efd64aed646", null ],
     [ "m_polarisationOmegaBarsSimpleFit", "classHttProduct.html#a2c33c1585a230077b24bc0050ccec598", null ],
     [ "m_polarisationOmegaBarsSvfit", "classHttProduct.html#a8eda87274c5559af86ec2fac290f8aad", null ],
     [ "m_polarisationOmegasSimpleFit", "classHttProduct.html#a5d985659a837ce0cd45fd247c8d28827", null ],
     [ "m_polarisationOmegasSvfit", "classHttProduct.html#ad23306a6f236a70a45aed2d285e32750", null ],
-    [ "m_polarisationOmegaVisiblesSimpleFit", "classHttProduct.html#aa60c6f878f0e5b3ae2b87d6e76f3fc92", null ],
-    [ "m_polarisationOmegaVisiblesSvfit", "classHttProduct.html#a90227080833dae918618e2af254720d4", null ],
     [ "m_pScalSum", "classHttProduct.html#a45abb293846b6666a1f790e5958b719d", null ],
     [ "m_ptOrderedGenLeptons", "classHttProduct.html#aeed3fd71b9606c0d2a4d8da8500e510a", null ],
     [ "m_ptOrderedGenLeptonVisibleLVs", "classHttProduct.html#aeea816c374d3c6bc8627b18a82830485", null ],

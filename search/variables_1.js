@@ -16,6 +16,7 @@ var searchData=
   ['background_5funcertainty',['background_uncertainty',['../namespacemakePlots__datacardsPostfitPlots.html#af559e688290c26208c5d1a914dda7185',1,'makePlots_datacardsPostfitPlots']]],
   ['backgrounds',['backgrounds',['../namespacemakePlots__datacardsPostfitPlots.html#a529a89d1c03e438f8510ba31003a54a0',1,'makePlots_datacardsPostfitPlots.backgrounds()'],['../namespacemakePlots__limitInputsPrefitPlots.html#ac1056c672d43e26b44389e0ee62189e0',1,'makePlots_limitInputsPrefitPlots.backgrounds()']]],
   ['backgrounds_5fto_5fmerge',['backgrounds_to_merge',['../namespacemakePlots__datacardsLFVZlt.html#a161ff10484dd3d0e58d17f919f94cf8f',1,'makePlots_datacardsLFVZlt.backgrounds_to_merge()'],['../namespacemakePlots__datacardsSMHtt.html#a00cd9e9e2b5c8051c65167fd625c88e5',1,'makePlots_datacardsSMHtt.backgrounds_to_merge()']]],
+  ['base_5fcopy',['base_copy',['../classtt_1_1tt__ArtusConfig.html#ac8e5f4151e99a42cd6f07e7ebf17d3ae',1,'tt::tt_ArtusConfig']]],
   ['base_5fcuts',['base_cuts',['../namespacemvaCategory__Shifts.html#a50d2856abe674140fedabf29815451b7',1,'mvaCategory_Shifts']]],
   ['base_5fdict',['base_dict',['../namespaceplot__overtraining.html#a2502ced0b4cec55f06ff7bfd2f0b8e98',1,'plot_overtraining']]],
   ['base_5fline',['base_line',['../namespacemakePlots__BdtShiftLimits.html#ae2f2dbee8564881ab9ab9c77a0910f60',1,'makePlots_BdtShiftLimits']]],

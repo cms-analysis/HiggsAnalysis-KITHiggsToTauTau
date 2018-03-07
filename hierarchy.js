@@ -59,7 +59,10 @@ var hierarchy =
     ] ],
     [ "cutstrings.CutStringsDict", "classcutstrings_1_1CutStringsDict.html", null ],
     [ "dict", null, [
-      [ "systematics_run2.SystematicsFactory", "classsystematics__run2_1_1SystematicsFactory.html", null ]
+      [ "baseconfig.Baseconfig", "classbaseconfig_1_1Baseconfig.html", null ],
+      [ "systematics.Systematics_Config", "classsystematics_1_1Systematics__Config.html", null ],
+      [ "systematics_run2.SystematicsFactory", "classsystematics__run2_1_1SystematicsFactory.html", null ],
+      [ "tt.tt_ArtusConfig", "classtt_1_1tt__ArtusConfig.html", null ]
     ] ],
     [ "DiTauPairIsoPtComparator", "classDiTauPairIsoPtComparator.html", null ],
     [ "ElectronCorrectionsProducer", null, [
@@ -208,10 +211,7 @@ var hierarchy =
         [ "systematics_run2.TauESOneProngSystematic", "classsystematics__run2_1_1TauESOneProngSystematic.html", null ],
         [ "systematics_run2.TauEsSystematic", "classsystematics__run2_1_1TauEsSystematic.html", null ],
         [ "systematics_run2.TauESThreeProngSystematic", "classsystematics__run2_1_1TauESThreeProngSystematic.html", null ],
-        [ "systematics_run2.TTBarShapeSystematic", "classsystematics__run2_1_1TTBarShapeSystematic.html", null ],
-        [ "systematics_run2.WJetScaleFactor0JetSystematic", "classsystematics__run2_1_1WJetScaleFactor0JetSystematic.html", null ],
-        [ "systematics_run2.WJetScaleFactorBoostedSystematic", "classsystematics__run2_1_1WJetScaleFactorBoostedSystematic.html", null ],
-        [ "systematics_run2.WJetScaleFactorVbfSystematic", "classsystematics__run2_1_1WJetScaleFactorVbfSystematic.html", null ]
+        [ "systematics_run2.TTBarShapeSystematic", "classsystematics__run2_1_1TTBarShapeSystematic.html", null ]
       ] ],
       [ "tools.PoissonYield", "classtools_1_1PoissonYield.html", null ]
     ] ],
@@ -273,7 +273,6 @@ var hierarchy =
         [ "EleTauFakeRateWeightProducer", "classEleTauFakeRateWeightProducer.html", null ],
         [ "MuonTauFakeRateWeightProducer", "classMuonTauFakeRateWeightProducer.html", null ]
       ] ],
-      [ "LFVJetCorrection2016Producer", "classLFVJetCorrection2016Producer.html", null ],
       [ "MadGraphReweightingProducer", "classMadGraphReweightingProducer.html", null ],
       [ "MELAProducer", "classMELAProducer.html", null ],
       [ "MetCorrectorBase< TMet >", "classMetCorrectorBase.html", null ],

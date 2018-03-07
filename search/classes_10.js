@@ -45,6 +45,7 @@ var searchData=
   ['triggertagandprobeproducerbase_3c_20kmuon_2c_20kmuon_20_3e',['TriggerTagAndProbeProducerBase&lt; KMuon, KMuon &gt;',['../classTriggerTagAndProbeProducerBase.html',1,'']]],
   ['triggertagandprobeproducerbase_3c_20kmuon_2c_20ktau_20_3e',['TriggerTagAndProbeProducerBase&lt; KMuon, KTau &gt;',['../classTriggerTagAndProbeProducerBase.html',1,'']]],
   ['triggerweightproducer',['TriggerWeightProducer',['../classTriggerWeightProducer.html',1,'']]],
+  ['tt_5fartusconfig',['tt_ArtusConfig',['../classtt_1_1tt__ArtusConfig.html',1,'tt']]],
   ['ttbargendecaymodeproducer',['TTbarGenDecayModeProducer',['../classTTbarGenDecayModeProducer.html',1,'']]],
   ['ttbarshapesystematic',['TTBarShapeSystematic',['../classsystematics__run2_1_1TTBarShapeSystematic.html',1,'systematics_run2']]],
   ['tthdecaychannelproducer',['TTHDecayChannelProducer',['../classTTHDecayChannelProducer.html',1,'']]],
