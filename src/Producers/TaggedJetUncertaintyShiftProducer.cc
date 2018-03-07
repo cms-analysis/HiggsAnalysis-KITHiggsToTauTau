@@ -76,10 +76,9 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 		}
 
 		// add quantities to event
-		std::string njetsQuantity = "njetspt30_" + uncertainty;
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, njetsQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "njetspt30_"+uncertainty, [individualUncertainty](event_type const& event, product_type const& product) -> int
 		{
-			int nJetsPt30 = 0;
+			int nJetsPt30 = DefaultValues::UndefinedInt;
 			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
 			{
 				nJetsPt30 = KappaProduct::GetNJetsAbovePtThreshold((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second, 30.0);
@@ -87,33 +86,39 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			return nJetsPt30;
 		});
 
-		std::string mjjQuantity = "mjj_" + uncertainty;
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, mjjQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mjj_"+uncertainty, [individualUncertainty](event_type const& event, product_type const& product) -> float
 		{
 			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
 			{
 				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second;
-				return shiftedJets.size() > 1 ? (shiftedJets.at(0)->p4 + shiftedJets.at(1)->p4).mass() : -11.f;
+				return shiftedJets.size() > 1 ? (shiftedJets.at(0)->p4 + shiftedJets.at(1)->p4).mass() : DefaultValues::UndefinedFloat;
 			}
-			return -11.f;
+			return DefaultValues::UndefinedFloat;
 		});
 
-		std::string jdetaQuantity = "jdeta_" + uncertainty;
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, jdetaQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdeta_"+uncertainty, [individualUncertainty](event_type const& event, product_type const& product)
 		{
-			float jdeta = -1;
 			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
 			{
 				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second;
-				return shiftedJets.size() > 1 ? std::abs(shiftedJets.at(0)->p4.Eta() - shiftedJets.at(1)->p4.Eta()) : -1;
+				return shiftedJets.size() > 1 ? std::abs(shiftedJets.at(0)->p4.Eta() - shiftedJets.at(1)->p4.Eta()) : DefaultValues::UndefinedFloat;
 			}
-			return jdeta;
+			return DefaultValues::UndefinedFloat;
 		});
 
-		std::string nbjetsQuantity = "nbtag_" + uncertainty;
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, nbjetsQuantity, [individualUncertainty](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi_"+uncertainty, [individualUncertainty](event_type const& event, product_type const& product) -> float
 		{
-			int nbtag = 0;
+			if ((product.m_correctedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
+			{
+				std::vector<KJet*> shiftedJets = (product.m_correctedJetsBySplitUncertainty).find(individualUncertainty)->second;
+				return shiftedJets.size() > 1 ? ROOT::Math::VectorUtil::DeltaPhi(shiftedJets.at(0)->p4, shiftedJets.at(1)->p4) * (shiftedJets.at(0)->p4.Eta() > 0.0 ? 1.0 : -1.0) : DefaultValues::UndefinedFloat;
+			}
+			return DefaultValues::UndefinedFloat;
+		});
+
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nbtag_"+uncertainty, [individualUncertainty](event_type const& event, product_type const& product) -> int
+		{
+			int nbtag = DefaultValues::UndefinedInt;
 			if ((product.m_correctedBTaggedJetsBySplitUncertainty).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertainty).end())
 			{
 				nbtag = KappaProduct::GetNJetsAbovePtThreshold((product.m_correctedBTaggedJetsBySplitUncertainty).find(individualUncertainty)->second, 20.0);
