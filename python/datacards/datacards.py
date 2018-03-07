@@ -257,6 +257,9 @@ class Datacards(object):
 
 	@staticmethod
 	def get_yield_unc_rel(histogram_path, root_file, root_object_paths):
+		"""
+		Extracts the data from background estimation methods stored in the metadata TObjString.
+		"""
 		metadata_path = histogram_path+"_metadata"
 		if metadata_path in root_object_paths:
 			metadata = jsonTools.JsonDict(root_file.Get(metadata_path).GetString().Data())
@@ -569,9 +572,9 @@ class Datacards(object):
 
 		return datacards_postfit_shapes
 
-	def prefit_postfit_plots(self, datacards_cbs, datacards_postfit_shapes, plotting_args=None, n_processes=1, signal_stacked_on_bkg=False, *args):
+	def prefit_postfit_plots(self, datacards_cbs, datacards_postfit_shapes, plotting_args=None, n_processes=1, signal_stacked_on_bkg=False, *args, **kwargs):
 		if plotting_args is None:
-			plotting_args = {}
+			plotting_args = {}	
 
 		base_path = reduce(lambda datacard1, datacard2: tools.longest_common_substring(datacard1, datacard2), datacards_cbs.keys())
 
