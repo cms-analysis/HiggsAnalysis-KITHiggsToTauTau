@@ -264,8 +264,14 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 				{
 					validJet = validJet && ROOT::Math::VectorUtil::DeltaR(jet->p4, (*lepton)->p4) > settings.GetJetLeptonLowerDeltaRCut();
 				}
-
-				// apply additional criteria if needed (check ValidTaggedJetsProducer settings)
+				
+				// remove taus from list of jets via simple DeltaR isolation
+				// (targeted at ttH analysis, harmless if m_validTTHTaus is not filled)
+				for (std::vector<KTau*>::const_iterator tau = product.m_validTTHTaus.begin();
+				validJet && tau != product.m_validTTHTaus.end(); ++tau)
+				{
+					validJet = validJet && ROOT::Math::VectorUtil::DeltaR(jet->p4, (*tau)->p4) > settings.GetJetTauLowerDeltaRCut();
+				}
 
 				if (validJet)
 				{
