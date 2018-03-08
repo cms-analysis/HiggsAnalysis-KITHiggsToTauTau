@@ -6,7 +6,9 @@
 
 #include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
 #include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
+
 #include "Artus/KappaAnalysis/interface/Utility/BTagSF.h"
+#include "Artus/KappaAnalysis/interface/Producers/GenParticleMatchingProducers.h"
 
 /**
    \brief Producer for jet energy scale corrections (Htt version).
@@ -42,6 +44,8 @@ private:
 	std::map<std::string, std::vector<std::string> > puJetIdsByHltName;
 	std::map<std::string, std::vector<float> > jetTaggerLowerCutsByTaggerName;
 	std::map<std::string, std::vector<float> > jetTaggerUpperCutsByTaggerName;
+	
+	RecoJetGenParticleMatchingProducer::JetMatchingAlgorithm m_jetMatchingAlgorithm;
 
 	KappaEnumTypes::BTagScaleFactorMethod m_bTagSFMethod;
 	float m_bTagWorkingPoint;

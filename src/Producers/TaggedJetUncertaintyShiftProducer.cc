@@ -74,6 +74,9 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			jetTaggerUpperCutsByTaggerName
 	);
 	
+	// settings used by the RecoJetGenParticleMatchingProducer
+	m_jetMatchingAlgorithm = RecoJetGenParticleMatchingProducer::ToJetMatchingAlgorithm(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetJetMatchingAlgorithm())));
+	
 	for (std::string const& uncertainty : individualUncertainties)
 	{
 		// only do string comparison once per uncertainty
@@ -286,6 +289,16 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 				                                                                            puJetIdsByIndex, puJetIdsByHltName,
 				                                                                            jetTaggerLowerCutsByTaggerName, jetTaggerUpperCutsByTaggerName,
 				                                                                            event, product, settings, metadata);
+				
+				if (validJet)
+				{
+					KGenParticle* matchedParticle = RecoJetGenParticleMatchingProducer::Match(event, product, settings, static_cast<KLV*>(&(*jet)), m_jetMatchingAlgorithm);
+					if (((matchedParticle == nullptr) && settings.GetInvalidateNonGenParticleMatchingRecoJets()) ||
+						((matchedParticle != nullptr) && settings.GetInvalidateGenParticleMatchingRecoJets()))
+					{
+						validJet = false;
+					}
+				}
 				
 				if (validJet)
 				{

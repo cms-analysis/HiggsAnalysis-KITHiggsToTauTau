@@ -34,8 +34,8 @@ bool HttValidTaggedJetsProducer::AdditionalCriteriaStatic(KJet* jet,
 	                                                      std::map<std::string, std::vector<std::string> > const& puJetIdsByHltName,
 	                                                      std::map<std::string, std::vector<float> > const& jetTaggerLowerCutsByTaggerName,
 	                                                      std::map<std::string, std::vector<float> > const& jetTaggerUpperCutsByTaggerName,
-                                                          event_type const& event, product_type& product,
-                                                          setting_type const& settings, metadata_type const& metadata)
+	                                                      event_type const& event, product_type& product,
+	                                                      setting_type const& settings, metadata_type const& metadata)
 {
 	bool validJet = ValidTaggedJetsProducer::AdditionalCriteriaStatic(jet,
 	                                                                  puJetIdsByIndex, puJetIdsByHltName,
