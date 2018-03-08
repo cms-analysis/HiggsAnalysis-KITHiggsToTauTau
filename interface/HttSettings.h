@@ -406,4 +406,11 @@ public:
 	
 	// settting for TopPtReweightingProducer
 	IMPL_SETTING(std::string, TopPtReweightingStrategy)
+	
+	// settting for TaggedJetUncertaintyShiftProducer
+	IMPL_SETTING_DEFAULT(bool, JetEnergyCorrectionSplitUncertainty, false);
+	IMPL_SETTING_DEFAULT(float, AbsJetEnergyCorrectionSplitUncertaintyShift, 0.0f);
+	IMPL_SETTING_STRINGLIST_DEFAULT(JetEnergyCorrectionSplitUncertaintyParameterNames, {});
+	IMPL_SETTING_DEFAULT(std::string, JetEnergyCorrectionSplitUncertaintyParameters, "");
+	IMPL_SETTING_DEFAULT(bool, UseJECShiftsForBJets, false);
 };
