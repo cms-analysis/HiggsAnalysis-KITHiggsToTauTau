@@ -48,13 +48,13 @@ class Systematics_Config(dict):
 		is2016 = re.match("(.*)16", nickname) #I am not 100% sure if this is exclusive	
 		is2017 = re.match("(.*)17", nickname) #I am not 100% sure if this is exclusive		
 		
-		if isData==False or isEmbedding:     #data has no systematics
+		if isData==False or isEmbedding:     #data has no systematic
 			if is2016: 
 				if "eleEsUp" in systematic:
 					self["ElectronEnergyCorrectionShiftEB"] = 1.01
 					self["ElectronEnergyCorrectionShiftEE"] = 1.025
 					self["SvfitCacheFileFolder"] = "eleEsUp"
-				elif "eleEsDown" in systematics :
+				elif "eleEsDown" in systematic :
 					self["ElectronEnergyCorrectionShiftEB"] =  0.99
 					self["ElectronEnergyCorrectionShiftEE"] = 0.975
 					self["SvfitCacheFileFolder"] = "eleEsDown"
@@ -151,7 +151,7 @@ class Systematics_Config(dict):
 				if "tauEsOneProngPiZerosUp" in systematic:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosUp"
-				elif "tauEsOneProngPiZerosDown" in systematics:
+				elif "tauEsOneProngPiZerosDown" in systematic:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosDown"
 
@@ -164,24 +164,24 @@ class Systematics_Config(dict):
 
 
 			elif "Embedding2016" in nickname:
-				if "tauEsUp" in systematics:
+				if "tauEsUp" in systematic:
 					self["TauEnergyCorrectionShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsUp"
-				elif "tauEsDown" in systematics:
+				elif "tauEsDown" in systematic:
 					self["TauEnergyCorrectionShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsDown"
 
-				if "tauEsOneProngUp" in systematics:
+				if "tauEsOneProngUp" in systematic:
 					self["TauEnergyCorrectionOneProngShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
-				elif "tauEsOneProngDown" in systematics:
+				elif "tauEsOneProngDown" in systematic:
 					self["TauEnergyCorrectionOneProngShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"		
 
-				if "tauEsOneProngPiZerosUp" in systematics:
+				if "tauEsOneProngPiZerosUp" in systematic:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosUp"
-				elif "tauEsOneProngPiZerosDown" in systematics:
+				elif "tauEsOneProngPiZerosDown" in systematic:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosDown"
 
@@ -194,24 +194,24 @@ class Systematics_Config(dict):
 			
 
 			elif re.match("Spring16|Summer16", nickname):
-				if "tauEsUp" in systematics:
+				if "tauEsUp" in systematic:
 					self["TauEnergyCorrectionShift"] = 1.012
 					self["SvfitCacheFileFolder"] = "tauEsUp"
-				elif "tauEsDown" in systematics:
+				elif "tauEsDown" in systematic:
 					self["TauEnergyCorrectionShift"] = 0.988
 					self["SvfitCacheFileFolder"] = "tauEsDown"
 
-				if "tauEsOneProngUp" in systematics:
+				if "tauEsOneProngUp" in systematic:
 					self["TauEnergyCorrectionOneProngShift"] = 1.012
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
-				elif "tauEsOneProngDown" in systematics:
+				elif "tauEsOneProngDown" in systematic:
 					self["TauEnergyCorrectionOneProngShift"] = 0.988
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"	
 
-				if "tauEsOneProngPiZerosUp" in systematics:
+				if "tauEsOneProngPiZerosUp" in systematic:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.012
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosUp"
-				elif "tauEsOneProngPiZerosDown" in systematics:
+				elif "tauEsOneProngPiZerosDown" in systematic:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.988
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosDown"
 

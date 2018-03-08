@@ -8,6 +8,7 @@ import re
 import json
 import Artus.Utility.jsonTools as jsonTools
 import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
+import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
@@ -15,11 +16,11 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CP
 class tt_ArtusConfig(dict):
 
 	def __init__(self):
-		self.base_copy = deep.copy(self)
+		self.base_copy = copy.deepcopy(self)
 		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
 			
 
-	def build_config(self, nickname, systematic):                #Maybe change this the arguments to process/year and DATA/MC
+	def build_config(self, nickname):                #Maybe change this the arguments to process/year and DATA/MC
 		isData = self.datasetsHelper.isData(nickname)
 		isSignal = self.datasetsHelper.isSignal(nickname)
 		isEmbedding = self.datasetsHelper.isEmbedded(nickname)
@@ -32,6 +33,8 @@ class tt_ArtusConfig(dict):
 		is2017 = re.match("(.*)17", nickname) #I am not 100% sure if this is exclusive		
 		
 		#Change this json config files as well?
+		if hasattr(self, "include") == False:
+			self["include"] = []
 		self["include"] += ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json", 
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",
@@ -74,12 +77,12 @@ class tt_ArtusConfig(dict):
 		self["InvalidateNonMatchingMuons"] = False
 		self["InvalidateNonMatchingTaus"] = True
 		self["InvalidateNonMatchingJets"] = False
-		self["UseUWGenMatching"] = "true"                   #TODO change this to boolean? or change the rest to string?
+		self["UseUWGenMatching"] = True                   #TODO change this to boolean? or change the rest to string?
 		self["DirectIso"] = True
 		self["TopPtReweightingStrategy"] = "Run1"
 
 
-		self["NoHltFiltering"]=False
+		self["NoHltFiltering"]= False
 		self["DiTauPairNoHLT"]= True		
 
 		self["OSChargeLeptons"] = True
