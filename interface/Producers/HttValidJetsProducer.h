@@ -24,11 +24,14 @@ public:
 	typedef typename HttTypes::setting_type spec_setting_type;
 	typedef typename HttTypes::metadata_type spec_metadata_type;
 
+	static bool AdditionalCriteriaStatic(KBasicJet* jet, event_type const& event, product_type& product,
+	                                     setting_type const& settings, metadata_type const& metadata);
+
 protected:
 
 	// Htautau specific additional definitions
-	virtual bool AdditionalCriteria(KBasicJet* jet, event_type const& event,
-	                                product_type& product, setting_type const& settings, metadata_type const& metadata) const  override;
+	virtual bool AdditionalCriteria(KBasicJet* jet, event_type const& event, product_type& product,
+	                                setting_type const& settings, metadata_type const& metadata) const override;
 
 };
 
@@ -52,10 +55,18 @@ public:
 	typedef typename HttTypes::setting_type spec_setting_type;
 	typedef typename HttTypes::metadata_type spec_metadata_type;
 
+	static bool AdditionalCriteriaStatic(KJet* jet,
+	                                     std::map<size_t, std::vector<std::string> > const& puJetIdsByIndex,
+	                                     std::map<std::string, std::vector<std::string> > const& puJetIdsByHltName,
+	                                     std::map<std::string, std::vector<float> > const& jetTaggerLowerCutsByTaggerName,
+	                                     std::map<std::string, std::vector<float> > const& jetTaggerUpperCutsByTaggerName,
+	                                     event_type const& event, product_type& product,
+	                                     setting_type const& settings, metadata_type const& metadata);
+
 protected:
 
 	// Htautau specific additional definitions
-	virtual bool AdditionalCriteria(KJet* jet, event_type const& event,
-	                                product_type& product, setting_type const& settings, metadata_type const& metadata) const  override;
+	virtual bool AdditionalCriteria(KJet* jet, event_type const& event, product_type& product,
+	                                setting_type const& settings, metadata_type const& metadata) const override;
 
 };
