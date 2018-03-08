@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['fakefactorquantities',['fakeFactorQuantities',['../namespaceRun2Quantities.html#ae71019213e442bc43cea0b563df10f5d',1,'Run2Quantities']]],
   ['ff',['ff',['../classsamples__run2__2016_1_1Samples.html#acf3fc5702f212eb7fdefdec066b28ea6',1,'samples_run2_2016::Samples']]],
   ['file_5fwrapper',['file_wrapper',['../namespaceAddMVATrainingToTrees.html#a1a3183ae5bea38ad665784e4bd5e6ec7',1,'AddMVATrainingToTrees']]],
   ['files_5fbbh',['files_bbh',['../classsamples__run2__2015_1_1Samples.html#a3fd896625a2ab28252ce2a8595d2bad8',1,'samples_run2_2015.Samples.files_bbh()'],['../classsamples__run2__2016_1_1Samples.html#a49e54641415148da9767d5b4357acc3e',1,'samples_run2_2016.Samples.files_bbh()']]],
@@ -38,6 +39,7 @@ var searchData=
   ['fitfunction',['FitFunction',['../classTauESVfitQuantity.html#a6eb4d1ec1a95938a2bf038cb137cac94',1,'TauESVfitQuantity::FitFunction()'],['../classTauERatioSVfitQuantity.html#a48e2918f090e27418f90f683a0f4c9db',1,'TauERatioSVfitQuantity::FitFunction()'],['../classTauPtSVfitQuantity.html#a5227419cdf4277840c130c2557067de2',1,'TauPtSVfitQuantity::FitFunction()'],['../classTauEtaSVfitQuantity.html#a4504c53a6e351cabadfc3c219bbe84c5',1,'TauEtaSVfitQuantity::FitFunction()'],['../classTauPhiSVfitQuantity.html#ae5319b4e4398ea95ff0ea723c70ce914',1,'TauPhiSVfitQuantity::FitFunction()']]],
   ['format_5fnumber',['format_number',['../namespaceprintLaTeX__BDT.html#a1caab1bac4525b87af21e68ad512b825',1,'printLaTeX_BDT']]],
   ['format_5fpurity',['format_purity',['../namespaceprintLaTeX__BDT.html#a21f90b0861e58aab994babbd1c46730d',1,'printLaTeX_BDT']]],
+  ['fourvectorquantities',['fourVectorQuantities',['../namespaceRun2Quantities.html#ae5fa273d6ba0ce9dbe93f4ae073e1bf6',1,'Run2Quantities']]],
   ['frombintovalue',['fromBintoValue',['../classcutOptimizer_1_1CutOptimizer.html#ab9f344ac23f8b91d72a81945f2c892c7',1,'cutOptimizer::CutOptimizer']]],
   ['fromcache',['FromCache',['../classSvfitResults.html#aa2dfd4bb75cdb81445d4a7f12ff13765',1,'SvfitResults']]],
   ['fromrecalculation',['FromRecalculation',['../classSvfitResults.html#a57b084ba9986fcfe3709ae0f28c0d418',1,'SvfitResults']]]
