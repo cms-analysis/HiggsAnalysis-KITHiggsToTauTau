@@ -6,6 +6,11 @@
 				"default" : 1.0
 			}
 		},
+		"JetEnergyCorrectionSplitUncertainty" : {
+			"nick" : {
+				"default" : false
+			}
+		},
 		"AbsJetEnergyCorrectionSplitUncertaintyShift" : {
 			"nick" : {
 				"default" : 0.0
@@ -18,6 +23,11 @@
 			"nick" : {
 				"Run201|Embedding" : 0.0,
 				"default" : -1.0
+			}
+		},
+		"JetEnergyCorrectionSplitUncertainty" : {
+			"nick" : {
+				"default" : false
 			}
 		},
 		"AbsJetEnergyCorrectionSplitUncertaintyShift" : {

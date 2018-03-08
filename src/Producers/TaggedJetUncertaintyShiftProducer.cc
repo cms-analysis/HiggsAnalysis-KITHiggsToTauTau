@@ -243,8 +243,10 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 				{
 					unc = std::sqrt(closureUncertainty.at(iJet));
 				}
+				
 				jet->p4 = jet->p4 * (1.0 + (shiftUp ? 1.0 : -1.0) * unc * settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift());
 			}
+			
 			// sort vectors of shifted jets by pt
 			std::sort(copiedJets.begin(), copiedJets.end(),
 					  [](KJet const& jet1, KJet const& jet2) -> bool
