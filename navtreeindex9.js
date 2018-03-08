@@ -1,5 +1,13 @@
 var NAVTREEINDEX9 =
 {
+"classmvadatacards_1_1MVADatacards.html":[1,0,112,0],
+"classmvadatacards_1_1MVADatacards.html#a6dbd9ca28aa0b8695a0f6c4958539b3f":[1,0,112,0,0],
+"classmvadatacards__base_1_1Datacards.html":[1,0,113,0],
+"classmvadatacards__base_1_1Datacards.html#a04c4986c9fb1b1d9eec54187081b83ea":[1,0,113,0,27],
+"classmvadatacards__base_1_1Datacards.html#a077d30a86f2eea8c92a6e8833b205940":[1,0,113,0,16],
+"classmvadatacards__base_1_1Datacards.html#a0eb275ad521d22994150643e47847bb6":[1,0,113,0,42],
+"classmvadatacards__base_1_1Datacards.html#a17a533ee20208735c602fdaa4eb86220":[1,0,113,0,33],
+"classmvadatacards__base_1_1Datacards.html#a1dd2ae1ab491a15028de8fa18a1300b1":[1,0,113,0,43],
 "classmvadatacards__base_1_1Datacards.html#a20ee291853aedc383be96f8645a3ac8c":[1,0,113,0,36],
 "classmvadatacards__base_1_1Datacards.html#a27a2fe2c99fbdbb070556b7d0b412b70":[1,0,113,0,11],
 "classmvadatacards__base_1_1Datacards.html#a2acf9f9688cc14e6cc41010376ccca30":[1,0,113,0,32],
@@ -241,13 +249,5 @@ var NAVTREEINDEX9 =
 "classsamples__run2__embedding__selection_1_1Samples.html#aab904ca5c719556e8374b144a654de4b":[1,0,132,0,1],
 "classsamples__run2__embedding__selection_1_1Samples.html#ab517b739e69acbbe286acec3ba59979d":[1,0,132,0,8],
 "classsamples__run2__embedding__selection_1_1Samples.html#adc0a8b59ecffe4e467053410b29c0e96":[1,0,132,0,6],
-"classsamples__run2__embedding__selection_1_1Samples.html#ae47473fee7699621b853ac870b8c0dec":[1,0,132,0,7],
-"classsamples__run2__embedding__selection_1_1Samples.html#aec3977977fdb894e5d44baabca1e5d36":[1,0,132,0,9],
-"classsamples__run2__etaufakerate_1_1Samples.html":[1,0,133,0],
-"classsamples__run2__etaufakerate_1_1Samples.html#a06618143c8f317937e515ed0b85af194":[1,0,133,0,4],
-"classsamples__run2__etaufakerate_1_1Samples.html#a1eec9173a2723e32a7078766b1098677":[1,0,133,0,8],
-"classsamples__run2__etaufakerate_1_1Samples.html#a1f5b205306bccf24c572134c73caad6b":[1,0,133,0,9],
-"classsamples__run2__etaufakerate_1_1Samples.html#a289efac30b8c8fd5b1ea5ce2c7caa9aa":[1,0,133,0,7],
-"classsamples__run2__etaufakerate_1_1Samples.html#a6bbd92fdf29e70a80026ae9fafc29bd0":[1,0,133,0,0],
-"classsamples__run2__etaufakerate_1_1Samples.html#a766af2265554db3aa12a4ede10df7178":[1,0,133,0,3]
+"classsamples__run2__embedding__selection_1_1Samples.html#ae47473fee7699621b853ac870b8c0dec":[1,0,132,0,7]
 };

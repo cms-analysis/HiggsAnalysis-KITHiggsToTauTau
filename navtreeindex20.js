@@ -1,5 +1,14 @@
 var NAVTREEINDEX20 =
 {
+"makePlots__syncPlots_8py.html#a36b2562282c7fefc003723279df177aa":[2,0,2,68,2],
+"makePlots__syncPlots_8py.html#a3eea5c85e24d261f5caa83c57d57334a":[2,0,2,68,11],
+"makePlots__syncPlots_8py.html#a5f85d26827c1abf7250fc406bf56285d":[2,0,2,68,16],
+"makePlots__syncPlots_8py.html#a63c9399b19b4433c11a3890b2c82af24":[2,0,2,68,12],
+"makePlots__syncPlots_8py.html#a803660b6e48f453c1541393b7a4e8559":[2,0,2,68,10],
+"makePlots__syncPlots_8py.html#a87302ee125f7653eae32b9ec030aac06":[2,0,2,68,15],
+"makePlots__syncPlots_8py.html#a8acb30d659e587704128e840f86c7dd9":[2,0,2,68,8],
+"makePlots__syncPlots_8py.html#a8c205f0ab11cf242c881bd6c555d5b99":[2,0,2,68,3],
+"makePlots__syncPlots_8py.html#a962af31f64817591ab87a2fbd36c5c52":[2,0,2,68,6],
 "makePlots__syncPlots_8py.html#a9ded81da1913839884b34bedb54d8c90":[2,0,2,68,17],
 "makePlots__syncPlots_8py.html#aab712cd1a1f812eb290455f50e649a3c":[2,0,2,68,1],
 "makePlots__syncPlots_8py.html#ac2dc43fd093fe790486f8fc82e9114f7":[2,0,2,68,13],
@@ -240,14 +249,5 @@ var NAVTREEINDEX20 =
 "nFold__DiffScan_8py.html#acde54746b3b6b26b7f697a7104e427e7":[2,0,2,79,8],
 "nFold__DiffScan_8py.html#ae751ba6db681100f4695b860a6f2b7b7":[2,0,2,79,11],
 "nFold__DiffScan_8py.html#ae9e17f6ded254e192e6837947fea8be0":[2,0,2,79,13],
-"namespaceAddMVATrainingToTrees.html":[0,0,0],
-"namespaceAddMVATrainingToTrees.html":[1,0,0],
-"namespaceAddMVATrainingToTrees__Wrapper.html":[1,0,1],
-"namespaceAddMVATrainingToTrees__Wrapper.html":[0,0,1],
-"namespaceConfigMaster.html":[0,0,7],
-"namespaceConfigMaster.html":[1,0,7],
-"namespaceGetFocussedTrainingCut.html":[1,0,42],
-"namespaceGetFocussedTrainingCut.html":[0,0,42],
-"namespaceHiggsToTauTauAnalysis.html":[0,0,47],
-"namespaceHiggsToTauTauAnalysis.html":[1,0,47]
+"namespaceAddMVATrainingToTrees.html":[0,0,0]
 };
