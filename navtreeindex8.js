@@ -1,16 +1,5 @@
 var NAVTREEINDEX8 =
 {
-"classcategories_1_1CategoriesDict.html#ab8c6d08e27089c2ad71d4491a69e8ede":[1,0,4,0,11],
-"classcategories_1_1CategoriesDict.html#ac3173b49569cb6af4560215966c860e4":[1,0,4,0,2],
-"classcategories_1_1CategoriesDict.html#ad4c04a6ae9a48782b320c56c84970086":[1,0,4,0,12],
-"classcategories_1_1CategoriesDict.html#ad7f876bc6988af7c18668f5e35c86ea6":[1,0,4,0,5],
-"classcategories_1_1CategoriesDict.html#adb94872ba9d571f13b1be2e8538789e5":[1,0,4,0,1],
-"classcategories_1_1CategoriesDict.html#af2581617b5c6732e2992bd2372d9e2ce":[1,0,4,0,0],
-"classcolors_1_1ColorsDict.html":[1,0,6,0],
-"classcolors_1_1ColorsDict.html#a541a29a34ba96c65a7d8b24e55aeb249":[1,0,6,0,0],
-"classcphypotheses_1_1CPHypotheses.html":[1,0,19,0],
-"classcphypotheses_1_1CPHypotheses.html#a0bbf2ea74194e7b4c9e233f0b6a57173":[1,0,19,0,0],
-"classcphypotheses_1_1CPHypotheses.html#a9e2ce9c6e3f4ca6b28e4ea8d517d0dff":[1,0,19,0,2],
 "classcphypotheses_1_1CPHypotheses.html#ac04a5c4924e0e789ff6865857aada1c4":[1,0,19,0,3],
 "classcphypotheses_1_1CPHypotheses.html#ac3db4d617ca381e165546056467ff131":[1,0,19,0,1],
 "classcpmodels_1_1CPMixing.html":[1,0,20,0],
@@ -249,5 +238,16 @@ var NAVTREEINDEX8 =
 "classlabels_1_1LabelsDict.html#a2423d736fc9b13e28803ceffa967f77c":[1,0,52,0,0],
 "classlfvdatacards_1_1LFVDatacards.html":[1,0,54,0],
 "classlfvdatacards_1_1LFVDatacards.html#a8d066961358efd5ae40c14d33b9bcf7b":[1,0,54,0,0],
-"classlfvzltdatacards_1_1LFVZltDatacards.html":[1,0,55,0]
+"classlfvzltdatacards_1_1LFVZltDatacards.html":[1,0,55,0],
+"classlfvzltdatacards_1_1LFVZltDatacards.html#a8f0345a099160d846da250b585a16a64":[1,0,55,0,0],
+"classlfvzltdatacards_1_1LFVZltDatacardsForSync.html":[1,0,55,1],
+"classlfvzltdatacards_1_1LFVZltDatacardsForSync.html#aba3ab9bc1bf811ec55c4d260fe2640dc":[1,0,55,1,0],
+"classmvadatacards_1_1MVADatacards.html":[1,0,112,0],
+"classmvadatacards_1_1MVADatacards.html#a6dbd9ca28aa0b8695a0f6c4958539b3f":[1,0,112,0,0],
+"classmvadatacards__base_1_1Datacards.html":[1,0,113,0],
+"classmvadatacards__base_1_1Datacards.html#a04c4986c9fb1b1d9eec54187081b83ea":[1,0,113,0,27],
+"classmvadatacards__base_1_1Datacards.html#a077d30a86f2eea8c92a6e8833b205940":[1,0,113,0,16],
+"classmvadatacards__base_1_1Datacards.html#a0eb275ad521d22994150643e47847bb6":[1,0,113,0,42],
+"classmvadatacards__base_1_1Datacards.html#a17a533ee20208735c602fdaa4eb86220":[1,0,113,0,33],
+"classmvadatacards__base_1_1Datacards.html#a1dd2ae1ab491a15028de8fa18a1300b1":[1,0,113,0,43]
 };
