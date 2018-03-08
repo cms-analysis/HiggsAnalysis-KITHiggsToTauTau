@@ -543,10 +543,11 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_CP_boosted_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_boosted_jdphi"] = "12,-3.2,3.2"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_jdphi"] = "12,-3.2,3.2"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_dcp_star"] = "12,-1.0,1.0"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_jdphi"] = "12,-3.2,3.2"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_dcp_star"] = "12,-1.0,1.0"
-			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_m_sv"] = "0.0 80.0 100.0 115.0 130.0 150.0"
-			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_m_sv"] = "0.0 80.0 100.0 115.0 130.0 150.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_m_sv"] = "0.0 80.0 100.0 115.0 130.0 150.0 10000.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_m_sv"] = "0.0 80.0 100.0 115.0 130.0 150.0 10000.0"
 			self.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_m_sv"] = "0.0 250.0"
 			self.binnings_dict["binningHtt13TeV_tt_dijet_lowboost_qcd_cr_m_sv"] = "0.0 250.0"
 			self.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_jdphi"] = "-3.2 3.2"
@@ -592,6 +593,4 @@ class BinningsDict(binnings.BinningsDict):
 		
 		import Artus.Utility.jsonTools as jsonTools
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.categories as Categories
-		categoriesUpdate = Categories.CategoriesDict().getBinningsDict()
-		self.binnings_dict.update(categoriesUpdate)
-		#Categories.CategoriesDict().pp.pprint(self.binnings_dict)
+		categoriesUpdate = Categories.CategoriesDict().getBinningsDict
