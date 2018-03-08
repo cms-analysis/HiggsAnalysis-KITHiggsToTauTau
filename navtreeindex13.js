@@ -1,9 +1,5 @@
 var NAVTREEINDEX13 =
 {
-"functions_vars_r.html":[1,2,2,17],
-"functions_vars_s.html":[1,2,2,18],
-"functions_vars_t.html":[1,2,2,19],
-"functions_vars_u.html":[1,2,2,20],
 "functions_vars_v.html":[1,2,2,21],
 "functions_vars_w.html":[1,2,2,22],
 "functions_vars_x.html":[1,2,2,23],
@@ -249,5 +245,9 @@ var NAVTREEINDEX13 =
 "makePlots__PolSelEfficiency_8py.html#ad97213b5fc9d152d56a97f09ae2ca88f":[2,0,2,62,34],
 "makePlots__PolSelEfficiency_8py.html#ae1713f3168859b9eb04dce823b71ad06":[2,0,2,62,33],
 "makePlots__PolSelEfficiency_8py.html#ae9b43a9f043e44bf16595b85478827a6":[2,0,2,62,5],
-"makePlots__PolSelEfficiency_8py.html#aec5f4352699a96c06a469925fbc0a85b":[2,0,2,62,36]
+"makePlots__PolSelEfficiency_8py.html#aec5f4352699a96c06a469925fbc0a85b":[2,0,2,62,36],
+"makePlots__PolSelEfficiency_8py.html#aeeb6425f38ba8fc4e0c9c1131622720b":[2,0,2,62,6],
+"makePlots__ZTTtheoryUnc_8py.html":[2,0,2,75],
+"makePlots__ZTTtheoryUnc_8py.html#a06badc41c20a8106ca326cdd27dd0b67":[2,0,2,75,21],
+"makePlots__ZTTtheoryUnc_8py.html#a06c4211146f2c4dfa88476fad3777cac":[2,0,2,75,22]
 };

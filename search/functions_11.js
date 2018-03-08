@@ -34,7 +34,7 @@ var searchData=
   ['svfitinputs',['SvfitInputs',['../classSvfitInputs.html#a358e4bb19752369a54877771ce45f792',1,'SvfitInputs::SvfitInputs()'],['../classSvfitInputs.html#afbb6423555048414bff9241ae4cd54db',1,'SvfitInputs::SvfitInputs(RMFLV const &amp;leptonMomentum1, RMFLV const &amp;leptonMomentum2, RMDataV const &amp;metMomentum, RMSM2x2 const &amp;metCovariance)']]],
   ['svfitm125producer',['SvfitM125Producer',['../classSvfitM125Producer.html#a07003fbee3993fe6f3a479de44df9237',1,'SvfitM125Producer']]],
   ['svfitm91producer',['SvfitM91Producer',['../classSvfitM91Producer.html#a9b50dbf740c3ad74353b77be5ea68631',1,'SvfitM91Producer']]],
-  ['svfitproducer',['SvfitProducer',['../classSvfitProducer.html#a9f0284ba41b4de5037d7d70d05d92b99',1,'SvfitProducer']]],
+  ['svfitproducer',['SvfitProducer',['../classSvfitProducer.html#a0108367be394f71554acc5613aecd3d1',1,'SvfitProducer']]],
   ['svfitresults',['SvfitResults',['../classSvfitResults.html#aacb68d5010cb4ca046f01d846c074fe7',1,'SvfitResults::SvfitResults()'],['../classSvfitResults.html#a8331554fc6ab67e2a2856c61f8b2286a',1,'SvfitResults::SvfitResults(double fittedTransverseMass, RMFLV const &amp;fittedHiggsLV, float fittedTau1ERatio, RMFLV const &amp;fittedTau1LV, float fittedTau2ERatio, RMFLV const &amp;fittedTau2LV)'],['../classSvfitResults.html#aaba068409d3add0da88e9ec02124e4cc',1,'SvfitResults::SvfitResults(ClassicSVfit const &amp;svfitAlgorithm)']]],
   ['svfittools',['SvfitTools',['../classSvfitTools.html#a3ee4e5c67da74ca1da44be0be5e23105',1,'SvfitTools']]]
 ];

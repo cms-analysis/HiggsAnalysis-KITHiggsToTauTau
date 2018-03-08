@@ -1,9 +1,5 @@
 var NAVTREEINDEX8 =
 {
-"classcategories_1_1CategoriesDict.html#a754d536f3b05173d17fa1beedbcb2ba3":[1,0,4,0,6],
-"classcategories_1_1CategoriesDict.html#a823c80de9dade99d5b11a92f7c9ae656":[1,0,4,0,3],
-"classcategories_1_1CategoriesDict.html#a9d248b3c2ff1f2bb321fa701ec1a9c12":[1,0,4,0,7],
-"classcategories_1_1CategoriesDict.html#aa50a5412c786f4fb98c69e33c77c90b4":[1,0,4,0,9],
 "classcategories_1_1CategoriesDict.html#ab8c6d08e27089c2ad71d4491a69e8ede":[1,0,4,0,11],
 "classcategories_1_1CategoriesDict.html#ac3173b49569cb6af4560215966c860e4":[1,0,4,0,2],
 "classcategories_1_1CategoriesDict.html#ad4c04a6ae9a48782b320c56c84970086":[1,0,4,0,12],
@@ -249,5 +245,9 @@ var NAVTREEINDEX8 =
 "classinputroothtt_1_1InputRootHtt.html#a895443a324560d68352d79250cd34fed":[1,0,50,0,0],
 "classinputroothtt_1_1InputRootHtt.html#a91da2d06e68451fce1c6e1058f057559":[1,0,50,0,3],
 "classinputroothtt_1_1InputRootHtt.html#abacba750c6107be316eab8a0658e390d":[1,0,50,0,1],
-"classlabels_1_1LabelsDict.html":[1,0,52,0]
+"classlabels_1_1LabelsDict.html":[1,0,52,0],
+"classlabels_1_1LabelsDict.html#a2423d736fc9b13e28803ceffa967f77c":[1,0,52,0,0],
+"classlfvdatacards_1_1LFVDatacards.html":[1,0,54,0],
+"classlfvdatacards_1_1LFVDatacards.html#a8d066961358efd5ae40c14d33b9bcf7b":[1,0,54,0,0],
+"classlfvzltdatacards_1_1LFVZltDatacards.html":[1,0,55,0]
 };

@@ -1,9 +1,5 @@
 var NAVTREEINDEX24 =
 {
-"submitCrabSvfitJobs_8py.html#a0ecb9f4bc7e70b5472d247e6cb0e2e6d":[2,0,2,94,3],
-"submitCrabSvfitJobs_8py.html#a3cef9e272549cd10c81585a5b263f794":[2,0,2,94,9],
-"submitCrabSvfitJobs_8py.html#a3e3cf6dfd0375311a582e3fa5d2a6d36":[2,0,2,94,0],
-"submitCrabSvfitJobs_8py.html#a4f9dc7f49872493cb911dcae9a8aaedb":[2,0,2,94,8],
 "submitCrabSvfitJobs_8py.html#a55e931ca155e07f029e583a88b5cd969":[2,0,2,94,5],
 "submitCrabSvfitJobs_8py.html#a5c2a29c0062e5326a302351bf7bd4bfe":[2,0,2,94,2],
 "submitCrabSvfitJobs_8py.html#a647a4f72d5dd3f2c97626ced970b8fd0":[2,0,2,94,1],

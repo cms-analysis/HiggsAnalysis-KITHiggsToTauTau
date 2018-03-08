@@ -1,9 +1,5 @@
 var NAVTREEINDEX11 =
 {
-"convertEfficienciesToArtusRootInput_8py.html#a367541ada5d53f1a9d756c32be0e47e1":[2,0,2,3,18],
-"convertEfficienciesToArtusRootInput_8py.html#a669a7ba0e9a9ca58fb33267513e166fa":[2,0,2,3,21],
-"convertEfficienciesToArtusRootInput_8py.html#a68eea2b5d1c595ff18a4bf6342ac122c":[2,0,2,3,28],
-"convertEfficienciesToArtusRootInput_8py.html#a6a978003ee3338f4452d20315c63d23d":[2,0,2,3,2],
 "convertEfficienciesToArtusRootInput_8py.html#a6aabfd03611f784aa863836c1f2b7888":[2,0,2,3,17],
 "convertEfficienciesToArtusRootInput_8py.html#a7292b26bd904535624fec88f9cef2fde":[2,0,2,3,23],
 "convertEfficienciesToArtusRootInput_8py.html#a7353dbc7e9b000def6262bcae978c7fb":[2,0,2,3,15],
@@ -249,5 +245,9 @@ var NAVTREEINDEX11 =
 "datacardconfigs_8py.html":[2,0,1,0,2],
 "datacardconfigs_8py.html#a284ad30bffeaa50dc2e420339a4eb6da":[2,0,1,0,2,1],
 "datacards_8py.html":[2,0,1,0,3],
-"datacards_8py.html#a216be1c11813aa185cdd3ca86d6412a1":[2,0,1,0,3,1]
+"datacards_8py.html#a216be1c11813aa185cdd3ca86d6412a1":[2,0,1,0,3,1],
+"datacards_8py.html#a50416f712e08945b45853d4d21414a67":[2,0,1,0,3,2],
+"deleteFolderdCache_8py.html":[2,0,2,16],
+"deleteFolderdCache_8py.html#aa174bb1e2e2b041cfa833a79f63ec12b":[2,0,2,16,0],
+"deleteFolderdCache_8py.html#ae89eac15081c7392f7e0f4681f7ae4ce":[2,0,2,16,1]
 };

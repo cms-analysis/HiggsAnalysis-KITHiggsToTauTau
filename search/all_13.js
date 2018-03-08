@@ -204,7 +204,7 @@ var searchData=
   ['svfitm125producer',['SvfitM125Producer',['../classSvfitM125Producer.html',1,'SvfitM125Producer'],['../classSvfitM125Producer.html#a07003fbee3993fe6f3a479de44df9237',1,'SvfitM125Producer::SvfitM125Producer()']]],
   ['svfitm91producer',['SvfitM91Producer',['../classSvfitM91Producer.html',1,'SvfitM91Producer'],['../classSvfitM91Producer.html#a9b50dbf740c3ad74353b77be5ea68631',1,'SvfitM91Producer::SvfitM91Producer()']]],
   ['svfitmasssystematic',['SvfitMassSystematic',['../classsystematics__run1_1_1SvfitMassSystematic.html',1,'systematics_run1']]],
-  ['svfitproducer',['SvfitProducer',['../classSvfitProducer.html',1,'SvfitProducer'],['../classSvfitProducer.html#a9f0284ba41b4de5037d7d70d05d92b99',1,'SvfitProducer::SvfitProducer()']]],
+  ['svfitproducer',['SvfitProducer',['../classSvfitProducer.html',1,'SvfitProducer'],['../classSvfitProducer.html#a0108367be394f71554acc5613aecd3d1',1,'SvfitProducer::SvfitProducer()']]],
   ['svfitproducers_2ecc',['SvfitProducers.cc',['../SvfitProducers_8cc.html',1,'']]],
   ['svfitproducers_2eh',['SvfitProducers.h',['../SvfitProducers_8h.html',1,'']]],
   ['svfitresults',['SvfitResults',['../classSvfitResults.html',1,'SvfitResults'],['../classSvfitResults.html#aacb68d5010cb4ca046f01d846c074fe7',1,'SvfitResults::SvfitResults()'],['../classSvfitResults.html#a8331554fc6ab67e2a2856c61f8b2286a',1,'SvfitResults::SvfitResults(double fittedTransverseMass, RMFLV const &amp;fittedHiggsLV, float fittedTau1ERatio, RMFLV const &amp;fittedTau1LV, float fittedTau2ERatio, RMFLV const &amp;fittedTau2LV)'],['../classSvfitResults.html#aaba068409d3add0da88e9ec02124e4cc',1,'SvfitResults::SvfitResults(ClassicSVfit const &amp;svfitAlgorithm)']]],
