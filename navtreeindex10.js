@@ -1,5 +1,12 @@
 var NAVTREEINDEX10 =
 {
+"classsamples__run2__embedding__selection_1_1Samples.html#a7ae00b317d95a701957e77cee99b8d41":[1,0,132,0,5],
+"classsamples__run2__embedding__selection_1_1Samples.html#a7e1e7bc87fd8a0cef592a9eb9891cf07":[1,0,132,0,0],
+"classsamples__run2__embedding__selection_1_1Samples.html#a935d2b64e962b53daa4f060a847e3546":[1,0,132,0,3],
+"classsamples__run2__embedding__selection_1_1Samples.html#aab904ca5c719556e8374b144a654de4b":[1,0,132,0,1],
+"classsamples__run2__embedding__selection_1_1Samples.html#ab517b739e69acbbe286acec3ba59979d":[1,0,132,0,8],
+"classsamples__run2__embedding__selection_1_1Samples.html#adc0a8b59ecffe4e467053410b29c0e96":[1,0,132,0,6],
+"classsamples__run2__embedding__selection_1_1Samples.html#ae47473fee7699621b853ac870b8c0dec":[1,0,132,0,7],
 "classsamples__run2__embedding__selection_1_1Samples.html#aec3977977fdb894e5d44baabca1e5d36":[1,0,132,0,9],
 "classsamples__run2__etaufakerate_1_1Samples.html":[1,0,133,0],
 "classsamples__run2__etaufakerate_1_1Samples.html#a06618143c8f317937e515ed0b85af194":[1,0,133,0,4],
@@ -242,12 +249,5 @@ var NAVTREEINDEX10 =
 "convertEfficienciesToArtusRootInput_8py.html#a173bfa88dcbb1f24f44d48c065a5d01b":[2,0,2,3,11],
 "convertEfficienciesToArtusRootInput_8py.html#a19cf031a81a20eaf5d8113d27cbcfdda":[2,0,2,3,20],
 "convertEfficienciesToArtusRootInput_8py.html#a2a2ecf156ad77e7853ef0ebb3fff3657":[2,0,2,3,5],
-"convertEfficienciesToArtusRootInput_8py.html#a2a9c1de6d0d3c28892107719a4c80fda":[2,0,2,3,27],
-"convertEfficienciesToArtusRootInput_8py.html#a367541ada5d53f1a9d756c32be0e47e1":[2,0,2,3,18],
-"convertEfficienciesToArtusRootInput_8py.html#a669a7ba0e9a9ca58fb33267513e166fa":[2,0,2,3,21],
-"convertEfficienciesToArtusRootInput_8py.html#a68eea2b5d1c595ff18a4bf6342ac122c":[2,0,2,3,28],
-"convertEfficienciesToArtusRootInput_8py.html#a6a978003ee3338f4452d20315c63d23d":[2,0,2,3,2],
-"convertEfficienciesToArtusRootInput_8py.html#a6aabfd03611f784aa863836c1f2b7888":[2,0,2,3,17],
-"convertEfficienciesToArtusRootInput_8py.html#a7292b26bd904535624fec88f9cef2fde":[2,0,2,3,23],
-"convertEfficienciesToArtusRootInput_8py.html#a7353dbc7e9b000def6262bcae978c7fb":[2,0,2,3,15]
+"convertEfficienciesToArtusRootInput_8py.html#a2a9c1de6d0d3c28892107719a4c80fda":[2,0,2,3,27]
 };
