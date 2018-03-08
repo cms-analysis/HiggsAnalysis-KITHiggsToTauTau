@@ -10,6 +10,8 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
+
 
 std::string TaggedJetUncertaintyShiftProducer::GetProducerId() const
 {
@@ -58,6 +60,20 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 		}
 	}
 
+	// settings used by the ValidJetsProducers
+	puJetIdsByIndex = Utility::ParseMapTypes<size_t, std::string>(
+			Utility::ParseVectorToMap(settings.GetPuJetIDs()),
+			puJetIdsByHltName
+	);
+	jetTaggerLowerCutsByTaggerName = Utility::ParseMapTypes<std::string, float>(
+			Utility::ParseVectorToMap(settings.GetJetTaggerLowerCuts()),
+			jetTaggerLowerCutsByTaggerName
+	);
+	jetTaggerUpperCutsByTaggerName = Utility::ParseMapTypes<std::string, float>(
+			Utility::ParseVectorToMap(settings.GetJetTaggerUpperCuts()),
+			jetTaggerUpperCutsByTaggerName
+	);
+	
 	for (std::string const& uncertainty : individualUncertainties)
 	{
 		// only do string comparison once per uncertainty
@@ -265,14 +281,12 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 					validJet = validJet && ROOT::Math::VectorUtil::DeltaR(jet->p4, (*lepton)->p4) > settings.GetJetLeptonLowerDeltaRCut();
 				}
 				
-				// remove taus from list of jets via simple DeltaR isolation
-				// (targeted at ttH analysis, harmless if m_validTTHTaus is not filled)
-				for (std::vector<KTau*>::const_iterator tau = product.m_validTTHTaus.begin();
-				validJet && tau != product.m_validTTHTaus.end(); ++tau)
-				{
-					validJet = validJet && ROOT::Math::VectorUtil::DeltaR(jet->p4, (*tau)->p4) > settings.GetJetTauLowerDeltaRCut();
-				}
-
+				// check possible analysis-specific criteria
+				validJet = validJet && HttValidTaggedJetsProducer::AdditionalCriteriaStatic(&(*jet),
+				                                                                            puJetIdsByIndex, puJetIdsByHltName,
+				                                                                            jetTaggerLowerCutsByTaggerName, jetTaggerUpperCutsByTaggerName,
+				                                                                            event, product, settings, metadata);
+				
 				if (validJet)
 				{
 					shiftedJets.push_back(*jet);

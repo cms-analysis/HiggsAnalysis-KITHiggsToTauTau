@@ -37,6 +37,11 @@ private:
 
 	std::map<std::string, std::vector<float> > lowerPtCuts;
 	std::map<std::string, std::vector<float> > upperAbsEtaCuts;
+	
+	std::map<size_t, std::vector<std::string> > puJetIdsByIndex;
+	std::map<std::string, std::vector<std::string> > puJetIdsByHltName;
+	std::map<std::string, std::vector<float> > jetTaggerLowerCutsByTaggerName;
+	std::map<std::string, std::vector<float> > jetTaggerUpperCutsByTaggerName;
 
 	KappaEnumTypes::BTagScaleFactorMethod m_bTagSFMethod;
 	float m_bTagWorkingPoint;
