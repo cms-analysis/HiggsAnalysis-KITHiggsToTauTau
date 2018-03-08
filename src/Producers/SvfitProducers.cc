@@ -19,9 +19,7 @@ SvfitProducer::SvfitProducer(
 		SvfitEventKey product_type::*svfitEventKeyMember,
 		SvfitResults product_type::*svfitResultsMember,
 		std::map<KLepton*, RMFLV> product_type::*svfitTausMember,
-		std::string (setting_type::*GetSvfitCacheFileMember)(void) const,
-		std::string (setting_type::*GetSvfitCacheFileFolderMember)(void) const,
-		std::string (setting_type::*GetSvfitCacheTreeMember)(void) const
+		std::string (setting_type::*GetSvfitCacheFileMember)(void) const
 ) :
 	ProducerBase<HttTypes>(),
 	m_name(name),
@@ -29,9 +27,7 @@ SvfitProducer::SvfitProducer(
 	m_svfitEventKeyMember(svfitEventKeyMember),
 	m_svfitResultsMember(svfitResultsMember),
 	m_svfitTausMember(svfitTausMember),
-	GetSvfitCacheFileMember(GetSvfitCacheFileMember),
-	GetSvfitCacheFileFolderMember(GetSvfitCacheFileFolderMember),
-	GetSvfitCacheTreeMember(GetSvfitCacheTreeMember)
+	GetSvfitCacheFileMember(GetSvfitCacheFileMember)
 {
 }
 
@@ -48,7 +44,7 @@ void SvfitProducer::Init(setting_type const& settings, metadata_type& metadata)
 	{
 		svfitTools.Init(
 				(settings.*GetSvfitCacheFileMember)(),
-				boost::algorithm::to_lower_copy(settings.GetChannel())+"_"+(settings.*GetSvfitCacheFileFolderMember)()+"/"+(settings.*GetSvfitCacheTreeMember)()
+				boost::algorithm::to_lower_copy(settings.GetChannel())+"_"+settings.GetSvfitCacheFileFolder()+"/"+settings.GetSvfitCacheTree()
 		);
 	}
 	m_svfitCacheMissBehaviour = HttEnumTypes::ToSvfitCacheMissBehaviour(settings.GetSvfitCacheMissBehaviour());
@@ -194,9 +190,7 @@ SvfitM91Producer::SvfitM91Producer(
 			&product_type::m_svfitM91EventKey,
 			&product_type::m_svfitM91Results,
 			&product_type::m_svfitM91Taus,
-			&setting_type::GetSvfitM91CacheFile,
-			&setting_type::GetSvfitM91CacheFileFolder,
-			&setting_type::GetSvfitM91CacheTree
+			&setting_type::GetSvfitM91CacheFile
 	)
 {
 }
@@ -215,9 +209,7 @@ SvfitM125Producer::SvfitM125Producer(
 			&product_type::m_svfitM125EventKey,
 			&product_type::m_svfitM125Results,
 			&product_type::m_svfitM125Taus,
-			&setting_type::GetSvfitM125CacheFile,
-			&setting_type::GetSvfitM125CacheFileFolder,
-			&setting_type::GetSvfitM125CacheTree
+			&setting_type::GetSvfitM125CacheFile
 	)
 {
 }
