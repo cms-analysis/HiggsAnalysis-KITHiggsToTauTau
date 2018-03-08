@@ -24,10 +24,10 @@ bool HttValidTaggedJetsProducer::AdditionalCriteria(KJet* jet,
 	// remove taus from list of jets via simple DeltaR isolation
 	// (targeted at ttH analysis, harmless if m_validTTHTaus is not filled)
 	for (std::vector<KTau*>::const_iterator tau = specProduct.m_validTTHTaus.begin();
-		validJet && tau != specProduct.m_validTTHTaus.end(); ++tau)
-		{
-			validJet = validJet && ROOT::Math::VectorUtil::DeltaR(jet->p4, (*tau)->p4) > specSettings.GetJetTauLowerDeltaRCut();
-		}
+	validJet && tau != specProduct.m_validTTHTaus.end(); ++tau)
+	{
+		validJet = validJet && ROOT::Math::VectorUtil::DeltaR(jet->p4, (*tau)->p4) > specSettings.GetJetTauLowerDeltaRCut();
+	}
 
 	return validJet;
 }
