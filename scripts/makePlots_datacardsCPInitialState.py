@@ -1107,58 +1107,46 @@ if __name__ == "__main__":
 		for plot_config in prefit_postfit_plot_configs:
 			plot_category = plot_config["filename"].split("_")[-2]
 			plot_channel = plot_config["filename"].split("_")[-3]
+			if args.make_plots:
+				
 			if "1" in plot_category or "2" in plot_category or "3" in plot_category or "4" in plot_category and not ("10" in plot_category or "11" in plot_category or "12" in plot_category or "13" in plot_category or "14" in plot_category):
-					plot_config["canvas_width"] = 2100
-					plot_config["canvas_height"] = 1000
-					plot_config["x_label"] = "#Delta#phi_{jj}" if "jdphi" == args.quantity else "D_{CP}^{*}"
-					if "--y-log" in args.args:
-						plot_config["y_lims"] = [0.001, 1000]
-					else: 
-						plot_config["y_rel_lims"] = [0.5, 10]
-					plot_config["legend"] = [0.895, 0.1, 0.995, 0.8]
-					plot_config["legend_cols"] = 1
-					# plot_config["x_label"] = "m_{vis} (GeV)" if "1" in plot_category and plot_channel in ["mt", "et", "em"] else "m_{#tau#tau} (GeV)"
-					plot_config["y_label"] = "Events/bin"
-					plot_config["formats"] = ["pdf", "png"]
-					plot_config["title"] = titles[plot_channel+"_"+plot_category]
-					plot_config["y_title_offset"] = 0.6
-					plot_config["y_subplot_title_offset"] = 0.71
-					plot_config["y_subplot_lims"] = [-4, 4]
-					plot_config["left_pad_margin"] = 0.1
-					plot_config["right_pad_margin"] = 0.11
-					plot_config["line_widths"] = [3]
-					if not (plot_channel == "tt" and plot_category == "1"):
-						plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
-						plot_config["texts"] = texts[plot_channel+"_"+plot_category]
-						plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category]
-						plot_config["texts_y"] = list((0.8 for i in range(len(plot_config["texts"]))))
-						plot_config["texts_size"] = [0.04] if "2" in plot_category and plot_channel in ["mt", "et", "em"] else [0.032]
-						plot_config["x_labels_vertical"] = True
-						plot_config["x_title_offset"] = 1.6
-						plot_config["bottom_pad_margin"] = 0.5
-						plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
-						plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
-					# now stack signal on top manually
-				# plot_config["colors"].insert(0, "kRed")
-				# plot_config["labels"].insert(0, "htt")
-				# plot_config["legend_markers"].insert(0, "F")
-				# plot_config["markers"].insert(0, "HIST")
-				# plot_config["nicks"].insert(0, "HTT")
-				# plot_config["nicks_whitelist"].insert(0, "HTT")
-				# plot_config["stacks"].insert(0, "stack")
-				# plot_config["x_expressions"].insert(0, "TotalSig")
-		# datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
+				plot_config["canvas_width"] = 2100
+				plot_config["canvas_height"] = 1000
+				plot_config["x_label"] = "#Delta#phi_{jj}" if "jdphi" == args.quantity else "D_{CP}^{*}"
+				if "--y-log" in args.args:
+					plot_config["y_lims"] = [0.001, 1000]
+				else: 
+					plot_config["y_rel_lims"] = [0.5, 10]
+				plot_config["legend"] = [0.895, 0.1, 0.995, 0.8]
+				plot_config["legend_cols"] = 1
+				# plot_config["x_label"] = "m_{vis} (GeV)" if "1" in plot_category and plot_channel in ["mt", "et", "em"] else "m_{#tau#tau} (GeV)"
+				plot_config["y_label"] = "Events/bin"
+				plot_config["formats"] = ["pdf", "png"]
+				plot_config["title"] = titles[plot_channel+"_"+plot_category]
+				plot_config["y_title_offset"] = 0.6
+				plot_config["y_subplot_title_offset"] = 0.71
+				plot_config["y_subplot_lims"] = [-4, 4]
+				plot_config["left_pad_margin"] = 0.1
+				plot_config["right_pad_margin"] = 0.11
+				plot_config["line_widths"] = [3]
+				if not (plot_channel == "tt" and plot_category == "1"):
+					plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
+					plot_config["texts"] = texts[plot_channel+"_"+plot_category]
+					plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category]
+					plot_config["texts_y"] = list((0.8 for i in range(len(plot_config["texts"]))))
+					plot_config["texts_size"] = [0.04] if "2" in plot_category and plot_channel in ["mt", "et", "em"] else [0.032]
+					plot_config["x_labels_vertical"] = True
+					plot_config["x_title_offset"] = 1.6
+					plot_config["bottom_pad_margin"] = 0.5
+					plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
+					plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
+					
 		if "nuisanceimpacts" in args.steps:
-			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_alpha, args.n_processes, higgs_mass="125")
-        
+			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_alpha, args.n_processes, higgs_mass="125")        
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
-        
-										
+    										
 	sys.exit(0)		 			
-	
-	
-	
-	
+			
 	if "inputs" in args.steps:
 		# update CombineHarvester with the yields and shapes
 		log.info("\n -------------------------------------- Extract shapes from histogram templates ---------------------------------")
@@ -1169,8 +1157,6 @@ if __name__ == "__main__":
 				update_systematics=True
 		)
 	
-	
-	
 	# add bin-by-bin uncertainties
 	if not args.no_bbb_uncs:
 		log.info("\n -------------------------------------- Added bin-by-bin uncertainties ---------------------------------")
@@ -1178,33 +1164,7 @@ if __name__ == "__main__":
 				processes=datacards.cb.cp().backgrounds().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
-	
-	# restrict combine to lnN systematics only if no_shape_uncs is set
-	if args.no_syst_uncs:
-		log.debug("\n -------------------------------------- Deactivate systematic uncertainties ---------------------------------")
-		if not args.use_asimov_dataset:
-			log.warning("Fitting MC to data without systematic uncertainties can lead to unreasonable results.")
-		datacards.cb.FilterSysts(lambda systematic : True)
-		if log.isEnabledFor(logging.DEBUG):
-			datacards.cb.PrintSysts()
-
-	# scale
-	if(args.scale_lumi):
-		datacards.scale_expectation( float(args.scale_lumi) / args.lumi)
-	
-	# TODO: comment out the following two commands if you want to use
-	#       the SM HTT data card creation method in CombineHarvester
-	datacards.cb.FilterProcs(remove_procs_and_systs_with_zero_yield)	
 		
-	
-	# Use an asimov dataset. This line must be here, because otherwise we
-	if args.use_asimov_dataset:
-		log.info("\n -------------------------------------- Using asimov dataset instead of actual data ---------------------------------")
-		# signal_processes makes combine filter those signal processes that appear in the datacards and can be replaced.
-		# if you observe the error that ROOT wasn't able to add up the background and signal histograms due to unequal binnings
-		# the reason is possibly a missing signal_process here.
-		datacards.replace_observation_by_asimov_dataset(signal_processes=["ggHsm_htt", "qqHsm_htt", "ggH_htt", "qqH_htt"])
-	
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
 	It considers the
@@ -1241,197 +1201,3 @@ if __name__ == "__main__":
 				for sig in sig_procs:
 					print(str(sig)+"/tot_bkg: ", str(sig_yield[sig]/tot_bkg))
 					print(str(sig)+"/tot_sig: ", str(sig_yield[sig]/tot_sig))
-		
-	if args.auto_rebin:
-		datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
-	
-	# write datacards and call text2workspace
-	log.info("\n -------------------------------------- Writing datacards and call text2workspace ---------------------------------")
-	datacards_cbs = {}
-	for datacard_filename_template in datacard_filename_templates:
-		datacards_cbs.update(datacards.write_datacards(
-				datacard_filename_template.replace("{", "").replace("}", ""),
-				output_root_filename_template.replace("{", "").replace("}", ""),
-				args.output_dir
-		))
-	datacards_poi_ranges = {}
-	for datacard, cb in datacards_cbs.iteritems():
-		channels = cb.channel_set()
-		categories = cb.bin_set()
-		if len(channels) == 1:
-			if len(categories) == 1:
-				datacards_poi_ranges[datacard] = [-100.0, 100.0]
-			else:
-				datacards_poi_ranges[datacard] = [-50.0, 50.0]
-		else:
-			if len(categories) == 1:
-				datacards_poi_ranges[datacard] = [-50.0, 50.0]
-			else:
-				datacards_poi_ranges[datacard] = [-25.0, 25.0]
-		
-	if "likelihoodScan" in args.steps:
-		log.info("\n -------------------------------------- Likelihood scan ---------------------------------")
-		log.info("\n -------------------------------------- Text2Workspace ---------------------------------")
-		datacards_workspaces_cp_mixing_angle = datacards.text2workspace(
-				datacards_cbs,
-				args.n_processes,
-				" -P {MODEL} {MODEL_PARAMETERS} ".format(
-					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.cpmodels_old:cp_mixing",
-					MODEL_PARAMETERS=""
-				),
-				higgs_mass="125"
-		)
-		
-		if "prefitpostfitplots" in args.steps:
-			# https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsWG/HiggsPAGPreapprovalChecks
-			log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")
-			datacards.combine(datacards_cbs, datacards_workspaces_cp_mixing_angle, datacards_poi_ranges, args.n_processes, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"", higgs_mass="125")
-			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_cp_mixing_angle, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
-			
-			# divide plots by bin width and change the label correspondingly
-			if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
-				args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
-			if args.quantity == "m_vis" and not(do_not_normalize_by_bin_width):
-				args.args += " --y-label 'dN / dm_{vis}  (1 / GeV)'"
-			if args.quantity == "jdphi" and not(do_not_normalize_by_bin_width):
-				args.args += " --y-label 'dN / d#Delta#phi_{jj}'"	
-					
-			# adapt prefit and postfit plot configs
-			backgrounds_to_merge = {
-				"ZLL" : ["ZL", "ZJ"],
-				"TT" : ["TTT", "TTJJ"],
-				"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
-			}
-			
-			prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes)
-			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="cpmixing"))
-			if "nuisanceimpacts" in args.steps:
-				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_cp_mixing_angle, args.n_processes, higgs_mass="125")
-			print(prefit_postfit_plot_configs)	
-			higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
-
-		# Determine mixing angle parameter
-		datacards.combine(
-				datacards_cbs,
-				datacards_workspaces_cp_mixing_angle,
-				None,
-				args.n_processes,
-				"-M MultiDimFit --algo grid --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setPhysicsModelParameters cpmixing=0.0,muF=1.0,muV=1.0 --points {POINTS} {STABLE} -n \"\"".format( # -n \"cp_mixing_angle\"
-						STABLE=datacards.stable_options,
-						POINTS=args.cp_mixing_scan_points
-				),
-				higgs_mass="125"
-		)		
-		datacards.plot1DScan(datacards_cbs, 
-			datacards_workspaces_cp_mixing_angle, 
-			"cpmixing", 
-			args.n_processes, 
-			"",
-			higgs_mass="125")
-
-		
-	"""
-	Pvalue determination to be modified. Treating the mixing angle as MASS the file pattern does not work anymore.
-	"""	 	
-		# custom physics model
-		# datacards_workspaces = datacards.text2workspace(
-		# 		datacards_cbs,
-		# 		args.n_processes,
-		# 		"-P {MODEL} {MODEL_PARAMETERS}".format(
-		# 			MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.higgsmodels:HiggsCPI",
-		# 			MODEL_PARAMETERS=""
-		# 		)
-		# )
-	
-	#annotation_replacements = {channel : index for (index, channel) in enumerate(["combined", "tt", "mt", "et", "em"])}
-	# Max. likelihood fit and postfit plots
-	
-	#datacards.annotate_trees(
-			#datacards_workspaces,
-			#"higgsCombine*MaxLikelihoodFit*mH*.root",
-			#[[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0]],
-			#annotation_replacements,
-			#args.n_processes,
-			#None,
-			#"-t limit -b channel"
-	#)
-	#datacards.annotate_trees(
-			#datacards_workspaces,
-			#"higgsCombine*MaxLikelihoodFit*mH*.root",
-			#[[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0]],
-			#annotation_replacements,
-			#args.n_processes,
-			#None,
-			#"-t limit -b channel"
-	#)
-
-	# Asymptotic limits
-	if "pvalue" in args.steps:	
-		# Physics model used for H->ZZ spin/CP studies
-		# https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit/blob/74x-root6/python/HiggsJPC.py
-		datacards_workspaces_twoHypothesisHiggs = datacards.text2workspace(
-				datacards_cbs,
-				args.n_processes,
-				"-P {MODEL} {MODEL_PARAMETERS}".format(
-					MODEL="HiggsAnalysis.KITHiggsToTauTau.datacards.higgsmodels:twoHypothesisHiggs",
-					MODEL_PARAMETERS=("--PO altSignal=ps --PO ignoreSignal=mm "+("--PO=muFloating" if args.use_shape_only else ""))
-				)
-		)
-				
-		datacards.combine(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"") # TODO: change to HybridNew in the old: --expectSignal=1 -t -1
-		#-M HybridNew --testStat=TEV --generateExt=1 --generateNuis=0 fixedMu.root --singlePoint 1 --saveHybridResult --fork 40 -T 1000 -i 1 --clsAcc 0 --fullBToys
-
-		#datacards.combine(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, None, args.n_processes, "-M ProfileLikelihood -t -1 --expectSignal 1 --toysFrequentist --significance -s %s\"\""%index) # TODO: maybe this can be used to get p-values
-		if "prefitpostfitplots" in args.steps:
-			datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-			datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : args.quantity, "normalize" : not(args.do_not_normalize_by_bin_width), "era" : args.era}, n_processes=args.n_processes,signal_stacked_on_bkg=True)
-			datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["x"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
-			datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="x") )
-			if "nuisanceimpacts" in args.steps:
-				datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, args.n_processes)
-				
-		datacards_hypotestresult=datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x" )
-		log.info(datacards_hypotestresult)
-		if args.use_shape_only:
-			datacards.combine(datacards_cbs, datacards_workspaces_twoHypothesisHiggs, None, args.n_processes, " -M HybridNew --testStat=TEV --saveHybridResult --generateNuis=0 --singlePoint 1  --fork 8 -T 20000 -i 1 --clsAcc 0 --fullBToys --generateExt=1 -n \"\"")
-		# TODO: I think this line should be deleted.
-		pconfig_plots=[]
-		for filename in datacards_hypotestresult.values():
-			log.info(filename)
-			pconfigs={}
-			pconfigs["files"]= [filename]
-			pconfigs["nicks"]= ["noplot","alternative_hypothesis","null_hypothesis", "q_obs"]
-			pconfigs["tree_draw_options"]=["","","","TGraph"]
-			#pconfigs[ "marker_sizes"]=[5]
-			#pconfigs["marker_styles"]=[34]
-			pconfigs[ "markers"]=["line","line","line"]
-
-			pconfigs["y_expressions"]=["None","None","None","0"]
-			pconfigs["folders"]=["q"]
-			pconfigs["weights"]=["1","type<0","type>0","type==0"]
-			pconfigs["x_expressions"]=["q"]
-			pconfigs[ "output_dir"]=str(os.path.dirname(filename))
-			pconfigs["x_bins"]=["500,-3.15,3.15"]
-			if args.cp_study == "final":
-				pconfigs["x_bins"] = ["500,0,6.28"]
-
-			#pconfigs["scale_factors"]=[1,1,1,900]
-			#pconfig["plot_modules"] = ["ExportRoot"]
-
-			pconfigs["analysis_modules"]=["PValue"]
-			pconfigs["p_value_alternative_hypothesis_nicks"]=["alternative_hypothesis"]
-			pconfigs["p_value_null_hypothesis_nicks"]=["null_hypothesis"]
-			pconfigs["p_value_observed_nicks"]=["q_obs"]
-			pconfigs["legend"]=[0.7,0.6,0.9,0.88]
-			pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
-			pconfig_plots.append(pconfigs)
-			if args.cp_study == "final":
-				if "susycpodd" or "cpodd" in args.hypothesis:
-					pconfigs["labels"]=["CP-even", "CP-odd", "observed"]
-					if args.use_asimov_dataset:
-						pconfigs["labels"]=["CP-even", "CP-odd", "asimov"]
-				if "cpmix" in args.hypothesis:
-					pconfigs["labels"]=["CP-even", "CP-mix", "observed"]
-					if args.use_asimov_dataset:
-						pconfigs["labels"]=["CP-even", "CP-mix", "asimov"]
-			higgsplot.HiggsPlotter(list_of_config_dicts=pconfig_plots, list_of_args_strings=[args.args], n_processes=args.n_processes)
