@@ -15,7 +15,7 @@ class FinalStateCPStudiesDatacards(smhttdatacards.SMHttDatacards):
 		
 		#sm_signal_processes = ["ggH", "qqH", "WH", "ZH"]
 		cp_signal_processes = {
-			"final" : ["CPEVEN", "SUSYCPODD"], # TODO
+			"final" : ["CPEVEN", "SUSYCPODD"],
 		}
 		
 		super(FinalStateCPStudiesDatacards, self).__init__(
@@ -29,25 +29,25 @@ class FinalStateCPStudiesDatacards(smhttdatacards.SMHttDatacards):
 				signal_processes=cp_signal_processes.get(cp_study, [])
 		)
 		
-		def remove_redundant_signal(obj):
-			if not obj.signal():
-				return False
-			else:
-				if any([key in obj.bin().lower() for key in ["twojet", "vbf"]]):
-					if (cp_study == "ggh") and (obj.process() == "ggH"):
-						return True
-					elif (cp_study == "vbf") and (obj.process() == "qqH"):
-						return True
-					elif cp_study == "final":
-						return False # TODO
-					else:
-						return False
-				else:
-					if any([obj.process() == key for key in cp_signal_processes.get("analysis", [])]):
-						return True
-					else:
-						return False
-		
-		self.cb.FilterProcs(remove_redundant_signal)
-		self.cb.FilterSysts(remove_redundant_signal)
+		#def remove_redundant_signal(obj):
+		#	if not obj.signal():
+		#		return False
+		#	else:
+		#		if any([key in obj.bin().lower() for key in ["twojet", "vbf"]]):
+		#			if (cp_study == "ggh") and (obj.process() == "ggH"):
+		#				return True
+		#			elif (cp_study == "vbf") and (obj.process() == "qqH"):
+		#				return True
+		#			elif cp_study == "final":
+		#				return False # TODO
+		#			else:
+		#				return False
+		#		else:
+		#			if any([obj.process() == key for key in cp_signal_processes.get("analysis", [])]):
+		#				return True
+		#			else:
+		#				return False
+		#
+		#self.cb.FilterProcs(remove_redundant_signal)
+		#self.cb.FilterSysts(remove_redundant_signal)
 
