@@ -21,6 +21,7 @@ scram setup tauspinner
 # overwrite artus settings
 if [[ `hostname` == *naf* ]]; then
 	export ARTUS_WORK_BASE="/nfs/dust/cms/user/${USER}/htautau/artus/"
+	export HP_WORK_BASE="/nfs/dust/cms/user/${USER}/htautau/Harry"
 elif [[ `hostname` == *ekpbms* ]] && [ ${USER} == "wayand" ]; then
     echo "Hallo stefan auf der bms"
     export ARTUS_WORK_BASE="/portal/ekpbms2/home/wayand/htautau/artus"

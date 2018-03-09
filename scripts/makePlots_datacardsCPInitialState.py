@@ -39,7 +39,13 @@ def official2private(category, category_replacements):
 	result = copy.deepcopy(category)
 	for official, private in category_replacements.iteritems():
 		if not "dijet_boosted" in result:
-			result = re.sub(official+"$", private, result)
+			result = re.sub(official+"$", private, result)	
+		if "dijet2D_boosted" in private and "dijet_boosted" in official:
+			result = re.sub("dijet_boosted", "dijet2D_boosted", result)
+		if "dijet2D_Boosted2D" in result:
+			result = re.sub("Boosted2D", "boosted", result)
+		if "dijet2D_boosted" in result and "QCDCR" in result:
+			result = re.sub("QCDCR", "qcd_cr", result)	
 	return result
 
 def private2official(category, category_replacements):
@@ -148,6 +154,10 @@ if __name__ == "__main__":
 	                    help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")						
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 	                    help="Do not include shape uncertainties. [Default: %(default)s]")
+	parser.add_argument("--scale-sig-IC", default=False, action="store_true",
+	                    help="Scale signal cross section to IC cross section. [Default: %(default)s]")	
+	parser.add_argument("--dijet-2D", default=False, action="store_true",
+	                    help="Use unrolled 2D distributions of m_sv/jdphi or mela discriminators. [Default: %(default)s]")											
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 	                    help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--production-mode", nargs="+",
@@ -224,14 +234,17 @@ if __name__ == "__main__":
 	
 	if args.get_official_dc:
 		# get "official" configuration
-		init_directory = os.path.join(args.output_dir, "init")
-		command = "MorphingSMCP2016 --control_region=1 --postfix -2D --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
+		init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix)) 
+		command = "MorphingSMCP2016 --control_region=1 {DIJET_2D} --postfix -2D --mm_fit=false --ttbar_fit=true {INIT}".format(
+		DIJET_2D="--dijet_2d=true" if args.dijet_2D else "",
+		INIT="--only_init="+os.path.join(init_directory, "init")
+		)
 		log.debug(command)
 		exit_code = logger.subprocessCall(shlex.split(command))
 		assert(exit_code == 0)
 		
 		init_cb = ch.CombineHarvester()
-		for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):			
+		for init_datacard in glob.glob(os.path.join(os.path.join(init_directory, "init"), "*_*_*_*.txt")):			
 			init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt', False)
 		
 		datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
@@ -289,6 +302,12 @@ if __name__ == "__main__":
 		category_replacements["0jet"] = "ZeroJet2D"
 		category_replacements["boosted"] = "Boosted2D"
 		category_replacements["vbf"] = "Vbf2D"
+		if args.dijet_2D:
+			category_replacements["dijet_boosted"] = "dijet2D_boosted"
+			category_replacements["dijet_boosted_qcd_cr"] = "dijet2D_boosted_qcd_cr"
+			category_replacements["dijet_lowboost"] = "dijet2D_lowboost"
+			category_replacements["dijet_lowboost_qcd_cr"] = "dijet2D_lowboost_qcd_cr"
+			
 		
 	else:
 		# use the datacards created within Artus.
@@ -322,24 +341,13 @@ if __name__ == "__main__":
 		}
 		
 	# initialise datacards
-	# tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	# input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
-
-	tmp_input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
+	tmp_input_root_filename_template = "shapes/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	input_root_filename_template = "shapes/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.cp_datacard_filename_templates
-	# if "individual" in args.combinations:
-	# 	datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
-	# if "channel" in args.combinations:
-	# 	datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
-	# if "category" in args.combinations:
-	# 	datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
-	# if "combined" in args.combinations:
-	# 	datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")		
 	output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-2D.root"
 	
 		
@@ -352,6 +360,7 @@ if __name__ == "__main__":
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
+				
 	# list of JEC uncertainties
 	jecUncertNames = [
 		"AbsoluteFlavMap",
@@ -543,7 +552,7 @@ if __name__ == "__main__":
 				elif channel == "tt":
 					exclude_cuts += ["iso_1", "iso_2"]
 					do_not_normalize_by_bin_width = True
-			if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr"]) and channel == "tt":
+			if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt":
 				exclude_cuts += ["iso_1", "iso_2"]
 				do_not_normalize_by_bin_width = True
 				
@@ -602,7 +611,6 @@ if __name__ == "__main__":
 							cut_type="smhtt2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
-							wj_sf_shift=wj_sf_shift,
 							zmm_cr_factor=zmm_cr_factor,
 							no_ewkz_as_dy = args.no_ewkz_as_dy,
 							useRelaxedIsolationForW = (category.split("_")[1] in categoriesWithRelaxedIsolationForW),
@@ -644,7 +652,7 @@ if __name__ == "__main__":
 						binnings_key = "tt_phiStarCP"
 					
 						
-					if "2D" not in category and not any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "ttbar", "Vbf4D_mela_GGH"]):
+					if "2D" not in category and not any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet2D_lowboost_qcd_cr", "dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "ttbar", "Vbf4D_mela_GGH"]):
 						binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
 						if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
 							config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
@@ -674,10 +682,13 @@ if __name__ == "__main__":
 					if "TTbarCR" in category and channel == "ttbar":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
-					if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr"]) and channel == "tt":
-						config["x_expressions"] = ["jdphi"]
+						
+					if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
-					
+						
+					if any( cr in category for cr in ["dijet2D_lowboost_qcd_cr", "dijet2D_boosted_qcd_cr"]) and channel == "tt" and "mela" in args.quantity:
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
+										
 					# Use 2d plots for 2d categories
 					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_vis"]
@@ -718,8 +729,18 @@ if __name__ == "__main__":
 							config["z_expressions"] = ["TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH"]]
 
+					elif "dijet2D" in category and not "qcd_cr" in category:
+						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]	
+						config["y_expressions"] = ["jdphi"]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
+						if "mela" in args.quantity:
+							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH*ROOT::TMath::Sign(1, melaDiscriminatorDCPGGH)"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
+							
+							
 					# set quantity x depending on the category
-					if args.cp_study == "final":
+					if args.cp_study == "final":# NOTE: 
 						if all(["RHOmethod" in c for c in categories]):
 							config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
 							args.quantity = "recoPhiStarCP_rho_merged"
@@ -731,7 +752,7 @@ if __name__ == "__main__":
 							raise ValueError("You shall not pass different types of category (COMB and RHO) to the same channel. Repeat the channel for the each type of category.")
 
 					# Unroll 2d distribution to 1d in order for combine to fit it
-					if ("2D" in category or "3D" in category or "Vbf4D" in category) and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and "ZeroJet2D" in category):
+					if ("2D" in category or "3D" in category or "Vbf4D" in category) and not ("WJCR" in category or "QCDCR" in category) and not "qcd_cr" in category and not (channel == "tt" and "ZeroJet2D" in category):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollHistogram")
 						config["unroll_ordering"] = "zyx"
@@ -796,9 +817,11 @@ if __name__ == "__main__":
 	# call official script again with shapes that have just been created
 	# this steps creates the filled datacards in the output folder. 
 	datacards_module._call_command([
-			"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} --control_region=1 --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
+			"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --control_region=1 {DIJET_2D} --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
 			OUTPUT_SUFFIX=args.output_suffix,
-			SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else ""
+			SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
+			SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else "",
+			DIJET_2D="--dijet_2d=true" if args.dijet_2D else ""
 			),
 			args.output_dir
 	])
@@ -806,18 +829,34 @@ if __name__ == "__main__":
 		
 	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/cmb/125/"
 	official_cb = ch.CombineHarvester()
+	
+	datacards_cbs = {}
+	datacards_workspaces_alpha = {}
+	
 	for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):			
 		official_cb.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
-	
+		
+		if "prefitpostfitplots" in args.steps:
+			tmp_datacard = ch.CombineHarvester()	
+			tmp_datacard.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
+			if int(official_datacard.split("_")[-2]) < 10: #this statement avoid the creation of workspaces for single CR only.
+				datacards_cbs[official_datacard] = tmp_datacard.cp()
+				datacards_module._call_command([
+						"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i {DATACARD} -o {OUTPUT} --parallel {N_PROCESSES}".format(
+						DATACARD=official_datacard,
+						OUTPUT=os.path.splitext(official_datacard)[0]+"_cpmixture.root",
+						N_PROCESSES=args.n_processes			
+						),
+						args.output_dir	
+				]) 
+				datacards_workspaces_alpha[official_datacard] = os.path.splitext(official_datacard)[0]+"_cpmixture.root"
+		
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
 			cb=official_cb,
 			higgs_masses=args.higgs_masses,
 			year=args.era,
 			cp_study=args.cp_study
 	)
-	# datacards_cbs = {}
-	# for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):
-	# 	datacards_cbs.update()
 	
 	# Create workspaces from the datacards 
 	if "t2w" in args.steps:
@@ -839,23 +878,65 @@ if __name__ == "__main__":
 	if "likelihoodscan" in args.steps:
 		log.info("\nScanning alpha with muF=1,muV=1,alpha=0,f=0 with asimov dataset.")
 		datacards_module._call_command([
-				"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .alpha".format(
-				OUTPUT_SUFFIX=args.output_suffix		
+				"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .alpha --parallel={N_PROCESSES}".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				N_PROCESSES=args.n_processes	
 				),
 				args.output_dir	
 		])
+		# datacards_module._call_command([
+		# 		"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges muF=0,4 --points 20 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
+		# 		OUTPUT_SUFFIX=args.output_suffix,
+		# 		N_PROCESSES=args.n_processes		
+		# 		),
+		# 		args.output_dir	
+		# ])
+		# datacards_module._call_command([
+		# 		"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f,muF --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha_freezemuF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
+		# 		OUTPUT_SUFFIX=args.output_suffix,
+		# 		N_PROCESSES=args.n_processes			
+		# 		),
+		# 		args.output_dir	
+		# ])
+		# datacards_module._call_command([
+		# 		"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges alpha=0,1 --redefineSignalPOIs alpha,muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --points 500 --algo grid -t -1 --there -n .2DScan --parallel={N_PROCESSES}".format(
+		# 		OUTPUT_SUFFIX=args.output_suffix,
+		# 		N_PROCESSES=args.n_processes			
+		# 		),
+		# 		args.output_dir	
+		# ])
+								
 		for channel in ["cmb","em","et","mt","tt"]:
 			directory = "output/"+args.output_suffix+"/"+channel+"/125/"
 			datacards_module._call_command([
-					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2})' --y-max=3.0".format(
+					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0".format(
 					INPUT_FILE=directory+"higgsCombine.alpha.MultiDimFit.mH125.root",
 					OUTPUT_FILE=directory+"alpha"	
 					),
 					args.output_dir	
 			])
-			
-	datacards_cbs = {datacards_path+"htt_tt_4_13TeV.txt" : datacards.cb.cp()}		
-	datacards_workspaces_alpha = {datacards_path+"htt_tt_4_13TeV.txt" : datacards_path+"ws.root"}
+			# datacards_module._call_command([
+			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=muF --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#mu_{F}' --y-max=10.0".format(
+			# 		INPUT_FILE=directory+"higgsCombine.muF.MultiDimFit.mH125.root",
+			# 		OUTPUT_FILE=directory+"muF"	
+			# 		),
+			# 		args.output_dir	
+			# ])
+			# datacards_module._call_command([
+			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0".format(
+			# 		INPUT_FILE=directory+"higgsCombine.alpha_freezemuF.MultiDimFit.mH125.root",
+			# 		OUTPUT_FILE=directory+"alpha_freezemuF"	
+			# 		),
+			# 		args.output_dir	
+			# ])
+			# datacards_module._call_command([
+			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plotMultiDimFit.py --title-right='35.9 fb^{-1}' --mass=125 --cms-sub='Preliminary' --POI=alpha -o {OUTPUT_FILE}  {INPUT_FILE}".format(
+			# 		INPUT_FILE=directory+"higgsCombine.2DScan.MultiDimFit.mH125.root",
+			# 		OUTPUT_FILE=directory+"muF_vs_alpha"	
+			# 		),
+			# 		args.output_dir	
+			# ])						
+						
 	
 	datacards_poi_ranges = {}
 	for datacard, cb in datacards_cbs.iteritems():
