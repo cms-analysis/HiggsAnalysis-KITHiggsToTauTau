@@ -690,18 +690,16 @@ if __name__ == "__main__":
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
 										
 					# Use 2d plots for 2d categories
-					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
-						config["x_expressions"] = ["m_vis"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):						
+						config["x_expressions"] = ["m_sv"] if channel == "tt" else ["m_vis"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]] if channel == "tt" else [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						if channel in ["mt", "et"]:
 							config["y_expressions"] = ["decayMode_2"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_decayMode_2"]]
 						elif channel == "em":
 							config["y_expressions"] = ["pt_2"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
-						elif channel == "tt":
-							config["x_expressions"] = ["m_sv"]
-							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+							
 					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category or "dijet" in category):
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]
@@ -735,7 +733,7 @@ if __name__ == "__main__":
 						config["y_expressions"] = ["jdphi"]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
 						if "mela" in args.quantity:
-							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH*ROOT::TMath::Sign(1, melaDiscriminatorDCPGGH)"]
+							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH*TMath::Sign(1, melaDiscriminatorDCPGGH)"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
 							
 							
@@ -901,8 +899,6 @@ if __name__ == "__main__":
 				OUTPUT_SUFFIX=args.output_suffix
 				)
 				)))	
-				
-	
 						
 	# Perform likelihoodscan
 	if "likelihoodscan" in args.steps:
@@ -914,13 +910,13 @@ if __name__ == "__main__":
 				),
 				args.output_dir	
 		])
-		# datacards_module._call_command([
-		# 		"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges muF=0,4 --points 20 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
-		# 		OUTPUT_SUFFIX=args.output_suffix,
-		# 		N_PROCESSES=args.n_processes		
-		# 		),
-		# 		args.output_dir	
-		# ])
+		datacards_module._call_command([
+				"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges muF=0,4 --points 20 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				N_PROCESSES=args.n_processes		
+				),
+				args.output_dir	 
+		])
 		# datacards_module._call_command([
 		# 		"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f,muF --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha_freezemuF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
 		# 		OUTPUT_SUFFIX=args.output_suffix,
@@ -945,6 +941,13 @@ if __name__ == "__main__":
 					),
 					args.output_dir	
 			])
+			datacards_module._call_command([
+					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=muF --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#mu_{F}' --y-max=10.0".format(
+					INPUT_FILE=directory+"higgsCombine.muF.MultiDimFit.mH125.root",
+					OUTPUT_FILE=directory+"muF"	
+					),
+					args.output_dir	
+			])			
 		datacards_module._call_command([
 				"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --others output/{OUTPUT_SUFFIX}/tt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#tau_{h}#tau_{h}:2 output/{OUTPUT_SUFFIX}/mt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#mu#tau_{h}:7 output/{OUTPUT_SUFFIX}/et/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#tau_{h}:9 output/{OUTPUT_SUFFIX}/em/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#mu:8  --logo 'Work in progress' --logo-sub '' --main-label Expected ".format(
 				INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
@@ -954,13 +957,7 @@ if __name__ == "__main__":
 				args.output_dir	
 		])	
 		
-			# datacards_module._call_command([
-			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=muF --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#mu_{F}' --y-max=10.0".format(
-			# 		INPUT_FILE=directory+"higgsCombine.muF.MultiDimFit.mH125.root",
-			# 		OUTPUT_FILE=directory+"muF"	
-			# 		),
-			# 		args.output_dir	
-			# ])
+
 			# datacards_module._call_command([
 			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0".format(
 			# 		INPUT_FILE=directory+"higgsCombine.alpha_freezemuF.MultiDimFit.mH125.root",
@@ -1107,9 +1104,9 @@ if __name__ == "__main__":
 		for plot_config in prefit_postfit_plot_configs:
 			plot_category = plot_config["filename"].split("_")[-2]
 			plot_channel = plot_config["filename"].split("_")[-3]
-			if args.make_plots:
 				
 			if "1" in plot_category or "2" in plot_category or "3" in plot_category or "4" in plot_category and not ("10" in plot_category or "11" in plot_category or "12" in plot_category or "13" in plot_category or "14" in plot_category):
+
 				plot_config["canvas_width"] = 2100
 				plot_config["canvas_height"] = 1000
 				plot_config["x_label"] = "#Delta#phi_{jj}" if "jdphi" == args.quantity else "D_{CP}^{*}"
@@ -1123,7 +1120,7 @@ if __name__ == "__main__":
 				plot_config["y_label"] = "Events/bin"
 				plot_config["formats"] = ["pdf", "png"]
 				plot_config["title"] = titles[plot_channel+"_"+plot_category]
-				plot_config["y_title_offset"] = 0.6
+				plot_config["y_title_offset"] = 0.3
 				plot_config["y_subplot_title_offset"] = 0.71
 				plot_config["y_subplot_lims"] = [-4, 4]
 				plot_config["left_pad_margin"] = 0.1
