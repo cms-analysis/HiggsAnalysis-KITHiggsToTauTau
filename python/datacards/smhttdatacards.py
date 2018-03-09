@@ -339,9 +339,9 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["QCD"]).bin(["mt_"+category for category in sm_categories+CP_categories]).AddSyst(self.cb, *systematics_list.QCD_Extrap_Iso_nonIso_syst_args)
 			self.cb.cp().channel(["et"]).process(["QCD"]).bin(["et_"+category for category in sm_categories+CP_categories]).AddSyst(self.cb, *systematics_list.QCD_Extrap_Iso_nonIso_syst_args)
 
-			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_0jet_13TeV", "shape", ch.SystMap()(1.0))			
-			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_boosted_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Vbf2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_vbf_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WSFUncert_0jet_syst_args)			
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WSFUncert_boosted_syst_args)
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Vbf2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WSFUncert_Vbf_syst_args)
 			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_boosted" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_boosted_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_lowM" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_lowM_13TeV", "shape", ch.SystMap()(1.0))
 			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_highM" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_highM_13TeV", "shape", ch.SystMap()(1.0))
