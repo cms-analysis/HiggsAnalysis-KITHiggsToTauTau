@@ -348,11 +348,11 @@ class JecUncSplitSystematic(SystematicShiftBase):
 				elif shift < 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "jecUncDown")
 		
-		for key in ["x_expressions", "y_expressions", "z_expressions", "weights"]
+		for key in ["x_expressions", "y_expressions", "z_expressions", "weights"]:
 			for index, value in enumerate(plot_config.get(key, [])):
 				if not "Run201" in plot_config["files"][index]:
 					if shift > 0.0 or shift < 0.0:
-						plot_config[key][index] = value.replace("njetspt30", "njetspt30_"+self.jecUncertainty).replace("mjj", "mjj_"+self.jecUncertainty).replace("jdeta", "jdeta_"+self.jecUncertainty.replace("nbtag", "nbtag_"+self.jecUncertainty)
+						plot_config[key][index] = value.replace("njetspt30", "njetspt30_"+self.jecUncertainty).replace("mjj", "mjj_"+self.jecUncertainty).replace("jdeta", "jdeta_"+self.jecUncertainty).replace("nbtag", "nbtag_"+self.jecUncertainty)
 		
 		return plot_config
 
