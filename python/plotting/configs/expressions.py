@@ -190,6 +190,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			vbf_loose_string = "(mjj>200&&jdeta>2)"
 			jet2_string = "(njetspt30>1)"
 			jet1_string = "(njetspt30>0)"
+			jet0_string = "(njetspt30==0)"
 			pt2_tight_string = "(pt_2>=45)"
 			pt2_medium_string = "(pt_2>=35)"
 			pt2_loose_string = "(pt_2>=25)"
@@ -209,7 +210,21 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_1jet_boost_low"] = self.combine([jet1_string, self.invert(boosted_higgs_low_string)])
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nhighpt2"] = self.combine([self.invert(jet1_string), pt2_tight_string])
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_nlowpt2"] = self.combine([self.invert(jet1_string), self.invert(pt2_tight_string)])
-
+			
+			# defined as in categories.py
+			self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJet2D"] = self.combine([jet0_string])
+		
+		for channel in ["et","mt"]:
+			self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJet2D_WJCR"] = "(njetspt30==0)*(nbtag==0)*(mt_1>80.0)"
+			
+		self.expressions_dict["catHtt13TeV_mm_Boosted2D"] = "((njetspt30==1)||((njetspt30>1&&mjj<=300)))"
+		self.expressions_dict["catHtt13TeV_em_Boosted2D"] = "((njetspt30==1)||(njetspt30==2&&!(mjj>300&&pZetaMissVis>-10))||(njetspt30>2))"
+		self.expressions_dict["catHtt13TeV_et_Boosted2D"] = "((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))"
+		self.expressions_dict["catHtt13TeV_mt_Boosted2D"] = "((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))"
+		self.expressions_dict["catHtt13TeV_tt_Boosted2D"] = "((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))"
+		
+		
+		self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJet2D_QCDCR"] = self.combine([jet0_string])
 		# Standard Model Control regions
 		self.expressions_dict["catHtt13TeV_mt_0jet_qcd_cr"] = "(njetspt30>1)*(iso_1>0.15)*(iso_1<0.30)"
 		self.expressions_dict["catHtt13TeV_et_0jet_qcd_cr"] = "(njetspt30>1)*(iso_1>0.10)*(iso_1<0.30)"
@@ -229,9 +244,6 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 		self.expressions_dict["catHtt13TeV_mt_wjets_boosted_cr"] = "(njetspt30>1)*(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))"
 		self.expressions_dict["catHtt13TeV_et_wjets_boosted_cr"] = "(njetspt30>1)*(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))"
-
-		# self.expressions_dict["catHtt13TeV_"+channel+"_vbf_qcd_cr"] = "(njetspt30>1)"
-		# self.expressions_dict["catHtt13TeV_"+channel+"_wjets_vbf_cr"] = "(njetspt30>1)"
 
 		# CP initial state category
 		for channel in ["em", "et", "mt", "tt"]:
