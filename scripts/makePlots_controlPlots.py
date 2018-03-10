@@ -195,6 +195,10 @@ if __name__ == "__main__":
 	parser.add_argument("--smhtt", default=False, action="store_true",
 	                    help="Produce the plots for the SM HTT analysis. [Default: %(default)s]")
 	parser.add_argument("--cp", default=False, action="store_true",
+	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")  #TODO instead of 3 different boolean flag, change to option with 3 possible values
+	parser.add_argument("--cprho", default=False, action="store_true",
+	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")
+	parser.add_argument("--cpcomb", default=False, action="store_true",
 	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")
 	parser.add_argument("--taues", default=False, action="store_true",
 	                    help="Produce the plots for the tau energy scale analysis. [Default: %(default)s]")
@@ -327,6 +331,10 @@ if __name__ == "__main__":
 		global_cut_type = "tauescuts"
 	elif args.cp:
 		global_cut_type = "cp"
+	elif args.cprho:
+		global_cut_type = "cprho"
+	elif args.cpcomb:
+		global_cut_type = "cpcomb"
 	elif args.etaufakerate:
 		global_category_string = "catETauFakeRate13TeV"
 		global_cut_type = "etaufake"

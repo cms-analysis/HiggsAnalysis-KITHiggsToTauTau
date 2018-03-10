@@ -490,12 +490,12 @@ class CutStringsDict:
 			sys.exit(1)
 		return cuts
 	
-	def cp2016_rho(channel, cut_type):
+	def cprho2016(channel, cut_type):
 		if channel == "tt":
 			cuts = CutStringsDict.cp2016(channel, cut_type)
 			cuts["rhodecay"] = "(decayMode_1 == 1)*(decayMode_2 == 1)"
 
-	def cp2016_comb(channel, cut_type):
+	def cpcomb2016(channel, cut_type):
 		if channel == "mt":
 			cuts = CutStringsDict.cp2016(channel, cut_type)
 			cuts["rhodecay"] = "(decayMode_2 == 1)"
