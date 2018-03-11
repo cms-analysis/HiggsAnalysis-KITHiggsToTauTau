@@ -10,6 +10,8 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidJetsProducer.h"
+
 
 std::string TaggedJetUncertaintyShiftProducer::GetProducerId() const
 {
@@ -58,6 +60,23 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 		}
 	}
 
+	// settings used by the ValidJetsProducers
+	puJetIdsByIndex = Utility::ParseMapTypes<size_t, std::string>(
+			Utility::ParseVectorToMap(settings.GetPuJetIDs()),
+			puJetIdsByHltName
+	);
+	jetTaggerLowerCutsByTaggerName = Utility::ParseMapTypes<std::string, float>(
+			Utility::ParseVectorToMap(settings.GetJetTaggerLowerCuts()),
+			jetTaggerLowerCutsByTaggerName
+	);
+	jetTaggerUpperCutsByTaggerName = Utility::ParseMapTypes<std::string, float>(
+			Utility::ParseVectorToMap(settings.GetJetTaggerUpperCuts()),
+			jetTaggerUpperCutsByTaggerName
+	);
+	
+	// settings used by the RecoJetGenParticleMatchingProducer
+	m_jetMatchingAlgorithm = RecoJetGenParticleMatchingProducer::ToJetMatchingAlgorithm(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetJetMatchingAlgorithm())));
+	
 	for (std::string const& uncertainty : individualUncertainties)
 	{
 		// only do string comparison once per uncertainty
@@ -224,8 +243,10 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 				{
 					unc = std::sqrt(closureUncertainty.at(iJet));
 				}
+				
 				jet->p4 = jet->p4 * (1.0 + (shiftUp ? 1.0 : -1.0) * unc * settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift());
 			}
+			
 			// sort vectors of shifted jets by pt
 			std::sort(copiedJets.begin(), copiedJets.end(),
 					  [](KJet const& jet1, KJet const& jet2) -> bool
@@ -264,9 +285,23 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 				{
 					validJet = validJet && ROOT::Math::VectorUtil::DeltaR(jet->p4, (*lepton)->p4) > settings.GetJetLeptonLowerDeltaRCut();
 				}
-
-				// apply additional criteria if needed (check ValidTaggedJetsProducer settings)
-
+				
+				// check possible analysis-specific criteria
+				validJet = validJet && HttValidTaggedJetsProducer::AdditionalCriteriaStatic(&(*jet),
+				                                                                            puJetIdsByIndex, puJetIdsByHltName,
+				                                                                            jetTaggerLowerCutsByTaggerName, jetTaggerUpperCutsByTaggerName,
+				                                                                            event, product, settings, metadata);
+				
+				if (validJet)
+				{
+					KGenParticle* matchedParticle = RecoJetGenParticleMatchingProducer::Match(event, product, settings, static_cast<KLV*>(&(*jet)), m_jetMatchingAlgorithm);
+					if (((matchedParticle == nullptr) && settings.GetInvalidateNonGenParticleMatchingRecoJets()) ||
+						((matchedParticle != nullptr) && settings.GetInvalidateGenParticleMatchingRecoJets()))
+					{
+						validJet = false;
+					}
+				}
+				
 				if (validJet)
 				{
 					shiftedJets.push_back(*jet);
