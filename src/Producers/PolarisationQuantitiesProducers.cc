@@ -234,7 +234,7 @@ PolarisationQuantitiesSvfitProducer::PolarisationQuantitiesSvfitProducer() :
 			&product_type::m_svfitTaus,
 			&product_type::m_polarisationOmegasSvfit,
 			&product_type::m_polarisationOmegaBarsSvfit,
-			&product_type::m_polarisationOmegaBarsSvfit,
+			&product_type::m_polarisationOmegaVisiblesSvfit,
 			&product_type::m_polarisationCombinedOmegaSvfit,
 			&product_type::m_polarisationCombinedOmegaBarSvfit,
 			&product_type::m_polarisationCombinedOmegaVisibleSvfit
@@ -274,7 +274,7 @@ PolarisationQuantitiesSimpleFitProducer::PolarisationQuantitiesSimpleFitProducer
 			&product_type::m_simpleFitTaus,
 			&product_type::m_polarisationOmegasSimpleFit,
 			&product_type::m_polarisationOmegaBarsSimpleFit,
-			&product_type::m_polarisationOmegaBarsSimpleFit,
+			&product_type::m_polarisationOmegaVisiblesSimpleFit,
 			&product_type::m_polarisationCombinedOmegaSimpleFit,
 			&product_type::m_polarisationCombinedOmegaBarSimpleFit,
 			&product_type::m_polarisationCombinedOmegaVisibleSimpleFit
@@ -295,10 +295,10 @@ PolarisationQuantitiesHHKinFitProducer::PolarisationQuantitiesHHKinFitProducer()
 			&product_type::m_hhKinFitTaus,
 			&product_type::m_polarisationOmegasHHKinFit,
 			&product_type::m_polarisationOmegaBarsHHKinFit,
-			&product_type::m_polarisationOmegaBarsHHKinFit,
+			&product_type::m_polarisationOmegaVisiblesHHKinFit,
 			&product_type::m_polarisationCombinedOmegaHHKinFit,
 			&product_type::m_polarisationCombinedOmegaBarHHKinFit,
-			&product_type::m_polarisationCombinedOmegaBarHHKinFit
+			&product_type::m_polarisationCombinedOmegaVisibleHHKinFit
 	)
 {
 }
