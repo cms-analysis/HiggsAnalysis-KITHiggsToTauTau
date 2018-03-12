@@ -474,12 +474,10 @@ if __name__ == "__main__":
 				)
 				if  binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict:
 					binnings_key = channel + "_" + quantity
-				else:
-					binnings_key = None
 
 				if binnings_key is not None:
 					config["x_bins"] = [("1,-1,1" if "pol_gen" in nick else json_config.pop("x_bins", [binnings_key])) for nick in config["nicks"]]
-
+				
 				config["x_label"] = json_config.pop("x_label", channel + "_" + quantity)
 
 				if args.channel_comparison:
