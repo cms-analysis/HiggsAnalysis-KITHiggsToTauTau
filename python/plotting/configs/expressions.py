@@ -443,6 +443,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 				for replacement in replacements.iteritems():
 					new_short_expression = new_short_expression.replace(*replacement)
 				self.expressions_dict[new_short_expression] = long_expression
+	def combine(self, strings_to_combine):
+		return "(" + "*".join(strings_to_combine) + ")"				
 	@staticmethod
 	def static_get_expression(expression):
 		exp_dict = ExpressionsDict()
@@ -472,5 +474,4 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		tmp_expression = "(" + expression + ")"
 		return "(" + tmp_expression + "==0)" 
 
-	def combine(self, strings_to_combine):
-		return "(" + "*".join(strings_to_combine) + ")"		
+	
