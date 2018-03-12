@@ -141,10 +141,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae45f7a1f234b3a6bff9d6afeeb769a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e9cd0d191719349777eb5d8b5bc919c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a5e9cd0d191719349777eb5d8b5bc919c">PhiTransform</a> (double phi)</td></tr>
 <tr class="separator:a5e9cd0d191719349777eb5d8b5bc919c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d5ba56501e2c1c35da35309af81b112"><td class="memItemLeft" align="right" valign="top">TVector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a6d5ba56501e2c1c35da35309af81b112">CalculateIPVector</a> (KGenParticle *genParticle, RMPoint *pv)</td></tr>
-<tr class="separator:a6d5ba56501e2c1c35da35309af81b112"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cba8aa116e58892d0ecca846e8b8f08"><td class="memItemLeft" align="right" valign="top">TVector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a7cba8aa116e58892d0ecca846e8b8f08">CalculateIPVector</a> (KLepton *recoParticle, KVertex *pv)</td></tr>
-<tr class="separator:a7cba8aa116e58892d0ecca846e8b8f08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44ff47471ecdd6dbf9257fb32fae64d0"><td class="memItemLeft" align="right" valign="top">TVector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a44ff47471ecdd6dbf9257fb32fae64d0">CalculateShortestDistance</a> (KGenParticle *genParticle, RMPoint *pv)</td></tr>
+<tr class="separator:a44ff47471ecdd6dbf9257fb32fae64d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3212bba4a303f663fc196bb2bdec03a6"><td class="memItemLeft" align="right" valign="top">TVector3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a3212bba4a303f663fc196bb2bdec03a6">CalculateShortestDistance</a> (KLepton *recoParticle, RMPoint pv)</td></tr>
+<tr class="separator:a3212bba4a303f663fc196bb2bdec03a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a115b55637b473bdab3941eadb1cf5b55"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a115b55637b473bdab3941eadb1cf5b55">CalculateCosPsi</a> (RMFLV recoPart, TVector3 ipvec)</td></tr>
 <tr class="separator:a115b55637b473bdab3941eadb1cf5b55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a692317cc0e1ca420fda665230c58b5b6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a692317cc0e1ca420fda665230c58b5b6">CalculateIPErrors</a> (KLepton *lepton, KVertex *pv, TVector3 *ipvec)</td></tr>
@@ -165,6 +165,30 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a00be036cdc2d8c9ed21ea6a70cee56f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2045f55f5ee2cde785b01464b3fe822a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a2045f55f5ee2cde785b01464b3fe822a">GetRecoIP2</a> ()</td></tr>
 <tr class="separator:a2045f55f5ee2cde785b01464b3fe822a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd9f0c5a0f0501d1977cd27ddfcd4022"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#afd9f0c5a0f0501d1977cd27ddfcd4022">GetRecoPhiPlus_ipmeth</a> ()</td></tr>
+<tr class="separator:afd9f0c5a0f0501d1977cd27ddfcd4022"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d3a223d5dc226eb76ecc76385f52433"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a9d3a223d5dc226eb76ecc76385f52433">GetRecoPhiMinus_ipmeth</a> ()</td></tr>
+<tr class="separator:a9d3a223d5dc226eb76ecc76385f52433"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5905f63f2322191867a9f1e14d03f50"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#ae5905f63f2322191867a9f1e14d03f50">GetRecoPhiStarPlus_ipmeth</a> ()</td></tr>
+<tr class="separator:ae5905f63f2322191867a9f1e14d03f50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b8cddd00ef4cf877795a3df68e48798"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a1b8cddd00ef4cf877795a3df68e48798">GetRecoPhiStarMinus_ipmeth</a> ()</td></tr>
+<tr class="separator:a1b8cddd00ef4cf877795a3df68e48798"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac91c46e78eb936fc18af545e8c942873"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#ac91c46e78eb936fc18af545e8c942873">GetRecoPhiPlus_combmeth</a> ()</td></tr>
+<tr class="separator:ac91c46e78eb936fc18af545e8c942873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a548546b66a819aeb38622cccf7e2925e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a548546b66a819aeb38622cccf7e2925e">GetRecoPhiMinus_combmeth</a> ()</td></tr>
+<tr class="separator:a548546b66a819aeb38622cccf7e2925e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6191fe1db7ec30e112691e597df7f94"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#ad6191fe1db7ec30e112691e597df7f94">GetRecoPhiStarPlus_combmeth</a> ()</td></tr>
+<tr class="separator:ad6191fe1db7ec30e112691e597df7f94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa44ef90c0b59938a1814d040789e1bea"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#aa44ef90c0b59938a1814d040789e1bea">GetRecoPhiStarMinus_combmeth</a> ()</td></tr>
+<tr class="separator:aa44ef90c0b59938a1814d040789e1bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10ed94d1c922963917f90c6824f97c75"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a10ed94d1c922963917f90c6824f97c75">GetRecoPhiPlus_rhometh</a> ()</td></tr>
+<tr class="separator:a10ed94d1c922963917f90c6824f97c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a197cee3a601ffac5712dd39c1503c1a6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a197cee3a601ffac5712dd39c1503c1a6">GetRecoPhiMinus_rhometh</a> ()</td></tr>
+<tr class="separator:a197cee3a601ffac5712dd39c1503c1a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ba643fd325b374685f0c7f78093e244"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a2ba643fd325b374685f0c7f78093e244">GetRecoPhiStarPlus_rhometh</a> ()</td></tr>
+<tr class="separator:a2ba643fd325b374685f0c7f78093e244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76ab675bf25402fde29d777fb346aec4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCPQuantities.html#a76ab675bf25402fde29d777fb346aec4">GetRecoPhiStarMinus_rhometh</a> ()</td></tr>
+<tr class="separator:a76ab675bf25402fde29d777fb346aec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Place to collect functions calculating CP quantities -Phi* : this is a variable, with which one can say, whether the considered boson is a CP even state or a CP odd state -Phi*CP : this is a variable, with which one can figure out, whether the Higgs is a CP mixture or not -Zs : this is a variable, with which one can figure out, wether the considered boson has spin 1 (Z) or 0 (Higgs) </p>
@@ -346,58 +370,6 @@ Public Member Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">TVector3 *&#160;</td>
           <td class="paramname"><em>ipvec</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6d5ba56501e2c1c35da35309af81b112"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TVector3 CPQuantities::CalculateIPVector </td>
-          <td>(</td>
-          <td class="paramtype">KGenParticle *&#160;</td>
-          <td class="paramname"><em>genParticle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">RMPoint *&#160;</td>
-          <td class="paramname"><em>pv</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a7cba8aa116e58892d0ecca846e8b8f08"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TVector3 CPQuantities::CalculateIPVector </td>
-          <td>(</td>
-          <td class="paramtype">KLepton *&#160;</td>
-          <td class="paramname"><em>recoParticle</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">KVertex *&#160;</td>
-          <td class="paramname"><em>pv</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -737,6 +709,58 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a44ff47471ecdd6dbf9257fb32fae64d0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TVector3 CPQuantities::CalculateShortestDistance </td>
+          <td>(</td>
+          <td class="paramtype">KGenParticle *&#160;</td>
+          <td class="paramname"><em>genParticle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">RMPoint *&#160;</td>
+          <td class="paramname"><em>pv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a3212bba4a303f663fc196bb2bdec03a6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TVector3 CPQuantities::CalculateShortestDistance </td>
+          <td>(</td>
+          <td class="paramtype">KLepton *&#160;</td>
+          <td class="paramname"><em>recoParticle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">RMPoint&#160;</td>
+          <td class="paramname"><em>pv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a41459ffae38ce33912733b24136b0859"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1042,6 +1066,144 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a548546b66a819aeb38622cccf7e2925e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiMinus_combmeth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9d3a223d5dc226eb76ecc76385f52433"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiMinus_ipmeth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a197cee3a601ffac5712dd39c1503c1a6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiMinus_rhometh </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac91c46e78eb936fc18af545e8c942873"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiPlus_combmeth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="afd9f0c5a0f0501d1977cd27ddfcd4022"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiPlus_ipmeth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a10ed94d1c922963917f90c6824f97c75"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiPlus_rhometh </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a778283bd3af9c19d9498d9763d0facb5"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1051,6 +1213,144 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">double CPQuantities::GetRecoPhiStar </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa44ef90c0b59938a1814d040789e1bea"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiStarMinus_combmeth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1b8cddd00ef4cf877795a3df68e48798"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiStarMinus_ipmeth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a76ab675bf25402fde29d777fb346aec4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiStarMinus_rhometh </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ad6191fe1db7ec30e112691e597df7f94"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiStarPlus_combmeth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ae5905f63f2322191867a9f1e14d03f50"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiStarPlus_ipmeth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2ba643fd325b374685f0c7f78093e244"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CPQuantities::GetRecoPhiStarPlus_rhometh </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
