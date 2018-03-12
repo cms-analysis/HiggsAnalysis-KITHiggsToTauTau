@@ -286,6 +286,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		for channel in ["em", "et", "mt", "tt"]:
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_boosted"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)*(nbtag<1)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"] = "(mjj>300)*(njets>1)*(H_pt>150.)" if channel != "em" else "(mjj>300)*(njets>1)*(H_pt>150.)*(nbtag<1)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D"] = "(mjj>300)*(njets>1)" if channel != "em" else "(mjj>300)*(njets>1)*(nbtag<1)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowM"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)*(nbtag<1)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_highM"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)*(nbtag<1)"
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowMjj"] = "(mjj>200)*(mjj<500)*(njets>1)*(m_sv>100)" if channel != "em" else "(mjj>200)*(mjj<500)*(njets>1)*(nbtag<1)"
