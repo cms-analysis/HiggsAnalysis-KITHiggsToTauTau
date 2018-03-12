@@ -509,6 +509,16 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings, metadata_type& 
 		return ((product.m_genSV2 != nullptr) ? (product.m_genSV2)->z() : DefaultValues::UndefinedFloat);
 	});
 
+	// transverse impact parameter d0
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genD01", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genD01;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genD02", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genD02;
+	});
+
 	// charge of leptons
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "genQ_1", [](event_type const& event, product_type const& product)
 	{
