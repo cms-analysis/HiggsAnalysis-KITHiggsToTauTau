@@ -139,52 +139,52 @@ class CategoriesDict(object):
 				self.categoriesDict["{analysis}{channel}i0jet_" + str(h_pt) + "_" + str(pt_2) +"{discriminator}"]["expressions"]["global"] = self.combine([self.invert(cut_string), jet0_string])
 		"""
 		
-		self.categoriesDict["{analysis}{channel}ZeroJet2D{discriminator}"] = {
-				"channel": [
-					"mm_",
-					"ee_",
-					"mt_",
-					"et_",
-					"em_",
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":jet0_string
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_pt_2": auto_rebin_binning,
-						"_m_vis": auto_rebin_binning,
-						"_m_sv": auto_rebin_binning,
-						"_decayMode_2": auto_rebin_binning
-						},
-					"mm_" : {
-						"_m_vis" : "70.0 110.0"
-						},
-					"mt_" : {
-						"_decayMode_2" : "0 1 10 11",
-						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
-						},
-					"et_" : {
-						"_decayMode_2" : "0 1 10 11",
-						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
-						},
-					"em_" : {
-						"_pt_2" : " ".join([str(float(f)) for f in range(15, 35, 10)+range(35,10001,9965)]),
-						"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(50, 100, 5)+range(100,401,300)])
-						},
-					"tt_" : {
-						"_m_sv" : "0.0 "+" ".join([str(float(f)) for f in range(50,301,10)])
-						}
-					}
-				}
-
+		# self.categoriesDict["{analysis}{channel}ZeroJet2D{discriminator}"] = {
+		# 		"channel": [
+		# 			"mm_",
+		# 			"ee_",
+		# 			"mt_",
+		# 			"et_",
+		# 			"em_",
+		# 			"tt_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":jet0_string
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_pt_2": auto_rebin_binning,
+		# 				"_m_vis": auto_rebin_binning,
+		# 				"_m_sv": auto_rebin_binning,
+		# 				"_decayMode_2": auto_rebin_binning
+		# 				},
+		# 			"mm_" : {
+		# 				"_m_vis" : "70.0 110.0"
+		# 				},
+		# 			"mt_" : {
+		# 				"_decayMode_2" : "0 1 10 11",
+		# 				"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+		# 				},
+		# 			"et_" : {
+		# 				"_decayMode_2" : "0 1 10 11",
+		# 				"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+		# 				},
+		# 			"em_" : {
+		# 				"_pt_2" : " ".join([str(float(f)) for f in range(15, 35, 10)+range(35,10001,9965)]),
+		# 				"_m_vis" : "0.0 "+" ".join([str(float(f)) for f in range(50, 100, 5)+range(100,401,300)])
+		# 				},
+		# 			"tt_" : {
+		# 				"_m_sv" : "0.0 "+" ".join([str(float(f)) for f in range(50,301,10)])
+		# 				}
+		# 			}
+		# 		}
+		# 
 
 		self.categoriesDict["{analysis}{channel}LFVZeroJet{discriminator}"] = {
 				"channel": [
@@ -239,105 +239,105 @@ class CategoriesDict(object):
 
 
 
-		self.categoriesDict["{analysis}{channel}Boosted2D{discriminator}"] = {
-				"channel":[
-					"mm_",
-					"ee_",
-					"mt_",
-					"et_",
-					"em_",
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(1.0)",
-					"mm_":"((njetspt30==1)||((njetspt30>1&&mjj<=300)))",
-					"mt_":"((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))",
-					"et_":"((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))",
-					"em_":"((njetspt30==1)||(njetspt30==2&&!(mjj>300&&pZetaMissVis>-10))||(njetspt30>2))",
-					"tt_":"((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_H_pt": auto_rebin_binning,
-						"_m_sv": auto_rebin_binning,
-						"_ptvis": auto_rebin_binning
-						},
-					"mm_": {
-						"_ptvis":"0.0 100.0 150.0 200.0 250.0 300.0 1000.0"
-						},
-					"mt_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
-						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
-						},
-					"et_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
-						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
-						},
-					"em_": {
-						"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
-						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
-						},
-					"tt_": {
-						"_H_pt":"0.0 100.0 170.0 300.0 10000.0",
-						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
-						}
-					}
-				}
-		self.categoriesDict["{analysis}{channel}Vbf2D{discriminator}"] = {
-				"channel":[
-					"mm_",
-					"ee_",
-					"mt_",
-					"et_",
-					"em_",
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(1.0)",
-					"mm_":"(njetspt30>1)*(mjj>300)",
-					"mt_":"(pt_2>40)*(njetspt30>1)*(mjj>300)*(H_pt>50)",
-					"et_":"(njetspt30>1)*(mjj>300)*(H_pt>50)",
-					"em_":"(pZetaMissVis>-10)*(njetspt30==2)*(mjj>300)",
-					"tt_":"(njetspt30>1)*(jdeta>2.5)*(H_pt>100)"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_mjj": auto_rebin_binning,
-						"_m_sv": auto_rebin_binning
-						},
-					"mm_": {
-						"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
-						},
-					"mt_": {
-						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
-						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
-						},
-					"et_": {
-						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
-						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
-						},
-					"em_": {
-						"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
-						"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
-						},
-					"tt_": {
-						"_mjj":"0.0 300.0 500.0 800.0 10000.0",
-						"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
-						}
-					}
-				}
+		# self.categoriesDict["{analysis}{channel}Boosted2D{discriminator}"] = {
+		# 		"channel":[
+		# 			"mm_",
+		# 			"ee_",
+		# 			"mt_",
+		# 			"et_",
+		# 			"em_",
+		# 			"tt_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":"(1.0)",
+		# 			"mm_":"((njetspt30==1)||((njetspt30>1&&mjj<=300)))",
+		# 			"mt_":"((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))",
+		# 			"et_":"((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))",
+		# 			"em_":"((njetspt30==1)||(njetspt30==2&&!(mjj>300&&pZetaMissVis>-10))||(njetspt30>2))",
+		# 			"tt_":"((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_H_pt": auto_rebin_binning,
+		# 				"_m_sv": auto_rebin_binning,
+		# 				"_ptvis": auto_rebin_binning
+		# 				},
+		# 			"mm_": {
+		# 				"_ptvis":"0.0 100.0 150.0 200.0 250.0 300.0 1000.0"
+		# 				},
+		# 			"mt_": {
+		# 				"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
+		# 				"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+		# 				},
+		# 			"et_": {
+		# 				"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
+		# 				"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+		# 				},
+		# 			"em_": {
+		# 				"_H_pt":"0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
+		# 				"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+		# 				},
+		# 			"tt_": {
+		# 				"_H_pt":"0.0 100.0 170.0 300.0 10000.0",
+		# 				"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
+		# 				}
+		# 			}
+		# 		}
+		# self.categoriesDict["{analysis}{channel}Vbf2D{discriminator}"] = {
+		# 		"channel":[
+		# 			"mm_",
+		# 			"ee_",
+		# 			"mt_",
+		# 			"et_",
+		# 			"em_",
+		# 			"tt_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":"(1.0)",
+		# 			"mm_":"(njetspt30>1)*(mjj>300)",
+		# 			"mt_":"(pt_2>40)*(njetspt30>1)*(mjj>300)*(H_pt>50)",
+		# 			"et_":"(njetspt30>1)*(mjj>300)*(H_pt>50)",
+		# 			"em_":"(pZetaMissVis>-10)*(njetspt30==2)*(mjj>300)",
+		# 			"tt_":"(njetspt30>1)*(jdeta>2.5)*(H_pt>100)"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_mjj": auto_rebin_binning,
+		# 				"_m_sv": auto_rebin_binning
+		# 				},
+		# 			"mm_": {
+		# 				"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
+		# 				},
+		# 			"mt_": {
+		# 				"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
+		# 				"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+		# 				},
+		# 			"et_": {
+		# 				"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
+		# 				"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+		# 				},
+		# 			"em_": {
+		# 				"_mjj":" ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)]),
+		# 				"_m_sv":"0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+		# 				},
+		# 			"tt_": {
+		# 				"_mjj":"0.0 300.0 500.0 800.0 10000.0",
+		# 				"_m_sv":"0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
+		# 				}
+		# 			}
+		# 		}
 		self.categoriesDict["{analysis}{channel}Vbf3D{discriminator}"] = {
 				"channel":[
 					"mm_",
@@ -1102,177 +1102,177 @@ class CategoriesDict(object):
 		"""
 		-----------------------------------------------------------------------------
 		"""
-		self.categoriesDict["{analysis}{channel}ZeroJet2D_WJCR{discriminator}"] = {
-				"channel": [
-					"mt_",
-					"et_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":jet0_string,
-					"mt_":"(nbtag==0)*(mt_1>80.0)",
-					"et_":"(nbtag==0)*(mt_1>80.0)"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_mt_1": auto_rebin_binning
-						},
-					"mt_" : {
-						"_mt_1" : "80.0 200.0"
-						},
-					"et_" : {
-						"_mt_1" : "80.0 200.0"
-						}
-					}
-				}
-		self.categoriesDict["{analysis}{channel}ZeroJet2D_QCDCR{discriminator}"] = {
-				"channel": [
-					"mt_",
-					"et_",
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":jet0_string,
-					"mt_":"(iso_1>0.15)*(iso_1<0.30)",
-					"et_":"(iso_1>0.10)*(iso_1<0.30)",
-					"tt_":"((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_m_vis": auto_rebin_binning,
-						"_m_sv": auto_rebin_binning
-						},
-					"mt_" : {
-						"_m_vis" : "40.0 80.0 120.0 160.0 200.0"
-						},
-					"et_" : {
-						"_m_vis" : "40.0 80.0 120.0 160.0 200.0"
-						},
-					"tt_" : {
-						"_m_sv" : "0.0 300.0"
-						}
-					}
-				}
-		self.categoriesDict["{analysis}{channel}Boosted2D_WJCR{discriminator}"] = {
-				"channel":[
-					"mt_",
-					"et_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(1.0)",
-					"mt_":"(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))",
-					"et_":"(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_mt_1": auto_rebin_binning
-						},
-					"mt_": {
-						"_mt_1" : "80.0 200.0"
-						},
-					"et_": {
-						"_mt_1" : "80.0 200.0"
-						}
-					}
-				}
-		self.categoriesDict["{analysis}{channel}Boosted2D_QCDCR{discriminator}"] = {
-				"channel":[
-					"mt_",
-					"et_",
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(1.0)",
-					"mt_":"(iso_1>0.15)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))",
-					"et_":"(iso_1>0.10)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))",
-					"tt_":"((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))*((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_m_sv": auto_rebin_binning
-						},
-					"mt_": {
-						"_m_sv" : "40.0 80.0 120.0 160.0 200.0"
-						},
-					"et_": {
-						"_m_sv" : "40.0 80.0 120.0 160.0 200.0"
-						},
-					"tt_": {
-						"_m_sv" : "0.0 250.0"
-						}
-					}
-				}
-		self.categoriesDict["{analysis}{channel}Vbf2D_QCDCR{discriminator}"] = {
-				"channel":[
-					"tt_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(1.0)",
-					"tt_":"((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))*(njetspt30>1)*(jdeta>2.5)*(H_pt>100)"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_m_sv": auto_rebin_binning
-						},
-					"tt_": {
-						"_m_sv":"0.0 250.0"
-						}
-					}
-				}
-		self.categoriesDict["{analysis}{channel}TTbarCR{discriminator}"] = {
-				"channel": [
-					"ttbar_"
-					],
-				"expressions":{
-					"analysis": [
-						"catHtt13TeV_"
-						],
-					"global":"(1.0)",
-					"ttbar_":"(pZetaMissVis < -35.0)*(m_vis>90.0)*(njetspt30>0)"
-					},
-				"binnings":{
-					"analysis": [
-						"binningHtt13TeV_"
-						],
-					"global": {
-						"_m_vis": auto_rebin_binning
-						},
-					"ttbar_" : {
-						"_m_vis" : "0.0 10000.0"
-						}
-					}
-				}
-		
-		"""
+		# self.categoriesDict["{analysis}{channel}ZeroJet2D_WJCR{discriminator}"] = {
+		# 		"channel": [
+		# 			"mt_",
+		# 			"et_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":jet0_string,
+		# 			"mt_":"(nbtag==0)*(mt_1>80.0)",
+		# 			"et_":"(nbtag==0)*(mt_1>80.0)"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_mt_1": auto_rebin_binning
+		# 				},
+		# 			"mt_" : {
+		# 				"_mt_1" : "80.0 200.0"
+		# 				},
+		# 			"et_" : {
+		# 				"_mt_1" : "80.0 200.0"
+		# 				}
+		# 			}
+		# 		}
+		# self.categoriesDict["{analysis}{channel}ZeroJet2D_QCDCR{discriminator}"] = {
+		# 		"channel": [
+		# 			"mt_",
+		# 			"et_",
+		# 			"tt_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":jet0_string,
+		# 			"mt_":"(iso_1>0.15)*(iso_1<0.30)",
+		# 			"et_":"(iso_1>0.10)*(iso_1<0.30)",
+		# 			"tt_":"((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_m_vis": auto_rebin_binning,
+		# 				"_m_sv": auto_rebin_binning
+		# 				},
+		# 			"mt_" : {
+		# 				"_m_vis" : "40.0 80.0 120.0 160.0 200.0"
+		# 				},
+		# 			"et_" : {
+		# 				"_m_vis" : "40.0 80.0 120.0 160.0 200.0"
+		# 				},
+		# 			"tt_" : {
+		# 				"_m_sv" : "0.0 300.0"
+		# 				}
+		# 			}
+		# 		}
+		# self.categoriesDict["{analysis}{channel}Boosted2D_WJCR{discriminator}"] = {
+		# 		"channel":[
+		# 			"mt_",
+		# 			"et_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":"(1.0)",
+		# 			"mt_":"(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))",
+		# 			"et_":"(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_mt_1": auto_rebin_binning
+		# 				},
+		# 			"mt_": {
+		# 				"_mt_1" : "80.0 200.0"
+		# 				},
+		# 			"et_": {
+		# 				"_mt_1" : "80.0 200.0"
+		# 				}
+		# 			}
+		# 		}
+		# self.categoriesDict["{analysis}{channel}Boosted2D_QCDCR{discriminator}"] = {
+		# 		"channel":[
+		# 			"mt_",
+		# 			"et_",
+		# 			"tt_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":"(1.0)",
+		# 			"mt_":"(iso_1>0.15)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))",
+		# 			"et_":"(iso_1>0.10)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))",
+		# 			"tt_":"((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))*((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_m_sv": auto_rebin_binning
+		# 				},
+		# 			"mt_": {
+		# 				"_m_sv" : "40.0 80.0 120.0 160.0 200.0"
+		# 				},
+		# 			"et_": {
+		# 				"_m_sv" : "40.0 80.0 120.0 160.0 200.0"
+		# 				},
+		# 			"tt_": {
+		# 				"_m_sv" : "0.0 250.0"
+		# 				}
+		# 			}
+		# 		}
+		# self.categoriesDict["{analysis}{channel}Vbf2D_QCDCR{discriminator}"] = {
+		# 		"channel":[
+		# 			"tt_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":"(1.0)",
+		# 			"tt_":"((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))*(njetspt30>1)*(jdeta>2.5)*(H_pt>100)"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_m_sv": auto_rebin_binning
+		# 				},
+		# 			"tt_": {
+		# 				"_m_sv":"0.0 250.0"
+		# 				}
+		# 			}
+		# 		}
+		# self.categoriesDict["{analysis}{channel}TTbarCR{discriminator}"] = {
+		# 		"channel": [
+		# 			"ttbar_"
+		# 			],
+		# 		"expressions":{
+		# 			"analysis": [
+		# 				"catHtt13TeV_"
+		# 				],
+		# 			"global":"(1.0)",
+		# 			"ttbar_":"(pZetaMissVis < -35.0)*(m_vis>90.0)*(njetspt30>0)"
+		# 			},
+		# 		"binnings":{
+		# 			"analysis": [
+		# 				"binningHtt13TeV_"
+		# 				],
+		# 			"global": {
+		# 				"_m_vis": auto_rebin_binning
+		# 				},
+		# 			"ttbar_" : {
+		# 				"_m_vis" : "0.0 10000.0"
+		# 				}
+		# 			}
+		# 		}
+		# 
+		# """
 		self.categoriesDict["{analysis}{channel}FT_InsteadQCuts{discriminator}"] = {
 				"channel": [
 					"mt_"
