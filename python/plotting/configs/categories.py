@@ -743,14 +743,14 @@ class CategoriesDict(object):
 		placeholder=0
 		for chan in channels:
 			Categories[chan] = []
-			for name, info in self.categoriesDict.iteritems():
-				for chan in channels:
-					if chan+"_" in info["channel"]:
-						Categories[chan].append(name.format(analysis="", channel=(chan+"_") if prefix else "", discriminator=""))
-					else:
-						Categories[chan].append("placeholder{ph}".format(ph=placeholder))
-						placeholder += 1
-						return Categories
+		for name, info in self.categoriesDict.iteritems():
+			for chan in channels:
+				if chan+"_" in info["channel"]:
+					Categories[chan].append(name.format(analysis="", channel=(chan+"_") if prefix else "", discriminator=""))
+				else:
+					Categories[chan].append("placeholder{ph}".format(ph=placeholder))
+					placeholder += 1
+		return Categories
 
 	def invert(self, expression):
 		tmp_expression = "(" + expression + ")"
