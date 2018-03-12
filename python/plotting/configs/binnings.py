@@ -21,6 +21,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["svfitMass"] = "50,0,250"
 		self.binnings_dict["zmumu_selection_for_embedding_ZMass"] = "19,50,240"
 		self.binnings_dict["zmumu_selection_for_embedding_integral"] = "1,0,1"
+		auto_rebin_binning = " ".join([str(float(f)) for f in range(0,251,10)])
 		
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.binnings_dict[channel+"_integral"] = "1,0.0,1.0"
@@ -681,6 +682,12 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_btag_mt_sv"] = " ".join([str(float(f)) for f in [0,20,40,60,80,100,120,140,160,180,200,250,300,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_nobtag_m_sv"] = " ".join([str(float(f)) for f in [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,225,250,275,300,325,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_btag_m_sv"] = " ".join([str(float(f)) for f in [0,20,40,60,80,100,120,140,160,180,200,250,300,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
+
+		# Z->tautau binnings	
+		for channel in ["em", "et", "mt"]:
+			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_LFVJet_m_vis"] = auto_rebin_binning
+			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_LFVZeroJet_m_vis"] = auto_rebin_binning
+				
 				#==========================CategoriesDictUpdates=========================================================
 		
 		import Artus.Utility.jsonTools as jsonTools

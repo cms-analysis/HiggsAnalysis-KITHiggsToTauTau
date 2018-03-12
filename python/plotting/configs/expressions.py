@@ -333,6 +333,15 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag_high"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"]+"*({pt_var}>{pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut_btag_high)
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag_low"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"]+"*({pt_var}<={pt_cut_1})*({pt_var}>{pt_cut_2})".format(pt_var=pt_var, pt_cut_1=pt_cut_btag_high, pt_cut_2=pt_cut_btag_low)
 
+		# LFV categories
+		self.expressions_dict["catHttMSSM13TeV_em_LFVZeroJet"] = self.combine([jet0_string,"((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<20)"])
+		self.expressions_dict["catHttMSSM13TeV_et_LFVZeroJet"] = self.combine([jet0_string,"((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)"])
+		self.expressions_dict["catHttMSSM13TeV_mt_LFVZeroJet"] = self.combine([jet0_string,"((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<50)"])
+		self.expressions_dict["catHttMSSM13TeV_em_LFVJet"] = "(njetspt30>=1)*(nbtag == 0)*((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<20)"
+		self.expressions_dict["catHttMSSM13TeV_et_LFVJet"] = "(njetspt30>=1)*(nbtag == 0)*((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)"
+		self.expressions_dict["catHttMSSM13TeV_mt_LFVJet"] = "(njetspt30>=1)*(nbtag == 0)*((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<50)"
+		
+		 	
 		# MVA Htt categories
 		#self.expressions_dict["mt_vbf_pre"] = "((0.3<=ttj_1)*(0.45<=ztt_1))"
 		#self.expressions_dict["mt_vbf_sig"] = "{pre}*(0.8<=vbf_1)".format(pre=self.expressions_dict["mt_vbf_pre"])
@@ -438,3 +447,30 @@ class ExpressionsDict(expressions.ExpressionsDict):
 	def static_get_expression(expression):
 		exp_dict = ExpressionsDict()
 		return exp_dict.expressions_dict.get(expression)
+
+	def getExpressionsDict(self):
+		return self.expressions
+
+	def getBinningsDict(self):
+		return self.binnings
+
+	def getCategories(self, channels, prefix = True):
+		Categories = {}
+		placeholder=0
+		for chan in channels:
+			Categories[chan] = []
+		for name, info in self.categoriesDict.iteritems():
+			for chan in channels:
+				if chan+"_" in info["channel"]:
+					Categories[chan].append(name.format(analysis="", channel=(chan+"_") if prefix else "", discriminator=""))
+				else:
+					Categories[chan].append("placeholder{ph}".format(ph=placeholder))
+					placeholder += 1
+		return Categories
+
+	def invert(self, expression):
+		tmp_expression = "(" + expression + ")"
+		return "(" + tmp_expression + "==0)" 
+
+	def combine(self, strings_to_combine):
+		return "(" + "*".join(strings_to_combine) + ")"		
