@@ -465,24 +465,20 @@ class CutStringsDict:
 	# cp final state cuts
 	@staticmethod
 	def cp2016(channel, cut_type):
+		cuts = CutStringsDict.baseline(channel, cut_type)
 		if channel == "mt":
-			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["pt_1"] = "(pt_1 > 20.0)"
 			cuts["pt_2"] = "(pt_2 > 20.0)"
 		elif channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["pt_1"] = "(pt_1 > 26.0)"
 			cuts["pt_2"] = "(pt_2 > 20.0)"
 		elif channel == "tt":
-			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["pt_1"] = "(pt_1 > 40.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
 		elif channel == "mm":
-			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["pt_1"] = "(pt_1 > 10.0)"
 			cuts["pt_2"] = "(pt_2 > 10.0)"
 		elif channel == "em" or channel == "ttbar":
-			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["pt_1"] = "(pt_1 > 13.0)"
 			cuts["pt_2"] = "(pt_2 > 10.0)"
 		else:
@@ -492,21 +488,27 @@ class CutStringsDict:
 	
 	@staticmethod
 	def cprho2016(channel, cut_type):
+		cuts = CutStringsDict.cp2016(channel, cut_type)
 		if channel == "tt":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
 			cuts["rhodecay"] = "(decayMode_1 == 1)*(decayMode_2 == 1)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
 
 	@staticmethod
 	def cpcomb2016(channel, cut_type):
+		cuts = CutStringsDict.cp2016(channel, cut_type)
 		if channel == "mt":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
 			cuts["rhodecay"] = "(decayMode_2 == 1)"
 		if channel == "et":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
 			cuts["rhodecay"] = "(decayMode_2 == 1)"
 		if channel == "tt":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
 			cuts["rhodecay"] = "((decayMode_1 == 1)*(decayMode_2 != 1))+((decayMode_1 != 1)*(decayMode_2 == 1))"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
 
 	@staticmethod
 	def ztt2015cs(channel, cut_type):
@@ -651,9 +653,9 @@ class CutStringsDict:
 		elif cut_type=="cp2016":
 			cuts = CutStringsDict.cp2016(channel, cut_type)
 		elif cut_type=="cprho2016":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
+			cuts = CutStringsDict.cprho2016(channel, cut_type)
 		elif cut_type=="cpcomb2016":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
+			cuts = CutStringsDict.cpcomb2016(channel, cut_type)
 
 		elif cut_type=="ztt2015cs":
 			cuts = CutStringsDict.ztt2015cs(channel, cut_type)
