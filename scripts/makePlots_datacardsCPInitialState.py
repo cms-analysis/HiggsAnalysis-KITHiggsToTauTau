@@ -792,14 +792,6 @@ if __name__ == "__main__":
 
 	if log.isEnabledFor(logging.DEBUG):
 		pprint.pprint(plot_configs) 
-		
-	# delete existing output files
-	# tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
-	# for output_file_iterator in tmp_output_files:
-	# 	if os.path.exists(output_file_iterator):
-	# 		os.remove(output_file_iterator)
-	# 		log.info("Removed file \""+output_file_iterator+"\" before it is recreated again.")
-	# output_files = list(set(output_files))
 	
 	if args.only_config:
 		sys.exit(1)
@@ -809,12 +801,17 @@ if __name__ == "__main__":
 		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	
 	if args.n_plots[0] != 0 and "inputs" in args.steps:
-		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+		# tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+		datacards_module._call_command([
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/hadd_shapes.sh {OUTPUT_FOLDER}  ".format(OUTPUT_FOLDER=os.path.join(args.output_dir, os.join.path("shapes", args.output_suffix)))
+		])
 	if args.debug_plots:
 		debug_plot_configs = []
 		for output_file in merged_output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	
 	
 	# call official script again with shapes that have just been created
 	# this steps creates the filled datacards in the output folder. 
@@ -1147,25 +1144,7 @@ if __name__ == "__main__":
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
     										
 	sys.exit(0)		 			
-			
-	if "inputs" in args.steps:
-		# update CombineHarvester with the yields and shapes
-		log.info("\n -------------------------------------- Extract shapes from histogram templates ---------------------------------")
-		datacards.extract_shapes(
-				os.path.join(args.output_dir, input_root_filename_template.replace("$", "")).replace("output/{SUFFIX}/".format(SUFFIX=args.output_suffix), ""),
-				bkg_histogram_name_template, sig_histogram_name_template,
-				bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
-				update_systematics=True
-		)
 	
-	# add bin-by-bin uncertainties
-	if not args.no_bbb_uncs:
-		log.info("\n -------------------------------------- Added bin-by-bin uncertainties ---------------------------------")
-		datacards.add_bin_by_bin_uncertainties(
-				processes=datacards.cb.cp().backgrounds().process_set(),
-				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
-		)
-		
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
 	It considers the
