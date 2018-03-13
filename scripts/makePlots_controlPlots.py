@@ -198,9 +198,9 @@ if __name__ == "__main__":
 	parser.add_argument("--cp", default=False, action="store_true",
 	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")  #TODO instead of 3 different boolean flag, change to option with 3 possible values
 	parser.add_argument("--cprho", default=False, action="store_true",
-	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")
+	                    help="Produce the plots for the CP analysis - rho method (for tt channel only) [Default: %(default)s]")
 	parser.add_argument("--cpcomb", default=False, action="store_true",
-	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")
+	                    help="Produce the plots for the CP analysis - comb method (for mt, et, tt channels) [Default: %(default)s]")
 	parser.add_argument("--taues", default=False, action="store_true",
 	                    help="Produce the plots for the tau energy scale analysis. [Default: %(default)s]")
 	parser.add_argument("--etaufakerate", default=False, action="store_true",
@@ -432,6 +432,7 @@ if __name__ == "__main__":
 						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
 						nick_suffix = (channel if args.channel_comparison else "")
 				)
+				
 				if (args.channel_comparison):
 					channel_config = samples.Samples.merge_configs(channel_config, config)
 					if last_loop:
