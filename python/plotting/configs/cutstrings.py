@@ -490,11 +490,13 @@ class CutStringsDict:
 			sys.exit(1)
 		return cuts
 	
+	@staticmethod
 	def cprho2016(channel, cut_type):
 		if channel == "tt":
 			cuts = CutStringsDict.cp2016(channel, cut_type)
 			cuts["rhodecay"] = "(decayMode_1 == 1)*(decayMode_2 == 1)"
 
+	@staticmethod
 	def cpcomb2016(channel, cut_type):
 		if channel == "mt":
 			cuts = CutStringsDict.cp2016(channel, cut_type)
@@ -647,6 +649,10 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
 		
 		elif cut_type=="cp2016":
+			cuts = CutStringsDict.cp2016(channel, cut_type)
+		elif cut_type=="cprho2016":
+			cuts = CutStringsDict.cp2016(channel, cut_type)
+		elif cut_type=="cpcomb2016":
 			cuts = CutStringsDict.cp2016(channel, cut_type)
 
 		elif cut_type=="ztt2015cs":
