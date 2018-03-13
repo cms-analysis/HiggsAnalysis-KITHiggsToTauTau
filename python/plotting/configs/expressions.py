@@ -304,6 +304,25 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["catHtt13TeV_mm_dijet2D_lowboost"] = "(mjj>300)*(njets>1)*(H_pt>150.)*(njetspt30>1)"
 
 
+		#################################
+		#   CP final state categories   #
+		#################################
+		# *** rho method categories ***
+		rhorhoCH = "(decayMode_1==1)*(decayMode_2==1)"
+		# ZeroJet categories
+		self.expressions_dict["catHtt13TeV_tt_ZeroJet2D_CPrho"] = self.combine([self.expressions_dict["catHtt13TeV_tt_ZeroJet2D"], rhorhoCH])
+		self.expressions_dict["catHtt13TeV_tt_ZeroJet2D_QCDCR_CPrho"] = self.combine([self.expressions_dict["catHtt13TeV_tt_ZeroJet2D_QCDCR"], rhorhoCH])
+
+		# Boosted (1jet) categories
+		self.expressions_dict["catHtt13TeV_tt_Boosted2D_CPrho"] = self.combine([self.expressions_dict["catHtt13TeV_tt_Boosted2D"], rhorhoCH])
+		self.expressions_dict["catHtt13TeV_tt_Boosted2D_QCDCR_CPrho"] = self.combine([self.expressions_dict["catHtt13TeV_tt_Boosted2D_QCDCR"], rhorhoCH])
+
+		# VBF categories
+		self.expressions_dict["catHtt13TeV_tt_Vbf2D_CPrho"] = self.combine([self.expressions_dict["catHtt13TeV_tt_Vbf2D"], rhorhoCH])
+		self.expressions_dict["catHtt13TeV_tt_Vbf2D_QCDCR_CPrho"] = self.combine([self.expressions_dict["catHtt13TeV_tt_Vbf2D_QCDCR"], rhorhoCH])
+
+
+
 		# MSSSM
 		for channel in ["et","mt","tt","em","mm"]:
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_inclusive"] = "(1.0)"
