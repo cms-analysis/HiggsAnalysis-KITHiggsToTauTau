@@ -1,17 +1,5 @@
 var NAVTREEINDEX23 =
 {
-"plot__BDTSeparation_8py.html#a857d458d3181167791461978386b1696":[2,0,2,83,16],
-"plot__BDTSeparation_8py.html#a8d6574abb590870a3f9bdbca7cfc4695":[2,0,2,83,2],
-"plot__BDTSeparation_8py.html#a91e8bb95abeecb15fdba5c72315b8e8a":[2,0,2,83,17],
-"plot__BDTSeparation_8py.html#a9f8c420dda2585e9776aa462bbc32f34":[2,0,2,83,4],
-"plot__BDTSeparation_8py.html#aa00f30204d6da5654a5a1e13992d82f3":[2,0,2,83,15],
-"plot__BDTSeparation_8py.html#aa177de892a2ad0fc95a3795c69ac527c":[2,0,2,83,13],
-"plot__BDTSeparation_8py.html#aac5633c0decf029722af5d215d4bbe42":[2,0,2,83,12],
-"plot__BDTSeparation_8py.html#ab1466213c6eabd3e1cb09de2e0a2860c":[2,0,2,83,0],
-"plot__BDTSeparation_8py.html#ab3312fbb6f4b5b4fedde951ecbb212ee":[2,0,2,83,18],
-"plot__BDTSeparation_8py.html#ab827c1353479d9991c0c6dc9f7a54234":[2,0,2,83,9],
-"plot__BDTSeparation_8py.html#abcbd6dde152695178c6a44dcac5bc6ef":[2,0,2,83,3],
-"plot__BDTSeparation_8py.html#ac7942c5cd0cf47bcc44ef4f27ee12830":[2,0,2,83,20],
 "plot__BDTSeparation_8py.html#ae3ec4390803156cbd31867034bfa7eba":[2,0,2,83,22],
 "plot__BDTSeparation_8py.html#aead2c1544e1ccffc47945f5ed0945fef":[2,0,2,83,1],
 "plot__overtraining_8py.html":[2,0,2,84],
@@ -249,5 +237,17 @@ var NAVTREEINDEX23 =
 "significance__2d_8py.html#a320be8d3d8a1e53d168262f2beb38c67":[2,0,2,92,13],
 "significance__2d_8py.html#a36ed43cb21e061fa0e3df8730a5606f1":[2,0,2,92,9],
 "significance__2d_8py.html#a4242b46059e52756444de65ff09b9c1c":[2,0,2,92,20],
-"significance__2d_8py.html#a4a8ad6f007a1c05803c5591e33cce7f2":[2,0,2,92,19]
+"significance__2d_8py.html#a4a8ad6f007a1c05803c5591e33cce7f2":[2,0,2,92,19],
+"significance__2d_8py.html#a5fc00c0dd9196d95f0996a5ee419570f":[2,0,2,92,15],
+"significance__2d_8py.html#a6f4eb1f2aac92fe3476b083d27c3386a":[2,0,2,92,17],
+"significance__2d_8py.html#a71df27da88a28b3ec54d32fa6bef0fe7":[2,0,2,92,21],
+"significance__2d_8py.html#a7506238ac62ffe141c0036214bc268c4":[2,0,2,92,5],
+"significance__2d_8py.html#a800c08cc903c9b6a352c9594f6cb5734":[2,0,2,92,14],
+"significance__2d_8py.html#a8a7b3af4d72f62df1fd49d38d4baa3f6":[2,0,2,92,7],
+"significance__2d_8py.html#a9acf03cc16e2781224f8a43af41553a1":[2,0,2,92,12],
+"significance__2d_8py.html#ab99c05329f7f3efe1de7654fe3b4a4cc":[2,0,2,92,18],
+"significance__2d_8py.html#ad26c1b99d4ab92a16b5f24af22b2a570":[2,0,2,92,0],
+"significance__2d_8py.html#ad90ff385689d4bb32a6a292048276cdc":[2,0,2,92,4],
+"significance__2d_8py.html#ae04a3fb8d79bc2fac9aea25e97b6c568":[2,0,2,92,8],
+"significance__2d_8py.html#aea6557478b291af0f619b6d0accdfcf5":[2,0,2,92,16]
 };
