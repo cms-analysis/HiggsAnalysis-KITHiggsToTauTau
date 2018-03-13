@@ -4,7 +4,7 @@ var searchData=
   ['massressystematic',['MassResSystematic',['../classsystematics__run2_1_1MassResSystematic.html',1,'systematics_run2']]],
   ['maxlooseelectronscountfilter',['MaxLooseElectronsCountFilter',['../classMaxLooseElectronsCountFilter.html',1,'']]],
   ['maxloosemuonscountfilter',['MaxLooseMuonsCountFilter',['../classMaxLooseMuonsCountFilter.html',1,'']]],
-  ['mctautauquantitiesadapter',['MCTauTauQuantitiesAdapter',['../classMCTauTauQuantitiesAdapter.html',1,'']]],
+  ['melam125producer',['MELAM125Producer',['../classMELAM125Producer.html',1,'']]],
   ['melaproducer',['MELAProducer',['../classMELAProducer.html',1,'']]],
   ['metcorrector',['MetCorrector',['../classMetCorrector.html',1,'']]],
   ['metcorrectorbase',['MetCorrectorBase',['../classMetCorrectorBase.html',1,'']]],
