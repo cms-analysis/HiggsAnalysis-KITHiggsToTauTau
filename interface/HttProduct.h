@@ -292,6 +292,8 @@ public:
 	// filled by GenMatchedTauCPProducer
 	RMPoint* m_genSV1 = 0; // vertex of production of tau daughter 1
 	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
+	double m_genD01 = DefaultValues::UndefinedDouble;
+	double m_genD02 = DefaultValues::UndefinedDouble;
 	TVector3 m_genIP1;
 	TVector3 m_genIP2;
 	double m_genCosPsiPlus  = DefaultValues::UndefinedDouble;
@@ -306,6 +308,8 @@ public:
 	TVector3 m_recoIP2; // IPvec wrt thePV
 	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
 	TVector3 m_recoIP2_refitPV; // IPvec wrt refitted PV
+	TVector3 m_track1FromBS; // distance between track1 and BS center
+	TVector3 m_track2FromBS; // distance between track2 and BS center
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
 	
@@ -315,6 +319,8 @@ public:
 	std::vector<double> m_errorIP1vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
+	// comparison genIP-recoIP
+	// wrt thePV
 	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;
 	double m_deltaPhiGenRecoIP1  = DefaultValues::UndefinedDouble;
@@ -323,10 +329,21 @@ public:
 	double m_deltaRGenRecoIP2  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP2  = DefaultValues::UndefinedDouble;
+	// wrt refitPV
+	double m_deltaEtaGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
 
+	// comparison between recoIP(thePV) and recoIP(refitPV)
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
 
+	// CP-sensitive observable
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
@@ -344,6 +361,22 @@ public:
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar_rho = DefaultValues::UndefinedDouble;
 
+	// azimuthal angles of the tau decay planes
+	// ip method
+	double m_recoPhiPlus_ipmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinus_ipmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlus_ipmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinus_ipmeth = DefaultValues::UndefinedDouble;
+	// comb method
+	double m_recoPhiPlus_combmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinus_combmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlus_combmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinus_combmeth = DefaultValues::UndefinedDouble;
+	// rho method
+	double m_recoPhiPlus_rhometh = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinus_rhometh = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlus_rhometh = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinus_rhometh = DefaultValues::UndefinedDouble;
 
 	double m_recoChargedPiPlus_rho_pt = DefaultValues::UndefinedDouble;
 	double m_recoChargedPiMinus_pt = DefaultValues::UndefinedDouble;

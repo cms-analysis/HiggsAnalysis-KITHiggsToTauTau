@@ -141,6 +141,10 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	});
 	
 	// MC-truth IP vectors
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1mag", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_genIP1).x() != -999) ? ( sqrt( (product.m_genIP1).x()*(product.m_genIP1).x() + (product.m_genIP1).y()*(product.m_genIP1).y() + (product.m_genIP1).z()*(product.m_genIP1).z() ) ) : DefaultValues::UndefinedFloat);
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1x", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).x() : DefaultValues::UndefinedFloat);
@@ -152,6 +156,10 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1z", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP2mag", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_genIP2).x() != -999) ? ( sqrt( (product.m_genIP2).x()*(product.m_genIP2).x() + (product.m_genIP2).y()*(product.m_genIP2).y() + (product.m_genIP2).z()*(product.m_genIP2).z() ) ) : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP2x", [](event_type const& event, product_type const& product)
 	{
@@ -408,8 +416,8 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	
 			if (product.m_genPV != nullptr){
 				// calculate IP vectors of tau daughters
-				product.m_genIP1 = cpq.CalculateIPVector(chargedPart1, product.m_genPV);
-				product.m_genIP2 = cpq.CalculateIPVector(chargedPart2, product.m_genPV);
+				product.m_genIP1 = cpq.CalculateShortestDistance(chargedPart1, product.m_genPV);
+				product.m_genIP2 = cpq.CalculateShortestDistance(chargedPart2, product.m_genPV);
 
 				// calculate cosPsi
 				product.m_genCosPsiPlus  = cpq.CalculateCosPsi(chargedPart1->p4, product.m_genIP1);
@@ -509,6 +517,16 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings, metadata_type& 
 		return ((product.m_genSV2 != nullptr) ? (product.m_genSV2)->z() : DefaultValues::UndefinedFloat);
 	});
 
+	// transverse impact parameter d0
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genD01", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genD01;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genD02", [](event_type const& event, product_type const& product)
+	{
+		return product.m_genD02;
+	});
+	
 	// charge of leptons
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "genQ_1", [](event_type const& event, product_type const& product)
 	{
@@ -687,8 +705,15 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 	
 			if (product.m_genPV != nullptr){
 
-				product.m_genIP1 = cpq.CalculateIPVector(genParticle1, product.m_genPV);
-				product.m_genIP2 = cpq.CalculateIPVector(genParticle2, product.m_genPV);
+				product.m_genD01 = (1 / genParticle1->p4.Pt()) 
+									* ( -( (product.m_genSV1)->x() - (product.m_genPV)->x() )*genParticle1->p4.Py()
+									+ ( (product.m_genSV1)->y() - (product.m_genPV)->y() )*genParticle1->p4.Px() );
+				product.m_genD02 = (1 / genParticle2->p4.Pt()) 
+									* ( -( (product.m_genSV2)->x() - (product.m_genPV)->x() )*genParticle2->p4.Py()
+									+ ( (product.m_genSV2)->y() - (product.m_genPV)->y() )*genParticle2->p4.Px() );
+
+				product.m_genIP1 = cpq.CalculateShortestDistance(genParticle1, product.m_genPV);
+				product.m_genIP2 = cpq.CalculateShortestDistance(genParticle2, product.m_genPV);
 				
 				// calculate phi*cp
 				if (genParticle1->charge() > 0){
