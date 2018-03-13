@@ -9,6 +9,7 @@ import argparse
 import copy
 import os
 import sys
+import re
 
 import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
@@ -472,14 +473,17 @@ if __name__ == "__main__":
 						category = "_" + category if category else "",
 						quantity = quantity
 				)
-				if  binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict:
+				if  binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict and "--x-bins" not in args.args:
 					binnings_key = channel + "_" + quantity
-				else:
-					binnings_key = None
 
-				if binnings_key is not None:
+				if binnings_key is not None and "--x-bins" not in args.args:
 					config["x_bins"] = [("1,-1,1" if "pol_gen" in nick else json_config.pop("x_bins", [binnings_key])) for nick in config["nicks"]]
-
+				elif "--x-bins" in args.args:
+					x_binning = re.search("(--x-bins)[\s=\"\']*(?P<x_bins>\S*)[\"\']?\S", args.args)
+					config["x_bins"] = [" ".join(x_binning.group(2))]
+				else:
+					raise Exception("Either no binning for binnings key {BINNINGS_KEY} defined in binnings.py or no argument in --x-bins passed.".format(BINNINGS_KEY=binnings_key))
+					
 				config["x_label"] = json_config.pop("x_label", channel + "_" + quantity)
 
 				if args.channel_comparison:
