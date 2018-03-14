@@ -59,7 +59,7 @@ var hierarchy =
     ] ],
     [ "cutstrings.CutStringsDict", "classcutstrings_1_1CutStringsDict.html", null ],
     [ "dict", null, [
-      [ "baseconfig.Baseconfig", "classbaseconfig_1_1Baseconfig.html", null ],
+      [ "baseconfig.Baseconfig_tt", "classbaseconfig_1_1Baseconfig__tt.html", null ],
       [ "settingsBTaggedJetID.BTaggedJet_ID", "classsettingsBTaggedJetID_1_1BTaggedJet__ID.html", null ],
       [ "settingsElectronID.Electron_ID", "classsettingsElectronID_1_1Electron__ID.html", null ],
       [ "settingsJEC.JEC", "classsettingsJEC_1_1JEC.html", null ],

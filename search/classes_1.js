@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['baseconfig',['Baseconfig',['../classbaseconfig_1_1Baseconfig.html',1,'baseconfig']]],
+  ['baseconfig_5ftt',['Baseconfig_tt',['../classbaseconfig_1_1Baseconfig__tt.html',1,'baseconfig']]],
   ['binningsdict',['BinningsDict',['../classbinnings_1_1BinningsDict.html',1,'binnings']]],
   ['bmistagsystematic',['BMistagSystematic',['../classsystematics__run2_1_1BMistagSystematic.html',1,'systematics_run2']]],
   ['btageffconsumer',['BTagEffConsumer',['../classBTagEffConsumer.html',1,'']]],

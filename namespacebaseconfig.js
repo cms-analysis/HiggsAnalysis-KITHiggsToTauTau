@@ -1,4 +1,4 @@
 var namespacebaseconfig =
 [
-    [ "Baseconfig", "classbaseconfig_1_1Baseconfig.html", "classbaseconfig_1_1Baseconfig" ]
+    [ "Baseconfig_tt", "classbaseconfig_1_1Baseconfig__tt.html", "classbaseconfig_1_1Baseconfig__tt" ]
 ];
