@@ -2,7 +2,7 @@ var annotated =
 [
     [ "AddMVATrainingToTrees", "namespaceAddMVATrainingToTrees.html", null ],
     [ "AddMVATrainingToTrees_Wrapper", "namespaceAddMVATrainingToTrees__Wrapper.html", null ],
-    [ "baseconfig", "namespacebaseconfig.html", "namespacebaseconfig" ],
+    [ "baseconfigCP", "namespacebaseconfigCP.html", "namespacebaseconfigCP" ],
     [ "batchComputeSvfit", "namespacebatchComputeSvfit.html", null ],
     [ "binnings", "namespacebinnings.html", "namespacebinnings" ],
     [ "categories", "namespacecategories.html", "namespacecategories" ],

@@ -2,7 +2,7 @@ var namespaces =
 [
     [ "AddMVATrainingToTrees", "namespaceAddMVATrainingToTrees.html", null ],
     [ "AddMVATrainingToTrees_Wrapper", "namespaceAddMVATrainingToTrees__Wrapper.html", null ],
-    [ "baseconfig", "namespacebaseconfig.html", null ],
+    [ "baseconfigCP", "namespacebaseconfigCP.html", null ],
     [ "batchComputeSvfit", "namespacebatchComputeSvfit.html", null ],
     [ "binnings", "namespacebinnings.html", null ],
     [ "categories", "namespacecategories.html", null ],
