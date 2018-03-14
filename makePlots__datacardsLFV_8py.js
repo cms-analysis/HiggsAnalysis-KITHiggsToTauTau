@@ -9,6 +9,7 @@ var makePlots__datacardsLFV_8py =
     [ "category", "makePlots__datacardsLFV_8py.html#a4f00f7ab8e2f90dfffd28f8ac94f38ef", null ],
     [ "channels", "makePlots__datacardsLFV_8py.html#ae19ba6ccf4a8e2dfc4055919e5f35daa", null ],
     [ "config", "makePlots__datacardsLFV_8py.html#adfb8e610885bded0fb4b7f6794f22f92", null ],
+    [ "control_regions", "makePlots__datacardsLFV_8py.html#ae1a9f614f5a85d2c20ff27b1c56bbd09", null ],
     [ "cut_info", "makePlots__datacardsLFV_8py.html#a48165078cda2800710ecfde6815559cc", null ],
     [ "cut_strings", "makePlots__datacardsLFV_8py.html#a550402a7bdfeac57c0143d2f98362624", null ],
     [ "datacard_filename_templates", "makePlots__datacardsLFV_8py.html#aaba1a877d21366017744e22f15d8f104", null ],
@@ -22,7 +23,7 @@ var makePlots__datacardsLFV_8py =
     [ "help", "makePlots__datacardsLFV_8py.html#a360dec4f458a1361a82b599409a058c3", null ],
     [ "histogram_name_template", "makePlots__datacardsLFV_8py.html#af10aed1399cd0ffb3352bb6716747d0f", null ],
     [ "input_root_filename_template", "makePlots__datacardsLFV_8py.html#a8709323574ef934c8adcc1698571ecae", null ],
-    [ "list_of_samples", "makePlots__datacardsLFV_8py.html#a5ec598a0cef4a9f2ad82a89e7691acc1", null ],
+    [ "list_of_samples_for_syst", "makePlots__datacardsLFV_8py.html#a81eefeacae878f632bc85c2a23991d2f", null ],
     [ "log", "makePlots__datacardsLFV_8py.html#ab4cb8084f5dd84437e4e70bc65b300b9", null ],
     [ "merged_output_files", "makePlots__datacardsLFV_8py.html#afe7f8480a3a6a4aac483fa5ca5537f21", null ],
     [ "nominal", "makePlots__datacardsLFV_8py.html#ae61afad8cc636bf4dd2ee22880668622", null ],
@@ -33,7 +34,7 @@ var makePlots__datacardsLFV_8py =
     [ "parser", "makePlots__datacardsLFV_8py.html#ae809941896e297c1d0ead307bb530f38", null ],
     [ "plot_configs", "makePlots__datacardsLFV_8py.html#abd226101b6598996abe91484b89d1297", null ],
     [ "sample_values", "makePlots__datacardsLFV_8py.html#abed3c33466f840937b5e3ba0367b319b", null ],
-    [ "samples", "makePlots__datacardsLFV_8py.html#ac2432f7af263565d9bcc420fb127e496", null ],
+    [ "samples", "makePlots__datacardsLFV_8py.html#a2e227b3f0fd31ffd9a8681bcd5a0c3a8", null ],
     [ "sig_histogram_name_template", "makePlots__datacardsLFV_8py.html#a33a749f89fb67a50d1901f6cca641141", null ],
     [ "sig_syst_histogram_name_template", "makePlots__datacardsLFV_8py.html#a2fe720884fb8db6f9394c9a5ef35cc44", null ],
     [ "systematic", "makePlots__datacardsLFV_8py.html#a5110730cbf004dcb82e129fa4f4d1fc4", null ],
@@ -42,5 +43,5 @@ var makePlots__datacardsLFV_8py =
     [ "tmp_input_root_filename_template", "makePlots__datacardsLFV_8py.html#a010721fc14122bdccc2c2933171fa634", null ],
     [ "tmp_output_file", "makePlots__datacardsLFV_8py.html#aaf3966811820b5a02ba2f9abd7d44f81", null ],
     [ "tmp_output_files", "makePlots__datacardsLFV_8py.html#a6a4ec6181122d88d474f3d786babc5f1", null ],
-    [ "weight", "makePlots__datacardsLFV_8py.html#a585643e4e4c09eb9c78ba5059bd3a99b", null ]
+    [ "weight", "makePlots__datacardsLFV_8py.html#a944612a2d86f8a2e40419d6c99cb4f3b", null ]
 ];
