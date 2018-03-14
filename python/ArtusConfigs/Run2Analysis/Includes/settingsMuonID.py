@@ -12,7 +12,6 @@ import copy
 
 class Muon_ID(dict):
 	def __init__(self, nickname):
-		#doppelgemoppel allready in the config class
 		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
 
 		self["MuonID_documentation"] = ["https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorking2015#Muons"]

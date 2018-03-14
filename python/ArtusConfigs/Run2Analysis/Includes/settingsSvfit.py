@@ -20,10 +20,10 @@ class Svfit(dict):
 		self["UpdateSvfitCache"] = True
 		self["SvfitOutFile"] = "SvfitCache.root"
 
-		self["SvfitCacheFile"] = self.__get_svfitCacheFile__(nickname)
+		self["SvfitCacheFile"] = self.__getsvfitCacheFile__(nickname)
 
 
-	def __get_svfitCacheFile__(self, nickname):
+	def __getsvfitCacheFile__(self, nickname):
 
 		if (nickname == "DY1JetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8"): 
  			return "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/tmuller/higgs-kit/Svfit/MergedCaches/2017-05-28_20-05/DY1JetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8.root"
