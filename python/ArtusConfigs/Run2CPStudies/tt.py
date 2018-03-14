@@ -13,6 +13,23 @@ import copy
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
 
+
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauID as sTID
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID 
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsBTaggedJetID as sBTJID
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsSvfit as sSvfit
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMinimalPlotlevelFilter as sMPlF
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauES as sTES
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJEC as sJEC
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJECUncertaintySplit as sJECUS
+
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMethods as sMVATM
+
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.Run2CPStudies.Includes.settingsTauPolarisationMva as sTPMVA
+
+
 class tt_ArtusConfig(dict):
 
 	def __init__(self):
@@ -28,27 +45,72 @@ class tt_ArtusConfig(dict):
 		isDY = re.match("DY.?JetsToLLM(50|150)", nickname)
 		isWjets = re.match("W.?JetsToLNu", nickname)
 		isLFV = ("LFV" in nickname)
-		is2015 = re.match("(.*)15", nickname) #I am not 100% sure if this is exclusive
-		is2016 = re.match("(.*)16", nickname) #I am not 100% sure if this is exclusive	
-		is2017 = re.match("(.*)17", nickname) #I am not 100% sure if this is exclusive		
+		is2015 = re.match("(Run2015|Fall15|Embedding15)*?",nickname) #I am not 100% sure if this is exclusive
+		is2016 = re.match("(Run2016|Sprint16|Summer16|Fall16|Embedding16)*?",nickname) #I am not 100% sure if this is exclusive	
+		is2017 = re.match("(Run2017|Summer17|Embedding17)*?",nickname) #I am not 100% sure if this is exclusive		
 		
 		#Change this json config files as well?
+		"""
 		if hasattr(self, "include") == False:
 			self["include"] = []
-		self["include"] += ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json", 
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJECUncertaintySplit.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_tt.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json",
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"]
+		self["include"] += ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",  #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json", #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",  #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json", #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json", #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json", #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJECUncertaintySplit.json", #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",  #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json", #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json", #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_tt.json", #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",  #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json", #Done
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"] #Done 
+		"""
+
+
+		ElectronID_config = sEID.Electron_ID(nickname)
+		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
+		self.update(ElectronID_config)	
+
+		MuonID_config = sMID.Muon_ID(nickname)
+		ElectronID_config.looseMuon_ID(nickname) 		#append the config for loose Muon ID because it is used
+		self.update(MuonID_config)	
+
+		TauID_config = sTID.Tau_ID(nickname)			#here loose is not appended since loose tau ID is not used
+		self.update(TauID_config)
+
+		JEC_config = sJEC.JEC(nickname)
+		self.update(JEC_config)
+
+		JECUncertaintySplit_config = sJECUS.JECUncertaintySplit
+		self.update(JECUncertaintySplit_config)
+
+		JetID_config = sJID.Jet_ID(nickname)
+		self.update(JetID_config)
+
+		BTaggedJet_config = sBTJID.BTaggedJet_ID(nickname)
+		self.update(BTaggedJet_config)
+
+		Svfit_config = sSvfit.Svfit(nickname)
+		self.update(Svfit_config)
+
+		MinimalPlotlevelFilter_config = sMPlF.MinimalPlotlevelFilter()
+		MinimalPlotlevelFilter_config.tt()
+		self.update(MinimalPlotlevelFilter_config)
+		
+		MVATestMethods_config = sMVATM.MVATestMethods()
+		self.update(MVATestMethods_config)
+
+		TauES_config = sTES.TauES(nickname)
+		self.update(TauES_config)
+		
+		TauPolarisationMva_config = sTPMVA.TauPolarisationMva()
+		self.update(TauPolarisationMva_config)
+	
+
+
 
 		self["TauPolarisationTmvaWeights"] = ["/afs/cern.ch/user/m/mfackeld/public/weights_tmva/training.weights.xml",
 						"/afs/cern.ch/user/m/mfackeld/public/weights_sklearn/training_tt.weights.xml"]
@@ -576,12 +638,6 @@ class tt_ArtusConfig(dict):
 
 	def clear_config(self):
 		self = self.base_copy
-
-
-
-
-
-
 
 
 
