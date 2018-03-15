@@ -221,10 +221,6 @@ var classHttSettings =
     [ "IMPL_SETTING_DEFAULT", "classHttSettings.html#a416d34e499691a6eeb0e026034b824db", null ],
     [ "IMPL_SETTING_DEFAULT", "classHttSettings.html#a590977f27bcdf90a9ff244eb663a02c9", null ],
     [ "IMPL_SETTING_DEFAULT", "classHttSettings.html#aa918600ec8b73732b5a6432fef753e34", null ],
-    [ "IMPL_SETTING_DEFAULT", "classHttSettings.html#a82bed0c019c20da8262b41f3ff48e65d", null ],
-    [ "IMPL_SETTING_DEFAULT", "classHttSettings.html#a220a0973e47ea5f7a994ca52b21ce7ae", null ],
-    [ "IMPL_SETTING_DEFAULT", "classHttSettings.html#a26d5ce122e7ec8554361fcc482395e97", null ],
-    [ "IMPL_SETTING_DEFAULT", "classHttSettings.html#a3a8b161bf2cc1dc97f507fc9fd7722b0", null ],
     [ "IMPL_SETTING_FLOATLIST", "classHttSettings.html#ae3eaf2427a38dc155a300447701af998", null ],
     [ "IMPL_SETTING_FLOATLIST", "classHttSettings.html#aa818a821ac07f57f4b55254fa1352b19", null ],
     [ "IMPL_SETTING_FLOATLIST", "classHttSettings.html#a6b502d2417fae961ed7fd52ada54179e", null ],
@@ -293,6 +289,5 @@ var classHttSettings =
     [ "IMPL_SETTING_STRINGLIST_DEFAULT", "classHttSettings.html#abab0cd9af3ee87219628f8803c6e1b89", null ],
     [ "IMPL_SETTING_STRINGLIST_DEFAULT", "classHttSettings.html#a3eeb2b6787abd3fbdda4854e283adfdf", null ],
     [ "IMPL_SETTING_STRINGLIST_DEFAULT", "classHttSettings.html#a95a362123622626e2ba115c9a0f701b5", null ],
-    [ "IMPL_SETTING_STRINGLIST_DEFAULT", "classHttSettings.html#a70e1a40ca4096b84dbb6d4e9869f6c26", null ],
     [ "EleTauFakeRateHistograms", "classHttSettings.html#ae13115ebff12caecd683ea97cadecafc", null ]
 ];
