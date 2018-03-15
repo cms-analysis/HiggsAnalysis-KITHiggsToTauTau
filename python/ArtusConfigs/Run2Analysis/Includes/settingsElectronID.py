@@ -22,7 +22,7 @@ class Electron_ID(dict):
 		self["ElectronID"] = "user"
 		self["ElectronIDType"] = "mvabased2015andlater",
 
-		if re.match("(Run2015|Fall15MiniAODv2)", nickname):
+		if re.search("(Run2015|Fall15MiniAODv2)", nickname):
 			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
 			self["ElectronMvaIDCutEB1"] = 0.967083
 			self["ElectronMvaIDCutEB2"] = 0.929117
@@ -60,7 +60,7 @@ class Electron_ID(dict):
 		self["LooseElectronID"] = "user"
 		self["LooseElectronIDType"] = "mvabased2015andlater"
 	
-		if re.match("(Run2015|Fall15MiniAODv2)", nickname):
+		if re.search("(Run2015|Fall15MiniAODv2)", nickname):
 			self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
 			self["LooseElectronMvaIDCutEB1"] = 0.913286
 			self["LooseElectronMvaIDCutEB2"] = 0.805013
@@ -89,7 +89,7 @@ class Electron_ID(dict):
 
 		self["VetoElectronID"] = "user"
 
-		if re.match("(Run2015|Fall15MiniAODv2)", nickname):
+		if re.search("(Run2015|Fall15MiniAODv2)*?", nickname):
 			self["VetoElectronIDType"] = "cutbased2015noisoandipcutsveto"
 			self["VetoElectronIDName"] = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"
 		else:

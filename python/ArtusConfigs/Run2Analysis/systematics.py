@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import re
 import json
+import copy
 import Artus.Utility.jsonTools as jsonTools
 import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
 
@@ -34,6 +35,8 @@ class Systematics_Config(dict):
 		self["TauMuonFakeEnergyCorrection"] = 1.0 
 		self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 1.0 
 		self["TauMuonFakeEnergyCorrectionOneProngShift"] = 1.0
+
+		self.base_copy = copy.deepcopy(self)
     
 	#for each systematic shift if statement which changes the config accordingly
 	def build_systematic_config(self, nickname, systematic):
@@ -44,192 +47,195 @@ class Systematics_Config(dict):
 		isDY = re.match("DY.?JetsToLLM(50|150)", nickname)
 		isWjets = re.match("W.?JetsToLNu", nickname)
 		isLFV = ("LFV" in nickname)
-		is2015 = re.match("(Run2015|Fall15|Embedding15)*?",nickname) #I am not 100% sure if this is exclusive
-		is2016 = re.match("(Run2016|Sprint16|Summer16|Fall16|Embedding16)*?",nickname) #I am not 100% sure if this is exclusive	
-		is2017 = re.match("(Run2017|Summer17|Embedding17)*?",nickname) #I am not 100% sure if this is exclusive		
-		
+		is2015 = re.search("(Run2015|Fall15|Embedding15)*?",nickname) #I am not 100% sure if this is exclusive
+		is2016 = re.search("(Run2016|Sprint16|Summer16|Fall16|Embedding16)*?",nickname) #I am not 100% sure if this is exclusive	
+		is2017 = re.search("(Run2017|Summer17|Fall17|Embedding17)*?",nickname) #I am not 100% sure if this is exclusive		
+		print "SYST=", systematic
 		if isData==False or isEmbedding:     #data has no systematic
 			if is2016: 
-				if "eleEsUp" in systematic:
+				if systematic == "eleEsUp":
+					print systematic, " == eleEsUp"
 					self["ElectronEnergyCorrectionShiftEB"] = 1.01
 					self["ElectronEnergyCorrectionShiftEE"] = 1.025
 					self["SvfitCacheFileFolder"] = "eleEsUp"
-				elif "eleEsDown" in systematic :
+				elif systematic == "eleEsDown":
+					print systematic, " == eleEsDown"
 					self["ElectronEnergyCorrectionShiftEB"] =  0.99
 					self["ElectronEnergyCorrectionShiftEE"] = 0.975
 					self["SvfitCacheFileFolder"] = "eleEsDown"
 			
 			if isEmbedding==False: #should not be data or embedding, might have to give one more indent if runyear is included
-				if "jecUncUp" in systematic:					
+				if systematic == "jecUncUp":					
 					self["JetEnergyCorrectionUncertaintyShift"] = 1
 					self["SvfitCacheFileFolder"] = "nominal"
-				elif "jecUncDown" in systematic:
+				elif systematic == "jecUncDown":
 					self["JetEnergyCorrectionUncertaintyShift"] = 1
 					self["SvfitCacheFileFolder"] = "nominal"
 
 			if is2016 and isEmbedding==False:   #note was metuncshift.json is both metjecuncertainty.json and metunclustered.json
-				if "metJetEnUp" in systematic:
+				if systematic == "metJetEnUp":
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "JetEnUp"
 					self["SvfitCacheFileFolder"] = "metJetEnUp"
-				elif "metJetEnDown" in systematic:
+				elif systematic == "metJetEnDown":
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "JetEnDown"
 					self["SvfitCacheFileFolder"] = "metJetEnDown"
 
-				if "metUnclusteredEnUp" in systematic:
+				if systematic == "metUnclusteredEnUp":
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "UnclusteredEnUp"
 					self["SvfitCacheFileFolder"] = "metUnclusteredEnUp"
-				elif "metUnclusteredEnDown" in systematic:
+				elif systematic == "metUnclusteredEnDown":
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "UnclusteredEnDown"
 					self["SvfitCacheFileFolder"] = "metUnclusteredEnDown"
 
 			if re.match("(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))", nickname):
-				if "tauEleFakeEsUp" in systematic:
+				if systematic == "tauEleFakeEsUp":
 					self["TauElectronFakeEnergyCorrection"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsUp"
-				elif "tauEleFakeEsDown" in systematic:
+				elif systematic == "tauEleFakeEsDown":
 					self["TauElectronFakeEnergyCorrection"] = 0.097
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsDown"
 
-				if "tauMuFakeEsUp" in systematic:
+				if systematic == "tauMuFakeEsUp":
 					self["TauMuonFakeEnergyCorrection"] = 1.015
 					self["SvfitCacheFileFolder"] = "tauMuFakeEsUp"
-				elif "tauMuFakeEsDown" in systematic:
+				elif systematic == "tauMuFakeEsDown":
 					self["TauMuonFakeEnergyCorrection"] = 0.985
 					self["SvfitCacheFileFolder"] = "tauMuFakeEsDown"
 
-				if "tauMuFakeEsOneProngUp" in systematic:
+				if systematic == "tauMuFakeEsOneProngUp":
 					self["TauMuonFakeEnergyCorrectionOneProngShift"] = 1.015
 					self["SvfitCacheFileFolder"] = "tauMuFakeEsOneProngUp"
-				elif "tauMuFakeEsOneProngDown" in systematic:
+				elif systematic == "tauMuFakeEsOneProngDown":
 					self["TauMuonFakeEnergyCorrectionOneProngShift"] = 0.985
 					self["SvfitCacheFileFolder"] = "tauMuFakeEsOneProngDown"
 
-				if "tauMuFakeEsOneProngPiZerosUp" in systematic:
+				if systematic == "tauMuFakeEsOneProngPiZerosUp":
 					self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 1.015
 					self["SvfitCacheFileFolder"] =  "tauMuFakeEsOneProngPiZerosUp"
-				elif "tauMuFakeEsOneProngPiZerosDown" in systematic:
+				elif systematic == "tauMuFakeEsOneProngPiZerosDown":
 					self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 0.985
 					self["SvfitCacheFileFolder"] =  "tauMuFakeEsOneProngPiZerosDown"
 
 
 
 			if re.match("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
-				if "tauEleFakeEsOneProngUp" in systematic:
+				if systematic == "tauEleFakeEsOneProngUp":
 					self["TauElectronFakeEnergyCorrectionOneProngShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsOneProngUp"
-				elif "tauEleFakeEsOneProngDown" in systematic:
+				elif systematic == "tauEleFakeEsOneProngDown":
 					self["TauElectronFakeEnergyCorrectionOneProngShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsOneProngDown" 
 
-				if "tauEleFakeEsOneProngPiZerosUp" in systematic:
+				if systematic == "tauEleFakeEsOneProngPiZerosUp":
 					self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsOneProngPiZerosUp"
-				elif "tauEleFakeEsOneProngPiZerosDown" in systematic:
+				elif systematic == "tauEleFakeEsOneProngPiZerosDown":
 					self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsOneProngPiZerosDown"
 			
 			#caution tauEs splitted for several nicknames/files
 			if re.match("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
-				if "tauEsUp" in systematic:
+				if systematic == "tauEsUp":
 					self["TauEnergyCorrectionShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsUp"
-				elif "tauEsDown" in systematic:
+				elif systematic == "tauEsDown":
 					self["TauEnergyCorrectionShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsDown"
 
-				if "tauEsOneProngUp" in systematic:
+				if systematic == "tauEsOneProngUp":
 					self["TauEnergyCorrectionOneProngShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
-				elif "tauEsOneProngDown" in systematic:
+				elif systematic == "tauEsOneProngDown":
 					self["TauEnergyCorrectionOneProngShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"				
 	
-				if "tauEsOneProngPiZerosUp" in systematic:
+				if systematic == "tauEsOneProngPiZerosUp":
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosUp"
-				elif "tauEsOneProngPiZerosDown" in systematic:
+				elif systematic == "tauEsOneProngPiZerosDown":
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosDown"
 
-				if "tauEsThreeProngUp" in systematic:
+				if systematic == "tauEsThreeProngUp":
 					self["TauEnergyCorrectionThreeProngShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsThreeProngUp"
-				elif "tauEsThreeProngDown" in systematic:
+				elif systematic == "tauEsThreeProngDown":
 					self["TauEnergyCorrectionThreeProngShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsThreeProngDown"
 
 
 			elif "Embedding2016" in nickname:
-				if "tauEsUp" in systematic:
+				if systematic == "tauEsUp":
 					self["TauEnergyCorrectionShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsUp"
-				elif "tauEsDown" in systematic:
+				elif systematic == "tauEsDown":
 					self["TauEnergyCorrectionShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsDown"
 
-				if "tauEsOneProngUp" in systematic:
+				if systematic == "tauEsOneProngUp":
 					self["TauEnergyCorrectionOneProngShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
-				elif "tauEsOneProngDown" in systematic:
+				elif systematic == "tauEsOneProngDown":
 					self["TauEnergyCorrectionOneProngShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"		
 
-				if "tauEsOneProngPiZerosUp" in systematic:
+				if systematic == "tauEsOneProngPiZerosUp":
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosUp"
-				elif "tauEsOneProngPiZerosDown" in systematic:
+				elif systematic == "tauEsOneProngPiZerosDown":
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosDown"
 
-				if "tauEsThreeProngUp" in systematic:
+				if systematic ==  "tauEsThreeProngUp":
 					self["TauEnergyCorrectionThreeProngShift"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEsThreeProngUp"
-				elif "tauEsThreeProngDown" in systematic:
+				elif systematic == "tauEsThreeProngDown":
 					self["TauEnergyCorrectionThreeProngShift"] = 0.97
 					self["SvfitCacheFileFolder"] = "tauEsThreeProngDown"
 			
 
-			elif re.match("Spring16|Summer16", nickname):
-				if "tauEsUp" in systematic:
+			elif re.search("Spring16|Summer16", nickname):
+				if systematic == "tauEsUp":
 					self["TauEnergyCorrectionShift"] = 1.012
 					self["SvfitCacheFileFolder"] = "tauEsUp"
-				elif "tauEsDown" in systematic:
+				elif systematic == "tauEsDown":
 					self["TauEnergyCorrectionShift"] = 0.988
 					self["SvfitCacheFileFolder"] = "tauEsDown"
 
-				if "tauEsOneProngUp" in systematic:
+				if systematic == "tauEsOneProngUp":
 					self["TauEnergyCorrectionOneProngShift"] = 1.012
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
-				elif "tauEsOneProngDown" in systematic:
+				elif systematic == "tauEsOneProngDown":
 					self["TauEnergyCorrectionOneProngShift"] = 0.988
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"	
 
-				if "tauEsOneProngPiZerosUp" in systematic:
+				if systematic == "tauEsOneProngPiZerosUp":
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.012
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosUp"
-				elif "tauEsOneProngPiZerosDown" in systematic:
+				elif systematic == "tauEsOneProngPiZerosDown":
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.988
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosDown"
 
-				if "tauEsThreeProngUp" in systematic:
+				if systematic == "tauEsThreeProngUp":
 					self["TauEnergyCorrectionThreeProngShift"] = 1.012
 					self["SvfitCacheFileFolder"] = "tauEsThreeProngUp"
-				elif "tauEsThreeProngDown" in systematic:
+				elif systematic == "tauEsThreeProngDown":
 					self["TauEnergyCorrectionThreeProngShift"] = 0.988
 					self["SvfitCacheFileFolder"] = "tauEsThreeProngDown"	
 				#TODO tauJetFakeEsIncl
-				if "tauJetFakeEsUp" in systematic:
+				if systematic == "tauJetFakeEsUp":
 					self["TauJetFakeEnergyCorrection"] = 1.0
 					self["SvfitCacheFileFolder"] = "tauJetFakeEsUp"
-				elif "tauJetFakeEsDonw" in systematic:
+				elif systematic == "tauJetFakeEsDown":
 					self["TauJetFakeEnergyCorrection"] = -1.0
 					self["SvfitCacheFileFolder"] = "tauJetFakeEsDown"
 
-
+	def clear_config(self):
+		self = self.base_copy
 
 
 

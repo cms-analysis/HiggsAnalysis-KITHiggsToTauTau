@@ -12,15 +12,15 @@ import copy
 
 class JEC(dict):
 	def __init__(self, nickname):
-		if re.match("Summer17",nickname):
+		if re.search("(Summer17)",nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = ""
-		elif re.match("Run2017", nickname):
+		elif re.search("(Run2017)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = ""
-		elif re.match("Run2016|Spring16|Summer16", nickname):
+		elif re.search("(Run2016|Spring16|Summer16)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_UncertaintySources_AK4PFchs.txt"			
-		elif re.match("Fall15MiniAODv2", nickname):
+		elif re.search("(Fall15MiniAODv2)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt"
-		elif re.match("Run2015|Embedding2015", nickname):
+		elif re.search("(Run2015|Embedding2015)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_Uncertainty_AK4PFchs.txt"
 		
 		self["JetEnergyCorrectionUncertaintySource"] = "Total"

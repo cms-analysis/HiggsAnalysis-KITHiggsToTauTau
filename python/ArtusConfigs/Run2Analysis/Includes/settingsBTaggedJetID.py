@@ -17,7 +17,7 @@ class BTaggedJet_ID(dict):
 
 		self["BTaggedJetCombinedSecondaryVertexName"] = "pfCombinedInclusiveSecondaryVertexV2BJetTags"
 
-		if re.match("(Fall15MiniAODv2|Run2015D)", nickname):
+		if re.search("(Fall15MiniAODv2|Run2015D)", nickname):
 			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8 
 			self["BTaggerWorkingPoints"] = ["tight:0.935",
 						"medium:0.800",
@@ -33,9 +33,9 @@ class BTaggedJet_ID(dict):
 		
 
 		self["BTaggedJetAbsEtaCut"] = 2.4
-		if re.match("Fall15|Spring16", nickname):
+		if re.search("(Fall15|Spring16)", nickname):
 			self["ApplyBTagSF"] = False
-		elif re.match("Summer17", nickname):
+		elif re.search("(Summer17)", nickname):
 			self["ApplyBTagSF"] = False
 		else:
 			self["ApplyBTagSF"] = True

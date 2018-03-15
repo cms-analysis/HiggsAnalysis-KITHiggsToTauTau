@@ -406,6 +406,7 @@ class Svfit(dict):
 		elif (nickname == "ZZTo4L_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_amcatnlo-pythia8_ext1"): 
   			 return "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/tmuller/higgs-kit/Svfit/MergedCaches/2017-05-28_20-05/ZZTo4L_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_amcatnlo-pythia8_ext1.root"
 
-
+		else: 
+			log.warning("COULD NOT FIND THE SVFIT CACHE FILE")
 
 

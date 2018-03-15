@@ -12,7 +12,7 @@ import copy
 
 class TauES(dict):
 	def __init__(self, nickname):
-		if re.match("(Spring16|Summer16)*?",nickname):
+		if re.search("(Spring16|Summer16)",nickname):
 			self["TauEnergyCorrection"] = "smhtt2016"
 
 		else:

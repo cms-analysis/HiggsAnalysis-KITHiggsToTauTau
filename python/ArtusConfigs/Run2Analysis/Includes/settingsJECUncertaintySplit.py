@@ -12,12 +12,12 @@ import copy
 
 class JECUncertaintySplit(dict):
 	def __init__(self, nickname):
-		if re.match("Run2016|Spring16|Summer16", nickname):
+		if re.search("(Run2016|Spring16|Summer16)", nickname):
 			self["JetEnergyCorrectionSplitUncertainty"] = True
 		else: 
 			self["JetEnergyCorrectionSplitUncertainty"] = False
 
-		if re.match("Run201|Embedding", nickname):
+		if re.search("(Run201|Embedding)", nickname):
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 0.0
 		else:
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 1.0

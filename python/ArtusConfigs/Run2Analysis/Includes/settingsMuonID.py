@@ -15,14 +15,14 @@ class Muon_ID(dict):
 		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
 
 		self["MuonID_documentation"] = ["https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorking2015#Muons"]
-		if re.match("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
+		if re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
 			self["Year"] = 2016
 			self["MuonIsoTypeUserMode"] = "fromcmsswr04"
 		else:
 			self["Year"] = 2015
 			self["MuonIsoTypeUserMode"] = "fromcmssw"
 
-		if re.match("Run2016(B|C|D|E|F)",nickname):
+		if re.search("Run2016(B|C|D|E|F)",nickname):
 			self["MuonID"] = "mediumHIPsafe2016"
 
 		else:
@@ -41,7 +41,7 @@ class Muon_ID(dict):
 
 	def looseMuon_ID(self, nickname):
 
-		if re.match("Run2016(B|C|D|E|F)",nickname):
+		if re.search("Run2016(B|C|D|E|F)",nickname):
 			self["LooseMuonID"] = "mediumHIPsafe2016"
 
 		else:

@@ -27,7 +27,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.setting
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMethods as sMVATM
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.Run2CPStudies.Includes.settingsTauPolarisationMva as sTPMVA
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.settingsTauPolarisationMva as sTPMVA
 
 
 class tt_ArtusConfig(dict):
@@ -45,9 +45,9 @@ class tt_ArtusConfig(dict):
 		isDY = re.match("DY.?JetsToLLM(50|150)", nickname)
 		isWjets = re.match("W.?JetsToLNu", nickname)
 		isLFV = ("LFV" in nickname)
-		is2015 = re.match("(Run2015|Fall15|Embedding15)*?",nickname) #I am not 100% sure if this is exclusive
-		is2016 = re.match("(Run2016|Sprint16|Summer16|Fall16|Embedding16)*?",nickname) #I am not 100% sure if this is exclusive	
-		is2017 = re.match("(Run2017|Summer17|Embedding17)*?",nickname) #I am not 100% sure if this is exclusive		
+		is2015 = re.search("(Run2015|Fall15|Embedding15)",nickname) #I am not 100% sure if this is exclusive
+		is2016 = re.search("(Run2016|Sprint16|Summer16|Fall16|Embedding16)",nickname) #I am not 100% sure if this is exclusive	
+		is2017 = re.search("(Run2017|Summer17|Fall17|Embedding17)",nickname) #I am not 100% sure if this is exclusive		
 		
 		#Change this json config files as well?
 		"""
@@ -75,16 +75,16 @@ class tt_ArtusConfig(dict):
 		self.update(ElectronID_config)	
 
 		MuonID_config = sMID.Muon_ID(nickname)
-		ElectronID_config.looseMuon_ID(nickname) 		#append the config for loose Muon ID because it is used
+		MuonID_config.looseMuon_ID(nickname) 		#append the config for loose Muon ID because it is used
 		self.update(MuonID_config)	
 
 		TauID_config = sTID.Tau_ID(nickname)			#here loose is not appended since loose tau ID is not used
 		self.update(TauID_config)
 
-		JEC_config = sJEC.JEC(nickname)
+		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it 
 		self.update(JEC_config)
 
-		JECUncertaintySplit_config = sJECUS.JECUncertaintySplit
+		JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
 		self.update(JECUncertaintySplit_config)
 
 		JetID_config = sJID.Jet_ID(nickname)
