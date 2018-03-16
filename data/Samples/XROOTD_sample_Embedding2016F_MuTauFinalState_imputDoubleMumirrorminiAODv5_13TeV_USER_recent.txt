@@ -1,1 +1,0 @@
-XROOTD_sample_Embedding2016F_MuTauFinalState_imputDoubleMumirrorminiAODv5_13TeV_USER_80X_2016-11-08.txt
