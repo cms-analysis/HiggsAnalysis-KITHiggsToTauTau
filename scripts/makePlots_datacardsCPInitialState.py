@@ -803,7 +803,7 @@ if __name__ == "__main__":
 	if args.n_plots[0] != 0 and "inputs" in args.steps:
 		# tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 		datacards_module._call_command([
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/hadd_shapes.sh {OUTPUT_FOLDER}  ".format(OUTPUT_FOLDER=os.path.join(args.output_dir, os.join.path("shapes", args.output_suffix)))
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/hadd_shapes.sh {OUTPUT_FOLDER}".format(OUTPUT_FOLDER=os.path.join(args.output_dir, "shapes", args.output_suffix))
 		])
 	if args.debug_plots:
 		debug_plot_configs = []
@@ -890,8 +890,9 @@ if __name__ == "__main__":
 	# Create workspaces from the datacards 
 	if "t2w" in args.steps:
 		datacards_module._call_command([
-				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/* -o ws.root --parallel {N_PROCESSES}".format(
+				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i output/{OUTPUT_SUFFIX}/{{cmb,{CHANNELS}}}/* -o ws.root --parallel {N_PROCESSES}".format(
 				OUTPUT_SUFFIX=args.output_suffix,
+				CHANNELS=",".join(args.channel),
 				N_PROCESSES=args.n_processes			
 				),
 				args.output_dir	
