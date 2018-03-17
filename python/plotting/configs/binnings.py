@@ -131,10 +131,17 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_phiStarCP"] = "20,0.0,6.28"
 		
 		for ch in ["em_", "et_", "mt_", "tt_"]:
-			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"] = "4,0.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "2,-1.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "4,0.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "2,-1.0,1.0"
+			self.binnings_dict[ch+"melaProbCPEvenGGH"] = "10,0,1"
+			self.binnings_dict[ch+"melaProbCPOddGGH"] = "10,0,1"
+			self.binnings_dict[ch+"melaProbCPMixGGH"] = "10,0,1"
+			self.binnings_dict[ch+"melaProbCPEvenVBF"] = "10,0,1"
+			self.binnings_dict[ch+"melaProbCPOddVBF"] = "10,0,1"
+			self.binnings_dict[ch+"melaProbCPMixVBF"] = "10,0,1"
+			
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"] = "10,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "10,-1.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "10,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "10,-1.0,1.0"
 			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"] = "8,-1.0,1.0"
 			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"] = "8,-1.0,1.0"
 		
