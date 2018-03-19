@@ -38,8 +38,8 @@ public:
 	double CalculateD0sArea(double d0_1, double d0_2);
 	double CalculateD0sDist(double d0_1, double d0_2);
 	double PhiTransform(double phi);
-	TVector3 CalculateIPVector(KGenParticle* genParticle, RMPoint* pv);
-	TVector3 CalculateIPVector(KLepton* recoParticle, KVertex* pv);
+	TVector3 CalculateShortestDistance(KGenParticle* genParticle, RMPoint* pv);
+	TVector3 CalculateShortestDistance(KLepton* recoParticle, RMPoint pv);
 	double CalculateCosPsi(RMFLV recoPart, TVector3 ipvec);
 	std::vector<double> CalculateIPErrors(KLepton* lepton, KVertex* pv, TVector3* ipvec);
 	inline double GetGenPhiStar()
@@ -74,6 +74,21 @@ public:
 	{
 		return recoIP2;
 	}
+	// get functions for azimuthal angle of tau decay planes - ip method
+	inline double GetRecoPhiPlus_ipmeth(){ return recoPhiPlus_ipmeth; }
+	inline double GetRecoPhiMinus_ipmeth(){ return recoPhiMinus_ipmeth; }
+	inline double GetRecoPhiStarPlus_ipmeth(){ return recoPhiStarPlus_ipmeth; }
+	inline double GetRecoPhiStarMinus_ipmeth(){ return recoPhiStarMinus_ipmeth; }
+	// get functions for azimuthal angle of tau decay planes - comb method
+	inline double GetRecoPhiPlus_combmeth(){ return recoPhiPlus_combmeth; }
+	inline double GetRecoPhiMinus_combmeth(){ return recoPhiMinus_combmeth; }
+	inline double GetRecoPhiStarPlus_combmeth(){ return recoPhiStarPlus_combmeth; }
+	inline double GetRecoPhiStarMinus_combmeth(){ return recoPhiStarMinus_combmeth; }
+	// get functions for azimuthal angle of tau decay planes - rho method
+	inline double GetRecoPhiPlus_rhometh(){ return recoPhiPlus_rhometh; }
+	inline double GetRecoPhiMinus_rhometh(){ return recoPhiMinus_rhometh; }
+	inline double GetRecoPhiStarPlus_rhometh(){ return recoPhiStarPlus_rhometh; }
+	inline double GetRecoPhiStarMinus_rhometh(){ return recoPhiStarMinus_rhometh; }
 private:
 	double genPhiStar;
 	double genOStarCP;
@@ -83,6 +98,18 @@ private:
 	double recoOStarCP;
 	double recoIP1;
 	double recoIP2;
+	double recoPhiPlus_ipmeth;
+	double recoPhiMinus_ipmeth;
+	double recoPhiStarPlus_ipmeth;
+	double recoPhiStarMinus_ipmeth;
+	double recoPhiPlus_combmeth;
+	double recoPhiMinus_combmeth;
+	double recoPhiStarPlus_combmeth;
+	double recoPhiStarMinus_combmeth;
+	double recoPhiPlus_rhometh;
+	double recoPhiMinus_rhometh;
+	double recoPhiStarPlus_rhometh;
+	double recoPhiStarMinus_rhometh;
 	//level: "gen", "reco"
 	double CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level);
 	inline void SetGenPhiStar(double genphistar)
@@ -117,4 +144,19 @@ private:
 	{
 		recoIP2 = recoip2;
 	}
+	// set functions for azimuthal angle of tau decay planes - ip method
+	inline void SetRecoPhiPlus_ipmeth(double recophiplus_ipmeth){ recoPhiPlus_ipmeth = recophiplus_ipmeth; }
+	inline void SetRecoPhiMinus_ipmeth(double recophiminus_ipmeth){ recoPhiMinus_ipmeth = recophiminus_ipmeth; }
+	inline void SetRecoPhiStarPlus_ipmeth(double recophistarplus_ipmeth){ recoPhiStarPlus_ipmeth = recophistarplus_ipmeth; }
+	inline void SetRecoPhiStarMinus_ipmeth(double recophistarminus_ipmeth){ recoPhiStarMinus_ipmeth = recophistarminus_ipmeth; }
+	// set functions for azimuthal angle of tau decay planes - comb method
+	inline void SetRecoPhiPlus_combmeth(double recophcomblus_combmeth){ recoPhiPlus_combmeth = recophcomblus_combmeth; }
+	inline void SetRecoPhiMinus_combmeth(double recophiminus_combmeth){ recoPhiMinus_combmeth = recophiminus_combmeth; }
+	inline void SetRecoPhiStarPlus_combmeth(double recophistarplus_combmeth){ recoPhiStarPlus_combmeth = recophistarplus_combmeth; }
+	inline void SetRecoPhiStarMinus_combmeth(double recophistarminus_combmeth){ recoPhiStarMinus_combmeth = recophistarminus_combmeth; }
+	// set functions for azimuthal angle of tau decay planes - rho method
+	inline void SetRecoPhiPlus_rhometh(double recophrholus_rhometh){ recoPhiPlus_rhometh = recophrholus_rhometh; }
+	inline void SetRecoPhiMinus_rhometh(double recophiminus_rhometh){ recoPhiMinus_rhometh = recophiminus_rhometh; }
+	inline void SetRecoPhiStarPlus_rhometh(double recophistarplus_rhometh){ recoPhiStarPlus_rhometh = recophistarplus_rhometh; }
+	inline void SetRecoPhiStarMinus_rhometh(double recophistarminus_rhometh){ recoPhiStarMinus_rhometh = recophistarminus_rhometh; }
 };
