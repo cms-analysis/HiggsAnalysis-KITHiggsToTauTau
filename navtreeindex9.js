@@ -1,5 +1,16 @@
 var NAVTREEINDEX9 =
 {
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#a6abab27ec102e1c40e484d61ccb7e9d3":[1,0,44,0,16],
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#a79a78da09a5d7d1dbcc8c899eef57f52":[1,0,44,0,8],
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#a7b7f4d311f74cdf4539f0e14b3912798":[1,0,44,0,1],
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#a7fe876ed4fa7b4953149b7d3554fb7c9":[1,0,44,0,3],
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#a8aaebc3e36be2ce66f9dfd0ae05580f2":[1,0,44,0,17],
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#a92ed0f572404c659c3c9caadd41f54e9":[1,0,44,0,5],
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#a946d0521afa00b2df53ad93d492451c4":[1,0,44,0,7],
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#a95d62c91fb634c4f6440e5cadc101b64":[1,0,44,0,12],
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#aa185d419e267b777b01540fa7c6abd6c":[1,0,44,0,11],
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#ab6220202c31726d563b32860550c2eb7":[1,0,44,0,13],
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#ac175db0a5d5494ef222a73b337d8fce7":[1,0,44,0,9],
 "classhiggsmodels_1_1TwoHypotesisHiggs.html#acc376a2d4ac0cca036de5247be549e98":[1,0,44,0,2],
 "classhiggsmodels_1_1TwoHypotesisHiggs.html#ae7170c1d12474a19debdd7aadd0a9ffb":[1,0,44,0,6],
 "classhiggsparser_1_1HiggsParser.html":[1,0,45,0],
@@ -238,16 +249,5 @@ var NAVTREEINDEX9 =
 "classsamples__run2__2016_1_1Samples.html#ad6ea584fe88563f3c47690d872d572a5":[1,0,130,0,46],
 "classsamples__run2__2016_1_1Samples.html#ad99b81ab8fd1e113151a9f152bcbea68":[1,0,130,0,36],
 "classsamples__run2__2016_1_1Samples.html#ada1704d14c19f7ca811d609119560446":[1,0,130,0,52],
-"classsamples__run2__2016_1_1Samples.html#adcd0cdd05b49a0f31ebe007d819970f2":[1,0,130,0,70],
-"classsamples__run2__2016_1_1Samples.html#adcfc025f3504eca37561d499db36c5ff":[1,0,130,0,61],
-"classsamples__run2__2016_1_1Samples.html#add563123274694db93556164d291e624":[1,0,130,0,77],
-"classsamples__run2__2016_1_1Samples.html#adde0edd30597097f83b5439230b57692":[1,0,130,0,65],
-"classsamples__run2__2016_1_1Samples.html#ae067490818a764038f8f37f1c44746ba":[1,0,130,0,15],
-"classsamples__run2__2016_1_1Samples.html#ae0f7671fa1dc2004b946158283a6c98b":[1,0,130,0,56],
-"classsamples__run2__2016_1_1Samples.html#ae131f2ae5d99e719c4c94ffe0966bdea":[1,0,130,0,51],
-"classsamples__run2__2016_1_1Samples.html#ae58875aefb4f976f1458c9033efed48d":[1,0,130,0,71],
-"classsamples__run2__2016_1_1Samples.html#aecf56472021334c6422e71a37d9625c8":[1,0,130,0,2],
-"classsamples__run2__2016_1_1Samples.html#aed07b1ae49f5f1d356d8cbccbb7c2121":[1,0,130,0,8],
-"classsamples__run2__2016_1_1Samples.html#aee9f5375352f67677c2c213d45d4716a":[1,0,130,0,19],
-"classsamples__run2__2016_1_1Samples.html#af05eb600ba8a114553947908e05fde0c":[1,0,130,0,97]
+"classsamples__run2__2016_1_1Samples.html#adcd0cdd05b49a0f31ebe007d819970f2":[1,0,130,0,70]
 };

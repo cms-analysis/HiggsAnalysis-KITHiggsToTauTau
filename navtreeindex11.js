@@ -1,5 +1,16 @@
 var NAVTREEINDEX11 =
 {
+"classzttmodels_1_1ZttEff.html":[1,0,157,1],
+"classzttmodels_1_1ZttEff.html#a2599a3dbbabb9dd796652708b7de6ac7":[1,0,157,1,2],
+"classzttmodels_1_1ZttEff.html#a317ee5c5bcf7c7407f5ce180b18040a9":[1,0,157,1,3],
+"classzttmodels_1_1ZttEff.html#a4e18a625609d00727bca565516f71a7d":[1,0,157,1,4],
+"classzttmodels_1_1ZttEff.html#aa96a3be74b3ca0de1e8acf6a1b64acbb":[1,0,157,1,5],
+"classzttmodels_1_1ZttEff.html#acd8a7f27e845947473ab5face261158d":[1,0,157,1,0],
+"classzttmodels_1_1ZttEff.html#ace1f90c701331d155a7d0db43dce4d6a":[1,0,157,1,1],
+"classzttmodels_1_1ZttEffAndXsec.html":[1,0,157,0],
+"classzttmodels_1_1ZttEffAndXsec.html#a0b0bd0602565f03e1bcb596e6c073fd7":[1,0,157,0,4],
+"classzttmodels_1_1ZttEffAndXsec.html#a5e0b749d33047f78d7687eb92df48caf":[1,0,157,0,1],
+"classzttmodels_1_1ZttEffAndXsec.html#a6c5c412e63a47dafac730c18df7f88e7":[1,0,157,0,2],
 "classzttmodels_1_1ZttEffAndXsec.html#a7cd109564a58a374a2316bdced8ae4b9":[1,0,157,0,3],
 "classzttmodels_1_1ZttEffAndXsec.html#a855cd92dc4b1ba94688d03d7eecc85ee":[1,0,157,0,0],
 "classzttpolarisationdatacards_1_1ZttPolarisationDatacards.html":[1,0,158,0],
@@ -238,16 +249,5 @@ var NAVTREEINDEX11 =
 "cutOptimizer_8py.html#a2805cb60084aa86fd7f2a6af4b904728":[2,0,2,15,28],
 "cutOptimizer_8py.html#a2bcdf205d18c230c1a151e8617e369e5":[2,0,2,15,1],
 "cutOptimizer_8py.html#a2bdc5965736c269121e068723d30c3e7":[2,0,2,15,27],
-"cutOptimizer_8py.html#a3d8c8d9db9626bf08c35609cb24f4890":[2,0,2,15,3],
-"cutOptimizer_8py.html#a3e1526ad1b262a2a4b613a090d37b144":[2,0,2,15,14],
-"cutOptimizer_8py.html#a4abbdae22517aad063d51771f21514a2":[2,0,2,15,24],
-"cutOptimizer_8py.html#a4d84c55bfb3266f5f81b331e1c25d86e":[2,0,2,15,10],
-"cutOptimizer_8py.html#a4fe11ef5f89f9bf25c685f6807d2c91a":[2,0,2,15,34],
-"cutOptimizer_8py.html#a66d11bb378d7c285a83cb98878fdb674":[2,0,2,15,8],
-"cutOptimizer_8py.html#a67a39c5f658b4fb883a587585aa125be":[2,0,2,15,16],
-"cutOptimizer_8py.html#a68b8105b2d8528d92767cd878e4d5e83":[2,0,2,15,2],
-"cutOptimizer_8py.html#a6b9d31591a44e85fb01217c6fcf2a74d":[2,0,2,15,11],
-"cutOptimizer_8py.html#a6ef7969995ec51b0f32fb74917af08f6":[2,0,2,15,9],
-"cutOptimizer_8py.html#a72d770e4fa9e65600c68665b5a9e2129":[2,0,2,15,7],
-"cutOptimizer_8py.html#a7d81e84fca726cd20d2ea7da05c06110":[2,0,2,15,33]
+"cutOptimizer_8py.html#a3d8c8d9db9626bf08c35609cb24f4890":[2,0,2,15,3]
 };
