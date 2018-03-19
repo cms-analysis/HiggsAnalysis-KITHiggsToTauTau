@@ -249,7 +249,7 @@ PolarisationQuantitiesSvfitM91Producer::PolarisationQuantitiesSvfitM91Producer()
 			&product_type::m_svfitM91Taus,
 			&product_type::m_polarisationOmegasSvfitM91,
 			&product_type::m_polarisationOmegaBarsSvfitM91,
-			&product_type::m_polarisationOmegaBarsSvfitM91,
+			&product_type::m_polarisationOmegaVisiblesSvfitM91,
 			&product_type::m_polarisationCombinedOmegaSvfitM91,
 			&product_type::m_polarisationCombinedOmegaBarSvfitM91,
 			&product_type::m_polarisationCombinedOmegaVisibleSvfitM91
