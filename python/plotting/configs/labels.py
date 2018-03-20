@@ -647,6 +647,13 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[ch+"melaProbCPEvenVBF"] = "MELA Prob_{0^{#minus}}^{VBF}"
 				self.labels_dict[ch+"melaProbCPOddVBF"] = "MELA Prob_{0^{#plus}}^{VBF}"
 				self.labels_dict[ch+"melaProbCPMixVBF"] = "MELA Prob_{0^{#pm}}^{VBF}"
+			
+				self.labels_dict[ch+"melaM125ProbCPEvenGGH"] = self.labels_dict[ch+"melaProbCPEvenGGH"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125ProbCPOddGGH"] = self.labels_dict[ch+"melaProbCPOddGGH"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125ProbCPMixGGH"] = self.labels_dict[ch+"melaProbCPMixGGH"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125ProbCPEvenVBF"] = self.labels_dict[ch+"melaProbCPEvenVBF"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125ProbCPOddVBF"] = self.labels_dict[ch+"melaProbCPOddVBF"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125ProbCPMixVBF"] = self.labels_dict[ch+"melaProbCPMixVBF"].replace("MELA", "MELA_{m_{H}}")
 				
 				self.labels_dict[ch+"melaDiscriminatorD0MinusGGH"] = "MELA D_{0^{#minus}}^{ggH}"
 				self.labels_dict[ch+"melaDiscriminatorDCPGGH"] = "MELA D_{CP}^{ggH}"
@@ -654,6 +661,13 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[ch+"melaDiscriminatorDCPVBF"] = "MELA D_{CP}^{VBF}"
 				self.labels_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"] = "MELA D_{0^{#minus}}^{ggH} #upoint sign #left(D_{CP}^{ggH}#right)"
 				self.labels_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"] = "MELA D_{0^{#minus}}^{VBF} #upoint sign #left(D_{CP}^{VBF}#right)"
+			
+				self.labels_dict[ch+"melaM125DiscriminatorD0MinusGGH"] = self.labels_dict[ch+"melaDiscriminatorD0MinusGGH"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125DiscriminatorDCPGGH"] = self.labels_dict[ch+"melaDiscriminatorDCPGGH"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125DiscriminatorD0MinusVBF"] = self.labels_dict[ch+"melaDiscriminatorD0MinusVBF"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125DiscriminatorDCPVBF"] = self.labels_dict[ch+"melaDiscriminatorDCPVBF"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125DiscriminatorD0MinusGGH_signDCP"] = self.labels_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125DiscriminatorD0MinusVBF_signDCP"] = self.labels_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"].replace("MELA", "MELA_{m_{H}}")
 			
 			for higgs_mass in xrange(90, 161, 5):
 				self.labels_dict["htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))

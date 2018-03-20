@@ -131,19 +131,33 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_phiStarCP"] = "20,0.0,6.28"
 		
 		for ch in ["em_", "et_", "mt_", "tt_"]:
-			self.binnings_dict[ch+"melaProbCPEvenGGH"] = "10,0,1"
-			self.binnings_dict[ch+"melaProbCPOddGGH"] = "10,0,1"
-			self.binnings_dict[ch+"melaProbCPMixGGH"] = "10,0,1"
-			self.binnings_dict[ch+"melaProbCPEvenVBF"] = "10,0,1"
-			self.binnings_dict[ch+"melaProbCPOddVBF"] = "10,0,1"
-			self.binnings_dict[ch+"melaProbCPMixVBF"] = "10,0,1"
+			self.binnings_dict[ch+"melaProbCPEvenGGH"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPOddGGH"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPMixGGH"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPEvenVBF"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPOddVBF"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPMixVBF"] = "20,0,1"
 			
-			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"] = "10,0.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "10,-1.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "10,0.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "10,-1.0,1.0"
+			self.binnings_dict[ch+"melaM125ProbCPEvenGGH"] = self.binnings_dict[ch+"melaProbCPEvenGGH"]
+			self.binnings_dict[ch+"melaM125ProbCPOddGGH"] = self.binnings_dict[ch+"melaProbCPOddGGH"]
+			self.binnings_dict[ch+"melaM125ProbCPMixGGH"] = self.binnings_dict[ch+"melaProbCPMixGGH"]
+			self.binnings_dict[ch+"melaM125ProbCPEvenVBF"] = self.binnings_dict[ch+"melaProbCPEvenVBF"]
+			self.binnings_dict[ch+"melaM125ProbCPOddVBF"] = self.binnings_dict[ch+"melaProbCPOddVBF"]
+			self.binnings_dict[ch+"melaM125ProbCPMixVBF"] = self.binnings_dict[ch+"melaProbCPMixVBF"]
+			
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"] = "20,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "20,-1.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "20,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "20,-1.0,1.0"
 			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"] = "8,-1.0,1.0"
 			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"] = "8,-1.0,1.0"
+			
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusGGH"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"]
+			self.binnings_dict[ch+"melaM125DiscriminatorDCPGGH"] = self.binnings_dict[ch+"melaDiscriminatorDCPGGH"]
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusVBF"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"]
+			self.binnings_dict[ch+"melaM125DiscriminatorDCPVBF"] = self.binnings_dict[ch+"melaDiscriminatorDCPVBF"]
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusGGH_signDCP"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"]
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusVBF_signDCP"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"]
 		
 		self.binnings_dict["mt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["mt_eta_1"] = "30,-3,3"
