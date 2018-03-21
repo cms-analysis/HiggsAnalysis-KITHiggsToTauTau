@@ -111,7 +111,7 @@ class SystematicsFactory(dict):
 		]
 		
 		for jecUncert in jecUncertNames:
-			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic
+			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic if jecUncert != "Total" else JecUncSystematic 
 		
 		# these uncertainties currently need to be implemented in your datacards script
 		self["WSFUncert_mt_0jet_13TeV"] = Nominal
