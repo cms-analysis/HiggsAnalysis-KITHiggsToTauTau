@@ -341,18 +341,19 @@ class JecUncSplitSystematic(SystematicShiftBase):
 	def get_config(self, shift=0.0):
 		plot_config = super(JecUncSplitSystematic, self).get_config(shift=shift)
 		
-		for index, folder in enumerate(plot_config.get("folders", [])):
-			if not "Run201" in plot_config["files"][index]:
-				if shift > 0.0:
-					plot_config["folders"][index] = folder.replace("nominal", "jecUncUp")
-				elif shift < 0.0:
-					plot_config["folders"][index] = folder.replace("nominal", "jecUncDown")
+		# for index, folder in enumerate(plot_config.get("folders", [])):
+		# 	if not "Run201" in plot_config["files"][index]:
+		# 		if shift > 0.0:
+		# 			plot_config["folders"][index] = folder.replace("nominal", "jecUncUp")
+		# 		elif shift < 0.0:
+		# 			plot_config["folders"][index] = folder.replace("nominal", "jecUncDown")
 		
 		for key in ["x_expressions", "y_expressions", "z_expressions", "weights"]:
 			for index, value in enumerate(plot_config.get(key, [])):
 				if not "Run201" in plot_config["files"][index]:
 					if shift > 0.0 or shift < 0.0:
-						plot_config[key][index] = value.replace("njetspt30", "njetspt30_"+self.jecUncertainty).replace("mjj", "mjj_"+self.jecUncertainty).replace("jdeta", "jdeta_"+self.jecUncertainty)
+						shift_string = "Up" if shift > 0.0 else "Down"
+						plot_config[key][index] = value.replace("njetspt30", "njetspt30_"+self.jecUncertainty+shift_string).replace("mjj", "mjj_"+self.jecUncertainty+shift_string).replace("jdeta", "jdeta_"+self.jecUncertainty+shift_string).replace("jdphi", "jdphi_"+self.jecUncertainty+shift_string)
 		
 		return plot_config
 
