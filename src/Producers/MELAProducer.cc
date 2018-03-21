@@ -228,7 +228,7 @@ void MELAProducer::CalculateProbabilitiesVBF(float& probCPEven, float& probCPOdd
 	m_mela->computeProdP(probCPEven, false);
 	
 	// CP odd
-	m_mela->setProcess(TVar::H0minus, TVar::JHUGen, TVar::JJVBF);
+	m_mela->setProcess(TVar::SelfDefine_spin0, TVar::JHUGen, TVar::JJVBF);
 	m_mela->selfDHzzcoupl[0][gHIGGS_VV_4][0] = 0.297979; // a3
 	m_mela->computeProdP(probCPOdd, false);
 	
@@ -246,7 +246,7 @@ void MELAProducer::CalculateProbabilitiesWlepH(float& probCPEven, float& probCPO
 	m_mela->computeProdP(probCPEven, false);
 	
 	// CP odd
-	m_mela->setProcess(TVar::H0minus, TVar::JHUGen, TVar::Lep_WH);
+	m_mela->setProcess(TVar::SelfDefine_spin0, TVar::JHUGen, TVar::Lep_WH);
 	m_mela->selfDHzzcoupl[0][gHIGGS_VV_4][0] = 0.1236136; // a3
 	m_mela->computeProdP(probCPOdd, false);
 	
@@ -264,7 +264,7 @@ void MELAProducer::CalculateProbabilitiesWhadH(float& probCPEven, float& probCPO
 	m_mela->computeProdP(probCPEven, false);
 	
 	// CP odd
-	m_mela->setProcess(TVar::H0minus, TVar::JHUGen, TVar::Had_WH);
+	m_mela->setProcess(TVar::SelfDefine_spin0, TVar::JHUGen, TVar::Had_WH);
 	m_mela->selfDHzzcoupl[0][gHIGGS_VV_4][0] = 0.1236136; // a3
 	m_mela->computeProdP(probCPOdd, false);
 	
@@ -282,7 +282,7 @@ void MELAProducer::CalculateProbabilitiesZlepH(float& probCPEven, float& probCPO
 	m_mela->computeProdP(probCPEven, false);
 	
 	// CP odd
-	m_mela->setProcess(TVar::H0minus, TVar::JHUGen, TVar::Lep_ZH);
+	m_mela->setProcess(TVar::SelfDefine_spin0, TVar::JHUGen, TVar::Lep_ZH);
 	m_mela->selfDHzzcoupl[0][gHIGGS_VV_4][0] = 0.144057; // a3
 	m_mela->computeProdP(probCPOdd, false);
 	
@@ -300,7 +300,7 @@ void MELAProducer::CalculateProbabilitiesZhadH(float& probCPEven, float& probCPO
 	m_mela->computeProdP(probCPEven, false);
 	
 	// CP odd
-	m_mela->setProcess(TVar::H0minus, TVar::JHUGen, TVar::Had_ZH);
+	m_mela->setProcess(TVar::SelfDefine_spin0, TVar::JHUGen, TVar::Had_ZH);
 	m_mela->selfDHzzcoupl[0][gHIGGS_VV_4][0] = 0.144057; // a3
 	m_mela->computeProdP(probCPOdd, false);
 	
