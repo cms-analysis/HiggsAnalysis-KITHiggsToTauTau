@@ -97,7 +97,7 @@ $(document).ready(function(){initNavTree('classPolarisationQuantitiesProducerBas
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="PolarisationQuantitiesProducer_8h_source.html">PolarisationQuantitiesProducer.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="PolarisationQuantitiesProducers_8h_source.html">PolarisationQuantitiesProducers.h</a>&gt;</code></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for PolarisationQuantitiesProducerBase:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -107,14 +107,15 @@ $(document).ready(function(){initNavTree('classPolarisationQuantitiesProducerBas
   <img src="classPolarisationQuantitiesProducerBase.png" usemap="#PolarisationQuantitiesProducerBase_map" alt=""/>
   <map id="PolarisationQuantitiesProducerBase_map" name="PolarisationQuantitiesProducerBase_map">
 <area href="classPolarisationQuantitiesSimpleFitProducer.html" alt="PolarisationQuantitiesSimpleFitProducer" shape="rect" coords="0,112,238,136"/>
-<area href="classPolarisationQuantitiesSvfitProducer.html" alt="PolarisationQuantitiesSvfitProducer" shape="rect" coords="248,112,486,136"/>
+<area href="classPolarisationQuantitiesSvfitM91Producer.html" alt="PolarisationQuantitiesSvfitM91Producer" shape="rect" coords="248,112,486,136"/>
+<area href="classPolarisationQuantitiesSvfitProducer.html" alt="PolarisationQuantitiesSvfitProducer" shape="rect" coords="496,112,734,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8705f148184bcc3dbd10391b9ec46de5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a8705f148184bcc3dbd10391b9ec46de5">PolarisationQuantitiesProducerBase</a> (std::string name, std::map&lt; KLepton *, RMFLV &gt; product_type::*fittedTausMember, std::map&lt; KLepton *, double &gt; product_type::*polarisationOmegasMember, std::map&lt; KLepton *, double &gt; product_type::*polarisationOmegaBarsMember, std::map&lt; KLepton *, double &gt; product_type::*polarisationOmegaVisiblesMember, double product_type::*polarisationCombinedOmegaMember, double product_type::*polarisationCombinedOmegaBarMember, double product_type::*polarisationCombinedOmegaVisibleMember)</td></tr>
-<tr class="separator:a8705f148184bcc3dbd10391b9ec46de5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f9e7accd9efead8d075f1f23443d9eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a4f9e7accd9efead8d075f1f23443d9eb">PolarisationQuantitiesProducerBase</a> (std::string name, std::map&lt; KLepton *, RMFLV &gt; product_type::*fittedTausMember, std::map&lt; KLepton *, float &gt; product_type::*polarisationOmegasMember, std::map&lt; KLepton *, float &gt; product_type::*polarisationOmegaBarsMember, std::map&lt; KLepton *, float &gt; product_type::*polarisationOmegaVisiblesMember, float product_type::*polarisationCombinedOmegaMember, float product_type::*polarisationCombinedOmegaBarMember, float product_type::*polarisationCombinedOmegaVisibleMember)</td></tr>
+<tr class="separator:a4f9e7accd9efead8d075f1f23443d9eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac27803aea612e48592db8b4a683b42da"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#ac27803aea612e48592db8b4a683b42da">Init</a> (setting_type const &amp;settings, metadata_type &amp;metadata) override</td></tr>
 <tr class="separator:ac27803aea612e48592db8b4a683b42da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b3e115a3e937d4c9d79528d9e5e8a40"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a6b3e115a3e937d4c9d79528d9e5e8a40">Produce</a> (event_type const &amp;event, product_type &amp;product, setting_type const &amp;settings, metadata_type const &amp;metadata) const override</td></tr>
@@ -127,26 +128,26 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ab062345a7866a3e9abe388ec318fda7d"><td class="memItemLeft" align="right" valign="top">std::map&lt; KLepton *, RMFLV &gt;<br class="typebreak"/>
  product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#ab062345a7866a3e9abe388ec318fda7d">m_fittedTausMember</a></td></tr>
 <tr class="separator:ab062345a7866a3e9abe388ec318fda7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a171e0552f9f8eff15e55460044e0910f"><td class="memItemLeft" align="right" valign="top">std::map&lt; KLepton *, double &gt;<br class="typebreak"/>
- product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a171e0552f9f8eff15e55460044e0910f">m_polarisationOmegasMember</a></td></tr>
-<tr class="separator:a171e0552f9f8eff15e55460044e0910f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b31ced54f7c19434ec5d108a07a1692"><td class="memItemLeft" align="right" valign="top">std::map&lt; KLepton *, double &gt;<br class="typebreak"/>
- product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a5b31ced54f7c19434ec5d108a07a1692">m_polarisationOmegaBarsMember</a></td></tr>
-<tr class="separator:a5b31ced54f7c19434ec5d108a07a1692"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d6bba54dacb19e936f9a994c8d6cb53"><td class="memItemLeft" align="right" valign="top">std::map&lt; KLepton *, double &gt;<br class="typebreak"/>
- product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a7d6bba54dacb19e936f9a994c8d6cb53">m_polarisationOmegaVisiblesMember</a></td></tr>
-<tr class="separator:a7d6bba54dacb19e936f9a994c8d6cb53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4041d5aa4185afb505947442aedd23a"><td class="memItemLeft" align="right" valign="top">double product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#ab4041d5aa4185afb505947442aedd23a">m_polarisationCombinedOmegaMember</a></td></tr>
-<tr class="separator:ab4041d5aa4185afb505947442aedd23a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19d47f90ed7769fa7114c07afb383937"><td class="memItemLeft" align="right" valign="top">double product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a19d47f90ed7769fa7114c07afb383937">m_polarisationCombinedOmegaBarMember</a></td></tr>
-<tr class="separator:a19d47f90ed7769fa7114c07afb383937"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd2cae1b0a2424afba27ce4e4f2bd1c7"><td class="memItemLeft" align="right" valign="top">double product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#afd2cae1b0a2424afba27ce4e4f2bd1c7">m_polarisationCombinedOmegaVisibleMember</a></td></tr>
-<tr class="separator:afd2cae1b0a2424afba27ce4e4f2bd1c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a561277cbcab94a626471f5f52970e7d7"><td class="memItemLeft" align="right" valign="top">std::map&lt; KLepton *, float &gt;<br class="typebreak"/>
+ product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a561277cbcab94a626471f5f52970e7d7">m_polarisationOmegasMember</a></td></tr>
+<tr class="separator:a561277cbcab94a626471f5f52970e7d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b45858122997a43ab582817b2cc3261"><td class="memItemLeft" align="right" valign="top">std::map&lt; KLepton *, float &gt;<br class="typebreak"/>
+ product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a9b45858122997a43ab582817b2cc3261">m_polarisationOmegaBarsMember</a></td></tr>
+<tr class="separator:a9b45858122997a43ab582817b2cc3261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd5aeee4675071489263f5b90f1a6a96"><td class="memItemLeft" align="right" valign="top">std::map&lt; KLepton *, float &gt;<br class="typebreak"/>
+ product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#abd5aeee4675071489263f5b90f1a6a96">m_polarisationOmegaVisiblesMember</a></td></tr>
+<tr class="separator:abd5aeee4675071489263f5b90f1a6a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d80f827657fb991ad7644cee8c58c73"><td class="memItemLeft" align="right" valign="top">float product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a6d80f827657fb991ad7644cee8c58c73">m_polarisationCombinedOmegaMember</a></td></tr>
+<tr class="separator:a6d80f827657fb991ad7644cee8c58c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f9df3782dbfb89f8d43d2e82ad16f23"><td class="memItemLeft" align="right" valign="top">float product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a3f9df3782dbfb89f8d43d2e82ad16f23">m_polarisationCombinedOmegaBarMember</a></td></tr>
+<tr class="separator:a3f9df3782dbfb89f8d43d2e82ad16f23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6884b6ae79f2f180229d94a85d67bf44"><td class="memItemLeft" align="right" valign="top">float product_type::*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarisationQuantitiesProducerBase.html#a6884b6ae79f2f180229d94a85d67bf44">m_polarisationCombinedOmegaVisibleMember</a></td></tr>
+<tr class="separator:a6884b6ae79f2f180229d94a85d67bf44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Producer for tau polarisation quantities. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a8705f148184bcc3dbd10391b9ec46de5"></a>
+<a class="anchor" id="a4f9e7accd9efead8d075f1f23443d9eb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -165,37 +166,37 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::map&lt; KLepton *, double &gt; product_type::*&#160;</td>
+          <td class="paramtype">std::map&lt; KLepton *, float &gt; product_type::*&#160;</td>
           <td class="paramname"><em>polarisationOmegasMember</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::map&lt; KLepton *, double &gt; product_type::*&#160;</td>
+          <td class="paramtype">std::map&lt; KLepton *, float &gt; product_type::*&#160;</td>
           <td class="paramname"><em>polarisationOmegaBarsMember</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::map&lt; KLepton *, double &gt; product_type::*&#160;</td>
+          <td class="paramtype">std::map&lt; KLepton *, float &gt; product_type::*&#160;</td>
           <td class="paramname"><em>polarisationOmegaVisiblesMember</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double product_type::*&#160;</td>
+          <td class="paramtype">float product_type::*&#160;</td>
           <td class="paramname"><em>polarisationCombinedOmegaMember</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double product_type::*&#160;</td>
+          <td class="paramtype">float product_type::*&#160;</td>
           <td class="paramname"><em>polarisationCombinedOmegaBarMember</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double product_type::*&#160;</td>
+          <td class="paramtype">float product_type::*&#160;</td>
           <td class="paramname"><em>polarisationCombinedOmegaVisibleMember</em>&#160;</td>
         </tr>
         <tr>
@@ -330,7 +331,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a19d47f90ed7769fa7114c07afb383937"></a>
+<a class="anchor" id="a3f9df3782dbfb89f8d43d2e82ad16f23"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -338,7 +339,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double product_type::* PolarisationQuantitiesProducerBase::m_polarisationCombinedOmegaBarMember</td>
+          <td class="memname">float product_type::* PolarisationQuantitiesProducerBase::m_polarisationCombinedOmegaBarMember</td>
         </tr>
       </table>
   </td>
@@ -350,7 +351,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab4041d5aa4185afb505947442aedd23a"></a>
+<a class="anchor" id="a6d80f827657fb991ad7644cee8c58c73"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -358,7 +359,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double product_type::* PolarisationQuantitiesProducerBase::m_polarisationCombinedOmegaMember</td>
+          <td class="memname">float product_type::* PolarisationQuantitiesProducerBase::m_polarisationCombinedOmegaMember</td>
         </tr>
       </table>
   </td>
@@ -370,7 +371,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afd2cae1b0a2424afba27ce4e4f2bd1c7"></a>
+<a class="anchor" id="a6884b6ae79f2f180229d94a85d67bf44"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -378,7 +379,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double product_type::* PolarisationQuantitiesProducerBase::m_polarisationCombinedOmegaVisibleMember</td>
+          <td class="memname">float product_type::* PolarisationQuantitiesProducerBase::m_polarisationCombinedOmegaVisibleMember</td>
         </tr>
       </table>
   </td>
@@ -390,7 +391,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5b31ced54f7c19434ec5d108a07a1692"></a>
+<a class="anchor" id="a9b45858122997a43ab582817b2cc3261"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -398,7 +399,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt;KLepton*, double&gt; product_type::* PolarisationQuantitiesProducerBase::m_polarisationOmegaBarsMember</td>
+          <td class="memname">std::map&lt;KLepton*, float&gt; product_type::* PolarisationQuantitiesProducerBase::m_polarisationOmegaBarsMember</td>
         </tr>
       </table>
   </td>
@@ -410,7 +411,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a171e0552f9f8eff15e55460044e0910f"></a>
+<a class="anchor" id="a561277cbcab94a626471f5f52970e7d7"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -418,7 +419,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt;KLepton*, double&gt; product_type::* PolarisationQuantitiesProducerBase::m_polarisationOmegasMember</td>
+          <td class="memname">std::map&lt;KLepton*, float&gt; product_type::* PolarisationQuantitiesProducerBase::m_polarisationOmegasMember</td>
         </tr>
       </table>
   </td>
@@ -430,7 +431,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7d6bba54dacb19e936f9a994c8d6cb53"></a>
+<a class="anchor" id="abd5aeee4675071489263f5b90f1a6a96"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -438,7 +439,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt;KLepton*, double&gt; product_type::* PolarisationQuantitiesProducerBase::m_polarisationOmegaVisiblesMember</td>
+          <td class="memname">std::map&lt;KLepton*, float&gt; product_type::* PolarisationQuantitiesProducerBase::m_polarisationOmegaVisiblesMember</td>
         </tr>
       </table>
   </td>
@@ -451,8 +452,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>interface/Producers/<a class="el" href="PolarisationQuantitiesProducer_8h_source.html">PolarisationQuantitiesProducer.h</a></li>
-<li>src/Producers/<a class="el" href="PolarisationQuantitiesProducer_8cc.html">PolarisationQuantitiesProducer.cc</a></li>
+<li>interface/Producers/<a class="el" href="PolarisationQuantitiesProducers_8h_source.html">PolarisationQuantitiesProducers.h</a></li>
+<li>src/Producers/<a class="el" href="PolarisationQuantitiesProducers_8cc.html">PolarisationQuantitiesProducers.cc</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

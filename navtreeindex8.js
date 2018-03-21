@@ -1,5 +1,16 @@
 var NAVTREEINDEX8 =
 {
+"classValidEEPairCandidatesProducer.html#a0d6dc5d1ed1642937ae8125603856c8d":[1,0,319,1],
+"classValidEEPairCandidatesProducer.html#ac24373f9187cea643c6eb88c4621b86f":[1,0,319,0],
+"classValidEMPairCandidatesProducer.html":[1,0,320],
+"classValidEMPairCandidatesProducer.html#a6f5a4c8e1838d24fa276cef1488b29af":[1,0,320,1],
+"classValidEMPairCandidatesProducer.html#aada74332bbc1c5f2ed975d13fb53f81e":[1,0,320,0],
+"classValidETPairCandidatesProducer.html":[1,0,321],
+"classValidETPairCandidatesProducer.html#aa5f20470043f51c305b99de691e976d3":[1,0,321,0],
+"classValidETPairCandidatesProducer.html#ac1a930e7ae92e41bb839368dd93e4af3":[1,0,321,1],
+"classValidMMPairCandidatesProducer.html":[1,0,322],
+"classValidMMPairCandidatesProducer.html#a203cc2509b5cdc61f5867595d4bafae4":[1,0,322,1],
+"classValidMMPairCandidatesProducer.html#adaabcc7a8ec11e0475e005a4d90aabfb":[1,0,322,0],
 "classValidMTPairCandidatesProducer.html":[1,0,323],
 "classValidMTPairCandidatesProducer.html#a62d12b4b6a70d0d8bb992dfb894b215f":[1,0,323,0],
 "classValidMTPairCandidatesProducer.html#ac644278c7d0b1cb740cae7eff383aa0a":[1,0,323,1],
@@ -238,16 +249,5 @@ var NAVTREEINDEX8 =
 "classhiggsmodels_1_1TwoHypotesisHiggs.html#a26d3ad0abeda365a466449d11674c75b":[1,0,44,0,14],
 "classhiggsmodels_1_1TwoHypotesisHiggs.html#a46c30b18bda58368b4a0f50e94feae45":[1,0,44,0,15],
 "classhiggsmodels_1_1TwoHypotesisHiggs.html#a4f38710f61a8b5945fcf1f21cc12b82f":[1,0,44,0,0],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#a649bf4a90e3387ff34fce744db6df41c":[1,0,44,0,4],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#a6abab27ec102e1c40e484d61ccb7e9d3":[1,0,44,0,16],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#a79a78da09a5d7d1dbcc8c899eef57f52":[1,0,44,0,8],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#a7b7f4d311f74cdf4539f0e14b3912798":[1,0,44,0,1],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#a7fe876ed4fa7b4953149b7d3554fb7c9":[1,0,44,0,3],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#a8aaebc3e36be2ce66f9dfd0ae05580f2":[1,0,44,0,17],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#a92ed0f572404c659c3c9caadd41f54e9":[1,0,44,0,5],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#a946d0521afa00b2df53ad93d492451c4":[1,0,44,0,7],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#a95d62c91fb634c4f6440e5cadc101b64":[1,0,44,0,12],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#aa185d419e267b777b01540fa7c6abd6c":[1,0,44,0,11],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#ab6220202c31726d563b32860550c2eb7":[1,0,44,0,13],
-"classhiggsmodels_1_1TwoHypotesisHiggs.html#ac175db0a5d5494ef222a73b337d8fce7":[1,0,44,0,9]
+"classhiggsmodels_1_1TwoHypotesisHiggs.html#a649bf4a90e3387ff34fce744db6df41c":[1,0,44,0,4]
 };
