@@ -781,7 +781,7 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.0)"+"*"+branching_ratio+"*"+files_weight+"*jetCorrectionWeight"+"*"+cross_section_weight+"*"+jet_integral_weight+"*1./(numberGeneratedEventsWeight*crossSectionPerEventWeight)*(genBosonLV.mass()>81)*(genBosonLV.mass()<101)",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*jetCorrectionWeight"+"*"+cross_section_weight+"*"+jet_integral_weight+"*1./(numberGeneratedEventsWeight*crossSectionPerEventWeight)*(genBosonLV.mass()>81)*(genBosonLV.mass()<101)",
 				"zmt",
 				nick_suffix=nick_suffix
 		)
@@ -813,7 +813,7 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoET > 0.0)"+"*"+branching_ratio+"*"+files_weight+"*jetCorrectionWeight"+"*"+cross_section_weight+"*"+jet_integral_weight+"*1./(numberGeneratedEventsWeight*crossSectionPerEventWeight)*(genBosonLV.mass()>81)*(genBosonLV.mass()<101)",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoET > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*jetCorrectionWeight"+"*"+cross_section_weight+"*"+jet_integral_weight+"*1./(numberGeneratedEventsWeight*crossSectionPerEventWeight)*(genBosonLV.mass()>81)*(genBosonLV.mass()<101)",
 				"zet",
 				nick_suffix=nick_suffix
 		)
@@ -845,7 +845,7 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.0)"+"*"+ branching_ratio+"*"+files_weight+"*jetCorrectionWeight"+"*"+cross_section_weight+"*"+jet_integral_weight+"*1./(numberGeneratedEventsWeight*crossSectionPerEventWeight)*(genBosonLV.mass()>81)*(genBosonLV.mass()<101)",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*jetCorrectionWeight"+"*"+cross_section_weight+"*"+jet_integral_weight+"*1./(numberGeneratedEventsWeight*crossSectionPerEventWeight)*(genBosonLV.mass()>81)*(genBosonLV.mass()<101)",
 				"zem",
 				nick_suffix=nick_suffix
 		)
