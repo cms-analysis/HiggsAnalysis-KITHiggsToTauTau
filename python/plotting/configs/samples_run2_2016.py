@@ -830,10 +830,9 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
-		branching_ratio = "7.3e-7" #"(0.03363)*0.17*0.17*2"
-		cross_section_weight = "1."
+		branching_ratio = "7.3e-7" # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"
 		jet_integral_weight = "1/1.03"
-		files_weight = "0.0099"
+		files_weight = "1/10.0"
 
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
@@ -845,7 +844,7 @@ class Samples(samples.SamplesBase):
 				self.files_lfv(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*jetCorrectionWeight"+"*"+cross_section_weight+"*"+jet_integral_weight+"*1./(numberGeneratedEventsWeight*crossSectionPerEventWeight)*(genBosonLV.mass()>81)*(genBosonLV.mass()<101)",
+				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*jetCorrectionWeight*"+jet_integral_weight,
 				"zem",
 				nick_suffix=nick_suffix
 		)
