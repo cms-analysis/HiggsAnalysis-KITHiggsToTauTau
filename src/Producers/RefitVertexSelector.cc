@@ -30,13 +30,9 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	{
 		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->position.z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVchi2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVchi2OverNdof", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->chi2 : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVnDOF", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->nDOF : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV->chi2 / product.m_refitPV->nDOF) : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVnTracks", [](event_type const& event, product_type const& product)
 	{
@@ -80,13 +76,9 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	{
 		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->position.z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVBSchi2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVBSchi2OverNdof", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->chi2 : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVBSnDOF", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->nDOF : DefaultValues::UndefinedFloat);
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS->chi2 / product.m_refitPVBS->nDOF) : DefaultValues::UndefinedFloat);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVBSnTracks", [](event_type const& event, product_type const& product)
 	{
