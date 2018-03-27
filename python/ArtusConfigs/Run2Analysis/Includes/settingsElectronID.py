@@ -20,7 +20,7 @@ class Electron_ID(dict):
 		self["ElectronReco"] = "mvanontrig"
 	
 		self["ElectronID"] = "user"
-		self["ElectronIDType"] = "mvabased2015andlater",
+		self["ElectronIDType"] = "mvabased2015andlater"
 
 		if re.search("(Run2015|Fall15MiniAODv2)", nickname):
 			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
@@ -44,13 +44,13 @@ class Electron_ID(dict):
 						"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"]		
 
 	
-		self["ElectronIsoType"] = "user",
-		self["ElectronIso"] = "none",
+		self["ElectronIsoType"] = "user"
+		self["ElectronIso"] = "none"
 	
-		self["ElectronIsoSignalConeSize"] = 0.3,
-		self["ElectronDeltaBetaCorrectionFactor"] = 0.5,
+		self["ElectronIsoSignalConeSize"] = 0.3
+		self["ElectronDeltaBetaCorrectionFactor"] = 0.5
 	
-		self["ElectronTrackDxyCut"] = 0.045,
+		self["ElectronTrackDxyCut"] = 0.045
 		self["ElectronTrackDzCut"] = 0.2
 
 	#since looseElectron_ID includes Electron_ID settings, when this is not ok then just write everything in init to seperate function electron_ID

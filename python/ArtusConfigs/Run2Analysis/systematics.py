@@ -19,7 +19,7 @@ class Systematics_Config(dict):
 	
 		#Nominal
 		self["ElectronEnergyCorrectionShiftEB"] = 1.0 
-		self["ElectronEnergyCorrectionShiftEE"] = 1.0, 
+		self["ElectronEnergyCorrectionShiftEE"] = 1.0
 		self["JetEnergyCorrectionUncertaintyShift"] = 0.0 
 		self["MetUncertaintyShift"] = False 
 		self["MetUncertaintyType"] = "" 

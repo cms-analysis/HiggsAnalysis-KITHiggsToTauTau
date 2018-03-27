@@ -139,7 +139,7 @@ class tt_ArtusConfig(dict):
 		self["InvalidateNonMatchingMuons"] = False
 		self["InvalidateNonMatchingTaus"] = True
 		self["InvalidateNonMatchingJets"] = False
-		self["UseUWGenMatching"] = True                   #TODO change this to boolean? or change the rest to string?
+		self["UseUWGenMatching"] = "true"                   #TODO change this to boolean? or change the rest to string?
 		self["DirectIso"] = True
 		self["TopPtReweightingStrategy"] = "Run1"
 
@@ -149,9 +149,9 @@ class tt_ArtusConfig(dict):
 
 		self["OSChargeLeptons"] = True
 
-		self["AddGenMatchedTaus"] = True,
-		self["AddGenMatchedTauJets"] = True,
-		self["BranchGenMatchedTaus"] = True,
+		self["AddGenMatchedTaus"] = True
+		self["AddGenMatchedTauJets"] = True
+		self["BranchGenMatchedTaus"] = True
 
 		self["Consumers"] = ["KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
@@ -631,7 +631,7 @@ class tt_ArtusConfig(dict):
 					#"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"]
 
-		self["Processors"]=list(set(self["Processors"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
+		#self["Processors"]=list(set(self["Processors"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 		 
 
 

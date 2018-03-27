@@ -12,7 +12,7 @@ import copy
 
 class TauSpinner(dict):
 	def __init__(self, nickname):
-		self["TauSpinnerSettingsPDF"] = "MSTW2008nnlo90cl.LHgrid",
+		self["TauSpinnerSettingsPDF"] = "MSTW2008nnlo90cl.LHgrid"
 		if re.search("(7TeV)", nickname):
 			self["TauSpinnerSettingsCmsEnergy"] = 7000.0
 		elif re.search("(8TeV)", nickname):
@@ -31,16 +31,16 @@ class TauSpinner(dict):
 			"3" : "Replacing spin effects of Z/gammaStar with the Higgs-like spin-0 state spin correlations",
 			"4" : "Validation"
 		}
-		self["TauSpinnerSettingsIpol"] = "1",
+		self["TauSpinnerSettingsIpol"] = "1"
 	
 		self["TauSpinnerSettingsNonSM2_documentation"] = {
 			"0" : "SM calculations (spin = 0)",
 			"1" : "non SM calculations (spin = 2): http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html (line 558)"
 		},
-		self["TauSpinnerSettingsNonSM2"] = "0",
+		self["TauSpinnerSettingsNonSM2"] = "0"
 	
-		self["TauSpinnerSettingsNonSMN"] = "0",
-		if re.match("(HToTauTau|H2JetsToTauTau|Higgs)*?", nickname):
+		self["TauSpinnerSettingsNonSMN"] = "0"
+		if re.match("(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalf"] = [
 					0.00,
 					0.05,

@@ -27,6 +27,7 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsMadGraphReweighting.json"   #TODO
 		]
 		"""
+		super(Baseconfig_cp, self).__init__(nickname)
 		TauSpinner_config = sTauSpinner.TauSpinner(nickname)
 		self.update(TauSpinner_config)
 

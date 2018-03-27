@@ -41,17 +41,16 @@ class Baseconfig(dict):
 		JEC_config = sJEC.JEC(nickname) # is commented out
 		self.update(JEC_config)
 		"""
-		sampleStitchingWeight_config = sSSW.SampleStitchingWeights 
+		sampleStitchingWeight_config = sSSW.SampleStitchingWeights(nickname) 
 		self.update(sampleStitchingWeight_config)
 
 
 		self["SkipEvents"] = 0
 		self["EventCount"] = -1
-		self["InputFiles"] = ["/nfs/dust/cms/user/fcolombo/skimming/2014-08-12-skim/SM_VBFHToTauTau_M_125_powheg_pythia_8TeV/kappa_SM_VBFHToTauTau_M_125_powheg_pythia_8TeV_0.root"
-				]
+				
 		self["OutputPath"] = "output.root"
 		
-		if re.match("Run201", nickname):
+		if re.search("Run201", nickname):
 			self["InputIsData"] = True #string in json
 		else:
 			self["InputIsData"] = False
@@ -101,7 +100,7 @@ class Baseconfig(dict):
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root"
 
-		elif re.search("Spring16|Summer16", nickname):
+		elif re.search("(Spring16|Summer16)", nickname):
 			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-284044_13TeVMoriond17_23Sep2016ReReco_69p2mbMinBiasXS.root"
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root" 
@@ -165,7 +164,7 @@ class Baseconfig(dict):
 
 
 
-		if re.search("(Fall15MiniAODv2", nickname):
+		if re.search("(Fall15MiniAODv2)", nickname):
 			self["SimpleMuTauFakeRateWeightLoose"] = [1.0, 1.0, 1.0, 1.0, 1.0]
 			self["SimpleMuTauFakeRateWeightTight"] = [1.0, 1.0, 1.0, 1.0, 1.0]
 			self["SimpleEleTauFakeRateWeightVLoose"] = [1.02, 1.11]
@@ -177,7 +176,7 @@ class Baseconfig(dict):
 			self["SimpleEleTauFakeRateWeightVLoose"] = [1.213, 1.375]	
 			self["SimpleEleTauFakeRateWeightTight"] = [1.402, 1.90]
 
-		elif re.search("Summer17|Fall17)". nickname):
+		elif re.search("(Summer17|Fall17)". nickname):
 			self["SimpleMuTauFakeRateWeightLoose"]	= [1.0, 1.0, 1.0, 1.0, 1.0]
 			self["SimpleMuTauFakeRateWeightTight"] = [1.0, 1.0, 1.0, 1.0, 1.0]
 			self["SimpleEleTauFakeRateWeightVLoose"] = [1.0, 1.0]
