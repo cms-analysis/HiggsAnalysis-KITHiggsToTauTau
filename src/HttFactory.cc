@@ -17,7 +17,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DataMcScaleFactorProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiLeptonQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiJetQuantitiesProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SvfitProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetprojectionProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauRestFrameSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauSpinnerProducer.h"
@@ -42,7 +42,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleEleTauFakeRateWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleMuTauFakeRateWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/JetToTauFakesProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/EmuQcdWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RooWorkspaceWeightProducer.h"
@@ -53,7 +53,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DiGenJetQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TagAndProbePairProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MadGraphReweightingProducer.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MELAProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MELAProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTbarGenDecayModeProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/LFVJetCorrection2016Producer.h"
@@ -152,6 +152,10 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new DiJetQuantitiesProducer();
 	else if(id == SvfitProducer().GetProducerId())
 		return new SvfitProducer();
+	else if(id == SvfitM91Producer().GetProducerId())
+		return new SvfitM91Producer();
+	else if(id == SvfitM125Producer().GetProducerId())
+		return new SvfitM125Producer();
 	else if(id == MetprojectionProducer().GetProducerId())
 		return new MetprojectionProducer();
 	else if(id == TauTauRestFrameSelector().GetProducerId())
@@ -230,6 +234,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new JetToTauFakesProducer();
 	else if(id == PolarisationQuantitiesSvfitProducer().GetProducerId())
 		return new PolarisationQuantitiesSvfitProducer();
+	else if(id == PolarisationQuantitiesSvfitM91Producer().GetProducerId())
+		return new PolarisationQuantitiesSvfitM91Producer();
 	else if(id == PolarisationQuantitiesSimpleFitProducer().GetProducerId())
 		return new PolarisationQuantitiesSimpleFitProducer();
 	//else if(id == PolarisationQuantitiesHHKinFitProducer().GetProducerId())
@@ -274,6 +280,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MadGraphReweightingProducer();
 	else if(id == MELAProducer().GetProducerId())
 		return new MELAProducer();
+	else if(id == MELAM125Producer().GetProducerId())
+		return new MELAM125Producer();
 	else if(id == TTbarGenDecayModeProducer().GetProducerId())
 		return new TTbarGenDecayModeProducer();
 	else if(id == TaggedJetUncertaintyShiftProducer().GetProducerId())

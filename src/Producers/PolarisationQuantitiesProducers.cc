@@ -6,7 +6,7 @@
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PolarisationQuantitiesProducers.h"
 
 #include "TauPolSoftware/TauDecaysInterface/interface/TauPolInterface.h"
 
@@ -16,12 +16,12 @@
 PolarisationQuantitiesProducerBase::PolarisationQuantitiesProducerBase(
 		std::string name,
 		std::map<KLepton*, RMFLV> product_type::*fittedTausMember,
-		std::map<KLepton*, double> product_type::*polarisationOmegasMember,
-		std::map<KLepton*, double> product_type::*polarisationOmegaBarsMember,
-		std::map<KLepton*, double> product_type::*polarisationOmegaVisiblesMember,
-		double product_type::*polarisationCombinedOmegaMember,
-		double product_type::*polarisationCombinedOmegaBarMember,
-		double product_type::*polarisationCombinedOmegaVisibleMember
+		std::map<KLepton*, float> product_type::*polarisationOmegasMember,
+		std::map<KLepton*, float> product_type::*polarisationOmegaBarsMember,
+		std::map<KLepton*, float> product_type::*polarisationOmegaVisiblesMember,
+		float product_type::*polarisationCombinedOmegaMember,
+		float product_type::*polarisationCombinedOmegaBarMember,
+		float product_type::*polarisationCombinedOmegaVisibleMember
 ) :
 	m_name(name),
 	m_fittedTausMember(fittedTausMember),
@@ -44,15 +44,15 @@ void PolarisationQuantitiesProducerBase::Init(setting_type const& settings, meta
 		std::string namePostfix = m_name+"_" + std::to_string(leptonIndex+1);
 		
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmega"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
-			return static_cast<float>(SafeMap::GetWithDefault((product.*m_polarisationOmegasMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedDouble));
+			return SafeMap::GetWithDefault((product.*m_polarisationOmegasMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedFloat);
 		});
 		
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaBar"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
-			return static_cast<float>(SafeMap::GetWithDefault((product.*m_polarisationOmegaBarsMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedDouble));
+			return SafeMap::GetWithDefault((product.*m_polarisationOmegaBarsMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedFloat);
 		});
 		
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaVisible"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
-			return static_cast<float>(SafeMap::GetWithDefault((product.*m_polarisationOmegaVisiblesMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedDouble));
+			return SafeMap::GetWithDefault((product.*m_polarisationOmegaVisiblesMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedFloat);
 		});
 	}
 	
@@ -242,9 +242,29 @@ PolarisationQuantitiesSvfitProducer::PolarisationQuantitiesSvfitProducer() :
 {
 }
 
-std::string PolarisationQuantitiesSvfitProducer::GetProducerId() const
+std::string PolarisationQuantitiesSvfitM91Producer::GetProducerId() const
 {
 	return "PolarisationQuantitiesSvfitProducer";
+}
+
+
+PolarisationQuantitiesSvfitM91Producer::PolarisationQuantitiesSvfitM91Producer() :
+	PolarisationQuantitiesProducerBase(
+			"SvfitM91",
+			&product_type::m_svfitM91Taus,
+			&product_type::m_polarisationOmegasSvfitM91,
+			&product_type::m_polarisationOmegaBarsSvfitM91,
+			&product_type::m_polarisationOmegaVisiblesSvfitM91,
+			&product_type::m_polarisationCombinedOmegaSvfitM91,
+			&product_type::m_polarisationCombinedOmegaBarSvfitM91,
+			&product_type::m_polarisationCombinedOmegaVisibleSvfitM91
+	)
+{
+}
+
+std::string PolarisationQuantitiesSvfitProducer::GetProducerId() const
+{
+	return "PolarisationQuantitiesSvfitM91Producer";
 }
 
 

@@ -63,7 +63,7 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 				product.m_svfitResults.CreateBranches(m_svfitCacheTree);
 				m_svfitCacheTreeInitialised = true;
 			}
-			if (product.m_svfitCalculated)
+			if (product.m_svfitResults.recalculated)
 			{
 				m_svfitCacheTree->Fill();
 			}
@@ -84,7 +84,7 @@ void SvfitCacheConsumer::ProcessFilteredEvent(event_type const& event, product_t
 			product.m_svfitResults.CreateBranches(m_svfitCacheTree);
 			m_svfitCacheTreeInitialised = true;
 		}
-		if (product.m_svfitCalculated)
+		if (product.m_svfitResults.recalculated)
 		{
 				m_svfitCacheTree->Fill();
 		}

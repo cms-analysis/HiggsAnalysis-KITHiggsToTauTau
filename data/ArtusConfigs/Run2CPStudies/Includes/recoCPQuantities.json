@@ -5,7 +5,7 @@
 		"melaProbCPMixGGH",
 		"melaDiscriminatorD0MinusGGH",
 		"melaDiscriminatorDCPGGH",
-		
+
 		"melaProbCPEvenVBF",
 		"melaProbCPOddVBF",
 		"melaProbCPMixVBF",
@@ -35,6 +35,42 @@
 		"#melaProbCPMixZhadH",
 		"#melaDiscriminatorD0MinusZhadH",
 		"#melaDiscriminatorDCPZhadH",
+		
+		"melaM125ProbCPEvenGGH",
+		"melaM125ProbCPOddGGH",
+		"melaM125ProbCPMixGGH",
+		"melaM125DiscriminatorD0MinusGGH",
+		"melaM125DiscriminatorDCPGGH",
+
+		"melaM125ProbCPEvenVBF",
+		"melaM125ProbCPOddVBF",
+		"melaM125ProbCPMixVBF",
+		"melaM125DiscriminatorD0MinusVBF",
+		"melaM125DiscriminatorDCPVBF",
+		
+		"#melaM125ProbCPEvenWlepH",
+		"#melaM125ProbCPOddWlepH",
+		"#melaM125ProbCPMixWlepH",
+		"#melaM125DiscriminatorD0MinusWlepH",
+		"#melaM125DiscriminatorDCPWlepH",
+		
+		"#melaM125ProbCPEvenWhadH",
+		"#melaM125ProbCPOddWhadH",
+		"#melaM125ProbCPMixWhadH",
+		"#melaM125DiscriminatorD0MinusWhadH",
+		"#melaM125DiscriminatorDCPWhadH",
+		
+		"#melaM125ProbCPEvenZlepH",
+		"#melaM125ProbCPOddZlepH",
+		"#melaM125ProbCPMixZlepH",
+		"#melaM125DiscriminatorD0MinusZlepH",
+		"#melaM125DiscriminatorDCPZlepH",
+		
+		"#melaM125ProbCPEvenZhadH",
+		"#melaM125ProbCPOddZhadH",
+		"#melaM125ProbCPMixZhadH",
+		"#melaM125DiscriminatorD0MinusZhadH",
+		"#melaM125DiscriminatorDCPZhadH",
 		
 		"thePVx",
 		"thePVy",

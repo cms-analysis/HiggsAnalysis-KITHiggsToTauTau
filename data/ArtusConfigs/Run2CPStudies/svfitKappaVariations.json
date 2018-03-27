@@ -1,0 +1,23 @@
+{
+	"Kappa0" : {
+		"SvfitKappaParameter" : 0.0
+	},
+	"Kappa2" : {
+		"SvfitKappaParameter" : 2.0
+	},
+	"Kappa4" : {
+		"SvfitKappaParameter" : 4.0
+	},
+	"Kappa6" : {
+		"SvfitKappaParameter" : 6.0
+	},
+	"Kappa8" : {
+		"SvfitKappaParameter" : 8.0
+	},
+	"Kappa10" : {
+		"SvfitKappaParameter" : 10.0
+	},
+	"Kappa15" : {
+		"SvfitKappaParameter" : 15.0
+	}
+}

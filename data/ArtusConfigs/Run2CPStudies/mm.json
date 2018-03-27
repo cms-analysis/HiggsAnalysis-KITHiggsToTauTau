@@ -273,6 +273,7 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:MELAProducer",
+					"producer:MELAM125Producer",
 					"#producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:RooWorkspaceWeightProducer",
@@ -310,6 +311,7 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:MELAProducer",
+					"producer:MELAM125Producer",
 					"#producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:RooWorkspaceWeightProducer",
@@ -413,6 +415,7 @@
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
 					"producer:MELAProducer",
+					"producer:MELAM125Producer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:EventWeightProducer"
