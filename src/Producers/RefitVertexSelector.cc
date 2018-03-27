@@ -1,9 +1,17 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RefitVertexSelector.h"
 
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
+#include "boost/functional/hash.hpp"
 
 
-void RefitVertexSelectorBase::Init(setting_type const& settings, metadata_type& metadata)
+std::string RefitVertexSelector::GetProducerId() const
+{
+	return "RefitVertexSelector";
+}
+
+
+void RefitVertexSelector::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
 
@@ -200,8 +208,8 @@ void RefitVertexSelectorBase::Init(setting_type const& settings, metadata_type& 
 }
 
 
-void RefitVertexSelectorBase::Produce(event_type const& event, product_type& product,
-										setting_type const& settings, metadata_type const& metadata) const
+void RefitVertexSelector::Produce(event_type const& event, product_type& product,
+                                  setting_type const& settings, metadata_type const& metadata) const
 {
 	
 	assert(product.m_flavourOrderedLeptons.size() > 0);
@@ -274,28 +282,7 @@ void RefitVertexSelectorBase::Produce(event_type const& event, product_type& pro
 			}
 		}
 
-
 	} // if leptons.size==2
 
-
-
 }
 
-
-std::string RefitVertexSelector::GetProducerId() const
-{
-	return "RefitVertexSelector";
-}
-
-
-void RefitVertexSelector::Init(setting_type const& settings, metadata_type& metadata)
-{
-	RefitVertexSelectorBase::Init(settings, metadata);
-}
-
-
-void RefitVertexSelector::Produce(event_type const& event, product_type& product,
-									setting_type const& settings, metadata_type const& metadata) const
-{
-	RefitVertexSelectorBase::Produce(event, product, settings, metadata);
-}
