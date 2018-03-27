@@ -632,7 +632,8 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt13TeV_mt_Vbf2D_m_sv"] = "0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
 		self.binnings_dict["binningHtt13TeV_mt_vbf_m_sv"] = self.binnings_dict["binningHtt13TeV_mt_Vbf2D_m_sv"]		
 
-		
+		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_mjj"] = " ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)])
+		self.binnings_dict["binningHtt13TeV_tt_vbf_mjj"] = self.binnings_dict["binningHtt13TeV_tt_Vbf2D_mjj"]		
 		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_QCDCR_m_sv"] = "0.0 250.0"
 		self.binnings_dict["binningHtt13TeV_tt_antiiso_vbf_cr_m_sv"] = self.binnings_dict["binningHtt13TeV_tt_Vbf2D_QCDCR_m_sv"] 
 		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_m_sv"] = "0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
