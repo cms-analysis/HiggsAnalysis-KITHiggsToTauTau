@@ -17,10 +17,17 @@ var searchData=
   ['backgrounds',['backgrounds',['../namespacemakePlots__datacardsPostfitPlots.html#a529a89d1c03e438f8510ba31003a54a0',1,'makePlots_datacardsPostfitPlots.backgrounds()'],['../namespacemakePlots__limitInputsPrefitPlots.html#ac1056c672d43e26b44389e0ee62189e0',1,'makePlots_limitInputsPrefitPlots.backgrounds()']]],
   ['backgrounds_5fto_5fmerge',['backgrounds_to_merge',['../namespacemakePlots__datacardsLFVZlt.html#a161ff10484dd3d0e58d17f919f94cf8f',1,'makePlots_datacardsLFVZlt.backgrounds_to_merge()'],['../namespacemakePlots__datacardsSMHtt.html#a00cd9e9e2b5c8051c65167fd625c88e5',1,'makePlots_datacardsSMHtt.backgrounds_to_merge()']]],
   ['base_5fconfig',['base_config',['../namespaceLepFlaVio.html#ae8a14f0b0d08ac28a867ad2d76693819',1,'LepFlaVio']]],
+  ['base_5fcopy',['base_copy',['../classsystematics_1_1Systematics__Config.html#a429863e853a8825ac726ec1a181d757a',1,'systematics.Systematics_Config.base_copy()'],['../classtt_1_1tt__ArtusConfig.html#ac8e5f4151e99a42cd6f07e7ebf17d3ae',1,'tt.tt_ArtusConfig.base_copy()']]],
   ['base_5fcuts',['base_cuts',['../namespacemvaCategory__Shifts.html#a50d2856abe674140fedabf29815451b7',1,'mvaCategory_Shifts']]],
   ['base_5fdict',['base_dict',['../namespaceplot__overtraining.html#a2502ced0b4cec55f06ff7bfd2f0b8e98',1,'plot_overtraining']]],
   ['base_5fline',['base_line',['../namespacemakePlots__BdtShiftLimits.html#ae2f2dbee8564881ab9ab9c77a0910f60',1,'makePlots_BdtShiftLimits']]],
   ['base_5fvalues',['base_values',['../namespacemakePlots__datacardsLFV.html#a5bb6720db0113950aa05812cc33b58d0',1,'makePlots_datacardsLFV']]],
+  ['baseconfig',['baseconfig',['../namespacebaseconfig.html',1,'']]],
+  ['baseconfig',['Baseconfig',['../classbaseconfig_1_1Baseconfig.html',1,'baseconfig']]],
+  ['baseconfig_2epy',['baseconfig.py',['../baseconfig_8py.html',1,'']]],
+  ['baseconfig_5fcp',['Baseconfig_cp',['../classbaseconfigCP_1_1Baseconfig__cp.html',1,'baseconfigCP']]],
+  ['baseconfigcp',['baseconfigCP',['../namespacebaseconfigCP.html',1,'']]],
+  ['baseconfigcp_2epy',['baseconfigCP.py',['../baseconfigCP_8py.html',1,'']]],
   ['baseline',['baseline',['../classcutstrings_1_1CutStringsDict.html#afee67deb7588be03b2d2214d314f6c34',1,'cutstrings::CutStringsDict']]],
   ['baseline_5flow_5fmvis',['baseline_low_mvis',['../classcutstrings_1_1CutStringsDict.html#a730e71d1b4bd4c776a8c6237bdd5c742',1,'cutstrings::CutStringsDict']]],
   ['batchcomputesvfit',['batchComputeSvfit',['../namespacebatchComputeSvfit.html',1,'']]],
@@ -71,6 +78,9 @@ var searchData=
   ['btageffconsumer',['BTagEffConsumer',['../classBTagEffConsumer.html',1,'']]],
   ['btageffconsumer_2ecc',['BTagEffConsumer.cc',['../BTagEffConsumer_8cc.html',1,'']]],
   ['btageffconsumer_2eh',['BTagEffConsumer.h',['../BTagEffConsumer_8h.html',1,'']]],
+  ['btaggedjet_5fid',['BTaggedJet_ID',['../classsettingsBTaggedJetID_1_1BTaggedJet__ID.html',1,'settingsBTaggedJetID']]],
   ['btagsystematic',['BTagSystematic',['../classsystematics__run2_1_1BTagSystematic.html',1,'systematics_run2']]],
-  ['build_5fconfigs',['build_configs',['../namespacesubmitCrabSvfitJobs.html#a3e3cf6dfd0375311a582e3fa5d2a6d36',1,'submitCrabSvfitJobs']]]
+  ['build_5fconfig',['build_config',['../classtt_1_1tt__ArtusConfig.html#aececfbf98a6e146c457ea7c25d1fdc10',1,'tt::tt_ArtusConfig']]],
+  ['build_5fconfigs',['build_configs',['../namespacesubmitCrabSvfitJobs.html#a3e3cf6dfd0375311a582e3fa5d2a6d36',1,'submitCrabSvfitJobs']]],
+  ['build_5fsystematic_5fconfig',['build_systematic_config',['../classsystematics_1_1Systematics__Config.html#aae19753fbf540c9f76193e7f1d388cfa',1,'systematics::Systematics_Config']]]
 ];

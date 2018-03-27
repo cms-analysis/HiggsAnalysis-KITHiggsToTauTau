@@ -13,6 +13,7 @@ var classConfigMaster_1_1ConfigMaster =
     [ "add_config_info", "classConfigMaster_1_1ConfigMaster.html#a5552165104b7d899a55ae05e0aff081e", null ],
     [ "change_config_info", "classConfigMaster_1_1ConfigMaster.html#aaf9cc3530382ac50fc1fd3c397be6691", null ],
     [ "copy", "classConfigMaster_1_1ConfigMaster.html#a4752c9fc91321fb4cc327361dfa965f7", null ],
+    [ "init", "classConfigMaster_1_1ConfigMaster.html#ac1d593233e754bd964c3cb7f5d416b63", null ],
     [ "merge_by_keys", "classConfigMaster_1_1ConfigMaster.html#a85b257269703a331cdf23460241ed5ab", null ],
     [ "pop", "classConfigMaster_1_1ConfigMaster.html#ad9aed9fd46eeb34fd265fa39b814c7b5", null ],
     [ "print_config", "classConfigMaster_1_1ConfigMaster.html#ae2b870a72157257d484d6ed4eb0a965a", null ],
