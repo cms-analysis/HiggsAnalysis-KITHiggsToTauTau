@@ -19,9 +19,6 @@ var hierarchy =
       [ "weakmixinganglefrompolarisation.WeakMixingAngleFromPolarisation", "classweakmixinganglefrompolarisation_1_1WeakMixingAngleFromPolarisation.html", null ]
     ] ],
     [ "LepFlaVio.Analysismodule", "classLepFlaVio_1_1Analysismodule.html", null ],
-    [ "Baseconfig", null, [
-      [ "baseconfigCP.Baseconfig_cp", "classbaseconfigCP_1_1Baseconfig__cp.html", null ]
-    ] ],
     [ "binnings.BinningsDict", "classbinnings_1_1BinningsDict.html", null ],
     [ "colors.ColorsDict", "classcolors_1_1ColorsDict.html", null ],
     [ "ConsumerBase", null, [
@@ -62,28 +59,7 @@ var hierarchy =
     ] ],
     [ "cutstrings.CutStringsDict", "classcutstrings_1_1CutStringsDict.html", null ],
     [ "dict", null, [
-      [ "baseconfig.Baseconfig", "classbaseconfig_1_1Baseconfig.html", null ],
-      [ "globalProcessors.globalProccesors", "classglobalProcessors_1_1globalProccesors.html", null ],
-      [ "settingsBTaggedJetID.BTaggedJet_ID", "classsettingsBTaggedJetID_1_1BTaggedJet__ID.html", null ],
-      [ "settingsElectronID.Electron_ID", "classsettingsElectronID_1_1Electron__ID.html", null ],
-      [ "settingsJEC.JEC", "classsettingsJEC_1_1JEC.html", null ],
-      [ "settingsJECUncertaintySplit.JECUncertaintySplit", "classsettingsJECUncertaintySplit_1_1JECUncertaintySplit.html", null ],
-      [ "settingsJetID.Jet_ID", "classsettingsJetID_1_1Jet__ID.html", null ],
-      [ "settingsKappa.Kappa", "classsettingsKappa_1_1Kappa.html", null ],
-      [ "settingsLheWeights.LheWeights", "classsettingsLheWeights_1_1LheWeights.html", null ],
-      [ "settingsMadGraphReweighting.MadGraphReweighting", "classsettingsMadGraphReweighting_1_1MadGraphReweighting.html", null ],
-      [ "settingsMinimalPlotlevelFilter.MinimalPlotlevelFilter", "classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html", null ],
-      [ "settingsMuonID.Muon_ID", "classsettingsMuonID_1_1Muon__ID.html", null ],
-      [ "settingsMVATestMethods.MVATestMethods", "classsettingsMVATestMethods_1_1MVATestMethods.html", null ],
-      [ "settingsSampleStitchingWeights.SampleStitchingWeights", "classsettingsSampleStitchingWeights_1_1SampleStitchingWeights.html", null ],
-      [ "settingsSvfit.Svfit", "classsettingsSvfit_1_1Svfit.html", null ],
-      [ "settingsTauES.TauES", "classsettingsTauES_1_1TauES.html", null ],
-      [ "settingsTauID.Tau_ID", "classsettingsTauID_1_1Tau__ID.html", null ],
-      [ "settingsTauPolarisationMva.TauPolarisationMva", "classsettingsTauPolarisationMva_1_1TauPolarisationMva.html", null ],
-      [ "settingsTauSpinner.TauSpinner", "classsettingsTauSpinner_1_1TauSpinner.html", null ],
-      [ "systematics.Systematics_Config", "classsystematics_1_1Systematics__Config.html", null ],
-      [ "systematics_run2.SystematicsFactory", "classsystematics__run2_1_1SystematicsFactory.html", null ],
-      [ "tt.tt_ArtusConfig", "classtt_1_1tt__ArtusConfig.html", null ]
+      [ "systematics_run2.SystematicsFactory", "classsystematics__run2_1_1SystematicsFactory.html", null ]
     ] ],
     [ "DiTauPairIsoPtComparator", "classDiTauPairIsoPtComparator.html", null ],
     [ "ElectronCorrectionsProducer", null, [
@@ -232,7 +208,10 @@ var hierarchy =
         [ "systematics_run2.TauESOneProngSystematic", "classsystematics__run2_1_1TauESOneProngSystematic.html", null ],
         [ "systematics_run2.TauEsSystematic", "classsystematics__run2_1_1TauEsSystematic.html", null ],
         [ "systematics_run2.TauESThreeProngSystematic", "classsystematics__run2_1_1TauESThreeProngSystematic.html", null ],
-        [ "systematics_run2.TTBarShapeSystematic", "classsystematics__run2_1_1TTBarShapeSystematic.html", null ]
+        [ "systematics_run2.TTBarShapeSystematic", "classsystematics__run2_1_1TTBarShapeSystematic.html", null ],
+        [ "systematics_run2.WJetScaleFactor0JetSystematic", "classsystematics__run2_1_1WJetScaleFactor0JetSystematic.html", null ],
+        [ "systematics_run2.WJetScaleFactorBoostedSystematic", "classsystematics__run2_1_1WJetScaleFactorBoostedSystematic.html", null ],
+        [ "systematics_run2.WJetScaleFactorVbfSystematic", "classsystematics__run2_1_1WJetScaleFactorVbfSystematic.html", null ]
       ] ],
       [ "tools.PoissonYield", "classtools_1_1PoissonYield.html", null ]
     ] ],
@@ -294,6 +273,7 @@ var hierarchy =
         [ "EleTauFakeRateWeightProducer", "classEleTauFakeRateWeightProducer.html", null ],
         [ "MuonTauFakeRateWeightProducer", "classMuonTauFakeRateWeightProducer.html", null ]
       ] ],
+      [ "LFVJetCorrection2016Producer", "classLFVJetCorrection2016Producer.html", null ],
       [ "MadGraphReweightingProducer", "classMadGraphReweightingProducer.html", null ],
       [ "MELAProducer", "classMELAProducer.html", null ],
       [ "MetCorrectorBase< TMet >", "classMetCorrectorBase.html", null ],
