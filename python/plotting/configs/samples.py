@@ -50,6 +50,10 @@ class SamplesBase(object):
 		
 	@staticmethod
 	def merge_configs(config1, config2, additional_keys = []):
+		""" 
+		Merge two configs to one config by appending the second config to the 
+		first config.
+		"""
 		merged_config = copy.deepcopy(config1)
 		
 		for key in [
@@ -116,6 +120,14 @@ class SamplesBase(object):
 	
 	@staticmethod
 	def _add_input(config, input_file, folder, scale_factor, weight, nick, nick_suffix=""):
+		"""
+		Method used to fill the config for a sample with the
+		1. input .root-file
+		2. the folder in the input root file 
+		3. the scaling for the sample
+		4. Additional weights 
+		5. A nick name 
+		"""
 		config.setdefault("files", []).append(input_file)
 		config.setdefault("folders", []).append(folder)
 		config.setdefault("scale_factors", []).append(scale_factor)
