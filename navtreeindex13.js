@@ -1,8 +1,5 @@
 var NAVTREEINDEX13 =
 {
-"functions_l.html":[1,2,0,12],
-"functions_m.html":[1,2,0,13],
-"functions_n.html":[1,2,0,14],
 "functions_o.html":[1,2,0,15],
 "functions_p.html":[1,2,0,16],
 "functions_q.html":[1,2,0,17],
@@ -249,5 +246,8 @@ var NAVTREEINDEX13 =
 "makePlots__PolSelEfficiency_8py.html#a25df1e7693f1b1892ecdeea387f53b86":[2,0,2,62,3],
 "makePlots__PolSelEfficiency_8py.html#a2c1d4515b0b28dd8d39640ab6369fa98":[2,0,2,62,37],
 "makePlots__PolSelEfficiency_8py.html#a2db9b3b88052b5dadb5f15ee19d403e2":[2,0,2,62,20],
-"makePlots__PolSelEfficiency_8py.html#a3a6e9a7a60441ecdae6799836e84fbc3":[2,0,2,62,21]
+"makePlots__PolSelEfficiency_8py.html#a3a6e9a7a60441ecdae6799836e84fbc3":[2,0,2,62,21],
+"makePlots__PolSelEfficiency_8py.html#a3cdb7145cbe6916ab2c4c8c47cadb6a3":[2,0,2,62,32],
+"makePlots__PolSelEfficiency_8py.html#a45279d4829ae613f53d105b38de7c8c9":[2,0,2,62,8],
+"makePlots__PolSelEfficiency_8py.html#a4928c970ac201f80a622db02fa6ee0ab":[2,0,2,62,13]
 };

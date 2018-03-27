@@ -1,8 +1,5 @@
 var NAVTREEINDEX24 =
 {
-"significance__2d_8py.html#a71df27da88a28b3ec54d32fa6bef0fe7":[2,0,2,92,21],
-"significance__2d_8py.html#a7506238ac62ffe141c0036214bc268c4":[2,0,2,92,5],
-"significance__2d_8py.html#a800c08cc903c9b6a352c9594f6cb5734":[2,0,2,92,14],
 "significance__2d_8py.html#a8a7b3af4d72f62df1fd49d38d4baa3f6":[2,0,2,92,7],
 "significance__2d_8py.html#a9acf03cc16e2781224f8a43af41553a1":[2,0,2,92,12],
 "significance__2d_8py.html#ab99c05329f7f3efe1de7654fe3b4a4cc":[2,0,2,92,18],

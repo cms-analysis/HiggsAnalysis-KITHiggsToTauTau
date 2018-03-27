@@ -31,7 +31,6 @@ var searchData=
   ['refitvertexselector',['RefitVertexSelector',['../classRefitVertexSelector.html',1,'']]],
   ['refitvertexselector_2ecc',['RefitVertexSelector.cc',['../RefitVertexSelector_8cc.html',1,'']]],
   ['refitvertexselector_2eh',['RefitVertexSelector.h',['../RefitVertexSelector_8h.html',1,'']]],
-  ['refitvertexselectorbase',['RefitVertexSelectorBase',['../classRefitVertexSelectorBase.html',1,'']]],
   ['reg_5func_5fdict',['reg_unc_dict',['../namespacemvaCategory__Uncertainties.html#a885af290a0e374863190972c5e1a974c',1,'mvaCategory_Uncertainties']]],
   ['reg_5fx',['reg_x',['../namespacemvaConfigWriter.html#a8e52bddd04b6c12dbbe95e32cab5739d',1,'mvaConfigWriter']]],
   ['regex',['regex',['../namespaceplot__overtraining.html#af450908d4f2fa03fd9442c0d7cb662bf',1,'plot_overtraining']]],

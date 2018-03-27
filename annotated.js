@@ -278,7 +278,6 @@ var annotated =
     [ "RecoMuonInElectronConeVetoFilter", "classRecoMuonInElectronConeVetoFilter.html", "classRecoMuonInElectronConeVetoFilter" ],
     [ "RecoTauCPProducer", "classRecoTauCPProducer.html", "classRecoTauCPProducer" ],
     [ "RefitVertexSelector", "classRefitVertexSelector.html", "classRefitVertexSelector" ],
-    [ "RefitVertexSelectorBase", "classRefitVertexSelectorBase.html", "classRefitVertexSelectorBase" ],
     [ "RooWorkspaceWeightProducer", "classRooWorkspaceWeightProducer.html", "classRooWorkspaceWeightProducer" ],
     [ "Run2DecayChannelProducer", "classRun2DecayChannelProducer.html", "classRun2DecayChannelProducer" ],
     [ "ScaleVariationProducer", "classScaleVariationProducer.html", "classScaleVariationProducer" ],

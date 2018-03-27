@@ -299,9 +299,7 @@ var hierarchy =
         [ "PolarisationQuantitiesSvfitProducer", "classPolarisationQuantitiesSvfitProducer.html", null ]
       ] ],
       [ "RecoTauCPProducer", "classRecoTauCPProducer.html", null ],
-      [ "RefitVertexSelectorBase", "classRefitVertexSelectorBase.html", [
-        [ "RefitVertexSelector", "classRefitVertexSelector.html", null ]
-      ] ],
+      [ "RefitVertexSelector", "classRefitVertexSelector.html", null ],
       [ "RooWorkspaceWeightProducer", "classRooWorkspaceWeightProducer.html", [
         [ "EETriggerWeightProducer", "classEETriggerWeightProducer.html", null ],
         [ "MuMuTriggerWeightProducer", "classMuMuTriggerWeightProducer.html", null ],

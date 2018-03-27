@@ -1,8 +1,5 @@
 var NAVTREEINDEX19 =
 {
-"makePlots__genCPPlots__genvsreco1_8py.html#a361ee965eb72d79b2d590ed687b41401":[2,0,2,53,23],
-"makePlots__genCPPlots__genvsreco1_8py.html#a3beac1b15129e13f20b488a8cd312349":[2,0,2,53,7],
-"makePlots__genCPPlots__genvsreco1_8py.html#a428f69ccf8092c17bad969dd8ef9cf20":[2,0,2,53,28],
 "makePlots__genCPPlots__genvsreco1_8py.html#a468e09ccdf0a56f97e7c7f56c454cd60":[2,0,2,53,0],
 "makePlots__genCPPlots__genvsreco1_8py.html#a48b08dc55708b595bd5e2f32c5aa56a6":[2,0,2,53,6],
 "makePlots__genCPPlots__genvsreco1_8py.html#a5bc4f1829d0d6caa9ab52d2db6e7ed3e":[2,0,2,53,1],
@@ -249,5 +246,8 @@ var NAVTREEINDEX19 =
 "makePlots__rocCurves_8py.html#a75bf5a05203270df7152768b62c72586":[2,0,2,65,15],
 "makePlots__rocCurves_8py.html#a9fd3bede3613c221e5aee058970d3b33":[2,0,2,65,8],
 "makePlots__rocCurves_8py.html#aa5c5172e387ab8298679a417fcca357a":[2,0,2,65,22],
-"makePlots__rocCurves_8py.html#aaa44ad6323115a48fd15f76dc5656e25":[2,0,2,65,12]
+"makePlots__rocCurves_8py.html#aaa44ad6323115a48fd15f76dc5656e25":[2,0,2,65,12],
+"makePlots__rocCurves_8py.html#aab43930f04f58f97fca0e9b377d7d0fe":[2,0,2,65,10],
+"makePlots__rocCurves_8py.html#ac7f83fafcac07e4a58bc5332f865894a":[2,0,2,65,17],
+"makePlots__rocCurves_8py.html#ac84b241e29f90a4371d7fbad923c9dea":[2,0,2,65,14]
 };

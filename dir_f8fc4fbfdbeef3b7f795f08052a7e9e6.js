@@ -144,7 +144,6 @@ var dir_f8fc4fbfdbeef3b7f795f08052a7e9e6 =
       [ "RecoTauCPProducer", "classRecoTauCPProducer.html", "classRecoTauCPProducer" ]
     ] ],
     [ "RefitVertexSelector.h", "RefitVertexSelector_8h.html", [
-      [ "RefitVertexSelectorBase", "classRefitVertexSelectorBase.html", "classRefitVertexSelectorBase" ],
       [ "RefitVertexSelector", "classRefitVertexSelector.html", "classRefitVertexSelector" ]
     ] ],
     [ "RooWorkspaceWeightProducer.h", "RooWorkspaceWeightProducer_8h.html", [
