@@ -38,7 +38,7 @@ if __name__ == "__main__":
 	parser.add_argument("-x", "--quantity", default="m_vis",
 	                    help="Quantity. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+",
-	                    default=["ZeroJet_LFV"], # "OneJet_LFV"],
+	                    default=["ZeroJet_LFV", "OneJet_LFV"],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/LFV_datacards/",
@@ -98,7 +98,7 @@ if __name__ == "__main__":
 
 	#datacard initialization
 	datacards = lfvdatacards.LFVDatacards(args.channel, args.signal, args.categories, control_regions, lnN_syst_enable = args.lnN_uncs, shape_syst_enable = args.shape_uncs, rate_param_enable = False)
-	datacards.cb.PrintAll()
+	#datacards.cb.PrintAll()
 
 	##Information about parameter and cuts for harry.py config
 	cut_info 	= yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/cuts.yaml")), "r"))
@@ -148,8 +148,11 @@ if __name__ == "__main__":
 							True,
 							"",
 							[args.quantity],
-							["25,0,200"],
-							tmp_input_root_filename_template.replace("$", "").format(ANALYSIS="LFV", CHANNEL = channel, BIN= category,SYSTEMATIC=systematic, ERA="13TeV"),
+							["30,40,130"],
+							tmp_input_root_filename_template.replace("$", "").format(ANALYSIS="LFV", CHANNEL = channel, BIN= category,SYSTEMATIC=systematic, ERA="13TeV"),		
+							"",
+							False,
+							""
 					]
 
 					sample_values  = [
@@ -173,7 +176,7 @@ if __name__ == "__main__":
 					##Fill config with ConfigMaster and SystematicFactory
 					config = configmaster.ConfigMaster(base_values, sample_values)
 					config.add_config_info(datacard_values, 4)
-					config.pop(["www", "legend_markers"])
+					config.pop(["www", "legend_markers", "cms", "extra_text", "title"])
 					config = config.return_config()
 
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -200,15 +203,21 @@ if __name__ == "__main__":
 			os.remove(output_file_iterator)
 	output_files = list(set(output_files))
 
-	#sys.exit()
 	# create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes= 1, n_plots=len(plot_configs)) #, batch = "rwthcondor")
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes= 1, n_plots=len(plot_configs), batch = "rwthcondor")
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=1)
 
 	
 	datacards.extract_shapes(os.path.join(args.output_dir, input_root_filename_template.replace("$", "")), bkg_histogram_name_template, sig_histogram_name_template, bkg_syst_histogram_name_template, sig_syst_histogram_name_template, update_systematics=True)
 
+	"""
+	datacards.add_bin_by_bin_uncertainties(
+				processes=datacards.cb.cp().backgrounds().process_set(),
+				add_threshold=0.05, merge_threshold=0.8, fix_norm=False
+
+		)
+	"""
 	# use asimov dataset for s+b
 	if args.use_asimov_dataset:
 		datacards.replace_observation_by_asimov_dataset()
