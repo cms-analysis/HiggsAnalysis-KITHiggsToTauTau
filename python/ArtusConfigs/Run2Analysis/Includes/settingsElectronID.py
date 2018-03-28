@@ -12,8 +12,7 @@ import copy
 
 class Electron_ID(dict):
 	def __init__(self, nickname):
-		#doppelgemoppel allready in the config class
-		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
+		
 
 		self["ElectronID_documentation"] = ["https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"]
 	

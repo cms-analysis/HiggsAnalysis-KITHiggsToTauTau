@@ -12,7 +12,6 @@ import copy
 
 class Muon_ID(dict):
 	def __init__(self, nickname):
-		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
 
 		self["MuonID_documentation"] = ["https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorking2015#Muons"]
 		if re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):

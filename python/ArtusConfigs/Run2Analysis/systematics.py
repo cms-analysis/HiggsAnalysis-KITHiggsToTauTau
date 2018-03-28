@@ -7,13 +7,14 @@ log = logging.getLogger(__name__)
 import re
 import json
 import copy
+import os
 import Artus.Utility.jsonTools as jsonTools
 import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
 
 class Systematics_Config(dict):
 	def __init__(self):
 		#doppelgemoppel allready in the config class
-		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
+		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json")) 
 		
 		
 	

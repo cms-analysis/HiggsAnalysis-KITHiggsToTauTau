@@ -12,8 +12,8 @@ import copy
 
 class Tau_ID(dict):
 	def __init__(self, nickname):
-		#doppelgemoppel allready in the config class
-		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
+
+
 		self["TauID_documentation"] = []
 
 		self["TauDiscriminatorIsolationName"] = "byIsolationMVArun2v1DBoldDMwLTraw"

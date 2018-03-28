@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import re
 import json
+import os
 import Artus.Utility.jsonTools as jsonTools
 import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
 
@@ -20,7 +21,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.settin
 class Baseconfig_cp(smbaseconfig.Baseconfig):
 
 	def __init__(self, nickname):
-		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz("Kappa/Skimming/data/datasets.json") 
+		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json")) 
 		"""
 		self["include"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/baseConfig.json",          
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauSpinner.json",                         
