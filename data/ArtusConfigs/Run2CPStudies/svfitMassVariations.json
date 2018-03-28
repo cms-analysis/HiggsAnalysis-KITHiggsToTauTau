@@ -1,0 +1,11 @@
+{
+	"no_m" : {
+		"DiTauMassConstraint" : -1.0
+	},
+	"m_90" : {
+		"DiTauMassConstraint" : 90.0
+	},
+	"m_125" : {
+		"DiTauMassConstraint" : 125.0
+	}
+}

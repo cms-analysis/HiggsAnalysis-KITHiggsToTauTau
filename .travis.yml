@@ -10,7 +10,14 @@ addons:
   apt:
     packages:
     - wget
+    - doxygen
+    - doxygen-doc
+    - doxygen-latex
+    - doxygen-gui
+    - graphviz
 before_script:
+  - git remote rm origin
+  - git remote add origin https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau.git
   - echo $HOME
   - sudo curl -o $HOME/short_rootfiles.tar https://cernbox.cern.ch/index.php/s/WeawecKp2BD2BH2/download
   - echo $HOME
@@ -21,9 +28,15 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script:
-  - docker run --privileged -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
-                            -v ${TRAVIS_BUILD_DIR}:/home/travis
-                            -v '/home/short:/home/short' claria/cvmfs-cms /bin/bash 
-                            -c "cd /home/; source /home/travis/test_build.sh -b ${TRAVIS_BRANCH} -g 'greyxray' -e 'greyxray@gmail.com' -n 'kappa test'"
+  - bash publish_docs.sh
+  #- docker run --privileged -e TEST_CMSSW_VERSION=${TEST_CMSSW_VERSION}
+  #                          -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
+  #                          -v ${TRAVIS_BUILD_DIR}:/home/travis
+  #                          -v '/home/short:/home/short' claria/cvmfs-cms /bin/bash 
+  #                          -c "cd /home/; source /home/travis/test_build.sh -b ${TRAVIS_BRANCH} -g 'greyxray' -e 'greyxray@gmail.com' -n 'kappa test'"
 notifications:
   email: false
+# Blacklist
+branches:
+  except:
+    - gh-page

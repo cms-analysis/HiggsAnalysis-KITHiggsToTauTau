@@ -22,77 +22,77 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	// thePV coordinates and parameters
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVx", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->position.x();
+		return event.m_vertexSummary->pv.position.x();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVy", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->position.y();
+		return event.m_vertexSummary->pv.position.y();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVz", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->position.z();
+		return event.m_vertexSummary->pv.position.z();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVchi2", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->chi2;
+		return event.m_vertexSummary->pv.chi2;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVnDOF", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->nDOF;
+		return event.m_vertexSummary->pv.nDOF;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVnTracks", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->nTracks;
+		return event.m_vertexSummary->pv.nTracks;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmaxx", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->covariance.At(0,0);
+		return event.m_vertexSummary->pv.covariance.At(0,0);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmayy", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->covariance.At(1,1);
+		return event.m_vertexSummary->pv.covariance.At(1,1);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmazz", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->covariance.At(2,2);
+		return event.m_vertexSummary->pv.covariance.At(2,2);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmaxy", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->covariance.At(0,1);
+		return event.m_vertexSummary->pv.covariance.At(0,1);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmaxz", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->covariance.At(0,2);
+		return event.m_vertexSummary->pv.covariance.At(0,2);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmayz", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_thePV)->covariance.At(1,2);
+		return event.m_vertexSummary->pv.covariance.At(1,2);
 	});
 
 	// BS coordinates and parameters
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSx", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_theBS)->position.x();
+		return event.m_beamSpot->position.x();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSy", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_theBS)->position.y();
+		return event.m_beamSpot->position.y();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSz", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_theBS)->position.z();
+		return event.m_beamSpot->position.z();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSsigmax", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_theBS)->beamWidthX;
+		return event.m_beamSpot->beamWidthX;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSsigmay", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_theBS)->beamWidthY;
+		return event.m_beamSpot->beamWidthY;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSsigmaz", [](event_type const& event, product_type const& product)
 	{
-		return (product.m_theBS)->sigmaZ;
+		return event.m_beamSpot->sigmaZ;
 	});
 
 	// CP-related quantities
@@ -518,10 +518,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	assert(event.m_vertexSummary);
 	assert(product.m_flavourOrderedLeptons.size() >= 2);
 
-	// save the PV and the BS
-	product.m_thePV = &event.m_vertexSummary->pv;
-	product.m_theBS = event.m_beamSpot;
-
 	// initialization of TVector3 objects
 	product.m_recoIP1.SetXYZ(-999,-999,-999);
 	product.m_recoIP2.SetXYZ(-999,-999,-999);
@@ -588,15 +584,18 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// ---------
 	// phi*CP wrt thePV
 	// FIXME is it still needed?
+
 	// product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(product.m_thePV, trackP, trackM, momentumP, momentumM);
 
 	if (product.m_refitPV != nullptr){
 		// calculation of the IP vectors and relative errors
 		// IP wrt thePV
+
 		product.m_recoIP1 = cpq.CalculateShortestDistance(recoParticle1, product.m_thePV->position);
 		product.m_recoIP2 = cpq.CalculateShortestDistance(recoParticle2, product.m_thePV->position);
 		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &product.m_recoIP1);
 		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &product.m_recoIP2);
+
 
 		// IP wrt refitPV
 		product.m_recoIP1_refitPV = cpq.CalculateShortestDistance(recoParticle1, product.m_refitPV->position);
@@ -605,8 +604,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &product.m_recoIP2_refitPV);
 
 		// distance between track and BS center
+
 		product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, product.m_theBS->position);
 		product.m_track2FromBS = cpq.CalculateShortestDistance(recoParticle2, product.m_theBS->position);
+
 
 		// calculate cosPsi
 		if (recoParticle1->charge() == +1){

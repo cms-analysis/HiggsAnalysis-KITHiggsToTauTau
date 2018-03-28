@@ -5,80 +5,67 @@
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Utility/interface/SafeMap.h"
 
-TauEtaSVfitQuantity::TauEtaSVfitQuantity(size_t tauIndex) : TauSVfitQuantity(tauIndex)
+
+TH1* PhiCPSVfitQuantity::createHistogram(const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const
 {
+	return new TH1D(std::string("svfitAlgorithm_histogram_phiCP").c_str(), std::string("svfitAlgorithm_histogram_phiCP").c_str(), 180, 0.0, 2.0*TMath::Pi());
 }
-TH1* TauEtaSVfitQuantity::CreateHistogram(std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const
+double PhiCPSVfitQuantity::fitFunction(const classic_svFit::LorentzVector& tau1P4, const classic_svFit::LorentzVector& tau2P4, const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const
 {
-	return new TH1D(std::string("SVfitStandaloneAlgorithm_histogram"+m_tauLabel+"Eta").c_str(), std::string("SVfitStandaloneAlgorithm_histogram"+m_tauLabel+"Eta").c_str(), 198, -9.9, +9.9);
-}
-double TauEtaSVfitQuantity::FitFunction(std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const
-{
-	return fittedTauLeptons.at(m_tauIndex).eta();
+	return cpQuantities.CalculatePhiCP(
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(tau1P4+tau2P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(tau1P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(tau2P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(vis1P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(vis2P4)
+	);
 }
 
-TauPhiSVfitQuantity::TauPhiSVfitQuantity(size_t tauIndex) : TauSVfitQuantity(tauIndex)
+TH1* PhiStarCPSVfitQuantity::createHistogram(const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const
 {
+	return new TH1D(std::string("svfitAlgorithm_histogram_phiStarCP").c_str(), std::string("svfitAlgorithm_histogram_phiStarCP").c_str(), 180, 0.0, 2.0*TMath::Pi());
 }
-TH1* TauPhiSVfitQuantity::CreateHistogram(std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const
+double PhiStarCPSVfitQuantity::fitFunction(const classic_svFit::LorentzVector& tau1P4, const classic_svFit::LorentzVector& tau2P4, const classic_svFit::LorentzVector& vis1P4, const classic_svFit::LorentzVector& vis2P4, const classic_svFit::Vector& met) const
 {
-	return new TH1D(std::string("SVfitStandaloneAlgorithm_histogram"+m_tauLabel+"Phi").c_str(), std::string("SVfitStandaloneAlgorithm_histogram"+m_tauLabel+"Phi").c_str(), 180, -TMath::Pi(), +TMath::Pi());
-}
-double TauPhiSVfitQuantity::FitFunction(std::vector<svFitStandalone::LorentzVector> const& fittedTauLeptons, std::vector<svFitStandalone::LorentzVector> const& measuredTauLeptons, svFitStandalone::Vector const& measuredMET) const
-{
-	return fittedTauLeptons.at(m_tauIndex).phi();
-}
-
-MCTauTauQuantitiesAdapter::MCTauTauQuantitiesAdapter() : MCPtEtaPhiMassAdapter()
-{
-	quantities_.push_back(new TauERatioSVfitQuantity(0));
-	quantities_.push_back(new TauPtSVfitQuantity(0));
-	quantities_.push_back(new TauEtaSVfitQuantity(0));
-	quantities_.push_back(new TauPhiSVfitQuantity(0));
-	quantities_.push_back(new TauERatioSVfitQuantity(1));
-	quantities_.push_back(new TauPtSVfitQuantity(1));
-	quantities_.push_back(new TauEtaSVfitQuantity(1));
-	quantities_.push_back(new TauPhiSVfitQuantity(1));
+	return cpQuantities.CalculatePhiStarCP(
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(tau1P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(tau2P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(vis1P4),
+			Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(vis2P4)
+	);
 }
 
-RMFLV MCTauTauQuantitiesAdapter::GetFittedHiggsLV() const
+TauTauHistogramAdapter::TauTauHistogramAdapter(std::vector<classic_svFit::SVfitQuantity*> const& quantities) :
+	classic_svFit::TauTauHistogramAdapter(quantities)
 {
-	RMFLV momentum;
-	momentum.SetPt(getPt());
-	momentum.SetEta(getEta());
-	momentum.SetPhi(getPhi());
-	momentum.SetM(getMass());
-	return momentum;
+	indexTau1ERatio = registerQuantity(new classic_svFit::TauERatioSVfitQuantity(0));
+	indexTau2ERatio = registerQuantity(new classic_svFit::TauERatioSVfitQuantity(1));
 }
 
-float MCTauTauQuantitiesAdapter::GetFittedTau1ERatio() const
+RMFLV TauTauHistogramAdapter::GetFittedHiggsLV() const
+
 {
-	return ExtractValue(5);
+	return Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(classic_svFit::TauTauHistogramAdapter::GetFittedHiggsLV());
 }
 
-RMFLV MCTauTauQuantitiesAdapter::GetFittedTau1LV() const
+float TauTauHistogramAdapter::GetFittedTau1ERatio() const
 {
-	RMFLV momentum;
-	momentum.SetPt(ExtractValue(6));
-	momentum.SetEta(ExtractValue(7));
-	momentum.SetPhi(ExtractValue(8));
-	momentum.SetM(DefaultValues::TauMassGeV);
-	return momentum;
+	return extractValue(indexTau1ERatio);
 }
 
-float MCTauTauQuantitiesAdapter::GetFittedTau2ERatio() const
+RMFLV TauTauHistogramAdapter::GetFittedTau1LV() const
 {
-	return ExtractValue(9);
+	return Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(classic_svFit::TauTauHistogramAdapter::GetFittedTau1LV());
 }
 
-RMFLV MCTauTauQuantitiesAdapter::GetFittedTau2LV() const
+float TauTauHistogramAdapter::GetFittedTau2ERatio() const
 {
-	RMFLV momentum;
-	momentum.SetPt(ExtractValue(10));
-	momentum.SetEta(ExtractValue(11));
-	momentum.SetPhi(ExtractValue(12));
-	momentum.SetM(DefaultValues::TauMassGeV);
-	return momentum;
+	return extractValue(indexTau2ERatio);
+}
+
+RMFLV TauTauHistogramAdapter::GetFittedTau2LV() const
+{
+	return Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(classic_svFit::TauTauHistogramAdapter::GetFittedTau2LV());
 }
 
 
@@ -344,32 +331,17 @@ bool SvfitInputs::operator!=(SvfitInputs const& rhs) const
 	return (! (*this == rhs));
 }
 
-SVfitStandaloneAlgorithm SvfitInputs::GetSvfitStandaloneAlgorithm(SvfitEventKey const& svfitEventKey, int verbosity, bool addLogM, TFile* &visPtResolutionFile) const
+void SvfitInputs::Integrate(SvfitEventKey const& svfitEventKey, ClassicSVfit& svfitAlgorithm) const
 {
-	SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = SVfitStandaloneAlgorithm(GetMeasuredTauLeptons(svfitEventKey),
-	                                                                             metMomentum->x(),
-	                                                                             metMomentum->y(),
-	                                                                             GetMetCovarianceMatrix(),
-	                                                                             verbosity);
-	
-	svfitStandaloneAlgorithm.setMCQuantitiesAdapter(new MCTauTauQuantitiesAdapter());
-	
-	svfitStandaloneAlgorithm.addLogM(addLogM);
-	if (visPtResolutionFile == 0)
-	{
-		TDirectory *savedir(gDirectory);
-		TFile *savefile(gFile);
-		TString cmsswBase = TString( getenv ("CMSSW_BASE") );
-		visPtResolutionFile = new TFile(cmsswBase+"/src/TauAnalysis/SVfitStandalone/data/svFitVisMassAndPtResolutionPDF.root");
-		gDirectory = savedir;
-		gFile = savefile;
-	}
-	svfitStandaloneAlgorithm.shiftVisPt(true, visPtResolutionFile);
-	
-	return svfitStandaloneAlgorithm;
+	svfitAlgorithm.integrate(
+			GetMeasuredTauLeptons(svfitEventKey),
+			metMomentum->x(),
+			metMomentum->y(),
+			GetMetCovarianceMatrix()
+	);
 }
 
-std::vector<svFitStandalone::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const
+std::vector<classic_svFit::MeasuredTauLepton> SvfitInputs::GetMeasuredTauLeptons(SvfitEventKey const& svfitEventKey) const
 {
 	double leptonMass1, leptonMass2;
 	if(svfitEventKey.decayType1 == 2)
@@ -420,10 +392,10 @@ SvfitResults::SvfitResults(double fittedTransverseMass, RMFLV const& fittedHiggs
 	recalculated = false;
 }
 
-SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) :
+SvfitResults::SvfitResults(ClassicSVfit const& svfitAlgorithm) :
 	SvfitResults()
 {
-	Set(svfitStandaloneAlgorithm);
+	Set(svfitAlgorithm);
 }
 
 SvfitResults::~SvfitResults()
@@ -467,24 +439,24 @@ void SvfitResults::Set(double fittedTransverseMass, RMFLV const& fittedHiggsLV, 
 	*(this->fittedTau2LV) = fittedTau2LV;
 }
 
-void SvfitResults::Set(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm)
+void SvfitResults::Set(ClassicSVfit const& svfitAlgorithm)
 {
-	if (svfitStandaloneAlgorithm.isValidSolution())
+	if (svfitAlgorithm.isValidSolution())
 	{
-		Set(GetFittedTransverseMass(svfitStandaloneAlgorithm),
-		    GetFittedHiggsLV(svfitStandaloneAlgorithm),
-		    GetFittedTau1ERatio(svfitStandaloneAlgorithm),
-		    GetFittedTau1LV(svfitStandaloneAlgorithm),
-		    GetFittedTau2ERatio(svfitStandaloneAlgorithm),
-		    GetFittedTau2LV(svfitStandaloneAlgorithm));
+		Set(GetFittedTransverseMass(svfitAlgorithm),
+		    GetFittedHiggsLV(svfitAlgorithm),
+		    GetFittedTau1ERatio(svfitAlgorithm),
+		    GetFittedTau1LV(svfitAlgorithm),
+		    GetFittedTau2ERatio(svfitAlgorithm),
+		    GetFittedTau2LV(svfitAlgorithm));
 	}
 	else
 	{
-		Set(DefaultValues::UndefinedDouble,
+		Set(DefaultValues::UndefinedFloat,
 		    DefaultValues::UndefinedRMFLV,
-		    DefaultValues::UndefinedDouble,
+		    DefaultValues::UndefinedFloat,
 		    DefaultValues::UndefinedRMFLV,
-		    DefaultValues::UndefinedDouble,
+		    DefaultValues::UndefinedFloat,
 		    DefaultValues::UndefinedRMFLV);
 	}
 }
@@ -535,35 +507,41 @@ bool SvfitResults::operator!=(SvfitResults const& rhs) const
 	return (! (*this == rhs));
 }
 
-double SvfitResults::GetFittedTransverseMass(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+double SvfitResults::GetFittedTransverseMass(ClassicSVfit const& svfitAlgorithm) const
 {
-	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->getTransverseMass();
+	return static_cast<TauTauHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->getTransverseMass();
 }
-RMFLV SvfitResults::GetFittedHiggsLV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+RMFLV SvfitResults::GetFittedHiggsLV(ClassicSVfit const& svfitAlgorithm) const
 {
-	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedHiggsLV();
+	return static_cast<TauTauHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->GetFittedHiggsLV();
 }
-float SvfitResults::GetFittedTau1ERatio(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+float SvfitResults::GetFittedTau1ERatio(ClassicSVfit const& svfitAlgorithm) const
 {
-	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau1ERatio();
+	return static_cast<TauTauHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->GetFittedTau1ERatio();
 }
-RMFLV SvfitResults::GetFittedTau1LV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+RMFLV SvfitResults::GetFittedTau1LV(ClassicSVfit const& svfitAlgorithm) const
 {
-	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau1LV();
+	return static_cast<TauTauHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->GetFittedTau1LV();
 }
-float SvfitResults::GetFittedTau2ERatio(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+float SvfitResults::GetFittedTau2ERatio(ClassicSVfit const& svfitAlgorithm) const
 {
-	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau2ERatio();
+	return static_cast<TauTauHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->GetFittedTau2ERatio();
 }
-RMFLV SvfitResults::GetFittedTau2LV(SVfitStandaloneAlgorithm const& svfitStandaloneAlgorithm) const
+RMFLV SvfitResults::GetFittedTau2LV(ClassicSVfit const& svfitAlgorithm) const
 {
-	return static_cast<MCTauTauQuantitiesAdapter*>(svfitStandaloneAlgorithm.getMCQuantitiesAdapter())->GetFittedTau2LV();
+	return static_cast<TauTauHistogramAdapter*>(svfitAlgorithm.getHistogramAdapter())->GetFittedTau2LV();
 }
 
 
 std::map<std::string, TFile*> SvfitTools::svfitCacheInputFiles;
 std::map<std::string, TTree*> SvfitTools::svfitCacheInputTrees;
 std::map<std::string, std::map<SvfitEventKey, uint64_t>> SvfitTools::svfitCacheInputTreeIndices;
+
+SvfitTools::SvfitTools() :
+	svfitAlgorithm(0)
+{
+	svfitAlgorithm.setHistogramAdapter(new TauTauHistogramAdapter());
+}
 
 void SvfitTools::Init(std::string const& cacheFileName, std::string const& cacheTreeName)
 {
@@ -628,7 +606,7 @@ void SvfitTools::Init(std::string const& cacheFileName, std::string const& cache
 		gDirectory = savedir;
 		gFile = savefile;
 	}
-	else 
+	else
 	{
 		LOG(DEBUG) << "\tSVfit cache trees from file " << cacheFileName << " already loaded.";
 	}
@@ -653,7 +631,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey, SvfitInp
 	{
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::recalculate)
 		{
-			LOG_N_TIMES(30, INFO) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Re-Running SvFit. Did your inputs change?" 
+			LOG_N_TIMES(30, INFO) << "SvfitCache miss: No corresponding entry to the current inputs found in SvfitCache file. Re-Running SvFit. Did your inputs change?"
 			                      << std::endl << "Cache searched in tree: \"" << cacheFileTreeName << "\".";
 		}
 		if(svfitCacheMissBehaviour == HttEnumTypes::SvfitCacheMissBehaviour::assert)
@@ -665,9 +643,6 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey, SvfitInp
 			svfitResults.FromRecalculation();
 			return svfitResults;
 		}
-		
-		// construct algorithm
-		SVfitStandaloneAlgorithm svfitStandaloneAlgorithm = svfitInputs.GetSvfitStandaloneAlgorithm(svfitEventKey, 0, false, m_visPtResolutionFile);
 	
 		// execute integration
 		svfitAlgorithm.addLogM_fixed(true, svfitEventKey.kappa);
@@ -675,7 +650,7 @@ SvfitResults SvfitTools::GetResults(SvfitEventKey const& svfitEventKey, SvfitInp
 		svfitInputs.Integrate(svfitEventKey, svfitAlgorithm);
 	
 		// retrieve results
-		svfitResults.Set(svfitStandaloneAlgorithm);
+		svfitResults.Set(svfitAlgorithm);
 		svfitResults.FromRecalculation();
 	}
 	

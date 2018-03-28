@@ -7,7 +7,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_libary as Sys
 
 
 class LFVDatacards(datacards.Datacards):
-	def __init__(self, channel_list, signal_list, category_list, cb=None, lnN_syst_enable = False, shape_syst_enable = False):
+	def __init__(self, channel_list, signal_list, category_list, control_region_dic, cb=None, lnN_syst_enable = False, shape_syst_enable = False, rate_param_enable=False):
 		super(LFVDatacards, self).__init__(cb)
 		
 		if cb is None:
@@ -29,15 +29,15 @@ class LFVDatacards(datacards.Datacards):
 			for channel in channel_list:
 			
 				###Add channels as process in Combine Harvester			
-	
-				self.add_processes(
-					channel=channel,
-					categories= [channel + "_" + category for category in [category_list[0]]],
-					bkg_processes=backgrounds[channel],  
-					sig_processes=signal_list,
-					analysis=["LFV"],
-					era=["13TeV"],
-					mass=["125"]
+				for category in category_list + control_region_dic.keys():
+					self.add_processes(
+						channel=channel,
+						categories= [channel + "_" + category],
+						bkg_processes= backgrounds[channel] if not "CR" in category else [control_region_dic[category][0]],  
+						sig_processes= [self.configs.sample2process(signal) for signal in signal_list] if not "CR" in category else [],
+						analysis=["LFV"],
+						era=["13TeV"],
+						mass=["125"]
 					)					
 
 				###Add lnN/shape uncertanty for each channel, process and category
@@ -47,14 +47,19 @@ class LFVDatacards(datacards.Datacards):
 						if category == "":
 							self.cb.cp().channel([channel]).process(process).AddSyst(self.cb, *systematic)
 						else:
-							self.cb.cp().channel([channel]).process(process).bin([category]).AddSyst(self.cb, *systematic)
+							self.cb.cp().channel([channel]).process(process).bin(category).AddSyst(self.cb, *systematic)
 			
 				if shape_syst_enable:
 					for (systematic, process, category) in systematics_list.get_LFV_systs(channel, shape = shape_syst_enable):
 						if category == "":
 							self.cb.cp().channel([channel]).process(process).AddSyst(self.cb, *systematic)
 						else:
-							self.cb.cp().channel([channel]).process(process).bin([category]).AddSyst(self.cb, *systematic)
-			
+							self.cb.cp().channel([channel]).process(process).bin(category).AddSyst(self.cb, *systematic)
 
-	
+
+				##Add rate parameter
+				
+				if rate_param_enable:
+					for control_region, process in control_region_dic.iteritems(): 
+						self.cb.cp().process([process[0]]).bin([channel + "_" + cat for cat in category_list+[control_region]]).AddSyst(self.cb, "rate_" + channel + "_" + process[0], "rateParam", ch.SystMap()(1.0))
+			

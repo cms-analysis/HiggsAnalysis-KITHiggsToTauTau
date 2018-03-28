@@ -347,18 +347,21 @@
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/splitJecUncertaintyQuantities.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/genQuantitiesLFV.json",
 							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/weightQuantities.json",
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json",
+							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/recoCPQuantities.json"
 						]
 					},
 					"nVetoElectrons",
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"
+					"nAllDiTauPairCandidates",
+					"jetCorrectionWeight"
 				]
 			}
 		},
 		"OSChargeLeptons" : true,
+		"SvfitKappaParameter" : 4.0,
 		"Processors" : {
 			"nick" : {
 				"default" : [
@@ -396,6 +399,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:SvfitM91Producer",
+					"producer:SvfitM125Producer",
 					"producer:MELAProducer",
 					"producer:MELAM125Producer",
 					"producer:SimpleFitProducer",
@@ -443,6 +448,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:SvfitM91Producer",
+					"producer:SvfitM125Producer",
 					"producer:MELAProducer",
 					"producer:MELAM125Producer",
 					"producer:SimpleFitProducer",
@@ -491,6 +498,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:SvfitM91Producer",
+					"#producer:SvfitM125Producer",
 					"#producer:MELAProducer",
 					"#producer:MELAM125Producer",
 					"#producer:SimpleFitProducer",
@@ -539,6 +548,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:SvfitM91Producer",
+					"#producer:SvfitM125Producer",
 					"#producer:MELAProducer",
 					"#producer:MELAM125Producer",
 					"#producer:SimpleFitProducer",
@@ -584,6 +595,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:SvfitM91Producer",
+					"producer:SvfitM125Producer",
 					"producer:MELAProducer",
 					"producer:MELAM125Producer",
 					"producer:SimpleFitProducer",
@@ -626,6 +639,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:SvfitM91Producer",
+					"#producer:SvfitM125Producer",
 					"#producer:MELAProducer",
 					"#producer:MELAM125Producer",
 					"#producer:SimpleFitProducer",
@@ -672,6 +687,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:SvfitM91Producer",
+					"producer:SvfitM125Producer",
 					"producer:MELAProducer",
 					"producer:MELAM125Producer",
 					"producer:RooWorkspaceWeightProducer",
@@ -720,6 +737,8 @@
 					"filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"producer:SvfitProducer",
+					"producer:SvfitM91Producer",
+					"producer:SvfitM125Producer",
 					"producer:MELAProducer",
 					"producer:MELAM125Producer",
 					"#producer:SimpleFitProducer",
@@ -771,15 +790,19 @@
 					"#filter:MinimalPlotlevelFilter",
 					"#producer:MVATestMethodsProducer",
 					"#producer:SvfitProducer",
+					"#producer:SvfitM91Producer",
+					"#producer:SvfitM125Producer",
 					"producer:RooWorkspaceWeightProducer",
 					"producer:GenMatchedTauCPProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:MELAProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
-					"producer:EventWeightProducer"
+					"producer:EventWeightProducer",
+					"producer:LFVJetCorrection2016Producer" 
 				]
 			}
 		},

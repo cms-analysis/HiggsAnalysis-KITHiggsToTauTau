@@ -7,6 +7,7 @@ log = logging.getLogger(__name__)
 
 import argparse
 import datetime
+import glob
 from httplib import HTTPException
 from multiprocessing import Process
 import os
@@ -14,6 +15,7 @@ import re
 import shutil
 import shlex
 import string
+import tempfile
 
 from CRABAPI.RawCommand import crabCommand
 from CRABClient.ClientExceptions import ClientException
@@ -21,14 +23,11 @@ import CRABClient.UserUtilities
 from CRABClient.UserUtilities import getUsernameFromSiteDB
 
 import Artus.Utility.tools as tools
+import Artus.Utility.dcachetools as dcachetools
 
 
 def get_filenames(args):
 	base_path, sample = args[0], args[1]
-
-	filename_replacements = {
-		"srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN=/pnfs/physik.rwth-aachen.de/cms/store/user/" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/"
-	}
 	
 	filenames_per_sample_per_pipeline = {}
 	
@@ -37,8 +36,7 @@ def get_filenames(args):
 	if len(filenames) > 0:
 		filenames = [os.path.join(base_path, sample, filename) for filename in filenames]
 		for filename in filenames:
-			for src, dst in filename_replacements.iteritems():
-				filename = filename.replace(src, dst)
+			filename = dcachetools.xrd2xrd(dcachetools.srm2xrd(dcachetools.dcap2xrd(dcachetools.local2xrd(filename))))
 			pipeline = re.search("SvfitCache(?P<pipeline>.*)\d+.root", filename).groupdict()["pipeline"]
 			filenames_per_sample_per_pipeline.setdefault(sample, {}).setdefault(pipeline, []).append(filename)
 	
@@ -59,7 +57,7 @@ def build_configs(filenames_per_sample_per_pipeline, di_tau_mass_constraint, nam
 	for index, filenames_chunk in enumerate(filenames_chunks):
 		
 		# create job scripts
-		jobfiles.append(str("svfit_%s_%d.sh" % (today, index)))
+		jobfiles.append(str("svfit_%s_%s_%d.sh" % (today, name, index)))
 		with open(jobfiles[-1], "w+") as jobfile:
 			jobfile.write(read_file(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/templates/crab_userjob_prefix.sh")))
 			
@@ -77,7 +75,7 @@ def build_configs(filenames_per_sample_per_pipeline, di_tau_mass_constraint, nam
 		configs[-1].General.workArea = os.path.abspath(os.path.expandvars("$ARTUS_WORK_BASE/../svfit_caches/%s_%s/" % (today, name)))
 		configs[-1].General.transferOutputs = True
 		configs[-1].General.transferLogs = True
-		configs[-1].General.requestName = ("svfit_%s_%d" % (today, index))[:100]
+		configs[-1].General.requestName = ("svfit_%s_%s_%d" % (today, name, index))[:100]
 		log.debug("Job name: " + configs[-1].General.requestName)
 		configs[-1].Data.outputPrimaryDataset = "Svfit"
 		configs[-1].Data.splitting = "EventBased"
@@ -85,7 +83,7 @@ def build_configs(filenames_per_sample_per_pipeline, di_tau_mass_constraint, nam
 		configs[-1].Data.totalUnits = len(filenames_chunk)
 		configs[-1].Data.publication = False
 		configs[-1].Data.outputDatasetTag = configs[-1].General.requestName
-		configs[-1].Data.outLFNDirBase = "/store/user/%s/higgs-kit/Svfit/%s/"%(getUsernameFromSiteDB(), today)
+		configs[-1].Data.outLFNDirBase = "/store/user/%s/higgs-kit/Svfit/%s_%s/"%(getUsernameFromSiteDB(), today, name)
 		log.debug("Output directory: " + configs[-1].Data.outLFNDirBase)
 		configs[-1].Data.publication = False
 		configs[-1].User.voGroup = "dcms"
@@ -142,6 +140,40 @@ def submission(base_paths, di_tau_mass_constraint, name, n_processes=1):
 	tools.parallelize(submit, submit_args, n_processes=1, description="Submitting crab tasks")
 
 
+def clear_environment():
+	candidates_to_keep = ["TauAnalysis", "Kappa", "Artus", "HiggsAnalysis", "CombineHarvester", "grid-control", "ZZMatrixElement"]
+	candidates_to_move = glob.glob(os.path.expandvars("$CMSSW_BASE/src/*"))
+	objects_to_move = sorted([candidate for candidate in candidates_to_move if not any([keep in candidate for keep in candidates_to_keep])])
+	
+	tmp_path = tempfile.mkdtemp(prefix="submitCrabSvfitJobs_"+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M")+"_")
+	for object_to_move in objects_to_move:
+		log.info("Temporarily move {src} to {dst} ...".format(src=object_to_move, dst=tmp_path))
+		shutil.move(object_to_move, tmp_path)
+	
+	symlinks_map = {}
+	libs = sorted(glob.glob(os.path.expandvars("$CMSSW_BASE/lib/$SCRAM_ARCH/*")))
+	for lib in libs:
+		if not os.path.exists(lib):
+			symlinks_map[lib] = os.readlink(lib)
+			log.info("Remove temporarily broken symlink {src} ...".format(src=lib))
+			os.remove(lib)
+	
+	return tmp_path, symlinks_map
+
+
+def restore_environment(tmp_path, symlinks_map):
+	objects_to_move = sorted(glob.glob(os.path.join(tmp_path, "*")))
+	for object_to_move in objects_to_move:
+		log.info("Move {src} to {dst} ...".format(src=object_to_move, dst="$CMSSW_BASE/src/"))
+		shutil.move(object_to_move, os.path.expandvars("$CMSSW_BASE/src/"))
+	log.info("Remove {src} ...".format(src=tmp_path))
+	os.rmdir(tmp_path) # only remove if empty (for safety reasons)
+	
+	for link_name, src in symlinks_map.iteritems():
+		log.info("Recreate symlink {link_name} to {src} ...".format(link_name=link_name, src=src))
+		os.symlink(src, link_name)
+
+
 if __name__ == "__main__":
 
 	parser = argparse.ArgumentParser(description="crab submission script for standalone Svfit calculation.",
@@ -155,9 +187,19 @@ if __name__ == "__main__":
 	                    help="Project name to be put in output path. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
+	parser.add_argument("--smaller-input-sandbox", default=False, action="store_true",
+	                    help="Clear CMSSW environment before submitting by moving non-needed packages to a temporary directory in order to ensure sufficiently small crab input sandbox. After submission, the environment is restored. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
+	# to keep crab input sandbox tarball small
+	if args.smaller_input_sandbox:
+		tmp_path, symlinks_map = clear_environment()
+	
 	submission(args.base_paths, args.di_tau_mass_constraint, args.name, args.n_processes)
+	
+	if args.smaller_input_sandbox:
+		restore_environment(tmp_path, symlinks_map)
+
 

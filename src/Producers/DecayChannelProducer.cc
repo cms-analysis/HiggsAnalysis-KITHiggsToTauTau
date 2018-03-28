@@ -2,6 +2,8 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
+#include "Kappa/DataFormats/interface/KTrack.h"
+
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/Utility.h"
@@ -294,6 +296,26 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	{
 		return product.m_flavourOrderedLeptons.at(0)->track.errDxy();
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1TrackNInnerHits", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(0)->track.nInnerHits;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1TrackChi2OverNdof", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedLeptons.at(0)->track.chi2 / product.m_flavourOrderedLeptons.at(0)->track.nDOF);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1TrackIsLooseQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(0)->track.quality(KTrackQuality::KTrackQualityType::loose);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1TrackIsTightQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(0)->track.quality(KTrackQuality::KTrackQualityType::tight);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1TrackIsHighPurityQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(0)->track.quality(KTrackQuality::KTrackQualityType::highPurity);
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1Pt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons.at(0)->p4.Pt();
@@ -457,6 +479,26 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2ErrD0", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons.at(1)->track.errDxy();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2TrackNInnerHits", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(1)->track.nInnerHits;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2TrackChi2OverNdof", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedLeptons.at(1)->track.chi2 / product.m_flavourOrderedLeptons.at(1)->track.nDOF);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2TrackIsLooseQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(1)->track.quality(KTrackQuality::KTrackQualityType::loose);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2TrackIsTightQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(1)->track.quality(KTrackQuality::KTrackQualityType::tight);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2TrackIsHighPurityQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(1)->track.quality(KTrackQuality::KTrackQualityType::highPurity);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2Pt", [](event_type const& event, product_type const& product)
 	{

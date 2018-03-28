@@ -28,7 +28,8 @@
 	<use name="boost"/>
 	<use name="boost_program_options"/>
 	<use name="boost_filesystem"/>
-	<use name="TauAnalysis/SVfitStandalone" />
+	<use name="TauAnalysis/ClassicSVfit" />
+	<use name="TauAnalysis/SVfitTF" />
 	<use name="Kappa/DataFormats" />
 	<use name="Artus/Utility" />
 	<use name="HiggsAnalysis/KITHiggsToTauTau" />
