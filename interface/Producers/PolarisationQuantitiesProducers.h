@@ -19,7 +19,8 @@ public:
 			std::map<KLepton*, float> product_type::*polarisationOmegaVisiblesMember,
 			float product_type::*polarisationCombinedOmegaMember,
 			float product_type::*polarisationCombinedOmegaBarMember,
-			float product_type::*polarisationCombinedOmegaVisibleMember
+			float product_type::*polarisationCombinedOmegaVisibleMember,
+			bool genMatched = false
 	);
 	
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
@@ -27,7 +28,7 @@ public:
 	virtual void Produce(event_type const& event, product_type& product,
 	                     setting_type const& settings, metadata_type const& metadata) const override;
 
-protected:
+private:
 	std::string m_name;
 	std::map<KLepton*, RMFLV> product_type::*m_fittedTausMember;
 	std::map<KLepton*, float> product_type::*m_polarisationOmegasMember;
@@ -36,13 +37,21 @@ protected:
 	float product_type::*m_polarisationCombinedOmegaMember;
 	float product_type::*m_polarisationCombinedOmegaBarMember;
 	float product_type::*m_polarisationCombinedOmegaVisibleMember;
+	bool m_genMatched = false;
+	
+	std::vector<TLorentzVector> GetInputLepton(product_type& product, KLepton* lepton, bool genMatched=false) const;
+	std::vector<TLorentzVector> GetInputPion(product_type& product, KLepton* lepton, bool genMatched=false) const;
+	std::vector<TLorentzVector> GetInputRho(product_type& product, KLepton* lepton, bool genMatched=false) const;
+	std::vector<TLorentzVector> GetInputA1(product_type& product, KLepton* lepton, bool genMatched=false) const;
 
-private:
-	std::vector<TLorentzVector> GetInputLepton(product_type& product, KLepton* lepton) const;
-	std::vector<TLorentzVector> GetInputPion(product_type& product, KLepton* lepton) const;
-	std::vector<TLorentzVector> GetInputRho(product_type& product, KLepton* lepton) const;
-	std::vector<TLorentzVector> GetInputA1(product_type& product, KLepton* lepton) const;
+};
 
+
+class GenMatchedPolarisationQuantitiesProducer: public PolarisationQuantitiesProducerBase {
+public:
+
+	GenMatchedPolarisationQuantitiesProducer();
+	virtual std::string GetProducerId() const override;
 };
 
 

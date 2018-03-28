@@ -112,31 +112,37 @@ public:
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
 
 	// filled by the PolarisationQuantitiesProducer
-	std::map<KLepton*, float> m_polarisationOmegasSvfit; // Keys are only of type KTau*
-	std::map<KLepton*, float> m_polarisationOmegasSvfitM91; // Keys are only of type KTau*
-	std::map<KLepton*, float> m_polarisationOmegasSimpleFit; // Keys are only of type KTau*
-	//std::map<KLepton*, float> m_polarisationOmegasHHKinFit; // Keys are only of type KTau*
+	std::map<KLepton*, float> m_polarisationOmegasGenMatched;
+	std::map<KLepton*, float> m_polarisationOmegasSvfit;
+	std::map<KLepton*, float> m_polarisationOmegasSvfitM91;
+	std::map<KLepton*, float> m_polarisationOmegasSimpleFit;
+	//std::map<KLepton*, float> m_polarisationOmegasHHKinFit;
 	
-	std::map<KLepton*, float> m_polarisationOmegaBarsSvfit; // Keys are only of type KTau*
-	std::map<KLepton*, float> m_polarisationOmegaBarsSvfitM91; // Keys are only of type KTau*
-	std::map<KLepton*, float> m_polarisationOmegaBarsSimpleFit; // Keys are only of type KTau*
-	//std::map<KLepton*, float> m_polarisationOmegaBarsHHKinFit; // Keys are only of type KTau*
+	std::map<KLepton*, float> m_polarisationOmegaBarsGenMatched;
+	std::map<KLepton*, float> m_polarisationOmegaBarsSvfit;
+	std::map<KLepton*, float> m_polarisationOmegaBarsSvfitM91;
+	std::map<KLepton*, float> m_polarisationOmegaBarsSimpleFit;
+	//std::map<KLepton*, float> m_polarisationOmegaBarsHHKinFit;
 	
-	std::map<KLepton*, float> m_polarisationOmegaVisiblesSvfit; // Keys are only of type KTau*
-	std::map<KLepton*, float> m_polarisationOmegaVisiblesSvfitM91; // Keys are only of type KTau*
-	std::map<KLepton*, float> m_polarisationOmegaVisiblesSimpleFit; // Keys are only of type KTau*
-	//std::map<KLepton*, float> m_polarisationOmegaVisiblesHHKinFit; // Keys are only of type KTau*
+	std::map<KLepton*, float> m_polarisationOmegaVisiblesGenMatched;
+	std::map<KLepton*, float> m_polarisationOmegaVisiblesSvfit;
+	std::map<KLepton*, float> m_polarisationOmegaVisiblesSvfitM91;
+	std::map<KLepton*, float> m_polarisationOmegaVisiblesSimpleFit;
+	//std::map<KLepton*, float> m_polarisationOmegaVisiblesHHKinFit;
 	
+	float m_polarisationCombinedOmegaGenMatched = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaSvfit = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaSvfitM91 = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaSimpleFit = DefaultValues::UndefinedFloat;
 	//float m_polarisationCombinedOmegaHHKinFit = DefaultValues::UndefinedFloat;
 	
+	float m_polarisationCombinedOmegaBarGenMatched = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaBarSvfit = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaBarSvfitM91 = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaBarSimpleFit = DefaultValues::UndefinedFloat;
 	//float m_polarisationCombinedOmegaBarHHKinFit = DefaultValues::UndefinedFloat;
 	
+	float m_polarisationCombinedOmegaVisibleGenMatched = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaVisibleSvfit = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaVisibleSvfitM91 = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaVisibleSimpleFit = DefaultValues::UndefinedFloat;
