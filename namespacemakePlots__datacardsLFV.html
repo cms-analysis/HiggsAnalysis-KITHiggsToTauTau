@@ -103,7 +103,7 @@ Variables</h2></td></tr>
 <tr class="separator:ae809941896e297c1d0ead307bb530f38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a360dec4f458a1361a82b599409a058c3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#a360dec4f458a1361a82b599409a058c3">help</a> = &quot;Input directory.&quot;</td></tr>
 <tr class="separator:a360dec4f458a1361a82b599409a058c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd260454ef650cad45af7e0b1696e181"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#abd260454ef650cad45af7e0b1696e181">default</a> = [&quot;ZeroJet_LFV&quot;]</td></tr>
+<tr class="memitem:abd260454ef650cad45af7e0b1696e181"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#abd260454ef650cad45af7e0b1696e181">default</a> = [&quot;ZeroJet_LFV&quot;, &quot;OneJet_LFV&quot;]</td></tr>
 <tr class="separator:abd260454ef650cad45af7e0b1696e181"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfee43ed181e7dbd30bc79fdad11b490"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#acfee43ed181e7dbd30bc79fdad11b490">args</a> = parser.parse_args()</td></tr>
 <tr class="separator:acfee43ed181e7dbd30bc79fdad11b490"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,9 +224,12 @@ Variables</h2></td></tr>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                                        <span class="keyword">True</span>,</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                                        <span class="stringliteral">&quot;&quot;</span>,</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                                        [args.quantity],</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                                        [<span class="stringliteral">&quot;25,0,200&quot;</span>],</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                                        [<span class="stringliteral">&quot;30,40,130&quot;</span>],</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                                        tmp_input_root_filename_template.replace(<span class="stringliteral">&quot;$&quot;</span>, <span class="stringliteral">&quot;&quot;</span>).format(ANALYSIS=<span class="stringliteral">&quot;LFV&quot;</span>, CHANNEL = channel, BIN= category,SYSTEMATIC=systematic, ERA=<span class="stringliteral">&quot;13TeV&quot;</span>),</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                        ]</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                                        <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                                        <span class="keyword">False</span>,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                                        <span class="stringliteral">&quot;&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                                        ]</div>
 </div><!-- fragment -->
 <p>Define values to fill Harry Plotter config. </p>
 
@@ -442,7 +445,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string makePlots_datacardsLFV.default = [&quot;ZeroJet_LFV&quot;]</td>
+          <td class="memname">string makePlots_datacardsLFV.default = [&quot;ZeroJet_LFV&quot;, &quot;OneJet_LFV&quot;]</td>
         </tr>
       </table>
 </div><div class="memdoc">
