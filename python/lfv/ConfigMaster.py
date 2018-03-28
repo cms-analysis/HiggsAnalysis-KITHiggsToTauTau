@@ -27,7 +27,7 @@ class ConfigMaster(object):
 		###Config which is initiliazed with information for each sample from samples_run2_201X.py if wished
 		if sample_values != None:
 			sample_settings = samples.Samples()	
-			sample_list, channel, category, estimationMethod, cut_type, nick_suffix, no_plot, weight= sample_values
+			sample_list, channel, category, estimationMethod, cut_type, nick_suffix, no_plot, weight = sample_values
 
 			self._config = sample_settings.get_config(samples=[getattr(samples.Samples, sample) for sample in sample_list], channel = channel, category = category, no_plot = no_plot, nick_suffix = nick_suffix, estimationMethod = estimationMethod, cut_type = cut_type, weight = weight)			
 
@@ -53,7 +53,7 @@ class ConfigMaster(object):
 	
 	###Dictionaries for information for each plotting/analysis modules
 
-	def __base__(self, input_dir, output_dir, formats, www_nodate, www, x_expressions, x_bins, output_file):
+	def __base__(self, input_dir, output_dir, formats, www_nodate, www, x_expressions, x_bins, output_file, title, cms, text):
 	
 		self._base = {
 					"directories":			input_dir,
@@ -64,19 +64,21 @@ class ConfigMaster(object):
 					"x_expressions":		x_expressions,
 					"x_bins":			x_bins,
 					"filename":			output_file,
+					"title":			title,
+					"cms":				cms,
+					"extra_text":			text,	
 		}
 
 		return self._base
 
 		
-	def __controlplot__(self, x_label, title, legend, lumis, energies, year, www):
+	def __controlplot__(self, x_label, legend, lumis, energies, year, www):
 		
 		self._controlplot = {
 					"x_label":			x_label,
 					"legend":			legend,
 					"lumis"	:			lumis,
 					"energies":			energies,
-					"title"	:			title,
 					"year":				year,
 					"www":				www
 		}
