@@ -13,6 +13,5 @@ var searchData=
   ['gentaucpproducers_2ecc',['GenTauCPProducers.cc',['../GenTauCPProducers_8cc.html',1,'']]],
   ['gentaucpproducers_2eh',['GenTauCPProducers.h',['../GenTauCPProducers_8h.html',1,'']]],
   ['getfocussedtrainingcut_2epy',['GetFocussedTrainingCut.py',['../GetFocussedTrainingCut_8py.html',1,'']]],
-  ['getinclusiveweight_2epy',['getInclusiveWeight.py',['../getInclusiveWeight_8py.html',1,'']]],
-  ['globalprocessors_2epy',['globalProcessors.py',['../globalProcessors_8py.html',1,'']]]
+  ['getinclusiveweight_2epy',['getInclusiveWeight.py',['../getInclusiveWeight_8py.html',1,'']]]
 ];
