@@ -18,7 +18,10 @@ class ConfigMaster(object):
 
 	def __init__(self, base_values, sample_values):
 
-		###Config list which is initiliazed with information for each sample from samples_run2.py
+		###Config which is initiliazed with information for each sample from samples_run2_201X.py if wished
+		if sample_values != None:
+			sample_settings = samples.Samples()	
+			sample_list, channel, category, estimationMethod, cut_type, nick_suffix, no_plot, weight = sample_values
 
 		self._config = 0
 		sample_settings = samples.Samples()
@@ -45,7 +48,8 @@ class ConfigMaster(object):
 	
 	###Dictionaries for information for each plotting/analysis modules
 
-	def __base__(self, input_dir, output_dir, output_file, formats, www, www_nodate, x_expressions, x_bins):
+	def __base__(self, input_dir, output_dir, formats, www_nodate, www, x_expressions, x_bins, output_file, title, cms, text):
+
 	
 		self._base = {
 					"directories":			input_dir,
@@ -57,19 +61,25 @@ class ConfigMaster(object):
 					
 					"x_expressions":		x_expressions,
 					"x_bins":			x_bins,
+
+
+					"filename":			output_file,
+					"title":			title,
+					"cms":				cms,
+					"extra_text":			text,	
+
 		}
 
 		return self._base
 
 		
-	def __controlplot__(self, x_label, title, legend, lumis, energies, year, www):
+	def __controlplot__(self, x_label, legend, lumis, energies, year, www):
 		
 		self._controlplot = {
 					"x_label":			x_label,
 					"legend":			legend,
 					"lumis"	:			lumis,
 					"energies":			energies,
-					"title"	:			title,
 					"year":				year,
 					"www":				www
 		}

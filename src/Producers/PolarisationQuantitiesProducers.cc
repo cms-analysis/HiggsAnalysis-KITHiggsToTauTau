@@ -21,7 +21,8 @@ PolarisationQuantitiesProducerBase::PolarisationQuantitiesProducerBase(
 		std::map<KLepton*, float> product_type::*polarisationOmegaVisiblesMember,
 		float product_type::*polarisationCombinedOmegaMember,
 		float product_type::*polarisationCombinedOmegaBarMember,
-		float product_type::*polarisationCombinedOmegaVisibleMember
+		float product_type::*polarisationCombinedOmegaVisibleMember,
+		bool genMatched
 ) :
 	m_name(name),
 	m_fittedTausMember(fittedTausMember),
@@ -30,7 +31,8 @@ PolarisationQuantitiesProducerBase::PolarisationQuantitiesProducerBase(
 	m_polarisationOmegaVisiblesMember(polarisationOmegaVisiblesMember),
 	m_polarisationCombinedOmegaMember(polarisationCombinedOmegaMember),
 	m_polarisationCombinedOmegaBarMember(polarisationCombinedOmegaBarMember),
-	m_polarisationCombinedOmegaVisibleMember(polarisationCombinedOmegaVisibleMember)
+	m_polarisationCombinedOmegaVisibleMember(polarisationCombinedOmegaVisibleMember),
+	m_genMatched(genMatched)
 {
 }
 
@@ -87,7 +89,7 @@ void PolarisationQuantitiesProducerBase::Produce(
 
 		if (((*lepton)->flavour() == KLeptonFlavour::ELECTRON) || ((*lepton)->flavour() == KLeptonFlavour::MUON))
 		{
-			inputs.push_back(GetInputLepton(product, *lepton));
+			inputs.push_back(GetInputLepton(product, *lepton, m_genMatched));
 			types.push_back("lepton");
 			charges.push_back((*lepton)->charge());
 		}
@@ -96,7 +98,7 @@ void PolarisationQuantitiesProducerBase::Produce(
 			KTau* tau = static_cast<KTau*>(*lepton);
 			if ((tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) && (tau->chargedHadronCandidates.size() > 2))
 			{
-				inputs.push_back(GetInputA1(product, *lepton));
+				inputs.push_back(GetInputA1(product, *lepton, m_genMatched));
 				types.push_back("a1");
 				charges.push_back((*lepton)->charge());
 			}
@@ -104,13 +106,13 @@ void PolarisationQuantitiesProducerBase::Produce(
 			         (tau->chargedHadronCandidates.size() > 0) &&
 			         ((tau->piZeroCandidates.size() > 0) || (tau->gammaCandidates.size() > 0)))
 			{
-				inputs.push_back(GetInputRho(product, *lepton));
+				inputs.push_back(GetInputRho(product, *lepton, m_genMatched));
 				types.push_back("rho");
 				charges.push_back((*lepton)->charge());
 			}
 			else
 			{
-				inputs.push_back(GetInputPion(product, *lepton));
+				inputs.push_back(GetInputPion(product, *lepton, m_genMatched));
 				types.push_back("pion");
 				charges.push_back((*lepton)->charge());
 			}
@@ -141,39 +143,104 @@ void PolarisationQuantitiesProducerBase::Produce(
 	}
 }
 
-std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputLepton(product_type& product, KLepton* lepton) const
+std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputLepton(product_type& product, KLepton* lepton, bool genMatched) const
 {
 	std::vector<TLorentzVector> input;
 	
-	if (Utility::Contains((product.*m_fittedTausMember), lepton))
+	if (genMatched)
+	{
+		size_t leptonIndex = Utility::Index(product.m_flavourOrderedLeptons, lepton);
+		if (product.m_genLeptonsFromBosonDecay.size() > leptonIndex)
+		{
+			KGenParticle* genParticle = product.m_genLeptonsFromBosonDecay.at(leptonIndex);
+			if (std::abs(genParticle->pdgId) == DefaultValues::pdgIdTau)
+			{
+				RMFLV* genTauLV = &(genParticle->p4);
+			
+				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, genParticle, static_cast<KGenTau*>(nullptr));
+				if (genTau)
+				{
+					RMFLV* genTauVisibleLV = &(genTau->visible.p4);
+					
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauLV));
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauVisibleLV));
+				}
+			}
+		}
+	}
+	else if (Utility::Contains((product.*m_fittedTausMember), lepton))
 	{
 		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(SafeMap::Get((product.*m_fittedTausMember), lepton)));
-		
 		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(lepton->p4));
 	}
 	
 	return input;
 }
 
-std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputPion(product_type& product, KLepton* lepton) const
+std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputPion(product_type& product, KLepton* lepton, bool genMatched) const
 {
 	std::vector<TLorentzVector> input;
 	
-	if (Utility::Contains((product.*m_fittedTausMember), lepton))
+	if (genMatched)
+	{
+		size_t leptonIndex = Utility::Index(product.m_flavourOrderedLeptons, lepton);
+		if (product.m_genLeptonsFromBosonDecay.size() > leptonIndex)
+		{
+			KGenParticle* genParticle = product.m_genLeptonsFromBosonDecay.at(leptonIndex);
+			if (std::abs(genParticle->pdgId) == DefaultValues::pdgIdTau)
+			{
+				RMFLV* genTauLV = &(genParticle->p4);
+			
+				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, genParticle, static_cast<KGenTau*>(nullptr));
+				if (genTau)
+				{
+					RMFLV* genTauVisibleLV = &(genTau->visible.p4);
+					
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauLV));
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauVisibleLV));
+				}
+			}
+		}
+	}
+	else if (Utility::Contains((product.*m_fittedTausMember), lepton))
 	{
 		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(SafeMap::Get((product.*m_fittedTausMember), lepton)));
-		
 		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(lepton->p4));
 	}
 	
 	return input;
 }
 
-std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputRho(product_type& product, KLepton* lepton) const
+std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputRho(product_type& product, KLepton* lepton, bool genMatched) const
 {
 	std::vector<TLorentzVector> input;
 	
-	if (Utility::Contains((product.*m_fittedTausMember), lepton))
+	if (genMatched)
+	{
+		size_t leptonIndex = Utility::Index(product.m_flavourOrderedLeptons, lepton);
+		if (product.m_genLeptonsFromBosonDecay.size() > leptonIndex)
+		{
+			KGenParticle* genParticle = product.m_genLeptonsFromBosonDecay.at(leptonIndex);
+			if (std::abs(genParticle->pdgId) == DefaultValues::pdgIdTau)
+			{
+				RMFLV* genTauLV = &(genParticle->p4);
+			
+				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, genParticle, static_cast<KGenTau*>(nullptr));
+				std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+				std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+				if (genTau &&
+				    (genTau->nProngs == 1) && (genTau->nPi0s == 1) &&
+				    (genTauChargedHadrons.size() == 1) && (genTauNeutralHadrons.size() == 1))
+				{
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauLV));
+					
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauChargedHadrons.front()->p4));
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauNeutralHadrons.front()->p4));
+				}
+			}
+		}
+	}
+	else if (Utility::Contains((product.*m_fittedTausMember), lepton))
 	{
 		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(SafeMap::Get((product.*m_fittedTausMember), lepton)));
 		
@@ -185,11 +252,60 @@ std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputRho(prod
 	return input;
 }
 
-std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputA1(product_type& product, KLepton* lepton) const
+std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputA1(product_type& product, KLepton* lepton, bool genMatched) const
 {
 	std::vector<TLorentzVector> input;
 	
-	if (Utility::Contains((product.*m_fittedTausMember), lepton))
+	if (genMatched)
+	{
+		size_t leptonIndex = Utility::Index(product.m_flavourOrderedLeptons, lepton);
+		if (product.m_genLeptonsFromBosonDecay.size() > leptonIndex)
+		{
+			KGenParticle* genParticle = product.m_genLeptonsFromBosonDecay.at(leptonIndex);
+			if (std::abs(genParticle->pdgId) == DefaultValues::pdgIdTau)
+			{
+				RMFLV* genTauLV = &(genParticle->p4);
+			
+				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, genParticle, static_cast<KGenTau*>(nullptr));
+				std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+				std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+				if (genTau &&
+				    (genTau->nProngs == 3) && (genTau->nPi0s == 0) &&
+				    (genTauChargedHadrons.size() == 3) && (genTauNeutralHadrons.size() == 0))
+				{
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauLV));
+					
+					// sort pions from a1 decay according to their charge
+					RMFLV* piSingleChargeSign = nullptr;
+					RMFLV* piDoubleChargeSign1 = nullptr;
+					RMFLV* piDoubleChargeSign2 = nullptr;
+					if ((genTauChargedHadrons.at(0)->charge() * genTauChargedHadrons.at(1)->charge()) > 0.0)
+					{
+						piSingleChargeSign = &(genTauChargedHadrons.at(2)->p4);
+						piDoubleChargeSign1 = &(genTauChargedHadrons.at(0)->p4);
+						piDoubleChargeSign2 = &(genTauChargedHadrons.at(1)->p4);
+					}
+					else if ((genTauChargedHadrons.at(0)->charge() * genTauChargedHadrons.at(2)->charge()) > 0.0)
+					{
+						piSingleChargeSign = &(genTauChargedHadrons.at(1)->p4);
+						piDoubleChargeSign1 = &(genTauChargedHadrons.at(0)->p4);
+						piDoubleChargeSign2 = &(genTauChargedHadrons.at(2)->p4);
+					}
+					else // if ((genTauChargedHadrons.at(1)->charge() * genTauChargedHadrons.at(2)->charge()) > 0.0)
+					{
+						piSingleChargeSign = &(genTauChargedHadrons.at(0)->p4);
+						piDoubleChargeSign1 = &(genTauChargedHadrons.at(1)->p4);
+						piDoubleChargeSign2 = &(genTauChargedHadrons.at(2)->p4);
+					}
+		
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piSingleChargeSign));
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piDoubleChargeSign1));
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piDoubleChargeSign2));
+				}
+			}
+		}
+	}
+	else if (Utility::Contains((product.*m_fittedTausMember), lepton))
 	{
 		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(SafeMap::Get((product.*m_fittedTausMember), lepton)));
 		
@@ -228,6 +344,27 @@ std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputA1(produ
 }
 
 
+GenMatchedPolarisationQuantitiesProducer::GenMatchedPolarisationQuantitiesProducer() :
+	PolarisationQuantitiesProducerBase(
+			"GenMatched",
+			&product_type::m_svfitTaus, // this map is not used and can be empty
+			&product_type::m_polarisationOmegasGenMatched,
+			&product_type::m_polarisationOmegaBarsGenMatched,
+			&product_type::m_polarisationOmegaVisiblesGenMatched,
+			&product_type::m_polarisationCombinedOmegaGenMatched,
+			&product_type::m_polarisationCombinedOmegaBarGenMatched,
+			&product_type::m_polarisationCombinedOmegaVisibleGenMatched,
+			true
+	)
+{
+}
+
+std::string GenMatchedPolarisationQuantitiesProducer::GetProducerId() const
+{
+	return "GenMatchedPolarisationQuantitiesProducer";
+}
+
+
 PolarisationQuantitiesSvfitProducer::PolarisationQuantitiesSvfitProducer() :
 	PolarisationQuantitiesProducerBase(
 			"Svfit",
@@ -237,7 +374,8 @@ PolarisationQuantitiesSvfitProducer::PolarisationQuantitiesSvfitProducer() :
 			&product_type::m_polarisationOmegaVisiblesSvfit,
 			&product_type::m_polarisationCombinedOmegaSvfit,
 			&product_type::m_polarisationCombinedOmegaBarSvfit,
-			&product_type::m_polarisationCombinedOmegaVisibleSvfit
+			&product_type::m_polarisationCombinedOmegaVisibleSvfit,
+			false
 	)
 {
 }
@@ -257,7 +395,8 @@ PolarisationQuantitiesSvfitM91Producer::PolarisationQuantitiesSvfitM91Producer()
 			&product_type::m_polarisationOmegaVisiblesSvfitM91,
 			&product_type::m_polarisationCombinedOmegaSvfitM91,
 			&product_type::m_polarisationCombinedOmegaBarSvfitM91,
-			&product_type::m_polarisationCombinedOmegaVisibleSvfitM91
+			&product_type::m_polarisationCombinedOmegaVisibleSvfitM91,
+			false
 	)
 {
 }
@@ -277,7 +416,8 @@ PolarisationQuantitiesSimpleFitProducer::PolarisationQuantitiesSimpleFitProducer
 			&product_type::m_polarisationOmegaVisiblesSimpleFit,
 			&product_type::m_polarisationCombinedOmegaSimpleFit,
 			&product_type::m_polarisationCombinedOmegaBarSimpleFit,
-			&product_type::m_polarisationCombinedOmegaVisibleSimpleFit
+			&product_type::m_polarisationCombinedOmegaVisibleSimpleFit,
+			false
 	)
 {
 }
@@ -298,7 +438,8 @@ PolarisationQuantitiesHHKinFitProducer::PolarisationQuantitiesHHKinFitProducer()
 			&product_type::m_polarisationOmegaVisiblesHHKinFit,
 			&product_type::m_polarisationCombinedOmegaHHKinFit,
 			&product_type::m_polarisationCombinedOmegaBarHHKinFit,
-			&product_type::m_polarisationCombinedOmegaVisibleHHKinFit
+			&product_type::m_polarisationCombinedOmegaVisibleHHKinFit,
+			false
 	)
 {
 }

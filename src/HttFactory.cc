@@ -232,6 +232,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new SimpleMuTauFakeRateWeightProducer();
 	else if(id == JetToTauFakesProducer().GetProducerId())
 		return new JetToTauFakesProducer();
+	else if(id == GenMatchedPolarisationQuantitiesProducer().GetProducerId())
+		return new GenMatchedPolarisationQuantitiesProducer();
 	else if(id == PolarisationQuantitiesSvfitProducer().GetProducerId())
 		return new PolarisationQuantitiesSvfitProducer();
 	else if(id == PolarisationQuantitiesSvfitM91Producer().GetProducerId())

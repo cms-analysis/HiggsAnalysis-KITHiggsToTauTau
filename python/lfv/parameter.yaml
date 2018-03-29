@@ -6,29 +6,29 @@
 
 0:
 - "m_vis"
-- ["100,0,170"]
+- ["30,0,170"]
 - "VisibleMass"
 - "m_{vis} [GeV]"
 
 1:
 - "diLepLV.Pt()"
-- ["100,0,150"]
+- ["30,0,150"]
 - "DiLepPt"
 - "p^{ll}_{T} [GeV]"
 - "(diLepLV.Pt(){side}{cut})"
 
 2:
 - "mt_1"
-- ["100,0,200"]
+- ["30,0,200"]
 - "TransverseMass1"
-- "m_{T} [GeV]"
+- "m_{T}(l_{1}) [GeV]"
 - "(mt_1{side}{cut})"
 
 3:
 - "mt_2"
-- ["100,0,200"]
+- ["30,0,200"]
 - "TransverseMass2"
-- "m_{T} [GeV]"
+- "m_{T}(l{_2}) [GeV]"
 
 4:
 - "njetspt30"
@@ -38,41 +38,85 @@
 
 5:
 - "met"
-- ["100,0,140"]
+- ["30,0,140"]
 - "MissingTranverseEnergy"
 - "#slash{E}_{T} [GeV]"
 - "(met{side}{cut})"
 
 6:
 - "abs(diLepLV.Pt() - leadingJetLV.Pt())"
-- ["100,0,150"]
+- ["30,0,150"]
 - "DeltaPtJetDilep"
 - "|p^{jet}_{T} - p^{ll}_{T}| [GeV]"
 - "(abs(diLepLV.Pt() - leadingJetLV.Pt()){side}{cut})"
 
 7:
 - "pZetaMissVis"
-- ["100,-130,130"]
+- ["30,-130,130"]
 - "PZeta"
-- "#left(p^{miss}_{#zeta} #minus 0.85 p^{vis}_{#zeta}#right)"
+- "#left(p^{miss}_{#zeta} #minus 1.85 p^{vis}_{#zeta}#right)"
 - "(pZetaMissVis{side}{cut})"
 
 8:
-- "abs(d0_1)"
-- ["100,0,0.015"]
+- "abs(d0_refitPV_1)"
+- ["30,0,0.03"]
 - "ImpactParameter1"
-- "|d_{0}| [cm]"
-- "(abs(d0_1){side}{cut})"
+- "|d_{0}(l_{1})| [cm]"
+- "(abs(d0_refitPV_1){side}{cut})"
 
 9:
-- "abs(d0_2)"
-- ["100,0,0.030"]
+- "abs(d0_refitPV_2)"
+- ["30,0,0.03"]
 - "ImpactParameter2"
-- "|d_{0}| [cm]"
-- "(abs(d0_2){side}{cut})"
+- "|d_{0}(l_{2})| [cm]"
+- "(abs(d0_refitPV_2){side}{cut})"
 
 10:
-- ["limit_exp:limit_exp-two_sigma_down:two_sigma_up-limit_exp", "limit_exp:limit_exp-one_sigma_down:one_sigma_up-limit_exp", "limit_exp", "limit_obs"]
+- "abs(dZ_refitPV_1)"
+- ["30,0,0.1"]
+- "ImpactParameterZ_1"
+- "|d_{Z}(l_{1})| [cm]"
+- "(abs(dZ_refitPV_1){side}{cut})"
+
+11:
+- "abs(dZ_refitPV_2)"
+- ["30,0,0.10"]
+- "ImpactParameterZ_2"
+- "|d_{Z}(l_{2})| [cm]"
+- "(abs(dZ_refitPV_2){side}{cut})"
+
+12:
+- "phi_1"
+- ["1"]
+- "PolarAngle1"
+- "#phi(l_{1}) [rad]"
+
+13:
+- "phi_2"
+- ["30"]
+- "PolarAngle2"
+- "#phi(l_{2}) [rad]"
+
+14:
+- "eta_1"
+- ["30"]
+- "AzimuthalAngle1"
+- "#eta(l_{1}) [rad]"
+
+15:
+- "eta_2"
+- ["30"]
+- "AzimuthalAngle2"
+- "#eta(l_{2}) [rad]"
+
+16:
+- "pt_1"
+- ["30,0,120"]
+- "TransverseMomentum1"
+- "p_T(l_{1})"
+
+17:
+- ["limit_exp:limit_exp-two_sigma_down:two_sigma_up-limit_exp", "limit_exp:limit_exp-one_sigma_down:one_sigma_up-limit_exp", "limit_exp", "limit_old", "limit_obs"]
 - ["1,1,1"]
 - "limit"
 - "95% CL Limit on BR(Z#rightarrowLFV)"
