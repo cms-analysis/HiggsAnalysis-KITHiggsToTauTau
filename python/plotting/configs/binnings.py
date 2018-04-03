@@ -131,12 +131,33 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_phiStarCP"] = "20,0.0,6.28"
 		
 		for ch in ["em_", "et_", "mt_", "tt_"]:
-			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"] = "4,0.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "2,-1.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "4,0.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "2,-1.0,1.0"
+			self.binnings_dict[ch+"melaProbCPEvenGGH"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPOddGGH"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPMixGGH"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPEvenVBF"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPOddVBF"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPMixVBF"] = "20,0,1"
+			
+			self.binnings_dict[ch+"melaM125ProbCPEvenGGH"] = self.binnings_dict[ch+"melaProbCPEvenGGH"]
+			self.binnings_dict[ch+"melaM125ProbCPOddGGH"] = self.binnings_dict[ch+"melaProbCPOddGGH"]
+			self.binnings_dict[ch+"melaM125ProbCPMixGGH"] = self.binnings_dict[ch+"melaProbCPMixGGH"]
+			self.binnings_dict[ch+"melaM125ProbCPEvenVBF"] = self.binnings_dict[ch+"melaProbCPEvenVBF"]
+			self.binnings_dict[ch+"melaM125ProbCPOddVBF"] = self.binnings_dict[ch+"melaProbCPOddVBF"]
+			self.binnings_dict[ch+"melaM125ProbCPMixVBF"] = self.binnings_dict[ch+"melaProbCPMixVBF"]
+			
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"] = "20,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "20,-1.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "20,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "20,-1.0,1.0"
 			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"] = "8,-1.0,1.0"
 			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"] = "8,-1.0,1.0"
+			
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusGGH"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"]
+			self.binnings_dict[ch+"melaM125DiscriminatorDCPGGH"] = self.binnings_dict[ch+"melaDiscriminatorDCPGGH"]
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusVBF"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"]
+			self.binnings_dict[ch+"melaM125DiscriminatorDCPVBF"] = self.binnings_dict[ch+"melaDiscriminatorDCPVBF"]
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusGGH_signDCP"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"]
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusVBF_signDCP"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"]
 		
 		self.binnings_dict["mt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["mt_eta_1"] = "30,-3,3"
@@ -478,6 +499,17 @@ class BinningsDict(binnings.BinningsDict):
 		
 		# Z->tautau polarisation binnings
 		for channel in ["mt", "et", "tt", "em"]:
+			for category in ["a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2", "oneprong", "oneprong_1", "oneprong_2", "combined_a1_a1", "combined_a1_rho", "combined_a1_oneprong", "combined_rho_rho", "combined_rho_oneprong", "combined_oneprong_oneprong"]:
+				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
+					suffix = "_{m_{Z}}" if "M91" in reco_fit else ""
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmega"+reco_fit] = "25,-1,1"
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaBar"+reco_fit] = "25,-1,1"
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaVisible"+reco_fit] = "25,-1,1"
+					for lepton_index in ["1", "2"]:
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "25,-1,1"
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "25,-1,1"
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaVisible"+reco_fit+"_"+lepton_index] = "25,-1,1"
+		
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_a1"] = self.binnings_dict[channel+"_visibleOverFullEnergy"] # TODO change to dedicated a1 variable
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry"]
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong"] = self.binnings_dict[channel+"_visibleOverFullEnergy"]
@@ -600,7 +632,8 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["binningHtt13TeV_mt_Vbf2D_m_sv"] = "0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
 		self.binnings_dict["binningHtt13TeV_mt_vbf_m_sv"] = self.binnings_dict["binningHtt13TeV_mt_Vbf2D_m_sv"]		
 
-		
+		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_mjj"] = " ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)])
+		self.binnings_dict["binningHtt13TeV_tt_vbf_mjj"] = self.binnings_dict["binningHtt13TeV_tt_Vbf2D_mjj"]		
 		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_QCDCR_m_sv"] = "0.0 250.0"
 		self.binnings_dict["binningHtt13TeV_tt_antiiso_vbf_cr_m_sv"] = self.binnings_dict["binningHtt13TeV_tt_Vbf2D_QCDCR_m_sv"] 
 		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_m_sv"] = "0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
@@ -630,12 +663,12 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_boosted_jdphi"] = "12,-3.2,3.2"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_jdphi"] = "12,-3.2,3.2"
 			
-			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_dcp_star"] = "12,-1.0,1.0"		
-			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_melaDiscriminatorDCPGGH"] = "3,-1.0,1.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_dcp_star"] = "8,-1.0,1.0"		
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_melaDiscriminatorDCPGGH"] = "2,-1.0,1.0"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_melaDiscriminatorD0MinusGGH"] = "4,0.0,1.0"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_jdphi"] = "12,-3.2,3.2"
 			
-			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_dcp_star"] = "12,-1.0,1.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_dcp_star"] = "4,-1.0,1.0"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_melaDiscriminatorDCPGGH"] = "2,-1.0,1.0"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_melaDiscriminatorD0MinusGGH"] = "4,0.0,1.0"	
 					

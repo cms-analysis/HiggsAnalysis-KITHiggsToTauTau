@@ -235,7 +235,7 @@ if __name__ == "__main__":
 	if args.get_official_dc:
 		# get "official" configuration
 		init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix)) 
-		command = "MorphingSMCP2016 --control_region=1 {DIJET_2D} --postfix -2D --mm_fit=false --ttbar_fit=true {INIT}".format(
+		command = "MorphingSMCP2016 --control_region=1 {DIJET_2D} --postfix -2D --mm_fit=false --no_jec_split=true --ttbar_fit=true {INIT}".format(
 		DIJET_2D="--dijet_2d=true" if args.dijet_2D else "",
 		INIT="--only_init="+os.path.join(init_directory, "init")
 		)
@@ -792,14 +792,6 @@ if __name__ == "__main__":
 
 	if log.isEnabledFor(logging.DEBUG):
 		pprint.pprint(plot_configs) 
-		
-	# delete existing output files
-	# tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
-	# for output_file_iterator in tmp_output_files:
-	# 	if os.path.exists(output_file_iterator):
-	# 		os.remove(output_file_iterator)
-	# 		log.info("Removed file \""+output_file_iterator+"\" before it is recreated again.")
-	# output_files = list(set(output_files))
 	
 	if args.only_config:
 		sys.exit(1)
@@ -808,13 +800,18 @@ if __name__ == "__main__":
 		log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------")
 		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	
-	if args.n_plots[0] != 0 and "inputs" in args.steps:
-		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+	if args.n_plots[0] != 0 and "t2w" in args.steps:
+		# tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+		datacards_module._call_command([
+			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/hadd_shapes.sh {OUTPUT_FOLDER}".format(OUTPUT_FOLDER=os.path.join(args.output_dir, "shapes", args.output_suffix))
+		])
 	if args.debug_plots:
 		debug_plot_configs = []
 		for output_file in merged_output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	
+	
 	
 	# call official script again with shapes that have just been created
 	# this steps creates the filled datacards in the output folder. 
@@ -893,8 +890,9 @@ if __name__ == "__main__":
 	# Create workspaces from the datacards 
 	if "t2w" in args.steps:
 		datacards_module._call_command([
-				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/* -o ws.root --parallel {N_PROCESSES}".format(
+				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i output/{OUTPUT_SUFFIX}/{{cmb,{CHANNELS}}}/* -o ws.root --parallel {N_PROCESSES}".format(
 				OUTPUT_SUFFIX=args.output_suffix,
+				CHANNELS=",".join(args.channel),
 				N_PROCESSES=args.n_processes			
 				),
 				args.output_dir	
@@ -914,13 +912,13 @@ if __name__ == "__main__":
 				),
 				args.output_dir	
 		])
-		datacards_module._call_command([
-				"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges muF=0,4 --points 20 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
-				OUTPUT_SUFFIX=args.output_suffix,
-				N_PROCESSES=args.n_processes		
-				),
-				args.output_dir	 
-		])
+		# datacards_module._call_command([
+		# 		"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f --setPhysicsModelParameterRanges muF=0,4 --points 20 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
+		# 		OUTPUT_SUFFIX=args.output_suffix,
+		# 		N_PROCESSES=args.n_processes		
+		# 		),
+		# 		args.output_dir	 
+		# ])
 		# datacards_module._call_command([
 		# 		"combineTool.py -m 125 -M MultiDimFit --setPhysicsModelParameters muF=1,muV=1,alpha=0,f=0 --freezeNuisances f,muF --setPhysicsModelParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha_freezemuF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
 		# 		OUTPUT_SUFFIX=args.output_suffix,
@@ -941,17 +939,17 @@ if __name__ == "__main__":
 			datacards_module._call_command([
 					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --logo 'Work in progress' --logo-sub '' ".format(
 					INPUT_FILE=directory+"higgsCombine.alpha.MultiDimFit.mH125.root",
-					OUTPUT_FILE=directory+"alpha"	
+					OUTPUT_FILE=directory+"alpha"
 					),
 					args.output_dir	
 			])
-			datacards_module._call_command([
-					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=muF --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#mu_{{F}}' --y-max=10.0".format(
-					INPUT_FILE=directory+"higgsCombine.muF.MultiDimFit.mH125.root",
-					OUTPUT_FILE=directory+"muF"	
-					),
-					args.output_dir	
-			])			
+			# datacards_module._call_command([
+			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=muF --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#mu_{{F}}' --y-max=10.0".format(
+			# 		INPUT_FILE=directory+"higgsCombine.muF.MultiDimFit.mH125.root",
+			# 		OUTPUT_FILE=directory+"muF"	
+			# 		),
+			# 		args.output_dir	
+			# ])			
 		datacards_module._call_command([
 				"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --others output/{OUTPUT_SUFFIX}/tt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#tau_{{h}}#tau_{{h}}:2 output/{OUTPUT_SUFFIX}/mt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#mu#tau_{{h}}:7 output/{OUTPUT_SUFFIX}/et/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#tau_{{h}}:9 output/{OUTPUT_SUFFIX}/em/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#mu:8  --logo 'Work in progress' --logo-sub '' --main-label Expected ".format(
 				INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
@@ -1034,7 +1032,8 @@ if __name__ == "__main__":
 			"et_4" : "e#tau_{h} - dijet boosted",
 			"em_4" : "e#mu - dijet boosted",
 			"tt_4" : "#tau_{h}#tau_{h} - dijet boosted"
-		}	
+		}
+			
 		x_tick_labels = {
 			"mt_1" : ["0-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-105","105-110","110-400"] * 3,
 			"et_1" : ["0-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-105","105-110","110-400"] * 3,
@@ -1147,25 +1146,7 @@ if __name__ == "__main__":
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
     										
 	sys.exit(0)		 			
-			
-	if "inputs" in args.steps:
-		# update CombineHarvester with the yields and shapes
-		log.info("\n -------------------------------------- Extract shapes from histogram templates ---------------------------------")
-		datacards.extract_shapes(
-				os.path.join(args.output_dir, input_root_filename_template.replace("$", "")).replace("output/{SUFFIX}/".format(SUFFIX=args.output_suffix), ""),
-				bkg_histogram_name_template, sig_histogram_name_template,
-				bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
-				update_systematics=True
-		)
 	
-	# add bin-by-bin uncertainties
-	if not args.no_bbb_uncs:
-		log.info("\n -------------------------------------- Added bin-by-bin uncertainties ---------------------------------")
-		datacards.add_bin_by_bin_uncertainties(
-				processes=datacards.cb.cp().backgrounds().process_set(),
-				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
-		)
-		
 	"""
 	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
 	It considers the

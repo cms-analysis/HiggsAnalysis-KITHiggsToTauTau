@@ -111,7 +111,7 @@ class SystematicsFactory(dict):
 		]
 		
 		for jecUncert in jecUncertNames:
-			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic
+			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic if jecUncert != "Total" else JecUncSystematic 
 		
 		# these uncertainties currently need to be implemented in your datacards script
 		self["WSFUncert_mt_0jet_13TeV"] = Nominal
@@ -166,55 +166,6 @@ class SystematicShiftBase(object):
 		
 		return plot_config
 
-# class GGHSTXSVBF2jSystematic(SystematicShiftBase):
-# 
-# 	def __init__(self, plot_config, category):
-# 		super(GGHSTXSVBF2jSystematic, self).__init__(plot_config)
-# 		self.plot_config = plot_config
-# 		self.channel = category.split("_")[0]
-# 		self.category = category.split("_")[1]
-# 
-# 	def get_config(self, shift=0.0):
-# 		plot_config = super(GGHSTXSVBF2jSystematic, self).get_config(shift=shift)
-# 
-# 		w = "(1.0)"
-# 		if any(cat == args.category for cat in ["dijet_boosted", "dijet_lowM", "dijet_highM", "dijet_lowMjj"]):
-# 			w = "1.2"
-# 
-# 		for index, weight in enumerate(plot_config.get("weights", [])):
-# 			if not "Run201" in plot_config["files"][index]:
-# 				if shift > 0.0:
-# 					plot_config["weights"][index] = weight+"*"+w
-# 				elif shift < 0.0:
-# 					plot_config["weights"][index] = weight+"*(2-"+w+")"	
-# 
-# 		return plot_config
-# 
-# class GGHSTXSmig12Systematic(SystematicShiftBase):
-# 
-# 	def __init__(self, plot_config, category):
-# 		super(GGHSTXSmig12Systematic, self).__init__(plot_config)
-# 		self.plot_config = plot_config
-# 		self.channel = category.split("_")[0]
-# 		self.category = category.split("_")[1]
-# 
-# 	def get_config(self, shift=0.0):
-# 		plot_config = super(GGHSTXSmig12Systematic, self).get_config(shift=shift)
-# 
-# 		w = "(1.0)"
-# 		if args.category == "Boosted2D":
-# 			w = "(0.932)"
-# 		if any(cat in args.category for cat in ["dijet_boosted", "dijet_lowM", "dijet_highM", "dijet_lowMjj"]):
-# 			w = "(1.161)"
-# 
-# 		for index, weight in enumerate(plot_config.get("weights", [])):
-# 			if not "Run201" in plot_config["files"][index]:
-# 				if shift > 0.0:
-# 					plot_config["weights"][index] = weight+"*"+w
-# 				elif shift < 0.0:
-# 					plot_config["weights"][index] = weight+"*(2-"+w+")"	
-# 
-# 		return plot_config		
 
 # w+jets scale factor shifts for different categories
 # same uncertainties as used for WHighMTtoLowMT_$BIN_13TeV implented in systematics_libary.py
@@ -317,6 +268,10 @@ class Nominal(SystematicShiftBase):
 
 
 class JecUncSystematic(SystematicShiftBase):
+	def __init__(self, plot_config, jecUncertainty):
+		super(JecUncSystematic, self).__init__(plot_config)
+		self.plot_config = plot_config
+		self.jecUncertainty = jecUncertainty	
 	
 	def get_config(self, shift=0.0):
 		plot_config = super(JecUncSystematic, self).get_config(shift=shift)
@@ -340,19 +295,13 @@ class JecUncSplitSystematic(SystematicShiftBase):
 	
 	def get_config(self, shift=0.0):
 		plot_config = super(JecUncSplitSystematic, self).get_config(shift=shift)
-		
-		for index, folder in enumerate(plot_config.get("folders", [])):
-			if not "Run201" in plot_config["files"][index]:
-				if shift > 0.0:
-					plot_config["folders"][index] = folder.replace("nominal", "jecUncUp")
-				elif shift < 0.0:
-					plot_config["folders"][index] = folder.replace("nominal", "jecUncDown")
-		
+
 		for key in ["x_expressions", "y_expressions", "z_expressions", "weights"]:
 			for index, value in enumerate(plot_config.get(key, [])):
 				if not "Run201" in plot_config["files"][index]:
 					if shift > 0.0 or shift < 0.0:
-						plot_config[key][index] = value.replace("njetspt30", "njetspt30_"+self.jecUncertainty).replace("mjj", "mjj_"+self.jecUncertainty).replace("jdeta", "jdeta_"+self.jecUncertainty).replace("nbtag", "nbtag_"+self.jecUncertainty)
+						shift_string = "Up" if shift > 0.0 else "Down"
+						plot_config[key][index] = value.replace("njetspt30", "njetspt30_"+self.jecUncertainty+shift_string).replace("mjj", "mjj_"+self.jecUncertainty+shift_string).replace("jdeta", "jdeta_"+self.jecUncertainty+shift_string).replace("jdphi", "jdphi_"+self.jecUncertainty+shift_string)
 		
 		return plot_config
 

@@ -543,17 +543,14 @@ if __name__ == "__main__":
 					
 					# Use 2d plots for 2d categories
 					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
-						config["x_expressions"] = ["m_vis"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+						config["x_expressions"] = ["m_sv" if channel == "tt" else "m_vis"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_sv" if channel == "tt" else "_m_vis")]]
 						if channel in ["mt", "et"]:
 							config["y_expressions"] = ["decayMode_2"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_decayMode_2"]]
 						elif channel == "em":
 							config["y_expressions"] = ["pt_2"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
-						elif channel == "tt":
-							config["x_expressions"] = ["m_sv"]
-							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
 					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]

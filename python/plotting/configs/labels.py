@@ -54,21 +54,20 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
 			self.labels_dict["ff"] = "Fake Factor"
 			
-			self.labels_dict["qqhsm125"] = "VBF 0^{++}"
-			self.labels_dict["qqhps125"] = "VBF 0^{-+}"
+			self.labels_dict["qqhsm125"] = "VBF 0^{#plus#plus}"
+			self.labels_dict["qqhps125"] = "VBF 0^{#minus#plus}"
 			self.labels_dict["qqhmm125"] = "VBF CPmix"			
-			self.labels_dict["gghsm125"] = "GF 0^{++}"
-			self.labels_dict["gghps125"] = "GF 0^{-+}"
+			self.labels_dict["gghsm125"] = "GF 0^{#plus#plus}"
+			self.labels_dict["gghps125"] = "GF 0^{#minus#plus}"
 			self.labels_dict["gghmm125"] = "GF CPmix"		
 
-			self.labels_dict["qqhjhusm125"] = "VBF 0^{++}"
-			self.labels_dict["qqhjhups125"] = "VBF 0^{-+}"
+			self.labels_dict["qqhjhusm125"] = "VBF 0^{#plus#plus}"
+			self.labels_dict["qqhjhups125"] = "VBF 0^{#minus#plus}"
 			self.labels_dict["qqhjhumm125"] = "VBF CPmix"			
-			self.labels_dict["gghjhusm125"] = "GF 0^{++}"
-			self.labels_dict["gghjhups125"] = "GF 0^{-+}"
+			self.labels_dict["gghjhusm125"] = "GF 0^{#plus#plus}"
+			self.labels_dict["gghjhups125"] = "GF 0^{#minus#plus}"
 			self.labels_dict["gghjhumm125"] = "GF CPmix"	
 			
-
 			self.labels_dict["httcpeven"] = "CP-even"
 			self.labels_dict["httcpmix"] = "CP-mix"
 			self.labels_dict["httcpodd"] = "CP-odd"
@@ -119,12 +118,15 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict["catZttPol13TeV_"+channel+"_index"] = ""
 				
-				for reco_fit in ["Svfit", "SimpleFit", "HHKinFit"]:
-					self.labels_dict[channel+"_polarisationCombinedOmega"+reco_fit] = "Combined Optimal Observable #Omega"
-					self.labels_dict[channel+"_polarisationCombinedOmegaBar"+reco_fit] = "Combined Optimal Observable #bar{#Omega}"
+				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
+					suffix = "_{m_{Z}}" if "M91" in reco_fit else ""
+					self.labels_dict[channel+"_polarisationCombinedOmega"+reco_fit] = "Combined Optimal Observable #Omega" + suffix
+					self.labels_dict[channel+"_polarisationCombinedOmegaBar"+reco_fit] = "Combined Optimal Observable #bar{#Omega}" + suffix
+					self.labels_dict[channel+"_polarisationCombinedOmegaVisible"+reco_fit] = "Combined Optimal Observable #Omega^{vis}" + suffix
 					for lepton_index in ["1", "2"]:
-						self.labels_dict[channel+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "Optimal Observable #omega"
-						self.labels_dict[channel+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "Optimal Observable #bar{#omega}"
+						self.labels_dict[channel+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "Optimal Observable #omega" + suffix
+						self.labels_dict[channel+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "Optimal Observable #bar{#omega}" + suffix
+						self.labels_dict[channel+"_polarisationOmegaVisible"+reco_fit+"_"+lepton_index] = "Optimal Observable #omega^{vis}" + suffix
 			
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict["channel_"+channel+"_0jet_inclusive"] = self.labels_dict["channel_"+channel]+": 0-Jet-inclusive"
@@ -637,6 +639,35 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["BDT_ggh_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{ggH}"
 			self.labels_dict["BDT_vbf_zll"] = "BDT_{Z#rightarrow \\ell\\ell}^{vbf}"
 			self.labels_dict["BDT_vbf_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{vbf}"
+			
+			for ch in ["em_", "et_", "mt_", "tt_"]:
+				self.labels_dict[ch+"melaProbCPEvenGGH"] = "MELA Prob_{0^{#minus}}^{ggH}"
+				self.labels_dict[ch+"melaProbCPOddGGH"] = "MELA Prob_{0^{#plus}}^{ggH}"
+				self.labels_dict[ch+"melaProbCPMixGGH"] = "MELA Prob_{0^{#pm}}^{ggH}"
+				self.labels_dict[ch+"melaProbCPEvenVBF"] = "MELA Prob_{0^{#minus}}^{VBF}"
+				self.labels_dict[ch+"melaProbCPOddVBF"] = "MELA Prob_{0^{#plus}}^{VBF}"
+				self.labels_dict[ch+"melaProbCPMixVBF"] = "MELA Prob_{0^{#pm}}^{VBF}"
+			
+				self.labels_dict[ch+"melaM125ProbCPEvenGGH"] = self.labels_dict[ch+"melaProbCPEvenGGH"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125ProbCPOddGGH"] = self.labels_dict[ch+"melaProbCPOddGGH"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125ProbCPMixGGH"] = self.labels_dict[ch+"melaProbCPMixGGH"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125ProbCPEvenVBF"] = self.labels_dict[ch+"melaProbCPEvenVBF"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125ProbCPOddVBF"] = self.labels_dict[ch+"melaProbCPOddVBF"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125ProbCPMixVBF"] = self.labels_dict[ch+"melaProbCPMixVBF"].replace("MELA", "MELA_{m_{H}}")
+				
+				self.labels_dict[ch+"melaDiscriminatorD0MinusGGH"] = "MELA D_{0^{#minus}}^{ggH}"
+				self.labels_dict[ch+"melaDiscriminatorDCPGGH"] = "MELA D_{CP}^{ggH}"
+				self.labels_dict[ch+"melaDiscriminatorD0MinusVBF"] = "MELA D_{0^{#minus}}^{VBF}"
+				self.labels_dict[ch+"melaDiscriminatorDCPVBF"] = "MELA D_{CP}^{VBF}"
+				self.labels_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"] = "MELA D_{0^{#minus}}^{ggH} #upoint sign #left(D_{CP}^{ggH}#right)"
+				self.labels_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"] = "MELA D_{0^{#minus}}^{VBF} #upoint sign #left(D_{CP}^{VBF}#right)"
+			
+				self.labels_dict[ch+"melaM125DiscriminatorD0MinusGGH"] = self.labels_dict[ch+"melaDiscriminatorD0MinusGGH"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125DiscriminatorDCPGGH"] = self.labels_dict[ch+"melaDiscriminatorDCPGGH"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125DiscriminatorD0MinusVBF"] = self.labels_dict[ch+"melaDiscriminatorD0MinusVBF"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125DiscriminatorDCPVBF"] = self.labels_dict[ch+"melaDiscriminatorDCPVBF"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125DiscriminatorD0MinusGGH_signDCP"] = self.labels_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"].replace("MELA", "MELA_{m_{H}}")
+				self.labels_dict[ch+"melaM125DiscriminatorD0MinusVBF_signDCP"] = self.labels_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"].replace("MELA", "MELA_{m_{H}}")
 			
 			for higgs_mass in xrange(90, 161, 5):
 				self.labels_dict["htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
