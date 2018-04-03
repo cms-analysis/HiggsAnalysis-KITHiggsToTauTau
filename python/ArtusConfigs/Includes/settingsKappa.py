@@ -12,7 +12,7 @@ import copy
 
 class Kappa(dict):
 	def __init__(self, nickname):
-		if re.match("(?<!PFembedded).Run201", nickname):
+		if re.search("(?<!PFembedded).Run201", nickname):
 			self["GenParticles"] = ""
 			self["GenTaus"] = ""
 			self["GenTauJets"] = ""

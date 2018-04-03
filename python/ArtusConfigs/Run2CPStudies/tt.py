@@ -145,8 +145,7 @@ class tt_ArtusConfig(dict):
 		self["TopPtReweightingStrategy"] = "Run1"
 
 
-		self["NoHltFiltering"]= False
-		self["DiTauPairNoHLT"]= True		
+		
 
 		self["OSChargeLeptons"] = True
 
@@ -164,7 +163,8 @@ class tt_ArtusConfig(dict):
 			#"PrintEventsConsumer",
 			#"PrintGenParticleDecayTreeConsumer"]
 
-		if isEmbedding or "Spring16" in nickname:
+
+		if isEmbedding:
 			self["NoHltFiltering"]= True
 			self["DiTauPairNoHLT"]= True
 		else:
@@ -190,18 +190,18 @@ class tt_ArtusConfig(dict):
 			self["HltPaths"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg"]
 			self["TauTriggerFilterNames"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"]
 
-		elif "Spring16" in nickname or "Embedding2016" in nickname or "EmbeddingMC" in nickname:	 #TODO Ask thomas what it should be line 40 in json
+		elif "Embedding2016" in nickname or "EmbeddingMC" in nickname:	 #TODO Ask thomas what it should be line 40 in json
 			self["HltPaths"] = [""]
 
 		#Quantities, this looks for tt em mt et very similar, check if it is the same and if so put it in baseconfig for all channels
 		self["Quantities"]=[]
-		if isData and is2015:
+		if re.search("Run2015", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
-		elif isDY and is2016:
+		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.svfitSyncQuantities()
@@ -216,7 +216,7 @@ class tt_ArtusConfig(dict):
 			self["Quantities"] += [] #TODO "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
 			self["Quantities"] += ["tauSpinnerPolarisation"]
-		elif isSignal and is2016:
+		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.svfitSyncQuantities()
@@ -228,13 +228,13 @@ class tt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += r2cpq.melaQuantities()
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
-		elif not (isDY or isSignal) and is2015:
+		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
-		elif isDY and is2015:
+		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2cpq.genQuantities()			
@@ -242,7 +242,7 @@ class tt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list			
-		elif isSignal and is2015:    #almost the same as 2016 signal, no splitJecUncertaintyQuantities()
+		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):   #almost the same as 2016 signal, no splitJecUncertaintyQuantities()
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.svfitSyncQuantities()
@@ -253,7 +253,7 @@ class tt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += r2cpq.melaQuantities()
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"]
-		elif isEmbedding and is2016:
+		elif re.search("Embedding2016", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
@@ -262,7 +262,7 @@ class tt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
 			self["Quantities"] += ["tauSpinnerPolarisation"]
-		elif isLFV and is2016:
+		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
@@ -284,7 +284,7 @@ class tt_ArtusConfig(dict):
 		
 		#Producers and filters, TODO filter everything which is the same and use this as the startint list, then just add the other variables per sample
 		self["Processors"]=[]
-		if isDY and is2016:
+		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = ["producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -325,7 +325,7 @@ class tt_ArtusConfig(dict):
 					#"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"]
 
-		elif not (isDY or isSignal) and is2015:
+		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Processors"] = ["producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -364,7 +364,7 @@ class tt_ArtusConfig(dict):
 					#"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"]
 		
-		elif isDY and is2015:
+		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Processors"] = ["producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -404,7 +404,7 @@ class tt_ArtusConfig(dict):
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					#"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"]
-		elif isData and is2016:
+		elif re.search("Run2016", nickname):
 			self["Processors"] = ["producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -438,7 +438,7 @@ class tt_ArtusConfig(dict):
 					#"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"]
 		
-		elif isData and is2015:
+		elif re.search("Run2015", nickname):
 			self["Processors"] = ["producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -472,7 +472,7 @@ class tt_ArtusConfig(dict):
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					#"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"]
-		elif isSignal and is2016:
+		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = ["producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -512,7 +512,7 @@ class tt_ArtusConfig(dict):
 					#"producer:MadGraphReweightingProducer",
 					#"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"]
-		elif isSignal and is2015: 
+		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 			self["Processors"] = ["producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -553,7 +553,7 @@ class tt_ArtusConfig(dict):
 					"producer:MadGraphReweightingProducer",
 					#"producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer"]
-		elif isLFV and is2016:
+		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = ["producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",

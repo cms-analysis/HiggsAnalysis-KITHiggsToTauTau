@@ -60,7 +60,7 @@ class Muon_ID(dict):
 		self["LooseMuonTrackDzCut"] = 0.2
 		self["DirectIso"] = True
 
-	def vetoMuonID(self, nickname):
+	def vetoMuon_ID(self, nickname):
 		
 		self["VetoMuonID"] = "veto"
 

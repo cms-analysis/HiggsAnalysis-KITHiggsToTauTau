@@ -36,7 +36,7 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 		self.update(MadGraphReweighting_config)	
 		#self["RunWhitelist"] = [1]
 		#self["LumiWhitelist"] = [194]
-		self["EventWhitelist"] = [38756]
+		#self["EventWhitelist"] = [38756]
 	
 	
 		isData = self.datasetsHelper.isData(nickname)

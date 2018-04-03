@@ -37,7 +37,7 @@ class Systematics_Config(dict):
 		self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 1.0 
 		self["TauMuonFakeEnergyCorrectionOneProngShift"] = 1.0
 
-		self.base_copy = copy.deepcopy(self)
+		
     
 	#for each systematic shift if statement which changes the config accordingly
 	def build_systematic_config(self, nickname, systematic):
@@ -236,7 +236,23 @@ class Systematics_Config(dict):
 					self["SvfitCacheFileFolder"] = "tauJetFakeEsDown"
 
 	def clear_config(self):
-		self = self.base_copy
+		self["ElectronEnergyCorrectionShiftEB"] = 1.0 
+		self["ElectronEnergyCorrectionShiftEE"] = 1.0
+		self["JetEnergyCorrectionUncertaintyShift"] = 0.0 
+		self["MetUncertaintyShift"] = False 
+		self["MetUncertaintyType"] = "" 
+		self["SvfitCacheFileFolder"] = "nominal"
+		self["TauElectronFakeEnergyCorrection"] = 1.0 
+		self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 1.0
+		self["TauElectronFakeEnergyCorrectionOneProngShift"] = 1.0 
+		self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.0 
+		self["TauEnergyCorrectionOneProngShift"] = 1.0 
+		self["TauEnergyCorrectionShift"] = 1.0 
+		self["TauEnergyCorrectionThreeProngShift"] = 1.0 
+		self["TauJetFakeEnergyCorrection"] = 0.0 
+		self["TauMuonFakeEnergyCorrection"] = 1.0 
+		self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 1.0 
+		self["TauMuonFakeEnergyCorrectionOneProngShift"] = 1.0
 
 
 

@@ -40,7 +40,7 @@ class TauSpinner(dict):
 		self["TauSpinnerSettingsNonSM2"] = "0"
 	
 		self["TauSpinnerSettingsNonSMN"] = "0"
-		if re.match("(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
+		if re.search("(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalf"] = [
 					0.00,
 					0.05,
@@ -68,11 +68,11 @@ class TauSpinner(dict):
 			self["TauSpinnerMixingAnglesOverPiHalf"] = []
 
 
-		if re.match("SM_(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
+		if re.search("SM_(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = 0.0
-		elif re.match("^(W(minus|plus)|Z|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
+		elif re.search("^(W(minus|plus)|Z|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = 0.0
-		elif re.match("SUSY(BB|GluGlu|GluGluTo)HToTauTau", nickname):
+		elif re.search("SUSY(BB|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = 1.0
 		else: 
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = -1.0

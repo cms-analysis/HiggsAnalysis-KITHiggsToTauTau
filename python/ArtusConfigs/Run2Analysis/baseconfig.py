@@ -60,7 +60,7 @@ class Baseconfig(dict):
 			self["BosonPdgIds"] = [23]
 		elif re.match("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):	
 			self["BosonPdgIds"] = [25]
-		elif re.match("W.?JetsToLN|EWKW"):
+		elif re.match("W.?JetsToLN|EWKW", nickname):
 			self["BosonPdgIds"] = [24]
 		elif re.match("SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau", nickname):
 			self["BosonPdgIds"] = [25, 35 ,36]
@@ -176,7 +176,7 @@ class Baseconfig(dict):
 			self["SimpleEleTauFakeRateWeightVLoose"] = [1.213, 1.375]	
 			self["SimpleEleTauFakeRateWeightTight"] = [1.402, 1.90]
 
-		elif re.search("(Summer17|Fall17)". nickname):
+		elif re.search("(Summer17|Fall17)", nickname):
 			self["SimpleMuTauFakeRateWeightLoose"]	= [1.0, 1.0, 1.0, 1.0, 1.0]
 			self["SimpleMuTauFakeRateWeightTight"] = [1.0, 1.0, 1.0, 1.0, 1.0]
 			self["SimpleEleTauFakeRateWeightVLoose"] = [1.0, 1.0]

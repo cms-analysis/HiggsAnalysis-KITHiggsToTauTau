@@ -12,7 +12,7 @@ import copy
 
 class globalProccesors(dict):
 	def __init__(self, nickname):
-
+		print 'init'
 		if re.search("(DY.?JetsToLLM(10to50|50|150))", nickname):
 			self["Processors"] = [
 				"#producer:PrintGenParticleDecayTreeProducer",
@@ -45,7 +45,7 @@ class globalProccesors(dict):
 				"#filter:MetFilter"
 			]
 
-		elif re.search("(LFV)", nickname):
+		elif re.search("LFV", nickname):
 			self["Processors"] = [
 				"#producer:PrintGenParticleDecayTreeProducer",
 				"#filter:RunLumiEventFilter",
@@ -78,7 +78,7 @@ class globalProccesors(dict):
 			]
 
 		elif re.search("Run201",nickname):
-			self = [
+			self["Processors"] = [
 				"#producer:PrintGenParticleDecayTreeProducer",
 				"#filter:RunLumiEventFilter",
 				"#filter:MetFilter",
@@ -158,6 +158,27 @@ class globalProccesors(dict):
 				"producer:PUWeightProducer",
 				"producer:ScaleVariationProducer",
 				"filter:MetFilter"
+			]
+		else:
+			self["Processors"] = [
+				"#producer:PrintGenParticleDecayTreeProducer",
+				"#filter:RunLumiEventFilter",
+				"producer:NicknameProducer",
+				"producer:GenParticleProducer",
+				"producer:RecoElectronGenParticleMatchingProducer",
+				"producer:RecoElectronGenTauMatchingProducer",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:RecoMuonGenTauMatchingProducer",
+				"producer:RecoTauGenParticleMatchingProducer",
+				"producer:RecoTauGenTauMatchingProducer",
+				"producer:MatchedLeptonsProducer",
+				"#producer:TaggedJetCorrectionsProducer",
+				"producer:CrossSectionWeightProducer",
+				"producer:GeneratorWeightProducer",
+				"producer:NumberGeneratedEventsWeightProducer",
+				"producer:PUWeightProducer",
+				"#producer:ScaleVariationProducer",
+				"#filter:MetFilter"
 			]
 
 
