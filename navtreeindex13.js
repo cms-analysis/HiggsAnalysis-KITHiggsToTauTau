@@ -1,5 +1,10 @@
 var NAVTREEINDEX13 =
 {
+"functions_func_a.html":[1,2,1,1],
+"functions_func_b.html":[1,2,1,2],
+"functions_func_c.html":[1,2,1,3],
+"functions_func_d.html":[1,2,1,4],
+"functions_func_e.html":[1,2,1,5],
 "functions_func_f.html":[1,2,1,6],
 "functions_func_g.html":[1,2,1,7],
 "functions_func_h.html":[1,2,1,8],
@@ -244,10 +249,5 @@ var NAVTREEINDEX13 =
 "makePlots__BdtShiftLimits_8py.html#afc9ba6471d7c26937cf10b20e8db3f9c":[2,0,2,28,22],
 "makePlots__CP__rho__cut__efficiency_8py.html":[2,0,2,33],
 "makePlots__CP__rho__cut__efficiency_8py.html#a18b7a328b6c36d59753476ef76fdaef4":[2,0,2,33,2],
-"makePlots__CP__rho__cut__efficiency_8py.html#a217c83ba68e14354390aec777745ef34":[2,0,2,33,1],
-"makePlots__CP__rho__cut__efficiency_8py.html#a3c0145502472b0f24cbae9fc15a19002":[2,0,2,33,4],
-"makePlots__CP__rho__cut__efficiency_8py.html#a477a8be2101a20fd5f16a4951a7ff6f2":[2,0,2,33,0],
-"makePlots__CP__rho__cut__efficiency_8py.html#a57de4b519762ba9a62ce25bee394907f":[2,0,2,33,3],
-"makePlots__CP__rho__cut__efficiency_8py.html#adacb63d9ba4c2885a88f380a14471726":[2,0,2,33,5],
-"makePlots__CP__rho__cut__efficiency_8py.html#af9add5c2c661b4304f723031559652c4":[2,0,2,33,6]
+"makePlots__CP__rho__cut__efficiency_8py.html#a217c83ba68e14354390aec777745ef34":[2,0,2,33,1]
 };

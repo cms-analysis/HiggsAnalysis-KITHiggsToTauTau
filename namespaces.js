@@ -112,6 +112,7 @@ var namespaces =
     [ "makePlots_triggerEfficiencyFits", "namespacemakePlots__triggerEfficiencyFits.html", null ],
     [ "makePlots_zttPolarisationPlots", "namespacemakePlots__zttPolarisationPlots.html", null ],
     [ "makePlots_ZTTtheoryUnc", "namespacemakePlots__ZTTtheoryUnc.html", null ],
+    [ "mt", "namespacemt.html", null ],
     [ "mvaCategory_Shifts", "namespacemvaCategory__Shifts.html", null ],
     [ "mvaCategory_Uncertainties", "namespacemvaCategory__Uncertainties.html", null ],
     [ "mvaConfigWriter", "namespacemvaConfigWriter.html", null ],

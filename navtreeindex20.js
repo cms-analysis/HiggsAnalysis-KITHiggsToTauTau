@@ -1,5 +1,10 @@
 var NAVTREEINDEX20 =
 {
+"makePlots__recogenPhiStarCP_8py.html#aa226c3f024b0d12c40169da4ce20e2f8":[2,0,2,63,15],
+"makePlots__recogenPhiStarCP_8py.html#aa84c722b6a2a4c6b82e98c7f8feb59b9":[2,0,2,63,12],
+"makePlots__recogenPhiStarCP_8py.html#aae280736541f05f684b0469263118266":[2,0,2,63,18],
+"makePlots__recogenPhiStarCP_8py.html#ace0db3303af36cae199b2181cb19ef91":[2,0,2,63,14],
+"makePlots__recogenPhiStarCP_8py.html#ad8fae2ec2745c8358659120183a64b55":[2,0,2,63,7],
 "makePlots__recogenPhiStarCP_8py.html#adfbec61e6fce2557f210a678c6d22f84":[2,0,2,63,8],
 "makePlots__recogenPhiStarCP_8py.html#ae35a5d131224579c61106973548f296b":[2,0,2,63,13],
 "makePlots__recogenPhiStarCP_8py.html#ae9e6e8d4573c0cd89623d5d8b41fd6db":[2,0,2,63,0],
@@ -188,6 +193,8 @@ var NAVTREEINDEX20 =
 "makePlots__zttPolarisationPlots_8py.html#ad04c2bee3d5db7447670be5fa89f1527":[2,0,2,74,1],
 "makePlots__zttPolarisationPlots_8py.html#adc66ea5973c89fcfde730184a2b8a0ce":[2,0,2,74,3],
 "makePlots__zttPolarisationPlots_8py.html#af69cff8f9679bd373e2d5683eb9ca45c":[2,0,2,74,0],
+"mt_8py.html":[2,0,1,0,2,3],
+"mt_8py.html#a38c388ef994e2f98212b688822ee1e99":[2,0,1,0,2,3,1],
 "mvaCategory__Shifts_8py.html":[2,0,2,76],
 "mvaCategory__Shifts_8py.html#a06c3985eaa2fc25c686379f8e0ba6b66":[2,0,2,76,7],
 "mvaCategory__Shifts_8py.html#a1bbbcaa3e434033b10172648f8ec9e61":[2,0,2,76,10],
@@ -242,12 +249,5 @@ var NAVTREEINDEX20 =
 "mvaConfigWriter_8py.html#a0a5aaf180e32043b1ffc6de74f03c012":[2,0,2,78,3],
 "mvaConfigWriter_8py.html#a10640dc3861299f035ad77d3243938fe":[2,0,2,78,1],
 "mvaConfigWriter_8py.html#a12cfebe6d69d662a00308d38b82ce860":[2,0,2,78,36],
-"mvaConfigWriter_8py.html#a1c4f339039a7b66bd4f29eee8f2d7fc0":[2,0,2,78,40],
-"mvaConfigWriter_8py.html#a252ca0d55b5a442425db53e0f0c891bc":[2,0,2,78,46],
-"mvaConfigWriter_8py.html#a2d6a08864d7e9921e0916891410f001c":[2,0,2,78,25],
-"mvaConfigWriter_8py.html#a2e395afeaab411afb4b895bff2d7d288":[2,0,2,78,47],
-"mvaConfigWriter_8py.html#a33051cbbc9081fa7db7d015b1aaee49e":[2,0,2,78,49],
-"mvaConfigWriter_8py.html#a33c7da1189067a985a89494514e17610":[2,0,2,78,42],
-"mvaConfigWriter_8py.html#a3467f6c54e3241c6e24f58901e08ee8e":[2,0,2,78,38],
-"mvaConfigWriter_8py.html#a394290c93675d44490054fe76072ac6f":[2,0,2,78,39]
+"mvaConfigWriter_8py.html#a1c4f339039a7b66bd4f29eee8f2d7fc0":[2,0,2,78,40]
 };

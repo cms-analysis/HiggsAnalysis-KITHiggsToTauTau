@@ -1,5 +1,14 @@
 var NAVTREEINDEX23 =
 {
+"normalizeforpolarisation_8py.html#a627e32c3174b6aa304395f414beb1056":[2,0,1,4,2,0,9,1],
+"pages.html":[],
+"plot__AUC__1D_8py.html":[2,0,2,81],
+"plot__AUC__1D_8py.html#a2a340a4991bf5f7a9c3adb317091c38d":[2,0,2,81,11],
+"plot__AUC__1D_8py.html#a2e8873a05f7ff764260cee69b40437bf":[2,0,2,81,20],
+"plot__AUC__1D_8py.html#a30652fa3e9ae9868dfb99cdc9aa9d098":[2,0,2,81,1],
+"plot__AUC__1D_8py.html#a359e18aadf9d3a1f5be3b674cf706e4e":[2,0,2,81,7],
+"plot__AUC__1D_8py.html#a4d6d329cff69fd50c580a4bb01de4b53":[2,0,2,81,18],
+"plot__AUC__1D_8py.html#a4fb32eb68184215832ab2e59f730019c":[2,0,2,81,3],
 "plot__AUC__1D_8py.html#a531553f007e89ac1522cab6d60593dd1":[2,0,2,81,12],
 "plot__AUC__1D_8py.html#a621625d3cee6291dcac526e12564b0d0":[2,0,2,81,2],
 "plot__AUC__1D_8py.html#a69eda3251ad5b5725bf54e657cc75eab":[2,0,2,81,28],
@@ -240,14 +249,5 @@ var NAVTREEINDEX23 =
 "scaleVariations__ZttOverZttInclusive_8py.html#a0578b2f0ce432ce5fbfd115d50c7c3c6":[2,0,2,90,22],
 "scaleVariations__ZttOverZttInclusive_8py.html#a0797965c516795ce3beae6ed15f6b5ce":[2,0,2,90,37],
 "scaleVariations__ZttOverZttInclusive_8py.html#a0919dd61f9844f592e3d4a1f13e9bec3":[2,0,2,90,33],
-"scaleVariations__ZttOverZttInclusive_8py.html#a0ef5bde00b613e1ea503b4bc1e56b10f":[2,0,2,90,6],
-"scaleVariations__ZttOverZttInclusive_8py.html#a1205cc1c880905c6b638cb69e494a8a1":[2,0,2,90,11],
-"scaleVariations__ZttOverZttInclusive_8py.html#a1a40da0ff36800ea97032bc724cf3408":[2,0,2,90,21],
-"scaleVariations__ZttOverZttInclusive_8py.html#a23ce426b80c00049ef36f844b1f25087":[2,0,2,90,38],
-"scaleVariations__ZttOverZttInclusive_8py.html#a24265c8899aa261a4902a7aada4ac6af":[2,0,2,90,29],
-"scaleVariations__ZttOverZttInclusive_8py.html#a24507ef54e02bd73442a07ff87a7acd8":[2,0,2,90,36],
-"scaleVariations__ZttOverZttInclusive_8py.html#a27401b41f44c66f98b6884b5f7f8edea":[2,0,2,90,8],
-"scaleVariations__ZttOverZttInclusive_8py.html#a328d4df5e1a72c0a1e06a60ffd084e42":[2,0,2,90,28],
-"scaleVariations__ZttOverZttInclusive_8py.html#a38bb3236b307424517c43864ba1bdb9b":[2,0,2,90,35],
-"scaleVariations__ZttOverZttInclusive_8py.html#a42bd44f8e63c818cfadcc652ff6a01ab":[2,0,2,90,12]
+"scaleVariations__ZttOverZttInclusive_8py.html#a0ef5bde00b613e1ea503b4bc1e56b10f":[2,0,2,90,6]
 };

@@ -64,6 +64,7 @@ var hierarchy =
     [ "dict", null, [
       [ "baseconfig.Baseconfig", "classbaseconfig_1_1Baseconfig.html", null ],
       [ "globalProcessors.globalProccesors", "classglobalProcessors_1_1globalProccesors.html", null ],
+      [ "mt.mt_ArtusConfig", "classmt_1_1mt__ArtusConfig.html", null ],
       [ "settingsBTaggedJetID.BTaggedJet_ID", "classsettingsBTaggedJetID_1_1BTaggedJet__ID.html", null ],
       [ "settingsElectronID.Electron_ID", "classsettingsElectronID_1_1Electron__ID.html", null ],
       [ "settingsJEC.JEC", "classsettingsJEC_1_1JEC.html", null ],

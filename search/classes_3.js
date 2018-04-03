@@ -1,8 +1,8 @@
 var searchData=
 [
   ['datacardconfigs',['DatacardConfigs',['../classdatacardconfigs_1_1DatacardConfigs.html',1,'datacardconfigs']]],
-  ['datacards',['Datacards',['../classdatacards_1_1Datacards.html',1,'datacards']]],
   ['datacards',['Datacards',['../classmvadatacards__base_1_1Datacards.html',1,'mvadatacards_base']]],
+  ['datacards',['Datacards',['../classdatacards_1_1Datacards.html',1,'datacards']]],
   ['datamcscalefactorproducerbase',['DataMcScaleFactorProducerBase',['../classDataMcScaleFactorProducerBase.html',1,'']]],
   ['decaychannelfilter',['DecayChannelFilter',['../classDecayChannelFilter.html',1,'']]],
   ['decaychannelproducer',['DecayChannelProducer',['../classDecayChannelProducer.html',1,'']]],
