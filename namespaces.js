@@ -45,6 +45,7 @@ var namespaces =
     [ "expressions", "namespaceexpressions.html", null ],
     [ "gc_binning_scan", "namespacegc__binning__scan.html", null ],
     [ "gc_makePlots_datacardsSMHtt1", "namespacegc__makePlots__datacardsSMHtt1.html", null ],
+    [ "gen", "namespacegen.html", null ],
     [ "GetFocussedTrainingCut", "namespaceGetFocussedTrainingCut.html", null ],
     [ "getInclusiveWeight", "namespacegetInclusiveWeight.html", null ],
     [ "globalProcessors", "namespaceglobalProcessors.html", null ],

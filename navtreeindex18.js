@@ -1,5 +1,12 @@
 var NAVTREEINDEX18 =
 {
+"makePlots__datacardsTauEsStudies_8py.html#ac45f3a41e081fbf55b2a1b0a04386a49":[2,0,2,45,81],
+"makePlots__datacardsTauEsStudies_8py.html#ac46d438479e98f7a4b16330952a75fef":[2,0,2,45,128],
+"makePlots__datacardsTauEsStudies_8py.html#ac49378b259663cf32a5c6298c2d076e1":[2,0,2,45,83],
+"makePlots__datacardsTauEsStudies_8py.html#ac6160c29db7624957de2d96e37eae084":[2,0,2,45,23],
+"makePlots__datacardsTauEsStudies_8py.html#ac7a1f4a5ff32377f4c9f786ebaf3dadf":[2,0,2,45,79],
+"makePlots__datacardsTauEsStudies_8py.html#ac8d2b28db45642450df8cdcbaef6ea14":[2,0,2,45,42],
+"makePlots__datacardsTauEsStudies_8py.html#aca004411853352f461411253be5ab5ec":[2,0,2,45,68],
 "makePlots__datacardsTauEsStudies_8py.html#acb173f9ec86d3d4301afaea10bfd78a8":[2,0,2,45,30],
 "makePlots__datacardsTauEsStudies_8py.html#acbf82c6bd9e0999d0776b0c5e7b4ab6f":[2,0,2,45,140],
 "makePlots__datacardsTauEsStudies_8py.html#acc5de48f82a4e890ac2a36f1c95fcd3f":[2,0,2,45,18],
@@ -242,12 +249,5 @@ var NAVTREEINDEX18 =
 "makePlots__datacardsZttPolarisation_8py.html#afcf4fa4f7dc0ae3a51e0b1f184d0bb41":[2,0,2,48,2],
 "makePlots__genCPPlots_8py.html":[2,0,2,50],
 "makePlots__genCPPlots_8py.html#a1ea4231be42bd54d3cbc31430e8e26db":[2,0,2,50,0],
-"makePlots__genCPPlots_8py.html#a237fcd5270b4329466bcebbac1daf13e":[2,0,2,50,4],
-"makePlots__genCPPlots_8py.html#a2581b2cddca43b38e8468ba86ded9002":[2,0,2,50,8],
-"makePlots__genCPPlots_8py.html#a30fb929bddd7829993b88d8f5f290c5a":[2,0,2,50,1],
-"makePlots__genCPPlots_8py.html#a46e013f20a34a757d2546cd19ab21cb5":[2,0,2,50,7],
-"makePlots__genCPPlots_8py.html#a49c89351e05207c62c2972000a5d616d":[2,0,2,50,3],
-"makePlots__genCPPlots_8py.html#a786b0bcd32296ec7f06d25daf06ed01f":[2,0,2,50,5],
-"makePlots__genCPPlots_8py.html#a8c3ab88b2c37deed93f268bf9835c76b":[2,0,2,50,2],
-"makePlots__genCPPlots_8py.html#ad1b784db3220d93ff8a964afd9339ab3":[2,0,2,50,6]
+"makePlots__genCPPlots_8py.html#a237fcd5270b4329466bcebbac1daf13e":[2,0,2,50,4]
 };

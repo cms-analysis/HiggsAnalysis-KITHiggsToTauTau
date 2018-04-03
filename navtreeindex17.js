@@ -1,5 +1,12 @@
 var NAVTREEINDEX17 =
 {
+"makePlots__datacardsSMHtt_8py.html#ac1b050662029278fb05d74801911c04e":[2,0,2,42,11],
+"makePlots__datacardsSMHtt_8py.html#ac4b4f72970b0043b0a88accc52553ba2":[2,0,2,42,59],
+"makePlots__datacardsSMHtt_8py.html#ac547b6e6ea64424bea9c58df24051f4f":[2,0,2,42,4],
+"makePlots__datacardsSMHtt_8py.html#ac5604b36ed948ae7ebb03b2f947c4825":[2,0,2,42,43],
+"makePlots__datacardsSMHtt_8py.html#ac69e0e9336466c681a924f26c2ec0ebb":[2,0,2,42,81],
+"makePlots__datacardsSMHtt_8py.html#ad2fe9ead791798ac6563b63f00764856":[2,0,2,42,58],
+"makePlots__datacardsSMHtt_8py.html#ad7c79269c9c0cbd37e394d4163b6619d":[2,0,2,42,73],
 "makePlots__datacardsSMHtt_8py.html#ad8627a2aeef3e4746cb7015e8d6fa459":[2,0,2,42,40],
 "makePlots__datacardsSMHtt_8py.html#ade2d6d9960951c64d297780e93735502":[2,0,2,42,63],
 "makePlots__datacardsSMHtt_8py.html#ae1d36837249929b11bc126e79898327a":[2,0,2,42,62],
@@ -242,12 +249,5 @@ var NAVTREEINDEX17 =
 "makePlots__datacardsTauEsStudies_8py.html#ac12e773eabb60f2d0c216f12b92f0cbc":[2,0,2,45,124],
 "makePlots__datacardsTauEsStudies_8py.html#ac15d3477e1b17fe69fbded01d1ec0017":[2,0,2,45,21],
 "makePlots__datacardsTauEsStudies_8py.html#ac1b835e2c561c4c66210725f108090a1":[2,0,2,45,127],
-"makePlots__datacardsTauEsStudies_8py.html#ac2cb94f5697ae20162a180af33ba1066":[2,0,2,45,4],
-"makePlots__datacardsTauEsStudies_8py.html#ac45f3a41e081fbf55b2a1b0a04386a49":[2,0,2,45,81],
-"makePlots__datacardsTauEsStudies_8py.html#ac46d438479e98f7a4b16330952a75fef":[2,0,2,45,128],
-"makePlots__datacardsTauEsStudies_8py.html#ac49378b259663cf32a5c6298c2d076e1":[2,0,2,45,83],
-"makePlots__datacardsTauEsStudies_8py.html#ac6160c29db7624957de2d96e37eae084":[2,0,2,45,23],
-"makePlots__datacardsTauEsStudies_8py.html#ac7a1f4a5ff32377f4c9f786ebaf3dadf":[2,0,2,45,79],
-"makePlots__datacardsTauEsStudies_8py.html#ac8d2b28db45642450df8cdcbaef6ea14":[2,0,2,45,42],
-"makePlots__datacardsTauEsStudies_8py.html#aca004411853352f461411253be5ab5ec":[2,0,2,45,68]
+"makePlots__datacardsTauEsStudies_8py.html#ac2cb94f5697ae20162a180af33ba1066":[2,0,2,45,4]
 };

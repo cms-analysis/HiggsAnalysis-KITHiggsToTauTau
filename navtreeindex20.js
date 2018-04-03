@@ -1,5 +1,12 @@
 var NAVTREEINDEX20 =
 {
+"makePlots__recoPhiStarCP_8py.html#aa6beaa7d11a6c2138d81729f4d7d1d33":[2,0,2,64,15],
+"makePlots__recoPhiStarCP_8py.html#aad01c05d967b6d15b0e0f86982952d9d":[2,0,2,64,7],
+"makePlots__recoPhiStarCP_8py.html#add27621b850e6aa62d9a170b4d2e8ed5":[2,0,2,64,11],
+"makePlots__recoPhiStarCP_8py.html#ae8108958cc9f1cf7bb000c76c86da1c4":[2,0,2,64,0],
+"makePlots__recoPhiStarCP_8py.html#af50bd64b6c13e6238f1d76986437c0e2":[2,0,2,64,13],
+"makePlots__recogenPhiStarCP_8py.html":[2,0,2,63],
+"makePlots__recogenPhiStarCP_8py.html#a04c09967663f3debdcc29912601b7c53":[2,0,2,63,10],
 "makePlots__recogenPhiStarCP_8py.html#a0e8f4796b884a04f083c6cf7ba8937d1":[2,0,2,63,19],
 "makePlots__recogenPhiStarCP_8py.html#a10360e92fc28931345b7cc933a2be612":[2,0,2,63,17],
 "makePlots__recogenPhiStarCP_8py.html#a4698e6aeb6a159eca2ae995727ab3bf4":[2,0,2,63,1],
@@ -202,8 +209,8 @@ var NAVTREEINDEX20 =
 "makePlots__zttPolarisationPlots_8py.html#ad04c2bee3d5db7447670be5fa89f1527":[2,0,2,74,1],
 "makePlots__zttPolarisationPlots_8py.html#adc66ea5973c89fcfde730184a2b8a0ce":[2,0,2,74,3],
 "makePlots__zttPolarisationPlots_8py.html#af69cff8f9679bd373e2d5683eb9ca45c":[2,0,2,74,0],
-"mt_8py.html":[2,0,1,0,2,4],
-"mt_8py.html#a38c388ef994e2f98212b688822ee1e99":[2,0,1,0,2,4,1],
+"mt_8py.html":[2,0,1,0,2,5],
+"mt_8py.html#a38c388ef994e2f98212b688822ee1e99":[2,0,1,0,2,5,1],
 "mvaCategory__Shifts_8py.html":[2,0,2,76],
 "mvaCategory__Shifts_8py.html#a06c3985eaa2fc25c686379f8e0ba6b66":[2,0,2,76,7],
 "mvaCategory__Shifts_8py.html#a1bbbcaa3e434033b10172648f8ec9e61":[2,0,2,76,10],
@@ -242,12 +249,5 @@ var NAVTREEINDEX20 =
 "mvaCategory__Uncertainties_8py.html#a8b1cfa9cea81da59677b00d1109caa63":[2,0,2,77,24],
 "mvaCategory__Uncertainties_8py.html#a8f093cf1b8d8b5d6059443f603c50f7b":[2,0,2,77,13],
 "mvaCategory__Uncertainties_8py.html#a904b1f5254a3ce58e61f726a3bbd2093":[2,0,2,77,11],
-"mvaCategory__Uncertainties_8py.html#a92678215aa7f7057eebee04b4463d5aa":[2,0,2,77,1],
-"mvaCategory__Uncertainties_8py.html#aa59e47cd5216802dc2f0258354fd1270":[2,0,2,77,0],
-"mvaCategory__Uncertainties_8py.html#ac4bfe89d0d85da8f8156f071932ebe64":[2,0,2,77,14],
-"mvaCategory__Uncertainties_8py.html#ace8878dd79e2e1ceb467e29a58250b8d":[2,0,2,77,8],
-"mvaCategory__Uncertainties_8py.html#ae97bddc9a685511dc252ecac2e0deb67":[2,0,2,77,10],
-"mvaCategory__Uncertainties_8py.html#ae9b8abf71b93482e6114861492eb4840":[2,0,2,77,22],
-"mvaCategory__Uncertainties_8py.html#aeb5557a786bf768961f728ca16389caf":[2,0,2,77,21],
-"mvaCategory__Uncertainties_8py.html#aeee5253c51709d241264b4c9b733468f":[2,0,2,77,25]
+"mvaCategory__Uncertainties_8py.html#a92678215aa7f7057eebee04b4463d5aa":[2,0,2,77,1]
 };

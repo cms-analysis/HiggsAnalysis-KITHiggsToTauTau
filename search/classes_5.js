@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['gen_5fartusconfig',['gen_ArtusConfig',['../classgen_1_1gen__ArtusConfig.html',1,'gen']]],
   ['genditaupairacceptancefilter',['GenDiTauPairAcceptanceFilter',['../classGenDiTauPairAcceptanceFilter.html',1,'']]],
   ['genditaupairacceptanceproducer',['GenDiTauPairAcceptanceProducer',['../classGenDiTauPairAcceptanceProducer.html',1,'']]],
   ['genditaupaircandidatesfilter',['GenDiTauPairCandidatesFilter',['../classGenDiTauPairCandidatesFilter.html',1,'']]],
