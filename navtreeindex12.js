@@ -1,5 +1,12 @@
 var NAVTREEINDEX12 =
 {
+"correlation__plotter_8py.html#ae76859e62af8370af0a1c0d1cd605943":[2,0,2,10,1],
+"cphypotheses_8py.html":[2,0,1,4,2,0,0],
+"cphypotheses_8py.html#a528c93b8813b1639c969229acc701596":[2,0,1,4,2,0,0,1],
+"cpmodels_8py.html":[2,0,1,1,0],
+"cpmodels_8py.html#a2306baf769ae1859cba9edece34af334":[2,0,1,1,0,8],
+"cpmodels_8py.html#a238c5dabf2072525bb91d4b8ec96415f":[2,0,1,1,0,1],
+"cpmodels_8py.html#a28cd329988c91c277f65dbf52fa9491e":[2,0,1,1,0,7],
 "cpmodels_8py.html#a7156baba9f4b2613c678b283b6a45b9d":[2,0,1,1,0,5],
 "cpmodels_8py.html#aa3a9ec9d044ba6db05fb33ff2228caba":[2,0,1,1,0,2],
 "cpmodels_8py.html#aa3f2a8dd4ad5e659b10025d4c0f8d4a8":[2,0,1,1,0,4],
@@ -235,19 +242,12 @@ var NAVTREEINDEX12 =
 "estimatewjetsandqcd_8py.html#ab7e92da30b9fc3daf08c2c6ec3e78013":[2,0,1,4,2,0,7,1],
 "estimateztt_8py.html":[2,0,1,4,2,0,8],
 "estimateztt_8py.html#ab02d75f85312f95e39e337733877ccdd":[2,0,1,4,2,0,8,1],
+"et_8py.html":[2,0,1,0,2,2],
+"et_8py.html#a25ce0ddab612682052ae661fb5dc2594":[2,0,1,0,2,2,1],
 "expressions_8py.html":[2,0,1,4,0,4],
 "expressions_8py.html#a5fb9bc22f493589e246f741d36c6f2fe":[2,0,1,4,0,4,1],
 "files.html":[2,0],
 "functions.html":[1,2,0],
 "functions.html":[1,2,0,0],
-"functions_a.html":[1,2,0,1],
-"functions_b.html":[1,2,0,2],
-"functions_c.html":[1,2,0,3],
-"functions_d.html":[1,2,0,4],
-"functions_e.html":[1,2,0,5],
-"functions_enum.html":[1,2,4],
-"functions_eval.html":[1,2,5],
-"functions_f.html":[1,2,0,6],
-"functions_func.html":[1,2,1],
-"functions_func.html":[1,2,1,0]
+"functions_a.html":[1,2,0,1]
 };

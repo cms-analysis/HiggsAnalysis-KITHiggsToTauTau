@@ -63,6 +63,7 @@ var hierarchy =
     [ "cutstrings.CutStringsDict", "classcutstrings_1_1CutStringsDict.html", null ],
     [ "dict", null, [
       [ "baseconfig.Baseconfig", "classbaseconfig_1_1Baseconfig.html", null ],
+      [ "et.et_ArtusConfig", "classet_1_1et__ArtusConfig.html", null ],
       [ "globalProcessors.globalProccesors", "classglobalProcessors_1_1globalProccesors.html", null ],
       [ "mt.mt_ArtusConfig", "classmt_1_1mt__ArtusConfig.html", null ],
       [ "settingsBTaggedJetID.BTaggedJet_ID", "classsettingsBTaggedJetID_1_1BTaggedJet__ID.html", null ],

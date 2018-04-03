@@ -33,6 +33,7 @@ var searchData=
   ['signalcpcalibration',['signalcpcalibration',['../namespacesignalcpcalibration.html',1,'']]],
   ['significance_5f2d',['significance_2d',['../namespacesignificance__2d.html',1,'']]],
   ['significance_5fcollector',['significance_collector',['../namespacesignificance__collector.html',1,'']]],
+  ['singletauquantities',['SingleTauQuantities',['../namespaceSingleTauQuantities.html',1,'']]],
   ['smhttdatacards',['smhttdatacards',['../namespacesmhttdatacards.html',1,'']]],
   ['std',['std',['../namespacestd.html',1,'']]],
   ['submitcrabsvfitjobs',['submitCrabSvfitJobs',['../namespacesubmitCrabSvfitJobs.html',1,'']]],

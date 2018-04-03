@@ -41,6 +41,7 @@ var searchData=
   ['simplefitproducer_2eh',['SimpleFitProducer.h',['../SimpleFitProducer_8h.html',1,'']]],
   ['simplemutaufakerateweightproducer_2ecc',['SimpleMuTauFakeRateWeightProducer.cc',['../SimpleMuTauFakeRateWeightProducer_8cc.html',1,'']]],
   ['simplemutaufakerateweightproducer_2eh',['SimpleMuTauFakeRateWeightProducer.h',['../SimpleMuTauFakeRateWeightProducer_8h.html',1,'']]],
+  ['singletauquantities_2epy',['SingleTauQuantities.py',['../SingleTauQuantities_8py.html',1,'']]],
   ['smhttdatacards_2epy',['smhttdatacards.py',['../smhttdatacards_8py.html',1,'']]],
   ['submitcrabsvfitjobs_2epy',['submitCrabSvfitJobs.py',['../submitCrabSvfitJobs_8py.html',1,'']]],
   ['svfitcacheconsumer_2ecc',['SvfitCacheConsumer.cc',['../SvfitCacheConsumer_8cc.html',1,'']]],

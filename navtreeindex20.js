@@ -1,5 +1,14 @@
 var NAVTREEINDEX20 =
 {
+"makePlots__recogenPhiStarCP_8py.html#a0e8f4796b884a04f083c6cf7ba8937d1":[2,0,2,63,19],
+"makePlots__recogenPhiStarCP_8py.html#a10360e92fc28931345b7cc933a2be612":[2,0,2,63,17],
+"makePlots__recogenPhiStarCP_8py.html#a4698e6aeb6a159eca2ae995727ab3bf4":[2,0,2,63,1],
+"makePlots__recogenPhiStarCP_8py.html#a47cf6ee915926badefb940bca128d1dc":[2,0,2,63,16],
+"makePlots__recogenPhiStarCP_8py.html#a57d27f2ec5ed64fb51417eda43262526":[2,0,2,63,2],
+"makePlots__recogenPhiStarCP_8py.html#a5ed7dd22168a37def3925c542a283821":[2,0,2,63,4],
+"makePlots__recogenPhiStarCP_8py.html#a5f526de4f3528b40403381ad7efa2280":[2,0,2,63,11],
+"makePlots__recogenPhiStarCP_8py.html#a7aab05533e9a298095a8e60c3e1588da":[2,0,2,63,9],
+"makePlots__recogenPhiStarCP_8py.html#a8f82bd72763e5a20a38e5504fd3a575b":[2,0,2,63,5],
 "makePlots__recogenPhiStarCP_8py.html#aa226c3f024b0d12c40169da4ce20e2f8":[2,0,2,63,15],
 "makePlots__recogenPhiStarCP_8py.html#aa84c722b6a2a4c6b82e98c7f8feb59b9":[2,0,2,63,12],
 "makePlots__recogenPhiStarCP_8py.html#aae280736541f05f684b0469263118266":[2,0,2,63,18],
@@ -193,8 +202,8 @@ var NAVTREEINDEX20 =
 "makePlots__zttPolarisationPlots_8py.html#ad04c2bee3d5db7447670be5fa89f1527":[2,0,2,74,1],
 "makePlots__zttPolarisationPlots_8py.html#adc66ea5973c89fcfde730184a2b8a0ce":[2,0,2,74,3],
 "makePlots__zttPolarisationPlots_8py.html#af69cff8f9679bd373e2d5683eb9ca45c":[2,0,2,74,0],
-"mt_8py.html":[2,0,1,0,2,3],
-"mt_8py.html#a38c388ef994e2f98212b688822ee1e99":[2,0,1,0,2,3,1],
+"mt_8py.html":[2,0,1,0,2,4],
+"mt_8py.html#a38c388ef994e2f98212b688822ee1e99":[2,0,1,0,2,4,1],
 "mvaCategory__Shifts_8py.html":[2,0,2,76],
 "mvaCategory__Shifts_8py.html#a06c3985eaa2fc25c686379f8e0ba6b66":[2,0,2,76,7],
 "mvaCategory__Shifts_8py.html#a1bbbcaa3e434033b10172648f8ec9e61":[2,0,2,76,10],
@@ -240,14 +249,5 @@ var NAVTREEINDEX20 =
 "mvaCategory__Uncertainties_8py.html#ae97bddc9a685511dc252ecac2e0deb67":[2,0,2,77,10],
 "mvaCategory__Uncertainties_8py.html#ae9b8abf71b93482e6114861492eb4840":[2,0,2,77,22],
 "mvaCategory__Uncertainties_8py.html#aeb5557a786bf768961f728ca16389caf":[2,0,2,77,21],
-"mvaCategory__Uncertainties_8py.html#aeee5253c51709d241264b4c9b733468f":[2,0,2,77,25],
-"mvaCategory__Uncertainties_8py.html#aef908cc223d86b553222b0e6c2e9ae27":[2,0,2,77,6],
-"mvaCategory__Uncertainties_8py.html#af2cb99c9fefac474ad66d00f9f697651":[2,0,2,77,4],
-"mvaConfigWriter_8py.html":[2,0,2,78],
-"mvaConfigWriter_8py.html#a077ba4ff384c516855f3a55b0ff7a990":[2,0,2,78,21],
-"mvaConfigWriter_8py.html#a0971eab1e98abe089dba196d7c50d56a":[2,0,2,78,16],
-"mvaConfigWriter_8py.html#a0a5aaf180e32043b1ffc6de74f03c012":[2,0,2,78,3],
-"mvaConfigWriter_8py.html#a10640dc3861299f035ad77d3243938fe":[2,0,2,78,1],
-"mvaConfigWriter_8py.html#a12cfebe6d69d662a00308d38b82ce860":[2,0,2,78,36],
-"mvaConfigWriter_8py.html#a1c4f339039a7b66bd4f29eee8f2d7fc0":[2,0,2,78,40]
+"mvaCategory__Uncertainties_8py.html#aeee5253c51709d241264b4c9b733468f":[2,0,2,77,25]
 };
