@@ -11,7 +11,6 @@ var searchData=
   ['genempaircandidatesproducer',['GenEMPairCandidatesProducer',['../classGenEMPairCandidatesProducer.html',1,'']]],
   ['genetpaircandidatesproducer',['GenETPairCandidatesProducer',['../classGenETPairCandidatesProducer.html',1,'']]],
   ['genhiggscpproducer',['GenHiggsCPProducer',['../classGenHiggsCPProducer.html',1,'']]],
-  ['genmatchedpolarisationquantitiesproducer',['GenMatchedPolarisationQuantitiesProducer',['../classGenMatchedPolarisationQuantitiesProducer.html',1,'']]],
   ['genmatchedtaucpproducer',['GenMatchedTauCPProducer',['../classGenMatchedTauCPProducer.html',1,'']]],
   ['genmmpaircandidatesproducer',['GenMMPairCandidatesProducer',['../classGenMMPairCandidatesProducer.html',1,'']]],
   ['genmtpaircandidatesproducer',['GenMTPairCandidatesProducer',['../classGenMTPairCandidatesProducer.html',1,'']]],
@@ -19,5 +18,6 @@ var searchData=
   ['gentaucpproducerbase',['GenTauCPProducerBase',['../classGenTauCPProducerBase.html',1,'']]],
   ['genttpaircandidatesproducer',['GenTTPairCandidatesProducer',['../classGenTTPairCandidatesProducer.html',1,'']]],
   ['gfal_5ffilelist',['gfal_filelist',['../classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html',1,'create_file_list_from_gfal_embedded_test']]],
-  ['gghrenormalizationscalesystematic',['GGHRenormalizationScaleSystematic',['../classsystematics__run2_1_1GGHRenormalizationScaleSystematic.html',1,'systematics_run2']]]
+  ['gghrenormalizationscalesystematic',['GGHRenormalizationScaleSystematic',['../classsystematics__run2_1_1GGHRenormalizationScaleSystematic.html',1,'systematics_run2']]],
+  ['globalproccesors',['globalProccesors',['../classglobalProcessors_1_1globalProccesors.html',1,'globalProcessors']]]
 ];
