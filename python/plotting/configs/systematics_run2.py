@@ -268,6 +268,10 @@ class Nominal(SystematicShiftBase):
 
 
 class JecUncSystematic(SystematicShiftBase):
+	def __init__(self, plot_config, jecUncertainty):
+		super(JecUncSystematic, self).__init__(plot_config)
+		self.plot_config = plot_config
+		self.jecUncertainty = jecUncertainty	
 	
 	def get_config(self, shift=0.0):
 		plot_config = super(JecUncSystematic, self).get_config(shift=shift)
