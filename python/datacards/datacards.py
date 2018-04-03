@@ -59,7 +59,7 @@ class Datacards(object):
 
 		self.configs = datacardconfigs.DatacardConfigs()
 		
-		self.stable_options = r"--robustFit 1 --preFitValue 1.0 --minimizerAlgoForMinos Minuit2 --minimizerAlgo Minuit2 --minimizerStrategy 0 --minimizerTolerance 0.1 --cminFallbackAlgo Minuit2,0:1.0"
+		self.stable_options = r"--robustFit 1 --preFitValue 1.0 --cminDefaultMinimizerType Minuit2 --cminDefaultMinimizerAlgo Minuit2 --cminDefaultMinimizerStrategy 0 --cminFallbackAlgo Minuit2,0:1.0"
 
 		path=os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/")
 		self.mva_bdt_syst_uncs =[
@@ -532,7 +532,7 @@ class Datacards(object):
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
 					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
-					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")+":"+fit_type),
+					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "fitDiagnostics.root")+":"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
 
@@ -560,7 +560,7 @@ class Datacards(object):
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
 					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
-					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")+":"+fit_type),
+					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "fitDiagnostics.root")+":"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
 
@@ -713,7 +713,7 @@ class Datacards(object):
 								ALL=("-a" if all_nuissances else ""),
 								PLOT="-g "+("" if all_nuissances else "largest_")+"pulls.root",
 								ARGS=" ".join(args),
-								FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "mlfit.root")),
+								FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "fitDiagnostics.root")),
 								LOG_FILE=("" if all_nuissances else "largest_")+"pulls."+file_format
 						),
 						os.path.dirname(datacard)
@@ -736,7 +736,7 @@ class Datacards(object):
 				for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
 
 					config = {}
-					config["files"] = [os.path.join(os.path.dirname(datacard), "mlfit.root")]
+					config["files"] = [os.path.join(os.path.dirname(datacard), "fitDiagnostics.root")]
 					config["input_modules"] = ["InputRootSimple"]
 					config["root_names"] = ["fit_s", "fit_b", "nuisances_prefit"]
 					if s_fit_only:

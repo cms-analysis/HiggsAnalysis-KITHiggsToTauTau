@@ -124,19 +124,19 @@ if __name__ == "__main__":
 			"fit" : {
 				"CV" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P CV --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"CV={RMIN},{RMAX}:CF={RMIN},{RMAX}\"",
+					"options" : "--algo singles -P CV --floatOtherPOIs 1 --setParameterRanges \"CV={RMIN},{RMAX}:CF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_vector,
 					"poi_ranges_bbb" : poi_ranges_vector_bbb,
 				},
 				"CF" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P CF --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"CV={RMIN},{RMAX}:CF={RMIN},{RMAX}\"",
+					"options" : "--algo singles -P CF --floatOtherPOIs 1 --setParameterRanges \"CV={RMIN},{RMAX}:CF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_fermion,
 					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
 				"CVCF" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo grid --points {CVCF_BINS} --setPhysicsModelParameterRanges \"CV={CV_MIN},{CV_MAX}:CF={CF_MIN},{CF_MAX}\"",
+					"options" : "--algo grid --points {CVCF_BINS} --setParameterRanges \"CV={CV_MIN},{CV_MAX}:CF={CF_MIN},{CF_MAX}\"",
 					"plots_per_lumi" : [
 						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/cv_cf_scan.json",
 					],
@@ -162,19 +162,19 @@ if __name__ == "__main__":
 			"fit" : {
 				"RV" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P RV --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
+					"options" : "--algo singles -P RV --floatOtherPOIs 1 --setParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_vector,
 					"poi_ranges_bbb" : poi_ranges_vector_bbb,
 				},
 				"RF" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo singles -P RF --floatOtherPOIs 1 --setPhysicsModelParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
+					"options" : "--algo singles -P RF --floatOtherPOIs 1 --setParameterRanges \"RV={RMIN},{RMAX}:RF={RMIN},{RMAX}\"",
 					"poi_ranges" : poi_ranges_rf,
 					"poi_ranges_bbb" : poi_ranges_fermion_bbb,
 				},
 				"RVRF" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo grid --points {RVRF_BINS} --setPhysicsModelParameterRanges \"RV={RV_MIN},{RV_MAX}:RF={RF_MIN},{RF_MAX}\"",
+					"options" : "--algo grid --points {RVRF_BINS} --setParameterRanges \"RV={RV_MIN},{RV_MAX}:RF={RF_MIN},{RF_MAX}\"",
 					"plots_per_lumi" : [
 						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/rv_rf_scan.json",
 					],

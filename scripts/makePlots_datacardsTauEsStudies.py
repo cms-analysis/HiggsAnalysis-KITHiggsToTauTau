@@ -521,7 +521,7 @@ if __name__ == "__main__":
 			datacards_workspaces,
 			None,
 			args.n_processes,
-			"-M MultiDimFit --algo grid --points {BINNING} --setPhysicsModelParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY}  {STABLE}".format(
+			"-M MultiDimFit --algo grid --points {BINNING} --setParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY}  {STABLE}".format(
 				BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
 				RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
 				VERBOSITY=args.combine_verbosity,

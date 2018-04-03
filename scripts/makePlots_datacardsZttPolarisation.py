@@ -28,7 +28,7 @@ def _call_command(command):
 
 
 def replace_observation_by_asimov_dataset(datacards, pol=-0.159, r=1.0):
-	# asimov_options = "--expectSignal 1.0 -t -1 --setPhysicsModelParameters \"pol=-0.159,r=1\""
+	# asimov_options = "--expectSignal 1.0 -t -1 --setParameters \"pol=-0.159,r=1\""
 	
 	pospol_signals = datacards.cb.cp().signals()
 	pospol_signals.FilterAll(lambda obj : ("pospol" not in obj.process().lower()))

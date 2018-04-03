@@ -49,7 +49,7 @@ if __name__ == "__main__":
 			"fit" : {
 				"" : {
 					"method" : "MultiDimFit",
-					"options" : "--algo grid --points {GRID_BINS} --minimizerStrategy 0 --setPhysicsModelParameterRanges \"r=0.8,1.2:eff=0.8,1.2\"", #--expectSignal=1 --toys -1
+					"options" : "--algo grid --points {GRID_BINS} --minimizerStrategy 0 --setParameterRanges \"r=0.8,1.2:eff=0.8,1.2\"", #--expectSignal=1 --toys -1
 					"poi" : "r",
 				}
 			},
