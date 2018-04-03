@@ -12,6 +12,7 @@ import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.SingleTauQuantities as stq
 
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
@@ -108,6 +109,7 @@ class mt_ArtusConfig(dict):
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["HltPaths"] = ["HLT_IsoMu18"]
 			self["NoHltFiltering"] = False
+			self["DiTauPairNoHLT"] = False
 
 		elif re.search("Run2016|Spring16|Summer16", nickname):
 			self["HltPaths"] = [
@@ -119,11 +121,12 @@ class mt_ArtusConfig(dict):
 					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1"
 				]
 			self["NoHltFiltering"] = False
-
+			self["DiTauPairNoHLT"] = False
 				
 		elif re.search("Embedding(2016|MC)", nickname):
 			self["HltPaths"] = [""]
-			self["NoHltFiltering"] =True 
+			self["NoHltFiltering"] = True
+			self["DiTauPairNoHLT"] = True 
 			
 		self["TauID"] = "TauIDRecommendation13TeV"
 		self["TauUseOldDMs"] = True
@@ -304,7 +307,8 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += r2cpq.melaQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit() 	#until here
+			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
+			self["Quantities"] += STQ.SingleTauQuantities()	#until here
 			self["Quantities"] += ["nVetoMuons",
 					"nLooseElectrons",
 					"nLooseMuons",
