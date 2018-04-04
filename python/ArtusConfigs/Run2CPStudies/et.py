@@ -113,12 +113,12 @@ class et_ArtusConfig(dict):
 		self["NoHltFiltering"] = False  #else
 		self["DiTauPairNoHLT" ] = False		
 
-		self["ElectronLowerPtCuts"] = "24.0"  #default: !=2015
+		self["ElectronLowerPtCuts"] = ["26.0"]  #default: !=2015
 		self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"]  #default: !=2015
 		
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["HltPaths"] = ["HLT_Ele23_WPLoose_Gsf"]
-			self["ElectronLowerPtCuts"] = "24.0"           #2015
+			self["ElectronLowerPtCuts"] = ["24.0"]           #2015
 			self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele23_WPLoose_Gsf_v:24.0"]  #2015
 
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele23_WPLoose_Gsf_v"]

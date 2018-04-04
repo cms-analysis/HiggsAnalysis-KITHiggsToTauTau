@@ -83,12 +83,12 @@ class Electron_ID(dict):
 		self["LooseElectronTrackDzCut"] = 0.2
 		self["DirectIso"] = True
 
-	def vetoElectronID(self, nickname):
+	def vetoElectron_ID(self, nickname):
 		self["VetoElectronReco"] = "none"
 
 		self["VetoElectronID"] = "user"
 
-		if re.search("(Run2015|Fall15MiniAODv2)*?", nickname):
+		if re.search("(Run2015|Fall15MiniAODv2)", nickname):
 			self["VetoElectronIDType"] = "cutbased2015noisoandipcutsveto"
 			self["VetoElectronIDName"] = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"
 		else:
