@@ -12,6 +12,8 @@ var classsamples__run2__2017_1_1Samples =
     [ "files_wj", "classsamples__run2__2017_1_1Samples.html#adf3f5667c57eaa8ffdd80f694347ceaa", null ],
     [ "files_zll", "classsamples__run2__2017_1_1Samples.html#a4d68683aeb65ccac24220bd273492e05", null ],
     [ "files_ztt", "classsamples__run2__2017_1_1Samples.html#a546a93b0012083ec78eff30819287563", null ],
+    [ "ttbar_stitchingweight", "classsamples__run2__2017_1_1Samples.html#a1e8b10a9e8defb72eb218cc3a839a0cc", null ],
+    [ "vv_stitchingweight", "classsamples__run2__2017_1_1Samples.html#ab4ab48cec3348a1f602136c06bee97fc", null ],
     [ "wj_stitchingweight", "classsamples__run2__2017_1_1Samples.html#a2cf9f182d5d6fa4620c161dc1541cba1", null ],
     [ "zll_stitchingweight", "classsamples__run2__2017_1_1Samples.html#a23a80dd15b9e3fb9d2763eb77d8dbb0c", null ],
     [ "ztt_stitchingweight", "classsamples__run2__2017_1_1Samples.html#a394196c8bfed8a3f717a54666b0f3c32", null ]
