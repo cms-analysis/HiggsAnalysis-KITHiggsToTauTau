@@ -2,7 +2,12 @@
 	"TauID_documentation" : [
 	],
 
-	"TauDiscriminatorIsolationName" : "byIsolationMVArun2v1DBoldDMwLTraw",
+	"TauDiscriminatorIsolationName" : {
+		"nick" : {
+			"default" : "byIsolationMVArun2v1DBoldDMwLTraw",
+			"(Run2017|Fall17)" :  "rerunDiscriminationByIsolationMVArun2v1raw"
+			}
+	},
 
 	"TauElectronLowerDeltaRCut" : -1.0,
 	"TauMuonLowerDeltaRCut" : -1.0

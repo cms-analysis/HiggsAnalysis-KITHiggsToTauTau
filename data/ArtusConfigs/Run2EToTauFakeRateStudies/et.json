@@ -125,6 +125,7 @@
 		"TriggerEfficiencyData" : {
 			"nick": {
 		 		"default" :  "" , 
+		 		"Run2017|Summer17|Fall17" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele32orEle35.root"],
 				"Run2016|Summer16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele25WPTight_eff.root" ],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root" ]
 			}
@@ -132,6 +133,7 @@
 		"TriggerEfficiencyMc" : {
 			"nick" : {
 				"default" : "", 
+				"Run2017|Summer17|Fall17" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_Ele32orEle35.root"],
 				"Run2016|Summer16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele25WPTight_eff.root" ],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23_fall15.root"]
 			}
@@ -140,6 +142,7 @@
 		"IdentificationEfficiencyData" : {
 			"nick" : {
 				"default" : "", 
+				"Run2017|Summer17|Fall17" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"],
 				"Run2016|Summer16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"]
 			}
@@ -147,6 +150,7 @@
 		"IdentificationEfficiencyMc" : {
 			"nick" : {
 				"default" : "" ,
+				"Run2017|Summer17|Fall17" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MCFall2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"],
 				"Run2016|Summer16" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"]
 			}
@@ -227,7 +231,7 @@
 					"producer:TriggerWeightProducer",
 					"producer:IdentificationWeightProducer",
 					"#producer:SvfitProducer",
-					"producer:RooWorkspaceWeightProducer",
+					"#producer:RooWorkspaceWeightProducer",
 					"producer:EventWeightProducer",
 					"producer:MetCorrector",
 					"producer:SimpleMuTauFakeRateWeightProducer",
