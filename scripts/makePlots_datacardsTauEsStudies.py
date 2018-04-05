@@ -150,15 +150,10 @@ if __name__ == "__main__":
 	es_shifts_str = [str(x) for x in es_shifts] # CombineHarvester taupogdatacards needs a list of strings
 
 	# Produce decaymode bins
-	# test this instead: decay_modes = copy.deepcopy(args.decay_modes)
-	decay_modes = []
-	for decayMode in args.decay_modes:
-		decay_modes.append(decayMode)
+	decay_modes = copy.deepcopy(args.decay_modes)
 	
 	# Produce pt-bins (first one is always inclusive)
-	pt_ranges = ["0.0"]
-	for pt_index, (pt_range) in enumerate(args.pt_ranges):
-		pt_ranges.append(args.pt_ranges[pt_index])
+	pt_ranges = ["0.0"] + copy.deepcopy(args.pt_ranges)
 	pt_weights = []
 	pt_strings = []
 	pt_bins = []
