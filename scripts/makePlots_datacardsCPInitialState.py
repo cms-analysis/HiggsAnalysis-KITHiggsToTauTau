@@ -732,13 +732,13 @@ if __name__ == "__main__":
 						config["y_expressions"] = ["jdphi"]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
 						if "mela2D" in args.quantity:
-							config["y_expressions"] = ["melaM125DiscriminatorD0MinusGGH*TMath::Sign(1, melaM125DiscriminatorDCPGGH)"]
+							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH*TMath::Sign(1, melaDiscriminatorDCPGGH)"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
 						elif "mela3D" in args.quantity:
-							config["y_expressions"] = ["melaM125DiscriminatorD0MinusGGH"]
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaM125DiscriminatorD0MinusGGH"]]		
-							config["z_expressions"] = ["melaM125DiscriminatorDCPGGH"]
-							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaM125DiscriminatorDCPGGH"]]													
+							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]		
+							config["z_expressions"] = ["melaDiscriminatorDCPGGH"]
+							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorDCPGGH"]]													
 							
 							
 					# set quantity x depending on the category
