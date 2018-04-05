@@ -800,7 +800,7 @@ if __name__ == "__main__":
 		log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------")
 		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	
-	if args.n_plots[0] != 0 and "inputs" in args.steps:
+	if args.n_plots[0] != 0 and "t2w" in args.steps:
 		# tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 		datacards_module._call_command([
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/hadd_shapes.sh {OUTPUT_FOLDER}".format(OUTPUT_FOLDER=os.path.join(args.output_dir, "shapes", args.output_suffix))
@@ -912,13 +912,13 @@ if __name__ == "__main__":
 				),
 				args.output_dir	
 		])
-		datacards_module._call_command([
-				"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges muF=0,4 --points 20 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
-				OUTPUT_SUFFIX=args.output_suffix,
-				N_PROCESSES=args.n_processes		
-				),
-				args.output_dir	 
-		])
+		# datacards_module._call_command([
+		# 		"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges muF=0,4 --points 20 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
+		# 		OUTPUT_SUFFIX=args.output_suffix,
+		# 		N_PROCESSES=args.n_processes		
+		# 		),
+		# 		args.output_dir	 
+		# ])
 		# datacards_module._call_command([
 		# 		"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f,muF --setParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha_freezemuF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
 		# 		OUTPUT_SUFFIX=args.output_suffix,
@@ -943,13 +943,13 @@ if __name__ == "__main__":
 					),
 					args.output_dir	
 			])
-			datacards_module._call_command([
-					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=muF --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#mu_{{F}}' --y-max=10.0".format(
-					INPUT_FILE=directory+"higgsCombine.muF.MultiDimFit.mH125.root",
-					OUTPUT_FILE=directory+"muF"	
-					),
-					args.output_dir	
-			])			
+			# datacards_module._call_command([
+			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=muF --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#mu_{{F}}' --y-max=10.0".format(
+			# 		INPUT_FILE=directory+"higgsCombine.muF.MultiDimFit.mH125.root",
+			# 		OUTPUT_FILE=directory+"muF"	
+			# 		),
+			# 		args.output_dir	
+			# ])			
 		datacards_module._call_command([
 				"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --others output/{OUTPUT_SUFFIX}/tt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#tau_{{h}}#tau_{{h}}:2 output/{OUTPUT_SUFFIX}/mt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#mu#tau_{{h}}:7 output/{OUTPUT_SUFFIX}/et/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#tau_{{h}}:9 output/{OUTPUT_SUFFIX}/em/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#mu:8  --logo 'Work in progress' --logo-sub '' --main-label Expected ".format(
 				INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
