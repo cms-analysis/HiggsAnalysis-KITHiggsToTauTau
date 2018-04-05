@@ -584,18 +584,15 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// ---------
 	// phi*CP wrt thePV
 	// FIXME is it still needed?
-
-	// product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(product.m_thePV, trackP, trackM, momentumP, momentumM);
+	// product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(&(event.m_vertexSummary->pv), trackP, trackM, momentumP, momentumM);
 
 	if (product.m_refitPV != nullptr){
 		// calculation of the IP vectors and relative errors
 		// IP wrt thePV
-
-		product.m_recoIP1 = cpq.CalculateShortestDistance(recoParticle1, product.m_thePV->position);
-		product.m_recoIP2 = cpq.CalculateShortestDistance(recoParticle2, product.m_thePV->position);
-		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, product.m_thePV, &product.m_recoIP1);
-		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, product.m_thePV, &product.m_recoIP2);
-
+		product.m_recoIP1 = cpq.CalculateShortestDistance(recoParticle1, event.m_vertexSummary->pv.position);
+		product.m_recoIP2 = cpq.CalculateShortestDistance(recoParticle2, event.m_vertexSummary->pv.position);
+		product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, &(event.m_vertexSummary->pv), &product.m_recoIP1);
+		product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, &(event.m_vertexSummary->pv), &product.m_recoIP2);
 
 		// IP wrt refitPV
 		product.m_recoIP1_refitPV = cpq.CalculateShortestDistance(recoParticle1, product.m_refitPV->position);
@@ -604,10 +601,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &product.m_recoIP2_refitPV);
 
 		// distance between track and BS center
-
-		product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, product.m_theBS->position);
-		product.m_track2FromBS = cpq.CalculateShortestDistance(recoParticle2, product.m_theBS->position);
-
+		product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, event.m_beamSpot->position);
+		product.m_track2FromBS = cpq.CalculateShortestDistance(recoParticle2, event.m_beamSpot->position);
 
 		// calculate cosPsi
 		if (recoParticle1->charge() == +1){
