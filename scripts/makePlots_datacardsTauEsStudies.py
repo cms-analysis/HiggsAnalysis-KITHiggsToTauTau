@@ -153,23 +153,11 @@ if __name__ == "__main__":
 	decay_modes = copy.deepcopy(args.decay_modes)
 	
 	# Produce pt-bins (first one is always inclusive)
-	pt_ranges = ["0.0"] + copy.deepcopy(args.pt_ranges)
-	pt_weights = []
-	pt_strings = []
-	pt_bins = []
-	for pt_index, (pt_range) in enumerate(pt_ranges):
-		if pt_range == "0.0":
-			pt_weights.append("(pt_2>20)")
-			pt_strings.append("p_{T}(#tau_{h}) > 20 GeV")
-		else:
-			if len(pt_ranges) > pt_index + 1:
-				pt_weights.append("(pt_2>" + str(pt_ranges[pt_index]) + ")*(pt_2<" + str(pt_ranges[pt_index + 1]) + ")")
-				pt_strings.append(pt_ranges[pt_index] + " < p_{T}(#tau_{h}) < " + pt_ranges[pt_index + 1] + " GeV")
-			else:
-				pt_weights.append("(pt_2>" + str(pt_ranges[pt_index]) + ")")
-				pt_strings.append("p_{T}(#tau_{h}) > " + pt_ranges[pt_index] + " GeV")
-		pt_bins.append(str(pt_index))
-	
+	pt_ranges =  ["0.0"] + copy.deepcopy(args.pt_ranges)
+	pt_weights = ["(pt_2>20)"]                + ["(pt_2>" + str(pt_ranges[pt_index]) + ")*(pt_2<" + str(pt_ranges[pt_index + 1]) + ")" for pt_index in range(1, len(pt_ranges) - 1)] + (len(pt_ranges)>1) * ["(pt_2>" + pt_ranges[-1] + ")" ]
+	pt_strings = ["p_{T}(#tau_{h}) > 20 GeV"] + [pt_ranges[pt_index] + " < p_{T}(#tau_{h}) < " + pt_ranges[pt_index + 1] + " GeV" for pt_index in range(1, len(pt_ranges) - 1)]      + (len(pt_ranges)>1) * ["p_{T}(#tau_{h}) > " + pt_ranges[-1] + " GeV" ]
+	pt_bins = [str(x) for x in range(0, len(pt_ranges))]
+
 	# Produce eta-bins (first one is always inclusive)
 	# for the moment only barrel and endcap considered
 	eta_ranges = ["0.0", "1.479", "2.3"]
