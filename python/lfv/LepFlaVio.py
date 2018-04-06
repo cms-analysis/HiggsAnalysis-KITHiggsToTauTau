@@ -8,10 +8,8 @@ import subprocess
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.lfv.ConfigMaster as configmaster
-import HiggsAnalysis.KITHiggsToTauTau.lfv.ParameterMaster as parametermaster
 
 import ROOT
-import pprint
 
 ###Enumeration class for analysis functions of flavio
 
@@ -20,6 +18,9 @@ class Analysismodule():
 	effiency_plot = 1
 	shape_plot = 2
 	cut_optimization = 3
+	nminus1_plot = 4
+	cutflow_plot = 5
+	limit_plot = 6
 
 ###Function for parser calls
 
@@ -98,23 +99,16 @@ def global_constants(args):
 	weight_name	=	["_zerojet", "_onejet"][args.jet_number] if args.jet_number != None else ""
 	category_name	=	"_optimized" if args.category != None else ""
 
-def base_config(channel, parameter, parameter_info, nick_suffix = "", no_plot = False, weights = "njetspt30==1"):
 
-	x,bins,output = parameter_info.get_parameter_info(parameter, 0)
+	if args.category == None:
+		categories = "1"
 
-	input_dir 	= 	["/net/scratch_cms3b/croote/artus/2017-11-09_14-46_SM-control/merged/"]
-	output_dir	=	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/"))
-	output_file	= 	output
-	format 		= 	["pdf", "png"]
-	www		= 	channel + "/"
-	www_nodate	=	True
-	nick_suffix	=	nick_suffix
+	else:
+		cut_strings = [parameter_info[param][4] for param in cut_info[0 if weight == "(njetspt30==0)" else 1][channel].keys()]
+		cut_values, cut_side = [[entry[index] for entry in cut_info[0 if weight == "(njetspt30==0)" else 1][channel].values()] for index in [0,1]]
+		categories = "*".join([cut_strings[index].format(side = side, cut = value) for index, (side, value) in enumerate(zip(cut_side, cut_values))])
 
-	sample_list	= 	["z" + channel, "ztt", "zll", "ttj", "vv", "wj", "qcd"]
-	channel 	= 	channel
-	category	= 	None
-	no_plot		=	no_plot
-	weights		=	weights
+###Function that stores and return information for the configs that will be written
 
 def base_config(parameter, nick_suffix = "", no_plot = False, weight_input = "1"):
 	input_dir, format, www_nodate, cms, text 		= config_info[-2]
@@ -137,17 +131,11 @@ def controlplot_config(parameter):
 	
 	return [x_label, legend, lumis, energies, year, www]
 
-	x_label		=	parameter_info.get_parameter_info(parameter, 1)
-	title 		=	"Controlplot " + "(" + channel + ")"
-	legend		=	[0.65, 0.65, 1.00, 0.88]
-	lumis 		= 	[35.87]
-	energies	=	[13]
-	year		=	"2016"
-	www 		=	"Controlplot"
 
-	controlplot_values = [x_label, title, legend, lumis, energies, year, www]
+def sumofhists_config(sum_nicks, result_nicks):
+	analysis_mod	=	"SumOfHistograms"
 	
-	return controlplot_values
+	return analysis_mod, sum_nicks, result_nicks
 
 def efficiency_config(parameter, bkg_nicks, lower_cut = True):
 	analysis_mod, markers, y_label, cut_modes, cut_nicks, whitelist 	=	 config_info[1][:6]	
@@ -165,6 +153,11 @@ def shape_config(parameter):
 	
 	return [x_label, legend, lumis, energies, year, www], [y_label, analysis_mod]
 
+def nminus1_config(parameter):
+	x_label					= parameter_info[parameter][3]
+	legend, lumis, energies, year, www	= config_info[4]
+	
+	return [x_label, legend, lumis, energies, year, www]
 
 def ratio_config(numerator, denominator):
 	ratio_numerator_nicks	=	numerator
@@ -197,20 +190,18 @@ def limit_config(parameter):
 
 	return [x_label, legend, lumis, energies, year, www], [y_label, files, folders, y_expressions, markers, colors, fill_styles, marker_styles, line_widths, tree_draw_options, y_tick_labels, nicks, x_lims, y_lims]
 
-
 ###Analysis function using the specific plotting modules
-
-def controlplot(config_list, channel, x, parameter_info):
+def controlplot(config_list):
 	for index, parameter in enumerate(x):
-		config = configmaster.ConfigMaster(*base_config(channel, parameter, parameter_info))
-		config.add_config_info(controlplot_config(channel, parameter, parameter_info), 0)
+		config = configmaster.ConfigMaster(*base_config(parameter))
+		config.add_config_info(controlplot_config(parameter), 0)
 		config_list.append(config.return_config())
 	
 		if data and signal:
 			config_list[index]["weights"][1] += "*(500)"
 			config_list[index]["labels"][1] = "Z #rightarrow " + {"em": "e#mu", "et": "e#tau", "mt": "#mu#tau"}[channel] + " (LFV) x 500"
 			
-	
+		
 		elif not data and signal:
 			config_list[index]["weights"][0] += "*(500)"
 			config_list[index]["labels"][0] = "Z #rightarrow " + {"em": "e#mu", "et": "e#tau", "mt": "#mu#tau"}[channel] + " (LFV) x 500"
@@ -218,7 +209,8 @@ def controlplot(config_list, channel, x, parameter_info):
 
 	return config_list
 
-def efficiencyplot(config_list, channel, x, parameter_info):
+
+def efficiencyplot(config_list):
 	for parameter in x:
 		config = configmaster.ConfigMaster(*base_config(parameter, nick_suffix = "noplot", no_plot = True))
 		config.add_config_info(sumofhists_config(["zttnoplot zllnoplot ttjnoplot vvnoplot wjnoplot qcdnoplot"], ["bkg_sum"]), 1)
@@ -228,18 +220,20 @@ def efficiencyplot(config_list, channel, x, parameter_info):
 	
 	return config_list
 
-def shapeplot(config_list, channel, x, parameter_info):
+
+def shapeplot(config_list):
 	for index, parameter in enumerate(x):
-		config = configmaster.ConfigMaster(*base_config(channel, parameter, parameter_info))
-		config.add_config_info(shape_config(channel, parameter, parameter_info), 3)
+		config = configmaster.ConfigMaster(*base_config(parameter))
+		config.add_config_info(shape_config(parameter)[0], 0)
+		config.add_config_info(shape_config(parameter)[1], 3)
+		config.pop(["stacks", "colors"])
 		config_list.append(config.return_config())
 
 		##Delete information not needed
-		config_list[index].pop("stacks")
-		config_list[index].pop("colors")
 		config_list[index]["markers"] = ["LINE" for value in config_list[index]["markers"]]
 	
 	return config_list
+
 
 def cutoptimization(config_list):
 	##Information to create weight string for harry plotter
@@ -266,19 +260,60 @@ def cutoptimization(config_list):
 				config2.replace("select_lower_values", False)
 				config2.change_config_info("filename", "_2")
 		
-			##Fill harry plotter config to get S/sqrt(S+B) histograms 
-			config = configmaster.ConfigMaster(*base_config(channel, parameter, parameter_info, nick_suffix = "noplot", no_plot = True, weights = "1" if index==0 else weight))
-			config.add_config_info(sumofhists_config(), 1)
-			config.add_config_info(efficiency_config(channel, parameter, parameter_info, plot_modules = ["ExportRoot"]), 2)
+			##Harry.py the MVP
+			higgsplot.HiggsPlotter(list_of_config_dicts=[config.return_config()] if index1 != 0  else [config.return_config(), config2.return_config()], n_plots = 2 if index1==0 else 1)
 			
-			config_list.append(config.return_config())
-	
-			##Delete www option not need for the root histograms
-			config_list[0].pop("www")
-			config_list[0].pop("www_nodate")
+			##Readout best cut value
+			cut_file = ROOT.TFile.Open(flavio_path + "/" +  config.return_config()["filename"] + ".root")
+			histogram = cut_file.Get("sOverSqrtSB")	
+			cut_values[index2] = (histogram.GetXaxis().GetBinCenter(histogram.GetMaximumBin()))
 
-			##Call harry.py the MVP to get your job done
-			higgsplot.HiggsPlotter(list_of_config_dicts=config_list, n_plots = len(config_list))
+			for filetype in [".json", ".root"]:
+				os.remove(flavio_path + "/" +  config.return_config()["filename"] + filetype)
+			
+			##Choose which side to cut on in zero iteration
+			if index1==0:
+				cut_file2 = ROOT.TFile.Open(flavio_path + "/" +  config2.return_config()["filename"] + ".root")
+				histogram2 = cut_file2.Get("sOverSqrtSB")	
+				
+				if histogram.GetMaximum() < histogram2.GetMaximum():
+					cut_values[index2] = histogram2.GetXaxis().GetBinCenter(histogram2.GetMaximumBin())
+					cut_side[index2] = ">"
+
+				for filetype in [".json", ".root"]:
+					os.remove(flavio_path + "/" +  config2.return_config()["filename"] + filetype)
+		
+		##print progress
+		if index1 == 0:
+			print "Cut sides which are choosen: {sides}".format(sides = cut_side)
+		print "Cut values for iteration {index}: {values}".format(index = index1, values = cut_values)
+
+	##Save data in cut.yaml
+	cut_info 	= yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/cuts.yaml")), "r"))
+	if cut_info == None:
+		for category in [0 if weight == "(njetspt30==0)" else 1]:
+			cut_info = {category: {channel: {}}}
+			for (cut, side, parameter) in zip(cut_values, cut_side, x):
+				cut_info[category][channel][parameter] = [cut, side]
+
+	else:
+		for category in [0 if weight == "(njetspt30==0)" else 1]:
+			try:
+				cut_info[category][channel] = {}
+			except KeyError:
+				cut_info[category] = {channel: {}}
+			for (cut, side, parameter) in zip(cut_values, cut_side, x):
+				cut_info[category][channel][parameter] = [cut, side]
+
+	yaml.dump(cut_info, open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/cuts.yaml")), "w"), default_flow_style=False)
+	
+	sys.exit()
+
+def nminus1plot(config_list):
+	##Get information about cuts from parameter_info
+	cut_strings = [parameter_info[param][4] for param in cut_info[0 if weight == "(njetspt30==0)" else 1][channel].keys()]
+	cut_values, cut_side = [[entry[index] for entry in cut_info[0 if weight == "(njetspt30==0)" else 1][channel].values()] for index in [0,1]]
+
 
 	for index1, parameter in enumerate(cut_info[0 if weight == "(njetspt30==0)" else 1][channel].keys()):
 		##Construct weight for N-1 plot	
@@ -460,34 +495,34 @@ def limitplot(config_list):
 	del config_list[0]["x_expressions"][-1]
 	del config_list[0]["nicks"][-1]
 
+	return config_list
 
 
 ###Main Function
 
 def main():
-
 	###Call and get parser arguments
 	args = parser()
+
+	###Define global constants
+	global_constants(args)
 
 	##Define libary with all analysis modules of flavio
 	Analysismodule_libary = {
 				Analysismodule.control_plot:		controlplot,
 				Analysismodule.effiency_plot:		efficiencyplot,
 				Analysismodule.shape_plot:		shapeplot,
-				Analysismodule.cut_optimization:	cutoptimization
+				Analysismodule.cut_optimization:	cutoptimization,
+				Analysismodule.nminus1_plot:		nminus1plot,
+				Analysismodule.cutflow_plot:		cutflowplot,
+				Analysismodule.limit_plot:		limitplot
 	}
-
-	##Create instance of class for parameter information
-	parameter_info = parametermaster.ParameterMaster()
 
 	###Write config using your desired analysis function
 	config_list = []
-	config_list = Analysismodule_libary[args.analysis](config_list, args.channel, args.x_expression, parameter_info)
-	
-	#pprint.pprint(config_list[0])	
+	config_list = Analysismodule_libary[args.analysis](config_list)
 
 	###Call MVP harry.py to get your job done
-
 	higgsplot.HiggsPlotter(list_of_config_dicts=config_list, n_plots = len(config_list), batch = "rwthcondor" if len(config_list) != 1 else None)
 	if len(config_list) != 1: subprocess.Popen("cd $CMSSW_BASE/src/websync/; webplot.py {channel} -r -c".format(channel = channel), shell = True)
 
