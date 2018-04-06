@@ -57,7 +57,7 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 		else:
 			self["RefitVertices"] = "AdvancedRefittedVerticesNoBS"
 			self["RefitBSVertices"] = "AdvancedRefittedVerticesBS"
-		if isSignal or isLFV: 
+		if re.search("HToTauTau|H2JetsToTauTau|Higgs|LFV", nickname): 
 			self["LheParticles"] = "LHEafter"
 		else:
 			self["LheParticles"] = ""

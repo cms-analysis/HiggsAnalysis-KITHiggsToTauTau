@@ -51,9 +51,9 @@ class Baseconfig(dict):
 		self["OutputPath"] = "output.root"
 		
 		if re.search("Run201", nickname):
-			self["InputIsData"] = True #string in json
+			self["InputIsData"] = "true" #string in json, possible to change to boolean?
 		else:
-			self["InputIsData"] = False
+			self["InputIsData"] = "false"
 
 		
 		if re.match("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)|LFV", nickname):
@@ -153,13 +153,13 @@ class Baseconfig(dict):
 
 
 		if re.search("Run2015B", nickname):
-			self["JsonFiles"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_50ns_JSON_v2.txt"
+			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_50ns_JSON_v2.txt"]
 		elif re.search("Run2015(C|D)|Embedding2015", nickname):
-			self["JsonFiles"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_v2.txt"
+			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_v2.txt"]
 		elif re.search("Run2016|Embedding2016", nickname):
-			self["JsonFiles"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"
+			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"]
 		elif re.search("Run2017", nickname):
-			self["JsonFiles"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON.txt"
+			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON.txt"]
 
 
 
