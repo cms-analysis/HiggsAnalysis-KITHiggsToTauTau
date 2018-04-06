@@ -307,9 +307,6 @@ public:
 
 
 	// filled by RecoTauCPProducer
-	
-	KVertex* m_thePV = 0;
-	KBeamSpot* m_theBS = 0;
 		
 	TVector3 m_recoIP1; // IPvec wrt original PV
 	TVector3 m_recoIP2; // IPvec wrt original PV
