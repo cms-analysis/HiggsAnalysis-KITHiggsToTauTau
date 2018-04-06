@@ -57,7 +57,7 @@
 	},
 	"MvaMets" : {
 		"nick" : {
-			"Run2017|Summer17" : "",
+			"Run2017|Summer17|Fall17" : "",
 			"default" : "MVAMET"
 		}
 	},
@@ -80,4 +80,3 @@
 	"TriggerInfos" : "triggerObjectMetadata",
 	"TriggerObjects" : "triggerObjects"
 }
-
