@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 import logging
@@ -665,12 +664,12 @@ class BinningsDict(binnings.BinningsDict):
 			
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_dcp_star"] = "12,-1.0,1.0"		
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_melaDiscriminatorDCPGGH"] = "-1.0 -0.4 0.4 1.0"
-			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_melaDiscriminatorD0MinusGGH"] = "4,0.0,1.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_melaDiscriminatorD0MinusGGH"] = "0.0 0.25 0.5 0.75 1.0"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_jdphi"] = "12,-3.2,3.2"
 			
-			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_dcp_star"] = "6,-1.0,1.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_dcp_star"] = "12,-1.0,1.0"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_melaDiscriminatorDCPGGH"] = "-1.0 -0.4 0.4 1.0"
-			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_melaDiscriminatorD0MinusGGH"] = "2,-1.0,1.0"	
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_melaDiscriminatorD0MinusGGH"] = "0.0 0.25 0.5 0.75 1.0"	
 					
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_m_sv"] = "0.0 80.0 100.0 115.0 130.0 150.0 10000.0"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_m_sv"] = "0.0 80.0 100.0 115.0 130.0 150.0 10000.0"
