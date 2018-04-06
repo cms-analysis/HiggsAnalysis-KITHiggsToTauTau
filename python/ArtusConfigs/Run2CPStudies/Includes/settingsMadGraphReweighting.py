@@ -13,7 +13,7 @@ import copy
 class MadGraphReweighting(dict):
 	def __init__(self, nickname):
 
-		if re.match("GluGlu", nickname):
+		if re.search("GluGlu", nickname):
 			self["MadGraphParamCard"] = "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh_2p6/Cards/param_card_cp.dat"
 			self["MadGraphParamCardSample"] = "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh_2p6/Cards/param_card_default.dat"
 			self["MadGraphSortingHeavyBQuark"] = False
@@ -21,13 +21,13 @@ class MadGraphReweighting(dict):
 			
 
 
-		elif re.match("VBF", nickname):
+		elif re.search("VBF", nickname):
 			self["MadGraphParamCard"] = "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf_2p6/Cards/param_card_cp.dat"
 			self["MadGraphParamCardSample"]	= "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf_2p6/Cards/param_card_default.dat"
 			self["MadGraphSortingHeavyBQuark"] = False
 			self["MadGraph2p6ProcessDirectory"] = "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf_2p6/SubProcesses/"
 
-		if re.match("HToTauTau|H2JetsToTauTau|Higgs", nickname):
+		if re.search("HToTauTau|H2JetsToTauTau|Higgs", nickname):
 			self["MadGraphMixingAnglesOverPiHalf"] = [
 				0.00,
 				0.10,
@@ -46,11 +46,11 @@ class MadGraphReweighting(dict):
 			self["MadGraphMixingAnglesOverPiHalf"] = []
 
 
-		if re.match("SM_(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
+		if re.search("SM_(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["MadGraphMixingAnglesOverPiHalfSample"] = 0.0
-		elif re.match("^(W(minus|plus)|Z|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
+		elif re.search("^(W(minus|plus)|Z|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["MadGraphMixingAnglesOverPiHalfSample"] = 0.0
-		elif re.match("SUSY(BB|GluGlu|GluGluTo)HToTauTau", nickname):
+		elif re.search("SUSY(BB|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["MadGraphMixingAnglesOverPiHalfSample"] = 1.0
 		else:
 			self["MadGraphMixingAnglesOverPiHalfSample"] = -1.0
