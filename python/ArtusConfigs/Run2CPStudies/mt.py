@@ -132,10 +132,10 @@ class mt_ArtusConfig(dict):
 		self["TauUseOldDMs"] = True
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
-			self["MuonLowerPtCuts"] = "19.0"
+			self["MuonLowerPtCuts"] = ["19.0"]
 
 		else:
-			self["MuonLowerPtCuts"] = "20.0"
+			self["MuonLowerPtCuts"] = ["20.0"]
 		
 		
 		self["MuonUpperAbsEtaCuts"] = ["2.1"]
@@ -308,7 +308,7 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.melaQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
-			self["Quantities"] += STQ.SingleTauQuantities()	#until here
+			self["Quantities"] += stq.SingleTauQuantities()	#until here
 			self["Quantities"] += ["nVetoMuons",
 					"nLooseElectrons",
 					"nLooseMuons",

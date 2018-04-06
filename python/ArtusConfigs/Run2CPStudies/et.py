@@ -367,7 +367,7 @@ class et_ArtusConfig(dict):
 					"nAllDiTauPairCandidates"]
 
 
-		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
+		self["Quantities"]=sorted(list(set(self["Quantities"])),key=str.lower) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [

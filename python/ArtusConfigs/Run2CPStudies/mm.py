@@ -147,7 +147,7 @@ class mm_ArtusConfig(dict):
 		self["DiTauPairNoHLT"] = False
 		
 		self["EventWeight"] = "eventWeight"
-		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root",
+		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 		self["RooWorkspaceWeightNames"] = [
 			"0:idIsoWeight",
 			"1:idIsoWeight"
@@ -160,7 +160,7 @@ class mm_ArtusConfig(dict):
 			"0:m_pt,m_eta",
 			"1:m_pt,m_eta"
 		]
-		self["MuMuTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root",
+		self["MuMuTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 		self["MuMuTriggerWeightWorkspaceWeightNames"] = [
 			"0:triggerWeight",
 			"1:triggerWeight"
@@ -264,7 +264,7 @@ class mm_ArtusConfig(dict):
 		self["Quantities"] += r2q.fourVectorQuantities()
 		self["Quantities"] += r2q.syncQuantities()
 		self["Quantities"] += r2cpq.weightQuantities()
-		self["Quantities"] += r2cpq.recoPolarisationQuantities() 	
+		self["Quantities"] += stq.SingleTauQuantities()	#until here
 		self["Quantities"] += ["nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",

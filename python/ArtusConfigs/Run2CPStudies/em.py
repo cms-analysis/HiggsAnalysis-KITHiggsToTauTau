@@ -248,7 +248,7 @@ class em_ArtusConfig(dict):
 					"HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v:hltMu8TrkIsoVVLEle23CaloIdLTrackIdLIsoVLMuonlegL3IsoFiltered8"
 				]
 
-		elif re.search("Run2016(G|H)". nickname):
+		elif re.search("Run2016(G|H)", nickname):
 			self["ElectronTriggerFilterNames"] = [
 					"HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v:hltMu23TrkIsoVVLEle12CaloIdLTrackIdLIsoVLElectronlegTrackIsoFilter",
 					"HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v:hltMu23TrkIsoVVLEle12CaloIdLTrackIdLIsoVLDZFilter",
@@ -269,7 +269,8 @@ class em_ArtusConfig(dict):
 		self["InvalidateNonMatchingTaus"] = False
 		self["InvalidateNonMatchingJets"] = False
 		self["DirectIso"] = True
-
+	
+		self["OSChargeLeptons"] = True
 
 		self["AddGenMatchedParticles"] = True
 		self["BranchGenMatchedElectrons"] = True
