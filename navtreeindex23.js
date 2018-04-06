@@ -1,6 +1,5 @@
 var NAVTREEINDEX23 =
 {
-"plot__BDTSeparation_8py.html":[2,0,2,83],
 "plot__BDTSeparation_8py.html#a208bde2e4dd27d6d80ef93aeea972f7d":[2,0,2,83,21],
 "plot__BDTSeparation_8py.html#a2c20b82fe7f2e66ec1d14f8c66c0a9ce":[2,0,2,83,7],
 "plot__BDTSeparation_8py.html#a2e23cdefd86c1e26d9df6ce9abee3b70":[2,0,2,83,11],
@@ -249,5 +248,6 @@ var NAVTREEINDEX23 =
 "signal__xsecs_8py.html#ae3817f346e0bd23c8ca38d5b3ea2396c":[2,0,2,91,5],
 "signal__xsecs_8py.html#af24ac8d670868f5f121f14452ff89302":[2,0,2,91,4],
 "signalcpcalibration_8py.html":[2,0,1,3,2,0,11],
-"signalcpcalibration_8py.html#a9f21c01a26e58b38f006f54431e1f34c":[2,0,1,3,2,0,11,1]
+"signalcpcalibration_8py.html#a9f21c01a26e58b38f006f54431e1f34c":[2,0,1,3,2,0,11,1],
+"significance__2d_8py.html":[2,0,2,92]
 };

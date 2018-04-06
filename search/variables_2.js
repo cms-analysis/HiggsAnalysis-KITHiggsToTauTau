@@ -103,7 +103,6 @@ var searchData=
   ['current_5fchain_5fd',['current_chain_d',['../namespacelimit__collector.html#a4c41d8d64cb8721299029c080d35655f',1,'limit_collector']]],
   ['current_5fcuts',['current_cuts',['../namespacecutOptimizer.html#a3e1526ad1b262a2a4b613a090d37b144',1,'cutOptimizer']]],
   ['current_5fmax',['current_max',['../namespacecutOptimizer.html#aaff3a99aebcfdca42017b3fb0bdb6d54',1,'cutOptimizer']]],
-  ['current_5fshift',['current_shift',['../namespacemakePlots__datacardsTauEsStudies.html#a6c389d093cfdd21b6ac2ac538c1a8dc2',1,'makePlots_datacardsTauEsStudies']]],
   ['currentlumi',['currentLumi',['../classEventCountConsumer.html#a5bdcae7f74a5b2a8851c13c94a2c280e',1,'EventCountConsumer']]],
   ['cut_5finfo',['cut_info',['../namespacemakePlots__datacardsLFV.html#a48165078cda2800710ecfde6815559cc',1,'makePlots_datacardsLFV']]],
   ['cut_5foptimization',['cut_optimization',['../classLepFlaVio_1_1Analysismodule.html#a00eb5bcc65f2012be0c3ba4d2b0c0437',1,'LepFlaVio::Analysismodule']]],
