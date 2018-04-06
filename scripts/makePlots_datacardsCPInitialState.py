@@ -689,15 +689,11 @@ if __name__ == "__main__":
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
 										
 					# Use 2d plots for 2d categories
-					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):						
-						config["x_expressions"] = ["m_sv"] if channel == "tt" else ["m_vis"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]] if channel == "tt" else [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
-						if channel in ["mt", "et"]:
-							config["y_expressions"] = ["decayMode_2"]
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_decayMode_2"]]
-						elif channel == "em":
-							config["y_expressions"] = ["pt_2"]
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
+					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):	
+						# Use only m_sv/ m_vis as discriminator opposed to SM analysis. By neglecting the split into decay mode we can drop 5 systematic uncertainites.					
+						# Also use only m_sv as a further simplification.
+						config["x_expressions"] = ["m_sv"] #if channel == "tt" else ["m_vis"]
+						config["x_bins"] = "0 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 220 240 260 280 300" # if channel == "tt" else [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 							
 					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category or "dijet" in category):
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
