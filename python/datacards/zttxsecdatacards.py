@@ -136,7 +136,8 @@ class ZttXsecDatacards(datacards.Datacards):
 class ZttEffDatacards(datacards.Datacards):
 	def __init__(self, cb=None):
 		super(ZttEffDatacards, self).__init__(cb)
-		
+	
+		systematics_list = SystLib.SystematicLibary()	
 		if cb is None:
 			# ======================================================================
 			# MT channel
@@ -221,7 +222,9 @@ class ZttEffDatacards(datacards.Datacards):
 class ZttLepTauFakeRateDatacards(datacards.Datacards):
 	def __init__(self, year="", noJECuncSplit=True, cb=None):
 		super(ZttLepTauFakeRateDatacards, self).__init__(cb)
-		
+
+		systematics_list = SystLib.SystematicLibary()	
+
 		all_mc_bkgs = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VV", "W"]
 		all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ","TTT", "TTJJ", "VV"]
 

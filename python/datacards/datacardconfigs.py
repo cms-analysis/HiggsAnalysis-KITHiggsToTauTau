@@ -59,6 +59,9 @@ class DatacardConfigs(object):
 			"SUSYCPODD_ALT": "susycpodd",
 			"CPODD_ALT": "httcpodd",
 			"CPMIX_ALT": "httcpmix",
+			"ZEM": "zem",
+			"ZET": "zet",
+			"ZMT": "zmt"
 		}
 
 		self._mapping_category2binid = {
@@ -98,7 +101,10 @@ class DatacardConfigs(object):
 				"mt_dijet_boosted" : 2001, 
 				"mt_dijet_highM" : 2002, 
 				"mt_dijet_lowM" : 2003,
-				"mt_dijet_lowMjj" : 2004 
+				"mt_dijet_lowMjj" : 2004,
+
+				"mt_ZeroJet_LFV": 3001,
+				"mt_oneJet_LFV": 3002, 
 
 			},
 			"et" : {
@@ -137,7 +143,10 @@ class DatacardConfigs(object):
 				"et_dijet_boosted" : 2001, 
 				"et_dijet_highM" : 2002, 
 				"et_dijet_lowM" : 2003, 
-				"et_dijet_lowMjj" : 2004
+				"et_dijet_lowMjj" : 2004,
+
+				"et_ZeroJet_LFV": 3001,
+				"et_OneJet_LFV": 3002,
 			},
 			"em" : {
 				"em_inclusive" : 0,
@@ -173,7 +182,10 @@ class DatacardConfigs(object):
 				"em_dijet_boosted" : 2001, 
 				"em_dijet_highM" : 2002, 
 				"em_dijet_lowM" : 2003, 
-				"em_dijet_lowMjj" : 2004
+				"em_dijet_lowMjj" : 2004,
+
+				"em_ZeroJet_LFV": 3001,
+				"em_OneJet_LFV": 3002,
 			},
 			"tt" : {
 				"tt_inclusive" : 0,
@@ -212,6 +224,9 @@ class DatacardConfigs(object):
 				"tt_dijet_highM" : 2002, 
 				"tt_dijet_lowM" : 2003, 
 				"tt_dijet_lowMjj" : 2004,
+
+				"tt_ZeroJet_LFV" : 3001,
+				"tt_OneJet_LFV" : 3002,
 			},
 			"mm" : {
 				"mm_inclusive" : 0,
