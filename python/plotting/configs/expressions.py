@@ -186,6 +186,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			btag_veto_string = "(nbtag == 0)"
 			mjj_CP_string = "(mjj>300)"
 			boosted_higgsCP_string = "(H_pt>200)"
+			pZeta_CP_string = "(pZetaMissVis > -10.0)"
 			
 			boosted_higgs_string = "(H_pt>100)"
 			boosted_higgs_medium_string = "(H_pt>50)"
@@ -288,8 +289,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		
 		# CP initial state category
 		for channel in ["em", "et", "mt", "tt"]:
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"] = self.combine([boosted_higgsCP_string, mjj_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string]) 
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"] = self.combine([self.invert(boosted_higgsCP_string), mjj_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"] = self.combine([boosted_higgsCP_string, mjj_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string, "(1.0)" if channel != "em" else pZeta_CP_string ]) 
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"] = self.combine([self.invert(boosted_higgsCP_string), mjj_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string, "(1.0)" if channel != "em" else pZeta_CP_string ])
 			
 			#Deprecated for CP analysis in the meanwhilw.
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_boosted"] = self.combine([boosted_higgsCP_string, "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv>100)"]) if channel != "em" else self.combine([boosted_higgsCP_string, "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv>100)*(nbtag<1)"])

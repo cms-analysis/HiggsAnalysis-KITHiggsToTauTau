@@ -692,14 +692,14 @@ if __name__ == "__main__":
 					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):	
 						# Use only m_sv/ m_vis as discriminator opposed to SM analysis. By neglecting the split into decay mode we can drop 5 systematic uncertainites.					
 						# Also use only m_sv as a further simplification.
-						config["x_expressions"] = ["m_sv"] #if channel == "tt" else ["m_vis"]
-						config["x_bins"] = "0 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 220 240 260 280 300" # if channel == "tt" else [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+						config["x_expressions"] = ["m_sv"] 
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_sv"]]
 							
 					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category or "dijet" in category):
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						config["y_expressions"] = ["H_pt"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
-						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_H_pt"]]
 					elif ("Vbf2D" in category or "Vbf3D" in category or "Vbf4D" in category) and not "QCDCR" in category:
 						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
 						
@@ -753,7 +753,7 @@ if __name__ == "__main__":
 					if ("2D" in category or "3D" in category or "Vbf4D" in category) and not ("WJCR" in category or "QCDCR" in category) and not "qcd_cr" in category and not (channel == "tt" and "ZeroJet2D" in category):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollHistogram")
-						config["unroll_ordering"] = "zxy"
+						config["unroll_ordering"] = "zyx"
 
 					config["directories"] = [args.input_dir]
 

@@ -42,6 +42,8 @@ class CutStringsDict:
 				cuts["trg"] = "(trg_muonelectron == 1)"
 			elif "smhtt2016" or "cp2016" in cut_type and channel == "em":
 				cuts["bveto"] = "(nbtag == 0)"
+				cuts["pt_1"] = "(pt_1 > 13.0)"
+				cuts["pt_2"] = "(pt_1 > 10.0)"
 				# used to remove overlap with H->WW->emu analysis
 				cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
 			cuts["pzeta"] = "(pZetaMissVis > -35.0)" if "2016" in cut_type and not "mssm" in cut_type else "(pZetaMissVis > -40.0)"
