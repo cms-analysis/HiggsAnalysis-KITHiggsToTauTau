@@ -2,6 +2,9 @@ var namespacesystematics__run2 =
 [
     [ "SystematicsFactory", "classsystematics__run2_1_1SystematicsFactory.html", "classsystematics__run2_1_1SystematicsFactory" ],
     [ "SystematicShiftBase", "classsystematics__run2_1_1SystematicShiftBase.html", "classsystematics__run2_1_1SystematicShiftBase" ],
+    [ "WJetScaleFactor0JetSystematic", "classsystematics__run2_1_1WJetScaleFactor0JetSystematic.html", "classsystematics__run2_1_1WJetScaleFactor0JetSystematic" ],
+    [ "WJetScaleFactorBoostedSystematic", "classsystematics__run2_1_1WJetScaleFactorBoostedSystematic.html", "classsystematics__run2_1_1WJetScaleFactorBoostedSystematic" ],
+    [ "WJetScaleFactorVbfSystematic", "classsystematics__run2_1_1WJetScaleFactorVbfSystematic.html", "classsystematics__run2_1_1WJetScaleFactorVbfSystematic" ],
     [ "GGHRenormalizationScaleSystematic", "classsystematics__run2_1_1GGHRenormalizationScaleSystematic.html", "classsystematics__run2_1_1GGHRenormalizationScaleSystematic" ],
     [ "Nominal", "classsystematics__run2_1_1Nominal.html", null ],
     [ "JecUncSystematic", "classsystematics__run2_1_1JecUncSystematic.html", "classsystematics__run2_1_1JecUncSystematic" ],
