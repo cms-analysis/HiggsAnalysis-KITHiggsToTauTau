@@ -25,4 +25,6 @@ private:
 	TH2D* m_BTaggingEff_Num_b;
 	TH2D* m_BTaggingEff_Num_c;
 	TH2D* m_BTaggingEff_Num_udsg;
+	TH2D* m_BTaggingEff_Denom_undef;
+	TH2D* m_BTaggingEff_Num_undef;
 };

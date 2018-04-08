@@ -265,47 +265,31 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 				// kinematic cuts
 				// implementation not nice at the moment. feel free to improve it :)
 				for (std::map<std::string, std::vector<float> >::const_iterator lowerPtCut = lowerPtCuts.begin(); lowerPtCut != lowerPtCuts.end() && validJet; ++lowerPtCut)
-				{
 					if (jet->p4.Pt() < *std::max_element(lowerPtCut->second.begin(), lowerPtCut->second.end()))
-					{
 						validJet = false;
-					}
-				}
 				for (std::map<std::string, std::vector<float> >::const_iterator upperAbsEtaCut = upperAbsEtaCuts.begin(); upperAbsEtaCut != upperAbsEtaCuts.end() && validJet; ++upperAbsEtaCut)
-				{
 					if (std::abs(jet->p4.Eta()) > *std::min_element(upperAbsEtaCut->second.begin(), upperAbsEtaCut->second.end()))
-					{
 						validJet = false;
-					}
-				}
 
 				// remove leptons from list of jets via simple DeltaR isolation
-				for (std::vector<KLepton*>::const_iterator lepton = product.m_validLeptons.begin();
-					 validJet && lepton != product.m_validLeptons.end(); ++lepton)
-				{
+				for (std::vector<KLepton*>::const_iterator lepton = product.m_validLeptons.begin(); validJet && lepton != product.m_validLeptons.end(); ++lepton)
 					validJet = validJet && ROOT::Math::VectorUtil::DeltaR(jet->p4, (*lepton)->p4) > settings.GetJetLeptonLowerDeltaRCut();
-				}
 				
 				// check possible analysis-specific criteria
 				validJet = validJet && HttValidTaggedJetsProducer::AdditionalCriteriaStatic(&(*jet),
 				                                                                            puJetIdsByIndex, puJetIdsByHltName,
 				                                                                            jetTaggerLowerCutsByTaggerName, jetTaggerUpperCutsByTaggerName,
 				                                                                            event, product, settings, metadata);
-				
 				if (validJet)
 				{
 					KGenParticle* matchedParticle = RecoJetGenParticleMatchingProducer::Match(event, product, settings, static_cast<KLV*>(&(*jet)), m_jetMatchingAlgorithm);
 					if (((matchedParticle == nullptr) && settings.GetInvalidateNonGenParticleMatchingRecoJets()) ||
 						((matchedParticle != nullptr) && settings.GetInvalidateGenParticleMatchingRecoJets()))
-					{
 						validJet = false;
-					}
 				}
 				
-				if (validJet)
-				{
-					shiftedJets.push_back(*jet);
-				}
+				if (validJet) shiftedJets.push_back(*jet);
+
 				if (settings.GetUseJECShiftsForBJets())
 				{
 					// determine if jet is btagged
@@ -315,17 +299,20 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 					float combinedSecondaryVertex = tjet.getTag(settings.GetBTaggedJetCombinedSecondaryVertexName(), event.m_jetMetadata);
 
 					if (combinedSecondaryVertex < m_bTagWorkingPoint ||
-						std::abs(tjet.p4.eta()) > settings.GetBTaggedJetAbsEtaCut()) {
+						std::abs(tjet.p4.eta()) > settings.GetBTaggedJetAbsEtaCut())
 						validBJet = false;
-					}
 
 					//entry point for Scale Factor (SF) of btagged jets
 					if (settings.GetApplyBTagSF() && !settings.GetInputIsData())
 					{
 						//https://twiki.cern.ch/twiki/bin/view/CMS/BTagSFMethods#2a_Jet_by_jet_updating_of_the_b
-						if (m_bTagSFMethod == KappaEnumTypes::BTagScaleFactorMethod::PROMOTIONDEMOTION) {
+						if (m_bTagSFMethod == KappaEnumTypes::BTagScaleFactorMethod::PROMOTIONDEMOTION)
+						{
 						
-							int jetflavor = tjet.flavour;
+							int jetHadronFlavor = tjet.hadronFlavour;
+							int jetPartonFlavor = tjet.partonFlavour;
+							int jetflavor = jetHadronFlavor + (jetHadronFlavor == 0) * (jetPartonFlavor);
+
 							unsigned int btagSys = BTagSF::kNo;
 							unsigned int bmistagSys = BTagSF::kNo;
 
@@ -341,13 +328,10 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 									m_bTagWorkingPoint
 							);
 							
-							if (taggedBefore != validBJet)
-								LOG_N_TIMES(20, DEBUG) << "Promoted/demoted : " << validBJet;
+							if (taggedBefore != validBJet) LOG_N_TIMES(20, DEBUG) << "Promoted/demoted : " << validBJet;
 						}
-						
-						else if (m_bTagSFMethod == KappaEnumTypes::BTagScaleFactorMethod::OTHER) {
-							//todo
-						}
+						//todo
+						else if (m_bTagSFMethod == KappaEnumTypes::BTagScaleFactorMethod::OTHER) {}
 					}
 
 					if (validBJet) shiftedBTaggedJets.push_back(tjet);
