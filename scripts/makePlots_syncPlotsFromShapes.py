@@ -82,6 +82,3 @@ if __name__ == "__main__":
 		plot_configs.append(plot_config)
 	
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots)
-	
-	if os.path.exists(event_matching_output) and not args.keep_eventmatching_output:
-		os.remove(event_matching_output)
