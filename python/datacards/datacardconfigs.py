@@ -255,12 +255,6 @@ class DatacardConfigs(object):
 				"mm_Vbf2D" : 102,
 			},
 		}
-		#for channel in ["tt", "mt", "et", "em"]:
-			#categories_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_mvadatacards.cfg"%channel)
-			#with open(categories_path) as categs:
-				#for line in categs:
-					#cat = line.strip()
-					#self._mapping_category2binid[channel][cat] = len(self._mapping_category2binid[channel].keys())
 		channels=["mt", "et", "tt", "em","mm"]
 		# ==========================Copy here!=========================================
 		categories=Categories.CategoriesDict().getCategories(channels=channels)

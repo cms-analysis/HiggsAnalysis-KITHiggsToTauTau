@@ -114,8 +114,8 @@ class TauEsDatacards(datacards.Datacards):
 			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *systematics_list.ztt_qcd_scale_syst_args)
 
 			# QCD systematic
-			self.cb.cp().channel(["mt", "et"]).process(["QCD"]).AddSyst(self.cb, "QCD_Extrap_Iso_nonIso_lt_13TeV", "lnN", ch.SystMap()(1.20))
-			self.cb.cp().channel(["mt", "et"]).process(["QCD"]).AddSyst(self.cb, "WSFUncert_lt_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["mt", "et"]).process(["QCD"]).AddSyst(self.cb, "CMS_QCD_Extrap_Iso_nonIso_lt_13TeV", "lnN", ch.SystMap()(1.20))
+			self.cb.cp().channel(["mt", "et"]).process(["QCD"]).AddSyst(self.cb, "CMS_WSFUncert_lt_13TeV", "shape", ch.SystMap()(1.0))
 
 			# W+jets high->low mt extrapolation uncertainty
 			self.cb.cp().channel(["mt", "et"]).process(["W"]).AddSyst(self.cb, "WHighMTtoLowMT_13TeV", "lnN", ch.SystMap()(1.10))

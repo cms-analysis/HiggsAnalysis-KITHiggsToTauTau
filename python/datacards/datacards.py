@@ -61,33 +61,6 @@ class Datacards(object):
 		
 		self.stable_options = r"--robustFit 1 --preFitValue 1.0 --cminDefaultMinimizerType Minuit2 --cminDefaultMinimizerAlgo Minuit2 --cminDefaultMinimizerStrategy 0 --cminFallbackAlgo Minuit2,0:1.0"
 
-		path=os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/")
-		self.mva_bdt_syst_uncs =[
-			"mva_regular_BDT_shifts",
-			"lnN"]
-		mapster_1 = ch.SystMap("bin", "process")
-		if os.path.exists(os.path.join(path, "Reg_BDT.cfg")):
-			reg_bdt = jsonTools.JsonDict(os.path.join(path, "Reg_BDT.cfg"))
-			for category in reg_bdt.keys():
-				call = ([category], ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W", "ggH", "qqH", "WH", "ZH", "VH"], reg_bdt[category])
-				mapster_1(*call)
-		else:
-			mapster_1(["dummy"], ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W", "ggH", "qqH", "WH", "ZH", "VH"], (1.0,1.0))
-		self.mva_bdt_syst_uncs.append(mapster_1)
-			#values without process mapping [3.734375, 3.609375, 3.640625]
-		self.mva_vbf_bdt_syst_uncs =[
-			"mva_vbftagger_BDT_shifts",
-			"lnN"]
-		mapster_2 = ch.SystMap("bin", "process")
-		if os.path.exists(os.path.join(path, "VBF_BDT.cfg")):
-			vbf_bdt = jsonTools.JsonDict(os.path.join(path, "VBF_BDT.cfg"))
-			for category in vbf_bdt.keys():
-				call = ([category], ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W", "ggH", "qqH", "WH", "ZH", "VH"], vbf_bdt[category])
-				mapster_2(*call)
-		else:
-			mapster_2(["dummy"], ["ZTT", "ZLL", "ZL", "ZJ", "TTJ", "TT", "VV", "WJ", "W", "ggH", "qqH", "WH", "ZH", "VH"], (1.0,1.0))
-		self.mva_vbf_bdt_syst_uncs.append(mapster_2)
-
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], add_data=True, *args, **kwargs):
 		bin = [(self.configs.category2binid(category, channel), category) for category in categories]
 
