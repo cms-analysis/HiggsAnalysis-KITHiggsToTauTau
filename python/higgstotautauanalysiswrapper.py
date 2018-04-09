@@ -4,17 +4,44 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
+import argparse
+import glob
 import os
-
-import Artus.KappaAnalysis.kappaanalysiswrapper as kappaanalysiswrapper
-import Artus.Utility.jsonTools as jsonTools
-import Artus.Utility.tools as tools
-
 import sys
+import tempfile
+import hashlib
+import json
+import shutil
+import subprocess
+import re
+import copy
+from string import Template
+from datetime import datetime
 
-class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
+from pprint import pprint
 
-	def __init__(self):
+import Artus.Configuration.artusWrapper as artusWrapper
+
+import Artus.Utility.tools as tools
+import Artus.Utility.jsonTools as jsonTools
+import Artus.Utility.profile_cpp as profile_cpp
+
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.tt as tt
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.mt as mt
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.et as et
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.em as em
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.mm as mm
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.gen as gen
+
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.systematics as systematics
+
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.baseconfigCP as baseconfigcp
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.globalProcessors as globalprocessors
+
+class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
+
+	def __init__(self, executable="HiggsToTauTauAnalysis",  userArgParsers=None):
+		
 		#self._config = jsonTools.JsonDict()
 		self._config = {}
 		self._executable = executable
@@ -26,6 +53,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		self._args = self._parser.parse_args()
 		logger.initLogger(self._args)
 
+		
 		# expand the environment variables only at the batch node
 		if self._args.batch:
 			self._args.envvar_expansion = False
