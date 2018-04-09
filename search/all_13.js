@@ -246,7 +246,7 @@ var searchData=
   ['svfitproducer_2eh',['SvfitProducer.h',['../SvfitProducer_8h.html',1,'']]],
   ['svfitresults',['SvfitResults',['../classSvfitResults.html',1,'SvfitResults'],['../classSvfitResults.html#aacb68d5010cb4ca046f01d846c074fe7',1,'SvfitResults::SvfitResults()'],['../classSvfitResults.html#a8331554fc6ab67e2a2856c61f8b2286a',1,'SvfitResults::SvfitResults(double fittedTransverseMass, RMFLV const &amp;fittedHiggsLV, float fittedTau1ERatio, RMFLV const &amp;fittedTau1LV, float fittedTau2ERatio, RMFLV const &amp;fittedTau2LV)'],['../classSvfitResults.html#a949205ecda5ead5d8e5bce308e2a9880',1,'SvfitResults::SvfitResults(SVfitStandaloneAlgorithm const &amp;svfitStandaloneAlgorithm)']]],
   ['svfitsyncquantities',['svfitSyncQuantities',['../namespaceRun2Quantities.html#ab1f8dd6b52132d4af6b200b199af8275',1,'Run2Quantities']]],
-  ['svfittools',['SvfitTools',['../classSvfitTools.html',1,'SvfitTools'],['../classSvfitTools.html#a3ee4e5c67da74ca1da44be0be5e23105',1,'SvfitTools::SvfitTools()'],['../classSvfitProducer.html#a5c2ef16c786f2db347ef45f1cc54500a',1,'SvfitProducer::svfitTools()']]],
+  ['svfittools',['SvfitTools',['../classSvfitTools.html',1,'SvfitTools'],['../classSvfitProducer.html#a5c2ef16c786f2db347ef45f1cc54500a',1,'SvfitProducer::svfitTools()'],['../classSvfitTools.html#a3ee4e5c67da74ca1da44be0be5e23105',1,'SvfitTools::SvfitTools()']]],
   ['svfittools_2ecc',['SvfitTools.cc',['../SvfitTools_8cc.html',1,'']]],
   ['svfittools_2eh',['SvfitTools.h',['../SvfitTools_8h.html',1,'']]],
   ['syncquantities',['syncQuantities',['../namespaceRun2Quantities.html#aa3c2a0c383a8aaab81ad7a4a598c4d77',1,'Run2Quantities']]],

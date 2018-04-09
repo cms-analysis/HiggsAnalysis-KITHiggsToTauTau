@@ -1,11 +1,16 @@
 var NAVTREEINDEX9 =
 {
 "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html":[1,0,54,0],
-"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a1520bc0ad14be07ce4fc8ac31155f349":[1,0,54,0,2],
-"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a329687439cdb8c389184a4c9399197c2":[1,0,54,0,4],
-"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a4c7dbc77ab4abce387910bbb651fd60c":[1,0,54,0,3],
+"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a1520bc0ad14be07ce4fc8ac31155f349":[1,0,54,0,3],
+"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a329687439cdb8c389184a4c9399197c2":[1,0,54,0,5],
+"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a45512fa2e23b1310c164f9be7ba3f68e":[1,0,54,0,7],
+"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a4c7dbc77ab4abce387910bbb651fd60c":[1,0,54,0,4],
+"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a85e3e4dbbc8200ae22c03142610f6aac":[1,0,54,0,6],
 "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a89d0f3598555d48c3baf8dc13b7be8c6":[1,0,54,0,0],
-"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#aee74fd014114862ee96715d88a53019f":[1,0,54,0,1],
+"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#ac1424cd92ec5b172550308c92b9e2445":[1,0,54,0,9],
+"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#ac3d1e01ac6d58e20bb746d08223dc8d5":[1,0,54,0,1],
+"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#adaf676c6bc7a274847f723cf28ba4afc":[1,0,54,0,8],
+"classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#aee74fd014114862ee96715d88a53019f":[1,0,54,0,2],
 "classinitialstatecpstudiesdatacards_1_1InitialStateCPStudiesDatacards.html":[1,0,55,0],
 "classinitialstatecpstudiesdatacards_1_1InitialStateCPStudiesDatacards.html#aa5430e0f58e778d2c7cc0f90fc5100cd":[1,0,55,0,0],
 "classinputroothtt_1_1InputRootHtt.html":[1,0,56,0],
@@ -244,10 +249,5 @@ var NAVTREEINDEX9 =
 "classsamples__run2__2016_1_1Samples.html#adcd0cdd05b49a0f31ebe007d819970f2":[1,0,140,0,70],
 "classsamples__run2__2016_1_1Samples.html#adcfc025f3504eca37561d499db36c5ff":[1,0,140,0,61],
 "classsamples__run2__2016_1_1Samples.html#add563123274694db93556164d291e624":[1,0,140,0,77],
-"classsamples__run2__2016_1_1Samples.html#adde0edd30597097f83b5439230b57692":[1,0,140,0,65],
-"classsamples__run2__2016_1_1Samples.html#ae067490818a764038f8f37f1c44746ba":[1,0,140,0,15],
-"classsamples__run2__2016_1_1Samples.html#ae0f7671fa1dc2004b946158283a6c98b":[1,0,140,0,56],
-"classsamples__run2__2016_1_1Samples.html#ae131f2ae5d99e719c4c94ffe0966bdea":[1,0,140,0,51],
-"classsamples__run2__2016_1_1Samples.html#ae58875aefb4f976f1458c9033efed48d":[1,0,140,0,71],
-"classsamples__run2__2016_1_1Samples.html#aecf56472021334c6422e71a37d9625c8":[1,0,140,0,2]
+"classsamples__run2__2016_1_1Samples.html#adde0edd30597097f83b5439230b57692":[1,0,140,0,65]
 };

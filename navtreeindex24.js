@@ -1,5 +1,10 @@
 var NAVTREEINDEX24 =
 {
+"samples__run2__etaufakerate__2016_8py.html#a3c5022d50b5c1dd8de36664f71580e66":[2,0,1,4,0,14,3],
+"samples__run2__etaufakerate__2016_8py.html#a6a2bbdd6224028160a3669dc4f267b34":[2,0,1,4,0,14,1],
+"samples__run2__etaufakerate__2016_8py.html#ab6107f39c7fdccc12b9fb8ce0870a8ab":[2,0,1,4,0,14,2],
+"scaleVariations__ZttOverZmumu_8py.html":[2,0,2,89],
+"scaleVariations__ZttOverZmumu_8py.html#a017c8dbb12e9b4cfc6a11c923118054f":[2,0,2,89,19],
 "scaleVariations__ZttOverZmumu_8py.html#a0a3532453bc03c129cd0f39a0cff4af2":[2,0,2,89,1],
 "scaleVariations__ZttOverZmumu_8py.html#a0d78372a949f2c9826e03b966df5825f":[2,0,2,89,23],
 "scaleVariations__ZttOverZmumu_8py.html#a1053612845917cf4cb15491b0f34b654":[2,0,2,89,32],
@@ -244,10 +249,5 @@ var NAVTREEINDEX24 =
 "triggerTurnOnParametrisation_8py.html":[2,0,1,9],
 "triggerTurnOnParametrisation_8py.html#a1be040be8c7f2030c3afc20f09db1c11":[2,0,1,9,1],
 "triggerTurnOnParametrisation_8py.html#a2dfd8041ae18146831fa8d1b19718879":[2,0,1,9,2],
-"triggerTurnOnParametrisation_8py.html#a991956558ab34c3349d9bf66c3060d6e":[2,0,1,9,3],
-"triggerTurnOnParametrisation_8py.html#ad341f74479a60029073f1b790f5a1ac1":[2,0,1,9,0],
-"tt_8py.html":[2,0,1,0,2,8],
-"tt_8py.html#a6353297f835f1dcb5e311e164bdb655e":[2,0,1,0,2,8,1],
-"unrolltwodhistogram_8py.html":[2,0,1,4,2,0,13],
-"unrolltwodhistogram_8py.html#aca92de03834462ae8ba9eb6a5b88f877":[2,0,1,4,2,0,13,1]
+"triggerTurnOnParametrisation_8py.html#a991956558ab34c3349d9bf66c3060d6e":[2,0,1,9,3]
 };

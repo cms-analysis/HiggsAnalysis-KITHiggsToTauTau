@@ -1,5 +1,10 @@
 var NAVTREEINDEX12 =
 {
+"correlation__plotter_8py.html#a134ee58cb3093a66ec96a3a76431bcfc":[2,0,2,10,16],
+"correlation__plotter_8py.html#a16dfc31a300135f1b23e7ed9b1521193":[2,0,2,10,15],
+"correlation__plotter_8py.html#a19b64e9d12651ca76352a655289f1fe0":[2,0,2,10,5],
+"correlation__plotter_8py.html#a1e748d836776dd8394357f5f2aadd3d4":[2,0,2,10,6],
+"correlation__plotter_8py.html#a1ee4d848b0bf0999ab63163854bfe8a2":[2,0,2,10,8],
 "correlation__plotter_8py.html#a2ccc04d302022e44a4be13d20103b39c":[2,0,2,10,18],
 "correlation__plotter_8py.html#a344866e217392af993b62ad511e42c0a":[2,0,2,10,14],
 "correlation__plotter_8py.html#a3ad5c0cc1651ad4a1c83c345e0f6ad5d":[2,0,2,10,10],
@@ -244,10 +249,5 @@ var NAVTREEINDEX12 =
 "embedding__plotline__bib_8py.html#affdd45851c797a3a9f491289a20d5d23":[2,0,1,4,1,1,35],
 "embedding__plotline__bib_8py.html#afffe05de82018bb843394ddd995492c4":[2,0,1,4,1,1,100],
 "estimatebase_8py.html":[2,0,1,4,2,0,1],
-"estimatebase_8py.html#a1b9e60f5b4fc13ae85372289fd657263":[2,0,1,4,2,0,1,1],
-"estimateff_8py.html":[2,0,1,4,2,0,2],
-"estimateff_8py.html#aa9054fa36ad477ecb07cf037065eb7d9":[2,0,1,4,2,0,2,1],
-"estimateqcd_8py.html":[2,0,1,4,2,0,3],
-"estimateqcd_8py.html#a12ae1c257b7a5bd5ea89412cb3e9ab78":[2,0,1,4,2,0,3,1],
-"estimateqcdtauhadtauhad_8py.html":[2,0,1,4,2,0,4]
+"estimatebase_8py.html#a1b9e60f5b4fc13ae85372289fd657263":[2,0,1,4,2,0,1,1]
 };
