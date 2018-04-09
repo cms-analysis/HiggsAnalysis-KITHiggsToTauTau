@@ -311,15 +311,15 @@ class mm_ArtusConfig(dict):
 					"producer:TauTauRestFrameSelector",
 					"producer:DiJetQuantitiesProducer",
 					"producer:ZPtReweightProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"#producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
-					"producer:MuMuTriggerWeightProducer",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["#producer:TriggerWeightProducer"]
+			self["Processors"] += ["producer:IdentificationWeightProducer"]
+			self["Processors"] += ["#producer:RooWorkspaceWeightProducer"]
+			self["Processors"] += ["producer:MuMuTriggerWeightProducer"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 		elif re.search("^((?!(DY.?JetsToLL|EWKZ2Jets)).)*Fall15", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -347,13 +347,13 @@ class mm_ArtusConfig(dict):
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["producer:TriggerWeightProducer"]
+			self["Processors"] += ["producer:IdentificationWeightProducer"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 		elif re.search("(DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -382,13 +382,13 @@ class mm_ArtusConfig(dict):
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:ZPtReweightProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["producer:TriggerWeightProducer"]
+			self["Processors"] += ["producer:IdentificationWeightProducer"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 		elif re.search("Run2016", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -413,11 +413,11 @@ class mm_ArtusConfig(dict):
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 		elif re.search("Run2015", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -443,11 +443,11 @@ class mm_ArtusConfig(dict):
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -474,15 +474,15 @@ class mm_ArtusConfig(dict):
 					"producer:TauTauRestFrameSelector",
 					"producer:DiJetQuantitiesProducer",
 					"producer:ZPtReweightProducer",
-					"#filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"#producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
-					"producer:MuMuTriggerWeightProducer",
-					"producer:EventWeightProducer"
-				]
+					"#filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["#producer:TriggerWeightProducer"]
+			self["Processors"] += ["producer:IdentificationWeightProducer"]
+			self["Processors"] += ["#producer:RooWorkspaceWeightProducer"]
+			self["Processors"] += ["producer:MuMuTriggerWeightProducer"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+			
 		else:
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -509,15 +509,15 @@ class mm_ArtusConfig(dict):
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"#producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RooWorkspaceWeightProducer",
-					"producer:MuMuTriggerWeightProducer",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["#producer:TriggerWeightProducer"]
+			self["Processors"] += ["producer:IdentificationWeightProducer"]
+			self["Processors"] += ["#producer:RooWorkspaceWeightProducer"]
+			self["Processors"] += ["producer:MuMuTriggerWeightProducer"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 
 
 			

@@ -402,20 +402,20 @@ class et_ArtusConfig(dict):
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:ZPtReweightProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
-					"producer:MELAProducer",
-					"producer:SimpleFitProducer",
-					"producer:RooWorkspaceWeightProducer",
-					"producer:GenMatchedTauCPProducer",
-					"producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesSvfitProducer",
-					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:TauPolarisationTmvaReader",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:SimpleFitProducer"]
+			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 		
 		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Processors"] = [
@@ -450,20 +450,20 @@ class et_ArtusConfig(dict):
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"#producer:MELAProducer",
-					"#producer:SimpleFitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"#producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesSvfitProducer",
-					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:TauPolarisationTmvaReader",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["#producer:MELAProducer"]
+			self["Processors"] += ["#producer:SimpleFitProducer"]
+			self["Processors"] += ["producer:TriggerWeightProducer"]
+			self["Processors"] += ["producer:IdentificationWeightProducer"]
+			self["Processors"] += ["#producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -497,22 +497,22 @@ class et_ArtusConfig(dict):
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:ZPtReweightProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"#producer:MELAProducer",
-					"#producer:SimpleFitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"producer:EleTauFakeRateWeightProducer",
-					"producer:GenMatchedTauCPProducer",
-					"#producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesSvfitProducer",
-					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:TauPolarisationTmvaReader",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["#producer:MELAProducer"]
+			self["Processors"] += ["#producer:SimpleFitProducer"]
+			self["Processors"] += ["producer:TriggerWeightProducer"]
+			self["Processors"] += ["producer:IdentificationWeightProducer"]
+			self["Processors"] += ["producer:EleTauFakeRateWeightProducer"]
+			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+			self["Processors"] += ["#producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 
 		elif re.search("Run2016", nickname):
 			self["Processors"] = [
@@ -542,18 +542,18 @@ class et_ArtusConfig(dict):
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
-					"producer:MELAProducer",
-					"producer:SimpleFitProducer",
-					"producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesSvfitProducer",
-					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:TauPolarisationTmvaReader",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:SimpleFitProducer"]
+			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 		elif re.search("Run2015", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -583,18 +583,18 @@ class et_ArtusConfig(dict):
 					"producer:TauTauRestFrameSelector",
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"#producer:MELAProducer",
-					"#producer:SimpleFitProducer",
-					"#producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesSvfitProducer",
-					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:TauPolarisationTmvaReader",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["#producer:MELAProducer"]
+			self["Processors"] += ["#producer:SimpleFitProducer"]
+			self["Processors"] += ["#producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
@@ -630,20 +630,20 @@ class et_ArtusConfig(dict):
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
-					"producer:MELAProducer",
-					"producer:RooWorkspaceWeightProducer",
-					"producer:GenMatchedTauCPProducer",
-					"producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesSvfitProducer",
-					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:TauPolarisationTmvaReader",
-					"#producer:MadGraphReweightingProducer",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["#producer:MadGraphReweightingProducer"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 			self["Processors"] = [
@@ -678,26 +678,26 @@ class et_ArtusConfig(dict):
 					"producer:DiLeptonQuantitiesProducer",
 					"producer:DiJetQuantitiesProducer",
 					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
-					"producer:MELAProducer",
-					"#producer:SimpleFitProducer",
-					"producer:TriggerWeightProducer",
-					"producer:IdentificationWeightProducer",
-					"producer:EleTauFakeRateWeightProducer",
-					"producer:GenMatchedTauCPProducer",
-					"#producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesSvfitProducer",
-					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:TauPolarisationTmvaReader",
-					"producer:MadGraphReweightingProducer",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["#producer:SimpleFitProducer"]
+			self["Processors"] += ["producer:TriggerWeightProducer"]
+			self["Processors"] += ["producer:IdentificationWeightProducer"]
+			self["Processors"] += ["producer:EleTauFakeRateWeightProducer"]
+			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+			self["Processors"] += ["#producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["producer:MadGraphReweightingProducer"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-			 self["Processors"] = [
+			self["Processors"] = [
 					"producer:HltProducer",
 					"filter:HltFilter",
 					"producer:MetSelector",
@@ -729,18 +729,18 @@ class et_ArtusConfig(dict):
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:ZPtReweightProducer",
-					"#filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"#producer:SvfitProducer",
-					"producer:RooWorkspaceWeightProducer",
-					"producer:GenMatchedTauCPProducer",
-					"producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesSvfitProducer",
-					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:TauPolarisationTmvaReader",
-					"producer:EventWeightProducer"
-				]
+					"#filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 
 		else:
 			self["Processors"] = [
@@ -775,19 +775,19 @@ class et_ArtusConfig(dict):
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer",
 					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter",
-					"#producer:MVATestMethodsProducer",
-					"producer:SvfitProducer",
-					"producer:MELAProducer",
-					"producer:SimpleFitProducer",
-					"producer:RooWorkspaceWeightProducer",
-					"producer:RefitVertexSelector",
-					"producer:RecoTauCPProducer",
-					"producer:PolarisationQuantitiesSvfitProducer",
-					"producer:PolarisationQuantitiesSimpleFitProducer",
-					"#producer:TauPolarisationTmvaReader",
-					"producer:EventWeightProducer"
-				]
+					"filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:SimpleFitProducer"]
+			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+				
 
 
 		
