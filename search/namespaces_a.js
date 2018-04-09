@@ -16,7 +16,6 @@ var searchData=
   ['makeplots_5fdatacardslfv',['makePlots_datacardsLFV',['../namespacemakePlots__datacardsLFV.html',1,'']]],
   ['makeplots_5fdatacardslfvzlt',['makePlots_datacardsLFVZlt',['../namespacemakePlots__datacardsLFVZlt.html',1,'']]],
   ['makeplots_5fdatacardsmssmhtt',['makePlots_datacardsMSSMHtt',['../namespacemakePlots__datacardsMSSMHtt.html',1,'']]],
-  ['makeplots_5fdatacardsmvatest',['makePlots_datacardsMVATest',['../namespacemakePlots__datacardsMVATest.html',1,'']]],
   ['makeplots_5fdatacardspostfitplots',['makePlots_datacardsPostfitPlots',['../namespacemakePlots__datacardsPostfitPlots.html',1,'']]],
   ['makeplots_5fdatacardssmhtt',['makePlots_datacardsSMHtt',['../namespacemakePlots__datacardsSMHtt.html',1,'']]],
   ['makeplots_5fdatacardssmhtt_5flimitprojection',['makePlots_datacardsSMHtt_limitProjection',['../namespacemakePlots__datacardsSMHtt__limitProjection.html',1,'']]],
@@ -52,11 +51,8 @@ var searchData=
   ['makeplots_5ftriggerefficiencyfits',['makePlots_triggerEfficiencyFits',['../namespacemakePlots__triggerEfficiencyFits.html',1,'']]],
   ['makeplots_5fzttpolarisationplots',['makePlots_zttPolarisationPlots',['../namespacemakePlots__zttPolarisationPlots.html',1,'']]],
   ['makeplots_5fztttheoryunc',['makePlots_ZTTtheoryUnc',['../namespacemakePlots__ZTTtheoryUnc.html',1,'']]],
-  ['mm',['mm',['../namespacemm.html',1,'']]],
-  ['mt',['mt',['../namespacemt.html',1,'']]],
   ['mvacategory_5fshifts',['mvaCategory_Shifts',['../namespacemvaCategory__Shifts.html',1,'']]],
   ['mvacategory_5funcertainties',['mvaCategory_Uncertainties',['../namespacemvaCategory__Uncertainties.html',1,'']]],
-  ['mvaconfigwriter',['mvaConfigWriter',['../namespacemvaConfigWriter.html',1,'']]],
-  ['mvadatacards',['mvadatacards',['../namespacemvadatacards.html',1,'']]],
-  ['mvadatacards_5fbase',['mvadatacards_base',['../namespacemvadatacards__base.html',1,'']]]
+  ['mvadatacards_5fbase',['mvadatacards_base',['../namespacemvadatacards__base.html',1,'']]],
+  ['mvaflavio',['MVAFlavio',['../namespaceMVAFlavio.html',1,'']]]
 ];

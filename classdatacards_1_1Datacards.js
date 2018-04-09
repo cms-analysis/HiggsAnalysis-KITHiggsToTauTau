@@ -26,8 +26,6 @@ var classdatacards_1_1Datacards =
     [ "cb", "classdatacards_1_1Datacards.html#ab74341116805e56e75e341d71eb6c42d", null ],
     [ "configs", "classdatacards_1_1Datacards.html#a71650bd9e7afd80da386e2a20cc33ee1", null ],
     [ "morphing_variable", "classdatacards_1_1Datacards.html#ae3df9adda487d7ebb2829e78d248223a", null ],
-    [ "mva_bdt_syst_uncs", "classdatacards_1_1Datacards.html#acb0144c04a06f50e54ba3aaeae0aaf56", null ],
-    [ "mva_vbf_bdt_syst_uncs", "classdatacards_1_1Datacards.html#a39527bcc5ff6ef02f7172adadf69d975", null ],
     [ "stable_options", "classdatacards_1_1Datacards.html#a297c854b26b5f7f9b82ca7bb7e3175ed", null ],
     [ "workspace", "classdatacards_1_1Datacards.html#aeaa8ee4a3ad83151b0658da8a3d19ccd", null ]
 ];
