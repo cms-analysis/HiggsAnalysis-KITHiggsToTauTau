@@ -32,7 +32,6 @@ def addArguments(parser):
 	parser.add_argument("-c", "--channels", nargs="*", default=["mt","et"],
 	                    help="Select final state(s) for measurement. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=["ZeroJet2D", "Boosted2D", "dijet2D_lowboost", "dijet2D_boosted"],
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
 	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
@@ -140,11 +139,8 @@ if __name__ == "__main__":
 	quantity = args.quantity
 	
 	# Build categories and bin id's for CombineHarvester
-	categories = []
+	categories = [channel+"_"+category for channel in args.channels for category in args.categories[0]]
 	mapping_category2binid = {}
-	
-	if args.channels != parser.get_default("channels"):
-		args.channels = args.channels[len(parser.get_default("channels")):]
 		
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
@@ -155,21 +151,16 @@ if __name__ == "__main__":
 		
 	# Restrict CombineHarvester to configured channels:
 	datacards = qcdfactorsdatacards.QcdFactorsDatacards(quantity, args.era, mapping_category2binid)
+	
 	datacards.cb.channel(args.channels)
 	datacards.cb.PrintAll()
-	sys.exit(0)
 	
-	for index, (channel, categories) in enumerate(zip(args.channels, args.categories)):
+	for category in categories:
 		channel = category.split("_")[0]
-		decayMode = category.split("_")[-2]
-		weight_index = int(category.split("_")[-1].split(weight_type + "bin")[-1])
+	
 		# use relaxed isolation criteria for W+jets and QCD estimation
 		# if measurement is performed in bins of pt or eta
 		useRelaxedIsolation = False
-		if weight_index > 0:
-			useRelaxedIsolation = True
-		if args.no_inclusive:
-			weight_index = weight_index - 1
 
 		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 			ANALYSIS="ztt",
@@ -181,22 +172,16 @@ if __name__ == "__main__":
 		input_plot_configs = []
 		hadd_commands = []
 		
-		datacards_per_channel_category = taupogdatacards.TauEsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
+		datacards_per_channel_category = qcdfactorsdatacards.QcdFactorsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
 
 		tmp_output_files = []
 
 		for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
+			print(shape_systematic, list_of_samples)
 			nominal = (shape_systematic == "nominal")
 			list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
-			
-			# This is needed because wj and qcd are interdependent when using the new background estimation method
-			# NB: CH takes care to only use the templates for processes that you specified. This means that any
-			#     superfluous histograms created as a result of this problem do not influence the result
-			if args.background_method == "new":
-				if "qcd" in list_of_samples and "wj" not in list_of_samples:
-					list_of_samples += ["wj"]
-				elif "wj" in list_of_samples and "qcd" not in list_of_samples:
-					list_of_samples += ["qcd"]
+			print(list_of_samples)
+
 			
 			for shift_up in ([True] if nominal else [True, False]):
 				systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -208,40 +193,30 @@ if __name__ == "__main__":
 					systematic=systematic
 				))
 
-				wj_sf_shift = 0.0
-				if "WSFUncert_lt" in shape_systematic:
-					wj_sf_shift = 1.1 if shift_up else 0.9
 
 				merged_config={}
-				
-				# Config for rest for each pt range
-				# Need to get "rest" first in order for corrections of negative bin contents to have an effect
-				catForConfig = "cat" + decayMode + "_" + channel
-				if (decayMode == "AllDMs" and quantity == "m_2"):
-					catForConfig = "catAllDMsNotOneProng_" + channel
+
 				config_rest = sample_settings.get_config(
-					samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample not in ["ztt", "ttt", "vvt"]],
+					samples=[getattr(samples.Samples, sample) for sample in list_of_samples if sample not in ["qcd"]],
 					channel=channel,
-					category=catForConfig,
-					nick_suffix="_" + str(weight_index),
-					weight="(pt_2>20)*" + args.weight,
+					category=category,
+					nick_suffix="_",
+					weight=args.weight,
 					lumi=args.lumi * 1000,
-					cut_type="tauescuts2016" if args.era == "2016" else "tauescuts",
-					estimationMethod=args.background_method,
-					wj_sf_shift=wj_sf_shift,
-					ss_os_factor = ss_os_factors.get(channel,0.0),
+					cut_type="smhtt2016" if args.era == "2016" else "tauescuts",
+					estimationMethod="classic", 
 					useRelaxedIsolationForW = useRelaxedIsolation,
 					useRelaxedIsolationForQCD = useRelaxedIsolation
 				)
 				
-				config_rest["x_expressions"] = [quantity + "*" + extra_weights[weight_index]] * len(config_rest["nicks"])
+				config_rest["x_expressions"] = [quantity]
 				histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 				config_rest["labels"] = [histogram_name_template.replace("$", "").format(
 					PROCESS=datacards.configs.sample2process(sample),
 					BIN=category,
 					SYSTEMATIC=systematic
 				) for sample in config_rest["labels"]]
-				
+
 				systematics_settings = systematics_factory.get(shape_systematic)(config_rest)
 				config_rest = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 				
@@ -349,7 +324,7 @@ if __name__ == "__main__":
 		bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 		update_systematics=True
 	)
-	
+	sys.exit(0)
 	# Create morphing
 	datacards.create_morphing_signals("mes", 1.0, args.shift_ranges[0], args.shift_ranges[1])
 	
