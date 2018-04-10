@@ -42,8 +42,6 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 
 	def __init__(self, executable="HiggsToTauTauAnalysis",  userArgParsers=None):
 		
-		#self._config = jsonTools.JsonDict()
-		self._config = {}
 		self._executable = executable
 
 		self._parser = None
@@ -52,6 +50,14 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		#Parse command line arguments and return dict
 		self._args = self._parser.parse_args()
 		logger.initLogger(self._args)
+		
+		if self._args.use_json:
+			self._config = jsonTools.JsonDict()
+		else:
+			self._config = {}
+
+
+
 
 		
 		# expand the environment variables only at the batch node
@@ -66,7 +72,10 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 			self._config["Date"] = date_now
 
 		#Expand Config
-		self.expandConfig_python()
+		if self._args.use_json:
+			self.expandConfig()
+		else:
+			self.expandConfig_python()
 		self.projectPath = None
 		self.localProjectPath = None
 		self.remote_se = False
@@ -81,6 +90,7 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 
 	def _initArgumentParser(self, userArgParsers=None):
 		super(HiggsToTauTauAnalysisWrapper, self)._initArgumentParser(userArgParsers)
+		
 
 	def modify_replacing_dict(self):
 		self.replacingDict["areafiles"] += " -data/Samples auxiliaries/mva_weights ZZMatrixElement/MELA"
@@ -170,6 +180,7 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		print self._args.channels
 		if nickname != "auto":
 			if self._args.channels and len(self._args.channels) > 0:
+				print self._args.channels
 				pipeline_config = {} #TODO add systematic option, extra loop or in pipelines?
 				syst_python_config = systematics.Systematics_Config()
 
