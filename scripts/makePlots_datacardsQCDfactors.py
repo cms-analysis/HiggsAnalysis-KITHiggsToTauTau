@@ -27,26 +27,13 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.qcdfactorsdatacards as qcdfactor
 def addArguments(parser):
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("-x", default="m_2", choices=["m_vis"], default=["m_vis"],
+	parser.add_argument("-x", "--quantity", default="m_vis", choices=["m_vis"], 
 	                    help="Quantity ot perform fit in sideband region. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*", default=["mt","et"],
 	                    help="Select final state(s) for measurement. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=[["all"]] * len(parser.get_default("channel")),
+	                    default=["ZeroJet2D", "Boosted2D", "dijet2D_lowboost", "dijet2D_boosted"],
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
-						
-
-	parser.add_argument("--shift-binning", type=float, default=0.001,
-	                    help="Provide binning to use for energy scale shifts. [Default: %(default)s]")
-	parser.add_argument("--pt-ranges", nargs="*",
-	                    default=[],
-	                    help="Enter the lower bin edges for the pt ranges.")
-	parser.add_argument("--eta-binning", action="store_true", default=False,
-	                    help="Perform measurement in bins of eta instead of pt. [Default: %(default)s]")
-	parser.add_argument("--decay-modes", nargs="+",
-	                    default=["OneProngPiZeros"],
-	                    choices=["AllDMs","OneProng","OneProngPiZeros","ThreeProng"],
-	                    help="Decay modes of reconstructed hadronic tau leptons in Z #rightarrow #tau#tau. [Default: %(default)s]")
 	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
 	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
@@ -68,10 +55,6 @@ def addArguments(parser):
 	                    help="Publish plots. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
-	parser.add_argument("--tighten-mass-window", action="store_true", default=False,
-	                    help="Enable to study effect mass window cut has on tau ES when using m_2. [Default: %(default)s]")
-	parser.add_argument("--plot-with-shift", type=float, default=0.0,
-	                    help="For plot presentation purposes only: produce prefit plot for a certain energy scale shift. [Default: %(default)s]")
 	parser.add_argument("-b", "--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("--use-scan-without-fit", action="store_true", default=False,
@@ -110,63 +93,14 @@ def _call_command(args):
 
 if __name__ == "__main__":
 
-	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for tau energy scale measurement.",
+	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for the measurement of the QCD 0S/SS factor from data in a sideband region.",
 	                                 parents=[logger.loggingParser])
 	addArguments(parser)
 
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	# Clean the output dir
-	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
-	if args.clear_output_dir and os.path.exists(args.output_dir): logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-		
-	# Produce es shifts from input arguments
-	if args.plot_with_shift == 0.0:
-		es_shifts = [args.shift_ranges[0] + x * args.shift_binning for x in range(int((args.shift_ranges[1] - args.shift_ranges[0]) / args.shift_binning) + 1)]
-	else:
-		es_shifts = [args.plot_with_shift - 0.0001, args.plot_with_shift + 0.0001]
-	es_shifts_str = [str(x) for x in es_shifts] # CombineHarvester taupogdatacards needs a list of strings
-
-	# Produce decaymode bins
-	decay_modes = copy.deepcopy(args.decay_modes)
-	
-	# Produce pt-bins (first one is always inclusive)
-	pt_ranges =  ["0.0"] + copy.deepcopy(args.pt_ranges)
-	pt_weights = ["(pt_2>20)"]                + ["(pt_2>" + str(pt_ranges[pt_index]) + ")*(pt_2<" + str(pt_ranges[pt_index + 1]) + ")" for pt_index in range(1, len(pt_ranges) - 1)] + (len(pt_ranges)>1) * ["(pt_2>" + pt_ranges[-1] + ")" ]
-	pt_strings = ["p_{T}(#tau_{h}) > 20 GeV"] + [pt_ranges[pt_index] + " < p_{T}(#tau_{h}) < " + pt_ranges[pt_index + 1] + " GeV" for pt_index in range(1, len(pt_ranges) - 1)]      + (len(pt_ranges)>1) * ["p_{T}(#tau_{h}) > " + pt_ranges[-1] + " GeV" ]
-	pt_bins = [str(x) for x in range(0, len(pt_ranges))]
-
-	# Produce eta-bins (first one is always inclusive)
-	# for the moment only barrel and endcap considered
-	eta_ranges = ["0.0", "1.479", "2.3"]
-	eta_weights = ["(abs(eta_2)<2.3)", "(abs(eta_2)<1.479)", "(abs(eta_2)>1.479)*(abs(eta_2)<2.3)"]
-	eta_strings = ["|#eta(#tau_{h})| < 2.3", "|#eta(#tau_{h})| < 1.479", "1.479 < |#eta(#tau_{h})| < 2.3"]
-	eta_bins = ["0", "1", "2"]
-	
-	# Do measurement as function of pt or eta?
-	# Note: Python variables are scoped to the innermost function or module; control blocks like if and while blocks don't count
-	# try this instead:
-	'''
-	if args.eta_binning:
-		weight_type = "eta"
-		weight_ranges = eta_ranges
-		extra_weights = eta_weights
-		weight_strings = eta_strings
-		weight_bins = eta_bins
-	else:
-		weight_type = "pt"
-		weight_ranges = pt_ranges
-		extra_weights = pt_weights
-		weight_strings = pt_strings
-		weight_bins = pt_bins
-	'''
-	weight_type = ("eta" if args.eta_binning else "pt")
-	weight_ranges = (eta_ranges if args.eta_binning else pt_ranges)
-	extra_weights = (eta_weights if args.eta_binning else pt_weights)
-	weight_strings = (eta_strings if args.eta_binning else pt_strings)
-	weight_bins = (eta_bins if args.eta_binning else pt_bins)
-	
+				
 	# Initialisations for plotting
 	if (args.era == "2015") or (args.era == "2015new"):
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
@@ -174,6 +108,16 @@ if __name__ == "__main__":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 		if args.lumi == parser.get_default("lumi"):
 			args.lumi = samples.default_lumi/1000.0
+
+	# Clean the output dir	
+	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
+	if args.clear_output_dir:
+		clear_output_dir = raw_input("Do you really want to clear the output directory? [yes]").lower() == "yes"
+		if not clear_output_dir:
+			log.info("Terminate. Remove the clear_output_dir option and run the programm again.")
+			sys.exit(1)
+		logger.subprocessCall("rm -r " + args.output_dir, shell=True)			
+			
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
 	www_output_dirs_postfit = []
@@ -192,42 +136,30 @@ if __name__ == "__main__":
 		datacard_filename_templates.append("datacards/decaymode/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	
+	# define the quantity for the sideband region
 	quantity = args.quantity
 	
 	# Build categories and bin id's for CombineHarvester
 	categories = []
 	mapping_category2binid = {}
-	for channel in args.channels:
-		mapping_category2binid.setdefault(channel, {})
-		bin_id = 2000 if quantity == "m_2" else 3000
-		if args.eta_binning:
-			bin_id = bin_id + 2000
-		for decayMode in args.decay_modes:
-			bin_id = bin_id + 1
-			for weight_index, (weight_bin) in enumerate(weight_bins):
-				bin_id = bin_id + 1
-				category = channel + "_" + quantity + "_" + decayMode + "_" + weight_type + "bin" + weight_bins[weight_index]
-				mapping_category2binid[channel][category] = bin_id
-				if weight_index == 0 and args.no_inclusive: continue
-				categories.append(category)
 	
-	if args.no_inclusive:
-		weight_ranges.pop(0)
-		extra_weights.pop(0)
-		weight_bins.pop(0)
-	
-	# os/ss factors for different categories
-	ss_os_factors = {
-		"mt" : 1.06,
-		"et" : 1.0
-	}
-	
+	if args.channels != parser.get_default("channels"):
+		args.channels = args.channels[len(parser.get_default("channels")):]
+		
+	if args.categories != parser.get_default("categories"):
+		args.categories = args.categories[1:]
+			
+	# catch if on command-line only one set has been specified and repeat it
+	if(len(args.categories) == 1):
+		args.categories = [args.categories[0]] * len(args.channel)
+		
 	# Restrict CombineHarvester to configured channels:
-	datacards = qcdfactorsdatacards.QcdFactorsDatacards(es_shifts_str, decay_modes, quantity, weight_bins, weight_type, args.era, mapping_category2binid)
+	datacards = qcdfactorsdatacards.QcdFactorsDatacards(quantity, args.era, mapping_category2binid)
 	datacards.cb.channel(args.channels)
 	datacards.cb.PrintAll()
 	sys.exit(0)
-	for category in categories:
+	
+	for index, (channel, categories) in enumerate(zip(args.channels, args.categories)):
 		channel = category.split("_")[0]
 		decayMode = category.split("_")[-2]
 		weight_index = int(category.split("_")[-1].split(weight_type + "bin")[-1])

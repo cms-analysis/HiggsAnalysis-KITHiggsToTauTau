@@ -11,7 +11,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_libary as Sys
 
 
 class QcdFactorsDatacards(datacards.Datacards):
-	def __init__(self, shifts=[], decaymodes=[], quantity="m_2", weight_bins=[], weight_type="pt", year="", mapping_category2binid=None, cb=None):
+	def __init__(self, quantity="m_vis", year="", mapping_category2binid=None, cb=None):
 		super(QcdFactorsDatacards, self).__init__(cb)
 		
 		if mapping_category2binid is not None:
@@ -22,7 +22,7 @@ class QcdFactorsDatacards(datacards.Datacards):
 		systematics_list = SystLib.SystematicLibary()
 					
 		all_mc_bkgs = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]
-		# all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"] #don't no whether this is still needed here...
+		all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"] #don't no whether this is still needed here...
 		signal_processes = ["QCD"]
 		categories_for_SSOS_factor_estimation = [channel+bin for channel in ["et", "mt"] for bin in ["ZeroJet2D", "Boosted2D", "dijet2D_lowboost", "dijet2D_boosted"]]
 		
@@ -49,18 +49,17 @@ class QcdFactorsDatacards(datacards.Datacards):
 			
 
 			# mu->tau fake ES (only for 1-prongs and 1-prong+Pi0s)
-			categoriesForMuFakeTauES = ["mt_"+quantity+"_"+decaymode+"_"+weight_type+"bin"+weight_bin for decaymode in decaymodesNoThreeProng for weight_bin in weight_bins]
-			self.cb.cp().channel(["mt"]).process(["ZL"]).bin(categoriesForMuFakeTauES).AddSyst(self.cb, *systematics_list.muFakeTau_es_syst_args)
+			# self.cb.cp().channel(["mt"]).process(["ZL"]).bin(categoriesForMuFakeTauES).AddSyst(self.cb, *systematics_list.muFakeTau_es_syst_args)
 
 			# fake-rate
-			if year == "2016":
-				self.cb.cp().channel(["mt"]).process(["ZL"]).bin(categoriesForMuFakeTauES).AddSyst(self.cb, *systematics_list.muFakeTau2016_syst_args)
+			# if year == "2016":
+			# 	self.cb.cp().channel(["mt"]).process(["ZL"]).bin(categoriesForMuFakeTauES).AddSyst(self.cb, *systematics_list.muFakeTau2016_syst_args)
 	
 			# ======================================================================
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["et_"+quantity+"_"+decaymode+"_"+weight_type+"bin"+weight_bin for decaymode in decaymodes for weight_bin in weight_bins],
+					categories=categories_for_SSOS_factor_estimation,
 					bkg_processes=all_mc_bkgs,
 					sig_processes=signal_processes,
 					analysis=["htt"],
