@@ -189,7 +189,24 @@ class SystematicLibary(object):
 				(["et"], ["13TeV"], ["ZTT", "ZL", "ZJ", "EWKZ"], 1.07)
 				(["mt"], ["13TeV"], ["ZTT", "ZL", "ZJ", "EWKZ"], 1.07)
 		]
-
+		self.htt_wnorm_syst_args = [
+			"CMS_htt_WNorm_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["W"], 1.10) # Source?
+		]
+		self.htt_ttnorm_syst_args = [
+			"CMS_httTTNorm_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["TTT", "TTJ"], 1.10) # Source?
+		]				
+		self.htt_vvnorm_syst_args = [
+			"CMS_htt_VVNorm_$ERA",
+			"lnN",
+			ch.SystMap("era", "process")
+				(       ["13TeV"], ["VVT", "VVJ"], 1.10) # Source?
+		]
 		##-------------------------------Scale-------------------------------##
 
 		self.met_scale_syst_args = [
@@ -339,6 +356,12 @@ class SystematicLibary(object):
 			ch.SystMap("era", "process", "channel")
 				(       ["13TeV"], ["ZLL", "ZL"], ["et"], 1.30) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
 		]
+		self.muFakeTau_tight_syst_args = [
+			"CMS_$ANALYSIS_rate_muFakeTau_tight_$ERA",
+			"lnN",
+			ch.SystMap("era", "process", "channel")
+				(       ["13TeV"], ["ZLL", "ZL"], ["mt"], 1.30) # CV https://indico.cern.ch/event/515350/contributions/1194776/attachments/1257261/1856581/HttNuisanceParamUpdate_2016Apr13.pdf
+		]		
 		self.eFakeTau2016_syst_args = [
 			"CMS_$ANALYSIS_eFakeTau_$ERA",
 			"lnN",
