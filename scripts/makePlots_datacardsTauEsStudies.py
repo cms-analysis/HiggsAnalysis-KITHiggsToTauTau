@@ -10,6 +10,8 @@ import array
 import copy
 import os
 import sys
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
 import CombineHarvester.CombineTools.ch as ch
 import CombineHarvester.CombinePdfs.morphing as morphing
@@ -19,7 +21,6 @@ import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.taupogdatacards as taupogdatacards
 
@@ -68,8 +69,8 @@ def addArguments(parser):
 	                    help="Decay modes of reconstructed hadronic tau leptons in Z #rightarrow #tau#tau. [Default: %(default)s]")
 	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
 	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
-	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
-	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
+	parser.add_argument("--lumi", type=float, default = None,
+	                    help="Luminosity for the given data in fb^(-1). Driven by era if nothing else is stated [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -187,14 +188,12 @@ if __name__ == "__main__":
 	extra_weights = (eta_weights if args.eta_binning else pt_weights)
 	weight_strings = (eta_strings if args.eta_binning else pt_strings)
 	weight_bins = (eta_bins if args.eta_binning else pt_bins)
-	
-	# Initialisations for plotting
-	if (args.era == "2015") or (args.era == "2015new"):
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
-	else:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
-		if args.lumi == parser.get_default("lumi"):
-			args.lumi = samples.default_lumi/1000.0
+
+	# Initialisations for plotting, setting luminosity
+	if "2015" in args.era:   import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+	elif "2017" in args.era: import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017 as samples
+	else:                    import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
+	if args.lumi == None: args.lumi = samples.default_lumi / 1000.0
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
 	www_output_dirs_postfit = []
