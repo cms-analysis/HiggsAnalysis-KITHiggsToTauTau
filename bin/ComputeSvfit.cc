@@ -1,3 +1,6 @@
+
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/program_options.hpp>
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -25,7 +28,8 @@ int main(int argc, const char *argv[])
 		("help,h", "Print help message")
 		("inputfile,i",  boost::program_options::value<std::string>(), "Path to the input ROOT file")
 		//("inputtree,t", boost::program_options::value<std::string>(), "Path to input tree in ROOT file")
-		("outputfile,o", boost::program_options::value<std::string>(), "Output filename");
+		("massconstraint,m", boost::program_options::value<float>()->default_value(-1.0), "Di-tau mass constraint")
+		("outputfile,o", boost::program_options::value<std::string>()->default_value("svfit.root"), "Output filename");
 
 	// parse the options
 	boost::program_options::variables_map vm;
@@ -54,6 +58,19 @@ int main(int argc, const char *argv[])
 	svfitEventKey.SetBranchAddresses(inputTree);
 	svfitInputs.SetBranchAddresses(inputTree);
 	svfitResults.SetBranchAddresses(inputTree);
+	
+	float diTauMassConstraint = vm["massconstraint"].as<float>();
+	
+	// TODO: remove these changes as soon as kappa parameter is available in the svfit inputs (SvfitEventKey)
+	float kappa = 3.0;
+	if (boost::starts_with(treePath, "tt"))
+	{
+		kappa = 5.0;
+	}
+	else if (boost::starts_with(treePath, "mt") || boost::starts_with(treePath, "et"))
+	{
+		kappa = 4.0;
+	}
 
 	std::string outputFilename = vm["outputfile"].as<std::string>();
 	TFile *outputFile = new TFile(outputFilename.c_str(), "RECREATE");
@@ -64,23 +81,28 @@ int main(int argc, const char *argv[])
 	svfitResults.CreateBranches(outputTree);
 
 	HttEnumTypes::SvfitCacheMissBehaviour svfitCacheMissBehaviour = HttEnumTypes::SvfitCacheMissBehaviour::recalculate;
-	bool svfitCalculated = false;
 
 	unsigned int nEntries = inputTree->GetEntries();
 	for(unsigned int entry = 0; entry < nEntries; entry++)
 	{
 		std::cout << "Entry: " << entry+1 << " / " << nEntries << std::endl;
 		inputTree->GetEntry(entry);
+		svfitEventKey.diTauMassConstraint = diTauMassConstraint;
+		svfitEventKey.kappa = kappa;
 		
-		svfitResults = svfitTools.GetResults(svfitEventKey, svfitInputs, svfitCalculated, svfitCacheMissBehaviour);
-		svfitResults.SetBranchAddresses(outputTree);
+		svfitResults = svfitTools.GetResults(svfitEventKey, svfitInputs, svfitCacheMissBehaviour);
 		outputTree->Fill();
 	}
 	
 	inputFile->Close();
+	delete inputFile;
+	inputFile = nullptr;
 	
 	RootFileHelper::WriteRootObject(outputFile, outputTree, treePath);
 	outputFile->Close();
+	delete outputFile;
+	outputFile = nullptr;
+	
 	std::cout << "Outputs written to \"" << outputFilename << "\"." << std::endl;
 	
 	return 0;

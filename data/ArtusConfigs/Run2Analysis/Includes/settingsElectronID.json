@@ -1,6 +1,7 @@
 {
 	"ElectronID_documentation" : [
-		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"
+		"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons",
+		"https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2"
 	],
 	
 	"ElectronReco" : "mvanontrig",
@@ -10,24 +11,28 @@
 	"ElectronIDName" : {
 		"nick" : {
 			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
+			"(Run2017|Fall17)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values",
 			"(Run2015|Fall15MiniAODv2)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
 		}
 	},
 	"ElectronMvaIDCutEB1" : {
 		"nick" : {
 			"default" : 0.941,
+			"(Run2017|Fall17)" :  0.9897,
 			"(Run2015|Fall15MiniAODv2)" : 0.967083
 		}
 	},
 	"ElectronMvaIDCutEB2" : {
 		"nick" : {
 			"default" : 0.899,
+			"(Run2017|Fall17)" :  0.9819,
 			"(Run2015|Fall15MiniAODv2)" : 0.929117
 		}
 	},
 	"ElectronMvaIDCutEE" : {
 		"nick" : {
 			"default" : 0.758,
+			"(Run2017|Fall17)" :  0.9625,
 			"(Run2015|Fall15MiniAODv2)" : 0.726311
 		}
 	},
@@ -39,6 +44,12 @@
 				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose",
 				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium",
 				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"
+			],
+			"(Run2017|Fall17)":[
+				"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values",
+				"egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wp90",
+				"egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wp80",
+				"egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wpLoose"
 			],
 			"(Run2015|Fall15MiniAODv2)" : [
 				"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",

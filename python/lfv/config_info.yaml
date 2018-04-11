@@ -20,7 +20,6 @@
 
 1:
 - "CutEfficiency"                    #"analysis_modules"
-- ["bkg_sum"]                        #"cut_efficiency_bkg_nicks"
 - ["L"]                              #"markers"
 - "S/#sqrt{S+B}"                     #"y_label"
 - ["sOverSqrtSB"]                    #"cut_efficiency_modes"

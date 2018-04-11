@@ -2,6 +2,8 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
+#include "Kappa/DataFormats/interface/KTrack.h"
+
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/Utility.h"
@@ -294,6 +296,26 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	{
 		return product.m_flavourOrderedLeptons.at(0)->track.errDxy();
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1TrackNInnerHits", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(0)->track.nInnerHits;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1TrackChi2OverNdof", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedLeptons.at(0)->track.chi2 / product.m_flavourOrderedLeptons.at(0)->track.nDOF);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1TrackIsLooseQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(0)->track.quality(KTrackQuality::KTrackQualityType::loose);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1TrackIsTightQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(0)->track.quality(KTrackQuality::KTrackQualityType::tight);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1TrackIsHighPurityQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(0)->track.quality(KTrackQuality::KTrackQualityType::highPurity);
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1Pt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons.at(0)->p4.Pt();
@@ -458,6 +480,26 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	{
 		return product.m_flavourOrderedLeptons.at(1)->track.errDxy();
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2TrackNInnerHits", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(1)->track.nInnerHits;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2TrackChi2OverNdof", [](event_type const& event, product_type const& product)
+	{
+		return (product.m_flavourOrderedLeptons.at(1)->track.chi2 / product.m_flavourOrderedLeptons.at(1)->track.nDOF);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2TrackIsLooseQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(1)->track.quality(KTrackQuality::KTrackQualityType::loose);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2TrackIsTightQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(1)->track.quality(KTrackQuality::KTrackQualityType::tight);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2TrackIsHighPurityQuality", [](event_type const& event, product_type const& product)
+	{
+		return product.m_flavourOrderedLeptons.at(1)->track.quality(KTrackQuality::KTrackQualityType::highPurity);
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2Pt", [](event_type const& event, product_type const& product)
 	{
 		return product.m_flavourOrderedLeptons.at(1)->p4.Pt();
@@ -579,6 +621,7 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("againstMuonLoose3");
 	tauDiscriminators.push_back("againstMuonTight3");
 	tauDiscriminators.push_back("byIsolationMVArun2v1DBoldDMwLTraw");
+	tauDiscriminators.push_back("byVVLooseIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byVLooseIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byLooseIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byMediumIsolationMVArun2v1DBoldDMwLT");
@@ -592,6 +635,16 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Tight");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VTight");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1raw");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Loose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Medium");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Tight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
 	tauDiscriminators.push_back("chargedIsoPtSum");
 	tauDiscriminators.push_back("decayModeFinding");
 	tauDiscriminators.push_back("decayModeFindingNewDMs");

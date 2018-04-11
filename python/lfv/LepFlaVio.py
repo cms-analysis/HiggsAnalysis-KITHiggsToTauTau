@@ -4,6 +4,7 @@ import argparse
 import os
 import sys
 import yaml
+import subprocess
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.lfv.ConfigMaster as configmaster
@@ -33,8 +34,8 @@ def parser():
 				"3: Do a cut optimization				Needs:    Number of jets No supporting: category	x_expression use: Choose set to be optimized as cut\n"					
 				"4: Make a N-1 plot using results of optimized cuts	Needs:    Number of jets No supporting: category	x_expression use: Does not matter\n"         	
 				"5: Make a cutflow plot with optmized cuts		Needs:    Number of jets No supporting: category	x_expression use: Choose one to see how optimized cuts would work\n"
-				"6: Do a limit plot					supports: None						x_expression use: Only comtibable with option 11\n")
-	parser.add_argument("-x", "--x_expression", choices = range(14), required = True, nargs="+", type = int, help = "Choice your parameter of desire. Multiple parameter keys could be given at once. Use this key to get the your paramter(s):\n"
+				"6: Do a limit plot					supports: None						x_expression use: Only comtibable with option 10\n")
+	parser.add_argument("-x", "--x_expression", choices = range(25), required = True, nargs="+", type = int, help = "Choice your parameter of desire. Multiple parameter keys could be given at once. Use this key to get the your paramter(s):\n"
 				"0:  Visible Mass\n" 
 				"1:  Transverse momenta of sum of all lepton momenta\n"
 				"2:  Transverse mass of lepton 1\n"
@@ -45,24 +46,31 @@ def parser():
 				"7:  Some crazy parameter I even dont know about\n"
 				"8:  Impact parameter of first lepton\n"
 				"9:  Impact parameter of second lepton\n"
-				"10: Limit option which must be used with analysis argument 4\n")
-	parser.add_argument("-c", "--channel", action = "store", required = True, choices = ["em", "et", "mt"], type = str, help = "Your choice of final state which should be analysed")
+				"10  Trannverse momentum\n"
+				####ADD NEW PARAMETER
+				"11: Limit option which must be used with analysis argument 4\n")
+	parser.add_argument("-c", "--channel", action = "store", required = True, choices = ["em", "et", "mt", "gen"], type = str, help = "Your choice of final state which should be analysed")
 	parser.add_argument("--jet-number", action = "store", choices = range(2), type = int, help = "Optional argument for choosing a constraint on the number of jets. Use this key to get the your jet number:\n"
 				"0: Only events with zero jets are choosen\n"
 				"1: Only events with one jet are choosen\n")
 	parser.add_argument("--category", action = "store", choices = range(2), type = int, help = "Optional argument for to apply cuts of a categorization. Notice a cut optimzation had to be done once. Use this key to get the your category:\n"
 				"0: Zero jet category\n"
-				"1: One jet category\n") 
+				"1: One jet category\n")
+	parser.add_argument("--data", action="store_true", default=False, help = "Use real data") 
+	parser.add_argument("--signal", action="store_true", default=True, help = "Use signal")  
 
 	return parser.parse_args()
 
 ###Global constants/functions
 def global_constants(args):
-	global config_info, parameter_info, cut_info, sample_list, flavio_path, channel, x, weight, categories, weight_name, category_name
+	global config_info, parameter_info, cut_info, sample_list, flavio_path, channel, x, weight, categories, weight_name, category_name, jet_number, data, signal
 
 	##Inputs from parser
+	data		=	args.data
+	signal 		=	args.signal
 	channel		=	args.channel
 	x		=	args.x_expression
+	jet_number 	= 	args.jet_number
 
 	##File to read/write informations
 	try:
@@ -79,8 +87,12 @@ def global_constants(args):
 	##Output path
 	flavio_path	= 	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/"))
 
-	##samples	
-	sample_list 	=	["z" + channel, "ztt", "zll", "ttj", "vv", "wj", "qcd"]
+	##samples
+	if args.analysis != 4:	
+		sample_list 	=	(["data"] if data else []) + (["z" + channel] if signal else []) + ["ztt", "zll", "ttj", "vv", "wj", "qcd"]
+
+	else: 	
+		sample_list 	= 	["ztt", "zll", "ttj", "vv", "wj", "qcd"] + (["z" + channel] if signal else [])	
 
 	##weight and category
 	weight 		= 	["(njetspt30==0)","(njetspt30==1)"][args.jet_number] if args.jet_number != None else "1"
@@ -99,15 +111,16 @@ def global_constants(args):
 ###Function that stores and return information for the configs that will be written
 
 def base_config(parameter, nick_suffix = "", no_plot = False, weight_input = "1"):
-	input_dir, format, www_nodate 				= config_info[-2]
+	input_dir, format, www_nodate, cms, text 		= config_info[-2]
 	category, estimationMethod, cut_type			= config_info[-1]
 	x_expressions,x_bins,output				= parameter_info[parameter][:3]
 	output = output + weight_name + category_name
 	
+	title 							= {"em": "e#mu", "et": "e#tau_{h}", "mt": "#mu#tau_{h}"}[channel]
 	weights							= weight + "*" + categories + "*" + weight_input 
 	www							= channel + "/"	
 
-	base_values		= [input_dir, flavio_path, format,  www_nodate, www, x_expressions, x_bins, output]
+	base_values		= [input_dir, flavio_path, format,  www_nodate, www, x_expressions, x_bins, output, title, cms, text]
 	samples_values		= [sample_list, channel, category, estimationMethod, cut_type, nick_suffix, no_plot, weights]
 
 	return base_values, samples_values	
@@ -115,9 +128,8 @@ def base_config(parameter, nick_suffix = "", no_plot = False, weight_input = "1"
 def controlplot_config(parameter):
 	x_label							= parameter_info[parameter][3]
 	legend, lumis, energies, year, www			= config_info[0]
-	title 							= "Controlplot " + "(" + channel + ")"
 	
-	return [x_label, title, legend, lumis, energies, year, www]
+	return [x_label, legend, lumis, energies, year, www]
 
 
 def sumofhists_config(sum_nicks, result_nicks):
@@ -125,32 +137,27 @@ def sumofhists_config(sum_nicks, result_nicks):
 	
 	return analysis_mod, sum_nicks, result_nicks
 
-def efficiency_config(parameter, lower_cut = True, plot_modules = ["PlotRoot"]):
-	analysis_mod, bkg_nicks, markers, y_label, cut_modes, cut_nicks, whitelist 	= config_info[1][:7]	
-	legend, lumis, energies, year, www						= config_info[1][7:]
+def efficiency_config(parameter, bkg_nicks, lower_cut = True):
+	analysis_mod, markers, y_label, cut_modes, cut_nicks, whitelist 	=	 config_info[1][:6]	
+	legend, lumis, energies, year, www						= config_info[1][6:]
 	x_label										= parameter_info[parameter][3]
 	
-	title 			=	"Efficiencyplot " + "(" + channel + ")"
 	sig_nicks		=	["z" + channel + "noplot"]
 
-	return [x_label, title, legend, lumis, energies, year, www], [analysis_mod, bkg_nicks, markers, y_label, cut_modes, sig_nicks, cut_nicks, whitelist, lower_cut, plot_modules]
+	return [x_label, legend, lumis, energies, year, www], [analysis_mod, bkg_nicks, markers, y_label, cut_modes, sig_nicks, cut_nicks, whitelist, lower_cut]
 
 def shape_config(parameter):
 	y_label, analysis_mod			= config_info[2][:2]
 	legend, lumis, energies, year, www	= config_info[2][2:]
 	x_label					= parameter_info[parameter][3]
 	
-	title 			=	"Shapeplot " + "(" + channel + ")"
-	
-	return [x_label, title, legend, lumis, energies, year, www], [y_label, analysis_mod]
+	return [x_label, legend, lumis, energies, year, www], [y_label, analysis_mod]
 
 def nminus1_config(parameter):
 	x_label					= parameter_info[parameter][3]
 	legend, lumis, energies, year, www	= config_info[4]
 	
-	title 			=	"N-1 Plot " + "(" + channel + ")"
-	
-	return [x_label, title, legend, lumis, energies, year, www]
+	return [x_label, legend, lumis, energies, year, www]
 
 def ratio_config(numerator, denominator):
 	ratio_numerator_nicks	=	numerator
@@ -168,22 +175,20 @@ def cutflow_config(parameter):
 	markers			= 	["HIST" for background in sample_list] + ["LINE"]
 	x_tick_labels	 	= 	[]
 	stacks			=	["bkg" for background in sample_list] + ["soverb"]
-	title			= 	"Cutflow "  + "(" + channel + ")"
 
 	x_label					= parameter_info[parameter][3]
 	sub_nicks, y_subplot_label		= config_info[5][:2]
 	legend, lumis, energies, year, www	= config_info[5][2:]
 
-	return [x_label, title, legend, lumis, energies, year, www], [sub_nicks, y_subplot_label, files, markers, nicks, x_tick_labels, stacks]
+	return [x_label, legend, lumis, energies, year, www], [sub_nicks, y_subplot_label, files, markers, nicks, x_tick_labels, stacks]
 
 def limit_config(parameter):
 	y_label, folders, y_expressions, markers, colors, fill_styles, marker_styles, line_widths, tree_draw_options, y_tick_labels, nicks, y_lims, x_lims		= config_info[6][:13]
 	legend, lumis, energies, year, www																= config_info[6][13:]
 	x_label																				= parameter_info[parameter][3]
-	title 			= "Limitplot " + "(" + channel + ")"
 	files 			= "limit_" + channel + ".root"	
 
-	return [x_label, title, legend, lumis, energies, year, www], [y_label, files, folders, y_expressions, markers, colors, fill_styles, marker_styles, line_widths, tree_draw_options, y_tick_labels, nicks, x_lims, y_lims]
+	return [x_label, legend, lumis, energies, year, www], [y_label, files, folders, y_expressions, markers, colors, fill_styles, marker_styles, line_widths, tree_draw_options, y_tick_labels, nicks, x_lims, y_lims]
 
 ###Analysis function using the specific plotting modules
 def controlplot(config_list):
@@ -191,8 +196,16 @@ def controlplot(config_list):
 		config = configmaster.ConfigMaster(*base_config(parameter))
 		config.add_config_info(controlplot_config(parameter), 0)
 		config_list.append(config.return_config())
+	
+		if data and signal:
+			config_list[index]["weights"][1] += "*(500)"
+			config_list[index]["labels"][1] = "Z #rightarrow " + {"em": "e#mu", "et": "e#tau", "mt": "#mu#tau"}[channel] + " (LFV) x 500"
+			
 		
-		config_list[index]["weights"][0] += "*(50)"
+		elif not data and signal:
+			config_list[index]["weights"][0] += "*(500)"
+			config_list[index]["labels"][0] = "Z #rightarrow " + {"em": "e#mu", "et": "e#tau", "mt": "#mu#tau"}[channel] + " (LFV) x 500"
+			
 
 	return config_list
 
@@ -201,8 +214,8 @@ def efficiencyplot(config_list):
 	for parameter in x:
 		config = configmaster.ConfigMaster(*base_config(parameter, nick_suffix = "noplot", no_plot = True))
 		config.add_config_info(sumofhists_config(["zttnoplot zllnoplot ttjnoplot vvnoplot wjnoplot qcdnoplot"], ["bkg_sum"]), 1)
-		config.add_config_info(efficiency_config(parameter)[0], 0)
-		config.add_config_info(efficiency_config(parameter)[1], 2)
+		config.add_config_info(efficiency_config(parameter, ["bkg_sum"])[0], 0)
+		config.add_config_info(efficiency_config(parameter, ["bkg_sum"])[1], 2)
 		config_list.append(config.return_config())
 	
 	return config_list
@@ -237,9 +250,9 @@ def cutoptimization(config_list):
 			##Create harry plotter config
 			config = configmaster.ConfigMaster(*base_config(parameter, nick_suffix = "noplot", no_plot = True, weight_input = "1" if index1 == 0 else weights))
 			config.add_config_info(sumofhists_config(["zttnoplot zllnoplot ttjnoplot vvnoplot wjnoplot qcdnoplot"], ["bkg_sum"]), 1)
-			config.add_config_info(efficiency_config(parameter, lower_cut = True if cut_side[index2] == "<" else False, plot_modules = ["ExportRoot"])[1], 2)
-			config.pop(["www", "www_nodate"])
-			config.change_config_info("filename", "_" + channel)
+			config.add_config_info(efficiency_config(parameter, ["bkg_sum"], lower_cut = True if cut_side[index2] == "<" else False)[1], 2)
+			config.pop(["www", "www_nodate", "cms", "extra_text"])
+			config.change_config_info(["filename", "plot_modules"], ["_" + channel, "ExportRoot"])
 		
 			##Create config in zero iteration to check on which side the cut should be applied
 			if(index1 == 0):
@@ -309,8 +322,16 @@ def nminus1plot(config_list):
 		#Build config
 		config = configmaster.ConfigMaster(*base_config(parameter, weight_input = weights))
 		config.add_config_info(nminus1_config(parameter), 0)
+		config.change_config_info("vertical_lines", [cut_values[index1]])
 
-		config_list.append(config.return_config())
+		if signal:
+			config = config.return_config()
+			config["stacks"][-1] = "sig"
+			config["markers"][-1] = "LINE"
+			config["weights"][-1] += "*(500)"
+			config["labels"][-1] = "Z #rightarrow " + {"em": "e#mu", "et": "e#tau", "mt": "#mu#tau"}[channel] + " (LFV) x 500"
+
+		config_list.append(config if signal else config.return_config())
 
 	return config_list
 		
@@ -328,19 +349,24 @@ def cutflowplot(config_list):
 
 	##Using harry.py the magician to get root files, read out for each process the total number of events and save them in hists as list for each weight
 	hists = []
+	configs = []
 	for index, weights in enumerate(weight_list):
 		config = configmaster.ConfigMaster(*base_config(x[0], weight_input = weights))
 		config.change_config_info("plot_modules", "ExportRoot")
 		config.pop(["www", "www_nodate", "legend_markers"])
-		
-		higgsplot.HiggsPlotter(list_of_config_dicts=[config.return_config()], n_plots = 1)	
+		config.change_config_info("filename", str(index))
+		configs.append(config.return_config())
 
-		root = ROOT.TFile.Open(flavio_path + "/VisibleMass" + weight_name + ".root")
+	higgsplot.HiggsPlotter(list_of_config_dicts=configs, n_plots = len(configs), batch = "rwthcondor")	
+
+	for index in range(len(weight_list)):
+		root = ROOT.TFile.Open(flavio_path + "/VisibleMass"  + weight_name + str(index) + ".root")
 		hists.append([root.Get(process).Integral() for process in sample_list])
 		hists[index].append(hists[index][0]/sqrt(hists[index][0] + sum(hists[index][1:])))
 
 	for filetype in [".root", ".json"]:
-		os.remove(flavio_path + "/VisibleMass" + weight_name + filetype)
+		for index in range(len(weight_list)):
+			os.remove(flavio_path + "/VisibleMass" + weight_name + str(index) + filetype)
 
 	##Use ROOT to fill hists in a new root file in which each process is a hist with the Number of events for each weight applied
 	if not os.path.exists(flavio_path):
@@ -373,7 +399,6 @@ def cutflowplot(config_list):
 def limitplot(config_list):
 	##Read out limits and sigma bands from output of higgs combined and save them into lists
 	directory = os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/LFV_datacards/datacards"))
-	output_directory = os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/Limits"))
 	root_file = "/limit_" + channel + ".root"
 
 	categories = [     #Bin IDs of categories as higg combined saves it, defined in python/datacards/datacardsconfig.py
@@ -409,13 +434,13 @@ def limitplot(config_list):
 			except ValueError:
 				category_id.append(3000)
 
-
 	##Write information into new root file with tree limit and branch sigma2down, sigma1down, limit, sigma1up, sigma2up
 	ROOT.gROOT.ProcessLine(
 	"struct MyStruct {\
 		Float_t		two_sigma_down;\
 		Float_t		one_sigma_down;\
 		Float_t		limit_exp;\
+		Float_t		limit_old;\
 		Float_t		limit_obs;\
 		Float_t		one_sigma_up;\
 		Float_t		two_sigma_up;\
@@ -423,21 +448,17 @@ def limitplot(config_list):
 		Int_t		bin_id;\
 	};");
 
+	if os.path.isfile(flavio_path + root_file):
+		os.remove(flavio_path + root_file)
 
-	if not os.path.exists(output_directory):
-		os.mkdir(output_directory)
-
-	if os.path.isfile(output_directory + root_file):
-		os.remove(output_directory + root_file)
-
-	output = ROOT.TFile(output_directory + root_file, "NEW")
+	output = ROOT.TFile(flavio_path + root_file, "NEW")
 	output_tree = ROOT.TTree("limit", "tree with limit values for categories")
 
 	limit_struct = ROOT.MyStruct()
 
-	branch_name = ["two_sigma_down", "one_sigma_down", "limit_exp", "limit_obs", "one_sigma_up", "two_sigma_up", "categories", "bin_id"]
-	branch_adress = ["two_sigma_down", "one_sigma_down", "limit_exp", "limit_obs", "one_sigma_up", "two_sigma_up", "category", "bin_id"]
-	branch_parameter = ["two_sigma_down/F", "one_sigma_down/F", "limit_exp/F", "limit_obs/F", "one_sigma_up/F", "two_sigma_up/F", "category/I", "bin_id/I"]
+	branch_name = ["two_sigma_down", "one_sigma_down", "limit_exp", "limit_old", "limit_obs", "one_sigma_up", "two_sigma_up", "categories", "bin_id"]
+	branch_adress = ["two_sigma_down", "one_sigma_down", "limit_exp", "limit_old", "limit_obs", "one_sigma_up", "two_sigma_up", "category", "bin_id"]
+	branch_parameter = ["two_sigma_down/F", "one_sigma_down/F", "limit_exp/F", "limit_old/F","limit_obs/F",  "one_sigma_up/F", "two_sigma_up/F", "category/I", "bin_id/I"]
 
 	for name, adress, parameter in zip(branch_name, branch_adress, branch_parameter):
 		output_tree.Branch(name, ROOT.AddressOf(limit_struct, adress), parameter)
@@ -446,7 +467,8 @@ def limitplot(config_list):
 		limit_struct.two_sigma_down	= 	limits[index][0]*old_limits[channel]
 		limit_struct.one_sigma_down 	= 	limits[index][1]*old_limits[channel]
 		limit_struct.limit_exp		= 	limits[index][2]*old_limits[channel]
-		limit_struct.limit_obs 		= 	limits[index][5]*old_limits[channel] 
+		limit_struct.limit_old		=	old_limits[channel] if index == len(limits) -1 else 0
+		limit_struct.limit_obs 		= 	limits[index][5]*old_limits[channel]
 		limit_struct.one_sigma_up 	= 	limits[index][3]*old_limits[channel] 
 		limit_struct.two_sigma_up 	= 	limits[index][4]*old_limits[channel] 
 		limit_struct.category 		= 	index
@@ -462,7 +484,8 @@ def limitplot(config_list):
 	config.add_config_info(limit_config(x[0])[0], 0)
 	config.add_config_info(limit_config(x[0])[1], 7)
 	config.pop("directories")
-	config.change_config_info(["directories", "y_tick_labels", "y_lims"], [os.path.abspath(output_directory), avaible_category_label, len(limits) -1 + 0.5])
+	config.change_config_info(["directories", "y_tick_labels", "y_lims", "no_cache"], [os.path.abspath(flavio_path), avaible_category_label, len(limits) -1 + 0.5, True])
+	config.replace("x_lims", [float(limits[2][0]*old_limits[channel]- 999./1000*limits[2][0]*old_limits[channel]) if old_limits[channel] > limits[2][0]*old_limits[channel] else float(old_limits[channel]- 1./2*old_limits[channel]), limits[0][4]*old_limits[channel] + 1./4*limits[0][4]*old_limits[channel]])
 	config.print_config()
 
 	config_list.append(config.return_config())
@@ -500,6 +523,7 @@ def main():
 	config_list = Analysismodule_libary[args.analysis](config_list)
 
 	###Call MVP harry.py to get your job done
-	higgsplot.HiggsPlotter(list_of_config_dicts=config_list, n_plots = len(config_list))
-	
+	higgsplot.HiggsPlotter(list_of_config_dicts=config_list, n_plots = len(config_list), batch = "rwthcondor" if len(config_list) != 1 else None)
+	if len(config_list) != 1: subprocess.Popen("cd $CMSSW_BASE/src/websync/; webplot.py {channel} -r -c".format(channel = channel), shell = True)
+
 main()

@@ -46,14 +46,14 @@ if __name__ == "__main__":
 	
 	input_dir = os.path.join(args.input_dir)
 	for directory in os.listdir(input_dir):
-		
+
 		# skip README files and git folders
 		if (os.path.isfile(os.path.join(input_dir, directory)) or directory == ".git"):
 			continue
 		
 		log.info("Producing ROOT files for object \"%s\"" % directory)
 		file_dir = os.path.join(args.input_dir, directory)
-		
+		print "file", file_dir
 		for file_name in os.listdir(file_dir):
 			outFolderName = "identificationWeights" if ("IdIso" in file_name) else "triggerWeights"
 			outFolderPath = os.path.join(args.output, outFolderName)
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 			eta_bins = array.array("d", yBinslist)
 			
 			for datatype in ["Data","MC"]:
-				typelabel = "Run2016" if datatype == "Data" else "MC"
+				typelabel = "Run2017" if datatype == "Data" else "MCFall2017"
 				effHistoName = "identificationEfficiency" if ("IdIso" in file_name) else "triggerEfficiency"
 				outFileName = effHistoName+'_'+typelabel+'_'+file_name
 				

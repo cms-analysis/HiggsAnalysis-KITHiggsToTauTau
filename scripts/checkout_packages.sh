@@ -6,7 +6,7 @@ ssh -vT git@github.com
 echo -n "Enter the CMMSW release you want to use (747, 810) and press [ENTER] : "
 read cmssw_version
 
-echo -n "Enter the CombineHarvester developper branch you want to checkout (master, SM2016-dev, SMCP2016-dev) and press [ENTER] : "
+echo -n "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev, classicsvfit) and press [ENTER] : "
 read ch_branch
 
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
@@ -67,8 +67,8 @@ git clone git@github.com:artus-analysis/Artus.git -b $BRANCH
 git clone git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
 
 # Di-tau system reconstruction
-# git clone git@github.com:veelken/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
-git clone git@github.com:CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
+git clone git@github.com:SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit -b release_2018Mar20
+git clone git@github.com:SVfit/SVfitTF.git TauAnalysis/SVfitTF
 git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # polarisation

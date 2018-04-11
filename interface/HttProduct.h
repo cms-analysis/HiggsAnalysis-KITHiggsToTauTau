@@ -112,41 +112,41 @@ public:
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
 
 	// filled by the PolarisationQuantitiesProducer
-	std::map<KLepton*, double> m_polarisationOmegasSvfit; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_polarisationOmegasSimpleFit; // Keys are only of type KTau*
-	//std::map<KLepton*, double> m_polarisationOmegasHHKinFit; // Keys are only of type KTau*
+	std::map<KLepton*, float> m_polarisationOmegasGenMatched;
+	std::map<KLepton*, float> m_polarisationOmegasSvfit;
+	std::map<KLepton*, float> m_polarisationOmegasSvfitM91;
+	std::map<KLepton*, float> m_polarisationOmegasSimpleFit;
+	//std::map<KLepton*, float> m_polarisationOmegasHHKinFit;
 	
-	std::map<KLepton*, double> m_polarisationOmegaBarsSvfit; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_polarisationOmegaBarsSimpleFit; // Keys are only of type KTau*
-	//std::map<KLepton*, double> m_polarisationOmegaBarsHHKinFit; // Keys are only of type KTau*
+	std::map<KLepton*, float> m_polarisationOmegaBarsGenMatched;
+	std::map<KLepton*, float> m_polarisationOmegaBarsSvfit;
+	std::map<KLepton*, float> m_polarisationOmegaBarsSvfitM91;
+	std::map<KLepton*, float> m_polarisationOmegaBarsSimpleFit;
+	//std::map<KLepton*, float> m_polarisationOmegaBarsHHKinFit;
 	
-	double m_polarisationCombinedOmegaSvfit = DefaultValues::UndefinedDouble;
-	double m_polarisationCombinedOmegaSimpleFit = DefaultValues::UndefinedDouble;
-	//double m_polarisationCombinedOmegaHHKinFit = DefaultValues::UndefinedDouble;
+	std::map<KLepton*, float> m_polarisationOmegaVisiblesGenMatched;
+	std::map<KLepton*, float> m_polarisationOmegaVisiblesSvfit;
+	std::map<KLepton*, float> m_polarisationOmegaVisiblesSvfitM91;
+	std::map<KLepton*, float> m_polarisationOmegaVisiblesSimpleFit;
+	//std::map<KLepton*, float> m_polarisationOmegaVisiblesHHKinFit;
 	
-	double m_polarisationCombinedOmegaBarSvfit = DefaultValues::UndefinedDouble;
-	double m_polarisationCombinedOmegaBarSimpleFit = DefaultValues::UndefinedDouble;
-	//double m_polarisationCombinedOmegaBarHHKinFit = DefaultValues::UndefinedDouble;
+	float m_polarisationCombinedOmegaGenMatched = DefaultValues::UndefinedFloat;
+	float m_polarisationCombinedOmegaSvfit = DefaultValues::UndefinedFloat;
+	float m_polarisationCombinedOmegaSvfitM91 = DefaultValues::UndefinedFloat;
+	float m_polarisationCombinedOmegaSimpleFit = DefaultValues::UndefinedFloat;
+	//float m_polarisationCombinedOmegaHHKinFit = DefaultValues::UndefinedFloat;
 	
-	/* old version
-	std::map<KLepton*, double> m_visibleOverFullEnergyHHKinFit; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_visibleOverFullEnergySvfit; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_visibleOverFullEnergySimpleFit; // Keys are only of type KTau*
+	float m_polarisationCombinedOmegaBarGenMatched = DefaultValues::UndefinedFloat;
+	float m_polarisationCombinedOmegaBarSvfit = DefaultValues::UndefinedFloat;
+	float m_polarisationCombinedOmegaBarSvfitM91 = DefaultValues::UndefinedFloat;
+	float m_polarisationCombinedOmegaBarSimpleFit = DefaultValues::UndefinedFloat;
+	//float m_polarisationCombinedOmegaBarHHKinFit = DefaultValues::UndefinedFloat;
 	
-	std::map<KLepton*, double> m_visibleToFullAngleHHKinFit; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_visibleToFullAngleSvfit; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_visibleToFullAngleSimpleFit; // Keys are only of type KTau*
-	
-	std::map<KLepton*, double> m_rhoNeutralChargedAsymmetry; // Keys are only of type KTau*
-	
-	std::map<KLepton*, double> m_a1OmegaHHKinFit; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1OmegaSvfit; // Keys are only of type KTau*
-	std::map<KLepton*, double> m_a1OmegaSimpleFit; // Keys are only of type KTau*
-
-	double m_tauPolarisationDiscriminatorHHKinFit = DefaultValues::UndefinedDouble;
-	double m_tauPolarisationDiscriminatorSvfit = DefaultValues::UndefinedDouble;
-	double m_tauPolarisationDiscriminatorSimpleFit = DefaultValues::UndefinedDouble;
-	*/
+	float m_polarisationCombinedOmegaVisibleGenMatched = DefaultValues::UndefinedFloat;
+	float m_polarisationCombinedOmegaVisibleSvfit = DefaultValues::UndefinedFloat;
+	float m_polarisationCombinedOmegaVisibleSvfitM91 = DefaultValues::UndefinedFloat;
+	float m_polarisationCombinedOmegaVisibleSimpleFit = DefaultValues::UndefinedFloat;
+	//float m_polarisationCombinedOmegaVisibleHHKinFit = DefaultValues::UndefinedFloat;
 
 	// filled by the MetprojectionProducer
 	TVector2 m_recoMetOnGenMetProjection;
@@ -175,10 +175,15 @@ public:
 
 	// filled by the SvfitProducer
 	mutable SvfitEventKey m_svfitEventKey;
+	mutable SvfitEventKey m_svfitM91EventKey;
+	mutable SvfitEventKey m_svfitM125EventKey;
 	mutable SvfitInputs m_svfitInputs;
 	mutable SvfitResults m_svfitResults;
-	bool m_svfitCalculated = false;
+	mutable SvfitResults m_svfitM91Results;
+	mutable SvfitResults m_svfitM125Results;
 	std::map<KLepton*, RMFLV> m_svfitTaus;
+	std::map<KLepton*, RMFLV> m_svfitM91Taus;
+	std::map<KLepton*, RMFLV> m_svfitM125Taus;
 
 	// filled by the HHKinFitProducer
 	//std::map<KLepton*, RMFLV> m_hhKinFitTaus;
@@ -198,8 +203,10 @@ public:
 	bool m_diGenJetSystemAvailable = false;
 
 	// filled by TaggedJetUncertaintyShiftProducer
-	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet*>> m_correctedJetsBySplitUncertainty;
-	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet*>> m_correctedBTaggedJetsBySplitUncertainty;
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedJetsBySplitUncertaintyUp;
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedJetsBySplitUncertaintyDown;
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedBTaggedJetsBySplitUncertaintyUp;
+	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedBTaggedJetsBySplitUncertaintyDown;
 
 	KMET* m_metUncorr = 0;
 	KMET* m_puppiMetUncorr = 0;
@@ -291,6 +298,8 @@ public:
 	// filled by GenMatchedTauCPProducer
 	RMPoint* m_genSV1 = 0; // vertex of production of tau daughter 1
 	RMPoint* m_genSV2 = 0; // vertex of production of tau daughter 2
+	double m_genD01 = DefaultValues::UndefinedDouble;
+	double m_genD02 = DefaultValues::UndefinedDouble;
 	TVector3 m_genIP1;
 	TVector3 m_genIP2;
 	double m_genCosPsiPlus  = DefaultValues::UndefinedDouble;
@@ -298,13 +307,12 @@ public:
 
 
 	// filled by RecoTauCPProducer
-	KVertex* m_thePV = 0;
-	KBeamSpot* m_theBS = 0;
-
-	TVector3 m_recoIP1; // IPvec wrt thePV
-	TVector3 m_recoIP2; // IPvec wrt thePV
+	TVector3 m_recoIP1; // IPvec wrt original PV
+	TVector3 m_recoIP2; // IPvec wrt original PV
 	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
 	TVector3 m_recoIP2_refitPV; // IPvec wrt refitted PV
+	TVector3 m_track1FromBS; // distance between track1 and BS center
+	TVector3 m_track2FromBS; // distance between track2 and BS center
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
 	
@@ -314,6 +322,8 @@ public:
 	std::vector<double> m_errorIP1vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
+	// comparison genIP-recoIP
+	// wrt original PV
 	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;
 	double m_deltaPhiGenRecoIP1  = DefaultValues::UndefinedDouble;
@@ -322,10 +332,21 @@ public:
 	double m_deltaRGenRecoIP2  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP2  = DefaultValues::UndefinedDouble;
+	// wrt refitPV
+	double m_deltaEtaGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
 
+	// comparison between recoIP(original PV) and recoIP(refitPV)
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
 
+	// CP-sensitive observable
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
@@ -343,6 +364,22 @@ public:
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar_rho = DefaultValues::UndefinedDouble;
 
+	// azimuthal angles of the tau decay planes
+	// ip method
+	double m_recoPhiPlus_ipmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinus_ipmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlus_ipmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinus_ipmeth = DefaultValues::UndefinedDouble;
+	// comb method
+	double m_recoPhiPlus_combmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinus_combmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlus_combmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinus_combmeth = DefaultValues::UndefinedDouble;
+	// rho method
+	double m_recoPhiPlus_rhometh = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinus_rhometh = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlus_rhometh = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinus_rhometh = DefaultValues::UndefinedDouble;
 
 	double m_recoChargedPiPlus_rho_pt = DefaultValues::UndefinedDouble;
 	double m_recoChargedPiMinus_pt = DefaultValues::UndefinedDouble;
@@ -457,6 +494,9 @@ public:
 	float m_melaDiscriminatorD0MinusVBF = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorDCPVBF = DefaultValues::UndefinedFloat;
 	
+	//filled by LFVJetCorrection2016Producer
+	float lfvjetcorr;
+	
 	/*
 	float m_melaProbCPEvenWlepH = DefaultValues::UndefinedFloat;
 	float m_melaProbCPOddWlepH = DefaultValues::UndefinedFloat;
@@ -481,5 +521,43 @@ public:
 	float m_melaProbCPMixZhadH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorD0MinusZhadH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorDCPZhadH = DefaultValues::UndefinedFloat;
+	*/
+	
+	float m_melaM125ProbCPEvenGGH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddGGH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixGGH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusGGH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPGGH = DefaultValues::UndefinedFloat;
+	
+	float m_melaM125ProbCPEvenVBF = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddVBF = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixVBF = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusVBF = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPVBF = DefaultValues::UndefinedFloat;
+	
+	/*
+	float m_melaM125ProbCPEvenWlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddWlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixWlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusWlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPWlepH = DefaultValues::UndefinedFloat;
+	
+	float m_melaM125ProbCPEvenWhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddWhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixWhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusWhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPWhadH = DefaultValues::UndefinedFloat;
+	
+	float m_melaM125ProbCPEvenZlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddZlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixZlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusZlepH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPZlepH = DefaultValues::UndefinedFloat;
+	
+	float m_melaM125ProbCPEvenZhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPOddZhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125ProbCPMixZhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorD0MinusZhadH = DefaultValues::UndefinedFloat;
+	float m_melaM125DiscriminatorDCPZhadH = DefaultValues::UndefinedFloat;
 	*/
 };

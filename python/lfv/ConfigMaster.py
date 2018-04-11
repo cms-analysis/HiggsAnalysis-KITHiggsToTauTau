@@ -27,7 +27,7 @@ class ConfigMaster(object):
 		###Config which is initiliazed with information for each sample from samples_run2_201X.py if wished
 		if sample_values != None:
 			sample_settings = samples.Samples()	
-			sample_list, channel, category, estimationMethod, cut_type, nick_suffix, no_plot, weight= sample_values
+			sample_list, channel, category, estimationMethod, cut_type, nick_suffix, no_plot, weight = sample_values
 
 			self._config = sample_settings.get_config(samples=[getattr(samples.Samples, sample) for sample in sample_list], channel = channel, category = category, no_plot = no_plot, nick_suffix = nick_suffix, estimationMethod = estimationMethod, cut_type = cut_type, weight = weight)			
 
@@ -50,16 +50,10 @@ class ConfigMaster(object):
 					Plotmodule.limit:			self.__limitplot__
 		}
 
-
-	##Pythonic way of overloaded constructor not using sample information and doing any other plot you wish
-	@classmethod
-	def init(self):
-		return "Work in progress"
-
 	
 	###Dictionaries for information for each plotting/analysis modules
 
-	def __base__(self, input_dir, output_dir, formats, www_nodate, www, x_expressions, x_bins, output_file):
+	def __base__(self, input_dir, output_dir, formats, www_nodate, www, x_expressions, x_bins, output_file, title, cms, text):
 	
 		self._base = {
 					"directories":			input_dir,
@@ -70,19 +64,21 @@ class ConfigMaster(object):
 					"x_expressions":		x_expressions,
 					"x_bins":			x_bins,
 					"filename":			output_file,
+					"title":			title,
+					"cms":				cms,
+					"extra_text":			text,	
 		}
 
 		return self._base
 
 		
-	def __controlplot__(self, x_label, title, legend, lumis, energies, year, www):
+	def __controlplot__(self, x_label, legend, lumis, energies, year, www):
 		
 		self._controlplot = {
 					"x_label":			x_label,
 					"legend":			legend,
 					"lumis"	:			lumis,
 					"energies":			energies,
-					"title"	:			title,
 					"year":				year,
 					"www":				www
 		}
@@ -101,7 +97,7 @@ class ConfigMaster(object):
 		return self._sumofhists
 
 
-	def __efficiencyplot__(self, analysis_mod, bkg_nicks, markers, y_label, cut_modes, sig_nicks, cut_nicks, whitelist, lower_cut, plot_modules):
+	def __efficiencyplot__(self, analysis_mod, bkg_nicks, markers, y_label, cut_modes, sig_nicks, cut_nicks, whitelist, lower_cut):
 		
 		self._efficiencyplot = {
 					"analysis_modules":		analysis_mod,
@@ -111,25 +107,15 @@ class ConfigMaster(object):
 					"cut_efficiency_modes":		cut_modes,
 					"nicks_whitelist":		whitelist,
 					"markers":			markers,
-					"x_label":			x_label,
 					"y_label":			y_label,
-					"www":				www,
 					"select_lower_values":		lower_cut,
-					"plot_modules":			plot_modules
 		}
 
 		return self._efficiencyplot
 
-	def __shapeplot__(self, x_label, title, legend, lumis, energies, year, www, y_label, analysis_mod):
+	def __shapeplot__(self, y_label, analysis_mod):
 		
 		self._shapeplot = {
-					"x_label":			x_label,
-					"legend":			legend,
-					"lumis"	:			lumis,
-					"energies":			energies,
-					"title"	:			title,
-					"year":				year,
-					"www":				www,
 					"y_label":			y_label,
 					"analysis_modules":		analysis_mod					
 		}

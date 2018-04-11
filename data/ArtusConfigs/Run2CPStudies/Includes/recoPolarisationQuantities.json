@@ -61,20 +61,37 @@
 		"#tauPolarisationDiscriminatorHHKinFit",
 		"#tauPolarisationDiscriminatorSimpleFit",
 		
+		"polarisationOmegaGenMatched_1",
+		"polarisationOmegaGenMatched_2",
 		"polarisationOmegaSimpleFit_1",
 		"polarisationOmegaSimpleFit_2",
 		"#polarisationOmegaHHKinFit_1",
 		"#polarisationOmegaHHKinFit_2",
 		
+		"polarisationOmegaBarGenMatched_1",
+		"polarisationOmegaBarGenMatched_2",
 		"polarisationOmegaBarSimpleFit_1",
 		"polarisationOmegaBarSimpleFit_2",
 		"#polarisationOmegaBarHHKinFit_1",
 		"#polarisationOmegaBarHHKinFit_2",
 		
+		"polarisationOmegaVisibleGenMatched_1",
+		"polarisationOmegaVisibleGenMatched_2",
+		"polarisationOmegaVisibleSimpleFit_1",
+		"polarisationOmegaVisibleSimpleFit_2",
+		"#polarisationOmegaVisibleHHKinFit_1",
+		"#polarisationOmegaVisibleHHKinFit_2",
+		
+		"polarisationCombinedOmegaGenMatched",
 		"polarisationCombinedOmegaSimpleFit",
 		"#polarisationCombinedOmegaHHKinFit",
 		
+		"polarisationCombinedOmegaBarGenMatched",
 		"polarisationCombinedOmegaBarSimpleFit",
-		"#polarisationCombinedOmegaBarHHKinFit"
+		"#polarisationCombinedOmegaBarHHKinFit",
+		
+		"polarisationCombinedOmegaVisibleGenMatched",
+		"polarisationCombinedOmegaVisibleSimpleFit",
+		"#polarisationCombinedOmegaVisibleHHKinFit"
 	]
 }

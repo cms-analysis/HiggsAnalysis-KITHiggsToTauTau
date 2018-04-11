@@ -8,9 +8,12 @@ log = logging.getLogger(__name__)
 import argparse
 import glob
 import os
+import re
 import shlex
+import tempfile
 
 import Artus.Utility.tools as tools
+import Artus.Utility.dcachetools as dcachetools
 
 filename_replacements = {
 	"srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN=/pnfs/physik.rwth-aachen.de/cms/store/user/" : "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/"
@@ -22,6 +25,38 @@ def _call_command(command):
 		pass
 		#log.critical("Could not execute command \""+command+"\"! Exit program!")
 		#sys.exit(1)
+
+def _get_crab_outputs(args):
+	crab_dir = args[0]
+	jobids = args[1]
+	command = "crab getoutput --dump --jobids {jobids} -d {crab_dir}".format(crab_dir=crab_dir, jobids=jobids)
+	log.debug(command)
+	stdout, stderr = tools.subprocessCall(shlex.split(command))
+	files = re.findall("PFN:\s*(?P<path>.*)\s", stdout)
+	#return files
+	
+	search_pattern = re.sub("SvfitCache_[0-9]*.tar", "SvfitCache_*.tar", files[0])
+	while True:
+		new_search_pattern = re.sub("/[0-9_]+/", "/*/", search_pattern)
+		if search_pattern == new_search_pattern:
+			break
+		search_pattern = new_search_pattern
+	files = dcachetools.list_of_files(path=search_pattern, recursive=False, gfal_ls_args="")
+	return files
+
+def _download_untar(args):
+	tar_file = args[0]
+	output_dir = args[1]
+	downloaded_tar_file = os.path.join(tempfile.mkdtemp(), os.path.basename(tar_file))
+	tools.subprocessCall(shlex.split("gfal-copy {tar_file} {downloaded_tar_file}".format(tar_file=tar_file, downloaded_tar_file=downloaded_tar_file)))
+	tools.subprocessCall(shlex.split("tar -x -f {downloaded_tar_file} -C {output_dir} --overwrite".format(downloaded_tar_file=downloaded_tar_file, output_dir=output_dir)))
+	tools.subprocessCall(shlex.split("rm -rf {temp_dir}".format(temp_dir=os.path.dirname(downloaded_tar_file))))
+
+def _merge_outputs(args):
+	target_file = args[0]
+	source_files = args[1]
+	hadd_args = args[2]
+	return tools.hadd(target_file=target_file, source_files=source_files, hadd_args=hadd_args)
 
 def main():
 	parser = argparse.ArgumentParser(description="Collect matching trees from input files into one output tree",
@@ -52,13 +87,22 @@ def main():
 	if args.output_dir is None:
 		args.output_dir = os.path.join(args.input_dirs[0], "results")
 	
-	tar_files = []
+	# get paths to crab outputs
+	#max_n_jobs = 8000
+	#max_n_retrieve = 500
+	get_crab_outputs_args = []
 	for input_dir in args.input_dirs:
-		tar_files.extend(glob.glob(os.path.join(input_dir, "*/results/*.tar")))
-		tar_files.extend(glob.glob(os.path.join(input_dir, "results/*.tar")))
-		
-	tar_commands = ["tar -x -f "+tar_file+" -C "+args.output_dir+" --overwrite" for tar_file in tar_files]
-	tools.parallelize(_call_command, tar_commands, args.n_processes, description="un-tar crab outputs")
+		#for jobid_start in xrange(1, max_n_jobs, max_n_retrieve):
+		#	jobid_end = jobid_start + max_n_retrieve - 1
+		#	get_crab_outputs_args.append([input_dir, "{jobid_start}-{jobid_end}".format(jobid_start=jobid_start, jobid_end=jobid_end)])
+		get_crab_outputs_args.append([input_dir, "1-10"])
+	
+	tar_files = tools.parallelize(_get_crab_outputs, get_crab_outputs_args, max(args.n_processes, 2), description="crab getoutput --dump")
+	tar_files = tools.flattenList(tar_files)
+	
+	# download and un-tar
+	download_untar_args = [[tar_file, args.output_dir] for tar_file in tar_files]
+	tools.parallelize(_download_untar, download_untar_args, args.n_processes, description="download and un-tar crab outputs")
 	
 	root_files = glob.glob(os.path.join(args.output_dir, "*.root"))
 	# TODO: maybe add more root files from -i arguments, that did not need to be un-tared
@@ -72,11 +116,11 @@ def main():
 	merged_output_dir = os.path.join(args.output_dir, "merged")
 	if not os.path.exists(merged_output_dir):
 		os.makedirs(merged_output_dir)
-	hadd_commands = ["hadd.py "+(" ".join(tmp_root_files))+" -t "+os.path.join(merged_output_dir, sample_nick+".root")+" -a \" -f -v 0\"" for sample_nick, tmp_root_files in root_files_per_sample_nick.iteritems()]
-	tools.parallelize(_call_command, hadd_commands, args.n_processes, description="merging")
+	merge_outputs_args = [[os.path.join(merged_output_dir, sample_nick+".root"), tmp_root_files, "-f"] for sample_nick, tmp_root_files in root_files_per_sample_nick.iteritems()]
+	tools.parallelize(_merge_outputs, merge_outputs_args, args.n_processes, description="merging")
 	
 	if args.dcache_target:
-		dcache_copy_commands = ["gfal-copy -f -r "+merged_output_dir+" "+args.dcache_target]
+		dcache_copy_commands = ["gfal-copy -v -f -r "+merged_output_dir+" "+args.dcache_target]
 		tools.parallelize(_call_command, dcache_copy_commands, args.n_processes, description="copying to dCache")
 	
 	rm_commands = ["rm "+root_file for root_file in root_files]

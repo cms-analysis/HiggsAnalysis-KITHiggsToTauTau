@@ -140,46 +140,24 @@ if __name__ == "__main__":
 	
 	# Clean the output dir
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
-	if args.clear_output_dir and os.path.exists(args.output_dir):
-		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
+	if args.clear_output_dir and os.path.exists(args.output_dir): logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 		
 	# Produce es shifts from input arguments
-	es_shifts = [args.shift_ranges[0]]
-	es_shifts_str = [str(args.shift_ranges[0])] #taupogdatacards needs a list of strings. this can maybe be done better
-	while es_shifts[-1] < args.shift_ranges[-1]:
-		current_shift = round(es_shifts[-1] + args.shift_binning, 4) # sometimes, we get numbers like 0.990000000001 without round
-		es_shifts.append(current_shift)
-		es_shifts_str.append(str(current_shift))
-	if args.plot_with_shift != 0.0:
+	if args.plot_with_shift == 0.0:
+		es_shifts = [args.shift_ranges[0] + x * args.shift_binning for x in range(int((args.shift_ranges[1] - args.shift_ranges[0]) / args.shift_binning) + 1)]
+	else:
 		es_shifts = [args.plot_with_shift - 0.0001, args.plot_with_shift + 0.0001]
-		es_shifts_str = [str(es_shifts[0]), str(es_shifts[1])]
-		
+	es_shifts_str = [str(x) for x in es_shifts] # CombineHarvester taupogdatacards needs a list of strings
+
 	# Produce decaymode bins
-	# test this instead: decay_modes = copy.deepcopy(args.decay_modes)
-	decay_modes = []
-	for decayMode in args.decay_modes:
-		decay_modes.append(decayMode)
+	decay_modes = copy.deepcopy(args.decay_modes)
 	
 	# Produce pt-bins (first one is always inclusive)
-	pt_ranges = ["0.0"]
-	for pt_index, (pt_range) in enumerate(args.pt_ranges):
-		pt_ranges.append(args.pt_ranges[pt_index])
-	pt_weights = []
-	pt_strings = []
-	pt_bins = []
-	for pt_index, (pt_range) in enumerate(pt_ranges):
-		if pt_range == "0.0":
-			pt_weights.append("(pt_2>20)")
-			pt_strings.append("p_{T}(#tau_{h}) > 20 GeV")
-		else:
-			if len(pt_ranges) > pt_index + 1:
-				pt_weights.append("(pt_2>" + str(pt_ranges[pt_index]) + ")*(pt_2<" + str(pt_ranges[pt_index + 1]) + ")")
-				pt_strings.append(pt_ranges[pt_index] + " < p_{T}(#tau_{h}) < " + pt_ranges[pt_index + 1] + " GeV")
-			else:
-				pt_weights.append("(pt_2>" + str(pt_ranges[pt_index]) + ")")
-				pt_strings.append("p_{T}(#tau_{h}) > " + pt_ranges[pt_index] + " GeV")
-		pt_bins.append(str(pt_index))
-	
+	pt_ranges =  ["0.0"] + copy.deepcopy(args.pt_ranges)
+	pt_weights = ["(pt_2>20)"]                + ["(pt_2>" + str(pt_ranges[pt_index]) + ")*(pt_2<" + str(pt_ranges[pt_index + 1]) + ")" for pt_index in range(1, len(pt_ranges) - 1)] + (len(pt_ranges)>1) * ["(pt_2>" + pt_ranges[-1] + ")" ]
+	pt_strings = ["p_{T}(#tau_{h}) > 20 GeV"] + [pt_ranges[pt_index] + " < p_{T}(#tau_{h}) < " + pt_ranges[pt_index + 1] + " GeV" for pt_index in range(1, len(pt_ranges) - 1)]      + (len(pt_ranges)>1) * ["p_{T}(#tau_{h}) > " + pt_ranges[-1] + " GeV" ]
+	pt_bins = [str(x) for x in range(0, len(pt_ranges))]
+
 	# Produce eta-bins (first one is always inclusive)
 	# for the moment only barrel and endcap considered
 	eta_ranges = ["0.0", "1.479", "2.3"]
