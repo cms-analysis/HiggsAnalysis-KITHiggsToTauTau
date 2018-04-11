@@ -272,6 +272,7 @@ class mm_ArtusConfig(dict):
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
+			self["Quantities"] += r2cpq.recoCPQuantities()
 		
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2cpq.genQuantitiesLFV()
@@ -317,7 +318,8 @@ class mm_ArtusConfig(dict):
 					"filter:MinimalPlotlevelFilter"]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			self["Processors"] += ["#producer:SvfitProducer"]
-			self["Processors"] += ["MELAProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
 			self["Processors"] += ["#producer:TriggerWeightProducer"]
 			self["Processors"] += ["producer:IdentificationWeightProducer"]
 			self["Processors"] += ["#producer:RooWorkspaceWeightProducer"]
@@ -357,7 +359,8 @@ class mm_ArtusConfig(dict):
 					"filter:MinimalPlotlevelFilter"]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			self["Processors"] += ["#producer:SvfitProducer"]
-			self["Processors"] += ["MELAProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:TriggerWeightProducer"]
@@ -425,7 +428,12 @@ class mm_ArtusConfig(dict):
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter"]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
+
+			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 				
 		elif re.search("Run2015", nickname):
@@ -487,7 +495,8 @@ class mm_ArtusConfig(dict):
 					"#filter:MinimalPlotlevelFilter"]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			self["Processors"] += ["#producer:SvfitProducer"]
-			self["Processors"] += ["MELAProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
 			self["Processors"] += ["#producer:TriggerWeightProducer"]
 			self["Processors"] += ["producer:IdentificationWeightProducer"]
 			self["Processors"] += ["#producer:RooWorkspaceWeightProducer"]
@@ -525,6 +534,8 @@ class mm_ArtusConfig(dict):
 					"filter:MinimalPlotlevelFilter"]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
 			self["Processors"] += ["#producer:TriggerWeightProducer"]
 			self["Processors"] += ["producer:IdentificationWeightProducer"]
 			self["Processors"] += ["#producer:RooWorkspaceWeightProducer"]

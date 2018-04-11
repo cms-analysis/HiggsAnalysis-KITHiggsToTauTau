@@ -65,6 +65,7 @@ class gen_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.genQuantitiesLFV()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.genCPQuantities()
+			self["Quantities"] += ["tauSpinnerPolarisation"]
 
 		elif re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
 			self["Quantities"] += r2cpq.genQuantities()

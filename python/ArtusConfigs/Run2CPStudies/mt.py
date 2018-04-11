@@ -266,6 +266,8 @@ class mt_ArtusConfig(dict):
 		self["UseUWGenMatching"] =  "true"
 		self["DirectIso"] =  True
 		self["OSChargeLeptons"] = True
+		self["SvfitKappaParameter"] = 4.0
+
 		self["AddGenMatchedParticles"] = True
 		self["AddGenMatchedTaus"] = True
 		self["AddGenMatchedTauJets"] = True
@@ -483,15 +485,23 @@ class mt_ArtusConfig(dict):
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			
 			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:SvfitM91Producer"]
+			self["Processors"] += ["producer:SvfitM125Producer"]
+
 			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
+
 			self["Processors"] += ["producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
@@ -530,14 +540,22 @@ class mt_ArtusConfig(dict):
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			self["Processors"] += ["#producer:SvfitProducer"]
-			self["Processors"] += ["#producer:MELAProducer"]
+			
+			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:SvfitM91Producer"]
+			self["Processors"] += ["producer:SvfitM125Producer"]
+
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
+
+
 			self["Processors"] += ["#producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:TriggerWeightProducer"]
 			self["Processors"] += ["producer:IdentificationWeightProducer"]
 			self["Processors"] += ["#producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
@@ -576,8 +594,15 @@ class mt_ArtusConfig(dict):
 					"producer:ZPtReweightProducer",
 					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			self["Processors"] += ["#producer:SvfitProducer"]
-			self["Processors"] += ["#producer:MELAProducer"]
+			
+			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:SvfitM91Producer"]
+			self["Processors"] += ["producer:SvfitM125Producer"]
+
+			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
+
+
 			self["Processors"] += ["#producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:TriggerWeightProducer"]
 			self["Processors"] += ["producer:IdentificationWeightProducer"]
@@ -585,7 +610,9 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 			self["Processors"] += ["#producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
@@ -619,8 +646,15 @@ class mt_ArtusConfig(dict):
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			
 			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:SvfitM91Producer"]
+			self["Processors"] += ["producer:SvfitM125Producer"]
+
 			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
+
+
 			self["Processors"] += ["producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
@@ -659,12 +693,20 @@ class mt_ArtusConfig(dict):
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			self["Processors"] += ["#producer:SvfitProducer"]
-			self["Processors"] += ["#producer:MELAProducer"]
+			
+			#self["Processors"] += ["producer:SvfitProducer"]
+			#self["Processors"] += ["producer:SvfitM91Producer"]
+			#self["Processors"] += ["producer:SvfitM125Producer"]
+
+			#self["Processors"] += ["producer:MELAProducer"]
+			#self["Processors"] += ["producer:MELAM125Producer"]
+
+
 			self["Processors"] += ["#producer:SimpleFitProducer"]
 			self["Processors"] += ["#producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
@@ -702,8 +744,15 @@ class mt_ArtusConfig(dict):
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			self["Processors"] += ["#producer:SvfitProducer"]
-			self["Processors"] += ["#producer:MELAProducer"]
+			
+			#self["Processors"] += ["producer:SvfitProducer"]
+			#self["Processors"] += ["producer:SvfitM91Producer"]
+			#self["Processors"] += ["producer:SvfitM125Producer"]
+
+			#self["Processors"] += ["producer:MELAProducer"]
+			#self["Processors"] += ["producer:MELAM125Producer"]
+
+
 			self["Processors"] += ["#producer:TriggerWeightProducer"]
 			self["Processors"] += ["#producer:IdentificationWeightProducer"]
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
@@ -711,6 +760,7 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["#producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
@@ -750,14 +800,22 @@ class mt_ArtusConfig(dict):
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			
 			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:SvfitM91Producer"]
+			self["Processors"] += ["producer:SvfitM125Producer"]
+
 			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
+
+
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["#producer:MadGraphReweightingProducer"]
@@ -798,8 +856,15 @@ class mt_ArtusConfig(dict):
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			
 			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:SvfitM91Producer"]
+			self["Processors"] += ["producer:SvfitM125Producer"]
+
 			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
+
+
 			self["Processors"] += ["#producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:TriggerWeightProducer"]
 			self["Processors"] += ["producer:IdentificationWeightProducer"]
@@ -808,6 +873,7 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["#producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:MadGraphReweightingProducer"]
@@ -847,14 +913,22 @@ class mt_ArtusConfig(dict):
 					"producer:ZPtReweightProducer",
 					"#filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			self["Processors"] += ["#producer:SvfitProducer"]
-			self["Processors"] += ["producer:MELAProducer"]
+			
+			#self["Processors"] += ["producer:SvfitProducer"]
+			#self["Processors"] += ["producer:SvfitM91Producer"]
+			#self["Processors"] += ["producer:SvfitM125Producer"]
+
+			#self["Processors"] += ["producer:MELAProducer"]
+			#self["Processors"] += ["producer:MELAM125Producer"]
+
+
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
@@ -893,14 +967,22 @@ class mt_ArtusConfig(dict):
 					"producer:TopPtReweightingProducer",
 					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			
 			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:SvfitM91Producer"]
+			self["Processors"] += ["producer:SvfitM125Producer"]
+
 			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
+
+
 			self["Processors"] += ["producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
