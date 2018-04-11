@@ -6,5 +6,6 @@ var searchData=
   ['lfv',['lfv',['../classcutstrings_1_1CutStringsDict.html#a8c97e11613f06e63beba9604d7e41b13',1,'cutstrings::CutStringsDict']]],
   ['limit_5fconfig',['limit_config',['../namespaceLepFlaVio.html#a28afd788086b220ef2fb8d66ad07fc6c',1,'LepFlaVio']]],
   ['limitplot',['limitplot',['../namespaceLepFlaVio.html#aecd4d14c718902e6a68d633f71522ba6',1,'LepFlaVio']]],
-  ['list_5ffiles',['list_files',['../classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a92683ac3da8a08d5d051bde2e1a60246',1,'create_file_list_from_gfal_embedded_test::gfal_filelist']]]
+  ['list_5ffiles',['list_files',['../classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a92683ac3da8a08d5d051bde2e1a60246',1,'create_file_list_from_gfal_embedded_test::gfal_filelist']]],
+  ['lnn2shape',['lnN2shape',['../classdatacards_1_1Datacards.html#a641ae10031d46a5fe5e33a217350dbd8',1,'datacards::Datacards']]]
 ];

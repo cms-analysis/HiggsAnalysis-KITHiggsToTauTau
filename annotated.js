@@ -27,7 +27,7 @@ var annotated =
     [ "cutOptimizer", "namespacecutOptimizer.html", "namespacecutOptimizer" ],
     [ "cutstrings", "namespacecutstrings.html", "namespacecutstrings" ],
     [ "datacardconfigs", "namespacedatacardconfigs.html", "namespacedatacardconfigs" ],
-    [ "datacards", "namespacedatacards.html", null ],
+    [ "datacards", "namespacedatacards.html", "namespacedatacards" ],
     [ "deleteFolderdCache", "namespacedeleteFolderdCache.html", null ],
     [ "embedding_plot_bib", "namespaceembedding__plot__bib.html", null ],
     [ "embedding_plot_classes", "namespaceembedding__plot__classes.html", "namespaceembedding__plot__classes" ],

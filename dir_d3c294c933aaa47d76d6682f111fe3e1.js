@@ -4,7 +4,7 @@ var dir_d3c294c933aaa47d76d6682f111fe3e1 =
     [ "cpmodels_old.py", "cpmodels__old_8py.html", "cpmodels__old_8py" ],
     [ "cpstudiesdatacards.py", "cpstudiesdatacards_8py.html", "cpstudiesdatacards_8py" ],
     [ "datacardconfigs.py", "datacardconfigs_8py.html", "datacardconfigs_8py" ],
-    [ "datacards.py", "datacards_8py.html", null ],
+    [ "datacards.py", "datacards_8py.html", "datacards_8py" ],
     [ "higgsmodels.py", "higgsmodels_8py.html", "higgsmodels_8py" ],
     [ "initialstatecpstudiesdatacards.py", "initialstatecpstudiesdatacards_8py.html", "initialstatecpstudiesdatacards_8py" ],
     [ "lfvdatacards.py", "lfvdatacards_8py.html", [

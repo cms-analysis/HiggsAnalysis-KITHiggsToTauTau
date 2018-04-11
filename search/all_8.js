@@ -121,5 +121,6 @@ var searchData=
   ['hww_5fgg',['hww_gg',['../classsamples__run2__2016_1_1Samples.html#ada1704d14c19f7ca811d609119560446',1,'samples_run2_2016::Samples']]],
   ['hww_5fgg125',['hww_gg125',['../classsamples__run2__2016_1_1Samples.html#ab46d4fee0f24e9375e0501faef1eafe4',1,'samples_run2_2016::Samples']]],
   ['hww_5fqq',['hww_qq',['../classsamples__run2__2016_1_1Samples.html#a09d409059c4d851d9796a119976c1ab4',1,'samples_run2_2016::Samples']]],
-  ['hww_5fqq125',['hww_qq125',['../classsamples__run2__2016_1_1Samples.html#ad632aa905d1f83f30d8814efcafee594',1,'samples_run2_2016::Samples']]]
+  ['hww_5fqq125',['hww_qq125',['../classsamples__run2__2016_1_1Samples.html#ad632aa905d1f83f30d8814efcafee594',1,'samples_run2_2016::Samples']]],
+  ['hypotestresulttree',['hypotestresulttree',['../classdatacards_1_1Datacards.html#afba1a176177af80ed93655da17dedbfa',1,'datacards::Datacards']]]
 ];
