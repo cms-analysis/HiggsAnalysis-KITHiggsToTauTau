@@ -112,12 +112,12 @@ def genCPQuantities():    #TODO Is this really used, very similar to matchedcpqu
 		"genPhiStarCPComb",
 		"genPhiCPLab",
 
-		"genIP1mag"
+		"genIP1mag",
 		"genIP1x",
 		"genIP1y",
 		"genIP1z",
 			
-		"genIP2mag"
+		"genIP2mag",
 		"genIP2x",
 		"genIP2y",
 		"genIP2z",

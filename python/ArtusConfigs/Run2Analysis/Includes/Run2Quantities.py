@@ -506,7 +506,7 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 		"jdphi_TotalUp",
 		"jdphi_ClosureUp"]
 		
-	splitJecUncertaintyQuantities_list = ["njetspt30_AbsoluteFlavMapDown",
+	splitJecUncertaintyQuantities_list += ["njetspt30_AbsoluteFlavMapDown",
 		"njetspt30_AbsoluteMPFBiasDown",
 		"njetspt30_AbsoluteScaleDown",
 		"njetspt30_AbsoluteStatDown",
@@ -628,13 +628,15 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 	return splitJecUncertaintyQuantities_list
 
 def svfitSyncQuantities():
-	return ["m_sv",
+	return [
+		"m_sv",
 		"pt_sv",
 		"eta_sv",
 		"phi_sv",
-		#"met_sv",
-		#"m_sv_Up",
-		#"m_sv_Down",
+		"#met_sv",
+		"#m_sv_Up",
+		"#m_sv_Down",
+		
 		"svfitAvailable",
 		"svfitLV",
 		"svfitTau1Available",
@@ -642,7 +644,26 @@ def svfitSyncQuantities():
 		"svfitTau1ERatio",
 		"svfitTau2Available",
 		"svfitTau2LV",
-		"svfitTau2ERatio"]
+		"svfitTau2ERatio",
+		
+		"svfitM91Available",
+		"svfitM91LV",
+		"svfitM91Tau1Available",
+		"svfitM91Tau1LV",
+		"svfitM91Tau1ERatio",
+		"svfitM91Tau2Available",
+		"svfitM91Tau2LV",
+		"svfitM91Tau2ERatio",
+		
+		"svfitM125Available",
+		"svfitM125LV",
+		"svfitM125Tau1Available",
+		"svfitM125Tau1LV",
+		"svfitM125Tau1ERatio",
+		"svfitM125Tau2Available",
+		"svfitM125Tau2LV",
+		"svfitM125Tau2ERatio"
+	]
 
 def syncQuantities():
 	return ["nickname",
