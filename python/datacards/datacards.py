@@ -639,8 +639,7 @@ class Datacards(object):
 		"""
 		This method is depreceated since there exists an official way to produce the impacts of nuisance parameters.
 		"""
-		if plotting_args is None:
-			plotting_args = {}
+		if plotting_args is None: plotting_args = {}
 
 		datacards = []
 		for fit_type, datacards_postfit_shapes_dict in datacards_postfit_shapes.iteritems():
@@ -680,7 +679,6 @@ class Datacards(object):
 					plot_configs.append(config)
 
 		# create result plots HarryPlotter
-
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
 	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args):
