@@ -108,6 +108,8 @@ def addArguments(parser):
 	                    help="Do not produce inclusive results if pt or eta ranges are given. [Default: %(default)s]")
 	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
+	parser.add_argument("--combine-cmssw", "-cc", type=int, default=8,
+	                    help="CMSSW global version that points to the used combine edition. [Default: 8]")
 
 def _call_command(args):
 	command = None
@@ -646,8 +648,8 @@ if __name__ == "__main__":
 	parabola_plot_configs = []
 	weightbin_plot_configs = []
 	for datacard, cb in datacards_cbs.iteritems():
-		
-		filename_mlfit = os.path.join(os.path.dirname(datacard), "mlfit.root")
+
+		filename_mlfit = os.path.join(os.path.dirname(datacard), args.combine_cmssw==8 * "fitDiagnostics.root" +  args.combine_cmssw==7 * "mlfit.root")# "mlfit.root")
 		file_mlfit = ROOT.TFile(filename_mlfit)
 		tree_mlfit = file_mlfit.Get("tree_fit_sb")
 		tree_mlfit.GetEntry(0)
