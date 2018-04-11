@@ -54,12 +54,12 @@ var NAVTREEINDEX =
 "makePlots__datacardsLFVZlt_8py.html#abb88f73a67bb96666c2453777a6cae5c",
 "makePlots__datacardsQCDfactors_8py.html#ac49d1dc65fec14940a10cb5f7d79d09e",
 "makePlots__datacardsTauEsStudies_8py.html#a1a156adcedf5451fd8e5a5e0e3b07202",
-"makePlots__datacardsZttEfficiency_8py.html#a9e84584474d0994292409afe1b374477",
-"makePlots__genCPPlotswithDYandSUSY_8py.html#ac9dbcde0877162765bd7f6377d6c62cb",
-"makePlots__theoryUncertainties_8py.html#ad15b61ec246de66c8d8c12d5be29cf1f",
-"namespacemakePlots__CP__rho__cut__efficiency.html",
-"namespacezttxsecdatacards.html",
-"scaleVariations__ZttOverZmumu_8py.html#aab866fd8f02efe4a9779f88bd890f701"
+"makePlots__datacardsZttEfficiency_8py.html#a9e764933936b956c5306a8eb4bd986dd",
+"makePlots__genCPPlotswithDYandSUSY_8py.html#a9e8deaa55fa2c3d58b022d0600d750a3",
+"makePlots__theoryUncertainties_8py.html#ac81403efdcc2a7ccf95b5139f5732488",
+"namespacemakePlots__BdtShiftLimits.html",
+"namespacezttpolarisationdatacards.html",
+"scaleVariations__ZttOverZmumu_8py.html#aa63fd4c0c010f4ff231f2e2ee96691af"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

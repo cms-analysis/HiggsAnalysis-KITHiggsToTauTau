@@ -1,5 +1,6 @@
 var NAVTREEINDEX20 =
 {
+"makePlots__genCPPlotswithDYandSUSY_8py.html#a9e8deaa55fa2c3d58b022d0600d750a3":[2,0,2,55,9],
 "makePlots__genCPPlotswithDYandSUSY_8py.html#ac9dbcde0877162765bd7f6377d6c62cb":[2,0,2,55,18],
 "makePlots__genCPPlotswithDYandSUSY_8py.html#ad81e5825757ba040bb9a1cdb77a6b332":[2,0,2,55,19],
 "makePlots__genCPPlotswithDYandSUSY_8py.html#adc546736a43e9b62ea6c801d8a59ab4e":[2,0,2,55,15],
@@ -248,6 +249,5 @@ var NAVTREEINDEX20 =
 "makePlots__theoryUncertainties_8py.html#ab78d30e82768c52637848abdc84151a8":[2,0,2,70,18],
 "makePlots__theoryUncertainties_8py.html#abbe3271b05aa5d11914a9b9398ad7dd8":[2,0,2,70,20],
 "makePlots__theoryUncertainties_8py.html#abee6ea93052cef033189c3ca3fb2e287":[2,0,2,70,16],
-"makePlots__theoryUncertainties_8py.html#ac04df7eaad80a340c1c64d5274acb419":[2,0,2,70,13],
-"makePlots__theoryUncertainties_8py.html#ac81403efdcc2a7ccf95b5139f5732488":[2,0,2,70,4]
+"makePlots__theoryUncertainties_8py.html#ac04df7eaad80a340c1c64d5274acb419":[2,0,2,70,13]
 };

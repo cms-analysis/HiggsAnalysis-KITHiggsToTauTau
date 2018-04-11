@@ -1,5 +1,6 @@
 var NAVTREEINDEX23 =
 {
+"namespacezttpolarisationdatacards.html":[1,0,159],
 "namespacezttxsecdatacards.html":[1,0,160],
 "namespacezttxsecdatacards.html":[0,0,160],
 "nicknames_8py.html":[2,0,2,79],
@@ -248,6 +249,5 @@ var NAVTREEINDEX23 =
 "scaleVariations__ZttOverZmumu_8py.html#a84a23aaa1ef6bd714a30910ef5460dbc":[2,0,2,88,27],
 "scaleVariations__ZttOverZmumu_8py.html#a8788a27c9518c8b6131350baf6a2a472":[2,0,2,88,3],
 "scaleVariations__ZttOverZmumu_8py.html#a99f865820f6314de90f04f7209276f7e":[2,0,2,88,30],
-"scaleVariations__ZttOverZmumu_8py.html#a9dd6db1ec4e5c31e31761cbf25641b7a":[2,0,2,88,12],
-"scaleVariations__ZttOverZmumu_8py.html#aa63fd4c0c010f4ff231f2e2ee96691af":[2,0,2,88,29]
+"scaleVariations__ZttOverZmumu_8py.html#a9dd6db1ec4e5c31e31761cbf25641b7a":[2,0,2,88,12]
 };
