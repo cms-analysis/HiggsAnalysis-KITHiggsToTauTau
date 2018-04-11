@@ -392,7 +392,7 @@ class em_ArtusConfig(dict):
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
 			self["Quantities"] += r2cpq.genQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()			
-			self["Quantities"] += r2cpq.recoPolarisationQuantities()		
+			self["Quantities"] += r2cpq.recoCPQuantities()		
 			self["Quantities"] += ["nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
@@ -410,7 +410,8 @@ class em_ArtusConfig(dict):
 			self["Quantities"] += ["nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"]
+					"nAllDiTauPairCandidates",
+					"jetCorrectionWeight"]
 
 
 		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
@@ -757,6 +758,7 @@ class em_ArtusConfig(dict):
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 				
 		else:
@@ -792,6 +794,7 @@ class em_ArtusConfig(dict):
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			self["Processors"] += ["producer:SvfitProducer"]
 			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:TriggerWeightProducer"]
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
@@ -799,6 +802,7 @@ class em_ArtusConfig(dict):
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+
 			self["Processors"] += ["producer:EventWeightProducer"]
 				
 

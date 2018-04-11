@@ -14,10 +14,9 @@ class JECUncertaintySplit(dict):
 	def __init__(self, nickname):
 		if re.search("(Run2016|Spring16|Summer16)", nickname):
 			self["JetEnergyCorrectionSplitUncertainty"] = True
-			self["JetEnergyCorrectionSplitUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_UncertaintySources_AK4PFchs.txt"
 		else: 
 			self["JetEnergyCorrectionSplitUncertainty"] = False
-			self["JetEnergyCorrectionSplitUncertaintyParameters"] = ""
+
 
 		if re.search("(Run201|Embedding)", nickname):
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 0.0

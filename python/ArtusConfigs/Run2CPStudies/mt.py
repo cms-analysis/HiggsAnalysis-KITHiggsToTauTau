@@ -408,8 +408,9 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
 			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()			
-			self["Quantities"] += r2cpq.recoPolarisationQuantities()
+			self["Quantities"] += r2cpq.weightQuantities()	
+			self["Quantities"] += stq.SingleTauQuantities()	#until here		
+			self["Quantities"] += r2cpq.recoCPQuantities()
 			
 			self["Quantities"] += ["nVetoMuons",
 					"nLooseElectrons",
@@ -419,7 +420,8 @@ class mt_ArtusConfig(dict):
 
 			self["Quantities"] += ["triggerWeight_singleMu_1",
 					"triggerWeight_muTauCross_1",
-					"triggerWeight_muTauCross_2"]
+					"triggerWeight_muTauCross_2",
+					"jetCorrectionWeight"]
 		else:
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
@@ -846,6 +848,7 @@ class mt_ArtusConfig(dict):
 					"#filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -900,4 +903,8 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
+
+
+

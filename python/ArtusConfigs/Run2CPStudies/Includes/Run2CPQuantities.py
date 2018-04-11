@@ -111,9 +111,13 @@ def genCPQuantities():    #TODO Is this really used, very similar to matchedcpqu
 		"genOCP",
 		"genPhiStarCPComb",
 		"genPhiCPLab",
+
+		"genIP1mag"
 		"genIP1x",
 		"genIP1y",
 		"genIP1z",
+			
+		"genIP2mag"
 		"genIP2x",
 		"genIP2y",
 		"genIP2z",
@@ -278,9 +282,16 @@ def genMatchedCPQuantities():
 		"genSV2x",
 		"genSV2y",
 		"genSV2z",
+
+		"genD01",
+		"genD02",
+		
+		"genIP1mag",
 		"genIP1x",
 		"genIP1y",
 		"genIP1z",
+		
+		"genIP2mag",
 		"genIP2x",
 		"genIP2y",
 		"genIP2z",
@@ -407,11 +418,11 @@ def recoCPQuantities():
 		"thePVsigmaxy",
 		"thePVsigmaxz",
 		"thePVsigmayz",
+
 		"refitPVx",
 		"refitPVy",
 		"refitPVz",
-		"refitPVchi2",
-		"refitPVnDOF",
+		"refitPVchi2OverNdof",
 		"refitPVnTracks",
 		"refitPVsigmaxx",
 		"refitPVsigmayy",
@@ -419,11 +430,11 @@ def recoCPQuantities():
 		"refitPVsigmaxy",
 		"refitPVsigmaxz",
 		"refitPVsigmayz",
+
 		"refitPVBSx",
 		"refitPVBSy",
 		"refitPVBSz",
-		"refitPVBSchi2",
-		"refitPVBSnDOF",
+		"refitPVBSchi2OverNdof",
 		"refitPVBSnTracks",
 		"refitPVBSsigmaxx",
 		"refitPVBSsigmayy",
@@ -431,24 +442,40 @@ def recoCPQuantities():
 		"refitPVBSsigmaxy",
 		"refitPVBSsigmaxz",
 		"refitPVBSsigmayz",
+
 		"theBSx",
 		"theBSy",
 		"theBSz",
 		"theBSsigmax",
 		"theBSsigmay",
 		"theBSsigmaz",
+
 		"refP1x",
 		"refP1y",
 		"refP1z",
 		"refP2x",
 		"refP2y",
 		"refP2z",
+		
+		"lep1TrackChi2OverNdof",
+		"lep1TrackNInnerHits",
+		"lep1TrackIsLooseQuality",
+		"lep1TrackIsTightQuality",
+		"lep1TrackIsHighPurityQuality",
+		
+		"lep2TrackChi2OverNdof",
+		"lep2TrackNInnerHits",
+		"lep2TrackIsLooseQuality",
+		"lep2TrackIsTightQuality",
+		"lep2TrackIsHighPurityQuality",
+
 		"track1p4x",
 		"track1p4y",
 		"track1p4z",
 		"track2p4x",
 		"track2p4y",
 		"track2p4z",
+
 		"d3D_refitPV_1",
 		"err3D_refitPV_1",
 		"d2D_refitPV_1",
@@ -457,36 +484,59 @@ def recoCPQuantities():
 		"err3D_refitPV_2",
 		"d2D_refitPV_2",
 		"err2D_refitPV_2",
+
 		"errD0_1",
 		"errD0_1_newErr",
 		"errD0_2",
 		"errD0_2_newErr",
+
 		"errDZ_1",
 		"errDZ_1_newErr",
 		"errDZ_2",
 		"errDZ_2_newErr",
+
 		"errIP_1",
 		"errIP_2",
+
 		"errD0_refitPV_1",
 		"errD0_refitPV_2",
+
 		"errDZ_refitPV_1",
 		"errDZ_refitPV_2",
+
 		"errIP_refitPV_1",
 		"errIP_refitPV_2",
+
+		"IP_1mag",
 		"IP_1x",
 		"IP_1y",
 		"IP_1z",
+		"IP_2mag",
 		"IP_2x",
 		"IP_2y",
 		"IP_2z",
+
+		"IP_refitPV_1mag",
 		"IP_refitPV_1x",
 		"IP_refitPV_1y",
 		"IP_refitPV_1z",
+		"IP_refitPV_2mag",
 		"IP_refitPV_2x",
 		"IP_refitPV_2y",
 		"IP_refitPV_2z",
+
+		"trackFromBS_1mag",
+		"trackFromBS_1x",
+		"trackFromBS_1y",
+		"trackFromBS_1z",
+		"trackFromBS_2mag",
+		"trackFromBS_2x",
+		"trackFromBS_2y",
+		"trackFromBS_2z",
+
 		"cosPsiPlus",
 		"cosPsiMinus",
+
 		"deltaEtaGenRecoIP1",
 		"deltaEtaGenRecoIP2",
 		"deltaPhiGenRecoIP1",
@@ -495,26 +545,54 @@ def recoCPQuantities():
 		"deltaRGenRecoIP2",
 		"deltaGenRecoIP1",
 		"deltaGenRecoIP2",
-		"recoPhiStarCP",
-		"recoPhiStarCP_rho",
-		"recoPhiStarCP_rho_merged",
-		"recoPhiStarCPrPV",
-		"recoPhiStarCPrPV2",
-		"recoPhiStarCPComb",
-		"recoPhiStarCPCombMerged",
+
+		"deltaEtaGenRecoIP1_refitPV",
+		"deltaEtaGenRecoIP2_refitPV",
+		"deltaPhiGenRecoIP1_refitPV",
+		"deltaPhiGenRecoIP2_refitPV",
+		"deltaRGenRecoIP1_refitPV",
+		"deltaRGenRecoIP2_refitPV",
+		"deltaGenRecoIP1_refitPV",
+		"deltaGenRecoIP2_refitPV",
+
+		#"recoPhiStarCP",
+		#"recoPhiStarCPrPV2",
 		#"recoPhiStarCPrPV_rho",
 		#"recoPhiStarCPrPVbs",
 		#"recoPhiStarCPrPVbs_rho",
+
+		"recoPhiStarCP_rho",
+		"recoPhiStarCP_rho_merged",
+		"recoPhiStarCPrPV",
+		"recoPhiStarCPComb",
+		"recoPhiStarCPCombMerged",
+
+		"recoPhiPlus_ipmeth",
+		"recoPhiMinus_ipmeth",
+		"recoPhiStarPlus_ipmeth",
+		"recoPhiStarMinus_ipmeth",
+		"recoPhiPlus_combmeth",
+		"recoPhiMinus_combmeth",
+		"recoPhiStarPlus_combmeth",
+		"recoPhiStarMinus_combmeth",
+		"recoPhiPlus_rhometh",
+		"recoPhiMinus_rhometh",
+		"recoPhiStarPlus_rhometh",
+		"recoPhiStarMinus_rhometh",
+
 		"recoPhiStar",
 		"recoPhiStar_rho",
 		"recoChargedHadron1HiggsFrameEnergy",
 		"recoChargedHadron2HiggsFrameEnergy",
+
 		"reco_posyTauL",
 		"reco_negyTauL",
+
 		"posLepSumChargedHadronsLV",
 		"negLepSumChargedHadronsLV",
 		"posLepSumNeutralHadronsLV",
 		"negLepSumNeutralHadronsLV",
+
 		"d0_refitPV_1",
 		"d0_refitPVBS_1",
 		"dZ_refitPV_1",
@@ -525,8 +603,10 @@ def recoCPQuantities():
 		"dZ_refitPVBS_2",
 		#"recoImpactParameter1",
 		#"recoImpactParameter2",
+
 		"recoTrackRefError1",
 		"recoTrackRefError2",
+
 		"d0s_area",
 		"d0s_dist"]
 
@@ -547,44 +627,56 @@ def recoCPQuantitiesHiggs():
 		"lheParticleJetNumber"]
 
 def recoPolarisationQuantities():
-	return ["lep1SumChargedHadronsLV",
+	return [
+		"lep1SumChargedHadronsLV",
 		"lep1SumNeutralHadronsLV",
+
 		"genMatchedTau1LV",
 		"genMatchedTau1Found",
 		"genMatchedTau1VisibleLV",
 		"genMatchedTau1DecayMode",
 		"genMatchedTau1NProngs",
 		"genMatchedTau1NPi0s",
+
 		"lep2SumChargedHadronsLV",
 		"lep2SumNeutralHadronsLV",
+
 		"genMatchedTau2LV",
 		"genMatchedTau2Found",
 		"genMatchedTau2VisibleLV",
 		"genMatchedTau2DecayMode",
 		"genMatchedTau2NProngs",
 		"genMatchedTau2NPi0s",
+		
 		"leadingTauLV",
 		"trailingTauLV",
+
 		#"hhKinFitTau1LV",
 		#"hhKinFitTau2LV",
+
 		"simpleFitAvailable",
 		"simpleFitLV",
 		"simpleFitTau1Available",
 		"simpleFitTau1LV",
 		"simpleFitTau2Available",
 		"simpleFitTau2LV",
+
 		"leadingTauDecayMode",
 		"leadingTauSumChargedHadronsLV",
 		"leadingTauSumNeutralHadronsLV",
+
 		"trailingTauDecayMode",
 		"trailingTauSumChargedHadronsLV",
 		"trailingTauSumNeutralHadronsLV",
+
 		#"a1OmegaHHKinFit_1",
 		#"a1OmegaHHKinFit_2",
 		#"a1OmegaSimpleFit_1",
 		#"a1OmegaSimpleFit_2",
+		
 		#"rhoNeutralChargedAsymmetry_1",
 		#"rhoNeutralChargedAsymmetry_2",
+
 		#"visibleOverFullEnergyHHKinFit_1",
 		#"visibleOverFullEnergyHHKinFit_2",
 		#"visibleOverFullEnergySimpleFit_1",
@@ -593,36 +685,66 @@ def recoPolarisationQuantities():
 		#"visibleToFullAngleHHKinFit_2",
 		#"visibleToFullAngleSimpleFit_1",
 		#"visibleToFullAngleSimpleFit_2",
+
 		#"tauPolarisationDiscriminatorHHKinFit",
 		#"tauPolarisationDiscriminatorSimpleFit",
+		
+		"polarisationOmegaGenMatched_1",
+		"polarisationOmegaGenMatched_2",
 		"polarisationOmegaSimpleFit_1",
 		"polarisationOmegaSimpleFit_2",
 		#"polarisationOmegaHHKinFit_1",
 		#"polarisationOmegaHHKinFit_2",
+		
+		"polarisationOmegaBarGenMatched_1",
+		"polarisationOmegaBarGenMatched_2",
 		"polarisationOmegaBarSimpleFit_1",
 		"polarisationOmegaBarSimpleFit_2",
 		#"polarisationOmegaBarHHKinFit_1",
 		#"polarisationOmegaBarHHKinFit_2",
+		
+		"polarisationOmegaVisibleGenMatched_1",
+		"polarisationOmegaVisibleGenMatched_2",
+		"polarisationOmegaVisibleSimpleFit_1",
+		"polarisationOmegaVisibleSimpleFit_2",
+		#"polarisationOmegaVisibleHHKinFit_1",
+		#"polarisationOmegaVisibleHHKinFit_2",
+		
+		"polarisationCombinedOmegaGenMatched",
 		"polarisationCombinedOmegaSimpleFit",
 		#"polarisationCombinedOmegaHHKinFit",
+		
+		"polarisationCombinedOmegaBarGenMatched",
 		"polarisationCombinedOmegaBarSimpleFit",
-		#"polarisationCombinedOmegaBarHHKinFit"
-		]
+		#"polarisationCombinedOmegaBarHHKinFit",
+		
+		"polarisationCombinedOmegaVisibleGenMatched",
+		"polarisationCombinedOmegaVisibleSimpleFit",
+		#"polarisationCombinedOmegaVisibleHHKinFit"
+	]
+		
 
 def recoPolarisationQuantitiesSvfit():
-	return [#"a1OmegaSvfit_1",
-		#"a1OmegaSvfit_2",
-		#"visibleOverFullEnergySvfit_1",
-		#"visibleOverFullEnergySvfit_2",
-		#"visibleToFullAngleSvfit_1",
-		#"visibleToFullAngleSvfit_2",
-		#"tauPolarisationDiscriminatorSvfit",
+	return [
 		"polarisationOmegaSvfit_1",
 		"polarisationOmegaSvfit_2",
 		"polarisationOmegaBarSvfit_1",
 		"polarisationOmegaBarSvfit_2",
+		"polarisationOmegaVisibleSvfit_1",
+		"polarisationOmegaVisibleSvfit_2",
 		"polarisationCombinedOmegaSvfit",
-		"polarisationCombinedOmegaBarSvfit"]
+		"polarisationCombinedOmegaBarSvfit",
+		"polarisationCombinedOmegaVisibleSvfit",
+		
+		"polarisationOmegaSvfitM91_1",
+		"polarisationOmegaSvfitM91_2",
+		"polarisationOmegaBarSvfitM91_1",
+		"polarisationOmegaBarSvfitM91_2",
+		"polarisationOmegaVisibleSvfitM91_1",
+		"polarisationOmegaVisibleSvfitM91_2",
+		"polarisationCombinedOmegaSvfitM91",
+		"polarisationCombinedOmegaBarSvfitM91",
+		"polarisationCombinedOmegaVisibleSvfitM91"]
 
 def weightQuantities():
 	return ["hltWeight",
@@ -701,31 +823,72 @@ def melaQuantities():
 		"melaProbCPMixGGH",
 		"melaDiscriminatorD0MinusGGH",
 		"melaDiscriminatorDCPGGH",
+
 		"melaProbCPEvenVBF",
 		"melaProbCPOddVBF",
 		"melaProbCPMixVBF",
 		"melaDiscriminatorD0MinusVBF",
-		"melaDiscriminatorDCPVBF"
+		"melaDiscriminatorDCPVBF",
+		
 		#"melaProbCPEvenWlepH",
 		#"melaProbCPOddWlepH",
 		#"melaProbCPMixWlepH",
 		#"melaDiscriminatorD0MinusWlepH",
 		#"melaDiscriminatorDCPWlepH",
+		
 		#"melaProbCPEvenWhadH",
 		#"melaProbCPOddWhadH",
 		#"melaProbCPMixWhadH",
 		#"melaDiscriminatorD0MinusWhadH",
 		#"melaDiscriminatorDCPWhadH",
+		
 		#"melaProbCPEvenZlepH",
 		#"melaProbCPOddZlepH",
 		#"melaProbCPMixZlepH",
 		#"melaDiscriminatorD0MinusZlepH",
 		#"melaDiscriminatorDCPZlepH",
+		
 		#"melaProbCPEvenZhadH",
 		#"melaProbCPOddZhadH",
 		#"melaProbCPMixZhadH",
 		#"melaDiscriminatorD0MinusZhadH",
-		#"melaDiscriminatorDCPZhadH"
+		#"melaDiscriminatorDCPZhadH",
+		
+		"melaM125ProbCPEvenGGH",
+		"melaM125ProbCPOddGGH",
+		"melaM125ProbCPMixGGH",
+		"melaM125DiscriminatorD0MinusGGH",
+		"melaM125DiscriminatorDCPGGH",
+
+		"melaM125ProbCPEvenVBF",
+		"melaM125ProbCPOddVBF",
+		"melaM125ProbCPMixVBF",
+		"melaM125DiscriminatorD0MinusVBF",
+		"melaM125DiscriminatorDCPVBF",
+		
+		#"melaM125ProbCPEvenWlepH",
+		#"melaM125ProbCPOddWlepH",
+		#"melaM125ProbCPMixWlepH",
+		#"melaM125DiscriminatorD0MinusWlepH",
+		#"melaM125DiscriminatorDCPWlepH",
+		
+		#"melaM125ProbCPEvenWhadH",
+		#"melaM125ProbCPOddWhadH",
+		#"melaM125ProbCPMixWhadH",
+		#"melaM125DiscriminatorD0MinusWhadH",
+		#"melaM125DiscriminatorDCPWhadH",
+		
+		#"melaM125ProbCPEvenZlepH",
+		#"melaM125ProbCPOddZlepH",
+		#"melaM125ProbCPMixZlepH",
+		#"melaM125DiscriminatorD0MinusZlepH",
+		#"melaM125DiscriminatorDCPZlepH",
+		
+		#"melaM125ProbCPEvenZhadH",
+		#"melaM125ProbCPOddZhadH",
+		#"melaM125ProbCPMixZhadH",
+		#"melaM125DiscriminatorD0MinusZhadH",
+		#"melaM125DiscriminatorDCPZhadH"
 		]
 
 	

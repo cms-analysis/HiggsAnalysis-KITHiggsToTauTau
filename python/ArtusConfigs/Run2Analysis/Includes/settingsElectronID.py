@@ -14,7 +14,8 @@ class Electron_ID(dict):
 	def __init__(self, nickname):
 		
 
-		self["ElectronID_documentation"] = ["https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"]
+		self["ElectronID_documentation"] = ["https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2",
+						"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"]
 	
 		self["ElectronReco"] = "mvanontrig"
 	
@@ -31,6 +32,18 @@ class Electron_ID(dict):
 						"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose",
 						"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium",
 						"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"]
+		elif re.search("(Run2017|Fall17)", nickname):
+			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"
+			self["ElectronMvaIDCutEB1"] = 0.9897
+			self["ElectronMvaIDCutEB2"] = 0.9819
+			self["ElectronMvaIDCutEE"] = 0.9625
+			self["ElectronIDList"] = [
+				"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values",
+				"egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wp90",
+				"egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wp80",
+				"egmGsfElectronIDs:mvaEleID-Fall17-iso-V1-wpLoose"
+			]
+
 		else:
 			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"
 			self["ElectronMvaIDCutEB1"] = 0.941
@@ -64,6 +77,11 @@ class Electron_ID(dict):
 			self["LooseElectronMvaIDCutEB1"] = 0.913286
 			self["LooseElectronMvaIDCutEB2"] = 0.805013
 			self["LooseElectronMvaIDCutEE"] = 0.358969
+		elif re.search("(Run2017|Fall17)", nickname):
+			self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"
+			self["LooseElectronMvaIDCutEB1"] =  0.9718
+			self["LooseElectronMvaIDCutEB2"] =  0.9459
+			self["LooseElectronMvaIDCutEE"] =  0.8979
 		else:
 			self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"
 			self["LooseElectronMvaIDCutEB1"] = 0.837

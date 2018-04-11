@@ -341,14 +341,16 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
-			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()			
-			self["Quantities"] += r2cpq.recoPolarisationQuantities()
+			self["Quantities"] += r2cpq.genQuantitiesLFV()
+			self["Quantities"] += r2cpq.weightQuantities()	
+			self["Quantities"] += stq.SingleTauQuantities()		
+			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += ["nVetoElectrons",
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"]
+					"nAllDiTauPairCandidates",
+					"jetCorrectionWeight"]
 
 		else:
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -367,7 +369,7 @@ class et_ArtusConfig(dict):
 					"nAllDiTauPairCandidates"]
 
 
-		self["Quantities"]=sorted(list(set(self["Quantities"])),key=str.lower) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
+		self["Quantities"]=sorted(list(set(self["Quantities"])), key=str.lower) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
@@ -732,6 +734,7 @@ class et_ArtusConfig(dict):
 					"#filter:MinimalPlotlevelFilter"]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			self["Processors"] += ["#producer:SvfitProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
@@ -739,6 +742,7 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
+			self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 				
 
