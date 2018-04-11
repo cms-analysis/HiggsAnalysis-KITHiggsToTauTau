@@ -49,6 +49,7 @@ var searchData=
   ['weightatindex',['weightAtIndex',['../namespacemakePlots__datacardsLFVZlt.html#a03e0bcd32350b28bc19d3d24b4aa1f29',1,'makePlots_datacardsLFVZlt.weightAtIndex()'],['../namespacemakePlots__datacardsSMHtt.html#ad7c79269c9c0cbd37e394d4163b6619d',1,'makePlots_datacardsSMHtt.weightAtIndex()']]],
   ['weightbin',['weightBin',['../namespacemakePlots__datacardsTauEsStudies.html#a9e5c05c3f69f6fcc96c952f0b4ddb0ea',1,'makePlots_datacardsTauEsStudies']]],
   ['weightbin_5fplot_5fconfigs',['weightbin_plot_configs',['../namespacemakePlots__datacardsTauEsStudies.html#a2f8938b0aa28caaf22fe30857b26479f',1,'makePlots_datacardsTauEsStudies']]],
+  ['weightquantities',['weightQuantities',['../namespaceRun2CPQuantities.html#a6f263e65b4898b6c0b97e345c020ff7b',1,'Run2CPQuantities']]],
   ['weights',['weights',['../namespacescaleVariations__ZttOverZmumu.html#a3566597fa70a2696fedf02991d484fee',1,'scaleVariations_ZttOverZmumu.weights()'],['../namespacescaleVariations__ZttOverZttInclusive.html#a516a42541a53c69fd4aab6619caeea65',1,'scaleVariations_ZttOverZttInclusive.weights()']]],
   ['wgamma_5fstitchingweight',['wgamma_stitchingweight',['../classsamples__run2__2016_1_1Samples.html#a2bec54e1c660d352d409bca780ec5dad',1,'samples_run2_2016::Samples']]],
   ['wh',['wh',['../classsamples__run2__2016_1_1Samples.html#a7386ff2ff5b7ffee5779e89e46454b0c',1,'samples_run2_2016::Samples']]],

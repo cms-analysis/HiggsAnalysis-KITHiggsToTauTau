@@ -12,6 +12,7 @@ var searchData=
   ['reg_5func_5fdict',['reg_unc_dict',['../namespacemvaCategory__Uncertainties.html#a885af290a0e374863190972c5e1a974c',1,'mvaCategory_Uncertainties']]],
   ['regex',['regex',['../namespaceplot__overtraining.html#af450908d4f2fa03fd9442c0d7cb662bf',1,'plot_overtraining']]],
   ['regular_5fname',['regular_name',['../namespacemvaCategory__Shifts.html#add7618877152fec36b1e508cb3f38100',1,'mvaCategory_Shifts']]],
+  ['remote_5fse',['remote_se',['../classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#adaf676c6bc7a274847f723cf28ba4afc',1,'higgstotautauanalysiswrapper::HiggsToTauTauAnalysisWrapper']]],
   ['renamed_5fhistogram_5fpaths',['renamed_histogram_paths',['../namespacemakePlots__compareLimitInputs.html#ac9bf6f5d90d663388e95104b5f2750ac',1,'makePlots_compareLimitInputs']]],
   ['renamings',['renamings',['../namespacemakePlots__compareLimitInputs.html#a444f5f6850ea432e158c337c2572f976',1,'makePlots_compareLimitInputs']]],
   ['replaced_5fbkg_5fnicks',['replaced_bkg_nicks',['../namespacemakePlots__controlPlots.html#a0840151176771769af5934839127f132',1,'makePlots_controlPlots.replaced_bkg_nicks()'],['../namespacemakePlots__PolSelEfficiency.html#a6a57019f0368b5873afd3692c78500bb',1,'makePlots_PolSelEfficiency.replaced_bkg_nicks()']]],
