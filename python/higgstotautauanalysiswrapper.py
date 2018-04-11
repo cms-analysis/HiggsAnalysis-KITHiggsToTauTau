@@ -210,6 +210,8 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 						channel_python_config.build_config(nickname)
 					else:	
 						log.error("COULD NOT FIND CHANNEL")
+
+					channel_python_config["Quantities"] = sorted(channel_python_config["Quantities"], key=str.lower)
 					#Ideas:
 					#TODO add function that adds list of quantities to the pipeline_python_config
 					"""
