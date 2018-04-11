@@ -1,12 +1,13 @@
 var searchData=
 [
-  ['main',['main',['../namespaceLepFlaVio.html#a013ca2c73b7446001ef9c2db27457ec3',1,'LepFlaVio.main()'],['../namespacebatchComputeSvfit.html#a1fa10abad2c87da7c67a464613b6362a',1,'batchComputeSvfit.main()'],['../namespacedeleteFolderdCache.html#ae89eac15081c7392f7e0f4681f7ae4ce',1,'deleteFolderdCache.main()'],['../namespacegetInclusiveWeight.html#acdc489adabdd018d4e98d4f2ea624044',1,'getInclusiveWeight.main()'],['../namespacekitHiggsTauTauTauCheckoutPackages.html#a1308a1b285b32fce40f43e2ebfeb3408',1,'kitHiggsTauTauTauCheckoutPackages.main()'],['../namespacesvfitCacheTreeMerge.html#ad0a4c621ba19d402381f02258825cb47',1,'svfitCacheTreeMerge.main()']]],
+  ['main',['main',['../namespaceLepFlaVio.html#a013ca2c73b7446001ef9c2db27457ec3',1,'LepFlaVio.main()'],['../namespaceMVAFlavio.html#acef44172519a7cc6e872c421e10776ff',1,'MVAFlavio.main()'],['../namespacebatchComputeSvfit.html#a1fa10abad2c87da7c67a464613b6362a',1,'batchComputeSvfit.main()'],['../namespacedeleteFolderdCache.html#ae89eac15081c7392f7e0f4681f7ae4ce',1,'deleteFolderdCache.main()'],['../namespacegetInclusiveWeight.html#acdc489adabdd018d4e98d4f2ea624044',1,'getInclusiveWeight.main()'],['../namespacekitHiggsTauTauTauCheckoutPackages.html#a1308a1b285b32fce40f43e2ebfeb3408',1,'kitHiggsTauTauTauCheckoutPackages.main()'],['../namespacesvfitCacheTreeMerge.html#ad0a4c621ba19d402381f02258825cb47',1,'svfitCacheTreeMerge.main()']]],
   ['make_5fhistogram',['make_Histogram',['../namespacecutOptimizer.html#a2bcdf205d18c230c1a151e8617e369e5',1,'cutOptimizer']]],
   ['make_5fplots',['make_plots',['../classplotroothtt_1_1PlotRootHtt.html#ac2b222e38b94bc8333c705c68d9b0ac2',1,'plotroothtt::PlotRootHtt']]],
   ['makeplot',['makePlot',['../namespaceplot__BDTSeparation.html#ab1466213c6eabd3e1cb09de2e0a2860c',1,'plot_BDTSeparation']]],
   ['makeplots',['makePlots',['../namespacecorrelation__TProfilePlots.html#a78406c3888bdf57f67a9d5884d91440d',1,'correlation_TProfilePlots']]],
   ['matching_5fprocess',['matching_process',['../namespacemakePlots__datacardsCPInitialState.html#a284cef4c5f94ce85479bf0f7135d19ac',1,'makePlots_datacardsCPInitialState.matching_process()'],['../namespacemakePlots__datacardsLFVZlt.html#a2aa144c16186f953eb5886ca780cfa5e',1,'makePlots_datacardsLFVZlt.matching_process()'],['../namespacemakePlots__datacardsSMHtt.html#a35554026319497c1e18c48da2c9b9cd2',1,'makePlots_datacardsSMHtt.matching_process()'],['../namespacemakePlots__datacardsTauEsStudies.html#a4f67030ea8218fc162db80bea4a62378',1,'makePlots_datacardsTauEsStudies.matching_process()'],['../namespacemakePlots__datacardsZttEfficiency.html#ac3f133a67857e98704156aed04e38ec7',1,'makePlots_datacardsZttEfficiency.matching_process()']]],
-  ['mctautauquantitiesadapter',['MCTauTauQuantitiesAdapter',['../classMCTauTauQuantitiesAdapter.html#a614a45754a49329f090e9289585e110e',1,'MCTauTauQuantitiesAdapter']]],
+  ['melam125producer',['MELAM125Producer',['../classMELAM125Producer.html#a7f73807360972f8388efd8345c655d7b',1,'MELAM125Producer']]],
+  ['melaproducer',['MELAProducer',['../classMELAProducer.html#a886b22b2fc891baf629d512067fc2815',1,'MELAProducer']]],
   ['melaquantities',['melaQuantities',['../namespaceRun2CPQuantities.html#a688d1557a6ff12f840f9911cddae4849',1,'Run2CPQuantities']]],
   ['merge',['merge',['../namespacemakePlots__ZTTtheoryUnc.html#a5bec0e684c0eedc395494935e6cda79e',1,'makePlots_ZTTtheoryUnc']]],
   ['merge_5fby_5fkeys',['merge_by_keys',['../classConfigMaster_1_1ConfigMaster.html#a85b257269703a331cdf23460241ed5ab',1,'ConfigMaster::ConfigMaster']]],
@@ -34,6 +35,7 @@ var searchData=
   ['mumutriggerweightproducer',['MuMuTriggerWeightProducer',['../classMuMuTriggerWeightProducer.html#a85546c713c2cc2fc1bd53b51b998d61a',1,'MuMuTriggerWeightProducer']]],
   ['muontaufakerateweightproducer',['MuonTauFakeRateWeightProducer',['../classMuonTauFakeRateWeightProducer.html#a5ec8fe08d3c322ec95e5c94f58623654',1,'MuonTauFakeRateWeightProducer']]],
   ['mutautriggerweightproducer',['MuTauTriggerWeightProducer',['../classMuTauTriggerWeightProducer.html#a7e95706bb1ce355538c6a6f9f6800676',1,'MuTauTriggerWeightProducer']]],
+  ['mva',['MVA',['../namespaceMVAFlavio.html#a9d870e0de26a88358484b58e37b0721b',1,'MVAFlavio']]],
   ['mvametcorrector',['MvaMetCorrector',['../classMvaMetCorrector.html#a47eaa619a3fe249a952af75a783b452e',1,'MvaMetCorrector']]],
   ['mvametemselector',['MvaMetEMSelector',['../classMvaMetEMSelector.html#a6dac2018b394a3614c6fe6919bdbc421',1,'MvaMetEMSelector']]],
   ['mvametetselector',['MvaMetETSelector',['../classMvaMetETSelector.html#afe22d385da68fb3ebd28bea8a81d9491',1,'MvaMetETSelector']]],

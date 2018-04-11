@@ -115,21 +115,19 @@ Variables</h2></td></tr>
 <tr class="separator:ab28b990c7f13c2cb40fb33776816838c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05424c44a084d2d8749a397aa589bd00"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a05424c44a084d2d8749a397aa589bd00">args</a> = parser.parse_args()</td></tr>
 <tr class="separator:a05424c44a084d2d8749a397aa589bd00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c5cf319332f4e2af25e804ed0c362e8"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7c5cf319332f4e2af25e804ed0c362e8">es_shifts</a> = [args.shift_ranges[0]]</td></tr>
+<tr class="memitem:a7c5cf319332f4e2af25e804ed0c362e8"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7c5cf319332f4e2af25e804ed0c362e8">es_shifts</a> = [args.shift_ranges[0] + x * args.shift_binning for x in range(int((args.shift_ranges[1] - args.shift_ranges[0]) / args.shift_binning) + 1)]</td></tr>
 <tr class="separator:a7c5cf319332f4e2af25e804ed0c362e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad12de07741442331cb2476e8f18278ed"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ad12de07741442331cb2476e8f18278ed">es_shifts_str</a> = [str(args.shift_ranges[0])]</td></tr>
-<tr class="separator:ad12de07741442331cb2476e8f18278ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c389d093cfdd21b6ac2ac538c1a8dc2"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a6c389d093cfdd21b6ac2ac538c1a8dc2">current_shift</a> = round(<a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7c5cf319332f4e2af25e804ed0c362e8">es_shifts</a>[-1] + args.shift_binning, 4)</td></tr>
-<tr class="separator:a6c389d093cfdd21b6ac2ac538c1a8dc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9c50600169e3a277ff66bfb9c9da770"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#af9c50600169e3a277ff66bfb9c9da770">decay_modes</a> = []</td></tr>
-<tr class="separator:af9c50600169e3a277ff66bfb9c9da770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c474e634e29b7adaba400533fbe7d46"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7c474e634e29b7adaba400533fbe7d46">es_shifts_str</a> = [str(x) for x in <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7c5cf319332f4e2af25e804ed0c362e8">es_shifts</a>]</td></tr>
+<tr class="separator:a7c474e634e29b7adaba400533fbe7d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6ace701610f8888169a773ebf810f84"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ac6ace701610f8888169a773ebf810f84">decay_modes</a> = copy.deepcopy(args.decay_modes)</td></tr>
+<tr class="separator:ac6ace701610f8888169a773ebf810f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b935329e3a5ab9035afdacc8d70e119"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a6b935329e3a5ab9035afdacc8d70e119">pt_ranges</a> = [&quot;0.0&quot;]</td></tr>
 <tr class="separator:a6b935329e3a5ab9035afdacc8d70e119"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e14549d905299f3e56984a87dc5fdc1"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a0e14549d905299f3e56984a87dc5fdc1">pt_weights</a> = []</td></tr>
+<tr class="memitem:a0e14549d905299f3e56984a87dc5fdc1"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a0e14549d905299f3e56984a87dc5fdc1">pt_weights</a> = [&quot;(pt_2&gt;20)&quot;]</td></tr>
 <tr class="separator:a0e14549d905299f3e56984a87dc5fdc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13da422b67ca1435458d06922ac1683a"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a13da422b67ca1435458d06922ac1683a">pt_strings</a> = []</td></tr>
+<tr class="memitem:a13da422b67ca1435458d06922ac1683a"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a13da422b67ca1435458d06922ac1683a">pt_strings</a> = [&quot;p_{T}(#tau_{h}) &gt; 20 GeV&quot;]</td></tr>
 <tr class="separator:a13da422b67ca1435458d06922ac1683a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab505916e44acdefe0337ebd777f90867"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ab505916e44acdefe0337ebd777f90867">pt_bins</a> = []</td></tr>
+<tr class="memitem:ab505916e44acdefe0337ebd777f90867"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ab505916e44acdefe0337ebd777f90867">pt_bins</a> = [str(x) for x in range(0, len(<a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a6b935329e3a5ab9035afdacc8d70e119">pt_ranges</a>))]</td></tr>
 <tr class="separator:ab505916e44acdefe0337ebd777f90867"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a997c62e32705492221ae33937595f7cd"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a997c62e32705492221ae33937595f7cd">eta_ranges</a> = [&quot;0.0&quot;, &quot;1.479&quot;, &quot;2.3&quot;]</td></tr>
 <tr class="separator:a997c62e32705492221ae33937595f7cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,7 +185,7 @@ Variables</h2></td></tr>
 <tr class="separator:a89d61dd55c600c76ed44eb6f0a1f7dbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9aadfbed62ffa18fb568484365e18a96"><td class="memItemLeft" align="right" valign="top">dictionary&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a9aadfbed62ffa18fb568484365e18a96">ss_os_factors</a></td></tr>
 <tr class="separator:a9aadfbed62ffa18fb568484365e18a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ebe426867bea448824a69cf580f133f"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a2ebe426867bea448824a69cf580f133f">datacards</a> = <a class="el" href="classtaupogdatacards_1_1TauEsDatacards.html">taupogdatacards.TauEsDatacards</a>(<a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ad12de07741442331cb2476e8f18278ed">es_shifts_str</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#af9c50600169e3a277ff66bfb9c9da770">decay_modes</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7f90132f8a0c08ebaec79b2c5511718b">quantity</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ac1b835e2c561c4c66210725f108090a1">weight_bins</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a994b90a816f175ac5496ab836b86d3bd">weight_type</a>, args.era, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ae3a4f84999bc48b6c4b3fdbfedba64a2">mapping_category2binid</a>)</td></tr>
+<tr class="memitem:a2ebe426867bea448824a69cf580f133f"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a2ebe426867bea448824a69cf580f133f">datacards</a> = <a class="el" href="classtaupogdatacards_1_1TauEsDatacards.html">taupogdatacards.TauEsDatacards</a>(<a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7c474e634e29b7adaba400533fbe7d46">es_shifts_str</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ac6ace701610f8888169a773ebf810f84">decay_modes</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7f90132f8a0c08ebaec79b2c5511718b">quantity</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ac1b835e2c561c4c66210725f108090a1">weight_bins</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a994b90a816f175ac5496ab836b86d3bd">weight_type</a>, args.era, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ae3a4f84999bc48b6c4b3fdbfedba64a2">mapping_category2binid</a>)</td></tr>
 <tr class="separator:a2ebe426867bea448824a69cf580f133f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f1aedccf3333b19f5bfed0f020d431f"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a4f1aedccf3333b19f5bfed0f020d431f">channel</a> = category.split(&quot;_&quot;)</td></tr>
 <tr class="separator:a4f1aedccf3333b19f5bfed0f020d431f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -677,18 +675,6 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a6c389d093cfdd21b6ac2ac538c1a8dc2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">tuple makePlots_datacardsTauEsStudies.current_shift = round(<a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7c5cf319332f4e2af25e804ed0c362e8">es_shifts</a>[-1] + args.shift_binning, 4)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="ac15d3477e1b17fe69fbded01d1ec0017"></a>
 <div class="memitem">
 <div class="memproto">
@@ -706,7 +692,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tuple makePlots_datacardsTauEsStudies.datacards = <a class="el" href="classtaupogdatacards_1_1TauEsDatacards.html">taupogdatacards.TauEsDatacards</a>(<a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ad12de07741442331cb2476e8f18278ed">es_shifts_str</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#af9c50600169e3a277ff66bfb9c9da770">decay_modes</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7f90132f8a0c08ebaec79b2c5511718b">quantity</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ac1b835e2c561c4c66210725f108090a1">weight_bins</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a994b90a816f175ac5496ab836b86d3bd">weight_type</a>, args.era, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ae3a4f84999bc48b6c4b3fdbfedba64a2">mapping_category2binid</a>)</td>
+          <td class="memname">tuple makePlots_datacardsTauEsStudies.datacards = <a class="el" href="classtaupogdatacards_1_1TauEsDatacards.html">taupogdatacards.TauEsDatacards</a>(<a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7c474e634e29b7adaba400533fbe7d46">es_shifts_str</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ac6ace701610f8888169a773ebf810f84">decay_modes</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7f90132f8a0c08ebaec79b2c5511718b">quantity</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ac1b835e2c561c4c66210725f108090a1">weight_bins</a>, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a994b90a816f175ac5496ab836b86d3bd">weight_type</a>, args.era, <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#ae3a4f84999bc48b6c4b3fdbfedba64a2">mapping_category2binid</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -761,12 +747,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af9c50600169e3a277ff66bfb9c9da770"></a>
+<a class="anchor" id="ac6ace701610f8888169a773ebf810f84"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">list makePlots_datacardsTauEsStudies.decay_modes = []</td>
+          <td class="memname">tuple makePlots_datacardsTauEsStudies.decay_modes = copy.deepcopy(args.decay_modes)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -908,19 +894,19 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">list makePlots_datacardsTauEsStudies.es_shifts = [args.shift_ranges[0]]</td>
+          <td class="memname">list makePlots_datacardsTauEsStudies.es_shifts = [args.shift_ranges[0] + x * args.shift_binning for x in range(int((args.shift_ranges[1] - args.shift_ranges[0]) / args.shift_binning) + 1)]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ad12de07741442331cb2476e8f18278ed"></a>
+<a class="anchor" id="a7c474e634e29b7adaba400533fbe7d46"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">list makePlots_datacardsTauEsStudies.es_shifts_str = [str(args.shift_ranges[0])]</td>
+          <td class="memname">list makePlots_datacardsTauEsStudies.es_shifts_str = [str(x) for x in <a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a7c5cf319332f4e2af25e804ed0c362e8">es_shifts</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1624,7 +1610,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">list makePlots_datacardsTauEsStudies.pt_bins = []</td>
+          <td class="memname">list makePlots_datacardsTauEsStudies.pt_bins = [str(x) for x in range(0, len(<a class="el" href="namespacemakePlots__datacardsTauEsStudies.html#a6b935329e3a5ab9035afdacc8d70e119">pt_ranges</a>))]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1648,7 +1634,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">list makePlots_datacardsTauEsStudies.pt_strings = []</td>
+          <td class="memname">list makePlots_datacardsTauEsStudies.pt_strings = [&quot;p_{T}(#tau_{h}) &gt; 20 GeV&quot;]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1660,7 +1646,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">list makePlots_datacardsTauEsStudies.pt_weights = []</td>
+          <td class="memname">list makePlots_datacardsTauEsStudies.pt_weights = [&quot;(pt_2&gt;20)&quot;]</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -4,5 +4,6 @@ var dir_ff3e6c13d86f894451c52272a5348eeb =
       [ "Plotmodule", "classConfigMaster_1_1Plotmodule.html", null ],
       [ "ConfigMaster", "classConfigMaster_1_1ConfigMaster.html", "classConfigMaster_1_1ConfigMaster" ]
     ] ],
-    [ "LepFlaVio.py", "LepFlaVio_8py.html", "LepFlaVio_8py" ]
+    [ "LepFlaVio.py", "LepFlaVio_8py.html", "LepFlaVio_8py" ],
+    [ "MVAFlavio.py", "MVAFlavio_8py.html", "MVAFlavio_8py" ]
 ];

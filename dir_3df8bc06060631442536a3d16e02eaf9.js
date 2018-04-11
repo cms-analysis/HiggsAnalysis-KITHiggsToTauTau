@@ -10,7 +10,6 @@ var dir_3df8bc06060631442536a3d16e02eaf9 =
       [ "LFVDatacards", "classlfvdatacards_1_1LFVDatacards.html", "classlfvdatacards_1_1LFVDatacards" ]
     ] ],
     [ "lfvzltdatacards.py", "lfvzltdatacards_8py.html", "lfvzltdatacards_8py" ],
-    [ "mvadatacards.py", "mvadatacards_8py.html", "mvadatacards_8py" ],
     [ "mvadatacards_base.py", "mvadatacards__base_8py.html", "mvadatacards__base_8py" ],
     [ "smhttdatacards.py", "smhttdatacards_8py.html", "smhttdatacards_8py" ],
     [ "taupogdatacards.py", "taupogdatacards_8py.html", "taupogdatacards_8py" ],

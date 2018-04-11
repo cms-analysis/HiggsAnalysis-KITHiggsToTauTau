@@ -12,6 +12,7 @@ var searchData=
   ['genempaircandidatesproducer',['GenEMPairCandidatesProducer',['../classGenEMPairCandidatesProducer.html',1,'']]],
   ['genetpaircandidatesproducer',['GenETPairCandidatesProducer',['../classGenETPairCandidatesProducer.html',1,'']]],
   ['genhiggscpproducer',['GenHiggsCPProducer',['../classGenHiggsCPProducer.html',1,'']]],
+  ['genmatchedpolarisationquantitiesproducer',['GenMatchedPolarisationQuantitiesProducer',['../classGenMatchedPolarisationQuantitiesProducer.html',1,'']]],
   ['genmatchedtaucpproducer',['GenMatchedTauCPProducer',['../classGenMatchedTauCPProducer.html',1,'']]],
   ['genmmpaircandidatesproducer',['GenMMPairCandidatesProducer',['../classGenMMPairCandidatesProducer.html',1,'']]],
   ['genmtpaircandidatesproducer',['GenMTPairCandidatesProducer',['../classGenMTPairCandidatesProducer.html',1,'']]],

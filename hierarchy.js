@@ -152,9 +152,6 @@ var hierarchy =
     [ "LambdaNtupleConsumer", null, [
       [ "AcceptanceEfficiencyConsumer", "classAcceptanceEfficiencyConsumer.html", null ]
     ] ],
-    [ "MCPtEtaPhiMassAdapter", null, [
-      [ "MCTauTauQuantitiesAdapter", "classMCTauTauQuantitiesAdapter.html", null ]
-    ] ],
     [ "MEtSys", "classMEtSys.html", null ],
     [ "MuonCorrectionsProducer", null, [
       [ "HttMuonCorrectionsProducer", "classHttMuonCorrectionsProducer.html", null ]
@@ -169,7 +166,6 @@ var hierarchy =
         [ "lfvdatacards.LFVDatacards", "classlfvdatacards_1_1LFVDatacards.html", null ],
         [ "lfvzltdatacards.LFVZltDatacards", "classlfvzltdatacards_1_1LFVZltDatacards.html", null ],
         [ "lfvzltdatacards.LFVZltDatacardsForSync", "classlfvzltdatacards_1_1LFVZltDatacardsForSync.html", null ],
-        [ "mvadatacards.MVADatacards", "classmvadatacards_1_1MVADatacards.html", null ],
         [ "smhttdatacards.SMHttDatacards", "classsmhttdatacards_1_1SMHttDatacards.html", [
           [ "initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards", "classinitialstatecpstudiesdatacards_1_1InitialStateCPStudiesDatacards.html", null ]
         ] ],
@@ -237,7 +233,10 @@ var hierarchy =
         [ "systematics_run2.TauESOneProngSystematic", "classsystematics__run2_1_1TauESOneProngSystematic.html", null ],
         [ "systematics_run2.TauEsSystematic", "classsystematics__run2_1_1TauEsSystematic.html", null ],
         [ "systematics_run2.TauESThreeProngSystematic", "classsystematics__run2_1_1TauESThreeProngSystematic.html", null ],
-        [ "systematics_run2.TTBarShapeSystematic", "classsystematics__run2_1_1TTBarShapeSystematic.html", null ]
+        [ "systematics_run2.TTBarShapeSystematic", "classsystematics__run2_1_1TTBarShapeSystematic.html", null ],
+        [ "systematics_run2.WJetScaleFactor0JetSystematic", "classsystematics__run2_1_1WJetScaleFactor0JetSystematic.html", null ],
+        [ "systematics_run2.WJetScaleFactorBoostedSystematic", "classsystematics__run2_1_1WJetScaleFactorBoostedSystematic.html", null ],
+        [ "systematics_run2.WJetScaleFactorVbfSystematic", "classsystematics__run2_1_1WJetScaleFactorVbfSystematic.html", null ]
       ] ],
       [ "tools.PoissonYield", "classtools_1_1PoissonYield.html", null ]
     ] ],
@@ -299,8 +298,11 @@ var hierarchy =
         [ "EleTauFakeRateWeightProducer", "classEleTauFakeRateWeightProducer.html", null ],
         [ "MuonTauFakeRateWeightProducer", "classMuonTauFakeRateWeightProducer.html", null ]
       ] ],
+      [ "LFVJetCorrection2016Producer", "classLFVJetCorrection2016Producer.html", null ],
       [ "MadGraphReweightingProducer", "classMadGraphReweightingProducer.html", null ],
-      [ "MELAProducer", "classMELAProducer.html", null ],
+      [ "MELAProducer", "classMELAProducer.html", [
+        [ "MELAM125Producer", "classMELAM125Producer.html", null ]
+      ] ],
       [ "MetCorrectorBase< TMet >", "classMetCorrectorBase.html", null ],
       [ "MetCorrectorBase< KMET >", "classMetCorrectorBase.html", [
         [ "MetCorrector", "classMetCorrector.html", null ],
@@ -320,13 +322,13 @@ var hierarchy =
       [ "MuMuTriggerScaleFactorProducer", "classMuMuTriggerScaleFactorProducer.html", null ],
       [ "MVAInputQuantitiesProducer", "classMVAInputQuantitiesProducer.html", null ],
       [ "PolarisationQuantitiesProducerBase", "classPolarisationQuantitiesProducerBase.html", [
+        [ "GenMatchedPolarisationQuantitiesProducer", "classGenMatchedPolarisationQuantitiesProducer.html", null ],
         [ "PolarisationQuantitiesSimpleFitProducer", "classPolarisationQuantitiesSimpleFitProducer.html", null ],
+        [ "PolarisationQuantitiesSvfitM91Producer", "classPolarisationQuantitiesSvfitM91Producer.html", null ],
         [ "PolarisationQuantitiesSvfitProducer", "classPolarisationQuantitiesSvfitProducer.html", null ]
       ] ],
       [ "RecoTauCPProducer", "classRecoTauCPProducer.html", null ],
-      [ "RefitVertexSelectorBase", "classRefitVertexSelectorBase.html", [
-        [ "RefitVertexSelector", "classRefitVertexSelector.html", null ]
-      ] ],
+      [ "RefitVertexSelector", "classRefitVertexSelector.html", null ],
       [ "RooWorkspaceWeightProducer", "classRooWorkspaceWeightProducer.html", [
         [ "EETriggerWeightProducer", "classEETriggerWeightProducer.html", null ],
         [ "MuMuTriggerWeightProducer", "classMuMuTriggerWeightProducer.html", null ],
@@ -337,7 +339,10 @@ var hierarchy =
       [ "SimpleEleTauFakeRateWeightProducer", "classSimpleEleTauFakeRateWeightProducer.html", null ],
       [ "SimpleFitProducer", "classSimpleFitProducer.html", null ],
       [ "SimpleMuTauFakeRateWeightProducer", "classSimpleMuTauFakeRateWeightProducer.html", null ],
-      [ "SvfitProducer", "classSvfitProducer.html", null ],
+      [ "SvfitProducer", "classSvfitProducer.html", [
+        [ "SvfitM125Producer", "classSvfitM125Producer.html", null ],
+        [ "SvfitM91Producer", "classSvfitM91Producer.html", null ]
+      ] ],
       [ "TagAndProbeElectronPairProducer", "classTagAndProbeElectronPairProducer.html", null ],
       [ "TagAndProbeGenElectronProducer", "classTagAndProbeGenElectronProducer.html", null ],
       [ "TagAndProbeGenMuonProducer", "classTagAndProbeGenMuonProducer.html", null ],
@@ -397,18 +402,16 @@ var hierarchy =
     [ "SvfitEventKey", "classSvfitEventKey.html", null ],
     [ "SvfitInputs", "classSvfitInputs.html", null ],
     [ "SVfitQuantity", null, [
-      [ "TauSVfitQuantity", "classTauSVfitQuantity.html", [
-        [ "TauERatioSVfitQuantity", "classTauERatioSVfitQuantity.html", null ],
-        [ "TauESVfitQuantity", "classTauESVfitQuantity.html", null ],
-        [ "TauEtaSVfitQuantity", "classTauEtaSVfitQuantity.html", null ],
-        [ "TauPhiSVfitQuantity", "classTauPhiSVfitQuantity.html", null ],
-        [ "TauPtSVfitQuantity", "classTauPtSVfitQuantity.html", null ]
-      ] ]
+      [ "PhiCPSVfitQuantity", "classPhiCPSVfitQuantity.html", null ],
+      [ "PhiStarCPSVfitQuantity", "classPhiStarCPSVfitQuantity.html", null ]
     ] ],
     [ "SvfitResults", "classSvfitResults.html", null ],
     [ "SvfitTools", "classSvfitTools.html", null ],
     [ "TauCorrectionsProducer", null, [
       [ "HttTauCorrectionsProducer", "classHttTauCorrectionsProducer.html", null ]
+    ] ],
+    [ "TauTauHistogramAdapter", null, [
+      [ "TauTauHistogramAdapter", "classTauTauHistogramAdapter.html", null ]
     ] ],
     [ "TmvaClassificationMultiReaderBase", null, [
       [ "MVATestMethodsProducer", "classMVATestMethodsProducer.html", null ]
