@@ -13,7 +13,7 @@ class InitialStateCPStudiesDatacards(smhttdatacards.SMHttDatacards):
                  
 	def __init__(self, higgs_masses=["125"], ttbarFit=False, mmFit=False, year="", noJECuncSplit=False, cb=None, cp_study="ggh"):
 		
-		sm_signal_processes = ["ggH", "qqH"]#, "WH", "ZH"]
+		sm_signal_processes = ["ggH", "qqH", "WH", "ZH"]
 		cp_signal_processes = {
 			"ggh" : ["ggHsm", "ggHps", "ggHmm"],
 			"vbf" : ["qqHsm", "qqHps", "qqHmm"],

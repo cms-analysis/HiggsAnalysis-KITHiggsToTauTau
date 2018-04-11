@@ -200,7 +200,7 @@ if __name__ == "__main__":
 			
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
-				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
+				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
 
 				if args.background_method == "new":
 					if "qcd" in list_of_samples and "wj" not in list_of_samples:
@@ -396,7 +396,7 @@ if __name__ == "__main__":
 	
 	# Max. likelihood fit and postfit plots
 	#--expectSignal=1 --toys -1 for Asimov dataset
-	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M FitDiagnostics --saveShapes {STABLE} -n \"\"".format(
+	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit {STABLE} -n \"\"".format(
 			STABLE=datacards.stable_options
 	))
 	#datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
@@ -410,8 +410,7 @@ if __name__ == "__main__":
 		n_processes=args.n_processes,
 		signal_stacked_on_bkg=True
 		)
-	#use nuisance_impacts instead pull_plots!
-	#datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']],"formats" : ["pdf", "png"], "args" : args.args}, n_processes=args.n_processes)
+	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']],"formats" : ["pdf", "png"], "args" : args.args}, n_processes=args.n_processes)
 
 	# plotting
 	plot_configs = []

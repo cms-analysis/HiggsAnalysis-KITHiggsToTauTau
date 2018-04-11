@@ -66,7 +66,6 @@ private:
 class SvfitEventKey {
 
 public:
-
 	ULong64_t runLumiEvent;
 	int decayType1;
 	int decayType2;

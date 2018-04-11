@@ -29,7 +29,6 @@ class LFVDatacards(datacards.Datacards):
 			for channel in channel_list:
 			
 				###Add channels as process in Combine Harvester			
-	
 				for category in category_list + control_region_dic.keys():
 					self.add_processes(
 						channel=channel,

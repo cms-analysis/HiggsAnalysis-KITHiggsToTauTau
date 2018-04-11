@@ -43,6 +43,7 @@ TauTauHistogramAdapter::TauTauHistogramAdapter(std::vector<classic_svFit::SVfitQ
 }
 
 RMFLV TauTauHistogramAdapter::GetFittedHiggsLV() const
+
 {
 	return Utility::ConvertPtEtaPhiMLorentzVector<classic_svFit::LorentzVector>(classic_svFit::TauTauHistogramAdapter::GetFittedHiggsLV());
 }
@@ -69,6 +70,7 @@ RMFLV TauTauHistogramAdapter::GetFittedTau2LV() const
 
 
 SvfitEventKey::SvfitEventKey(ULong64_t const& runLumiEvent,
+
                              classic_svFit::MeasuredTauLepton::kDecayType const& decayType1, classic_svFit::MeasuredTauLepton::kDecayType const& decayType2,
                              int const& decayMode1, int const& decayMode2,
                              HttEnumTypes::SystematicShift const& systematicShift, float const& systematicShiftSigma,
