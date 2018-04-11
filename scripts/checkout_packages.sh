@@ -3,7 +3,7 @@
 
 ssh -vT git@github.com
 
-echo -n "Enter the CMMSW release you want to use (747, 810) and press [ENTER] : "
+echo -n "Enter the CMMSW release you want to use (747, 810, 892) and press [ENTER] : "
 read cmssw_version
 
 echo -n "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev, classicsvfit) and press [ENTER] : "
@@ -19,16 +19,22 @@ if [ $cmssw_version = "747" ]; then
 	eval `scramv1 runtime -sh`
 
 	export BRANCH="CMSSW_747"
-	
-
 
 elif [ $cmssw_version = "810" ]; then
-        # set up CMSSW release area
-        export SCRAM_ARCH=slc6_amd64_gcc530
-        scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
-        eval `scramv1 runtime -sh`
+	# set up CMSSW release area
+	export SCRAM_ARCH=slc6_amd64_gcc530
+	scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
+	eval `scramv1 runtime -sh`
 
-        export BRANCH="master"
+	export BRANCH="master"
+
+elif [ $cmssw_version = "942" ]; then
+	export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
+	source $VO_CMS_SW_DIR/cmsset_default.sh
+
+	scramv1 project CMSSW CMSSW_9_4_2
+	cd CMSSW_9_4_2/src
+	eval `scramv1 runtime -sh`
 
 else
 	echo "Not a valid version."
@@ -99,6 +105,7 @@ if [ $ch_branch == "SM2016-dev" ] && [ $cmssw_version == "747" ]; then
 	cd CombineHarvester/HTTSM2016
 	git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
 	cd -
+
 	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
 	git fetch origin
@@ -107,14 +114,15 @@ if [ $ch_branch == "SM2016-dev" ] && [ $cmssw_version == "747" ]; then
 
 elif [ $ch_branch == "SMCP2016-dev" ]  && [ $cmssw_version == "747" ]; then
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester -b SMCP2016-dev
-        cd CombineHarvester/HTTSMCP2016
-        git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
-        cd -
-        git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
-        cd HiggsAnalysis/CombinedLimit
-        git fetch origin
-        git checkout v6.3.1
-        cd -
+	cd CombineHarvester/HTTSMCP2016
+	git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
+	cd -
+
+	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	cd HiggsAnalysis/CombinedLimit
+	git fetch origin
+	git checkout v6.3.1
+	cd -
 
 elif [ $ch_branch == "master" ]  && [ $cmssw_version == "747" ]; then
 	# needed for plotting and statistical inference
@@ -125,14 +133,23 @@ elif [ $ch_branch == "master" ]  && [ $cmssw_version == "747" ]; then
 	cd -
 
 elif [ $cmssw_version == "810" ]; then
-        # needed for plotting and statistical inference
+	# needed for plotting and statistical inference
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
 	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
 	git fetch origin
 	git checkout v7.0.4
 	cd -
+elif [ $cmssw_version = "940" ]; then
+	echo "No valid CombineHarvester for 940. Compilation won't work. Checking out state of 810"
+	# needed for plotting and statistical inference
+	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
+	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 
+	cd HiggsAnalysis/CombinedLimit
+	git fetch origin
+	git checkout v7.0.4
+	cd -
 else 
 	echo "No valid combination. Compilation won't work."
 	exit 1
