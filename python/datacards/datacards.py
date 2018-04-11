@@ -695,8 +695,10 @@ class Datacards(object):
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="diffNuisances.py")
 
 	def pull_plots(self, datacards_postfit_shapes, s_fit_only=False, plotting_args=None, n_processes=1, *args):
-		if plotting_args is None:
-			plotting_args = {}
+		"""
+		This method is depreceated since there exists an official way to produce the impacts of nuisance parameters.
+		"""
+		if plotting_args is None: plotting_args = {}
 
 		datacards = []
 		for fit_type, datacards_postfit_shapes_dict in datacards_postfit_shapes.iteritems():
@@ -709,6 +711,7 @@ class Datacards(object):
 				for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
 
 					config = {}
+					#print "os.path.dirname(datacard):", os.path.dirname(datacard)
 					config["files"] = [os.path.join(os.path.dirname(datacard), "fitDiagnostics.root")]
 					config["input_modules"] = ["InputRootSimple"]
 					config["root_names"] = ["fit_s", "fit_b", "nuisances_prefit"]
@@ -736,9 +739,16 @@ class Datacards(object):
 					plot_configs.append(config)
 
 		# create result plots HarryPlotter
+<<<<<<< HEAD
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)		
 	
 	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args, **kwargs):
+=======
+		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
+
+	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args):
+
+>>>>>>> origin/master
 		tmp_args = " ".join(args)
 		for key, value in kwargs.items():
 			higgs_mass = value if "higgs_mass" in key else "0"	
