@@ -63,9 +63,11 @@ class EstimateWjets(estimatebase.EstimateBase):
 						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
 		
 		for wjets_from_mc, wjets_shape_nick, wjets_data_control_nick, wjets_data_substract_nicks, wjets_mc_signal_nick, wjets_mc_control_nick in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
-			if not wjets_from_mc:
+			if not wjets_from_mc: # skips the full estimation of this module and uses MC estimate of WJ instead.
+				# Get yield and uncertainity in data in the control region
 				yield_data_control = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_data_control_nick])()
 				for nick in wjets_data_substract_nicks:
+					# subtract yields of all backgrounds
 					yield_bkg_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 					if nick in plotData.metadata:
 						yield_bkg_control = uncertainties.ufloat(
@@ -73,12 +75,14 @@ class EstimateWjets(estimatebase.EstimateBase):
 								plotData.metadata[nick].get("yield_unc", yield_bkg_control.std_dev)
 						)
 					yield_data_control -= yield_bkg_control
-				yield_data_control = max(0.0, yield_data_control)
+				# make sure we don't have negative yields	
+				yield_data_control = ufloat(max(0.0, yield_data_control.nominal_value, yield_data_control.std_dev))
 				
 				yield_mc_signal = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_mc_signal_nick])()
 				yield_mc_control = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_mc_control_nick])()
 				
 				assert (yield_data_control*yield_mc_signal == 0.0) or (yield_mc_control != 0.0)
+				# the final yield in the signal region is N_data, WJ^{SR} = N_data, WJ^{CR} * N_MC,WJ^{SR} / N_MC,WJ^{CR}
 				final_yield = yield_data_control * yield_mc_signal
 				if final_yield != 0.0:
 					final_yield /= yield_mc_control
@@ -89,10 +93,9 @@ class EstimateWjets(estimatebase.EstimateBase):
 					"yield_unc" : final_yield.std_dev,
 					"yield_unc_rel" : abs(final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
 				}
-				
+				# scale the wj file by the ratio of the estimated yield and the yield given by MC.
 				integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_shape_nick])()
 				if integral_shape != 0.0:
 					scale_factor = final_yield / integral_shape
 					log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_shape_nick, scale_factor=scale_factor))
 					plotData.plotdict["root_objects"][wjets_shape_nick].Scale(scale_factor.nominal_value)
-
