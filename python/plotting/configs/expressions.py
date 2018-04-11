@@ -237,65 +237,6 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag_high"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"]+"*({pt_var}>{pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut_btag_high)
 			self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag_low"] = self.expressions_dict["catHttMSSM13TeV_"+channel+"_btag"]+"*({pt_var}<={pt_cut_1})*({pt_var}>{pt_cut_2})".format(pt_var=pt_var, pt_cut_1=pt_cut_btag_high, pt_cut_2=pt_cut_btag_low)
 
-		# MVA Htt categories
-		#self.expressions_dict["mt_vbf_pre"] = "((0.3<=ttj_1)*(0.45<=ztt_1))"
-		#self.expressions_dict["mt_vbf_sig"] = "{pre}*(0.8<=vbf_1)".format(pre=self.expressions_dict["mt_vbf_pre"])
-		#self.expressions_dict["mt_vbf_like"] = "{pre}*(-0.5<=vbf_1&&vbf_1<0.8)".format(pre=self.expressions_dict["mt_vbf_pre"])
-		#self.expressions_dict["mt_vbf_bkg"] = "{pre}*(vbf_1<-0.5)".format(pre=self.expressions_dict["mt_vbf_pre"])
-		#self.expressions_dict["mt_vbf_rest"] = "!{pre}".format(pre=self.expressions_dict["mt_vbf_pre"])
-		#self.expressions_dict["mt_2jets_all"] = "(njetspt30>1)"
-		#self.expressions_dict["mt_1jets_all"] = "(njetspt30==1)"
-		#self.expressions_dict["mt_0jets_all"] = "(njetspt30==0)"
-		#self.expressions_dict["mt_2jets_vbfbdt"] = "(0.8<=vbf_1)"
-		#self.expressions_dict["mt_2jet_vbf_bdt"] = "({pre}*(0.8<=vbf_1))".format(pre=self.expressions_dict["mt_vbf_pre"])
-		#self.expressions_dict["mt_1jet_inclusive_bdt"] = ("((! {vbf})".format(
-				#vbf=self.expressions_dict["mt_2jet_vbf_bdt"]
-		#))+"*(njetspt30>0))"
-		#self.expressions_dict["mt_1jet_sig"] = self.expressions_dict["mt_1jet_inclusive_bdt"]+"*((0.4<=ttj_1)*(0.4<=ztt_1))"
-		#self.expressions_dict["mt_1jet_bkg"] = self.expressions_dict["mt_1jet_inclusive_bdt"]+"*(!((0.4<=ttj_1)*(0.4<=ztt_1)))"
-		#self.expressions_dict["mt_0jet_inclusive_bdt"] = ("(!{vbf})*(!{onejet})".format(
-				#vbf=self.expressions_dict["mt_2jet_vbf_bdt"],
-				#onejet=self.expressions_dict["mt_1jet_inclusive_bdt"]
-		#))
-		#self.expressions_dict["mt_0jet_sig"] = self.expressions_dict["mt_0jet_inclusive_bdt"]+"*((-0.6<=ttj_1)*(0.2<=ztt_1))"
-		#self.expressions_dict["mt_0jet_bkg"] = self.expressions_dict["mt_0jet_inclusive_bdt"]+"*(!((-0.6<=ttj_1)*(0.2<=ztt_1)))"
-
-		#for channel in ["tt", "mt", "et", "em"]:
-			#for classic in ["0jet_high", "0jet_low", "1jet_high", "1jet_low", "2jet_vbf"]:
-				#self.expressions_dict["{channel}_{classic}".format(channel=channel, classic=classic)] = self.expressions_dict["catHtt13TeV_{channel}_{classic}".format(channel=channel, classic=classic)]
-		##========================================Copy here!========================================
-			#expressions_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_expressions.cfg"%channel)
-			#if not os.path.exists(expressions_path):
-				#continue
-			#self.expressions_dict["%s_inclusive"%(channel)] = "(1.0)"
-			#with open(expressions_path, "r") as exps:
-				#regular_name = ""
-				#for line in exps:
-					##log.info(line)
-					#vbf, name, values = map(strip, line.split(" : "))
-					#values = map(float, values.split(" "))
-					#values.pop(0)
-					#values.pop(-1)
-					#if vbf == "regular_name":
-						#self.expressions_dict["%s_%s_signal"%(channel,name)] = "(%f <= %s)"%(values[1], name)
-						#self.expressions_dict["%s_%s_mixed"%(channel,name)] = "(%f <= %s && %s < %f)"%(values[0], name, name, values[1])
-						#self.expressions_dict["%s_%s_bkg"%(channel,name)] = "(%s < %f)"%(name, values[0])
-						#regular_name= name
-						#continue
-					#elif vbf == "vbf_tagger":
-						#if regular_name == "":
-							#log.fatal("Please check if cuts in file %s are in correct order"%expressions_path)
-							#sys.exit()
-						#self.expressions_dict["{channel}_{vbf_tagger}_{mva_name}_tagged_signal".format(
-							#channel=channel, vbf_tagger=name, mva_name=regular_name)]=self.expressions_dict["{channel}_{reg_name}_signal".format(channel=channel, reg_name=regular_name)]+"*({upper} <= {vbf_tagger})".format(upper=values[0], vbf_tagger=name)
-						#self.expressions_dict["{channel}_{vbf_tagger}_{mva_name}_not_tagged_signal".format(
-							#channel=channel, vbf_tagger=name, mva_name=regular_name)]=self.expressions_dict["{channel}_{reg_name}_signal".format(channel=channel, reg_name=regular_name)]+"*({lower} > {vbf_tagger})".format(lower=values[0], vbf_tagger=name)
-			#expressions_path = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/mva_configs/%s_shift_expressions.cfg"%channel)
-			#if not os.path.exists(expressions_path):
-				#continue
-			#shifts_dict = jsonTools.JsonDict(expressions_path)
-			#self.expressions_dict.update(shifts_dict)
-		#========================================Copy here!=======================================
 		self.expressions_dict["cat_OneProng"] = "(decayMode_2 == 0)"
 		self.expressions_dict["catOneProng"] = self.expressions_dict["cat_OneProng"]
 		for channel in ["mt", "et"]:
