@@ -509,9 +509,11 @@ if __name__ == "__main__":
 
 	print "\nPostfitshapes call"
 	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-	
-	# Pull plots
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
+
+	print "\nPull plots"
+	# datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
+	datacards.plot1DScan(datacards_cbs, datacards_workspaces, poi="mes")
+
 	print "\nPlot postfit"
 	www_output_dirs_postfit   = []
 	www_output_dirs_weightbin = []
