@@ -307,6 +307,7 @@ public:
 
 
 	// filled by RecoTauCPProducer
+		
 	TVector3 m_recoIP1; // IPvec wrt original PV
 	TVector3 m_recoIP2; // IPvec wrt original PV
 	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
@@ -323,7 +324,9 @@ public:
 	std::vector<double> m_errorIP2vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
 	// comparison genIP-recoIP
+
 	// wrt original PV
+
 	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;
 	double m_deltaPhiGenRecoIP1  = DefaultValues::UndefinedDouble;
@@ -342,7 +345,11 @@ public:
 	double m_deltaGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
 
+
+
+
 	// comparison between recoIP(original PV) and recoIP(refitPV)
+
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
 

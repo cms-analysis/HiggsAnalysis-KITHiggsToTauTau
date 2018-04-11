@@ -29,7 +29,7 @@ class SMHttDatacards(datacards.Datacards):
 			all_mc_bkgs_no_TTJ = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "VV", "VVT", "VVJ", "W", "hww_gg125", "hww_qq125"]
 			
 			# Lists of categories
-			CP_categories = ["Vbf3D", "Vbf3D_CP", "Vbf3D_CP_jdeta", "Vbf3D_mela_GGH_DCPPlus", "Vbf3D_mela_GGH_DCPMinus", "TwoJet_CP_mjjlow", "TwoJet_CP_mvislow", "TwoJet_CP_boosted", "TwoJet_CP_mvishigh"]
+			CP_categories = ["Vbf3D", "Vbf3D_CP", "Vbf3D_CP_jdeta", "Vbf3D_mela_GGH_DCPPlus", "Vbf3D_mela_GGH_DCPMinus", "Vbf4D_mela_GGH", "dijet_lowMjj", "dijet_lowM", "dijet_boosted", "dijet_highM"]
 			sm_categories = ["ZeroJet2D", "Boosted2D", "Vbf2D"]
 			##Generate instance of systematic libary, in which the relevant information about the systematics are safed
 
@@ -339,10 +339,13 @@ class SMHttDatacards(datacards.Datacards):
 			self.cb.cp().channel(["mt"]).process(["QCD"]).bin(["mt_"+category for category in sm_categories+CP_categories]).AddSyst(self.cb, *systematics_list.QCD_Extrap_Iso_nonIso_syst_args)
 			self.cb.cp().channel(["et"]).process(["QCD"]).bin(["et_"+category for category in sm_categories+CP_categories]).AddSyst(self.cb, *systematics_list.QCD_Extrap_Iso_nonIso_syst_args)
 
-			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_0jet_13TeV", "shape", ch.SystMap()(1.0))			
-			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_boosted_13TeV", "shape", ch.SystMap()(1.0))
-			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Vbf2D" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_vbf_13TeV", "shape", ch.SystMap()(1.0))
-
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WSFUncert_0jet_syst_args)			
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WSFUncert_boosted_syst_args)
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_Vbf2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WSFUncert_Vbf_syst_args)
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_boosted" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_boosted_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_lowM" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_lowM_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_highM" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_highM_13TeV", "shape", ch.SystMap()(1.0))
+			self.cb.cp().channel(["et", "mt"]).process(["QCD"]).bin([channel+"_dijet_lowMjj" for channel in ["et", "mt"]]).AddSyst(self.cb, "WSFUncert_$CHANNEL_dijet_lowMjj_13TeV", "shape", ch.SystMap()(1.0))
 			# W+jets high->low mt extrapolation uncertainty
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_ZeroJet2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WHighMTtoLowMT_0jet_syst_args)
 			self.cb.cp().channel(["et", "mt"]).process(["W"]).bin([channel+"_Boosted2D" for channel in ["et", "mt"]]).AddSyst(self.cb, *systematics_list.WHighMTtoLowMT_boosted_syst_args)

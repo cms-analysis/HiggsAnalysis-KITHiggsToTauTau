@@ -136,6 +136,7 @@ if __name__ == "__main__":
 
 				print samples
 
+
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template			
@@ -247,6 +248,9 @@ if __name__ == "__main__":
 	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=1)
 
 	# Max. likelihood fit
+
 	#datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, 1, "-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\"")
 	datacards.combine(datacards_cbs, datacards_workspaces, None, 1, "--expectSignal=1 -t -1 -M AsymptoticLimits -n \"\"")
+
 	
+

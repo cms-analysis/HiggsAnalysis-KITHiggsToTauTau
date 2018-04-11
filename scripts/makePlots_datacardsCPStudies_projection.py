@@ -185,7 +185,7 @@ if __name__ == "__main__":
 							datacards_workspaces,
 							None,
 							args.n_processes,
-							"-M FitDiagnostics --saveShapes --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0 {stable} -n \"\"".format(stable=datacards.stable_options)
+							"-M MaxLikelihoodFit --redefineSignalPOIs cpmixing --expectSignal=1 -t -1 --setParameters cpmixing=0.0 {stable} -n \"\"".format(stable=datacards.stable_options)
 					)
 					
 					datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))

@@ -322,7 +322,6 @@ if __name__ == "__main__":
 					nominal = (shape_systematic == "nominal")
 					#if not nominal:
 					#	continue
-					list_of_samples = (["data"] if nominal else []) + list_of_samples
 					if args.samples:
 						list_of_samples = args.samples
 					

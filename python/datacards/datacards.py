@@ -58,7 +58,7 @@ class Datacards(object):
 			self.cb.SetVerbosity(1)
 
 		self.configs = datacardconfigs.DatacardConfigs()
-
+		
 		self.stable_options = r"--robustFit 1 --preFitValue 1.0 --cminDefaultMinimizerType Minuit2 --cminDefaultMinimizerAlgo Minuit2 --cminDefaultMinimizerStrategy 0 --cminFallbackAlgo Minuit2,0:1.0"
 
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], add_data=True, *args, **kwargs):
@@ -77,7 +77,11 @@ class Datacards(object):
 		self.cb.AddProcesses(channel=[channel], mass=["*"], procs=bkg_processes, bin=bin, signal=False, *args, **non_sig_kwargs)
 		self.cb.AddProcesses(channel=[channel], procs=sig_processes, bin=bin, signal=True, *args, **kwargs)
 
-	def get_samples_per_shape_systematic(self, channel=None, category=None):
+	def get_samples_per_shape_systematic(self, channel=None, category=None, **kwargs):
+		"""
+		This function returns a dictionary which contains a list of samples associated 
+		with each shape systematic. { 'shape_systematic_name': [list of samples]}
+		"""
 		cb = self.cb
 		if not channel is None:
 			if isinstance(channel, basestring):
@@ -89,20 +93,49 @@ class Datacards(object):
 				cb = cb.cp().bin([category])
 			else:
 				cb = cb.cp().bin(category)
+		
 		samples_per_shape_systematic = {}
-		samples_per_shape_systematic.setdefault("nominal", set([])).update(set(cb.process_set()))
+		samples_per_shape_systematic.setdefault("nominal", set(["data_obs"])).update(set(cb.process_set()))
+		
 		# Maybe not needed any more (updated by next block) but kept for safety
-
 		for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
 			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
-
+		
 		# There are systematics, which can have a mixed type of lnN/shape, where CH returns only lnN as type. Such which values 1.0 and 0.0 are assumed to be shape uncertainties.
 		cbOnlyShapeUncs = cb.cp()
 		cbOnlyShapeUncs.FilterSysts(lambda systematic : (systematic.value_u() != 1.0) or (systematic.value_d() != 0.0))
+		# Some uncertainties which are indeed lnN are not filter with the command above. It can be avoided to transform them into shape type 
+		# by passing a list of these systematics in the args of this function.
+		if "lnN_syst" in kwargs:
+			cbOnlyShapeUncs.FilterSysts(lambda systematic : systematic not in kwargs["lnN_syst"])
+			log.warning("Combine did not convert the systematic uncertainties in {UNC} of type lnN to shape although they have the signature of a mixed type uncertainty. Was this intended?".format(UNC=kwargs["lnN_syst"]))
 		for shape_systematic in cbOnlyShapeUncs.syst_name_set():
 			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cbOnlyShapeUncs.cp().syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
+		
+		# sort samples for easiert comparisons of HP configs
+		for shape_systematic, list_of_samples in samples_per_shape_systematic.iteritems():
+			samples_per_shape_systematic[shape_systematic] = sorted(list(list_of_samples))
+		
 		return samples_per_shape_systematic
 
+	def lnN2shape(self, **kwargs):
+		"""
+		This member function is used to replace 'lnN' type systematics by 'shape' type systematics.
+		If you parse datacards in a combine instance it may happen that some processes will have an incorrectly assigned systematics type.
+		A 'lnN' is replaced by a 'shape' under the assumption that wrongly assigned 'lnN' systematics have exactly the up_shift value == 1.0.
+		In case a lnN systematic has indeed the up_shift value 1.0 a replacement to 'shape' is not intended and can be avoided passing the name
+		of the uncertainty in the is_lnN = [] list argument of this member function.
+ 		"""
+		for channel in self.cb.cp().channel_set():
+			for category in self.cb.cp().channel([channel]).bin_set():		
+				for lnN_systematic in self.cb.cp().channel([channel]).bin([category]).syst_type(["lnN"]).syst_name_set():
+					if not lnN_systematic in kwargs["is_lnN"]:
+						for process in self.cb.cp().channel([channel]).bin([category]).syst_name([lnN_systematic]).SetFromSysts(ch.Systematic.process):
+							self.cb.cp().channel([channel]).bin([category]).syst_name([lnN_systematic]).process([process]).ForEachSyst(lambda sys: sys.set_type("shape" if sys.value_u() == 1.0 else "lnN"))
+							# self.cb.cp().channel([channel]).bin([category]).syst_name([lnN_systematic]).syst_type("shape").process([process]).ForEachSyst(lambda sys: sys.set_shapes())
+
+			
+			 
 	def extract_shapes(self, root_filename_template,
 	                   bkg_histogram_name_template, sig_histogram_name_template,
 	                   bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
@@ -197,6 +230,9 @@ class Datacards(object):
 
 	@staticmethod
 	def get_yield_unc_rel(histogram_path, root_file, root_object_paths):
+		"""
+		Extracts the data from background estimation methods stored in the metadata TObjString.
+		"""
 		metadata_path = histogram_path+"_metadata"
 		if metadata_path in root_object_paths:
 			metadata = jsonTools.JsonDict(root_file.Get(metadata_path).GetString().Data())
@@ -252,7 +288,11 @@ class Datacards(object):
 
 		self.cb.cp().ForEachObs(_replace_observation_by_asimov_dataset)
 
+	def read_datacards(self, datacard_filename_template, root_filename_template, input_directory="."):
+		pass
+		
 	def write_datacards(self, datacard_filename_template, root_filename_template, output_directory="."):
+		# http://cms-analysis.github.io/CombineHarvester/classch_1_1_card_writer.html#details
 		writer = ch.CardWriter(os.path.join("$TAG", datacard_filename_template),
 		                       os.path.join("$TAG", root_filename_template))
 		if log.isEnabledFor(logging.DEBUG):
@@ -264,15 +304,18 @@ class Datacards(object):
 
 		return writer.WriteCards(output_directory[:-1] if output_directory.endswith("/") else output_directory, self.cb)
 
-	def text2workspace(self, datacards_cbs, n_processes=1, *args):
+	def text2workspace(self, datacards_cbs, n_processes=1, *args, **kwargs):
 		physics_model = re.search("(-P|--physics-model)[\s=\"\']*\S*:(?P<physics_model>\S*)[\"\']?\s", " ".join(args))
 		if physics_model is None:
 			physics_model = {}
 		else:
 			physics_model = physics_model.groupdict()
-
+		
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"
+	
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
-				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
+				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
 				DATACARD=datacard,
 				OUTPUT=os.path.splitext(datacard)[0]+"_"+physics_model.get("physics_model", "default")+".root"
@@ -286,6 +329,9 @@ class Datacards(object):
 		if datacards_poi_ranges is None:
 			datacards_poi_ranges = {}
 		tmp_args = " ".join(args)
+		
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"		
 
 		chunks = [[None, None]]
 		if "{CHUNK}" in tmp_args and "--points" in tmp_args:
@@ -344,7 +390,7 @@ class Datacards(object):
 			for chunk_index, (chunk_min, chunk_max) in enumerate(chunks):
 				commands.extend([[
 						"combine -m {MASS} {POI_RANGE} {ARGS} {CHUNK_POINTS} {SPLIT_STAT_SYST_UNCS} {WORKSPACE}".format(
-								MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0", # TODO: maybe there are more masses?
+								MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
 								POI_RANGE="--rMin {RMIN} --rMax {RMAX}" if datacard in datacards_poi_ranges else "",
 								ARGS=prepared_tmp_args.format(CHUNK=str(chunk_index), RMIN="{RMIN}", RMAX="{RMAX}"),
 								CHUNK_POINTS = "" if (chunk_min is None) or (chunk_max is None) else "--firstPoint {CHUNK_MIN} --lastPoint {CHUNK_MAX}".format(
@@ -421,14 +467,22 @@ class Datacards(object):
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="hypoTestResultTree.cxx")
 
 		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")) for datacard in datacards_cbs.keys()}
-	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, higgs_mass="0", *args):
+	
+	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, *args, **kwargs):
 		tmp_args = "".join(args)
+		
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"
+					
+		for datacard, workspace in datacards_workspaces.iteritems():
+			if not os.path.exists(os.path.join(os.path.dirname(workspace), "plots/")):
+				os.makedirs(os.path.join(os.path.dirname(workspace), "plots/"))
+				
 		commandsPlot = []
 		commandsPlot.extend([[
-				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} -o {OUTPUT} higgsCombine.MultiDimFit.mH{MASS}.root".format(
+				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} higgsCombine.MultiDimFit.mH{MASS}.root".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						POI=poi,
-						OUTPUT="plots/likelihoodscan",
 						ARGS=tmp_args.format()				
 				),
 				os.path.dirname(workspace)
@@ -436,7 +490,9 @@ class Datacards(object):
 		
 		tools.parallelize(_call_command, commandsPlot, n_processes=n_processes, description="combineTool.py (plots)")	
 
-	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1, *args):
+	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1,  *args, **kwargs):		
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"
 		commands = []
 		datacards_postfit_shapes = {}
 		fit_type_list = kwargs.get("fit_type_list", ["fit_s", "fit_b"])
@@ -448,7 +504,7 @@ class Datacards(object):
 			commands.extend(["PostFitShapes --postfit -d {DATACARD} -o {OUTPUT} -m {MASS} -f {FIT_RESULT} {ARGS}".format(
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
-					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
+					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
 					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "fitDiagnostics.root")+":"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
@@ -462,6 +518,9 @@ class Datacards(object):
 		return datacards_postfit_shapes
 
 	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, *args, **kwargs):
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"	
+				
 		commands = []
 		datacards_postfit_shapes = {}
 		fit_type_list = kwargs.get("fit_type_list", ["fit_s", "fit_b"])
@@ -473,7 +532,7 @@ class Datacards(object):
 					WORKSPACE=datacards_workspaces[datacard],
 					DATACARD=datacard,
 					OUTPUT=os.path.splitext(datacard)[0]+"_"+fit_type+".root",
-					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
+					MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
 					FIT_RESULT=os.path.join(os.path.dirname(datacard), kwargs.get("fit_result", "fitDiagnostics.root")+":"+fit_type),
 					ARGS=" ".join(args)
 			) for datacard, cb in datacards_cbs.iteritems()])
@@ -486,9 +545,9 @@ class Datacards(object):
 
 		return datacards_postfit_shapes
 
-	def prefit_postfit_plots(self, datacards_cbs, datacards_postfit_shapes, plotting_args=None, n_processes=1, signal_stacked_on_bkg=False, *args):
+	def prefit_postfit_plots(self, datacards_cbs, datacards_postfit_shapes, plotting_args=None, n_processes=1, signal_stacked_on_bkg=False, *args, **kwargs):
 		if plotting_args is None:
-			plotting_args = {}
+			plotting_args = {}	
 
 		base_path = reduce(lambda datacard1, datacard2: tools.longest_common_substring(datacard1, datacard2), datacards_cbs.keys())
 
@@ -634,7 +693,7 @@ class Datacards(object):
 				] for datacard in datacards_cbs.keys()])
 
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="diffNuisances.py")
-	
+
 	def pull_plots(self, datacards_postfit_shapes, s_fit_only=False, plotting_args=None, n_processes=1, *args):
 		"""
 		This method is depreceated since there exists an official way to produce the impacts of nuisance parameters.
@@ -680,16 +739,24 @@ class Datacards(object):
 					plot_configs.append(config)
 
 		# create result plots HarryPlotter
+<<<<<<< HEAD
+		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)		
+	
+	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args, **kwargs):
+=======
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
 	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args):
 
+>>>>>>> origin/master
 		tmp_args = " ".join(args)
-
+		for key, value in kwargs.items():
+			higgs_mass = value if "higgs_mass" in key else "0"	
+		
 		commandsInitialFit = []
 		commandsInitialFit.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --doInitialFit --allPars {ARGS}".format(
-						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doInitialFit --allPars {ARGS}".format(
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace
 				),
@@ -698,8 +765,8 @@ class Datacards(object):
 
 		commandsFits = []
 		commandsFits.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --doFits --parallel {NPROCS} --allPars {ARGS}".format(
-						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doFits --parallel {NPROCS} --allPars {ARGS}".format(
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace,
 						NPROCS=n_processes
@@ -709,8 +776,8 @@ class Datacards(object):
 
 		commandsOutput = []
 		commandsOutput.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 -o impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
-						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else "0",
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --output impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
+						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace,
 						NPROCS=n_processes
