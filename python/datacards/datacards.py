@@ -652,6 +652,7 @@ class Datacards(object):
 				for datacard, postfit_shapes in datacards_postfit_shapes_dict.iteritems():
 
 					config = {}
+					#print "os.path.dirname(datacard):", os.path.dirname(datacard)
 					config["files"] = [os.path.join(os.path.dirname(datacard), "fitDiagnostics.root")]
 					config["input_modules"] = ["InputRootSimple"]
 					config["root_names"] = ["fit_s", "fit_b", "nuisances_prefit"]

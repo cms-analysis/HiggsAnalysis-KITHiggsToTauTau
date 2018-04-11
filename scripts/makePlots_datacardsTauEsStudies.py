@@ -157,11 +157,12 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 	logger.initLogger(args)
-	
+	# print dir(parser.parents)
+	# exit(1)
 	# Clean the output dir
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir and os.path.exists(args.output_dir): logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-		
+
 	# Produce es shifts from input arguments
 	if args.plot_with_shift == 0.0:
 		es_shifts = [args.shift_ranges[0] + x * args.shift_binning for x in range(int((args.shift_ranges[1] - args.shift_ranges[0]) / args.shift_binning) + 1)]
@@ -237,7 +238,12 @@ if __name__ == "__main__":
 
 				if weight_index == 0 and args.no_inclusive: continue
 				categories.append(category)
-	
+
+	# print "categories:"
+	# pp.pprint(categories)
+	# print "mapping_category2binid:"
+	# pp.pprint(mapping_category2binid)
+	# exit(1)
 	if args.no_inclusive:
 		weight_ranges.pop(0)
 		extra_weights.pop(0)
@@ -257,6 +263,7 @@ if __name__ == "__main__":
 	print "categories:"
 	pp.pprint(categories)
 	for category in categories:
+		#print "category:", category
 		channel = category.split("_")[0]
 		decayMode = category.split("_")[-2]
 		weight_index = int(category.split("_")[-1].split(weight_type + "bin")[-1])
@@ -282,9 +289,12 @@ if __name__ == "__main__":
 		tmp_output_files = []
 
 		for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
+			# print "\tshape_systematic:", shape_systematic
 			nominal = (shape_systematic == "nominal")
 			list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
-			
+			# print "list_of_samples:"
+			# pp.pprint(list_of_samples)
+
 			# This is needed because wj and qcd are interdependent when using the new background estimation method
 			# NB: CH takes care to only use the templates for processes that you specified. This means that any
 			#     superfluous histograms created as a result of this problem do not influence the result
@@ -293,6 +303,7 @@ if __name__ == "__main__":
 				elif "wj" in list_of_samples and "qcd" not in list_of_samples: list_of_samples += ["qcd"]
 
 			for shift_up in ([True] if nominal else [True, False]):
+				# print "\t\tshift_up:", shift_up
 				systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 
 				log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
@@ -327,7 +338,10 @@ if __name__ == "__main__":
 					useRelaxedIsolationForW = useRelaxedIsolation,
 					useRelaxedIsolationForQCD = useRelaxedIsolation
 				)
-				
+				# print "config_rest", config_rest
+				# pp.pprint(config_rest)
+				# exit(1)
+
 				config_rest["x_expressions"] = [quantity + "*" + extra_weights[weight_index]] * len(config_rest["nicks"])
 				histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 				config_rest["labels"] = [histogram_name_template.replace("$", "").format(
@@ -341,9 +355,12 @@ if __name__ == "__main__":
 
 				# Merge configs
 				merged_config = samples.Samples.merge_configs(merged_config, config_rest)
-				
+				# pp.pprint(merged_config)
+				# exit(1)
+
 				# One ztt nick config for each es shift
 				for shift in es_shifts:
+					# print "\t\t\tshift:", shift
 					if list(set(list_of_samples) & set(["ztt", "ttt", "vvt"])) == []: continue
 
 					config_ztt = sample_settings.get_config(
@@ -418,7 +435,11 @@ if __name__ == "__main__":
 					merged_config.setdefault("custom_rebin", []).append([40,45,50,55,60,65,70,75,80,85])
 
 				input_plot_configs.append(merged_config)
-		
+
+		# print 'merged_config["directories"]:'
+		# pp.pprint(merged_config["directories"])
+		# exit(1)
+
 		hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
 			DST=output_file,
 			SRC=" ".join(tmp_output_files))
@@ -431,11 +452,12 @@ if __name__ == "__main__":
 				os.remove(output_file)
 				log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 
-		print "\tCreate input histograms with HarryPlotter:input_plot_configs:"
+		# print "\tCreate input histograms with HarryPlotter:input_plot_configs:"
 		# pp.pprint(input_plot_configs)
 		higgsplot.HiggsPlotter(list_of_config_dicts=input_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
 		if args.n_plots[0] != 0:
 			tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+	# exit(1)
 	print "Update CombineHarvester with the yields and shapes"
 	datacards.extract_shapes(
 		os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
