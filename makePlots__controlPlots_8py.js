@@ -37,11 +37,13 @@ var makePlots__controlPlots_8py =
     [ "replaced_bkg_nicks", "makePlots__controlPlots_8py.html#a0840151176771769af5934839127f132", null ],
     [ "replaced_sig_nicks", "makePlots__controlPlots_8py.html#a4035ce9b5c9df313d29a42cdaa63a4a7", null ],
     [ "sample_settings", "makePlots__controlPlots_8py.html#a13dbfaa3dc297026c52ff15c87f2b1ce", null ],
+    [ "samples_used", "makePlots__controlPlots_8py.html#ad633c66954023855891d6ab91fb7ec55", null ],
     [ "scale_nicks", "makePlots__controlPlots_8py.html#a1c730b8489558724255cb7cc1f43c759", null ],
     [ "scale_nicks_temp", "makePlots__controlPlots_8py.html#a7a1903c1d18dbe5edf8c3cc1dc5411c6", null ],
     [ "scale_str", "makePlots__controlPlots_8py.html#a68aa8e2a5b5d30f7cbaee6283ab149a4", null ],
     [ "sig_samples", "makePlots__controlPlots_8py.html#ab49a7c27cc3322318cae6bd15ceb733e", null ],
     [ "sig_samples_raw", "makePlots__controlPlots_8py.html#a07635c6cea4a2eb60e10673d0e1846f8", null ],
     [ "sig_samples_used", "makePlots__controlPlots_8py.html#a6efcd8c5d021f14e5f16216bc7d9ca16", null ],
-    [ "sub_conf_index", "makePlots__controlPlots_8py.html#a7385a5703d306dc5d30d365a054860b0", null ]
+    [ "sub_conf_index", "makePlots__controlPlots_8py.html#a7385a5703d306dc5d30d365a054860b0", null ],
+    [ "x_binning", "makePlots__controlPlots_8py.html#a53083cc9fa99942755bf909f52c31010", null ]
 ];

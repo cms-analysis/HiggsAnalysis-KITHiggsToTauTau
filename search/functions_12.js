@@ -13,7 +13,7 @@ var searchData=
   ['tautauhistogramadapter',['TauTauHistogramAdapter',['../classTauTauHistogramAdapter.html#af1dffdc2a1ced231583c553363402e34',1,'TauTauHistogramAdapter']]],
   ['tautautriggerweightproducer',['TauTauTriggerWeightProducer',['../classTauTauTriggerWeightProducer.html#a122d0374980a320298b6cc4b5a84a755',1,'TauTauTriggerWeightProducer']]],
   ['test_5ffunction',['test_function',['../namespacecutOptimizer.html#a3d8c8d9db9626bf08c35609cb24f4890',1,'cutOptimizer']]],
-  ['text2workspace',['text2workspace',['../classdatacards_1_1Datacards.html#a8cf7719c9b874a3ea1075cda9ed87594',1,'datacards.Datacards.text2workspace()'],['../classmvadatacards__base_1_1Datacards.html#a54cf529be077f495d9aed75ef413a811',1,'mvadatacards_base.Datacards.text2workspace()']]],
+  ['text2workspace',['text2workspace',['../classmvadatacards__base_1_1Datacards.html#a54cf529be077f495d9aed75ef413a811',1,'mvadatacards_base::Datacards']]],
   ['to_5fstring',['to_string',['../namespacestd.html#aaeff9abdd3862d7a31f6169f105cb9e2',1,'std::to_string(TauSpinner::SimpleParticle &amp;particle)'],['../namespacestd.html#ae78ea9768b50ffcf8ad133c6eeb9259e',1,'std::to_string(std::vector&lt; TauSpinner::SimpleParticle &gt; &amp;particleVector)'],['../namespacestd.html#a100b654f8c856a5aef7dac3916df8d5d',1,'std::to_string(SvfitEventKey const &amp;svfitEventKey)']]],
   ['todatamcscalefactorproducermode',['ToDataMcScaleFactorProducerMode',['../classHttEnumTypes.html#abe7f692e07853746cabcc3aeb42ef2a2',1,'HttEnumTypes']]],
   ['todecaychannel',['ToDecayChannel',['../classHttEnumTypes.html#a3c7b9fab8510ad33cafc5f890909c127',1,'HttEnumTypes']]],

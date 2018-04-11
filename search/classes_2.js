@@ -6,6 +6,7 @@ var searchData=
   ['configmaster',['ConfigMaster',['../classConfigMaster_1_1ConfigMaster.html',1,'ConfigMaster']]],
   ['cphypotheses',['CPHypotheses',['../classcphypotheses_1_1CPHypotheses.html',1,'cphypotheses']]],
   ['cpmixing',['CPMixing',['../classcpmodels_1_1CPMixing.html',1,'cpmodels']]],
+  ['cpmixing',['CPMixing',['../classcpmodels__old_1_1CPMixing.html',1,'cpmodels_old']]],
   ['cpquantities',['CPQuantities',['../classCPQuantities.html',1,'']]],
   ['cpstudiesdatacards',['CPStudiesDatacards',['../classcpstudiesdatacards_1_1CPStudiesDatacards.html',1,'cpstudiesdatacards']]],
   ['cutoptimizer',['CutOptimizer',['../classcutOptimizer_1_1CutOptimizer.html',1,'cutOptimizer']]],

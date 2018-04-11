@@ -17,6 +17,7 @@ var searchData=
   ['makeplots_5fdatacardslfvzlt',['makePlots_datacardsLFVZlt',['../namespacemakePlots__datacardsLFVZlt.html',1,'']]],
   ['makeplots_5fdatacardsmssmhtt',['makePlots_datacardsMSSMHtt',['../namespacemakePlots__datacardsMSSMHtt.html',1,'']]],
   ['makeplots_5fdatacardspostfitplots',['makePlots_datacardsPostfitPlots',['../namespacemakePlots__datacardsPostfitPlots.html',1,'']]],
+  ['makeplots_5fdatacardsqcdfactors',['makePlots_datacardsQCDfactors',['../namespacemakePlots__datacardsQCDfactors.html',1,'']]],
   ['makeplots_5fdatacardssmhtt',['makePlots_datacardsSMHtt',['../namespacemakePlots__datacardsSMHtt.html',1,'']]],
   ['makeplots_5fdatacardssmhtt_5flimitprojection',['makePlots_datacardsSMHtt_limitProjection',['../namespacemakePlots__datacardsSMHtt__limitProjection.html',1,'']]],
   ['makeplots_5fdatacardssmhtt_5fndim',['makePlots_datacardsSMHtt_nDim',['../namespacemakePlots__datacardsSMHtt__nDim.html',1,'']]],

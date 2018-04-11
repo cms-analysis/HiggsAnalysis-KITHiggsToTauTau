@@ -58,6 +58,23 @@ var hierarchy =
       [ "ValidDiTauPairCandidatesFilter", "classValidDiTauPairCandidatesFilter.html", null ]
     ] ],
     [ "cutstrings.CutStringsDict", "classcutstrings_1_1CutStringsDict.html", null ],
+    [ "Datacards", null, [
+      [ "cpstudiesdatacards.CPStudiesDatacards", "classcpstudiesdatacards_1_1CPStudiesDatacards.html", null ],
+      [ "lfvdatacards.LFVDatacards", "classlfvdatacards_1_1LFVDatacards.html", null ],
+      [ "lfvzltdatacards.LFVZltDatacards", "classlfvzltdatacards_1_1LFVZltDatacards.html", null ],
+      [ "lfvzltdatacards.LFVZltDatacardsForSync", "classlfvzltdatacards_1_1LFVZltDatacardsForSync.html", null ],
+      [ "qcdfactorsdatacards.QcdFactorsDatacards", "classqcdfactorsdatacards_1_1QcdFactorsDatacards.html", null ],
+      [ "smhttdatacards.SMHttDatacards", "classsmhttdatacards_1_1SMHttDatacards.html", [
+        [ "initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards", "classinitialstatecpstudiesdatacards_1_1InitialStateCPStudiesDatacards.html", null ]
+      ] ],
+      [ "smhttdatacards.SMHttDatacardsForSync", "classsmhttdatacards_1_1SMHttDatacardsForSync.html", null ],
+      [ "taupogdatacards.TauEsDatacards", "classtaupogdatacards_1_1TauEsDatacards.html", null ],
+      [ "zttpolarisationdatacards.ZttPolarisationDatacards", "classzttpolarisationdatacards_1_1ZttPolarisationDatacards.html", null ],
+      [ "zttxsecdatacards.ZttEffDatacards", "classzttxsecdatacards_1_1ZttEffDatacards.html", null ],
+      [ "zttxsecdatacards.ZttJetTauFakeFactorDatacards", "classzttxsecdatacards_1_1ZttJetTauFakeFactorDatacards.html", null ],
+      [ "zttxsecdatacards.ZttLepTauFakeRateDatacards", "classzttxsecdatacards_1_1ZttLepTauFakeRateDatacards.html", null ],
+      [ "zttxsecdatacards.ZttXsecDatacards", "classzttxsecdatacards_1_1ZttXsecDatacards.html", null ]
+    ] ],
     [ "dict", null, [
       [ "systematics_run2.SystematicsFactory", "classsystematics__run2_1_1SystematicsFactory.html", null ]
     ] ],
@@ -132,22 +149,6 @@ var hierarchy =
       [ "ConfigMaster.ConfigMaster", "classConfigMaster_1_1ConfigMaster.html", null ],
       [ "cutOptimizer.CutOptimizer", "classcutOptimizer_1_1CutOptimizer.html", null ],
       [ "datacardconfigs.DatacardConfigs", "classdatacardconfigs_1_1DatacardConfigs.html", null ],
-      [ "datacards.Datacards", "classdatacards_1_1Datacards.html", [
-        [ "cpstudiesdatacards.CPStudiesDatacards", "classcpstudiesdatacards_1_1CPStudiesDatacards.html", null ],
-        [ "lfvdatacards.LFVDatacards", "classlfvdatacards_1_1LFVDatacards.html", null ],
-        [ "lfvzltdatacards.LFVZltDatacards", "classlfvzltdatacards_1_1LFVZltDatacards.html", null ],
-        [ "lfvzltdatacards.LFVZltDatacardsForSync", "classlfvzltdatacards_1_1LFVZltDatacardsForSync.html", null ],
-        [ "smhttdatacards.SMHttDatacards", "classsmhttdatacards_1_1SMHttDatacards.html", [
-          [ "initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards", "classinitialstatecpstudiesdatacards_1_1InitialStateCPStudiesDatacards.html", null ]
-        ] ],
-        [ "smhttdatacards.SMHttDatacardsForSync", "classsmhttdatacards_1_1SMHttDatacardsForSync.html", null ],
-        [ "taupogdatacards.TauEsDatacards", "classtaupogdatacards_1_1TauEsDatacards.html", null ],
-        [ "zttpolarisationdatacards.ZttPolarisationDatacards", "classzttpolarisationdatacards_1_1ZttPolarisationDatacards.html", null ],
-        [ "zttxsecdatacards.ZttEffDatacards", "classzttxsecdatacards_1_1ZttEffDatacards.html", null ],
-        [ "zttxsecdatacards.ZttJetTauFakeFactorDatacards", "classzttxsecdatacards_1_1ZttJetTauFakeFactorDatacards.html", null ],
-        [ "zttxsecdatacards.ZttLepTauFakeRateDatacards", "classzttxsecdatacards_1_1ZttLepTauFakeRateDatacards.html", null ],
-        [ "zttxsecdatacards.ZttXsecDatacards", "classzttxsecdatacards_1_1ZttXsecDatacards.html", null ]
-      ] ],
       [ "mvadatacards_base.Datacards", "classmvadatacards__base_1_1Datacards.html", null ],
       [ "samples.SamplesBase", "classsamples_1_1SamplesBase.html", [
         [ "samples_run1.Samples", "classsamples__run1_1_1Samples.html", null ],
@@ -414,6 +415,7 @@ var hierarchy =
     ] ],
     [ "PhysicsModel", null, [
       [ "cpmodels.CPMixing", "classcpmodels_1_1CPMixing.html", null ],
+      [ "cpmodels_old.CPMixing", "classcpmodels__old_1_1CPMixing.html", null ],
       [ "higgsmodels.TwoHypotesisHiggs", "classhiggsmodels_1_1TwoHypotesisHiggs.html", null ],
       [ "zttmodels.ZttEff", "classzttmodels_1_1ZttEff.html", null ],
       [ "zttmodels.ZttEffAndXsec", "classzttmodels_1_1ZttEffAndXsec.html", null ]
