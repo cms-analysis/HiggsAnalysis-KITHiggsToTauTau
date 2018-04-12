@@ -30,7 +30,7 @@ def addArguments(parser):
 	parser.add_argument("-x", "--quantity", default="m_vis", choices=["m_vis"], 
 	                    help="Quantity ot perform fit in sideband region. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*", default=["mt","et"],
-	                    help="Select final state(s) for measurement. This agument can be set multiple times. [Default: %(default)s]")
+	                    help="Select final state(s) for measurement. This argument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
