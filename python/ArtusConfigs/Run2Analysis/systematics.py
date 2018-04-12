@@ -135,7 +135,7 @@ class Systematics_Config(dict):
 
 
 			if systematic == "tauEleFakeEsUp":
-				if re.match("(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))", nickname):
+				if re.search("(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))", nickname):
 					self["TauElectronFakeEnergyCorrection"] = 1.03
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsUp"
 				else:
@@ -143,7 +143,7 @@ class Systematics_Config(dict):
 					self["SvfitCacheFileFolder"] = "nominal"
 
 			elif systematic == "tauEleFakeEsDown":
-				if re.match("(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))", nickname):
+				if re.search("(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))", nickname):
 					self["TauElectronFakeEnergyCorrection"] = 0.097
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsDown"
 				else:
