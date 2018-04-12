@@ -397,7 +397,8 @@ class em_ArtusConfig(dict):
 			self["Quantities"] += ["nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"]
+					"nAllDiTauPairCandidates",
+					"jetCorrectionWeight"]
 		else:
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
@@ -411,8 +412,8 @@ class em_ArtusConfig(dict):
 			self["Quantities"] += ["nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates",
-					"jetCorrectionWeight"]
+					"nAllDiTauPairCandidates"]
+
 
 
 		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
@@ -519,6 +520,7 @@ class em_ArtusConfig(dict):
 			self["Processors"] += ["producer:IdentificationWeightProducer"]
 			self["Processors"] += ["#producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
@@ -619,6 +621,7 @@ class em_ArtusConfig(dict):
 			self["Processors"] += ["producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
@@ -665,6 +668,7 @@ class em_ArtusConfig(dict):
 			self["Processors"] += ["#producer:SimpleFitProducer"]
 			self["Processors"] += ["#producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
@@ -715,6 +719,7 @@ class em_ArtusConfig(dict):
 			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
@@ -873,6 +878,7 @@ class em_ArtusConfig(dict):
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]

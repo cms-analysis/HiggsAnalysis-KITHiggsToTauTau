@@ -276,6 +276,8 @@ class mm_ArtusConfig(dict):
 		
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2cpq.genQuantitiesLFV()
+		else:
+			self["Quantities"] += r2cpq.recoCPQuantities()
 			
 
 
@@ -428,7 +430,7 @@ class mm_ArtusConfig(dict):
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter"]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["#producer:SvfitProducer"]
 			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:MELAM125Producer"]
 
@@ -540,6 +542,8 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:IdentificationWeightProducer"]
 			self["Processors"] += ["#producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:MuMuTriggerWeightProducer"]
+			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 				
 

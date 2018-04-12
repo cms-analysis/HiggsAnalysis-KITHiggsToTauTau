@@ -270,6 +270,10 @@ class tt_ArtusConfig(dict):
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
 			self["Quantities"] += r2cpq.genQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
+			self["Quantities"] += ["nLooseElectrons",
+					"nLooseMuons",
+					"nDiTauPairCandidates",
+					"nAllDiTauPairCandidates"]
 		else:
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
@@ -375,6 +379,7 @@ class tt_ArtusConfig(dict):
 
 			self["Processors"] += ["#producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
@@ -453,12 +458,19 @@ class tt_ArtusConfig(dict):
 					"producer:DiJetQuantitiesProducer",
 					"filter:MinimalPlotlevelFilter"]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+
 			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:SvfitM91Producer"]
+			self["Processors"] += ["producer:SvfitM125Producer"]
+
 			self["Processors"] += ["producer:MELAProducer"]
+			self["Processors"] += ["producer:MELAM125Producer"]
 			self["Processors"] += ["producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
@@ -499,6 +511,7 @@ class tt_ArtusConfig(dict):
 			self["Processors"] += ["#producer:SimpleFitProducer"]
 			self["Processors"] += ["#producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
@@ -685,6 +698,7 @@ class tt_ArtusConfig(dict):
 			self["Processors"] += ["producer:TauTauTriggerWeightProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
