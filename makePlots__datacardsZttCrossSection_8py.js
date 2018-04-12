@@ -31,7 +31,7 @@ var makePlots__datacardsZttCrossSection_8py =
     [ "histogram_name_template", "makePlots__datacardsZttCrossSection_8py.html#a800fb515cdfcd563d7971fc5a7cb3217", null ],
     [ "input_root_filename_template", "makePlots__datacardsZttCrossSection_8py.html#a4009ed003223f1ad100c0443cdfc8191", null ],
     [ "json_config", "makePlots__datacardsZttCrossSection_8py.html#ab7a713fa7335c7ef73f5e5410e1b157c", null ],
-    [ "list_of_samples", "makePlots__datacardsZttCrossSection_8py.html#a509c4f3428cec40a31facedf9fb8ea34", null ],
+    [ "list_of_samples", "makePlots__datacardsZttCrossSection_8py.html#a238b75a86451343ede2524f194dcbf6f", null ],
     [ "log", "makePlots__datacardsZttCrossSection_8py.html#a7d91ece85a0e0838e85ca1abae708307", null ],
     [ "model_settings", "makePlots__datacardsZttCrossSection_8py.html#aa437371098c83ef151c8f1ed271ccc9e", null ],
     [ "models", "makePlots__datacardsZttCrossSection_8py.html#ae95d0215f965149eb553b53321ceedbe", null ],

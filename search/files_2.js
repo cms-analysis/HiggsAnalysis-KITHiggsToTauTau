@@ -17,7 +17,6 @@ var searchData=
   ['correlation_5ftprofileplots_2epy',['correlation_TProfilePlots.py',['../correlation__TProfilePlots_8py.html',1,'']]],
   ['cphypotheses_2epy',['cphypotheses.py',['../cphypotheses_8py.html',1,'']]],
   ['cpmodels_2epy',['cpmodels.py',['../cpmodels_8py.html',1,'']]],
-  ['cpmodels_5fold_2epy',['cpmodels_old.py',['../cpmodels__old_8py.html',1,'']]],
   ['cpquantities_2ecc',['CPQuantities.cc',['../CPQuantities_8cc.html',1,'']]],
   ['cpquantities_2eh',['CPQuantities.h',['../CPQuantities_8h.html',1,'']]],
   ['cpstudiesdatacards_2epy',['cpstudiesdatacards.py',['../cpstudiesdatacards_8py.html',1,'']]],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['unrolltwodhistogram',['unrolltwodhistogram',['../namespaceunrolltwodhistogram.html',1,'']]]
+  ['weakmixinganglefrompolarisation',['weakmixinganglefrompolarisation',['../namespaceweakmixinganglefrompolarisation.html',1,'']]]
 ];

@@ -33,7 +33,7 @@ var makePlots__datacardsZttEfficiency_8py =
     [ "help", "makePlots__datacardsZttEfficiency_8py.html#a1615804e07a7dc75e5986508e3e6ae46", null ],
     [ "histogram_name_template", "makePlots__datacardsZttEfficiency_8py.html#aac3b8a40a3e64e07df518d681e8897f7", null ],
     [ "input_root_filename_template", "makePlots__datacardsZttEfficiency_8py.html#a7071d58b602509f4a953a402c634e842", null ],
-    [ "list_of_samples", "makePlots__datacardsZttEfficiency_8py.html#ac8992dbda31d93f1b29cc998b0cb7da9", null ],
+    [ "list_of_samples", "makePlots__datacardsZttEfficiency_8py.html#a84e68cf69ee5b1a6208d0126df7def57", null ],
     [ "log", "makePlots__datacardsZttEfficiency_8py.html#a5bb61c4358cf31c813d79b53a5ca6fc8", null ],
     [ "model_settings", "makePlots__datacardsZttEfficiency_8py.html#a59d822de8457e63fbf0ae71325fc58be", null ],
     [ "models", "makePlots__datacardsZttEfficiency_8py.html#ab2042106bfa209847d489bbd2bca7373", null ],

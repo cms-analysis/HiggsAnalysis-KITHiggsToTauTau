@@ -147,8 +147,8 @@ Variables</h2></td></tr>
 <tr class="separator:a1bd38f32607cb554e4c017dbf4a35860"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53beaf24b597a76accd5dcd0f0dbd3bd"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsZttCrossSection.html#a53beaf24b597a76accd5dcd0f0dbd3bd">nominal</a> = (shape_systematic == &quot;nominal&quot;)</td></tr>
 <tr class="separator:a53beaf24b597a76accd5dcd0f0dbd3bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a509c4f3428cec40a31facedf9fb8ea34"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsZttCrossSection.html#a509c4f3428cec40a31facedf9fb8ea34">list_of_samples</a> = [datacards.configs.process2sample(process) for process in list_of_samples]</td></tr>
-<tr class="separator:a509c4f3428cec40a31facedf9fb8ea34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a238b75a86451343ede2524f194dcbf6f"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsZttCrossSection.html#a238b75a86451343ede2524f194dcbf6f">list_of_samples</a> = ([&quot;data&quot;] if <a class="el" href="namespacemakePlots__datacardsZttCrossSection.html#a53beaf24b597a76accd5dcd0f0dbd3bd">nominal</a> else [])</td></tr>
+<tr class="separator:a238b75a86451343ede2524f194dcbf6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb72322c2edcbec947f6d3b1d63c15aa"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsZttCrossSection.html#abb72322c2edcbec947f6d3b1d63c15aa">systematic</a> = &quot;nominal&quot;</td></tr>
 <tr class="separator:abb72322c2edcbec947f6d3b1d63c15aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7918c00d6a8cd5891f1165955b1b127"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsZttCrossSection.html#af7918c00d6a8cd5891f1165955b1b127">samples</a> = &quot;\&quot;, \&quot;&quot;</td></tr>
@@ -603,12 +603,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a509c4f3428cec40a31facedf9fb8ea34"></a>
+<a class="anchor" id="a238b75a86451343ede2524f194dcbf6f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">list makePlots_datacardsZttCrossSection.list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]</td>
+          <td class="memname">tuple makePlots_datacardsZttCrossSection.list_of_samples = ([&quot;data&quot;] if <a class="el" href="namespacemakePlots__datacardsZttCrossSection.html#a53beaf24b597a76accd5dcd0f0dbd3bd">nominal</a> else [])</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -653,7 +653,7 @@ Variables</h2></td></tr>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;                        <span class="stringliteral">&quot;P&quot;</span> : <span class="stringliteral">&quot;HiggsAnalysis.KITHiggsToTauTau.datacards.zttmodels:ztt_xsec&quot;</span>,</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                        <span class="stringliteral">&quot;fit&quot;</span> : {</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                <span class="stringliteral">&quot;&quot;</span> : {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                        <span class="stringliteral">&quot;method&quot;</span> : <span class="stringliteral">&quot;MaxLikelihoodFit&quot;</span>,<span class="comment">#&quot;MaxLikelihoodFit&quot;,#&quot;GoodnessOfFit&quot;,</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                        <span class="stringliteral">&quot;method&quot;</span> : <span class="stringliteral">&quot;FitDiagnostics&quot;</span>,<span class="comment">#&quot;MaxLikelihoodFit&quot;,#&quot;GoodnessOfFit&quot;,</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                        <span class="stringliteral">&quot;options&quot;</span> : <span class="stringliteral">&quot;--skipBOnlyFit&quot;</span>,<span class="comment">#&quot;--skipBOnlyFit&quot;,#&quot;--algo saturated --toys 100 -s 54321&quot;,#--expectSignal=1 --toys -1</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                        <span class="stringliteral">&quot;poi&quot;</span> : <span class="stringliteral">&quot;</span><span class="stringliteral">r&quot;,</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="stringliteral">                                },</span></div>

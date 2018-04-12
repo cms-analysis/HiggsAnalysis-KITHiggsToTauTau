@@ -31,7 +31,7 @@ var makePlots__datacardsSMHtt__nDim_8py =
     [ "higgs_masses", "makePlots__datacardsSMHtt__nDim_8py.html#a44b74bec7b3d2e6d3dbbef04c788c2d5", null ],
     [ "histogram_name_template", "makePlots__datacardsSMHtt__nDim_8py.html#aa22f48a0849a544ecf8e67f6e0ef2b2f", null ],
     [ "input_root_filename_template", "makePlots__datacardsSMHtt__nDim_8py.html#aea91624ac3a57bef90b74c418f0e0b69", null ],
-    [ "list_of_samples", "makePlots__datacardsSMHtt__nDim_8py.html#a8a60722ace1d440591b66fd553d8057f", null ],
+    [ "list_of_samples", "makePlots__datacardsSMHtt__nDim_8py.html#a67f86b03bcfc888114fef97a1566e7da", null ],
     [ "log", "makePlots__datacardsSMHtt__nDim_8py.html#ae07b831b1772a235b2ed44393e095259", null ],
     [ "merged_input_root_filename_template", "makePlots__datacardsSMHtt__nDim_8py.html#a013b2f9b37cfa8c1ffe110f084ed39e3", null ],
     [ "merged_output_file", "makePlots__datacardsSMHtt__nDim_8py.html#a49e67315e891d511e6689ce66149d00f", null ],
