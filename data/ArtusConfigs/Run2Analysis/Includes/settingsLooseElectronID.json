@@ -1,6 +1,10 @@
 {
 	"include" : [
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json"
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",
+		"https://rembserj.web.cern.ch/rembserj/notes/Electron_MVA_ID_2017_documentation/",
+		"wp 90 is what we call loose electron. In 2016 probably used uniso trainings so for now we use the same of 2017.",
+		"to add the sypport of both iso and uniso one nedd to switch LooseElectronIDName to accespt [<str>] and do the names check later on",
+		"A, tau, c"
 	],
 	
 	"LooseElectronReco" : "mvanontrig",
@@ -35,6 +39,57 @@
 			"(Run2015|Fall15MiniAODv2)" : 0.358969
 		}
 	},
+
+
+	"LooseElectronMvaIDCutEB1ParamsLowPt" :
+	{
+		"nick" :
+		{
+			"default" : {},
+			"(Run2017|Fall17)" : [ 0.9165112826974601, 2.7381703555094217, 1.03549199648109 ]
+		}
+	},
+	"LooseElectronMvaIDCutEB2ParamsLowPt" :
+	{
+		"nick" :
+		{
+			"default" : {},
+			"(Run2017|Fall17)" : [ 0.8655738322220173, 2.4027944652597073, 0.7975615613282494 ]
+		}
+	},
+	"LooseElectronMvaIDCutEEParamsLowPt" :
+	{
+		"nick" :
+		{
+			"default" : {},
+			"(Run2017|Fall17)" : [ -3016.035055227131, -52140.61856333602, -3016.3029387236506 ]
+		}
+	},
+	"LooseElectronMvaIDCutEB1ParamsHighPt" :
+	{
+		"nick" :
+		{
+			"default" : {},
+			"(Run2017|Fall17)" : [ 0.9616542816132922, 8.757943837889817, 3.1390200321591206 ]
+		}
+	},
+	"LooseElectronMvaIDCutEB2ParamsHighPt" :
+	{
+		"nick" :
+		{
+			"default" : {},
+			"(Run2017|Fall17)" : [0.9319258011430132, 8.846057432565809, 3.5985063793347787 ]
+		}
+	},
+	"LooseElectronMvaIDCutEEParamsHighPt" :
+	{
+		"nick" :
+		{
+			"default" : {},
+			"(Run2017|Fall17)" : [ 0.8899260780999244, 10.124234115859881, 4.352791250718547 ]
+		}
+	},
+
 
 	"LooseElectronIsoType" : "user",
 	"LooseElectronIso" : "none",

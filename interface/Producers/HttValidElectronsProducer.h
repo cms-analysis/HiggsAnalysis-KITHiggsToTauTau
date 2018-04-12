@@ -7,37 +7,44 @@
 
 
 /**
-   \brief GlobalProducer, for valid electrons.
-   
-   Required config tags in addtion to the ones of the base class:
-   - ElectronIDType
-   - ElectronIDName (default given)
-   - ElectronMvaIDCutEB1 (default given)
-   - ElectronMvaIDCutEB2 (default given)
-   - ElectronMvaIDCutEE (default given)
-   - ElectronChargedIsoVetoConeSizeEB (default given)
-   - ElectronChargedIsoVetoConeSizeEE (default given)
-   - ElectronNeutralIsoVetoConeSize (default given)
-   - ElectronPhotonIsoVetoConeSizeEB (default given)
-   - ElectronPhotonIsoVetoConeSizeEE (default given)
-   - ElectronDeltaBetaIsoVetoConeSize (default given)
-   - ElectronChargedIsoPtThreshold (default given)
-   - ElectronNeutralIsoPtThreshold (default given)
-   - ElectronPhotonIsoPtThreshold (default given)
-   - ElectronDeltaBetaIsoPtThreshold (default given)
-   - ElectronIsoSignalConeSize
-   - ElectronDeltaBetaCorrectionFactor
-   - ElectronIsoPtSumOverPtLowerThresholdEB
-   - ElectronIsoPtSumOverPtLowerThresholdEE
-   - ElectronIsoPtSumOverPtUpperThresholdEB
-   - ElectronIsoPtSumOverPtUpperThresholdEE
-   - ElectronIDList (default given)
+	\brief GlobalProducer, for valid electrons.
+
+	Required config tags in addtion to the ones of the base class:
+	- ElectronIDType
+	- ElectronIDName (default given)
+	- ElectronMvaIDCutEB1 (default given)
+	- ElectronMvaIDCutEB2 (default given)
+	- ElectronMvaIDCutEE (default given)
+	Starting 2017
+		- ElectronMvaIDCutEB1ParamsLowPt
+		- ElectronMvaIDCutEB2ParamsLowPt
+		- ElectronMvaIDCutEEParamsLowPt
+		- ElectronMvaIDCutEB1ParamsHighPt
+		- ElectronMvaIDCutEB2ParamsHighPt
+		- ElectronMvaIDCutEEParamsHighPt
+	- ElectronChargedIsoVetoConeSizeEB (default given)
+	- ElectronChargedIsoVetoConeSizeEE (default given)
+	- ElectronNeutralIsoVetoConeSize (default given)
+	- ElectronPhotonIsoVetoConeSizeEB (default given)
+	- ElectronPhotonIsoVetoConeSizeEE (default given)
+	- ElectronDeltaBetaIsoVetoConeSize (default given)
+	- ElectronChargedIsoPtThreshold (default given)
+	- ElectronNeutralIsoPtThreshold (default given)
+	- ElectronPhotonIsoPtThreshold (default given)
+	- ElectronDeltaBetaIsoPtThreshold (default given)
+	- ElectronIsoSignalConeSize
+	- ElectronDeltaBetaCorrectionFactor
+	- ElectronIsoPtSumOverPtLowerThresholdEB
+	- ElectronIsoPtSumOverPtLowerThresholdEE
+	- ElectronIsoPtSumOverPtUpperThresholdEB
+	- ElectronIsoPtSumOverPtUpperThresholdEE
+	- ElectronIDList (default given)
 */
 
 class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>
 {
 
-public:
+	public:
 
 	enum class ElectronIDType : int
 	{
@@ -49,15 +56,28 @@ public:
 		SUMMER2013TTHLOOSE = 3,
 		CUTBASED2015ANDLATER = 4,
 		MVABASED2015ANDLATER = 5,
+		// cut 2015
 		CUTBASED2015NOISOANDIPCUTSVETO = 6,
 		CUTBASED2015NOISOANDIPCUTSLOOSE = 7,
 		CUTBASED2015NOISOANDIPCUTSMEDIUM = 8,
 		CUTBASED2015NOISOANDIPCUTSTIGHT = 9,
+		// cut 2016
 		CUTBASED2016NOISOCUTSVETO = 10,
 		CUTBASED2016NOISOCUTSLOOSE = 11,
 		CUTBASED2016NOISOCUTSMEDIUM = 12,
-		CUTBASED2016NOISOCUTSTIGHT = 13
+		CUTBASED2016NOISOCUTSTIGHT = 13,
+		// cut 2017
+		MVABASED2017ANDLATER = 14,
+		CUTBASED2017NOISOCUTSVETO = 15,
+		CUTBASED2017NOISOCUTSLOOSE = 16,
+		CUTBASED2017NOISOCUTSMEDIUM = 17,
+		CUTBASED2017NOISOCUTSTIGHT = 18,
+		CUTBASED2017ISOCUTSVETO = 19,
+		CUTBASED2017ISOCUTSLOOSE = 20,
+		CUTBASED2017ISOCUTSMEDIUM = 21,
+		CUTBASED2017ISOCUTSTIGHT = 22
 	};
+
 	static ElectronIDType ToElectronIDType(std::string const& electronIDType)
 	{
 		if (electronIDType == "summer2013loose") return ElectronIDType::SUMMER2013LOOSE;
@@ -70,10 +90,22 @@ public:
 		else if (electronIDType == "cutbased2015noisoandipcutsloose") return ElectronIDType::CUTBASED2015NOISOANDIPCUTSLOOSE;
 		else if (electronIDType == "cutbased2015noisoandipcutsmedium") return ElectronIDType::CUTBASED2015NOISOANDIPCUTSMEDIUM;
 		else if (electronIDType == "cutbased2015noisocutstight") return ElectronIDType::CUTBASED2015NOISOANDIPCUTSTIGHT;
+
 		else if (electronIDType == "cutbased2016noisocutsveto") return ElectronIDType::CUTBASED2016NOISOCUTSVETO;
 		else if (electronIDType == "cutbased2016noisocutsloose") return ElectronIDType::CUTBASED2016NOISOCUTSLOOSE;
 		else if (electronIDType == "cutbased2016noisocutsmedium") return ElectronIDType::CUTBASED2016NOISOCUTSMEDIUM;
 		else if (electronIDType == "cutbased2016noisocutstight") return ElectronIDType::CUTBASED2016NOISOCUTSTIGHT;
+
+		else if (electronIDType == "mvabased2017andlater") return ElectronIDType::MVABASED2017ANDLATER;
+		else if (electronIDType == "cutbased2017noisocutsveto") return ElectronIDType::CUTBASED2017NOISOCUTSVETO;
+		else if (electronIDType == "cutbased2017noisocutsloose") return ElectronIDType::CUTBASED2017NOISOCUTSLOOSE;
+		else if (electronIDType == "cutbased2017noisocutsmedium") return ElectronIDType::CUTBASED2017NOISOCUTSMEDIUM;
+		else if (electronIDType == "cutbased2017noisocutstight") return ElectronIDType::CUTBASED2017NOISOCUTSTIGHT;
+		else if (electronIDType == "cutbased2017isocutsveto") return ElectronIDType::CUTBASED2017ISOCUTSVETO;
+		else if (electronIDType == "cutbased2017isocutsloose") return ElectronIDType::CUTBASED2017ISOCUTSLOOSE;
+		else if (electronIDType == "cutbased2017isocutsmedium") return ElectronIDType::CUTBASED2017ISOCUTSMEDIUM;
+		else if (electronIDType == "cutbased2017isocutstight") return ElectronIDType::CUTBASED2017ISOCUTSTIGHT;
+
 		else if (electronIDType == "none") return ElectronIDType::NONE;
 		else
 			LOG(FATAL) << "Could not find ElectronID " << electronIDType << "! If you want the HttValidElectronsProducer to use no special ID, use \"none\" as argument."<< std::endl;
@@ -89,10 +121,18 @@ public:
 			float (setting_type::*GetElectronMvaIDCutEB1)(void) const=&setting_type::GetElectronMvaIDCutEB1,
 			float (setting_type::*GetElectronMvaIDCutEB2)(void) const=&setting_type::GetElectronMvaIDCutEB2,
 			float (setting_type::*GetElectronMvaIDCutEE)(void) const=&setting_type::GetElectronMvaIDCutEE,
+
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsLowPt)(void) const=&setting_type::GetElectronMvaIDCutEB1ParamsLowPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB2ParamsLowPt)(void) const=&setting_type::GetElectronMvaIDCutEB2ParamsLowPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEEParamsLowPt)(void) const=&setting_type::GetElectronMvaIDCutEEParamsLowPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsHighPt)(void) const=&setting_type::GetElectronMvaIDCutEB1ParamsHighPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB2ParamsHighPt)(void) const=&setting_type::GetElectronMvaIDCutEB2ParamsHighPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEEParamsHighPt)(void) const=&setting_type::GetElectronMvaIDCutEEParamsHighPt,
+
 			std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetElectronIsoType,
 			std::string (setting_type::*GetElectronIso)(void) const=&setting_type::GetElectronIso,
 			std::string (setting_type::*GetElectronReco)(void) const=&setting_type::GetElectronReco,
-			std::vector<std::string>& (setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetElectronLowerPtCuts,
+			std::vector<std::string>&(setting_type::*GetLowerPtCuts)(void) const=&setting_type::GetElectronLowerPtCuts,
 			std::vector<std::string>& (setting_type::*GetUpperAbsEtaCuts)(void) const=&setting_type::GetElectronUpperAbsEtaCuts,
 			float (setting_type::*GetElectronChargedIsoVetoConeSizeEB)(void) const=&setting_type::GetElectronChargedIsoVetoConeSizeEB,
 			float (setting_type::*GetElectronChargedIsoVetoConeSizeEE)(void) const=&setting_type::GetElectronChargedIsoVetoConeSizeEE,
@@ -118,19 +158,27 @@ public:
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 
-protected:
+	protected:
 
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KElectron* electron, event_type const& event,
 	                                product_type& product, setting_type const& settings, metadata_type const& metadata) const  override;
 
 
-private:
+	private:
 	std::string (setting_type::*GetElectronIDType)(void) const;
 	std::string (setting_type::*GetElectronIDName)(void) const;
 	float (setting_type::*GetElectronMvaIDCutEB1)(void) const;
 	float (setting_type::*GetElectronMvaIDCutEB2)(void) const;
 	float (setting_type::*GetElectronMvaIDCutEE)(void) const;
+
+	std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsLowPt)(void) const;
+	std::vector<float>& (setting_type::*GetElectronMvaIDCutEB2ParamsLowPt)(void) const;
+	std::vector<float>& (setting_type::*GetElectronMvaIDCutEEParamsLowPt)(void) const;
+	std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsHighPt)(void) const;
+	std::vector<float>& (setting_type::*GetElectronMvaIDCutEB2ParamsHighPt)(void) const;
+	std::vector<float>& (setting_type::*GetElectronMvaIDCutEEParamsHighPt)(void) const;
+
 	float (setting_type::*GetElectronChargedIsoVetoConeSizeEB)(void) const;
 	float (setting_type::*GetElectronChargedIsoVetoConeSizeEE)(void) const;
 	float (setting_type::*GetElectronNeutralIsoVetoConeSize)(void) const;
@@ -173,6 +221,7 @@ private:
 			float full5x5_sigmaIetaIeta, float dEtaIn_Seed, float dPhiIn,
 			float hOverE, float invEMinusInvP, int missingHits, int year=2015) const;
 	bool IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const;
+	bool IsMVABasedFunctional(KElectron* electron, event_type const& event, const std::string &idName, float c, float A, float tau) const;
 	bool CheckElectronMetadata(const KElectronMetadata *meta, std::string idName, bool &checkedAlready) const;
 	bool CheckElectronMetadata(const KElectronMetadata *meta, std::vector<std::string> idNames, bool &checkedAlready) const;
 };
@@ -183,7 +232,7 @@ private:
 class HttValidLooseElectronsProducer: public HttValidElectronsProducer
 {
 
-public:
+	public:
 
 	virtual std::string GetProducerId() const override {
 		return "HttValidLooseElectronsProducer";
@@ -208,6 +257,15 @@ public:
 			float (setting_type::*GetElectronMvaIDCutEB1)(void) const=&setting_type::GetLooseElectronMvaIDCutEB1,
 			float (setting_type::*GetElectronMvaIDCutEB2)(void) const=&setting_type::GetLooseElectronMvaIDCutEB2,
 			float (setting_type::*GetElectronMvaIDCutEE)(void) const=&setting_type::GetLooseElectronMvaIDCutEE,
+
+
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsLowPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEB1ParamsLowPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB2ParamsLowPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEB2ParamsLowPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEEParamsLowPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEEParamsLowPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsHighPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEB1ParamsHighPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB2ParamsHighPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEB2ParamsHighPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEEParamsHighPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEEParamsHighPt,
+
 			std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetLooseElectronIsoType,
 			std::string (setting_type::*GetElectronIso)(void) const=&setting_type::GetLooseElectronIso,
 			std::string (setting_type::*GetElectronReco)(void) const=&setting_type::GetLooseElectronReco,
@@ -241,7 +299,7 @@ public:
 class HttValidVetoElectronsProducer: public HttValidElectronsProducer
 {
 
-public:
+	public:
 
 	virtual std::string GetProducerId() const override {
 		return "HttValidVetoElectronsProducer";
@@ -266,6 +324,14 @@ public:
 			float (setting_type::*GetElectronMvaIDCutEB1)(void) const=&setting_type::GetVetoElectronMvaIDCutEB1,
 			float (setting_type::*GetElectronMvaIDCutEB2)(void) const=&setting_type::GetVetoElectronMvaIDCutEB2,
 			float (setting_type::*GetElectronMvaIDCutEE)(void) const=&setting_type::GetVetoElectronMvaIDCutEE,
+
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsLowPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEB1ParamsLowPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB2ParamsLowPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEB2ParamsLowPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEEParamsLowPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEEParamsLowPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsHighPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEB1ParamsHighPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEB2ParamsHighPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEB2ParamsHighPt,
+			std::vector<float>& (setting_type::*GetElectronMvaIDCutEEParamsHighPt)(void) const=&setting_type::GetLooseElectronMvaIDCutEEParamsHighPt,
+
 			std::string (setting_type::*GetElectronIsoType)(void) const=&setting_type::GetVetoElectronIsoType,
 			std::string (setting_type::*GetElectronIso)(void) const=&setting_type::GetVetoElectronIso,
 			std::string (setting_type::*GetElectronReco)(void) const=&setting_type::GetVetoElectronReco,

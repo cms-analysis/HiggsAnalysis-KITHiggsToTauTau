@@ -73,6 +73,12 @@ public:
 	IMPL_SETTING_DEFAULT(float, ElectronMvaIDCutEB1, -1.0);
 	IMPL_SETTING_DEFAULT(float, ElectronMvaIDCutEB2, -1.0);
 	IMPL_SETTING_DEFAULT(float, ElectronMvaIDCutEE, -1.0);
+	IMPL_SETTING_FLOATLIST_DEFAULT(ElectronMvaIDCutEB1ParamsLowPt, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(ElectronMvaIDCutEB2ParamsLowPt, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(ElectronMvaIDCutEEParamsLowPt, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(ElectronMvaIDCutEB1ParamsHighPt, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(ElectronMvaIDCutEB2ParamsHighPt, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(ElectronMvaIDCutEEParamsHighPt, {});
 
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEB, 0.0);
 	IMPL_SETTING_DEFAULT(float, ElectronChargedIsoVetoConeSizeEE, 0.0);
@@ -122,6 +128,12 @@ public:
 	IMPL_SETTING_DEFAULT(float, LooseElectronMvaIDCutEB1, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseElectronMvaIDCutEB2, -1.0);
 	IMPL_SETTING_DEFAULT(float, LooseElectronMvaIDCutEE, -1.0);
+	IMPL_SETTING_FLOATLIST_DEFAULT(LooseElectronMvaIDCutEB1ParamsLowPt, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(LooseElectronMvaIDCutEB2ParamsLowPt, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(LooseElectronMvaIDCutEEParamsLowPt, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(LooseElectronMvaIDCutEB1ParamsHighPt, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(LooseElectronMvaIDCutEB2ParamsHighPt, {});
+	IMPL_SETTING_FLOATLIST_DEFAULT(LooseElectronMvaIDCutEEParamsHighPt, {});
 	IMPL_SETTING(std::string, LooseElectronReco);
 	IMPL_SETTING(std::string, LooseMuonID);
 
