@@ -12,7 +12,7 @@ import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.SingleTauQuantities as stq
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
 
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
@@ -264,7 +264,7 @@ class mm_ArtusConfig(dict):
 		self["Quantities"] += r2q.fourVectorQuantities()
 		self["Quantities"] += r2q.syncQuantities()
 		self["Quantities"] += r2cpq.weightQuantities()
-		self["Quantities"] += stq.SingleTauQuantities()
+		self["Quantities"] += iq.SingleTauQuantities()
 		self["Quantities"] += ["nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",

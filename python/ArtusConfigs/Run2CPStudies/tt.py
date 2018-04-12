@@ -13,7 +13,7 @@ import os
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.SingleTauQuantities as stq
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
 
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
@@ -215,7 +215,7 @@ class tt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.melaQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
-			self["Quantities"] += stq.SingleTauQuantities() #TODO "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
+			self["Quantities"] += iq.SingleTauQuantities() #TODO "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/SingleTauQuantities.json"
 			self["Quantities"] += ["nLooseElectrons", "nLooseMuons", "nDiTauPairCandidates", "nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
 			self["Quantities"] += ["tauSpinnerPolarisation"]
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
