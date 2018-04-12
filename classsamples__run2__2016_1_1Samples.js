@@ -81,7 +81,6 @@ var classsamples__run2__2016_1_1Samples =
     [ "wgamma_stitchingweight", "classsamples__run2__2016_1_1Samples.html#a2bec54e1c660d352d409bca780ec5dad", null ],
     [ "wh", "classsamples__run2__2016_1_1Samples.html#a7386ff2ff5b7ffee5779e89e46454b0c", null ],
     [ "wj", "classsamples__run2__2016_1_1Samples.html#aaab945122929f33cbea97cb2753f29d4", null ],
-    [ "wj_ss_forQCD", "classsamples__run2__2016_1_1Samples.html#ae8542eeeb9d612dbcc0a2bbe9b0bf0a8", null ],
     [ "wj_stitchingweight", "classsamples__run2__2016_1_1Samples.html#ac3cb0201accf9793f210f4eddd4af746", null ],
     [ "zem", "classsamples__run2__2016_1_1Samples.html#a7480ec45c4875fbb6d80a5c91fba7a59", null ],
     [ "zet", "classsamples__run2__2016_1_1Samples.html#a6e0696c7aa80d7d3dd6ed4d497e7c6c8", null ],

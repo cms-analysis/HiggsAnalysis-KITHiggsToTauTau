@@ -1,10 +1,10 @@
 var searchData=
 [
+  ['weightquantities',['weightQuantities',['../namespaceRun2CPQuantities.html#a6f263e65b4898b6c0b97e345c020ff7b',1,'Run2CPQuantities']]],
   ['wgamma_5fstitchingweight',['wgamma_stitchingweight',['../classsamples__run2__2016_1_1Samples.html#a2bec54e1c660d352d409bca780ec5dad',1,'samples_run2_2016::Samples']]],
   ['wh',['wh',['../classsamples__run2__2016_1_1Samples.html#a7386ff2ff5b7ffee5779e89e46454b0c',1,'samples_run2_2016::Samples']]],
   ['wireevent',['WireEvent',['../classHttEventProvider.html#a6f1f9729b3200ed6af1bec40ddae060a',1,'HttEventProvider']]],
   ['wj',['wj',['../classsamples__run1_1_1Samples.html#a7959a3c4d2d8835d447b50d6091e77f3',1,'samples_run1.Samples.wj()'],['../classsamples__run2__2016_1_1Samples.html#aaab945122929f33cbea97cb2753f29d4',1,'samples_run2_2016.Samples.wj()'],['../classsamples__run2__embedding__selection_1_1Samples.html#ab517b739e69acbbe286acec3ba59979d',1,'samples_run2_embedding_selection.Samples.wj()'],['../classsamples__run2__etaufakerate_1_1Samples.html#ad82cbc0e520cf09561be62b433eeff0b',1,'samples_run2_etaufakerate.Samples.wj()'],['../classsamples__run2__etaufakerate__2016_1_1Samples.html#a86ac749900eaa4219c5c2e9a5ad6ff1b',1,'samples_run2_etaufakerate_2016.Samples.wj()']]],
-  ['wj_5fss_5fforqcd',['wj_ss_forQCD',['../classsamples__run2__2016_1_1Samples.html#ae8542eeeb9d612dbcc0a2bbe9b0bf0a8',1,'samples_run2_2016::Samples']]],
   ['wj_5fstitchingweight',['wj_stitchingweight',['../classsamples__run2__2015_1_1Samples.html#a3372626c434dbcae2a386c7a83eca96e',1,'samples_run2_2015.Samples.wj_stitchingweight()'],['../classsamples__run2__2016_1_1Samples.html#ac3cb0201accf9793f210f4eddd4af746',1,'samples_run2_2016.Samples.wj_stitchingweight()'],['../classsamples__run2__2017_1_1Samples.html#a2cf9f182d5d6fa4620c161dc1541cba1',1,'samples_run2_2017.Samples.wj_stitchingweight()'],['../classsamples__run2__etaufakerate__2016_1_1Samples.html#a8d3b9a687f7b9b4077c19d3a24f3a0a6',1,'samples_run2_etaufakerate_2016.Samples.wj_stitchingweight()']]],
   ['wjl',['wjl',['../classsamples__ff_1_1Samples.html#ae0e79bc48d4a2c113d212fa7997c1353',1,'samples_ff::Samples']]],
   ['wjt',['wjt',['../classsamples__ff_1_1Samples.html#a74f12906ecfcdf5975382e800fb4a3a1',1,'samples_ff::Samples']]],

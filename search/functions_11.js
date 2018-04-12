@@ -1,7 +1,6 @@
 var searchData=
 [
   ['safe_5fappend_5fmodules',['safe_append_modules',['../classembedding__plot__classes_1_1single__plot.html#a044d5c7eb755b5b509e39a17d26317aa',1,'embedding_plot_classes::single_plot']]],
-  ['samesignregion',['SameSignRegion',['../classcutstrings_1_1CutStringsDict.html#a8201807d3be5d58c003b06591f33af73',1,'cutstrings::CutStringsDict']]],
   ['sample2process',['sample2process',['../classdatacardconfigs_1_1DatacardConfigs.html#a44dd82e21564ea61cb8294502af67ed5',1,'datacardconfigs.DatacardConfigs.sample2process()'],['../namespacemakePlots__datacardsMSSMHtt.html#a8d4778067acf938cbddb113c35b7fc64',1,'makePlots_datacardsMSSMHtt.sample2process()']]],
   ['save_5fas_5fhistograms',['save_as_histograms',['../namespacegetInclusiveWeight.html#af26ecb85638f8bcbe7b9d266d8fcc455',1,'getInclusiveWeight']]],
   ['scale_5fexpectation',['scale_expectation',['../classdatacards_1_1Datacards.html#a26ace8d2c8c4b0c0436b8825b9ccc5d4',1,'datacards.Datacards.scale_expectation()'],['../classmvadatacards__base_1_1Datacards.html#ae7dd80b733e14cec5301b45092921240',1,'mvadatacards_base.Datacards.scale_expectation()']]],
@@ -23,7 +22,9 @@ var searchData=
   ['shiftresponsemet',['ShiftResponseMet',['../classMEtSys.html#ac0f73d0c4b0f762f3326e389e30380b7',1,'MEtSys']]],
   ['simpleeletaufakerateweightproducer',['SimpleEleTauFakeRateWeightProducer',['../classSimpleEleTauFakeRateWeightProducer.html#acba890354b0cef94070c41431d311841',1,'SimpleEleTauFakeRateWeightProducer::SimpleEleTauFakeRateWeightProducer()'],['../classSimpleEleTauFakeRateWeightProducer.html#a7e823f4f9e2d9b660b162f0b1fbdd6b8',1,'SimpleEleTauFakeRateWeightProducer::SimpleEleTauFakeRateWeightProducer(std::vector&lt; float &gt; &amp;(setting_type::*GetSimpleEleTauFakeRateWeightVLoose)(void) const, std::vector&lt; float &gt; &amp;(setting_type::*GetSimpleEleTauFakeRateWeightTight)(void) const)']]],
   ['simplemutaufakerateweightproducer',['SimpleMuTauFakeRateWeightProducer',['../classSimpleMuTauFakeRateWeightProducer.html#ae3ec7f5119239f3b455485c93c66c094',1,'SimpleMuTauFakeRateWeightProducer::SimpleMuTauFakeRateWeightProducer()'],['../classSimpleMuTauFakeRateWeightProducer.html#ab156e0e55bda16af0018394f2b3cd774',1,'SimpleMuTauFakeRateWeightProducer::SimpleMuTauFakeRateWeightProducer(std::vector&lt; float &gt; &amp;(setting_type::*GetSimpleMuTauFakeRateWeightLoose)(void) const, std::vector&lt; float &gt; &amp;(setting_type::*GetSimpleMuTauFakeRateWeightTight)(void) const)']]],
+  ['singletauquantities',['SingleTauQuantities',['../namespaceSingleTauQuantities.html#acbbb713a79df276b2988e2faaab525eb',1,'SingleTauQuantities']]],
   ['soversqrtsplusb',['SoverSqrtSplusB',['../classcutOptimizer_1_1CutOptimizer.html#ac10bfbfc3937f7db8121f1509f8903ec',1,'cutOptimizer::CutOptimizer']]],
+  ['splitjecuncertaintyquantities',['splitJecUncertaintyQuantities',['../namespaceRun2Quantities.html#a67c661124d95aacca72699f945d1a26e',1,'Run2Quantities']]],
   ['static_5fget_5fexpression',['static_get_expression',['../classexpressions_1_1ExpressionsDict.html#a04521640a822051e05c245598454849b',1,'expressions::ExpressionsDict']]],
   ['submission',['submission',['../namespacesubmitCrabSvfitJobs.html#a55e931ca155e07f029e583a88b5cd969',1,'submitCrabSvfitJobs']]],
   ['submit',['submit',['../namespacesubmitCrabSvfitJobs.html#ab301153dbf300b9cc987f73f139223c2',1,'submitCrabSvfitJobs']]],
@@ -37,5 +38,7 @@ var searchData=
   ['svfitm91producer',['SvfitM91Producer',['../classSvfitM91Producer.html#a9b50dbf740c3ad74353b77be5ea68631',1,'SvfitM91Producer']]],
   ['svfitproducer',['SvfitProducer',['../classSvfitProducer.html#a0108367be394f71554acc5613aecd3d1',1,'SvfitProducer']]],
   ['svfitresults',['SvfitResults',['../classSvfitResults.html#aacb68d5010cb4ca046f01d846c074fe7',1,'SvfitResults::SvfitResults()'],['../classSvfitResults.html#a8331554fc6ab67e2a2856c61f8b2286a',1,'SvfitResults::SvfitResults(double fittedTransverseMass, RMFLV const &amp;fittedHiggsLV, float fittedTau1ERatio, RMFLV const &amp;fittedTau1LV, float fittedTau2ERatio, RMFLV const &amp;fittedTau2LV)'],['../classSvfitResults.html#aaba068409d3add0da88e9ec02124e4cc',1,'SvfitResults::SvfitResults(ClassicSVfit const &amp;svfitAlgorithm)']]],
-  ['svfittools',['SvfitTools',['../classSvfitTools.html#a3ee4e5c67da74ca1da44be0be5e23105',1,'SvfitTools']]]
+  ['svfitsyncquantities',['svfitSyncQuantities',['../namespaceRun2Quantities.html#ab1f8dd6b52132d4af6b200b199af8275',1,'Run2Quantities']]],
+  ['svfittools',['SvfitTools',['../classSvfitTools.html#a3ee4e5c67da74ca1da44be0be5e23105',1,'SvfitTools']]],
+  ['syncquantities',['syncQuantities',['../namespaceRun2Quantities.html#aa3c2a0c383a8aaab81ad7a4a598c4d77',1,'Run2Quantities']]]
 ];
