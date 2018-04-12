@@ -166,6 +166,7 @@ var hierarchy =
         [ "lfvdatacards.LFVDatacards", "classlfvdatacards_1_1LFVDatacards.html", null ],
         [ "lfvzltdatacards.LFVZltDatacards", "classlfvzltdatacards_1_1LFVZltDatacards.html", null ],
         [ "lfvzltdatacards.LFVZltDatacardsForSync", "classlfvzltdatacards_1_1LFVZltDatacardsForSync.html", null ],
+        [ "qcdfactorsdatacards.QcdFactorsDatacards", "classqcdfactorsdatacards_1_1QcdFactorsDatacards.html", null ],
         [ "smhttdatacards.SMHttDatacards", "classsmhttdatacards_1_1SMHttDatacards.html", [
           [ "initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards", "classinitialstatecpstudiesdatacards_1_1InitialStateCPStudiesDatacards.html", null ]
         ] ],
@@ -443,6 +444,7 @@ var hierarchy =
     ] ],
     [ "PhysicsModel", null, [
       [ "cpmodels.CPMixing", "classcpmodels_1_1CPMixing.html", null ],
+      [ "cpmodels_old.CPMixing", "classcpmodels__old_1_1CPMixing.html", null ],
       [ "higgsmodels.TwoHypotesisHiggs", "classhiggsmodels_1_1TwoHypotesisHiggs.html", null ],
       [ "zttmodels.ZttEff", "classzttmodels_1_1ZttEff.html", null ],
       [ "zttmodels.ZttEffAndXsec", "classzttmodels_1_1ZttEffAndXsec.html", null ]

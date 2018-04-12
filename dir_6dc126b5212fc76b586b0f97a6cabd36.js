@@ -41,6 +41,7 @@ var dir_6dc126b5212fc76b586b0f97a6cabd36 =
     [ "makePlots_datacardsLFVZlt.py", "makePlots__datacardsLFVZlt_8py.html", "makePlots__datacardsLFVZlt_8py" ],
     [ "makePlots_datacardsMSSMHtt.py", "makePlots__datacardsMSSMHtt_8py.html", "makePlots__datacardsMSSMHtt_8py" ],
     [ "makePlots_datacardsPostfitPlots.py", "makePlots__datacardsPostfitPlots_8py.html", "makePlots__datacardsPostfitPlots_8py" ],
+    [ "makePlots_datacardsQCDfactors.py", "makePlots__datacardsQCDfactors_8py.html", "makePlots__datacardsQCDfactors_8py" ],
     [ "makePlots_datacardsSMHtt.py", "makePlots__datacardsSMHtt_8py.html", "makePlots__datacardsSMHtt_8py" ],
     [ "makePlots_datacardsSMHtt_limitProjection.py", "makePlots__datacardsSMHtt__limitProjection_8py.html", "makePlots__datacardsSMHtt__limitProjection_8py" ],
     [ "makePlots_datacardsSMHtt_nDim.py", "makePlots__datacardsSMHtt__nDim_8py.html", "makePlots__datacardsSMHtt__nDim_8py" ],
