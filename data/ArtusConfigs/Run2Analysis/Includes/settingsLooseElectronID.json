@@ -1,10 +1,10 @@
 {
 	"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",
-		"https://rembserj.web.cern.ch/rembserj/notes/Electron_MVA_ID_2017_documentation/",
-		"wp 90 is what we call loose electron. In 2016 probably used uniso trainings so for now we use the same of 2017.",
-		"to add the sypport of both iso and uniso one nedd to switch LooseElectronIDName to accespt [<str>] and do the names check later on",
-		"A, tau, c"
+		"#https://rembserj.web.cern.ch/rembserj/notes/Electron_MVA_ID_2017_documentation/",
+		"#wp 90 is what we call loose electron. In 2016 probably used uniso trainings so for now we use the same of 2017.",
+		"#to add the sypport of both iso and uniso one nedd to switch LooseElectronIDName to accespt [<str>] and do the names check later on",
+		"#A, tau, c"
 	],
 	
 	"LooseElectronReco" : "mvanontrig",

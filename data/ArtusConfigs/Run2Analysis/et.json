@@ -30,6 +30,10 @@
 				],
 				"Embedding(2016|MC)" : [
 					""
+				],
+				"Run2017|Summer17|Fall17" : [
+					"HLT_Ele35_WPTight_Gsf",
+					"HLT_Ele32_WPTight_Gsf"
 				]
 			}
 		},
@@ -48,6 +52,9 @@
 				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"24.0"
+				],
+				"Run2017|Summer17|Fall17" : [
+					"36.0"
 				]
 			}
 		},
@@ -74,6 +81,10 @@
 				],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_Ele23_WPLoose_Gsf_v:24.0"
+				],
+				"(Run2017|Summer17|Fall17)" : [
+					"HLT_Ele35_WPTight_Gsf_v:36.0",
+					"HLT_Ele32_WPTight_Gsf_v:36.0"
 				]
 			}
 		},
@@ -84,6 +95,10 @@
 				],
 				"Run2016|Spring16|Summer16|Embedding(2016|MC)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v"
+				],
+				"Run2017|Summer17|Fall17" : [
+					"HLT_Ele35_WPTight_Gsf_v",
+					"HLT_Ele32_WPTight_Gsf_v"
 				]
 			}
 		},
@@ -111,33 +126,40 @@
 		"TriggerEfficiencyData" : {
 			"nick": {
 				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele25WPTight_eff.root" ],
-				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root" ]
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root" ],
+				"Run2017|Summer17|Fall17" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele32orEle35.root"]
 			}
 		},
 		"TriggerEfficiencyMc" : {
 			"nick" : {
 				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele25WPTight_eff.root" ],
-				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23_fall15.root"]
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23_fall15.root"],
+				"Run2017|Summer17|Fall17" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_Ele32orEle35.root"]
 			}
 		},
 		"TriggerEfficiencyMode" : "multiply_weights",
 		"IdentificationEfficiencyData" : {
 			"nick" : {
 				"default": ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"],
-				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"]
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"],
+				"Run2017|Summer17|Fall17" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
 			}
 		},
 		"IdentificationEfficiencyMc" : {
 			"nick" : {
 				"default": ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"],
-				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"]
+				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"],
+				"Run2017|Summer17|Fall17" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MCFall2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
 			}
 
 		},
 		"IdentificationEfficiencyMode" : "multiply_weights",
-		"EleTauFakeRateWeightFile" : [
-			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
-		],
+		"EleTauFakeRateWeightFile" :  {
+			"nick": {
+				"default" : ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"],
+				"Run2017|Summer17|Fall17" : ""
+				}
+		},
 		"TauTauRestFrameReco" : "collinear_approximation",
 		"ElectronTriggerFilterNames" : {
 			"nick" : {
@@ -146,6 +168,10 @@
 				],
 				"Run2016|Spring16|Summer16|Embedding(2016|MC)" : [
 					"HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"
+				],
+				"Run2017|Summer17|Fall17" : [
+					"HLT_Ele35_WPTight_Gsf_v:hltEle35noerWPTightGsfTrackIsoFilter",
+					"HLT_Ele32_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
 				]
 			}
 		},
