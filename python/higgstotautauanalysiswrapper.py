@@ -176,79 +176,85 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		"""
 
 		nickname = self.determineNickname(self._args.nick)
-		
+		if self._args.systematics != self._parser.get_default("systematics"):
+			self._args.systematics = self._args.systematics[1:]
+
+		if self._args.channels != self._parser.get_default("channels"):
+			self._args.channels = self._args.channels[1:]
+		print self._args.channels
+		print self._args.systematics
 		if nickname != "auto":
 			if self._args.channels and len(self._args.channels) > 0:
 
 				pipeline_config = {} #TODO add systematic option, extra loop or in pipelines?
 				syst_python_config = systematics.Systematics_Config()
-
-				for selected_channel in self._args.channels:
-					if selected_channel == "mt":
-						channel_python_config = mt.mt_ArtusConfig() 
-						channel_python_config.build_config(nickname)
+				for length_channels in range(len(self._args.channels)):
+					for selected_channel in self._args.channels[length_channels]:
+						if selected_channel == "mt":
+							channel_python_config = mt.mt_ArtusConfig() 
+							channel_python_config.build_config(nickname)
 					
-					elif selected_channel == "et":
-						channel_python_config = et.et_ArtusConfig() 
-						channel_python_config.build_config(nickname)
+						elif selected_channel == "et":
+							channel_python_config = et.et_ArtusConfig() 
+							channel_python_config.build_config(nickname)
 					
-					elif selected_channel == "em":
-						channel_python_config = em.em_ArtusConfig() #TODO change to the em config but for now let it be
-						channel_python_config.build_config(nickname)
+						elif selected_channel == "em":
+							channel_python_config = em.em_ArtusConfig() #TODO change to the em config but for now let it be
+							channel_python_config.build_config(nickname)
 
-					elif selected_channel == "tt":
-						channel_python_config = tt.tt_ArtusConfig() 
-						channel_python_config.build_config(nickname)
+						elif selected_channel == "tt":
+							channel_python_config = tt.tt_ArtusConfig() 
+							channel_python_config.build_config(nickname)
 
-					elif selected_channel == "mm":
-						channel_python_config = mm.mm_ArtusConfig() #TODO change to the mm config but for now let it be
-						channel_python_config.build_config(nickname)
+						elif selected_channel == "mm":
+							channel_python_config = mm.mm_ArtusConfig() #TODO change to the mm config but for now let it be
+							channel_python_config.build_config(nickname)
 
-					elif selected_channel == "gen":	
-						channel_python_config = gen.gen_ArtusConfig()
-						channel_python_config.build_config(nickname)
-					else:	
-						log.error("COULD NOT FIND CHANNEL")
+						elif selected_channel == "gen":	
+							channel_python_config = gen.gen_ArtusConfig()
+							channel_python_config.build_config(nickname)
+						else:	
+							log.error("COULD NOT FIND CHANNEL")
 
-					channel_python_config["Quantities"] = sorted(channel_python_config["Quantities"], key=str.lower)
-					#Ideas:
-					#TODO add function that adds list of quantities to the pipeline_python_config
-					"""
-					if len(args.add_quantities)>0:
-						pipeline_python_config["Quantities"]+= args.add_quantities
-					if len(args.add_processors)>0:
-						pipeline_python_config["Processors"]+= args.add_processors
-					#TODO: add function that lets you run artus for variables which are not in allready processed output files such that you can merge them later into the old outputs
-					if len(args.new_quantities)>0:
-						pipeline_python_config["Quantities"] = args.new_quantities
-					if len(args.new_processors)>0:
-						pipeline_python_config["Processors"] = args.add_processors
+						channel_python_config["Quantities"] = sorted(channel_python_config["Quantities"], key=str.lower)
+						#Ideas:
+						#TODO add function that adds list of quantities to the pipeline_python_config
+						"""
+						if len(args.add_quantities)>0:
+							pipeline_python_config["Quantities"]+= args.add_quantities
+						if len(args.add_processors)>0:
+							pipeline_python_config["Processors"]+= args.add_processors
+						#TODO: add function that lets you run artus for variables which are not in allready processed output files such that you can merge them later into the old outputs
+						if len(args.new_quantities)>0:
+							pipeline_python_config["Quantities"] = args.new_quantities
+						if len(args.new_processors)>0:
+							pipeline_python_config["Processors"] = args.add_processors
 					
-					"""
-					if selected_channel != "gen":	
-						for systematic_shift in self._args.systematics:
+						"""
+						if selected_channel != "gen":	
+							for systematic_shift in self._args.systematics[length_channels]:
 
-							if systematic_shift != "nominal":
-								for shiftdirection in ["Up", "Down"]:
-									systematic_name = systematic_shift+shiftdirection
+								if systematic_shift != "nominal":
+									for shiftdirection in ["Up", "Down"]:
+										systematic_name = systematic_shift+shiftdirection
+										syst_python_config.clear_config()
+										syst_python_config.build_systematic_config(nickname, systematic_name)
+										pipeline_config[selected_channel+"_"+systematic_name] = copy.deepcopy(syst_python_config)
+										pipeline_config[selected_channel+"_"+systematic_name].update(copy.deepcopy(channel_python_config))
+
+
+								elif systematic_shift == "nominal":
 									syst_python_config.clear_config()
-									syst_python_config.build_systematic_config(nickname, systematic_name)
-									pipeline_config[selected_channel+"_"+systematic_name] = copy.deepcopy(syst_python_config)
-									pipeline_config[selected_channel+"_"+systematic_name].update(copy.deepcopy(channel_python_config))
-
-
-							elif systematic_shift == "nominal":
-								syst_python_config.clear_config()
-								pipeline_config[selected_channel+"_"+systematic_shift] = copy.deepcopy(syst_python_config)
-								pipeline_config[selected_channel+"_"+systematic_shift].update(channel_python_config)
+									pipeline_config[selected_channel+"_"+systematic_shift] = copy.deepcopy(syst_python_config)
+									pipeline_config[selected_channel+"_"+systematic_shift].update(channel_python_config)
 
 	
-					elif selected_channel == "gen":
-						pipeline_config["gen"] = channel_python_config
+						elif selected_channel == "gen":
+							pipeline_config["gen"] = channel_python_config
 				
 
-			self._config["Pipelines"] = pipeline_config	
-			
+				self._config["Pipelines"] = pipeline_config	
+				print self._config["Pipelines"].keys()
 
 			# treat pipeline base configs
 
