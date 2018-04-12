@@ -44,7 +44,7 @@ var NAVTREEINDEX6 =
 "classLFVJetCorrection2016Producer.html#a0fa1dc6f22839ffc2c4a07811c62ad3f":[1,0,263,1],
 "classLFVJetCorrection2016Producer.html#a4850885d27730871e35188d870cd6d2a":[1,0,263,0],
 "classLFVJetCorrection2016Producer.html#a8d351cacaaa7c5acae07c1e503986d39":[1,0,263,2],
-"classLepFlaVio_1_1Analysismodule.html":[1,0,60,0],
+"classLepFlaVio_1_1Analysismodule.html":[1,0,61,0],
 "classLepTauScaleFactorWeightProducer.html":[1,0,262],
 "classLepTauScaleFactorWeightProducer.html#a026aa4adc7d6d3368561d3fa1293497d":[1,0,262,0],
 "classLepTauScaleFactorWeightProducer.html#a576db6816f86e20dba770796d0b24cff":[1,0,262,2],

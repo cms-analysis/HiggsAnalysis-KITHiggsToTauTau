@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"MetFilter_8h_source.html":[2,0,0,1,7],
+"MetSelectors_8cc.html":[2,0,3,2,31],
+"MetSelectors_8h.html":[2,0,0,2,31],
 "MetSelectors_8h_source.html":[2,0,0,2,31],
 "MetprojectionProducer_8cc.html":[2,0,3,2,30],
 "MetprojectionProducer_8h.html":[2,0,0,2,30],
@@ -68,9 +71,6 @@ var NAVTREEINDEX1 =
 "SimpleMuTauFakeRateWeightProducer_8cc.html":[2,0,3,2,42],
 "SimpleMuTauFakeRateWeightProducer_8h.html":[2,0,0,2,42],
 "SimpleMuTauFakeRateWeightProducer_8h_source.html":[2,0,0,2,42],
-"SingleTauQuantities_8py.html":[2,0,1,0,0,4],
-"SingleTauQuantities_8py.html#a8cd85eb38d7493f907912c7be6aebec3":[2,0,1,0,0,4,1],
-"SingleTauQuantities_8py.html#acbbb713a79df276b2988e2faaab525eb":[2,0,1,0,0,4,0],
 "SvfitCacheConsumer_8cc.html":[2,0,3,0,5],
 "SvfitCacheConsumer_8h.html":[2,0,0,0,5],
 "SvfitCacheConsumer_8h_source.html":[2,0,0,0,5],
