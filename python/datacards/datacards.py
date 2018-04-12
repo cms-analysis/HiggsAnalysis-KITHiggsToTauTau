@@ -739,16 +739,10 @@ class Datacards(object):
 					plot_configs.append(config)
 
 		# create result plots HarryPlotter
-<<<<<<< HEAD
-		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)		
-	
-	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args, **kwargs):
-=======
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
 	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args):
 
->>>>>>> origin/master
 		tmp_args = " ".join(args)
 		for key, value in kwargs.items():
 			higgs_mass = value if "higgs_mass" in key else "0"	
