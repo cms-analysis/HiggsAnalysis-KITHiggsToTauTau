@@ -1,5 +1,6 @@
 var NAVTREEINDEX17 =
 {
+"makePlots__datacardsQCDfactors_8py.html#ac45873c0b5bebfdd20ca0415d4977825":[2,0,2,41,72],
 "makePlots__datacardsQCDfactors_8py.html#ac49d1dc65fec14940a10cb5f7d79d09e":[2,0,2,41,19],
 "makePlots__datacardsQCDfactors_8py.html#ac4c19cbea11170f7a975a277400bdaaa":[2,0,2,41,2],
 "makePlots__datacardsQCDfactors_8py.html#accf6419eb56b974cb6a73fe492f0c120":[2,0,2,41,98],
@@ -240,14 +241,13 @@ var NAVTREEINDEX17 =
 "makePlots__datacardsSMHtt__nDim_8py.html#af9473617d76aed8d4bf2c273687b2bb3":[2,0,2,44,51],
 "makePlots__datacardsTauEsStudies_8py.html":[2,0,2,45],
 "makePlots__datacardsTauEsStudies_8py.html#a00080f98a94312e6f2d6b4e14c31d002":[2,0,2,45,23],
-"makePlots__datacardsTauEsStudies_8py.html#a05424c44a084d2d8749a397aa589bd00":[2,0,2,45,6],
+"makePlots__datacardsTauEsStudies_8py.html#a05424c44a084d2d8749a397aa589bd00":[2,0,2,45,5],
 "makePlots__datacardsTauEsStudies_8py.html#a06ea381cbcd56ba67ed09fd4d700aec6":[2,0,2,45,83],
 "makePlots__datacardsTauEsStudies_8py.html#a0c1aa2ce01d933e6b75d63124a04ecfa":[2,0,2,45,12],
-"makePlots__datacardsTauEsStudies_8py.html#a0c9bfb4e58dbc80abfaf09ffba0c7747":[2,0,2,45,129],
-"makePlots__datacardsTauEsStudies_8py.html#a0e14549d905299f3e56984a87dc5fdc1":[2,0,2,45,99],
-"makePlots__datacardsTauEsStudies_8py.html#a134b2cd9e67e590db69f39cd8c08e41e":[2,0,2,45,114],
-"makePlots__datacardsTauEsStudies_8py.html#a13da422b67ca1435458d06922ac1683a":[2,0,2,45,98],
-"makePlots__datacardsTauEsStudies_8py.html#a1552b430d8d2404f46156b254410dc03":[2,0,2,45,147],
-"makePlots__datacardsTauEsStudies_8py.html#a15c1931c3ecc100de8c5d1b3145c4039":[2,0,2,45,87],
-"makePlots__datacardsTauEsStudies_8py.html#a188ffceca50b9b82aa5057eaf44a074b":[2,0,2,45,9]
+"makePlots__datacardsTauEsStudies_8py.html#a0c9bfb4e58dbc80abfaf09ffba0c7747":[2,0,2,45,128],
+"makePlots__datacardsTauEsStudies_8py.html#a0e14549d905299f3e56984a87dc5fdc1":[2,0,2,45,98],
+"makePlots__datacardsTauEsStudies_8py.html#a134b2cd9e67e590db69f39cd8c08e41e":[2,0,2,45,113],
+"makePlots__datacardsTauEsStudies_8py.html#a13da422b67ca1435458d06922ac1683a":[2,0,2,45,97],
+"makePlots__datacardsTauEsStudies_8py.html#a1552b430d8d2404f46156b254410dc03":[2,0,2,45,146],
+"makePlots__datacardsTauEsStudies_8py.html#a15c1931c3ecc100de8c5d1b3145c4039":[2,0,2,45,87]
 };

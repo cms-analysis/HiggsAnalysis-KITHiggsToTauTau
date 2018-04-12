@@ -1,5 +1,6 @@
 var NAVTREEINDEX11 =
 {
+"classtauesstudies_1_1TauEsStudies.html#abe6baaa9dee12ce678e54103c7756df1":[1,0,150,0,3],
 "classtauesstudies_1_1TauEsStudies.html#af87be1e6adb341f520b1b7cffc1e5592":[1,0,150,0,0],
 "classtaupogdatacards_1_1TauEsDatacards.html":[1,0,151,0],
 "classtaupogdatacards_1_1TauEsDatacards.html#ab1783f6e01cc7800343189b438548442":[1,0,151,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX11 =
 "cphypotheses_8py.html#a528c93b8813b1639c969229acc701596":[2,0,1,3,2,0,0,1],
 "cpmodels_8py.html":[2,0,1,0,0],
 "cpmodels_8py.html#a2306baf769ae1859cba9edece34af334":[2,0,1,0,0,8],
-"cpmodels_8py.html#a238c5dabf2072525bb91d4b8ec96415f":[2,0,1,0,0,1],
-"cpmodels_8py.html#a28cd329988c91c277f65dbf52fa9491e":[2,0,1,0,0,7]
+"cpmodels_8py.html#a238c5dabf2072525bb91d4b8ec96415f":[2,0,1,0,0,1]
 };
