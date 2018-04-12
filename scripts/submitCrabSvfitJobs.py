@@ -202,3 +202,4 @@ if __name__ == "__main__":
 	if args.smaller_input_sandbox:
 		restore_environment(tmp_path, symlinks_map)
 
+

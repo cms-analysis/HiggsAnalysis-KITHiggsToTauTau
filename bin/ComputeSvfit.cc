@@ -89,7 +89,6 @@ int main(int argc, const char *argv[])
 		inputTree->GetEntry(entry);
 		svfitEventKey.diTauMassConstraint = diTauMassConstraint;
 		svfitEventKey.kappa = kappa;
-		
 		svfitResults = svfitTools.GetResults(svfitEventKey, svfitInputs, svfitCacheMissBehaviour);
 		outputTree->Fill();
 	}

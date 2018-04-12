@@ -798,6 +798,7 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
+
 		branching_ratio = "9.8e-6" #"(0.03363)*0.66*0.17*2"
 		jet_integral_weight = "1/1.06"
 		files_weight = "1/10.0"
@@ -830,6 +831,7 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
+
 		branching_ratio = "7.3e-7" # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"
 		jet_integral_weight = "1/1.03"
 		files_weight = "1/10.0"
@@ -1483,8 +1485,8 @@ class Samples(samples.SamplesBase):
 				wj_highmt_shape_cut_type = wj_highmt_shape_cut_type + "relaxedETauMuTauWJ"
 				wj_shape_cut_type = wj_shape_cut_type + "relaxedETauMuTauWJ"
 			elif category != None:
-				wj_highmt_shape_cut_type = wj_highmt_shape_cut_type + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")
-				wj_shape_cut_type = wj_shape_cut_type + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")
+				wj_highmt_shape_cut_type = wj_highmt_shape_cut_type + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
+				wj_shape_cut_type = wj_shape_cut_type + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
 			
 			# wj shape and highmt to lowmt extrapolation
 			wj_shape_weight = weight   # replace only category part
@@ -2483,7 +2485,7 @@ class Samples(samples.SamplesBase):
 					if kwargs.get("useRelaxedIsolationForQCD", False):
 						qcd_shape_cut = qcd_shape_cut + "relaxedETauMuTauWJ"
 					elif category != None:
-						qcd_shape_cut = qcd_shape_cut + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")
+						qcd_shape_cut = qcd_shape_cut + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
 					
 					qcd_shape_weight = weight
 					if "newKIT" in estimationMethod:
@@ -2957,7 +2959,7 @@ class Samples(samples.SamplesBase):
 							if estimation_type == "shape" and ("ZeroJet2D" in category or "Boosted2D" in category):
 								qcd_weight += "*(iso_1<0.3)*(iso_2>0.1)*(iso_2<0.3)"
 								qcd_exclude_cuts += ["iso_1", "iso_2"]
-							if estimation_type == "shape" and "Vbf2D" in category:
+							if estimation_type == "shape" and ("Vbf2D" in category or "dijet" in category):
 								qcd_weight += "*(iso_1<0.5)*(iso_2>0.2)*(iso_2<0.5)"
 								qcd_exclude_cuts += ["iso_1", "iso_2"]
 							if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
@@ -3521,8 +3523,7 @@ class Samples(samples.SamplesBase):
 
 	def files_ggh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
-		
-		if cp is None or "cpeven":
+		if cp is None or cp == "cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 		
@@ -3664,7 +3665,7 @@ class Samples(samples.SamplesBase):
 	def files_qqh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
 		
-		if cp is None or "cpeven":
+		if cp is None or  cp =="cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "VBFHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 		

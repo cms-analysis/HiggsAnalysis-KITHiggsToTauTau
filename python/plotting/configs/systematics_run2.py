@@ -111,11 +111,35 @@ class SystematicsFactory(dict):
 		]
 		
 		for jecUncert in jecUncertNames:
-			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic
+			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic if jecUncert != "Total" else JecUncSystematic 
 		
 		# these uncertainties currently need to be implemented in your datacards script
+		self["WSFUncert_mt_0jet_13TeV"] = Nominal
+		self["WSFUncert_et_0jet_13TeV"] = Nominal
+		self["WSFUncert_mt_boosted_13TeV"] = Nominal
+		self["WSFUncert_et_boosted_13TeV"] = Nominal
+		self["WSFUncert_mt_vbf_13TeV"] = Nominal
+		self["WSFUncert_et_vbf_13TeV"] = Nominal
+		self["WSFUncert_mt_dijet_boosted_13TeV"] = Nominal
+		self["WSFUncert_mt_dijet2D_boosted_13TeV"] = Nominal
+		self["WSFUncert_mt_dijet_lowboost_13TeV"] = Nominal
+		self["WSFUncert_et_dijet_boosted_13TeV"] = Nominal	
+		self["WSFUncert_et_dijet2D_boosted_13TeV"] = Nominal	
+		self["WSFUncert_et_dijet_lowboost_13TeV"] = Nominal	
+		self["WSFUncert_et_dijet_lowboost_13TeV"] = Nominal	
+		self["WSFUncert_mt_dijet_lowM_13TeV"] = Nominal
+		self["WSFUncert_et_dijet_lowM_13TeV"] = Nominal	
+		self["WSFUncert_mt_dijet_highM_13TeV"] = Nominal
+		self["WSFUncert_et_dijet_highM_13TeV"] = Nominal	
+		self["WSFUncert_mt_dijet_lowMjj_13TeV"] = Nominal
+		self["WSFUncert_et_dijet_lowMjj_13TeV"] = Nominal								
+		self["WSFUncert_lt_13TeV"] = Nominal
 		self["CMS_WSFUncert_lt_13TeV"] = Nominal
 		self["CMS_htt_zmumuShape_VBF_13TeV"] = Nominal
+		
+		# TODO: Where are these systematics to be implemented?
+		self["CMS_ggH_STXSVBF2j"] = Nominal
+		self["CMS_ggH_STXSmig12"] = Nominal	
 	
 	def get(self, key, default_value=None):
 		value = super(SystematicsFactory, self).get(key, default_value)
@@ -267,18 +291,13 @@ class JecUncSplitSystematic(SystematicShiftBase):
 	
 	def get_config(self, shift=0.0):
 		plot_config = super(JecUncSplitSystematic, self).get_config(shift=shift)
-		
-		for index, folder in enumerate(plot_config.get("folders", [])):
-			if not "Run201" in plot_config["files"][index]:
-				if shift > 0.0:
-					plot_config["folders"][index] = folder.replace("nominal", "jecUncUp")
-				elif shift < 0.0:
-					plot_config["folders"][index] = folder.replace("nominal", "jecUncDown")
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if not "Run201" in plot_config["files"][index]:
-				if shift > 0.0 or shift < 0.0:
-					plot_config["weights"][index] = weight.replace("njetspt30", "njetspt30_"+self.jecUncertainty).replace("mjj", "mjj_"+self.jecUncertainty).replace("jdeta", "jdeta_"+self.jecUncertainty)
+
+		for key in ["x_expressions", "y_expressions", "z_expressions", "weights"]:
+			for index, value in enumerate(plot_config.get(key, [])):
+				if not "Run201" in plot_config["files"][index]:
+					if shift > 0.0 or shift < 0.0:
+						shift_string = "Up" if shift > 0.0 else "Down"
+						plot_config[key][index] = value.replace("njetspt30", "njetspt30_"+self.jecUncertainty+shift_string).replace("mjj", "mjj_"+self.jecUncertainty+shift_string).replace("jdeta", "jdeta_"+self.jecUncertainty+shift_string).replace("jdphi", "jdphi_"+self.jecUncertainty+shift_string)
 		
 		return plot_config
 

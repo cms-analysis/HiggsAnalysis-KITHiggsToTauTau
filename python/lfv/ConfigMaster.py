@@ -281,4 +281,3 @@ class ConfigMaster(object):
 			
 	def return_config(self):
 		return self._config
-

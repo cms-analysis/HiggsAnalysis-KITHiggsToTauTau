@@ -1,7 +1,7 @@
-
 # -*- coding: utf-8 -*-
 
 import logging
+import numpy
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
@@ -20,6 +20,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["svfitMass"] = "50,0,250"
 		self.binnings_dict["zmumu_selection_for_embedding_ZMass"] = "19,50,240"
 		self.binnings_dict["zmumu_selection_for_embedding_integral"] = "1,0,1"
+		auto_rebin_binning = " ".join([str(float(f)) for f in range(0,251,10)])
 		
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
 			self.binnings_dict[channel+"_integral"] = "1,0.0,1.0"
@@ -129,10 +130,33 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_phiStarCP"] = "20,0.0,6.28"
 		
 		for ch in ["em_", "et_", "mt_", "tt_"]:
-			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"] = "4,0.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "2,-1.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "4,0.0,1.0"
-			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "2,-1.0,1.0"
+			self.binnings_dict[ch+"melaProbCPEvenGGH"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPOddGGH"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPMixGGH"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPEvenVBF"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPOddVBF"] = "20,0,1"
+			self.binnings_dict[ch+"melaProbCPMixVBF"] = "20,0,1"
+			
+			self.binnings_dict[ch+"melaM125ProbCPEvenGGH"] = self.binnings_dict[ch+"melaProbCPEvenGGH"]
+			self.binnings_dict[ch+"melaM125ProbCPOddGGH"] = self.binnings_dict[ch+"melaProbCPOddGGH"]
+			self.binnings_dict[ch+"melaM125ProbCPMixGGH"] = self.binnings_dict[ch+"melaProbCPMixGGH"]
+			self.binnings_dict[ch+"melaM125ProbCPEvenVBF"] = self.binnings_dict[ch+"melaProbCPEvenVBF"]
+			self.binnings_dict[ch+"melaM125ProbCPOddVBF"] = self.binnings_dict[ch+"melaProbCPOddVBF"]
+			self.binnings_dict[ch+"melaM125ProbCPMixVBF"] = self.binnings_dict[ch+"melaProbCPMixVBF"]
+			
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"] = "20,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPGGH"] = "20,-1.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"] = "20,0.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorDCPVBF"] = "20,-1.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"] = "8,-1.0,1.0"
+			self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"] = "8,-1.0,1.0"
+			
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusGGH"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH"]
+			self.binnings_dict[ch+"melaM125DiscriminatorDCPGGH"] = self.binnings_dict[ch+"melaDiscriminatorDCPGGH"]
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusVBF"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF"]
+			self.binnings_dict[ch+"melaM125DiscriminatorDCPVBF"] = self.binnings_dict[ch+"melaDiscriminatorDCPVBF"]
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusGGH_signDCP"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"]
+			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusVBF_signDCP"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"]
 		
 		self.binnings_dict["mt_decayMode_2"] = "11,0.0,11.0"
 		self.binnings_dict["mt_eta_1"] = "30,-3,3"
@@ -474,6 +498,17 @@ class BinningsDict(binnings.BinningsDict):
 		
 		# Z->tautau polarisation binnings
 		for channel in ["mt", "et", "tt", "em"]:
+			for category in ["a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2", "oneprong", "oneprong_1", "oneprong_2", "combined_a1_a1", "combined_a1_rho", "combined_a1_oneprong", "combined_rho_rho", "combined_rho_oneprong", "combined_oneprong_oneprong"]:
+				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
+					suffix = "_{m_{Z}}" if "M91" in reco_fit else ""
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmega"+reco_fit] = "25,-1,1"
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaBar"+reco_fit] = "25,-1,1"
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaVisible"+reco_fit] = "25,-1,1"
+					for lepton_index in ["1", "2"]:
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "25,-1,1"
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "25,-1,1"
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaVisible"+reco_fit+"_"+lepton_index] = "25,-1,1"
+		
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_a1"] = self.binnings_dict[channel+"_visibleOverFullEnergy"] # TODO change to dedicated a1 variable
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry"]
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong"] = self.binnings_dict[channel+"_visibleOverFullEnergy"]
@@ -499,7 +534,111 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_high_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_vbf_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
 			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+			
+			self.binnings_dict["binningHtt13TeV_"+channel+"_ZeroJet2D_WJCR_mt_1"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_Boosted2D_WJCR_mt_1"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_2jet_inclusive_m_vis"] = " ".join([str(float(f)) for f in range(0,30,15)+range(30, 120, 10)+range(120,151,15)])
+		
+		# Binnings for the SM H->tautau analysis.		
+		#ZeroJet	
+		self.binnings_dict["binningHtt13TeV_mm_ZeroJet2D_ptvis"] = "0.0 100.0 150.0 200.0 250.0 300.0 1000.0"
+		self.binnings_dict["binningHtt13TeV_mm_0jet_ptvis"] = self.binnings_dict["binningHtt13TeV_mm_ZeroJet2D_ptvis"]
 
+		self.binnings_dict["binningHtt13TeV_mm_ZeroJet2D_m_vis"] = "70.0 110.0"
+		self.binnings_dict["binningHtt13TeV_mm_0jet_m_vis"] = self.binnings_dict["binningHtt13TeV_mm_ZeroJet2D_m_vis"]
+				
+		self.binnings_dict["binningHtt13TeV_em_ZeroJet2D_m_vis"] = "0.0 "+" ".join([str(float(f)) for f in range(50, 100, 5)+range(100,401,300)])
+		self.binnings_dict["binningHtt13TeV_em_0jet_m_vis"] = self.binnings_dict["binningHtt13TeV_em_ZeroJet2D_m_vis"]
+		self.binnings_dict["binningHtt13TeV_em_ZeroJet2D_pt_2"] = " ".join([str(float(f)) for f in range(15, 35, 10)+range(35,10001,9965)])
+		self.binnings_dict["binningHtt13TeV_em_0jet_pt_2"] = self.binnings_dict["binningHtt13TeV_em_ZeroJet2D_pt_2"]
+		
+		self.binnings_dict["binningHtt13TeV_mt_ZeroJet2D_QCDCR_m_vis"] = "40.0 80.0 120.0 160.0 200.0"
+		self.binnings_dict["binningHtt13TeV_mt_0jet_qcd_cr_m_vis"] = self.binnings_dict["binningHtt13TeV_mt_ZeroJet2D_QCDCR_m_vis"]
+		self.binnings_dict["binningHtt13TeV_mt_ZeroJet2D_m_vis"] = "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+		self.binnings_dict["binningHtt13TeV_mt_0jet_m_vis"] = self.binnings_dict["binningHtt13TeV_mt_ZeroJet2D_m_vis"]		
+		self.binnings_dict["binningHtt13TeV_mt_ZeroJet2D_decayMode_2"] = "0 1 10 11"
+		self.binnings_dict["binningHtt13TeV_mt_0jet_decayMode_2"] = self.binnings_dict["binningHtt13TeV_mt_ZeroJet2D_decayMode_2"]	
+		self.binnings_dict["binningHtt13TeV_mt_ZeroJet2D_WJCR_mt_1"] = "80.0 200.0"
+		self.binnings_dict["binningHtt13TeV_mt_wjets_0jet_cr_mt_1"] = self.binnings_dict["binningHtt13TeV_mt_ZeroJet2D_WJCR_mt_1"]			
+		
+		self.binnings_dict["binningHtt13TeV_et_ZeroJet2D_QCDCR_m_vis"] = "40.0 80.0 120.0 160.0 200.0"
+		self.binnings_dict["binningHtt13TeV_et_0jet_qcd_cr_m_vis"] = self.binnings_dict["binningHtt13TeV_et_ZeroJet2D_QCDCR_m_vis"]		
+		self.binnings_dict["binningHtt13TeV_et_ZeroJet2D_m_vis"] = "0.0 "+" ".join([str(float(f)) for f in range(60, 110, 5)+range(110,401,290)])
+		self.binnings_dict["binningHtt13TeV_et_0jet_m_vis"] = self.binnings_dict["binningHtt13TeV_et_ZeroJet2D_m_vis"]	
+		self.binnings_dict["binningHtt13TeV_et_ZeroJet2D_decayMode_2"] = "0 1 10 11"
+		self.binnings_dict["binningHtt13TeV_et_0jet_decayMode_2"] = self.binnings_dict["binningHtt13TeV_et_ZeroJet2D_decayMode_2"]	
+		self.binnings_dict["binningHtt13TeV_et_ZeroJet2D_WJCR_mt_1"] = "80.0 200.0"
+		self.binnings_dict["binningHtt13TeV_et_wjets_0jet_cr_mt_1"] = self.binnings_dict["binningHtt13TeV_et_ZeroJet2D_WJCR_mt_1"]
+				
+		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_QCDCR_m_sv"] = "0.0 300.0"
+		self.binnings_dict["binningHtt13TeV_tt_antiiso_0jet_cr_m_sv"] = self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_QCDCR_m_sv"]
+		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_m_sv"] = "0.0 "+" ".join([str(float(f)) for f in range(50,301,10)])
+		self.binnings_dict["binningHtt13TeV_tt_0jet_m_sv"] = self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_m_sv"]
+		
+		#Boosted (1jet) category
+		self.binnings_dict["binningHtt13TeV_ttbar_TTbarCR_0"] = "1,0,1000"
+		self.binnings_dict["binningHtt13TeV_ttbar_TTbarCR_m_vis"] = "0.0 10000.0"
+	
+		self.binnings_dict["binningHtt13TeV_mm_Boosted2D_ptvis"] = "0.0 100.0 150.0 200.0 250.0 300.0 1000.0" 	
+		self.binnings_dict["binningHtt13TeV_mm_boosted_ptvis"] = self.binnings_dict["binningHtt13TeV_mm_Boosted2D_ptvis"] 	
+	
+		self.binnings_dict["binningHtt13TeV_em_Boosted2D_m_sv"] = "0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+		self.binnings_dict["binningHtt13TeV_em_boostedD_m_sv"] = self.binnings_dict["binningHtt13TeV_em_Boosted2D_m_sv"]
+		self.binnings_dict["binningHtt13TeV_em_Boosted2D_H_pt"] = "0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)])
+		self.binnings_dict["binningHtt13TeV_em_boosted_H_pt"] = self.binnings_dict["binningHtt13TeV_em_Boosted2D_H_pt"]
+		
+		self.binnings_dict["binningHtt13TeV_mt_Boosted2D_QCDCR_m_sv"] = "40.0 80.0 120.0 160.0 200.0"
+		self.binnings_dict["binningHtt13TeV_mt_boosted_qcd_cr_m_sv"] = self.binnings_dict["binningHtt13TeV_mt_Boosted2D_QCDCR_m_sv"]
+		self.binnings_dict["binningHtt13TeV_mt_Boosted2D_m_sv"] = "0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+		self.binnings_dict["binningHtt13TeV_mt_boosted_m_sv"] = self.binnings_dict["binningHtt13TeV_mt_Boosted2D_m_sv"]
+		self.binnings_dict["binningHtt13TeV_mt_Boosted2D_H_pt"] = "0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)]),
+		self.binnings_dict["binningHtt13TeV_mt_boosted_H_pt"] = self.binnings_dict["binningHtt13TeV_mt_Boosted2D_H_pt"]
+		self.binnings_dict["binningHtt13TeV_mt_Boosted2D_WJCR_mt_1"] = "80.0 200.0"
+		self.binnings_dict["binningHtt13TeV_mt_wjets_boosted_cr_mt_1"] = self.binnings_dict["binningHtt13TeV_mt_Boosted2D_WJCR_mt_1"]
+				
+		self.binnings_dict["binningHtt13TeV_et_Boosted2D_QCDCR_m_sv"] = "40.0 80.0 120.0 160.0 200.0"	
+		self.binnings_dict["binningHtt13TeV_et_boosted_qcd_cr_m_sv"] = self.binnings_dict["binningHtt13TeV_et_Boosted2D_QCDCR_m_sv"]			
+		self.binnings_dict["binningHtt13TeV_et_Boosted2D_m_sv"] = "0.0 "+" ".join([str(float(f)) for f in range(80, 160, 10)+range(160,301,140)])
+		self.binnings_dict["binningHtt13TeV_et_boosted_m_sv"] = self.binnings_dict["binningHtt13TeV_et_Boosted2D_m_sv"]
+		self.binnings_dict["binningHtt13TeV_et_Boosted2D_H_pt"] = "0.0 "+" ".join([str(float(f)) for f in range(100, 300, 50)+range(300,10001,9700)])
+		self.binnings_dict["binningHtt13TeV_et_boosted_H_pt"] = self.binnings_dict["binningHtt13TeV_et_Boosted2D_H_pt"]
+		self.binnings_dict["binningHtt13TeV_et_Boosted2D_WJCR_mt_1"] = "80.0 200.0"
+		self.binnings_dict["binningHtt13TeV_et_wjets_boosted_cr_mt_1"] = self.binnings_dict["binningHtt13TeV_et_Boosted2D_WJCR_mt_1"]
+				
+		self.binnings_dict["binningHtt13TeV_tt_Boosted2D_QCDCR_m_sv"] = "0.0 250.0"	
+		self.binnings_dict["binningHtt13TeV_tt_antiiso_boosted_cr_m_sv"] = self.binnings_dict["binningHtt13TeV_tt_Boosted2D_QCDCR_m_sv"]	
+		self.binnings_dict["binningHtt13TeV_tt_Boosted2D_H_pt"] = "0.0 100.0 170.0 300.0 10000.0"
+		self.binnings_dict["binningHtt13TeV_tt_boosted_H_pt"] = self.binnings_dict["binningHtt13TeV_tt_Boosted2D_H_pt"]
+		self.binnings_dict["binningHtt13TeV_tt_Boosted2D_m_sv"] = "0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])	
+		self.binnings_dict["binningHtt13TeV_tt_boosted_m_sv"] = self.binnings_dict["binningHtt13TeV_tt_Boosted2D_m_sv"]
+		
+		# Vbf category
+		self.binnings_dict["binningHtt13TeV_mm_Vbf2D_mjj"] = "300.0 700.0 1100.0 1500.0 2500.0"
+		self.binnings_dict["binningHtt13TeV_mm_vbf_mjj"] = self.binnings_dict["binningHtt13TeV_mm_Vbf2D_mjj"]
+		
+		self.binnings_dict["binningHtt13TeV_em_Vbf2D_mjj"] = " ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)])
+		self.binnings_dict["binningHtt13TeV_em_vbf_mjj"] = self.binnings_dict["binningHtt13TeV_em_Vbf2D_mjj"]
+		self.binnings_dict["binningHtt13TeV_em_Vbf2D_m_sv"] = "0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+		self.binnings_dict["binningHtt13TeV_em_vbf_m_sv"] = self.binnings_dict["binningHtt13TeV_em_Vbf2D_m_sv"]
+				
+		self.binnings_dict["binningHtt13TeV_et_Vbf2D_mjj"] = " ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)])
+		self.binnings_dict["binningHtt13TeV_et_vbf_mjj"] = self.binnings_dict["binningHtt13TeV_et_Vbf2D_mjj"]
+		self.binnings_dict["binningHtt13TeV_et_Vbf2D_m_sv"] = "0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+		self.binnings_dict["binningHtt13TeV_et_vbf_m_sv"] = self.binnings_dict["binningHtt13TeV_et_Vbf2D_m_sv"]
+		
+		self.binnings_dict["binningHtt13TeV_mt_Vbf2D_mjj"] = " ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)])
+		self.binnings_dict["binningHtt13TeV_mt_vbf_mjj"] = self.binnings_dict["binningHtt13TeV_mt_Vbf2D_mjj"]
+		self.binnings_dict["binningHtt13TeV_mt_Vbf2D_m_sv"] = "0.0 "+" ".join([str(float(f)) for f in range(95, 155, 20)+range(155,401,245)])
+		self.binnings_dict["binningHtt13TeV_mt_vbf_m_sv"] = self.binnings_dict["binningHtt13TeV_mt_Vbf2D_m_sv"]		
+
+		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_mjj"] = " ".join([str(float(f)) for f in range(300, 1500, 400)+range(1500,10001,8500)])
+		self.binnings_dict["binningHtt13TeV_tt_vbf_mjj"] = self.binnings_dict["binningHtt13TeV_tt_Vbf2D_mjj"]		
+		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_QCDCR_m_sv"] = "0.0 250.0"
+		self.binnings_dict["binningHtt13TeV_tt_antiiso_vbf_cr_m_sv"] = self.binnings_dict["binningHtt13TeV_tt_Vbf2D_QCDCR_m_sv"] 
+		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_m_sv"] = "0.0 40.0 "+" ".join([str(float(f)) for f in range(60, 131, 10)+range(150,251,50)])
+		self.binnings_dict["binningHtt13TeV_tt_vbf_m_sv"] = self.binnings_dict["binningHtt13TeV_tt_Vbf2D_m_sv"]
+		
+		for channel in ["mt", "et", "em", "tt", "mm"]:
 			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 			self.binnings_dict["binningMVA13TeV_"+channel+"_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
@@ -520,6 +659,44 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_"+channel+"_0jet_CP_boosted_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
 
 			self.binnings_dict["binningHtt13TeV_"+channel+"_1jet_CP_boosted_m_vis"] = " ".join([str(float(f)) for f in range(0,30,10)+range(30, 120, 5)+range(120,151,10)])
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_boosted_jdphi"] = "12,-3.2,3.2"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_jdphi"] = "12,-3.2,3.2"
+			
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_dcp_star"] = "12,-1.0,1.0"		
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_melaDiscriminatorDCPGGH"] = "-1.0 -0.4 0.4 1.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_melaDiscriminatorD0MinusGGH"] = "0.0 0.25 0.5 0.75 1.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_jdphi"] = "12,-3.2,3.2"
+			
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_dcp_star"] = "12,-1.0,1.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_melaDiscriminatorDCPGGH"] = "-1.0 -0.4 0.4 1.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_melaDiscriminatorD0MinusGGH"] = "0.0 0.25 0.5 0.75 1.0"	
+					
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_boosted_m_sv"] = "0.0 80.0 100.0 115.0 130.0 150.0 10000.0"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet2D_lowboost_m_sv"] = "0.0 80.0 100.0 115.0 130.0 150.0 10000.0"
+			self.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_m_sv"] = "0.0 250.0"
+			self.binnings_dict["binningHtt13TeV_tt_dijet_lowboost_qcd_cr_m_sv"] = "0.0 250.0"
+			self.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_jdphi"] = "-3.2 3.2"
+			self.binnings_dict["binningHtt13TeV_tt_dijet2D_boosted_qcd_cr_jdphi"] = "-3.2 3.2"
+			self.binnings_dict["binningHtt13TeV_tt_dijet2D_boosted_qcd_cr_dcp_star"] = "-1 1"
+			self.binnings_dict["binningHtt13TeV_tt_dijet2D_lowboost_qcd_cr_jdphi"] = "-3.2 3.2"
+			self.binnings_dict["binningHtt13TeV_tt_dijet2D_lowboost_qcd_cr_dcp_star"] = "-1 1"
+			self.binnings_dict["binningHtt13TeV_tt_dijet_lowM_qcd_cr_m_sv"] = "0.0 250.0"
+			self.binnings_dict["binningHtt13TeV_tt_dijet_lowM_qcd_cr_jdphi"] = "-3.2 3.2"
+			self.binnings_dict["binningHtt13TeV_tt_dijet_highM_qcd_cr_m_sv"] = "0.0 250.0"
+			self.binnings_dict["binningHtt13TeV_tt_dijet_highM_qcd_cr_jdphi"] = "-3.2 3.2"
+			self.binnings_dict["binningHtt13TeV_tt_dijet_lowMjj_qcd_cr_m_sv"] = "0.0 250.0"
+			self.binnings_dict["binningHtt13TeV_tt_dijet_lowMjj_qcd_cr_jdphi"] = "-3.2 3.2"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_lowM_jdphi"] = "12,-3.2,3.2"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_highM_jdphi"] = "12,-3.2,3.2"
+			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_lowMjj_jdphi"] = "12,-3.2,3.2"
+				
+			# 0jet CP category	
+			self.binnings_dict["binningHttCP13TeV_"+channel+"_ZeroJet2D_m_sv"] = "0 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 220 240 260 280 300" if channel != "tt" else "0 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 260 270 280 290 300"
+			
+			# boosted CP category
+			self.binnings_dict["binningHttCP13TeV_"+channel+"_Boosted2D_H_pt"] = "0 100 150 200 250 300" if channel != "tt" else "0 100 170 300"
+			self.binnings_dict["binningHttCP13TeV_"+channel+"_Boosted2D_m_sv"] = "0 80 90 100 110 120 130 140 150 160 300" if channel != "tt" else "0 40 60 70 80 90 100 110 120 130 150 200 250"
+
 
 		# H->tautau MSSM binnings
 		for channel in ["mt", "et", "em", "tt"]:
@@ -545,10 +722,14 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_btag_mt_sv"] = " ".join([str(float(f)) for f in [0,20,40,60,80,100,120,140,160,180,200,250,300,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_nobtag_m_sv"] = " ".join([str(float(f)) for f in [0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,225,250,275,300,325,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_btag_m_sv"] = " ".join([str(float(f)) for f in [0,20,40,60,80,100,120,140,160,180,200,250,300,350,400,500,700,900,1100,1300,1500,1700,1900,2100,2300,2500,2700,2900,3100,3300,3500,3700,3900]])
+
+		# Z->tautau binnings	
+		for channel in ["em", "et", "mt"]:
+			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_LFVJet_m_vis"] = auto_rebin_binning
+			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_LFVZeroJet_m_vis"] = auto_rebin_binning
+				
 				#==========================CategoriesDictUpdates=========================================================
 		
 		import Artus.Utility.jsonTools as jsonTools
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.categories as Categories
-		categoriesUpdate = Categories.CategoriesDict().getBinningsDict()
-		self.binnings_dict.update(categoriesUpdate)
-		#Categories.CategoriesDict().pp.pprint(self.binnings_dict)
+		categoriesUpdate = Categories.CategoriesDict().getBinningsDict

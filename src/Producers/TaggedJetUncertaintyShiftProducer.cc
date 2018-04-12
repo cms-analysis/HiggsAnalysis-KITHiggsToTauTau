@@ -60,6 +60,8 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 		}
 	}
 
+
+
 	// settings used by the ValidJetsProducers
 	puJetIdsByIndex = Utility::ParseMapTypes<size_t, std::string>(
 			Utility::ParseVectorToMap(settings.GetPuJetIDs()),
@@ -77,6 +79,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 	// settings used by the RecoJetGenParticleMatchingProducer
 	m_jetMatchingAlgorithm = RecoJetGenParticleMatchingProducer::ToJetMatchingAlgorithm(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetJetMatchingAlgorithm())));
 	
+
 	for (std::string const& uncertainty : individualUncertainties)
 	{
 		// only do string comparison once per uncertainty
@@ -90,8 +93,10 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			&& settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift() != 0.0
 			&& individualUncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
 		{
+
 			JetCorrectorParameters jetCorPar(uncertaintyFile, uncertainty);
 			jetUncMap[individualUncertainty] = new JetCorrectionUncertainty(jetCorPar);
+
 		}
 
 		// add quantities to event

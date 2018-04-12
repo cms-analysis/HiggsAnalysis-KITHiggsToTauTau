@@ -28,7 +28,7 @@ def _call_command(command):
 
 
 def replace_observation_by_asimov_dataset(datacards, pol=-0.159, r=1.0):
-	# asimov_options = "--expectSignal 1.0 -t -1 --setPhysicsModelParameters \"pol=-0.159,r=1\""
+	# asimov_options = "--expectSignal 1.0 -t -1 --setParameters \"pol=-0.159,r=1\""
 	
 	pospol_signals = datacards.cb.cp().signals()
 	pospol_signals.FilterAll(lambda obj : ("pospol" not in obj.process().lower()))
@@ -90,7 +90,7 @@ if __name__ == "__main__":
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--lumi-projection", type=float, nargs="+", default=[],
-                        help="Specify luminosity values in fb^(-1) for a projection. [Default: %(default)s]")
+	                    help="Specify luminosity values in fb^(-1) for a projection. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--check-linearity", type=float, nargs="+", default=[],
@@ -174,6 +174,7 @@ if __name__ == "__main__":
  		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
  		#datacards.cb.PrintSysts()
 
+
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 
 		# prepare category settings based on args and datacards
@@ -202,7 +203,7 @@ if __name__ == "__main__":
 			
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
-				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
+				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -373,7 +374,7 @@ if __name__ == "__main__":
 						datacards_workspaces,
 						None,
 						args.n_processes,
-						"-M FitDiagnostics --saveShapes --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
+						"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
 						split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
 				)
 
@@ -402,13 +403,12 @@ if __name__ == "__main__":
 				print("###################### 1.2 ######################")
 				if "pulls" in args.steps:
 					datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
-					#use nuisance_impacts instead pull_plots!
-					# datacards.pull_plots(
-					# 		datacards_postfit_shapes,
-					# 		s_fit_only=True,
-					# 		plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
-					# 		n_processes=args.n_processes
-					# )
+					datacards.pull_plots(
+							datacards_postfit_shapes,
+							s_fit_only=True,
+							plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
+							n_processes=args.n_processes
+					)
 
 				print("###################### 1.3 ######################")
 				if "nuisanceimpacts" in args.steps:
