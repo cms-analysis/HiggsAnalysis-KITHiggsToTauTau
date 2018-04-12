@@ -18,7 +18,7 @@
 		"MinNElectrons" : 1,
 		"MinNMuons" : 1,
 		"HltPaths_comment" : "The first path must be one with the higher pt cut on the electron. The second and last path must be one with the higher pt cut on the muon. Corresponding Pt cuts are implemented in the Run2DecayChannelProducer.",
-		"HltPaths" : { 
+		"HltPaths" : {
 			"nick": {
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL",
@@ -347,25 +347,25 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
-					
+
 					"melaProbCPEvenGGH",
 					"melaProbCPOddGGH",
 					"melaProbCPMixGGH",
 					"melaDiscriminatorD0MinusGGH",
 					"melaDiscriminatorDCPGGH",
-		
+
 					"melaProbCPEvenVBF",
 					"melaProbCPOddVBF",
 					"melaProbCPMixVBF",
 					"melaDiscriminatorD0MinusVBF",
 					"melaDiscriminatorDCPVBF",
-					
+
 					"melaM125ProbCPEvenGGH",
 					"melaM125ProbCPOddGGH",
 					"melaM125ProbCPMixGGH",
 					"melaM125DiscriminatorD0MinusGGH",
 					"melaM125DiscriminatorDCPGGH",
-		
+
 					"melaM125ProbCPEvenVBF",
 					"melaM125ProbCPOddVBF",
 					"melaM125ProbCPMixVBF",
@@ -452,6 +452,7 @@
 					"producer:RooWorkspaceWeightProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -548,6 +549,7 @@
 					"producer:IdentificationWeightProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -639,6 +641,7 @@
 					"producer:SimpleFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -825,7 +828,7 @@
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"producer:EventWeightProducer",
-					"producer:LFVJetCorrection2016Producer" 
+					"producer:LFVJetCorrection2016Producer"
 				]
 			}
 		},
