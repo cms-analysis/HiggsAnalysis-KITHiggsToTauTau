@@ -176,11 +176,10 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		"""
 
 		nickname = self.determineNickname(self._args.nick)
-		print nickname
-		print self._args.channels
+		
 		if nickname != "auto":
 			if self._args.channels and len(self._args.channels) > 0:
-				print self._args.channels
+
 				pipeline_config = {} #TODO add systematic option, extra loop or in pipelines?
 				syst_python_config = systematics.Systematics_Config()
 
@@ -240,7 +239,6 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 
 							elif systematic_shift == "nominal":
 								syst_python_config.clear_config()
-								pprint(syst_python_config)
 								pipeline_config[selected_channel+"_"+systematic_shift] = copy.deepcopy(syst_python_config)
 								pipeline_config[selected_channel+"_"+systematic_shift].update(channel_python_config)
 
