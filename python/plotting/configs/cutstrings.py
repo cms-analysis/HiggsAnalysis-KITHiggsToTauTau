@@ -436,11 +436,17 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
+
+	@staticmethod
+	def SameSignRegion(channel, cut_type):
+		cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ","").replace("SameSignRegion",""))
+		cuts["ss"] = "((q_1*q_2)>0.0)"
+		return cuts
 	
 	@staticmethod
 	def highMtControlRegionWJ(channel, cut_type):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ",""))
+			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ","").replace("SameSignRegion",""))
 			cuts["mt"] = "(mt_1>70.0)" if "mssm" in cut_type or "2016" not in cut_type else "(mt_1>80.0)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -645,7 +651,9 @@ class CutStringsDict:
 			cuts = CutStringsDict.highMtControlRegionWJ(channel, cut_type)
 		elif "highMtSSControlRegionWJ" in cut_type:
 			cuts = CutStringsDict.highMtSSControlRegionWJ(channel, cut_type)
-		
+		elif "SameSignRegion" in cut_type:
+			cuts = CutStringsDict.SameSignRegion(channel, cut_type)
+					
 		elif cut_type=="baseline_low_mvis":
 			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
 		elif cut_type=="baseline_low_mvis2016":
@@ -664,4 +672,3 @@ class CutStringsDict:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
 			sys.exit(1)
 		return cuts
-

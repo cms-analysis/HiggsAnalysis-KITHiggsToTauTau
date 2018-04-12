@@ -76,7 +76,7 @@ class EstimateWjets(estimatebase.EstimateBase):
 						)
 					yield_data_control -= yield_bkg_control
 				# make sure we don't have negative yields	
-				yield_data_control = ufloat(max(0.0, yield_data_control.nominal_value, yield_data_control.std_dev))
+				yield_data_control = uncertainties.ufloat(max(0.0, yield_data_control.nominal_value), yield_data_control.std_dev)
 				
 				yield_mc_signal = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_mc_signal_nick])()
 				yield_mc_control = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_mc_control_nick])()
@@ -93,6 +93,7 @@ class EstimateWjets(estimatebase.EstimateBase):
 					"yield_unc" : final_yield.std_dev,
 					"yield_unc_rel" : abs(final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0),
 				}
+				plotData.metadata
 				# scale the wj file by the ratio of the estimated yield and the yield given by MC.
 				integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_shape_nick])()
 				if integral_shape != 0.0:
