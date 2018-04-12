@@ -1,5 +1,6 @@
 var NAVTREEINDEX19 =
 {
+"makePlots__datacardsTauEsStudies_8py.html#ad5da505fa7b519c46ef00eebe656f9c3":[2,0,2,45,118],
 "makePlots__datacardsTauEsStudies_8py.html#ad8c9e41f0427bd5bc1efeef38c36439a":[2,0,2,45,110],
 "makePlots__datacardsTauEsStudies_8py.html#ad9b14c4e60ac3577aa3e4c02b200ac98":[2,0,2,45,144],
 "makePlots__datacardsTauEsStudies_8py.html#add4784754c8a0021f80e8d067c2a503d":[2,0,2,45,109],
@@ -248,6 +249,5 @@ var NAVTREEINDEX19 =
 "makePlots__genCPPlots__1_8py.html#a2b6075cfedd38c1e72e9437b538bbdf7":[2,0,2,51,7],
 "makePlots__genCPPlots__1_8py.html#a56910723c1d96e8302766e5c170e8105":[2,0,2,51,1],
 "makePlots__genCPPlots__1_8py.html#a5e05d5968e09e5dbbbfa963fc55a8b6e":[2,0,2,51,5],
-"makePlots__genCPPlots__1_8py.html#a60362ce65876b98982e1276fdec487a2":[2,0,2,51,3],
-"makePlots__genCPPlots__1_8py.html#a6e10d790aef166b05f9142a9d866b415":[2,0,2,51,25]
+"makePlots__genCPPlots__1_8py.html#a60362ce65876b98982e1276fdec487a2":[2,0,2,51,3]
 };

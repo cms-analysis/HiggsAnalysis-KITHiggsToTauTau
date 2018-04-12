@@ -1,5 +1,6 @@
 var NAVTREEINDEX24 =
 {
+"plot__AUC__2D_8py.html#a43e0206e13d676a1144bc7e3e6dbc729":[2,0,2,81,26],
 "plot__AUC__2D_8py.html#a4885fe34bf2cf304c48bea8a9e389b83":[2,0,2,81,17],
 "plot__AUC__2D_8py.html#a49f79e84781610d18785854523faac8b":[2,0,2,81,3],
 "plot__AUC__2D_8py.html#a5baf118baf99ebf840bc781b1787bb4f":[2,0,2,81,32],
@@ -248,6 +249,5 @@ var NAVTREEINDEX24 =
 "scaleVariations__ZttOverZttInclusive_8py.html#ade65c870d87f3de01b79329da25bd3f5":[2,0,2,89,27],
 "scaleVariations__ZttOverZttInclusive_8py.html#ae693cf3d1beae662cbc3342ba5488c90":[2,0,2,89,20],
 "scaleVariations__ZttOverZttInclusive_8py.html#af0602321fc70a060a11cf5d4caad0376":[2,0,2,89,0],
-"scaleVariations__latexTables_8py.html":[2,0,2,87],
-"scaleVariations__latexTables_8py.html#a0e312e6eeef237169e1862fa5c36535f":[2,0,2,87,4]
+"scaleVariations__latexTables_8py.html":[2,0,2,87]
 };

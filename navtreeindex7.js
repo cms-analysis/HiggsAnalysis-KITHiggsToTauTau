@@ -1,5 +1,6 @@
 var NAVTREEINDEX7 =
 {
+"classRefitVertexSelector.html#a2fa81d07f81c40a39d5dffc4d19e9fb8":[1,0,309,2],
 "classRefitVertexSelector.html#a3d8920d82d12c7de736a798b683b6d7f":[1,0,309,1],
 "classRooWorkspaceWeightProducer.html":[1,0,310],
 "classRooWorkspaceWeightProducer.html#a1b8f4af2c116a1b0e0eb25fbe46598e4":[1,0,310,6],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "classTauTauRestFrameSelector.html":[1,0,338],
 "classTauTauRestFrameSelector.html#a045f49f73f38509dfba1652056a49955":[1,0,338,0],
 "classTauTauRestFrameSelector.html#a825068b05a9345eaffc8c34895142720":[1,0,338,2],
-"classTauTauRestFrameSelector.html#afb59f86a2071c144277a0209a79f5f4d":[1,0,338,1],
-"classTauTauTriggerScaleFactorProducer.html":[1,0,339]
+"classTauTauRestFrameSelector.html#afb59f86a2071c144277a0209a79f5f4d":[1,0,338,1]
 };

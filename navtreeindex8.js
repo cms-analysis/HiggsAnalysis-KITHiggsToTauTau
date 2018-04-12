@@ -1,5 +1,6 @@
 var NAVTREEINDEX8 =
 {
+"classTauTauTriggerScaleFactorProducer.html":[1,0,339],
 "classTauTauTriggerScaleFactorProducer.html#a17a3e0477edd35f3d4aef2ca763efe94":[1,0,339,2],
 "classTauTauTriggerScaleFactorProducer.html#a8a91047ac7da1cbb48177e212617d361":[1,0,339,0],
 "classTauTauTriggerScaleFactorProducer.html#a902203f3270c214095376e5d0df162d0":[1,0,339,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX8 =
 "classembedding__plot__classes_1_1single__plotline.html#aebdf6dd8c69e0ba3114d02084a6f2f65":[1,0,33,0,18],
 "classembedding__plot__classes_1_1single__plotline.html#af8cb74dcef9719cdc72c252518a712c7":[1,0,33,0,19],
 "classestimatebase_1_1EstimateBase.html":[1,0,35,0],
-"classestimatebase_1_1EstimateBase.html#a344bfc6d53e9bb4e55be1c4efddd8417":[1,0,35,0,3],
-"classestimatebase_1_1EstimateBase.html#a358574fc15eda2df40ffe3cc4964f5d7":[1,0,35,0,0]
+"classestimatebase_1_1EstimateBase.html#a344bfc6d53e9bb4e55be1c4efddd8417":[1,0,35,0,3]
 };

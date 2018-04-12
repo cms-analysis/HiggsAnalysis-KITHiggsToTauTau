@@ -1,5 +1,6 @@
 var NAVTREEINDEX21 =
 {
+"makePlots__recogenPhiStarCP_8py.html#a8f82bd72763e5a20a38e5504fd3a575b":[2,0,2,63,5],
 "makePlots__recogenPhiStarCP_8py.html#aa226c3f024b0d12c40169da4ce20e2f8":[2,0,2,63,15],
 "makePlots__recogenPhiStarCP_8py.html#aa84c722b6a2a4c6b82e98c7f8feb59b9":[2,0,2,63,12],
 "makePlots__recogenPhiStarCP_8py.html#aae280736541f05f684b0469263118266":[2,0,2,63,18],
@@ -248,6 +249,5 @@ var NAVTREEINDEX21 =
 "mvadatacards__base_8py.html":[2,0,1,1,9],
 "mvadatacards__base_8py.html#a7fe5005f8e4a77e68cdd2f5c0e433b07":[2,0,1,1,9,2],
 "mvadatacards__base_8py.html#a87b2ef4f48b53138210f18394d416c74":[2,0,1,1,9,1],
-"nFold__DiffScan_8py.html":[2,0,2,78],
-"nFold__DiffScan_8py.html#a1c39a3b603aecd1731dcfb38d23e51c0":[2,0,2,78,10]
+"nFold__DiffScan_8py.html":[2,0,2,78]
 };

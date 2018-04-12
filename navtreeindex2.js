@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"classDecayChannelProducer.html#a6f207dff7857e0c2bacdca16ca9cea80":[1,0,197,0],
 "classDiGenJetQuantitiesProducer.html":[1,0,198],
 "classDiGenJetQuantitiesProducer.html#a1c194c368d6c1c2d10dc839d0187437c":[1,0,198,0],
 "classDiGenJetQuantitiesProducer.html#a29e429278cf2b72ebae47f8632b9e32b":[1,0,198,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "classHttEvent.html#a960094fe213f6d23d0b4579f0843551d":[1,0,239,1],
 "classHttEvent.html#aa2d80544d49b539aea153ed9126643ce":[1,0,239,6],
 "classHttEvent.html#adb37c8d249d0c49210cd01694f7b6e92":[1,0,239,0],
-"classHttEvent.html#ae89b1c18197efcd1ab75566d6ba04f49":[1,0,239,3],
-"classHttEventProvider.html":[1,0,240]
+"classHttEvent.html#ae89b1c18197efcd1ab75566d6ba04f49":[1,0,239,3]
 };

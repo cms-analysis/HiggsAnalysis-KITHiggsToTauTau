@@ -1,5 +1,6 @@
 var NAVTREEINDEX14 =
 {
+"higgstotautauanalysiswrapper_8py.html":[2,0,1,6],
 "higgstotautauanalysiswrapper_8py.html#a252c00b2af92c98d36303f8986fc79c9":[2,0,1,6,1],
 "index.html":[],
 "initialstatecpstudiesdatacards_8py.html":[2,0,1,1,6],
@@ -248,6 +249,5 @@ var NAVTREEINDEX14 =
 "makePlots__allGenPhiCPPlots_8py.html#a64fddb59760abcb72d6609ea82e40279":[2,0,2,26,15],
 "makePlots__allGenPhiCPPlots_8py.html#a69eeb72283d9116466dd652df1882d3b":[2,0,2,26,16],
 "makePlots__allGenPhiCPPlots_8py.html#a6b28e8a30957c3283d1910c2267b1198":[2,0,2,26,2],
-"makePlots__allGenPhiCPPlots_8py.html#a8034fc52f8697ffbc346067ce5e7d263":[2,0,2,26,9],
-"makePlots__allGenPhiCPPlots_8py.html#a83c53e5d2882568065be63c1fcb32bfe":[2,0,2,26,3]
+"makePlots__allGenPhiCPPlots_8py.html#a8034fc52f8697ffbc346067ce5e7d263":[2,0,2,26,9]
 };

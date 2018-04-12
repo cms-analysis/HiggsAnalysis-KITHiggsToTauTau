@@ -69,6 +69,7 @@ var NAVTREEINDEX1 =
 "SimpleMuTauFakeRateWeightProducer_8h.html":[2,0,0,2,42],
 "SimpleMuTauFakeRateWeightProducer_8h_source.html":[2,0,0,2,42],
 "SingleTauQuantities_8py.html":[2,0,1,0,0,4],
+"SingleTauQuantities_8py.html#a8cd85eb38d7493f907912c7be6aebec3":[2,0,1,0,0,4,1],
 "SingleTauQuantities_8py.html#acbbb713a79df276b2988e2faaab525eb":[2,0,1,0,0,4,0],
 "SvfitCacheConsumer_8cc.html":[2,0,3,0,5],
 "SvfitCacheConsumer_8h.html":[2,0,0,0,5],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "classDecayChannelProducer.html#a0e10edeaa5e3ae64023b521237f50003":[1,0,197,3],
 "classDecayChannelProducer.html#a151b0b47507bc8e521fe9acab96d38bc":[1,0,197,1],
 "classDecayChannelProducer.html#a4377dc18e06d6ddb5f7abbfb8a4b48e5":[1,0,197,4],
-"classDecayChannelProducer.html#a5876d5fbfeb50e57f802d2f334a1bf4b":[1,0,197,2],
-"classDecayChannelProducer.html#a6f207dff7857e0c2bacdca16ca9cea80":[1,0,197,0]
+"classDecayChannelProducer.html#a5876d5fbfeb50e57f802d2f334a1bf4b":[1,0,197,2]
 };

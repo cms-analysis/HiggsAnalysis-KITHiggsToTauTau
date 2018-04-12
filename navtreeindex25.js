@@ -1,5 +1,6 @@
 var NAVTREEINDEX25 =
 {
+"scaleVariations__latexTables_8py.html#a0e312e6eeef237169e1862fa5c36535f":[2,0,2,87,4],
 "scaleVariations__latexTables_8py.html#a2f92e56913264197a4e266eafc40bee4":[2,0,2,87,14],
 "scaleVariations__latexTables_8py.html#a454bb909bd0bd6ae3aa4c67857cf82d1":[2,0,2,87,9],
 "scaleVariations__latexTables_8py.html#a47edde64c1e0c2f5958994531d6aa9cb":[2,0,2,87,12],
