@@ -1,5 +1,8 @@
 var NAVTREEINDEX14 =
 {
+"higgsmodels_8py.html#ae52de0fb9b100b235dbafdb6357bd767":[2,0,1,1,5,1],
+"higgsparser_8py.html":[2,0,1,4,3],
+"higgsparser_8py.html#ad3b14acff7a375d3fd51104bacfd8e87":[2,0,1,4,3,1],
 "higgstotautauanalysiswrapper_8py.html":[2,0,1,6],
 "higgstotautauanalysiswrapper_8py.html#a252c00b2af92c98d36303f8986fc79c9":[2,0,1,6,1],
 "index.html":[],
@@ -246,8 +249,5 @@ var NAVTREEINDEX14 =
 "makePlots__allGenPhiCPPlots_8py.html#a2870c825ac76871dabccef86d5db90b2":[2,0,2,26,8],
 "makePlots__allGenPhiCPPlots_8py.html#a43aa19cf0e5388cfdc6ce6f25b6a2b34":[2,0,2,26,10],
 "makePlots__allGenPhiCPPlots_8py.html#a51fdd3530216e11df639b9b3aab75c54":[2,0,2,26,17],
-"makePlots__allGenPhiCPPlots_8py.html#a64fddb59760abcb72d6609ea82e40279":[2,0,2,26,15],
-"makePlots__allGenPhiCPPlots_8py.html#a69eeb72283d9116466dd652df1882d3b":[2,0,2,26,16],
-"makePlots__allGenPhiCPPlots_8py.html#a6b28e8a30957c3283d1910c2267b1198":[2,0,2,26,2],
-"makePlots__allGenPhiCPPlots_8py.html#a8034fc52f8697ffbc346067ce5e7d263":[2,0,2,26,9]
+"makePlots__allGenPhiCPPlots_8py.html#a64fddb59760abcb72d6609ea82e40279":[2,0,2,26,15]
 };

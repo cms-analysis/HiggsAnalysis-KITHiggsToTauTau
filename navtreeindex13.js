@@ -1,5 +1,8 @@
 var NAVTREEINDEX13 =
 {
+"embedding__plotline__bib_8py.html#a115c068ab180c54a196b14709bc4e975":[2,0,1,4,1,1,2],
+"embedding__plotline__bib_8py.html#a11c3d32ae5be0e1cc86bc41a83e31daa":[2,0,1,4,1,1,17],
+"embedding__plotline__bib_8py.html#a13971daa26bea9631bcf5fcf2893eb70":[2,0,1,4,1,1,44],
 "embedding__plotline__bib_8py.html#a168e70d1a91317025c06e5fbc58a0450":[2,0,1,4,1,1,70],
 "embedding__plotline__bib_8py.html#a1bac514c694fcece2fe2e05eded96f79":[2,0,1,4,1,1,76],
 "embedding__plotline__bib_8py.html#a1ce76f4858fa9d8d8e3c8cfd56b309b1":[2,0,1,4,1,1,63],
@@ -246,8 +249,5 @@ var NAVTREEINDEX13 =
 "globals_func.html":[2,1,1],
 "globals_type.html":[2,1,2],
 "hierarchy.html":[1,1],
-"higgsmodels_8py.html":[2,0,1,1,5],
-"higgsmodels_8py.html#ae52de0fb9b100b235dbafdb6357bd767":[2,0,1,1,5,1],
-"higgsparser_8py.html":[2,0,1,4,3],
-"higgsparser_8py.html#ad3b14acff7a375d3fd51104bacfd8e87":[2,0,1,4,3,1]
+"higgsmodels_8py.html":[2,0,1,1,5]
 };
