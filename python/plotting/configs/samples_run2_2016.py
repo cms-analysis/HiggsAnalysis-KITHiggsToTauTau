@@ -1460,7 +1460,7 @@ class Samples(samples.SamplesBase):
 
 
 	def wj_ss_forQCD(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):	
-		# get a first estimate for Wjets in SS highMt region 
+		# get a first estimate for Wjets in a same-sign  sideband. A  same-sign high_mt region 
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -1646,8 +1646,51 @@ class Samples(samples.SamplesBase):
 				Samples._add_bin_corrections(config, "wj", nick_suffix)
 			Samples._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
+	
+	def wj_mc_os(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
 
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+
+		Samples._add_input(
+				config,
+				self.files_wj(channel),
+				self.root_file_folder(channel),
+				lumi,
+				weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+				"wj_mc_os",
+				nick_suffix=nick_suffix
+		)
+		return config	
 		
+	def wj_mc_ss(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+		
+		ss_cut_type = cut_type + "SameSignRegion" 
+		exclude_cuts_ss = copy.deepcopy(exclude_cuts)+["os"]
+
+		Samples._add_input(
+				config,
+				self.files_wj(channel),
+				self.root_file_folder(channel),
+				lumi,
+				weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+				"wj_mc_ss",
+				nick_suffix=nick_suffix
+		)
+		return config
 		
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
