@@ -56,9 +56,25 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		else:
 			self._config = {}
 
+		if self._args.systematics != self._parser.get_default("systematics"):
+			self._args.systematics = self._args.systematics[1:]
+
+		if self._args.channels != self._parser.get_default("channels"):
+			self._args.channels = self._args.channels[1:]
+		if len(self._args.systematics) == 1:
+			self._args.systematics = self._args.systematics * len(self._args.channels)
 
 
+		log.debug("channels are ")
+		log.debug(self._args.channels)
+		log.debug("systematics are:")
+		log.debug(self._args.systematics)
 
+		global channels_systematics
+		channels_systematics = {}
+		channels_systematics = self.create_channels_systematics()
+		
+		
 		
 		# expand the environment variables only at the batch node
 		if self._args.batch:
@@ -94,6 +110,19 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 
 	def modify_replacing_dict(self):
 		self.replacingDict["areafiles"] += " -data/Samples auxiliaries/mva_weights ZZMatrixElement/MELA"
+
+	def create_channels_systematics(self):
+		
+		channels_systs = {}
+
+		for tmp_channels, tmp_systematics in zip(self._args.channels, self._args.systematics):
+			for channel in tmp_channels:
+				channels_systs.setdefault(channel, []).extend(tmp_systematics)
+
+		for channel, systematics in channels_systs.iteritems():
+			channels_systs[channel] = list(set(systematics))  #creates dictionary with key channels and value which systematics needs to be run for this channel 
+		return channels_systs
+		
 
 	def remove_pipeline_copies(self):
 		pipelines = self._config.get("Pipelines", {}).keys()
@@ -176,25 +205,8 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		"""
 
 		nickname = self.determineNickname(self._args.nick)
-		if self._args.systematics != self._parser.get_default("systematics"):
-			self._args.systematics = self._args.systematics[1:]
-
-		if self._args.channels != self._parser.get_default("channels"):
-			self._args.channels = self._args.channels[1:]
-		if len(self._args.systematics) == 1:
-			self._args.systematics = self._args.systematics * len(self._args.channels)
-		log.debug("channels are ")
-		log.debug(self._args.channels)
-		log.debug("systematics are:")
-		log.debug(self._args.systematics)
-		channels_systematics = {}
-
-		for tmp_channels, tmp_systematics in zip(self._args.channels, self._args.systematics):
-			for channel in tmp_channels:
-				channels_systematics.setdefault(channel, []).extend(tmp_systematics)
-
-		for channel, systematics in channels_systematics.iteritems():
-			channels_systematics[channel] = list(set(systematics))  #creates dictionary with key channels and value which systematics needs to be run for this channel 
+		
+		
 
 
 
@@ -353,8 +365,27 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		
 		exitCode = super(HiggsToTauTauAnalysisWrapper, self).run()
 		
+		
 		#if not self.projectPath is None:
 		#	symlinkDir = os.path.join(symlinkBaseDir, os.path.basename(self.projectPath))
 		#	os.symlink(self.projectPath, symlinkDir)
 		
 		return exitCode
+
+	def createEpilogArguments(self):
+		epilogArguments = ""
+		epilogArguments = super(HiggsToTauTauAnalysisWrapper, self).createEpilogArguments()
+
+		for grid_channel in channels_systematics.keys():
+			epilogArguments += r"--channels " + grid_channel + " "
+			epilogArguments += r"--systematics " + " ".join(channels_systematics[grid_channel]) + " "
+		return epilogArguments
+
+	def sendToBatchSystem(self):
+		self.createEpilogArguments
+		exitCode = super(HiggsToTauTauAnalysisWrapper, self).sendToBatchSystem()
+			
+
+		return exitCode
+
+		
