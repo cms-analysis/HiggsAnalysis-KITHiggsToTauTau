@@ -28,6 +28,7 @@ var searchData=
   ['calculatezs',['CalculateZs',['../classCPQuantities.html#a30852bb8fd044b8b6c979150aa1c5e84',1,'CPQuantities']]],
   ['category2binid',['category2binid',['../classdatacardconfigs_1_1DatacardConfigs.html#acecdad17be95fc01ec46dfc6b950f16a',1,'datacardconfigs::DatacardConfigs']]],
   ['change_5fconfig_5finfo',['change_config_info',['../classConfigMaster_1_1ConfigMaster.html#aaf9cc3530382ac50fc1fd3c397be6691',1,'ConfigMaster::ConfigMaster']]],
+  ['clear_5fconfig',['clear_config',['../classsystematics_1_1Systematics__Config.html#a08006b40d201b1c8bf68eb709029c5dd',1,'systematics.Systematics_Config.clear_config()'],['../classtt_1_1tt__ArtusConfig.html#a8bb56bf453cfe21d54c41b4c0f299fe0',1,'tt.tt_ArtusConfig.clear_config()']]],
   ['clear_5fenvironment',['clear_environment',['../namespacesubmitCrabSvfitJobs.html#a647a4f72d5dd3f2c97626ced970b8fd0',1,'submitCrabSvfitJobs']]],
   ['clear_5foutput_5fdir',['clear_output_dir',['../namespacemakePlots__13TeVProjections.html#a924b173466b99bf81ee079684b142e27',1,'makePlots_13TeVProjections.clear_output_dir()'],['../namespacemakePlots__8TeVLimitSynch.html#ad6d67635747ffc7534b752e7314685c0',1,'makePlots_8TeVLimitSynch.clear_output_dir()']]],
   ['clone',['clone',['../classembedding__plot__classes_1_1single__plotline.html#ad88f7b2725c22fd60fe0a18f7d8dc208',1,'embedding_plot_classes.single_plotline.clone()'],['../classembedding__plot__classes_1_1single__plot.html#a4df9d13cd3fd51b783e1b39f725144cd',1,'embedding_plot_classes.single_plot.clone()']]],
