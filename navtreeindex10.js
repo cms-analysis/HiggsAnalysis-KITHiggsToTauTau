@@ -1,12 +1,5 @@
 var NAVTREEINDEX10 =
 {
-"classsamples__run2__2016_1_1Samples.html#a07a50745ce1afcecb416588a28c36185":[1,0,142,0,11],
-"classsamples__run2__2016_1_1Samples.html#a09d409059c4d851d9796a119976c1ab4":[1,0,142,0,54],
-"classsamples__run2__2016_1_1Samples.html#a0b672315d276cc21f18b020628f6a446":[1,0,142,0,85],
-"classsamples__run2__2016_1_1Samples.html#a0bff70dd0775af73506cf66c8aa4504d":[1,0,142,0,99],
-"classsamples__run2__2016_1_1Samples.html#a0c9631b945efeb9bb9924f7540a1bf3f":[1,0,142,0,7],
-"classsamples__run2__2016_1_1Samples.html#a0f287f5c13c38780cf046d8f464be9ac":[1,0,142,0,59],
-"classsamples__run2__2016_1_1Samples.html#a116b9b4cdea0c50cfa7d76aa52fabbd3":[1,0,142,0,75],
 "classsamples__run2__2016_1_1Samples.html#a125861421329241df1dbe39b11391d7e":[1,0,142,0,34],
 "classsamples__run2__2016_1_1Samples.html#a12f1c630fd07aa1ae45cf9ca90c0dc9b":[1,0,142,0,29],
 "classsamples__run2__2016_1_1Samples.html#a13d223cd068054bd3593be69d972c63d":[1,0,142,0,16],
@@ -242,12 +235,19 @@ var NAVTREEINDEX10 =
 "classsmhttdatacards_1_1SMHttDatacardsForSync.html#ac04beb4af5753f6204dd519c78d3c24b":[1,0,171,1,0],
 "classsystematics_1_1Systematics__Config.html":[1,0,175,0],
 "classsystematics_1_1Systematics__Config.html#a08006b40d201b1c8bf68eb709029c5dd":[1,0,175,0,2],
-"classsystematics_1_1Systematics__Config.html#a321190467dca098dcaf2e88ef8b493e9":[1,0,175,0,3],
 "classsystematics_1_1Systematics__Config.html#aae19753fbf540c9f76193e7f1d388cfa":[1,0,175,0,1],
 "classsystematics_1_1Systematics__Config.html#ae779dfd221298af2ef891d5c708e6f4b":[1,0,175,0,0],
 "classsystematics__libary_1_1SystematicLibary.html":[1,0,176,0],
 "classsystematics__libary_1_1SystematicLibary.html#a6cc6389156e5fbd3a635a1f965ce396f":[1,0,176,0,0],
 "classsystematics__libary_1_1SystematicLibary.html#af78daa916526473c62bd3686b74e54c1":[1,0,176,0,1],
 "classsystematics__run1_1_1Nominal.html":[1,0,177,1],
-"classsystematics__run1_1_1Nominal.html#aef5ad20cd0a0dbad56de1a8041668ff1":[1,0,177,1,0]
+"classsystematics__run1_1_1Nominal.html#aef5ad20cd0a0dbad56de1a8041668ff1":[1,0,177,1,0],
+"classsystematics__run1_1_1SvfitMassSystematic.html":[1,0,177,3],
+"classsystematics__run1_1_1SvfitMassSystematic.html#a0a78e4e0b826ba9c3f4352391173626c":[1,0,177,3,0],
+"classsystematics__run1_1_1SystematicShiftBase.html":[1,0,177,0],
+"classsystematics__run1_1_1SystematicShiftBase.html#a21d2192b8041803cccc075a7078fa97a":[1,0,177,0,3],
+"classsystematics__run1_1_1SystematicShiftBase.html#a27fb5c1364a19816bb906cbe1a02c9c8":[1,0,177,0,1],
+"classsystematics__run1_1_1SystematicShiftBase.html#a5544db59f41eba99d4fad5e45d6cb35b":[1,0,177,0,0],
+"classsystematics__run1_1_1SystematicShiftBase.html#adfbaf40d92bf8d491a53feb58d652482":[1,0,177,0,2],
+"classsystematics__run1_1_1TauEsSystematic.html":[1,0,177,2]
 };

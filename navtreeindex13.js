@@ -1,16 +1,5 @@
 var NAVTREEINDEX13 =
 {
-"embedding__plotline__bib_8py.html#a115c068ab180c54a196b14709bc4e975":[2,0,1,4,1,1,2],
-"embedding__plotline__bib_8py.html#a11c3d32ae5be0e1cc86bc41a83e31daa":[2,0,1,4,1,1,17],
-"embedding__plotline__bib_8py.html#a13971daa26bea9631bcf5fcf2893eb70":[2,0,1,4,1,1,44],
-"embedding__plotline__bib_8py.html#a168e70d1a91317025c06e5fbc58a0450":[2,0,1,4,1,1,70],
-"embedding__plotline__bib_8py.html#a1bac514c694fcece2fe2e05eded96f79":[2,0,1,4,1,1,76],
-"embedding__plotline__bib_8py.html#a1ce76f4858fa9d8d8e3c8cfd56b309b1":[2,0,1,4,1,1,63],
-"embedding__plotline__bib_8py.html#a1f988442a48350ae9b58ef8124eaa45c":[2,0,1,4,1,1,47],
-"embedding__plotline__bib_8py.html#a232b7f7b9ed2f042a6b34d43be18114e":[2,0,1,4,1,1,10],
-"embedding__plotline__bib_8py.html#a2b78b7a194b22e2902f8a47d8a61c75c":[2,0,1,4,1,1,81],
-"embedding__plotline__bib_8py.html#a2df3a73568ab103d5a21e630bea9914f":[2,0,1,4,1,1,24],
-"embedding__plotline__bib_8py.html#a3021b36ef52a5c26d0849013015f0a7e":[2,0,1,4,1,1,65],
 "embedding__plotline__bib_8py.html#a320d19f79d0c864bce99a5e8dfa831fa":[2,0,1,4,1,1,86],
 "embedding__plotline__bib_8py.html#a32c97e75e14b6847fb3da5ef7971c433":[2,0,1,4,1,1,31],
 "embedding__plotline__bib_8py.html#a396c25931decfab74bc113ef6ada9889":[2,0,1,4,1,1,3],
@@ -249,5 +238,16 @@ var NAVTREEINDEX13 =
 "globals_func.html":[2,1,1],
 "globals_type.html":[2,1,2],
 "hierarchy.html":[1,1],
-"higgsmodels_8py.html":[2,0,1,1,5]
+"higgsmodels_8py.html":[2,0,1,1,5],
+"higgsmodels_8py.html#ae52de0fb9b100b235dbafdb6357bd767":[2,0,1,1,5,1],
+"higgsparser_8py.html":[2,0,1,4,3],
+"higgsparser_8py.html#ad3b14acff7a375d3fd51104bacfd8e87":[2,0,1,4,3,1],
+"higgstotautauanalysiswrapper_8py.html":[2,0,1,6],
+"higgstotautauanalysiswrapper_8py.html#a252c00b2af92c98d36303f8986fc79c9":[2,0,1,6,1],
+"index.html":[],
+"initialstatecpstudiesdatacards_8py.html":[2,0,1,1,6],
+"initialstatecpstudiesdatacards_8py.html#ad9b0a7d6a916a676973316043d133fcc":[2,0,1,1,6,1],
+"inputroothtt_8py.html":[2,0,1,4,2,1,0],
+"inputroothtt_8py.html#a00ada36acdcb9ddc480a5d4bcc044498":[2,0,1,4,2,1,0,1],
+"kitHiggsTauTauTauCheckoutPackages_8py.html":[2,0,2,22]
 };

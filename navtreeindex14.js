@@ -1,16 +1,5 @@
 var NAVTREEINDEX14 =
 {
-"higgsmodels_8py.html#ae52de0fb9b100b235dbafdb6357bd767":[2,0,1,1,5,1],
-"higgsparser_8py.html":[2,0,1,4,3],
-"higgsparser_8py.html#ad3b14acff7a375d3fd51104bacfd8e87":[2,0,1,4,3,1],
-"higgstotautauanalysiswrapper_8py.html":[2,0,1,6],
-"higgstotautauanalysiswrapper_8py.html#a252c00b2af92c98d36303f8986fc79c9":[2,0,1,6,1],
-"index.html":[],
-"initialstatecpstudiesdatacards_8py.html":[2,0,1,1,6],
-"initialstatecpstudiesdatacards_8py.html#ad9b0a7d6a916a676973316043d133fcc":[2,0,1,1,6,1],
-"inputroothtt_8py.html":[2,0,1,4,2,1,0],
-"inputroothtt_8py.html#a00ada36acdcb9ddc480a5d4bcc044498":[2,0,1,4,2,1,0,1],
-"kitHiggsTauTauTauCheckoutPackages_8py.html":[2,0,2,22],
 "kitHiggsTauTauTauCheckoutPackages_8py.html#a1308a1b285b32fce40f43e2ebfeb3408":[2,0,2,22,0],
 "kitHiggsTauTauTauCheckoutPackages_8py.html#aaf8cd839b4db17d1cdd1b892526e0d84":[2,0,2,22,1],
 "labels_8py.html":[2,0,1,4,0,5],
@@ -249,5 +238,16 @@ var NAVTREEINDEX14 =
 "makePlots__allGenPhiCPPlots_8py.html#a2870c825ac76871dabccef86d5db90b2":[2,0,2,26,8],
 "makePlots__allGenPhiCPPlots_8py.html#a43aa19cf0e5388cfdc6ce6f25b6a2b34":[2,0,2,26,10],
 "makePlots__allGenPhiCPPlots_8py.html#a51fdd3530216e11df639b9b3aab75c54":[2,0,2,26,17],
-"makePlots__allGenPhiCPPlots_8py.html#a64fddb59760abcb72d6609ea82e40279":[2,0,2,26,15]
+"makePlots__allGenPhiCPPlots_8py.html#a64fddb59760abcb72d6609ea82e40279":[2,0,2,26,15],
+"makePlots__allGenPhiCPPlots_8py.html#a69eeb72283d9116466dd652df1882d3b":[2,0,2,26,16],
+"makePlots__allGenPhiCPPlots_8py.html#a6b28e8a30957c3283d1910c2267b1198":[2,0,2,26,2],
+"makePlots__allGenPhiCPPlots_8py.html#a8034fc52f8697ffbc346067ce5e7d263":[2,0,2,26,9],
+"makePlots__allGenPhiCPPlots_8py.html#a83c53e5d2882568065be63c1fcb32bfe":[2,0,2,26,3],
+"makePlots__allGenPhiCPPlots_8py.html#aa2ba32f5812cdb22001ae01267fb3c6f":[2,0,2,26,11],
+"makePlots__allGenPhiCPPlots_8py.html#aa57969ccdd89ba456f191defce0a9595":[2,0,2,26,18],
+"makePlots__allGenPhiCPPlots_8py.html#aaed6d314705ccddb97302a7e3721a3cc":[2,0,2,26,0],
+"makePlots__allGenPhiCPPlots_8py.html#ac17af6ec91662bb3044cac3c9bf71253":[2,0,2,26,13],
+"makePlots__allGenPhiCPPlots_8py.html#acd0a935b4012f29a70f69b55802a3ee0":[2,0,2,26,4],
+"makePlots__allGenPhiCPPlots_8py.html#ad202e063ea9b6ae4a10a5952c3d32786":[2,0,2,26,7],
+"makePlots__allGenPhiCPPlots_8py.html#aee1795c9e0abcab4a4ff668f8ba33b55":[2,0,2,26,5]
 };

@@ -1,5 +1,8 @@
 var NAVTREEINDEX8 =
 {
+"classTauTauRestFrameSelector.html#a045f49f73f38509dfba1652056a49955":[1,0,338,0],
+"classTauTauRestFrameSelector.html#a825068b05a9345eaffc8c34895142720":[1,0,338,2],
+"classTauTauRestFrameSelector.html#afb59f86a2071c144277a0209a79f5f4d":[1,0,338,1],
 "classTauTauTriggerScaleFactorProducer.html":[1,0,339],
 "classTauTauTriggerScaleFactorProducer.html#a17a3e0477edd35f3d4aef2ca763efe94":[1,0,339,2],
 "classTauTauTriggerScaleFactorProducer.html#a8a91047ac7da1cbb48177e212617d361":[1,0,339,0],
@@ -62,7 +65,6 @@ var NAVTREEINDEX8 =
 "classZPtReweightProducer.html#af8a71db4b608877d853a618ccc2257ce":[1,0,357,1],
 "classbaseconfigCP_1_1Baseconfig__cp.html":[1,0,3,0],
 "classbaseconfigCP_1_1Baseconfig__cp.html#a3c58ebc80b568c477675aa73e5d45b4b":[1,0,3,0,0],
-"classbaseconfigCP_1_1Baseconfig__cp.html#aba80f31e9a16e84bf15a7e918b706ccd":[1,0,3,0,1],
 "classbaseconfig_1_1Baseconfig.html":[1,0,2,0],
 "classbaseconfig_1_1Baseconfig.html#ae1cf22f81bf515f9dba7edcee728c37e":[1,0,2,0,0],
 "classbinnings_1_1BinningsDict.html":[1,0,5,0],
@@ -171,8 +173,6 @@ var NAVTREEINDEX8 =
 "classdatacards_1_1Datacards.html#aeaa8ee4a3ad83151b0658da8a3d19ccd":[1,0,29,0,29],
 "classdatacards_1_1Datacards.html#afba1a176177af80ed93655da17dedbfa":[1,0,29,0,9],
 "classem_1_1em__ArtusConfig.html":[1,0,31,0],
-"classem_1_1em__ArtusConfig.html#a02f887d5c0cb59369097f988797b1238":[1,0,31,0,3],
-"classem_1_1em__ArtusConfig.html#a519e2528173ff72a9dc537122a7d7f4f":[1,0,31,0,2],
 "classem_1_1em__ArtusConfig.html#a5a54cbb2162d35d8672e4dc0b276b079":[1,0,31,0,1],
 "classem_1_1em__ArtusConfig.html#a6c3011e1062cbf37d287edc33fb7eb56":[1,0,31,0,0],
 "classembedding__plot__classes_1_1single__plot.html":[1,0,33,1],

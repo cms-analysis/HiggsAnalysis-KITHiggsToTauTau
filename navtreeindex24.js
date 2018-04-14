@@ -1,16 +1,5 @@
 var NAVTREEINDEX24 =
 {
-"plot__AUC__2D_8py.html#a2a234798315bb25460924ff906f25d22":[2,0,2,81,24],
-"plot__AUC__2D_8py.html#a3785796353ce78d160f8449ac8855f1b":[2,0,2,81,22],
-"plot__AUC__2D_8py.html#a415b554acbbbe63e5d8c96778b0d8148":[2,0,2,81,20],
-"plot__AUC__2D_8py.html#a43e0206e13d676a1144bc7e3e6dbc729":[2,0,2,81,26],
-"plot__AUC__2D_8py.html#a4885fe34bf2cf304c48bea8a9e389b83":[2,0,2,81,17],
-"plot__AUC__2D_8py.html#a49f79e84781610d18785854523faac8b":[2,0,2,81,3],
-"plot__AUC__2D_8py.html#a5baf118baf99ebf840bc781b1787bb4f":[2,0,2,81,32],
-"plot__AUC__2D_8py.html#a6504d7bab3a38015ceeee7154253656a":[2,0,2,81,5],
-"plot__AUC__2D_8py.html#a66b5874f68a697d2d032dc4854f49928":[2,0,2,81,19],
-"plot__AUC__2D_8py.html#a6cc941739ce0add2ddc1831a749b50ba":[2,0,2,81,1],
-"plot__AUC__2D_8py.html#a70898dfc90a08411fbf9a8c2201d453f":[2,0,2,81,21],
 "plot__AUC__2D_8py.html#a723eb2ce22e60c3227ffd4489cc9ed3e":[2,0,2,81,15],
 "plot__AUC__2D_8py.html#a8a360f7eb4ce44437c28ee1888d2542f":[2,0,2,81,23],
 "plot__AUC__2D_8py.html#a8a67fa2055f431c3429ccf463dd9c561":[2,0,2,81,29],
@@ -249,5 +238,16 @@ var NAVTREEINDEX24 =
 "scaleVariations__ZttOverZttInclusive_8py.html#ac60ea75e9c57272521081b99dcc1de93":[2,0,2,89,3],
 "scaleVariations__ZttOverZttInclusive_8py.html#ad143afb245ef0e3aa508150da4e51828":[2,0,2,89,30],
 "scaleVariations__ZttOverZttInclusive_8py.html#ad237dac6de58dd72c3c9c9a6e30ce040":[2,0,2,89,9],
-"scaleVariations__ZttOverZttInclusive_8py.html#ade65c870d87f3de01b79329da25bd3f5":[2,0,2,89,27]
+"scaleVariations__ZttOverZttInclusive_8py.html#ade65c870d87f3de01b79329da25bd3f5":[2,0,2,89,27],
+"scaleVariations__ZttOverZttInclusive_8py.html#ae693cf3d1beae662cbc3342ba5488c90":[2,0,2,89,20],
+"scaleVariations__ZttOverZttInclusive_8py.html#af0602321fc70a060a11cf5d4caad0376":[2,0,2,89,0],
+"scaleVariations__latexTables_8py.html":[2,0,2,87],
+"scaleVariations__latexTables_8py.html#a0e312e6eeef237169e1862fa5c36535f":[2,0,2,87,4],
+"scaleVariations__latexTables_8py.html#a2f92e56913264197a4e266eafc40bee4":[2,0,2,87,14],
+"scaleVariations__latexTables_8py.html#a454bb909bd0bd6ae3aa4c67857cf82d1":[2,0,2,87,9],
+"scaleVariations__latexTables_8py.html#a47edde64c1e0c2f5958994531d6aa9cb":[2,0,2,87,12],
+"scaleVariations__latexTables_8py.html#a49141947a67e0f4450ee16570d79c0a9":[2,0,2,87,13],
+"scaleVariations__latexTables_8py.html#a4adf4b355515a1e6f0388ea9c67d2bcd":[2,0,2,87,0],
+"scaleVariations__latexTables_8py.html#a4c0e1b59543b8190cdc09ecbae23bb1b":[2,0,2,87,1],
+"scaleVariations__latexTables_8py.html#a4ecdfbac7634177b6a6a1d8938b260a6":[2,0,2,87,3]
 };

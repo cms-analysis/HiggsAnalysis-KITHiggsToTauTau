@@ -10,5 +10,6 @@ var Run2CPQuantities_8py =
     [ "recoCPQuantitiesHiggs", "Run2CPQuantities_8py.html#afcd1874668769f7d410f1ca2ae98826c", null ],
     [ "recoPolarisationQuantities", "Run2CPQuantities_8py.html#a054528593841b2383a0af7297ebe6341", null ],
     [ "recoPolarisationQuantitiesSvfit", "Run2CPQuantities_8py.html#a16ec1c280a87974bb1b3ab16bbc93993", null ],
-    [ "weightQuantities", "Run2CPQuantities_8py.html#a6f263e65b4898b6c0b97e345c020ff7b", null ]
+    [ "weightQuantities", "Run2CPQuantities_8py.html#a6f263e65b4898b6c0b97e345c020ff7b", null ],
+    [ "log", "Run2CPQuantities_8py.html#a1a20fcb564b99040f362ef21e8b0ff28", null ]
 ];

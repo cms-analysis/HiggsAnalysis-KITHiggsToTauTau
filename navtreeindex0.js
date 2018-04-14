@@ -187,6 +187,7 @@ var NAVTREEINDEX0 =
 "HttValidTausProducer_8h_source.html":[2,0,0,2,24],
 "IncludeQuantities_8py.html":[2,0,1,0,0,0],
 "IncludeQuantities_8py.html#a7a585865ba56955aa5667a2bea68af34":[2,0,1,0,0,0,0],
+"IncludeQuantities_8py.html#a91f5f4482fed7ba7cecd598c92e8a5db":[2,0,1,0,0,0,2],
 "IncludeQuantities_8py.html#af3a2570d115203c90325bb518a3e8bd0":[2,0,1,0,0,0,1],
 "JetToTauFakesProducer_8cc.html":[2,0,3,2,25],
 "JetToTauFakesProducer_8h.html":[2,0,0,2,25],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "MetCorrectors_8cc.html":[2,0,3,2,29],
 "MetCorrectors_8h.html":[2,0,0,2,29],
 "MetCorrectors_8h_source.html":[2,0,0,2,29],
-"MetFilter_8cc.html":[2,0,3,1,7],
-"MetFilter_8h.html":[2,0,0,1,7]
+"MetFilter_8cc.html":[2,0,3,1,7]
 };

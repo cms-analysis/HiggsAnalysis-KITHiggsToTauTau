@@ -1,5 +1,8 @@
 var NAVTREEINDEX7 =
 {
+"classRecoilCorrector.html#ae8178d7b99dcccea02201be51195de63":[1,0,306,2],
+"classRefitVertexSelector.html":[1,0,309],
+"classRefitVertexSelector.html#a2e1b9024235b200be777bbde120574da":[1,0,309,0],
 "classRefitVertexSelector.html#a2fa81d07f81c40a39d5dffc4d19e9fb8":[1,0,309,2],
 "classRefitVertexSelector.html#a3d8920d82d12c7de736a798b683b6d7f":[1,0,309,1],
 "classRooWorkspaceWeightProducer.html":[1,0,310],
@@ -246,8 +249,5 @@ var NAVTREEINDEX7 =
 "classTauTauHistogramAdapter.html#af1dffdc2a1ced231583c553363402e34":[1,0,337,0],
 "classTauTauHistogramAdapter.html#af33e948b5ae3af60b1c9ae7e9f701d69":[1,0,337,5],
 "classTauTauHistogramAdapter.html#af81df1abee3ade1f212b537a69e0dc57":[1,0,337,3],
-"classTauTauRestFrameSelector.html":[1,0,338],
-"classTauTauRestFrameSelector.html#a045f49f73f38509dfba1652056a49955":[1,0,338,0],
-"classTauTauRestFrameSelector.html#a825068b05a9345eaffc8c34895142720":[1,0,338,2],
-"classTauTauRestFrameSelector.html#afb59f86a2071c144277a0209a79f5f4d":[1,0,338,1]
+"classTauTauRestFrameSelector.html":[1,0,338]
 };

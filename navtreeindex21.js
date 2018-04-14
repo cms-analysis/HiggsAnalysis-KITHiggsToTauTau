@@ -1,16 +1,5 @@
 var NAVTREEINDEX21 =
 {
-"makePlots__recogenPhiStarCP_8py.html#a5ed7dd22168a37def3925c542a283821":[2,0,2,63,4],
-"makePlots__recogenPhiStarCP_8py.html#a5f526de4f3528b40403381ad7efa2280":[2,0,2,63,11],
-"makePlots__recogenPhiStarCP_8py.html#a7aab05533e9a298095a8e60c3e1588da":[2,0,2,63,9],
-"makePlots__recogenPhiStarCP_8py.html#a8f82bd72763e5a20a38e5504fd3a575b":[2,0,2,63,5],
-"makePlots__recogenPhiStarCP_8py.html#aa226c3f024b0d12c40169da4ce20e2f8":[2,0,2,63,15],
-"makePlots__recogenPhiStarCP_8py.html#aa84c722b6a2a4c6b82e98c7f8feb59b9":[2,0,2,63,12],
-"makePlots__recogenPhiStarCP_8py.html#aae280736541f05f684b0469263118266":[2,0,2,63,18],
-"makePlots__recogenPhiStarCP_8py.html#ace0db3303af36cae199b2181cb19ef91":[2,0,2,63,14],
-"makePlots__recogenPhiStarCP_8py.html#ad8fae2ec2745c8358659120183a64b55":[2,0,2,63,7],
-"makePlots__recogenPhiStarCP_8py.html#adfbec61e6fce2557f210a678c6d22f84":[2,0,2,63,8],
-"makePlots__recogenPhiStarCP_8py.html#ae35a5d131224579c61106973548f296b":[2,0,2,63,13],
 "makePlots__recogenPhiStarCP_8py.html#ae9e6e8d4573c0cd89623d5d8b41fd6db":[2,0,2,63,0],
 "makePlots__recogenPhiStarCP_8py.html#aee9d9bb188a8f873e0dbfbe925dfb084":[2,0,2,63,3],
 "makePlots__recogenPhiStarCP_8py.html#af37ffb7ab52b0c795492cbbe9d8c31b8":[2,0,2,63,6],
@@ -249,5 +238,16 @@ var NAVTREEINDEX21 =
 "mvaCategory__Uncertainties_8py.html#aeee5253c51709d241264b4c9b733468f":[2,0,2,77,25],
 "mvaCategory__Uncertainties_8py.html#aef908cc223d86b553222b0e6c2e9ae27":[2,0,2,77,6],
 "mvaCategory__Uncertainties_8py.html#af2cb99c9fefac474ad66d00f9f697651":[2,0,2,77,4],
-"mvadatacards__base_8py.html":[2,0,1,1,9]
+"mvadatacards__base_8py.html":[2,0,1,1,9],
+"mvadatacards__base_8py.html#a7fe5005f8e4a77e68cdd2f5c0e433b07":[2,0,1,1,9,2],
+"mvadatacards__base_8py.html#a87b2ef4f48b53138210f18394d416c74":[2,0,1,1,9,1],
+"nFold__DiffScan_8py.html":[2,0,2,78],
+"nFold__DiffScan_8py.html#a1c39a3b603aecd1731dcfb38d23e51c0":[2,0,2,78,10],
+"nFold__DiffScan_8py.html#a314f6cc86a7737384261e9eca8501e54":[2,0,2,78,6],
+"nFold__DiffScan_8py.html#a38700b81110f8fbd5ed3be25bbd2f76e":[2,0,2,78,12],
+"nFold__DiffScan_8py.html#a3c787586cda82fe7689719d93241fda8":[2,0,2,78,14],
+"nFold__DiffScan_8py.html#a55ec41c160804699adb844a834bbcf07":[2,0,2,78,9],
+"nFold__DiffScan_8py.html#a5eb5df5f68e26af377c26bdd39457439":[2,0,2,78,5],
+"nFold__DiffScan_8py.html#a623a0f97217ab4f0ef6b3a4061f3efd5":[2,0,2,78,3],
+"nFold__DiffScan_8py.html#a659869f308d5e1156fc400457d517fdf":[2,0,2,78,2]
 };

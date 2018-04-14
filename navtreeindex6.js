@@ -1,5 +1,8 @@
 var NAVTREEINDEX6 =
 {
+"classHttValidMuonsProducer.html#ac19593568471fd88ba6acf3a355f0dab":[1,0,255,2],
+"classHttValidMuonsProducer.html#af259c142f817fc3ed02e0b52b0aed99b":[1,0,255,0],
+"classHttValidMuonsProducer.html#af259c142f817fc3ed02e0b52b0aed99ba62953665c9dfcb43e5d1d636913d260d":[1,0,255,0,1],
 "classHttValidMuonsProducer.html#af259c142f817fc3ed02e0b52b0aed99bab50339a10e1de285ac99d4c3990b8693":[1,0,255,0,0],
 "classHttValidMuonsProducer.html#af259c142f817fc3ed02e0b52b0aed99bab91544dc795ce1c583ca2445b8d83401":[1,0,255,0,2],
 "classHttValidMuonsProducer.html#af259c142f817fc3ed02e0b52b0aed99bad1e4bd4458f27976b3d94a9604de9d38":[1,0,255,0,3],
@@ -246,8 +249,5 @@ var NAVTREEINDEX6 =
 "classRecoilCorrector.html":[1,0,306],
 "classRecoilCorrector.html#a001cce3337744188a2f57767d2aa538d":[1,0,306,0],
 "classRecoilCorrector.html#a1b24ca9f6e1c4b25bb0daf52cbebbdfa":[1,0,306,3],
-"classRecoilCorrector.html#a8eff1c49f5494664063f3b465553471d":[1,0,306,1],
-"classRecoilCorrector.html#ae8178d7b99dcccea02201be51195de63":[1,0,306,2],
-"classRefitVertexSelector.html":[1,0,309],
-"classRefitVertexSelector.html#a2e1b9024235b200be777bbde120574da":[1,0,309,0]
+"classRecoilCorrector.html#a8eff1c49f5494664063f3b465553471d":[1,0,306,1]
 };

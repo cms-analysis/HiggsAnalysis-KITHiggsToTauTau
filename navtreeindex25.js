@@ -1,16 +1,5 @@
 var NAVTREEINDEX25 =
 {
-"scaleVariations__ZttOverZttInclusive_8py.html#ae693cf3d1beae662cbc3342ba5488c90":[2,0,2,89,20],
-"scaleVariations__ZttOverZttInclusive_8py.html#af0602321fc70a060a11cf5d4caad0376":[2,0,2,89,0],
-"scaleVariations__latexTables_8py.html":[2,0,2,87],
-"scaleVariations__latexTables_8py.html#a0e312e6eeef237169e1862fa5c36535f":[2,0,2,87,4],
-"scaleVariations__latexTables_8py.html#a2f92e56913264197a4e266eafc40bee4":[2,0,2,87,14],
-"scaleVariations__latexTables_8py.html#a454bb909bd0bd6ae3aa4c67857cf82d1":[2,0,2,87,9],
-"scaleVariations__latexTables_8py.html#a47edde64c1e0c2f5958994531d6aa9cb":[2,0,2,87,12],
-"scaleVariations__latexTables_8py.html#a49141947a67e0f4450ee16570d79c0a9":[2,0,2,87,13],
-"scaleVariations__latexTables_8py.html#a4adf4b355515a1e6f0388ea9c67d2bcd":[2,0,2,87,0],
-"scaleVariations__latexTables_8py.html#a4c0e1b59543b8190cdc09ecbae23bb1b":[2,0,2,87,1],
-"scaleVariations__latexTables_8py.html#a4ecdfbac7634177b6a6a1d8938b260a6":[2,0,2,87,3],
 "scaleVariations__latexTables_8py.html#a53d88f05403deec44f4ea06f56c3b89d":[2,0,2,87,11],
 "scaleVariations__latexTables_8py.html#a54e6eccc6dbe7b3566ef501ecb4aea74":[2,0,2,87,2],
 "scaleVariations__latexTables_8py.html#a61ad18a03f3bcb72a2bda5fbba2a0acf":[2,0,2,87,8],

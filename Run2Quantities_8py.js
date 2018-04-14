@@ -7,5 +7,6 @@ var Run2Quantities_8py =
     [ "lheWeightsHTTQuantities", "Run2Quantities_8py.html#acd4a6bc13cb1a771df42d64b1fe9d0f3", null ],
     [ "splitJecUncertaintyQuantities", "Run2Quantities_8py.html#a67c661124d95aacca72699f945d1a26e", null ],
     [ "svfitSyncQuantities", "Run2Quantities_8py.html#ab1f8dd6b52132d4af6b200b199af8275", null ],
-    [ "syncQuantities", "Run2Quantities_8py.html#aa3c2a0c383a8aaab81ad7a4a598c4d77", null ]
+    [ "syncQuantities", "Run2Quantities_8py.html#aa3c2a0c383a8aaab81ad7a4a598c4d77", null ],
+    [ "log", "Run2Quantities_8py.html#a046c94891c279f812745f93cc171d2ac", null ]
 ];
