@@ -19,9 +19,8 @@ class TauSpinner(dict):
 		elif re.search("(14TeV)", nickname):
 			self["TauSpinnerSettingsCmsEnergy"] = 14000.0
 
-
 		self["TauSpinnerSettingsIpp"] = True
-	
+		
 		self["TauSpinnerSettingsIpol_documentation"] = {
 			"0/1" : "Applying longitudinal spin effects, https://arxiv.org/pdf/1402.2068v1.pdf (section 5.4)",
 			"2" : "Working on the input file with spin correlations but without polarization",
@@ -29,13 +28,13 @@ class TauSpinner(dict):
 			"4" : "Validation"
 		}
 		self["TauSpinnerSettingsIpol"] = "1"
-	
+		
 		self["TauSpinnerSettingsNonSM2_documentation"] = {
 			"0" : "SM calculations (spin = 0)",
 			"1" : "non SM calculations (spin = 2): http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html (line 558)"
 		},
 		self["TauSpinnerSettingsNonSM2"] = "0"
-	
+		
 		self["TauSpinnerSettingsNonSMN"] = "0"
 		if re.search("(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalf"] = [
@@ -71,6 +70,6 @@ class TauSpinner(dict):
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = 0.0
 		elif re.search("SUSY(BB|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = 1.0
-		else: 
+		else:
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = -1.0
-	
+

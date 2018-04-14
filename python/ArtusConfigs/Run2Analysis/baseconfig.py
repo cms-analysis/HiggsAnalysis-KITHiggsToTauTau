@@ -16,7 +16,7 @@ class Baseconfig(dict):
 
 	def __init__(self, nickname):
 
-		"""	
+		"""
 		"include" : [
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json", #DONE
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLheWeights.json", #DONE
@@ -30,17 +30,17 @@ class Baseconfig(dict):
 
 		LheWeights_config = sLheWeights.LheWeights(nickname)
 		self.update(LheWeights_config)
-		""" 
+		"""
 		JEC_config = sJEC.JEC(nickname) # is commented out
 		self.update(JEC_config)
 		"""
-		sampleStitchingWeight_config = sSSW.SampleStitchingWeights(nickname) 
+		sampleStitchingWeight_config = sSSW.SampleStitchingWeights(nickname)
 		self.update(sampleStitchingWeight_config)
 
 
 		self["SkipEvents"] = 0
 		self["EventCount"] = -1
-				
+		
 		self["OutputPath"] = "output.root"
 		
 		if re.search("Run201", nickname):
@@ -51,7 +51,7 @@ class Baseconfig(dict):
 		
 		if re.match("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)|LFV", nickname):
 			self["BosonPdgIds"] = [23]
-		elif re.match("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):	
+		elif re.match("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["BosonPdgIds"] = [25]
 		elif re.match("W.?JetsToLN|EWKW", nickname):
 			self["BosonPdgIds"] = [24]
@@ -96,14 +96,14 @@ class Baseconfig(dict):
 		elif re.search("(Spring16|Summer16)", nickname):
 			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-284044_13TeVMoriond17_23Sep2016ReReco_69p2mbMinBiasXS.root"
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
-			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root" 
+			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root"
 
 		elif re.search("Run201", nickname):
 			self["PileupWeightFile"] = "not needed"
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv"
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies.root"
 
-		elif re.search("Embedding", nickname):	
+		elif re.search("Embedding", nickname):
 			self["PileupWeightFile"] = "not needed"
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv"
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies.root"
@@ -144,7 +144,6 @@ class Baseconfig(dict):
 			self["ChooseMvaMet"] = False
 
 
-
 		if re.search("Run2015B", nickname):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_50ns_JSON_v2.txt"]
 		elif re.search("Run2015(C|D)|Embedding2015", nickname):
@@ -153,8 +152,6 @@ class Baseconfig(dict):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"]
 		elif re.search("Run2017", nickname):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"]
-
-
 
 
 		if re.search("(Fall15MiniAODv2)", nickname):
@@ -166,7 +163,7 @@ class Baseconfig(dict):
 		elif re.search("(Spring16|Summer16)", nickname):
 			self["SimpleMuTauFakeRateWeightLoose"]	= [1.01, 1.007, 0.87, 1.154, 2.281]
 			self["SimpleMuTauFakeRateWeightTight"] = [1.263, 1.364, 0.854, 1.712, 2.324]
-			self["SimpleEleTauFakeRateWeightVLoose"] = [1.213, 1.375]	
+			self["SimpleEleTauFakeRateWeightVLoose"] = [1.213, 1.375]
 			self["SimpleEleTauFakeRateWeightTight"] = [1.402, 1.90]
 
 		elif re.search("(Summer17|Fall17)", nickname):
@@ -174,8 +171,4 @@ class Baseconfig(dict):
 			self["SimpleMuTauFakeRateWeightTight"] = [1.0, 1.0, 1.0, 1.0, 1.0]
 			self["SimpleEleTauFakeRateWeightVLoose"] = [1.0, 1.0]
 			self["SimpleEleTauFakeRateWeightTight"] = [1.0, 1.0]
-		
-	
-
-
 

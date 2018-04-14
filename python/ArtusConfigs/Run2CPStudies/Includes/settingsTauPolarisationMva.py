@@ -23,3 +23,4 @@ class TauPolarisationMva(dict):
 		self["TauPolarisationTmvaMethods"] = ["BDT",
 						"BDT"
 						]
+

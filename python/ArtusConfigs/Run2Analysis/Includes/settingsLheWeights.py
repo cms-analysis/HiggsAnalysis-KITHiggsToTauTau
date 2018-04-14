@@ -9,7 +9,8 @@ import re
 
 class LheWeights(dict):
 	def __init__(self, nickname):
-		self["LheWeights_documentation"] = "https://lhapdf.hepforge.org/pdfsets.html"		
+		self["LheWeights_documentation"] = "https://lhapdf.hepforge.org/pdfsets.html"
+		
 		if re.match("DY.*RunIISummer16.*madgraph", nickname):
 			self["PdfLheWeights"] = [
 				"NNPDF30_lo_as_0130_LHgrid__Member_0",
@@ -115,7 +116,6 @@ class LheWeights(dict):
 				"NNPDF30_lo_as_0130_LHgrid__Member_99"
 			]
 
-
 			self["AlphaSLheWeights"] = ["NNPDF30_lo_as_0130_LHgrid__Member_0","NNPDF30_lo_as_0118_LHgrid__Member_0"]
 
 			self["ScaleLheWeights"] = ["Central_scale_variation__mur_0_5_muf_0_5",
@@ -127,8 +127,6 @@ class LheWeights(dict):
 				"#Central_scale_variation__mur_2_muf_0_5",
 				"Central_scale_variation__mur_2_muf_1",
 				"Central_scale_variation__mur_2_muf_2"]
-
-
 
 		elif re.match("HToTauTau.*RunIISummer16.*powheg-pythia8", nickname):
 			self["PdfLheWeights"] = [
@@ -248,12 +246,8 @@ class LheWeights(dict):
 				"scale_variation__muR_0_5_muF_0_5"
 			]
 
-
 		else:
 			self["PdfLheWeights"] = []
-			self["AlphaSLheWeights"] = [] 
+			self["AlphaSLheWeights"] = []
 			self["ScaleLheWeights"] = []
-
-		
-
 

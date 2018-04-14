@@ -13,7 +13,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauID as sTID
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID 
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsBTaggedJetID as sBTJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsSvfit as sSvfit
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMinimalPlotlevelFilter as sMPlF
@@ -49,9 +49,8 @@ class tt_ArtusConfig(dict):
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_tt.json", #Done
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",  #Done
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json", #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"] #Done 
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"] #Done
 		"""
-
 
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
@@ -64,7 +63,7 @@ class tt_ArtusConfig(dict):
 		TauID_config = sTID.Tau_ID(nickname)			#here loose is not appended since loose tau ID is not used
 		self.update(TauID_config)
 
-		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it 
+		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)
 
 		JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
@@ -91,10 +90,7 @@ class tt_ArtusConfig(dict):
 		
 		TauPolarisationMva_config = sTPMVA.TauPolarisationMva()
 		self.update(TauPolarisationMva_config)
-	
-
-
-
+		
 		self["TauPolarisationTmvaWeights"] = ["/afs/cern.ch/user/m/mfackeld/public/weights_tmva/training.weights.xml",
 						"/afs/cern.ch/user/m/mfackeld/public/weights_sklearn/training_tt.weights.xml"]
 
@@ -110,7 +106,7 @@ class tt_ArtusConfig(dict):
 		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 		self["TauTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 
-		self["TauTauTriggerWeightWorkspaceWeightNames"] = ["0:triggerWeight", "1:triggerWeight"] 
+		self["TauTauTriggerWeightWorkspaceWeightNames"] = ["0:triggerWeight", "1:triggerWeight"]
 		self["TauTauTriggerWeightWorkspaceObjectNames"] = ["0:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio", "1:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio"]
 		self["TauTauTriggerWeightWorkspaceObjectArguments"] = ["0:t_pt,t_dm","1:t_pt,t_dm"]
 		self["EleTauFakeRateWeightFile"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root",
@@ -125,9 +121,6 @@ class tt_ArtusConfig(dict):
 		self["UseUWGenMatching"] = "true"                   #TODO change this to boolean? or change the rest to string?
 		self["DirectIso"] = True
 		self["TopPtReweightingStrategy"] = "Run1"
-
-
-		
 
 		self["OSChargeLeptons"] = True
 		self["SvfitKappaParameter"] = 5.0
@@ -146,7 +139,6 @@ class tt_ArtusConfig(dict):
 			#"PrintEventsConsumer",
 			#"PrintGenParticleDecayTreeConsumer"]
 
-
 		if re.search("Embedding", nickname):
 			self["NoHltFiltering"]= True
 			self["DiTauPairNoHLT"]= True
@@ -154,9 +146,8 @@ class tt_ArtusConfig(dict):
 			self["NoHltFiltering"]=False
 			self["DiTauPairNoHLT"]= False	
 		
-
 		 #set it here and if it is something else then change it in the ifs below
-		self["HltPaths"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg", "HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"]     
+		self["HltPaths"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg", "HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"]
 		self["TauTriggerFilterNames"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg",   #here are : in string
 						"HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumCombinedIsolationDz02Reg"]
 

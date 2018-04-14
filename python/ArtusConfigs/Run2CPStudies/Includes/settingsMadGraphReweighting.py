@@ -15,9 +15,7 @@ class MadGraphReweighting(dict):
 			self["MadGraphParamCardSample"] = "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh_2p6/Cards/param_card_default.dat"
 			self["MadGraphSortingHeavyBQuark"] = False
 			self["MadGraph2p6ProcessDirectory"] = "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh_2p6/SubProcesses/"
-			
-
-
+		
 		elif re.search("VBF", nickname):
 			self["MadGraphParamCard"] = "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf_2p6/Cards/param_card_cp.dat"
 			self["MadGraphParamCardSample"]	= "$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf_2p6/Cards/param_card_default.dat"
@@ -42,7 +40,6 @@ class MadGraphReweighting(dict):
 		else:
 			self["MadGraphMixingAnglesOverPiHalf"] = []
 
-
 		if re.search("SM_(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["MadGraphMixingAnglesOverPiHalfSample"] = 0.0
 		elif re.search("^(W(minus|plus)|Z|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
@@ -52,8 +49,6 @@ class MadGraphReweighting(dict):
 		else:
 			self["MadGraphMixingAnglesOverPiHalfSample"] = -1.0
 		
-
-	
 		self["UseMadGraph2p5"] = False
 
 		if re.match("GluGlu", nickname):
@@ -514,11 +509,4 @@ class MadGraphReweighting(dict):
 				"d_barb_bar_h0d_barb_bar:$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf_2p5/SubProcesses/P0_dxsx_x0dxsx_no_a",
 				"s_barb_bar_h0s_barb_bar:$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf_2p5/SubProcesses/P0_dxsx_x0dxsx_no_a"
 			]
-
-
-
-
-
-
-
 

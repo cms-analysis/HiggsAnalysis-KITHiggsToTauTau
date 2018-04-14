@@ -19,8 +19,6 @@ class SampleStitchingWeights(dict):
 				"4:9.62135e-6"
 			]
 
-			
-
 		elif re.match("DY.?JetsToLLM(50|150)_RunIISpring16", nickname):
 			self["StitchingWeights"] = [
 				"0:1.15592037377927e-4",
@@ -47,6 +45,7 @@ class SampleStitchingWeights(dict):
 				"3:1.62808443e-5",
 				"4:5.75970078e-5"
 			]
+		
 		elif re.match("W.?JetsToLNu_RunIIFall15", nickname):
 			self["StitchingWeights"] = [
 				"0:1.3046006677e-3",
@@ -55,6 +54,7 @@ class SampleStitchingWeights(dict):
 				"3:5.82002641e-5",
 				"4:6.27558901e-5"
 			]
+		
 		elif re.match("W.?JetsToLNu_RunIISpring16", nickname):
 			self["StitchingWeights"] = [
 				"0:2.1809966268e-3",
@@ -63,6 +63,7 @@ class SampleStitchingWeights(dict):
 				"3:5.71488637e-5",
 				"4:6.27792554e-5"
 			]
+		
 		elif re.match("W.?JetsToLNu_RunIISummer16", nickname):
 			self["StitchingWeights"] = [
 				"0:7.09390278348407e-4",
@@ -71,6 +72,7 @@ class SampleStitchingWeights(dict):
 				"3:1.9206444928444e-5",
 				"4:1.923548021385e-5"
 			]
+		
 		elif re.match("W.?JetsToLNu_RunIISummer17", nickname):
 			self["StitchingWeights"] = [
 				"0:2.36006270e-03",
@@ -97,9 +99,4 @@ class SampleStitchingWeights(dict):
 					"3:1.182424451247e-6",
 					"4:1.160777761878e-6"
 				]
-
-
-
-
-
 

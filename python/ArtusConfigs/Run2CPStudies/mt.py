@@ -13,7 +13,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauID as sTID
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID 
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsBTaggedJetID as sBTJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsSvfit as sSvfit
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMinimalPlotlevelFilter as sMPlF
@@ -53,17 +53,17 @@ class mt_ArtusConfig(dict):
 
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
-		self.update(ElectronID_config)	
+		self.update(ElectronID_config)
 
 		MuonID_config = sMID.Muon_ID(nickname)
 		MuonID_config.looseMuon_ID(nickname) 		#append the config for loose Muon ID because it is used
 		MuonID_config.vetoMuon_ID(nickname)
-		self.update(MuonID_config)	
+		self.update(MuonID_config)
 
 		TauID_config = sTID.Tau_ID(nickname)			#here loose is not appended since loose tau ID is not used
 		self.update(TauID_config)
 
-		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it 
+		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)
 
 		JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
@@ -116,11 +116,11 @@ class mt_ArtusConfig(dict):
 				]
 			self["NoHltFiltering"] = False
 			self["DiTauPairNoHLT"] = False
-				
+			
 		elif re.search("Embedding(2016|MC)", nickname):
 			self["HltPaths"] = [""]
 			self["NoHltFiltering"] = True
-			self["DiTauPairNoHLT"] = True 
+			self["DiTauPairNoHLT"] = True
 			
 		self["TauID"] = "TauIDRecommendation13TeV"
 		self["TauUseOldDMs"] = True
@@ -159,7 +159,7 @@ class mt_ArtusConfig(dict):
 					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
 					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
 				]
-			
+		
 		else:                                         #I believe "Run2016|Spring16|Summer16|Embedding(2016|MC)" is everything else but for safety i did it here, 2017 not included yet
 			self["DiTauPairLepton1LowerPtCuts"] = [
 					"HLT_IsoMu24_v:25.0",
@@ -246,7 +246,6 @@ class mt_ArtusConfig(dict):
 			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root"]
 			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root"]
 
-
 		self["TriggerEfficiencyMode"] = "multiply_weights"
 		self["IdentificationEfficiencyMode"] = "multiply_weights"
 		self["EleTauFakeRateWeightFile"] = [
@@ -317,7 +316,6 @@ class mt_ArtusConfig(dict):
 					"triggerWeight_muTauCross_1",
 					"triggerWeight_muTauCross_2"]
 
-
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
@@ -355,7 +353,7 @@ class mt_ArtusConfig(dict):
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2cpq.genQuantities()			
+			self["Quantities"] += r2cpq.genQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
@@ -386,7 +384,7 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
 			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()			
+			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			
 			self["Quantities"] += ["nVetoMuons",
@@ -404,8 +402,8 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
 			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()	
-			self["Quantities"] += iq.SingleTauQuantities()	#until here		
+			self["Quantities"] += r2cpq.weightQuantities()
+			self["Quantities"] += iq.SingleTauQuantities()	#until here
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			
 			self["Quantities"] += ["nVetoMuons",
@@ -426,7 +424,7 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += r2cpq.melaQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantities()			
+			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
 
 			self["Quantities"] += ["nVetoMuons",
@@ -920,7 +918,6 @@ class mt_ArtusConfig(dict):
 			#self["Processors"] += ["producer:MELAProducer"]
 			#self["Processors"] += ["producer:MELAM125Producer"]
 
-
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -987,6 +984,4 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
-
-
 

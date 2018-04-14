@@ -13,7 +13,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauID as sTID
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID 
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsBTaggedJetID as sBTJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsSvfit as sSvfit
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMinimalPlotlevelFilter as sMPlF
@@ -50,17 +50,17 @@ class mm_ArtusConfig(dict):
 
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
-		self.update(ElectronID_config)	
+		self.update(ElectronID_config)
 
 		MuonID_config = sMID.Muon_ID(nickname)
 		MuonID_config.looseMuon_ID(nickname) 		#append the config for loose Muon ID because it is used
 		MuonID_config.vetoMuon_ID(nickname)
-		self.update(MuonID_config)	
+		self.update(MuonID_config)
 
 		TauID_config = sTID.Tau_ID(nickname)			#here loose is not appended since loose tau ID is not used
 		self.update(TauID_config)
 
-		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it 
+		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)
 
 		JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
@@ -85,7 +85,6 @@ class mm_ArtusConfig(dict):
 		self["Channel"] = "MM"
 		self["MinNMuons"] = 2
 		self["HltPaths_comment"] = "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer."
-
 
 		self["HltPaths"] = ["HLT_IsoMu24",
 				"HLT_IsoTkMu24"
@@ -115,7 +114,6 @@ class mm_ArtusConfig(dict):
 					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:10.0"
 				]
 		
-		
 		self["TauID"] = "TauIDRecommendation13TeV"
 		self["TauUseOldDMs"] = False
 		self["MuonLowerPtCuts"] = [
@@ -127,14 +125,11 @@ class mm_ArtusConfig(dict):
 		self["DiTauPairMinDeltaRCut"] = 0.3
 		self["DeltaRTriggerMatchingMuons"] = 0.1
 
-
 		if re.search("Run2016|Spring16|Summer16", nickname):
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
 					"HLT_IsoMu24_v",
 					"HLT_IsoTkMu24_v"
 				]
-		
-
 		
 		self["DiTauPairNoHLT"] = False
 		
@@ -178,7 +173,7 @@ class mm_ArtusConfig(dict):
 					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu17_fall15.root",
 					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu8_fall15.root",
 					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu17_fall15.root"
-				]	
+				]
 
 			self["IdentificationEfficiencyData"] = [
 					"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p15_fall15.root",
@@ -208,12 +203,8 @@ class mm_ArtusConfig(dict):
 					"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root"
 				]
 
-
 		self["TriggerEfficiencyMode"] = "correlate_triggers"
 
-
-
-		
 		self["IdentificationEfficiencyMode"] = "multiply_weights"
 		self["TauTauRestFrameReco"] = "collinear_approximation"
 
@@ -228,7 +219,6 @@ class mm_ArtusConfig(dict):
 					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:hltDiMuonGlb17Glb8RelTrkIsoFiltered0p4DzFiltered0p2",
 					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:hltDiMuonGlb17Trk8RelTrkIsoFiltered0p4DzFiltered0p2"
 				]
-
 
 		self["InvalidateNonMatchingElectrons"] = False
 		self["InvalidateNonMatchingMuons"] = True
@@ -251,7 +241,6 @@ class mm_ArtusConfig(dict):
 			"#PrintEventsConsumer"
 		]
 
-
 		self["Quantities"]=[]
 		self["Quantities"] += r2q.fourVectorQuantities()
 		self["Quantities"] += r2q.syncQuantities()
@@ -270,10 +259,7 @@ class mm_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.genQuantitiesLFV()
 		else:
 			self["Quantities"] += r2cpq.recoCPQuantities()
-			
-
-
-
+		
 		self["OSChargeLeptons"] = True
 		if re.search("(Fall15MiniAODv2|Run2015)", nickname):
 			self["MuonEnergyCorrection"] = "rochcorr2015"
@@ -537,15 +523,4 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
-				
-
-
-			
-
-
-
-
-
-
-
 

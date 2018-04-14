@@ -13,7 +13,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauID as sTID
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID 
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsBTaggedJetID as sBTJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsSvfit as sSvfit
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMinimalPlotlevelFilter as sMPlF
@@ -30,7 +30,7 @@ class et_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def build_config(self, nickname): 
+	def build_config(self, nickname):
                #Maybe change this the arguments to process/year and DATA/MC
 		"""
 		"include" : [
@@ -53,18 +53,18 @@ class et_ArtusConfig(dict):
 		"""
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
-		ElectronID_config.vetoElectron_ID(nickname) 		
-		self.update(ElectronID_config)	
+		ElectronID_config.vetoElectron_ID(nickname)
+		self.update(ElectronID_config)
 
 		MuonID_config = sMID.Muon_ID(nickname)
 		MuonID_config.looseMuon_ID(nickname) 		#append the config for loose Muon ID because it is used
 
-		self.update(MuonID_config)	
+		self.update(MuonID_config)
 
 		TauID_config = sTID.Tau_ID(nickname)			#here loose is not appended since loose tau ID is not used
 		self.update(TauID_config)
 
-		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it 
+		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)
 
 		JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
@@ -92,10 +92,6 @@ class et_ArtusConfig(dict):
 		TauPolarisationMva_config = sTPMVA.TauPolarisationMva()
 		self.update(TauPolarisationMva_config)
 
-
-
-
-
 		self["TauPolarisationTmvaWeights"] = [
 			"/afs/cern.ch/user/m/mfackeld/public/weights_tmva/training.weights.xml",
 			"/afs/cern.ch/user/m/mfackeld/public/weights_sklearn/training_et.weights.xml"
@@ -106,7 +102,7 @@ class et_ArtusConfig(dict):
 		self["HltPaths_comment"] =  "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer."
 
 		self["NoHltFiltering"] = False  #else
-		self["DiTauPairNoHLT" ] = False		
+		self["DiTauPairNoHLT" ] = False
 
 		self["ElectronLowerPtCuts"] = ["26.0"]  #default: !=2015
 		self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"]  #default: !=2015
@@ -130,9 +126,6 @@ class et_ArtusConfig(dict):
 
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v"]
 
-
-
-	
 		self["TauID"] =  "TauIDRecommendation13TeV"
 		self["TauUseOldDMs"] =  True
 	
@@ -143,7 +136,6 @@ class et_ArtusConfig(dict):
 		
 		self["DiTauPairMinDeltaRCut"] = 0.5
 		self["DiTauPairIsTauIsoMVA"] = True
-		
 		
 		self["EventWeight"] =  "eventWeight"
 		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
@@ -161,16 +153,12 @@ class et_ArtusConfig(dict):
 			"0:e_pt,e_eta"
 		]
 
-
-
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["TriggerEfficiencyData"] = [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root" ]
 			self["TriggerEfficiencyMc"] = [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23_fall15.root"]
 
 			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"]
 			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"]
-
-			
 
 		else:
 			self["TriggerEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele25WPTight_eff.root" ]
@@ -179,8 +167,6 @@ class et_ArtusConfig(dict):
 			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"]
 			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"]
 		
-
-
 		self["TriggerEfficiencyMode"] = "multiply_weights"
 		self["IdentificationEfficiencyMode"] = "multiply_weights"
 		self["EleTauFakeRateWeightFile"] = [
@@ -195,7 +181,6 @@ class et_ArtusConfig(dict):
 		elif re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
 			self["ElectronTriggerFilterNames"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"]
 
-	
 		self["InvalidateNonMatchingElectrons"] = True
 		self["InvalidateNonMatchingMuons"] = False
 		self["InvalidateNonMatchingTaus"] = True
@@ -291,7 +276,7 @@ class et_ArtusConfig(dict):
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2cpq.genQuantities()			
+			self["Quantities"] += r2cpq.genQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
@@ -302,7 +287,7 @@ class et_ArtusConfig(dict):
 					"nAllDiTauPairCandidates",
 					"tauSpinnerPolarisation"]
 
-		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname): 
+		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.svfitSyncQuantities()
@@ -325,7 +310,7 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
 			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()			
+			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += ["nLooseElectrons",
 					"nLooseMuons",
@@ -338,8 +323,8 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
 			self["Quantities"] += r2cpq.genQuantitiesLFV()
-			self["Quantities"] += r2cpq.weightQuantities()	
-			self["Quantities"] += iq.SingleTauQuantities()		
+			self["Quantities"] += r2cpq.weightQuantities()
+			self["Quantities"] += iq.SingleTauQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += ["nVetoElectrons",
 					"nLooseElectrons",
@@ -356,14 +341,13 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += r2cpq.melaQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantities()			
+			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
 			self["Quantities"] += ["nVetoElectrons",
 					"nLooseElectrons",
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates"]
-
 
 		self["Quantities"]=sorted(list(set(self["Quantities"])), key=str.lower) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 
@@ -423,8 +407,7 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
-				
-		
+
 		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -536,8 +519,7 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
-				
-
+		
 		elif re.search("Run2016", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -575,7 +557,6 @@ class et_ArtusConfig(dict):
 
 			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:MELAM125Producer"]
-
 
 			self["Processors"] += ["producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
@@ -635,9 +616,7 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
-				
-
-
+			
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -691,8 +670,7 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["#producer:MadGraphReweightingProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
-				
-
+		
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -744,14 +722,13 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["#producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]		
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 		
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:MadGraphReweightingProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
-				
-
+		
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -807,8 +784,7 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
-				
-
+		
 		else:
 			self["Processors"] = [
 					"producer:HltProducer",
@@ -862,16 +838,4 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
-				
 
-
-		
-
-
-
-
-
-
-
-
-		

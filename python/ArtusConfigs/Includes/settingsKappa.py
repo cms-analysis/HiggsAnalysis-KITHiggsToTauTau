@@ -21,9 +21,6 @@ class Kappa(dict):
 			self["GenTauJets"] = "tauGenJets"  # * default is set here
 			self["GenMet"] = "genmetTrue"
 
-
-
-
 		self["GenJets"] = ""
 		self["Electrons"] = "electrons"
 		self["ElectronMetadata"] = "electronMetadata"
@@ -32,14 +29,13 @@ class Kappa(dict):
 		self["TauMetadata"] = "taus"
 
 		if re.search("8TeV", nickname):
-			self["GenTauJets"] = ""   #* watch out default is set before 
+			self["GenTauJets"] = ""   #* watch out default is set before
 			self["TaggedJets"] = "AK5PFTaggedJets"
 			self["PileupDensity"] = "KT6Area"
 
 		elif re.search("13TeV.*_AODSIM", nickname):
 			self["TaggedJets"] = "AK5PFTaggedJets"
- 			
-
+ 		
 		elif re.search("MINIAOD", nickname):
 			self["TaggedJets"] = "ak4PF"
 		elif re.search("USER",nickname):
@@ -61,8 +57,6 @@ class Kappa(dict):
 		else:
 			self["MvaMets"] = "MVAMET"
 
-	
-
 		#self["PFChargedHadronsPileUp"] = "pfPileUpChargedHadrons"
 		##self["PFChargedHadronsNoPileUp"] = "pfNoPileUpChargedHadrons"
 		#self["PFChargedHadronsNoPileUp"] = "pfAllChargedParticles"
@@ -81,8 +75,4 @@ class Kappa(dict):
 		self["BeamSpot"] = "offlineBeamSpot"
 		self["TriggerInfos"] = "triggerObjectMetadata"
 		self["TriggerObjects"] = "triggerObjects"
-
-
-
-
 

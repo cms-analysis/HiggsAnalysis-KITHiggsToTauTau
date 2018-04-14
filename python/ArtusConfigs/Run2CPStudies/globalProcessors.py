@@ -9,7 +9,6 @@ import re
 
 class globalProccesors(dict):
 	def __init__(self, nickname):
-		print 'init'
 		if re.search("(DY.?JetsToLLM(10to50|50|150))", nickname):
 			self["Processors"] = [
 				"#producer:PrintGenParticleDecayTreeProducer",
@@ -177,6 +176,4 @@ class globalProccesors(dict):
 				"#producer:ScaleVariationProducer",
 				"#filter:MetFilter"
 			]
-
-
 

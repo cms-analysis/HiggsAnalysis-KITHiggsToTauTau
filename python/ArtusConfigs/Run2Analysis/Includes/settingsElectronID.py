@@ -10,7 +10,6 @@ import re
 class Electron_ID(dict):
 	def __init__(self, nickname):
 		
-
 		self["ElectronID_documentation"] = ["https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2",
 						"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"]
 	
@@ -50,9 +49,8 @@ class Electron_ID(dict):
 						"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
 						"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose",
 						"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium",
-						"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"]		
+						"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"]
 
-	
 		self["ElectronIsoType"] = "user"
 		self["ElectronIso"] = "none"
 	
@@ -84,8 +82,7 @@ class Electron_ID(dict):
 			self["LooseElectronMvaIDCutEB1"] = 0.837
 			self["LooseElectronMvaIDCutEB2"] = 0.715
 			self["LooseElectronMvaIDCutEE"] = 0.357
-			
-
+		
 		self["LooseElectronIsoType"] = "user"
 		self["LooseElectronIso"] = "none"
 
@@ -121,27 +118,4 @@ class Electron_ID(dict):
 		self["DiVetoElectronMinDeltaRCut"] = 0.15
 		self["DiVetoElectronVetoMode"] = "veto_os_keep_ss"
 		self["DirectIso"] = True
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

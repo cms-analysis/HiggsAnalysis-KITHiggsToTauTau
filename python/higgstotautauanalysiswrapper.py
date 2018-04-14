@@ -207,7 +207,6 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		
 
 
-
 		if nickname != "auto":
 			if self._args.channels and len(self._args.channels) > 0:
 
@@ -216,23 +215,23 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 				
 				for selected_channel in channels_systematics.keys(): #loop over the keys, which are the channels
 					if selected_channel == "mt":
-						channel_python_config = mt.mt_ArtusConfig() 
+						channel_python_config = mt.mt_ArtusConfig()
 						channel_python_config.build_config(nickname)
 				
 					elif selected_channel == "et":
-						channel_python_config = et.et_ArtusConfig() 
+						channel_python_config = et.et_ArtusConfig()
 						channel_python_config.build_config(nickname)
 					
 					elif selected_channel == "em":
-						channel_python_config = em.em_ArtusConfig() 
+						channel_python_config = em.em_ArtusConfig()
 						channel_python_config.build_config(nickname)
 
 					elif selected_channel == "tt":
-						channel_python_config = tt.tt_ArtusConfig() 
+						channel_python_config = tt.tt_ArtusConfig()
 						channel_python_config.build_config(nickname)
 
 					elif selected_channel == "mm":
-						channel_python_config = mm.mm_ArtusConfig() 
+						channel_python_config = mm.mm_ArtusConfig()
 						channel_python_config.build_config(nickname)
 
 					elif selected_channel == "gen":	

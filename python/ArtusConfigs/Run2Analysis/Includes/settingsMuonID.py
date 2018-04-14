@@ -24,7 +24,6 @@ class Muon_ID(dict):
 		else:
 			self["MuonID"] = "medium"
 		
-	
 		self["MuonIsoType"] = "user"
 		self["MuonIso"] = "none"
 	
@@ -34,7 +33,6 @@ class Muon_ID(dict):
 		self["MuonTrackDxyCut"] = 0.045
 		self["MuonTrackDzCut"] = 0.2
 
-
 	def looseMuon_ID(self, nickname):
 
 		if re.search("Run2016(B|C|D|E|F)",nickname):
@@ -42,7 +40,6 @@ class Muon_ID(dict):
 
 		else:
 			self["LooseMuonID"] = "medium"
-
 
 		self["LooseMuonIsoType"] = "user"
 		self["LooseMuonIso"] = "none"
@@ -72,20 +69,4 @@ class Muon_ID(dict):
 		self["DiVetoMuonMinDeltaRCut"] = 0.15
 		self["DiVetoMuonVetoMode"] = "veto_os_keep_ss"
 		self["DirectIso"] = True
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

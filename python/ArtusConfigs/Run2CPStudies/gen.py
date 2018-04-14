@@ -8,7 +8,7 @@ import re
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID 
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsBTaggedJetID as sBTJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauES as sTES
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJEC as sJEC
@@ -19,9 +19,9 @@ class gen_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def build_config(self, nickname): 
+	def build_config(self, nickname):
 
-		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it 
+		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)
 		
 		JetID_config = sJID.Jet_ID(nickname)
@@ -66,8 +66,6 @@ class gen_ArtusConfig(dict):
 					"sixthJetLV",
 					"diJetDeltaPhi"]
 
-
-
 		elif re.search("Embedding2016", nickname):
 			self["Quantities"] += r2cpq.genQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
@@ -75,10 +73,6 @@ class gen_ArtusConfig(dict):
 
 		else:
 			self["Quantities"] += r2cpq.weightQuantities()
-			
-
-
-
 
 		if re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
 			self["Processors"] = [
@@ -89,7 +83,4 @@ class gen_ArtusConfig(dict):
 				]
 		else:
 			self["Processors"] = []
-
-
-
 

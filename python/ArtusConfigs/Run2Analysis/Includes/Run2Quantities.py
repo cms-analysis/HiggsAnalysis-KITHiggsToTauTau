@@ -96,7 +96,7 @@ def ExtraTauQuantities():
 		"eRatio_2",
 		"MVAdxy_sign_1",
 		"MVAdxy_sign_2",
-		"MVAdxy_abs_1",	 
+		"MVAdxy_abs_1",
 		"MVAdxy_abs_2",
 		"MVAdxy_signal_1",
 		"MVAdxy_signal_2",
@@ -256,7 +256,7 @@ def lheWeightsHTTQuantities():
 		"meanPdfLheWeightUp",
 		"stdevPdfLheWeightUp",
 		"meanPdfLheWeightDown",
-		"stdevPdfLheWeightDown",		
+		"stdevPdfLheWeightDown",
 		"minAlphaSLheWeight",
 		"maxAlphaSLheWeight",
 		"meanAlphaSLheWeight",
@@ -629,6 +629,7 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 		"jdphi_TimePtEtaDown",
 		"jdphi_TotalDown",
 		"jdphi_ClosureDown"]
+	
 	return splitJecUncertaintyQuantities_list
 
 def svfitSyncQuantities():
@@ -836,10 +837,4 @@ def syncQuantities():
 		"leadingJetGenMatch",
 		"trailingJetGenMatch"
 	]
-
-
-
-
-
-
 

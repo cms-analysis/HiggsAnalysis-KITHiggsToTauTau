@@ -15,8 +15,8 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 
 	def __init__(self, nickname):
 		"""
-		self["include"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/baseConfig.json",          
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauSpinner.json",                         
+		self["include"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/baseConfig.json",
+		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsTauSpinner.json",
 		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsMadGraphReweighting.json"   #TODO
 		]
 		"""
@@ -25,10 +25,10 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 		self.update(TauSpinner_config)
 
 		MadGraphReweighting_config = sMGReweighting.MadGraphReweighting(nickname)
-		self.update(MadGraphReweighting_config)	
+		self.update(MadGraphReweighting_config)
 		#self["RunWhitelist"] = [1]
 		#self["LumiWhitelist"] = [194]
-		#self["EventWhitelist"] = [38756]		
+		#self["EventWhitelist"] = [38756]
 		
 		if re.search("(Fall15MiniAODv2|Run2015)", nickname):
 			self["RefitVertices"] = ""
@@ -36,7 +36,7 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 		else:
 			self["RefitVertices"] = "AdvancedRefittedVerticesNoBS"
 			self["RefitBSVertices"] = "AdvancedRefittedVerticesBS"
-		if re.search("HToTauTau|H2JetsToTauTau|Higgs|LFV", nickname): 
+		if re.search("HToTauTau|H2JetsToTauTau|Higgs|LFV", nickname):
 			self["LheParticles"] = "LHEafter"
 		else:
 			self["LheParticles"] = ""

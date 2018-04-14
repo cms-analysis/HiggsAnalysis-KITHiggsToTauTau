@@ -11,3 +11,4 @@ class MVATestMethods(dict):
 		self["MVATestMethodsInputQuantities"] = []
    		self["MVATestMethodsMethods"] = []
    		self["MVATestMethodsWeights"] = []
+   		
