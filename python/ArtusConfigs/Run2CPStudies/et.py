@@ -30,8 +30,7 @@ class et_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def build_config(self, nickname):
-               #Maybe change this the arguments to process/year and DATA/MC
+	def build_config(self, nickname): #Maybe change this the arguments to process/year and DATA/MC
 		"""
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",
@@ -114,14 +113,13 @@ class et_ArtusConfig(dict):
 
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele23_WPLoose_Gsf_v"]
 
-
 		elif re.search("Run2016|Spring16|Summer16", nickname):          #spring16 self["NoHltFiltering"] = True for cp config False for RUN2 set to false here
 			self["HltPaths"] = ["HLT_Ele25_eta2p1_WPTight_Gsf"]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v"]
 
 		elif re.search("Embedding(2016|MC)", nickname):
 			self["HltPaths"] =[""]
- 			self["NoHltFiltering"] = True               #else: self["NoHltFiltering"] = True
+			self["NoHltFiltering"] = True               #else: self["NoHltFiltering"] = True
 			self["DiTauPairNoHLT" ] = False
 
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v"]
@@ -146,7 +144,6 @@ class et_ArtusConfig(dict):
 		self["RooWorkspaceObjectNames"] = [
 			"0:e_trgEle25eta2p1WPTight_desy_ratio",
 			"0:e_idiso0p1_desy_ratio"
-
 		]
 		self["RooWorkspaceObjectArguments"] = [
 			"0:e_pt,e_eta",
@@ -216,11 +213,13 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities() 	#until here
-			self["Quantities"] += ["nVetoElectrons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"]
+			self["Quantities"] += [
+				"nVetoElectrons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			]
 
 		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):	 #the same as tt
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -235,12 +234,14 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
 			self["Quantities"] += iq.SingleTauQuantities()
-			self["Quantities"] += ["nVetoElectrons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation"]
+			self["Quantities"] += [
+				"nVetoElectrons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates",
+				"tauSpinnerPolarisation"
+			]
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -253,25 +254,28 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += r2cpq.melaQuantities()
-			self["Quantities"] += ["#tauPolarisationTMVA",
-					"#tauPolarisationSKLEARN",
-					"nVetoElectrons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"
-					]
+			self["Quantities"] += [
+				"#tauPolarisationTMVA",
+				"#tauPolarisationSKLEARN",
+				"nVetoElectrons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			]
 
 		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += ["nVetoElectrons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"]
+			self["Quantities"] += [
+				"nVetoElectrons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			]
 
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -280,12 +284,14 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += ["nVetoElectrons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation"]
+			self["Quantities"] += [
+				"nVetoElectrons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates",
+				"tauSpinnerPolarisation"
+			]
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -297,13 +303,15 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += r2cpq.melaQuantities()
-			self["Quantities"] += ["#tauPolarisationTMVA",
-					"#tauPolarisationSKLEARN",
-					"nVetoElectrons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"]
+			self["Quantities"] += [
+				"#tauPolarisationTMVA",
+				"#tauPolarisationSKLEARN",
+				"nVetoElectrons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			]
 
 		elif re.search("Embedding2016", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -312,11 +320,13 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.genQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += ["nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates",
-					"tauSpinnerPolarisation"]
+			self["Quantities"] += [
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates",
+				"tauSpinnerPolarisation"
+			]
 
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -326,12 +336,14 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += iq.SingleTauQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
-			self["Quantities"] += ["nVetoElectrons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates",
-					"jetCorrectionWeight"]
+			self["Quantities"] += [
+				"nVetoElectrons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates",
+				"jetCorrectionWeight"
+			]
 
 		else:
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -343,48 +355,51 @@ class et_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.melaQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
-			self["Quantities"] += ["nVetoElectrons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"]
+			self["Quantities"] += [
+				"nVetoElectrons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			]
 
 		self["Quantities"]=sorted(list(set(self["Quantities"])), key=str.lower) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidElectronsProducer",
-					"filter:ValidElectronsFilter",
-					"producer:ElectronTriggerMatchingProducer",
-					"filter:MinElectronsCountFilter",
-					"producer:ValidMuonsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidETPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoElectronsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:DiVetoElectronVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer",
-					"producer:ZPtReweightProducer",
-					"filter:MinimalPlotlevelFilter"]
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidElectronsProducer",
+				"filter:ValidElectronsFilter",
+				"producer:ElectronTriggerMatchingProducer",
+				"filter:MinElectronsCountFilter",
+				"producer:ValidMuonsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidETPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoElectronsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:DiVetoElectronVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:SimpleEleTauFakeRateWeightProducer",
+				"producer:SimpleMuTauFakeRateWeightProducer",
+				"producer:ZPtReweightProducer",
+				"filter:MinimalPlotlevelFilter"
+			]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 
 			self["Processors"] += ["producer:SvfitProducer"]
@@ -410,38 +425,39 @@ class et_ArtusConfig(dict):
 
 		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidElectronsProducer",
-					"filter:ValidElectronsFilter",
-					"producer:ElectronTriggerMatchingProducer",
-					"filter:MinElectronsCountFilter",
-					"producer:ValidMuonsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidETPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoElectronsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
-					"producer:DiVetoElectronVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"#producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter"]
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidElectronsProducer",
+				"filter:ValidElectronsFilter",
+				"producer:ElectronTriggerMatchingProducer",
+				"filter:MinElectronsCountFilter",
+				"producer:ValidMuonsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidETPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoElectronsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:MvaMetSelector",
+				"producer:DiVetoElectronVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"#producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:MvaMetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:TopPtReweightingProducer",
+				"filter:MinimalPlotlevelFilter"
+			]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 
 			#self["Processors"] += ["producer:SvfitProducer"]
@@ -462,41 +478,42 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
 			self["Processors"] += ["producer:EventWeightProducer"]
-				
+			
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidElectronsProducer",
-					"filter:ValidElectronsFilter",
-					"producer:ElectronTriggerMatchingProducer",
-					"filter:MinElectronsCountFilter",
-					"producer:ValidMuonsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidETPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoElectronsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
-					"producer:DiVetoElectronVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"#producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:ZPtReweightProducer",
-					"filter:MinimalPlotlevelFilter"]
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidElectronsProducer",
+				"filter:ValidElectronsFilter",
+				"producer:ElectronTriggerMatchingProducer",
+				"filter:MinElectronsCountFilter",
+				"producer:ValidMuonsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidETPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoElectronsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:MvaMetSelector",
+				"producer:DiVetoElectronVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"#producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:MvaMetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:ZPtReweightProducer",
+				"filter:MinimalPlotlevelFilter"
+			]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 
 			#self["Processors"] += ["producer:SvfitProducer"]
@@ -522,33 +539,34 @@ class et_ArtusConfig(dict):
 		
 		elif re.search("Run2016", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidElectronsProducer",
-					"filter:ValidElectronsFilter",
-					"producer:ElectronTriggerMatchingProducer",
-					"filter:MinElectronsCountFilter",
-					"producer:ValidMuonsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidETPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoElectronsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:DiVetoElectronVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter"]
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidElectronsProducer",
+				"filter:ValidElectronsFilter",
+				"producer:ElectronTriggerMatchingProducer",
+				"filter:MinElectronsCountFilter",
+				"producer:ValidMuonsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidETPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoElectronsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:DiVetoElectronVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"filter:MinimalPlotlevelFilter"
+			]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			self["Processors"] += ["producer:SvfitProducer"]
@@ -570,34 +588,35 @@ class et_ArtusConfig(dict):
 				
 		elif re.search("Run2015", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidElectronsProducer",
-					"filter:ValidElectronsFilter",
-					"producer:ElectronTriggerMatchingProducer",
-					"filter:MinElectronsCountFilter",
-					"producer:ValidMuonsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidETPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoElectronsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
-					"producer:DiVetoElectronVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"#producer:TaggedJetUncertaintyShiftProducer",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter"]
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidElectronsProducer",
+				"filter:ValidElectronsFilter",
+				"producer:ElectronTriggerMatchingProducer",
+				"filter:MinElectronsCountFilter",
+				"producer:ValidMuonsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidETPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoElectronsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:MvaMetSelector",
+				"producer:DiVetoElectronVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"#producer:TaggedJetUncertaintyShiftProducer",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"filter:MinimalPlotlevelFilter"
+			]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			#self["Processors"] += ["producer:SvfitProducer"]
@@ -619,38 +638,39 @@ class et_ArtusConfig(dict):
 			
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidElectronsProducer",
-					"filter:ValidElectronsFilter",
-					"producer:ElectronTriggerMatchingProducer",
-					"filter:MinElectronsCountFilter",
-					"producer:ValidMuonsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidETPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoElectronsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:DiVetoElectronVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer",
-					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter"]
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidElectronsProducer",
+				"filter:ValidElectronsFilter",
+				"producer:ElectronTriggerMatchingProducer",
+				"filter:MinElectronsCountFilter",
+				"producer:ValidMuonsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidETPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoElectronsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:DiVetoElectronVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:SimpleEleTauFakeRateWeightProducer",
+				"producer:SimpleMuTauFakeRateWeightProducer",
+				"producer:TopPtReweightingProducer",
+				"filter:MinimalPlotlevelFilter"
+			]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			self["Processors"] += ["producer:SvfitProducer"]
@@ -673,38 +693,39 @@ class et_ArtusConfig(dict):
 		
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidElectronsProducer",
-					"filter:ValidElectronsFilter",
-					"producer:ElectronTriggerMatchingProducer",
-					"filter:MinElectronsCountFilter",
-					"producer:ValidMuonsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidETPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoElectronsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
-					"producer:DiVetoElectronVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"#producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter"]
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidElectronsProducer",
+				"filter:ValidElectronsFilter",
+				"producer:ElectronTriggerMatchingProducer",
+				"filter:MinElectronsCountFilter",
+				"producer:ValidMuonsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidETPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoElectronsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:MvaMetSelector",
+				"producer:DiVetoElectronVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"#producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:MvaMetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:TopPtReweightingProducer",
+				"filter:MinimalPlotlevelFilter"
+			]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 
 			self["Processors"] += ["producer:SvfitProducer"]
@@ -731,38 +752,39 @@ class et_ArtusConfig(dict):
 		
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidElectronsProducer",
-					"filter:ValidElectronsFilter",
-					"producer:ElectronTriggerMatchingProducer",
-					"filter:MinElectronsCountFilter",
-					"producer:ValidMuonsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidETPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoElectronsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:DiVetoElectronVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer",
-					"producer:ZPtReweightProducer",
-					"#filter:MinimalPlotlevelFilter"]
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidElectronsProducer",
+				"filter:ValidElectronsFilter",
+				"producer:ElectronTriggerMatchingProducer",
+				"filter:MinElectronsCountFilter",
+				"producer:ValidMuonsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidETPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoElectronsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:DiVetoElectronVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:SimpleEleTauFakeRateWeightProducer",
+				"producer:SimpleMuTauFakeRateWeightProducer",
+				"producer:ZPtReweightProducer",
+				"#filter:MinimalPlotlevelFilter"
+			]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			#self["Processors"] += ["#producer:SvfitProducer"]
@@ -787,38 +809,39 @@ class et_ArtusConfig(dict):
 		
 		else:
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidElectronsProducer",
-					"filter:ValidElectronsFilter",
-					"producer:ElectronTriggerMatchingProducer",
-					"filter:MinElectronsCountFilter",
-					"producer:ValidMuonsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidETPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoElectronsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:DiVetoElectronVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer",
-					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter"]
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidElectronsProducer",
+				"filter:ValidElectronsFilter",
+				"producer:ElectronTriggerMatchingProducer",
+				"filter:MinElectronsCountFilter",
+				"producer:ValidMuonsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidETPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoElectronsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:DiVetoElectronVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:SimpleEleTauFakeRateWeightProducer",
+				"producer:SimpleMuTauFakeRateWeightProducer",
+				"producer:TopPtReweightingProducer",
+				"filter:MinimalPlotlevelFilter"
+			]
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 
 			self["Processors"] += ["producer:SvfitProducer"]

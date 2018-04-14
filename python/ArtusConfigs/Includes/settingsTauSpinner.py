@@ -38,31 +38,30 @@ class TauSpinner(dict):
 		self["TauSpinnerSettingsNonSMN"] = "0"
 		if re.search("(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalf"] = [
-					0.00,
-					0.05,
-					0.10,
-					0.15,
-					0.20,
-					0.25,
-					0.30,
-					0.35,
-					0.40,
-					0.45,
-					0.50,
-					0.55,
-					0.60,
-					0.65,
-					0.70,
-					0.75,
-					0.80,
-					0.85,
-					0.90,
-					0.95,
-					1.00
-				]
+				0.00,
+				0.05,
+				0.10,
+				0.15,
+				0.20,
+				0.25,
+				0.30,
+				0.35,
+				0.40,
+				0.45,
+				0.50,
+				0.55,
+				0.60,
+				0.65,
+				0.70,
+				0.75,
+				0.80,
+				0.85,
+				0.90,
+				0.95,
+				1.00
+			]
 		else:
 			self["TauSpinnerMixingAnglesOverPiHalf"] = []
-
 
 		if re.search("SM_(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = 0.0

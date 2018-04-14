@@ -8,7 +8,8 @@ log = logging.getLogger(__name__)
 
 
 def fourVectorQuantities():
-	return ["leadingLepLV",
+	return [
+		"leadingLepLV",
 		"lep1LV",
 		"posLepLV",
 		"trailingLepLV",
@@ -36,10 +37,12 @@ def fourVectorQuantities():
 		"thirdJetLV",
 		"fourthJetLV",
 		"fifthJetLV",
-		"sixthJetLV"]
+		"sixthJetLV"
+	]
 
 def fakeFactorQuantities():
-	return ["jetToTauFakeWeight_comb",
+	return [
+		"jetToTauFakeWeight_comb",
 		"jetToTauFakeWeight_qcd_up",
 		"jetToTauFakeWeight_qcd_down",
 		"jetToTauFakeWeight_w_up",
@@ -69,10 +72,12 @@ def fakeFactorQuantities():
 		"jetToTauFakeWeight_ff_tt_corr_up",
 		"jetToTauFakeWeight_ff_tt_corr_down",
 		"jetToTauFakeWeight_ff_tt_stat_up",
-		"jetToTauFakeWeight_ff_tt_stat_down"]
+		"jetToTauFakeWeight_ff_tt_stat_down"
+	]
 
 def ExtraTauQuantities():
-	return ["decayDistX_1",
+	return [
+		"decayDistX_1",
 		"decayDistX_2",
 		"decayDistY_1",
 		"decayDistY_2",
@@ -109,10 +114,12 @@ def ExtraTauQuantities():
 		"hasSecondaryVertex_1",
 		"hasSecondaryVertex_2",
 		"flightLengthSig_1",
-		"flightLengthSig_2"]
+		"flightLengthSig_2"
+	]
 
 def lheWeightsDYQuantities():
-	return ["minPdfLheWeight",
+	return [
+		"minPdfLheWeight",
 		"maxPdfLheWeight",
 		"meanPdfLheWeight",
 		"stdevPdfLheWeight",
@@ -246,10 +253,12 @@ def lheWeightsDYQuantities():
 		"Central_scale_variation__mur_1_muf_2",
 		#"Central_scale_variation__mur_2_muf_0_5",
 		"Central_scale_variation__mur_2_muf_1",
-		"Central_scale_variation__mur_2_muf_2"]
+		"Central_scale_variation__mur_2_muf_2"
+	]
 
 def lheWeightsHTTQuantities():
-	return ["minPdfLheWeight",
+	return [
+		"minPdfLheWeight",
 		"maxPdfLheWeight",
 		"meanPdfLheWeight",
 		"stdevPdfLheWeight",
@@ -418,7 +427,8 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 		"njetspt30_TotalUp",
 		"njetspt30_ClosureUp"]
 	
-	splitJecUncertaintyQuantities_list += ["mjj_AbsoluteFlavMapUp",
+	splitJecUncertaintyQuantities_list += [
+		"mjj_AbsoluteFlavMapUp",
 		"mjj_AbsoluteMPFBiasUp",
 		"mjj_AbsoluteScaleUp",
 		"mjj_AbsoluteStatUp",
@@ -446,7 +456,8 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 		"mjj_SinglePionHCALUp",
 		"mjj_TimePtEtaUp",
 		"mjj_TotalUp",
-		"mjj_ClosureUp"]
+		"mjj_ClosureUp"
+	]
 
 	splitJecUncertaintyQuantities_list += [
 		"jdeta_AbsoluteFlavMapUp",
@@ -477,7 +488,8 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 		"jdeta_SinglePionHCALUp",
 		"jdeta_TimePtEtaUp",
 		"jdeta_TotalUp",
-		"jdeta_ClosureUp"]
+		"jdeta_ClosureUp"
+	]
 
 	splitJecUncertaintyQuantities_list += [
 		"jdphi_AbsoluteFlavMapUp",
@@ -508,9 +520,11 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 		"jdphi_SinglePionHCALUp",
 		"jdphi_TimePtEtaUp",
 		"jdphi_TotalUp",
-		"jdphi_ClosureUp"]
-		
-	splitJecUncertaintyQuantities_list += ["njetspt30_AbsoluteFlavMapDown",
+		"jdphi_ClosureUp"
+	]
+	
+	splitJecUncertaintyQuantities_list += [
+		"njetspt30_AbsoluteFlavMapDown",
 		"njetspt30_AbsoluteMPFBiasDown",
 		"njetspt30_AbsoluteScaleDown",
 		"njetspt30_AbsoluteStatDown",
@@ -538,9 +552,11 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 		"njetspt30_SinglePionHCALDown",
 		"njetspt30_TimePtEtaDown",
 		"njetspt30_TotalDown",
-		"njetspt30_ClosureDown"]
+		"njetspt30_ClosureDown"
+	]
 
-	splitJecUncertaintyQuantities_list += ["mjj_AbsoluteFlavMapDown",
+	splitJecUncertaintyQuantities_list += [
+		"mjj_AbsoluteFlavMapDown",
 		"mjj_AbsoluteMPFBiasDown",
 		"mjj_AbsoluteScaleDown",
 		"mjj_AbsoluteStatDown",
@@ -568,9 +584,11 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 		"mjj_SinglePionHCALDown",
 		"mjj_TimePtEtaDown",
 		"mjj_TotalDown",
-		"mjj_ClosureDown"]
+		"mjj_ClosureDown"
+	]
 
-	splitJecUncertaintyQuantities_list += ["jdeta_AbsoluteFlavMapDown",
+	splitJecUncertaintyQuantities_list += [
+		"jdeta_AbsoluteFlavMapDown",
 		"jdeta_AbsoluteMPFBiasDown",
 		"jdeta_AbsoluteScaleDown",
 		"jdeta_AbsoluteStatDown",
@@ -598,9 +616,11 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 		"jdeta_SinglePionHCALDown",
 		"jdeta_TimePtEtaDown",
 		"jdeta_TotalDown",
-		"jdeta_ClosureDown"]
+		"jdeta_ClosureDown"
+	]
 
-	splitJecUncertaintyQuantities_list += ["jdphi_AbsoluteFlavMapDown",
+	splitJecUncertaintyQuantities_list += [
+		"jdphi_AbsoluteFlavMapDown",
 		"jdphi_AbsoluteMPFBiasDown",
 		"jdphi_AbsoluteScaleDown",
 		"jdphi_AbsoluteStatDown",
@@ -628,7 +648,8 @@ def splitJecUncertaintyQuantities():                #possibility to add options 
 		"jdphi_SinglePionHCALDown",
 		"jdphi_TimePtEtaDown",
 		"jdphi_TotalDown",
-		"jdphi_ClosureDown"]
+		"jdphi_ClosureDown"
+	]
 	
 	return splitJecUncertaintyQuantities_list
 
@@ -671,7 +692,8 @@ def svfitSyncQuantities():
 	]
 
 def syncQuantities():
-	return ["nickname",
+	return [
+		"nickname",
 		"input",
 		"run",
 		"lumi",
@@ -786,34 +808,66 @@ def syncQuantities():
 		"puCorrPtSum_1",
 		"footprintCorrection_1",
 		"photonPtSumOutsideSignalCone_1",
-		"againstMuonLoose3_1", "againstMuonTight3_1",
-		"againstElectronLooseMVA6_1", "againstElectronMediumMVA6_1", "againstElectronTightMVA6_1",
-		"againstElectronVLooseMVA6_1", "againstElectronVTightMVA6_1",
+		"againstMuonLoose3_1",
+		"againstMuonTight3_1",
+		"againstElectronLooseMVA6_1",
+		"againstElectronMediumMVA6_1",
+		"againstElectronTightMVA6_1",
+		"againstElectronVLooseMVA6_1",
+		"againstElectronVTightMVA6_1",
 		"byCombinedIsolationDeltaBetaCorrRaw3Hits_1",
-		"byLooseCombinedIsolationDeltaBetaCorr3Hits_1", "byMediumCombinedIsolationDeltaBetaCorr3Hits_1",
-		"byTightCombinedIsolationDeltaBetaCorr3Hits_1", "byIsolationMVArun2v1DBoldDMwLTraw_1", "byVLooseIsolationMVArun2v1DBoldDMwLT_1",
-		"byLooseIsolationMVArun2v1DBoldDMwLT_1", "byMediumIsolationMVArun2v1DBoldDMwLT_1", "byTightIsolationMVArun2v1DBoldDMwLT_1",
-		"byVTightIsolationMVArun2v1DBoldDMwLT_1", "byVVTightIsolationMVArun2v1DBoldDMwLT_1", "rerunDiscriminationByIsolationMVAOldDMrun2v1raw_1",
-		"rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose_1", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose_1", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium_1",
-		"rerunDiscriminationByIsolationMVAOldDMrun2v1Tight_1", "rerunDiscriminationByIsolationMVAOldDMrun2v1VTight_1", "rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight_1",
-		"decayModeFinding_1", "decayModeFindingNewDMs_1",
+		"byLooseCombinedIsolationDeltaBetaCorr3Hits_1",
+		"byMediumCombinedIsolationDeltaBetaCorr3Hits_1",
+		"byTightCombinedIsolationDeltaBetaCorr3Hits_1",
+		"byIsolationMVArun2v1DBoldDMwLTraw_1",
+		"byVLooseIsolationMVArun2v1DBoldDMwLT_1",
+		"byLooseIsolationMVArun2v1DBoldDMwLT_1",
+		"byMediumIsolationMVArun2v1DBoldDMwLT_1",
+		"byTightIsolationMVArun2v1DBoldDMwLT_1",
+		"byVTightIsolationMVArun2v1DBoldDMwLT_1",
+		"byVVTightIsolationMVArun2v1DBoldDMwLT_1",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1raw_1",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose_1",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1Loose_1",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1Medium_1",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1Tight_1",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1VTight_1",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight_1",
+		"decayModeFinding_1",
+		"decayModeFindingNewDMs_1",
 		"trigweight_2",
 		"chargedIsoPtSum_2",
 		"neutralIsoPtSum_2",
 		"puCorrPtSum_2",
 		"footprintCorrection_2",
 		"photonPtSumOutsideSignalCone_2",
-		"againstMuonLoose3_2", "againstMuonTight3_2",
-		"againstElectronLooseMVA6_2", "againstElectronMediumMVA6_2", "againstElectronTightMVA6_2",
-		"againstElectronVLooseMVA6_2", "againstElectronVTightMVA6_2",
+		"againstMuonLoose3_2",
+		"againstMuonTight3_2",
+		"againstElectronLooseMVA6_2",
+		"againstElectronMediumMVA6_2",
+		"againstElectronTightMVA6_2",
+		"againstElectronVLooseMVA6_2",
+		"againstElectronVTightMVA6_2",
 		"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",
-		"byLooseCombinedIsolationDeltaBetaCorr3Hits_2", "byMediumCombinedIsolationDeltaBetaCorr3Hits_2",
-		"byTightCombinedIsolationDeltaBetaCorr3Hits_2", "byIsolationMVArun2v1DBoldDMwLTraw_2", "byVLooseIsolationMVArun2v1DBoldDMwLT_2",
-		"byLooseIsolationMVArun2v1DBoldDMwLT_2", "byMediumIsolationMVArun2v1DBoldDMwLT_2", "byTightIsolationMVArun2v1DBoldDMwLT_2",
-		"byVTightIsolationMVArun2v1DBoldDMwLT_2", "byVVTightIsolationMVArun2v1DBoldDMwLT_2", "rerunDiscriminationByIsolationMVAOldDMrun2v1raw_2",
-		"rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose_2", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose_2", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium_2",
-		"rerunDiscriminationByIsolationMVAOldDMrun2v1Tight_2", "rerunDiscriminationByIsolationMVAOldDMrun2v1VTight_2", "rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight_2",
-		"decayModeFinding_2", "decayModeFindingNewDMs_2",
+		"byLooseCombinedIsolationDeltaBetaCorr3Hits_2",
+		"byMediumCombinedIsolationDeltaBetaCorr3Hits_2",
+		"byTightCombinedIsolationDeltaBetaCorr3Hits_2",
+		"byIsolationMVArun2v1DBoldDMwLTraw_2",
+		"byVLooseIsolationMVArun2v1DBoldDMwLT_2",
+		"byLooseIsolationMVArun2v1DBoldDMwLT_2",
+		"byMediumIsolationMVArun2v1DBoldDMwLT_2",
+		"byTightIsolationMVArun2v1DBoldDMwLT_2",
+		"byVTightIsolationMVArun2v1DBoldDMwLT_2",
+		"byVVTightIsolationMVArun2v1DBoldDMwLT_2",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1raw_2",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose_2",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1Loose_2",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1Medium_2",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1Tight_2",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1VTight_2",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight_2",
+		"decayModeFinding_2",
+		"decayModeFindingNewDMs_2",
 		"NUP",
 		"id_m_loose_1",
 		"id_m_medium_1",

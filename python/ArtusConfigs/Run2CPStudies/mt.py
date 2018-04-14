@@ -107,13 +107,13 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("Run2016|Spring16|Summer16", nickname):
 			self["HltPaths"] = [
-					"HLT_IsoMu22",
-					"HLT_IsoTkMu22",
-					"HLT_IsoMu22_eta2p1",
-					"HLT_IsoTkMu22_eta2p1",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1"
-				]
+				"HLT_IsoMu22",
+				"HLT_IsoTkMu22",
+				"HLT_IsoMu22_eta2p1",
+				"HLT_IsoTkMu22_eta2p1",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1"
+			]
 			self["NoHltFiltering"] = False
 			self["DiTauPairNoHLT"] = False
 			
@@ -141,64 +141,64 @@ class mt_ArtusConfig(dict):
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["DiTauPairLepton1LowerPtCuts"] = [
-					"HLT_IsoMu18_v:19.0"
-				]
+				"HLT_IsoMu18_v:19.0"
+			]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
-					"HLT_IsoMu18_v"
-				]
+				"HLT_IsoMu18_v"
+			]
 		elif re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
 			self["DiTauPairLepton1LowerPtCuts"] = [
-					"HLT_IsoMu24_v:25.0",
-					"HLT_IsoTkMu24_v:25.0"
-				]
+				"HLT_IsoMu24_v:25.0",
+				"HLT_IsoTkMu24_v:25.0"
+			]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
-					"HLT_IsoMu22_v",
-					"HLT_IsoTkMu22_v",
-					"HLT_IsoMu22_eta2p1_v",
-					"HLT_IsoTkMu22_eta2p1_v",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
-				]
+				"HLT_IsoMu22_v",
+				"HLT_IsoTkMu22_v",
+				"HLT_IsoMu22_eta2p1_v",
+				"HLT_IsoTkMu22_eta2p1_v",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
+			]
 		
 		else:                                         #I believe "Run2016|Spring16|Summer16|Embedding(2016|MC)" is everything else but for safety i did it here, 2017 not included yet
 			self["DiTauPairLepton1LowerPtCuts"] = [
-					"HLT_IsoMu24_v:25.0",
-					"HLT_IsoTkMu24_v:25.0"
-				]
+				"HLT_IsoMu24_v:25.0",
+				"HLT_IsoTkMu24_v:25.0"
+			]
 		
 		if re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
 			self["DiTauPairHLTLast"] = True
 			self["HLTBranchNames"] = [
-					"trg_singlemuon:HLT_IsoMu22_v",
-					"trg_singlemuon:HLT_IsoTkMu22_v",
-					"trg_singlemuon:HLT_IsoMu22_eta2p1_v",
-					"trg_singlemuon:HLT_IsoTkMu22_eta2p1_v",
-					"trg_mutaucross:HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
-					"trg_mutaucross:HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
-				]
+				"trg_singlemuon:HLT_IsoMu22_v",
+				"trg_singlemuon:HLT_IsoTkMu22_v",
+				"trg_singlemuon:HLT_IsoMu22_eta2p1_v",
+				"trg_singlemuon:HLT_IsoTkMu22_eta2p1_v",
+				"trg_mutaucross:HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
+				"trg_mutaucross:HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
+			]
 
 			self["MuonTriggerFilterNames"] = [
-					"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09",
-					"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09",
-					"HLT_IsoMu22_eta2p1_v:hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09",
-					"HLT_IsoTkMu22_eta2p1_v:hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltL3crIsoL1sMu18erTauJet20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltL3crIsoL1sSingleMu18erIorSingleMu20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
-				]
+				"HLT_IsoMu22_v:hltL3crIsoL1sMu20L1f0L2f10QL3f22QL3trkIsoFiltered0p09",
+				"HLT_IsoTkMu22_v:hltL3fL1sMu20L1f0Tkf22QL3trkIsoFiltered0p09",
+				"HLT_IsoMu22_eta2p1_v:hltL3crIsoL1sSingleMu20erL1f0L2f10QL3f22QL3trkIsoFiltered0p09",
+				"HLT_IsoTkMu22_eta2p1_v:hltL3fL1sMu20erL1f0Tkf22QL3trkIsoFiltered0p09",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltL3crIsoL1sMu18erTauJet20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltL3crIsoL1sSingleMu18erIorSingleMu20erL1f0L2f10QL3f19QL3trkIsoFiltered0p09",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
+			]
 
 			self["TauTriggerFilterNames"] = [
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltPFTau20TrackLooseIsoAgainstMuon",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltPFTau20TrackLooseIsoAgainstMuon",
-					"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
-				]
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltPFTau20TrackLooseIsoAgainstMuon",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltPFTau20TrackLooseIsoAgainstMuon",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
+			]
 	
 		elif re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["MuonTriggerFilterNames"] = [
-					"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
-				]
+				"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
+			]
 		else:
 			self["DiTauPairHLTLast"] = False
 		
@@ -285,11 +285,13 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities() 	#until here
-			self["Quantities"] += ["nVetoMuons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += [
+				"nVetoMuons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			] #Check if they are used everywhere if so make this the start list
 		
 		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):	 #the same as tt
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -304,17 +306,21 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
 			self["Quantities"] += iq.SingleTauQuantities()	#until here
-			self["Quantities"] += ["nVetoMuons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
-			self["Quantities"] += ["tauSpinnerPolarisation",
-					"trg_singlemuon",
-					"trg_mutaucross",
-					"triggerWeight_singleMu_1",
-					"triggerWeight_muTauCross_1",
-					"triggerWeight_muTauCross_2"]
+			self["Quantities"] += [
+				"nVetoMuons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += [
+				"tauSpinnerPolarisation",
+				"trg_singlemuon",
+				"trg_mutaucross",
+				"triggerWeight_singleMu_1",
+				"triggerWeight_muTauCross_1",
+				"triggerWeight_muTauCross_2"
+			]
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -327,28 +333,34 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += r2cpq.melaQuantities()
-			self["Quantities"] += ["nVetoMuons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += [
+				"nVetoMuons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			] #Check if they are used everywhere if so make this the start list
 			
-			self["Quantities"] += ["trg_singlemuon",
-					"trg_mutaucross",
-					"triggerWeight_singleMu_1",
-					"triggerWeight_muTauCross_1",
-					"triggerWeight_muTauCross_2"]    #commented out: "#tauPolarisationTMVA", "#tauPolarisationSKLEARN",
+			self["Quantities"] += [
+				"trg_singlemuon",
+				"trg_mutaucross",
+				"triggerWeight_singleMu_1",
+				"triggerWeight_muTauCross_1",
+				"triggerWeight_muTauCross_2"
+			]    #commented out: "#tauPolarisationTMVA", "#tauPolarisationSKLEARN",
 
 		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += ["nVetoMuons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += [
+				"nVetoMuons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			] #Check if they are used everywhere if so make this the start list
 			
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -357,11 +369,13 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += ["nVetoMuons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += [
+				"nVetoMuons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			] #Check if they are used everywhere if so make this the start list
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):   #almost the same as 2016 signal, no splitJecUncertaintyQuantities()
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -373,11 +387,13 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.genMatchedCPQuantities()
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			self["Quantities"] += r2cpq.melaQuantities()
-			self["Quantities"] += ["nVetoMuons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += [
+				"nVetoMuons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			] #Check if they are used everywhere if so make this the start list
 
 		elif re.search("Embedding2016", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -387,15 +403,19 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			
-			self["Quantities"] += ["nVetoMuons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += [
+				"nVetoMuons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			] #Check if they are used everywhere if so make this the start list
 
-			self["Quantities"] += ["triggerWeight_singleMu_1",
-					"triggerWeight_muTauCross_1",
-					"triggerWeight_muTauCross_2"]
+			self["Quantities"] += [
+				"triggerWeight_singleMu_1",
+				"triggerWeight_muTauCross_1",
+				"triggerWeight_muTauCross_2"
+			]
 		
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += r2q.fourVectorQuantities()
@@ -406,16 +426,20 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += iq.SingleTauQuantities()	#until here
 			self["Quantities"] += r2cpq.recoCPQuantities()
 			
-			self["Quantities"] += ["nVetoMuons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += [
+				"nVetoMuons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			] #Check if they are used everywhere if so make this the start list
 
-			self["Quantities"] += ["triggerWeight_singleMu_1",
-					"triggerWeight_muTauCross_1",
-					"triggerWeight_muTauCross_2",
-					"jetCorrectionWeight"]
+			self["Quantities"] += [
+				"triggerWeight_singleMu_1",
+				"triggerWeight_muTauCross_1",
+				"triggerWeight_muTauCross_2",
+				"jetCorrectionWeight"
+			]
 		else:
 			self["Quantities"] += r2q.fourVectorQuantities()
 			self["Quantities"] += r2q.syncQuantities()
@@ -427,55 +451,60 @@ class mt_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.recoPolarisationQuantities()
 			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
 
-			self["Quantities"] += ["nVetoMuons",
-					"nLooseElectrons",
-					"nLooseMuons",
-					"nDiTauPairCandidates",
-					"nAllDiTauPairCandidates"] #Check if they are used everywhere if so make this the start list
+			self["Quantities"] += [
+				"nVetoMuons",
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			] #Check if they are used everywhere if so make this the start list
 			
-			self["Quantities"] += ["trg_singlemuon",
-					"trg_mutaucross",
-					"triggerWeight_singleMu_1",
-					"triggerWeight_muTauCross_1",
-					"triggerWeight_muTauCross_2"]
+			self["Quantities"] += [
+				"trg_singlemuon",
+				"trg_mutaucross",
+				"triggerWeight_singleMu_1",
+				"triggerWeight_muTauCross_1",
+				"triggerWeight_muTauCross_2"
+			]
 
 		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 
 		self["Processors"]=[]
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer",
-					"producer:ZPtReweightProducer",
-					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidMTPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoMuonsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:DiVetoMuonVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:SimpleEleTauFakeRateWeightProducer",
+				"producer:SimpleMuTauFakeRateWeightProducer",
+				"producer:ZPtReweightProducer",
+				"filter:MinimalPlotlevelFilter"
+			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			self["Processors"] += ["producer:SvfitProducer"]
@@ -499,38 +528,39 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"#producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidMTPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoMuonsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:MvaMetSelector",
+				"producer:DiVetoMuonVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"#producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:MvaMetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:TopPtReweightingProducer",
+				"filter:MinimalPlotlevelFilter"
+			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			self["Processors"] += ["producer:SvfitProducer"]
@@ -539,7 +569,6 @@ class mt_ArtusConfig(dict):
 
 			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:MELAM125Producer"]
-
 
 			self["Processors"] += ["#producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:TriggerWeightProducer"]
@@ -554,38 +583,39 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"#producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:ZPtReweightProducer",
-					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidMTPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoMuonsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:MvaMetSelector",
+				"producer:DiVetoMuonVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"#producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:MvaMetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:ZPtReweightProducer",
+				"filter:MinimalPlotlevelFilter"
+			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			self["Processors"] += ["producer:SvfitProducer"]
@@ -594,7 +624,6 @@ class mt_ArtusConfig(dict):
 
 			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:MELAM125Producer"]
-
 
 			self["Processors"] += ["#producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:TriggerWeightProducer"]
@@ -611,33 +640,34 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("Run2016", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidMTPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoMuonsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:DiVetoMuonVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"filter:MinimalPlotlevelFilter"
+			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			self["Processors"] += ["producer:SvfitProducer"]
@@ -646,7 +676,6 @@ class mt_ArtusConfig(dict):
 
 			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:MELAM125Producer"]
-
 
 			self["Processors"] += ["producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
@@ -659,34 +688,35 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("Run2015", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"#producer:TaggedJetUncertaintyShiftProducer",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidMTPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoMuonsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:MvaMetSelector",
+				"producer:DiVetoMuonVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"#producer:TaggedJetUncertaintyShiftProducer",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"filter:MinimalPlotlevelFilter"
+			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			#self["Processors"] += ["producer:SvfitProducer"]
@@ -695,7 +725,6 @@ class mt_ArtusConfig(dict):
 
 			#self["Processors"] += ["producer:MELAProducer"]
 			#self["Processors"] += ["producer:MELAM125Producer"]
-
 
 			self["Processors"] += ["#producer:SimpleFitProducer"]
 			self["Processors"] += ["#producer:RefitVertexSelector"]
@@ -708,37 +737,38 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("Embedding201", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"#producer:MetCorrector",
-					"#producer:MvaMetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidMTPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoMuonsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:MvaMetSelector",
+				"producer:DiVetoMuonVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"#producer:MetCorrector",
+				"#producer:MvaMetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"filter:MinimalPlotlevelFilter"
+			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			#self["Processors"] += ["producer:SvfitProducer"]
@@ -747,7 +777,6 @@ class mt_ArtusConfig(dict):
 
 			#self["Processors"] += ["producer:MELAProducer"]
 			#self["Processors"] += ["producer:MELAM125Producer"]
-
 
 			self["Processors"] += ["#producer:TriggerWeightProducer"]
 			self["Processors"] += ["#producer:IdentificationWeightProducer"]
@@ -764,38 +793,39 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer",
-					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidMTPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoMuonsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:DiVetoMuonVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:SimpleEleTauFakeRateWeightProducer",
+				"producer:SimpleMuTauFakeRateWeightProducer",
+				"producer:TopPtReweightingProducer",
+				"filter:MinimalPlotlevelFilter"
+			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			self["Processors"] += ["producer:SvfitProducer"]
@@ -804,7 +834,6 @@ class mt_ArtusConfig(dict):
 
 			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:MELAM125Producer"]
-
 
 			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
@@ -820,38 +849,39 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:MvaMetSelector",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"#producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:MvaMetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidMTPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoMuonsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:MvaMetSelector",
+				"producer:DiVetoMuonVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"#producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:MvaMetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:TopPtReweightingProducer",
+				"filter:MinimalPlotlevelFilter"
+			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			self["Processors"] += ["producer:SvfitProducer"]
@@ -860,7 +890,6 @@ class mt_ArtusConfig(dict):
 
 			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:MELAM125Producer"]
-
 
 			self["Processors"] += ["#producer:SimpleFitProducer"]
 			self["Processors"] += ["producer:TriggerWeightProducer"]
@@ -877,38 +906,39 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer",
-					"producer:ZPtReweightProducer",
-					"#filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidMTPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoMuonsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:DiVetoMuonVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:SimpleEleTauFakeRateWeightProducer",
+				"producer:SimpleMuTauFakeRateWeightProducer",
+				"producer:ZPtReweightProducer",
+				"#filter:MinimalPlotlevelFilter"
+			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			#self["Processors"] += ["producer:SvfitProducer"]
@@ -930,38 +960,39 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		else:
 			self["Processors"] = [
-					"producer:HltProducer",
-					"filter:HltFilter",
-					"producer:MetSelector",
-					"producer:ValidMuonsProducer",
-					"filter:ValidMuonsFilter",
-					"producer:MuonTriggerMatchingProducer",
-					"filter:MinMuonsCountFilter",
-					"producer:ValidElectronsProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:ValidTausProducer",
-					"filter:ValidTausFilter",
-					"producer:TauTriggerMatchingProducer",
-					"filter:MinTausCountFilter",
-					"producer:ValidMTPairCandidatesProducer",
-					"filter:ValidDiTauPairCandidatesFilter",
-					"producer:HttValidVetoMuonsProducer",
-					"producer:HttValidLooseElectronsProducer",
-					"producer:HttValidLooseMuonsProducer",
-					"producer:Run2DecayChannelProducer",
-					"producer:DiVetoMuonVetoProducer",
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"producer:ValidBTaggedJetsProducer",
-					"producer:TaggedJetUncertaintyShiftProducer",
-					"producer:MetCorrector",
-					"producer:TauTauRestFrameSelector",
-					"producer:DiLeptonQuantitiesProducer",
-					"producer:DiJetQuantitiesProducer",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer",
-					"producer:TopPtReweightingProducer",
-					"filter:MinimalPlotlevelFilter"] #I believe from here it is not that strict anymore with the ordering
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:TauCorrectionsProducer",
+				"producer:ValidTausProducer",
+				"filter:ValidTausFilter",
+				"producer:TauTriggerMatchingProducer",
+				"filter:MinTausCountFilter",
+				"producer:ValidMTPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidVetoMuonsProducer",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:DiVetoMuonVetoProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TaggedJetUncertaintyShiftProducer",
+				"producer:MetCorrector",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:SimpleEleTauFakeRateWeightProducer",
+				"producer:SimpleMuTauFakeRateWeightProducer",
+				"producer:TopPtReweightingProducer",
+				"filter:MinimalPlotlevelFilter"
+			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
 			
 			self["Processors"] += ["producer:SvfitProducer"]

@@ -16,17 +16,19 @@ class BTaggedJet_ID(dict):
 
 		if re.search("(Fall15MiniAODv2|Run2015D)", nickname):
 			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8
-			self["BTaggerWorkingPoints"] = ["tight:0.935",
-						"medium:0.800",
-						"loose:0.460"
-						]
+			self["BTaggerWorkingPoints"] = [
+				"tight:0.935",
+				"medium:0.800",
+				"loose:0.460"
+			]
 
 		else:
 			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8484
-			self["BTaggerWorkingPoints"] = ["tight:0.9535",
-						"medium:0.8484",
-						"loose:0.5426"
-						]
+			self["BTaggerWorkingPoints"] = [
+				"tight:0.9535",
+				"medium:0.8484",
+				"loose:0.5426"
+			]
 		
 		self["BTaggedJetAbsEtaCut"] = 2.4
 		if re.search("(Fall15|Spring16)", nickname):

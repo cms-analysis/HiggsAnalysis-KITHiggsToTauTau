@@ -37,7 +37,6 @@ class Baseconfig(dict):
 		sampleStitchingWeight_config = sSSW.SampleStitchingWeights(nickname)
 		self.update(sampleStitchingWeight_config)
 
-
 		self["SkipEvents"] = 0
 		self["EventCount"] = -1
 		
@@ -48,7 +47,6 @@ class Baseconfig(dict):
 		else:
 			self["InputIsData"] = "false"
 
-		
 		if re.match("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)|LFV", nickname):
 			self["BosonPdgIds"] = [23]
 		elif re.match("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
@@ -62,7 +60,6 @@ class Baseconfig(dict):
 
 		self["BosonStatuses"] = [11, 62]
 		
-
 		self["DeltaRMatchingRecoElectronGenParticle"] = 0.2
 		self["DeltaRMatchingRecoElectronGenTau"] = 0.2
 		self["DeltaRMatchingRecoMuonGenParticle"] = 0.2
@@ -81,7 +78,6 @@ class Baseconfig(dict):
 		self["MatchGenTauDecayMode"] = "true"
 		self["UpdateMetWithCorrectedLeptons"] = "true"
 		self["TopPtReweightingStrategy"] = "Run2"
-
 
 		if re.search("Summer17", nickname):
 			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_RunBtoF_80bins_MC_Moriond17_PU25ns_V1_69p2MinBiasXS.root"
@@ -112,13 +108,11 @@ class Baseconfig(dict):
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_76X.csv"
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies.root"
 
-
 		if re.search("(Fall15MiniAODv2|Run2015D)", nickname):
 			self["MetCorrectionMethod"] = "quantileMapping"
 		else:
 			self["MetCorrectionMethod"] = "meanResolution"
 
-		
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["MetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root"
 			self["MvaMetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root"
@@ -134,7 +128,6 @@ class Baseconfig(dict):
 			self["MvaMetRecoilCorrectorFile"] = ""
 			self["ZptReweightProducerWeights"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root"
 		
-
 		self["MetShiftCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
 		self["MvaMetShiftCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
 
@@ -142,7 +135,6 @@ class Baseconfig(dict):
 			self["ChooseMvaMet"] = True
 		else:
 			self["ChooseMvaMet"] = False
-
 
 		if re.search("Run2015B", nickname):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_50ns_JSON_v2.txt"]
@@ -152,7 +144,6 @@ class Baseconfig(dict):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"]
 		elif re.search("Run2017", nickname):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"]
-
 
 		if re.search("(Fall15MiniAODv2)", nickname):
 			self["SimpleMuTauFakeRateWeightLoose"] = [1.0, 1.0, 1.0, 1.0, 1.0]

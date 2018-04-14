@@ -8,7 +8,8 @@ log = logging.getLogger(__name__)
 
 
 def genCPQuantities():    #TODO Is this really used, very similar to matchedcpquantities
-	return [#"1genBosonDaughterSize",
+	return [
+		#"1genBosonDaughterSize",
 		#"1genBoson1DaughterPt",
 		#"1genBoson1DaughterPz",
 		#"1genBoson1DaughterEta",
@@ -160,10 +161,12 @@ def genCPQuantities():    #TODO Is this really used, very similar to matchedcpqu
 		"OneProngChargedPart2PdgId",
 		"genZPlus",
 		"genZMinus",
-		"genZs"]
+		"genZs"
+	]
 
 def genHiggsQuantities():
-	return ["lheSignedDiJetDeltaPhi",
+	return [
+		"lheSignedDiJetDeltaPhi",
 		"lheDiJetAbsDeltaEta",
 		"lheDiJetMass",
 		"lheNJets",
@@ -176,10 +179,12 @@ def genHiggsQuantities():
 		"lheParticleIn2PdgId",
 		"lheParticleOut1PdgId",
 		"lheParticleOut2PdgId",
-		"lheParticleBoson1PdgId"]
+		"lheParticleBoson1PdgId"
+	]
 
 def genMatchedCPQuantities():
-	return [#"1genBosonDaughterSize",
+	return [
+		#"1genBosonDaughterSize",
 		#"1genBoson1DaughterPt",
 		#"1genBoson1DaughterPz",
 		#"1genBoson1DaughterEta",
@@ -332,11 +337,12 @@ def genMatchedCPQuantities():
 		"genZMinus",
 		"genZs",
 		"d0s_area",
-		"d0s_dist"]
-
+		"d0s_dist"
+	]
 
 def genQuantities():
-	return ["genBosonLV",
+	return [
+		"genBosonLV",
 		"genBosonParticleFound",
 		"genBosonLVFound",
 		"genBosonLep1LV",
@@ -362,10 +368,12 @@ def genQuantities():
 		"isZem",
 		"isZmm",
 		"isZee",
-		"npartons"]
+		"npartons"
+	]
 
 def genQuantitiesLFV():
-	return  ["genBosonLV",
+	return [
+		"genBosonLV",
 		"genBosonParticleFound",
 		"genBosonLVFound",
 		"genBosonLep1LV",
@@ -409,10 +417,12 @@ def genQuantitiesLFV():
 		"lheZtoET",
 		"lheZtoMT",
 		"LHE_p_1",
-		"LHE_p_2"]
+		"LHE_p_2"
+	]
 
 def recoCPQuantities():
-	return ["thePVx",
+	return [
+		"thePVx",
 		"thePVy",
 		"thePVz",
 		"thePVchi2",
@@ -614,10 +624,12 @@ def recoCPQuantities():
 		"recoTrackRefError2",
 
 		"d0s_area",
-		"d0s_dist"]
+		"d0s_dist"
+	]
 
 def recoCPQuantitiesHiggs():
-	return ["madGraphLheParticle1LV",
+	return [
+		"madGraphLheParticle1LV",
 		"madGraphLheParticle2LV",
 		"madGraphLheParticle3LV",
 		"madGraphLheParticle4LV",
@@ -630,7 +642,8 @@ def recoCPQuantitiesHiggs():
 		"madGraphLheParticle5PdgId",
 		"madGraphLheParticle6PdgId",
 		"subProcessCode",
-		"lheParticleJetNumber"]
+		"lheParticleJetNumber"
+	]
 
 def recoPolarisationQuantities():
 	return [
@@ -728,7 +741,6 @@ def recoPolarisationQuantities():
 		"polarisationCombinedOmegaVisibleSimpleFit",
 		#"polarisationCombinedOmegaVisibleHHKinFit"
 	]
-		
 
 def recoPolarisationQuantitiesSvfit():
 	return [
@@ -750,10 +762,12 @@ def recoPolarisationQuantitiesSvfit():
 		"polarisationOmegaVisibleSvfitM91_2",
 		"polarisationCombinedOmegaSvfitM91",
 		"polarisationCombinedOmegaBarSvfitM91",
-		"polarisationCombinedOmegaVisibleSvfitM91"]
+		"polarisationCombinedOmegaVisibleSvfitM91"
+	]
 
 def weightQuantities():
-	return ["hltWeight",
+	return [
+		"hltWeight",
 		"triggerWeight_1",
 		"triggerWeight_2",
 		"identificationWeight_1",
@@ -824,7 +838,8 @@ def weightQuantities():
 		"madGraphWeightInvSample"]
 
 def melaQuantities():
-	return ["melaProbCPEvenGGH",
+	return [
+		"melaProbCPEvenGGH",
 		"melaProbCPOddGGH",
 		"melaProbCPMixGGH",
 		"melaDiscriminatorD0MinusGGH",
@@ -895,5 +910,5 @@ def melaQuantities():
 		#"melaM125ProbCPMixZhadH",
 		#"melaM125DiscriminatorD0MinusZhadH",
 		#"melaM125DiscriminatorDCPZhadH"
-		]
+	]
 

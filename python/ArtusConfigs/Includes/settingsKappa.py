@@ -35,12 +35,11 @@ class Kappa(dict):
 
 		elif re.search("13TeV.*_AODSIM", nickname):
 			self["TaggedJets"] = "AK5PFTaggedJets"
- 		
+
 		elif re.search("MINIAOD", nickname):
 			self["TaggedJets"] = "ak4PF"
 		elif re.search("USER",nickname):
 			self["TaggedJets"] = "ak4PF"
-
 
 		if re.search("13TeV", nickname):
 			self["PileupDensity"] = "pileupDensity"

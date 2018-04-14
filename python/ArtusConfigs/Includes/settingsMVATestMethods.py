@@ -9,6 +9,6 @@ class MVATestMethods(dict):
 	def __init__(self):
 
 		self["MVATestMethodsInputQuantities"] = []
-   		self["MVATestMethodsMethods"] = []
-   		self["MVATestMethodsWeights"] = []
-   		
+		self["MVATestMethodsMethods"] = []
+		self["MVATestMethodsWeights"] = []
+

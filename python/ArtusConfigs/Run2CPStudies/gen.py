@@ -56,15 +56,17 @@ class gen_ArtusConfig(dict):
 			self["Quantities"] += r2cpq.weightQuantities()
 			self["Quantities"] += r2cpq.genCPQuantities()
 			self["Quantities"] += r2cpq.genHiggsQuantities()
-			self["Quantities"] += ["nJets",
-					"nJets30",
-					"leadingJetLV",
-					"trailingJetLV",
-					"thirdJetLV",
-					"fourthJetLV",
-					"fifthJetLV",
-					"sixthJetLV",
-					"diJetDeltaPhi"]
+			self["Quantities"] += [
+				"nJets",
+				"nJets30",
+				"leadingJetLV",
+				"trailingJetLV",
+				"thirdJetLV",
+				"fourthJetLV",
+				"fifthJetLV",
+				"sixthJetLV",
+				"diJetDeltaPhi"
+			]
 
 		elif re.search("Embedding2016", nickname):
 			self["Quantities"] += r2cpq.genQuantities()
@@ -76,11 +78,11 @@ class gen_ArtusConfig(dict):
 
 		if re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
 			self["Processors"] = [
-					"producer:TaggedJetCorrectionsProducer",
-					"producer:ValidTaggedJetsProducer",
-					"#producer:ValidBTaggedJetsProducer",
-					"producer:DiJetQuantitiesProducer"
-				]
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"#producer:ValidBTaggedJetsProducer",
+				"producer:DiJetQuantitiesProducer"
+			]
 		else:
 			self["Processors"] = []
 

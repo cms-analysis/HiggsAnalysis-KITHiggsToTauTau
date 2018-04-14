@@ -8,7 +8,8 @@ log = logging.getLogger(__name__)
 
 
 def SingleTauQuantities():
-	return ["run",
+	return [
+		"run",
 		"lumi",
 		"evt",
 		"npv",

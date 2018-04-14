@@ -116,9 +116,13 @@ class LheWeights(dict):
 				"NNPDF30_lo_as_0130_LHgrid__Member_99"
 			]
 
-			self["AlphaSLheWeights"] = ["NNPDF30_lo_as_0130_LHgrid__Member_0","NNPDF30_lo_as_0118_LHgrid__Member_0"]
+			self["AlphaSLheWeights"] = [
+				"NNPDF30_lo_as_0130_LHgrid__Member_0",
+				"NNPDF30_lo_as_0118_LHgrid__Member_0"
+			]
 
-			self["ScaleLheWeights"] = ["Central_scale_variation__mur_0_5_muf_0_5",
+			self["ScaleLheWeights"] = [
+				"Central_scale_variation__mur_0_5_muf_0_5",
 				"Central_scale_variation__mur_0_5_muf_1",
 				"#Central_scale_variation__mur_0_5_muf_2",
 				"Central_scale_variation__mur_1_muf_0_5",
@@ -126,7 +130,8 @@ class LheWeights(dict):
 				"Central_scale_variation__mur_1_muf_2",
 				"#Central_scale_variation__mur_2_muf_0_5",
 				"Central_scale_variation__mur_2_muf_1",
-				"Central_scale_variation__mur_2_muf_2"]
+				"Central_scale_variation__mur_2_muf_2"
+			]
 
 		elif re.match("HToTauTau.*RunIISummer16.*powheg-pythia8", nickname):
 			self["PdfLheWeights"] = [
@@ -232,7 +237,10 @@ class LheWeights(dict):
 				"PDF_variation__PDF_set___260100"
 			]
 
-			self["AlphaSLheWeights"] = ["PDF_variation__PDF_set___265000", "PDF_variation__PDF_set___266000"]
+			self["AlphaSLheWeights"] = [
+				"PDF_variation__PDF_set___265000",
+				"PDF_variation__PDF_set___266000"
+			]
 
 			self["ScaleLheWeights"] = [
 				"scale_variation__muR_1_muF_1",

@@ -10,8 +10,10 @@ import re
 class Electron_ID(dict):
 	def __init__(self, nickname):
 		
-		self["ElectronID_documentation"] = ["https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2",
-						"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"]
+		self["ElectronID_documentation"] = [
+			"https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2",
+			"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"
+		]
 	
 		self["ElectronReco"] = "mvanontrig"
 	
@@ -23,11 +25,13 @@ class Electron_ID(dict):
 			self["ElectronMvaIDCutEB1"] = 0.967083
 			self["ElectronMvaIDCutEB2"] = 0.929117
 			self["ElectronMvaIDCutEE"] = 0.726311
-			self["ElectronIDList"] = ["electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
-						"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto",
-						"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose",
-						"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium",
-						"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"]
+			self["ElectronIDList"] = [
+				"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
+				"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto",
+				"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose",
+				"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium",
+				"egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"
+			]
 		elif re.search("(Run2017|Fall17)", nickname):
 			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"
 			self["ElectronMvaIDCutEB1"] = 0.9897
@@ -45,11 +49,13 @@ class Electron_ID(dict):
 			self["ElectronMvaIDCutEB1"] = 0.941
 			self["ElectronMvaIDCutEB2"] = 0.899
 			self["ElectronMvaIDCutEE"] = 0.758
-			self["ElectronIDList"] = ["electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
-						"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
-						"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose",
-						"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium",
-						"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"]
+			self["ElectronIDList"] = [
+				"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
+				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto",
+				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose",
+				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium",
+				"egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"
+			]
 
 		self["ElectronIsoType"] = "user"
 		self["ElectronIso"] = "none"
@@ -106,7 +112,6 @@ class Electron_ID(dict):
 		else:
 			self["VetoElectronIDType"] = "cutbased2016noisocutsveto"
 			self["VetoElectronIDName"] =  "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto"
-			
 		
 		self["VetoElectronIsoType"] = "user"
 		self["VetoElectronIso"] = "none"
