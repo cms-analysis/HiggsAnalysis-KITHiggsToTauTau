@@ -62,17 +62,13 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		if len(self._args.systematics) == 1:
 			self._args.systematics = self._args.systematics * len(self._args.channels)
 
-
 		log.debug("channels are ")
 		log.debug(self._args.channels)
 		log.debug("systematics are:")
 		log.debug(self._args.systematics)
 
-		global channels_systematics
-		channels_systematics = {}
-		channels_systematics = self.create_channels_systematics()
-		
-		
+		self.channels_systematics = {}
+		self.create_channels_systematics()
 		
 		# expand the environment variables only at the batch node
 		if self._args.batch:
@@ -111,15 +107,13 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 
 	def create_channels_systematics(self):
 		
-		channels_systs = {}
-
 		for tmp_channels, tmp_systematics in zip(self._args.channels, self._args.systematics):
 			for channel in tmp_channels:
-				channels_systs.setdefault(channel, []).extend(tmp_systematics)
+				self.channels_systematics.setdefault(channel, []).extend(tmp_systematics)
 
-		for channel, systematics in channels_systs.iteritems():
-			channels_systs[channel] = list(set(systematics))  #creates dictionary with key channels and value which systematics needs to be run for this channel 
-		return channels_systs
+		for channel, systematics in self.channels_systematics.iteritems():
+			self.channels_systematics[channel] = list(set(systematics))  #creates dictionary with key channels and value which systematics needs to be run for this channel
+		return self.channels_systematics
 		
 
 	def remove_pipeline_copies(self):
@@ -213,7 +207,7 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 				pipeline_config = {}
 				syst_python_config = systematicsfile.Systematics_Config()
 				
-				for selected_channel in channels_systematics.keys(): #loop over the keys, which are the channels
+				for selected_channel in self.channels_systematics.keys(): #loop over the keys, which are the channels
 					if selected_channel == "mt":
 						channel_python_config = mt.mt_ArtusConfig()
 						channel_python_config.build_config(nickname)
@@ -256,7 +250,7 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 				
 					"""
 					if selected_channel != "gen":	
-						for systematic_shift in channels_systematics[selected_channel]: #loop over the values, the systematics per key 
+						for systematic_shift in self.channels_systematics[selected_channel]: #loop over the values, the systematics per key
 
 							if systematic_shift != "nominal":
 								for shiftdirection in ["Up", "Down"]:
@@ -373,9 +367,9 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		epilogArguments = ""
 		epilogArguments = super(HiggsToTauTauAnalysisWrapper, self).createEpilogArguments()
 
-		for grid_channel in channels_systematics.keys():
+		for grid_channel in self.channels_systematics.keys():
 			epilogArguments += r"--channels " + grid_channel + " "
-			epilogArguments += r"--systematics " + " ".join(channels_systematics[grid_channel]) + " "
+			epilogArguments += r"--systematics " + " ".join(self.channels_systematics[grid_channel]) + " "
 		return epilogArguments
 
 	def sendToBatchSystem(self):
