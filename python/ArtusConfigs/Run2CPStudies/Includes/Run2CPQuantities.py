@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
+
+import logging
+import Artus.Utility.logger as logger
+log = logging.getLogger(__name__)
+
 #this are functions that return python list, the lists are the same as in the json quantities files. Idea is that one can add the list to the quantities to be read in.
+
 
 def genCPQuantities():    #TODO Is this really used, very similar to matchedcpquantities
 	return [#"1genBosonDaughterSize",

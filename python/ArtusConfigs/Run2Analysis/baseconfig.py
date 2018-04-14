@@ -5,19 +5,12 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
-import json
-import Artus.Utility.jsonTools as jsonTools
-import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
-
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsKappa as sKappa
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsSampleStitchingWeights as sSSW
-
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJEC as sJEC
-
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsLheWeights as sLheWeights
+
 
 class Baseconfig(dict):
 

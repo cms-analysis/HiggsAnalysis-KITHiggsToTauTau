@@ -5,19 +5,11 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
-import json
-import copy
-import os
-import Artus.Utility.jsonTools as jsonTools
-import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
+
 
 class Systematics_Config(dict):
 	def __init__(self):
-		#doppelgemoppel allready in the config class
-		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json")) 
 		
-		
-	
 		#Nominal the clear config function is also just a copy of this. (caution python does strange things when updating a dict!!!!)
 		self["ElectronEnergyCorrectionShiftEB"] = 1.0 
 		self["ElectronEnergyCorrectionShiftEE"] = 1.0

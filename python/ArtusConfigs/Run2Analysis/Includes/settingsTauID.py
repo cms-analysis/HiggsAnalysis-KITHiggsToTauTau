@@ -5,14 +5,10 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
-import json
-import Artus.Utility.jsonTools as jsonTools
-import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
-import copy
+
 
 class Tau_ID(dict):
 	def __init__(self, nickname):
-
 
 		self["TauID_documentation"] = []
 

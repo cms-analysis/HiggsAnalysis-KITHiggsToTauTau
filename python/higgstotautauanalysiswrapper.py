@@ -18,13 +18,10 @@ import copy
 from string import Template
 from datetime import datetime
 
-from pprint import pprint
-
 import Artus.Configuration.artusWrapper as artusWrapper
 
 import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
-import Artus.Utility.profile_cpp as profile_cpp
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.tt as tt
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.mt as mt
@@ -37,6 +34,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.systematics as s
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.baseconfigCP as baseconfigcp
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.globalProcessors as globalprocessors
+
 
 class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 

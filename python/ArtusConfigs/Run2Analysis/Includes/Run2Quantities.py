@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
-#this are functions that return python list, the lists are the same as in the json quantities files. Idea is that one can add the list to the quantities to be read in. TODO make list also for cp quantities etc
 
+import logging
+import Artus.Utility.logger as logger
+log = logging.getLogger(__name__)
+
+#this are functions that return python list, the lists are the same as in the json quantities files. Idea is that one can add the list to the quantities to be read in. TODO make list also for cp quantities etc
 
 
 def fourVectorQuantities():

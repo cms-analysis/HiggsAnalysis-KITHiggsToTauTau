@@ -5,16 +5,10 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
-import json
-import Artus.Utility.jsonTools as jsonTools
-import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
-import copy
-import os
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
-
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
@@ -28,28 +22,15 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.setting
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJECUncertaintySplit as sJECUS
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMethods as sMVATM
-
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.settingsTauPolarisationMva as sTPMVA
 
 
 class tt_ArtusConfig(dict):
 
 	def __init__(self):
-		self.base_copy = copy.deepcopy(self)
-		self.datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json")) 
-			
+		pass	
 
 	def build_config(self, nickname):                #Maybe change this the arguments to process/year and DATA/MC
-		isData = self.datasetsHelper.isData(nickname)
-		isSignal = self.datasetsHelper.isSignal(nickname)
-		isEmbedding = self.datasetsHelper.isEmbedded(nickname)
-		isTTbar = re.match("TT(To|_|Jets)", nickname)
-		isDY = re.match("DY.?JetsToLLM(50|150)", nickname)
-		isWjets = re.match("W.?JetsToLNu", nickname)
-		isLFV = ("LFV" in nickname)
-		is2015 = re.search("(Run2015|Fall15|Embedding15)",nickname) #I am not 100% sure if this is exclusive
-		is2016 = re.search("(Run2016|Sprint16|Summer16|Fall16|Embedding16)",nickname) #I am not 100% sure if this is exclusive	
-		is2017 = re.search("(Run2017|Summer17|Fall17|Embedding17)",nickname) #I am not 100% sure if this is exclusive		
 		
 		#Change this json config files as well?
 		"""
@@ -166,7 +147,7 @@ class tt_ArtusConfig(dict):
 			#"PrintGenParticleDecayTreeConsumer"]
 
 
-		if isEmbedding:
+		if re.search("Embedding", nickname):
 			self["NoHltFiltering"]= True
 			self["DiTauPairNoHLT"]= True
 		else:
@@ -706,16 +687,4 @@ class tt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 
 		#self["Processors"]=list(set(self["Processors"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
-		 
-
-
-
-	def clear_config(self):
-		self = self.base_copy
-
-
-
-
-
-
 
