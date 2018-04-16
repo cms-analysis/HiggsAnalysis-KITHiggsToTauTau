@@ -52,8 +52,6 @@ var searchData=
   ['makeplots_5ftriggerefficiencyfits',['makePlots_triggerEfficiencyFits',['../namespacemakePlots__triggerEfficiencyFits.html',1,'']]],
   ['makeplots_5fzttpolarisationplots',['makePlots_zttPolarisationPlots',['../namespacemakePlots__zttPolarisationPlots.html',1,'']]],
   ['makeplots_5fztttheoryunc',['makePlots_ZTTtheoryUnc',['../namespacemakePlots__ZTTtheoryUnc.html',1,'']]],
-  ['mm',['mm',['../namespacemm.html',1,'']]],
-  ['mt',['mt',['../namespacemt.html',1,'']]],
   ['mvacategory_5fshifts',['mvaCategory_Shifts',['../namespacemvaCategory__Shifts.html',1,'']]],
   ['mvacategory_5funcertainties',['mvaCategory_Uncertainties',['../namespacemvaCategory__Uncertainties.html',1,'']]],
   ['mvadatacards_5fbase',['mvadatacards_base',['../namespacemvadatacards__base.html',1,'']]],

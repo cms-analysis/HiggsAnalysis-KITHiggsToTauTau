@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['gen_5fartusconfig',['gen_ArtusConfig',['../classgen_1_1gen__ArtusConfig.html',1,'gen']]],
   ['genditaupairacceptancefilter',['GenDiTauPairAcceptanceFilter',['../classGenDiTauPairAcceptanceFilter.html',1,'']]],
   ['genditaupairacceptanceproducer',['GenDiTauPairAcceptanceProducer',['../classGenDiTauPairAcceptanceProducer.html',1,'']]],
   ['genditaupaircandidatesfilter',['GenDiTauPairCandidatesFilter',['../classGenDiTauPairCandidatesFilter.html',1,'']]],
@@ -20,6 +19,5 @@ var searchData=
   ['gentaucpproducerbase',['GenTauCPProducerBase',['../classGenTauCPProducerBase.html',1,'']]],
   ['genttpaircandidatesproducer',['GenTTPairCandidatesProducer',['../classGenTTPairCandidatesProducer.html',1,'']]],
   ['gfal_5ffilelist',['gfal_filelist',['../classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html',1,'create_file_list_from_gfal_embedded_test']]],
-  ['gghrenormalizationscalesystematic',['GGHRenormalizationScaleSystematic',['../classsystematics__run2_1_1GGHRenormalizationScaleSystematic.html',1,'systematics_run2']]],
-  ['globalproccesors',['globalProccesors',['../classglobalProcessors_1_1globalProccesors.html',1,'globalProcessors']]]
+  ['gghrenormalizationscalesystematic',['GGHRenormalizationScaleSystematic',['../classsystematics__run2_1_1GGHRenormalizationScaleSystematic.html',1,'systematics_run2']]]
 ];
