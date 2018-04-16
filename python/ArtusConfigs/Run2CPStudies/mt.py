@@ -5,12 +5,11 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
+import copy
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.quantities as quantities
+
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
@@ -281,12 +280,12 @@ class mt_ArtusConfig(dict):
 			"#PrintGenParticleDecayTreeConsumer"
 		]
 
-		quantities_dict = quantities.quantities(nickname) 
-		
-		self.update(quantities_dict)
+		quantities_dict = quantities.quantities() 
+		quantities_dict.build_quantities(nickname)
+
 		
 
-		self["Quantities"] += [
+		quantities_dict["Quantities"] += [
 				"nVetoMuons",
 				"nLooseElectrons",
 				"nLooseMuons",
@@ -296,7 +295,7 @@ class mt_ArtusConfig(dict):
 		
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):	 #the same as tt
 
-			self["Quantities"] += [
+			quantities_dict["Quantities"] += [
 				"tauSpinnerPolarisation",
 				"trg_singlemuon",
 				"trg_mutaucross",
@@ -307,7 +306,7 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 
-			self["Quantities"] += [
+			quantities_dict["Quantities"] += [
 				"trg_singlemuon",
 				"trg_mutaucross",
 				"triggerWeight_singleMu_1",
@@ -319,27 +318,29 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("Embedding2016", nickname):
 
-			self["Quantities"] += [
+			quantities_dict["Quantities"] += [
 				"triggerWeight_singleMu_1",
 				"triggerWeight_muTauCross_1",
 				"triggerWeight_muTauCross_2"
 			]
 		
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-			self["Quantities"] += [
+			quantities_dict["Quantities"] += [
 				"triggerWeight_singleMu_1",
 				"triggerWeight_muTauCross_1",
 				"triggerWeight_muTauCross_2",
 				"jetCorrectionWeight"
 			]
 		else:
-			self["Quantities"] += [
+			quantities_dict["Quantities"] += [
 				"trg_singlemuon",
 				"trg_mutaucross",
 				"triggerWeight_singleMu_1",
 				"triggerWeight_muTauCross_1",
 				"triggerWeight_muTauCross_2"
 			]
+
+		self.update(copy.deepcopy(quantities_dict))
 
 		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 

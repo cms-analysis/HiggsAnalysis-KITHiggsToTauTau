@@ -5,10 +5,9 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
+import copy
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
@@ -206,14 +205,10 @@ class et_ArtusConfig(dict):
 			"#PrintGenParticleDecayTreeConsumer"
 		]
 
-		self["Quantities"]=[]
+		quantities_dict = quantities.quantities() 
+		quantities_dict.build_quantities(nickname)
 
-		if re.search("Run2015", nickname):  					#the same as tt
-			self["Quantities"] += r2q.fourVectorQuantities()
-			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantities() 	#until here
-			self["Quantities"] += [
+		quantities_dict["Quantities"] += [
 				"nVetoElectrons",
 				"nLooseElectrons",
 				"nLooseMuons",
@@ -221,148 +216,40 @@ class et_ArtusConfig(dict):
 				"nAllDiTauPairCandidates"
 			]
 
-		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):	 #the same as tt
-			self["Quantities"] += r2q.fourVectorQuantities()
-			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2q.svfitSyncQuantities()
-			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
-			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.genMatchedCPQuantities()
-			self["Quantities"] += r2cpq.recoCPQuantities()
-			self["Quantities"] += r2cpq.melaQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
-			self["Quantities"] += iq.SingleTauQuantities()
-			self["Quantities"] += [
-				"nVetoElectrons",
-				"nLooseElectrons",
-				"nLooseMuons",
-				"nDiTauPairCandidates",
-				"nAllDiTauPairCandidates",
-				"tauSpinnerPolarisation"
+		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):	 #the same as tt
+			
+			quantities_dict["Quantities"] += quantities_dict.genQuantities()
+			
+			quantities_dict["Quantities"] += [
+					"tauSpinnerPolarisation"
 			]
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
-			self["Quantities"] += r2q.fourVectorQuantities()
-			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2q.svfitSyncQuantities()
-			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
-			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.genHiggsQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.genMatchedCPQuantities()
-			self["Quantities"] += r2cpq.recoCPQuantities()
-			self["Quantities"] += r2cpq.melaQuantities()
-			self["Quantities"] += [
+			
+			quantities_dict["Quantities"] += [
 				"#tauPolarisationTMVA",
 				"#tauPolarisationSKLEARN",
-				"nVetoElectrons",
-				"nLooseElectrons",
-				"nLooseMuons",
-				"nDiTauPairCandidates",
-				"nAllDiTauPairCandidates"
-			]
-
-		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
-			self["Quantities"] += r2q.fourVectorQuantities()
-			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += [
-				"nVetoElectrons",
-				"nLooseElectrons",
-				"nLooseMuons",
-				"nDiTauPairCandidates",
-				"nAllDiTauPairCandidates"
 			]
 
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
-			self["Quantities"] += r2q.fourVectorQuantities()
-			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.genMatchedCPQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += [
-				"nVetoElectrons",
-				"nLooseElectrons",
-				"nLooseMuons",
-				"nDiTauPairCandidates",
-				"nAllDiTauPairCandidates",
+
+			quantities_dict["Quantities"] += [
 				"tauSpinnerPolarisation"
 			]
 
-		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
-			self["Quantities"] += r2q.fourVectorQuantities()
-			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2q.svfitSyncQuantities()
-			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.genHiggsQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.genMatchedCPQuantities()
-			self["Quantities"] += r2cpq.recoCPQuantities()
-			self["Quantities"] += r2cpq.melaQuantities()
-			self["Quantities"] += [
-				"#tauPolarisationTMVA",
-				"#tauPolarisationSKLEARN",
-				"nVetoElectrons",
-				"nLooseElectrons",
-				"nLooseMuons",
-				"nDiTauPairCandidates",
-				"nAllDiTauPairCandidates"
-			]
 
 		elif re.search("Embedding2016", nickname):
-			self["Quantities"] += r2q.fourVectorQuantities()
-			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
-			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += [
-				"nLooseElectrons",
-				"nLooseMuons",
-				"nDiTauPairCandidates",
-				"nAllDiTauPairCandidates",
+			
+			quantities_dict["Quantities"] += [
 				"tauSpinnerPolarisation"
 			]
 
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-			self["Quantities"] += r2q.fourVectorQuantities()
-			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
-			self["Quantities"] += r2cpq.genQuantitiesLFV()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += iq.SingleTauQuantities()
-			self["Quantities"] += r2cpq.recoCPQuantities()
-			self["Quantities"] += [
-				"nVetoElectrons",
-				"nLooseElectrons",
-				"nLooseMuons",
-				"nDiTauPairCandidates",
-				"nAllDiTauPairCandidates",
+			quantities_dict["Quantities"] += [
 				"jetCorrectionWeight"
 			]
 
-		else:
-			self["Quantities"] += r2q.fourVectorQuantities()
-			self["Quantities"] += r2q.syncQuantities()
-			self["Quantities"] += r2q.svfitSyncQuantities()
-			self["Quantities"] += r2q.splitJecUncertaintyQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.recoCPQuantities()
-			self["Quantities"] += r2cpq.melaQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantities()
-			self["Quantities"] += r2cpq.recoPolarisationQuantitiesSvfit()
-			self["Quantities"] += [
-				"nVetoElectrons",
-				"nLooseElectrons",
-				"nLooseMuons",
-				"nDiTauPairCandidates",
-				"nAllDiTauPairCandidates"
-			]
-
+		self.update(copy.deepcopy(quantities_dict))
 		self["Quantities"]=sorted(list(set(self["Quantities"])), key=str.lower) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
