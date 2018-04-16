@@ -8,5 +8,6 @@ var dir_08c810391fe486bf7320d0dbe4c49b88 =
     [ "globalProcessors.py", "globalProcessors_8py.html", "globalProcessors_8py" ],
     [ "mm.py", "mm_8py.html", "mm_8py" ],
     [ "mt.py", "mt_8py.html", "mt_8py" ],
+    [ "quantities.py", "quantities_8py.html", "quantities_8py" ],
     [ "tt.py", "tt_8py.html", "tt_8py" ]
 ];

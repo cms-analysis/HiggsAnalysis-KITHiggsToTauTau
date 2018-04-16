@@ -1,5 +1,7 @@
 var NAVTREEINDEX21 =
 {
+"makePlots__recogenPhiStarCP_8py.html#ace0db3303af36cae199b2181cb19ef91":[2,0,2,63,14],
+"makePlots__recogenPhiStarCP_8py.html#ad8fae2ec2745c8358659120183a64b55":[2,0,2,63,7],
 "makePlots__recogenPhiStarCP_8py.html#adfbec61e6fce2557f210a678c6d22f84":[2,0,2,63,8],
 "makePlots__recogenPhiStarCP_8py.html#ae35a5d131224579c61106973548f296b":[2,0,2,63,13],
 "makePlots__recogenPhiStarCP_8py.html#ae9e6e8d4573c0cd89623d5d8b41fd6db":[2,0,2,63,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX21 =
 "nFold__DiffScan_8py.html#a1c39a3b603aecd1731dcfb38d23e51c0":[2,0,2,78,10],
 "nFold__DiffScan_8py.html#a314f6cc86a7737384261e9eca8501e54":[2,0,2,78,6],
 "nFold__DiffScan_8py.html#a38700b81110f8fbd5ed3be25bbd2f76e":[2,0,2,78,12],
-"nFold__DiffScan_8py.html#a3c787586cda82fe7689719d93241fda8":[2,0,2,78,14],
-"nFold__DiffScan_8py.html#a55ec41c160804699adb844a834bbcf07":[2,0,2,78,9],
-"nFold__DiffScan_8py.html#a5eb5df5f68e26af377c26bdd39457439":[2,0,2,78,5]
+"nFold__DiffScan_8py.html#a3c787586cda82fe7689719d93241fda8":[2,0,2,78,14]
 };

@@ -134,6 +134,7 @@ var namespaces =
     [ "printLaTeX_BDT", "namespaceprintLaTeX__BDT.html", null ],
     [ "pullvalues", "namespacepullvalues.html", null ],
     [ "qcdfactorsdatacards", "namespaceqcdfactorsdatacards.html", null ],
+    [ "quantities", "namespacequantities.html", null ],
     [ "read_datacardshapes", "namespaceread__datacardshapes.html", null ],
     [ "reduce_mergedFiles", "namespacereduce__mergedFiles.html", null ],
     [ "Run2CPQuantities", "namespaceRun2CPQuantities.html", null ],

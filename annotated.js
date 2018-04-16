@@ -134,6 +134,7 @@ var annotated =
     [ "printLaTeX_BDT", "namespaceprintLaTeX__BDT.html", null ],
     [ "pullvalues", "namespacepullvalues.html", "namespacepullvalues" ],
     [ "qcdfactorsdatacards", "namespaceqcdfactorsdatacards.html", "namespaceqcdfactorsdatacards" ],
+    [ "quantities", "namespacequantities.html", "namespacequantities" ],
     [ "read_datacardshapes", "namespaceread__datacardshapes.html", null ],
     [ "reduce_mergedFiles", "namespacereduce__mergedFiles.html", null ],
     [ "Run2CPQuantities", "namespaceRun2CPQuantities.html", null ],

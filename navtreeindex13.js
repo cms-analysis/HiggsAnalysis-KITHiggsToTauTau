@@ -1,5 +1,7 @@
 var NAVTREEINDEX13 =
 {
+"embedding__plotline__bib_8py.html#a232b7f7b9ed2f042a6b34d43be18114e":[2,0,1,4,1,1,10],
+"embedding__plotline__bib_8py.html#a2b78b7a194b22e2902f8a47d8a61c75c":[2,0,1,4,1,1,81],
 "embedding__plotline__bib_8py.html#a2df3a73568ab103d5a21e630bea9914f":[2,0,1,4,1,1,24],
 "embedding__plotline__bib_8py.html#a3021b36ef52a5c26d0849013015f0a7e":[2,0,1,4,1,1,65],
 "embedding__plotline__bib_8py.html#a320d19f79d0c864bce99a5e8dfa831fa":[2,0,1,4,1,1,86],
@@ -247,7 +249,5 @@ var NAVTREEINDEX13 =
 "higgstotautauanalysiswrapper_8py.html":[2,0,1,6],
 "higgstotautauanalysiswrapper_8py.html#a252c00b2af92c98d36303f8986fc79c9":[2,0,1,6,1],
 "index.html":[],
-"initialstatecpstudiesdatacards_8py.html":[2,0,1,1,6],
-"initialstatecpstudiesdatacards_8py.html#ad9b0a7d6a916a676973316043d133fcc":[2,0,1,1,6,1],
-"inputroothtt_8py.html":[2,0,1,4,2,1,0]
+"initialstatecpstudiesdatacards_8py.html":[2,0,1,1,6]
 };

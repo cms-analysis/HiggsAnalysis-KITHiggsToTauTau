@@ -72,6 +72,7 @@ var hierarchy =
       [ "globalProcessors.globalProccesors", "classglobalProcessors_1_1globalProccesors.html", null ],
       [ "mm.mm_ArtusConfig", "classmm_1_1mm__ArtusConfig.html", null ],
       [ "mt.mt_ArtusConfig", "classmt_1_1mt__ArtusConfig.html", null ],
+      [ "quantities.quantities", "classquantities_1_1quantities.html", null ],
       [ "settingsBTaggedJetID.BTaggedJet_ID", "classsettingsBTaggedJetID_1_1BTaggedJet__ID.html", null ],
       [ "settingsElectronID.Electron_ID", "classsettingsElectronID_1_1Electron__ID.html", null ],
       [ "settingsJEC.JEC", "classsettingsJEC_1_1JEC.html", null ],

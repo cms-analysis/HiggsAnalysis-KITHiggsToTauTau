@@ -1,5 +1,9 @@
 var NAVTREEINDEX24 =
 {
+"plot__AUC__2D_8py.html#a49f79e84781610d18785854523faac8b":[2,0,2,81,3],
+"plot__AUC__2D_8py.html#a5baf118baf99ebf840bc781b1787bb4f":[2,0,2,81,32],
+"plot__AUC__2D_8py.html#a6504d7bab3a38015ceeee7154253656a":[2,0,2,81,5],
+"plot__AUC__2D_8py.html#a66b5874f68a697d2d032dc4854f49928":[2,0,2,81,19],
 "plot__AUC__2D_8py.html#a6cc941739ce0add2ddc1831a749b50ba":[2,0,2,81,1],
 "plot__AUC__2D_8py.html#a70898dfc90a08411fbf9a8c2201d453f":[2,0,2,81,21],
 "plot__AUC__2D_8py.html#a723eb2ce22e60c3227ffd4489cc9ed3e":[2,0,2,81,15],
@@ -90,6 +94,8 @@ var NAVTREEINDEX24 =
 "python_2plotting_2higgsplot_8py.html#a7537e8a38be40e108b019db497423162":[2,0,1,4,4,1],
 "qcdfactorsdatacards_8py.html":[2,0,1,1,10],
 "qcdfactorsdatacards_8py.html#a05366e38196bda3086bbc09dd5d15b79":[2,0,1,1,10,1],
+"quantities_8py.html":[2,0,1,0,2,8],
+"quantities_8py.html#afd582ea77aaee5d6c281ccf0962c7917":[2,0,1,0,2,8,1],
 "read__datacardshapes_8py.html":[2,0,2,85],
 "read__datacardshapes_8py.html#a0a643b680399a3bc2210767f1da84e6e":[2,0,2,85,12],
 "read__datacardshapes_8py.html#a0e4cfe9c02ad84fbac04fd595ae18a9b":[2,0,2,85,7],
@@ -243,11 +249,5 @@ var NAVTREEINDEX24 =
 "scaleVariations__ZttOverZttInclusive_8py.html#ade65c870d87f3de01b79329da25bd3f5":[2,0,2,89,27],
 "scaleVariations__ZttOverZttInclusive_8py.html#ae693cf3d1beae662cbc3342ba5488c90":[2,0,2,89,20],
 "scaleVariations__ZttOverZttInclusive_8py.html#af0602321fc70a060a11cf5d4caad0376":[2,0,2,89,0],
-"scaleVariations__latexTables_8py.html":[2,0,2,87],
-"scaleVariations__latexTables_8py.html#a0e312e6eeef237169e1862fa5c36535f":[2,0,2,87,4],
-"scaleVariations__latexTables_8py.html#a2f92e56913264197a4e266eafc40bee4":[2,0,2,87,14],
-"scaleVariations__latexTables_8py.html#a454bb909bd0bd6ae3aa4c67857cf82d1":[2,0,2,87,9],
-"scaleVariations__latexTables_8py.html#a47edde64c1e0c2f5958994531d6aa9cb":[2,0,2,87,12],
-"scaleVariations__latexTables_8py.html#a49141947a67e0f4450ee16570d79c0a9":[2,0,2,87,13],
-"scaleVariations__latexTables_8py.html#a4adf4b355515a1e6f0388ea9c67d2bcd":[2,0,2,87,0]
+"scaleVariations__latexTables_8py.html":[2,0,2,87]
 };
