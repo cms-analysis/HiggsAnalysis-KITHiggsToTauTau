@@ -479,7 +479,7 @@ class mt_ArtusConfig(dict):
 				"filter:MinMuonsCountFilter",
 				"producer:ValidElectronsProducer"
 				]
-		if re.search("Run201", nickname)==None:
+		if re.search("Run201", nickname) == None:
 			self["Processors"] += ["producer:TauCorrectionsProducer"]
 
 		self["Processors"] += [
@@ -504,19 +504,27 @@ class mt_ArtusConfig(dict):
 				"producer:ValidTaggedJetsProducer",
 				"producer:ValidBTaggedJetsProducer"
 				]
-		
 
 		if (re.search("Fall15", nickname) or (re.search("Run2015", nickname)):
 			#self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 		else:
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 
-		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
-			self["Processors"] += [
-				"producer:MetCorrector",
+		if (re.search("Run201", nickname) == None) and (re.search("Embedding201", nickname) == None):
+			self["Processors"] += ["producer:MetCorrector"]
+			if re.search("Fall15", nickname):
+				self["Processors"] += ["producer:MvaMetCorrector"]
+
+		self["Processors"] += [
 				"producer:TauTauRestFrameSelector",
 				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer"
+				]
+				
+
+
+		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+			self["Processors"] += [
 				"producer:SimpleEleTauFakeRateWeightProducer",
 				"producer:SimpleMuTauFakeRateWeightProducer",
 				"producer:ZPtReweightProducer",
@@ -546,11 +554,6 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Processors"] += [
-				"producer:MetCorrector",
-				"producer:MvaMetCorrector",
-				"producer:TauTauRestFrameSelector",
-				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
 				"producer:TopPtReweightingProducer",
 				"filter:MinimalPlotlevelFilter"
 			] #I believe from here it is not that strict anymore with the ordering
@@ -576,11 +579,6 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Processors"] += [
-				"producer:MetCorrector",
-				"producer:MvaMetCorrector",
-				"producer:TauTauRestFrameSelector",
-				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
 				"producer:ZPtReweightProducer",
 				"filter:MinimalPlotlevelFilter"
 			] #I believe from here it is not that strict anymore with the ordering
@@ -608,9 +606,6 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("Run2016", nickname):
 			self["Processors"] += [
-				"producer:TauTauRestFrameSelector",
-				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
 				"filter:MinimalPlotlevelFilter"
 			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
@@ -633,9 +628,6 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("Run2015", nickname):
 			self["Processors"] = [
-				"producer:TauTauRestFrameSelector",
-				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
 				"filter:MinimalPlotlevelFilter"
 			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
@@ -658,11 +650,6 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("Embedding201", nickname):
 			self["Processors"] += [
-				"#producer:MetCorrector",
-				"#producer:MvaMetCorrector",
-				"producer:TauTauRestFrameSelector",
-				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
 				"filter:MinimalPlotlevelFilter"
 			] #I believe from here it is not that strict anymore with the ordering
 			self["Processors"] += ["#producer:MVATestMethodsProducer"]
@@ -689,10 +676,6 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] += [
-				"producer:MetCorrector",
-				"producer:TauTauRestFrameSelector",
-				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
 				"producer:SimpleEleTauFakeRateWeightProducer",
 				"producer:SimpleMuTauFakeRateWeightProducer",
 				"producer:TopPtReweightingProducer",
@@ -721,11 +704,6 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 			self["Processors"] += [
-				"producer:MetCorrector",
-				"producer:MvaMetCorrector",
-				"producer:TauTauRestFrameSelector",
-				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
 				"producer:TopPtReweightingProducer",
 				"filter:MinimalPlotlevelFilter"
 			] #I believe from here it is not that strict anymore with the ordering
@@ -753,10 +731,6 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [
-				"producer:MetCorrector",
-				"producer:TauTauRestFrameSelector",
-				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
 				"producer:SimpleEleTauFakeRateWeightProducer",
 				"producer:SimpleMuTauFakeRateWeightProducer",
 				"producer:ZPtReweightProducer",
@@ -783,10 +757,6 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 		else:
 			self["Processors"] = [
-				"producer:MetCorrector",
-				"producer:TauTauRestFrameSelector",
-				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
 				"producer:SimpleEleTauFakeRateWeightProducer",
 				"producer:SimpleMuTauFakeRateWeightProducer",
 				"producer:TopPtReweightingProducer",
