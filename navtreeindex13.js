@@ -1,5 +1,8 @@
 var NAVTREEINDEX13 =
 {
+"embedding__plotline__bib_8py.html#a2df3a73568ab103d5a21e630bea9914f":[2,0,1,4,1,1,24],
+"embedding__plotline__bib_8py.html#a3021b36ef52a5c26d0849013015f0a7e":[2,0,1,4,1,1,65],
+"embedding__plotline__bib_8py.html#a320d19f79d0c864bce99a5e8dfa831fa":[2,0,1,4,1,1,86],
 "embedding__plotline__bib_8py.html#a32c97e75e14b6847fb3da5ef7971c433":[2,0,1,4,1,1,31],
 "embedding__plotline__bib_8py.html#a396c25931decfab74bc113ef6ada9889":[2,0,1,4,1,1,3],
 "embedding__plotline__bib_8py.html#a3e979003593d59b1961871e5796c304a":[2,0,1,4,1,1,34],
@@ -246,8 +249,5 @@ var NAVTREEINDEX13 =
 "index.html":[],
 "initialstatecpstudiesdatacards_8py.html":[2,0,1,1,6],
 "initialstatecpstudiesdatacards_8py.html#ad9b0a7d6a916a676973316043d133fcc":[2,0,1,1,6,1],
-"inputroothtt_8py.html":[2,0,1,4,2,1,0],
-"inputroothtt_8py.html#a00ada36acdcb9ddc480a5d4bcc044498":[2,0,1,4,2,1,0,1],
-"kitHiggsTauTauTauCheckoutPackages_8py.html":[2,0,2,22],
-"kitHiggsTauTauTauCheckoutPackages_8py.html#a1308a1b285b32fce40f43e2ebfeb3408":[2,0,2,22,0]
+"inputroothtt_8py.html":[2,0,1,4,2,1,0]
 };

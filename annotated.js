@@ -118,7 +118,7 @@ var annotated =
     [ "makePlots_zttPolarisationPlots", "namespacemakePlots__zttPolarisationPlots.html", null ],
     [ "makePlots_ZTTtheoryUnc", "namespacemakePlots__ZTTtheoryUnc.html", null ],
     [ "mm", "namespacemm.html", "namespacemm" ],
-    [ "mt", "namespacemt.html", null ],
+    [ "mt", "namespacemt.html", "namespacemt" ],
     [ "mvaCategory_Shifts", "namespacemvaCategory__Shifts.html", null ],
     [ "mvaCategory_Uncertainties", "namespacemvaCategory__Uncertainties.html", null ],
     [ "mvadatacards_base", "namespacemvadatacards__base.html", "namespacemvadatacards__base" ],
