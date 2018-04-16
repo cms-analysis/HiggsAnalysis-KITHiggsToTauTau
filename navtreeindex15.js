@@ -1,8 +1,5 @@
 var NAVTREEINDEX15 =
 {
-"makePlots__allGenPhiCPPlots_8py.html#ad202e063ea9b6ae4a10a5952c3d32786":[2,0,2,26,7],
-"makePlots__allGenPhiCPPlots_8py.html#aee1795c9e0abcab4a4ff668f8ba33b55":[2,0,2,26,5],
-"makePlots__categoryOverlap_8py.html":[2,0,2,29],
 "makePlots__categoryOverlap_8py.html#a01831a1246fef4d0e8c921df0c362002":[2,0,2,29,17],
 "makePlots__categoryOverlap_8py.html#a0935188e56cf79986c139a204480ee0d":[2,0,2,29,0],
 "makePlots__categoryOverlap_8py.html#a0de32d2d4bd285c88d3aa2631bdbb0fc":[2,0,2,29,6],
@@ -249,5 +246,8 @@ var NAVTREEINDEX15 =
 "makePlots__datacardsCPStudies_8py.html#a8e1f5dbc017c92948ff1bacc84c2f4b7":[2,0,2,35,47],
 "makePlots__datacardsCPStudies_8py.html#a91fe862870d20e8a953e44af57f0ee2a":[2,0,2,35,40],
 "makePlots__datacardsCPStudies_8py.html#a977a32c1b6500930d87fff35246d92e2":[2,0,2,35,11],
-"makePlots__datacardsCPStudies_8py.html#a9857d8b608577c8314354aa69dd872ea":[2,0,2,35,26]
+"makePlots__datacardsCPStudies_8py.html#a9857d8b608577c8314354aa69dd872ea":[2,0,2,35,26],
+"makePlots__datacardsCPStudies_8py.html#a9949df5723a98307ed77f93860c05133":[2,0,2,35,30],
+"makePlots__datacardsCPStudies_8py.html#a998d31fe226172569fbc6d0f73cf496f":[2,0,2,35,58],
+"makePlots__datacardsCPStudies_8py.html#a9ca07abcde9fce8188640a918be8d209":[2,0,2,35,55]
 };

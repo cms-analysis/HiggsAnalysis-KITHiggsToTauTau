@@ -1,9 +1,5 @@
 var NAVTREEINDEX24 =
 {
-"plot__AUC__2D_8py.html#a6cc941739ce0add2ddc1831a749b50ba":[2,0,2,81,1],
-"plot__AUC__2D_8py.html#a70898dfc90a08411fbf9a8c2201d453f":[2,0,2,81,21],
-"plot__AUC__2D_8py.html#a723eb2ce22e60c3227ffd4489cc9ed3e":[2,0,2,81,15],
-"plot__AUC__2D_8py.html#a8a360f7eb4ce44437c28ee1888d2542f":[2,0,2,81,23],
 "plot__AUC__2D_8py.html#a8a67fa2055f431c3429ccf463dd9c561":[2,0,2,81,29],
 "plot__AUC__2D_8py.html#a91e0622a450350f727be80c90f83b468":[2,0,2,81,12],
 "plot__AUC__2D_8py.html#a96b92153c360abca7f0d76ba65906e63":[2,0,2,81,6],
@@ -249,5 +245,9 @@ var NAVTREEINDEX24 =
 "scaleVariations__latexTables_8py.html#a454bb909bd0bd6ae3aa4c67857cf82d1":[2,0,2,87,9],
 "scaleVariations__latexTables_8py.html#a47edde64c1e0c2f5958994531d6aa9cb":[2,0,2,87,12],
 "scaleVariations__latexTables_8py.html#a49141947a67e0f4450ee16570d79c0a9":[2,0,2,87,13],
-"scaleVariations__latexTables_8py.html#a4adf4b355515a1e6f0388ea9c67d2bcd":[2,0,2,87,0]
+"scaleVariations__latexTables_8py.html#a4adf4b355515a1e6f0388ea9c67d2bcd":[2,0,2,87,0],
+"scaleVariations__latexTables_8py.html#a4c0e1b59543b8190cdc09ecbae23bb1b":[2,0,2,87,1],
+"scaleVariations__latexTables_8py.html#a4ecdfbac7634177b6a6a1d8938b260a6":[2,0,2,87,3],
+"scaleVariations__latexTables_8py.html#a53d88f05403deec44f4ea06f56c3b89d":[2,0,2,87,11],
+"scaleVariations__latexTables_8py.html#a54e6eccc6dbe7b3566ef501ecb4aea74":[2,0,2,87,2]
 };

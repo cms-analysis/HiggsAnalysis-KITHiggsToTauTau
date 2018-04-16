@@ -1,8 +1,5 @@
 var NAVTREEINDEX21 =
 {
-"makePlots__recogenPhiStarCP_8py.html#adfbec61e6fce2557f210a678c6d22f84":[2,0,2,63,8],
-"makePlots__recogenPhiStarCP_8py.html#ae35a5d131224579c61106973548f296b":[2,0,2,63,13],
-"makePlots__recogenPhiStarCP_8py.html#ae9e6e8d4573c0cd89623d5d8b41fd6db":[2,0,2,63,0],
 "makePlots__recogenPhiStarCP_8py.html#aee9d9bb188a8f873e0dbfbe925dfb084":[2,0,2,63,3],
 "makePlots__recogenPhiStarCP_8py.html#af37ffb7ab52b0c795492cbbe9d8c31b8":[2,0,2,63,6],
 "makePlots__rocCurves_8py.html":[2,0,2,65],
@@ -191,7 +188,6 @@ var NAVTREEINDEX21 =
 "mm_8py.html":[2,0,1,0,2,6],
 "mm_8py.html#a35841df3a922e6f78edca88277622071":[2,0,1,0,2,6,1],
 "mt_8py.html":[2,0,1,0,2,7],
-"mt_8py.html#a38c388ef994e2f98212b688822ee1e99":[2,0,1,0,2,7,1],
 "mvaCategory__Shifts_8py.html":[2,0,2,76],
 "mvaCategory__Shifts_8py.html#a06c3985eaa2fc25c686379f8e0ba6b66":[2,0,2,76,7],
 "mvaCategory__Shifts_8py.html#a1bbbcaa3e434033b10172648f8ec9e61":[2,0,2,76,10],
@@ -249,5 +245,9 @@ var NAVTREEINDEX21 =
 "nFold__DiffScan_8py.html#a38700b81110f8fbd5ed3be25bbd2f76e":[2,0,2,78,12],
 "nFold__DiffScan_8py.html#a3c787586cda82fe7689719d93241fda8":[2,0,2,78,14],
 "nFold__DiffScan_8py.html#a55ec41c160804699adb844a834bbcf07":[2,0,2,78,9],
-"nFold__DiffScan_8py.html#a5eb5df5f68e26af377c26bdd39457439":[2,0,2,78,5]
+"nFold__DiffScan_8py.html#a5eb5df5f68e26af377c26bdd39457439":[2,0,2,78,5],
+"nFold__DiffScan_8py.html#a623a0f97217ab4f0ef6b3a4061f3efd5":[2,0,2,78,3],
+"nFold__DiffScan_8py.html#a659869f308d5e1156fc400457d517fdf":[2,0,2,78,2],
+"nFold__DiffScan_8py.html#a6eb1ea3e30a49ce90e6955122f842012":[2,0,2,78,1],
+"nFold__DiffScan_8py.html#a8bc00017084cc22e3df3a6893f118ddb":[2,0,2,78,4]
 };

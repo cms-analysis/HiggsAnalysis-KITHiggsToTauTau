@@ -1,8 +1,5 @@
 var NAVTREEINDEX10 =
 {
-"classsamples__run2__2016_1_1Samples.html#a0f287f5c13c38780cf046d8f464be9ac":[1,0,142,0,59],
-"classsamples__run2__2016_1_1Samples.html#a116b9b4cdea0c50cfa7d76aa52fabbd3":[1,0,142,0,75],
-"classsamples__run2__2016_1_1Samples.html#a125861421329241df1dbe39b11391d7e":[1,0,142,0,34],
 "classsamples__run2__2016_1_1Samples.html#a12f1c630fd07aa1ae45cf9ca90c0dc9b":[1,0,142,0,29],
 "classsamples__run2__2016_1_1Samples.html#a13d223cd068054bd3593be69d972c63d":[1,0,142,0,16],
 "classsamples__run2__2016_1_1Samples.html#a14fb5c7a6a0c5de363f61448dde3941f":[1,0,142,0,41],
@@ -249,5 +246,8 @@ var NAVTREEINDEX10 =
 "classsystematics__run1_1_1SystematicShiftBase.html":[1,0,177,0],
 "classsystematics__run1_1_1SystematicShiftBase.html#a21d2192b8041803cccc075a7078fa97a":[1,0,177,0,3],
 "classsystematics__run1_1_1SystematicShiftBase.html#a27fb5c1364a19816bb906cbe1a02c9c8":[1,0,177,0,1],
-"classsystematics__run1_1_1SystematicShiftBase.html#a5544db59f41eba99d4fad5e45d6cb35b":[1,0,177,0,0]
+"classsystematics__run1_1_1SystematicShiftBase.html#a5544db59f41eba99d4fad5e45d6cb35b":[1,0,177,0,0],
+"classsystematics__run1_1_1SystematicShiftBase.html#adfbaf40d92bf8d491a53feb58d652482":[1,0,177,0,2],
+"classsystematics__run1_1_1TauEsSystematic.html":[1,0,177,2],
+"classsystematics__run1_1_1TauEsSystematic.html#a9ecc75adcd46dd6a00c57c611ba99ebd":[1,0,177,2,0]
 };
