@@ -47,13 +47,13 @@ class Baseconfig(dict):
 		else:
 			self["InputIsData"] = "false"
 
-		if re.match("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)|LFV", nickname):
+		if re.search("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)|LFV", nickname):
 			self["BosonPdgIds"] = [23]
-		elif re.match("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
+		elif re.search("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["BosonPdgIds"] = [25]
-		elif re.match("W.?JetsToLN|EWKW", nickname):
+		elif re.search("W.?JetsToLN|EWKW", nickname):
 			self["BosonPdgIds"] = [24]
-		elif re.match("SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau", nickname):
+		elif re.search("SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau", nickname):
 			self["BosonPdgIds"] = [25, 35 ,36]
 		else:
 			self["BosonPdgIds"] = [0]

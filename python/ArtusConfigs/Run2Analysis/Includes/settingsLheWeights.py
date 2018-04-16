@@ -11,7 +11,7 @@ class LheWeights(dict):
 	def __init__(self, nickname):
 		self["LheWeights_documentation"] = "https://lhapdf.hepforge.org/pdfsets.html"
 		
-		if re.match("DY.*RunIISummer16.*madgraph", nickname):
+		if re.search("DY.*RunIISummer16.*madgraph", nickname):
 			self["PdfLheWeights"] = [
 				"NNPDF30_lo_as_0130_LHgrid__Member_0",
 				"NNPDF30_lo_as_0130_LHgrid__Member_1",
@@ -133,7 +133,7 @@ class LheWeights(dict):
 				"Central_scale_variation__mur_2_muf_2"
 			]
 
-		elif re.match("HToTauTau.*RunIISummer16.*powheg-pythia8", nickname):
+		elif re.search("HToTauTau.*RunIISummer16.*powheg-pythia8", nickname):
 			self["PdfLheWeights"] = [
 				"PDF_variation__PDF_set___260001",
 				"PDF_variation__PDF_set___260002",

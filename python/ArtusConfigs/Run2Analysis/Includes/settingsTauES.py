@@ -18,7 +18,7 @@ class TauES(dict):
 		self["TauEnergyCorrectionOneProngPiZeros"] = 1.01
 		self["TauEnergyCorrectionThreeProng"] = 1.004
 
-		if re.match("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
+		if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
 			self["TauElectronFakeEnergyCorrectionOneProng"] = 1.0
 			self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.095
 			self["TauElectronFakeEnergyCorrectionThreeProng"] = 1.0

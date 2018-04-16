@@ -51,7 +51,7 @@ class MadGraphReweighting(dict):
 		
 		self["UseMadGraph2p5"] = False
 
-		if re.match("GluGlu", nickname):
+		if re.search("GluGlu", nickname):
 			self["MadGraph2p5ProcessDirectories"] = [
 				"gg_h0ggg:$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh_2p5/SubProcesses/P3_gg_x0ggg_no_t",
 				"gg_h0guu_bar:$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh_2p5/SubProcesses/P3_gg_x0guux_no_t",
@@ -314,7 +314,7 @@ class MadGraphReweighting(dict):
 				"bb_bar_h0g:$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/ggh_2p5/SubProcesses/P1_uux_x0g_no_t"
 			]
 
-		elif re.match("VBF", nickname):
+		elif re.search("VBF", nickname):
 			self["MadGraph2p5ProcessDirectories"] = [
 				"uu_h0guu:$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf_2p5/SubProcesses/P1_uu_x0guu_no_a",
 				"cc_h0gcc:$CMSSW_BASE/src/CMSAachen3B/MadGraphReweighting/data/vbf_2p5/SubProcesses/P1_uu_x0guu_no_a",
