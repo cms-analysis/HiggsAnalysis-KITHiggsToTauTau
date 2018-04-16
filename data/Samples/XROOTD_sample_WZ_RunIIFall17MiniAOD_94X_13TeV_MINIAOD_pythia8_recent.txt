@@ -1,1 +1,1 @@
-XROOTD_sample_WZ_RunIIFall17MiniAOD_94X_13TeV_MINIAOD_pythia8_2018-02-13.txt
+XROOTD_sample_WZ_RunIIFall17MiniAOD_94X_13TeV_MINIAOD_pythia8_2018-04-14.txt
