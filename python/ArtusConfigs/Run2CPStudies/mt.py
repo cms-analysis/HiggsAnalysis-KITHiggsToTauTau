@@ -479,7 +479,7 @@ class mt_ArtusConfig(dict):
 				"filter:MinMuonsCountFilter",
 				"producer:ValidElectronsProducer"
 				]
-		if re.search("Run201", nickname)==False:
+		if re.search("Run201", nickname)==None:
 			self["Processors"] += ["producer:TauCorrectionsProducer"]
 
 		self["Processors"] += [
@@ -495,7 +495,7 @@ class mt_ArtusConfig(dict):
 				"producer:Run2DecayChannelProducer",
 				]
 		
-		if (re.search("Fall15", nickname) == True) or (re.search("Run2015", nickname) == True) or (re.search("Embedding201", nickname) == True): #Embedding?
+		if (re.search("Fall15", nickname)) or (re.search("Run2015", nickname)) or (re.search("Embedding201", nickname)): #Embedding?
 			self["Processors"] += ["producer:MvaMetSelector"]
 
 		self["Processors"] += [
@@ -506,12 +506,10 @@ class mt_ArtusConfig(dict):
 				]
 		
 
-		if (re.search("Fall15", nickname) == True) or (re.search("Run2015", nickname) == True):
+		if (re.search("Fall15", nickname) or (re.search("Run2015", nickname)):
 			#self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 		else:
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
-			
-
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] += [
