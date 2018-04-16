@@ -23,17 +23,7 @@ import Artus.Configuration.artusWrapper as artusWrapper
 import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.tt as tt
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.mt as mt
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.et as et
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.em as em
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.mm as mm
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.gen as gen
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.systematics as systematicsfile
-
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.baseconfigCP as baseconfigcp
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.globalProcessors as globalprocessors
 
 
 class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
@@ -100,6 +90,8 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 
 	def _initArgumentParser(self, userArgParsers=None):
 		super(HiggsToTauTauAnalysisWrapper, self)._initArgumentParser(userArgParsers)
+		self.configOptionsGroup.add_argument("--study", default="CP",
+		                                help="Study to be run by artus, option CP, MSSM(TODO). [Default: %(default)s]")
 		
 
 	def modify_replacing_dict(self):
@@ -152,55 +144,29 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		for old_name, new_name in pipeline_renamings.iteritems():
 			self._config["Pipelines"][new_name] = self._config["Pipelines"].pop(old_name)
 
-	def expandConfig_python(self):
 
-		# merge all base configs into the main config
-		if self._args.base_configs!=None:
-			self._config = jsonTools.JsonDict(self._config)
-			self._config += jsonTools.JsonDict.mergeAll(self._args.base_configs)
+	def include_config_files(self, *args, **kwargs):
+		if kwargs.get("study", "CP"):
+			log.debug("INCLUDING CP CONFIG FILES")
+			global tt, mt, et, em, mm, gen, systematicsfile, baseconfigcp, globalprocessors
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.tt as tt
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.mt as mt
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.et as et
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.em as em
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.mm as mm
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.gen as gen
 
-		self._gridControlInputFiles = {}
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.systematics as systematicsfile
 
-		#Set Input Filenames
-		if self._args.input_files:
-			self._config["InputFiles"] = [] #overwrite settings from config file by command line
-			inputFileList = self._args.input_files
-			for entry in range(len(inputFileList)):
-				inputFileList[entry] = inputFileList[entry].replace('"', '').replace("'", '').replace(',', '')
-			self.setInputFilenames(self._args.input_files)
-		else:
-			tmpInputFiles = self._config["InputFiles"]
-			self._config["InputFiles"] = []
-			self.setInputFilenames(tmpInputFiles)
-
-		if not self._args.n_events is None:
-			self._config["ProcessNEvents"] = self._args.n_events
-
-		# shrink Input Files to requested Number
-		self.removeUnwantedInputFiles()
-
-		if self._args.output_file:
-			self.setOutputFilename(self._args.output_file)
-
-		# treat pipeline configs
-		"""		
-		pipelineJsonDict = {}
-		
-		if self._args.pipeline_configs and len(self._args.pipeline_configs) > 0:
-			pipelineJsonDict = []
-			print self._args.pipeline_configs
-			for pipelineConfigs in self._args.pipeline_configs:
-				pipelineJsonDict.append(jsonTools.JsonDict.expandAll(*map(lambda pipelineConfig: jsonTools.JsonDict.mergeAll(*pipelineConfig.split()), pipelineConfigs)))
-			pipelineJsonDict = jsonTools.JsonDict.mergeAll(*pipelineJsonDict)
-			pipelineJsonDict = jsonTools.JsonDict({"Pipelines": pipelineJsonDict})
-		pipelineJsonDict = jsonTools.JsonDict(pipelineJsonDict)
-		"""
-
-		nickname = self.determineNickname(self._args.nick)
-		
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.baseconfigCP as baseconfigcp
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.globalProcessors as globalprocessors
+		elif kwargs.get("study", "MSSM"):
+			log.error("NOT DONE YET!")
 		
 
 
+	def create_pipelines(self, nickname):
+		self.include_config_files(study=self._args.study)
 		if nickname != "auto":
 			if self._args.channels and len(self._args.channels) > 0:
 
@@ -284,6 +250,54 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 			self._config.update(pipelineBaseDict)
 			self._config.update(globalProcessorsDict)
 			
+
+
+	def expandConfig_python(self):
+
+		# merge all base configs into the main config
+		if self._args.base_configs!=None:
+			self._config = jsonTools.JsonDict(self._config)
+			self._config += jsonTools.JsonDict.mergeAll(self._args.base_configs)
+
+		self._gridControlInputFiles = {}
+
+		#Set Input Filenames
+		if self._args.input_files:
+			self._config["InputFiles"] = [] #overwrite settings from config file by command line
+			inputFileList = self._args.input_files
+			for entry in range(len(inputFileList)):
+				inputFileList[entry] = inputFileList[entry].replace('"', '').replace("'", '').replace(',', '')
+			self.setInputFilenames(self._args.input_files)
+		else:
+			tmpInputFiles = self._config["InputFiles"]
+			self._config["InputFiles"] = []
+			self.setInputFilenames(tmpInputFiles)
+
+		if not self._args.n_events is None:
+			self._config["ProcessNEvents"] = self._args.n_events
+
+		# shrink Input Files to requested Number
+		self.removeUnwantedInputFiles()
+
+		if self._args.output_file:
+			self.setOutputFilename(self._args.output_file)
+
+		# treat pipeline configs
+		"""		
+		pipelineJsonDict = {}
+		
+		if self._args.pipeline_configs and len(self._args.pipeline_configs) > 0:
+			pipelineJsonDict = []
+			print self._args.pipeline_configs
+			for pipelineConfigs in self._args.pipeline_configs:
+				pipelineJsonDict.append(jsonTools.JsonDict.expandAll(*map(lambda pipelineConfig: jsonTools.JsonDict.mergeAll(*pipelineConfig.split()), pipelineConfigs)))
+			pipelineJsonDict = jsonTools.JsonDict.mergeAll(*pipelineJsonDict)
+			pipelineJsonDict = jsonTools.JsonDict({"Pipelines": pipelineJsonDict})
+		pipelineJsonDict = jsonTools.JsonDict(pipelineJsonDict)
+		"""
+
+		nickname = self.determineNickname(self._args.nick)
+		self.create_pipelines(nickname)
 	
 		self._config = jsonTools.JsonDict(self._config)
 
@@ -370,6 +384,7 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		for grid_channel in self.channels_systematics.keys():
 			epilogArguments += r"--channels " + grid_channel + " "
 			epilogArguments += r"--systematics " + " ".join(self.channels_systematics[grid_channel]) + " "
+		epilogArguments += r"--study " + self._args.study + " "
 		return epilogArguments
 
 	def sendToBatchSystem(self):
