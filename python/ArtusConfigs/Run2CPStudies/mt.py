@@ -505,7 +505,8 @@ class mt_ArtusConfig(dict):
 				"producer:ValidBTaggedJetsProducer"
 				]
 
-		if (re.search("Fall15", nickname) or (re.search("Run2015", nickname)):
+		if (re.search("Fall15", nickname)) or (re.search("Run2015", nickname)):
+			pass
 			#self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 		else:
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
