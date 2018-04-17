@@ -438,6 +438,25 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
+	def antiIsolationRegionQCD(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("relaxedETauMuTauWJ",""))
+			cuts["iso_1"] = " ".join("(iso_1 < 0.5)*(iso_1>0.1)" if channel == "mt" else "(iso_1 < 0.5)*(iso_1>0.15)")
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+
+	def antiIsolationSSRegionQCD(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict.antiIsolationRegionQCD(channel, cut_type)
+			cuts["ss"] = "((q_1*q_2)>0.0)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+
+	@staticmethod
 	def SameSignRegion(channel, cut_type):
 		cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ","").replace("SameSignRegion",""))
 		cuts["ss"] = "((q_1*q_2)>0.0)"
