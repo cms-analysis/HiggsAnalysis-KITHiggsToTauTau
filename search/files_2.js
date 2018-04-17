@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['calculatewosssfactor_2epy',['calculatewosssfactor.py',['../calculatewosssfactor_8py.html',1,'']]],
   ['categories_2epy',['categories.py',['../categories_8py.html',1,'']]],
   ['checkoutscriptshelper_2epy',['checkoutScriptsHelper.py',['../checkoutScriptsHelper_8py.html',1,'']]],
   ['colors_2epy',['colors.py',['../colors_8py.html',1,'']]],
@@ -20,7 +21,6 @@ var searchData=
   ['cpmodels_5fold_2epy',['cpmodels_old.py',['../cpmodels__old_8py.html',1,'']]],
   ['cpquantities_2ecc',['CPQuantities.cc',['../CPQuantities_8cc.html',1,'']]],
   ['cpquantities_2eh',['CPQuantities.h',['../CPQuantities_8h.html',1,'']]],
-  ['cpquantities_2epy',['CPQuantities.py',['../CPQuantities_8py.html',1,'']]],
   ['cpstudiesdatacards_2epy',['cpstudiesdatacards.py',['../cpstudiesdatacards_8py.html',1,'']]],
   ['create_5ffile_5flist_5ffrom_5fgfal_5fembedded_5ftest_2epy',['create_file_list_from_gfal_embedded_test.py',['../create__file__list__from__gfal__embedded__test_8py.html',1,'']]],
   ['cutoptimizer_2epy',['cutOptimizer.py',['../cutOptimizer_8py.html',1,'']]],

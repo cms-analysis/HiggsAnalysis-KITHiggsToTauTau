@@ -1,9 +1,10 @@
 var searchData=
 [
   ['qcd',['qcd',['../classsamples__run1_1_1Samples.html#ac56ff4570de9b741e2ca2a319f37667d',1,'samples_run1.Samples.qcd()'],['../classsamples__run2__2016_1_1Samples.html#a29c4f2ab21851cb9ba0589a146a8892c',1,'samples_run2_2016.Samples.qcd()'],['../classsamples__run2__etaufakerate_1_1Samples.html#a766af2265554db3aa12a4ede10df7178',1,'samples_run2_etaufakerate.Samples.qcd()'],['../classsamples__run2__etaufakerate__2016_1_1Samples.html#adf7e13f2a2b1de194e6715a65f7682f0',1,'samples_run2_etaufakerate_2016.Samples.qcd()']]],
+  ['qcd_5fprefit',['qcd_prefit',['../classsamples__run2__2016_1_1Samples.html#a98482747d747962242f448f83873b7ea',1,'samples_run2_2016::Samples']]],
   ['qcd_5fsyst_5fargs',['qcd_syst_args',['../classmvadatacards__base_1_1Datacards.html#afba5461bf7d4fd1d3c6477da8b086618',1,'mvadatacards_base::Datacards']]],
-  ['qcdfactorsdatacards',['qcdfactorsdatacards',['../namespaceqcdfactorsdatacards.html',1,'']]],
   ['qcdfactorsdatacards',['QcdFactorsDatacards',['../classqcdfactorsdatacards_1_1QcdFactorsDatacards.html',1,'qcdfactorsdatacards']]],
+  ['qcdfactorsdatacards',['qcdfactorsdatacards',['../namespaceqcdfactorsdatacards.html',1,'']]],
   ['qcdfactorsdatacards_2epy',['qcdfactorsdatacards.py',['../qcdfactorsdatacards_8py.html',1,'']]],
   ['qcdwj',['qcdwj',['../classsamples__run1_1_1Samples.html#a61b5e6d0f19f110885eb4d8c811d0834',1,'samples_run1::Samples']]],
   ['qintervals',['qintervals',['../namespacemakePlots__datacardsSMHtt__nDim.html#a0182e3d7d6d71d1217b9cbfa94c42821',1,'makePlots_datacardsSMHtt_nDim']]],
@@ -17,8 +18,6 @@ var searchData=
   ['qqhsm',['qqhsm',['../classsamples__run2__2016_1_1Samples.html#a5466f993d26b970ab57efe20393f2b4e',1,'samples_run2_2016::Samples']]],
   ['quantile_5fexpected_5flist',['quantile_expected_list',['../namespacemakePlots__datacardsCPStudies__projection.html#a6ed14cbe571f7f50402365b7fcbcf333',1,'makePlots_datacardsCPStudies_projection']]],
   ['quantile_5fmapping',['QUANTILE_MAPPING',['../classMetCorrectorBase.html#a37bb26e946b22f52f1f358c7dd0bedfaaaadedae30db7b716ab6b302d073c30b0',1,'MetCorrectorBase']]],
-  ['quantities',['quantities',['../classCPQuantities_1_1quantities.html',1,'CPQuantities']]],
-  ['quantities',['quantities',['../classRun2Quantities_1_1quantities.html',1,'Run2Quantities']]],
   ['quantities',['Quantities',['../classQuantities.html',1,'']]],
   ['quantities_2ecc',['Quantities.cc',['../Quantities_8cc.html',1,'']]],
   ['quantities_2eh',['Quantities.h',['../Quantities_8h.html',1,'']]],
