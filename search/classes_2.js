@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['calculatewjetsosssfactor',['CalculateWJetsOSSSFactor',['../classcalculatewosssfactor_1_1CalculateWJetsOSSSFactor.html',1,'calculatewosssfactor']]],
   ['categoriesdict',['CategoriesDict',['../classcategories_1_1CategoriesDict.html',1,'categories']]],
   ['colorsdict',['ColorsDict',['../classcolors_1_1ColorsDict.html',1,'colors']]],
   ['computepullvalues',['ComputePullValues',['../classpullvalues_1_1ComputePullValues.html',1,'pullvalues']]],
