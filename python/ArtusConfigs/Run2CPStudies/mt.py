@@ -11,6 +11,7 @@ import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
+
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauID as sTID
@@ -281,7 +282,7 @@ class mt_ArtusConfig(dict):
 		]
 
 		quantities_dict = quantities.quantities() 
-		quantities_dict.build_quantities(nickname)
+		quantities_dict.build_quantities(nickname, channel = self["channel"])
 
 		
 
@@ -292,6 +293,8 @@ class mt_ArtusConfig(dict):
 				"nDiTauPairCandidates",
 				"nAllDiTauPairCandidates"
 			] #Check if they are used everywhere if so make this the start list
+
+		#put rest of quantities in CPQuantities.py?
 		
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):	 #the same as tt
 

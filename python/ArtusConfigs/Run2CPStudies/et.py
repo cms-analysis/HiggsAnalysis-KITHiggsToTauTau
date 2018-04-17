@@ -8,6 +8,7 @@ import re
 import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
@@ -206,7 +207,9 @@ class et_ArtusConfig(dict):
 		]
 
 		quantities_dict = quantities.quantities() 
-		quantities_dict.build_quantities(nickname)
+		quantities_dict.build_quantities(nickname, channel = self["channel"])
+
+		#put rest of quantities in CPQuantities.py?
 
 		quantities_dict["Quantities"] += [
 				"nVetoElectrons",
@@ -250,7 +253,7 @@ class et_ArtusConfig(dict):
 			]
 
 		self.update(copy.deepcopy(quantities_dict))
-		self["Quantities"]=sorted(list(set(self["Quantities"])), key=str.lower) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
+		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [

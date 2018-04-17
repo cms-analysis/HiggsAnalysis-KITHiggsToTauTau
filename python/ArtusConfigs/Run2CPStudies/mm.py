@@ -5,10 +5,9 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
+import copy
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.Run2Quantities as r2q
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
@@ -242,12 +241,16 @@ class mm_ArtusConfig(dict):
 			"#PrintEventsConsumer"
 		]
 
-		self["Quantities"]=[]
-		self["Quantities"] += r2q.fourVectorQuantities()
-		self["Quantities"] += r2q.syncQuantities()
-		self["Quantities"] += r2cpq.weightQuantities()
-		self["Quantities"] += iq.SingleTauQuantities()
-		self["Quantities"] += [
+
+
+
+		quantities_dict = quantities.quantities() 
+
+		quantities_dict["Quantities"] += quantities_dict.fourVectorQuantities()
+		quantities_dict["Quantities"] += quantities_dict.syncQuantities()
+		quantities_dict["Quantities"] += iq.weightQuantities()
+		quantities_dict["Quantities"] += iq.SingleTauQuantities()
+		quantities_dict["Quantities"] += [
 			"nLooseElectrons",
 			"nLooseMuons",
 			"nDiTauPairCandidates",
@@ -255,13 +258,20 @@ class mm_ArtusConfig(dict):
 		]
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
-			self["Quantities"] += r2cpq.genMatchedCPQuantities()
-			self["Quantities"] += r2cpq.recoCPQuantities()
+			quantities_dict["Quantities"] += quantities_dict.genMatchedCPQuantities()
+			quantities_dict["Quantities"] += quantities_dict.recoCPQuantities()
+			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
 		
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-			self["Quantities"] += r2cpq.genQuantitiesLFV()
+			quantities_dict["Quantities"] += iq.genQuantitiesLFV()
+			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
 		else:
-			self["Quantities"] += r2cpq.recoCPQuantities()
+			quantities_dict["Quantities"] += quantities_dict.recoCPQuantities()
+
+		self.update(copy.deepcopy(quantities_dict))
+		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
+
+
 		
 		self["OSChargeLeptons"] = True
 		if re.search("(Fall15MiniAODv2|Run2015)", nickname):

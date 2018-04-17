@@ -13,10 +13,10 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as
 class quantities(run2_quantities.quantities):
 
 	def __init__(self):
-		pass
-	def build_quantities(self, nickname):
-		
 		self["Quantities"]=[]
+	def build_quantities(self, nickname, *args, **kwargs):
+		
+		
 		self["Quantities"] += self.fourVectorQuantities()
 		self["Quantities"] += self.syncQuantities()
 		self["Quantities"] += self.weightQuantities()
@@ -29,15 +29,14 @@ class quantities(run2_quantities.quantities):
 		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()	 
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
-
 			self["Quantities"] += self.genQuantities()
-			self["Quantities"] += self.weightQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
 			self["Quantities"] += self.recoPolarisationQuantities()
 			self["Quantities"] += self.recoPolarisationQuantitiesSvfit()
-			self["Quantities"] += iq.SingleTauQuantities()	
+			if kwargs.get("channel", None) != "EM":
+				self["Quantities"] += iq.SingleTauQuantities()	
 			
 			self["Quantities"] += [
 				"tauSpinnerPolarisation",
@@ -52,7 +51,6 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genHiggsQuantities()
-			self["Quantities"] += self.weightQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
@@ -82,8 +80,12 @@ class quantities(run2_quantities.quantities):
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
-			self["Quantities"] += iq.SingleTauQuantities()	#until here
-			self["Quantities"] += self.recoCPQuantities()
+			if kwargs.get("channel", None) == "MT" or kwargs.get("channel", None) == "ET":
+				self["Quantities"] += iq.SingleTauQuantities()	#until here
+				self["Quantities"] += self.recoCPQuantities()
+			elif kwargs.get("channel", None) == "EM":
+				self["Quantities"] += self.recoCPQuantities()
+			
 		else:
 			self["Quantities"] += self.svfitSyncQuantities()
 			self["Quantities"] += self.splitJecUncertaintyQuantities()

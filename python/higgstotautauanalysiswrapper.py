@@ -146,7 +146,7 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 
 
 	def include_config_files(self, *args, **kwargs):
-		if kwargs.get("study", "CP"):
+		if kwargs.get("study", "CP") == "CP":
 			log.debug("INCLUDING CP CONFIG FILES")
 			global tt, mt, et, em, mm, gen, systematicsfile, baseconfigcp, globalprocessors
 			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.tt as tt
@@ -200,7 +200,7 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 					else:	
 						log.error("COULD NOT FIND CHANNEL")
 
-					channel_python_config["Quantities"] = sorted(channel_python_config["Quantities"], key=str.lower)
+					channel_python_config["Quantities"] = sorted(channel_python_config["Quantities"])
 					#Ideas:
 					#TODO add function that adds list of quantities to the pipeline_python_config
 					"""
