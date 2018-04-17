@@ -5,6 +5,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
+import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
@@ -264,7 +265,7 @@ class em_ArtusConfig(dict):
 		]
 
 		quantities_dict = quantities.quantities() 
-		quantities_dict.build_quantities(nickname, channel = self["channel"])
+		quantities_dict.build_quantities(nickname, channel = self["Channel"])
 
 		#put rest of quantities in CPQuantities.py?
 
@@ -277,6 +278,7 @@ class em_ArtusConfig(dict):
 
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+			quantities_dict["Quantities"] += quantities_dict.lheWeightsDYQuantities()
 			quantities_dict["Quantities"] += [
 				"tauSpinnerPolarisation"
 			]

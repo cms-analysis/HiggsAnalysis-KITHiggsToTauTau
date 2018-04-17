@@ -5,6 +5,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
+import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
@@ -171,7 +172,7 @@ class tt_ArtusConfig(dict):
 
 		#Quantities, this looks for tt em mt et very similar, check if it is the same and if so put it in baseconfig for all channels
 		quantities_dict = quantities.quantities() 
-		quantities_dict.build_quantities(nickname, channel = self["channel"])
+		quantities_dict.build_quantities(nickname, channel = self["Channel"])
 
 		#put rest of quantities in CPQuantities.py?
 

@@ -38,15 +38,7 @@ class quantities(run2_quantities.quantities):
 			if kwargs.get("channel", None) != "EM":
 				self["Quantities"] += iq.SingleTauQuantities()	
 			
-			self["Quantities"] += [
-				"tauSpinnerPolarisation",
-				"trg_singlemuon",
-				"trg_mutaucross",
-				"triggerWeight_singleMu_1",
-				"triggerWeight_muTauCross_1",
-				"triggerWeight_muTauCross_2"
-			]
-
+		
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()

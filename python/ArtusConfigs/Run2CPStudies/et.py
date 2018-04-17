@@ -207,7 +207,7 @@ class et_ArtusConfig(dict):
 		]
 
 		quantities_dict = quantities.quantities() 
-		quantities_dict.build_quantities(nickname, channel = self["channel"])
+		quantities_dict.build_quantities(nickname, channel = self["Channel"])
 
 		#put rest of quantities in CPQuantities.py?
 

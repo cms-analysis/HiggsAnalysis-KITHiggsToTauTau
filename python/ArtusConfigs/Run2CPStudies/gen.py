@@ -5,8 +5,9 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
+import copy
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.Run2CPQuantities as r2cpq
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsBTaggedJetID as sBTJID
@@ -39,24 +40,22 @@ class gen_ArtusConfig(dict):
 			"#PrintEventsConsumer",
 			"#PrintGenParticleDecayTreeConsumer"
 			]
-		self["Quantities"]=[]
+		quantities_dict = quantities.quantities() 
+		quantities_dict["Quantities"] += quantities_dict.genQuantities()
+		quantities_dict["Quantities"] += quantities_dict.weightQuantities()
+
+
 		if re.search("DY.?JetsToLL",nickname):
-			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.genCPQuantities()
+			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
+			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]			
 
 		elif re.search("LFV",nickname):
-			self["Quantities"] += r2cpq.genQuantitiesLFV()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.genCPQuantities()
-			self["Quantities"] += ["tauSpinnerPolarisation"]
+			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
+			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
 
 		elif re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
-			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += r2cpq.genCPQuantities()
-			self["Quantities"] += r2cpq.genHiggsQuantities()
-			self["Quantities"] += [
+			quantities_dict["Quantities"] += quantities_dict.genHiggsQuantities()
+			quantities_dict["Quantities"] += [
 				"nJets",
 				"nJets30",
 				"leadingJetLV",
@@ -69,12 +68,13 @@ class gen_ArtusConfig(dict):
 			]
 
 		elif re.search("Embedding2016", nickname):
-			self["Quantities"] += r2cpq.genQuantities()
-			self["Quantities"] += r2cpq.weightQuantities()
-			self["Quantities"] += ["tauSpinnerPolarisation"]
+			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
 
-		else:
-			self["Quantities"] += r2cpq.weightQuantities()
+
+		self.update(copy.deepcopy(quantities_dict))
+
+		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list
+
 
 		if re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
 			self["Processors"] = [
@@ -84,5 +84,5 @@ class gen_ArtusConfig(dict):
 				"producer:DiJetQuantitiesProducer"
 			]
 		else:
-			self["Processors"] = []
+			quantities_dict["Processors"] = []
 
