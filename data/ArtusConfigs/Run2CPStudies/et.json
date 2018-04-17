@@ -25,7 +25,7 @@
 		"MinNElectrons" : 1,
 		"MinNTaus" : 1,
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
-		"HltPaths" : { 
+		"HltPaths" : {
 			"nick": {
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_Ele23_WPLoose_Gsf"
@@ -66,7 +66,7 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
-		"TriggerObjectLowerPtCut" : { 
+		"TriggerObjectLowerPtCut" : {
 			"nick": {
 				"default": -1.0
 			}
@@ -83,7 +83,7 @@
 				]
 			}
 		},
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : {
 			"nick": {
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_Ele23_WPLoose_Gsf_v"
@@ -297,25 +297,25 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
-					
+
 					"melaProbCPEvenGGH",
 					"melaProbCPOddGGH",
 					"melaProbCPMixGGH",
 					"melaDiscriminatorD0MinusGGH",
 					"melaDiscriminatorDCPGGH",
-		
+
 					"melaProbCPEvenVBF",
 					"melaProbCPOddVBF",
 					"melaProbCPMixVBF",
 					"melaDiscriminatorD0MinusVBF",
 					"melaDiscriminatorDCPVBF",
-					
+
 					"melaM125ProbCPEvenGGH",
 					"melaM125ProbCPOddGGH",
 					"melaM125ProbCPMixGGH",
 					"melaM125DiscriminatorD0MinusGGH",
 					"melaM125DiscriminatorDCPGGH",
-		
+
 					"melaM125ProbCPEvenVBF",
 					"melaM125ProbCPOddVBF",
 					"melaM125ProbCPMixVBF",
@@ -407,6 +407,7 @@
 					"producer:RooWorkspaceWeightProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -508,6 +509,7 @@
 					"producer:IdentificationWeightProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -604,6 +606,7 @@
 					"producer:SimpleFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -648,6 +651,7 @@
 					"#producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -804,7 +808,7 @@
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer",
-					"producer:LFVJetCorrection2016Producer" 
+					"producer:LFVJetCorrection2016Producer"
 				]
 			}
 		},
