@@ -187,6 +187,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			mjj_CP_string = "(mjj>300)"
 			boosted_higgsCP_string = "(H_pt>200)"
 			pZeta_CP_string = "(pZetaMissVis > -10.0)"
+			et_SB_antiiso = "(iso_1>0.1)*(iso_1<0.5)"
+			mt_SB_antiiso = "(iso_1>0.15)*(iso_1<0.5)"
 			
 			boosted_higgs_string = "(H_pt>100)"
 			boosted_higgs_medium_string = "(H_pt>50)"
@@ -200,7 +202,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			pt2_medium_string = "(pt_2>=35)"
 			pt2_loose_string = "(pt_2>=25)"
 			eta_hard_string = "jdeta>4.0"
-			high_mt_string = "(nbtag==0)*(mt_1>80.0)"
+			high_mt_string = "(nbtag==0)*(mt_1>80.0)"	
 			mt_antiiso_string = "(iso_1>0.15)*(iso_1<0.30)"
 			tt_antiiso_string = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 			# used in CERN signal extraction study
@@ -297,7 +299,18 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowM"] = self.combine([self.invert(boosted_higgsCP_string), "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv<100)"]) if channel != "em" else self.combine([self.invert(boosted_higgsCP_string), "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv<100)*(nbtag<1)"])
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_highM"] = self.combine([self.invert(boosted_higgsCP_string), "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv>100)"]) if channel != "em" else self.combine([self.invert(boosted_higgsCP_string), "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv>100)*(nbtag<1)"])
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowMjj"] = "(mjj>200)*(mjj<500)*(njets>1)*(m_sv>100)" if channel != "em" else "(mjj>200)*(mjj<500)*(njets>1)*(nbtag<1)"
+		
+		# Categories for background estimation in QCD with inverted lepton isolation.
+		self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_SB_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_boosted"], et_SB_antiiso])
+		self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost_SB_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost"], et_SB_antiiso]) 
+		self.expressions_dict["catHtt13TeV_et_ZeroJet2D_SB_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_et_ZeroJet2D"], et_SB_antiiso]) 
+		self.expressions_dict["catHtt13TeV_et_Boosted2D_SB_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_et_Boosted2D"], et_SB_antiiso]) 
 
+		self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_SB_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted"], mt_SB_antiiso])
+		self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost_SB_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost"], mt_SB_antiiso]) 
+		self.expressions_dict["catHtt13TeV_mt_ZeroJet2D_SB_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_mt_ZeroJet2D"], mt_SB_antiiso]) 
+		self.expressions_dict["catHtt13TeV_mt_Boosted2D_SB_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_mt_Boosted2D"], mt_SB_antiiso]) 
+					
 		# Anti-isolation qcd control region in dijet categories
 		self.expressions_dict["catHtt13TeV_tt_dijet2D_boosted_qcd_cr"] = self.combine([tt_antiiso_string, boosted_higgsCP_string, mjj_CP_string, jet2_string, btag_veto_string])
 		self.expressions_dict["catHtt13TeV_tt_dijet2D_lowboost_qcd_cr"] = self.combine([tt_antiiso_string, self.invert(boosted_higgsCP_string), mjj_CP_string, jet2_string, btag_veto_string])
