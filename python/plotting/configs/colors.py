@@ -170,6 +170,7 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["vv_light"] = "#9D755D"
 		self.colors_dict["wj_light"] = "#DE5A6A"
 		self.colors_dict["qcd_light"] = "#FCBFD2"
+		self.colors_dict["qcd_prefit_light"] = "#FCBFD2"
 		
 		#phil harris paper colors
 		self.colors_dict["harris_teal"] = "#34AEAE"
@@ -281,6 +282,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["ewk"+nick_suffix]  = self.colors_dict["wj"]
 				self.colors_dict["ewkz"+nick_suffix] = self.colors_dict["wj"]
 				self.colors_dict["qcd"+nick_suffix] = "#000000 #FFCCFF"
+				self.colors_dict["qcd_prefit"+nick_suffix] = "#000000 #FFCCFF"
 				self.colors_dict["fakes"+nick_suffix] = self.colors_dict["qcd"]
 				self.colors_dict["qcdwj"+nick_suffix] = self.colors_dict["qcd"]
 				self.colors_dict["htt"+nick_suffix] = "#0000FF"

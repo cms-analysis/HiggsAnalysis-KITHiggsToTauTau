@@ -107,7 +107,7 @@ if __name__ == "__main__":
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
 	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ewkz","tttautau", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvj", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "hww", "hww_gg", "hww_qq", "ff",
 	                             "ggh", "susy_ggh", "gghsm", "gghmm", "gghps", "gghjhusm", "gghjhumm", "gghjhups", "qqh", "qqhsm", "qqhmm", "qqhps", "qqhjhusm", "qqhjhumm", "qqhjhups", "bbh", "vh", "htt", "data", "zmt", "zet", "zem",
-								 "susy", "httcpeven", "httcpodd", "httcpmix", "susycpodd", "wj_ss_forQCD", "qcd_ssinos", "wj_mc_os", "wj_mc_ss"],
+								 "susy", "httcpeven", "httcpodd", "httcpmix", "susycpodd", "wj_ss_forQCD", "qcd_prefit", "wj_mc_os", "wj_mc_ss"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
