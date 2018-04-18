@@ -563,6 +563,16 @@ class Samples(samples.SamplesBase):
 		
 		return config
 
+	def zttposcp(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		cp_weight = "( ((q_2>0)*(cosPsiPlus<(sqrt(2)/2))) + ((q_2<0)*(cosPsiMinus<(sqrt(2)/2))) )"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (cp_weight, weight), "poscp"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttposcp", label="zttposcp", **kwargs)
+		return config
+
+	def zttnegcp(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		cp_weight = "( ((q_2>0)*(cosPsiPlus>(sqrt(2)/2))) + ((q_2<0)*(cosPsiMinus>(sqrt(2)/2))) )"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (cp_weight, weight), "negcp"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegcp", label="zttnegcp", **kwargs)
+		return config
+
 	def files_zll(self, channel):
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7)
 
