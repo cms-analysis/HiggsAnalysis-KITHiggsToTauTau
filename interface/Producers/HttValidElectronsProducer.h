@@ -211,6 +211,10 @@ class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>
 	float electronMvaIDCutEB2;
 	float electronMvaIDCutEE;
 
+	std::vector<float> ElectronMvaIDCutEB1ParamsHighPt;
+	std::vector<float> ElectronMvaIDCutEB2ParamsHighPt;
+	std::vector<float> ElectronMvaIDCutEEParamsHighPt;
+
 	bool IsMVATrigElectronTTHSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsMVANonTrigElectronHttSummer2013(KElectron* electron, event_type const& event, bool tightID) const;
 	bool IsCutBased(KElectron* electron, event_type const& event, const std::string &idName) const;
@@ -221,7 +225,7 @@ class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>
 			float full5x5_sigmaIetaIeta, float dEtaIn_Seed, float dPhiIn,
 			float hOverE, float invEMinusInvP, int missingHits, int year=2015) const;
 	bool IsMVABased(KElectron* electron, event_type const& event, const std::string &idName) const;
-	bool IsMVABasedFunctional(KElectron* electron, event_type const& event, const std::string &idName, float c, float A, float tau) const;
+	bool IsMVABasedFunctional(KElectron* electron, event_type const& event, const std::string &idName) const;
 	bool CheckElectronMetadata(const KElectronMetadata *meta, std::string idName, bool &checkedAlready) const;
 	bool CheckElectronMetadata(const KElectronMetadata *meta, std::vector<std::string> idNames, bool &checkedAlready) const;
 };

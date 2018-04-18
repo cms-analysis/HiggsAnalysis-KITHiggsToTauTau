@@ -9,11 +9,16 @@
 	"ElectronReco" : "mvanontrig",
 	
 	"ElectronID" : "user",
-	"ElectronIDType" : "mvabased2015andlater",
+	"ElectronIDType" : {
+		"nick" : {
+			"default" :	"mvabased2015andlater",
+			"Fall17"  :	"mvabased2017andlater"
+		}
+	},
 	"ElectronIDName" : {
 		"nick" : {
 			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
-			"(Run2017|Fall17)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values",
+			"(Run2017|Fall17)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values",
 			"(Run2015|Fall15MiniAODv2)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
 		}
 	},
@@ -44,7 +49,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [ 0.9530240956555949, 2.7591425841003647, 0.4669644718545271 ]
+			"(Run2017|Fall17)" : [ 0.9530240956555949, 0.4669644718545271, 2.7591425841003647 ]
 		}
 	},
 	"ElectronMvaIDCutEB2ParamsLowPt" :
@@ -52,7 +57,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [ 0.9336564763961019, 2.709276284272272, 0.33512286599215946 ]
+			"(Run2017|Fall17)" : [ 0.9336564763961019, 0.33512286599215946, 2.709276284272272 ]
 		}
 	},
 	"ElectronMvaIDCutEEParamsLowPt" :
@@ -60,7 +65,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [ 0.9313133688365339, 1.5821934800715558, 3.8889462619659265 ]
+			"(Run2017|Fall17)" : [ 0.9313133688365339, 3.8889462619659265, 1.5821934800715558 ]
 		}
 	},
 	"ElectronMvaIDCutEB1ParamsHighPt" :
@@ -69,7 +74,7 @@
 		{
 			"comment" : "https://rembserj.web.cern.ch/rembserj/notes/Electron_MVA_ID_2017_documentation/",
 			"default" : {},
-			"(Run2017|Fall17)" : [ 0.9825268564943458, 8.702601455860762, 1.1974861596609097 ]
+			"(Run2017|Fall17)" : [ 0.9825268564943458, 1.1974861596609097, 8.702601455860762 ]
 		}
 	},
 	"ElectronMvaIDCutEB2ParamsHighPt" :
@@ -77,7 +82,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [ 0.9727509457929913, 8.179525631018565, 1.7111755094657688 ]
+			"(Run2017|Fall17)" : [ 0.9727509457929913, 1.7111755094657688, 8.179525631018565 ]
 		}
 	},
 	"ElectronMvaIDCutEEParamsHighPt" :
@@ -85,7 +90,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [ 0.9562619539540145, 8.109845366281608, 3.013927699126942 ]
+			"(Run2017|Fall17)" : [ 0.9562619539540145, 3.013927699126942, 8.109845366281608 ]
 		}
 	},
 

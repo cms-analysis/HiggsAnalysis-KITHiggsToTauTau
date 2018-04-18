@@ -10,7 +10,12 @@
 	"LooseElectronReco" : "mvanontrig",
 
 	"LooseElectronID" : "user",
-	"LooseElectronIDType" : "mvabased2015andlater",
+	"LooseElectronIDType" : {
+		"nick" : {
+			"default" :	"mvabased2015andlater",
+			"Fall17"  :	"mvabased2017andlater"
+		}
+	},
 	"LooseElectronIDName" : {
 		"nick" : {
 			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
@@ -46,7 +51,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [ 0.9165112826974601, 2.7381703555094217, 1.03549199648109 ]
+			"(Run2017|Fall17)" : [ 0.9165112826974601, 1.03549199648109, 2.7381703555094217 ]
 		}
 	},
 	"LooseElectronMvaIDCutEB2ParamsLowPt" :
@@ -54,7 +59,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [ 0.8655738322220173, 2.4027944652597073, 0.7975615613282494 ]
+			"(Run2017|Fall17)" : [ 0.8655738322220173, 0.7975615613282494, 2.4027944652597073 ]
 		}
 	},
 	"LooseElectronMvaIDCutEEParamsLowPt" :
@@ -62,7 +67,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [ -3016.035055227131, -52140.61856333602, -3016.3029387236506 ]
+			"(Run2017|Fall17)" : [ -3016.035055227131, -3016.3029387236506, -52140.61856333602 ]
 		}
 	},
 	"LooseElectronMvaIDCutEB1ParamsHighPt" :
@@ -70,7 +75,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [ 0.9616542816132922, 8.757943837889817, 3.1390200321591206 ]
+			"(Run2017|Fall17)" : [ 0.9616542816132922, 3.1390200321591206, 8.757943837889817 ]
 		}
 	},
 	"LooseElectronMvaIDCutEB2ParamsHighPt" :
@@ -78,7 +83,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [0.9319258011430132, 8.846057432565809, 3.5985063793347787 ]
+			"(Run2017|Fall17)" : [0.9319258011430132, 3.5985063793347787, 8.846057432565809 ]
 		}
 	},
 	"LooseElectronMvaIDCutEEParamsHighPt" :
@@ -86,7 +91,7 @@
 		"nick" :
 		{
 			"default" : {},
-			"(Run2017|Fall17)" : [ 0.8899260780999244, 10.124234115859881, 4.352791250718547 ]
+			"(Run2017|Fall17)" : [ 0.8899260780999244, 4.352791250718547, 10.124234115859881 ]
 		}
 	},
 

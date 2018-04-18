@@ -95,6 +95,10 @@ void HttValidElectronsProducer::Init(setting_type const& settings, metadata_type
 	electronMvaIDCutEB2 = (settings.*GetElectronMvaIDCutEB2)();
 	electronMvaIDCutEE = (settings.*GetElectronMvaIDCutEE)();
 
+	ElectronMvaIDCutEB1ParamsHighPt = (settings.*GetElectronMvaIDCutEB1ParamsHighPt)();
+	ElectronMvaIDCutEB2ParamsHighPt = (settings.*GetElectronMvaIDCutEB2ParamsHighPt)();
+	ElectronMvaIDCutEEParamsHighPt = (settings.*GetElectronMvaIDCutEEParamsHighPt)();
+
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "leadingEleIso", [this](event_type const& event, product_type const& product) {
 		return product.m_validElectrons.size() >= 1 ? SafeMap::GetWithDefault(product.m_electronIsolation, product.m_validElectrons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
@@ -215,7 +219,7 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 		{
 			assert(CheckElectronMetadata(event.m_electronMetadata, electronIDName, electronIDInMetadata));
 			assert(CheckElectronMetadata(event.m_electronMetadata, electronIDList, electronIDListInMetadata));
-			validElectron = IsMVABased(&(*electron), event, electronIDName);
+			validElectron = IsMVABasedFunctional(&(*electron), event, electronIDName);
 		}
 		// 2017
 		else if (electronIDType == ElectronIDType::CUTBASED2017NOISOCUTSVETO)
@@ -387,7 +391,7 @@ bool HttValidElectronsProducer::IsMVABased(KElectron* electron, event_type const
 }
 
 
-bool HttValidElectronsProducer::IsMVABasedFunctional(KElectron* electron, event_type const& event, const std::string &idName, float c, float A, float tau) const
+bool HttValidElectronsProducer::IsMVABasedFunctional(KElectron* electron, event_type const& event, const std::string &idName) const
 {
 	bool validElectron = true;
 
@@ -395,11 +399,11 @@ bool HttValidElectronsProducer::IsMVABasedFunctional(KElectron* electron, event_
 	// pT always greater than 10 GeV
 	validElectron = validElectron &&
 	(
-		(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId(idName, event.m_electronMetadata) > (c - A * std::exp(- electron->p4.Pt() / tau)))// electronMvaIDCutEB1
+		(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId(idName, event.m_electronMetadata) > (ElectronMvaIDCutEB1ParamsHighPt.at(0) - ElectronMvaIDCutEB1ParamsHighPt.at(1) * std::exp(- electron->p4.Pt() / ElectronMvaIDCutEB1ParamsHighPt.at(2))))
 		||
-		(std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId(idName, event.m_electronMetadata) > electronMvaIDCutEB2)
+		(std::abs(electron->superclusterPosition.Eta()) > 0.8 && std::abs(electron->superclusterPosition.Eta()) < DefaultValues::EtaBorderEB && electron->getId(idName, event.m_electronMetadata) >  (ElectronMvaIDCutEB2ParamsHighPt.at(0) - ElectronMvaIDCutEB2ParamsHighPt.at(1) * std::exp(- electron->p4.Pt() / ElectronMvaIDCutEB2ParamsHighPt.at(2)))) 
 		||
-		(std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId(idName, event.m_electronMetadata) > electronMvaIDCutEE)
+		(std::abs(electron->superclusterPosition.Eta()) > DefaultValues::EtaBorderEB && electron->getId(idName, event.m_electronMetadata) >  (ElectronMvaIDCutEEParamsHighPt.at(0) - ElectronMvaIDCutEEParamsHighPt.at(1) * std::exp(- electron->p4.Pt() / ElectronMvaIDCutEEParamsHighPt.at(2))))
 	);
 
 	return validElectron;
