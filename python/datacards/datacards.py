@@ -310,10 +310,9 @@ class Datacards(object):
 			physics_model = {}
 		else:
 			physics_model = physics_model.groupdict()
-		
+		higgs_mass = "125"
 		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"
-	
+			higgs_mass = value if "higgs_mass" in key else "125"
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
 				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
@@ -330,8 +329,9 @@ class Datacards(object):
 			datacards_poi_ranges = {}
 		tmp_args = " ".join(args)
 		
+		higgs_mass = "125"
 		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"		
+			higgs_mass = value if "higgs_mass" in key else "125"		
 
 		chunks = [[None, None]]
 		if "{CHUNK}" in tmp_args and "--points" in tmp_args:
