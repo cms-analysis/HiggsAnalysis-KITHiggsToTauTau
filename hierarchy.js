@@ -3,8 +3,10 @@ var hierarchy =
     [ "AnalysisBase", null, [
       [ "cphypotheses.CPHypotheses", "classcphypotheses_1_1CPHypotheses.html", null ],
       [ "estimatebase.EstimateBase", "classestimatebase_1_1EstimateBase.html", [
+        [ "calculatewosssfactor.CalculateWJetsOSSSFactor", "classcalculatewosssfactor_1_1CalculateWJetsOSSSFactor.html", null ],
         [ "estimateff.EstimateFF", "classestimateff_1_1EstimateFF.html", null ],
         [ "estimateqcd.EstimateQcd", "classestimateqcd_1_1EstimateQcd.html", null ],
+        [ "estimateqcdprefit.EstimateQcdPrefit", "classestimateqcdprefit_1_1EstimateQcdPrefit.html", null ],
         [ "estimateqcdtauhadtauhad.EstimateQcdTauHadTauHad", "classestimateqcdtauhadtauhad_1_1EstimateQcdTauHadTauHad.html", null ],
         [ "estimatettbar.EstimateTtbar", "classestimatettbar_1_1EstimateTtbar.html", null ],
         [ "estimatewjets.EstimateWjets", "classestimatewjets_1_1EstimateWjets.html", null ],
