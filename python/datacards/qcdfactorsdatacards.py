@@ -24,18 +24,18 @@ class QcdFactorsDatacards(datacards.Datacards):
 		all_mc_bkgs = ["ztt", "zl", "zj", "ttt", "ttjj", "vvt", "vvj", "wj_mc_os"]
 		all_mc_bkgs_no_W = ["ztt", "zl", "zj", "ttt", "ttjj", "vvt", "vvj"] #don't no whether this is still needed here...
 		signal_processes = ["qcd_prefit"]
-		categories_for_SSOS_factor_estimation = [channel+"_"+bin for channel in ["et", "mt"] for bin in ["ZeroJet2D_SB_antiiso", "Boosted2D_SB_antiiso"]] #, "dijet2D_lowboost_SB_antiiso", "dijet2D_boosted_SB_antiiso"]]
+		categories_for_SSOS_factor_estimation = ["ZeroJet2D_SB_antiiso", "Boosted2D_SB_antiiso"] #, "dijet2D_lowboost_SB_antiiso", "dijet2D_boosted_SB_antiiso"]]
 		if cb is None:
 			# ======================================================================
 			# MT channel
 			self.add_processes(
 					channel="mt",
-					categories=categories_for_SSOS_factor_estimation,
+					categories=["mt_"+category for category in categories_for_SSOS_factor_estimation],
 					bkg_processes=all_mc_bkgs,
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
-					mass="125"
+					mass=["125"]
 			)
 		
 			# efficiencies
@@ -58,12 +58,12 @@ class QcdFactorsDatacards(datacards.Datacards):
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=categories_for_SSOS_factor_estimation,
+					categories=["et_"+category for category in categories_for_SSOS_factor_estimation],
 					bkg_processes=all_mc_bkgs,
 					sig_processes=signal_processes,
 					analysis=["htt"],
 					era=["13TeV"],
-					mass="125"
+					mass=["125"]
 			)
 
 			# efficiencies
