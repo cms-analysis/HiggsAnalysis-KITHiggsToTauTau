@@ -1,5 +1,6 @@
 var NAVTREEINDEX16 =
 {
+"makePlots__datacardsCPStudies_8py.html#a153f284a859ffa661fd39de3aecbe192":[2,0,2,35,51],
 "makePlots__datacardsCPStudies_8py.html#a1b29b48641fdfd2a1f02ea46c15b6b16":[2,0,2,35,62],
 "makePlots__datacardsCPStudies_8py.html#a22681230b871df603f95d3dbd41414cf":[2,0,2,35,27],
 "makePlots__datacardsCPStudies_8py.html#a2c2ffda0dd4000bfdd71033077a70a69":[2,0,2,35,45],
@@ -248,6 +249,5 @@ var NAVTREEINDEX16 =
 "makePlots__datacardsMSSMHtt_8py.html#a3d2cb4f7c5a7c1fe17decd9996981509":[2,0,2,39,9],
 "makePlots__datacardsMSSMHtt_8py.html#a40a15d101e7e1760618747e6f4d319bd":[2,0,2,39,40],
 "makePlots__datacardsMSSMHtt_8py.html#a41b2d23ef05d5e9a10be20ee04ee1f12":[2,0,2,39,27],
-"makePlots__datacardsMSSMHtt_8py.html#a46832710fcf040ca963f0087729c0f54":[2,0,2,39,38],
-"makePlots__datacardsMSSMHtt_8py.html#a485f40f6defdffca9d91708460926a64":[2,0,2,39,0]
+"makePlots__datacardsMSSMHtt_8py.html#a46832710fcf040ca963f0087729c0f54":[2,0,2,39,38]
 };

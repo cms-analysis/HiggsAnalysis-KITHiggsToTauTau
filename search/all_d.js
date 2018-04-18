@@ -565,7 +565,7 @@ var searchData=
   ['minimalplotlevelfilter_2eh',['MinimalPlotlevelFilter.h',['../MinimalPlotlevelFilter_8h.html',1,'']]],
   ['minimumscanfit',['minimumScanFit',['../namespacemakePlots__datacardsQCDfactors.html#a861914ab5aad2ce4bd958c1c151d0b14',1,'makePlots_datacardsQCDfactors.minimumScanFit()'],['../namespacemakePlots__datacardsTauEsStudies.html#aa26e315f54b1cd3bf1c32307804c34e0',1,'makePlots_datacardsTauEsStudies.minimumScanFit()']]],
   ['minimumscanfity',['minimumScanFitY',['../namespacemakePlots__datacardsQCDfactors.html#a64bef74457ef905fca7f691459eb7d4c',1,'makePlots_datacardsQCDfactors.minimumScanFitY()'],['../namespacemakePlots__datacardsTauEsStudies.html#afd00a7ba2b3d1c6dd98a9aedc45413ed',1,'makePlots_datacardsTauEsStudies.minimumScanFitY()']]],
-  ['mm',['mm',['../namespacemm.html',1,'mm'],['../classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#ad4ed20ca2615f333a34fea6356d76739',1,'settingsMinimalPlotlevelFilter.MinimalPlotlevelFilter.mm()'],['../classHttEnumTypes.html#a0fb4207a735c30ed7ed157d42aacde18aad05f78187c942f9dd521605fa81f1ba',1,'HttEnumTypes::MM()']]],
+  ['mm',['mm',['../namespacemm.html',1,'mm'],['../classHttEnumTypes.html#a0fb4207a735c30ed7ed157d42aacde18aad05f78187c942f9dd521605fa81f1ba',1,'HttEnumTypes::MM()'],['../classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#ad4ed20ca2615f333a34fea6356d76739',1,'settingsMinimalPlotlevelFilter.MinimalPlotlevelFilter.mm()']]],
   ['mm_2epy',['mm.py',['../mm_8py.html',1,'']]],
   ['mm_5fartusconfig',['mm_ArtusConfig',['../classmm_1_1mm__ArtusConfig.html',1,'mm']]],
   ['mm_5fhists',['mm_hists',['../namespacescaleVariations__ZttOverZmumu.html#a3674d52c514d5841adf82575d576af0a',1,'scaleVariations_ZttOverZmumu']]],

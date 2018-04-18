@@ -1,5 +1,6 @@
 var NAVTREEINDEX20 =
 {
+"makePlots__datacardsZttPolarisation_8py.html#adf170c28403265cdec86927e85ac0840":[2,0,2,48,29],
 "makePlots__datacardsZttPolarisation_8py.html#adfc253ec6806c1071d3342b190823fd8":[2,0,2,48,8],
 "makePlots__datacardsZttPolarisation_8py.html#aec0e6f2fd85f4c903c14e19a2593020b":[2,0,2,48,16],
 "makePlots__datacardsZttPolarisation_8py.html#aec8a773cb20f7d7fba3897a392b2c3a4":[2,0,2,48,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX20 =
 "makePlots__overlap_8py.html":[2,0,2,61],
 "makePlots__overlap_8py.html#a26ff1c7c5df25c813a1ad38a44b1bfb4":[2,0,2,61,1],
 "makePlots__overlap_8py.html#acd1b5843f4eaa9318ae6a295918bb15b":[2,0,2,61,0],
-"makePlots__recoPhiStarCP_8py.html":[2,0,2,64],
-"makePlots__recoPhiStarCP_8py.html#a07db5f304b47013c7373f985e7cc2a3e":[2,0,2,64,10]
+"makePlots__recoPhiStarCP_8py.html":[2,0,2,64]
 };

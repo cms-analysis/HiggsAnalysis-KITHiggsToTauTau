@@ -1,5 +1,6 @@
 var NAVTREEINDEX21 =
 {
+"makePlots__recoPhiStarCP_8py.html#a07db5f304b47013c7373f985e7cc2a3e":[2,0,2,64,10],
 "makePlots__recoPhiStarCP_8py.html#a14bd985c20d6e78b390a0b843b98acfc":[2,0,2,64,9],
 "makePlots__recoPhiStarCP_8py.html#a211c1ac69cf44a713d8c4a7108d32558":[2,0,2,64,1],
 "makePlots__recoPhiStarCP_8py.html#a2bf1c77699f4b280c7365c47a13d0b9c":[2,0,2,64,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX21 =
 "mvaCategory__Uncertainties_8py.html#a0593f43fba4eb0dd3824421f9fa46ca8":[2,0,2,77,20],
 "mvaCategory__Uncertainties_8py.html#a079b43e796fe5a712ed1915972a9c1d3":[2,0,2,77,19],
 "mvaCategory__Uncertainties_8py.html#a0b780d924f3c898198560c42a86e3b1d":[2,0,2,77,15],
-"mvaCategory__Uncertainties_8py.html#a19236d41509fe2f424159af444b49d99":[2,0,2,77,3],
-"mvaCategory__Uncertainties_8py.html#a28119a1a7f9097cd080738300b781825":[2,0,2,77,2]
+"mvaCategory__Uncertainties_8py.html#a19236d41509fe2f424159af444b49d99":[2,0,2,77,3]
 };
