@@ -14,6 +14,7 @@ var searchData=
   ['estimatebase_2epy',['estimatebase.py',['../estimatebase_8py.html',1,'']]],
   ['estimateff_2epy',['estimateff.py',['../estimateff_8py.html',1,'']]],
   ['estimateqcd_2epy',['estimateqcd.py',['../estimateqcd_8py.html',1,'']]],
+  ['estimateqcdprefit_2epy',['estimateqcdprefit.py',['../estimateqcdprefit_8py.html',1,'']]],
   ['estimateqcdtauhadtauhad_2epy',['estimateqcdtauhadtauhad.py',['../estimateqcdtauhadtauhad_8py.html',1,'']]],
   ['estimatettbar_2epy',['estimatettbar.py',['../estimatettbar_8py.html',1,'']]],
   ['estimatewjets_2epy',['estimatewjets.py',['../estimatewjets_8py.html',1,'']]],
