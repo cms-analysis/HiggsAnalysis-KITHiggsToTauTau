@@ -9,6 +9,8 @@ import copy
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering as processorOrdering
+
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauID as sTID
@@ -299,6 +301,197 @@ class em_ArtusConfig(dict):
 		self.update(copy.deepcopy(quantities_dict))
 
 		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list
+
+
+		self["Processors"] = [
+				"producer:HltProducer",
+				"filter:HltFilter",
+				"producer:MetSelector",
+				################## special for each channel in et mt tt em.
+				"producer:ElectronCorrectionsProducer",
+				"producer:ValidElectronsProducer",
+				"filter:ValidElectronsFilter",
+				"producer:ElectronTriggerMatchingProducer",
+				"filter:MinElectronsCountFilter",
+				"producer:RecoElectronGenParticleMatchingProducer", #if you grep this, it is already in globalprocessors
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:RecoMuonGenParticleMatchingProducer",
+				"producer:MatchedLeptonsProducer",
+				"producer:ValidTausProducer",
+				"producer:ValidEMPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidLooseMuonsProducer",
+				##################
+				"producer:Run2DecayChannelProducer",          
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",	
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				
+				]
+
+
+
+				
+		
+			
+
+		if re.search("(Spring16|Summer16|Run2016)", nickname):
+			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+			
+			if re.search("Run2016", nickname):
+				#self["Processors"] += ["producer:MVATestMethodsProducer"]
+						
+				self["Processors"] += ["producer:SimpleFitProducer"]
+				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+
+				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
+				self["Processors"] += ["producer:SvfitProducer"]
+				self["Processors"] += ["producer:SvfitM91Producer"]
+				self["Processors"] += ["producer:SvfitM125Producer"]
+
+				self["Processors"] += ["producer:MELAProducer"]
+				self["Processors"] += ["producer:MELAM125Producer"]
+
+
+				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
+
+			else:
+				#self["Processors"] += ["producer:TauCorrectionsProducer"]
+				self["Processors"] += ["producer:TauTauTriggerWeightProducer"]
+				self["Processors"] += ["producer:MetCorrector"]
+				self["Processors"] += [
+						"producer:SimpleEleTauFakeRateWeightProducer",
+						"producer:SimpleMuTauFakeRateWeightProducer"
+						]
+			
+				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
+					self["Processors"] = [
+						"producer:ZPtReweightProducer"
+						#"filter:MinimalPlotlevelFilter"
+					]
+					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+					self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
+
+				else:              
+					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
+					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:SvfitM91Producer"]
+					self["Processors"] += ["producer:SvfitM125Producer"]
+
+					self["Processors"] += ["producer:MELAProducer"]
+					self["Processors"] += ["producer:MELAM125Producer"]
+			
+
+
+					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+						self["Processors"] += ["producer:ZPtReweightProducer"]			
+
+						self["Processors"] += ["producer:SimpleFitProducer"]
+						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+
+						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
+
+					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
+						self["Processors"] += [
+							"producer:TopPtReweightingProducer"
+						] 
+						#self["Processors"] += ["producer:MVATestMethodsProducer"]
+						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
+						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
+					else:
+						self["Processors"] += [	"producer:TopPtReweightingProducer"] 
+						#self["Processors"] += ["producer:MVATestMethodsProducer"]
+						self["Processors"] += ["producer:SimpleFitProducer"]				
+						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+				
+						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
+
+		elif re.search("(Fall15|Run2015)", nickname):
+			print "2015"
+			#self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
+			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["producer:MvaMetSelector"]
+
+			
+			if re.search("Run2015", nickname):
+				"print run"
+				#self["Processors"] += ["producer:SimpleFitProducer"]
+				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+				
+				#self["Processors"] += ["producer:SvfitProducer"]
+				#self["Processors"] += ["producer:SvfitM91Producer"]
+				#self["Processors"] += ["producer:SvfitM125Producer"]
+
+				#self["Processors"] += ["producer:MELAProducer"]
+				#self["Processors"] += ["producer:MELAM125Producer"]
+
+			else:
+				self["Processors"] += ["producer:MvaMetCorrector"]
+				self["Processors"] += ["producer:MetCorrector"]
+				#self["Processors"] += ["producer:TauCorrectionsProducer"]
+				self["Processors"] += ["producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
+					"producer:EleTauFakeRateWeightProducer"
+				]
+
+				if re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
+
+					self["Processors"] += ["producer:ZPtReweightProducer"]			
+					#self["Processors"] += ["producer:SimpleFitProducer"]
+					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+
+				elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
+					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:SvfitM91Producer"]
+					self["Processors"] += ["producer:SvfitM125Producer"]
+
+					self["Processors"] += ["producer:MELAProducer"]
+					self["Processors"] += ["producer:MELAM125Producer"]
+
+
+
+				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
+					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:SvfitM91Producer"]
+					self["Processors"] += ["producer:SvfitM125Producer"]
+
+					self["Processors"] += ["producer:MELAProducer"]
+					self["Processors"] += ["producer:MELAM125Producer"]
+
+		self["Processors"] += ["producer:EventWeightProducer"]
+		self["Processors"] = list(set(self["Processors"]))
+		processorOrderingkey = processorOrdering.processors_ordered(channel = self["Channel"])
+		ordered_processors = processorOrderingkey.order_processors(self["Processors"]) 
+		self["Processors"] = copy.deepcopy(ordered_processors)
+
+
+
+
+
+
+
+
+
+
+
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Processors"] = [

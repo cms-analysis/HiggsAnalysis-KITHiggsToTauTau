@@ -12,6 +12,9 @@ import copy
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
 
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering as processorOrdering
+
+
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauID as sTID
@@ -196,11 +199,13 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltPFTau20TrackLooseIsoAgainstMuon",
 				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
 			]
+
 	
 		elif re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["MuonTriggerFilterNames"] = [
 				"HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"
 			]
+			self["DiTauPairHLTLast"] = False
 		else:
 			self["DiTauPairHLTLast"] = False
 		
@@ -307,6 +312,11 @@ class mt_ArtusConfig(dict):
 				"triggerWeight_muTauCross_2"
 			]
 
+		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
+			quantities_dict["Quantities"] += [
+				"tauSpinnerPolarisation"
+				]
+
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 
 			quantities_dict["Quantities"] += [
@@ -355,16 +365,12 @@ class mt_ArtusConfig(dict):
 				"producer:HltProducer",
 				"filter:HltFilter",
 				"producer:MetSelector",
+				################## special for each channel in et mt tt em.
 				"producer:ValidMuonsProducer",
 				"filter:ValidMuonsFilter",
 				"producer:MuonTriggerMatchingProducer",
 				"filter:MinMuonsCountFilter",
-				"producer:ValidElectronsProducer"
-				]
-		if re.search("Run201", nickname) == None:
-			self["Processors"] += ["producer:TauCorrectionsProducer"]
-
-		self["Processors"] += [
+				"producer:ValidElectronsProducer",
 				"producer:ValidTausProducer",
 				"filter:ValidTausFilter",
 				"producer:TauTriggerMatchingProducer",
@@ -374,297 +380,169 @@ class mt_ArtusConfig(dict):
 				"producer:HttValidVetoMuonsProducer",
 				"producer:HttValidLooseElectronsProducer",
 				"producer:HttValidLooseMuonsProducer",
-				"producer:Run2DecayChannelProducer",
-				]
-		
-		if (re.search("Fall15", nickname)) or (re.search("Run2015", nickname)) or (re.search("Embedding201", nickname)): #Embedding?
-			self["Processors"] += ["producer:MvaMetSelector"]
-
-		self["Processors"] += [
+				##################
+				"producer:Run2DecayChannelProducer",          
 				"producer:DiVetoMuonVetoProducer",
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:ValidTaggedJetsProducer",
-				"producer:ValidBTaggedJetsProducer"
-				]
-
-		if (re.search("Fall15", nickname)) or (re.search("Run2015", nickname)):
-			pass
-			#self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
-		else:
-			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
-
-		if (re.search("Run201", nickname) == None) and (re.search("Embedding201", nickname) == None):
-			self["Processors"] += ["producer:MetCorrector"]
-			if re.search("Fall15", nickname):
-				self["Processors"] += ["producer:MvaMetCorrector"]
-
-		self["Processors"] += [
+				"producer:ValidBTaggedJetsProducer",	
 				"producer:TauTauRestFrameSelector",
 				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer"
-				]
+				"producer:DiJetQuantitiesProducer",
 				
+				]
+		
 
 
-		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
-			self["Processors"] += [
-				"producer:SimpleEleTauFakeRateWeightProducer",
-				"producer:SimpleMuTauFakeRateWeightProducer",
-				"producer:ZPtReweightProducer",
-				"filter:MinimalPlotlevelFilter"
-			] #I believe from here it is not that strict anymore with the ordering
-			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			
-			self["Processors"] += ["producer:SvfitProducer"]
-			self["Processors"] += ["producer:SvfitM91Producer"]
-			self["Processors"] += ["producer:SvfitM125Producer"]
-
-			self["Processors"] += ["producer:MELAProducer"]
-			self["Processors"] += ["producer:MELAM125Producer"]
-
-			self["Processors"] += ["producer:SimpleFitProducer"]
-			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
-			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
-			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
-			self["Processors"] += ["producer:RefitVertexSelector"]
-			self["Processors"] += ["producer:RecoTauCPProducer"]
-			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
-			self["Processors"] += ["producer:EventWeightProducer"]
-
-		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
-			self["Processors"] += [
-				"producer:TopPtReweightingProducer",
-				"filter:MinimalPlotlevelFilter"
-			] #I believe from here it is not that strict anymore with the ordering
-			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			
-			self["Processors"] += ["producer:SvfitProducer"]
-			self["Processors"] += ["producer:SvfitM91Producer"]
-			self["Processors"] += ["producer:SvfitM125Producer"]
-
-			self["Processors"] += ["producer:MELAProducer"]
-			self["Processors"] += ["producer:MELAM125Producer"]
-
-			self["Processors"] += ["#producer:SimpleFitProducer"]
-			self["Processors"] += ["producer:TriggerWeightProducer"]
-			self["Processors"] += ["producer:IdentificationWeightProducer"]
-			self["Processors"] += ["#producer:RefitVertexSelector"]
-			self["Processors"] += ["producer:RecoTauCPProducer"]
-			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
-			self["Processors"] += ["producer:EventWeightProducer"]
-		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
-			self["Processors"] += [
-				"producer:ZPtReweightProducer",
-				"filter:MinimalPlotlevelFilter"
-			] #I believe from here it is not that strict anymore with the ordering
-			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			
-			self["Processors"] += ["producer:SvfitProducer"]
-			self["Processors"] += ["producer:SvfitM91Producer"]
-			self["Processors"] += ["producer:SvfitM125Producer"]
-
-			self["Processors"] += ["producer:MELAProducer"]
-			self["Processors"] += ["producer:MELAM125Producer"]
-
-			self["Processors"] += ["#producer:SimpleFitProducer"]
-			self["Processors"] += ["producer:TriggerWeightProducer"]
-			self["Processors"] += ["producer:IdentificationWeightProducer"]
-			self["Processors"] += ["producer:EleTauFakeRateWeightProducer"]
-			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
-			self["Processors"] += ["#producer:RefitVertexSelector"]
-			self["Processors"] += ["producer:RecoTauCPProducer"]
-			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
-			self["Processors"] += ["producer:EventWeightProducer"]
-		elif re.search("Run2016", nickname):
-			self["Processors"] += [
-				"filter:MinimalPlotlevelFilter"
-			] #I believe from here it is not that strict anymore with the ordering
-			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			
-			self["Processors"] += ["producer:SvfitProducer"]
-			self["Processors"] += ["producer:SvfitM91Producer"]
-			self["Processors"] += ["producer:SvfitM125Producer"]
-
-			self["Processors"] += ["producer:MELAProducer"]
-			self["Processors"] += ["producer:MELAM125Producer"]
-
-			self["Processors"] += ["producer:SimpleFitProducer"]
-			self["Processors"] += ["producer:RefitVertexSelector"]
-			self["Processors"] += ["producer:RecoTauCPProducer"]
-			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
-			self["Processors"] += ["producer:EventWeightProducer"]
-		elif re.search("Run2015", nickname):
-			self["Processors"] = [
-				"filter:MinimalPlotlevelFilter"
-			] #I believe from here it is not that strict anymore with the ordering
-			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			
-			#self["Processors"] += ["producer:SvfitProducer"]
-			#self["Processors"] += ["producer:SvfitM91Producer"]
-			#self["Processors"] += ["producer:SvfitM125Producer"]
-
-			#self["Processors"] += ["producer:MELAProducer"]
-			#self["Processors"] += ["producer:MELAM125Producer"]
-
-			self["Processors"] += ["#producer:SimpleFitProducer"]
-			self["Processors"] += ["#producer:RefitVertexSelector"]
-			self["Processors"] += ["producer:RecoTauCPProducer"]
-			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
-			self["Processors"] += ["producer:EventWeightProducer"]
-		elif re.search("Embedding201", nickname):
-			self["Processors"] += [
-				"filter:MinimalPlotlevelFilter"
-			] #I believe from here it is not that strict anymore with the ordering
-			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			
-			#self["Processors"] += ["producer:SvfitProducer"]
-			#self["Processors"] += ["producer:SvfitM91Producer"]
-			#self["Processors"] += ["producer:SvfitM125Producer"]
-
-			#self["Processors"] += ["producer:MELAProducer"]
-			#self["Processors"] += ["producer:MELAM125Producer"]
-
-			self["Processors"] += ["#producer:TriggerWeightProducer"]
-			self["Processors"] += ["#producer:IdentificationWeightProducer"]
-			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
-			self["Processors"] += ["#producer:SimpleFitProducer"]
-			self["Processors"] += ["#producer:RefitVertexSelector"]
-			self["Processors"] += ["producer:RecoTauCPProducer"]
-			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
-			self["Processors"] += ["producer:EventWeightProducer"]
-
-		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
-			self["Processors"] += [
-				"producer:SimpleEleTauFakeRateWeightProducer",
-				"producer:SimpleMuTauFakeRateWeightProducer",
-				"producer:TopPtReweightingProducer",
-				"filter:MinimalPlotlevelFilter"
-			] #I believe from here it is not that strict anymore with the ordering
-			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			
-			self["Processors"] += ["producer:SvfitProducer"]
-			self["Processors"] += ["producer:SvfitM91Producer"]
-			self["Processors"] += ["producer:SvfitM125Producer"]
-
-			self["Processors"] += ["producer:MELAProducer"]
-			self["Processors"] += ["producer:MELAM125Producer"]
-
-			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
-			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
-			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+		if re.search("(Spring16|Summer16|Run2016)", nickname):
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
-			self["Processors"] += ["#producer:MadGraphReweightingProducer"]
-			self["Processors"] += ["producer:EventWeightProducer"]
-
-		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
-			self["Processors"] += [
-				"producer:TopPtReweightingProducer",
-				"filter:MinimalPlotlevelFilter"
-			] #I believe from here it is not that strict anymore with the ordering
-			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 			
-			self["Processors"] += ["producer:SvfitProducer"]
-			self["Processors"] += ["producer:SvfitM91Producer"]
-			self["Processors"] += ["producer:SvfitM125Producer"]
+			if re.search("Run2016", nickname):
+				#self["Processors"] += ["producer:MVATestMethodsProducer"]
+						
+				self["Processors"] += ["producer:SimpleFitProducer"]
+				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
-			self["Processors"] += ["producer:MELAProducer"]
-			self["Processors"] += ["producer:MELAM125Producer"]
+				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
+				self["Processors"] += ["producer:SvfitProducer"]
+				self["Processors"] += ["producer:SvfitM91Producer"]
+				self["Processors"] += ["producer:SvfitM125Producer"]
 
-			self["Processors"] += ["#producer:SimpleFitProducer"]
-			self["Processors"] += ["producer:TriggerWeightProducer"]
-			self["Processors"] += ["producer:IdentificationWeightProducer"]
-			self["Processors"] += ["producer:EleTauFakeRateWeightProducer"]
-			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
-			self["Processors"] += ["#producer:RefitVertexSelector"]
+				self["Processors"] += ["producer:MELAProducer"]
+				self["Processors"] += ["producer:MELAM125Producer"]
+
+
+				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
+
+			else:
+				self["Processors"] += ["producer:TauCorrectionsProducer"]
+				self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+				self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
+				self["Processors"] += ["producer:MetCorrector"]
+				self["Processors"] += [
+						"producer:SimpleEleTauFakeRateWeightProducer",
+						"producer:SimpleMuTauFakeRateWeightProducer"
+						]
+			
+				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
+					self["Processors"] = [
+						"producer:ZPtReweightProducer"
+						#"filter:MinimalPlotlevelFilter"
+					]
+					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+					self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
+
+				else:              
+					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
+					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:SvfitM91Producer"]
+					self["Processors"] += ["producer:SvfitM125Producer"]
+
+					self["Processors"] += ["producer:MELAProducer"]
+					self["Processors"] += ["producer:MELAM125Producer"]
+			
+
+
+					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+						self["Processors"] += ["producer:ZPtReweightProducer"]			
+
+						self["Processors"] += ["producer:SimpleFitProducer"]
+						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+
+						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
+
+					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
+						self["Processors"] += [
+							"producer:TopPtReweightingProducer"
+						] 
+						#self["Processors"] += ["producer:MVATestMethodsProducer"]
+						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
+						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
+					else:
+						self["Processors"] += [	"producer:TopPtReweightingProducer"] 
+						#self["Processors"] += ["producer:MVATestMethodsProducer"]
+						self["Processors"] += ["producer:SimpleFitProducer"]				
+						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+				
+						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
+
+		elif re.search("(Fall15|Run2015)", nickname):
+			print "2015"
+			#self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
-			self["Processors"] += ["producer:MadGraphReweightingProducer"]
-			self["Processors"] += ["producer:EventWeightProducer"]
-		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-			self["Processors"] = [
-				"producer:SimpleEleTauFakeRateWeightProducer",
-				"producer:SimpleMuTauFakeRateWeightProducer",
-				"producer:ZPtReweightProducer",
-				"#filter:MinimalPlotlevelFilter"
-			] #I believe from here it is not that strict anymore with the ordering
-			self["Processors"] += ["#producer:MVATestMethodsProducer"]
+			self["Processors"] += ["filter:MinimalPlotlevelFilter"]
+			self["Processors"] += ["producer:MvaMetSelector"]
+
 			
-			#self["Processors"] += ["producer:SvfitProducer"]
-			#self["Processors"] += ["producer:SvfitM91Producer"]
-			#self["Processors"] += ["producer:SvfitM125Producer"]
+			if re.search("Run2015", nickname):
+				"print run"
+				#self["Processors"] += ["producer:SimpleFitProducer"]
+				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+				
+				#self["Processors"] += ["producer:SvfitProducer"]
+				#self["Processors"] += ["producer:SvfitM91Producer"]
+				#self["Processors"] += ["producer:SvfitM125Producer"]
 
-			#self["Processors"] += ["producer:MELAProducer"]
-			#self["Processors"] += ["producer:MELAM125Producer"]
+				#self["Processors"] += ["producer:MELAProducer"]
+				#self["Processors"] += ["producer:MELAM125Producer"]
 
-			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
-			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
-			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
-			self["Processors"] += ["producer:RefitVertexSelector"]
-			self["Processors"] += ["producer:RecoTauCPProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
-			self["Processors"] += ["producer:EventWeightProducer"]
-		else:
-			self["Processors"] = [
-				"producer:SimpleEleTauFakeRateWeightProducer",
-				"producer:SimpleMuTauFakeRateWeightProducer",
-				"producer:TopPtReweightingProducer",
-				"filter:MinimalPlotlevelFilter"
-			] #I believe from here it is not that strict anymore with the ordering
-			self["Processors"] += ["#producer:MVATestMethodsProducer"]
-			
-			self["Processors"] += ["producer:SvfitProducer"]
-			self["Processors"] += ["producer:SvfitM91Producer"]
-			self["Processors"] += ["producer:SvfitM125Producer"]
+			else:
+				self["Processors"] += ["producer:MvaMetCorrector"]
+				self["Processors"] += ["producer:MetCorrector"]
+				self["Processors"] += ["producer:TauCorrectionsProducer"]
+				self["Processors"] += ["producer:TriggerWeightProducer",
+					"producer:IdentificationWeightProducer",
+					"producer:EleTauFakeRateWeightProducer"
+				]
 
-			self["Processors"] += ["producer:MELAProducer"]
-			self["Processors"] += ["producer:MELAM125Producer"]
+				if re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
+
+					self["Processors"] += ["producer:ZPtReweightProducer"]			
+					#self["Processors"] += ["producer:SimpleFitProducer"]
+					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+
+				elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
+					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:SvfitM91Producer"]
+					self["Processors"] += ["producer:SvfitM125Producer"]
+
+					self["Processors"] += ["producer:MELAProducer"]
+					self["Processors"] += ["producer:MELAM125Producer"]
 
 
-			self["Processors"] += ["producer:SimpleFitProducer"]
-			self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
-			self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
-			self["Processors"] += ["producer:RefitVertexSelector"]
-			self["Processors"] += ["producer:RecoTauCPProducer"]
-			self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
-			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["#producer:TauPolarisationTmvaReader"]
-			self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
-			self["Processors"] += ["producer:EventWeightProducer"]
+
+				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
+					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:SvfitM91Producer"]
+					self["Processors"] += ["producer:SvfitM125Producer"]
+
+					self["Processors"] += ["producer:MELAProducer"]
+					self["Processors"] += ["producer:MELAM125Producer"]
+
+
+
+
+				
+					
+
+
+		self["Processors"] += ["producer:EventWeightProducer"]
+		self["Processors"] = list(set(self["Processors"]))
+		processorOrderingkey = processorOrdering.processors_ordered(channel = self["Channel"])
+		ordered_processors = processorOrderingkey.order_processors(self["Processors"]) 
+		self["Processors"] = copy.deepcopy(ordered_processors)
+
+		
+		
 
