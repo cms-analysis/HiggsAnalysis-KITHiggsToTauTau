@@ -1,5 +1,7 @@
 var NAVTREEINDEX12 =
 {
+"correlation__plotter_8py.html#a1ee4d848b0bf0999ab63163854bfe8a2":[2,0,2,10,8],
+"correlation__plotter_8py.html#a2ccc04d302022e44a4be13d20103b39c":[2,0,2,10,18],
 "correlation__plotter_8py.html#a344866e217392af993b62ad511e42c0a":[2,0,2,10,14],
 "correlation__plotter_8py.html#a3ad5c0cc1651ad4a1c83c345e0f6ad5d":[2,0,2,10,10],
 "correlation__plotter_8py.html#a4b61f9d17af109febd3622257e96e41c":[2,0,2,10,12],
@@ -247,7 +249,5 @@ var NAVTREEINDEX12 =
 "estimateqcdtauhadtauhad_8py.html#a22fc36c53368920de385a455327ce1c7":[2,0,1,3,2,0,4,1],
 "estimatettbar_8py.html":[2,0,1,3,2,0,5],
 "estimatettbar_8py.html#af25d78933d36b955d8c9e2def69e1b36":[2,0,1,3,2,0,5,1],
-"estimatewjets_8py.html":[2,0,1,3,2,0,6],
-"estimatewjets_8py.html#af1eb9dbea5faef52b5e5c0834e837144":[2,0,1,3,2,0,6,1],
-"estimatewjetsandqcd_8py.html":[2,0,1,3,2,0,7]
+"estimatewjets_8py.html":[2,0,1,3,2,0,6]
 };
