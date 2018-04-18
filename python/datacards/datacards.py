@@ -63,6 +63,7 @@ class Datacards(object):
 
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], add_data=True, *args, **kwargs):
 		bin = [(self.configs.category2binid(category, channel), category) for category in categories]
+		print(sig_processes)
 
 		for key in ["channel", "procs", "bin", "signal"]:
 			if key in kwargs:
@@ -471,18 +472,23 @@ class Datacards(object):
 	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, *args, **kwargs):
 		tmp_args = "".join(args)
 		
+		higgs_mass = "125"
 		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"
+			higgs_mass = value if "higgs_mass" in key else "125"
 					
 		for datacard, workspace in datacards_workspaces.iteritems():
 			if not os.path.exists(os.path.join(os.path.dirname(workspace), "plots/")):
 				os.makedirs(os.path.join(os.path.dirname(workspace), "plots/"))
 				
 		commandsPlot = []
+		for datacard, workspace in datacards_workspaces.iteritems():
+			print(os.path.dirname(workspace))
 		commandsPlot.extend([[
-				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} higgsCombine.MultiDimFit.mH{MASS}.root".format(
+				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} {DIR}/higgsCombine{NAME}.MultiDimFit.mH{MASS}.root".format(
+						DIR=os.path.dirname(workspace),
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						POI=poi,
+						NAME="Test",
 						ARGS=tmp_args.format()				
 				),
 				os.path.dirname(workspace)
@@ -799,4 +805,4 @@ class Datacards(object):
 		rebin.SetRebinMode(rebin_mode)
 		rebin.SetPerformRebin(True)
 		rebin.SetVerbosity(0)
-		rebin.Rebin(self.cb, self.cb)
+		rebin.R
