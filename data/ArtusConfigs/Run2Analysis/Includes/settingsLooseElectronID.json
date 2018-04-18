@@ -13,7 +13,7 @@
 	"LooseElectronIDType" : {
 		"nick" : {
 			"default" :	"mvabased2015andlater",
-			"Fall17"  :	"mvabased2017andlater"
+			"Run2017|Fall17"  :	"mvabased2017andlater"
 		}
 	},
 	"LooseElectronIDName" : {
