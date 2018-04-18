@@ -484,8 +484,8 @@ class Datacards(object):
 		for datacard, workspace in datacards_workspaces.iteritems():
 			print(os.path.dirname(workspace))
 		commandsPlot.extend([[
-				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} {DIR}/higgsCombine{NAME}.MultiDimFit.mH{MASS}.root".format(
-						DIR=os.path.dirname(workspace),
+				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} --output={OUTPUT} {ARGS} higgsCombine{NAME}.MultiDimFit.mH{MASS}.root".format(
+						OUTPUT="nll",	
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						POI=poi,
 						NAME="Test",

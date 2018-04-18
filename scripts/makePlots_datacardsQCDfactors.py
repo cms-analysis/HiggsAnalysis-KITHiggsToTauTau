@@ -368,7 +368,7 @@ if __name__ == "__main__":
 				datacards_workspaces,
 				None,
 				args.n_processes,
-				"-M MultiDimFit --algo grid --points 50 -v {VERBOSITY}  {STABLE}".format(
+				"-M MultiDimFit --algo grid --points 500 --setParameterRanges r=0,5 -v {VERBOSITY}  {STABLE}".format(
 					VERBOSITY=args.combine_verbosity,
 					STABLE=datacards.stable_options
 				)
