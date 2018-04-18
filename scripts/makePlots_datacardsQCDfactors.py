@@ -30,7 +30,7 @@ def addArguments(parser):
 	                    help="Input directory.")
 	parser.add_argument("-x", "--quantity", default="m_vis", choices=["m_vis"], 
 	                    help="Quantity ot perform fit in sideband region. [Default: %(default)s]")
-	parser.add_argument("-c", "--channels", nargs="*", default=["mt","et"],
+	parser.add_argument("-c", "--channels", action = "append", 
 	                    help="Select final state(s) for measurement. This argument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", action = "append",
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
@@ -71,7 +71,11 @@ def addArguments(parser):
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
-						
+	parser.add_argument("-m", "--higgs-masses", nargs="+", default=["125"],
+	                    help="Higgs masses. [Default: %(default)s]")
+	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
+						help="Exit program in case categories are removed from CH. [Default: %(default)s]")
+												
 def _call_command(args):
 	command = None
 	cwd = None
@@ -126,17 +130,21 @@ if __name__ == "__main__":
 	www_output_dirs_postfit = []
 	www_output_dirs_weightbin = []
 	www_output_dirs_parabola = []
+			
+	plot_configs = []
+	output_files = []
+	merged_output_files = []
+	hadd_commands = []	
 	
 	# Initialise directory and naming scheme templates for datacards
-	tmp_input_root_filename_template = "input/${ANALYSIS}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "input/${ANALYSIS}_${BIN}_${ERA}.root"
+	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${ERA}.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	datacard_filename_templates = ["datacards/${BIN}/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.txt"]
-	if len(args.channels) > 1:
-		datacard_filename_templates.append("datacards/decaymode/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
+	if len(args.channels) > 1: datacard_filename_templates.append("datacards/decaymode/${BIN}/${ANALYSIS}_${BIN}_${ERA}.txt")
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	
 	# define the quantity for the sideband region
@@ -145,124 +153,147 @@ if __name__ == "__main__":
 	# Build categories and bin id's for CombineHarvester
 	categories = [channel+"_"+category for channel in args.channels for category in args.categories[0]]
 	mapping_category2binid = {}
-		
-	if args.categories != parser.get_default("categories"):
-		args.categories = args.categories[1:]
-			
-	# catch if on command-line only one set has been specified and repeat it
-	if(len(args.categories) == 1):
-		args.categories = [args.categories[0]] * len(args.channel)
-		
+	
+
+	
 	# Restrict CombineHarvester to configured channels:
 	datacards = qcdfactorsdatacards.QcdFactorsDatacards(quantity, args.era, mapping_category2binid)
 	
-	datacards.cb.channel(args.channels)
-	datacards.cb.PrintAll()
+	#restriction to requested channels
+	if args.channels != parser.get_default("channels"):
+		datacards.cb.channel(args.channels)
+	args.channels = datacards.cb.cp().channel_set()
 	
+	args.categories = len(args.channels) * args.categories
+	
+	
+	datacards.cb.mass(["*", "125"])
+	print(datacards.get_samples_per_shape_systematic())	
+	# datacards.cb.PrintAll()
+	if args.categories == parser.get_default("categories"):
+		args.categories = len(args.channel) * args.categories
 	# create HP configs for each channel_category
-	for category in categories:
-		# print(category)
-		channel = category.split("_")[0]
 
+
+	for index, (channel, categories) in enumerate(zip(args.channels, args.categories)):
+		# if index != 0: break
+		# channel = category.split("_")[0]
+		
+		tmp_output_files = []
 		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 			ANALYSIS="htt",
-			BIN=category,
+			CHANNEL=channel,
 			ERA="13TeV"
-		))
+		))		
+		# categories = datacards.cb.cp().channel([channel]).bin_set()
+		categories = [channel + "_" + category for category in categories]
+		print(categories)
 		
-		plot_configs = []
-		hadd_commands = []
-		exclude_cuts = copy.deepcopy(args.exclude_cuts)
-		
-		datacards_per_channel_category = qcdfactorsdatacards.QcdFactorsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
-		
-		# exclude isolation cut which is set by default in cutstrings.py using the smhtt2016 cut_type
-		if ("ZeroJet2D_SB_antiiso" in category or "Boosted2D_SB_antiiso" in category) and channel in ["mt", "et"]:
-			exclude_cuts += ["iso_1"]
-			do_not_normalize_by_bin_width = True
-
-		tmp_output_files = []
-		
-		
-
-		for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
-			# print(shape_systematic, list_of_samples)
-			nominal = (shape_systematic == "nominal")
-			list_of_samples = [process for process in list_of_samples]
-			print(list_of_samples)
+		categories_save = sorted(categories)
+		print(set(datacards.cb.cp().channel([channel]).bin_set()))
+		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
+		if(categories_save != sorted(categories))  and args.do_not_ignore_category_removal:
+			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
+			log.fatal(list(set(categories_save) - set(categories)))
+			sys.exit(1)
+				
+				# restrict CombineHarvester to configured categories:
 			
-			for shift_up in ([True] if nominal else [True, False]):
-				systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
+		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
-				log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
-					samples="\", \"".join(list_of_samples),
-					channel=channel,
-					category=category,
-					systematic=systematic
-				))
-				
-				# very basic config
-				config = sample_settings.get_config(
-					samples=[getattr(samples.Samples, sample if sample != "data_obs" else "data" ) for sample in list_of_samples],
-					channel=channel,
-					category="catHtt13TeV_{CATEGORY}".format(CATEGORY=category),
-					weight=args.weight,
-					lumi=args.lumi * 1000,
-					cut_type="smhtt2016", 
-					exclude_cuts = exclude_cuts
-				)
+		print(categories)		
+		for category in categories:
+			print("-------------------", category)		
+			exclude_cuts = copy.deepcopy(args.exclude_cuts)
+			 
+			datacards_per_channel_category = qcdfactorsdatacards.QcdFactorsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
+			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
+			# exclude isolation cut which is set by default in cutstrings.py using the smhtt2016 cut_type
+			if ("ZeroJet2D_SB_antiiso" in category or "Boosted2D_SB_antiiso" in category) and channel in ["mt", "et"]:
+				exclude_cuts += ["iso_1"]
+				do_not_normalize_by_bin_width = True
 
-				systematics_settings = systematics_factory.get(shape_systematic)(config)
-				config= systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+		
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
+				print(shape_systematic, list_of_samples)
+				nominal = (shape_systematic == "nominal")
+				list_of_samples = [process for process in list_of_samples]
+				print(list_of_samples)
+			
+				for shift_up in ([True] if nominal else [True, False]):
+					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
+		
+					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
+						samples="\", \"".join(list_of_samples),
+						channel=channel,
+						category=category,
+						systematic=systematic
+					))
 				
-				# fit is to be performed for 
-				config["x_expressions"] = ["m_vis"] 
+					# very basic config
+					config = sample_settings.get_config(
+						samples=[getattr(samples.Samples, sample if sample != "data_obs" else "data") for sample in list_of_samples],
+						channel=channel,
+						category="catHtt13TeV_{CATEGORY}".format(CATEGORY=category),
+						weight=args.weight,
+						lumi=args.lumi * 1000,
+						higgs_masses=higgs_masses,
+						cut_type="smhtt2016", 
+						exclude_cuts = exclude_cuts
+					)
+
+					systematics_settings = systematics_factory.get(shape_systematic)(config)
+					config= systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+				
+					# fit is to be performed for 
+					config["x_expressions"] = ["m_vis"] 
 								
-				# configure binnings etc 				
-				if ("ZeroJet2D_SB_antiiso" in category or "Boosted2D_SB_antiiso" in category) and channel in ["mt", "et"]:
-					config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_vis"]]
+					# configure binnings etc 				
+					if ("ZeroJet2D_SB_antiiso" in category or "Boosted2D_SB_antiiso" in category) and channel in ["mt", "et"]:
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_vis"]]
 				
-				# Miscellaneous
-				config["directories"] = [args.input_dir]
+					# Miscellaneous
+					config["directories"] = [args.input_dir]
 		
-				histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
-				config["labels"] = [histogram_name_template.replace("$", "").format(
-					PROCESS=sample if sample != "data" else "data_obs",
-					BIN=category,
-					SYSTEMATIC=systematic
-				) for sample in config["labels"]]
+					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
+					config["labels"] = [histogram_name_template.replace("$", "").format(
+						PROCESS=sample if sample != "data" else "data_obs",
+						BIN=category,
+						SYSTEMATIC=systematic
+					) for sample in config["labels"]]
 		
-				tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
-					ANALYSIS="htt",
-					BIN=category,
-					SYSTEMATIC=systematic,
-					ERA="13TeV"
-				))
-				tmp_output_files.append(tmp_output_file)
-				config["output_dir"] = os.path.dirname(tmp_output_file)
-				config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
+					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
+						ANALYSIS="htt",
+						CHANNEL=channel,
+						BIN=category,
+						SYSTEMATIC=systematic,
+						ERA="13TeV"
+					))
+					tmp_output_files.append(tmp_output_file)
+					config["output_dir"] = os.path.dirname(tmp_output_file)
+					config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
 	
-				config["plot_modules"] = ["ExportRoot"]
-				config["file_mode"] = "UPDATE"
+					config["plot_modules"] = ["ExportRoot"]
+					config["file_mode"] = "UPDATE"
 					
-				plot_configs.append(config)
+					plot_configs.append(config)
 
-		hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
+		hadd_commands.append("hadd -f {DST} {SRC}".format(
 			DST=output_file,
 			SRC=" ".join(tmp_output_files)
 		))
 
-		# Delete existing output files
-		output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
-		for output_file in output_files:
-			if os.path.exists(output_file):
-				os.remove(output_file)
-				log.debug("Removed file \""+output_file+"\" before it is recreated again.")
+	# 	# Delete existing output files
+	# output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
+	# for output_file in output_files:
+	# 		if os.path.exists(output_file):
+	# 			os.remove(output_file)
+	# 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	
 		# Create input histograms with HarryPlotter
-		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
-		if args.n_plots[0] != 0:
-			tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
+	if args.n_plots[0] != 0:
+		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
 	# Update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
@@ -271,7 +302,7 @@ if __name__ == "__main__":
 		bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 		update_systematics=True
 	)
-	sys.exit(0)		
+	
 	# Add bin-by-bin uncertainties
 	if not args.no_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
@@ -308,8 +339,9 @@ if __name__ == "__main__":
 				args.output_dir
 		))
 	
-	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes)
 	
+	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes, higgs_mass=125)
+	sys.exit(0)
 	# Combine call
 	# Important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
 	datacards.combine(
