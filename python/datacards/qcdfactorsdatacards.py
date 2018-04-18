@@ -24,7 +24,7 @@ class QcdFactorsDatacards(datacards.Datacards):
 		all_mc_bkgs = ["ztt", "zl", "zj", "ttt", "ttjj", "vvt", "vvj", "wj_mc_os"]
 		all_mc_bkgs_no_W = ["ztt", "zl", "zj", "ttt", "ttjj", "vvt", "vvj"] #don't no whether this is still needed here...
 		signal_processes = ["qcd_prefit"]
-		categories_for_SSOS_factor_estimation = ["ZeroJet2D_SB_antiiso", "Boosted2D_SB_antiiso"] #, "dijet2D_lowboost_SB_antiiso", "dijet2D_boosted_SB_antiiso"]]
+		categories_for_SSOS_factor_estimation = ["ZeroJet2D_SB_antiiso", "Boosted2D_SB_antiiso", "dijet2D_lowboost_SB_antiiso","dijet2D_boosted_SB_antiiso"] 
 		if cb is None:
 			# ======================================================================
 			# MT channel

@@ -49,7 +49,7 @@ def addArguments(parser):
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
-	parser.add_argument("--combine-verbosity", default="1", choices=["-1","0","1","2"],
+	parser.add_argument("--combine-verbosity", default="0", choices=["-1","0","1","2"],
 	                    help="Control output amount of combine. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="",
 	                    help="Publish plots. [Default: %(default)s]")
@@ -213,7 +213,7 @@ if __name__ == "__main__":
 			datacards_per_channel_category = qcdfactorsdatacards.QcdFactorsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			# exclude isolation cut which is set by default in cutstrings.py using the smhtt2016 cut_type
-			if ("ZeroJet2D_SB_antiiso" in category or "Boosted2D_SB_antiiso" in category) and channel in ["mt", "et"]:
+			if any(bin in category for bin in ["ZeroJet2D_SB_antiiso","Boosted2D_SB_antiiso","dijet2D_lowboost_SB_antiiso","dijet2D_boosted_SB_antiiso"])  and channel in ["mt", "et"]:
 				exclude_cuts += ["iso_1"]
 				do_not_normalize_by_bin_width = True
 
@@ -253,7 +253,7 @@ if __name__ == "__main__":
 					config["x_expressions"] = ["m_vis"] 
 								
 					# configure binnings etc 				
-					if ("ZeroJet2D_SB_antiiso" in category or "Boosted2D_SB_antiiso" in category) and channel in ["mt", "et"]:
+					if any(bin in category for bin in ["ZeroJet2D_SB_antiiso","Boosted2D_SB_antiiso","dijet2D_lowboost_SB_antiiso","dijet2D_boosted_SB_antiiso"]) and channel in ["mt", "et"]:
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_vis"]]
 				
 					# Miscellaneous
@@ -392,20 +392,20 @@ if __name__ == "__main__":
 
 		for level in ["prefit", "postfit"]:
 			for datacard in datacards_cbs.keys():
-				print(datacard)
 				postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
-				print(postfit_shapes)
 				# do not produce plots for combination as there is no proper implementation for that
 				if len(datacards_cbs[datacard].cp().bin_set()) > 1:
 					continue
 				for category in datacards_cbs[datacard].cp().bin_set():
-
+					print(category)
 					channel = category.split("_")[0]
 					bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
+					print(bkg_process)
 					sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
 				
 					processes = bkg_process + sig_process
 					processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+					
 					config = {}
 					config.setdefault("analysis_modules", []).extend(["SumOfHistograms"])
 					config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
@@ -415,14 +415,16 @@ if __name__ == "__main__":
 					processes_to_plot = list(processes)
 					processes = [p.replace("zl", "zl_noplot").replace("zj", "zj_noplot").replace("vvt", "vvt_noplot").replace("vvj", "vvj_noplot") for p in processes]
 					processes_to_plot = [p for p in processes if not "noplot" in p]
-					processes_to_plot.insert(1, "zll")
-					config["sum_nicks"].append("zl_noplot zj_noplot")
-					config["sum_scale_factors"].append("1.0 1.0")
-					config["sum_result_nicks"].append("zll")
-					processes_to_plot.insert(2, "ewk")
+				
+					processes_to_plot.insert(1, "ewk")
 					config["sum_nicks"].append("vvt_noplot vvj_noplot")
 					config["sum_scale_factors"].append("1.0 1.0")
 					config["sum_result_nicks"].append("ewk")
+					if category not in "et_dijet2D_lowboost_SB_antiiso":
+						processes_to_plot.insert(2, "zll")
+						config["sum_nicks"].append("zl_noplot zj_noplot")
+						config["sum_scale_factors"].append("1.0 1.0")
+						config["sum_result_nicks"].append("zll")
 				
 					config["files"] = [postfit_shapes]
 					config["folders"] = [category+"_"+level]

@@ -481,8 +481,6 @@ class Datacards(object):
 				os.makedirs(os.path.join(os.path.dirname(workspace), "plots/"))
 				
 		commandsPlot = []
-		for datacard, workspace in datacards_workspaces.iteritems():
-			print(os.path.dirname(workspace))
 		commandsPlot.extend([[
 				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} --output={OUTPUT} {ARGS} higgsCombine{NAME}.MultiDimFit.mH{MASS}.root".format(
 						OUTPUT="nll",	
