@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['range',['RANGE',['../namespacemakePlots__datacardsCPStudies.html#aca632d3dafc9c1a57792660fd1d58fd1',1,'makePlots_datacardsCPStudies.RANGE()'],['../namespacemakePlots__datacardsCPStudies__projection.html#a6952f2b05a3bf2af930730ee1f0ebcf2',1,'makePlots_datacardsCPStudies_projection.RANGE()'],['../namespacemakePlots__datacardsTauEsStudies.html#a537fa39fa572361324911ca95c24eb86',1,'makePlots_datacardsTauEsStudies.RANGE()']]],
+  ['range',['RANGE',['../namespacemakePlots__datacardsCPStudies.html#aca632d3dafc9c1a57792660fd1d58fd1',1,'makePlots_datacardsCPStudies.RANGE()'],['../namespacemakePlots__datacardsCPStudies__projection.html#a6952f2b05a3bf2af930730ee1f0ebcf2',1,'makePlots_datacardsCPStudies_projection.RANGE()'],['../namespacemakePlots__datacardsQCDfactors.html#ad94f6f1ade4415a28e69d5c10f8d7fb4',1,'makePlots_datacardsQCDfactors.RANGE()'],['../namespacemakePlots__datacardsTauEsStudies.html#a537fa39fa572361324911ca95c24eb86',1,'makePlots_datacardsTauEsStudies.RANGE()']]],
   ['ratio',['ratio',['../classConfigMaster_1_1Plotmodule.html#aa31e8ad69b658e49100334fd29fcd510',1,'ConfigMaster.Plotmodule.ratio()'],['../namespacemakePlots__categoryOverlap.html#a01831a1246fef4d0e8c921df0c362002',1,'makePlots_categoryOverlap.ratio()']]],
   ['ratio_5fnames',['ratio_names',['../namespacemakePlots__categoryOverlap.html#a79572fccde1cdc0d3812749717d51d46',1,'makePlots_categoryOverlap']]],
   ['ratio_5fvariations',['ratio_variations',['../namespacescaleVariations__ZttOverZmumu.html#a0d78372a949f2c9826e03b966df5825f',1,'scaleVariations_ZttOverZmumu']]],
@@ -12,6 +12,7 @@ var searchData=
   ['reg_5func_5fdict',['reg_unc_dict',['../namespacemvaCategory__Uncertainties.html#a885af290a0e374863190972c5e1a974c',1,'mvaCategory_Uncertainties']]],
   ['regex',['regex',['../namespaceplot__overtraining.html#af450908d4f2fa03fd9442c0d7cb662bf',1,'plot_overtraining']]],
   ['regular_5fname',['regular_name',['../namespacemvaCategory__Shifts.html#add7618877152fec36b1e508cb3f38100',1,'mvaCategory_Shifts']]],
+  ['remote_5fse',['remote_se',['../classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#adaf676c6bc7a274847f723cf28ba4afc',1,'higgstotautauanalysiswrapper::HiggsToTauTauAnalysisWrapper']]],
   ['renamed_5fhistogram_5fpaths',['renamed_histogram_paths',['../namespacemakePlots__compareLimitInputs.html#ac9bf6f5d90d663388e95104b5f2750ac',1,'makePlots_compareLimitInputs']]],
   ['renamings',['renamings',['../namespacemakePlots__compareLimitInputs.html#a444f5f6850ea432e158c337c2572f976',1,'makePlots_compareLimitInputs']]],
   ['replaced_5fbkg_5fnicks',['replaced_bkg_nicks',['../namespacemakePlots__controlPlots.html#a0840151176771769af5934839127f132',1,'makePlots_controlPlots.replaced_bkg_nicks()'],['../namespacemakePlots__PolSelEfficiency.html#a6a57019f0368b5873afd3692c78500bb',1,'makePlots_PolSelEfficiency.replaced_bkg_nicks()']]],
