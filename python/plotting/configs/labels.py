@@ -35,6 +35,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["zem"] = "Z #rightarrow e#mu (LFV)"
 			self.labels_dict["ttjj"] = "t#bar{t} + jets (jet)"
 			self.labels_dict["wj"] = "W + jets"
+			self.labels_dict["wj_mc_os"] = self.labels_dict["wj"]
+			self.labels_dict["wj_mc_ss"] = self.labels_dict["wj"]
 			self.labels_dict["wjt"] = "W + jets (tau)"
 			self.labels_dict["wjl"] = "W + jets (lep)"
 			self.labels_dict["vv"] = "Di-boson"

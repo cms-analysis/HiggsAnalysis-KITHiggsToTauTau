@@ -75,6 +75,10 @@ def addArguments(parser):
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
 						help="Exit program in case categories are removed from CH. [Default: %(default)s]")
+	parser.add_argument("--steps", nargs="+",
+	                    default=["inputs", "t2w", "likelihoodscan"],
+	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots"],
+	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
 												
 def _call_command(args):
 	command = None
@@ -291,9 +295,10 @@ if __name__ == "__main__":
 	# 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	
 		# Create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
-	if args.n_plots[0] != 0:
-		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+	if "inputs" in args.steps:	
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
+		if args.n_plots[0] != 0:
+			tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
 	# Update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
@@ -339,169 +344,144 @@ if __name__ == "__main__":
 				args.output_dir
 		))
 	
+	if "t2w" or "prefitpostfitplots" in args.steps:
+		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes, higgs_mass=125)
 	
-	datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes, higgs_mass=125)
-	sys.exit(0)
 	# Combine call
 	# Important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
-	datacards.combine(
-			datacards_cbs,
-			datacards_workspaces,
-			None,
-			args.n_processes,
-			"-M MaxLikelihoodFit --redefineSignalPOIs mes -v {VERBOSITY} {STABLE}".format(
-				VERBOSITY=args.combine_verbosity,
-				STABLE=datacards.stable_options
+	if "do_fit" in args.steps:
+		datacards.combine(
+				datacards_cbs,
+				datacards_workspaces,
+				None,
+				args.n_processes,
+				"-M MaxLikelihoodFit -v {VERBOSITY} {STABLE}".format(
+					VERBOSITY=args.combine_verbosity,
+					STABLE=datacards.stable_options
+				)
 			)
-	)
-	
+
 	# 2nd combine call to get deltaNLL distribution
 	# (always done, since the bestfit value and uncertainties are taken from this scan)
-	datacards.combine(
-			datacards_cbs,
-			datacards_workspaces,
-			None,
-			args.n_processes,
-			"-M MultiDimFit --algo grid --points {BINNING} --setParameterRanges mes={RANGE} --redefineSignalPOIs mes -v {VERBOSITY}  {STABLE}".format(
-				BINNING=int((args.shift_ranges[1]-args.shift_ranges[0])/args.shift_binning),
-				RANGE=str(args.shift_ranges[0])+","+str(args.shift_ranges[1]),
-				VERBOSITY=args.combine_verbosity,
-				STABLE=datacards.stable_options
+		datacards.combine(
+				datacards_cbs,
+				datacards_workspaces,
+				None,
+				args.n_processes,
+				"-M MultiDimFit --algo grid --points 50 -v {VERBOSITY}  {STABLE}".format(
+					VERBOSITY=args.combine_verbosity,
+					STABLE=datacards.stable_options
+				)
 			)
-	)
+
 	
 	# Plot nuisance impacts
-	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="mes"))
 	if args.plot_nuisance_impacts:
-		datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "--redefineSignalPOIs mes")
+		datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	
 	# Postfitshapes call
-	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	if "prefitpostfitplots" in args.steps:
+		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	
 	# Pull plots
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
+	# datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
 	
 	# Plot postfit
-	postfit_plot_configs = [] #reset list containing the plot configs
-	bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT","TTJJ", "VVT", "VVJ", "W", "QCD"]
-	
-	for level in ["prefit", "postfit"]:
-		for datacard in datacards_cbs.keys():
-			postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
-			# do not produce plots for combination as there is no proper implementation for that
-			if len(datacards_cbs[datacard].cp().bin_set()) > 1:
-				continue
-			for category in datacards_cbs[datacard].cp().bin_set():
-				
-				channel = category.split("_")[0]
-				decayMode = category.split("_")[-2]
-				weightBin = int(category.split("_")[-1].split(weight_type+"bin")[-1])
+		postfit_plot_configs = [] #reset list containing the plot configs
+		bkg_plotting_order = ["ztt", "zl", "zj", "ttt", "ttjj", "vvt", "vvj", "wj_mc_os"]
 
-				if category not in datacard:
+		for level in ["prefit", "postfit"]:
+			for datacard in datacards_cbs.keys():
+				print(datacard)
+				postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
+				print(postfit_shapes)
+				# do not produce plots for combination as there is no proper implementation for that
+				if len(datacards_cbs[datacard].cp().bin_set()) > 1:
 					continue
-				
-				bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
-				sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
-				
-				processes = bkg_process + sig_process
-				processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
-				
-				config = {}
-				config.setdefault("analysis_modules", []).extend(["SumOfHistograms"])
-				config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
-				config.setdefault("sum_scale_factors", []).append("1.0 1.0")
-				config.setdefault("sum_result_nicks", []).append("Total")
-				
-				processes_to_plot = list(processes)
-				processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("TTT", "TTT_noplot").replace("TTJJ", "TTJJ_noplot").replace("VVT", "VVT_noplot").replace("VVJ", "VVJ_noplot").replace("W", "W_noplot") for p in processes]
-				processes_to_plot = [p for p in processes if not "noplot" in p]
-				processes_to_plot.insert(1, "TT")
-				config["sum_nicks"].append("TTT_noplot TTJJ_noplot")
-				config["sum_scale_factors"].append("1.0 1.0")
-				config["sum_result_nicks"].append("TT")
-				processes_to_plot.insert(2, "ZLL")
-				config["sum_nicks"].append("ZL_noplot ZJ_noplot")
-				config["sum_scale_factors"].append("1.0 1.0")
-				config["sum_result_nicks"].append("ZLL")
-				processes_to_plot.insert(3, "EWK")
-				config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot")
-				config["sum_scale_factors"].append("1.0 1.0 1.0")
-				config["sum_result_nicks"].append("EWK")
-				
-				config["files"] = [postfit_shapes]
-				config["folders"] = [category+"_"+level]
-				config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
-				config["x_expressions"] = [p.strip("_noplot") for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
-				config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"] + [""]
-				config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
-				config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
-				config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
-				config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
-				
-				config["y_label"] = "Events / bin"
-				if "OneProngPiZeros" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} (GeV)"
-					config["x_lims"] = [0.3,1.5]
-				elif "ThreeProng" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} (GeV)"
-					config["x_lims"] = [0.8,1.5]
-				elif "AllDMs" in category and quantity == "m_2":
-					config["x_label"] = "m_{#tau_{h}} (GeV)"
-					config["x_lims"] = [0.3,1.5]
-				elif "OneProng" in category or quantity == "m_vis":
-					config["x_label"] = "m_{#mu#tau_{h}} (GeV)"
-					config["x_lims"] = [20,200]
-				
-				config.setdefault("analysis_modules", []).append("Ratio")
-				config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig", "data_obs"])
-				config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig"] * 2)
-				config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
-				config["ratio_denominator_no_errors"] = True
-				config.setdefault("colors", []).extend(["#000000 transgrey", "#000000"])
-				config.setdefault("markers", []).extend(["E2", "E"])
-				config.setdefault("legend_markers", []).extend(["F", "ELP"])
-				config.setdefault("labels", []).extend([""] * 2)
-				config.setdefault("stacks", []).extend(["unc", "ratio"])
-				config["legend"] = [0.7, 0.4, 0.92, 0.82]
-				config["y_subplot_lims"] = [0.5, 1.5]
-				config["y_subplot_label"] = "Obs./Exp."
-				config["subplot_grid"] = True
-				
-				config["energies"] = [13.0]
-				config["lumis"] = [float("%.1f" % args.lumi)]
-				if args.cms:
-					config["cms"] = True
-					config["extra_text"] = "Preliminary"
-				config["year"] = args.era
-				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
-				config["filename"] = level+"_"+category+("_tightenedMassWindow" if args.tighten_mass_window else "")
-				if args.pdf:
-					config["formats"] = ["png", "pdf"]
-				
-				config["texts"] = [decayMode_dict[decayMode]["label"]]
-				config["texts_x"] = [0.52]
-				config["texts_y"] = [0.81]
-				if weightBin > 0:
-					config["texts"].append(weight_strings[weightBin])
-					config["texts_x"].append(0.52)
-					config["texts_y"].append(0.74)
-				if args.plot_with_shift:
-					config["texts"].append("#tau_{h} ES " + ("+" if (float(args.plot_with_shift)-1.0) >0 else "") + str((float(args.plot_with_shift)-1.0)*100) + "%")
-					config["texts_x"].append(0.52)
-					if weightBin > 0:
-						config["texts_y"].append(0.67)
-					else:
-						config["texts_y"].append(0.74)
-				config["texts_size"] = [0.055]
-				config["title"] = "channel_"+channel
-				
-				if not (config["output_dir"] in www_output_dirs_postfit):
-					www_output_dirs_postfit.append(config["output_dir"])
-				
-				postfit_plot_configs.append(config)
-	
-	higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+				for category in datacards_cbs[datacard].cp().bin_set():
 
+					channel = category.split("_")[0]
+					# if category not in datacard:
+					# 	continue
+					print(category)
+					bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
+					sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
+					print(bkg_process, sig_process)
+				
+					processes = bkg_process + sig_process
+					processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+					print(processes)
+					config = {}
+					config.setdefault("analysis_modules", []).extend(["SumOfHistograms"])
+					config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
+					config.setdefault("sum_scale_factors", []).append("1.0 1.0")
+					config.setdefault("sum_result_nicks", []).append("Total")
+				
+					processes_to_plot = list(processes)
+					processes = [p.replace("zl", "zl_noplot").replace("zj", "zj_noplot").replace("vvt", "vvt_noplot").replace("vvj", "vvj_noplot") for p in processes]
+					processes_to_plot = [p for p in processes if not "noplot" in p]
+					print(processes)
+					processes_to_plot.insert(1, "zll")
+					config["sum_nicks"].append("zl_noplot zj_noplot")
+					config["sum_scale_factors"].append("1.0 1.0")
+					config["sum_result_nicks"].append("zll")
+					processes_to_plot.insert(2, "ewk")
+					config["sum_nicks"].append("vvt_noplot vvj_noplot")
+					config["sum_scale_factors"].append("1.0 1.0")
+					config["sum_result_nicks"].append("ewk")
+					print(processes_to_plot)
+				
+					config["files"] = [postfit_shapes]
+					config["folders"] = [category+"_"+level]
+					config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
+					print([p.split("_")[0] if p not in ["qcd_prefit", "wj_mc_os"] else p for p in processes])
+					config["x_expressions"] = [p.split("_")[0] if p not in ["qcd_prefit", "wj_mc_os"] else p for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
+					config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"] + [""]
+					config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
+					config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
+					config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
+					config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
+				
+					config["y_label"] = "Events / bin"
+				
+					config.setdefault("analysis_modules", []).append("Ratio")
+					config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig", "data_obs"])
+					config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig"] * 2)
+					config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
+					config["ratio_denominator_no_errors"] = True
+					config.setdefault("colors", []).extend(["#000000 transgrey", "#000000"])
+					config.setdefault("markers", []).extend(["E2", "E"])
+					config.setdefault("legend_markers", []).extend(["F", "ELP"])
+					config.setdefault("labels", []).extend([""] * 2)
+					config.setdefault("stacks", []).extend(["unc", "ratio"])
+					config["legend"] = [0.7, 0.4, 0.92, 0.82]
+					config["y_subplot_lims"] = [0.5, 1.5]
+					config["y_subplot_label"] = "Obs./Exp."
+					config["subplot_grid"] = True
+				
+					config["energies"] = [13.0]
+					config["lumis"] = [float("%.1f" % args.lumi)]
+					if args.cms:
+						config["cms"] = True
+						config["extra_text"] = "Preliminary"
+					config["year"] = args.era
+					config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+					config["filename"] = level+"_"+category
+					if args.pdf:
+						config["formats"] = ["png", "pdf"]
+						config["texts_x"] = [0.52]
+						config["texts_y"] = [0.81]
+
+					config["texts_size"] = [0.055]
+					config["title"] = "channel_"+channel
+				
+					if not (config["output_dir"] in www_output_dirs_postfit):
+						www_output_dirs_postfit.append(config["output_dir"])
+				
+					postfit_plot_configs.append(config)
+	
+		higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+	sys.exit(0)
 	# Compute parabola from NLL scan and from here extract the best fit value and the uncertainties.
 	output_dict_mu, output_dict_errHi, output_dict_errLo = {}, {}, {}
 	output_dict_scan_mu, output_dict_scan_errHi, output_dict_scan_errLo = {}, {}, {}
