@@ -1,6 +1,8 @@
 var NAVTREEINDEX13 =
 {
-"estimateztt_8py.html#ab02d75f85312f95e39e337733877ccdd":[2,0,1,3,2,0,10,1],
+"estimatewjetsandqcd_8py.html#ab7e92da30b9fc3daf08c2c6ec3e78013":[2,0,1,3,2,0,7,1],
+"estimateztt_8py.html":[2,0,1,3,2,0,8],
+"estimateztt_8py.html#ab02d75f85312f95e39e337733877ccdd":[2,0,1,3,2,0,8,1],
 "expressions_8py.html":[2,0,1,3,0,4],
 "expressions_8py.html#a5fb9bc22f493589e246f741d36c6f2fe":[2,0,1,3,0,4,1],
 "files.html":[2,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX13 =
 "makePlots__BdtShiftLimits_8py.html#a99d7782a6213f57abd5ee7116f58ccc1":[2,0,2,28,37],
 "makePlots__BdtShiftLimits_8py.html#a9b49c90a75f382bbcc343dd711d4785b":[2,0,2,28,35],
 "makePlots__BdtShiftLimits_8py.html#aa26c0d7dfa3ef46935959a3d6b0eab3d":[2,0,2,28,32],
-"makePlots__BdtShiftLimits_8py.html#aa3747715953ea59592ab93ea2a6a0a85":[2,0,2,28,17],
-"makePlots__BdtShiftLimits_8py.html#aad29dbb45b91b3c8f2bde4c776ebd8a1":[2,0,2,28,31],
-"makePlots__BdtShiftLimits_8py.html#aaefc6566fe1770153f1c2c54db075ed8":[2,0,2,28,26]
+"makePlots__BdtShiftLimits_8py.html#aa3747715953ea59592ab93ea2a6a0a85":[2,0,2,28,17]
 };

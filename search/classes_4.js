@@ -17,7 +17,6 @@ var searchData=
   ['estimatebase',['EstimateBase',['../classestimatebase_1_1EstimateBase.html',1,'estimatebase']]],
   ['estimateff',['EstimateFF',['../classestimateff_1_1EstimateFF.html',1,'estimateff']]],
   ['estimateqcd',['EstimateQcd',['../classestimateqcd_1_1EstimateQcd.html',1,'estimateqcd']]],
-  ['estimateqcdprefit',['EstimateQcdPrefit',['../classestimateqcdprefit_1_1EstimateQcdPrefit.html',1,'estimateqcdprefit']]],
   ['estimateqcdtauhadtauhad',['EstimateQcdTauHadTauHad',['../classestimateqcdtauhadtauhad_1_1EstimateQcdTauHadTauHad.html',1,'estimateqcdtauhadtauhad']]],
   ['estimatettbar',['EstimateTtbar',['../classestimatettbar_1_1EstimateTtbar.html',1,'estimatettbar']]],
   ['estimatewjets',['EstimateWjets',['../classestimatewjets_1_1EstimateWjets.html',1,'estimatewjets']]],
