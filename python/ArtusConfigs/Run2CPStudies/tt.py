@@ -369,5 +369,6 @@ class tt_ArtusConfig(dict):
 		processorOrderingkey = processorOrdering.processors_ordered(channel = self["Channel"])
 		ordered_processors = processorOrderingkey.order_processors(self["Processors"]) 
 		self["Processors"] = copy.deepcopy(ordered_processors)
+		#processorOrderingkey.get_demon_processor(self["Processors"])
 
 
