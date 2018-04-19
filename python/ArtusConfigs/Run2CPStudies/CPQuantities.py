@@ -40,6 +40,7 @@ class quantities(run2_quantities.quantities):
 			
 		
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
+			self["Quantities"] += self.svfitSyncQuantities()
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genHiggsQuantities()
