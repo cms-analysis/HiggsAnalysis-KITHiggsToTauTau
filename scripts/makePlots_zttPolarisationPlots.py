@@ -112,7 +112,7 @@ if __name__ == "__main__":
 				config["x_bins"] = "2,-2,2"
 				config["x_label"] = ""
 				config["x_ticks"] = [-1.0, 1.0]
-				config["x_tick_labels"] = ["zttnegpol", "zttpospol"]
+				config["x_tick_labels"] = ["zttnegpol_large", "zttpospol_large"]
 				
 				if not "SumOfHistograms" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("SumOfHistograms")
@@ -124,7 +124,7 @@ if __name__ == "__main__":
 							
 				config["labels"] = ["Reconstruction", "Generator"]
 				config["colors"] = ["1", "2"]
-				config["markers"] = ["E", "LINE"]
+				config["markers"] = ["E", "LINE]["]
 				config["legend_markers"] = ["ELP", "L"]
 				config["legend"] = [0.25, 0.8, 0.85, 0.9]
 				config["legend_cols"] = 2
