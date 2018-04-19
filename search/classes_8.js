@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['jec',['JEC',['../classsettingsJEC_1_1JEC.html',1,'settingsJEC']]],
-  ['jecuncertaintysplit',['JECUncertaintySplit',['../classsettingsJECUncertaintySplit_1_1JECUncertaintySplit.html',1,'settingsJECUncertaintySplit']]],
   ['jecuncsplitsystematic',['JecUncSplitSystematic',['../classsystematics__run2_1_1JecUncSplitSystematic.html',1,'systematics_run2']]],
   ['jecuncsystematic',['JecUncSystematic',['../classsystematics__run2_1_1JecUncSystematic.html',1,'systematics_run2']]],
-  ['jet_5fid',['Jet_ID',['../classsettingsJetID_1_1Jet__ID.html',1,'settingsJetID']]],
   ['jetfaketaufracdyshapesystematic',['JetFakeTauFracDYShapeSystematic',['../classsystematics__run2_1_1JetFakeTauFracDYShapeSystematic.html',1,'systematics_run2']]],
   ['jetfaketaufracqcdshapesystematic',['JetFakeTauFracQCDShapeSystematic',['../classsystematics__run2_1_1JetFakeTauFracQCDShapeSystematic.html',1,'systematics_run2']]],
   ['jetfaketaufracttshapesystematic',['JetFakeTauFracTTShapeSystematic',['../classsystematics__run2_1_1JetFakeTauFracTTShapeSystematic.html',1,'systematics_run2']]],

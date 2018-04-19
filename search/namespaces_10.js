@@ -5,6 +5,5 @@ var searchData=
   ['tmvawrapper',['tmvaWrapper',['../namespacetmvaWrapper.html',1,'']]],
   ['tools',['tools',['../namespacetools.html',1,'']]],
   ['treemerge',['treemerge',['../namespacetreemerge.html',1,'']]],
-  ['triggerturnonparametrisation',['triggerTurnOnParametrisation',['../namespacetriggerTurnOnParametrisation.html',1,'']]],
-  ['tt',['tt',['../namespacett.html',1,'']]]
+  ['triggerturnonparametrisation',['triggerTurnOnParametrisation',['../namespacetriggerTurnOnParametrisation.html',1,'']]]
 ];
