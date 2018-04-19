@@ -58,6 +58,16 @@ void DiLeptonQuantitiesProducer::Init(setting_type const& settings, metadata_typ
 		return product.m_diLeptonGenSystem.mass() + (recoGenMassDiff * (1.0 - smearing));
 	});
 	
+	float mVisResCorrectionShift = settings.GetMVisResCorrectionShift();
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMassSmearUp_wPeakFit", [mVisResCorrectionShift](event_type const& event, product_type const& product) {
+		float mvisGenPeakFromFit = 91.10;
+		return mvisGenPeakFromFit + ((product.m_diLeptonSystem.mass() - mvisGenPeakFromFit)*(1.0 + mVisResCorrectionShift));
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMassSmearDown_wPeakFit", [mVisResCorrectionShift](event_type const& event, product_type const& product) {
+		float mvisGenPeakFromFit = 91.10;
+		return mvisGenPeakFromFit + ((product.m_diLeptonSystem.mass() - mvisGenPeakFromFit)*(1.0 - mVisResCorrectionShift));
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepMetPt", [](event_type const& event, product_type const& product) {
 		return product.m_diLeptonPlusMetSystem.Pt();
 	});
