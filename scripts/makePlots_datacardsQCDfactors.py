@@ -490,6 +490,13 @@ if __name__ == "__main__":
 
 					config["texts_size"] = [0.055]
 					config["title"] = "channel_"+channel
+					if not args.www is None:
+						config["www"] = os.path.join(
+								args.www,
+								channel if len(args.channels) > 1 else "",
+								"" if category is None else category
+						)
+
 				
 					if not (config["output_dir"] in www_output_dirs_postfit):
 						www_output_dirs_postfit.append(config["output_dir"])
