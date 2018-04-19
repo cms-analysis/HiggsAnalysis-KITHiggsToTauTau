@@ -32,7 +32,6 @@ var searchData=
   ['mumutriggerweightproducer',['MuMuTriggerWeightProducer',['../classMuMuTriggerWeightProducer.html#a85546c713c2cc2fc1bd53b51b998d61a',1,'MuMuTriggerWeightProducer']]],
   ['muontaufakerateweightproducer',['MuonTauFakeRateWeightProducer',['../classMuonTauFakeRateWeightProducer.html#a5ec8fe08d3c322ec95e5c94f58623654',1,'MuonTauFakeRateWeightProducer']]],
   ['mutautriggerweightproducer',['MuTauTriggerWeightProducer',['../classMuTauTriggerWeightProducer.html#a7e95706bb1ce355538c6a6f9f6800676',1,'MuTauTriggerWeightProducer']]],
-  ['mva',['MVA',['../namespaceMVAFlavio.html#a9d870e0de26a88358484b58e37b0721b',1,'MVAFlavio']]],
   ['mvametcorrector',['MvaMetCorrector',['../classMvaMetCorrector.html#a47eaa619a3fe249a952af75a783b452e',1,'MvaMetCorrector']]],
   ['mvametemselector',['MvaMetEMSelector',['../classMvaMetEMSelector.html#a6dac2018b394a3614c6fe6919bdbc421',1,'MvaMetEMSelector']]],
   ['mvametetselector',['MvaMetETSelector',['../classMvaMetETSelector.html#afe22d385da68fb3ebd28bea8a81d9491',1,'MvaMetETSelector']]],

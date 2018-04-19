@@ -1,7 +1,7 @@
 var searchData=
 [
   ['parse_5ftable',['parse_table',['../namespacesignal__xsecs.html#a8680f560eb36c14b490e19584c2114ac',1,'signal_xsecs']]],
-  ['parser',['parser',['../namespaceLepFlaVio.html#af749086a486402f5888734df539822d1',1,'LepFlaVio']]],
+  ['parser',['parser',['../namespaceLepFlaVio.html#af749086a486402f5888734df539822d1',1,'LepFlaVio.parser()'],['../namespaceMVAFlavio.html#ab7eb70cb2f7ec06a7072922fc206903b',1,'MVAFlavio.parser()']]],
   ['phitransform',['PhiTransform',['../classCPQuantities.html#a5e9cd0d191719349777eb5d8b5bc919c',1,'CPQuantities']]],
   ['plot',['plot',['../classhiggsplot_1_1HiggsPlotter.html#a03c9a9e3b06818d73d061665c1a7f9c3',1,'higgsplot::HiggsPlotter']]],
   ['plot1dscan',['plot1DScan',['../classdatacards_1_1Datacards.html#a784018b7a429e2b988b4514ae3c59f45',1,'datacards::Datacards']]],
