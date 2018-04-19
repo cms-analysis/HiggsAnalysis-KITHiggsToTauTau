@@ -21,7 +21,6 @@ var searchData=
   ['higgsplotter',['HiggsPlotter',['../classhiggsplot_1_1HiggsPlotter.html',1,'higgsplot']]],
   ['higgstotautauanalysis',['HiggsToTauTauAnalysis',['../namespaceHiggsToTauTauAnalysis.html',1,'']]],
   ['higgstotautauanalysis_2epy',['HiggsToTauTauAnalysis.py',['../HiggsToTauTauAnalysis_8py.html',1,'']]],
-  ['higgstotautauanalysiswrapper',['HiggsToTauTauAnalysisWrapper',['../classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html',1,'higgstotautauanalysiswrapper']]],
   ['higgstotautauanalysiswrapper',['higgstotautauanalysiswrapper',['../namespacehiggstotautauanalysiswrapper.html',1,'higgstotautauanalysiswrapper'],['../namespaceHiggsToTauTauAnalysis.html#a26a5431edce8c8db8e4554fbc51ec683',1,'HiggsToTauTauAnalysis.higgsToTauTauAnalysisWrapper()']]],
   ['higgstotautauanalysiswrapper_2epy',['higgstotautauanalysiswrapper.py',['../higgstotautauanalysiswrapper_8py.html',1,'']]],
   ['highedge',['highEdge',['../namespacemakePlots__tauEsStudies.html#ad1b40dd12aecc521c85859820b28d982',1,'makePlots_tauEsStudies']]],

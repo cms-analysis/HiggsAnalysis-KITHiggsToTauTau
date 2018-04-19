@@ -56,7 +56,7 @@ var annotated =
     [ "higgsparser", "namespacehiggsparser.html", "namespacehiggsparser" ],
     [ "higgsplot", "namespacehiggsplot.html", "namespacehiggsplot" ],
     [ "HiggsToTauTauAnalysis", "namespaceHiggsToTauTauAnalysis.html", null ],
-    [ "higgstotautauanalysiswrapper", "namespacehiggstotautauanalysiswrapper.html", "namespacehiggstotautauanalysiswrapper" ],
+    [ "higgstotautauanalysiswrapper", "namespacehiggstotautauanalysiswrapper.html", null ],
     [ "IncludeQuantities", "namespaceIncludeQuantities.html", null ],
     [ "initialstatecpstudiesdatacards", "namespaceinitialstatecpstudiesdatacards.html", "namespaceinitialstatecpstudiesdatacards" ],
     [ "inputroothtt", "namespaceinputroothtt.html", "namespaceinputroothtt" ],

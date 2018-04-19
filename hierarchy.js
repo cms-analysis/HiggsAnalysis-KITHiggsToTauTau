@@ -19,9 +19,6 @@ var hierarchy =
       [ "weakmixinganglefrompolarisation.WeakMixingAngleFromPolarisation", "classweakmixinganglefrompolarisation_1_1WeakMixingAngleFromPolarisation.html", null ]
     ] ],
     [ "LepFlaVio.Analysismodule", "classLepFlaVio_1_1Analysismodule.html", null ],
-    [ "ArtusWrapper", null, [
-      [ "higgstotautauanalysiswrapper.HiggsToTauTauAnalysisWrapper", "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html", null ]
-    ] ],
     [ "Baseconfig", null, [
       [ "baseconfigCP.Baseconfig_cp", "classbaseconfigCP_1_1Baseconfig__cp.html", null ]
     ] ],
@@ -392,10 +389,10 @@ var hierarchy =
       ] ],
       [ "ZPtReweightProducer", "classZPtReweightProducer.html", null ]
     ] ],
+    [ "Quantities", "classQuantities.html", null ],
     [ "quantities", null, [
       [ "CPQuantities.quantities", "classCPQuantities_1_1quantities.html", null ]
     ] ],
-    [ "Quantities", "classQuantities.html", null ],
     [ "RecoilCorrector", "classRecoilCorrector.html", null ],
     [ "Samples", null, [
       [ "samples_ff.Samples", "classsamples__ff_1_1Samples.html", null ],

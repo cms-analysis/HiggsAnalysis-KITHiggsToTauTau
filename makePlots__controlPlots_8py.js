@@ -14,6 +14,7 @@ var makePlots__controlPlots_8py =
     [ "channel", "makePlots__controlPlots_8py.html#aaea02a48032ae560e43a38a2f236de25", null ],
     [ "channel_config", "makePlots__controlPlots_8py.html#a09a55bbd35e20467053dd9047243d324", null ],
     [ "channels_background_methods", "makePlots__controlPlots_8py.html#af93d2f7668ef8cba68380631c682d48e", null ],
+    [ "choices", "makePlots__controlPlots_8py.html#a352a5ef75764ddd9997eb68ccd6e835f", null ],
     [ "config", "makePlots__controlPlots_8py.html#a26f8535390217cf8f3888c75f31391a9", null ],
     [ "cut_type", "makePlots__controlPlots_8py.html#a41ff5c6c9db39bd0fc238dbafd7664df", null ],
     [ "default", "makePlots__controlPlots_8py.html#a42289c3988df4eb294586a5de91494c6", null ],
