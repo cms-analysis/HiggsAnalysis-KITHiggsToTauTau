@@ -1,5 +1,7 @@
 var NAVTREEINDEX12 =
 {
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#af2fd9e368625e17b9ccf6018a7ce6c94":[2,0,2,5,4],
+"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#af93fae0ffd921501d6c32b88e6d9fd51":[2,0,2,5,9],
 "correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#afb8f13022c3adb0febf7a246396477fd":[2,0,2,5,3],
 "correctionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__LooseRelIso_8py.html":[2,0,2,6],
 "correctionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__LooseRelIso_8py.html#a0063ccbad73f768e1ef2ea750bdb52f5":[2,0,2,6,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX12 =
 "embedding__plot__bib_8py.html#a3661ac7dcfbe8a6932fbdb8d072b63bf":[2,0,2,17,21],
 "embedding__plot__bib_8py.html#a457430f8291dc13c9bb9f8233c529d7f":[2,0,2,17,10],
 "embedding__plot__bib_8py.html#a49cd53ef611ebf0fd22c63c002d1c9a6":[2,0,2,17,7],
-"embedding__plot__bib_8py.html#a5256bbdd6bd1e2d799ff308be23abbe7":[2,0,2,17,27],
-"embedding__plot__bib_8py.html#a5b0fa0fb8d0aaa000040ec785a9508a1":[2,0,2,17,3],
-"embedding__plot__bib_8py.html#a615b3c2a2b97d0b705ccda3480893027":[2,0,2,17,23]
+"embedding__plot__bib_8py.html#a5256bbdd6bd1e2d799ff308be23abbe7":[2,0,2,17,27]
 };
