@@ -1,5 +1,6 @@
 var NAVTREEINDEX13 =
 {
+"estimatewjets_8py.html":[2,0,1,3,2,0,6],
 "estimatewjets_8py.html#af1eb9dbea5faef52b5e5c0834e837144":[2,0,1,3,2,0,6,1],
 "estimatewjetsandqcd_8py.html":[2,0,1,3,2,0,7],
 "estimatewjetsandqcd_8py.html#ab7e92da30b9fc3daf08c2c6ec3e78013":[2,0,1,3,2,0,7,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX13 =
 "makePlots__BdtShiftLimits_8py.html#a7c30ddf757ebdf67221cca8bd7859ad9":[2,0,2,28,13],
 "makePlots__BdtShiftLimits_8py.html#a857e7b1446285b8367fab4e3ac49b161":[2,0,2,28,41],
 "makePlots__BdtShiftLimits_8py.html#a933c78255ae765615e724ce21911378f":[2,0,2,28,36],
-"makePlots__BdtShiftLimits_8py.html#a99d7782a6213f57abd5ee7116f58ccc1":[2,0,2,28,37],
-"makePlots__BdtShiftLimits_8py.html#a9b49c90a75f382bbcc343dd711d4785b":[2,0,2,28,35]
+"makePlots__BdtShiftLimits_8py.html#a99d7782a6213f57abd5ee7116f58ccc1":[2,0,2,28,37]
 };

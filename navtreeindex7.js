@@ -1,5 +1,6 @@
 var NAVTREEINDEX7 =
 {
+"classRooWorkspaceWeightProducer.html#a40f7cc577a5dbf0504fc9f3c1670a0a2":[1,0,280,2],
 "classRooWorkspaceWeightProducer.html#a6a2e96c455f4035cf3c1ecfda323eb78":[1,0,280,0],
 "classRooWorkspaceWeightProducer.html#a86459d83cde20d84a09f7be5c184ba47":[1,0,280,1],
 "classRooWorkspaceWeightProducer.html#a9fcf58750dfbf0cfbca6b4a61e57f2c6":[1,0,280,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX7 =
 "classTauTauTriggerScaleFactorProducer.html#a8a91047ac7da1cbb48177e212617d361":[1,0,309,0],
 "classTauTauTriggerScaleFactorProducer.html#a902203f3270c214095376e5d0df162d0":[1,0,309,1],
 "classTauTauTriggerWeightProducer.html":[1,0,310],
-"classTauTauTriggerWeightProducer.html#a122d0374980a320298b6cc4b5a84a755":[1,0,310,0],
-"classTauTauTriggerWeightProducer.html#acea6bd34d07bef650fd48e5535ea0166":[1,0,310,2]
+"classTauTauTriggerWeightProducer.html#a122d0374980a320298b6cc4b5a84a755":[1,0,310,0]
 };

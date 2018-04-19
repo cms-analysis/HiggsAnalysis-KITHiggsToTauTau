@@ -1,5 +1,6 @@
 var NAVTREEINDEX24 =
 {
+"scaleVariations__ZttOverZmumu_8py.html#a1b5d2c07b6781e97a981568ff847a1ed":[2,0,2,88,31],
 "scaleVariations__ZttOverZmumu_8py.html#a219eea047ba8f3b8db1c67df9d73bcbc":[2,0,2,88,10],
 "scaleVariations__ZttOverZmumu_8py.html#a247f46fcb414b761d33d8d5ce9209678":[2,0,2,88,20],
 "scaleVariations__ZttOverZmumu_8py.html#a27ff91fa7a028e2416dde8a3c0d57f47":[2,0,2,88,2],

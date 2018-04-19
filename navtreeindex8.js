@@ -1,5 +1,6 @@
 var NAVTREEINDEX8 =
 {
+"classTauTauTriggerWeightProducer.html#acea6bd34d07bef650fd48e5535ea0166":[1,0,310,2],
 "classTauTauTriggerWeightProducer.html#adac32370050277ab831ce6db2a957e8d":[1,0,310,1],
 "classTopPtReweightingProducer.html":[1,0,311],
 "classTopPtReweightingProducer.html#a3681934df5c0df3260d894df2a46b790":[1,0,311,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX8 =
 "classestimateqcd_1_1EstimateQcd.html#a8a6ceef522307b810f1cce09afb68f2b":[1,0,34,0,0],
 "classestimateqcd_1_1EstimateQcd.html#aaec79f2fc3e471b666e9063d9ae62bc5":[1,0,34,0,4],
 "classestimateqcd_1_1EstimateQcd.html#ab545e0dfb20c9d02980c55085592d071":[1,0,34,0,3],
-"classestimateqcd_1_1EstimateQcd.html#ad1edb88d3616fbfa403036e01c9dd530":[1,0,34,0,2],
-"classestimateqcdtauhadtauhad_1_1EstimateQcdTauHadTauHad.html":[1,0,35,0]
+"classestimateqcd_1_1EstimateQcd.html#ad1edb88d3616fbfa403036e01c9dd530":[1,0,34,0,2]
 };

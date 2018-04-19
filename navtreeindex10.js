@@ -1,5 +1,6 @@
 var NAVTREEINDEX10 =
 {
+"classsamples__run2__2016_1_1Samples.html#a7386ff2ff5b7ffee5779e89e46454b0c":[1,0,131,0,79],
 "classsamples__run2__2016_1_1Samples.html#a73ed53b283a71e2fe64e8929101685ce":[1,0,131,0,12],
 "classsamples__run2__2016_1_1Samples.html#a7480ec45c4875fbb6d80a5c91fba7a59":[1,0,131,0,82],
 "classsamples__run2__2016_1_1Samples.html#a74ad3b58aa8d624f7f084935c4a2fb42":[1,0,131,0,17],
@@ -248,6 +249,5 @@ var NAVTREEINDEX10 =
 "classsystematics__run2_1_1TTBarShapeSystematic.html#abd5100bac0e581f2afdb852867634945":[1,0,149,9,0],
 "classsystematics__run2_1_1TagEleEsSystematic.html":[1,0,149,25],
 "classsystematics__run2_1_1TagEleEsSystematic.html#ac7f0c23130320e67c794fab3156f211f":[1,0,149,25,0],
-"classsystematics__run2_1_1TauDMRecoOneProngPiZerosSystematic.html":[1,0,149,39],
-"classsystematics__run2_1_1TauDMRecoOneProngPiZerosSystematic.html#a9ee591d08b3ff6c99b0daba44420c496":[1,0,149,39,0]
+"classsystematics__run2_1_1TauDMRecoOneProngPiZerosSystematic.html":[1,0,149,39]
 };

@@ -1,5 +1,6 @@
 var NAVTREEINDEX6 =
 {
+"classHttValidTaggedJetsProducer.html#a52160fd334e90f431a142b41f203eb45":[1,0,226,7],
 "classHttValidTaggedJetsProducer.html#a73f48f12711a153748ecd9f5da611fb6":[1,0,226,8],
 "classHttValidTaggedJetsProducer.html#a95e02c3a94940ce84957fe4cb679a9b2":[1,0,226,4],
 "classHttValidTaggedJetsProducer.html#aaf69d5b37684a121c6bf3651ece90d0c":[1,0,226,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX6 =
 "classRooWorkspaceWeightProducer.html":[1,0,280],
 "classRooWorkspaceWeightProducer.html#a1b8f4af2c116a1b0e0eb25fbe46598e4":[1,0,280,6],
 "classRooWorkspaceWeightProducer.html#a2e44c1348d34ed37d73fd5cad356f28a":[1,0,280,8],
-"classRooWorkspaceWeightProducer.html#a3b734d1238bd91580f7f86ba5e11f4ff":[1,0,280,7],
-"classRooWorkspaceWeightProducer.html#a40f7cc577a5dbf0504fc9f3c1670a0a2":[1,0,280,2]
+"classRooWorkspaceWeightProducer.html#a3b734d1238bd91580f7f86ba5e11f4ff":[1,0,280,7]
 };
