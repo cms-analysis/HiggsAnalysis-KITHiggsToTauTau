@@ -620,6 +620,7 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("againstElectronVTightMVA6");
 	tauDiscriminators.push_back("againstMuonLoose3");
 	tauDiscriminators.push_back("againstMuonTight3");
+	// 2016 training for skims of 2016 samples before April 2018
 	tauDiscriminators.push_back("byIsolationMVArun2v1DBoldDMwLTraw");
 	tauDiscriminators.push_back("byVVLooseIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byVLooseIsolationMVArun2v1DBoldDMwLT");
@@ -628,14 +629,34 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("byTightIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byVTightIsolationMVArun2v1DBoldDMwLT");
 	tauDiscriminators.push_back("byVVTightIsolationMVArun2v1DBoldDMwLT");
-	tauDiscriminators.push_back("byIsolationMVArun2v1DBoldDMwLTraw");
-	tauDiscriminators.push_back("byVVLooseIsolationMVArun2v1DBoldDMwLTnew");
-	tauDiscriminators.push_back("byVLooseIsolationMVArun2v1DBoldDMwLTnew");
-	tauDiscriminators.push_back("byLooseIsolationMVArun2v1DBoldDMwLTnew");
-	tauDiscriminators.push_back("byMediumIsolationMVArun2v1DBoldDMwLTnew");
-	tauDiscriminators.push_back("byTightIsolationMVArun2v1DBoldDMwLTnew");
-	tauDiscriminators.push_back("byVTightIsolationMVArun2v1DBoldDMwLTnew");
-	tauDiscriminators.push_back("byVVTightIsolationMVArun2v1DBoldDMwLTnew");
+	// 2017v1_oldDM training for Fall 17 skims after April 2018
+	tauDiscriminators.push_back("byIsolationMVArun2017v1DBoldDMwLTraw2017");
+	tauDiscriminators.push_back("byVVLooseIsolationMVArun2017v1DBoldDMwLT2017");
+	tauDiscriminators.push_back("byVLooseIsolationMVArun2017v1DBoldDMwLT2017");
+	tauDiscriminators.push_back("byLooseIsolationMVArun2017v1DBoldDMwLT2017");
+	tauDiscriminators.push_back("byMediumIsolationMVArun2017v1DBoldDMwLT2017");
+	tauDiscriminators.push_back("byTightIsolationMVArun2017v1DBoldDMwLT2017");
+	tauDiscriminators.push_back("byVTightIsolationMVArun2017v1DBoldDMwLT2017");
+	tauDiscriminators.push_back("byVVTightIsolationMVArun2017v1DBoldDMwLT2017");
+	// 2017v2_oldDM training for Fall 17 skims after April 2018
+	tauDiscriminators.push_back("byIsolationMVArun2017v2DBoldDMwLTraw2017");
+	tauDiscriminators.push_back("byVVLooseIsolationMVArun2017v2DBoldDMwLT2017");
+	tauDiscriminators.push_back("byVLooseIsolationMVArun2017v2DBoldDMwLT2017");
+	tauDiscriminators.push_back("byLooseIsolationMVArun2017v2DBoldDMwLT2017");
+	tauDiscriminators.push_back("byMediumIsolationMVArun2017v2DBoldDMwLT2017");
+	tauDiscriminators.push_back("byTightIsolationMVArun2017v2DBoldDMwLT2017");
+	tauDiscriminators.push_back("byVTightIsolationMVArun2017v2DBoldDMwLT2017");
+	tauDiscriminators.push_back("byVVTightIsolationMVArun2017v2DBoldDMwLT2017");
+	// 2017v2_newDM training for Fall 17 skims after April 2018
+	tauDiscriminators.push_back("byIsolationMVArun2017v2DBnewDMwLTraw2017");
+	tauDiscriminators.push_back("byVVLooseIsolationMVArun2017v2DBnewDMwLT2017");
+	tauDiscriminators.push_back("byVLooseIsolationMVArun2017v2DBnewDMwLT2017");
+	tauDiscriminators.push_back("byLooseIsolationMVArun2017v2DBnewDMwLT2017");
+	tauDiscriminators.push_back("byMediumIsolationMVArun2017v2DBnewDMwLT2017");
+	tauDiscriminators.push_back("byTightIsolationMVArun2017v2DBnewDMwLT2017");
+	tauDiscriminators.push_back("byVTightIsolationMVArun2017v2DBnewDMwLT2017");
+	tauDiscriminators.push_back("byVVTightIsolationMVArun2017v2DBnewDMwLT2017");
+	// 2017v1 training used in skim on 2018-02-13
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1raw");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVLoose");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VLoose");
@@ -645,6 +666,7 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VTight");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
+	// 2016 training for skims of 2016 samples before April 2018
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1raw");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Loose");
@@ -652,23 +674,7 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Tight");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VTight");
 	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v1raw");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v1VVLoose");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v1VLoose");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v1Loose");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v1Medium");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v1Tight");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v1VTight");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v1VVTight");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v2raw");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v2VVLoose");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v2VLoose");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v2Loose");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v2Medium");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v2Tight");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v2VTight");
-	tauDiscriminators.push_back("rerunDiscriminationByIsolationOldDMMVArun2017v2VVTight");
+	// -------
 	tauDiscriminators.push_back("chargedIsoPtSum");
 	tauDiscriminators.push_back("decayModeFinding");
 	tauDiscriminators.push_back("decayModeFindingNewDMs");
