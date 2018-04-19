@@ -6,6 +6,5 @@ var searchData=
   ['plot_5fovertraining',['plot_overtraining',['../namespaceplot__overtraining.html',1,'']]],
   ['plotroothtt',['plotroothtt',['../namespaceplotroothtt.html',1,'']]],
   ['printlatex_5fbdt',['printLaTeX_BDT',['../namespaceprintLaTeX__BDT.html',1,'']]],
-  ['processorordering',['processorOrdering',['../namespaceprocessorOrdering.html',1,'']]],
   ['pullvalues',['pullvalues',['../namespacepullvalues.html',1,'']]]
 ];

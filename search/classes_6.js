@@ -2,6 +2,7 @@ var searchData=
 [
   ['higgsparser',['HiggsParser',['../classhiggsparser_1_1HiggsParser.html',1,'higgsparser']]],
   ['higgsplotter',['HiggsPlotter',['../classhiggsplot_1_1HiggsPlotter.html',1,'higgsplot']]],
+  ['higgstotautauanalysiswrapper',['HiggsToTauTauAnalysisWrapper',['../classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html',1,'higgstotautauanalysiswrapper']]],
   ['httelectroncorrectionsproducer',['HttElectronCorrectionsProducer',['../classHttElectronCorrectionsProducer.html',1,'']]],
   ['httenumtypes',['HttEnumTypes',['../classHttEnumTypes.html',1,'']]],
   ['httevent',['HttEvent',['../classHttEvent.html',1,'']]],
