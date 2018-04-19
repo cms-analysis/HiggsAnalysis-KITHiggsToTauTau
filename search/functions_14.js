@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['weightquantities',['weightQuantities',['../classCPQuantities_1_1quantities.html#a7d50723f097bb2f2efc225f58c22a6b0',1,'CPQuantities.quantities.weightQuantities()'],['../namespaceIncludeQuantities.html#af3a2570d115203c90325bb518a3e8bd0',1,'IncludeQuantities.weightQuantities()'],['../namespaceRun2CPQuantities.html#a6f263e65b4898b6c0b97e345c020ff7b',1,'Run2CPQuantities.weightQuantities()']]],
   ['wgamma_5fstitchingweight',['wgamma_stitchingweight',['../classsamples__run2__2016_1_1Samples.html#a2bec54e1c660d352d409bca780ec5dad',1,'samples_run2_2016::Samples']]],
   ['wh',['wh',['../classsamples__run2__2016_1_1Samples.html#a7386ff2ff5b7ffee5779e89e46454b0c',1,'samples_run2_2016::Samples']]],
   ['wireevent',['WireEvent',['../classHttEventProvider.html#a6f1f9729b3200ed6af1bec40ddae060a',1,'HttEventProvider']]],
