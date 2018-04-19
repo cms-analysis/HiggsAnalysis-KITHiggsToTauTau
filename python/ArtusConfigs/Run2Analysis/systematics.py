@@ -31,7 +31,7 @@ class Systematics_Config(dict):
 
 
 	#for each systematic shift if statement which changes the config accordingly
-	def build_systematic_config(self, nickname, systematic):
+	def build_systematic_config(self, nickname, systematic, *args, **kwargs):
 		log.debug("SYST=", systematic)
 		if re.search("Run201", nickname) == False:    #data has no systematic
 			#I dont remember why I did this, it looks wrong if re.search("JetEnergyCorrectionSplitUncertainty", nickname):

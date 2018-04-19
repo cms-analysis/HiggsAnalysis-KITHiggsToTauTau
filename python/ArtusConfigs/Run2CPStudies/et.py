@@ -32,7 +32,7 @@ class et_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def build_config(self, nickname): #Maybe change this the arguments to process/year and DATA/MC
+	def build_config(self, nickname, *args, **kwargs): #Maybe change this the arguments to process/year and DATA/MC
 		"""
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",
@@ -257,10 +257,6 @@ class et_ArtusConfig(dict):
 		self.update(copy.deepcopy(quantities_dict))
 		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 
-
-
-
-
 		self["Processors"] = [
 				"producer:HltProducer",
 				"filter:HltFilter",
@@ -292,12 +288,6 @@ class et_ArtusConfig(dict):
 				"producer:DiJetQuantitiesProducer",
 				]
 		
-
-
-			
-
-			
-
 		if re.search("(Spring16|Summer16|Run2016)", nickname):
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
@@ -319,7 +309,6 @@ class et_ArtusConfig(dict):
 
 				self["Processors"] += ["producer:MELAProducer"]
 				self["Processors"] += ["producer:MELAM125Producer"]
-
 
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
@@ -349,8 +338,6 @@ class et_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
 			
-
-
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 						self["Processors"] += ["producer:ZPtReweightProducer"]			
 
@@ -398,7 +385,6 @@ class et_ArtusConfig(dict):
 
 				#self["Processors"] += ["producer:MELAProducer"]
 				#self["Processors"] += ["producer:MELAM125Producer"]
-
 			else:
 				self["Processors"] += ["producer:MvaMetCorrector"]
 				self["Processors"] += ["producer:MetCorrector"]
@@ -406,9 +392,7 @@ class et_ArtusConfig(dict):
 				self["Processors"] += [
 					"producer:EleTauFakeRateWeightProducer"
 				]
-
 				if re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
-
 					self["Processors"] += ["producer:ZPtReweightProducer"]			
 					#self["Processors"] += ["producer:SimpleFitProducer"]
 					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -421,8 +405,6 @@ class et_ArtusConfig(dict):
 
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
-
-
 
 				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]

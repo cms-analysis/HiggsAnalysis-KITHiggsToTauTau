@@ -35,7 +35,7 @@ class mt_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def build_config(self, nickname):                #Maybe change this the arguments to process/year and DATA/MC
+	def build_config(self, nickname, *args, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
 		"""
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",
@@ -445,9 +445,7 @@ class mt_ArtusConfig(dict):
 
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
-			
-
-
+	
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 						self["Processors"] += ["producer:ZPtReweightProducer"]			
 
@@ -472,7 +470,6 @@ class mt_ArtusConfig(dict):
 						self["Processors"] += ["producer:SimpleFitProducer"]				
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 						
-				
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 		elif re.search("(Fall15|Run2015)", nickname):
@@ -532,19 +529,9 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
 
-
-
-
-				
-					
-
-
 		self["Processors"] += ["producer:EventWeightProducer"]
 		self["Processors"] = list(set(self["Processors"]))
 		processorOrderingkey = processorOrdering.processors_ordered(channel = self["Channel"])
 		ordered_processors = processorOrderingkey.order_processors(self["Processors"]) 
 		self["Processors"] = copy.deepcopy(ordered_processors)
-
-		
-		
 

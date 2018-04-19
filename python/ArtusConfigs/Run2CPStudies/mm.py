@@ -29,7 +29,7 @@ class mm_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def build_config(self, nickname):                #Maybe change this the arguments to process/year and DATA/MC
+	def build_config(self, nickname, *args, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
 
 		"""
 		"include" : [
@@ -275,8 +275,6 @@ class mm_ArtusConfig(dict):
 		self.update(copy.deepcopy(quantities_dict))
 		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 
-
-		
 		self["OSChargeLeptons"] = True
 		if re.search("(Fall15MiniAODv2|Run2015)", nickname):
 			self["MuonEnergyCorrection"] = "rochcorr2015"

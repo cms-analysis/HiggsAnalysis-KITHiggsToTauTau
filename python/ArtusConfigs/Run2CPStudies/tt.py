@@ -30,7 +30,7 @@ class tt_ArtusConfig(dict):
 	def __init__(self):
 		pass	
 
-	def build_config(self, nickname):                #Maybe change this the arguments to process/year and DATA/MC
+	def build_config(self, nickname, *args, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
 		
 		#Change this json config files as well?
 		"""
@@ -183,8 +183,6 @@ class tt_ArtusConfig(dict):
 						"nDiTauPairCandidates",
 						 "nAllDiTauPairCandidates"
 					]
-
-		
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
@@ -227,8 +225,6 @@ class tt_ArtusConfig(dict):
 				
 				]
 		
-			
-
 		if re.search("(Spring16|Summer16|Run2016)", nickname):
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]

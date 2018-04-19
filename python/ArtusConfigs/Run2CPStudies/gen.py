@@ -20,7 +20,7 @@ class gen_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def build_config(self, nickname):
+	def build_config(self, nickname, *args, **kwargs):
 
 		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)

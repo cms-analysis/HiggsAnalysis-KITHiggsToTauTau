@@ -31,7 +31,7 @@ class em_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def build_config(self, nickname): #Maybe change this the arguments to process/year and DATA/MC
+	def build_config(self, nickname, *args, **kwargs): #Maybe change this the arguments to process/year and DATA/MC
 
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used

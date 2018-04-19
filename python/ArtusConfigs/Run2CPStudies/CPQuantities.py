@@ -16,16 +16,13 @@ class quantities(run2_quantities.quantities):
 		self["Quantities"]=[]
 	def build_quantities(self, nickname, *args, **kwargs):
 		
-		
 		self["Quantities"] += self.fourVectorQuantities()
 		self["Quantities"] += self.syncQuantities()
 		self["Quantities"] += self.weightQuantities()
 
-
 		if re.search("Run2015", nickname):  					
 			self["Quantities"] += self.recoPolarisationQuantities() 	
 			
-		
 		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()	 
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
@@ -48,7 +45,6 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
 			
-
 		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Quantities"] += self.recoPolarisationQuantities()
 			
@@ -78,7 +74,6 @@ class quantities(run2_quantities.quantities):
 				self["Quantities"] += self.recoCPQuantities()
 			elif kwargs.get("channel", None) == "EM":
 				self["Quantities"] += self.recoCPQuantities()
-			
 		else:
 			self["Quantities"] += self.svfitSyncQuantities()
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
@@ -88,8 +83,7 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.recoPolarisationQuantitiesSvfit()
 
 
-
-	def genCPQuantities(self):    #TODO Is this really used, very similar to matchedcpquantities
+	def genCPQuantities(self, *args, **kwargs):    #TODO Is this really used, very similar to matchedcpquantities
 		return [
 			#"1genBosonDaughterSize",
 			#"1genBoson1DaughterPt",
@@ -246,7 +240,7 @@ class quantities(run2_quantities.quantities):
 			"genZs"
 		]
 
-	def genHiggsQuantities(self):
+	def genHiggsQuantities(self, *args, **kwargs):
 		return [
 			"lheSignedDiJetDeltaPhi",
 			"lheDiJetAbsDeltaEta",
@@ -264,7 +258,7 @@ class quantities(run2_quantities.quantities):
 			"lheParticleBoson1PdgId"
 		]
 
-	def genMatchedCPQuantities(self):
+	def genMatchedCPQuantities(self, *args, **kwargs):
 		return [
 			#"1genBosonDaughterSize",
 			#"1genBoson1DaughterPt",
@@ -422,7 +416,7 @@ class quantities(run2_quantities.quantities):
 			"d0s_dist"
 		]
 
-	def genQuantities(self):
+	def genQuantities(self, *args, **kwargs):
 		return [
 			"genBosonLV",
 			"genBosonParticleFound",
@@ -453,7 +447,7 @@ class quantities(run2_quantities.quantities):
 			"npartons"
 		]
 
-	def genQuantitiesLFV(self):
+	def genQuantitiesLFV(self, *args, **kwargs):
 		return [
 			"genBosonLV",
 			"genBosonParticleFound",
@@ -502,7 +496,7 @@ class quantities(run2_quantities.quantities):
 			"LHE_p_2"
 		]
 
-	def recoCPQuantities(self):
+	def recoCPQuantities(self, *args, **kwargs):
 		return [
 			"thePVx",
 			"thePVy",
@@ -709,7 +703,7 @@ class quantities(run2_quantities.quantities):
 			"d0s_dist"
 		]
 
-	def recoCPQuantitiesHiggs(self):
+	def recoCPQuantitiesHiggs(self, *args, **kwargs):
 		return [
 			"madGraphLheParticle1LV",
 			"madGraphLheParticle2LV",
@@ -727,7 +721,7 @@ class quantities(run2_quantities.quantities):
 			"lheParticleJetNumber"
 		]
 
-	def recoPolarisationQuantities(self):
+	def recoPolarisationQuantities(self, *args, **kwargs):
 		return [
 			"lep1SumChargedHadronsLV",
 			"lep1SumNeutralHadronsLV",
@@ -824,7 +818,7 @@ class quantities(run2_quantities.quantities):
 			#"polarisationCombinedOmegaVisibleHHKinFit"
 		]
 
-	def recoPolarisationQuantitiesSvfit(self):
+	def recoPolarisationQuantitiesSvfit(self, *args, **kwargs):
 		return [
 			"polarisationOmegaSvfit_1",
 			"polarisationOmegaSvfit_2",
@@ -847,7 +841,7 @@ class quantities(run2_quantities.quantities):
 			"polarisationCombinedOmegaVisibleSvfitM91"
 		]
 
-	def weightQuantities(self):
+	def weightQuantities(self, *args, **kwargs):
 		return [
 			"hltWeight",
 			"triggerWeight_1",
@@ -919,7 +913,7 @@ class quantities(run2_quantities.quantities):
 			"madGraphWeightSample",
 			"madGraphWeightInvSample"]
 
-	def melaQuantities(self):
+	def melaQuantities(self, *args, **kwargs):
 		return [
 			"melaProbCPEvenGGH",
 			"melaProbCPOddGGH",
