@@ -6,13 +6,12 @@ log = logging.getLogger(__name__)
 
 import re
 import pprint
-import cmd
+
 
 class processors_ordered(dict):
 
 	def __init__(self, *args, **kwargs):
 		self.create_sorting_keydict(self, *args, **kwargs)
-
 
 	def create_sorting_keydict(self, *args, **kwargs):
 		self["producer:HltProducer"] = 0
@@ -41,11 +40,8 @@ class processors_ordered(dict):
 
 			self["producer:ValidMTPairCandidatesProducer"] = 50
 			self["filter:ValidDiTauPairCandidatesFilter"] = 51
-
 			self["producer:HttValidVetoMuonsProducer"] = 60
-
 			self["producer:HttValidLooseElectronsProducer"] = 70
-
 			self["producer:HttValidLooseMuonsProducer"] = 80
 
 		if kwargs.get("channel", None) == "TT":
@@ -84,7 +80,6 @@ class processors_ordered(dict):
 			self["producer:ValidTausProducer"] = 40
 
 			self["producer:ValidEMPairCandidatesProducer"] = 50
-
 			self["filter:ValidDiTauPairCandidatesFilter"] = 60
 			self["producer:HttValidLooseElectronsProducer"] = 70
 			self["producer:HttValidLooseMuonsProducer"] = 80
@@ -109,12 +104,6 @@ class processors_ordered(dict):
 			self["producer:HttValidVetoElectronsProducer"] = 70
 			self["producer:HttValidLooseElectronsProducer"] = 80
 			self["producer:HttValidLooseMuonsProducer"] = 90
-
-
-					
-
-
-			#double check if from here there are no differences between channel
 			
 
 		self["producer:Run2DecayChannelProducer"] = 100
@@ -162,7 +151,6 @@ class processors_ordered(dict):
 		self["producer:SimpleFitProducer"] = 270
 
 		self["producer:TriggerWeightProducer"] = 275
-
 		self["producer:IdentificationWeightProducer"] = 276
 		self["producer:EleTauFakeRateWeightProducer"] = 277
 
@@ -186,15 +174,9 @@ class processors_ordered(dict):
 
 		self["producer:TauPolarisationTmvaReader"] = 700
 			
-
 		#left a lot of numbers since "producer:EventWeightProducer" is always the last one
 		self["producer:LFVJetCorrection2016Producer"] = 1900
 		self["producer:EventWeightProducer"] = 2000 
-
-
-
-
-
 
 	def order_processors(self, processorlist, *args, **kwargs):
 		processornumber = 1000
@@ -216,7 +198,6 @@ class processors_ordered(dict):
 				break
 		return processorlist
 				
-
 	def get_demon_processor(self, processorlist, *args, **kwargs):
 		if "producer:PolarisationQuantitiesSimpleFitProducer" in processorlist:
 			print "Your artus config is possessed by an evil spirit. what are you gonna do about this?"
@@ -231,8 +212,6 @@ class processors_ordered(dict):
 				print "you escaped but the artus run is still haunted"
 			elif s=="3":
 				print "after you reach for your sword the demon attacks. you die instantly, seriously what where you thinking????"
-
-
 		else:
 			print "your artus run is not possessed"
 		
