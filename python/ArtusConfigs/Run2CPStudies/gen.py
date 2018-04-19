@@ -41,11 +41,12 @@ class gen_ArtusConfig(dict):
 			"#PrintGenParticleDecayTreeConsumer"
 			]
 		quantities_dict = quantities.quantities() 
-		quantities_dict["Quantities"] += quantities_dict.genQuantities()
+		
 		quantities_dict["Quantities"] += quantities_dict.weightQuantities()
 
 
 		if re.search("DY.?JetsToLL",nickname):
+			quantities_dict["Quantities"] += quantities_dict.genQuantities()
 			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
 			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]			
 
@@ -54,7 +55,9 @@ class gen_ArtusConfig(dict):
 			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
 
 		elif re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
+			quantities_dict["Quantities"] += quantities_dict.genQuantities()
 			quantities_dict["Quantities"] += quantities_dict.genHiggsQuantities()
+			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
 			quantities_dict["Quantities"] += [
 				"nJets",
 				"nJets30",
@@ -84,5 +87,5 @@ class gen_ArtusConfig(dict):
 				"producer:DiJetQuantitiesProducer"
 			]
 		else:
-			quantities_dict["Processors"] = []
+			self["Processors"] = []
 

@@ -189,8 +189,6 @@ class tt_ArtusConfig(dict):
 			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
-		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
-			quantities_dict["Quantities"] += quantities_dict.svfitSyncQuantities()
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			quantities_dict["Quantities"] += quantities_dict.genMatchedCPQuantities()
 		elif re.search("Embedding2016", nickname):
@@ -299,6 +297,7 @@ class tt_ArtusConfig(dict):
 						] 
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:

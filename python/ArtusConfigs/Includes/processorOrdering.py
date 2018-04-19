@@ -85,7 +85,8 @@ class processors_ordered(dict):
 			self["producer:ValidEMPairCandidatesProducer"] = 50
 
 			self["filter:ValidDiTauPairCandidatesFilter"] = 60
-			self["producer:HttValidLooseMuonsProducer"] = 70
+			self["producer:HttValidLooseElectronsProducer"] = 70
+			self["producer:HttValidLooseMuonsProducer"] = 80
 		
 		if kwargs.get("channel", None) == "ET":
 			self["producer:ElectronCorrectionsProducer"] = 21  # not in cp json
@@ -205,7 +206,6 @@ class processors_ordered(dict):
 				log.warning("keyerror while sorting processors, missing processor='%s'" %str(e.args[0])) 
 				log.warning("appending it at the bottom with number '%s', is this intended?" %str(processornumber))
 				self[e.args[0]] = processornumber
-				pprint.pprint(self)
 				processornumber += 1
 				if processornumber > 1005:
 					log.error("missing more then 5 keys in ordering dict, check HiggsAnalysis/KITHiggsToTauTau/python/ArtusConfigs/processorOrdering.py")

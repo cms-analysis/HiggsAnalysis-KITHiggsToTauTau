@@ -263,12 +263,14 @@ class mm_ArtusConfig(dict):
 			quantities_dict["Quantities"] += quantities_dict.genMatchedCPQuantities()
 			quantities_dict["Quantities"] += quantities_dict.recoCPQuantities()
 			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
+			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
 		
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			quantities_dict["Quantities"] += iq.genQuantitiesLFV()
 			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
 		else:
 			quantities_dict["Quantities"] += quantities_dict.recoCPQuantities()
+			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
 
 		self.update(copy.deepcopy(quantities_dict))
 		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set

@@ -463,6 +463,7 @@ class mt_ArtusConfig(dict):
 						] 
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"] # I put this on in to create the same config as json but i dont think it is needed
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
@@ -470,6 +471,7 @@ class mt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"]				
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+						
 				
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
