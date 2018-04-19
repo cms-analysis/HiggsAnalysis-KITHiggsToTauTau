@@ -13,8 +13,8 @@ from Kappa.Skimming.registerDatasetHelper import get_nick_list
 from Artus.Utility.tools import make_multiplication, split_multiplication, clean_multiplication
 energy = 13
 default_lumi =  35.87*1000.0
-class Samples(samples.SamplesBase):
 
+class Samples(samples.SamplesBase):
 
 	# constants for all plots
 	data_format = "MINIAOD"
