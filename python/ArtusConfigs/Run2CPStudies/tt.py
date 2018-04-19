@@ -203,7 +203,6 @@ class tt_ArtusConfig(dict):
 				"filter:HltFilter",
 				"producer:MetSelector",
 				################## special for each channel in et mt tt em.
-				"producer:TauCorrectionsProducer",
 				"producer:ValidTausProducer",
 				"filter:ValidTausFilter", 
 				"producer:TauTriggerMatchingProducer", 
@@ -305,7 +304,6 @@ class tt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 		elif re.search("(Fall15|Run2015)", nickname):
-			print "2015"
 			#self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
@@ -316,7 +314,6 @@ class tt_ArtusConfig(dict):
 
 			
 			if re.search("Run2015", nickname):
-				"print run"
 				#self["Processors"] += ["producer:SimpleFitProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				

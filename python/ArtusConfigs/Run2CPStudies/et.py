@@ -267,7 +267,6 @@ class et_ArtusConfig(dict):
 				"producer:ElectronTriggerMatchingProducer",
 				"filter:MinElectronsCountFilter",
 				"producer:ValidMuonsProducer",
-				"producer:TauCorrectionsProducer",
 				"producer:ValidTausProducer",
 				"filter:ValidTausFilter",
 				"producer:TauTriggerMatchingProducer",
@@ -364,7 +363,6 @@ class et_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 		elif re.search("(Fall15|Run2015)", nickname):
-			print "2015"
 			#self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
@@ -375,7 +373,6 @@ class et_ArtusConfig(dict):
 
 			
 			if re.search("Run2015", nickname):
-				"print run"
 				#self["Processors"] += ["producer:SimpleFitProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				
@@ -386,6 +383,7 @@ class et_ArtusConfig(dict):
 				#self["Processors"] += ["producer:MELAProducer"]
 				#self["Processors"] += ["producer:MELAM125Producer"]
 			else:
+
 				self["Processors"] += ["producer:MvaMetCorrector"]
 				self["Processors"] += ["producer:MetCorrector"]
 				self["Processors"] += ["producer:TauCorrectionsProducer"]

@@ -103,18 +103,20 @@ class mm_ArtusConfig(dict):
 				"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",
 				"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ"
 			]
+			self["DiTauPairLepton1LowerPtCuts"] = [
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:20.0",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:20.0"
+				]
+
+			self["DiTauPairLepton2LowerPtCuts"] =  [
+					"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:10.0",
+					"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:10.0"
+				]
 
 		elif re.search("Embedding(2016|MC)", nickname):
 			self["HltPaths"] = [""]
 			self["NoHltFiltering"] = True
-			self["DiTauPairLepton1LowerPtCuts"] = [
-				"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:20.0",
-				"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:20.0"
-			]
-			self["DiTauPairLepton2LowerPtCuts"] =  [
-				"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v:10.0",
-				"HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v:10.0"
-			]
+			
 		
 		self["TauID"] = "TauIDRecommendation13TeV"
 		self["TauUseOldDMs"] = False

@@ -344,6 +344,22 @@ class mt_ArtusConfig(dict):
 				"triggerWeight_muTauCross_2",
 				"jetCorrectionWeight"
 			]
+
+		elif re.search("Run2016", nickname):
+			quantities_dict["Quantities"] += [
+				"trg_singlemuon",
+				"trg_mutaucross",
+				"triggerWeight_singleMu_1",
+				"triggerWeight_muTauCross_1",
+				"triggerWeight_muTauCross_2"
+			]
+		elif re.search("Run2015", nickname):
+			pass
+		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
+			pass
+		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)", nickname):
+			pass
+		
 		else:
 			quantities_dict["Quantities"] += [
 				"trg_singlemuon",
@@ -473,7 +489,6 @@ class mt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 		elif re.search("(Fall15|Run2015)", nickname):
-			print "2015"
 			#self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
@@ -484,7 +499,6 @@ class mt_ArtusConfig(dict):
 
 			
 			if re.search("Run2015", nickname):
-				"print run"
 				#self["Processors"] += ["producer:SimpleFitProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				

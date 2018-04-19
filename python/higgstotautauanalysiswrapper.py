@@ -165,7 +165,7 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		
 
 
-	def create_pipelines(self, nickname,, *args, **kwargs):
+	def create_pipelines(self, nickname, *args, **kwargs):
 		self.include_config_files(study=self._args.study)
 		if nickname != "auto":
 			if self._args.channels and len(self._args.channels) > 0:

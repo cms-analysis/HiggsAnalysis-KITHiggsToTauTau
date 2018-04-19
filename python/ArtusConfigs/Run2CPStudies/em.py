@@ -308,7 +308,6 @@ class em_ArtusConfig(dict):
 				"filter:HltFilter",
 				"producer:MetSelector",
 				################## special for each channel in et mt tt em.
-				"producer:ElectronCorrectionsProducer",
 				"producer:ValidElectronsProducer",
 				"filter:ValidElectronsFilter",
 				"producer:ElectronTriggerMatchingProducer",
@@ -365,6 +364,7 @@ class em_ArtusConfig(dict):
 
 			else:
 				#self["Processors"] += ["producer:TauCorrectionsProducer"]
+				self["Processors"] += ["producer:ElectronCorrectionsProducer"] #channel dependent
 				self["Processors"] += ["producer:TriggerWeightProducer"]
 				self["Processors"] += ["producer:MetCorrector"]
 				self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
@@ -414,7 +414,6 @@ class em_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 		elif re.search("(Fall15|Run2015)", nickname):
-			print "2015"
 			#self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
@@ -425,17 +424,15 @@ class em_ArtusConfig(dict):
 
 			
 			if re.search("Run2015", nickname):
-				"print run"
+				pass
 				#self["Processors"] += ["producer:SimpleFitProducer"]
-				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-				
+			
 				#self["Processors"] += ["producer:SvfitProducer"]
 				#self["Processors"] += ["producer:SvfitM91Producer"]
 				#self["Processors"] += ["producer:SvfitM125Producer"]
 
 				#self["Processors"] += ["producer:MELAProducer"]
 				#self["Processors"] += ["producer:MELAM125Producer"]
-
 			else:
 				self["Processors"] += ["producer:MvaMetCorrector"]
 				self["Processors"] += ["producer:MetCorrector"]
