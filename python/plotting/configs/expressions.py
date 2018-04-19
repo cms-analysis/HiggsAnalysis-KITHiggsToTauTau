@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 import logging
@@ -183,6 +182,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_low"] = self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"]+("*({pt_var}<={pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
 
 			# Standard Model experimental
+			boosted_higgsCP_string = "(H_pt>200)"
 			boosted_higgs_string = "(H_pt>100)"
 			boosted_higgs_medium_string = "(H_pt>50)"
 			boosted_higgs_low_string = "(H_pt>30)"
@@ -284,24 +284,24 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		
 		# CP initial state category
 		for channel in ["em", "et", "mt", "tt"]:
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_boosted"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)*(nbtag<1)"
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"] = "(mjj>300)*(njets>1)" if channel != "em" else "(mjj>300)*(njets>1)*(nbtag<1)"
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowM"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)*(nbtag<1)"
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_highM"] = "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)" if channel != "em" else "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)*(nbtag<1)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_boosted"] = self.combine([boosted_higgsCP_string, "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv>100)"]) if channel != "em" else self.combine([boosted_higgsCP_string, "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv>100)*(nbtag<1)"])
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"] = self.combine([boosted_higgsCP_string, "(mjj>300)*(njets>1)"]) if channel != "em" else self.combine([boosted_higgsCP_string, "(mjj>300)*(njets>1)*(nbtag<1)"])
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowM"] = self.combine([self.invert(boosted_higgsCP_string), "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv<100)"]) if channel != "em" else self.combine([self.invert(boosted_higgsCP_string), "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv<100)*(nbtag<1)"])
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_highM"] = self.combine([self.invert(boosted_higgsCP_string), "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv>100)"]) if channel != "em" else self.combine([self.invert(boosted_higgsCP_string), "(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv>100)*(nbtag<1)"])
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_lowMjj"] = "(mjj>200)*(mjj<500)*(njets>1)*(m_sv>100)" if channel != "em" else "(mjj>200)*(mjj<500)*(njets>1)*(nbtag<1)"
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"] = "(mjj<300)*(njets>1)*(H_pt<150)" if channel != "em" else "(mjj<300)*(njets>1)*(H_pt<150)*(nbtag<1)"
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"] = self.combine([self.invert(boosted_higgsCP_string), "(mjj<300)*(njets>1)"]) if channel != "em" else self.combine([self.invert(boosted_higgsCP_string), "(mjj<300)*(njets>1)*(nbtag<1)"])
 
 		# Anti-isolation qcd control region in dijet categories
-		self.expressions_dict["catHtt13TeV_tt_dijet2D_boosted_qcd_cr"] = self.combine([tt_antiiso_string, "(njetspt30>1)*(mjj>300)*(njets>1)*(H_pt>150.)*(nbtag<1)"])
-		self.expressions_dict["catHtt13TeV_tt_dijet2D_lowboost_qcd_cr"] = self.combine([tt_antiiso_string, "(njetspt30>1)*(mjj>300)*(njets>1)*(H_pt<150.)*(nbtag<1)"])
-		self.expressions_dict["catHtt13TeV_tt_dijet_boosted_qcd_cr"] = self.combine([tt_antiiso_string, "(njetspt30>1)*(jdeta>2.5)*(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt>150.)*(m_sv>100)*(nbtag<1)"])
-		self.expressions_dict["catHtt13TeV_tt_dijet_lowM_qcd_cr"] = self.combine([tt_antiiso_string, "(njetspt30>1)*(jdeta>2.5)*(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv<100)*(nbtag<1)"])
-		self.expressions_dict["catHtt13TeV_tt_dijet_highM_qcd_cr"] = self.combine([tt_antiiso_string, "(njetspt30>1)*(jdeta>2.5)*(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(H_pt<150.)*(m_sv>100)*(nbtag<1)"])
+		self.expressions_dict["catHtt13TeV_tt_dijet2D_boosted_qcd_cr"] = self.combine([tt_antiiso_string, boosted_higgsCP_string, "(njetspt30>1)*(mjj>300)*(njets>1)*(nbtag<1)"])
+		self.expressions_dict["catHtt13TeV_tt_dijet2D_lowboost_qcd_cr"] = self.combine([tt_antiiso_string, self.invert(boosted_higgsCP_string),"(njetspt30>1)*(mjj>300)*(njets>1)*(nbtag<1)"])
+		self.expressions_dict["catHtt13TeV_tt_dijet_boosted_qcd_cr"] = self.combine([tt_antiiso_string, self.invert(boosted_higgsCP_string),"(njetspt30>1)*(jdeta>2.5)*(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv>100)*(nbtag<1)"])
+		self.expressions_dict["catHtt13TeV_tt_dijet_lowM_qcd_cr"] = self.combine([tt_antiiso_string, self.invert(boosted_higgsCP_string), "(njetspt30>1)*(jdeta>2.5)*(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv<100)*(nbtag<1)"])
+		self.expressions_dict["catHtt13TeV_tt_dijet_highM_qcd_cr"] = self.combine([tt_antiiso_string, self.invert(boosted_higgsCP_string), "(njetspt30>1)*(jdeta>2.5)*(mjj>500)*(abs(jdeta)>2.0)*(njets>1)*(m_sv>100)*(nbtag<1)"])
 		self.expressions_dict["catHtt13TeV_tt_dijet_lowMjj_qcd_cr"] = self.combine([tt_antiiso_string, "(njetspt30>1)*(jdeta>2.5)*(mjj>200)*(mjj<500)*(njets>1)*(nbtag<1)"])
 		
 		# CP initial state control regions in Z->mm
-		self.expressions_dict["catHtt13TeV_mm_dijet2D_boosted"] = "(mjj>300)*(njets>1)*(H_pt>150.)*(njetspt30>1)"
-		self.expressions_dict["catHtt13TeV_mm_dijet2D_lowboost"] = "(mjj>300)*(njets>1)*(H_pt>150.)*(njetspt30>1)"
+		self.expressions_dict["catHtt13TeV_mm_dijet2D_boosted"] = self.combine([boosted_higgsCP_string, "(mjj>300)*(njets>1)*(njetspt30>1)"])
+		self.expressions_dict["catHtt13TeV_mm_dijet2D_lowboost"] = self.combine([self.invert(boosted_higgsCP_string), "(mjj>300)*(njets>1)*(njetspt30>1)"])
 
 
 		#################################
