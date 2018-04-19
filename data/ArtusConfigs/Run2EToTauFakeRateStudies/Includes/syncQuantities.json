@@ -112,61 +112,67 @@
 		"#mva_gf",
 		"#mva_vbf",
 		"trigweight_1",
+		"trigweight_2",
 		"chargedIsoPtSum_1",
+		"chargedIsoPtSum_2",
 		"neutralIsoPtSum_1",
+		"neutralIsoPtSum_2",
 		"puCorrPtSum_1",
+		"puCorrPtSum_2",
 		"footprintCorrection_1",
+		"footprintCorrection_2",
 		"photonPtSumOutsideSignalCone_1",
+		"photonPtSumOutsideSignalCone_2",
+
 		"againstMuonLoose3_1", "againstMuonTight3_1",
+		"againstMuonLoose3_2", "againstMuonTight3_2",
+
 		"againstElectronLooseMVA6_1", "againstElectronMediumMVA6_1", "againstElectronTightMVA6_1",
+		"againstElectronLooseMVA6_2", "againstElectronMediumMVA6_2", "againstElectronTightMVA6_2",
+
 		"againstElectronVLooseMVA6_1", "againstElectronVTightMVA6_1",
+		"againstElectronVLooseMVA6_2", "againstElectronVTightMVA6_2",
+
 		"byCombinedIsolationDeltaBetaCorrRaw3Hits_1",
+		"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",
+
 		"byLooseCombinedIsolationDeltaBetaCorr3Hits_1", "byMediumCombinedIsolationDeltaBetaCorr3Hits_1",
-		"byTightCombinedIsolationDeltaBetaCorr3Hits_1", "byIsolationMVArun2v1DBoldDMwLTraw_1", "byVLooseIsolationMVArun2v1DBoldDMwLT_1",
-		"byLooseIsolationMVArun2v1DBoldDMwLT_1", "byMediumIsolationMVArun2v1DBoldDMwLT_1", "byTightIsolationMVArun2v1DBoldDMwLT_1",
-		"byVTightIsolationMVArun2v1DBoldDMwLT_1", "byVVTightIsolationMVArun2v1DBoldDMwLT_1", "rerunDiscriminationByIsolationMVAOldDMrun2v1raw_1",
+		"byLooseCombinedIsolationDeltaBetaCorr3Hits_2", "byMediumCombinedIsolationDeltaBetaCorr3Hits_2",
+
+		"byTightCombinedIsolationDeltaBetaCorr3Hits_1",
+		"byTightCombinedIsolationDeltaBetaCorr3Hits_2",
+
+		"byIsolationMVArun2v1DBoldDMwLTraw_1", "byVVLooseIsolationMVArun2v1DBoldDMwLT_1", "byVLooseIsolationMVArun2v1DBoldDMwLT_1", "byLooseIsolationMVArun2v1DBoldDMwLT_1", "byMediumIsolationMVArun2v1DBoldDMwLT_1", "byTightIsolationMVArun2v1DBoldDMwLT_1", "byVTightIsolationMVArun2v1DBoldDMwLT_1", "byVVTightIsolationMVArun2v1DBoldDMwLT_1",
+		"byIsolationMVArun2v1DBoldDMwLTraw_2", "byVVLooseIsolationMVArun2v1DBoldDMwLT_2", "byVLooseIsolationMVArun2v1DBoldDMwLT_2", "byLooseIsolationMVArun2v1DBoldDMwLT_2", "byMediumIsolationMVArun2v1DBoldDMwLT_2", "byTightIsolationMVArun2v1DBoldDMwLT_2", "byVTightIsolationMVArun2v1DBoldDMwLT_2", "byVVTightIsolationMVArun2v1DBoldDMwLT_2",
+
+		"byIsolationMVArun2017v1DBoldDMwLTraw2017_1", "byVVLooseIsolationMVArun2017v1DBoldDMwLT2017_1", "byVLooseIsolationMVArun2017v1DBoldDMwLT2017_1", "byLooseIsolationMVArun2017v1DBoldDMwLT2017_1", "byMediumIsolationMVArun2017v1DBoldDMwLT2017_1", "byTightIsolationMVArun2017v1DBoldDMwLT2017_1", "byVTightIsolationMVArun2017v1DBoldDMwLT2017_1", "byVVTightIsolationMVArun2017v1DBoldDMwLT2017_1",
+		"byIsolationMVArun2017v1DBoldDMwLTraw2017_2", "byVVLooseIsolationMVArun2017v1DBoldDMwLT2017_2", "byVLooseIsolationMVArun2017v1DBoldDMwLT2017_2", "byLooseIsolationMVArun2017v1DBoldDMwLT2017_2", "byMediumIsolationMVArun2017v1DBoldDMwLT2017_2", "byTightIsolationMVArun2017v1DBoldDMwLT2017_2", "byVTightIsolationMVArun2017v1DBoldDMwLT2017_2", "byVVTightIsolationMVArun2017v1DBoldDMwLT2017_2",
+		
+		"byIsolationMVArun2017v2DBoldDMwLTraw2017_1", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byMediumIsolationMVArun2017v2DBoldDMwLT2017_1", "byTightIsolationMVArun2017v2DBoldDMwLT2017_1", "byVTightIsolationMVArun2017v2DBoldDMwLT2017_1", "byVVTightIsolationMVArun2017v2DBoldDMwLT2017_1",
+		"byIsolationMVArun2017v2DBoldDMwLTraw2017_2", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "byLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "byMediumIsolationMVArun2017v2DBoldDMwLT2017_2", "byTightIsolationMVArun2017v2DBoldDMwLT2017_2", "byVTightIsolationMVArun2017v2DBoldDMwLT2017_2", "byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2",
+		
+
+		"byIsolationMVArun2017v2DBnewDMwLTraw2017_1", "byVVLooseIsolationMVArun2017v2DBnewDMwLT2017_1", "byVLooseIsolationMVArun2017v2DBnewDMwLT2017_1", "byLooseIsolationMVArun2017v2DBnewDMwLT2017_1", "byMediumIsolationMVArun2017v2DBnewDMwLT2017_1", "byTightIsolationMVArun2017v2DBnewDMwLT2017_1", "byVTightIsolationMVArun2017v2DBnewDMwLT2017_1", "byVVTightIsolationMVArun2017v2DBnewDMwLT2017_1",
+		"byIsolationMVArun2017v2DBnewDMwLTraw2017_2", "byVVLooseIsolationMVArun2017v2DBnewDMwLT2017_2", "byVLooseIsolationMVArun2017v2DBnewDMwLT2017_2", "byLooseIsolationMVArun2017v2DBnewDMwLT2017_2", "byMediumIsolationMVArun2017v2DBnewDMwLT2017_2", "byTightIsolationMVArun2017v2DBnewDMwLT2017_2", "byVTightIsolationMVArun2017v2DBnewDMwLT2017_2", "byVVTightIsolationMVArun2017v2DBnewDMwLT2017_2",
+
+		"byIsolationMVArun2017v2DBoldDMdR0p3wLTraw2017_1", "byVVLooseIsolationMVArun2017v2DBoldDMdR0p3wLT2017_1", "byVLooseIsolationMVArun2017v2DBoldDMdR0p3wLT2017_1", "byLooseIsolationMVArun2017v2DBoldDMdR0p3wLT2017_1", "byMediumIsolationMVArun2017v2DBoldDMdR0p3wLT2017_1", "byTightIsolationMVArun2017v2DBoldDMdR0p3wLT2017_1", "byVTightIsolationMVArun2017v2DBoldDMdR0p3wLT2017_1", "byVVTightIsolationMVArun2017v2DBoldDMdR0p3wLT2017_1",
+		"byIsolationMVArun2017v2DBoldDMdR0p3wLTraw2017_2", "byVVLooseIsolationMVArun2017v2DBoldDMdR0p3wLT2017_2", "byVLooseIsolationMVArun2017v2DBoldDMdR0p3wLT2017_2", "byLooseIsolationMVArun2017v2DBoldDMdR0p3wLT2017_2", "byMediumIsolationMVArun2017v2DBoldDMdR0p3wLT2017_2", "byTightIsolationMVArun2017v2DBoldDMdR0p3wLT2017_2", "byVTightIsolationMVArun2017v2DBoldDMdR0p3wLT2017_2", "byVVTightIsolationMVArun2017v2DBoldDMdR0p3wLT2017_2",
+
+		"byIsolationMVArun2v1DBoldDMwLTraw2016_1", "byVLooseIsolationMVArun2v1DBoldDMwLT2016_1", "byLooseIsolationMVArun2v1DBoldDMwLT2016_1", "byMediumIsolationMVArun2v1DBoldDMwLT2016_1", "byTightIsolationMVArun2v1DBoldDMwLT2016_1", "byVTightIsolationMVArun2v1DBoldDMwLT2016_1", "byVVTightIsolationMVArun2v1DBoldDMwLT2016_1",
+		"byIsolationMVArun2v1DBoldDMwLTraw2016_2", "byVLooseIsolationMVArun2v1DBoldDMwLT2016_2", "byLooseIsolationMVArun2v1DBoldDMwLT2016_2", "byMediumIsolationMVArun2v1DBoldDMwLT2016_2", "byTightIsolationMVArun2v1DBoldDMwLT2016_2", "byVTightIsolationMVArun2v1DBoldDMwLT2016_2", "byVVTightIsolationMVArun2v1DBoldDMwLT2016_2",
+		
+		"byIsolationMVArun2v1DBnewDMwLTraw2016_1", "byVLooseIsolationMVArun2v1DBnewDMwLT2016_1", "byLooseIsolationMVArun2v1DBnewDMwLT2016_1", "byMediumIsolationMVArun2v1DBnewDMwLT2016_1", "byTightIsolationMVArun2v1DBnewDMwLT2016_1", "byVTightIsolationMVArun2v1DBnewDMwLT2016_1", "byVVTightIsolationMVArun2v1DBnewDMwLT2016_1",
+		"byIsolationMVArun2v1DBnewDMwLTraw2016_2", "byVLooseIsolationMVArun2v1DBnewDMwLT2016_2", "byLooseIsolationMVArun2v1DBnewDMwLT2016_2", "byMediumIsolationMVArun2v1DBnewDMwLT2016_2", "byTightIsolationMVArun2v1DBnewDMwLT2016_2", "byVTightIsolationMVArun2v1DBnewDMwLT2016_2", "byVVTightIsolationMVArun2v1DBnewDMwLT2016_2",
+
+		"#before_2017_naming",
+		"rerunDiscriminationByIsolationMVAOldDMrun2v1raw_1",
 		"rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose_1", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose_1", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium_1",
 		"rerunDiscriminationByIsolationMVAOldDMrun2v1Tight_1", "rerunDiscriminationByIsolationMVAOldDMrun2v1VTight_1", "rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight_1",
-						
-		"byIsolationMVArun2017v1DBoldDMwLTraw2017_1", "byVVLooseIsolationMVArun2017v1DBoldDMwLT2017_1", "byVLooseIsolationMVArun2017v1DBoldDMwLT2017_1", "byLooseIsolationMVArun2017v1DBoldDMwLT2017_1",
-		"byMediumIsolationMVArun2017v1DBoldDMwLT2017_1", "byTightIsolationMVArun2017v1DBoldDMwLT2017_1", "byVTightIsolationMVArun2017v1DBoldDMwLT2017_1", "byVVTightIsolationMVArun2017v1DBoldDMwLT2017_1",	
 		
-		"byIsolationMVArun2017v2DBoldDMwLTraw2017_1", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byLooseIsolationMVArun2017v2DBoldDMwLT2017_1",
-		"byMediumIsolationMVArun2017v2DBoldDMwLT2017_1", "byTightIsolationMVArun2017v2DBoldDMwLT2017_1", "byVTightIsolationMVArun2017v2DBoldDMwLT2017_1", "byVVTightIsolationMVArun2017v2DBoldDMwLT2017_1",		
-		
-		"byIsolationMVArun2017v2DBnewDMwLTraw2017_1", "byVVLooseIsolationMVArun2017v2DBnewDMwLT2017_1", "byVLooseIsolationMVArun2017v2DBnewDMwLT2017_1", "byLooseIsolationMVArun2017v2DBnewDMwLT2017_1",
-		"byMediumIsolationMVArun2017v2DBnewDMwLT2017_1", "byTightIsolationMVArun2017v2DBnewDMwLT2017_1", "byVTightIsolationMVArun2017v2DBnewDMwLT2017_1", "byVVTightIsolationMVArun2017v2DBnewDMwLT2017_1",
-		
-		"decayModeFinding_1", "decayModeFindingNewDMs_1",
-		"trigweight_2",
-		"chargedIsoPtSum_2",
-		"neutralIsoPtSum_2",
-		"puCorrPtSum_2",
-		"footprintCorrection_2",
-		"photonPtSumOutsideSignalCone_2",
-		"againstMuonLoose3_2", "againstMuonTight3_2",
-		"againstElectronLooseMVA6_2", "againstElectronMediumMVA6_2", "againstElectronTightMVA6_2",
-		"againstElectronVLooseMVA6_2", "againstElectronVTightMVA6_2",
-		"byCombinedIsolationDeltaBetaCorrRaw3Hits_2",
-		"byLooseCombinedIsolationDeltaBetaCorr3Hits_2", "byMediumCombinedIsolationDeltaBetaCorr3Hits_2",
-		"byTightCombinedIsolationDeltaBetaCorr3Hits_2", "byIsolationMVArun2v1DBoldDMwLTraw_2", "byVVLooseIsolationMVArun2v1DBoldDMwLT_2", "byVLooseIsolationMVArun2v1DBoldDMwLT_2",
-		"byLooseIsolationMVArun2v1DBoldDMwLT_2", "byMediumIsolationMVArun2v1DBoldDMwLT_2", "byTightIsolationMVArun2v1DBoldDMwLT_2",
-		"byVTightIsolationMVArun2v1DBoldDMwLT_2", "byVVTightIsolationMVArun2v1DBoldDMwLT_2", 
-		
-		"byIsolationMVArun2017v1DBoldDMwLTraw2017_2", "byVVLooseIsolationMVArun2017v1DBoldDMwLT2017_2", "byVLooseIsolationMVArun2017v1DBoldDMwLT2017_2", "byLooseIsolationMVArun2017v1DBoldDMwLT2017_2",
-		"byMediumIsolationMVArun2017v1DBoldDMwLT2017_2", "byTightIsolationMVArun2017v1DBoldDMwLT2017_2", "byVTightIsolationMVArun2017v1DBoldDMwLT2017_2", "byVVTightIsolationMVArun2017v1DBoldDMwLT2017_2",
-		
-		"byIsolationMVArun2017v2DBoldDMwLTraw2017_2", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "byLooseIsolationMVArun2017v2DBoldDMwLT2017_2",
-		"byMediumIsolationMVArun2017v2DBoldDMwLT2017_2", "byTightIsolationMVArun2017v2DBoldDMwLT2017_2", "byVTightIsolationMVArun2017v2DBoldDMwLT2017_2", "byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2",
-		
-		"byIsolationMVArun2017v2DBnewDMwLTraw2017_2", "byVVLooseIsolationMVArun2017v2DBnewDMwLT2017_2", "byVLooseIsolationMVArun2017v2DBnewDMwLT2017_2", "byLooseIsolationMVArun2017v2DBnewDMwLT2017_2",
-		"byMediumIsolationMVArun2017v2DBnewDMwLT2017_2", "#byTightIsolationMVArun2017v2DBnewDMwLT2017_2", "byVTightIsolationMVArun2017v2DBnewDMwLT2017_2", "byVVTightIsolationMVArun2017v2DBnewDMwLT2017_2",
-		
-		"rerunDiscriminationByIsolationMVAOldDMrun2v1raw_2",
-		"rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose_2", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose_2", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium_2",
-		"rerunDiscriminationByIsolationMVAOldDMrun2v1Tight_2", "rerunDiscriminationByIsolationMVAOldDMrun2v1VTight_2", "rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight_2",
 
+		"decayModeFinding_1", "decayModeFindingNewDMs_1",
 		"decayModeFinding_2", "decayModeFindingNewDMs_2",
+
 		"NUP",
 		"id_m_loose_1",
 		"id_m_medium_1",
