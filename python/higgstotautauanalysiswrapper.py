@@ -325,6 +325,9 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		if self._args.copy_remote_files and (not self._args.batch):
 			self.useLocalCopiesOfRemoteFiles()
 
+		self._config = self._config.doremoveduplicatequantities()
+		self._config = self._config.doSortQuantities()
+
 		# set log level
 		self._config["LogLevel"] = self._args.log_level
 

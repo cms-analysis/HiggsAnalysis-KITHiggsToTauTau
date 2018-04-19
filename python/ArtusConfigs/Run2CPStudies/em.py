@@ -300,9 +300,6 @@ class em_ArtusConfig(dict):
 			]
 		self.update(copy.deepcopy(quantities_dict))
 
-		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list
-
-
 		self["Processors"] = [
 				"producer:HltProducer",
 				"filter:HltFilter",
@@ -330,12 +327,6 @@ class em_ArtusConfig(dict):
 				"producer:DiJetQuantitiesProducer",
 				"producer:HttValidLooseElectronsProducer"
 				]
-
-
-
-				
-		
-			
 
 		if re.search("(Spring16|Summer16|Run2016)", nickname):
 			self["Processors"] += ["producer:RefitVertexSelector"]

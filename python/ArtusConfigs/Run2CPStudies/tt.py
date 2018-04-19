@@ -194,8 +194,6 @@ class tt_ArtusConfig(dict):
 		
 		self.update(copy.deepcopy(quantities_dict))
 
-		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
-		
 		#Producers and filters, TODO filter everything which is the same and use this as the startint list, then just add the other variables per sample
 
 		self["Processors"] = [

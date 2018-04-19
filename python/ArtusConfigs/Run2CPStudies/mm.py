@@ -275,7 +275,6 @@ class mm_ArtusConfig(dict):
 			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
 
 		self.update(copy.deepcopy(quantities_dict))
-		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list, dont know if it should be a list or can be left as a set
 
 		self["OSChargeLeptons"] = True
 		if re.search("(Fall15MiniAODv2|Run2015)", nickname):
