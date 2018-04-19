@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['recoilcorrector',['RecoilCorrector',['../classRecoilCorrector.html',1,'']]],
-  ['recomuoninelectronconevetofilter',['RecoMuonInElectronConeVetoFilter',['../classRecoMuonInElectronConeVetoFilter.html',1,'']]],
-  ['recotaucpproducer',['RecoTauCPProducer',['../classRecoTauCPProducer.html',1,'']]],
-  ['refitvertexselector',['RefitVertexSelector',['../classRefitVertexSelector.html',1,'']]],
-  ['rooworkspaceweightproducer',['RooWorkspaceWeightProducer',['../classRooWorkspaceWeightProducer.html',1,'']]],
-  ['run2decaychannelproducer',['Run2DecayChannelProducer',['../classRun2DecayChannelProducer.html',1,'']]]
+  ['qcdfactorsdatacards',['QcdFactorsDatacards',['../classqcdfactorsdatacards_1_1QcdFactorsDatacards.html',1,'qcdfactorsdatacards']]],
+  ['quantities',['quantities',['../classRun2Quantities_1_1quantities.html',1,'Run2Quantities']]],
+  ['quantities',['quantities',['../classCPQuantities_1_1quantities.html',1,'CPQuantities']]],
+  ['quantities',['Quantities',['../classQuantities.html',1,'']]]
 ];
