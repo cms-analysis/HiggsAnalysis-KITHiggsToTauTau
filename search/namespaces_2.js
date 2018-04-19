@@ -18,7 +18,6 @@ var searchData=
   ['cphypotheses',['cphypotheses',['../namespacecphypotheses.html',1,'']]],
   ['cpmodels',['cpmodels',['../namespacecpmodels.html',1,'']]],
   ['cpmodels_5fold',['cpmodels_old',['../namespacecpmodels__old.html',1,'']]],
-  ['cpquantities',['CPQuantities',['../namespaceCPQuantities.html',1,'']]],
   ['cpstudiesdatacards',['cpstudiesdatacards',['../namespacecpstudiesdatacards.html',1,'']]],
   ['create_5ffile_5flist_5ffrom_5fgfal_5fembedded_5ftest',['create_file_list_from_gfal_embedded_test',['../namespacecreate__file__list__from__gfal__embedded__test.html',1,'']]],
   ['cutoptimizer',['cutOptimizer',['../namespacecutOptimizer.html',1,'']]],
