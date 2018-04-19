@@ -206,11 +206,11 @@ class processors_ordered(dict):
 			print "3) fight"
 			print "choose 1 2 or 3"
 			s = raw_input()
-			if s=="1":
+			if s == "1":
 				print "the evil demon laughs at you, and you die"
-			elif s=="2":
+			elif s == "2":
 				print "you escaped but the artus run is still haunted"
-			elif s=="3":
+			elif s == "3":
 				print "after you reach for your sword the demon attacks. you die instantly, seriously what where you thinking????"
 		else:
 			print "your artus run is not possessed"
