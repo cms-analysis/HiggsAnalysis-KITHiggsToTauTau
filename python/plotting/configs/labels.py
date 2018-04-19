@@ -23,6 +23,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ztt"] = "Z #rightarrow #tau#tau"
 			self.labels_dict["zttpospol"] = "Z #rightarrow #tau_{R}^{-}#tau_{L}^{+}"
 			self.labels_dict["zttnegpol"] = "Z #rightarrow #tau_{L}^{-}#tau_{R}^{+}"
+			self.labels_dict["zttposcp"] = "Z #rightarrow #tau#tau, #psi_{2} > #frac{#pi}{4}"
+			self.labels_dict["zttnegcp"] = "Z #rightarrow #tau#tau, #psi_{2} < #frac{#pi}{4}"
 			self.labels_dict["tt"] = "t#bar{t} + jets"
 			self.labels_dict["tttautau"] = "t#bar{t} #rightarrow #tau#tau"
 			self.labels_dict["ttjt"] = "t#bar{t} + jets (tau)"
