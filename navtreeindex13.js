@@ -1,5 +1,7 @@
 var NAVTREEINDEX13 =
 {
+"embedding__plot__bib_8py.html#ad953e079c81a4e7d9ce2babca83c84e0":[2,0,2,17,14],
+"embedding__plot__bib_8py.html#adf49e6de3f6ab22b1ce4710b3fa29c56":[2,0,2,17,0],
 "embedding__plot__bib_8py.html#af54e2206398dcf574379291ba62dc828":[2,0,2,17,19],
 "embedding__plot__bib_8py.html#aff42d9de376f35e4b55be4a8b1b3426a":[2,0,2,17,18],
 "embedding__plot__classes_8py.html":[2,0,1,4,1,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX13 =
 "getInclusiveWeight_8py.html#ad25d1e34680c7c1a290cc28807993e27":[2,0,2,19,1],
 "getInclusiveWeight_8py.html#adc70c676fac3214280e23f1cbc85bc28":[2,0,2,19,5],
 "getInclusiveWeight_8py.html#af26ecb85638f8bcbe7b9d266d8fcc455":[2,0,2,19,7],
-"getInclusiveWeight_8py.html#af61ffdd21b13d5405af924696505997f":[2,0,2,19,4],
-"globalProcessors_8py.html":[2,0,1,0,2,6],
-"globalProcessors_8py.html#a22f438ae2858bc45365c85efce95c90a":[2,0,1,0,2,6,1]
+"getInclusiveWeight_8py.html#af61ffdd21b13d5405af924696505997f":[2,0,2,19,4]
 };

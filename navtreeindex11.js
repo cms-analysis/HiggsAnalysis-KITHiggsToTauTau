@@ -1,5 +1,7 @@
 var NAVTREEINDEX11 =
 {
+"classsmhttdatacards_1_1SMHttDatacardsForSync.html":[1,0,173,1],
+"classsmhttdatacards_1_1SMHttDatacardsForSync.html#ac04beb4af5753f6204dd519c78d3c24b":[1,0,173,1,0],
 "classsystematics_1_1Systematics__Config.html":[1,0,177,0],
 "classsystematics_1_1Systematics__Config.html#a08006b40d201b1c8bf68eb709029c5dd":[1,0,177,0,2],
 "classsystematics_1_1Systematics__Config.html#aae19753fbf540c9f76193e7f1d388cfa":[1,0,177,0,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX11 =
 "correctionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__LooseRelIso_8py.html#ac934d8b1caab63a8a8570414ab6bfd8a":[2,0,2,6,4],
 "correctionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__LooseRelIso_8py.html#ac9d14722c5488fb955a81f87ea439298":[2,0,2,6,9],
 "correctionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__LooseRelIso_8py.html#ad14117747b7cfa484acbc35376e1abb2":[2,0,2,6,0],
-"correctionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__LooseRelIso_8py.html#aefb6febd61be36c79d8222b9133c2db6":[2,0,2,6,12],
-"correctionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__LooseRelIso_8py.html#af14f56065d8596d533d16e9495e907d9":[2,0,2,6,3],
-"correctionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__TightRelIso_8py.html":[2,0,2,7]
+"correctionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__LooseRelIso_8py.html#aefb6febd61be36c79d8222b9133c2db6":[2,0,2,6,12]
 };

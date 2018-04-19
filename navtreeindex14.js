@@ -1,5 +1,7 @@
 var NAVTREEINDEX14 =
 {
+"globalProcessors_8py.html":[2,0,1,0,2,6],
+"globalProcessors_8py.html#a22f438ae2858bc45365c85efce95c90a":[2,0,1,0,2,6,1],
 "globals.html":[2,1,0],
 "globals_defs.html":[2,1,3],
 "globals_func.html":[2,1,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX14 =
 "makePlots__ZTTtheoryUnc_8py.html#afe959d57af0b855a9dc6a90691a33f9f":[2,0,2,75,36],
 "makePlots__ZTTtheoryUnc_8py.html#aff6827b28fdbf586aafa170c6164ad33":[2,0,2,75,35],
 "makePlots__allGenPhiCPPlots_8py.html":[2,0,2,26],
-"makePlots__allGenPhiCPPlots_8py.html#a07aeed2356d176070b16c4fd9b322d51":[2,0,2,26,1],
-"makePlots__allGenPhiCPPlots_8py.html#a1be8eaee6dfcb48e34546f63413c49f4":[2,0,2,26,6],
-"makePlots__allGenPhiCPPlots_8py.html#a1db2adffa8ea12e951d814a42bda9d30":[2,0,2,26,14]
+"makePlots__allGenPhiCPPlots_8py.html#a07aeed2356d176070b16c4fd9b322d51":[2,0,2,26,1]
 };
