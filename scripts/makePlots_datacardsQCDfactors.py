@@ -162,7 +162,27 @@ if __name__ == "__main__":
 	
 	# Restrict CombineHarvester to configured channels:
 	datacards = qcdfactorsdatacards.QcdFactorsDatacards(quantity, args.era, mapping_category2binid)
-	
+
+	# dict to map Process names to python sample function. 
+	datacards.configs._mapping_process2sample = {
+		"data_obs" : "data",
+		"EWKZ" : "ewkz",
+		"EWK" : "ewk",
+		"QCD" : "qcd_prefit",				
+		"TT" : "ttj",
+		"TTT" : "ttt",
+		"TTJ" : "ttj",
+		"TTJJ" : "ttjj",
+		"VV" : "vv",
+		"VVT" : "vvt",
+		"VVJ" : "vvj",
+		"W" : "wj_mc_os",				
+		"ZJ" : "zj",
+		"ZL" : "zl",
+		"ZLL" : "zll",	
+		"ZTT" : "ztt",															
+		}
+
 	#restriction to requested channels
 	if args.channels != parser.get_default("channels"):
 		datacards.cb.channel(args.channels)
@@ -221,7 +241,8 @@ if __name__ == "__main__":
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				print(shape_systematic, list_of_samples)
 				nominal = (shape_systematic == "nominal")
-				list_of_samples = [process for process in list_of_samples]
+				print(list_of_samples)
+				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
 				print(list_of_samples)
 			
 				for shift_up in ([True] if nominal else [True, False]):
@@ -261,7 +282,7 @@ if __name__ == "__main__":
 		
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
-						PROCESS=sample if sample != "data" else "data_obs",
+						PROCESS=datacards.configs.sample2process(sample), # if sample != "data" else "data_obs",
 						BIN=category,
 						SYSTEMATIC=systematic
 					) for sample in config["labels"]]
@@ -388,7 +409,7 @@ if __name__ == "__main__":
 	
 	# Plot postfit
 		postfit_plot_configs = [] #reset list containing the plot configs
-		bkg_plotting_order = ["ztt", "zl", "zj", "ttt", "ttjj", "vvt", "vvj", "wj_mc_os"]
+		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]
 
 		for level in ["prefit", "postfit"]:
 			for datacard in datacards_cbs.keys():
@@ -413,18 +434,18 @@ if __name__ == "__main__":
 					config.setdefault("sum_result_nicks", []).append("Total")
 				
 					processes_to_plot = list(processes)
-					processes = [p.replace("zl", "zl_noplot").replace("zj", "zj_noplot").replace("vvt", "vvt_noplot").replace("vvj", "vvj_noplot") for p in processes]
+					processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("VVT", "VVT_noplot").replace("VVJ", "VVJ_noplot").replace("W", "W_noplot")  for p in processes]
 					processes_to_plot = [p for p in processes if not "noplot" in p]
 				
-					processes_to_plot.insert(1, "ewk")
-					config["sum_nicks"].append("vvt_noplot vvj_noplot")
-					config["sum_scale_factors"].append("1.0 1.0")
-					config["sum_result_nicks"].append("ewk")
+					processes_to_plot.insert(1, "EWK")
+					config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot")
+					config["sum_scale_factors"].append("1.0 1.0 1.0")
+					config["sum_result_nicks"].append("EWK")
 					if category not in "et_dijet2D_lowboost_SB_antiiso":
-						processes_to_plot.insert(2, "zll")
-						config["sum_nicks"].append("zl_noplot zj_noplot")
+						processes_to_plot.insert(2, "ZLL")
+						config["sum_nicks"].append("ZL_noplot ZJ_noplot")
 						config["sum_scale_factors"].append("1.0 1.0")
-						config["sum_result_nicks"].append("zll")
+						config["sum_result_nicks"].append("ZLL")
 				
 					config["files"] = [postfit_shapes]
 					config["folders"] = [category+"_"+level]
