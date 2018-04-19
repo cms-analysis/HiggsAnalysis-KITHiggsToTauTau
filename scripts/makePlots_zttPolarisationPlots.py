@@ -26,16 +26,16 @@ if __name__ == "__main__":
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["zttpospol", "zttnegpol"],
 	                    help="Samples. [Default: %(default)s]")
-	parser.add_argument("--era", default="2015",
+	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", action="append",
 	                    default=["tt", "mt", "et"],
 	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", action="append", nargs="+", default=[["a1_x", "x_a1", "rho_x", "x_rho", "oneprong_x"], ["x_a1", "x_rho", "x_oneprong"], ["x_a1", "x_rho", "x_oneprong"]],
+	parser.add_argument("--categories", action="append", nargs="+", default=[["a1_1", "a1_2", "rho_1", "rho_2", "oneprong_1", "oneprong_2"], ["a1_2", "rho_2", "oneprong_2"], ["a1_2", "rho_2", "oneprong_2"]],
 	                    help="Categories. [Default: %(default)s]")
-	parser.add_argument("--pt-cut-expressions", action="append", nargs="+", default=[["(pt_1>{pt_cut})", "(pt_2>{pt_cut})", "(pt_1>{pt_cut})", "(pt_2>{pt_cut})", "(pt_1>{pt_cut})"], ["(pt_2>{pt_cut})", "(pt_2>{pt_cut})", "(pt_2>{pt_cut})"], ["(pt_2>{pt_cut})", "(pt_2>{pt_cut})", "(pt_2>{pt_cut})"]],
+	parser.add_argument("--pt-cut-expressions", action="append", nargs="+", default=[["(pt_1>{pt_cut})", "(pt_2>{pt_cut})", "(pt_1>{pt_cut})", "(pt_2>{pt_cut})", "(pt_1>{pt_cut})", "(pt_2>{pt_cut})"], ["(pt_2>{pt_cut})", "(pt_2>{pt_cut})", "(pt_2>{pt_cut})"], ["(pt_2>{pt_cut})", "(pt_2>{pt_cut})", "(pt_2>{pt_cut})"]],
 	                    help="Expressions for pT cuts (must contain {pt_cut} to be replaced). [Default: %(default)s]")
-	parser.add_argument("--pt-cut-values", action="append", nargs="+", default=[["40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0"], ["20.0 30.0 40.0", "20.0 30.0 40.0", "20.0 30.0 40.0"], ["25.0 35.0 45.0", "25.0 35.0 45.0", "25.0 35.0 45.0"]],
+	parser.add_argument("--pt-cut-values", action="append", nargs="+", default=[["40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0"], ["20.0 30.0 40.0", "20.0 30.0 40.0", "20.0 30.0 40.0"], ["25.0 35.0 45.0", "25.0 35.0 45.0", "25.0 35.0 45.0"]],
 	                    help="Values for pT cuts (white space separated). [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
@@ -91,8 +91,10 @@ if __name__ == "__main__":
 			for polarisation_bias_correction in [False, True]:
 				config = sample_settings.get_config(
 						samples=list_of_samples,
+						no_ewkz_as_dy=True,
 						channel=channel,
 						category="catZttPol13TeV_{channel}_{category}".format(channel=channel, category=category) if category else None,
+						cut_type="smhtt2016", # baseline_low_mvis2016
 						weight="isZTT",
 						lumi = args.lumi * 1000,
 						exclude_cuts=[],
@@ -110,7 +112,7 @@ if __name__ == "__main__":
 				config["x_bins"] = "2,-2,2"
 				config["x_label"] = ""
 				config["x_ticks"] = [-1.0, 1.0]
-				config["x_tick_labels"] = ["zttnegpol", "zttpospol"]
+				config["x_tick_labels"] = ["zttnegpol_large", "zttpospol_large"]
 				
 				if not "SumOfHistograms" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("SumOfHistograms")
@@ -122,7 +124,7 @@ if __name__ == "__main__":
 							
 				config["labels"] = ["Reconstruction", "Generator"]
 				config["colors"] = ["1", "2"]
-				config["markers"] = ["E", "LINE"]
+				config["markers"] = ["E", "LINE]["]
 				config["legend_markers"] = ["ELP", "L"]
 				config["legend"] = [0.25, 0.8, 0.85, 0.9]
 				config["legend_cols"] = 2
@@ -143,12 +145,15 @@ if __name__ == "__main__":
 				
 				plot_configs.append(config)
 			
+			"""
 			config = {}
 			for index, (pt_cut_weight, pt_cut_value) in enumerate(zip(pt_cut_weights, pt_cut_values)):
 				tmp_config = sample_settings.get_config(
 						samples=list_of_samples,
+						no_ewkz_as_dy=True,
 						channel=channel,
 						category="catZttPol13TeV_{channel}_{category}".format(channel=channel, category=category) if category else None,
+						cut_type="smhtt2016", # baseline_low_mvis2016
 						weight=pt_cut_weight,
 						lumi = args.lumi * 1000,
 						exclude_cuts=[],
@@ -189,6 +194,7 @@ if __name__ == "__main__":
 				config.setdefault("analysis_modules", []).append("NormalizeToUnity")
 			
 			plot_configs.append(config)
+			"""
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint

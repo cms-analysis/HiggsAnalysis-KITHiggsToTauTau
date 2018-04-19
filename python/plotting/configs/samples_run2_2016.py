@@ -520,7 +520,7 @@ class Samples(samples.SamplesBase):
 					"gen/ntuple",
 					1.0,
 					"isZTT*(%s)" % polarisation_weight,
-					"zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix,
+					"zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot"),
 					nick_suffix=nick_suffix
 			)
 		
@@ -531,7 +531,7 @@ class Samples(samples.SamplesBase):
 			config.setdefault("ztt_pos_pol_reco_nicks", []).extend(["zttpospol"+nick_suffix, "zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 		
 		if polarisation_gen_ztt_plots:
-			Samples._add_plot(config, "bkg", "HIST", "F", "zttpospol", nick_suffix)
+			Samples._add_plot(config, "gen", "HIST", "F", "zttpospol", nick_suffix)
 		
 		return config
 	
@@ -549,7 +549,7 @@ class Samples(samples.SamplesBase):
 					"gen/ntuple",
 					1.0,
 					"isZTT*(%s)" % polarisation_weight,
-					"zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix,
+					"zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot"),
 					nick_suffix=nick_suffix
 			)
 		
@@ -560,8 +560,18 @@ class Samples(samples.SamplesBase):
 			config.setdefault("ztt_neg_pol_reco_nicks", []).extend(["zttnegpol"+nick_suffix, "zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 		
 		if polarisation_gen_ztt_plots:
-			Samples._add_plot(config, "bkg", "HIST", "F", "zttnegpol", nick_suffix)
+			Samples._add_plot(config, "gen", "HIST", "F", "zttnegpol", nick_suffix)
 		
+		return config
+
+	def zttposcp(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		cp_weight = "( ((q_2>0)*(cosPsiPlus<(sqrt(2)/2))) + ((q_2<0)*(cosPsiMinus<(sqrt(2)/2))) )"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (cp_weight, weight), "poscp"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttposcp", label="zttposcp", **kwargs)
+		return config
+
+	def zttnegcp(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		cp_weight = "( ((q_2>0)*(cosPsiPlus>(sqrt(2)/2))) + ((q_2<0)*(cosPsiMinus>(sqrt(2)/2))) )"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (cp_weight, weight), "negcp"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegcp", label="zttnegcp", **kwargs)
 		return config
 
 	def files_zll(self, channel):
