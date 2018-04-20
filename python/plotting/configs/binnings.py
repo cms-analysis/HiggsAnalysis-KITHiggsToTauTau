@@ -682,22 +682,22 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_tt_dijet2D_lowboost_qcd_cr_dcp_star"] = "-1 1"
 			
 			# antiisolated Sideband for QCD extrapolation factor determination
-			self.binnings_dict["binningHttCP13TeV_et_dijet2D_lowboost_SB_antiiso_m_vis"] = "0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
-			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_lowboost_SB_antiiso_m_vis"] = "0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
-			self.binnings_dict["binningHttCP13TeV_et_dijet2D_boosted_SB_antiiso_m_vis"] = "0 400"
-			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_boosted_SB_antiiso_m_vis"] = "0 400"
+			self.binnings_dict["binningHttCP13TeV_et_dijet2D_lowboost_SB_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_lowboost_SB_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_et_dijet2D_boosted_SB_antiiso_m_vis"] = "40 80 120 160 200"
+			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_boosted_SB_antiiso_m_vis"] = "40 80 120 160 200" #0 400"
 
 			
 			# 0jet CP category	
 			self.binnings_dict["binningHttCP13TeV_"+channel+"_ZeroJet2D_m_sv"] = "0 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 220 240 260 280 300" if channel != "tt" else "0 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 260 270 280 290 300"
-			self.binnings_dict["binningHttCP13TeV_et_ZeroJet2D_SB_antiiso_m_vis"] = "0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
-			self.binnings_dict["binningHttCP13TeV_mt_ZeroJet2D_SB_antiiso_m_vis"] = "0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_et_ZeroJet2D_SB_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_mt_ZeroJet2D_SB_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 			
 			# boosted CP category
 			self.binnings_dict["binningHttCP13TeV_"+channel+"_Boosted2D_H_pt"] = "0 100 150 200 250 300" if channel != "tt" else "0 100 170 300"
 			self.binnings_dict["binningHttCP13TeV_"+channel+"_Boosted2D_m_sv"] = "0 80 90 100 110 120 130 140 150 160 300" if channel != "tt" else "0 40 60 70 80 90 100 110 120 130 150 200 250"
-			self.binnings_dict["binningHttCP13TeV_et_Boosted2D_SB_antiiso_m_vis"] = "0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
-			self.binnings_dict["binningHttCP13TeV_mt_Boosted2D_SB_antiiso_m_vis"] = "0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_et_Boosted2D_SB_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_mt_Boosted2D_SB_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 
 
 		# H->tautau MSSM binnings

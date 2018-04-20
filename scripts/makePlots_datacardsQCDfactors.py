@@ -267,7 +267,7 @@ if __name__ == "__main__":
 					config= systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 				
 					# fit is to be performed for 
-					config["x_expressions"] = ["m_vis"] 
+					config["x_expressions"] = ["m_vis" if "ZeroJet2D_SB_antiiso" in category else "m_sv"]
 								
 					# configure binnings etc 				
 					if any(bin in category for bin in ["ZeroJet2D_SB_antiiso","Boosted2D_SB_antiiso","dijet2D_lowboost_SB_antiiso","dijet2D_boosted_SB_antiiso"]) and channel in ["mt", "et"]:
