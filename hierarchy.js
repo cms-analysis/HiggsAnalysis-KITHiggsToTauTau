@@ -3,10 +3,8 @@ var hierarchy =
     [ "AnalysisBase", null, [
       [ "cphypotheses.CPHypotheses", "classcphypotheses_1_1CPHypotheses.html", null ],
       [ "estimatebase.EstimateBase", "classestimatebase_1_1EstimateBase.html", [
-        [ "calculatewosssfactor.CalculateWJetsOSSSFactor", "classcalculatewosssfactor_1_1CalculateWJetsOSSSFactor.html", null ],
         [ "estimateff.EstimateFF", "classestimateff_1_1EstimateFF.html", null ],
         [ "estimateqcd.EstimateQcd", "classestimateqcd_1_1EstimateQcd.html", null ],
-        [ "estimateqcdprefit.EstimateQcdPrefit", "classestimateqcdprefit_1_1EstimateQcdPrefit.html", null ],
         [ "estimateqcdtauhadtauhad.EstimateQcdTauHadTauHad", "classestimateqcdtauhadtauhad_1_1EstimateQcdTauHadTauHad.html", null ],
         [ "estimatettbar.EstimateTtbar", "classestimatettbar_1_1EstimateTtbar.html", null ],
         [ "estimatewjets.EstimateWjets", "classestimatewjets_1_1EstimateWjets.html", null ],
@@ -187,6 +185,7 @@ var hierarchy =
         [ "systematics_run2.JetFakeTauWShapeSystematic", "classsystematics__run2_1_1JetFakeTauWShapeSystematic.html", null ],
         [ "systematics_run2.JetToTauFakeSystematic", "classsystematics__run2_1_1JetToTauFakeSystematic.html", null ],
         [ "systematics_run2.MassResSystematic", "classsystematics__run2_1_1MassResSystematic.html", null ],
+        [ "systematics_run2.MassResSystematicv2", "classsystematics__run2_1_1MassResSystematicv2.html", null ],
         [ "systematics_run2.MetJetEnSystematic", "classsystematics__run2_1_1MetJetEnSystematic.html", null ],
         [ "systematics_run2.MetResponseSystematic", "classsystematics__run2_1_1MetResponseSystematic.html", null ],
         [ "systematics_run2.MetUnclusteredEnSystematic", "classsystematics__run2_1_1MetUnclusteredEnSystematic.html", null ],
