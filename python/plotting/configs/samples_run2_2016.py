@@ -1486,6 +1486,10 @@ class Samples(samples.SamplesBase):
 				"wj_mc_os",
 				nick_suffix=nick_suffix
 		)
+		if not kwargs.get("no_plot", False):
+			if not kwargs.get("mssm", False):
+				Samples._add_bin_corrections(config, "wj_mc_os", nick_suffix)
+			Samples._add_plot(config, "bkg", "HIST", "F", "wj_mc_os", nick_suffix)		
 		return config	
 		
 	def wj_mc_ss(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
