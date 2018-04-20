@@ -1467,31 +1467,6 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ewkz"), nick_suffix)
 		return config
 	
-	def wj_mc_os(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
-		if exclude_cuts is None:
-			exclude_cuts = []
-
-		scale_factor = lumi
-		if not self.postfit_scales is None:
-			scale_factor *= self.postfit_scales.get("WJets", 1.0)
-
-		data_weight, mc_weight = self.projection(kwargs)
-
-		Samples._add_input(
-				config,
-				self.files_wj(channel),
-				self.root_file_folder(channel),
-				lumi,
-				weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
-				"wj_mc_os",
-				nick_suffix=nick_suffix
-		)
-		if not kwargs.get("no_plot", False):
-			if not kwargs.get("mssm", False):
-				Samples._add_bin_corrections(config, "wj_mc_os", nick_suffix)
-			Samples._add_plot(config, "bkg", "HIST", "F", "wj_mc_os", nick_suffix)		
-		return config	
-		
 	def wj_mc_ss(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -1504,16 +1479,35 @@ class Samples(samples.SamplesBase):
 		
 		ss_cut_type = cut_type + "SameSignRegion" 
 		exclude_cuts_ss = copy.deepcopy(exclude_cuts)+["os"]
-
+		wj_shape_weight = weight
 		Samples._add_input(
 				config,
 				self.files_wj(channel),
 				self.root_file_folder(channel),
 				lumi,
-				weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+				mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 				"wj_mc_ss",
 				nick_suffix=nick_suffix
 		)
+		if (not kwargs.get("no_ewk_samples", False)):
+			Samples._add_input(
+					config,
+					self.files_ewkwm(channel),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.ewkwm_stitchingweight(),
+					"wj",
+					nick_suffix=nick_suffix
+			)
+			Samples._add_input(
+					config,
+					self.files_ewkwp(channel),
+					self.root_file_folder(channel),
+					lumi,
+					mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.ewkwp_stitchingweight(),
+					"wj",
+					nick_suffix=nick_suffix
+			)		
 		if not kwargs.get("no_plot", False):
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "wj", nick_suffix)
@@ -1554,6 +1548,39 @@ class Samples(samples.SamplesBase):
 			
 			# wj shape and highmt to lowmt extrapolation 
 			wj_shape_weight = weight   # replace only category part
+			
+			
+			if "mc" in estimationMethod:
+				# Determine W+jets from Monte Carlo
+				Samples._add_input(
+					config,
+					self.files_wj(channel),
+					self.root_file_folder(channel),
+					lumi,
+					weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					"wj",
+					nick_suffix=nick_suffix
+				)
+				if (not kwargs.get("no_ewk_samples", False)):
+					Samples._add_input(
+							config,
+							self.files_ewkwm(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwm_stitchingweight(),
+							"wj",
+							nick_suffix=nick_suffix
+					)
+					Samples._add_input(
+							config,
+							self.files_ewkwp(channel),
+							self.root_file_folder(channel),
+							lumi,
+							mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwp_stitchingweight(),
+							"wj",
+							nick_suffix=nick_suffix
+					)
+				
 			
 			if "cp_prefit" in estimationMethod: 
 				# add inclusive Wjets MC samples in OS and SS for W SS/OS determination 
