@@ -245,6 +245,8 @@ if __name__ == "__main__":
 	                    help="Use relaxed isolation for W+jets shape estimation in MT and ET channels. [Default: %(default)s]")
 	parser.add_argument("--use-relaxed-isolation-for-QCD", default=False, action="store_true",
 	                    help="Use relaxed isolation for QCD shape estimation in MT and ET channels. [Default: %(default)s]")
+	parser.add_argument("--calculate-QCD-os-ss-scalefactor", default=False, action="store_true",
+	                    help="Calculate os to ss extrapolation factor of QCD estimation in MT and ET channels. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -259,8 +261,12 @@ if __name__ == "__main__":
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 			if args.lumi == parser.get_default("lumi"):
 				args.lumi = samples.default_lumi/1000.0
-		elif args.era == "2017":
+		elif args.era == "2017" and args.calculate_QCD_os_ss_scalefactor==False:
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017 as samples
+			if args.lumi == parser.get_default("lumi"):
+				args.lumi = samples.default_lumi/1000.0
+		elif args.era == "2017" and args.calculate_QCD_os_ss_scalefactor==True:
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_OStoSSExtSF as samples
 			if args.lumi == parser.get_default("lumi"):
 				args.lumi = samples.default_lumi/1000.0
 		else:
