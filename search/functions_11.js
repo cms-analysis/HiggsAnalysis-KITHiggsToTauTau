@@ -1,6 +1,7 @@
 var searchData=
 [
   ['safe_5fappend_5fmodules',['safe_append_modules',['../classembedding__plot__classes_1_1single__plot.html#a044d5c7eb755b5b509e39a17d26317aa',1,'embedding_plot_classes::single_plot']]],
+  ['samesignregion',['SameSignRegion',['../classcutstrings_1_1CutStringsDict.html#a8201807d3be5d58c003b06591f33af73',1,'cutstrings::CutStringsDict']]],
   ['sample2process',['sample2process',['../classdatacardconfigs_1_1DatacardConfigs.html#a44dd82e21564ea61cb8294502af67ed5',1,'datacardconfigs.DatacardConfigs.sample2process()'],['../namespacemakePlots__datacardsMSSMHtt.html#a8d4778067acf938cbddb113c35b7fc64',1,'makePlots_datacardsMSSMHtt.sample2process()']]],
   ['save_5fas_5fhistograms',['save_as_histograms',['../namespacegetInclusiveWeight.html#af26ecb85638f8bcbe7b9d266d8fcc455',1,'getInclusiveWeight']]],
   ['scale_5fexpectation',['scale_expectation',['../classdatacards_1_1Datacards.html#a26ace8d2c8c4b0c0436b8825b9ccc5d4',1,'datacards.Datacards.scale_expectation()'],['../classmvadatacards__base_1_1Datacards.html#ae7dd80b733e14cec5301b45092921240',1,'mvadatacards_base.Datacards.scale_expectation()']]],
@@ -20,6 +21,7 @@ var searchData=
   ['shiftmet',['ShiftMEt',['../classMEtSys.html#a6363f250899177442b8662bbe266699a',1,'MEtSys']]],
   ['shiftresolutionmet',['ShiftResolutionMet',['../classMEtSys.html#a97e00588ed003eeb90730ff2ac4be9f8',1,'MEtSys']]],
   ['shiftresponsemet',['ShiftResponseMet',['../classMEtSys.html#ac0f73d0c4b0f762f3326e389e30380b7',1,'MEtSys']]],
+  ['show_5fresults',['show_results',['../namespaceMVAFlavio.html#a3ad7bb623b45010a5eee457636acf812',1,'MVAFlavio']]],
   ['simpleeletaufakerateweightproducer',['SimpleEleTauFakeRateWeightProducer',['../classSimpleEleTauFakeRateWeightProducer.html#acba890354b0cef94070c41431d311841',1,'SimpleEleTauFakeRateWeightProducer::SimpleEleTauFakeRateWeightProducer()'],['../classSimpleEleTauFakeRateWeightProducer.html#a7e823f4f9e2d9b660b162f0b1fbdd6b8',1,'SimpleEleTauFakeRateWeightProducer::SimpleEleTauFakeRateWeightProducer(std::vector&lt; float &gt; &amp;(setting_type::*GetSimpleEleTauFakeRateWeightVLoose)(void) const, std::vector&lt; float &gt; &amp;(setting_type::*GetSimpleEleTauFakeRateWeightTight)(void) const)']]],
   ['simplemutaufakerateweightproducer',['SimpleMuTauFakeRateWeightProducer',['../classSimpleMuTauFakeRateWeightProducer.html#ae3ec7f5119239f3b455485c93c66c094',1,'SimpleMuTauFakeRateWeightProducer::SimpleMuTauFakeRateWeightProducer()'],['../classSimpleMuTauFakeRateWeightProducer.html#ab156e0e55bda16af0018394f2b3cd774',1,'SimpleMuTauFakeRateWeightProducer::SimpleMuTauFakeRateWeightProducer(std::vector&lt; float &gt; &amp;(setting_type::*GetSimpleMuTauFakeRateWeightLoose)(void) const, std::vector&lt; float &gt; &amp;(setting_type::*GetSimpleMuTauFakeRateWeightTight)(void) const)']]],
   ['soversqrtsplusb',['SoverSqrtSplusB',['../classcutOptimizer_1_1CutOptimizer.html#ac10bfbfc3937f7db8121f1509f8903ec',1,'cutOptimizer::CutOptimizer']]],
