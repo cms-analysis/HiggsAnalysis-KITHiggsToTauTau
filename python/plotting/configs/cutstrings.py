@@ -458,6 +458,16 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
+	def invertedLeptonIsolation(channel, cut_type):
+		if channel in ["mt", "et"]:
+			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("invertedLeptonIsolation",""))
+			cuts["iso_1"] = "((iso_1)>0.1)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+
+	@staticmethod
 	def baseline_low_mvis(channel, cut_type):
 		if channel== "gen":
 			cuts = {}
@@ -645,6 +655,8 @@ class CutStringsDict:
 			cuts = CutStringsDict.highMtControlRegionWJ(channel, cut_type)
 		elif "highMtSSControlRegionWJ" in cut_type:
 			cuts = CutStringsDict.highMtSSControlRegionWJ(channel, cut_type)
+		elif "invertedLeptonIsolation" in cut_type:
+			cuts = CutStringsDict.invertedLeptonIsolation(channel, cut_type)
 		
 		elif cut_type=="baseline_low_mvis":
 			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
