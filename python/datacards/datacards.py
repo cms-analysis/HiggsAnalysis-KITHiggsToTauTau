@@ -745,15 +745,16 @@ class Datacards(object):
 		# create result plots HarryPlotter
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
-	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args):
+	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args, **kwargs):
 
 		tmp_args = " ".join(args)
+		higgs_mass = "125"
 		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"	
+			higgs_mass = value if "higgs_mass" in key else "125"	
 		
 		commandsInitialFit = []
 		commandsInitialFit.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doInitialFit --allPars {ARGS}".format(
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1  --doInitialFit --allPars {ARGS}".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace
@@ -763,7 +764,7 @@ class Datacards(object):
 
 		commandsFits = []
 		commandsFits.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doFits --parallel {NPROCS} --allPars {ARGS}".format(
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --doFits --parallel {NPROCS} --allPars {ARGS}".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace,
@@ -774,7 +775,7 @@ class Datacards(object):
 
 		commandsOutput = []
 		commandsOutput.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --output impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} -o impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace,
@@ -803,4 +804,4 @@ class Datacards(object):
 		rebin.SetRebinMode(rebin_mode)
 		rebin.SetPerformRebin(True)
 		rebin.SetVerbosity(0)
-		rebin.R
+		rebin.Rebin(self.cb, self.cb)
