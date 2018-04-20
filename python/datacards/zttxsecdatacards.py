@@ -220,13 +220,16 @@ class ZttEffDatacards(datacards.Datacards):
 
 
 class ZttLepTauFakeRateDatacards(datacards.Datacards):
-	def __init__(self, year="", noJECuncSplit=True, cb=None):
+	def __init__(self, year="", noJECuncSplit=True, quantity="m_vis", cats_antieWPoints=[], weight_type="eta", weight_bins=[],cb=None):
 		super(ZttLepTauFakeRateDatacards, self).__init__(cb)
 
 		systematics_list = SystLib.SystematicLibary()	
 
 		all_mc_bkgs = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VV", "W"]
 		all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ","TTT", "TTJJ", "VV"]
+
+		cats_antieWPoints = ["antieloosepass", "antieloosefail"]#,"antievloosepass", "antievloosefail", "antiemediumpass", "antiemediumfail", "antietightpass", "antietightfail", "antievtightpass", "antievtightfail"]
+		weight_bins = ["1"] #corresponds to barrel region eta < 1.46
 
 		if cb is None:
 			# ======================================================================
@@ -252,16 +255,16 @@ class ZttLepTauFakeRateDatacards(datacards.Datacards):
 			# ET channel
 			self.add_processes(
 					channel="et",
-					categories=["et_"+category for category in ["antievloosepass", "antievloosefail"]],
+					categories=["et_"+ category + "_" +quantity+ "_"+ weight_type +"bin"+ weight_bin  for category in cats_antieWPoints for weight_bin in weight_bins],
 					bkg_processes=["ZTT", "ZJ", "TT", "VV", "W", "QCD"],
 					sig_processes=["ZL"],
 					analysis=["ztt"],
 					era=["13TeV"],
 					mass=["90"]
 			)
-		
+
 			# efficiencies
-			if year == "2016":
+			if year == "2016" or "2017":
 				self.cb.cp().channel(["et"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, *systematics_list.electron_efficiency2016_syst_args)
 				self.cb.cp().channel(["et"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, *systematics_list.trigger_efficiency2016_syst_args)   
 				self.cb.cp().channel(["et"]).process(["ZTT", "TTT", "VV"]).AddSyst(self.cb, *systematics_list.tau_efficiency2016_corr_syst_args) 
@@ -281,15 +284,15 @@ class ZttLepTauFakeRateDatacards(datacards.Datacards):
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *systematics_list.tagele_es_syst_args)
 			
 			# Visible mass resolution
-			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *systematics_list.massres_syst_args)
-		
+			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *systematics_list.massresv2_syst_args) # massresv2_syst_args corresponds to the case where the peak point of the generated mass is used to calculate the shift..
+
 			# additional nuisance for possible differences in Z -> ee norm., in addition to the Z->tautau norm.
 			self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *systematics_list.zee_norm_syst_args)
 			
 			# ===========================================================================
 			# All channels
 			# lumi
-			if year == "2016":
+			if year == "2016" or "2017":
 				self.cb.cp().process(all_mc_bkgs_no_W).AddSyst(self.cb, *systematics_list.lumi2016_syst_args)
 			else:
 				self.cb.cp().process(all_mc_bkgs_no_W).AddSyst(self.cb, *systematics_list.lumi_syst_args)
@@ -298,7 +301,7 @@ class ZttLepTauFakeRateDatacards(datacards.Datacards):
 			self.cb.cp().process(["ZTT", "ZL", "ZJ"]).AddSyst(self.cb, *systematics_list.ztt_cross_section_syst_args)
 			self.cb.cp().process(["TTJ", "TTJJ"]).AddSyst(self.cb, *systematics_list.ttj_cross_section_syst_args)
 			self.cb.cp().process(["W"]).AddSyst(self.cb, *systematics_list.wj_cross_section_syst_args)
-			if year == "2016":
+			if year == "2016" or "2017":
 				self.cb.cp().process(["VV"]).AddSyst(self.cb, *systematics_list.vv_cross_section2016_syst_args)
 			else:
 				self.cb.cp().process(["VV"]).AddSyst(self.cb, *systematics_list.vv_cross_section_syst_args)

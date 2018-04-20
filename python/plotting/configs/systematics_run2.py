@@ -78,6 +78,9 @@ class SystematicsFactory(dict):
 		for channel in ["et"]:
 			self["CMS_scale_massRes_"+channel+"_13TeV"] = MassResSystematic
 		
+		for channel in ["et"]:
+			self["CMS_scale_massResv2_"+channel+"_13TeV"] = MassResSystematicv2
+
 		jecUncertNames = [
 			"AbsoluteFlavMap",
 			"AbsoluteMPFBias",
@@ -599,6 +602,20 @@ class MassResSystematic(SystematicShiftBase):
 				elif shift < 0.0:
 					plot_config["x_expressions"][index] = expression.replace("m_vis", "diLepMassSmearDown")
 		
+		return plot_config
+
+class MassResSystematicv2(SystematicShiftBase):
+
+	def get_config(self, shift=0.0):
+		plot_config = super(MassResSystematicv2, self).get_config(shift=shift)
+
+		for index, expression in enumerate(plot_config.get("x_expressions", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["x_expressions"][index] = expression.replace("m_vis", "diLepMassSmearUp_wPeakFit")
+				elif shift < 0.0:
+					plot_config["x_expressions"][index] = expression.replace("m_vis", "diLepMassSmearDown_wPeakFit")
+
 		return plot_config
 
 
