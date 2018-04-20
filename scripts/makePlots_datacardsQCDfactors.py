@@ -77,7 +77,7 @@ def addArguments(parser):
 						help="Exit program in case categories are removed from CH. [Default: %(default)s]")
 	parser.add_argument("--steps", nargs="+",
 	                    default=["inputs", "t2w", "dofit", "prefitpostfitplots"],
-	                    choices=["inputs", "t2w", "dofit", "prefitpostfitplots"],
+	                    choices=["inputs", "t2w", "dofit", "prefitpostfitplots", "nuisanceimpacts"],
 	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
 												
 def _call_command(args):
@@ -166,12 +166,8 @@ if __name__ == "__main__":
 	# dict to map Process names to python sample function. 
 	datacards.configs._mapping_process2sample = {
 		"data_obs" : "data",
-		"EWKZ" : "ewkz",
-		"EWK" : "ewk",
 		"QCD" : "qcd_prefit",				
-		"TT" : "ttj",
 		"TTT" : "ttt",
-		"TTJ" : "ttj",
 		"TTJJ" : "ttjj",
 		"VV" : "vv",
 		"VVT" : "vvt",
@@ -369,7 +365,6 @@ if __name__ == "__main__":
 		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes, higgs_mass=125)
 	
 	# Combine call
-	# Important: redefine the POI of the fit, such that is the es-shift and not the signal scale modifier (r)
 	if "dofit" in args.steps:
 		datacards.combine(
 				datacards_cbs,
@@ -397,7 +392,7 @@ if __name__ == "__main__":
 		datacards.plot1DScan(datacards_cbs, datacards_workspaces, "r")
 			
 	# Plot nuisance impacts
-	if args.plot_nuisance_impacts:
+	if "nuisanceimpacts" in args.steps:
 		datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	
 	# Postfitshapes call
