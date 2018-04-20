@@ -10,6 +10,7 @@ import copy
 import glob
 import os
 import re
+import pprint
 import shlex
 import sys
 
@@ -25,6 +26,11 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as syste
 import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards_module
 
+
+
+"""
+	Script to create ROOT inputs and datacards for the Higgs-boson CP studies in the final state.
+"""
 
 
 def _call_command(command):
@@ -154,67 +160,79 @@ if __name__ == "__main__":
 	output_files = []
 	merged_output_files = []
 	hadd_commands = []
+	signal_processes = []
+
+	if args.cp_study=="rhometh":
+		signal_processes.append("smHcpeven")
+		signal_processes.append("susyHcpodd")
+	else:
+		log.critical("Invalid cp study: " + args.cp_study)
+		sys.exit(1)
+
 	
 	datacards = None
 	category_replacements = {}
-	if args.for_dcsync:
-		datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses)
-	else:
-		# get "official" configuration
-		init_directory = os.path.join(args.output_dir, "init")
-		command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
-		log.debug(command)
-		exit_code = logger.subprocessCall(shlex.split(command))
-		assert(exit_code == 0)
-		
-		init_cb = ch.CombineHarvester()
-		for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):
-			init_cb.QuickParseDatacard(init_datacard, "$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt", False)
-		
-		datacards = smhttdatacards.SMHttDatacards(
-				cb=init_cb,
-				higgs_masses=args.higgs_masses,
-				ttbarFit=args.ttbar_fit,
-				mmFit=args.mm_fit,
-				year=args.era,
-				noJECuncSplit=args.no_jec_unc_split
-		)
-		
-		datacards.configs._mapping_process2sample = {
-			"data_obs" : "data",
-			"ZTT" : "ztt",
-			"ZL" : "zl",
-			"ZJ" : "zj",
-			"EWKZ" : "ewkz",
-			"TT" : "ttj",
-			"TTT" : "ttt",
-			"TTJ" : "ttj",
-			"VV" : "vv",
-			"VVT" : "vvt",
-			"VVJ" : "vvj",
-			"W" : "wj",
-			"QCD" : "qcd",
-			"ggH_htt" : "ggh",
-			"qqH_htt" : "qqh",
-			"WH_htt" : "wh",
-			"ZH_htt" : "zh",
-			"ggH_hww" : "hww_gg",
-			"qqH_hww" : "hww_qq",
-		}
-		
-		category_replacements["0jet"] = "ZeroJet2D"
-		category_replacements["boosted"] = "Boosted2D"
-		category_replacements["vbf"] = "Vbf2D"
-		category_replacements["all"] = "TTbarCR"
-		category_replacements["wjets_0jet_cr"] = "ZeroJet2D_WJCR"
-		category_replacements["wjets_boosted_cr"] = "Boosted2D_WJCR"
-		category_replacements["wjets_vbf_cr"] = "Vbf2D_WJCR"
-		category_replacements["antiiso_0jet_cr"] = "ZeroJet2D_QCDCR"
-		category_replacements["antiiso_boosted_cr"] = "Boosted2D_QCDCR"
-		category_replacements["antiiso_vbf_cr"] = "Vbf2D_QCDCR"
-		category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR"
-		category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
-		category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
+
+	#if args.for_dcsync:
+	#	datacards = smhttdatacards.SMHttDatacardsForSync(higgs_masses=args.higgs_masses)
+	#else:
+
+	# get "official" configuration
+	init_directory = os.path.join(args.output_dir, "init")
+	command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
+	log.debug(command)
+	exit_code = logger.subprocessCall(shlex.split(command))
+	assert(exit_code == 0)
+	
+	init_cb = ch.CombineHarvester()
+	for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):
+		init_cb.QuickParseDatacard(init_datacard, "$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt", False)
+	
+	datacards = smhttdatacards.SMHttDatacards(
+			cb=init_cb,
+			higgs_masses=args.higgs_masses,
+			ttbarFit=args.ttbar_fit,
+			mmFit=args.mm_fit,
+			year=args.era,
+			noJECuncSplit=args.no_jec_unc_split,
+			signal_processes=signal_processes
+	)
+	
+	datacards.configs._mapping_process2sample = {
+		"data_obs" : "data",
+		"ZTT" : "ztt",
+		"ZL" : "zl",
+		"ZJ" : "zj",
+		"EWKZ" : "ewkz",
+		"TT" : "ttj",
+		"TTT" : "ttt",
+		"TTJ" : "ttj",
+		"VV" : "vv",
+		"VVT" : "vvt",
+		"VVJ" : "vvj",
+		"W" : "wj",
+		"QCD" : "qcd",
+		"ggH_hww" : "hww_gg",
+		"qqH_hww" : "hww_qq",
+		"smHcpeven" : "httcpeven",
+		"susyHcpodd" : "susycpodd",
+	}
+	
+	category_replacements["0jet"] = "ZeroJet2D_CPrho"
+	category_replacements["boosted"] = "Boosted2D_CPrho"
+	category_replacements["vbf"] = "Vbf2D_CPrho"
+	category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR_CPrho"
+	category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR_CPrho"
+	category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR_CPrho"
+	# ttbar
+	category_replacements["all"] = "TTbarCR"
+	# relevant for semileptonic channels
+	category_replacements["wjets_0jet_cr"] = "ZeroJet2D_WJCR"
+	category_replacements["wjets_boosted_cr"] = "Boosted2D_WJCR"
+	category_replacements["wjets_vbf_cr"] = "Vbf2D_WJCR"
+	category_replacements["antiiso_0jet_cr"] = "ZeroJet2D_QCDCR"
+	category_replacements["antiiso_boosted_cr"] = "Boosted2D_QCDCR"
+	category_replacements["antiiso_vbf_cr"] = "Vbf2D_QCDCR"
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -230,7 +248,7 @@ if __name__ == "__main__":
 	
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
-
+		
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 
@@ -302,6 +320,12 @@ if __name__ == "__main__":
 		"Vbf2D" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.0605) + ((mjj>=700)*(mjj<1100)*1.017) + ((mjj>=1100)*(mjj<1500)*0.975) + ((mjj>=1500)*0.97))",
 		"Vbf2D_Up" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.121) + ((mjj>=700)*(mjj<1100)*1.034) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.94))",
 		"Vbf2D_Down" : "(1.0)"
+		#
+		"ZeroJet2D_CPrho" : "(1.0395)",
+		"Boosted2D_CPrho" : "(((ptvis<100)*1.0321) + ((ptvis>=100)*(ptvis<150)*1.023) + ((ptvis>=150)*(ptvis<200)*1.007) + ((ptvis>=200)*(ptvis<250)*1.016) + ((ptvis>=250)*(ptvis<300)*1.02) + ((ptvis>=300)*1.03))",
+		"Vbf2D_CPrho" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.0605) + ((mjj>=700)*(mjj<1100)*1.017) + ((mjj>=1100)*(mjj<1500)*0.975) + ((mjj>=1500)*0.97))",
+		"Vbf2D_CPrho_Up" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.121) + ((mjj>=700)*(mjj<1100)*1.034) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.94))",
+		"Vbf2D_CPrho_Down" : "(1.0)"
 	}
 	
 	# corrections factors from ZMM control regions as written on SM HTT Twiki
@@ -329,6 +353,12 @@ if __name__ == "__main__":
 		"et_Vbf2D_Down" : zmm_cr_vbf_global,
 		"em_Vbf2D_Down" : zmm_cr_vbf_global,
 		"tt_Vbf2D_Down" : "(1.0)"
+		# rho method
+		"tt_ZeroJet2D_CPrho" : zmm_cr_0jet_global,
+		"tt_Boosted2D_CPrho" : zmm_cr_boosted_global,
+		"tt_Vbf2D_CPrho" : "(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
+		"tt_Vbf2D_CPrho_Up" : "(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
+		"tt_Vbf2D_CPrho_Down" : "(1.0)"
 	}
 	
 	# ttbar nicks for which to apply different top pt reweighting
@@ -339,11 +369,13 @@ if __name__ == "__main__":
 		"noplot_ttj_ss_highmt" # mt & et channels: qcd high mt yield subtract
 	]
 	
+	# used only in semileptonic channel
 	categoriesWithRelaxedIsolationForW = [
 		"Boosted2D",
 		"Vbf2D"
 	]
 	
+	# used only in semileptonic channel
 	categoriesWithRelaxedIsolationForQCD = [
 		"ZeroJet2D",
 		"Boosted2D",
@@ -424,15 +456,19 @@ if __name__ == "__main__":
 			if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
 				exclude_cuts += ["mt"]
 				do_not_normalize_by_bin_width = True
-			if ("ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category)  and channel in ["mt", "et", "tt"]:
+			if ("ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category) and channel in ["mt", "et", "tt"]:
 				if channel in ["mt", "et"]:
 					exclude_cuts += ["iso_1"]
 					do_not_normalize_by_bin_width = True
 				elif channel == "tt":
 					exclude_cuts += ["iso_1", "iso_2"]
 					do_not_normalize_by_bin_width = True
-				
-				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
+			if ("ZeroJet2D_QCDCR_CPrho" in category or "Boosted2D_QCDCR_CPrho" in category or "Vbf2D_QCDCR_CPrho" in category) and channel in ["tt"]:
+				exclude_cuts += ["iso_1", "iso_2"]
+				do_not_normalize_by_bin_width = True
+
+				#datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
+				datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
@@ -485,7 +521,7 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="smhtt2016" if args.era == "2016" else "baseline",
+							cut_type="cp2016" if args.era == "2016" else "baseline",
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
 							wj_sf_shift=wj_sf_shift,
@@ -509,10 +545,9 @@ if __name__ == "__main__":
 						if channel in ["mt", "et", "tt"]:
 							if config["nicks"][index] in top_pt_reweight_nicks or channel == "tt":
 								weightAtIndex = weightAtIndex.replace("topPtReweightWeight", "topPtReweightWeightRun1")
-						if args.new_tau_id:
-							weightAtIndex = weightAtIndex.replace("byTightIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Medium").replace("byMediumIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1Loose").replace("byLooseIsolationMVArun2v1DBoldDMwLT", "rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose")
 						config["weights"][index] = weightAtIndex
-					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
+						
+					config["x_expressions"] = ["recoPhiStarCP_rho_merged"] if args.cp_study == "rhometh"
 
 					if "2D" not in category:
 						binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
@@ -544,7 +579,17 @@ if __name__ == "__main__":
 					if "TTbarCR" in category and channel == "ttbar":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
-					
+					## rho method
+					if "ZeroJet2D_QCDCR_CPrho" in category and channel == "tt":
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					if "Boosted2D_QCDCR_CPrho" in category and channel == "tt":
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					if "Vbf2D_QCDCR_CPrho" in category and channel == "tt":
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+
 					# Use 2d plots for 2d categories
 					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_sv" if channel == "tt" else "m_vis"]
@@ -565,9 +610,25 @@ if __name__ == "__main__":
 						config["y_expressions"] = ["mjj"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
-					
+					## rho method
+					if "ZeroJet2D_CPrho" in category and not ("WJCR" in category or "QCDCR" in category):
+						config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
+						config["y_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_phiStarCP"]]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					elif "Boosted2D_CPrho" in category and not ("WJCR" in category or "QCDCR" in category):
+						config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
+						config["y_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_phiStarCP"]]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+					elif "Vbf2D_CPrho" in category and not "QCDCR" in category:
+						config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
+						config["y_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_phiStarCP"]]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
+
 					# Unroll 2d distribution to 1d in order for combine to fit it
-					if "2D" in category and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and "ZeroJet2D" in category):
+					if "2D" in category and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and category=="ZeroJet2D"):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollHistogram")
 						config["unroll_ordering"] = "zyx"
@@ -605,9 +666,11 @@ if __name__ == "__main__":
 				SRC=" ".join(tmp_output_files)
 		))
 	
-	#if log.isEnabledFor(logging.DEBUG):
-	#	import pprint
-	#	pprint.pprint(plot_configs)
+	if log.isEnabledFor(logging.DEBUG):
+		pprint.pprint(plot_configs)
+
+	if args.only_config:
+		sys.exit(1)
 	
 	# delete existing output files
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))

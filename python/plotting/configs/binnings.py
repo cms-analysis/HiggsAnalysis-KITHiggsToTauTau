@@ -691,6 +691,28 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_highM_jdphi"] = "12,-3.2,3.2"
 			self.binnings_dict["binningHtt13TeV_"+channel+"_dijet_lowMjj_jdphi"] = "12,-3.2,3.2"
 
+		# CP in the final state
+		## rho method
+		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_CPrho_recoPhiStarCP_phiStarCP"] = "10,0.0,6.3"
+		self.binnings_dict["binningHtt13TeV_tt_Boosted2D_CPrho_recoPhiStarCP_phiStarCP"] = "10,0.0,6.3"
+		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_CPrho_recoPhiStarCP_phiStarCP"] = "10,0.0,6.3"
+		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_CPrho_recoPhiStarCP_m_sv"] = "0.0 90 120 150 300"
+		self.binnings_dict["binningHtt13TeV_tt_Boosted2D_CPrho_recoPhiStarCP_m_sv"] = "0.0 90 120 150 300"
+		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_CPrho_recoPhiStarCP_m_sv"] = "0.0 90 120 150 300"
+		### control regions
+		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_QCDCR_m_sv"] = "0.0 300.0"
+		self.binnings_dict["binningHtt13TeV_tt_Boosted2D_QCDCR_m_sv"] = "0.0 250.0"	
+		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_QCDCR_m_sv"] = "0.0 250.0"
+		
+
+		## comb method
+
+		## ip method
+		
+
+
+
+
 		# H->tautau MSSM binnings
 		for channel in ["mt", "et", "em", "tt"]:
 			self.binnings_dict[channel+"_mt_2"] = "30,0,150"
