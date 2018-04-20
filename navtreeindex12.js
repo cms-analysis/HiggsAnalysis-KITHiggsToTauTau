@@ -1,5 +1,15 @@
 var NAVTREEINDEX12 =
 {
+"correlation__TProfilePlots_8py.html#a81d6334e0a59e7f7e7439d9bfb17e45f":[2,0,2,13,6],
+"correlation__TProfilePlots_8py.html#a97c203e678f86ebeb6c408bed438b54c":[2,0,2,13,13],
+"correlation__TProfilePlots_8py.html#a9faf794897bf5bb2fd86990126a9bc7d":[2,0,2,13,2],
+"correlation__TProfilePlots_8py.html#ab457c1b5c9f5b98db21e6ca38e603cd8":[2,0,2,13,18],
+"correlation__TProfilePlots_8py.html#ac1ecba0d1bb0929c95e871ab2358758a":[2,0,2,13,10],
+"correlation__TProfilePlots_8py.html#acacb79b7cec729298b5899e753dc83fa":[2,0,2,13,5],
+"correlation__TProfilePlots_8py.html#aee2600f41f7b5b38e88fa0c778f90ec4":[2,0,2,13,9],
+"correlation__TProfilePlots_8py.html#affd5e75ccf80d0839392bbc7c4668f56":[2,0,2,13,16],
+"correlation__plotter_8py.html":[2,0,2,10],
+"correlation__plotter_8py.html#a134ee58cb3093a66ec96a3a76431bcfc":[2,0,2,10,16],
 "correlation__plotter_8py.html#a16dfc31a300135f1b23e7ed9b1521193":[2,0,2,10,15],
 "correlation__plotter_8py.html#a19b64e9d12651ca76352a655289f1fe0":[2,0,2,10,5],
 "correlation__plotter_8py.html#a1e748d836776dd8394357f5f2aadd3d4":[2,0,2,10,6],
@@ -239,15 +249,5 @@ var NAVTREEINDEX12 =
 "embedding__plotline__bib_8py.html#af57f5ae24f72848c35044b036844b8c7":[2,0,1,3,1,1,67],
 "embedding__plotline__bib_8py.html#af8f532cd5f79363c9e6bbe6a3e7012ff":[2,0,1,3,1,1,28],
 "embedding__plotline__bib_8py.html#afae0aefe2624b0bd59dfa8a0779273c1":[2,0,1,3,1,1,20],
-"embedding__plotline__bib_8py.html#afd44ad21cc4fbfd6c225fd2355f5b683":[2,0,1,3,1,1,91],
-"embedding__plotline__bib_8py.html#affdd45851c797a3a9f491289a20d5d23":[2,0,1,3,1,1,35],
-"embedding__plotline__bib_8py.html#afffe05de82018bb843394ddd995492c4":[2,0,1,3,1,1,100],
-"estimatebase_8py.html":[2,0,1,3,2,0,2],
-"estimatebase_8py.html#a1b9e60f5b4fc13ae85372289fd657263":[2,0,1,3,2,0,2,1],
-"estimateff_8py.html":[2,0,1,3,2,0,3],
-"estimateff_8py.html#aa9054fa36ad477ecb07cf037065eb7d9":[2,0,1,3,2,0,3,1],
-"estimateqcd_8py.html":[2,0,1,3,2,0,4],
-"estimateqcd_8py.html#a12ae1c257b7a5bd5ea89412cb3e9ab78":[2,0,1,3,2,0,4,1],
-"estimateqcdprefit_8py.html":[2,0,1,3,2,0,5],
-"estimateqcdprefit_8py.html#a0160ed26fe3c4a0a0b86fc30bca3a1af":[2,0,1,3,2,0,5,1]
+"embedding__plotline__bib_8py.html#afd44ad21cc4fbfd6c225fd2355f5b683":[2,0,1,3,1,1,91]
 };

@@ -35,8 +35,6 @@ var searchData=
   ['antievloosepass',['antievloosepass',['../classcutstrings_1_1CutStringsDict.html#a0e9723c15e339c57a7fbdf0f63176670',1,'cutstrings::CutStringsDict']]],
   ['antievtightfail',['antievtightfail',['../classcutstrings_1_1CutStringsDict.html#a8deeee7bf2cb94b6810c823074679a47',1,'cutstrings::CutStringsDict']]],
   ['antievtightpass',['antievtightpass',['../classcutstrings_1_1CutStringsDict.html#a94a218554605603adb3718a9de2deaee',1,'cutstrings::CutStringsDict']]],
-  ['antiisolationregionqcd',['antiIsolationRegionQCD',['../classcutstrings_1_1CutStringsDict.html#a743b894b8a71dcbe3c4d0ad31c22d84c',1,'cutstrings::CutStringsDict']]],
-  ['antiisolationssregionqcd',['antiIsolationSSRegionQCD',['../classcutstrings_1_1CutStringsDict.html#aadcc16e408139ef068df1180663707c5',1,'cutstrings::CutStringsDict']]],
   ['antimuloosefail',['antimuloosefail',['../classcutstrings_1_1CutStringsDict.html#aa32cb874a98b4f9d394a9817a50f10eb',1,'cutstrings::CutStringsDict']]],
   ['antimuloosepass',['antimuloosepass',['../classcutstrings_1_1CutStringsDict.html#add9a2bd0328de748d02eb69d7d466237',1,'cutstrings::CutStringsDict']]],
   ['antimutightfail',['antimutightfail',['../classcutstrings_1_1CutStringsDict.html#a683d43ba906a51df7207b3308dba4324',1,'cutstrings::CutStringsDict']]],
@@ -44,9 +42,7 @@ var searchData=
   ['antittbardiscriminatortmvareader',['AntiTtbarDiscriminatorTmvaReader',['../classAntiTtbarDiscriminatorTmvaReader.html#a904c009bb180d246e5d0fd4814d014fa',1,'AntiTtbarDiscriminatorTmvaReader']]],
   ['append_5fmvabranch',['append_MVAbranch',['../namespaceAddMVATrainingToTrees.html#aaee248be596abf90d617aa2e609bf03b',1,'AddMVATrainingToTrees']]],
   ['appendconfig',['AppendConfig',['../namespacemakePlots__ZTTtheoryUnc.html#a4baae58aa8ff7c1c049d709119fb81b1',1,'makePlots_ZTTtheoryUnc']]],
-  ['application',['application',['../namespaceMVAFlavio.html#a8201680d1a13e6c4711e78286bde98a1',1,'MVAFlavio']]],
   ['applymetsys',['ApplyMEtSys',['../classMEtSys.html#a845ef3f7f0420219c79c81dea8a326b8',1,'MEtSys']]],
   ['artus_5ffile_5fnames',['artus_file_names',['../classsamples__run2__2015_1_1Samples.html#a119efb34d3dd104a6a39cfb2e92cfff8',1,'samples_run2_2015.Samples.artus_file_names()'],['../classsamples__run2__2016_1_1Samples.html#a6366290724be984b984801dfda0147f5',1,'samples_run2_2016.Samples.artus_file_names()'],['../classsamples__run2__embedding__selection_1_1Samples.html#a9624a354f03959c37a76a89ada097eab',1,'samples_run2_embedding_selection.Samples.artus_file_names()'],['../classsamples__run2__etaufakerate__2016_1_1Samples.html#a044dffb0d07e3fb1aaadc28ce91fec45',1,'samples_run2_etaufakerate_2016.Samples.artus_file_names()']]],
-  ['attach',['attach',['../namespaceMVAFlavio.html#a2f0bd7e88a111bf53bd687b85a0764df',1,'MVAFlavio']]],
   ['auto_5frebin',['auto_rebin',['../classdatacards_1_1Datacards.html#a844d121f39752a99693a0350d1aa28f7',1,'datacards::Datacards']]]
 ];

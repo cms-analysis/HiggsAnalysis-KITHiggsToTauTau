@@ -1,13 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"classDiLeptonQuantitiesProducer.html#a7dfd5d81a2fd37836ad99b1589e48981":[1,0,174,1],
-"classDiLeptonQuantitiesProducer.html#a8c3bfed3b572d274df239ecfbc9eede6":[1,0,174,0],
-"classDiLeptonVetoFilterBase.html":[1,0,175],
-"classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64":[1,0,175,0],
-"classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64a6af0bb07032325941103cf773a4d16cc":[1,0,175,0,2],
-"classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64a77bb2b292959813835f1a4bbd93852b0":[1,0,175,0,4],
-"classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64ab50339a10e1de285ac99d4c3990b8693":[1,0,175,0,0],
-"classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64ade361de8470de5db55f6c1abf52cd757":[1,0,175,0,1],
 "classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64ae741ec26a50ed96d5f050d8ff41aecf8":[1,0,175,0,3],
 "classDiLeptonVetoFilterBase.html#a6a332de68628eb7626a66d529930493e":[1,0,175,3],
 "classDiLeptonVetoFilterBase.html#a762d65d117fba9ecc691e4ade7bca8a3":[1,0,175,2],
@@ -249,5 +241,13 @@ var NAVTREEINDEX2 =
 "classHttMetadata.html#aeefb62546823d0ff8f1307d6b72dcf3b":[1,0,215,0],
 "classHttMuonCorrectionsProducer.html":[1,0,216],
 "classHttMuonCorrectionsProducer.html#a195b7a51208446ecf4de6c4df71d4312":[1,0,216,7],
-"classHttMuonCorrectionsProducer.html#a26afde578803c883482d80e0e1f6fa76":[1,0,216,8]
+"classHttMuonCorrectionsProducer.html#a26afde578803c883482d80e0e1f6fa76":[1,0,216,8],
+"classHttMuonCorrectionsProducer.html#a2b194859034a2861bb0e907f804d3b9a":[1,0,216,4],
+"classHttMuonCorrectionsProducer.html#a3c072777f0a0774ed74f65a8b2ad9266":[1,0,216,2],
+"classHttMuonCorrectionsProducer.html#a4533d535084a1cddd6040a94f5121029":[1,0,216,3],
+"classHttMuonCorrectionsProducer.html#a476ef6cd31fb12781cc58bba7e4101b8":[1,0,216,1],
+"classHttMuonCorrectionsProducer.html#a5cd35af6f147de434807fe1cee0c94f3":[1,0,216,6],
+"classHttMuonCorrectionsProducer.html#a630925269a247d74e4fb82cb6f3c4e16":[1,0,216,5],
+"classHttMuonCorrectionsProducer.html#af824f6024adedbe70fe035266dadf478":[1,0,216,0],
+"classHttProduct.html":[1,0,217]
 };

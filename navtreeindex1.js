@@ -1,13 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"MetCorrectors_8cc.html":[2,0,3,2,29],
-"MetCorrectors_8h.html":[2,0,0,2,29],
-"MetCorrectors_8h_source.html":[2,0,0,2,29],
-"MetFilter_8cc.html":[2,0,3,1,7],
-"MetFilter_8h.html":[2,0,0,1,7],
-"MetFilter_8h_source.html":[2,0,0,1,7],
-"MetSelectors_8cc.html":[2,0,3,2,31],
-"MetSelectors_8h.html":[2,0,0,2,31],
 "MetSelectors_8h_source.html":[2,0,0,2,31],
 "MetprojectionProducer_8cc.html":[2,0,3,2,30],
 "MetprojectionProducer_8h.html":[2,0,0,2,30],
@@ -133,8 +125,8 @@ var NAVTREEINDEX1 =
 "batchComputeSvfit_8py.html#ae545fcb93f83206c6afca41cd0bb88b8":[2,0,2,2,6],
 "binnings_8py.html":[2,0,1,3,0,0],
 "binnings_8py.html#ace1da1b755e344d5df3801553eb24c0f":[2,0,1,3,0,0,1],
-"calculatewosssfactor_8py.html":[2,0,1,3,2,0,0],
-"calculatewosssfactor_8py.html#a7d1707cd86212fa9652afde37f0405cf":[2,0,1,3,2,0,0,1],
+"calcQcdOStoSSfactor_8py.html":[2,0,1,3,2,0,0],
+"calcQcdOStoSSfactor_8py.html#a23d1ce38e15a3461572a45c449f799ea":[2,0,1,3,2,0,0,1],
 "categories_8py.html":[2,0,1,3,0,1],
 "checkoutScriptsHelper_8py.html":[2,0,1,4],
 "checkoutScriptsHelper_8py.html#a720c462c799523c100bd0f9d1f58f346":[2,0,1,4,2],
@@ -249,5 +241,13 @@ var NAVTREEINDEX1 =
 "classDiLeptonChargeFilter.html#a7bce114de296aaef564457583b09e4ee":[1,0,173,0],
 "classDiLeptonChargeFilter.html#ac68bdf15416effa7af3240f26f12b75c":[1,0,173,1],
 "classDiLeptonQuantitiesProducer.html":[1,0,174],
-"classDiLeptonQuantitiesProducer.html#a595a40c6aa24166f1b5703ce632586f6":[1,0,174,2]
+"classDiLeptonQuantitiesProducer.html#a595a40c6aa24166f1b5703ce632586f6":[1,0,174,2],
+"classDiLeptonQuantitiesProducer.html#a7dfd5d81a2fd37836ad99b1589e48981":[1,0,174,1],
+"classDiLeptonQuantitiesProducer.html#a8c3bfed3b572d274df239ecfbc9eede6":[1,0,174,0],
+"classDiLeptonVetoFilterBase.html":[1,0,175],
+"classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64":[1,0,175,0],
+"classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64a6af0bb07032325941103cf773a4d16cc":[1,0,175,0,2],
+"classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64a77bb2b292959813835f1a4bbd93852b0":[1,0,175,0,4],
+"classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64ab50339a10e1de285ac99d4c3990b8693":[1,0,175,0,0],
+"classDiLeptonVetoFilterBase.html#a1aa3814e4e0b3e26e59d0ffe9b2faf64ade361de8470de5db55f6c1abf52cd757":[1,0,175,0,1]
 };

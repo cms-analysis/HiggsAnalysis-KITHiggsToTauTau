@@ -19,6 +19,5 @@ var searchData=
   ['upper',['upper',['../namespacemakePlots__BdtShiftLimits.html#a3f82b6c4f4aad738bb9f26ac2875006c',1,'makePlots_BdtShiftLimits.upper()'],['../namespacemvaCategory__Shifts.html#a725dadb0bb1aae878cbc83872cd9704e',1,'mvaCategory_Shifts.upper()']]],
   ['use_5fmixing_5fangle',['use_mixing_angle',['../classcpmodels_1_1CPMixing.html#a63d40674bd73062cefe1366b21761194',1,'cpmodels::CPMixing']]],
   ['user',['USER',['../classTagAndProbeElectronPairProducer.html#a1c437ddc1588d32c3020189cbff2272fa2e40ad879e955201df4dedbf8d479a12',1,'TagAndProbeElectronPairProducer']]],
-  ['user_5fdef_5fparameter',['user_def_parameter',['../namespaceMVAFlavio.html#ab959e6df4ae3a437372a89afbd8f45bd',1,'MVAFlavio']]],
-  ['userelaxedisolation',['useRelaxedIsolation',['../namespacemakePlots__datacardsTauEsStudies.html#affbc6b2281ea3a7af65a8e413dd44901',1,'makePlots_datacardsTauEsStudies']]]
+  ['userelaxedisolation',['useRelaxedIsolation',['../namespacemakePlots__datacardsQCDfactors.html#ab11e212fc18541c795d2925b8acb6197',1,'makePlots_datacardsQCDfactors.useRelaxedIsolation()'],['../namespacemakePlots__datacardsTauEsStudies.html#affbc6b2281ea3a7af65a8e413dd44901',1,'makePlots_datacardsTauEsStudies.useRelaxedIsolation()']]]
 ];
