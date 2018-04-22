@@ -148,7 +148,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v1DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -160,7 +160,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v1DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVLooseMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -172,7 +172,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v1DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronLooseMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -184,7 +184,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v1DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronLooseMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -196,7 +196,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v1DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronMediumMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -208,7 +208,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v1DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronMediumMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -220,7 +220,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v1DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronTightMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -232,7 +232,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v1DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronTightMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -244,7 +244,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v1DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVTightMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -256,7 +256,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v1DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVTightMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -598,25 +598,25 @@ class CutStringsDict:
 			cuts = CutStringsDict.mssm2016(channel, cut_type)
 		elif cut_type=="mssm2016fflooseiso":
 			cuts = CutStringsDict.mssm2016(channel, cut_type)
-		elif cut_type=="antievloosepass" or cut_type=="etaufake2016_antievloosepass":
+		elif "antievloosepass" in cut_type:
 			cuts = CutStringsDict.antievloosepass(channel, cut_type)
-		elif cut_type=="antievloosefail" or cut_type=="etaufake2016_antievloosefail":
+		elif "antievloosefail" in cut_type:
 			cuts = CutStringsDict.antievloosefail(channel, cut_type)
-		elif cut_type=="antieloosepass" or cut_type=="etaufake2016_antieloosepass":
+		elif "antieloosepass" in cut_type:
 			cuts = CutStringsDict.antieloosepass(channel, cut_type)
-		elif cut_type=="antieloosefail" or cut_type=="etaufake2016_antieloosefail":
+		elif "antieloosefail" in cut_type:
 			cuts = CutStringsDict.antieloosefail(channel, cut_type)
-		elif cut_type=="antiemediumpass" or cut_type=="etaufake2016_antiemediumpass":
+		elif "antiemediumpass" in cut_type:
 			cuts = CutStringsDict.antiemediumpass(channel, cut_type)
-		elif cut_type=="antiemediumfail" or cut_type=="etaufake2016_antiemediumfail":
+		elif "antiemediumfail" in cut_type:
 			cuts = CutStringsDict.antiemediumfail(channel, cut_type)
-		elif cut_type=="antietightpass" or cut_type=="etaufake2016_antietightpass":
+		elif "antietightpass" in cut_type:
 			cuts = CutStringsDict.antietightpass(channel, cut_type)
-		elif cut_type=="antietightfail" or cut_type=="etaufake2016_antietightfail":
+		elif "antietightfail" in cut_type:
 			cuts = CutStringsDict.antietightfail(channel, cut_type)
-		elif cut_type=="antievtightpass" or cut_type=="etaufake2016_antievtightpass":
+		elif "antievtightpass" in cut_type:
 			cuts = CutStringsDict.antievtightpass(channel, cut_type)
-		elif cut_type=="antievtightfail" or cut_type=="etaufake2016_antievtightfail":
+		elif "antievtightfail" in cut_type:
 			cuts = CutStringsDict.antievtightfail(channel, cut_type)
 		
 		elif cut_type=="antimuloosepass":
