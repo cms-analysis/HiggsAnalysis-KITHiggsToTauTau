@@ -1,1 +1,1 @@
-XROOTD_sample_DY1JetsToLLM50_RunIIFall17MiniAOD_94X_13TeV_MINIAOD_madgraph-pythia8_2018-04-14.txt
+XROOTD_sample_DY1JetsToLLM50_RunIIFall17MiniAOD_94X_13TeV_MINIAOD_madgraph-pythia8_2018-04-18.txt
