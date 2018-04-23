@@ -71,7 +71,6 @@ git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # polarisation
 git clone git@github.com:TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
-git clone git@github.com:TauPolSoftware/StatisticalAnalysis.git TauPolSoftware/StatisticalAnalysis
 
 # MadGraph
 git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
@@ -106,6 +105,7 @@ if [[ $ch_branch == "SM2016-dev" ]] && [[ $cmssw_version == "747" ]]; then
 elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "747" ]]; then
 	# needed for plotting and statistical inference
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
+	#git clone git@github.com:TauPolSoftware/CombineHarvester.git CombineHarvester -b taupol2016
 	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit -b 74x-root6
 	cd HiggsAnalysis/CombinedLimit
 	git checkout 3cb65246555d094734a81e20181e399714d22c7e
@@ -113,14 +113,14 @@ elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "747" ]]; then
 
 else
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester -b SMCP2016-dev
-        cd CombineHarvester/HTTSMCP2016
-        git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
-        cd -
-        git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
-        cd HiggsAnalysis/CombinedLimit
-        git fetch origin
-        git checkout v7.0.4
-        cd -
+    cd CombineHarvester/HTTSMCP2016
+    git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
+    cd -
+    git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+    cd HiggsAnalysis/CombinedLimit
+    git fetch origin
+    git checkout v7.0.4
+    cd -
 
 fi
 

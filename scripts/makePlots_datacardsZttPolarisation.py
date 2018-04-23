@@ -361,7 +361,7 @@ if __name__ == "__main__":
 					datacards_cbs,
 					args.n_processes,
 					"-P {MODEL} {MODEL_PARAMETERS}".format(
-							MODEL="TauPolSoftware.StatisticalAnalysis.taupolarisationmodels:ztt_pol",
+							MODEL="CombineHarvester.ZTTPOL2016.taupolarisationmodels:ztt_pol",
 							MODEL_PARAMETERS=""
 					)
 			)
