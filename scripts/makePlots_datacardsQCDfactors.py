@@ -172,7 +172,7 @@ if __name__ == "__main__":
 		"VV" : "vv",
 		"VVT" : "vvt",
 		"VVJ" : "vvj",
-		"W" : "wj_mc_os",				
+		"W" : "wj",				
 		"ZJ" : "zj",
 		"ZL" : "zl",
 		"ZLL" : "zll",	
@@ -229,7 +229,7 @@ if __name__ == "__main__":
 			datacards_per_channel_category = qcdfactorsdatacards.QcdFactorsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			# exclude isolation cut which is set by default in cutstrings.py using the smhtt2016 cut_type
-			if any(bin in category for bin in ["ZeroJet2D_SB_antiiso","Boosted2D_SB_antiiso","dijet2D_lowboost_SB_antiiso","dijet2D_boosted_SB_antiiso"])  and channel in ["mt", "et"]:
+			if any(bin in category for bin in ["ZeroJet2D_QCDCR","Boosted2D_QCDCR","dijet2D_lowboost_SB_antiiso","dijet2D_boosted_SB_antiiso"])  and channel in ["mt", "et"]:
 				exclude_cuts += ["iso_1"]
 				do_not_normalize_by_bin_width = True
 
@@ -260,6 +260,7 @@ if __name__ == "__main__":
 						lumi=args.lumi * 1000,
 						higgs_masses=higgs_masses,
 						cut_type="smhtt2016", 
+						background_method="mc",
 						exclude_cuts = exclude_cuts
 					)
 
@@ -267,11 +268,11 @@ if __name__ == "__main__":
 					config= systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 				
 					# fit is to be performed for 
-					config["x_expressions"] = ["m_vis" if "ZeroJet2D_SB_antiiso" in category else "m_sv"]
+					config["x_expressions"] = ["m_vis" if "ZeroJet2D_QCDCR" in category else "m_sv"]
 								
 					# configure binnings etc 				
-					if any(bin in category for bin in ["ZeroJet2D_SB_antiiso","Boosted2D_SB_antiiso","dijet2D_lowboost_SB_antiiso","dijet2D_boosted_SB_antiiso"]) and channel in ["mt", "et"]:
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_vis"]]
+					if any(bin in category for bin in ["ZeroJet2D_QCDCR","Boosted2D_QCDCR","dijet2D_lowboost_SB_antiiso","dijet2D_boosted_SB_antiiso"]) and channel in ["mt", "et"]:
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if "ZeroJet2D_QCDCR" in category else "_m_sv")]]
 				
 					# Miscellaneous
 					config["directories"] = [args.input_dir]
@@ -371,7 +372,7 @@ if __name__ == "__main__":
 				datacards_workspaces,
 				None,
 				args.n_processes,
-				"-M MaxLikelihoodFit -v {VERBOSITY} {STABLE}".format(
+				"-M FitDiagnostics -v {VERBOSITY} {STABLE}".format(
 					VERBOSITY=args.combine_verbosity,
 					STABLE=datacards.stable_options
 				)
@@ -445,7 +446,7 @@ if __name__ == "__main__":
 					config["files"] = [postfit_shapes]
 					config["folders"] = [category+"_"+level]
 					config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
-					config["x_expressions"] = [p.split("_")[0] if p not in ["qcd_prefit", "wj_mc_os"] else p for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
+					config["x_expressions"] = [p.split("_")[0] for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
 					config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"] + [""]
 					config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
 					config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
@@ -453,7 +454,7 @@ if __name__ == "__main__":
 					config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
 				
 					config["y_label"] = "Events / bin"
-					config["x_label"] = "m_{vis}^{#tau#tau}"
+					config["x_label"] = "m_{vis}" if "ZeroJet2D_QCDCR" in category else "m_{#tau#tau}"
 				
 					config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig", "data_obs"])
