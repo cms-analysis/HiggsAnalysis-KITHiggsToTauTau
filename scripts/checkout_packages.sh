@@ -66,6 +66,7 @@ git clone git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalys
 # Di-tau system reconstruction
 git clone git@github.com:SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit -b release_2018Mar20
 git clone git@github.com:SVfit/SVfitTF.git TauAnalysis/SVfitTF
+git clone git@github.com:CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
 git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # polarisation
