@@ -1479,13 +1479,12 @@ class Samples(samples.SamplesBase):
 		
 		ss_cut_type = cut_type + "SameSignRegion" 
 		exclude_cuts_ss = copy.deepcopy(exclude_cuts)+["os"]
-		wj_shape_weight = weight
 		Samples._add_input(
 				config,
 				self.files_wj(channel),
 				self.root_file_folder(channel),
 				lumi,
-				mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+				mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 				"wj_mc_ss",
 				nick_suffix=nick_suffix
 		)
@@ -1495,7 +1494,7 @@ class Samples(samples.SamplesBase):
 					self.files_ewkwm(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.ewkwm_stitchingweight(),
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.ewkwm_stitchingweight(),
 					"wj",
 					nick_suffix=nick_suffix
 			)
@@ -1504,7 +1503,7 @@ class Samples(samples.SamplesBase):
 					self.files_ewkwp(channel),
 					self.root_file_folder(channel),
 					lumi,
-					mc_weight+"*"+wj_shape_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.ewkwp_stitchingweight(),
+					mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.ewkwp_stitchingweight(),
 					"wj",
 					nick_suffix=nick_suffix
 			)		
@@ -2548,10 +2547,29 @@ class Samples(samples.SamplesBase):
 					self.files_wj(channel),
 					self.root_file_folder(channel),
 					lumi,
-					weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					"noplot_wj_mc_qcd_control",
 					nick_suffix=nick_suffix
 			)
+			if (not kwargs.get("no_ewk_samples", False)):
+				Samples._add_input(
+						config,
+						self.files_ewkwm(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.ewkwm_stitchingweight(),
+						"noplot_wj_mc_qcd_control",
+						nick_suffix=nick_suffix
+				)
+				Samples._add_input(
+						config,
+						self.files_ewkwp(channel),
+						self.root_file_folder(channel),
+						lumi,
+						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_ss, cut_type=ss_cut_type)+"*"+self.ewkwp_stitchingweight(),
+						"noplot_wj_mc_qcd_control",
+						nick_suffix=nick_suffix
+				)			
 			Samples._add_input(
 					config,
 					self.files_ztt(channel),
