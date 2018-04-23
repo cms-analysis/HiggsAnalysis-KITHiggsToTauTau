@@ -26,6 +26,7 @@
 		"2d",
 		"contour"
 	],
+	"no_cache": true, 
 	"weights": [
 		"deltaNLL*(quantileExpected>=0.0)*(quantileExpected<1.0)"
 	],
