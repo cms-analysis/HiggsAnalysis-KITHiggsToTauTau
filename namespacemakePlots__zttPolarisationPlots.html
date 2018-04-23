@@ -123,10 +123,8 @@ Variables</h2></td></tr>
 <tr class="separator:a12c80adfe06e8574cf840e73107fcf7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01f67daf060c4ba5ca71eabf07d4ad71"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a01f67daf060c4ba5ca71eabf07d4ad71">pt_cut_weights</a> = [pt_cut_expression.format(pt_cut=pt_cut) for pt_cut in <a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a12c80adfe06e8574cf840e73107fcf7c">pt_cut_values</a>]</td></tr>
 <tr class="separator:a01f67daf060c4ba5ca71eabf07d4ad71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc66ea5973c89fcfde730184a2b8a0ce"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#adc66ea5973c89fcfde730184a2b8a0ce">config</a></td></tr>
-<tr class="separator:adc66ea5973c89fcfde730184a2b8a0ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc9d9e82c5ba836a6ebb3af72b96edda"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#acc9d9e82c5ba836a6ebb3af72b96edda">tmp_config</a></td></tr>
-<tr class="separator:acc9d9e82c5ba836a6ebb3af72b96edda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b3b6fb7d4fca3a2dd90ae97dc9a3564"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a8b3b6fb7d4fca3a2dd90ae97dc9a3564">config</a></td></tr>
+<tr class="separator:a8b3b6fb7d4fca3a2dd90ae97dc9a3564"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Variable Documentation</h2>
 <a class="anchor" id="af69cff8f9679bd373e2d5683eb9ca45c"></a>
@@ -165,7 +163,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="adc66ea5973c89fcfde730184a2b8a0ce"></a>
+<a class="anchor" id="a8b3b6fb7d4fca3a2dd90ae97dc9a3564"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -176,17 +174,19 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacemakePlots__zttPolarisationPlots.html">    1</a></span>&#160;= sample_settings.get_config(</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                                                samples=list_of_samples,</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;                                                channel=channel,</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                                                category=<span class="stringliteral">&quot;catZttPol13TeV_{channel}_{category}&quot;</span>.format(channel=channel, category=category) <span class="keywordflow">if</span> category <span class="keywordflow">else</span> <span class="keywordtype">None</span>,</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                                weight=<span class="stringliteral">&quot;isZTT&quot;</span>,</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                                lumi = args.lumi * 1000,</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                                exclude_cuts=[],</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                                estimationMethod=<span class="stringliteral">&quot;new&quot;</span>,</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                                polarisation_bias_correction=polarisation_bias_correction,</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                                polarisation_gen_ztt_plots=<span class="keyword">True</span>,</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                                nick_suffix=<span class="stringliteral">&quot;_noplot&quot;</span>,</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                                no_plot=<span class="keyword">True</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                                )</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;                                                no_ewkz_as_dy=<span class="keyword">True</span>,</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                                                channel=channel,</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                                category=<span class="stringliteral">&quot;catZttPol13TeV_{channel}_{category}&quot;</span>.format(channel=channel, category=category) <span class="keywordflow">if</span> category <span class="keywordflow">else</span> <span class="keywordtype">None</span>,</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                                cut_type=<span class="stringliteral">&quot;smhtt2016&quot;</span>, <span class="comment"># baseline_low_mvis2016</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                                weight=<span class="stringliteral">&quot;isZTT&quot;</span>,</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                                lumi = args.lumi * 1000,</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                                exclude_cuts=[],</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                                estimationMethod=<span class="stringliteral">&quot;new&quot;</span>,</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                                polarisation_bias_correction=polarisation_bias_correction,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                                polarisation_gen_ztt_plots=<span class="keyword">True</span>,</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                                                nick_suffix=<span class="stringliteral">&quot;_noplot&quot;</span>,</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                                                no_plot=<span class="keyword">True</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                                )</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -310,30 +310,6 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="acc9d9e82c5ba836a6ebb3af72b96edda"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">tuple makePlots_zttPolarisationPlots.tmp_config</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacemakePlots__zttPolarisationPlots.html">    1</a></span>&#160;= sample_settings.get_config(</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                                                samples=list_of_samples,</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;                                                channel=channel,</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                                                category=<span class="stringliteral">&quot;catZttPol13TeV_{channel}_{category}&quot;</span>.format(channel=channel, category=category) <span class="keywordflow">if</span> category <span class="keywordflow">else</span> <span class="keywordtype">None</span>,</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                                weight=pt_cut_weight,</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                                lumi = args.lumi * 1000,</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                                exclude_cuts=[],</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                                estimationMethod=<span class="stringliteral">&quot;new&quot;</span>,</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                                polarisation_bias_correction=<span class="keyword">False</span>,</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                                polarisation_gen_ztt_plots=<span class="keyword">False</span>,</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                                nick_suffix=str(index)</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                )</div>
-</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
