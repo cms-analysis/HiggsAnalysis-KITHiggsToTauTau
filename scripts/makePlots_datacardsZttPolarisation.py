@@ -97,8 +97,6 @@ if __name__ == "__main__":
 						help="Specify the polarisation values for which to check the linearity of the discriminator. [Default: %(default)s]")
 	parser.add_argument("--no-ewk-samples", default=False, action="store_true",
 	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
-	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
-	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 	                    help="Do not include shape-uncertainties. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
@@ -227,7 +225,7 @@ if __name__ == "__main__":
 							polarisation_bias_correction=True,
 							cut_type="baseline_low_mvis",
 							no_ewk_samples = args.no_ewk_samples,
-							no_ewkz_as_dy = args.no_ewkz_as_dy
+							no_ewkz_as_dy = True
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -363,7 +361,7 @@ if __name__ == "__main__":
 					datacards_cbs,
 					args.n_processes,
 					"-P {MODEL} {MODEL_PARAMETERS}".format(
-							MODEL="TauPolSoftware.StatisticalAnalysis.taupolarisationmodels:ztt_pol",
+							MODEL="CombineHarvester.ZTTPOL2016.taupolarisationmodels:ztt_pol",
 							MODEL_PARAMETERS=""
 					)
 			)

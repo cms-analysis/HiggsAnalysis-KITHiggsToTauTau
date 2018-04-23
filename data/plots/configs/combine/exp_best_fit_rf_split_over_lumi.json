@@ -68,6 +68,7 @@
 		"central",
 		"1s_yelow"
 	],
+	"no_cache": true, 
 	"split_graph_components": [
 		"yehigh",
 		"yelow"

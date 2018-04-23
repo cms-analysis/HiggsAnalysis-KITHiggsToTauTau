@@ -1,72 +1,73 @@
 {
-    "2d_histogram_nicks": [
-        "contour"
-    ], 
-    "analysis_modules": [
-        "ContourFromHistogram"
-    ], 
-    "colors": [
-        "None",
-        "2",
-        "2"
-    ], 
-    "contour_modes": [
-        "histogram"
-    ], 
-    "contour_minima_nicks": [
-        "contour_min"
-    ], 
-    "contour_thresholds": [
-        "2.3 5.99"
-    ], 
-    "directories": [
-        "{OUTDIR}/datacards/combined"
-    ], 
-    "filename": "r_tauEff_scan", 
-    "files": [
-        "higgsCombine.MultiDimFit.mH90.root"
-    ], 
-    "folders": [
-        "limit"
-    ], 
-    "markers": [
-        "COLZ", 
-        "CONT3",
-        "P"
-    ], 
-    "nicks": [
-        "2d", 
-        "contour",
-        "contour_min"
-    ], 
-    "weights": [
-        "deltaNLL*(quantileExpected>=0.0)*(quantileExpected<1.0)"
-    ], 
-    "x_bins": [
-        "{GRID_BINS},0.8,1.2"
-    ], 
-    "x_expressions": [
-        "r"
-    ], 
-    "x_label": "#sigma modifier", 
-    "x_lims": [
-        0.8, 
-        1.2
-    ], 
-    "y_bins": [
-        "{GRID_BINS},0.8,1.2"
-    ], 
-    "y_expressions": [
-        "eff"
-    ], 
-    "y_label": "#varepsilon modifier", 
-    "y_lims": [
-        0.8, 
-        1.2
-    ], 
-    "z_label": "#minus2 #Delta ln L", 
-    "z_lims": [
-        0, 
-        20
-    ]
+	"2d_histogram_nicks": [
+		"contour"
+	], 
+	"analysis_modules": [
+		"ContourFromHistogram"
+	], 
+	"colors": [
+		"None",
+		"2",
+		"2"
+	], 
+	"contour_modes": [
+		"histogram"
+	], 
+	"contour_minima_nicks": [
+		"contour_min"
+	], 
+	"contour_thresholds": [
+		"2.3 5.99"
+	], 
+	"directories": [
+		"{OUTDIR}/datacards/combined"
+	], 
+	"filename": "r_tauEff_scan", 
+	"files": [
+		"higgsCombine.MultiDimFit.mH90.root"
+	], 
+	"folders": [
+		"limit"
+	], 
+	"markers": [
+		"COLZ", 
+		"CONT3",
+		"P"
+	], 
+	"nicks": [
+		"2d", 
+		"contour",
+		"contour_min"
+	], 
+	"no_cache": true, 
+	"weights": [
+		"deltaNLL*(quantileExpected>=0.0)*(quantileExpected<1.0)"
+	], 
+	"x_bins": [
+		"{GRID_BINS},0.8,1.2"
+	], 
+	"x_expressions": [
+		"r"
+	], 
+	"x_label": "#sigma modifier", 
+	"x_lims": [
+		0.8, 
+		1.2
+	], 
+	"y_bins": [
+		"{GRID_BINS},0.8,1.2"
+	], 
+	"y_expressions": [
+		"eff"
+	], 
+	"y_label": "#varepsilon modifier", 
+	"y_lims": [
+		0.8, 
+		1.2
+	], 
+	"z_label": "#minus2 #Delta ln L", 
+	"z_lims": [
+		0, 
+		20
+	]
 }
