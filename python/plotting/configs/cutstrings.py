@@ -441,7 +441,7 @@ class CutStringsDict:
 	def antiIsolationRegionQCD(channel, cut_type):
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("relaxedETauMuTauWJ",""))
-			cuts["iso_1"] = " ".join("(iso_1 < 0.5)*(iso_1>0.1)" if channel == "mt" else "(iso_1 < 0.5)*(iso_1>0.15)")
+			cuts["iso_1"] = " ".join("(iso_1 < 0.3)*(iso_1>0.1)" if channel == "mt" else "(iso_1 < 0.3)*(iso_1>0.15)")
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)

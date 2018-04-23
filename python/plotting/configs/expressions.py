@@ -187,8 +187,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			mjj_CP_string = "(mjj>300)"
 			boosted_higgsCP_string = "(H_pt>200)"
 			pZeta_CP_string = "(pZetaMissVis > -10.0)"
-			et_SB_antiiso = "(iso_1>0.1)*(iso_1<0.5)"
-			mt_SB_antiiso = "(iso_1>0.15)*(iso_1<0.5)"
+			et_SB_antiiso = "(iso_1>0.1)*(iso_1<0.3)"
+			mt_SB_antiiso = "(iso_1>0.15)*(iso_1<0.3)"
 			
 			boosted_higgs_string = "(H_pt>100)"
 			boosted_higgs_medium_string = "(H_pt>50)"
@@ -260,12 +260,12 @@ class ExpressionsDict(expressions.ExpressionsDict):
 				
 		self.expressions_dict["catHtt13TeV_tt_Boosted2D_QCDCR"] = self.combine([jet1_string, tt_antiiso_string, "*((njetspt30==1)||(njetspt30>1&&!(jdeta>2.5&&H_pt>100)))"]) 
 		self.expressions_dict["catHtt13TeV_tt_antiiso_boosted_cr"] = self.expressions_dict["catHtt13TeV_tt_Boosted2D_QCDCR"]
-		self.expressions_dict["catHtt13TeV_mt_Boosted2D_QCDCR"] = "(iso_1>0.15)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))" 
+		self.expressions_dict["catHtt13TeV_mt_Boosted2D_QCDCR"] = "(iso_1>0.15)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))" 
 		self.expressions_dict["catHtt13TeV_mt_boosted_qcd_cr"] = self.expressions_dict["catHtt13TeV_mt_Boosted2D_QCDCR"]
 		self.expressions_dict["catHtt13TeV_et_Boosted2D_QCDCR"] = "(iso_1>0.10)*(iso_1<0.30)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))" 
 		self.expressions_dict["catHtt13TeV_et_boosted_qcd_cr"] = self.expressions_dict["catHtt13TeV_et_Boosted2D_QCDCR"]
 		
-		self.expressions_dict["catHtt13TeV_mt_Boosted2D_WJCR"] = "(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&pt_2>40&&H_pt>50)))" 
+		self.expressions_dict["catHtt13TeV_mt_Boosted2D_WJCR"] = "(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))" 
 		self.expressions_dict["catHtt13TeV_mt_wjets_boosted_cr"] = self.expressions_dict["catHtt13TeV_mt_Boosted2D_WJCR"]
 		self.expressions_dict["catHtt13TeV_et_Boosted2D_WJCR"] = "(nbtag==0)*(mt_1>80.0)*((njetspt30==1)||(njetspt30>1&&!(mjj>300&&H_pt>50)))"
 		self.expressions_dict["catHtt13TeV_et_wjets_boosted_cr"] = self.expressions_dict["catHtt13TeV_et_Boosted2D_WJCR"]	
