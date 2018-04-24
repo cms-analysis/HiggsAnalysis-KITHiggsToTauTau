@@ -36,13 +36,13 @@ def replace_observation_by_asimov_dataset(datacards, pol=-0.159, r=1.0):
 	negpol_signals = datacards.cb.cp().signals()
 	negpol_signals.FilterAll(lambda obj : ("negpol" not in obj.process().lower()))
 	
-	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 + pol))))
-	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 - pol))))
+	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 + pol) / 2.0)))
+	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 - pol) / 2.0)))
 	
 	datacards.replace_observation_by_asimov_dataset()
 	
-	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 + pol))))
-	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 - pol))))
+	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 + pol) / 2.0)))
+	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 - pol) / 2.0)))
 
 
 if __name__ == "__main__":
@@ -404,7 +404,7 @@ if __name__ == "__main__":
 					datacards.pull_plots(
 							datacards_postfit_shapes,
 							s_fit_only=True,
-							plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
+							plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args.replace("--no-cache", ""), "www" : www},
 							n_processes=args.n_processes
 					)
 
