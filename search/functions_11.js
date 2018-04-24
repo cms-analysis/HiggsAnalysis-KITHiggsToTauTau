@@ -1,7 +1,6 @@
 var searchData=
 [
   ['safe_5fappend_5fmodules',['safe_append_modules',['../classembedding__plot__classes_1_1single__plot.html#a044d5c7eb755b5b509e39a17d26317aa',1,'embedding_plot_classes::single_plot']]],
-  ['samesignregion',['SameSignRegion',['../classcutstrings_1_1CutStringsDict.html#a8201807d3be5d58c003b06591f33af73',1,'cutstrings::CutStringsDict']]],
   ['sample2process',['sample2process',['../classdatacardconfigs_1_1DatacardConfigs.html#a44dd82e21564ea61cb8294502af67ed5',1,'datacardconfigs.DatacardConfigs.sample2process()'],['../namespacemakePlots__datacardsMSSMHtt.html#a8d4778067acf938cbddb113c35b7fc64',1,'makePlots_datacardsMSSMHtt.sample2process()']]],
   ['save_5fas_5fhistograms',['save_as_histograms',['../namespacegetInclusiveWeight.html#af26ecb85638f8bcbe7b9d266d8fcc455',1,'getInclusiveWeight']]],
   ['scale_5fexpectation',['scale_expectation',['../classdatacards_1_1Datacards.html#a26ace8d2c8c4b0c0436b8825b9ccc5d4',1,'datacards.Datacards.scale_expectation()'],['../classmvadatacards__base_1_1Datacards.html#ae7dd80b733e14cec5301b45092921240',1,'mvadatacards_base.Datacards.scale_expectation()']]],
