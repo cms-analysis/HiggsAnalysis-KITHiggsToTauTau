@@ -41,6 +41,7 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		
 		if self._args.use_json:
 			self._config = jsonTools.JsonDict()
+			log.warning("YOU ARE USING THE JSON FILES, THIS IS NOT SUPPORTED ANYMORE")
 		else:
 			self._config = {}
 
