@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['fakefactorquantities',['fakeFactorQuantities',['../classRun2Quantities_1_1quantities.html#a7e672a2d130d2bb5cc8dd4ca57005076',1,'Run2Quantities.quantities.fakeFactorQuantities()'],['../namespaceRun2Quantities.html#ae71019213e442bc43cea0b563df10f5d',1,'Run2Quantities.fakeFactorQuantities()']]],
   ['ff',['ff',['../classsamples__run2__2016_1_1Samples.html#acf3fc5702f212eb7fdefdec066b28ea6',1,'samples_run2_2016::Samples']]],
   ['file_5fwrapper',['file_wrapper',['../namespaceAddMVATrainingToTrees.html#a1a3183ae5bea38ad665784e4bd5e6ec7',1,'AddMVATrainingToTrees']]],
   ['files_5fbbh',['files_bbh',['../classsamples__run2__2015_1_1Samples.html#a3fd896625a2ab28252ce2a8595d2bad8',1,'samples_run2_2015.Samples.files_bbh()'],['../classsamples__run2__2016_1_1Samples.html#a49e54641415148da9767d5b4357acc3e',1,'samples_run2_2016.Samples.files_bbh()']]],
@@ -38,6 +39,7 @@ var searchData=
   ['fitfunction',['fitFunction',['../classPhiCPSVfitQuantity.html#ae597977ea0b2c3a05865ce06f88460fd',1,'PhiCPSVfitQuantity::fitFunction()'],['../classPhiStarCPSVfitQuantity.html#a4eab2cc2440603df834c3f25b6071fe5',1,'PhiStarCPSVfitQuantity::fitFunction()']]],
   ['format_5fnumber',['format_number',['../namespaceprintLaTeX__BDT.html#a1caab1bac4525b87af21e68ad512b825',1,'printLaTeX_BDT']]],
   ['format_5fpurity',['format_purity',['../namespaceprintLaTeX__BDT.html#a21f90b0861e58aab994babbd1c46730d',1,'printLaTeX_BDT']]],
+  ['fourvectorquantities',['fourVectorQuantities',['../classRun2Quantities_1_1quantities.html#a5e58593535c8a816a6b09d0d466cbbf0',1,'Run2Quantities.quantities.fourVectorQuantities()'],['../namespaceRun2Quantities.html#ae5fa273d6ba0ce9dbe93f4ae073e1bf6',1,'Run2Quantities.fourVectorQuantities()']]],
   ['frombintovalue',['fromBintoValue',['../classcutOptimizer_1_1CutOptimizer.html#ab9f344ac23f8b91d72a81945f2c892c7',1,'cutOptimizer::CutOptimizer']]],
   ['fromcache',['FromCache',['../classSvfitResults.html#aa2dfd4bb75cdb81445d4a7f12ff13765',1,'SvfitResults']]],
   ['fromrecalculation',['FromRecalculation',['../classSvfitResults.html#a57b084ba9986fcfe3709ae0f28c0d418',1,'SvfitResults']]]
