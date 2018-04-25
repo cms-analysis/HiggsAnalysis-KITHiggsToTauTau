@@ -6,9 +6,8 @@ log = logging.getLogger(__name__)
 
 
 class MVATestMethods(dict):
-	def __init__(self):
+    def __init__(self):
 
-		self["MVATestMethodsInputQuantities"] = []
-		self["MVATestMethodsMethods"] = []
-		self["MVATestMethodsWeights"] = []
-
+        self["MVATestMethodsInputQuantities"] = []
+        self["MVATestMethodsMethods"] = []
+        self["MVATestMethodsWeights"] = []
