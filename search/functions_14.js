@@ -8,6 +8,5 @@ var searchData=
   ['wjl',['wjl',['../classsamples__ff_1_1Samples.html#ae0e79bc48d4a2c113d212fa7997c1353',1,'samples_ff::Samples']]],
   ['wjt',['wjt',['../classsamples__ff_1_1Samples.html#a74f12906ecfcdf5975382e800fb4a3a1',1,'samples_ff::Samples']]],
   ['write_5fdatacards',['write_datacards',['../classdatacards_1_1Datacards.html#aa2838f9becbb1e82607372974a87517b',1,'datacards.Datacards.write_datacards()'],['../classmvadatacards__base_1_1Datacards.html#a853b90758628c4fed362de3aca23260a',1,'mvadatacards_base.Datacards.write_datacards()']]],
-  ['write_5ffile',['write_file',['../classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a834cb31eb9432d300691b876726f623a',1,'create_file_list_from_gfal_embedded_test::gfal_filelist']]],
-  ['write_5froot_5ffile',['write_root_file',['../namespaceMVAFlavio.html#a61e4713b34cc4bf0733be82fa80ee584',1,'MVAFlavio']]]
+  ['write_5ffile',['write_file',['../classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a834cb31eb9432d300691b876726f623a',1,'create_file_list_from_gfal_embedded_test::gfal_filelist']]]
 ];

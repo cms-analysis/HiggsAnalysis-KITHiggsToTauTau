@@ -42,7 +42,6 @@ var searchData=
   ['cp2016',['cp2016',['../classcutstrings_1_1CutStringsDict.html#a5b5a773db8b6e0fea6b60aa78db7b66f',1,'cutstrings::CutStringsDict']]],
   ['cpcomb2016',['cpcomb2016',['../classcutstrings_1_1CutStringsDict.html#a41015eeafcf619d9f1278361a60f0fed',1,'cutstrings::CutStringsDict']]],
   ['cprho2016',['cprho2016',['../classcutstrings_1_1CutStringsDict.html#a0d585cc80dcffc7d7c7c57d45931097a',1,'cutstrings::CutStringsDict']]],
-  ['create_5finput_5ftrees',['create_input_trees',['../namespaceMVAFlavio.html#aead78d60a53a6706944e37befa7de8cf',1,'MVAFlavio']]],
   ['create_5fmorphing_5fsignals',['create_morphing_signals',['../classdatacards_1_1Datacards.html#a02e343a9f296a3dc69e519872ecd71ef',1,'datacards::Datacards']]],
   ['create_5fslide',['create_slide',['../namespacescaleVariations__latexTables.html#a4adf4b355515a1e6f0388ea9c67d2bcd',1,'scaleVariations_latexTables']]],
   ['create_5fsubplot',['create_subplot',['../classembedding__plot__classes_1_1single__plot.html#aaab458c404aa6a0368e26ee5100a5cb0',1,'embedding_plot_classes::single_plot']]],

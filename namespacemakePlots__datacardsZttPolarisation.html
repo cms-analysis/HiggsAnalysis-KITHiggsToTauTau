@@ -446,7 +446,7 @@ Variables</h2></td></tr>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                                        polarisation_bias_correction=<span class="keyword">True</span>,</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                                        cut_type=<span class="stringliteral">&quot;baseline_low_mvis&quot;</span>,</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                                        no_ewk_samples = args.no_ewk_samples,</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                                        no_ewkz_as_dy = <span class="keyword">True</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                                        no_ewkz_as_dy = args.no_ewkz_as_dy</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                                        )</div>
 </div><!-- fragment -->
 </div>
@@ -533,7 +533,7 @@ Variables</h2></td></tr>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                                        datacards_cbs,</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;                                        args.n_processes,</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                                        <span class="stringliteral">&quot;-P {MODEL} {MODEL_PARAMETERS}&quot;</span>.format(</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                                        MODEL=<span class="stringliteral">&quot;CombineHarvester.ZTTPOL2016.taupolarisationmodels:ztt_pol&quot;</span>,</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                                        MODEL=<span class="stringliteral">&quot;TauPolSoftware.StatisticalAnalysis.taupolarisationmodels:ztt_pol&quot;</span>,</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                                        MODEL_PARAMETERS=<span class="stringliteral">&quot;&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                        )</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                        )</div>

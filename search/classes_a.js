@@ -2,6 +2,7 @@ var searchData=
 [
   ['madgraphreweightingproducer',['MadGraphReweightingProducer',['../classMadGraphReweightingProducer.html',1,'']]],
   ['massressystematic',['MassResSystematic',['../classsystematics__run2_1_1MassResSystematic.html',1,'systematics_run2']]],
+  ['massressystematicv2',['MassResSystematicv2',['../classsystematics__run2_1_1MassResSystematicv2.html',1,'systematics_run2']]],
   ['maxlooseelectronscountfilter',['MaxLooseElectronsCountFilter',['../classMaxLooseElectronsCountFilter.html',1,'']]],
   ['maxloosemuonscountfilter',['MaxLooseMuonsCountFilter',['../classMaxLooseMuonsCountFilter.html',1,'']]],
   ['melam125producer',['MELAM125Producer',['../classMELAM125Producer.html',1,'']]],
