@@ -19,7 +19,7 @@
 	"LooseElectronIDName" : {
 		"nick" : {
 			"default" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values",
-			"(Run2017|Fall17)" :"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values",
+			"(Run2017|Fall17)" :"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values",
 			"(Run2015|Fall15MiniAODv2)" : "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
 		}
 	},
