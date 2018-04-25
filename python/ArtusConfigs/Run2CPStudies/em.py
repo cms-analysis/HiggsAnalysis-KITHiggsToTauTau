@@ -94,7 +94,6 @@ class em_ArtusConfig(dict):
 				"HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v:18.0"
 			]
 
-
 		elif re.search("Run2016(B|C|D|E|F)|Spring16|Summer16", nickname):
 			self["HltPaths"] = [
 				"HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",
@@ -278,7 +277,6 @@ class em_ArtusConfig(dict):
 				"nAllDiTauPairCandidates"
 			]
 
-
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 			quantities_dict["Quantities"] += quantities_dict.lheWeightsDYQuantities()
 			quantities_dict["Quantities"] += [
@@ -376,8 +374,6 @@ class em_ArtusConfig(dict):
 
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
-			
-
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 						self["Processors"] += ["producer:ZPtReweightProducer"]			
@@ -450,8 +446,6 @@ class em_ArtusConfig(dict):
 
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
-
-
 
 				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
