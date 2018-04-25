@@ -202,6 +202,11 @@ if __name__ == "__main__":
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
+				asimov_nicks = []
+				if args.use_asimov_dataset:
+					asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
+					if "data" in asimov_nicks:
+						asimov_nicks.remove("data")
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -225,7 +230,8 @@ if __name__ == "__main__":
 							polarisation_bias_correction=True,
 							cut_type="baseline_low_mvis",
 							no_ewk_samples = args.no_ewk_samples,
-							no_ewkz_as_dy = True
+							no_ewkz_as_dy = True,
+							asimov_nicks = asimov_nicks
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -342,7 +348,8 @@ if __name__ == "__main__":
 			if not asimov_polarisation is None:
 				replace_observation_by_asimov_dataset(datacards, asimov_polarisation, 1.0)
 			elif args.use_asimov_dataset:
-				replace_observation_by_asimov_dataset(datacards, -0.159, 1.0)
+				pass # done already in sample_settings.get_config(...)
+				# replace_observation_by_asimov_dataset(datacards, -0.159, 1.0)
 
 			if args.auto_rebin:
 				datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
