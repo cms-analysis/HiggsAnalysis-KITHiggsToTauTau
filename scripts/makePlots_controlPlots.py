@@ -437,7 +437,8 @@ if __name__ == "__main__":
 					if last_loop:
 						config = channel_config
 
-				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
+				x_expression = json_config.pop("x_expressions", [quantity])
+				config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 				config["category"] = category
 
 
@@ -479,7 +480,8 @@ if __name__ == "__main__":
 					binnings_key = None
 				
 				if binnings_key is not None and "--x-bins" not in args.args:
-					config["x_bins"] = [("1,-1,1" if "pol_gen" in nick else json_config.pop("x_bins", [binnings_key])) for nick in config["nicks"]]
+					x_bins = json_config.pop("x_bins", [binnings_key])
+					config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_bins) for nick in config["nicks"]]
 				elif "--x-bins" in args.args:
 					x_binning = re.search("(--x-bins)[\s=\"\']*(?P<x_bins>\S*)[\"\']?\S", args.args)
 					config["x_bins"] = [" ".join(x_binning.group(2))]
