@@ -405,25 +405,34 @@ class Samples(samples.SamplesBase):
 		return reminiaod_files
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
-		if exclude_cuts is None:
-			exclude_cuts = []
 
-		scale_factor = 1.0
-		if not self.postfit_scales is None:
-			scale_factor *= self.postfit_scales.get("data_obs", 1.0)
-		data_weight = "(1.0)"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
+		asimov_nicks = kwargs.get("asimov_nicks", [])
+		if len(asimov_nicks) == 0:
+			if exclude_cuts is None:
+				exclude_cuts = []
 
-		Samples._add_input(
-				config,
-				self.files_data(channel),
-				self.root_file_folder(channel),
-				1.0,
-				make_multiplication([data_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)]),
-				"data",
-				nick_suffix=nick_suffix
-		)
+			scale_factor = 1.0
+			if not self.postfit_scales is None:
+				scale_factor *= self.postfit_scales.get("data_obs", 1.0)
+			data_weight = "(1.0)"
+			if kwargs.get("project_to_lumi", False):
+				data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
+			
+			Samples._add_input(
+					config,
+					self.files_data(channel),
+					self.root_file_folder(channel),
+					1.0,
+					make_multiplication([data_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)]),
+					"data",
+					nick_suffix=nick_suffix
+			)
+		else:
+			if not "AddHistograms" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("AddHistograms")
+			config.setdefault("add_nicks", []).append(" ".join(asimov_nicks))
+			config.setdefault("add_result_nicks", []).append("data"+nick_suffix)
+			config.setdefault("nicks_whitelist", []).extend(["^((?!(data|noplot)).)*$", "data"])
 
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
