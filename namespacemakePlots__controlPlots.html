@@ -119,6 +119,8 @@ Variables</h2></td></tr>
 <tr class="separator:a63c4eb91879d9a528108169a88da8367"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a718f3592675d06f719941aef80adbd45"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a718f3592675d06f719941aef80adbd45">list_of_samples</a> = [getattr(samples.Samples, sample) for sample in args.samples]</td></tr>
 <tr class="separator:a718f3592675d06f719941aef80adbd45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a771af5e446c06092be2862dcd320a6eb"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a771af5e446c06092be2862dcd320a6eb">asimov_nicks</a> = []</td></tr>
+<tr class="separator:a771af5e446c06092be2862dcd320a6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13dbfaa3dc297026c52ff15c87f2b1ce"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a13dbfaa3dc297026c52ff15c87f2b1ce">sample_settings</a> = samples.Samples()</td></tr>
 <tr class="separator:a13dbfaa3dc297026c52ff15c87f2b1ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1aae8a0c177b3a30a56b1589ab3d86c3"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a1aae8a0c177b3a30a56b1589ab3d86c3">bkg_samples</a> = [sample for sample in args.samples if sample not in [&quot;data&quot;, &quot;htt&quot;, &quot;ggh&quot;, &quot;bbh&quot;]]</td></tr>
@@ -330,6 +332,18 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a771af5e446c06092be2862dcd320a6eb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple makePlots_controlPlots.asimov_nicks = []</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="adf7036a108f6d43e95248d25cea12ca3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -484,8 +498,9 @@ Variables</h2></td></tr>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                                no_ewkz_as_dy = args.no_ewkz_as_dy,</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                                                useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                                                useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                                nick_suffix = (channel <span class="keywordflow">if</span> args.channel_comparison <span class="keywordflow">else</span> <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                )</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                                nick_suffix = (channel <span class="keywordflow">if</span> args.channel_comparison <span class="keywordflow">else</span> <span class="stringliteral">&quot;&quot;</span>),</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                                asimov_nicks = asimov_nicks</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                                )</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -1,5 +1,6 @@
 var NAVTREEINDEX20 =
 {
+"makePlots__datacardsZttPolarisation_8py.html#ab48e5176b69e6d98ea03f51b1a9ac5f4":[2,0,2,49,18],
 "makePlots__datacardsZttPolarisation_8py.html#ab93642cceeb84d8319afd37ff247e83c":[2,0,2,49,63],
 "makePlots__datacardsZttPolarisation_8py.html#abcad3e17eb9228b0804684064c09bd11":[2,0,2,49,51],
 "makePlots__datacardsZttPolarisation_8py.html#ac31331ba2a6aa4ce9d7018669f0df6d8":[2,0,2,49,59],
@@ -248,6 +249,5 @@ var NAVTREEINDEX20 =
 "makePlots__limitInputs_8py.html#a6407a5b3f8ebe51797bcff9778979354":[2,0,2,60,5],
 "makePlots__limitInputs_8py.html#a689579a200921457c8bab4dcdb95c10e":[2,0,2,60,18],
 "makePlots__limitInputs_8py.html#a72400f1f5efd5110f16d68f8feb6df45":[2,0,2,60,2],
-"makePlots__limitInputs_8py.html#a84052600f304cf1b314cff2750e3cce2":[2,0,2,60,7],
-"makePlots__limitInputs_8py.html#a91c452b1dcf990ff3867ad9845d65b0d":[2,0,2,60,11]
+"makePlots__limitInputs_8py.html#a84052600f304cf1b314cff2750e3cce2":[2,0,2,60,7]
 };

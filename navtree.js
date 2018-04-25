@@ -51,16 +51,16 @@ var NAVTREEINDEX =
 "embedding__plot__bib_8py.html#a1cc1b775175b5249eaf06d5c693fd814",
 "gc__makePlots__datacardsSMHtt1_8py.html#a1cc0708551e61709b176d28dd7823c6d",
 "makePlots__ZTTtheoryUnc_8py.html#a7e4d01ab32f46c654ebd2fcffa694274",
-"makePlots__datacardsCPInitialState_8py.html#af191128bcbbffdd486ebecee32bdb1f3",
-"makePlots__datacardsMSSMHtt_8py.html#a1c2ede7abc3b61864aaa6768890e574e",
-"makePlots__datacardsSMHtt_8py.html#a986756fd0e5e66e6fdd8777c685066d7",
-"makePlots__datacardsTauEsStudies_8py.html#aa26e315f54b1cd3bf1c32307804c34e0",
-"makePlots__datacardsZttPolarisation_8py.html#ab93642cceeb84d8319afd37ff247e83c",
-"makePlots__limitInputs_8py.html#aa35166e6e33758dcb2f5d7c5d7044b36",
-"mvaCategory__Shifts_8py.html#add7618877152fec36b1e508cb3f38100",
-"namespacemakePlots__genCPPlots__genvsreco1.html",
-"normalizeforpolarisation_8py.html",
-"scaleVariations__ZttOverZttInclusive_8py.html#a04a478e79faa1d590c9b98f3dfb35536"
+"makePlots__datacardsCPInitialState_8py.html#af15596d5d69f30997b32006d3e9b38e9",
+"makePlots__datacardsMSSMHtt_8py.html#a189db0188be360eb0b8982cd75b4a4e5",
+"makePlots__datacardsSMHtt_8py.html#a9441467cdbfc1400e375f7ef69cf255d",
+"makePlots__datacardsTauEsStudies_8py.html#aa0fe7de0c247dde48b6634940cbba978",
+"makePlots__datacardsZttPolarisation_8py.html#ab48e5176b69e6d98ea03f51b1a9ac5f4",
+"makePlots__limitInputs_8py.html#a91c452b1dcf990ff3867ad9845d65b0d",
+"mvaCategory__Shifts_8py.html#ad769d269d5275a1f5fbefc74187767be",
+"namespacemakePlots__genCPPlots__genvsreco.html",
+"nicknames_8py.html#af79e056e82d9c4baf9168bf4df64c038",
+"scaleVariations__ZttOverZttInclusive_8py.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
