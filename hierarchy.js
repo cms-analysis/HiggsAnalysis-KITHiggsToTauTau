@@ -3,6 +3,7 @@ var hierarchy =
     [ "AnalysisBase", null, [
       [ "cphypotheses.CPHypotheses", "classcphypotheses_1_1CPHypotheses.html", null ],
       [ "estimatebase.EstimateBase", "classestimatebase_1_1EstimateBase.html", [
+        [ "calcQcdOStoSSfactor.CalculateQcdOStoSSFactor", "classcalcQcdOStoSSfactor_1_1CalculateQcdOStoSSFactor.html", null ],
         [ "estimateff.EstimateFF", "classestimateff_1_1EstimateFF.html", null ],
         [ "estimateqcd.EstimateQcd", "classestimateqcd_1_1EstimateQcd.html", null ],
         [ "estimateqcdtauhadtauhad.EstimateQcdTauHadTauHad", "classestimateqcdtauhadtauhad_1_1EstimateQcdTauHadTauHad.html", null ],
@@ -19,12 +20,6 @@ var hierarchy =
       [ "weakmixinganglefrompolarisation.WeakMixingAngleFromPolarisation", "classweakmixinganglefrompolarisation_1_1WeakMixingAngleFromPolarisation.html", null ]
     ] ],
     [ "LepFlaVio.Analysismodule", "classLepFlaVio_1_1Analysismodule.html", null ],
-    [ "ArtusWrapper", null, [
-      [ "higgstotautauanalysiswrapper.HiggsToTauTauAnalysisWrapper", "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html", null ]
-    ] ],
-    [ "Baseconfig", null, [
-      [ "baseconfigCP.Baseconfig_cp", "classbaseconfigCP_1_1Baseconfig__cp.html", null ]
-    ] ],
     [ "binnings.BinningsDict", "classbinnings_1_1BinningsDict.html", null ],
     [ "colors.ColorsDict", "classcolors_1_1ColorsDict.html", null ],
     [ "ConsumerBase", null, [
@@ -65,35 +60,7 @@ var hierarchy =
     ] ],
     [ "cutstrings.CutStringsDict", "classcutstrings_1_1CutStringsDict.html", null ],
     [ "dict", null, [
-      [ "baseconfig.Baseconfig", "classbaseconfig_1_1Baseconfig.html", null ],
-      [ "em.em_ArtusConfig", "classem_1_1em__ArtusConfig.html", null ],
-      [ "et.et_ArtusConfig", "classet_1_1et__ArtusConfig.html", null ],
-      [ "gen.gen_ArtusConfig", "classgen_1_1gen__ArtusConfig.html", null ],
-      [ "globalProcessors.globalProccesors", "classglobalProcessors_1_1globalProccesors.html", null ],
-      [ "mm.mm_ArtusConfig", "classmm_1_1mm__ArtusConfig.html", null ],
-      [ "mt.mt_ArtusConfig", "classmt_1_1mt__ArtusConfig.html", null ],
-      [ "processorOrdering.processors_ordered", "classprocessorOrdering_1_1processors__ordered.html", null ],
-      [ "Run2Quantities.quantities", "classRun2Quantities_1_1quantities.html", null ],
-      [ "settingsBTaggedJetID.BTaggedJet_ID", "classsettingsBTaggedJetID_1_1BTaggedJet__ID.html", null ],
-      [ "settingsElectronID.Electron_ID", "classsettingsElectronID_1_1Electron__ID.html", null ],
-      [ "settingsJEC.JEC", "classsettingsJEC_1_1JEC.html", null ],
-      [ "settingsJECUncertaintySplit.JECUncertaintySplit", "classsettingsJECUncertaintySplit_1_1JECUncertaintySplit.html", null ],
-      [ "settingsJetID.Jet_ID", "classsettingsJetID_1_1Jet__ID.html", null ],
-      [ "settingsKappa.Kappa", "classsettingsKappa_1_1Kappa.html", null ],
-      [ "settingsLheWeights.LheWeights", "classsettingsLheWeights_1_1LheWeights.html", null ],
-      [ "settingsMadGraphReweighting.MadGraphReweighting", "classsettingsMadGraphReweighting_1_1MadGraphReweighting.html", null ],
-      [ "settingsMinimalPlotlevelFilter.MinimalPlotlevelFilter", "classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html", null ],
-      [ "settingsMuonID.Muon_ID", "classsettingsMuonID_1_1Muon__ID.html", null ],
-      [ "settingsMVATestMethods.MVATestMethods", "classsettingsMVATestMethods_1_1MVATestMethods.html", null ],
-      [ "settingsSampleStitchingWeights.SampleStitchingWeights", "classsettingsSampleStitchingWeights_1_1SampleStitchingWeights.html", null ],
-      [ "settingsSvfit.Svfit", "classsettingsSvfit_1_1Svfit.html", null ],
-      [ "settingsTauES.TauES", "classsettingsTauES_1_1TauES.html", null ],
-      [ "settingsTauID.Tau_ID", "classsettingsTauID_1_1Tau__ID.html", null ],
-      [ "settingsTauPolarisationMva.TauPolarisationMva", "classsettingsTauPolarisationMva_1_1TauPolarisationMva.html", null ],
-      [ "settingsTauSpinner.TauSpinner", "classsettingsTauSpinner_1_1TauSpinner.html", null ],
-      [ "systematics.Systematics_Config", "classsystematics_1_1Systematics__Config.html", null ],
-      [ "systematics_run2.SystematicsFactory", "classsystematics__run2_1_1SystematicsFactory.html", null ],
-      [ "tt.tt_ArtusConfig", "classtt_1_1tt__ArtusConfig.html", null ]
+      [ "systematics_run2.SystematicsFactory", "classsystematics__run2_1_1SystematicsFactory.html", null ]
     ] ],
     [ "DiTauPairIsoPtComparator", "classDiTauPairIsoPtComparator.html", null ],
     [ "ElectronCorrectionsProducer", null, [
@@ -125,6 +92,9 @@ var hierarchy =
     [ "HttTypes", "classHttTypes.html", null ],
     [ "InputRoot", null, [
       [ "inputroothtt.InputRootHtt", "classinputroothtt_1_1InputRootHtt.html", null ]
+    ] ],
+    [ "KappaAnalysisWrapper", null, [
+      [ "higgstotautauanalysiswrapper.HiggsToTauTauAnalysisWrapper", "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html", null ]
     ] ],
     [ "KappaEnumTypes", null, [
       [ "HttEnumTypes", "classHttEnumTypes.html", null ]
@@ -216,6 +186,7 @@ var hierarchy =
         [ "systematics_run2.JetFakeTauWShapeSystematic", "classsystematics__run2_1_1JetFakeTauWShapeSystematic.html", null ],
         [ "systematics_run2.JetToTauFakeSystematic", "classsystematics__run2_1_1JetToTauFakeSystematic.html", null ],
         [ "systematics_run2.MassResSystematic", "classsystematics__run2_1_1MassResSystematic.html", null ],
+        [ "systematics_run2.MassResSystematicv2", "classsystematics__run2_1_1MassResSystematicv2.html", null ],
         [ "systematics_run2.MetJetEnSystematic", "classsystematics__run2_1_1MetJetEnSystematic.html", null ],
         [ "systematics_run2.MetResponseSystematic", "classsystematics__run2_1_1MetResponseSystematic.html", null ],
         [ "systematics_run2.MetUnclusteredEnSystematic", "classsystematics__run2_1_1MetUnclusteredEnSystematic.html", null ],
@@ -392,16 +363,14 @@ var hierarchy =
       ] ],
       [ "ZPtReweightProducer", "classZPtReweightProducer.html", null ]
     ] ],
-    [ "quantities", null, [
-      [ "CPQuantities.quantities", "classCPQuantities_1_1quantities.html", null ]
-    ] ],
     [ "Quantities", "classQuantities.html", null ],
     [ "RecoilCorrector", "classRecoilCorrector.html", null ],
     [ "Samples", null, [
       [ "samples_ff.Samples", "classsamples__ff_1_1Samples.html", null ],
       [ "samples_run2_2015.Samples", "classsamples__run2__2015_1_1Samples.html", null ],
       [ "samples_run2_2017.Samples", "classsamples__run2__2017_1_1Samples.html", null ],
-      [ "samples_run2_embedding_selection.Samples", "classsamples__run2__embedding__selection_1_1Samples.html", null ]
+      [ "samples_run2_embedding_selection.Samples", "classsamples__run2__embedding__selection_1_1Samples.html", null ],
+      [ "samples_run2_OStoSSExtSF.Samples", "classsamples__run2__OStoSSExtSF_1_1Samples.html", null ]
     ] ],
     [ "embedding_plot_classes.single_plot", "classembedding__plot__classes_1_1single__plot.html", null ],
     [ "embedding_plot_classes.single_plotline", "classembedding__plot__classes_1_1single__plotline.html", null ],
