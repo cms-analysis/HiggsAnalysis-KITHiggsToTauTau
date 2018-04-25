@@ -33,18 +33,6 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 		super(NormalizeForPolarisation, self).prepare_args(parser, plotData)
 		self.prepare_list_args(plotData, ["ztt_pos_pol_gen_nicks", "ztt_neg_pol_gen_nicks", "ztt_pos_pol_reco_nicks", "ztt_neg_pol_reco_nicks"])
 	
-	def normalize_histogram(self, refhisto_nicks, nicks_to_normalize, plotData=None ):
-		for refhisto, histos_to_normalize in zip(refhisto_nicks, nicks_to_normalize):
-			refhisto_int = plotData.plotdict["root_objects"][refhisto].Integral()
-
-			for histo_to_normalize in histos_to_normalize.split(" "):
-				root_histogram = plotData.plotdict["root_objects"][histo_to_normalize]
-				if isinstance(root_histogram, ROOT.TH1):
-					root_histogram.Sumw2()
-					if root_histogram.Integral() != 0.0:
-						log.debug("{0}: Scaling histogram {1} by {2}".format(self.name(), histo_to_normalize, (refhisto_int / root_histogram.Integral())))
-						root_histogram.Scale(refhisto_int / root_histogram.Integral())
-
 	def run(self, plotData=None):
 		super(NormalizeForPolarisation, self).run(plotData)
 		
