@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['calculateqcdostossfactor',['CalculateQcdOStoSSFactor',['../classcalcQcdOStoSSfactor_1_1CalculateQcdOStoSSFactor.html',1,'calcQcdOStoSSfactor']]],
   ['categoriesdict',['CategoriesDict',['../classcategories_1_1CategoriesDict.html',1,'categories']]],
   ['colorsdict',['ColorsDict',['../classcolors_1_1ColorsDict.html',1,'colors']]],
   ['computepullvalues',['ComputePullValues',['../classpullvalues_1_1ComputePullValues.html',1,'pullvalues']]],

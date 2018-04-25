@@ -1,6 +1,5 @@
 var dir_59f8f4d2346b9d01a8951f2ae5e85838 =
 [
-    [ "calcQcdOStoSSfactor.py", "calcQcdOStoSSfactor_8py.html", "calcQcdOStoSSfactor_8py" ],
     [ "cphypotheses.py", "cphypotheses_8py.html", "cphypotheses_8py" ],
     [ "estimatebase.py", "estimatebase_8py.html", "estimatebase_8py" ],
     [ "estimateff.py", "estimateff_8py.html", "estimateff_8py" ],

@@ -17,7 +17,6 @@ var dir_26a42ace823a12affb33b382111ad4cf =
     [ "samples_run2_embedding_selection.py", "samples__run2__embedding__selection_8py.html", "samples__run2__embedding__selection_8py" ],
     [ "samples_run2_etaufakerate.py", "samples__run2__etaufakerate_8py.html", "samples__run2__etaufakerate_8py" ],
     [ "samples_run2_etaufakerate_2016.py", "samples__run2__etaufakerate__2016_8py.html", "samples__run2__etaufakerate__2016_8py" ],
-    [ "samples_run2_OStoSSExtSF.py", "samples__run2__OStoSSExtSF_8py.html", "samples__run2__OStoSSExtSF_8py" ],
     [ "systematics_libary.py", "systematics__libary_8py.html", [
       [ "SystematicLibary", "classsystematics__libary_1_1SystematicLibary.html", "classsystematics__libary_1_1SystematicLibary" ]
     ] ],
