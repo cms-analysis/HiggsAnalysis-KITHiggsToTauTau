@@ -234,11 +234,11 @@ if __name__ == "__main__":
 					
 					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 					
-					config["x_expressions"] = [("0" if "_gen" in nick else "testZttPol13TeV_"+category) for nick in config["nicks"]]
+					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "testZttPol13TeV_"+category) for nick in config["nicks"]]
 
 					binnings_key = "binningZttPol13TeV_"+category
 					if binnings_key in binnings_settings.binnings_dict:
-						config["x_bins"] = [("1,-1,1" if "_gen" in nick else binnings_key) for nick in config["nicks"]]
+						config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
 						
 					config["directories"] = [args.input_dir]
 					

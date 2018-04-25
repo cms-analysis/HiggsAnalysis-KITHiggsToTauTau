@@ -507,11 +507,12 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		polarisation_weight = "tauSpinnerPolarisation>=0.0"
-		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), "pospol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
-		
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
+		
+		name = "pospol"+("_noplot" if polarisation_bias_correction else "")
+		polarisation_weight = "tauSpinnerPolarisation>=0.0"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
 		
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			Samples._add_input(
@@ -520,15 +521,16 @@ class Samples(samples.SamplesBase):
 					"gen/ntuple",
 					1.0,
 					"isZTT*(%s)" % polarisation_weight,
-					"zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot"),
+					"gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot"),
 					nick_suffix=nick_suffix
 			)
 		
 		if polarisation_bias_correction:
 			if not "NormalizeForPolarisation" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
-			config.setdefault("ztt_pos_pol_gen_nicks", []).extend(["zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
-			config.setdefault("ztt_pos_pol_reco_nicks", []).extend(["zttpospol"+nick_suffix, "zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_pos_pol_gen_nicks", []).extend(["gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
+			config.setdefault("ztt_pos_pol_reco_nicks", []).extend(["ztt"+name+nick_suffix, "gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_pos_pol_reco_result_nicks", []).extend(["zttpospol"+nick_suffix, "gen_zttpospol"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 		
 		if polarisation_gen_ztt_plots:
 			Samples._add_plot(config, "gen", "HIST", "F", "zttpospol", nick_suffix)
@@ -536,11 +538,12 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def zttnegpol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		polarisation_weight = "tauSpinnerPolarisation<0.0"
-		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), "negpol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
-		
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
+		
+		name = "negpol"+("_noplot" if polarisation_bias_correction else "")
+		polarisation_weight = "tauSpinnerPolarisation<0.0"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
 		
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			Samples._add_input(
@@ -549,15 +552,16 @@ class Samples(samples.SamplesBase):
 					"gen/ntuple",
 					1.0,
 					"isZTT*(%s)" % polarisation_weight,
-					"zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot"),
+					"gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot"),
 					nick_suffix=nick_suffix
 			)
 		
 		if polarisation_bias_correction:
 			if not "NormalizeForPolarisation" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
-			config.setdefault("ztt_neg_pol_gen_nicks", []).extend(["zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
-			config.setdefault("ztt_neg_pol_reco_nicks", []).extend(["zttnegpol"+nick_suffix, "zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_neg_pol_gen_nicks", []).extend(["gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
+			config.setdefault("ztt_neg_pol_reco_nicks", []).extend(["ztt"+name+nick_suffix, "gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_neg_pol_reco_result_nicks", []).extend(["zttnegpol"+nick_suffix, "gen_zttnegpol"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 		
 		if polarisation_gen_ztt_plots:
 			Samples._add_plot(config, "gen", "HIST", "F", "zttnegpol", nick_suffix)
