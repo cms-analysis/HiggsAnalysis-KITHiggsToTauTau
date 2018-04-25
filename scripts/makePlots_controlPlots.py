@@ -106,6 +106,8 @@ if __name__ == "__main__":
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
 	                    help="Samples. [Default: %(default)s]")
+	parser.add_argument("--use-asimov-dataset", default=None, const="", nargs="?",
+						help="Use expectation as observation instead of real data. Specify the nickts of samples (separated by whitespaces) to be used as expectation. [Default: all samples plotted appart from data]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
 	parser.add_argument("--scale-signal", type=int, default=1,
@@ -278,6 +280,12 @@ if __name__ == "__main__":
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
+	asimov_nicks = []
+	if not (args.use_asimov_dataset is None):
+		args.use_asimov_dataset = args.use_asimov_dataset.split()
+		asimov_nicks = copy.deepcopy(args.samples if len(args.use_asimov_dataset) == 0 else args.use_asimov_dataset)
+		if "data" in asimov_nicks:
+			asimov_nicks.remove("data")
 
 	if args.run1 and (args.emb or args.ttbar_retuned):
 			log.critical("Embedding --emb and --ttbar-retuned only valid for run2. Remove --emb and --tbar-retuned or select run2 samples.")
@@ -430,7 +438,8 @@ if __name__ == "__main__":
 						no_ewkz_as_dy = args.no_ewkz_as_dy,
 						useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,
 						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
-						nick_suffix = (channel if args.channel_comparison else "")
+						nick_suffix = (channel if args.channel_comparison else ""),
+						asimov_nicks = asimov_nicks
 				)
 				if (args.channel_comparison):
 					channel_config = samples.Samples.merge_configs(channel_config, config)
