@@ -55,12 +55,12 @@ var NAVTREEINDEX =
 "makePlots__datacardsMSSMHtt_8py.html#a189db0188be360eb0b8982cd75b4a4e5",
 "makePlots__datacardsSMHtt_8py.html#a9441467cdbfc1400e375f7ef69cf255d",
 "makePlots__datacardsTauEsStudies_8py.html#aa0fe7de0c247dde48b6634940cbba978",
-"makePlots__datacardsZttPolarisation_8py.html#ab48e5176b69e6d98ea03f51b1a9ac5f4",
-"makePlots__limitInputs_8py.html#a91c452b1dcf990ff3867ad9845d65b0d",
-"mvaCategory__Shifts_8py.html#ad769d269d5275a1f5fbefc74187767be",
+"makePlots__datacardsZttPolarisation_8py.html#ab3c427e40ec58d1212b882d7e455a95d",
+"makePlots__limitInputs_8py.html#a84052600f304cf1b314cff2750e3cce2",
+"mvaCategory__Shifts_8py.html#ac5c3e7da132f5c338274bd3f9f40e5e8",
 "namespacemakePlots__genCPPlots__genvsreco.html",
-"nicknames_8py.html#af79e056e82d9c4baf9168bf4df64c038",
-"scaleVariations__ZttOverZttInclusive_8py.html"
+"nicknames_8py.html#af1f3829bdde2dec31baab47a317cbc85",
+"scaleVariations__ZttOverZmumu_8py.html#af181063946005653e17093a6f2209e09"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
