@@ -69,6 +69,7 @@ class quantities(run2_quantities.quantities):
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
+			self["Quantities"] += self.genQuantitiesLFV()
 			if kwargs.get("channel", None) == "MT" or kwargs.get("channel", None) == "ET":
 				self["Quantities"] += iq.SingleTauQuantities()	#until here
 				self["Quantities"] += self.recoCPQuantities()

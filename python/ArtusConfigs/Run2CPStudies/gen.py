@@ -52,6 +52,7 @@ class gen_ArtusConfig(dict):
 
 		elif re.search("LFV",nickname):
 			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
+			quantities_dict["Quantities"] += quantities_dict.genQuantitiesLFV()
 			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
 
 		elif re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):

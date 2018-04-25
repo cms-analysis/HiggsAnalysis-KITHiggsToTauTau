@@ -320,7 +320,7 @@ class et_ArtusConfig(dict):
 						]
 			
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-					self["Processors"] = [
+					self["Processors"] += [
 						"producer:ZPtReweightProducer"
 						#"filter:MinimalPlotlevelFilter"
 					]

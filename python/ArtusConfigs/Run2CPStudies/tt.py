@@ -257,12 +257,11 @@ class tt_ArtusConfig(dict):
 						]
 			
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-					self["Processors"] = [
+					self["Processors"] += [
 						"producer:ZPtReweightProducer"
 						#"filter:MinimalPlotlevelFilter"
 					]
 					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
-					self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
 
 				else:              
 					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
