@@ -157,6 +157,8 @@ Variables</h2></td></tr>
 <tr class="separator:a2976af974f2588caf031b4948bb57946"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26f8535390217cf8f3888c75f31391a9"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a26f8535390217cf8f3888c75f31391a9">config</a></td></tr>
 <tr class="separator:a26f8535390217cf8f3888c75f31391a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f33d89ec4717b0a7b363ea5d54a257c"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a9f33d89ec4717b0a7b363ea5d54a257c">x_expression</a> = json_config.pop(&quot;x_expressions&quot;, [quantity])</td></tr>
+<tr class="separator:a9f33d89ec4717b0a7b363ea5d54a257c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7385a5703d306dc5d30d365a054860b0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a7385a5703d306dc5d30d365a054860b0">sub_conf_index</a> = 0</td></tr>
 <tr class="separator:a7385a5703d306dc5d30d365a054860b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf7036a108f6d43e95248d25cea12ca3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#adf7036a108f6d43e95248d25cea12ca3">binning_string</a> = &quot;binningHtt13TeV&quot;</td></tr>
@@ -167,7 +169,9 @@ Variables</h2></td></tr>
 <tr class="separator:aaea02a48032ae560e43a38a2f236de25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79031c3e0b084d3a801bbe5b8a9fcfaf"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a79031c3e0b084d3a801bbe5b8a9fcfaf">category</a> = &quot;_&quot;</td></tr>
 <tr class="separator:a79031c3e0b084d3a801bbe5b8a9fcfaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53083cc9fa99942755bf909f52c31010"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a53083cc9fa99942755bf909f52c31010">x_binning</a> = re.search(&quot;(--x-bins)[\s=\&quot;\']*(?P&lt;x_bins&gt;\S*)[\&quot;\']?\S&quot;, args.args)</td></tr>
+<tr class="memitem:a9c706f614a7442e31b51d315e079fb5b"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a9c706f614a7442e31b51d315e079fb5b">x_bins</a> = json_config.pop(&quot;x_bins&quot;, [binnings_key])</td></tr>
+<tr class="separator:a9c706f614a7442e31b51d315e079fb5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53083cc9fa99942755bf909f52c31010"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a53083cc9fa99942755bf909f52c31010">x_binning</a> = re.search(&quot;(--x-bins)[\s=\&quot;\']*(?P&lt;<a class="el" href="namespacemakePlots__controlPlots.html#a9c706f614a7442e31b51d315e079fb5b">x_bins</a>&gt;\S*)[\&quot;\']?\S&quot;, args.args)</td></tr>
 <tr class="separator:a53083cc9fa99942755bf909f52c31010"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a294c53834dc0a3e06e86dfb08eb59d65"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a294c53834dc0a3e06e86dfb08eb59d65">bkg_samples_used</a> = [<a class="el" href="namespacemakePlots__controlPlots.html#aa4c35983c076dbaa964436c3ad3a95a2">nick</a> for <a class="el" href="namespacemakePlots__controlPlots.html#aa4c35983c076dbaa964436c3ad3a95a2">nick</a> in <a class="el" href="namespacemakePlots__controlPlots.html#a1aae8a0c177b3a30a56b1589ab3d86c3">bkg_samples</a> if <a class="el" href="namespacemakePlots__controlPlots.html#aa4c35983c076dbaa964436c3ad3a95a2">nick</a> in <a class="el" href="namespacemakePlots__controlPlots.html#a26f8535390217cf8f3888c75f31391a9">config</a>[&quot;nicks&quot;]]</td></tr>
 <tr class="separator:a294c53834dc0a3e06e86dfb08eb59d65"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -840,7 +844,31 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tuple makePlots_controlPlots.x_binning = re.search(&quot;(--x-bins)[\s=\&quot;\']*(?P&lt;x_bins&gt;\S*)[\&quot;\']?\S&quot;, args.args)</td>
+          <td class="memname">tuple makePlots_controlPlots.x_binning = re.search(&quot;(--x-bins)[\s=\&quot;\']*(?P&lt;<a class="el" href="namespacemakePlots__controlPlots.html#a9c706f614a7442e31b51d315e079fb5b">x_bins</a>&gt;\S*)[\&quot;\']?\S&quot;, args.args)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9c706f614a7442e31b51d315e079fb5b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple makePlots_controlPlots.x_bins = json_config.pop(&quot;x_bins&quot;, [binnings_key])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9f33d89ec4717b0a7b363ea5d54a257c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple makePlots_controlPlots.x_expression = json_config.pop(&quot;x_expressions&quot;, [quantity])</td>
         </tr>
       </table>
 </div><div class="memdoc">

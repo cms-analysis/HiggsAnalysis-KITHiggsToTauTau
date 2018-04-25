@@ -44,5 +44,7 @@ var makePlots__controlPlots_8py =
     [ "sig_samples_raw", "makePlots__controlPlots_8py.html#a07635c6cea4a2eb60e10673d0e1846f8", null ],
     [ "sig_samples_used", "makePlots__controlPlots_8py.html#a6efcd8c5d021f14e5f16216bc7d9ca16", null ],
     [ "sub_conf_index", "makePlots__controlPlots_8py.html#a7385a5703d306dc5d30d365a054860b0", null ],
-    [ "x_binning", "makePlots__controlPlots_8py.html#a53083cc9fa99942755bf909f52c31010", null ]
+    [ "x_binning", "makePlots__controlPlots_8py.html#a53083cc9fa99942755bf909f52c31010", null ],
+    [ "x_bins", "makePlots__controlPlots_8py.html#a9c706f614a7442e31b51d315e079fb5b", null ],
+    [ "x_expression", "makePlots__controlPlots_8py.html#a9f33d89ec4717b0a7b363ea5d54a257c", null ]
 ];
