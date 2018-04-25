@@ -8,11 +8,12 @@ import re
 
 
 class Tau_ID(dict):
-    def __init__(self, nickname):
+	def __init__(self, nickname):
 
-        self["TauID_documentation"] = []
+		self["TauID_documentation"] = []
 
-        self["TauDiscriminatorIsolationName"] = "byIsolationMVArun2v1DBoldDMwLTraw"
+		self["TauDiscriminatorIsolationName"] = "byIsolationMVArun2v1DBoldDMwLTraw"
 
-        self["TauElectronLowerDeltaRCut"] = -1.0
-        self["TauMuonLowerDeltaRCut"] = -1.0
+		self["TauElectronLowerDeltaRCut"] = -1.0
+		self["TauMuonLowerDeltaRCut"] = -1.0
+

@@ -8,65 +8,65 @@ import re
 
 
 class Muon_ID(dict):
-    def __init__(self, nickname):
+	def __init__(self, nickname):
 
-        self["MuonID_documentation"] = [
-            "https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorking2015#Muons"]
-        if re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
-            self["Year"] = 2016
-            self["MuonIsoTypeUserMode"] = "fromcmsswr04"
-        else:
-            self["Year"] = 2015
-            self["MuonIsoTypeUserMode"] = "fromcmssw"
+		self["MuonID_documentation"] = ["https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorking2015#Muons"]
+		if re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
+			self["Year"] = 2016
+			self["MuonIsoTypeUserMode"] = "fromcmsswr04"
+		else:
+			self["Year"] = 2015
+			self["MuonIsoTypeUserMode"] = "fromcmssw"
 
-        if re.search("Run2016(B|C|D|E|F)", nickname):
-            self["MuonID"] = "mediumHIPsafe2016"
+		if re.search("Run2016(B|C|D|E|F)",nickname):
+			self["MuonID"] = "mediumHIPsafe2016"
 
-        else:
-            self["MuonID"] = "medium"
+		else:
+			self["MuonID"] = "medium"
+		
+		self["MuonIsoType"] = "user"
+		self["MuonIso"] = "none"
+	
+		self["MuonIsoSignalConeSize"] = 0.3
+		self["MuonDeltaBetaCorrectionFactor"] = 0.5
+	
+		self["MuonTrackDxyCut"] = 0.045
+		self["MuonTrackDzCut"] = 0.2
 
-        self["MuonIsoType"] = "user"
-        self["MuonIso"] = "none"
+	def looseMuon_ID(self, nickname):
 
-        self["MuonIsoSignalConeSize"] = 0.3
-        self["MuonDeltaBetaCorrectionFactor"] = 0.5
+		if re.search("Run2016(B|C|D|E|F)",nickname):
+			self["LooseMuonID"] = "mediumHIPsafe2016"
 
-        self["MuonTrackDxyCut"] = 0.045
-        self["MuonTrackDzCut"] = 0.2
+		else:
+			self["LooseMuonID"] = "medium"
 
-    def looseMuon_ID(self, nickname):
+		self["LooseMuonIsoType"] = "user"
+		self["LooseMuonIso"] = "none"
 
-        if re.search("Run2016(B|C|D|E|F)", nickname):
-            self["LooseMuonID"] = "mediumHIPsafe2016"
+		self["LooseMuonIsoPtSumOverPtUpperThresholdEB"] = 0.3
+		self["LooseMuonIsoPtSumOverPtUpperThresholdEE"] = 0.3
 
-        else:
-            self["LooseMuonID"] = "medium"
+		self["LooseMuonLowerPtCuts"] = ["10.0"]
+		self["LooseMuonUpperAbsEtaCuts"] = ["2.4"]
 
-        self["LooseMuonIsoType"] = "user"
-        self["LooseMuonIso"] = "none"
+		self["LooseMuonTrackDxyCut"] = 0.045
+		self["LooseMuonTrackDzCut"] = 0.2
+		self["DirectIso"] = True
 
-        self["LooseMuonIsoPtSumOverPtUpperThresholdEB"] = 0.3
-        self["LooseMuonIsoPtSumOverPtUpperThresholdEE"] = 0.3
+	def vetoMuon_ID(self, nickname):
+		
+		self["VetoMuonID"] = "veto"
 
-        self["LooseMuonLowerPtCuts"] = ["10.0"]
-        self["LooseMuonUpperAbsEtaCuts"] = ["2.4"]
+		self["VetoMuonIsoType"] = "user"
+		self["VetoMuonIso"] = "none"
 
-        self["LooseMuonTrackDxyCut"] = 0.045
-        self["LooseMuonTrackDzCut"] = 0.2
-        self["DirectIso"] = True
+		self["VetoMuonIsoPtSumOverPtUpperThresholdEB"] = 0.3
+		self["VetoMuonIsoPtSumOverPtUpperThresholdEE"] = 0.3
 
-    def vetoMuon_ID(self, nickname):
+		self["VetoMuonLowerPtCuts"] = ["15.0"]
+		self["VetoMuonUpperAbsEtaCuts"] = ["2.4"]
+		self["DiVetoMuonMinDeltaRCut"] = 0.15
+		self["DiVetoMuonVetoMode"] = "veto_os_keep_ss"
+		self["DirectIso"] = True
 
-        self["VetoMuonID"] = "veto"
-
-        self["VetoMuonIsoType"] = "user"
-        self["VetoMuonIso"] = "none"
-
-        self["VetoMuonIsoPtSumOverPtUpperThresholdEB"] = 0.3
-        self["VetoMuonIsoPtSumOverPtUpperThresholdEE"] = 0.3
-
-        self["VetoMuonLowerPtCuts"] = ["15.0"]
-        self["VetoMuonUpperAbsEtaCuts"] = ["2.4"]
-        self["DiVetoMuonMinDeltaRCut"] = 0.15
-        self["DiVetoMuonVetoMode"] = "veto_os_keep_ss"
-        self["DirectIso"] = True
