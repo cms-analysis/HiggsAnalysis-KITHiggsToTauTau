@@ -378,11 +378,10 @@ if __name__ == "__main__":
 							name="\"\"" if fit_name == "" else (fit_name + ("{CHUNK}" if "--points" in tmp_fit_options else ""))
 					))
 					
-					if fit_options.get("method", "FitDiagnostics") == "FitDiagnostics":
+					if fit_options.get("method", "MaxLikelihoodFit") == "MaxLikelihoodFit":
 						datacards_postfit_shapes = datacards.postfit_shapes(datacards_cbs, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 						datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args}, n_processes=args.n_processes)
-						#use nuisance_impacts instead pull_plots!
-						#datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
+						datacards.pull_plots(datacards_postfit_shapes, s_fit_only=False, plotting_args={"fit_poi" : ["r"], "formats" : ["pdf", "png"]}, n_processes=args.n_processes)
 						datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
 					
 				datacards.annotate_trees(tmp_datacards_workspaces, "higgsCombine*{method}*mH*.root".format(method=fit_options.get("method", "MaxLikelihoodFit")), [os.path.join(sub_dir_base, "(\d*)/.*.root")], None, args.n_processes, None, "-t limit -b lumi")

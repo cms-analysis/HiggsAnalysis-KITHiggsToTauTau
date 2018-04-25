@@ -507,11 +507,12 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		polarisation_weight = "tauSpinnerPolarisation>=0.0"
-		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), "pospol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
-		
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
+		
+		name = "pospol"+("_noplot" if polarisation_bias_correction else "")
+		polarisation_weight = "tauSpinnerPolarisation>=0.0"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
 		
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			Samples._add_input(
@@ -520,27 +521,29 @@ class Samples(samples.SamplesBase):
 					"gen/ntuple",
 					1.0,
 					"isZTT*(%s)" % polarisation_weight,
-					"zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix,
+					"gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot"),
 					nick_suffix=nick_suffix
 			)
 		
 		if polarisation_bias_correction:
 			if not "NormalizeForPolarisation" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
-			config.setdefault("ztt_pos_pol_gen_nicks", []).extend(["zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
-			config.setdefault("ztt_pos_pol_reco_nicks", []).extend(["zttpospol"+nick_suffix, "zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_pos_pol_gen_nicks", []).extend(["gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
+			config.setdefault("ztt_pos_pol_reco_nicks", []).extend(["ztt"+name+nick_suffix, "gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_pos_pol_reco_result_nicks", []).extend(["zttpospol"+nick_suffix, "gen_zttpospol"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 		
 		if polarisation_gen_ztt_plots:
-			Samples._add_plot(config, "bkg", "HIST", "F", "zttpospol", nick_suffix)
+			Samples._add_plot(config, "gen", "HIST", "F", "zttpospol", nick_suffix)
 		
 		return config
 	
 	def zttnegpol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		polarisation_weight = "tauSpinnerPolarisation<0.0"
-		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), "negpol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
-		
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
+		
+		name = "negpol"+("_noplot" if polarisation_bias_correction else "")
+		polarisation_weight = "tauSpinnerPolarisation<0.0"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
 		
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			Samples._add_input(
@@ -549,19 +552,30 @@ class Samples(samples.SamplesBase):
 					"gen/ntuple",
 					1.0,
 					"isZTT*(%s)" % polarisation_weight,
-					"zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix,
+					"gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot"),
 					nick_suffix=nick_suffix
 			)
 		
 		if polarisation_bias_correction:
 			if not "NormalizeForPolarisation" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
-			config.setdefault("ztt_neg_pol_gen_nicks", []).extend(["zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
-			config.setdefault("ztt_neg_pol_reco_nicks", []).extend(["zttnegpol"+nick_suffix, "zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_neg_pol_gen_nicks", []).extend(["gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
+			config.setdefault("ztt_neg_pol_reco_nicks", []).extend(["ztt"+name+nick_suffix, "gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_neg_pol_reco_result_nicks", []).extend(["zttnegpol"+nick_suffix, "gen_zttnegpol"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 		
 		if polarisation_gen_ztt_plots:
-			Samples._add_plot(config, "bkg", "HIST", "F", "zttnegpol", nick_suffix)
+			Samples._add_plot(config, "gen", "HIST", "F", "zttnegpol", nick_suffix)
 		
+		return config
+
+	def zttposcp(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		cp_weight = "( ((q_2>0)*(cosPsiPlus<(sqrt(2)/2))) + ((q_2<0)*(cosPsiMinus<(sqrt(2)/2))) )"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (cp_weight, weight), "poscp"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttposcp", label="zttposcp", **kwargs)
+		return config
+
+	def zttnegcp(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		cp_weight = "( ((q_2>0)*(cosPsiPlus>(sqrt(2)/2))) + ((q_2<0)*(cosPsiMinus>(sqrt(2)/2))) )"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (cp_weight, weight), "negcp"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegcp", label="zttnegcp", **kwargs)
 		return config
 
 	def files_zll(self, channel):
@@ -798,6 +812,7 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
+
 		branching_ratio = "9.8e-6" #"(0.03363)*0.66*0.17*2"
 		jet_integral_weight = "1/1.06"
 		files_weight = "1/10.0"
@@ -830,6 +845,7 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		scale_factor = lumi
+
 		branching_ratio = "7.3e-7" # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"
 		jet_integral_weight = "1/1.03"
 		files_weight = "1/10.0"
@@ -1483,8 +1499,8 @@ class Samples(samples.SamplesBase):
 				wj_highmt_shape_cut_type = wj_highmt_shape_cut_type + "relaxedETauMuTauWJ"
 				wj_shape_cut_type = wj_shape_cut_type + "relaxedETauMuTauWJ"
 			elif category != None:
-				wj_highmt_shape_cut_type = wj_highmt_shape_cut_type + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")
-				wj_shape_cut_type = wj_shape_cut_type + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")
+				wj_highmt_shape_cut_type = wj_highmt_shape_cut_type + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
+				wj_shape_cut_type = wj_shape_cut_type + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
 			
 			# wj shape and highmt to lowmt extrapolation
 			wj_shape_weight = weight   # replace only category part
@@ -2483,7 +2499,7 @@ class Samples(samples.SamplesBase):
 					if kwargs.get("useRelaxedIsolationForQCD", False):
 						qcd_shape_cut = qcd_shape_cut + "relaxedETauMuTauWJ"
 					elif category != None:
-						qcd_shape_cut = qcd_shape_cut + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category) else "")
+						qcd_shape_cut = qcd_shape_cut + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
 					
 					qcd_shape_weight = weight
 					if "newKIT" in estimationMethod:
@@ -2957,7 +2973,7 @@ class Samples(samples.SamplesBase):
 							if estimation_type == "shape" and ("ZeroJet2D" in category or "Boosted2D" in category):
 								qcd_weight += "*(iso_1<0.3)*(iso_2>0.1)*(iso_2<0.3)"
 								qcd_exclude_cuts += ["iso_1", "iso_2"]
-							if estimation_type == "shape" and "Vbf2D" in category:
+							if estimation_type == "shape" and ("Vbf2D" in category or "dijet" in category):
 								qcd_weight += "*(iso_1<0.5)*(iso_2>0.2)*(iso_2<0.5)"
 								qcd_exclude_cuts += ["iso_1", "iso_2"]
 							if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
@@ -3521,8 +3537,7 @@ class Samples(samples.SamplesBase):
 
 	def files_ggh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
-		
-		if cp is None or "cpeven":
+		if cp is None or cp == "cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 		
@@ -3664,7 +3679,7 @@ class Samples(samples.SamplesBase):
 	def files_qqh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
 		
-		if cp is None or "cpeven":
+		if cp is None or  cp =="cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "VBFHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 		

@@ -12,13 +12,16 @@ export KITHIGGSTOTAUTAUPATH=$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau
 # grid-control
 export PATH=${CMSSW_BASE}/src/grid-control/:${CMSSW_BASE}/src/grid-control/scripts/:${PATH}
 
-# setup TauSpinner
+#setup TauSpinner
 cp $KITHIGGSTOTAUTAUPATH/data/tauspinner.xml $CMSSW_BASE/config/toolbox/$SCRAM_ARCH/tools/selected/tauspinner.xml
 scram setup tauspinner
+
+
 
 # overwrite artus settings
 if [[ `hostname` == *naf* ]]; then
 	export ARTUS_WORK_BASE="/nfs/dust/cms/user/${USER}/htautau/artus/"
+	export HP_WORK_BASE="/nfs/dust/cms/user/${USER}/htautau/Harry"
 elif [[ `hostname` == *ekpbms* ]] && [ ${USER} == "wayand" ]; then
     echo "Hallo stefan auf der bms"
     export ARTUS_WORK_BASE="/portal/ekpbms2/home/wayand/htautau/artus"
@@ -37,3 +40,4 @@ fi
 
 # copy/link libraries
 cd $CMSSW_BASE/lib/$SCRAM_ARCH && ln -s -f ../../src/ZZMatrixElement/MELA/data/$SCRAM_ARCH/*.so ./ && cd $CMSSW_BASE/src/
+

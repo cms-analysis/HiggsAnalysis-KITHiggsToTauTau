@@ -25,7 +25,7 @@
 		"MinNMuons" : 1,
 		"MinNTaus" : 1,
 		"HltPaths_comment" : "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer.",
-		"HltPaths" : { 
+		"HltPaths" : {
 			"nick": {
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_IsoMu18"
@@ -71,7 +71,7 @@
 		"TauUpperAbsEtaCuts" : [
 			"2.3"
 		],
-		"TriggerObjectLowerPtCut" : { 
+		"TriggerObjectLowerPtCut" : {
 			"nick": {
 				"default": -1.0
 			}
@@ -89,7 +89,7 @@
 				]
 			}
 		},
-		"DiTauPairHltPathsWithoutCommonMatchRequired" : { 
+		"DiTauPairHltPathsWithoutCommonMatchRequired" : {
 			"nick": {
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : [
 					"HLT_IsoMu18_v"
@@ -187,7 +187,7 @@
 			"1:t_pt,t_eta"
 		],
 		"TriggerEfficiencyData" : {
-			"nick" : { 
+			"nick" : {
 				"default" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_Mu22OR_eta2p1_eff.root"],
 				"(Fall15MiniAODv2|Run2015D|Embedding2015)" : ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_IsoMu18_fall15.root"]
 			}
@@ -372,25 +372,25 @@
 					"nLooseMuons",
 					"nDiTauPairCandidates",
 					"nAllDiTauPairCandidates",
-					
+
 					"melaProbCPEvenGGH",
 					"melaProbCPOddGGH",
 					"melaProbCPMixGGH",
 					"melaDiscriminatorD0MinusGGH",
 					"melaDiscriminatorDCPGGH",
-		
+
 					"melaProbCPEvenVBF",
 					"melaProbCPOddVBF",
 					"melaProbCPMixVBF",
 					"melaDiscriminatorD0MinusVBF",
 					"melaDiscriminatorDCPVBF",
-					
+
 					"melaM125ProbCPEvenGGH",
 					"melaM125ProbCPOddGGH",
 					"melaM125ProbCPMixGGH",
 					"melaM125DiscriminatorD0MinusGGH",
 					"melaM125DiscriminatorDCPGGH",
-		
+
 					"melaM125ProbCPEvenVBF",
 					"melaM125ProbCPOddVBF",
 					"melaM125ProbCPMixVBF",
@@ -489,6 +489,7 @@
 					"producer:MuTauTriggerWeightProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -591,6 +592,7 @@
 					"producer:IdentificationWeightProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -644,6 +646,7 @@
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
 					"producer:GenMatchedPolarisationQuantitiesProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -687,6 +690,7 @@
 					"producer:SimpleFitProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -731,6 +735,7 @@
 					"#producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -781,6 +786,7 @@
 					"#producer:SimpleFitProducer",
 					"#producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -831,6 +837,7 @@
 					"producer:GenMatchedTauCPProducer",
 					"producer:RefitVertexSelector",
 					"producer:RecoTauCPProducer",
+					"producer:GenMatchedPolarisationQuantitiesProducer",
 					"producer:PolarisationQuantitiesSvfitProducer",
 					"producer:PolarisationQuantitiesSvfitM91Producer",
 					"producer:PolarisationQuantitiesSimpleFitProducer",
@@ -939,7 +946,7 @@
 					"producer:PolarisationQuantitiesSimpleFitProducer",
 					"#producer:TauPolarisationTmvaReader",
 					"producer:EventWeightProducer",
-					"producer:LFVJetCorrection2016Producer" 
+					"producer:LFVJetCorrection2016Producer"
 				]
 			}
 		},

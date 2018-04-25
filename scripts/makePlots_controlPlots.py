@@ -9,6 +9,7 @@ import argparse
 import copy
 import os
 import sys
+import re
 
 import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
@@ -104,9 +105,6 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ewkz","tttautau", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvj", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "hww", "hww_gg", "hww_qq", "ff",
-	                             "ggh", "susy_ggh", "gghsm", "gghmm", "gghps", "gghjhusm", "gghjhumm", "gghjhups", "qqh", "qqhsm", "qqhmm", "qqhps", "qqhjhusm", "qqhjhumm", "qqhjhups", "bbh", "vh", "htt", "data", "zmt", "zet", "zem",
-								 "susy", "httcpeven", "httcpodd", "httcpmix", "susycpodd"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
@@ -195,6 +193,10 @@ if __name__ == "__main__":
 	parser.add_argument("--smhtt", default=False, action="store_true",
 	                    help="Produce the plots for the SM HTT analysis. [Default: %(default)s]")
 	parser.add_argument("--cp", default=False, action="store_true",
+	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")  #TODO instead of 3 different boolean flag, change to option with 3 possible values
+	parser.add_argument("--cprho", default=False, action="store_true",
+	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")
+	parser.add_argument("--cpcomb", default=False, action="store_true",
 	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")
 	parser.add_argument("--taues", default=False, action="store_true",
 	                    help="Produce the plots for the tau energy scale analysis. [Default: %(default)s]")
@@ -210,6 +212,8 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
+	parser.add_argument("--ratio-subplot", default=False, action="store_true",
+	                    help="Add a subplot showing the relative fraction of the processes per bin. [Default: %(default)s]")						
 	parser.add_argument("--shapes", default=False, action="store_true",
 	                    help="Show shape comparisons. [Default: %(default)s]")
 	parser.add_argument("--channel-comparison", default=False, action="store_true",
@@ -268,6 +272,7 @@ if __name__ == "__main__":
 
 	if args.shapes:
 		args.ratio = False
+		args.ratio_subplot = False
 
 	if args.samples == parser.get_default("samples"):
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
@@ -286,7 +291,7 @@ if __name__ == "__main__":
 		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "bbh"]]
 	else:
 		bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "qqh", "vh"]]
-		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "qqh", "vh"]]
+		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "qqh", "vh", "gghjhusm", "gghjhumm", "gghjhups", "qqhjhusm", "qqhjhumm", "qqhjhups"]]
 	sig_samples = []
 	for mass in args.higgs_masses:
 		scale_str = "_%i"%args.scale_signal
@@ -327,6 +332,10 @@ if __name__ == "__main__":
 		global_cut_type = "tauescuts"
 	elif args.cp:
 		global_cut_type = "cp"
+	elif args.cprho:
+		global_cut_type = "cprho"
+	elif args.cpcomb:
+		global_cut_type = "cpcomb"
 	elif args.etaufakerate:
 		global_category_string = "catETauFakeRate13TeV"
 		global_cut_type = "etaufake"
@@ -428,7 +437,8 @@ if __name__ == "__main__":
 					if last_loop:
 						config = channel_config
 
-				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
+				x_expression = json_config.pop("x_expressions", [quantity])
+				config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 				config["category"] = category
 
 
@@ -464,14 +474,18 @@ if __name__ == "__main__":
 						category = "_" + category if category else "",
 						quantity = quantity
 				)
-				if  binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict:
+				if binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict and "--x-bins" not in args.args:
 					binnings_key = channel + "_" + quantity
-				else:
+				if binnings_key not in binnings_settings.binnings_dict:
 					binnings_key = None
-
-				if binnings_key is not None:
-					config["x_bins"] = [("1,-1,1" if "pol_gen" in nick else json_config.pop("x_bins", [binnings_key])) for nick in config["nicks"]]
-
+				
+				if binnings_key is not None and "--x-bins" not in args.args:
+					x_bins = json_config.pop("x_bins", [binnings_key])
+					config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_bins) for nick in config["nicks"]]
+				elif "--x-bins" in args.args:
+					x_binning = re.search("(--x-bins)[\s=\"\']*(?P<x_bins>\S*)[\"\']?\S", args.args)
+					config["x_bins"] = [" ".join(x_binning.group(2))]
+					
 				config["x_label"] = json_config.pop("x_label", channel + "_" + quantity)
 
 				if args.channel_comparison:
@@ -524,12 +538,12 @@ if __name__ == "__main__":
 				if args.cms:
 					config["cms"] = True
 					config["extra_text"] = "Preliminary"
-					config["legend"] = [0.7, 0.4, 0.95, 0.83] if args.ratio or args.integrated_sob or args.sbratio else [0.7, 0.5, 0.9, 0.85]
+					config["legend"] = [0.7, 0.4, 0.95, 0.83] if args.ratio or args.integrated_sob or args.sbratio or args.ratio_subplot else [0.7, 0.5, 0.9, 0.85]
 				elif args.shapes:
 					config["legend"] = [0.55, 0.65, 0.9, 0.88]
 				else:
 					config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.5 if args.ratio or args.integrated_sob or args.sbratio else 1.4]
-					config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio or args.integrated_sob or args.sbratio else [0.23, 0.73, 0.9, 0.89]
+					config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio or args.integrated_sob or args.sbratio or args.ratio_subplot else [0.23, 0.73, 0.9, 0.89]
 					config["legend_cols"] = 3
 				if not args.shapes:
 					if args.lumi is not None:
@@ -622,6 +636,19 @@ if __name__ == "__main__":
 						channel if len(args.channels) > 1 and not args.channel_comparison else "",
 						category if len(args.categories) > 1 else ""
 				))
+				if args.ratio_subplot:
+					samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
+					if "Ratio" not in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("Ratio")
+					config.setdefault("ratio_numerator_nicks", []).extend([str(bkg) for bkg in samples_used])
+					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(samples_used)] *len(samples_used) )
+					config.setdefault("ratio_result_nicks", []).extend([str(bkg)+"_subplot" for bkg in samples_used])
+					config.setdefault("markers", []).extend(["HIST"]*len(samples_used))
+					config.setdefault("legend_markers", []).extend(["ELP"]*len(samples_used))
+					config.setdefault("stacks", []).extend(["ratio_subplot"]*len(samples_used))
+					config.setdefault("subplot_nicks", []).extend([str(bkg)+"_subplot" for bkg in samples_used])
+					config["y_subplot_lims"] = [0.0, 1.0]
+					config["y_subplot_label"] = "a.u."			
 
 				if not args.www is None:
 					config["www"] = os.path.join(

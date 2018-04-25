@@ -28,7 +28,7 @@ def _call_command(command):
 
 
 def replace_observation_by_asimov_dataset(datacards, pol=-0.159, r=1.0):
-	# asimov_options = "--expectSignal 1.0 -t -1 --setPhysicsModelParameters \"pol=-0.159,r=1\""
+	# asimov_options = "--expectSignal 1.0 -t -1 --setParameters \"pol=-0.159,r=1\""
 	
 	pospol_signals = datacards.cb.cp().signals()
 	pospol_signals.FilterAll(lambda obj : ("pospol" not in obj.process().lower()))
@@ -36,13 +36,13 @@ def replace_observation_by_asimov_dataset(datacards, pol=-0.159, r=1.0):
 	negpol_signals = datacards.cb.cp().signals()
 	negpol_signals.FilterAll(lambda obj : ("negpol" not in obj.process().lower()))
 	
-	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 + pol))))
-	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 - pol))))
+	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 + pol) / 2.0)))
+	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 - pol) / 2.0)))
 	
 	datacards.replace_observation_by_asimov_dataset()
 	
-	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 + pol))))
-	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 - pol))))
+	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 + pol) / 2.0)))
+	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 - pol) / 2.0)))
 
 
 if __name__ == "__main__":
@@ -90,15 +90,13 @@ if __name__ == "__main__":
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--lumi-projection", type=float, nargs="+", default=[],
-                        help="Specify luminosity values in fb^(-1) for a projection. [Default: %(default)s]")
+	                    help="Specify luminosity values in fb^(-1) for a projection. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--check-linearity", type=float, nargs="+", default=[],
 						help="Specify the polarisation values for which to check the linearity of the discriminator. [Default: %(default)s]")
 	parser.add_argument("--no-ewk-samples", default=False, action="store_true",
 	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
-	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
-	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 	                    help="Do not include shape-uncertainties. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
@@ -174,6 +172,7 @@ if __name__ == "__main__":
  		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
  		#datacards.cb.PrintSysts()
 
+
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 
 		# prepare category settings based on args and datacards
@@ -202,7 +201,7 @@ if __name__ == "__main__":
 			
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
-				list_of_samples = (["data"] if nominal else []) + [datacards.configs.process2sample(process) for process in list_of_samples]
+				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -226,7 +225,7 @@ if __name__ == "__main__":
 							polarisation_bias_correction=True,
 							cut_type="baseline_low_mvis",
 							no_ewk_samples = args.no_ewk_samples,
-							no_ewkz_as_dy = args.no_ewkz_as_dy
+							no_ewkz_as_dy = True
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -235,11 +234,11 @@ if __name__ == "__main__":
 					
 					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 					
-					config["x_expressions"] = [("0" if "_gen" in nick else "testZttPol13TeV_"+category) for nick in config["nicks"]]
+					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "testZttPol13TeV_"+category) for nick in config["nicks"]]
 
 					binnings_key = "binningZttPol13TeV_"+category
 					if binnings_key in binnings_settings.binnings_dict:
-						config["x_bins"] = [("1,-1,1" if "_gen" in nick else binnings_key) for nick in config["nicks"]]
+						config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
 						
 					config["directories"] = [args.input_dir]
 					
@@ -362,7 +361,7 @@ if __name__ == "__main__":
 					datacards_cbs,
 					args.n_processes,
 					"-P {MODEL} {MODEL_PARAMETERS}".format(
-							MODEL="TauPolSoftware.StatisticalAnalysis.taupolarisationmodels:ztt_pol",
+							MODEL="CombineHarvester.ZTTPOL2016.taupolarisationmodels:ztt_pol",
 							MODEL_PARAMETERS=""
 					)
 			)
@@ -373,7 +372,7 @@ if __name__ == "__main__":
 						datacards_workspaces,
 						None,
 						args.n_processes,
-						"-M FitDiagnostics --saveShapes --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
+						"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
 						split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
 				)
 
@@ -402,13 +401,12 @@ if __name__ == "__main__":
 				print("###################### 1.2 ######################")
 				if "pulls" in args.steps:
 					datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
-					#use nuisance_impacts instead pull_plots!
-					# datacards.pull_plots(
-					# 		datacards_postfit_shapes,
-					# 		s_fit_only=True,
-					# 		plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
-					# 		n_processes=args.n_processes
-					# )
+					datacards.pull_plots(
+							datacards_postfit_shapes,
+							s_fit_only=True,
+							plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args.replace("--no-cache", ""), "www" : www},
+							n_processes=args.n_processes
+					)
 
 				print("###################### 1.3 ######################")
 				if "nuisanceimpacts" in args.steps:
