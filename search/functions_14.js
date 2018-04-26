@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['weightquantities',['weightQuantities',['../classCPQuantities_1_1quantities.html#a7d50723f097bb2f2efc225f58c22a6b0',1,'CPQuantities.quantities.weightQuantities()'],['../namespaceIncludeQuantities.html#af3a2570d115203c90325bb518a3e8bd0',1,'IncludeQuantities.weightQuantities()'],['../namespaceRun2CPQuantities.html#a6f263e65b4898b6c0b97e345c020ff7b',1,'Run2CPQuantities.weightQuantities()']]],
   ['wgamma_5fstitchingweight',['wgamma_stitchingweight',['../classsamples__run2__2016_1_1Samples.html#a2bec54e1c660d352d409bca780ec5dad',1,'samples_run2_2016::Samples']]],
   ['wh',['wh',['../classsamples__run2__2016_1_1Samples.html#a7386ff2ff5b7ffee5779e89e46454b0c',1,'samples_run2_2016::Samples']]],
   ['wireevent',['WireEvent',['../classHttEventProvider.html#a6f1f9729b3200ed6af1bec40ddae060a',1,'HttEventProvider']]],
@@ -9,6 +8,5 @@ var searchData=
   ['wjl',['wjl',['../classsamples__ff_1_1Samples.html#ae0e79bc48d4a2c113d212fa7997c1353',1,'samples_ff::Samples']]],
   ['wjt',['wjt',['../classsamples__ff_1_1Samples.html#a74f12906ecfcdf5975382e800fb4a3a1',1,'samples_ff::Samples']]],
   ['write_5fdatacards',['write_datacards',['../classdatacards_1_1Datacards.html#aa2838f9becbb1e82607372974a87517b',1,'datacards.Datacards.write_datacards()'],['../classmvadatacards__base_1_1Datacards.html#a853b90758628c4fed362de3aca23260a',1,'mvadatacards_base.Datacards.write_datacards()']]],
-  ['write_5ffile',['write_file',['../classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a834cb31eb9432d300691b876726f623a',1,'create_file_list_from_gfal_embedded_test::gfal_filelist']]],
-  ['write_5froot_5ffile',['write_root_file',['../namespaceMVAFlavio.html#a61e4713b34cc4bf0733be82fa80ee584',1,'MVAFlavio']]]
+  ['write_5ffile',['write_file',['../classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a834cb31eb9432d300691b876726f623a',1,'create_file_list_from_gfal_embedded_test::gfal_filelist']]]
 ];
