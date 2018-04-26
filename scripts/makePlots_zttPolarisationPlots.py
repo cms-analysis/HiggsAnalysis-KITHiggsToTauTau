@@ -14,6 +14,7 @@ import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.labels as labels
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 
 
 if __name__ == "__main__":
@@ -58,6 +59,7 @@ if __name__ == "__main__":
 		sys.exit(1)
 
 	sample_settings = samples.Samples()
+	binnings_settings = binnings.BinningsDict()
 
 	if len(args.channels) > len(parser.get_default("channels")):
 		args.channels = args.channels[len(parser.get_default("channels")):]
@@ -79,7 +81,6 @@ if __name__ == "__main__":
 						channel=channel,
 						category="catZttPol13TeV_{channel}_{category}".format(channel=channel, category=category) if category else None,
 						cut_type="smhtt2016", # baseline_low_mvis2016
-						weight="isZTT",
 						lumi = args.lumi * 1000,
 						exclude_cuts=[],
 						estimationMethod="new",
@@ -128,6 +129,50 @@ if __name__ == "__main__":
 					config_unpolarisation.setdefault("analysis_modules", []).append("PrintInfos")
 				
 				plot_configs.append(config_unpolarisation)
+				
+				# plot rescaling of integrals
+				list_of_samples = ["zttpospol", "zttnegpol", "zll", "ttj", "vv", "wj", "qcd", "data"]
+				asimov_nicks = copy.deepcopy(list_of_samples[:-1])
+				if polarisation_bias_correction:
+					asimov_nicks[0] = "zttpospol_noplot"
+					asimov_nicks[1] = "zttnegpol_noplot"
+				
+				config_integral = sample_settings.get_config(
+						samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
+						no_ewkz_as_dy=True,
+						channel=channel,
+						category="catZttPol13TeV_{channel}_{category}".format(channel=channel, category=category) if category else None,
+						cut_type="smhtt2016", # baseline_low_mvis2016
+						lumi = args.lumi * 1000,
+						exclude_cuts=[],
+						estimationMethod="new",
+						polarisation_bias_correction=polarisation_bias_correction,
+						asimov_nicks=asimov_nicks
+				)
+				
+				config_integral["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "testZttPol13TeV_"+channel+"_"+category) for nick in config_integral["nicks"]]
+				config_integral["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "binningZttPol13TeV_"+channel+"_"+category) for nick in config_integral["nicks"]]
+				config_integral["x_label"] = "Polarisation Discriminator"
+				
+				config_integral["y_rel_lims"] = [0.0, 1.4]
+				config_integral["legend"] = [0.23, 0.73, 0.9, 0.89]
+				config_integral["legend_cols"] = 3
+
+				config_integral["title"] = "channel_"+channel
+				config_integral["lumis"] = [float("%.1f" % args.lumi)]
+				config_integral["energies"] = [13]
+				config_integral["year"] = args.era
+
+				config_integral["directories"] = [args.input_dir]
+				config_integral["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
+				config_integral["filename"] = "recoPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_correction"
+				if args.www:
+					config_integral["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
+
+				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config_integral.get("analysis_modules", [])):
+					config_integral.setdefault("analysis_modules", []).append("PrintInfos")
+				
+				plot_configs.append(config_integral)
 	
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
