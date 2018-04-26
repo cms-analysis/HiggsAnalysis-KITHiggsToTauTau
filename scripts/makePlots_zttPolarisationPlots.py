@@ -23,9 +23,6 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("-s", "--samples", nargs="+",
-	                    default=["zttpospol", "zttnegpol"],
-	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", action="append",
@@ -60,11 +57,7 @@ if __name__ == "__main__":
 		log.critical("Invalid era string selected: " + args.era)
 		sys.exit(1)
 
-	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
-	bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "qqh", "vh"]]
-	
-	labels_settings = labels.LabelsDict(latex_version="root")
 
 	if len(args.channels) > len(parser.get_default("channels")):
 		args.channels = args.channels[len(parser.get_default("channels")):]
@@ -78,8 +71,10 @@ if __name__ == "__main__":
 				category = None
 			
 			for polarisation_bias_correction in [False, True]:
-				config = sample_settings.get_config(
-						samples=list_of_samples,
+			
+				# plots of relative fractions of pos./neg. polarised Z->tautau events
+				config_unpolarisation = sample_settings.get_config(
+						samples=[getattr(samples.Samples, sample) for sample in ["zttpospol", "zttnegpol"]],
 						no_ewkz_as_dy=True,
 						channel=channel,
 						category="catZttPol13TeV_{channel}_{category}".format(channel=channel, category=category) if category else None,
@@ -94,45 +89,45 @@ if __name__ == "__main__":
 						no_plot=True
 				)
 				
-				if "stacks" in config:
-					config.pop("stacks")
+				if "stacks" in config_unpolarisation:
+					config_unpolarisation.pop("stacks")
 				
-				config["x_expressions"] = "tauSpinnerPolarisation"
-				config["x_bins"] = "2,-2,2"
-				config["x_label"] = ""
-				config["x_ticks"] = [-1.0, 1.0]
-				config["x_tick_labels"] = ["zttnegpol_large", "zttpospol_large"]
+				config_unpolarisation["x_expressions"] = "tauSpinnerPolarisation"
+				config_unpolarisation["x_bins"] = "2,-2,2"
+				config_unpolarisation["x_label"] = ""
+				config_unpolarisation["x_ticks"] = [-1.0, 1.0]
+				config_unpolarisation["x_tick_labels"] = ["zttnegpol_large", "zttpospol_large"]
 				
-				if not "SumOfHistograms" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("SumOfHistograms")
-				config.setdefault("sum_nicks", []).extend(["zttpospol_noplot zttnegpol_noplot", "gen_zttpospol_noplot gen_zttnegpol_noplot"])
-				config.setdefault("sum_result_nicks", []).extend(["ztt", "ztt_gen"])
+				if not "SumOfHistograms" in config_unpolarisation.get("analysis_modules", []):
+					config_unpolarisation.setdefault("analysis_modules", []).append("SumOfHistograms")
+				config_unpolarisation.setdefault("sum_nicks", []).extend(["zttpospol_noplot zttnegpol_noplot", "gen_zttpospol_noplot gen_zttnegpol_noplot"])
+				config_unpolarisation.setdefault("sum_result_nicks", []).extend(["ztt", "ztt_gen"])
 				
-				if not "NormalizeToUnity" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("NormalizeToUnity")
+				if not "NormalizeToUnity" in config_unpolarisation.get("analysis_modules", []):
+					config_unpolarisation.setdefault("analysis_modules", []).append("NormalizeToUnity")
 							
-				config["labels"] = ["Reconstruction", "Generator"]
-				config["colors"] = ["1", "2"]
-				config["markers"] = ["E", "LINE]["]
-				config["legend_markers"] = ["ELP", "L"]
-				config["legend"] = [0.25, 0.8, 0.85, 0.9]
-				config["legend_cols"] = 2
+				config_unpolarisation["labels"] = ["Reconstruction", "Generator"]
+				config_unpolarisation["colors"] = ["1", "2"]
+				config_unpolarisation["markers"] = ["E", "LINE]["]
+				config_unpolarisation["legend_markers"] = ["ELP", "L"]
+				config_unpolarisation["legend"] = [0.25, 0.8, 0.85, 0.9]
+				config_unpolarisation["legend_cols"] = 2
 				
-				config["y_label"] = "Relative Fraction of Z#rightarrow#tau#tau"
-				config["y_lims"] = [0.0, 1.0]
+				config_unpolarisation["y_label"] = "Relative Fraction of Z#rightarrow#tau#tau"
+				config_unpolarisation["y_lims"] = [0.0, 1.0]
 
-				config["title"] = "channel_"+channel
+				config_unpolarisation["title"] = "channel_"+channel
 
-				config["directories"] = [args.input_dir]
-				config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
-				config["filename"] = "tauSpinnerPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_correction"
+				config_unpolarisation["directories"] = [args.input_dir]
+				config_unpolarisation["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
+				config_unpolarisation["filename"] = "tauSpinnerPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_correction"
 				if args.www:
-					config["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
+					config_unpolarisation["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
 
-				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config.get("analysis_modules", [])):
-					config.setdefault("analysis_modules", []).append("PrintInfos")
+				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config_unpolarisation.get("analysis_modules", [])):
+					config_unpolarisation.setdefault("analysis_modules", []).append("PrintInfos")
 				
-				plot_configs.append(config)
+				plot_configs.append(config_unpolarisation)
 	
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
