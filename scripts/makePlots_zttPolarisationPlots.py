@@ -33,10 +33,6 @@ if __name__ == "__main__":
 	                    help="Channels. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+", default=[["a1_1", "a1_2", "rho_1", "rho_2", "oneprong_1", "oneprong_2"], ["a1_2", "rho_2", "oneprong_2"], ["a1_2", "rho_2", "oneprong_2"]],
 	                    help="Categories. [Default: %(default)s]")
-	parser.add_argument("--pt-cut-expressions", action="append", nargs="+", default=[["(pt_1>{pt_cut})", "(pt_2>{pt_cut})", "(pt_1>{pt_cut})", "(pt_2>{pt_cut})", "(pt_1>{pt_cut})", "(pt_2>{pt_cut})"], ["(pt_2>{pt_cut})", "(pt_2>{pt_cut})", "(pt_2>{pt_cut})"], ["(pt_2>{pt_cut})", "(pt_2>{pt_cut})", "(pt_2>{pt_cut})"]],
-	                    help="Expressions for pT cuts (must contain {pt_cut} to be replaced). [Default: %(default)s]")
-	parser.add_argument("--pt-cut-values", action="append", nargs="+", default=[["40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0"], ["20.0 30.0 40.0", "20.0 30.0 40.0", "20.0 30.0 40.0"], ["25.0 35.0 45.0", "25.0 35.0 45.0", "25.0 35.0 45.0"]],
-	                    help="Values for pT cuts (white space separated). [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -74,19 +70,12 @@ if __name__ == "__main__":
 		args.channels = args.channels[len(parser.get_default("channels")):]
 	if len(args.categories) > len(parser.get_default("categories")):
 		args.categories = args.categories[len(parser.get_default("categories")):]
-	if len(args.pt_cut_expressions) > len(parser.get_default("pt_cut_expressions")):
-		args.pt_cut_expressions = args.pt_cut_expressions[len(parser.get_default("pt_cut_expressions")):]
-	if len(args.pt_cut_values) > len(parser.get_default("pt_cut_values")):
-		args.pt_cut_values = args.pt_cut_values[len(parser.get_default("pt_cut_values")):]
 
 	plot_configs = []
-	for channel, categories, pt_cut_expressions, tmp_pt_cut_values in zip(args.channels, args.categories, args.pt_cut_expressions, args.pt_cut_values):
-		for category, pt_cut_expression, pt_cut_values in zip(categories, pt_cut_expressions, tmp_pt_cut_values):
+	for channel, categories in zip(args.channels, args.categories):
+		for category in categories:
 			if category == "None":
 				category = None
-			
-			pt_cut_values = [float(pt_cut) for pt_cut in pt_cut_values.split()]
-			pt_cut_weights = [pt_cut_expression.format(pt_cut=pt_cut) for pt_cut in pt_cut_values]
 			
 			for polarisation_bias_correction in [False, True]:
 				config = sample_settings.get_config(
@@ -144,58 +133,7 @@ if __name__ == "__main__":
 					config.setdefault("analysis_modules", []).append("PrintInfos")
 				
 				plot_configs.append(config)
-			
-			"""
-			config = {}
-			for index, (pt_cut_weight, pt_cut_value) in enumerate(zip(pt_cut_weights, pt_cut_values)):
-				tmp_config = sample_settings.get_config(
-						samples=list_of_samples,
-						no_ewkz_as_dy=True,
-						channel=channel,
-						category="catZttPol13TeV_{channel}_{category}".format(channel=channel, category=category) if category else None,
-						cut_type="smhtt2016", # baseline_low_mvis2016
-						weight=pt_cut_weight,
-						lumi = args.lumi * 1000,
-						exclude_cuts=[],
-						estimationMethod="new",
-						polarisation_bias_correction=False,
-						polarisation_gen_ztt_plots=False,
-						nick_suffix=str(index)
-				)
-				tmp_config["labels"] = ["{label}, p_{T}(#tau_{had}) > {pt_cut} GeV".format(label=labels_settings.labels_dict.get(label, label), T="{T}", had="{had}", pt_cut=pt_cut_value) for label in tmp_config["labels"]]
-				tmp_config["line_styles"] = [index+1 for label in tmp_config["labels"]]
-				tmp_config["colors"] = [str(color_index+1) for color_index in range(len(tmp_config["labels"]))]
-				tmp_config["markers"] = ["LINE"]*len(tmp_config["labels"])
-				
-				# merge configs
-				config = samples.Samples.merge_configs(config, tmp_config, additional_keys=["line_styles"])
-			
-			config["x_expressions"] = "testZttPol13TeV_"+channel+"_"+category
-			config["x_bins"] = "binningZttPol13TeV_"+channel+"_"+category
-			config["x_label"] = channel+"_tauPolarisationDiscriminator"
-			
-			config["y_rel_lims"] = [0.0, 1.6]
-			config["y_label"] = "arb. u."
-			
-			if "stacks" in config:
-				config.pop("stacks")
-			
-			config["line_widths"] = 3
-			config["title"] = "channel_"+channel
-			config["legend"] = [0.3, 0.5, 0.8, 0.9]
-			config["legend_markers"] = ["L"]
-
-			config["directories"] = [args.input_dir]
-			config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
-			if args.www:
-				config["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
-			
-			if not "NormalizeToUnity" in config.get("analysis_modules", []):
-				config.setdefault("analysis_modules", []).append("NormalizeToUnity")
-			
-			plot_configs.append(config)
-			"""
-
+	
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
