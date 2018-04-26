@@ -57,10 +57,10 @@ var NAVTREEINDEX =
 "makePlots__datacardsTauEsStudies_8py.html#aa0fe7de0c247dde48b6634940cbba978",
 "makePlots__datacardsZttPolarisation_8py.html#ab3c427e40ec58d1212b882d7e455a95d",
 "makePlots__limitInputs_8py.html#a84052600f304cf1b314cff2750e3cce2",
-"mvaCategory__Shifts_8py.html#af5c482db0cc182bc13dddaa81225281a",
-"namespacemakePlots__genCPPlots__reco.html",
-"plot__AUC__1D_8py.html",
-"scaleVariations__ZttOverZttInclusive_8py.html#a0919dd61f9844f592e3d4a1f13e9bec3"
+"mvaCategory__Shifts_8py.html#ad769d269d5275a1f5fbefc74187767be",
+"namespacemakePlots__genCPPlots__genvsreco.html",
+"nicknames_8py.html#af79e056e82d9c4baf9168bf4df64c038",
+"scaleVariations__ZttOverZttInclusive_8py.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
