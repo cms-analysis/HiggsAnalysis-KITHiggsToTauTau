@@ -39,7 +39,7 @@ def _call_command(args):
 	if not cwd is None:
 		old_cwd = os.getcwd()
 		os.chdir(cwd)
-	print command
+	print(command)
 	#log.debug(command)
 	logger.subprocessCall(command, shell=True)
 
@@ -522,8 +522,9 @@ class Datacards(object):
 		return datacards_postfit_shapes
 
 	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, *args, **kwargs):
+		higgs_mass = "125"
 		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"	
+			higgs_mass = value if "higgs_mass" in key else "125"	
 				
 		commands = []
 		datacards_postfit_shapes = {}
