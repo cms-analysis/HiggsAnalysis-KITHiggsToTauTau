@@ -116,7 +116,7 @@ if __name__ == "__main__":
 				
 				if not "SumOfHistograms" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("SumOfHistograms")
-				config.setdefault("sum_nicks", []).extend(["zttpospol_noplot zttnegpol_noplot", "zttpospol_gen_noplot zttnegpol_gen_noplot"])
+				config.setdefault("sum_nicks", []).extend(["zttpospol_noplot zttnegpol_noplot", "gen_zttpospol_noplot gen_zttnegpol_noplot"])
 				config.setdefault("sum_result_nicks", []).extend(["ztt", "ztt_gen"])
 				
 				if not "NormalizeToUnity" in config.get("analysis_modules", []):
