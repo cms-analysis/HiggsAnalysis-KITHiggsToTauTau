@@ -4,6 +4,7 @@ var makePlots__controlPlots_8py =
     [ "add_s_over_sqrtb_subplot", "makePlots__controlPlots_8py.html#a821808860a2203d70641b6153f3bea92", null ],
     [ "blind_signal", "makePlots__controlPlots_8py.html#ab0d5ace141a8f8997f0bf2053a5ced6a", null ],
     [ "args", "makePlots__controlPlots_8py.html#a63c4eb91879d9a528108169a88da8367", null ],
+    [ "asimov_nicks", "makePlots__controlPlots_8py.html#a771af5e446c06092be2862dcd320a6eb", null ],
     [ "binning_string", "makePlots__controlPlots_8py.html#adf7036a108f6d43e95248d25cea12ca3", null ],
     [ "binnings_key", "makePlots__controlPlots_8py.html#a6bff544fba22f9890756873fd61293f9", null ],
     [ "binnings_settings", "makePlots__controlPlots_8py.html#af8e080792fef974df6bc854ed7e4b9a8", null ],
@@ -44,5 +45,7 @@ var makePlots__controlPlots_8py =
     [ "sig_samples_raw", "makePlots__controlPlots_8py.html#a07635c6cea4a2eb60e10673d0e1846f8", null ],
     [ "sig_samples_used", "makePlots__controlPlots_8py.html#a6efcd8c5d021f14e5f16216bc7d9ca16", null ],
     [ "sub_conf_index", "makePlots__controlPlots_8py.html#a7385a5703d306dc5d30d365a054860b0", null ],
-    [ "x_binning", "makePlots__controlPlots_8py.html#a53083cc9fa99942755bf909f52c31010", null ]
+    [ "x_binning", "makePlots__controlPlots_8py.html#a53083cc9fa99942755bf909f52c31010", null ],
+    [ "x_bins", "makePlots__controlPlots_8py.html#a9c706f614a7442e31b51d315e079fb5b", null ],
+    [ "x_expression", "makePlots__controlPlots_8py.html#a9f33d89ec4717b0a7b363ea5d54a257c", null ]
 ];
