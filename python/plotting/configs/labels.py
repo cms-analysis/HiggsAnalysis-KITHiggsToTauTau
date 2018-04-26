@@ -15,6 +15,7 @@ class LabelsDict(labels.LabelsDict):
 		if latex_version == "root":
 			self.labels_dict["totalbkg"] = "Exp. unc."
 			self.labels_dict["data"] = "Data"
+			self.labels_dict["asimov"] = "Pseudodata"
 			self.labels_dict["zll"] = "Z #rightarrow ll"
 			self.labels_dict["zl"] = "Z #rightarrow ll (l #rightarrow #tau)"
 			self.labels_dict["zj"] = "Z #rightarrow ll (jet/pu #rightarrow #tau)"
@@ -752,6 +753,7 @@ class LabelsDict(labels.LabelsDict):
 		else:
 			self.labels_dict["totalbkg"] = "$\\mathrm{Exp.} unc.$"
 			self.labels_dict["data"] = "$\\mathrm{Data}$"
+			self.labels_dict["asimov"] = "$\\mathrm{Pseudodata}$"
 			self.labels_dict["zll"] = "$\\mathrm{Z}\\,\\rightarrow \\ell\\ell$"
 			self.labels_dict["zmm"] = "$\\mathrm{Z}\\,\\rightarrow \\mu\\mu$"
 			self.labels_dict["zee"] = "$\\mathrm{Z}\\,\\rightarrow \\mathrm{ee}$"

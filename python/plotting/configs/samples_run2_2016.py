@@ -435,7 +435,7 @@ class Samples(samples.SamplesBase):
 			config.setdefault("nicks_whitelist", []).extend(["^((?!(data|noplot)).)*$", "data"])
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
+			Samples._add_plot(config, "data", "E", "ELP", "data" if len(asimov_nicks) == 0 else "asimov", nick_suffix)
 
 		return config
 
