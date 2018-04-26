@@ -6,7 +6,6 @@ var makePlots__datacardsZttPolarisation_8py =
     [ "additional_freeze_nuisances", "makePlots__datacardsZttPolarisation_8py.html#a6a123c28d30dc583d1b85ae60264d58e", null ],
     [ "annotation_replacements", "makePlots__datacardsZttPolarisation_8py.html#a2253ca3fbb220b4c21a2f6b96688e2a9", null ],
     [ "args", "makePlots__datacardsZttPolarisation_8py.html#ad01c222f9b91651ce7d42f10c1c70d7e", null ],
-    [ "asimov_nicks", "makePlots__datacardsZttPolarisation_8py.html#a1bea8c70c5eb35a817bcd3e07f3cc540", null ],
     [ "BIN", "makePlots__datacardsZttPolarisation_8py.html#a056fb40d39914660d091131b4caa7d63", null ],
     [ "binnings_key", "makePlots__datacardsZttPolarisation_8py.html#acad402301923575809eb0719d260ced9", null ],
     [ "binnings_settings", "makePlots__datacardsZttPolarisation_8py.html#adfc253ec6806c1071d3342b190823fd8", null ],
