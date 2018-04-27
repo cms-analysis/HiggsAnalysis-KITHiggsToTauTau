@@ -1,20 +1,4 @@
 var searchData=
 [
-  ['1to2',['1to2',['../namespaceuncertainties_1_11to2.html',1,'uncertainties']]],
-  ['core',['core',['../namespaceuncertainties_1_1unumpy_1_1core.html',1,'uncertainties::unumpy']]],
-  ['fix_5fstd_5fdev',['fix_std_dev',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__std__dev.html',1,'uncertainties::lib1to2::fixes']]],
-  ['fix_5fuarray_5fumatrix',['fix_uarray_umatrix',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__uarray__umatrix.html',1,'uncertainties::lib1to2::fixes']]],
-  ['fix_5fufloat',['fix_ufloat',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__ufloat.html',1,'uncertainties::lib1to2::fixes']]],
-  ['fixes',['fixes',['../namespaceuncertainties_1_1lib1to2_1_1fixes.html',1,'uncertainties::lib1to2']]],
-  ['lib1to2',['lib1to2',['../namespaceuncertainties_1_1lib1to2.html',1,'uncertainties']]],
-  ['test_5f1to2',['test_1to2',['../namespaceuncertainties_1_1lib1to2_1_1test__1to2.html',1,'uncertainties::lib1to2']]],
-  ['test_5fulinalg',['test_ulinalg',['../namespaceuncertainties_1_1unumpy_1_1test__ulinalg.html',1,'uncertainties::unumpy']]],
-  ['test_5fumath',['test_umath',['../namespaceuncertainties_1_1test__umath.html',1,'uncertainties']]],
-  ['test_5funcertainties',['test_uncertainties',['../namespaceuncertainties_1_1test__uncertainties.html',1,'uncertainties']]],
-  ['test_5funumpy',['test_unumpy',['../namespaceuncertainties_1_1unumpy_1_1test__unumpy.html',1,'uncertainties::unumpy']]],
-  ['ulinalg',['ulinalg',['../namespaceuncertainties_1_1unumpy_1_1ulinalg.html',1,'uncertainties::unumpy']]],
-  ['umath',['umath',['../namespaceuncertainties_1_1umath.html',1,'uncertainties']]],
-  ['uncertainties',['uncertainties',['../namespaceuncertainties.html',1,'']]],
-  ['unrolltwodhistogram',['unrolltwodhistogram',['../namespaceunrolltwodhistogram.html',1,'']]],
-  ['unumpy',['unumpy',['../namespaceuncertainties_1_1unumpy.html',1,'uncertainties']]]
+  ['unrolltwodhistogram',['unrolltwodhistogram',['../namespaceunrolltwodhistogram.html',1,'']]]
 ];

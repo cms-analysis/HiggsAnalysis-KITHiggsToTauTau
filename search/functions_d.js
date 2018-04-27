@@ -7,6 +7,5 @@ var searchData=
   ['operator_3c',['operator&lt;',['../classSvfitEventKey.html#aa21176141d7621a159c9e13443058385',1,'SvfitEventKey']]],
   ['operator_3c_3c',['operator&lt;&lt;',['../SvfitTools_8cc.html#a5810f81bd29e27275a530d8248193ebc',1,'operator&lt;&lt;(std::ostream &amp;os, SvfitEventKey const &amp;svfitEventKey):&#160;SvfitTools.cc'],['../SvfitTools_8h.html#a5810f81bd29e27275a530d8248193ebc',1,'operator&lt;&lt;(std::ostream &amp;os, SvfitEventKey const &amp;svfitEventKey):&#160;SvfitTools.cc']]],
   ['operator_3d_3d',['operator==',['../classSvfitEventKey.html#a4acd29df38157399bb5879ebf430e111',1,'SvfitEventKey::operator==()'],['../classSvfitInputs.html#a4cd441c132a0b81fa8897da201e7ffba',1,'SvfitInputs::operator==()'],['../classSvfitResults.html#a574ed1daf1dbdc964579142882be0a8c',1,'SvfitResults::operator==()']]],
-  ['optimize',['optimize',['../classcutOptimizer_1_1CutOptimizer.html#a395ab82dbaed44b1f419a5756da74307',1,'cutOptimizer.CutOptimizer.optimize()'],['../namespacecutOptimizer.html#a68b8105b2d8528d92767cd878e4d5e83',1,'cutOptimizer.optimize()']]],
-  ['order_5fprocessors',['order_processors',['../classprocessorOrdering_1_1processors__ordered.html#acd9f33f0b3bfebc78a436d472f27b338',1,'processorOrdering::processors_ordered']]]
+  ['optimize',['optimize',['../classcutOptimizer_1_1CutOptimizer.html#a395ab82dbaed44b1f419a5756da74307',1,'cutOptimizer.CutOptimizer.optimize()'],['../namespacecutOptimizer.html#a68b8105b2d8528d92767cd878e4d5e83',1,'cutOptimizer.optimize()']]]
 ];

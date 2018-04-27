@@ -5,7 +5,7 @@ var NAVTREE =
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", "namespacemembers_dup" ],
-        [ "Functions", "namespacemembers_func.html", "namespacemembers_func" ],
+        [ "Functions", "namespacemembers_func.html", null ],
         [ "Variables", "namespacemembers_vars.html", "namespacemembers_vars" ]
       ] ]
     ] ],
@@ -18,8 +18,7 @@ var NAVTREE =
         [ "Variables", "functions_vars.html", "functions_vars" ],
         [ "Typedefs", "functions_type.html", null ],
         [ "Enumerations", "functions_enum.html", null ],
-        [ "Enumerator", "functions_eval.html", null ],
-        [ "Properties", "functions_prop.html", null ]
+        [ "Enumerator", "functions_eval.html", null ]
       ] ]
     ] ],
     [ "Files", null, [
@@ -36,34 +35,31 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"1to2_8py.html",
-"MVAFlavio_8py.html#ae1207e49f8539dc3bde8c3e80c7dcb7a",
-"classConfigMaster_1_1ConfigMaster.html#a045cdf698b278e24cddd6ff928407f95",
-"classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0ab8cc9f9ca83b759d2da5c2d0fcc50a15",
-"classHttProduct.html#a8da5000e9a19e09d4495b8d81d4c67c9",
-"classHttSettings.html#a4f17d6b910aa47d38dcdb308ab4c348b",
-"classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca1b7670e88dd35ad75e1fa3c09789408f",
-"classMvaMetCorrector.html",
-"classTagAndProbeGenMuonProducer.html#ac34570421f6806148d88207734b96d69ae3915a98c97b9d2c930c78f6a5d36f62",
-"classembedding__plot__classes_1_1single__plot.html#a20ecf35d18af02251a6b31d38610d8f0",
-"classpullvalues_1_1ComputePullValues.html",
-"classsamples__run2__etaufakerate__2016_1_1Samples.html#ae92d4b38bfbdfe369def9c3ab30fe8bc",
-"colors_8py.html",
-"cpmodels_8py.html#ab853bcf1eca411e4bfc7371ffc74a9bd",
-"fix__ufloat_8py.html",
-"makePlots__BdtShiftLimits_8py.html#a99d7782a6213f57abd5ee7116f58ccc1",
-"makePlots__datacardsCPInitialState_8py.html",
-"makePlots__datacardsLFVZlt_8py.html#a7479d629d61f2fb9dc1852d64070c59d",
-"makePlots__datacardsQCDfactors_8py.html#a9c2ef51b3bbfc14dc7cfe4294be2be4a",
-"makePlots__datacardsSMHtt__nDim_8py.html#ade13b14bad0484118c7e64b2f34a62dd",
-"makePlots__datacardsZttEfficiency_8py.html#a57ccef5f9b88873827eba20b4b68b6b8",
-"makePlots__genCPPlots__reco_8py.html#a974a745c56f76fdfcd86d81ea7bc0600",
-"makePlots__tauEsStudies_8py.html#ab8dda04b433e894b645e6e82214c2d32",
-"namespaceestimateqcd.html",
-"namespaceplot__overtraining.html",
-"plot__BDTSeparation_8py.html#aac5633c0decf029722af5d215d4bbe42",
-"settingsSvfit_8py.html",
-"umath_8py.html#af8f1f9716a90de9f7bee0d3058f032af"
+"AcceptanceEfficiencyConsumer_8cc.html",
+"MetCorrectors_8cc.html",
+"classDiLeptonQuantitiesProducer.html#a7dfd5d81a2fd37836ad99b1589e48981",
+"classHttMuonCorrectionsProducer.html#a2b194859034a2861bb0e907f804d3b9a",
+"classHttProduct.html#abba102385ce7747d70c597409670aad8",
+"classHttSettings.html#a74114758514943c184cc1353dc74a793",
+"classHttValidTausProducer.html#a42b501373453165f2a397c7d28b5409f",
+"classScaleVariationProducer.html#a065fd728acd12ae448a7ce1d7088bdae",
+"classTriggerTagAndProbeProducerBase.html#a26dbb7f3ee7adb10446ef47905099e47",
+"classestimateqcdtauhadtauhad_1_1EstimateQcdTauHadTauHad.html",
+"classsamples__run2__2016_1_1Samples.html#a6c206a7dd6db47c79c6c73ee8c54ca87",
+"classsystematics__run2_1_1SystematicsFactory.html",
+"correlation__TProfilePlots_8py.html#ac1ecba0d1bb0929c95e871ab2358758a",
+"estimateff_8py.html",
+"makePlots__BdtShiftLimits_8py.html#a694a00922d0743079ad8b40bebaa2b0c",
+"makePlots__controlPlots_8py.html#ad633c66954023855891d6ab91fb7ec55",
+"makePlots__datacardsLFVZlt_8py.html#a4ac391209d5293b0821ed0752b2fb865",
+"makePlots__datacardsQCDfactors_8py.html#afde7c0bdb0d2fa0bdbd2ad2e34b40f72",
+"makePlots__datacardsTauEsStudies_8py.html#a4b76f062049853f0fbc128414a320035",
+"makePlots__datacardsZttEfficiency_8py.html#af093add1e1e3825454cc7724a2237f99",
+"makePlots__htautauPlots_8py.html#af7391a2fe91f9c59d02b48e25f96fec3",
+"makePlots__triggerEfficiencies__masswindow_8py.html#a722021cb5d8c519a574adf5beb572b0e",
+"namespacemakePlots__datacardsCPInitialState.html",
+"plot__AUC__1D_8py.html#a4fb32eb68184215832ab2e59f730019c",
+"scaleVariations__ZttOverZttInclusive_8py.html#a328d4df5e1a72c0a1e06a60ffd084e42"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
