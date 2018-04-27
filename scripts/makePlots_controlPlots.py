@@ -195,6 +195,8 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the polarisation analysis. [Default: %(default)s]")
 	parser.add_argument("--smhtt", default=False, action="store_true",
 	                    help="Produce the plots for the SM HTT analysis. [Default: %(default)s]")
+	parser.add_argument("--cpggh", default=False, action="store_true",
+			    help="Produce plots for the Higgs CP ggH analysis. [Default: %(default)s]")
 	parser.add_argument("--cp", default=False, action="store_true",
 	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")  #TODO instead of 3 different boolean flag, change to option with 3 possible values
 	parser.add_argument("--cprho", default=False, action="store_true",
@@ -348,6 +350,8 @@ if __name__ == "__main__":
 	if args.era == "2016":
 		if args.smhtt:
 			global_cut_type = "smhtt"
+		if args.cpggh:
+			global_cut_type = "cpggh"
 		global_cut_type += "2016"
 
 	args.weights = (args.weights * len(args.quantities))[:len(args.quantities)]
