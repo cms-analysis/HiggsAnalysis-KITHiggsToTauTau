@@ -1,8 +1,5 @@
 var NAVTREEINDEX9 =
 {
-"classembedding__plot__classes_1_1single__plot.html#abce38491cfd0b54104fdf101edecdb3c":[1,0,35,1,9],
-"classembedding__plot__classes_1_1single__plot.html#abd4a54fc97b774962539f20f33113dbd":[1,0,35,1,5],
-"classembedding__plot__classes_1_1single__plot.html#ac620c01f7f1cd7fe9f950410a183be53":[1,0,35,1,14],
 "classembedding__plot__classes_1_1single__plot.html#ad016ba679a3dcc02c31b00ad6195c016":[1,0,35,1,44],
 "classembedding__plot__classes_1_1single__plot.html#ad024362950b3a14a663e442374da6ed0":[1,0,35,1,4],
 "classembedding__plot__classes_1_1single__plot.html#ad7f7bf117dc39413e5d1ec9bc08a0841":[1,0,35,1,45],
@@ -249,5 +246,8 @@ var NAVTREEINDEX9 =
 "classsamples__ff_1_1Samples.html#ab06912e87b857bc5707f4a18ee2f54ef":[1,0,142,0,3],
 "classsamples__ff_1_1Samples.html#ae0e79bc48d4a2c113d212fa7997c1353":[1,0,142,0,5],
 "classsamples__run1_1_1Samples.html":[1,0,143,0],
-"classsamples__run1_1_1Samples.html#a0887d0d9ebd7ed5705d8c697713503b2":[1,0,143,0,11]
+"classsamples__run1_1_1Samples.html#a0887d0d9ebd7ed5705d8c697713503b2":[1,0,143,0,11],
+"classsamples__run1_1_1Samples.html#a0d7a9bf44f7fd9175d9b4e56426f5ac0":[1,0,143,0,0],
+"classsamples__run1_1_1Samples.html#a30aa244737244ce9073f9bdf2c98222e":[1,0,143,0,3],
+"classsamples__run1_1_1Samples.html#a49a95d40aff46311869135e33bd726cd":[1,0,143,0,1]
 };

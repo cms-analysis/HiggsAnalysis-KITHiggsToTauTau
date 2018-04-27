@@ -1,5 +1,10 @@
 var NAVTREEINDEX25 =
 {
+"printLaTeX__BDT_8py.html#a1d30876167e8320542aa8dd53bf4bb61":[2,0,2,86,6],
+"printLaTeX__BDT_8py.html#a21f90b0861e58aab994babbd1c46730d":[2,0,2,86,1],
+"printLaTeX__BDT_8py.html#a23604254da5ae29785e7d46596b23ac5":[2,0,2,86,4],
+"printLaTeX__BDT_8py.html#a2c94f363ad90a36c738db4a599380890":[2,0,2,86,2],
+"printLaTeX__BDT_8py.html#a6adc70f5055a668ccc6c1f27823486bc":[2,0,2,86,5],
 "printLaTeX__BDT_8py.html#aeea3aeddc0956ae3f418eaea1f40c76e":[2,0,2,86,3],
 "printLaTeX__BDT_8py.html#af22d9a300527b707f85b067d2a2a1e6a":[2,0,2,86,7],
 "processorOrdering_8py.html":[2,0,1,0,0,1],
@@ -244,10 +249,5 @@ var NAVTREEINDEX25 =
 "significance__2d_8py.html#a320be8d3d8a1e53d168262f2beb38c67":[2,0,2,93,13],
 "significance__2d_8py.html#a36ed43cb21e061fa0e3df8730a5606f1":[2,0,2,93,9],
 "significance__2d_8py.html#a4242b46059e52756444de65ff09b9c1c":[2,0,2,93,20],
-"significance__2d_8py.html#a4a8ad6f007a1c05803c5591e33cce7f2":[2,0,2,93,19],
-"significance__2d_8py.html#a5fc00c0dd9196d95f0996a5ee419570f":[2,0,2,93,15],
-"significance__2d_8py.html#a6f4eb1f2aac92fe3476b083d27c3386a":[2,0,2,93,17],
-"significance__2d_8py.html#a71df27da88a28b3ec54d32fa6bef0fe7":[2,0,2,93,21],
-"significance__2d_8py.html#a7506238ac62ffe141c0036214bc268c4":[2,0,2,93,5],
-"significance__2d_8py.html#a800c08cc903c9b6a352c9594f6cb5734":[2,0,2,93,14]
+"significance__2d_8py.html#a4a8ad6f007a1c05803c5591e33cce7f2":[2,0,2,93,19]
 };

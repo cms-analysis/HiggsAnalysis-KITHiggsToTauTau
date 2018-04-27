@@ -1,8 +1,5 @@
 var NAVTREEINDEX8 =
 {
-"classTagAndProbeMuonPairConsumer.html#abe8dd79c624d280d91bcd872c475a676":[1,0,337,1],
-"classTagAndProbeMuonPairProducer.html":[1,0,338],
-"classTagAndProbeMuonPairProducer.html#a151e1f7a4f0b0b35102b56d1e8cf6fc3":[1,0,338,3],
 "classTagAndProbeMuonPairProducer.html#a44ec2570f06b8af69c9a3ac3f99e71d4":[1,0,338,1],
 "classTagAndProbeMuonPairProducer.html#a44ec2570f06b8af69c9a3ac3f99e71d4aacfd38b7586167a2f04dce420b134a80":[1,0,338,1,2],
 "classTagAndProbeMuonPairProducer.html#a44ec2570f06b8af69c9a3ac3f99e71d4ae1f2d5134ed2543d38a0de9751cf75d9":[1,0,338,1,0],
@@ -249,5 +246,8 @@ var NAVTREEINDEX8 =
 "classembedding__plot__classes_1_1single__plot.html#ab4702cf790dea73e31dfe8eab3fe02c5":[1,0,35,1,47],
 "classembedding__plot__classes_1_1single__plot.html#ab582e70397acbf6109c4e4bba0b96822":[1,0,35,1,16],
 "classembedding__plot__classes_1_1single__plot.html#abac83071998545c3c0f3c638dd9d6b69":[1,0,35,1,23],
-"classembedding__plot__classes_1_1single__plot.html#abbb14e4af4e3c743f71e65fabe6d2e74":[1,0,35,1,1]
+"classembedding__plot__classes_1_1single__plot.html#abbb14e4af4e3c743f71e65fabe6d2e74":[1,0,35,1,1],
+"classembedding__plot__classes_1_1single__plot.html#abce38491cfd0b54104fdf101edecdb3c":[1,0,35,1,9],
+"classembedding__plot__classes_1_1single__plot.html#abd4a54fc97b774962539f20f33113dbd":[1,0,35,1,5],
+"classembedding__plot__classes_1_1single__plot.html#ac620c01f7f1cd7fe9f950410a183be53":[1,0,35,1,14]
 };

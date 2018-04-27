@@ -1,8 +1,5 @@
 var NAVTREEINDEX6 =
 {
-"classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045cad1994c3699b0f3e7301d57d3176db5ed":[1,0,255,0,8],
-"classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045caf8fda2e26a1d334afedb7324ea5c1875":[1,0,255,0,15],
-"classHttValidElectronsProducer.html#ae10e80f0e540bbf1d1e85a141b530bd7":[1,0,255,3],
 "classHttValidGenTausProducer.html":[1,0,256],
 "classHttValidGenTausProducer.html#a0be418bae888b7e587bac2e9495fc8e3":[1,0,256,1],
 "classHttValidGenTausProducer.html#a6e957528afb4f7fd4386dbd569e53511":[1,0,256,2],
@@ -249,5 +246,8 @@ var NAVTREEINDEX6 =
 "classMvaMetTTSelector.html#a37ef7c582dbd436af3cb76f34677960a":[1,0,301,1],
 "classMvaMetTTSelector.html#a629d55e1ff65a4686609f20926fcc313":[1,0,301,0],
 "classParticleIsolation.html":[1,0,303],
-"classPhiCPSVfitQuantity.html":[1,0,304]
+"classPhiCPSVfitQuantity.html":[1,0,304],
+"classPhiCPSVfitQuantity.html#acc1119e4bd748364f1c3942be329e6ae":[1,0,304,0],
+"classPhiCPSVfitQuantity.html#ae597977ea0b2c3a05865ce06f88460fd":[1,0,304,1],
+"classPhiStarCPSVfitQuantity.html":[1,0,305]
 };

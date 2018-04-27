@@ -1,8 +1,5 @@
 var NAVTREEINDEX10 =
 {
-"classsamples__run1_1_1Samples.html#a0d7a9bf44f7fd9175d9b4e56426f5ac0":[1,0,143,0,0],
-"classsamples__run1_1_1Samples.html#a30aa244737244ce9073f9bdf2c98222e":[1,0,143,0,3],
-"classsamples__run1_1_1Samples.html#a49a95d40aff46311869135e33bd726cd":[1,0,143,0,1],
 "classsamples__run1_1_1Samples.html#a61b5e6d0f19f110885eb4d8c811d0834":[1,0,143,0,5],
 "classsamples__run1_1_1Samples.html#a78fbc3674b21fac97e2b83ae7921841f":[1,0,143,0,12],
 "classsamples__run1_1_1Samples.html#a7959a3c4d2d8835d447b50d6091e77f3":[1,0,143,0,10],
@@ -249,5 +246,8 @@ var NAVTREEINDEX10 =
 "classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#a35c6e08ceb60163d49c28846efa3c69b":[1,0,161,0,4],
 "classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#a7035134a4b84ae636d7e7ef4c568cf1b":[1,0,161,0,5],
 "classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#abbfc166f42c16e5224e51a49f5145407":[1,0,161,0,0],
-"classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#ac4d0fa9a3b169da2054b1db813f19998":[1,0,161,0,1]
+"classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#ac4d0fa9a3b169da2054b1db813f19998":[1,0,161,0,1],
+"classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#ad31260a8d1ea3bb951cd0f76fe9e6c1b":[1,0,161,0,2],
+"classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#ad4ed20ca2615f333a34fea6356d76739":[1,0,161,0,3],
+"classsettingsMuonID_1_1Muon__ID.html":[1,0,162,0]
 };

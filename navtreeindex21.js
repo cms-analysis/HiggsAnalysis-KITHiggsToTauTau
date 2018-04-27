@@ -1,5 +1,16 @@
 var NAVTREEINDEX21 =
 {
+"makePlots__genCPPlotswithDYandSUSY_8py.html#af279c2ae460823458285526ce0f5b260":[2,0,2,56,11],
+"makePlots__genCPPlotswithDYandSUSY_8py.html#afb2c1cca583ac97dad05eefc23679a35":[2,0,2,56,8],
+"makePlots__genCPPlotswithDYandSUSY_8py.html#affb9244b3927f5455a2080544b84eb8a":[2,0,2,56,24],
+"makePlots__genCPPlotswithDYandSUSY_8py.html#affef380af854dd21ff0dbb5aff495dc4":[2,0,2,56,12],
+"makePlots__htautauPlots_8py.html":[2,0,2,57],
+"makePlots__htautauPlots_8py.html#a0aeaf7f556ee4dbe9773ac11ac96c489":[2,0,2,57,7],
+"makePlots__htautauPlots_8py.html#a0eade7fcf022b0bf7b92cc9590fc755f":[2,0,2,57,0],
+"makePlots__htautauPlots_8py.html#a2fbaaf21ae9463d14e06e78d0392e95e":[2,0,2,57,8],
+"makePlots__htautauPlots_8py.html#a304d261211dbedd38018e03ae381ebbb":[2,0,2,57,5],
+"makePlots__htautauPlots_8py.html#a4ab38fba942328878cf550801ceec56c":[2,0,2,57,11],
+"makePlots__htautauPlots_8py.html#a8ac26ab3de0a4c2890e73e3daae3eabd":[2,0,2,57,9],
 "makePlots__htautauPlots_8py.html#a8d50cec92a7fbdb9f0d81ead9301f59c":[2,0,2,57,2],
 "makePlots__htautauPlots_8py.html#ad54093ada9e0da440034c89a04ced088":[2,0,2,57,1],
 "makePlots__htautauPlots_8py.html#adf7dec680f0c8624f6fe488a4def5930":[2,0,2,57,4],
@@ -238,16 +249,5 @@ var NAVTREEINDEX21 =
 "makePlots__theoryUncertainties_8py.html#ad9998d450360b597693a32b52bf2545d":[2,0,2,71,19],
 "makePlots__theoryUncertainties_8py.html#add063b56503daa70e8ea1282d20d5c0c":[2,0,2,71,0],
 "makePlots__theoryUncertainties_8py.html#ae1f0939d1856c05008616049e87780a3":[2,0,2,71,22],
-"makePlots__theoryUncertainties_8py.html#af2dcfdf1e1ce021ba073ffd13744dcbe":[2,0,2,71,24],
-"makePlots__theoryUncertainties_8py.html#af70148b5697ea8a0fcc827eef14f508e":[2,0,2,71,14],
-"makePlots__theoryUncertainties_8py.html#af7c51315230fcbfc431617e73a6999e9":[2,0,2,71,5],
-"makePlots__theoryUncertainties_8py.html#af9415fdda092db1c6dcaf86343de0399":[2,0,2,71,10],
-"makePlots__theoryUncertainties_8py.html#afc575b4eacddee1cb579e8db98fcd245":[2,0,2,71,25],
-"makePlots__triggerEfficiencies_8py.html":[2,0,2,72],
-"makePlots__triggerEfficiencies_8py.html#a007e1a1faa834a77794e79419339feed":[2,0,2,72,5],
-"makePlots__triggerEfficiencies_8py.html#a0598292483b4a935b945cc9220012aa9":[2,0,2,72,6],
-"makePlots__triggerEfficiencies_8py.html#a5ac9c85e1f0d089eab4e11fa43daecde":[2,0,2,72,1],
-"makePlots__triggerEfficiencies_8py.html#a5bd44d360051644030ca5082b1ec5c57":[2,0,2,72,2],
-"makePlots__triggerEfficiencies_8py.html#a99ec87fccab94d8b2b1394620b09685e":[2,0,2,72,4],
-"makePlots__triggerEfficiencies_8py.html#ab4f4e8fa49cd05cd341a679797f3c26f":[2,0,2,72,3]
+"makePlots__theoryUncertainties_8py.html#af2dcfdf1e1ce021ba073ffd13744dcbe":[2,0,2,71,24]
 };

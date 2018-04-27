@@ -1,8 +1,19 @@
 var NAVTREEINDEX14 =
 {
+"functions_func_w.html":[1,2,1,20],
+"functions_func_z.html":[1,2,1,21],
+"functions_func_~.html":[1,2,1,22],
+"functions_g.html":[1,2,0,7],
+"functions_h.html":[1,2,0,8],
+"functions_i.html":[1,2,0,9],
+"functions_j.html":[1,2,0,10],
+"functions_k.html":[1,2,0,11],
+"functions_l.html":[1,2,0,12],
+"functions_m.html":[1,2,0,13],
 "functions_n.html":[1,2,0,14],
 "functions_o.html":[1,2,0,15],
 "functions_p.html":[1,2,0,16],
+"functions_prop.html":[1,2,6],
 "functions_q.html":[1,2,0,17],
 "functions_r.html":[1,2,0,18],
 "functions_s.html":[1,2,0,19],
@@ -238,16 +249,5 @@ var NAVTREEINDEX14 =
 "makePlots__EmbeddedScaledControlplots_8py.html#a2f1e91c12a595dfb94eaeb56743c1535":[2,0,2,50,0],
 "makePlots__EmbeddedScaledControlplots_8py.html#a60fff49f744ed79a9c858bc074fd00ad":[2,0,2,50,11],
 "makePlots__EmbeddedScaledControlplots_8py.html#a81490a5b7fa0fdfb8c7681a97f225ba8":[2,0,2,50,5],
-"makePlots__EmbeddedScaledControlplots_8py.html#a86cb0930f88f0b0c37a0c0e3be5f3e1b":[2,0,2,50,2],
-"makePlots__EmbeddedScaledControlplots_8py.html#a9eb6cecc89b80fa8e8073591e375a951":[2,0,2,50,3],
-"makePlots__EmbeddedScaledControlplots_8py.html#aa777fcb342207fd71e6badf6d13533ff":[2,0,2,50,6],
-"makePlots__EmbeddedScaledControlplots_8py.html#ab954c2d759a37f1c58e91555b94c7f1b":[2,0,2,50,4],
-"makePlots__EmbeddedScaledControlplots_8py.html#ac97ec0d7d9101adeff9e9936c823178c":[2,0,2,50,10],
-"makePlots__EmbeddedScaledControlplots_8py.html#ae8cdd3a54c3e2625ff43ebb1d218fcf2":[2,0,2,50,8],
-"makePlots__EmbeddedScaledControlplots_8py.html#af27eb7232ff34f244a49244d905705e2":[2,0,2,50,9],
-"makePlots__PolSelEfficiency_8py.html":[2,0,2,63],
-"makePlots__PolSelEfficiency_8py.html#a05521a7e5fe302580b90f34f25b3df28":[2,0,2,63,7],
-"makePlots__PolSelEfficiency_8py.html#a136993ebe81c6f463f1cab31493e85ae":[2,0,2,63,23],
-"makePlots__PolSelEfficiency_8py.html#a16359812fb9f55bd81b6b9988f81498b":[2,0,2,63,28],
-"makePlots__PolSelEfficiency_8py.html#a1d99e1b867fa3c5c6836eb30bf86ad35":[2,0,2,63,38]
+"makePlots__EmbeddedScaledControlplots_8py.html#a86cb0930f88f0b0c37a0c0e3be5f3e1b":[2,0,2,50,2]
 };

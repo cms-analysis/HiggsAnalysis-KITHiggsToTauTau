@@ -150,9 +150,6 @@ var NAVTREEINDEX1 =
 "ZPtReweightProducer_8h.html":[2,0,0,2,54],
 "ZPtReweightProducer_8h_source.html":[2,0,0,2,54],
 "____init_____8py.html":[2,0,1,5,1,3],
-"____init_____8py.html#a25f5070f31b977b6d4a6fe2b9e498763":[2,0,1,5,1,3,0],
-"____init_____8py.html#a3dcd5a9c50f5b23a38bbdb63cbdaae7d":[2,0,1,5,1,3,1],
-"____init_____8py.html#ad2c249eeb9c878339d61584a78141c66":[2,0,1,5,1,3,2],
 "annotated.html":[1,0],
 "baseconfigCP_8py.html":[2,0,1,0,2,1],
 "baseconfigCP_8py.html#a0cf104d5f7ae6fc2816c1952f4b17065":[2,0,1,0,2,1,1],
@@ -249,5 +246,8 @@ var NAVTREEINDEX1 =
 "classCPQuantities_1_1quantities.html#a91b307ce3f455cd1147b838057fa2a4b":[1,0,199,0,4],
 "classCPQuantities_1_1quantities.html#aadf3d064e8be161bca30f9236f66e75f":[1,0,199,0,8],
 "classCPQuantities_1_1quantities.html#acbc9867480dca17b96e9b2a548c883a7":[1,0,199,0,2],
-"classCPQuantities_1_1quantities.html#ad57f746ec3d1fd0dfe88b5cae7da31e1":[1,0,199,0,11]
+"classCPQuantities_1_1quantities.html#ad57f746ec3d1fd0dfe88b5cae7da31e1":[1,0,199,0,11],
+"classConfigMaster_1_1ConfigMaster.html":[1,0,10,1],
+"classConfigMaster_1_1ConfigMaster.html#a045cdf698b278e24cddd6ff928407f95":[1,0,10,1,9],
+"classConfigMaster_1_1ConfigMaster.html#a17700721b143b746d2f71dbaeddbe421":[1,0,10,1,16]
 };

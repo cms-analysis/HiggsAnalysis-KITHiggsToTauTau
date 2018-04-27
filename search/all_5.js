@@ -72,7 +72,7 @@ var searchData=
   ['den_5ftree',['den_tree',['../classembedding__plot__classes_1_1single__plotline.html#a2b2d4ec18b10765cf5c10f5c849e8a6d',1,'embedding_plot_classes::single_plotline']]],
   ['denominator',['denominator',['../namespacemakePlots__categoryOverlap.html#afa7de7d3cfacc0acb9a4e793823ae5a5',1,'makePlots_categoryOverlap']]],
   ['derivative',['derivative',['../namespaceuncertainties_1_1unumpy_1_1core.html#a3b9d876bb97ee999394628d875ce3aa4',1,'uncertainties::unumpy::core']]],
-  ['derivatives',['derivatives',['../namespaceuncertainties_1_1umath__core.html#acd3981ff3d445dd4a6fc3707bd2d1e42',1,'uncertainties::umath_core']]],
+  ['derivatives',['derivatives',['../namespaceuncertainties_1_1umath.html#a4701be81e6cfcd278eb75a8d18e0b286',1,'uncertainties::umath']]],
   ['derivatives_5fclose',['derivatives_close',['../namespaceuncertainties_1_1unumpy_1_1test__unumpy.html#ae50e411aef4acb6ca954e76ce844b7e6',1,'uncertainties::unumpy::test_unumpy']]],
   ['derivativesdiffer',['DerivativesDiffer',['../classuncertainties_1_1test__uncertainties_1_1DerivativesDiffer.html',1,'uncertainties::test_uncertainties']]],
   ['diff_5flist',['diff_list',['../namespacelimit__collector.html#a071a47684e1666d0e6fd50e3812046ce',1,'limit_collector.diff_list()'],['../namespacemakePlots__BdtShiftLimits.html#a694a00922d0743079ad8b40bebaa2b0c',1,'makePlots_BdtShiftLimits.diff_list()']]],

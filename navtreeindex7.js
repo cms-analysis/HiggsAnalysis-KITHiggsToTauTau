@@ -1,8 +1,5 @@
 var NAVTREEINDEX7 =
 {
-"classPhiCPSVfitQuantity.html#acc1119e4bd748364f1c3942be329e6ae":[1,0,304,0],
-"classPhiCPSVfitQuantity.html#ae597977ea0b2c3a05865ce06f88460fd":[1,0,304,1],
-"classPhiStarCPSVfitQuantity.html":[1,0,305],
 "classPhiStarCPSVfitQuantity.html#a4eab2cc2440603df834c3f25b6071fe5":[1,0,305,1],
 "classPhiStarCPSVfitQuantity.html#ae5940e1c0bdf5a582d9d651b12e292e0":[1,0,305,0],
 "classPolarisationQuantitiesProducerBase.html":[1,0,306],
@@ -249,5 +246,8 @@ var NAVTREEINDEX7 =
 "classTagAndProbeMuonPairConsumer.html#a1d466581f46cd6e9d493f750d97fad7b":[1,0,337,3],
 "classTagAndProbeMuonPairConsumer.html#a2280550fe9cb5ca7c9e9309d598fa50f":[1,0,337,2],
 "classTagAndProbeMuonPairConsumer.html#a7b9899bcda048210461c98f5d8364b49":[1,0,337,4],
-"classTagAndProbeMuonPairConsumer.html#aab60ab5bd356a7bcf703c77348363bdc":[1,0,337,0]
+"classTagAndProbeMuonPairConsumer.html#aab60ab5bd356a7bcf703c77348363bdc":[1,0,337,0],
+"classTagAndProbeMuonPairConsumer.html#abe8dd79c624d280d91bcd872c475a676":[1,0,337,1],
+"classTagAndProbeMuonPairProducer.html":[1,0,338],
+"classTagAndProbeMuonPairProducer.html#a151e1f7a4f0b0b35102b56d1e8cf6fc3":[1,0,338,3]
 };
