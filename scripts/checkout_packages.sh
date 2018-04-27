@@ -124,9 +124,6 @@ else
 
 fi
 
-# needed for error propagation e.g. in the background estimations
-git clone git@github.com:lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
-
 # Grid-Control
 git clone git@github.com:grid-control/grid-control.git -b testing
 cd grid-control
