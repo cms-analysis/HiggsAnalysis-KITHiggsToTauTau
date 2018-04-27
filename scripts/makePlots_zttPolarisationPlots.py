@@ -14,6 +14,7 @@ import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.labels as labels
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 
 
 if __name__ == "__main__":
@@ -23,20 +24,13 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("-s", "--samples", nargs="+",
-	                    default=["zttpospol", "zttnegpol"],
-	                    help="Samples. [Default: %(default)s]")
-	parser.add_argument("--era", default="2015",
+	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", action="append",
 	                    default=["tt", "mt", "et"],
 	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", action="append", nargs="+", default=[["a1_x", "x_a1", "rho_x", "x_rho", "oneprong_x"], ["x_a1", "x_rho", "x_oneprong"], ["x_a1", "x_rho", "x_oneprong"]],
+	parser.add_argument("--categories", action="append", nargs="+", default=[["a1_1", "a1_2", "rho_1", "rho_2", "oneprong_1", "oneprong_2"], ["a1_2", "rho_2", "oneprong_2"], ["a1_2", "rho_2", "oneprong_2"]],
 	                    help="Categories. [Default: %(default)s]")
-	parser.add_argument("--pt-cut-expressions", action="append", nargs="+", default=[["(pt_1>{pt_cut})", "(pt_2>{pt_cut})", "(pt_1>{pt_cut})", "(pt_2>{pt_cut})", "(pt_1>{pt_cut})"], ["(pt_2>{pt_cut})", "(pt_2>{pt_cut})", "(pt_2>{pt_cut})"], ["(pt_2>{pt_cut})", "(pt_2>{pt_cut})", "(pt_2>{pt_cut})"]],
-	                    help="Expressions for pT cuts (must contain {pt_cut} to be replaced). [Default: %(default)s]")
-	parser.add_argument("--pt-cut-values", action="append", nargs="+", default=[["40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0", "40.0 50.0"], ["20.0 30.0 40.0", "20.0 30.0 40.0", "20.0 30.0 40.0"], ["25.0 35.0 45.0", "25.0 35.0 45.0", "25.0 35.0 45.0"]],
-	                    help="Values for pT cuts (white space separated). [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -64,36 +58,29 @@ if __name__ == "__main__":
 		log.critical("Invalid era string selected: " + args.era)
 		sys.exit(1)
 
-	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
 	sample_settings = samples.Samples()
-	bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "qqh", "vh"]]
-	
-	labels_settings = labels.LabelsDict(latex_version="root")
+	binnings_settings = binnings.BinningsDict()
 
 	if len(args.channels) > len(parser.get_default("channels")):
 		args.channels = args.channels[len(parser.get_default("channels")):]
 	if len(args.categories) > len(parser.get_default("categories")):
 		args.categories = args.categories[len(parser.get_default("categories")):]
-	if len(args.pt_cut_expressions) > len(parser.get_default("pt_cut_expressions")):
-		args.pt_cut_expressions = args.pt_cut_expressions[len(parser.get_default("pt_cut_expressions")):]
-	if len(args.pt_cut_values) > len(parser.get_default("pt_cut_values")):
-		args.pt_cut_values = args.pt_cut_values[len(parser.get_default("pt_cut_values")):]
 
 	plot_configs = []
-	for channel, categories, pt_cut_expressions, tmp_pt_cut_values in zip(args.channels, args.categories, args.pt_cut_expressions, args.pt_cut_values):
-		for category, pt_cut_expression, pt_cut_values in zip(categories, pt_cut_expressions, tmp_pt_cut_values):
+	for channel, categories in zip(args.channels, args.categories):
+		for category in categories:
 			if category == "None":
 				category = None
 			
-			pt_cut_values = [float(pt_cut) for pt_cut in pt_cut_values.split()]
-			pt_cut_weights = [pt_cut_expression.format(pt_cut=pt_cut) for pt_cut in pt_cut_values]
-			
 			for polarisation_bias_correction in [False, True]:
-				config = sample_settings.get_config(
-						samples=list_of_samples,
+			
+				# plots of relative fractions of pos./neg. polarised Z->tautau events
+				config_unpolarisation = sample_settings.get_config(
+						samples=[getattr(samples.Samples, sample) for sample in ["zttpospol", "zttnegpol"]],
+						no_ewkz_as_dy=True,
 						channel=channel,
 						category="catZttPol13TeV_{channel}_{category}".format(channel=channel, category=category) if category else None,
-						weight="isZTT",
+						cut_type="smhtt2016", # baseline_low_mvis2016
 						lumi = args.lumi * 1000,
 						exclude_cuts=[],
 						estimationMethod="new",
@@ -103,93 +90,90 @@ if __name__ == "__main__":
 						no_plot=True
 				)
 				
-				if "stacks" in config:
-					config.pop("stacks")
+				if "stacks" in config_unpolarisation:
+					config_unpolarisation.pop("stacks")
 				
-				config["x_expressions"] = "tauSpinnerPolarisation"
-				config["x_bins"] = "2,-2,2"
-				config["x_label"] = ""
-				config["x_ticks"] = [-1.0, 1.0]
-				config["x_tick_labels"] = ["zttnegpol", "zttpospol"]
+				config_unpolarisation["x_expressions"] = "tauSpinnerPolarisation"
+				config_unpolarisation["x_bins"] = "2,-2,2"
+				config_unpolarisation["x_label"] = ""
+				config_unpolarisation["x_ticks"] = [-1.0, 1.0]
+				config_unpolarisation["x_tick_labels"] = ["zttnegpol_large", "zttpospol_large"]
 				
-				if not "SumOfHistograms" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("SumOfHistograms")
-				config.setdefault("sum_nicks", []).extend(["zttpospol_noplot zttnegpol_noplot", "zttpospol_gen_noplot zttnegpol_gen_noplot"])
-				config.setdefault("sum_result_nicks", []).extend(["ztt", "ztt_gen"])
+				if not "SumOfHistograms" in config_unpolarisation.get("analysis_modules", []):
+					config_unpolarisation.setdefault("analysis_modules", []).append("SumOfHistograms")
+				config_unpolarisation.setdefault("sum_nicks", []).extend(["zttpospol_noplot zttnegpol_noplot", "gen_zttpospol_noplot gen_zttnegpol_noplot"])
+				config_unpolarisation.setdefault("sum_result_nicks", []).extend(["ztt", "ztt_gen"])
 				
-				if not "NormalizeToUnity" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("NormalizeToUnity")
+				if not "NormalizeToUnity" in config_unpolarisation.get("analysis_modules", []):
+					config_unpolarisation.setdefault("analysis_modules", []).append("NormalizeToUnity")
 							
-				config["labels"] = ["Reconstruction", "Generator"]
-				config["colors"] = ["1", "2"]
-				config["markers"] = ["E", "LINE"]
-				config["legend_markers"] = ["ELP", "L"]
-				config["legend"] = [0.25, 0.8, 0.85, 0.9]
-				config["legend_cols"] = 2
+				config_unpolarisation["labels"] = ["Reconstruction", "Generator"]
+				config_unpolarisation["colors"] = ["1", "2"]
+				config_unpolarisation["markers"] = ["E", "LINE]["]
+				config_unpolarisation["legend_markers"] = ["ELP", "L"]
+				config_unpolarisation["legend"] = [0.25, 0.8, 0.85, 0.9]
+				config_unpolarisation["legend_cols"] = 2
 				
-				config["y_label"] = "Relative Fraction of Z#rightarrow#tau#tau"
-				config["y_lims"] = [0.0, 1.0]
+				config_unpolarisation["y_label"] = "Relative Fraction of Z#rightarrow#tau#tau"
+				config_unpolarisation["y_lims"] = [0.0, 1.0]
 
-				config["title"] = "channel_"+channel
+				config_unpolarisation["title"] = "channel_"+channel
 
-				config["directories"] = [args.input_dir]
-				config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
-				config["filename"] = "tauSpinnerPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_correction"
+				config_unpolarisation["directories"] = [args.input_dir]
+				config_unpolarisation["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
+				config_unpolarisation["filename"] = "tauSpinnerPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_correction"
 				if args.www:
-					config["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
+					config_unpolarisation["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
 
-				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config.get("analysis_modules", [])):
-					config.setdefault("analysis_modules", []).append("PrintInfos")
+				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config_unpolarisation.get("analysis_modules", [])):
+					config_unpolarisation.setdefault("analysis_modules", []).append("PrintInfos")
 				
-				plot_configs.append(config)
-			
-			config = {}
-			for index, (pt_cut_weight, pt_cut_value) in enumerate(zip(pt_cut_weights, pt_cut_values)):
-				tmp_config = sample_settings.get_config(
-						samples=list_of_samples,
+				plot_configs.append(config_unpolarisation)
+				
+				# plot rescaling of integrals
+				list_of_samples = ["zttpospol", "zttnegpol", "zll", "ttj", "vv", "wj", "qcd", "data"]
+				asimov_nicks = copy.deepcopy(list_of_samples[:-1])
+				if polarisation_bias_correction:
+					asimov_nicks[0] = "zttpospol_noplot"
+					asimov_nicks[1] = "zttnegpol_noplot"
+				
+				config_integral = sample_settings.get_config(
+						samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
+						no_ewkz_as_dy=True,
 						channel=channel,
 						category="catZttPol13TeV_{channel}_{category}".format(channel=channel, category=category) if category else None,
-						weight=pt_cut_weight,
+						cut_type="smhtt2016", # baseline_low_mvis2016
 						lumi = args.lumi * 1000,
 						exclude_cuts=[],
 						estimationMethod="new",
-						polarisation_bias_correction=False,
-						polarisation_gen_ztt_plots=False,
-						nick_suffix=str(index)
+						polarisation_bias_correction=polarisation_bias_correction,
+						asimov_nicks=asimov_nicks
 				)
-				tmp_config["labels"] = ["{label}, p_{T}(#tau_{had}) > {pt_cut} GeV".format(label=labels_settings.labels_dict.get(label, label), T="{T}", had="{had}", pt_cut=pt_cut_value) for label in tmp_config["labels"]]
-				tmp_config["line_styles"] = [index+1 for label in tmp_config["labels"]]
-				tmp_config["colors"] = [str(color_index+1) for color_index in range(len(tmp_config["labels"]))]
-				tmp_config["markers"] = ["LINE"]*len(tmp_config["labels"])
 				
-				# merge configs
-				config = samples.Samples.merge_configs(config, tmp_config, additional_keys=["line_styles"])
-			
-			config["x_expressions"] = "testZttPol13TeV_"+channel+"_"+category
-			config["x_bins"] = "binningZttPol13TeV_"+channel+"_"+category
-			config["x_label"] = channel+"_tauPolarisationDiscriminator"
-			
-			config["y_rel_lims"] = [0.0, 1.6]
-			config["y_label"] = "arb. u."
-			
-			if "stacks" in config:
-				config.pop("stacks")
-			
-			config["line_widths"] = 3
-			config["title"] = "channel_"+channel
-			config["legend"] = [0.3, 0.5, 0.8, 0.9]
-			config["legend_markers"] = ["L"]
+				config_integral["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "testZttPol13TeV_"+channel+"_"+category) for nick in config_integral["nicks"]]
+				config_integral["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "binningZttPol13TeV_"+channel+"_"+category) for nick in config_integral["nicks"]]
+				config_integral["x_label"] = "Polarisation Discriminator"
+				
+				config_integral["y_rel_lims"] = [0.0, 1.4]
+				config_integral["legend"] = [0.23, 0.73, 0.9, 0.89]
+				config_integral["legend_cols"] = 3
 
-			config["directories"] = [args.input_dir]
-			config["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
-			if args.www:
-				config["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
-			
-			if not "NormalizeToUnity" in config.get("analysis_modules", []):
-				config.setdefault("analysis_modules", []).append("NormalizeToUnity")
-			
-			plot_configs.append(config)
+				config_integral["title"] = "channel_"+channel
+				config_integral["lumis"] = [float("%.1f" % args.lumi)]
+				config_integral["energies"] = [13]
+				config_integral["year"] = args.era
 
+				config_integral["directories"] = [args.input_dir]
+				config_integral["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
+				config_integral["filename"] = "recoPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_correction"
+				if args.www:
+					config_integral["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
+
+				if log.isEnabledFor(logging.DEBUG) and (not "PrintInfos" in config_integral.get("analysis_modules", [])):
+					config_integral.setdefault("analysis_modules", []).append("PrintInfos")
+				
+				plot_configs.append(config_integral)
+	
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)

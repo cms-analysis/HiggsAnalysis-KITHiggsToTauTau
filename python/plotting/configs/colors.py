@@ -250,6 +250,7 @@ class ColorsDict(colors.ColorsDict):
 			for nick_suffix in ["", "_os_highmt", "_ss_highmt", "_ss_lowmt"]:
 				self.colors_dict["data"+nick_suffix] = "#000000"
 				self.colors_dict["data_obs"+nick_suffix] = self.colors_dict["data"]
+				self.colors_dict["asimov"] = self.colors_dict["data"]
 				self.colors_dict["zll"+nick_suffix] = "#000000 #4496C8"
 				self.colors_dict["zmm"+nick_suffix] = self.colors_dict["zll"]
 				self.colors_dict["zee"+nick_suffix] = self.colors_dict["zll"]

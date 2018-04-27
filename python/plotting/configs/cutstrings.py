@@ -43,7 +43,7 @@ class CutStringsDict:
 			elif "smhtt2016" or "cp2016" in cut_type and channel == "em":
 				cuts["bveto"] = "(nbtag == 0)"
 				cuts["pt_1"] = "(pt_1 > 13.0)"
-				cuts["pt_2"] = "(pt_1 > 10.0)"
+				cuts["pt_2"] = "(pt_2 > 10.0)"
 				# used to remove overlap with H->WW->emu analysis
 				cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
 			cuts["pzeta"] = "(pZetaMissVis > -35.0)" if "2016" in cut_type and not "mssm" in cut_type else "(pZetaMissVis > -40.0)"
@@ -71,8 +71,8 @@ class CutStringsDict:
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singleelectron == 1)"
 			elif "smhtt2016" or "cp2016" in cut_type:
+				cuts["pt_1"] = "(pt_1 > 25.0)"
 				cuts["pt_2"] = "(pt_2 > 30.0)"
-				cuts["pt_1"] = "(pt_2 > 25.0)"
 			cuts["mt"] = "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronTightMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_2 > 0.5)"
@@ -85,7 +85,7 @@ class CutStringsDict:
 				cuts["trg"] = "(trg_doubletau == 1)"
 			elif "smhtt2016" or "cp2016" in cut_type:
 				cuts["pt_1"] = "(pt_1 > 50.0)"
-				cuts["pt_2"] = "(pt_1 > 40.0)"
+				cuts["pt_2"] = "(pt_2 > 40.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)"
