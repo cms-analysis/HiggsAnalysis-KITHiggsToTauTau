@@ -3,6 +3,7 @@ var hierarchy =
     [ "AnalysisBase", null, [
       [ "cphypotheses.CPHypotheses", "classcphypotheses_1_1CPHypotheses.html", null ],
       [ "estimatebase.EstimateBase", "classestimatebase_1_1EstimateBase.html", [
+        [ "calcQcdOStoSSfactor.CalculateQcdOStoSSFactor", "classcalcQcdOStoSSfactor_1_1CalculateQcdOStoSSFactor.html", null ],
         [ "estimateff.EstimateFF", "classestimateff_1_1EstimateFF.html", null ],
         [ "estimateqcd.EstimateQcd", "classestimateqcd_1_1EstimateQcd.html", null ],
         [ "estimateqcdtauhadtauhad.EstimateQcdTauHadTauHad", "classestimateqcdtauhadtauhad_1_1EstimateQcdTauHadTauHad.html", null ],
@@ -216,6 +217,7 @@ var hierarchy =
         [ "systematics_run2.JetFakeTauWShapeSystematic", "classsystematics__run2_1_1JetFakeTauWShapeSystematic.html", null ],
         [ "systematics_run2.JetToTauFakeSystematic", "classsystematics__run2_1_1JetToTauFakeSystematic.html", null ],
         [ "systematics_run2.MassResSystematic", "classsystematics__run2_1_1MassResSystematic.html", null ],
+        [ "systematics_run2.MassResSystematicv2", "classsystematics__run2_1_1MassResSystematicv2.html", null ],
         [ "systematics_run2.MetJetEnSystematic", "classsystematics__run2_1_1MetJetEnSystematic.html", null ],
         [ "systematics_run2.MetResponseSystematic", "classsystematics__run2_1_1MetResponseSystematic.html", null ],
         [ "systematics_run2.MetUnclusteredEnSystematic", "classsystematics__run2_1_1MetUnclusteredEnSystematic.html", null ],
@@ -392,16 +394,17 @@ var hierarchy =
       ] ],
       [ "ZPtReweightProducer", "classZPtReweightProducer.html", null ]
     ] ],
+    [ "Quantities", "classQuantities.html", null ],
     [ "quantities", null, [
       [ "CPQuantities.quantities", "classCPQuantities_1_1quantities.html", null ]
     ] ],
-    [ "Quantities", "classQuantities.html", null ],
     [ "RecoilCorrector", "classRecoilCorrector.html", null ],
     [ "Samples", null, [
       [ "samples_ff.Samples", "classsamples__ff_1_1Samples.html", null ],
       [ "samples_run2_2015.Samples", "classsamples__run2__2015_1_1Samples.html", null ],
       [ "samples_run2_2017.Samples", "classsamples__run2__2017_1_1Samples.html", null ],
-      [ "samples_run2_embedding_selection.Samples", "classsamples__run2__embedding__selection_1_1Samples.html", null ]
+      [ "samples_run2_embedding_selection.Samples", "classsamples__run2__embedding__selection_1_1Samples.html", null ],
+      [ "samples_run2_OStoSSExtSF.Samples", "classsamples__run2__OStoSSExtSF_1_1Samples.html", null ]
     ] ],
     [ "embedding_plot_classes.single_plot", "classembedding__plot__classes_1_1single__plot.html", null ],
     [ "embedding_plot_classes.single_plotline", "classembedding__plot__classes_1_1single__plotline.html", null ],

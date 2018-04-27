@@ -29,6 +29,7 @@ var systematics__run2_8py =
     [ "ProbeTauEsSystematic", "classsystematics__run2_1_1ProbeTauEsSystematic.html", "classsystematics__run2_1_1ProbeTauEsSystematic" ],
     [ "ProbeEleEsSystematic", "classsystematics__run2_1_1ProbeEleEsSystematic.html", "classsystematics__run2_1_1ProbeEleEsSystematic" ],
     [ "MassResSystematic", "classsystematics__run2_1_1MassResSystematic.html", "classsystematics__run2_1_1MassResSystematic" ],
+    [ "MassResSystematicv2", "classsystematics__run2_1_1MassResSystematicv2.html", "classsystematics__run2_1_1MassResSystematicv2" ],
     [ "BTagSystematic", "classsystematics__run2_1_1BTagSystematic.html", "classsystematics__run2_1_1BTagSystematic" ],
     [ "BMistagSystematic", "classsystematics__run2_1_1BMistagSystematic.html", "classsystematics__run2_1_1BMistagSystematic" ],
     [ "ElectronToTauOneProngFakeSystematic", "classsystematics__run2_1_1ElectronToTauOneProngFakeSystematic.html", "classsystematics__run2_1_1ElectronToTauOneProngFakeSystematic" ],
