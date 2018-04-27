@@ -115,12 +115,12 @@ Variables</h2></td></tr>
 <tr class="separator:abb9e947b7b1840044b2e19d144481aa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42289c3988df4eb294586a5de91494c6"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a42289c3988df4eb294586a5de91494c6">default</a> = [&quot;ztt&quot;, &quot;zll&quot;, &quot;ttj&quot;, &quot;vv&quot;, &quot;wj&quot;, &quot;qcd&quot;, &quot;data&quot;]</td></tr>
 <tr class="separator:a42289c3988df4eb294586a5de91494c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a352a5ef75764ddd9997eb68ccd6e835f"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a352a5ef75764ddd9997eb68ccd6e835f">choices</a></td></tr>
-<tr class="separator:a352a5ef75764ddd9997eb68ccd6e835f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63c4eb91879d9a528108169a88da8367"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a63c4eb91879d9a528108169a88da8367">args</a> = parser.parse_args()</td></tr>
 <tr class="separator:a63c4eb91879d9a528108169a88da8367"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a718f3592675d06f719941aef80adbd45"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a718f3592675d06f719941aef80adbd45">list_of_samples</a> = [getattr(samples.Samples, sample) for sample in args.samples]</td></tr>
 <tr class="separator:a718f3592675d06f719941aef80adbd45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a771af5e446c06092be2862dcd320a6eb"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a771af5e446c06092be2862dcd320a6eb">asimov_nicks</a> = []</td></tr>
+<tr class="separator:a771af5e446c06092be2862dcd320a6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13dbfaa3dc297026c52ff15c87f2b1ce"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a13dbfaa3dc297026c52ff15c87f2b1ce">sample_settings</a> = samples.Samples()</td></tr>
 <tr class="separator:a13dbfaa3dc297026c52ff15c87f2b1ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1aae8a0c177b3a30a56b1589ab3d86c3"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a1aae8a0c177b3a30a56b1589ab3d86c3">bkg_samples</a> = [sample for sample in args.samples if sample not in [&quot;data&quot;, &quot;htt&quot;, &quot;ggh&quot;, &quot;bbh&quot;]]</td></tr>
@@ -159,6 +159,8 @@ Variables</h2></td></tr>
 <tr class="separator:a2976af974f2588caf031b4948bb57946"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26f8535390217cf8f3888c75f31391a9"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a26f8535390217cf8f3888c75f31391a9">config</a></td></tr>
 <tr class="separator:a26f8535390217cf8f3888c75f31391a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f33d89ec4717b0a7b363ea5d54a257c"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a9f33d89ec4717b0a7b363ea5d54a257c">x_expression</a> = json_config.pop(&quot;x_expressions&quot;, [quantity])</td></tr>
+<tr class="separator:a9f33d89ec4717b0a7b363ea5d54a257c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7385a5703d306dc5d30d365a054860b0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a7385a5703d306dc5d30d365a054860b0">sub_conf_index</a> = 0</td></tr>
 <tr class="separator:a7385a5703d306dc5d30d365a054860b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf7036a108f6d43e95248d25cea12ca3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#adf7036a108f6d43e95248d25cea12ca3">binning_string</a> = &quot;binningHtt13TeV&quot;</td></tr>
@@ -169,7 +171,9 @@ Variables</h2></td></tr>
 <tr class="separator:aaea02a48032ae560e43a38a2f236de25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79031c3e0b084d3a801bbe5b8a9fcfaf"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a79031c3e0b084d3a801bbe5b8a9fcfaf">category</a> = &quot;_&quot;</td></tr>
 <tr class="separator:a79031c3e0b084d3a801bbe5b8a9fcfaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53083cc9fa99942755bf909f52c31010"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a53083cc9fa99942755bf909f52c31010">x_binning</a> = re.search(&quot;(--x-bins)[\s=\&quot;\']*(?P&lt;x_bins&gt;\S*)[\&quot;\']?\S&quot;, args.args)</td></tr>
+<tr class="memitem:a9c706f614a7442e31b51d315e079fb5b"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a9c706f614a7442e31b51d315e079fb5b">x_bins</a> = json_config.pop(&quot;x_bins&quot;, [binnings_key])</td></tr>
+<tr class="separator:a9c706f614a7442e31b51d315e079fb5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53083cc9fa99942755bf909f52c31010"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a53083cc9fa99942755bf909f52c31010">x_binning</a> = re.search(&quot;(--x-bins)[\s=\&quot;\']*(?P&lt;<a class="el" href="namespacemakePlots__controlPlots.html#a9c706f614a7442e31b51d315e079fb5b">x_bins</a>&gt;\S*)[\&quot;\']?\S&quot;, args.args)</td></tr>
 <tr class="separator:a53083cc9fa99942755bf909f52c31010"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a294c53834dc0a3e06e86dfb08eb59d65"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__controlPlots.html#a294c53834dc0a3e06e86dfb08eb59d65">bkg_samples_used</a> = [<a class="el" href="namespacemakePlots__controlPlots.html#aa4c35983c076dbaa964436c3ad3a95a2">nick</a> for <a class="el" href="namespacemakePlots__controlPlots.html#aa4c35983c076dbaa964436c3ad3a95a2">nick</a> in <a class="el" href="namespacemakePlots__controlPlots.html#a1aae8a0c177b3a30a56b1589ab3d86c3">bkg_samples</a> if <a class="el" href="namespacemakePlots__controlPlots.html#aa4c35983c076dbaa964436c3ad3a95a2">nick</a> in <a class="el" href="namespacemakePlots__controlPlots.html#a26f8535390217cf8f3888c75f31391a9">config</a>[&quot;nicks&quot;]]</td></tr>
 <tr class="separator:a294c53834dc0a3e06e86dfb08eb59d65"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -328,6 +332,18 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a771af5e446c06092be2862dcd320a6eb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple makePlots_controlPlots.asimov_nicks = []</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="adf7036a108f6d43e95248d25cea12ca3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -448,21 +464,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a352a5ef75764ddd9997eb68ccd6e835f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">list makePlots_controlPlots.choices</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacemakePlots__controlPlots.html">    1</a></span>&#160;= [<span class="stringliteral">&quot;ztt&quot;</span>, <span class="stringliteral">&quot;zttpospol&quot;</span>, <span class="stringliteral">&quot;zttnegpol&quot;</span>, <span class="stringliteral">&quot;zll&quot;</span>, <span class="stringliteral">&quot;zl&quot;</span>, <span class="stringliteral">&quot;zj&quot;</span>, <span class="stringliteral">&quot;ewkz&quot;</span>,<span class="stringliteral">&quot;tttautau&quot;</span>, <span class="stringliteral">&quot;ttj&quot;</span>, <span class="stringliteral">&quot;ttjt&quot;</span>, <span class="stringliteral">&quot;ttt&quot;</span>, <span class="stringliteral">&quot;ttjj&quot;</span>, <span class="stringliteral">&quot;ttjl&quot;</span>, <span class="stringliteral">&quot;vv&quot;</span>, <span class="stringliteral">&quot;vvt&quot;</span>, <span class="stringliteral">&quot;vvj&quot;</span>, <span class="stringliteral">&quot;vvl&quot;</span>, <span class="stringliteral">&quot;wj&quot;</span>, <span class="stringliteral">&quot;wjt&quot;</span>, <span class="stringliteral">&quot;wjl&quot;</span>, <span class="stringliteral">&quot;qcd&quot;</span>, <span class="stringliteral">&quot;ewk&quot;</span>, <span class="stringliteral">&quot;hww&quot;</span>, <span class="stringliteral">&quot;hww_gg&quot;</span>, <span class="stringliteral">&quot;hww_qq&quot;</span>, <span class="stringliteral">&quot;ff&quot;</span>,</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                                     <span class="stringliteral">&quot;ggh&quot;</span>, <span class="stringliteral">&quot;susy_ggh&quot;</span>, <span class="stringliteral">&quot;gghsm&quot;</span>, <span class="stringliteral">&quot;gghmm&quot;</span>, <span class="stringliteral">&quot;gghps&quot;</span>, <span class="stringliteral">&quot;gghjhusm&quot;</span>, <span class="stringliteral">&quot;gghjhumm&quot;</span>, <span class="stringliteral">&quot;gghjhups&quot;</span>, <span class="stringliteral">&quot;qqh&quot;</span>, <span class="stringliteral">&quot;qqhsm&quot;</span>, <span class="stringliteral">&quot;qqhmm&quot;</span>, <span class="stringliteral">&quot;qqhps&quot;</span>, <span class="stringliteral">&quot;qqhjhusm&quot;</span>, <span class="stringliteral">&quot;qqhjhumm&quot;</span>, <span class="stringliteral">&quot;qqhjhups&quot;</span>, <span class="stringliteral">&quot;bbh&quot;</span>, <span class="stringliteral">&quot;vh&quot;</span>, <span class="stringliteral">&quot;htt&quot;</span>, <span class="stringliteral">&quot;data&quot;</span>, <span class="stringliteral">&quot;zmt&quot;</span>, <span class="stringliteral">&quot;zet&quot;</span>, <span class="stringliteral">&quot;zem&quot;</span>,</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;                                                                 <span class="stringliteral">&quot;susy&quot;</span>, <span class="stringliteral">&quot;httcpeven&quot;</span>, <span class="stringliteral">&quot;httcpodd&quot;</span>, <span class="stringliteral">&quot;httcpmix&quot;</span>, <span class="stringliteral">&quot;susycpodd&quot;</span>, <span class="stringliteral">&quot;wj_ss_forQCD&quot;</span>, <span class="stringliteral">&quot;qcd_prefit&quot;</span>, <span class="stringliteral">&quot;wj_mc_os&quot;</span>, <span class="stringliteral">&quot;wj_mc_ss&quot;</span>]</div>
-</div><!-- fragment -->
-</div>
-</div>
 <a class="anchor" id="a26f8535390217cf8f3888c75f31391a9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -497,8 +498,9 @@ Variables</h2></td></tr>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                                no_ewkz_as_dy = args.no_ewkz_as_dy,</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                                                useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                                                useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                                nick_suffix = (channel <span class="keywordflow">if</span> args.channel_comparison <span class="keywordflow">else</span> <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                )</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                                nick_suffix = (channel <span class="keywordflow">if</span> args.channel_comparison <span class="keywordflow">else</span> <span class="stringliteral">&quot;&quot;</span>),</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                                asimov_nicks = asimov_nicks</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                                )</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -857,7 +859,31 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tuple makePlots_controlPlots.x_binning = re.search(&quot;(--x-bins)[\s=\&quot;\']*(?P&lt;x_bins&gt;\S*)[\&quot;\']?\S&quot;, args.args)</td>
+          <td class="memname">tuple makePlots_controlPlots.x_binning = re.search(&quot;(--x-bins)[\s=\&quot;\']*(?P&lt;<a class="el" href="namespacemakePlots__controlPlots.html#a9c706f614a7442e31b51d315e079fb5b">x_bins</a>&gt;\S*)[\&quot;\']?\S&quot;, args.args)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9c706f614a7442e31b51d315e079fb5b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple makePlots_controlPlots.x_bins = json_config.pop(&quot;x_bins&quot;, [binnings_key])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9f33d89ec4717b0a7b363ea5d54a257c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple makePlots_controlPlots.x_expression = json_config.pop(&quot;x_expressions&quot;, [quantity])</td>
         </tr>
       </table>
 </div><div class="memdoc">

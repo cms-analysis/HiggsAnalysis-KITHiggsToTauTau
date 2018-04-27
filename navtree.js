@@ -5,7 +5,7 @@ var NAVTREE =
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", "namespacemembers_dup" ],
-        [ "Functions", "namespacemembers_func.html", null ],
+        [ "Functions", "namespacemembers_func.html", "namespacemembers_func" ],
         [ "Variables", "namespacemembers_vars.html", "namespacemembers_vars" ]
       ] ]
     ] ],
@@ -35,31 +35,33 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"AcceptanceEfficiencyConsumer_8cc.html",
-"MetCorrectors_8cc.html",
-"classDiLeptonQuantitiesProducer.html#a7dfd5d81a2fd37836ad99b1589e48981",
-"classHttMuonCorrectionsProducer.html#a2b194859034a2861bb0e907f804d3b9a",
-"classHttProduct.html#abba102385ce7747d70c597409670aad8",
-"classHttSettings.html#a74114758514943c184cc1353dc74a793",
-"classHttValidTausProducer.html#a42b501373453165f2a397c7d28b5409f",
-"classScaleVariationProducer.html#a065fd728acd12ae448a7ce1d7088bdae",
-"classTriggerTagAndProbeProducerBase.html#a26dbb7f3ee7adb10446ef47905099e47",
-"classestimateqcdtauhadtauhad_1_1EstimateQcdTauHadTauHad.html",
-"classsamples__run2__2016_1_1Samples.html#a6c206a7dd6db47c79c6c73ee8c54ca87",
-"classsystematics__run2_1_1SystematicsFactory.html",
-"correlation__TProfilePlots_8py.html#ac1ecba0d1bb0929c95e871ab2358758a",
-"estimateff_8py.html",
-"makePlots__BdtShiftLimits_8py.html#a694a00922d0743079ad8b40bebaa2b0c",
-"makePlots__controlPlots_8py.html#ad633c66954023855891d6ab91fb7ec55",
-"makePlots__datacardsLFVZlt_8py.html#a4ac391209d5293b0821ed0752b2fb865",
-"makePlots__datacardsQCDfactors_8py.html#afde7c0bdb0d2fa0bdbd2ad2e34b40f72",
-"makePlots__datacardsTauEsStudies_8py.html#a4b76f062049853f0fbc128414a320035",
-"makePlots__datacardsZttEfficiency_8py.html#af093add1e1e3825454cc7724a2237f99",
-"makePlots__htautauPlots_8py.html#af7391a2fe91f9c59d02b48e25f96fec3",
-"makePlots__triggerEfficiencies__masswindow_8py.html#a722021cb5d8c519a574adf5beb572b0e",
-"namespacemakePlots__datacardsCPInitialState.html",
-"plot__AUC__1D_8py.html#a4fb32eb68184215832ab2e59f730019c",
-"scaleVariations__ZttOverZttInclusive_8py.html#a328d4df5e1a72c0a1e06a60ffd084e42"
+"1to2_8py.html",
+"MVAFlavio_8py.html#ae1207e49f8539dc3bde8c3e80c7dcb7a",
+"classConfigMaster_1_1ConfigMaster.html",
+"classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0ab50339a10e1de285ac99d4c3990b8693",
+"classHttProduct.html#a8d816230bd59c76d77a3833858e8434c",
+"classHttSettings.html#a4f59339bd5dec544d64a5712bd410106",
+"classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045cad1994c3699b0f3e7301d57d3176db5ed",
+"classPhiCPSVfitQuantity.html#acc1119e4bd748364f1c3942be329e6ae",
+"classTagAndProbeMuonPairConsumer.html#abe8dd79c624d280d91bcd872c475a676",
+"classembedding__plot__classes_1_1single__plot.html#abce38491cfd0b54104fdf101edecdb3c",
+"classsamples__run1_1_1Samples.html#a0d7a9bf44f7fd9175d9b4e56426f5ac0",
+"classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#ad31260a8d1ea3bb951cd0f76fe9e6c1b",
+"convertEfficienciesToArtusRootInput_8py.html#a2a9c1de6d0d3c28892107719a4c80fda",
+"cutstrings_8py.html#a513ceb49f99c8f08a078ab9dcbaa5a23",
+"functions_n.html",
+"makePlots__PolSelEfficiency_8py.html#a25df1e7693f1b1892ecdeea387f53b86",
+"makePlots__datacardsCPInitialState_8py.html#a6ee86d46167c1470b35d230ea1c589b9",
+"makePlots__datacardsLFVZlt_8py.html#aec6502c2896111caac2666933a9312d9",
+"makePlots__datacardsQCDfactors_8py.html#aee32025c5cab0b090122fb7bf948517b",
+"makePlots__datacardsTauEsStudies_8py.html#a39e530b982dfedc2706dd2d5d5e5269b",
+"makePlots__datacardsZttEfficiency_8py.html#adebcb358f29b70bc8566d0054439f0ec",
+"makePlots__htautauPlots_8py.html#a8d50cec92a7fbdb9f0d81ead9301f59c",
+"makePlots__triggerEfficiencies_8py.html#aeb0e92bc41dc1bed394841f673b766c2",
+"namespacemakePlots__13TeVProjections.html",
+"namespacesettingsJECUncertaintySplit.html",
+"printLaTeX__BDT_8py.html#aeea3aeddc0956ae3f418eaea1f40c76e",
+"significance__2d_8py.html#a8a7b3af4d72f62df1fd49d38d4baa3f6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
