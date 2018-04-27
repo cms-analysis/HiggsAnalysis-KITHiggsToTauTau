@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['callablestddevs',['CallableStdDevs',['../classuncertainties_1_1unumpy_1_1core_1_1CallableStdDevs.html',1,'uncertainties::unumpy::core']]],
   ['categoriesdict',['CategoriesDict',['../classcategories_1_1CategoriesDict.html',1,'categories']]],
   ['colorsdict',['ColorsDict',['../classcolors_1_1ColorsDict.html',1,'colors']]],
   ['computepullvalues',['ComputePullValues',['../classpullvalues_1_1ComputePullValues.html',1,'pullvalues']]],

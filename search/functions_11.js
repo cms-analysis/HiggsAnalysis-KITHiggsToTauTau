@@ -28,6 +28,7 @@ var searchData=
   ['soversqrtsplusb',['SoverSqrtSplusB',['../classcutOptimizer_1_1CutOptimizer.html#ac10bfbfc3937f7db8121f1509f8903ec',1,'cutOptimizer::CutOptimizer']]],
   ['splitjecuncertaintyquantities',['splitJecUncertaintyQuantities',['../classRun2Quantities_1_1quantities.html#aea3321cea3729d7f5da7c2d731dbd651',1,'Run2Quantities.quantities.splitJecUncertaintyQuantities()'],['../namespaceRun2Quantities.html#a67c661124d95aacca72699f945d1a26e',1,'Run2Quantities.splitJecUncertaintyQuantities()']]],
   ['static_5fget_5fexpression',['static_get_expression',['../classexpressions_1_1ExpressionsDict.html#a04521640a822051e05c245598454849b',1,'expressions::ExpressionsDict']]],
+  ['std_5fdevs',['std_devs',['../classuncertainties_1_1unumpy_1_1core_1_1matrix.html#ae50cf861185cbad6dd25df1792316504',1,'uncertainties.unumpy.core.matrix.std_devs()'],['../namespaceuncertainties_1_1unumpy_1_1core.html#ab0c8de04c0737c428501cfb0a7e5c0a9',1,'uncertainties.unumpy.core.std_devs()']]],
   ['submission',['submission',['../namespacesubmitCrabSvfitJobs.html#a55e931ca155e07f029e583a88b5cd969',1,'submitCrabSvfitJobs']]],
   ['submit',['submit',['../namespacesubmitCrabSvfitJobs.html#ab301153dbf300b9cc987f73f139223c2',1,'submitCrabSvfitJobs']]],
   ['sumofhists_5fconfig',['sumofhists_config',['../namespaceLepFlaVio.html#a6c11bd1c823a675fea301f2c81ac439f',1,'LepFlaVio']]],

@@ -5,7 +5,7 @@ var NAVTREE =
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", "namespacemembers_dup" ],
-        [ "Functions", "namespacemembers_func.html", null ],
+        [ "Functions", "namespacemembers_func.html", "namespacemembers_func" ],
         [ "Variables", "namespacemembers_vars.html", "namespacemembers_vars" ]
       ] ]
     ] ],
@@ -35,32 +35,33 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"AcceptanceEfficiencyConsumer_8cc.html",
-"MVAFlavio_8py.html#ae2f03c427f28785b68429b9a1fbd72a2",
-"classConfigMaster_1_1ConfigMaster.html#a4752c9fc91321fb4cc327361dfa965f7",
-"classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0ad2acc98f038825980da905d20c8407f2",
-"classHttProduct.html#a91a52a64c8c738cbb842fe389c60c07d",
-"classHttSettings.html#a57cab6a96a01aa69019efeef1371c0ac",
-"classHttValidGenTausProducer.html#a6e957528afb4f7fd4386dbd569e53511",
-"classPolarisationQuantitiesProducerBase.html",
-"classTagAndProbeMuonPairProducer.html#a44ec2570f06b8af69c9a3ac3f99e71d4ae1f2d5134ed2543d38a0de9751cf75d9",
-"classembedding__plot__classes_1_1single__plot.html#ad7f7bf117dc39413e5d1ec9bc08a0841",
-"classsamples__run1_1_1Samples.html#a7959a3c4d2d8835d447b50d6091e77f3",
-"classsettingsMuonID_1_1Muon__ID.html#ae40d8c649adcf1be703c68fa7d6325b1",
-"correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html#a4d0d074cb8ea38bbf9c04da79ac0c048",
-"embedding__plot__bib_8py.html#a1cc1b775175b5249eaf06d5c693fd814",
-"gc__makePlots__datacardsSMHtt1_8py.html#a1cc0708551e61709b176d28dd7823c6d",
-"makePlots__ZTTtheoryUnc_8py.html#a7e4d01ab32f46c654ebd2fcffa694274",
-"makePlots__datacardsCPInitialState_8py.html#af15596d5d69f30997b32006d3e9b38e9",
-"makePlots__datacardsMSSMHtt_8py.html#a189db0188be360eb0b8982cd75b4a4e5",
-"makePlots__datacardsSMHtt_8py.html#a9441467cdbfc1400e375f7ef69cf255d",
-"makePlots__datacardsTauEsStudies_8py.html#aa0fe7de0c247dde48b6634940cbba978",
-"makePlots__datacardsZttPolarisation_8py.html#ab3c427e40ec58d1212b882d7e455a95d",
-"makePlots__limitInputs_8py.html#a84052600f304cf1b314cff2750e3cce2",
-"mvaCategory__Shifts_8py.html#ad769d269d5275a1f5fbefc74187767be",
-"namespacemakePlots__genCPPlots__genvsreco.html",
-"nicknames_8py.html#af79e056e82d9c4baf9168bf4df64c038",
-"scaleVariations__ZttOverZttInclusive_8py.html"
+"1to2_8py.html",
+"MVAFlavio_8py.html#ae1207e49f8539dc3bde8c3e80c7dcb7a",
+"classConfigMaster_1_1ConfigMaster.html",
+"classHttEnumTypes.html#aa924d43307846f29da62e15d9e28a4f0ab50339a10e1de285ac99d4c3990b8693",
+"classHttProduct.html#a8d816230bd59c76d77a3833858e8434c",
+"classHttSettings.html#a4f59339bd5dec544d64a5712bd410106",
+"classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045cad1994c3699b0f3e7301d57d3176db5ed",
+"classPhiCPSVfitQuantity.html#acc1119e4bd748364f1c3942be329e6ae",
+"classTagAndProbeMuonPairConsumer.html#abe8dd79c624d280d91bcd872c475a676",
+"classembedding__plot__classes_1_1single__plot.html#abce38491cfd0b54104fdf101edecdb3c",
+"classsamples__run1_1_1Samples.html#a0d7a9bf44f7fd9175d9b4e56426f5ac0",
+"classsettingsMinimalPlotlevelFilter_1_1MinimalPlotlevelFilter.html#ad31260a8d1ea3bb951cd0f76fe9e6c1b",
+"convertEfficienciesToArtusRootInput_8py.html#a2a9c1de6d0d3c28892107719a4c80fda",
+"cutstrings_8py.html#a513ceb49f99c8f08a078ab9dcbaa5a23",
+"functions_n.html",
+"makePlots__PolSelEfficiency_8py.html#a25df1e7693f1b1892ecdeea387f53b86",
+"makePlots__datacardsCPInitialState_8py.html#a6ee86d46167c1470b35d230ea1c589b9",
+"makePlots__datacardsLFVZlt_8py.html#aec6502c2896111caac2666933a9312d9",
+"makePlots__datacardsQCDfactors_8py.html#aee32025c5cab0b090122fb7bf948517b",
+"makePlots__datacardsTauEsStudies_8py.html#a39e530b982dfedc2706dd2d5d5e5269b",
+"makePlots__datacardsZttEfficiency_8py.html#adebcb358f29b70bc8566d0054439f0ec",
+"makePlots__htautauPlots_8py.html#a8d50cec92a7fbdb9f0d81ead9301f59c",
+"makePlots__triggerEfficiencies_8py.html#aeb0e92bc41dc1bed394841f673b766c2",
+"namespacemakePlots__13TeVProjections.html",
+"namespacesettingsJECUncertaintySplit.html",
+"printLaTeX__BDT_8py.html#aeea3aeddc0956ae3f418eaea1f40c76e",
+"significance__2d_8py.html#a8a7b3af4d72f62df1fd49d38d4baa3f6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

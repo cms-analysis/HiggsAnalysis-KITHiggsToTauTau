@@ -99,6 +99,10 @@ var hierarchy =
     [ "ElectronCorrectionsProducer", null, [
       [ "HttElectronCorrectionsProducer", "classHttElectronCorrectionsProducer.html", null ]
     ] ],
+    [ "Exception", null, [
+      [ "uncertainties.test_uncertainties.DerivativesDiffer", "classuncertainties_1_1test__uncertainties_1_1DerivativesDiffer.html", null ],
+      [ "uncertainties.test_uncertainties.FunctionCalled", "classuncertainties_1_1test__uncertainties_1_1FunctionCalled.html", null ]
+    ] ],
     [ "expressions.ExpressionsDict", "classexpressions_1_1ExpressionsDict.html", null ],
     [ "FilterBase", null, [
       [ "DecayChannelFilter", "classDecayChannelFilter.html", null ],
@@ -153,6 +157,10 @@ var hierarchy =
     [ "labels.LabelsDict", "classlabels_1_1LabelsDict.html", null ],
     [ "LambdaNtupleConsumer", null, [
       [ "AcceptanceEfficiencyConsumer", "classAcceptanceEfficiencyConsumer.html", null ]
+    ] ],
+    [ "matrix", null, [
+      [ "uncertainties.unumpy.core.CallableStdDevs", "classuncertainties_1_1unumpy_1_1core_1_1CallableStdDevs.html", null ],
+      [ "uncertainties.unumpy.core.matrix", "classuncertainties_1_1unumpy_1_1core_1_1matrix.html", null ]
     ] ],
     [ "MEtSys", "classMEtSys.html", null ],
     [ "MuonCorrectionsProducer", null, [
@@ -392,10 +400,10 @@ var hierarchy =
       ] ],
       [ "ZPtReweightProducer", "classZPtReweightProducer.html", null ]
     ] ],
+    [ "Quantities", "classQuantities.html", null ],
     [ "quantities", null, [
       [ "CPQuantities.quantities", "classCPQuantities_1_1quantities.html", null ]
     ] ],
-    [ "Quantities", "classQuantities.html", null ],
     [ "RecoilCorrector", "classRecoilCorrector.html", null ],
     [ "Samples", null, [
       [ "samples_ff.Samples", "classsamples__ff_1_1Samples.html", null ],
@@ -446,6 +454,17 @@ var hierarchy =
     ] ],
     [ "ValidTausProducer", null, [
       [ "HttValidTausProducer", "classHttValidTausProducer.html", null ]
+    ] ],
+    [ "Variable", null, [
+      [ "uncertainties.test_uncertainties.NewVariable_dict", "classuncertainties_1_1test__uncertainties_1_1NewVariable__dict.html", null ],
+      [ "uncertainties.test_uncertainties.NewVariable_slots_str", "classuncertainties_1_1test__uncertainties_1_1NewVariable__slots__str.html", null ],
+      [ "uncertainties.test_uncertainties.NewVariable_slots_tuple", "classuncertainties_1_1test__uncertainties_1_1NewVariable__slots__tuple.html", null ]
+    ] ],
+    [ "BaseFix", null, [
+      [ "uncertainties.lib1to2.fixes.fix_std_dev.FixStdDev", "classuncertainties_1_1lib1to2_1_1fixes_1_1fix__std__dev_1_1FixStdDev.html", null ],
+      [ "uncertainties.lib1to2.fixes.fix_std_devs.FixStdDevs", "classuncertainties_1_1lib1to2_1_1fixes_1_1fix__std__devs_1_1FixStdDevs.html", null ],
+      [ "uncertainties.lib1to2.fixes.fix_uarray_umatrix.FixUarrayUmatrix", "classuncertainties_1_1lib1to2_1_1fixes_1_1fix__uarray__umatrix_1_1FixUarrayUmatrix.html", null ],
+      [ "uncertainties.lib1to2.fixes.fix_ufloat.FixUfloat", "classuncertainties_1_1lib1to2_1_1fixes_1_1fix__ufloat_1_1FixUfloat.html", null ]
     ] ],
     [ "PhysicsModel", null, [
       [ "cpmodels.CPMixing", "classcpmodels_1_1CPMixing.html", null ],

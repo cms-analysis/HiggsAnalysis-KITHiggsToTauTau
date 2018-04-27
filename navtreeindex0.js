@@ -1,5 +1,6 @@
 var NAVTREEINDEX0 =
 {
+"1to2_8py.html":[2,0,1,5,1,2],
 "AcceptanceEfficiencyConsumer_8cc.html":[2,0,3,0,0],
 "AcceptanceEfficiencyConsumer_8h.html":[2,0,0,0,0],
 "AcceptanceEfficiencyConsumer_8h_source.html":[2,0,0,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "MVAFlavio_8py.html#ab959e6df4ae3a437372a89afbd8f45bd":[2,0,2,79,16],
 "MVAFlavio_8py.html#ac4fb484826c611928a003483164c2c7d":[2,0,2,79,3],
 "MVAFlavio_8py.html#acef44172519a7cc6e872c421e10776ff":[2,0,2,79,4],
-"MVAFlavio_8py.html#ad67165c6be3014b9a85788e6b54c35c8":[2,0,2,79,9],
-"MVAFlavio_8py.html#ae1207e49f8539dc3bde8c3e80c7dcb7a":[2,0,2,79,13]
+"MVAFlavio_8py.html#ad67165c6be3014b9a85788e6b54c35c8":[2,0,2,79,9]
 };

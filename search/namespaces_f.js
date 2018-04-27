@@ -29,6 +29,7 @@ var searchData=
   ['settingstauid',['settingsTauID',['../namespacesettingsTauID.html',1,'']]],
   ['settingstaupolarisationmva',['settingsTauPolarisationMva',['../namespacesettingsTauPolarisationMva.html',1,'']]],
   ['settingstauspinner',['settingsTauSpinner',['../namespacesettingsTauSpinner.html',1,'']]],
+  ['setup',['setup',['../namespacesetup.html',1,'']]],
   ['signal_5fxsecs',['signal_xsecs',['../namespacesignal__xsecs.html',1,'']]],
   ['signalcpcalibration',['signalcpcalibration',['../namespacesignalcpcalibration.html',1,'']]],
   ['significance_5f2d',['significance_2d',['../namespacesignificance__2d.html',1,'']]],
