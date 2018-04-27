@@ -9,7 +9,6 @@ var searchData=
   ['samples_5frun2_5fembedding_5fselection_2epy',['samples_run2_embedding_selection.py',['../samples__run2__embedding__selection_8py.html',1,'']]],
   ['samples_5frun2_5fetaufakerate_2epy',['samples_run2_etaufakerate.py',['../samples__run2__etaufakerate_8py.html',1,'']]],
   ['samples_5frun2_5fetaufakerate_5f2016_2epy',['samples_run2_etaufakerate_2016.py',['../samples__run2__etaufakerate__2016_8py.html',1,'']]],
-  ['samples_5frun2_5fostossextsf_2epy',['samples_run2_OStoSSExtSF.py',['../samples__run2__OStoSSExtSF_8py.html',1,'']]],
   ['scalevariationproducer_2ecc',['ScaleVariationProducer.cc',['../ScaleVariationProducer_8cc.html',1,'']]],
   ['scalevariationproducer_2eh',['ScaleVariationProducer.h',['../ScaleVariationProducer_8h.html',1,'']]],
   ['scalevariations_5flatextables_2epy',['scaleVariations_latexTables.py',['../scaleVariations__latexTables_8py.html',1,'']]],
