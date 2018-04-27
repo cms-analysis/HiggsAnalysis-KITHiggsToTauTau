@@ -10,6 +10,7 @@ import ROOT
 
 import Artus.HarryPlotter.analysisbase as analysisbase
 import CombineHarvester.ZTTPOL2016.polarisationsignalscaling as polarisationsignalscaling
+import HiggsAnalysis.KITHiggsToTauTau.tools as tools
 
 
 class NormalizeForPolarisation(analysisbase.AnalysisBase):
@@ -66,18 +67,18 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 				new_histogram = plotData.plotdict["root_objects"][ztt_neg_pol_reco_nick].Clone(new_name)
 				plotData.plotdict["root_objects"][ztt_neg_pol_reco_result_nick] = new_histogram
 			
-			pos_reco_norm = plotData.plotdict["root_objects"][ztt_pos_pol_reco_nick].Integral()
-			neg_reco_norm = plotData.plotdict["root_objects"][ztt_neg_pol_reco_nick].Integral()
-			pos_gen_norm = plotData.plotdict["root_objects"][ztt_pos_pol_gen_nick].Integral()
-			neg_gen_norm = plotData.plotdict["root_objects"][ztt_neg_pol_gen_nick].Integral()
+			pos_reco_norm = tools.PoissonYield(plotData.plotdict["root_objects"][ztt_pos_pol_reco_nick])()
+			neg_reco_norm = tools.PoissonYield(plotData.plotdict["root_objects"][ztt_neg_pol_reco_nick])()
+			pos_gen_norm = tools.PoissonYield(plotData.plotdict["root_objects"][ztt_pos_pol_gen_nick])()
+			neg_gen_norm = tools.PoissonYield(plotData.plotdict["root_objects"][ztt_neg_pol_gen_nick])()
 			
 			scale_factors = polarisationsignalscaling.PolarisationScaleFactors(pos_reco_norm, neg_reco_norm, pos_gen_norm, neg_gen_norm)
 			
 			pos_reco_scale_factor = scale_factors.get_scale_factor_pospol()
-			plotData.plotdict["root_objects"][ztt_pos_pol_reco_result_nick].Scale(pos_reco_scale_factor)
-			log.debug("Scaled histogram \"%s\" by a factor of %f" % (ztt_pos_pol_reco_result_nick, pos_reco_scale_factor))
+			plotData.plotdict["root_objects"][ztt_pos_pol_reco_result_nick].Scale(pos_reco_scale_factor.nominal_value)
+			log.debug("Scaled histogram \"{nick}\" by a factor of {factor}".format(nick=ztt_pos_pol_reco_result_nick, factor=pos_reco_scale_factor))
 			
 			neg_reco_scale_factor = scale_factors.get_scale_factor_negpol()
-			plotData.plotdict["root_objects"][ztt_neg_pol_reco_result_nick].Scale(neg_reco_scale_factor)
-			log.debug("Scaled histogram \"%s\" by a factor of %f" % (ztt_neg_pol_reco_result_nick, neg_reco_scale_factor))
+			plotData.plotdict["root_objects"][ztt_neg_pol_reco_result_nick].Scale(neg_reco_scale_factor.nominal_value)
+			log.debug("Scaled histogram \"{nick}\" by a factor of {factor}".format(nick=ztt_neg_pol_reco_result_nick, factor=neg_reco_scale_factor))
 
