@@ -61,7 +61,7 @@ cd ..
 git clone git@github.com:artus-analysis/Artus.git -b $BRANCH
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
+git clone --recursive git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
 
 # Di-tau system reconstruction
 git clone git@github.com:SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit -b release_2018Mar20
