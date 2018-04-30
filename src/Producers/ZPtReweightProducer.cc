@@ -48,13 +48,6 @@ void ZPtReweightProducer::Produce( event_type const& event, product_type & produ
 		genPt = genMomentum.Pt();
 		genMass = genMomentum.M();
 		float zPtWeight = m_zPtHist->GetBinContent(m_zPtHist->GetXaxis()->FindBin(genMass),m_zPtHist->GetYaxis()->FindBin(genPt));
-
-		if(boost::regex_search(settings.GetNickname(), boost::regex("Fall17"))){
-			product.m_optionalWeights["zPtReweightWeight"] = 1;
-		}
-		else{
-			product.m_optionalWeights["zPtReweightWeight"] = zPtWeight;
-		}
-
+		product.m_optionalWeights["zPtReweightWeight"] = zPtWeight;
 	}
 }
