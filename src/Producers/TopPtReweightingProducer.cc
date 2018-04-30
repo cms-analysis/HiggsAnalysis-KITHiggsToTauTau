@@ -39,14 +39,7 @@ void TopPtReweightingProducer::Produce( event_type const& event,
 		product.m_optionalWeights["topPtReweightWeightRun1"] = ComputeWeight(top1Pt, top2Pt, 0.156, -0.00137);
 		// Run 2 specifications for a and b
 		product.m_optionalWeights["topPtReweightWeightRun2"] = ComputeWeight(top1Pt, top2Pt, 0.0615, -0.0005);
-
-		if(boost::regex_search(settings.GetNickname(), boost::regex("Fall17"))){
-			product.m_optionalWeights["topPtReweightWeight"] = 1;
-		}
-		else{
-			product.m_optionalWeights["topPtReweightWeight"]  = m_oldStrategy ? product.m_optionalWeights["topPtReweightWeightRun1"] : product.m_optionalWeights["topPtReweightWeightRun2"];
-		}
-
+		product.m_optionalWeights["topPtReweightWeight"]  = m_oldStrategy ? product.m_optionalWeights["topPtReweightWeightRun1"] : product.m_optionalWeights["topPtReweightWeightRun2"];
 	}
 }
 
