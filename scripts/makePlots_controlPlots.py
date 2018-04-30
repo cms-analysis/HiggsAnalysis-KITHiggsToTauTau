@@ -384,25 +384,25 @@ if __name__ == "__main__":
 				if args.etaufakerate:
 					# TODO: add the default global_cut_type
 					if "vloose_pass" in category:
-						global_cut_type = "etaufake2016_antievloosepass"
+						global_cut_type = "antievloosepass" + args.era
 					elif "vloose_fail" in category:
-						global_cut_type = "etaufake2016_antievloosefail"
+						global_cut_type = "antievloosefail" + args.era
 					elif "loose_pass" in category:
-						global_cut_type = "etaufake2016_antieloosepass"
+						global_cut_type = "antieloosepass" + args.era
 					elif "loose_fail" in category:
-						global_cut_type = "etaufake2016_antieloosefail"
+						global_cut_type = "antieloosefail" + args.era
 					elif "medium_pass" in category:
-						global_cut_type = "etaufake2016_antiemediumpass"
+						global_cut_type = "antiemediumpass" + args.era
 					elif "medium_fail" in category:
-						global_cut_type = "etaufake2016_antiemediumfail"
+						global_cut_type = "antiemediumfail" + args.era
 					elif "tight_pass" in category:
-						global_cut_type = "etaufake2016_antietightpass"
+						global_cut_type = "antietightpass" + args.era
 					elif "tight_fail" in category:
-						global_cut_type = "etaufake2016_antietightfail"
+						global_cut_type = "antietightfail" + args.era
 					elif "vtight_pass" in category:
-						global_cut_type = "etaufake2016_antievtightpass"
+						global_cut_type = "antievtightpass" + args.era
 					elif "vtight_fail" in category:
-						global_cut_type = "etaufake2016_antievtightfail"
+						global_cut_type = "antievtightfail" + args.era
 
 				last_loop = index == len(channels_background_methods) - 1
 

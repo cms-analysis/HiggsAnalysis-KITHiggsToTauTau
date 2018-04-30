@@ -966,7 +966,6 @@ class SystematicLibary(object):
 		]	
 				
 
-
 		self.massres_syst_args = [
 			"CMS_scale_massRes_$CHANNEL_$ERA",
 			"shape",
@@ -974,7 +973,12 @@ class SystematicLibary(object):
 				(["13TeV"], ["et"], 1.0)
 		]
 
-
+		self.massresv2_syst_args = [
+			"CMS_scale_massResv2_$CHANNEL_$ERA",
+			"shape",
+			ch.SystMap("era", "channel")
+				(["13TeV"], ["et"], 1.0)
+		]
 	##----------------------------------Member function for retrieving systematics information for your analysis----------------------------------##
 
 	def get_LFV_systs(self, channel, lnN = False, shape = False):
