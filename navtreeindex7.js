@@ -1,5 +1,8 @@
 var NAVTREEINDEX7 =
 {
+"classMuonTauFakeRateWeightProducer.html":[1,0,295],
+"classMuonTauFakeRateWeightProducer.html#a5ec8fe08d3c322ec95e5c94f58623654":[1,0,295,0],
+"classMuonTauFakeRateWeightProducer.html#ae094152bca1c98c2508ce761e7b2dcbe":[1,0,295,1],
 "classMvaMetCorrector.html":[1,0,298],
 "classMvaMetCorrector.html#a47eaa619a3fe249a952af75a783b452e":[1,0,298,0],
 "classMvaMetCorrector.html#a82861f8921f0f9d792acd4f79ef1cff5":[1,0,298,2],
@@ -246,8 +249,5 @@ var NAVTREEINDEX7 =
 "classTagAndProbeGenMuonProducer.html#a4517f17b5b9cbabb84dd547f2a43b07f":[1,0,336,3],
 "classTagAndProbeGenMuonProducer.html#a4f6033fb83656a1f34de9c1bb8b5135e":[1,0,336,1],
 "classTagAndProbeGenMuonProducer.html#a5d38cd666b0311d82decbd85f9600044":[1,0,336,4],
-"classTagAndProbeGenMuonProducer.html#a927f39dbd30f06d1befb65c49ed26525":[1,0,336,2],
-"classTagAndProbeGenMuonProducer.html#ac34570421f6806148d88207734b96d69":[1,0,336,0],
-"classTagAndProbeGenMuonProducer.html#ac34570421f6806148d88207734b96d69aacfd38b7586167a2f04dce420b134a80":[1,0,336,0,2],
-"classTagAndProbeGenMuonProducer.html#ac34570421f6806148d88207734b96d69ae1f2d5134ed2543d38a0de9751cf75d9":[1,0,336,0,0]
+"classTagAndProbeGenMuonProducer.html#a927f39dbd30f06d1befb65c49ed26525":[1,0,336,2]
 };

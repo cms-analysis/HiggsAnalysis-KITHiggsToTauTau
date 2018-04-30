@@ -1,16 +1,5 @@
 var NAVTREEINDEX13 =
 {
-"cpmodels_8py.html#ab853bcf1eca411e4bfc7371ffc74a9bd":[2,0,1,1,0,3],
-"cpmodels_8py.html#aff913b1757561709e0a0a173741a4abf":[2,0,1,1,0,9],
-"cpmodels__old_8py.html":[2,0,1,1,1],
-"cpmodels__old_8py.html#a2e31b1af0a9b7b379426a86029392b27":[2,0,1,1,1,1],
-"cpmodels__old_8py.html#a95bfb880d01b68b6a666021d3e0877a6":[2,0,1,1,1,2],
-"cpstudiesdatacards_8py.html":[2,0,1,1,2],
-"cpstudiesdatacards_8py.html#af3f460d6486cf8f5acfb051ad3918827":[2,0,1,1,2,1],
-"create__file__list__from__gfal__embedded__test_8py.html":[2,0,2,14],
-"create__file__list__from__gfal__embedded__test_8py.html#a76223fbc98876b7333029fab84d14765":[2,0,2,14,1],
-"cutOptimizer_8py.html":[2,0,2,15],
-"cutOptimizer_8py.html#a0df6ae87fcdfdaf3226463b7f9ca9b1b":[2,0,2,15,29],
 "cutOptimizer_8py.html#a114a4c6fec52504808329b0a442c7335":[2,0,2,15,4],
 "cutOptimizer_8py.html#a20e8a6eae52c6ff59d1b504471ba0ccb":[2,0,2,15,12],
 "cutOptimizer_8py.html#a25c9f5544919308daf75ee7d9417ec9b":[2,0,2,15,6],
@@ -248,6 +237,17 @@ var NAVTREEINDEX13 =
 "expressions_8py.html#a5fb9bc22f493589e246f741d36c6f2fe":[2,0,1,4,0,4,1],
 "files.html":[2,0],
 "fix__std__dev_8py.html":[2,0,1,5,1,0,0,1],
-"fix__uarray__umatrix_8py.html":[2,0,1,5,1,0,0,2],
-"fix__uarray__umatrix_8py.html#ae8917d0309b613dbe95eb2c8e7971e31":[2,0,1,5,1,0,0,2,1]
+"fix__std__devs_8py.html":[2,0,1,5,1,0,0,2],
+"fix__uarray__umatrix_8py.html":[2,0,1,5,1,0,0,3],
+"fix__uarray__umatrix_8py.html#ae8917d0309b613dbe95eb2c8e7971e31":[2,0,1,5,1,0,0,3,1],
+"fix__ufloat_8py.html":[2,0,1,5,1,0,0,4],
+"fix__ufloat_8py.html#a40c9805c3ce661bdef9e814ac8053a16":[2,0,1,5,1,0,0,4,2],
+"fix__ufloat_8py.html#aa1074250d25b1af48b413e8f16b5c11b":[2,0,1,5,1,0,0,4,1],
+"functions.html":[1,2,0],
+"functions.html":[1,2,0,0],
+"functions_a.html":[1,2,0,1],
+"functions_b.html":[1,2,0,2],
+"functions_c.html":[1,2,0,3],
+"functions_d.html":[1,2,0,4],
+"functions_e.html":[1,2,0,5]
 };

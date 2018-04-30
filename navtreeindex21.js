@@ -1,16 +1,5 @@
 var NAVTREEINDEX21 =
 {
-"makePlots__genCPPlots__reco_8py.html#a974a745c56f76fdfcd86d81ea7bc0600":[2,0,2,55,19],
-"makePlots__genCPPlots__reco_8py.html#aad636e7c638d134209b4dc69cc53e8ea":[2,0,2,55,7],
-"makePlots__genCPPlots__reco_8py.html#abf70f0a330dc26045799f1747c817c4b":[2,0,2,55,1],
-"makePlots__genCPPlots__reco_8py.html#ac01740fe978dce38dc280acbfe1c4e3e":[2,0,2,55,12],
-"makePlots__genCPPlots__reco_8py.html#ac3cac86c5c60e0847ba2007d8947fbe4":[2,0,2,55,6],
-"makePlots__genCPPlots__reco_8py.html#acb6d0874ccedb9cd45f9b8180b2b0f9c":[2,0,2,55,14],
-"makePlots__genCPPlots__reco_8py.html#adb4d760a42d292de539f245679e4d422":[2,0,2,55,25],
-"makePlots__genCPPlots__reco_8py.html#add6f5b5e3747b9c7be571628d68dcbd8":[2,0,2,55,20],
-"makePlots__genCPPlots__reco_8py.html#afd46fdc44e5d42507e7b8c69af72d8e1":[2,0,2,55,2],
-"makePlots__genCPPlots__reco_8py.html#afe26fb7a5c17d7efc369ef9d488360b5":[2,0,2,55,24],
-"makePlots__genCPPlots__reco_8py.html#afef3fffdbba95834e72afc05255ed660":[2,0,2,55,0],
 "makePlots__genCPPlotswithDYandSUSY_8py.html":[2,0,2,56],
 "makePlots__genCPPlotswithDYandSUSY_8py.html#a06f39703300f78de16c6e66e6822bce2":[2,0,2,56,0],
 "makePlots__genCPPlotswithDYandSUSY_8py.html#a1298f0311b92c91871fbd6402bee86d1":[2,0,2,56,6],
@@ -249,5 +238,16 @@ var NAVTREEINDEX21 =
 "makePlots__tauEsStudies_8py.html#a9a676c2f71f3406a902c6caf1f873219":[2,0,2,70,1],
 "makePlots__tauEsStudies_8py.html#a9b8005261354dfe55a38f03c00ccf0eb":[2,0,2,70,33],
 "makePlots__tauEsStudies_8py.html#aad2a9a5fcb17d72bc98865f16b33e33a":[2,0,2,70,18],
-"makePlots__tauEsStudies_8py.html#ab6f682bb5f9fc9f98fd16ef2c68bd2ab":[2,0,2,70,9]
+"makePlots__tauEsStudies_8py.html#ab6f682bb5f9fc9f98fd16ef2c68bd2ab":[2,0,2,70,9],
+"makePlots__tauEsStudies_8py.html#ab8dda04b433e894b645e6e82214c2d32":[2,0,2,70,0],
+"makePlots__tauEsStudies_8py.html#abcb8d8f3d5ef5880b50c6f4f862a43a8":[2,0,2,70,35],
+"makePlots__tauEsStudies_8py.html#ac3cbb79000aa7ec0c0481c8abee63622":[2,0,2,70,5],
+"makePlots__tauEsStudies_8py.html#ac7d0d9bc1d9d002a2d1b08fdc8c326c6":[2,0,2,70,11],
+"makePlots__tauEsStudies_8py.html#ad1b40dd12aecc521c85859820b28d982":[2,0,2,70,20],
+"makePlots__tauEsStudies_8py.html#ae77c02b44f60112b05c1697d2de0152f":[2,0,2,70,29],
+"makePlots__tauEsStudies_8py.html#af01f3bc0200017b667eafb2164e6fe98":[2,0,2,70,2],
+"makePlots__tauEsStudies_8py.html#af448aea61e98c2027e35a81d1cbc26ca":[2,0,2,70,23],
+"makePlots__tauEsStudies_8py.html#afda402e3938a83a6e1da218d0ec0404c":[2,0,2,70,24],
+"makePlots__theoryUncertainties_8py.html":[2,0,2,71],
+"makePlots__theoryUncertainties_8py.html#a0adea8ab7aa5a4812d64de123096d95b":[2,0,2,71,11]
 };

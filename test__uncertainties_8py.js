@@ -41,7 +41,7 @@ var test__uncertainties_8py =
     [ "test_wrapped_func_args_kwargs", "test__uncertainties_8py.html#ad6027645083df78050da9878b9c49df3", null ],
     [ "test_wrapped_func_args_no_kwargs", "test__uncertainties_8py.html#aa0e2bec0d17d33dd5006045495a1fc53", null ],
     [ "test_wrapped_func_no_args_kwargs", "test__uncertainties_8py.html#aa8ac778e054243440187a21bc2b397ce", null ],
-    [ "test_wrapped_func_no_args_no_kwargs", "test__uncertainties_8py.html#ae838a91ce90c935d1bbb8a92be2d50f3", null ],
+    [ "test_wrapped_func_no_args_no_kwargs", "test__uncertainties_8py.html#a286ba92b279692c6bd1d4021f3a08c99", null ],
     [ "ufloats_close", "test__uncertainties_8py.html#a2372a3bc30cf661416794da5d4473679", null ],
     [ "f_wrapped2", "test__uncertainties_8py.html#acd472a5a93f8a4599136f208475306e5", null ],
     [ "f_wrapped3", "test__uncertainties_8py.html#a7a8200868f4ff6b85754172c49f81dcf", null ],

@@ -1,5 +1,8 @@
 var NAVTREEINDEX9 =
 {
+"classembedding__plot__classes_1_1single__plot.html#a1376475adc163072efcb03c52c18083b":[1,0,36,1,42],
+"classembedding__plot__classes_1_1single__plot.html#a1dd0436a81389b05b793e71f67be2400":[1,0,36,1,32],
+"classembedding__plot__classes_1_1single__plot.html#a206d3cb6969df42868252d1c6a5e1e20":[1,0,36,1,24],
 "classembedding__plot__classes_1_1single__plot.html#a20ecf35d18af02251a6b31d38610d8f0":[1,0,36,1,33],
 "classembedding__plot__classes_1_1single__plot.html#a270f1da7a498357b663f77a3f143e53a":[1,0,36,1,20],
 "classembedding__plot__classes_1_1single__plot.html#a32a5c9db98751337675c5fbdd2b6be3e":[1,0,36,1,41],
@@ -246,8 +249,5 @@ var NAVTREEINDEX9 =
 "classplotroothtt_1_1PlotRootHtt.html#acbff9a22a60700bdefb803875b55e8f6":[1,0,133,0,5],
 "classplotroothtt_1_1PlotRootHtt.html#ad48e24521d8066bb6205f550bdee63d2":[1,0,133,0,2],
 "classprocessorOrdering_1_1processors__ordered.html":[1,0,135,0],
-"classprocessorOrdering_1_1processors__ordered.html#a173b7f8337acccf0f303e256b22cddee":[1,0,135,0,2],
-"classprocessorOrdering_1_1processors__ordered.html#a2cc953aba22534e39b4e9699a47916ba":[1,0,135,0,0],
-"classprocessorOrdering_1_1processors__ordered.html#a613391a3b2c369fef799d5c944134c2c":[1,0,135,0,1],
-"classprocessorOrdering_1_1processors__ordered.html#acd9f33f0b3bfebc78a436d472f27b338":[1,0,135,0,3]
+"classprocessorOrdering_1_1processors__ordered.html#a173b7f8337acccf0f303e256b22cddee":[1,0,135,0,2]
 };

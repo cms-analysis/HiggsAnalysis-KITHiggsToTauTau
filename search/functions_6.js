@@ -41,7 +41,7 @@ var searchData=
   ['format_5fnumber',['format_number',['../namespaceprintLaTeX__BDT.html#a1caab1bac4525b87af21e68ad512b825',1,'printLaTeX_BDT']]],
   ['format_5fpurity',['format_purity',['../namespaceprintLaTeX__BDT.html#a21f90b0861e58aab994babbd1c46730d',1,'printLaTeX_BDT']]],
   ['fourvectorquantities',['fourVectorQuantities',['../classRun2Quantities_1_1quantities.html#a5e58593535c8a816a6b09d0d466cbbf0',1,'Run2Quantities.quantities.fourVectorQuantities()'],['../namespaceRun2Quantities.html#ae5fa273d6ba0ce9dbe93f4ae073e1bf6',1,'Run2Quantities.fourVectorQuantities()']]],
-  ['frexp',['frexp',['../namespaceuncertainties_1_1umath.html#af7e87b13f583d7c7180c3ee78b783305',1,'uncertainties::umath']]],
+  ['frexp',['frexp',['../namespaceuncertainties_1_1umath__core.html#ac05f67579533030898ec1614e6f43c4d',1,'uncertainties::umath_core']]],
   ['frombintovalue',['fromBintoValue',['../classcutOptimizer_1_1CutOptimizer.html#ab9f344ac23f8b91d72a81945f2c892c7',1,'cutOptimizer::CutOptimizer']]],
   ['fromcache',['FromCache',['../classSvfitResults.html#aa2dfd4bb75cdb81445d4a7f12ff13765',1,'SvfitResults']]],
   ['fromrecalculation',['FromRecalculation',['../classSvfitResults.html#a57b084ba9986fcfe3709ae0f28c0d418',1,'SvfitResults']]],

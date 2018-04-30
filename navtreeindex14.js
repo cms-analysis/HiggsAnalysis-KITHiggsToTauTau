@@ -1,15 +1,5 @@
 var NAVTREEINDEX14 =
 {
-"fix__ufloat_8py.html":[2,0,1,5,1,0,0,3],
-"fix__ufloat_8py.html#a40c9805c3ce661bdef9e814ac8053a16":[2,0,1,5,1,0,0,3,2],
-"fix__ufloat_8py.html#aa1074250d25b1af48b413e8f16b5c11b":[2,0,1,5,1,0,0,3,1],
-"functions.html":[1,2,0],
-"functions.html":[1,2,0,0],
-"functions_a.html":[1,2,0,1],
-"functions_b.html":[1,2,0,2],
-"functions_c.html":[1,2,0,3],
-"functions_d.html":[1,2,0,4],
-"functions_e.html":[1,2,0,5],
 "functions_enum.html":[1,2,4],
 "functions_eval.html":[1,2,5],
 "functions_f.html":[1,2,0,6],
@@ -47,7 +37,6 @@ var NAVTREEINDEX14 =
 "functions_n.html":[1,2,0,14],
 "functions_o.html":[1,2,0,15],
 "functions_p.html":[1,2,0,16],
-"functions_prop.html":[1,2,6],
 "functions_q.html":[1,2,0,17],
 "functions_r.html":[1,2,0,18],
 "functions_s.html":[1,2,0,19],
@@ -249,5 +238,16 @@ var NAVTREEINDEX14 =
 "makePlots__BdtShiftLimits_8py.html#a7b9fc306280c2a27809d356b59b6e963":[2,0,2,29,7],
 "makePlots__BdtShiftLimits_8py.html#a7c30ddf757ebdf67221cca8bd7859ad9":[2,0,2,29,13],
 "makePlots__BdtShiftLimits_8py.html#a857e7b1446285b8367fab4e3ac49b161":[2,0,2,29,41],
-"makePlots__BdtShiftLimits_8py.html#a933c78255ae765615e724ce21911378f":[2,0,2,29,36]
+"makePlots__BdtShiftLimits_8py.html#a933c78255ae765615e724ce21911378f":[2,0,2,29,36],
+"makePlots__BdtShiftLimits_8py.html#a99d7782a6213f57abd5ee7116f58ccc1":[2,0,2,29,37],
+"makePlots__BdtShiftLimits_8py.html#a9b49c90a75f382bbcc343dd711d4785b":[2,0,2,29,35],
+"makePlots__BdtShiftLimits_8py.html#aa26c0d7dfa3ef46935959a3d6b0eab3d":[2,0,2,29,32],
+"makePlots__BdtShiftLimits_8py.html#aa3747715953ea59592ab93ea2a6a0a85":[2,0,2,29,17],
+"makePlots__BdtShiftLimits_8py.html#aad29dbb45b91b3c8f2bde4c776ebd8a1":[2,0,2,29,31],
+"makePlots__BdtShiftLimits_8py.html#aaefc6566fe1770153f1c2c54db075ed8":[2,0,2,29,26],
+"makePlots__BdtShiftLimits_8py.html#ab208bec81b507f9754af3d07e3bbec1f":[2,0,2,29,12],
+"makePlots__BdtShiftLimits_8py.html#ab63c3f4f33c27e8bdbe33871535cd62e":[2,0,2,29,15],
+"makePlots__BdtShiftLimits_8py.html#ab68e25fcf946d4378ae06578ae989a7d":[2,0,2,29,27],
+"makePlots__BdtShiftLimits_8py.html#abdd23f9e6bd80300db4113994cd8321a":[2,0,2,29,14],
+"makePlots__BdtShiftLimits_8py.html#ac6ee2871f3e148f3f25d9df1f7e23ffa":[2,0,2,29,1]
 };

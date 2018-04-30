@@ -1,5 +1,8 @@
 var NAVTREEINDEX6 =
 {
+"classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca076b05b6fe1f288dc81580a0255467fb":[1,0,257,0,14],
+"classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca079a8a2f2ce5128b7320c787abd6a127":[1,0,257,0,12],
+"classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca0c1d41f65374fb6f2326d36cefb16abf":[1,0,257,0,20],
 "classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca1b7670e88dd35ad75e1fa3c09789408f":[1,0,257,0,7],
 "classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca1c6d01c4a2f2dd5ecae26667c139fcf7":[1,0,257,0,2],
 "classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca1d73ddc9f2078959f6a3086ad258f2e1":[1,0,257,0,9],
@@ -246,8 +249,5 @@ var NAVTREEINDEX6 =
 "classMuTauTriggerWeightProducer.html":[1,0,296],
 "classMuTauTriggerWeightProducer.html#a0401bf07b21eab934e0f9417b2316c5a":[1,0,296,2],
 "classMuTauTriggerWeightProducer.html#a7e95706bb1ce355538c6a6f9f6800676":[1,0,296,0],
-"classMuTauTriggerWeightProducer.html#ac7ed3993ecc2ad90b439b9aa9d478724":[1,0,296,1],
-"classMuonTauFakeRateWeightProducer.html":[1,0,295],
-"classMuonTauFakeRateWeightProducer.html#a5ec8fe08d3c322ec95e5c94f58623654":[1,0,295,0],
-"classMuonTauFakeRateWeightProducer.html#ae094152bca1c98c2508ce761e7b2dcbe":[1,0,295,1]
+"classMuTauTriggerWeightProducer.html#ac7ed3993ecc2ad90b439b9aa9d478724":[1,0,296,1]
 };

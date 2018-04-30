@@ -49,7 +49,7 @@ var searchData=
   ['den_5fnick',['den_nick',['../classembedding__plot__classes_1_1single__plotline.html#a094d6c68f1ab3f33dce381cd149c62e4',1,'embedding_plot_classes::single_plotline']]],
   ['den_5ftree',['den_tree',['../classembedding__plot__classes_1_1single__plotline.html#a2b2d4ec18b10765cf5c10f5c849e8a6d',1,'embedding_plot_classes::single_plotline']]],
   ['denominator',['denominator',['../namespacemakePlots__categoryOverlap.html#afa7de7d3cfacc0acb9a4e793823ae5a5',1,'makePlots_categoryOverlap']]],
-  ['derivatives',['derivatives',['../namespaceuncertainties_1_1umath.html#a4701be81e6cfcd278eb75a8d18e0b286',1,'uncertainties::umath']]],
+  ['derivatives',['derivatives',['../namespaceuncertainties_1_1umath__core.html#acd3981ff3d445dd4a6fc3707bd2d1e42',1,'uncertainties::umath_core']]],
   ['diff_5flist',['diff_list',['../namespacelimit__collector.html#a071a47684e1666d0e6fd50e3812046ce',1,'limit_collector.diff_list()'],['../namespacemakePlots__BdtShiftLimits.html#a694a00922d0743079ad8b40bebaa2b0c',1,'makePlots_BdtShiftLimits.diff_list()']]],
   ['diff_5froot',['diff_root',['../namespacemvaCategory__Shifts.html#ad769d269d5275a1f5fbefc74187767be',1,'mvaCategory_Shifts']]],
   ['dijet_5f2d',['DIJET_2D',['../namespacemakePlots__datacardsCPInitialState.html#a788592522f9161b3f3d9f10ecd42d608',1,'makePlots_datacardsCPInitialState']]],

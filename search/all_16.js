@@ -1,8 +1,10 @@
 var searchData=
 [
   ['1to2',['1to2',['../namespaceuncertainties_1_11to2.html',1,'uncertainties']]],
+  ['core',['core',['../namespaceuncertainties_1_1core.html',1,'uncertainties']]],
   ['core',['core',['../namespaceuncertainties_1_1unumpy_1_1core.html',1,'uncertainties::unumpy']]],
   ['fix_5fstd_5fdev',['fix_std_dev',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__std__dev.html',1,'uncertainties::lib1to2::fixes']]],
+  ['fix_5fstd_5fdevs',['fix_std_devs',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__std__devs.html',1,'uncertainties::lib1to2::fixes']]],
   ['fix_5fuarray_5fumatrix',['fix_uarray_umatrix',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__uarray__umatrix.html',1,'uncertainties::lib1to2::fixes']]],
   ['fix_5fufloat',['fix_ufloat',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__ufloat.html',1,'uncertainties::lib1to2::fixes']]],
   ['fixes',['fixes',['../namespaceuncertainties_1_1lib1to2_1_1fixes.html',1,'uncertainties::lib1to2']]],
@@ -19,6 +21,8 @@ var searchData=
   ['ulinalg_2epy',['ulinalg.py',['../ulinalg_8py.html',1,'']]],
   ['umath',['umath',['../namespaceuncertainties_1_1umath.html',1,'uncertainties']]],
   ['umath_2epy',['umath.py',['../umath_8py.html',1,'']]],
+  ['umath_5fcore',['umath_core',['../namespaceuncertainties_1_1umath__core.html',1,'uncertainties']]],
+  ['umath_5fcore_2epy',['umath_core.py',['../umath__core_8py.html',1,'']]],
   ['umatrix',['umatrix',['../namespaceuncertainties_1_1unumpy_1_1core.html#aa4589a1e447a3c4ecf17db9f69bf023f',1,'uncertainties::unumpy::core']]],
   ['uncertainties',['uncertainties',['../namespaceuncertainties.html',1,'uncertainties'],['../namespacemakePlots__BdtShiftLimits.html#ae6a156f72b12406ed52ff198a29be1e8',1,'makePlots_BdtShiftLimits.uncertainties()']]],
   ['uncertainty',['uncertainty',['../namespacemakePlots__shapeUncertainties.html#a8a149720d8435366ad6341806998a788',1,'makePlots_shapeUncertainties']]],

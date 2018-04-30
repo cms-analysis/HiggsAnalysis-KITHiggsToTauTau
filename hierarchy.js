@@ -160,6 +160,7 @@ var hierarchy =
       [ "AcceptanceEfficiencyConsumer", "classAcceptanceEfficiencyConsumer.html", null ]
     ] ],
     [ "matrix", null, [
+      [ "uncertainties.unumpy.core.CallableStdDevs", "classuncertainties_1_1unumpy_1_1core_1_1CallableStdDevs.html", null ],
       [ "uncertainties.unumpy.core.matrix", "classuncertainties_1_1unumpy_1_1core_1_1matrix.html", null ]
     ] ],
     [ "MEtSys", "classMEtSys.html", null ],
@@ -464,6 +465,7 @@ var hierarchy =
     ] ],
     [ "BaseFix", null, [
       [ "uncertainties.lib1to2.fixes.fix_std_dev.FixStdDev", "classuncertainties_1_1lib1to2_1_1fixes_1_1fix__std__dev_1_1FixStdDev.html", null ],
+      [ "uncertainties.lib1to2.fixes.fix_std_devs.FixStdDevs", "classuncertainties_1_1lib1to2_1_1fixes_1_1fix__std__devs_1_1FixStdDevs.html", null ],
       [ "uncertainties.lib1to2.fixes.fix_uarray_umatrix.FixUarrayUmatrix", "classuncertainties_1_1lib1to2_1_1fixes_1_1fix__uarray__umatrix_1_1FixUarrayUmatrix.html", null ],
       [ "uncertainties.lib1to2.fixes.fix_ufloat.FixUfloat", "classuncertainties_1_1lib1to2_1_1fixes_1_1fix__ufloat_1_1FixUfloat.html", null ]
     ] ],

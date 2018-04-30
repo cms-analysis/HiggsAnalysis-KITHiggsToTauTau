@@ -7,7 +7,7 @@ var searchData=
   ['f_5fwrapped2',['f_wrapped2',['../namespaceuncertainties_1_1test__uncertainties.html#acd472a5a93f8a4599136f208475306e5',1,'uncertainties::test_uncertainties']]],
   ['f_5fwrapped3',['f_wrapped3',['../namespaceuncertainties_1_1test__uncertainties.html#a7a8200868f4ff6b85754172c49f81dcf',1,'uncertainties::test_uncertainties']]],
   ['f_5fwrapped4',['f_wrapped4',['../namespaceuncertainties_1_1test__uncertainties.html#add722d4970a18b612516fcefef96c2ff',1,'uncertainties::test_uncertainties']]],
-  ['factorial',['factorial',['../namespaceuncertainties_1_1umath.html#a2a8e3ea011d03af119ea7dc797c21dea',1,'uncertainties::umath']]],
+  ['factorial',['factorial',['../namespaceuncertainties_1_1umath__core.html#a6beb15d792b0319b902b422e2cf15ea3',1,'uncertainties::umath_core']]],
   ['fig',['fig',['../namespacelimit__collector.html#a6cdce24e6a3da334cc42fbbe983ea422',1,'limit_collector.fig()'],['../namespacemakePlots__BdtShiftLimits.html#ab208bec81b507f9754af3d07e3bbec1f',1,'makePlots_BdtShiftLimits.fig()'],['../namespacenFold__DiffScan.html#a8bc00017084cc22e3df3a6893f118ddb',1,'nFold_DiffScan.fig()'],['../namespaceplot__AUC__1D.html#aa295093d148c5857a3ce87a7830b4938',1,'plot_AUC_1D.fig()'],['../namespaceplot__AUC__2D.html#ac218e424cb5d1ff10449c96acacdaeed',1,'plot_AUC_2D.fig()'],['../namespacesignificance__2d.html#ad90ff385689d4bb32a6a292048276cdc',1,'significance_2d.fig()'],['../namespacesignificance__collector.html#a37510ea92d5db6191ae712f10ce78dd6',1,'significance_collector.fig()']]],
   ['fig2',['fig2',['../namespaceplot__AUC__2D.html#ac5dce2cc4c19287218d1d47cb84043c1',1,'plot_AUC_2D']]],
   ['file',['file',['../namespacemakePlots__datacardsCPStudies__projection.html#abb621eafb51f795c870ae4075e2b4660',1,'makePlots_datacardsCPStudies_projection']]],
@@ -47,7 +47,7 @@ var searchData=
   ['fittedtau2eratio',['fittedTau2ERatio',['../classSvfitResults.html#a94a0917e8fac0662ad460800b77aa71e',1,'SvfitResults']]],
   ['fittedtau2lv',['fittedTau2LV',['../classSvfitResults.html#ad1b5371d1ebf4c5cc04c029f280a46cb',1,'SvfitResults']]],
   ['fittedtransversemass',['fittedTransverseMass',['../classSvfitResults.html#a0da3be281513b44ba678f0402b0bdf1d',1,'SvfitResults']]],
-  ['fixed_5fderivatives',['fixed_derivatives',['../namespaceuncertainties_1_1umath.html#a321ff97728fa817645c35f8c0ac8bf3d',1,'uncertainties::umath']]],
+  ['fixed_5fderivatives',['fixed_derivatives',['../namespaceuncertainties_1_1umath__core.html#aa43ad7c676eb9ec7613f37250352febf',1,'uncertainties::umath_core']]],
   ['flag',['flag',['../namespaceread__datacardshapes.html#a0e4cfe9c02ad84fbac04fd595ae18a9b',1,'read_datacardshapes']]],
   ['folder',['folder',['../namespacemakePlots__shapeUncertainties.html#ac646837cf6a3361b63d06630ad54848d',1,'makePlots_shapeUncertainties']]],
   ['folder1',['folder1',['../namespacemakePlots__syncPlots.html#a962af31f64817591ab87a2fbd36c5c52',1,'makePlots_syncPlots']]],
@@ -65,13 +65,12 @@ var searchData=
   ['fqqincluded',['fqqIncluded',['../classhiggsmodels_1_1TwoHypotesisHiggs.html#a946d0521afa00b2df53ad93d492451c4',1,'higgsmodels::TwoHypotesisHiggs']]],
   ['fqqrange',['fqqRange',['../classhiggsmodels_1_1TwoHypotesisHiggs.html#a79a78da09a5d7d1dbcc8c899eef57f52',1,'higgsmodels::TwoHypotesisHiggs']]],
   ['freeze',['freeze',['../namespacemakePlots__datacardsSMHtt__limitProjection.html#a0bc9aaf26ae1bbcd8b8d477b769c76fc',1,'makePlots_datacardsSMHtt_limitProjection']]],
-  ['frexp',['frexp',['../namespaceuncertainties_1_1umath.html#aeb1ce5ade74a5446c8766c0a6a913d8a',1,'uncertainties::umath']]],
   ['front',['front',['../namespacetmvaWrapper.html#abb612b3e51147d807a32a91d94271e54',1,'tmvaWrapper']]],
-  ['fsum',['fsum',['../namespaceuncertainties_1_1umath.html#aa4188ef815a5e4b345fb777ea0a7302d',1,'uncertainties::umath']]],
+  ['fsum',['fsum',['../namespaceuncertainties_1_1umath__core.html#a5838094fea7fdb092c86186b145517db',1,'uncertainties::umath_core']]],
   ['full_5ferror_5fchange',['full_error_change',['../namespacelimit__collector.html#a83a829453c6c8606c48be6dbc8cf74ef',1,'limit_collector']]],
   ['full_5fpath',['full_path',['../namespacemvaCategory__Shifts.html#a06c3985eaa2fc25c686379f8e0ba6b66',1,'mvaCategory_Shifts.full_path()'],['../namespacemvaCategory__Uncertainties.html#aef908cc223d86b553222b0e6c2e9ae27',1,'mvaCategory_Uncertainties.full_path()']]],
   ['full_5fy_5fdown',['full_y_down',['../namespacemakePlots__BdtShiftLimits.html#abdd23f9e6bd80300db4113994cd8321a',1,'makePlots_BdtShiftLimits']]],
   ['full_5fy_5fup',['full_y_up',['../namespacemakePlots__BdtShiftLimits.html#ab63c3f4f33c27e8bdbe33871535cd62e',1,'makePlots_BdtShiftLimits']]],
   ['full_5fy_5fvalues',['full_y_values',['../namespacemakePlots__BdtShiftLimits.html#a56373414268903f30cd5a1eb1ecd9d6c',1,'makePlots_BdtShiftLimits']]],
-  ['func',['func',['../namespaceuncertainties_1_1umath.html#a1d3d7480de2e4f6724b9d90d613f0bab',1,'uncertainties::umath']]]
+  ['func',['func',['../namespaceuncertainties_1_1umath__core.html#a263736a4d3c23f9157ffcb9435612ddb',1,'uncertainties::umath_core']]]
 ];

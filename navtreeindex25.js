@@ -1,10 +1,5 @@
 var NAVTREEINDEX25 =
 {
-"plot__BDTSeparation_8py.html#aac5633c0decf029722af5d215d4bbe42":[2,0,2,84,12],
-"plot__BDTSeparation_8py.html#ab1466213c6eabd3e1cb09de2e0a2860c":[2,0,2,84,0],
-"plot__BDTSeparation_8py.html#ab3312fbb6f4b5b4fedde951ecbb212ee":[2,0,2,84,18],
-"plot__BDTSeparation_8py.html#ab827c1353479d9991c0c6dc9f7a54234":[2,0,2,84,9],
-"plot__BDTSeparation_8py.html#abcbd6dde152695178c6a44dcac5bc6ef":[2,0,2,84,3],
 "plot__BDTSeparation_8py.html#ac7942c5cd0cf47bcc44ef4f27ee12830":[2,0,2,84,20],
 "plot__BDTSeparation_8py.html#ae3ec4390803156cbd31867034bfa7eba":[2,0,2,84,22],
 "plot__BDTSeparation_8py.html#aead2c1544e1ccffc47945f5ed0945fef":[2,0,2,84,1],
@@ -249,5 +244,10 @@ var NAVTREEINDEX25 =
 "settingsMuonID_8py.html":[2,0,1,0,1,0,8],
 "settingsMuonID_8py.html#a3e000cf6325ec8b4930c4d9b658fd25c":[2,0,1,0,1,0,8,1],
 "settingsSampleStitchingWeights_8py.html":[2,0,1,0,0,4],
-"settingsSampleStitchingWeights_8py.html#ae927b66212597356021033b0180d4332":[2,0,1,0,0,4,1]
+"settingsSampleStitchingWeights_8py.html#ae927b66212597356021033b0180d4332":[2,0,1,0,0,4,1],
+"settingsSvfit_8py.html":[2,0,1,0,1,0,9],
+"settingsSvfit_8py.html#a83b7e22cd5d31a594f4b0161f9b762fe":[2,0,1,0,1,0,9,1],
+"settingsTauES_8py.html":[2,0,1,0,1,0,10],
+"settingsTauES_8py.html#a96f98bf519eda39914ae1ad3c517706f":[2,0,1,0,1,0,10,1],
+"settingsTauID_8py.html":[2,0,1,0,1,0,11]
 };

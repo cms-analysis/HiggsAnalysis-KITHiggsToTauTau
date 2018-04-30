@@ -2,7 +2,9 @@ var searchData=
 [
   ['1to2',['1to2',['../namespaceuncertainties_1_11to2.html',1,'uncertainties']]],
   ['core',['core',['../namespaceuncertainties_1_1unumpy_1_1core.html',1,'uncertainties::unumpy']]],
+  ['core',['core',['../namespaceuncertainties_1_1core.html',1,'uncertainties']]],
   ['fix_5fstd_5fdev',['fix_std_dev',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__std__dev.html',1,'uncertainties::lib1to2::fixes']]],
+  ['fix_5fstd_5fdevs',['fix_std_devs',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__std__devs.html',1,'uncertainties::lib1to2::fixes']]],
   ['fix_5fuarray_5fumatrix',['fix_uarray_umatrix',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__uarray__umatrix.html',1,'uncertainties::lib1to2::fixes']]],
   ['fix_5fufloat',['fix_ufloat',['../namespaceuncertainties_1_1lib1to2_1_1fixes_1_1fix__ufloat.html',1,'uncertainties::lib1to2::fixes']]],
   ['fixes',['fixes',['../namespaceuncertainties_1_1lib1to2_1_1fixes.html',1,'uncertainties::lib1to2']]],
@@ -14,6 +16,7 @@ var searchData=
   ['test_5funumpy',['test_unumpy',['../namespaceuncertainties_1_1unumpy_1_1test__unumpy.html',1,'uncertainties::unumpy']]],
   ['ulinalg',['ulinalg',['../namespaceuncertainties_1_1unumpy_1_1ulinalg.html',1,'uncertainties::unumpy']]],
   ['umath',['umath',['../namespaceuncertainties_1_1umath.html',1,'uncertainties']]],
+  ['umath_5fcore',['umath_core',['../namespaceuncertainties_1_1umath__core.html',1,'uncertainties']]],
   ['uncertainties',['uncertainties',['../namespaceuncertainties.html',1,'']]],
   ['unrolltwodhistogram',['unrolltwodhistogram',['../namespaceunrolltwodhistogram.html',1,'']]],
   ['unumpy',['unumpy',['../namespaceuncertainties_1_1unumpy.html',1,'uncertainties']]]

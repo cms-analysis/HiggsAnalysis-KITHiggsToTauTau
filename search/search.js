@@ -16,8 +16,7 @@ var indexSectionsWithContent =
   6: "defhmprs",
   7: "cdejmpstv",
   8: "abcdefhiklmnpqrstuv",
-  9: "n",
-  10: "nw"
+  9: "nw"
 };
 
 var indexSectionNames =
@@ -31,8 +30,7 @@ var indexSectionNames =
   6: "typedefs",
   7: "enums",
   8: "enumvalues",
-  9: "properties",
-  10: "defines"
+  9: "defines"
 };
 
 function convertToId(search)

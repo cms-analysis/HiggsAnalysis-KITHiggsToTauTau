@@ -79,7 +79,6 @@ var searchData=
   ['stable_5foptions',['stable_options',['../classdatacards_1_1Datacards.html#a297c854b26b5f7f9b82ca7bb7e3175ed',1,'datacards::Datacards']]],
   ['stack',['stack',['../classembedding__plot__classes_1_1single__plotline.html#a2f8ac6672a24eeb3f478faec01d4c906',1,'embedding_plot_classes::single_plotline']]],
   ['stacked',['stacked',['../classembedding__plot__classes_1_1single__plot.html#a9d25cb83a98268965033819a1f842201',1,'embedding_plot_classes::single_plot']]],
-  ['std_5fdevs',['std_devs',['../classuncertainties_1_1unumpy_1_1core_1_1matrix.html#aa9281f3447ed02e430374aa50250a36c',1,'uncertainties::unumpy::core::matrix']]],
   ['step',['step',['../namespacecutOptimizer.html#a0df6ae87fcdfdaf3226463b7f9ca9b1b',1,'cutOptimizer']]],
   ['storage_5fname_5fextension',['storage_name_extension',['../namespacecorrelation__plotter.html#a2ccc04d302022e44a4be13d20103b39c',1,'correlation_plotter.storage_name_extension()'],['../namespacecorrelation__SampleProducer.html#aa799a4723b9b630247cb95e15b0aa27f',1,'correlation_SampleProducer.storage_name_extension()']]],
   ['store_5ffile',['store_file',['../namespacecorrelation__plotter.html#a6bffda87140fba7045810784b4d676cb',1,'correlation_plotter']]],

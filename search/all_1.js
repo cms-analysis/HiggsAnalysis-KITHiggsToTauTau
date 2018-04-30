@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['_5f_5fall_5f_5f',['__all__',['../namespaceuncertainties_1_1umath.html#af6eb0590ff0a8fa4a8079fa1ac776d1b',1,'uncertainties.umath.__all__()'],['../namespaceuncertainties_1_1unumpy.html#a402f84c3cd8844868ef114f91a77c017',1,'uncertainties.unumpy.__all__()'],['../namespaceuncertainties_1_1unumpy_1_1core.html#a6a7774c1680c2ce315bab2098fef818d',1,'uncertainties.unumpy.core.__all__()'],['../namespaceuncertainties_1_1unumpy_1_1ulinalg.html#ae2f67a2e70922d02e5ba2a3771f20a0c',1,'uncertainties.unumpy.ulinalg.__all__()']]],
+  ['_5f_5fall_5f_5f',['__all__',['../namespaceuncertainties_1_1umath__core.html#a2f5825ea0c9dd3f14994c9c47e5576cd',1,'uncertainties.umath_core.__all__()'],['../namespaceuncertainties_1_1unumpy.html#a402f84c3cd8844868ef114f91a77c017',1,'uncertainties.unumpy.__all__()'],['../namespaceuncertainties_1_1unumpy_1_1core.html#a6a7774c1680c2ce315bab2098fef818d',1,'uncertainties.unumpy.core.__all__()'],['../namespaceuncertainties_1_1unumpy_1_1ulinalg.html#ae2f67a2e70922d02e5ba2a3771f20a0c',1,'uncertainties.unumpy.ulinalg.__all__()']]],
+  ['_5f_5fauthor_5f_5f',['__author__',['../namespaceuncertainties.html#a25f5070f31b977b6d4a6fe2b9e498763',1,'uncertainties']]],
   ['_5f_5fbase_5f_5f',['__base__',['../classConfigMaster_1_1ConfigMaster.html#a88fb4df0acd0ed6e6242ac795cd1f00d',1,'ConfigMaster::ConfigMaster']]],
-  ['_5f_5fcall_5f_5f',['__call__',['../classtools_1_1PoissonYield.html#adc4a757ea8ab09083d6fdd2af747d3a7',1,'tools::PoissonYield']]],
+  ['_5f_5fcall_5f_5f',['__call__',['../classtools_1_1PoissonYield.html#adc4a757ea8ab09083d6fdd2af747d3a7',1,'tools.PoissonYield.__call__()'],['../classuncertainties_1_1unumpy_1_1core_1_1CallableStdDevs.html#a4744f3dfe7b2299a86d0b6beec7c6d5b',1,'uncertainties.unumpy.core.CallableStdDevs.__call__()']]],
   ['_5f_5fcontrolplot_5f_5f',['__controlplot__',['../classConfigMaster_1_1ConfigMaster.html#a6ca9fda917bbfe469e2004c84a24a45b',1,'ConfigMaster::ConfigMaster']]],
   ['_5f_5fcutflowplot_5f_5f',['__cutflowplot__',['../classConfigMaster_1_1ConfigMaster.html#a449d843a9adc66a5c1903e6214fcd74e',1,'ConfigMaster::ConfigMaster']]],
   ['_5f_5fdatacard_5f_5f',['__datacard__',['../classConfigMaster_1_1ConfigMaster.html#ac761aaa12a23b5e0bdd85a2ce311280c',1,'ConfigMaster::ConfigMaster']]],
@@ -16,8 +17,11 @@ var searchData=
   ['_5f_5finit_5f_5f_2epy',['__init__.py',['../lib1to2_2____init_____8py.html',1,'']]],
   ['_5f_5finit_5f_5f_2epy',['__init__.py',['../lib1to2_2fixes_2____init_____8py.html',1,'']]],
   ['_5f_5flimitplot_5f_5f',['__limitplot__',['../classConfigMaster_1_1ConfigMaster.html#a27607017401983ebd7a79827f3ec2a38',1,'ConfigMaster::ConfigMaster']]],
+  ['_5f_5fnew_5f_5f',['__new__',['../classuncertainties_1_1unumpy_1_1core_1_1CallableStdDevs.html#a9d524436bb82045dca3ac74f4d4a6037',1,'uncertainties::unumpy::core::CallableStdDevs']]],
   ['_5f_5fratio_5f_5f',['__ratio__',['../classConfigMaster_1_1ConfigMaster.html#aa8e2b7e2e03b2d0635d7193ef90abb07',1,'ConfigMaster::ConfigMaster']]],
   ['_5f_5frmul_5f_5f',['__rmul__',['../classuncertainties_1_1unumpy_1_1core_1_1matrix.html#a9f818a97ddca516c476e0eab3c717bd0',1,'uncertainties::unumpy::core::matrix']]],
   ['_5f_5fshapeplot_5f_5f',['__shapeplot__',['../classConfigMaster_1_1ConfigMaster.html#af85c32e2187b29627e3c873f3e3f733a',1,'ConfigMaster::ConfigMaster']]],
-  ['_5f_5fsumofhists_5f_5f',['__sumofhists__',['../classConfigMaster_1_1ConfigMaster.html#a045cdf698b278e24cddd6ff928407f95',1,'ConfigMaster::ConfigMaster']]]
+  ['_5f_5fsumofhists_5f_5f',['__sumofhists__',['../classConfigMaster_1_1ConfigMaster.html#a045cdf698b278e24cddd6ff928407f95',1,'ConfigMaster::ConfigMaster']]],
+  ['_5f_5fversion_5f_5f',['__version__',['../namespaceuncertainties.html#a3dcd5a9c50f5b23a38bbdb63cbdaae7d',1,'uncertainties']]],
+  ['_5f_5fversion_5finfo_5f_5f',['__version_info__',['../namespaceuncertainties.html#ad2c249eeb9c878339d61584a78141c66',1,'uncertainties']]]
 ];
