@@ -13,7 +13,7 @@ var searchData=
   ['opt_5ftest',['opt_test',['../namespacecutOptimizer.html#acc23ca8c9e16a89e94b20ed55fc2d462',1,'cutOptimizer']]],
   ['optimize',['optimize',['../classcutOptimizer_1_1CutOptimizer.html#a395ab82dbaed44b1f419a5756da74307',1,'cutOptimizer.CutOptimizer.optimize()'],['../namespacecutOptimizer.html#a68b8105b2d8528d92767cd878e4d5e83',1,'cutOptimizer.optimize()']]],
   ['order_5fprocessors',['order_processors',['../classprocessorOrdering_1_1processors__ordered.html#acd9f33f0b3bfebc78a436d472f27b338',1,'processorOrdering::processors_ordered']]],
-  ['original_5ffunc',['original_func',['../namespaceuncertainties_1_1umath__core.html#a4c8eff58f0bab9091652253186322aed',1,'uncertainties::umath_core']]],
+  ['original_5ffunc',['original_func',['../namespaceuncertainties_1_1umath.html#a8a436a155e859e9f800694a1df06bb7e',1,'uncertainties::umath']]],
   ['out_5ffile_5fname',['out_file_name',['../classcreate__file__list__from__gfal__embedded__test_1_1gfal__filelist.html#a80f9138e2a7947e18a6dd4936d0dc174',1,'create_file_list_from_gfal_embedded_test::gfal_filelist']]],
   ['out_5fjson',['out_json',['../classembedding__plot__classes_1_1single__plot.html#a8ee261bc153c68953d55c33006ea6046',1,'embedding_plot_classes::single_plot']]],
   ['out_5fpath',['out_path',['../namespacecorrelation__SampleCollector.html#a3d1562520561f6e3bd192af4b779e19a',1,'correlation_SampleCollector.out_path()'],['../namespacecorrelation__TProfilePlots.html#a97c203e678f86ebeb6c408bed438b54c',1,'correlation_TProfilePlots.out_path()']]],

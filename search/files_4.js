@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['calcqcdostossfactor_2epy',['calcQcdOStoSSfactor.py',['../calcQcdOStoSSfactor_8py.html',1,'']]],
   ['categories_2epy',['categories.py',['../categories_8py.html',1,'']]],
   ['checkoutscriptshelper_2epy',['checkoutScriptsHelper.py',['../checkoutScriptsHelper_8py.html',1,'']]],
   ['colors_2epy',['colors.py',['../colors_8py.html',1,'']]],
@@ -7,7 +8,6 @@ var searchData=
   ['configmaster_2epy',['ConfigMaster.py',['../ConfigMaster_8py.html',1,'']]],
   ['convertefficienciestoartusrootinput_2epy',['convertEfficienciesToArtusRootInput.py',['../convertEfficienciesToArtusRootInput_8py.html',1,'']]],
   ['core_2epy',['core.py',['../core_8py.html',1,'']]],
-  ['core_2epy',['core.py',['../unumpy_2core_8py.html',1,'']]],
   ['correctionfactorstoroot_5fantielectrondiscrfakerateweights_2epy',['correctionFactorsToRoot_antiElectronDiscrFakeRateWeights.py',['../correctionFactorsToRoot__antiElectronDiscrFakeRateWeights_8py.html',1,'']]],
   ['correctionfactorstoroot_5fidentificationweights_5fdata2015d_5fspring15dr74simulation_5fmuon_5fmediumid_2epy',['correctionFactorsToRoot_identificationWeights_Data2015D_Spring15DR74Simulation_muon_MediumID.py',['../correctionFactorsToRoot__identificationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID_8py.html',1,'']]],
   ['correctionfactorstoroot_5fisolationweights_5fdata2015d_5fspring15dr74simulation_5fmuon_5fmediumid_5floosereliso_2epy',['correctionFactorsToRoot_isolationWeights_Data2015D_Spring15DR74Simulation_muon_MediumID_LooseRelIso.py',['../correctionFactorsToRoot__isolationWeights__Data2015D__Spring15DR74Simulation__muon__MediumID__LooseRelIso_8py.html',1,'']]],

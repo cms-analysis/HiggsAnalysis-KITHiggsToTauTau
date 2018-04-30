@@ -7,6 +7,7 @@ var searchData=
   ['mt',['MT',['../classHttEnumTypes.html#a0fb4207a735c30ed7ed157d42aacde18a08ad08f6491037714d09263a79bebfba',1,'HttEnumTypes']]],
   ['multiply_5fweights',['MULTIPLY_WEIGHTS',['../classHttEnumTypes.html#adf3f4912e509a8cdd20b30cc92e37bfba22c4ab424229e88dd4f6870cd918c034',1,'HttEnumTypes']]],
   ['mvabased2015andlater',['MVABASED2015ANDLATER',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca1b7670e88dd35ad75e1fa3c09789408f',1,'HttValidElectronsProducer']]],
+  ['mvabased2017andlater',['MVABASED2017ANDLATER',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca7d7272688c399a8f23ae78d2ef8482e6',1,'HttValidElectronsProducer']]],
   ['mvanontrig',['MVANONTRIG',['../classTagAndProbeElectronPairProducer.html#a1c437ddc1588d32c3020189cbff2272fa18a7fe73c2775796793bdcd65d76d069',1,'TagAndProbeElectronPairProducer']]],
   ['mvatrig',['MVATRIG',['../classTagAndProbeElectronPairProducer.html#a1c437ddc1588d32c3020189cbff2272fada4dcc9043efd2360b74cd5bf8754c0e',1,'TagAndProbeElectronPairProducer']]]
 ];
