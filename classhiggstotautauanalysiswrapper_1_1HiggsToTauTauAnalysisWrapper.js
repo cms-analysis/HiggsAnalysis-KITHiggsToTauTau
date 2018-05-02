@@ -3,7 +3,6 @@ var classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper =
     [ "__init__", "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a89d0f3598555d48c3baf8dc13b7be8c6", null ],
     [ "create_channels_systematics", "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a32a0de0394e8017724252a47969a935f", null ],
     [ "create_pipelines", "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#af5c386c164cfff7ee6a804634e61e939", null ],
-    [ "createEpilogArguments", "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a1fb58010351e0acb8419fe3a4da63cbf", null ],
     [ "expandConfig_python", "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#ac3d1e01ac6d58e20bb746d08223dc8d5", null ],
     [ "include_config_files", "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#af857f65053d84aa03317cac8d8a0610f", null ],
     [ "modify_replacing_dict", "classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#aee74fd014114862ee96715d88a53019f", null ],

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['calcqcdostossfactor_2epy',['calcQcdOStoSSfactor.py',['../calcQcdOStoSSfactor_8py.html',1,'']]],
   ['categories_2epy',['categories.py',['../categories_8py.html',1,'']]],
   ['checkoutscriptshelper_2epy',['checkoutScriptsHelper.py',['../checkoutScriptsHelper_8py.html',1,'']]],
   ['colors_2epy',['colors.py',['../colors_8py.html',1,'']]],

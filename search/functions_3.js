@@ -59,7 +59,6 @@ var searchData=
   ['create_5fztt_5fsummary',['create_ztt_summary',['../namespacescaleVariations__latexTables.html#a0e312e6eeef237169e1862fa5c36535f',1,'scaleVariations_latexTables']]],
   ['createbranches',['CreateBranches',['../classSvfitEventKey.html#a29b6a06e4503052c4460277b9a97168d',1,'SvfitEventKey::CreateBranches()'],['../classSvfitInputs.html#a0620e8f725be08d3097a5cebb90adf0b',1,'SvfitInputs::CreateBranches()'],['../classSvfitResults.html#ad4822dc697bd45db7b7aa76c00ebd8e1',1,'SvfitResults::CreateBranches()']]],
   ['createconsumer',['createConsumer',['../classHttFactory.html#a5de496e354133732b209062e224ebf9f',1,'HttFactory']]],
-  ['createepilogarguments',['createEpilogArguments',['../classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a1fb58010351e0acb8419fe3a4da63cbf',1,'higgstotautauanalysiswrapper::HiggsToTauTauAnalysisWrapper']]],
   ['createfilter',['createFilter',['../classHttFactory.html#a67a1f724bd23197f6c03bb2ecee45e0a',1,'HttFactory']]],
   ['createhistogram',['createHistogram',['../classPhiCPSVfitQuantity.html#acc1119e4bd748364f1c3942be329e6ae',1,'PhiCPSVfitQuantity::createHistogram()'],['../classPhiStarCPSVfitQuantity.html#ae5940e1c0bdf5a582d9d651b12e292e0',1,'PhiStarCPSVfitQuantity::createHistogram()']]],
   ['createproducer',['createProducer',['../classHttFactory.html#a7534ea6a4c650c35f40b6b6912383acc',1,'HttFactory']]],
