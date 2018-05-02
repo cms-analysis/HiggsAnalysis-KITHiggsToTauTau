@@ -254,7 +254,7 @@ class et_ArtusConfig(dict):
 				"nAllDiTauPairCandidates"
 			]
 
-		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):	 #the same as tt
+		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):	 #the same as tt
 			
 			quantities_dict["Quantities"] += quantities_dict.genQuantities()
 			
@@ -262,7 +262,7 @@ class et_ArtusConfig(dict):
 					"tauSpinnerPolarisation"
 			]
 
-		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
+		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 			
 			quantities_dict["Quantities"] += [
 				"#tauPolarisationTMVA",
@@ -319,7 +319,7 @@ class et_ArtusConfig(dict):
 				"producer:DiJetQuantitiesProducer",
 				]
 		
-		if re.search("(Spring16|Summer16|Run2016)", nickname):
+		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17)", nickname):
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
@@ -327,7 +327,7 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 			
-			if re.search("Run2016", nickname):
+			if re.search("Run2016|Run2017", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						
 				self["Processors"] += ["producer:SimpleFitProducer"]
@@ -369,7 +369,7 @@ class et_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
 			
-					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += ["producer:ZPtReweightProducer"]			
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
@@ -378,7 +378,7 @@ class et_ArtusConfig(dict):
 
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
-					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
+					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += [
 							"producer:TopPtReweightingProducer"
 						] 
