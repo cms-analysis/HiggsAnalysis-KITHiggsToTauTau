@@ -6,7 +6,7 @@ var classCPQuantities_1_1quantities =
     [ "genHiggsQuantities", "classCPQuantities_1_1quantities.html#a85bdb53647b8017b4287ba9b8684da42", null ],
     [ "genMatchedCPQuantities", "classCPQuantities_1_1quantities.html#a91b307ce3f455cd1147b838057fa2a4b", null ],
     [ "genQuantities", "classCPQuantities_1_1quantities.html#a25a7c311245753a7edd7edce81f803bd", null ],
-    [ "genQuantitiesLFV", "classCPQuantities_1_1quantities.html#a74e85f921220d626a0f90f2d6438de82", null ],
+    [ "genQuantitiesZ", "classCPQuantities_1_1quantities.html#a80480fdc7fea851e84f84ba51391bea6", null ],
     [ "melaQuantities", "classCPQuantities_1_1quantities.html#a321c3745d71721e07f2c1a83d46acb42", null ],
     [ "recoCPQuantities", "classCPQuantities_1_1quantities.html#aadf3d064e8be161bca30f9236f66e75f", null ],
     [ "recoCPQuantitiesHiggs", "classCPQuantities_1_1quantities.html#a84c521fbe14fab0a8c56581f81977296", null ],

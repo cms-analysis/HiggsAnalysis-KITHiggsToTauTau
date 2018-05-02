@@ -37,7 +37,7 @@ var searchData=
   ['genmmpaircandidatesproducer',['GenMMPairCandidatesProducer',['../classGenMMPairCandidatesProducer.html',1,'GenMMPairCandidatesProducer'],['../classGenMMPairCandidatesProducer.html#a0c154e49349caf99a6f2009f00eabadb',1,'GenMMPairCandidatesProducer::GenMMPairCandidatesProducer()']]],
   ['genmtpaircandidatesproducer',['GenMTPairCandidatesProducer',['../classGenMTPairCandidatesProducer.html',1,'GenMTPairCandidatesProducer'],['../classGenMTPairCandidatesProducer.html#a920fc9a8f0fa31de8bc71b7dc2be0e20',1,'GenMTPairCandidatesProducer::GenMTPairCandidatesProducer()']]],
   ['genquantities',['genQuantities',['../classCPQuantities_1_1quantities.html#a25a7c311245753a7edd7edce81f803bd',1,'CPQuantities::quantities']]],
-  ['genquantitieslfv',['genQuantitiesLFV',['../classCPQuantities_1_1quantities.html#a74e85f921220d626a0f90f2d6438de82',1,'CPQuantities::quantities']]],
+  ['genquantitiesz',['genQuantitiesZ',['../classCPQuantities_1_1quantities.html#a80480fdc7fea851e84f84ba51391bea6',1,'CPQuantities::quantities']]],
   ['gentaucpproducer',['GenTauCPProducer',['../classGenTauCPProducer.html',1,'']]],
   ['gentaucpproducerbase',['GenTauCPProducerBase',['../classGenTauCPProducerBase.html',1,'']]],
   ['gentaucpproducers_2ecc',['GenTauCPProducers.cc',['../GenTauCPProducers_8cc.html',1,'']]],
