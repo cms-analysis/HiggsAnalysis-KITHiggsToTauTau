@@ -35,7 +35,7 @@ class Electron_ID(dict):
 			self["ElectronIDType"] = "mvabased2017andlater"
 
 		elif re.search("(Run2017|Fall17)", nickname):
-			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values",
+			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"
 			self["ElectronMvaIDCutEB1"] = 0.9897
 			self["ElectronMvaIDCutEB2"] = 0.9819
 			self["ElectronMvaIDCutEE"] = 0.9625

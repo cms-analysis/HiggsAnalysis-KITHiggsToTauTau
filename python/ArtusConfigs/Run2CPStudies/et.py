@@ -325,7 +325,8 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
+				self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 			
 			if re.search("Run2016|Run2017", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
