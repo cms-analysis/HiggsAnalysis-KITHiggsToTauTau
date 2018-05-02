@@ -381,16 +381,6 @@ class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
 		
 		return exitCode
 
-	def createEpilogArguments(self):
-		epilogArguments = ""
-		epilogArguments = super(HiggsToTauTauAnalysisWrapper, self).createEpilogArguments()
-
-		for grid_channel in self.channels_systematics.keys():
-			epilogArguments += r"--channels " + grid_channel + " "
-			epilogArguments += r"--systematics " + " ".join(self.channels_systematics[grid_channel]) + " "
-		epilogArguments += r"--study " + self._args.study + " "
-		return epilogArguments
-
 	def sendToBatchSystem(self):
 		self.createEpilogArguments
 		exitCode = super(HiggsToTauTauAnalysisWrapper, self).sendToBatchSystem()
