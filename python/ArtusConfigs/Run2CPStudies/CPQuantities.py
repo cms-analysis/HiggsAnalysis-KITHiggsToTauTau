@@ -24,8 +24,9 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.recoPolarisationQuantities() 	
 			
 		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
-			self["Quantities"] += self.svfitSyncQuantities()	 
-			self["Quantities"] += self.splitJecUncertaintyQuantities()
+			self["Quantities"] += self.svfitSyncQuantities()
+			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
+				self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoCPQuantities()
@@ -38,7 +39,8 @@ class quantities(run2_quantities.quantities):
 		
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()
-			self["Quantities"] += self.splitJecUncertaintyQuantities()
+			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
+				self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genHiggsQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
@@ -77,7 +79,8 @@ class quantities(run2_quantities.quantities):
 				self["Quantities"] += self.recoCPQuantities()
 		else:
 			self["Quantities"] += self.svfitSyncQuantities()
-			self["Quantities"] += self.splitJecUncertaintyQuantities()
+			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
+				self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
 			self["Quantities"] += self.recoPolarisationQuantities()
