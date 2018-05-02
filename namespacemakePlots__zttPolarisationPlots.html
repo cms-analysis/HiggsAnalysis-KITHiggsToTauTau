@@ -103,26 +103,28 @@ Variables</h2></td></tr>
 <tr class="separator:a60142b6ce7567dc0977cc60f9ac2a9f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85019337f8162806bf391f70693d9548"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a85019337f8162806bf391f70693d9548">help</a> = &quot;Input directory.&quot;</td></tr>
 <tr class="separator:a85019337f8162806bf391f70693d9548"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34211b67244b79fb0548bcea332be5a8"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a34211b67244b79fb0548bcea332be5a8">default</a> = [&quot;tt&quot;, &quot;mt&quot;, &quot;et&quot;]</td></tr>
+<tr class="memitem:a34211b67244b79fb0548bcea332be5a8"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a34211b67244b79fb0548bcea332be5a8">default</a> = [&quot;zttpospol&quot;, &quot;zttnegpol&quot;]</td></tr>
 <tr class="separator:a34211b67244b79fb0548bcea332be5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af69cff8f9679bd373e2d5683eb9ca45c"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#af69cff8f9679bd373e2d5683eb9ca45c">args</a> = parser.parse_args()</td></tr>
 <tr class="separator:af69cff8f9679bd373e2d5683eb9ca45c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31b26033389ab2238b4a27e44f71b3e6"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a31b26033389ab2238b4a27e44f71b3e6">list_of_samples</a> = [getattr(samples.Samples, sample) for sample in args.samples]</td></tr>
+<tr class="separator:a31b26033389ab2238b4a27e44f71b3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab502f19dcbd0ee97bcc8ea95d2b1d78e"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#ab502f19dcbd0ee97bcc8ea95d2b1d78e">sample_settings</a> = samples.Samples()</td></tr>
 <tr class="separator:ab502f19dcbd0ee97bcc8ea95d2b1d78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a983003ecef5eabf7617791fee97b10e5"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a983003ecef5eabf7617791fee97b10e5">binnings_settings</a> = <a class="el" href="classbinnings_1_1BinningsDict.html">binnings.BinningsDict</a>()</td></tr>
-<tr class="separator:a983003ecef5eabf7617791fee97b10e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad04c2bee3d5db7447670be5fa89f1527"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#ad04c2bee3d5db7447670be5fa89f1527">bkg_samples</a> = [sample for sample in args.samples if sample not in [&quot;data&quot;, &quot;htt&quot;, &quot;ggh&quot;, &quot;qqh&quot;, &quot;vh&quot;]]</td></tr>
+<tr class="separator:ad04c2bee3d5db7447670be5fa89f1527"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d8b1e1fd9c7eaf49ae77bcf90888271"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a7d8b1e1fd9c7eaf49ae77bcf90888271">labels_settings</a> = <a class="el" href="classlabels_1_1LabelsDict.html">labels.LabelsDict</a>(latex_version=&quot;root&quot;)</td></tr>
+<tr class="separator:a7d8b1e1fd9c7eaf49ae77bcf90888271"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba411311ba433669deb596f73f6b636a"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#aba411311ba433669deb596f73f6b636a">plot_configs</a> = []</td></tr>
 <tr class="separator:aba411311ba433669deb596f73f6b636a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46a25c4694ff3640779af884ca82e505"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a46a25c4694ff3640779af884ca82e505">category</a> = None</td></tr>
 <tr class="separator:a46a25c4694ff3640779af884ca82e505"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9375d736ef2f3119c18bba1d8c670e5"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#ab9375d736ef2f3119c18bba1d8c670e5">config_unpolarisation</a></td></tr>
-<tr class="separator:ab9375d736ef2f3119c18bba1d8c670e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31b26033389ab2238b4a27e44f71b3e6"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a31b26033389ab2238b4a27e44f71b3e6">list_of_samples</a> = [&quot;zttpospol&quot;, &quot;zttnegpol&quot;, &quot;zll&quot;, &quot;ttj&quot;, &quot;vv&quot;, &quot;wj&quot;, &quot;qcd&quot;, &quot;data&quot;]</td></tr>
-<tr class="separator:a31b26033389ab2238b4a27e44f71b3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43bd18130063faeaed08c87f0f7c45d9"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a43bd18130063faeaed08c87f0f7c45d9">asimov_nicks</a> = copy.deepcopy(<a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a31b26033389ab2238b4a27e44f71b3e6">list_of_samples</a>[:-1])</td></tr>
-<tr class="separator:a43bd18130063faeaed08c87f0f7c45d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac749e6f0ace99f76919c5131ff3dd003"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#ac749e6f0ace99f76919c5131ff3dd003">config_integral</a></td></tr>
-<tr class="separator:ac749e6f0ace99f76919c5131ff3dd003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12c80adfe06e8574cf840e73107fcf7c"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a12c80adfe06e8574cf840e73107fcf7c">pt_cut_values</a> = [float(pt_cut) for pt_cut in pt_cut_values.split()]</td></tr>
+<tr class="separator:a12c80adfe06e8574cf840e73107fcf7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01f67daf060c4ba5ca71eabf07d4ad71"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a01f67daf060c4ba5ca71eabf07d4ad71">pt_cut_weights</a> = [pt_cut_expression.format(pt_cut=pt_cut) for pt_cut in <a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a12c80adfe06e8574cf840e73107fcf7c">pt_cut_values</a>]</td></tr>
+<tr class="separator:a01f67daf060c4ba5ca71eabf07d4ad71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b3b6fb7d4fca3a2dd90ae97dc9a3564"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a8b3b6fb7d4fca3a2dd90ae97dc9a3564">config</a></td></tr>
+<tr class="separator:a8b3b6fb7d4fca3a2dd90ae97dc9a3564"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Variable Documentation</h2>
 <a class="anchor" id="af69cff8f9679bd373e2d5683eb9ca45c"></a>
@@ -137,24 +139,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a43bd18130063faeaed08c87f0f7c45d9"></a>
+<a class="anchor" id="ad04c2bee3d5db7447670be5fa89f1527"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tuple makePlots_zttPolarisationPlots.asimov_nicks = copy.deepcopy(<a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a31b26033389ab2238b4a27e44f71b3e6">list_of_samples</a>[:-1])</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a983003ecef5eabf7617791fee97b10e5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">tuple makePlots_zttPolarisationPlots.binnings_settings = <a class="el" href="classbinnings_1_1BinningsDict.html">binnings.BinningsDict</a>()</td>
+          <td class="memname">list makePlots_zttPolarisationPlots.bkg_samples = [sample for sample in args.samples if sample not in [&quot;data&quot;, &quot;htt&quot;, &quot;ggh&quot;, &quot;qqh&quot;, &quot;vh&quot;]]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -173,53 +163,30 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac749e6f0ace99f76919c5131ff3dd003"></a>
+<a class="anchor" id="a8b3b6fb7d4fca3a2dd90ae97dc9a3564"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tuple makePlots_zttPolarisationPlots.config_integral</td>
+          <td class="memname">tuple makePlots_zttPolarisationPlots.config</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacemakePlots__zttPolarisationPlots.html">    1</a></span>&#160;= sample_settings.get_config(</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                                                samples=[getattr(samples.Samples, sample) <span class="keywordflow">for</span> sample <span class="keywordflow">in</span> list_of_samples],</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                                                samples=list_of_samples,</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;                                                no_ewkz_as_dy=<span class="keyword">True</span>,</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                                                channel=channel,</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                                category=<span class="stringliteral">&quot;catZttPol13TeV_{channel}_{category}&quot;</span>.format(channel=channel, category=category) <span class="keywordflow">if</span> category <span class="keywordflow">else</span> <span class="keywordtype">None</span>,</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                                cut_type=<span class="stringliteral">&quot;smhtt2016&quot;</span>, <span class="comment"># baseline_low_mvis2016</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                                lumi = args.lumi * 1000,</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                                exclude_cuts=[],</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                                estimationMethod=<span class="stringliteral">&quot;new&quot;</span>,</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                                polarisation_bias_correction=polarisation_bias_correction,</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                                asimov_nicks=asimov_nicks</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                )</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a class="anchor" id="ab9375d736ef2f3119c18bba1d8c670e5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">tuple makePlots_zttPolarisationPlots.config_unpolarisation</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacemakePlots__zttPolarisationPlots.html">    1</a></span>&#160;= sample_settings.get_config(</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                                                samples=[getattr(samples.Samples, sample) <span class="keywordflow">for</span> sample <span class="keywordflow">in</span> [<span class="stringliteral">&quot;zttpospol&quot;</span>, <span class="stringliteral">&quot;zttnegpol&quot;</span>]],</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;                                                no_ewkz_as_dy=<span class="keyword">True</span>,</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                                                channel=channel,</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                                category=<span class="stringliteral">&quot;catZttPol13TeV_{channel}_{category}&quot;</span>.format(channel=channel, category=category) <span class="keywordflow">if</span> category <span class="keywordflow">else</span> <span class="keywordtype">None</span>,</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                                cut_type=<span class="stringliteral">&quot;smhtt2016&quot;</span>, <span class="comment"># baseline_low_mvis2016</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                                lumi = args.lumi * 1000,</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                                exclude_cuts=[],</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                                estimationMethod=<span class="stringliteral">&quot;new&quot;</span>,</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                                polarisation_bias_correction=polarisation_bias_correction,</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                                polarisation_gen_ztt_plots=<span class="keyword">True</span>,</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                                nick_suffix=<span class="stringliteral">&quot;_noplot&quot;</span>,</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                                                no_plot=<span class="keyword">True</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                                )</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                                weight=<span class="stringliteral">&quot;isZTT&quot;</span>,</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                                lumi = args.lumi * 1000,</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                                exclude_cuts=[],</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                                estimationMethod=<span class="stringliteral">&quot;new&quot;</span>,</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                                polarisation_bias_correction=polarisation_bias_correction,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                                polarisation_gen_ztt_plots=<span class="keyword">True</span>,</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                                                nick_suffix=<span class="stringliteral">&quot;_noplot&quot;</span>,</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                                                no_plot=<span class="keyword">True</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                                )</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -228,7 +195,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string makePlots_zttPolarisationPlots.default = [&quot;tt&quot;, &quot;mt&quot;, &quot;et&quot;]</td>
+          <td class="memname">string makePlots_zttPolarisationPlots.default = [&quot;zttpospol&quot;, &quot;zttnegpol&quot;]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -247,12 +214,24 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a7d8b1e1fd9c7eaf49ae77bcf90888271"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple makePlots_zttPolarisationPlots.labels_settings = <a class="el" href="classlabels_1_1LabelsDict.html">labels.LabelsDict</a>(latex_version=&quot;root&quot;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a31b26033389ab2238b4a27e44f71b3e6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">list makePlots_zttPolarisationPlots.list_of_samples = [&quot;zttpospol&quot;, &quot;zttnegpol&quot;, &quot;zll&quot;, &quot;ttj&quot;, &quot;vv&quot;, &quot;wj&quot;, &quot;qcd&quot;, &quot;data&quot;]</td>
+          <td class="memname">list makePlots_zttPolarisationPlots.list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -291,6 +270,30 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">list makePlots_zttPolarisationPlots.plot_configs = []</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a12c80adfe06e8574cf840e73107fcf7c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">list makePlots_zttPolarisationPlots.pt_cut_values = [float(pt_cut) for pt_cut in pt_cut_values.split()]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a01f67daf060c4ba5ca71eabf07d4ad71"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">list makePlots_zttPolarisationPlots.pt_cut_weights = [pt_cut_expression.format(pt_cut=pt_cut) for pt_cut in <a class="el" href="namespacemakePlots__zttPolarisationPlots.html#a12c80adfe06e8574cf840e73107fcf7c">pt_cut_values</a>]</td>
         </tr>
       </table>
 </div><div class="memdoc">
