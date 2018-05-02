@@ -23,7 +23,7 @@ class quantities(run2_quantities.quantities):
 		if re.search("Run2015", nickname):  					
 			self["Quantities"] += self.recoPolarisationQuantities() 	
 			
-		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()	 
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
@@ -36,7 +36,7 @@ class quantities(run2_quantities.quantities):
 				self["Quantities"] += iq.SingleTauQuantities()	
 			
 		
-		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
+		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
