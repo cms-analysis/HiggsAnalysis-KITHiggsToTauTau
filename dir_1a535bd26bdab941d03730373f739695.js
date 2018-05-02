@@ -1,5 +1,6 @@
 var dir_1a535bd26bdab941d03730373f739695 =
 [
+    [ "calcQcdOStoSSfactor.py", "calcQcdOStoSSfactor_8py.html", "calcQcdOStoSSfactor_8py" ],
     [ "cphypotheses.py", "cphypotheses_8py.html", "cphypotheses_8py" ],
     [ "estimatebase.py", "estimatebase_8py.html", "estimatebase_8py" ],
     [ "estimateff.py", "estimateff_8py.html", "estimateff_8py" ],
