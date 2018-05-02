@@ -27,5 +27,5 @@ var searchData=
   ['execcommands',['execCommands',['../namespacecheckoutScriptsHelper.html#a7d54b6dd6b8d341ad07b09e2143d0db9',1,'checkoutScriptsHelper']]],
   ['expandconfig_5fpython',['expandConfig_python',['../classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#ac3d1e01ac6d58e20bb746d08223dc8d5',1,'higgstotautauanalysiswrapper::HiggsToTauTauAnalysisWrapper']]],
   ['extract_5fshapes',['extract_shapes',['../classdatacards_1_1Datacards.html#aa579d1a02ff5430711d7d8797bc1e7e4',1,'datacards.Datacards.extract_shapes()'],['../classmvadatacards__base_1_1Datacards.html#a30a92f812697f8cdd8b882a76f63be0b',1,'mvadatacards_base.Datacards.extract_shapes()']]],
-  ['extratauquantities',['ExtraTauQuantities',['../classRun2Quantities_1_1quantities.html#ac54ed73e16006aa2942337c10fbd2953',1,'Run2Quantities.quantities.ExtraTauQuantities()'],['../namespaceRun2Quantities.html#a22d3fd93b375142e5c255735015d2f0e',1,'Run2Quantities.ExtraTauQuantities()']]]
+  ['extratauquantities',['ExtraTauQuantities',['../classRun2Quantities_1_1quantities.html#ac54ed73e16006aa2942337c10fbd2953',1,'Run2Quantities::quantities']]]
 ];

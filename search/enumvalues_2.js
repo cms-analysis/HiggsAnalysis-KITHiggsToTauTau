@@ -14,13 +14,5 @@ var searchData=
   ['cutbased2016noisocutsloose',['CUTBASED2016NOISOCUTSLOOSE',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca3a99ab169270faa4e6fc9f846917a92f',1,'HttValidElectronsProducer']]],
   ['cutbased2016noisocutsmedium',['CUTBASED2016NOISOCUTSMEDIUM',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca076b05b6fe1f288dc81580a0255467fb',1,'HttValidElectronsProducer']]],
   ['cutbased2016noisocutstight',['CUTBASED2016NOISOCUTSTIGHT',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045caf8fda2e26a1d334afedb7324ea5c1875',1,'HttValidElectronsProducer']]],
-  ['cutbased2016noisocutsveto',['CUTBASED2016NOISOCUTSVETO',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca079a8a2f2ce5128b7320c787abd6a127',1,'HttValidElectronsProducer']]],
-  ['cutbased2017isocutsloose',['CUTBASED2017ISOCUTSLOOSE',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045cae5c259b4c18ea74d27a7b800d8f4f563',1,'HttValidElectronsProducer']]],
-  ['cutbased2017isocutsmedium',['CUTBASED2017ISOCUTSMEDIUM',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045caf4ad250be79a4569f5c8c39055c771a3',1,'HttValidElectronsProducer']]],
-  ['cutbased2017isocutstight',['CUTBASED2017ISOCUTSTIGHT',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045caef1b719ebca6d23ca3e507a26f646c91',1,'HttValidElectronsProducer']]],
-  ['cutbased2017isocutsveto',['CUTBASED2017ISOCUTSVETO',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045cadbd64c2a5b5485e0e75f846414fbc821',1,'HttValidElectronsProducer']]],
-  ['cutbased2017noisocutsloose',['CUTBASED2017NOISOCUTSLOOSE',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca9cb72f60440ac8fae61742850a018beb',1,'HttValidElectronsProducer']]],
-  ['cutbased2017noisocutsmedium',['CUTBASED2017NOISOCUTSMEDIUM',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045caf58602b46c60156fa4b837541f86bc84',1,'HttValidElectronsProducer']]],
-  ['cutbased2017noisocutstight',['CUTBASED2017NOISOCUTSTIGHT',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca0c1d41f65374fb6f2326d36cefb16abf',1,'HttValidElectronsProducer']]],
-  ['cutbased2017noisocutsveto',['CUTBASED2017NOISOCUTSVETO',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca6ce972e2b152875933008000ae0dc454',1,'HttValidElectronsProducer']]]
+  ['cutbased2016noisocutsveto',['CUTBASED2016NOISOCUTSVETO',['../classHttValidElectronsProducer.html#ac661ed386e1e2988ff91831a50af045ca079a8a2f2ce5128b7320c787abd6a127',1,'HttValidElectronsProducer']]]
 ];

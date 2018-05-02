@@ -1,6 +1,5 @@
 var dir_cd281a8e7644a0c57b9a732f9fb0e89a =
 [
-    [ "Run2Quantities.py", "Includes_2Run2Quantities_8py.html", "Includes_2Run2Quantities_8py" ],
     [ "settingsBTaggedJetID.py", "settingsBTaggedJetID_8py.html", "settingsBTaggedJetID_8py" ],
     [ "settingsElectronID.py", "settingsElectronID_8py.html", "settingsElectronID_8py" ],
     [ "settingsJEC.py", "settingsJEC_8py.html", "settingsJEC_8py" ],
