@@ -73,6 +73,7 @@ git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # polarisation
 git clone git@github.com:TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
+git clone git@github.com:TauPolSoftware/CalibrationCurve.git TauPolSoftware/CalibrationCurve
 
 # MadGraph
 git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
