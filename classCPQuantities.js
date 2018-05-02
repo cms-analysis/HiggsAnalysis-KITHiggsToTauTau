@@ -1,5 +1,6 @@
 var classCPQuantities =
 [
+    [ "quantities", "classCPQuantities_1_1quantities.html", "classCPQuantities_1_1quantities" ],
     [ "CalculateChargedHadronEnergy", "classCPQuantities.html#af2aecefa85b7f167105e077382c9c6d0", null ],
     [ "CalculateChargedProngEnergy", "classCPQuantities.html#ac5089fe60e10d6185702deab951d9d90", null ],
     [ "CalculateChargedProngEnergyApprox", "classCPQuantities.html#a89656a406f278bdda8cadea631bee6aa", null ],
@@ -42,5 +43,6 @@ var classCPQuantities =
     [ "GetRecoPhiStarPlus_combmeth", "classCPQuantities.html#ad6191fe1db7ec30e112691e597df7f94", null ],
     [ "GetRecoPhiStarPlus_ipmeth", "classCPQuantities.html#ae5905f63f2322191867a9f1e14d03f50", null ],
     [ "GetRecoPhiStarPlus_rhometh", "classCPQuantities.html#a2ba643fd325b374685f0c7f78093e244", null ],
-    [ "PhiTransform", "classCPQuantities.html#a5e9cd0d191719349777eb5d8b5bc919c", null ]
+    [ "PhiTransform", "classCPQuantities.html#a5e9cd0d191719349777eb5d8b5bc919c", null ],
+    [ "log", "classCPQuantities.html#a471e81871848e60e824e02e538dac5e3", null ]
 ];
