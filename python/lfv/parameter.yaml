@@ -58,14 +58,14 @@
 - "(pZetaMissVis{side}{cut})"
 
 8:
-- "abs(d0_refitPV_1)"
+- "abs(d0_refitPV_1/errD0_refitPV_1)"
 - ["30,0,0.03"]
 - "ImpactParameter1"
 - "|d_{0}(l_{1})| [cm]"
 - "(abs(d0_refitPV_1){side}{cut})"
 
 9:
-- "abs(d0_refitPV_2)"
+- "abs(d0_refitPV_2/errD0_refitPV_2)"
 - ["30,0,0.03"]
 - "ImpactParameter2"
 - "|d_{0}(l_{2})| [cm]"
@@ -113,10 +113,52 @@
 - "pt_1"
 - ["30,0,120"]
 - "TransverseMomentum1"
-- "p_T(l_{1})"
+- "p_T(l_{1} [GeV])"
 
 17:
-- ["limit_exp:limit_exp-two_sigma_down:two_sigma_up-limit_exp", "limit_exp:limit_exp-one_sigma_down:one_sigma_up-limit_exp", "limit_exp", "limit_old", "limit_obs"]
+- "acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2))"
+- ["30"]
+- "DeltaPhiL1L2"
+- "#Delta#phi(l_{1}, l_{2}) [rad]"
+
+18:
+- "metphi"
+- ["30"]
+- "MetPhi"
+- "#phi(#slash{E}_{T}) [rad]"
+
+19:
+- "acos(cos(phi_1)*cos(metphi) + sin(phi_1)*sin(metphi))"
+- ["30"]
+- "DeltaPhiMetL1"
+- "#Delta#phi(#slash{E}_{T}, l_{1}) [rad]"
+
+20:
+- "acos(cos(phi_2)*cos(metphi) + sin(phi_2)*sin(metphi))"
+- ["30"]
+- "DeltaPhiMetL2"
+- "#Delta#phi(#slash{E}_{T}, l_{2}) [rad]"
+
+21:
+- "BDT_score"
+- ["30"]
+- "BDTScore"
+- "BDT score"
+
+22:
+- "BDT2_score"
+- ["30"]
+- "BDT2Score"
+- "BDT score"
+
+23:
+- "BDT3_score"
+- ["30"]
+- "BDT3Score"
+- "BDT score"
+
+30:
+- ["categories"]
 - ["1,1,1"]
 - "limit"
-- "95% CL Limit on BR(Z#rightarrowLFV)"
+- "categories"

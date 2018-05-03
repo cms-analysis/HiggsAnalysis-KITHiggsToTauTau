@@ -47,13 +47,13 @@ class gen_ArtusConfig(dict):
 
 		if re.search("DY.?JetsToLL",nickname):
 			quantities_dict["Quantities"] += quantities_dict.genQuantities()
-			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
+			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()
+			quantities_dict["Quantities"] += quantities_dict.genQuantitiesZ()
 			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]			
 
 		elif re.search("LFV",nickname):
 			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
-			quantities_dict["Quantities"] += quantities_dict.genQuantitiesLFV()
-			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
+			quantities_dict["Quantities"] += quantities_dict.genQuantitiesZ()
 
 		elif re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
 			quantities_dict["Quantities"] += quantities_dict.genQuantities()

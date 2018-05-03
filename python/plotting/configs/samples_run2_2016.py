@@ -812,7 +812,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_bin_corrections(config, "zmt", nick_suffix)
 		
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)
 		
 		return config
 
@@ -845,7 +845,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_bin_corrections(config, "zet", nick_suffix)		
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zet"), nick_suffix)
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zet"), nick_suffix)
 		
 		return config
 
@@ -858,7 +858,7 @@ class Samples(samples.SamplesBase):
 		branching_ratio = "7.3e-7" # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"
 		jet_integral_weight = "1/1.03"
 		files_weight = "1/10.0"
-		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
+		cross_section_weight = "3.0" #"(0.03363+0.03366+0.0337)/(0.0337)"
 
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
@@ -878,7 +878,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_bin_corrections(config, "zem", nick_suffix)
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zem"), nick_suffix)
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zem"), nick_suffix)
 		
 		return config
 

@@ -28,6 +28,7 @@ class quantities(run2_quantities.quantities):
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
 				self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
+			self["Quantities"] += self.genQuantitiesZ()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
@@ -71,7 +72,7 @@ class quantities(run2_quantities.quantities):
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
-			self["Quantities"] += self.genQuantitiesLFV()
+			self["Quantities"] += self.genQuantitiesZ()
 			if kwargs.get("channel", None) == "MT" or kwargs.get("channel", None) == "ET":
 				self["Quantities"] += iq.SingleTauQuantities()	#until here
 				self["Quantities"] += self.recoCPQuantities()
@@ -451,7 +452,7 @@ class quantities(run2_quantities.quantities):
 			"npartons"
 		]
 
-	def genQuantitiesLFV(self, *args, **kwargs):
+	def genQuantitiesZ(self, *args, **kwargs):
 		return [
 			"genBosonLV",
 			"genBosonParticleFound",
@@ -489,6 +490,12 @@ class quantities(run2_quantities.quantities):
 			"isZem",
 			"isZmm",
 			"isZee",
+			"lheZBosonProductionMode",
+			"lheZfromUUbar",
+			"lheZfromDDbar",
+			"lheZfromCCbar",
+			"lheZfromSSbar",
+			"lheZfromBBbar",
 			"lheDiLeptonDecayMode",
 			"lheZtoEE",
 			"lheZtoMM",

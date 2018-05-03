@@ -15,7 +15,7 @@ class LFVDatacards(datacards.Datacards):
 			###Define all background processes for each channel
 
 			backgrounds = {
-					"em": ["ZTT", "ZLL", "EWKZ", "TT", "VV", "hww_gg125", "hww_qq125", "W", "QCD"],
+					"em": ["ZTT", "ZLL", "EWKZ", "TT", "VV", "W", "QCD"],
 					"et": ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"],
 					"mt": ["ZTT", "ZL", "ZJ", "EWKZ", "TTT", "TTJJ", "VV", "W", "QCD"]
 			}

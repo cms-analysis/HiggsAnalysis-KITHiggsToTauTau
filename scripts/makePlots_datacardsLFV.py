@@ -5,6 +5,7 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
+from multiprocessing import Pool,  cpu_count
 import argparse
 import copy
 import os
@@ -24,6 +25,9 @@ import HiggsAnalysis.KITHiggsToTauTau.lfv.ConfigMaster as configmaster
 def _call_command(command):
 	log.debug(command)
 	logger.subprocessCall(command, shell=True)
+
+def harry_do_your_job(config):
+	higgsplot.HiggsPlotter(list_of_config_dicts=[config], n_plots = 1)
 
 if __name__ == "__main__":
 
@@ -53,6 +57,8 @@ if __name__ == "__main__":
 						help="Use rate parameter to estimate ZTT normalization from ZMM. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=True,
 	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	parser.add_argument("--use-BDT-as-cut", action = "store_true", default = False, help = "Use BDT score as cut")
+	parser.add_argument("--batch", action = "store_true", default = False, help = "Use BDT score as cut")
 
 
 	args = parser.parse_args()
@@ -112,10 +118,18 @@ if __name__ == "__main__":
 			tmp_output_files = []
 
 			#Weight for the category saved in cut ini files
-			if not "CR" in category:
-				cut_strings = [parameter_info[param][4] for param in cut_info[categories[category][0]][channel].keys()]
-				cut_values, cut_side = [[entry[index] for entry in cut_info[categories[category][0]][channel].values()] for index in [0,1]]
-				weight = "*".join([cut_strings[index].format(side = side, cut = value) for index, (side, value) in enumerate(zip(cut_side, cut_values))] + [categories[category][1]])
+			if not "CR" in category and args.quantity == "m_vis":
+				if not args.use_BDT_as_cut:
+					cut_strings = [parameter_info[param][4] for param in cut_info[categories[category][0]][channel].keys()]
+					cut_values, cut_side = [[entry[index] for entry in cut_info[categories[category][0]][channel].values()] for index in [0,1]]
+					weight = "*".join([cut_strings[index].format(side = side, cut = value) for index, (side, value) in enumerate(zip(cut_side, cut_values))] + [categories[category][1]])
+				
+				else:
+					weight = "BDT2_score > 0.0"
+
+			##Weight if BDT score is used for stastical anaylsis
+			elif args.quantity == "BDT3_score":
+				weight = categories[category][1]
 
 			##Weight for control region
 			else:
@@ -149,7 +163,7 @@ if __name__ == "__main__":
 							True,
 							"",
 							[args.quantity],
-							["30,40,130"],
+							["30,40,130"] if args.quantity == "m_vis" else ["20,0,0.2"], #Binning for m_vis or BDT_score
 							tmp_input_root_filename_template.replace("$", "").format(ANALYSIS="LFV", CHANNEL = channel, BIN= category,SYSTEMATIC=systematic, ERA="13TeV"),		
 							"",
 							False,
@@ -204,11 +218,22 @@ if __name__ == "__main__":
 			os.remove(output_file_iterator)
 	output_files = list(set(output_files))
 
+	
 	# create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes= 1, n_plots=len(plot_configs), batch = "rwthcondor")
-	if args.n_plots[0] != 0:
-		tools.parallelize(_call_command, hadd_commands, n_processes=1)
+	if not args.batch:
+		pool = Pool(cpu_count())
 
+		for config in plot_configs:
+			pool.apply_async(harry_do_your_job, args = (config,))
+
+		pool.close()
+		pool.join()
+		
+	else:
+		# create input histograms with HarryPlotter
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes= 1, n_plots=len(plot_configs), batch = "rwthcondor")
+
+	tools.parallelize(_call_command, hadd_commands, n_processes=1)
 	
 	datacards.extract_shapes(os.path.join(args.output_dir, input_root_filename_template.replace("$", "")), bkg_histogram_name_template, sig_histogram_name_template, bkg_syst_histogram_name_template, sig_syst_histogram_name_template, update_systematics=True)
 
