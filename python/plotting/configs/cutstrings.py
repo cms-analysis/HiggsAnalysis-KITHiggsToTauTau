@@ -132,13 +132,8 @@ class CutStringsDict:
 	@staticmethod
 	def lfv(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
-		
-		if channel == "em":
-			cuts["mt"] = "mt_2 < 50"
-		elif channel == "et":
-			cuts["mt"] = "mt_2 < 60"
-		elif channel == "mt":
-			cuts["mt"] = "mt_2 < 105"
+		#cuts["nbtag"] = "nbtag==0"
+		#cuts["mt"] = ""
 			
 		return cuts
 			
@@ -658,7 +653,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.ztt2015cs(channel, cut_type)
 
 		elif cut_type=="lfv":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.lfv(channel, cut_type)
 
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
