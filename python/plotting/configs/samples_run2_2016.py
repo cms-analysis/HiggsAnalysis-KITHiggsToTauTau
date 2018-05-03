@@ -404,28 +404,37 @@ class Samples(samples.SamplesBase):
 		return reminiaod_files
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
-		if exclude_cuts is None:
-			exclude_cuts = []
 
-		scale_factor = 1.0
-		if not self.postfit_scales is None:
-			scale_factor *= self.postfit_scales.get("data_obs", 1.0)
-		data_weight = "(1.0)"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
+		asimov_nicks = kwargs.get("asimov_nicks", [])
+		if len(asimov_nicks) == 0:
+			if exclude_cuts is None:
+				exclude_cuts = []
 
-		Samples._add_input(
-				config,
-				self.files_data(channel),
-				self.root_file_folder(channel),
-				1.0,
-				make_multiplication([data_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)]),
-				"data",
-				nick_suffix=nick_suffix
-		)
+			scale_factor = 1.0
+			if not self.postfit_scales is None:
+				scale_factor *= self.postfit_scales.get("data_obs", 1.0)
+			data_weight = "(1.0)"
+			if kwargs.get("project_to_lumi", False):
+				data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
+			
+			Samples._add_input(
+					config,
+					self.files_data(channel),
+					self.root_file_folder(channel),
+					1.0,
+					make_multiplication([data_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)]),
+					"data",
+					nick_suffix=nick_suffix
+			)
+		else:
+			if not "AddHistograms" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("AddHistograms")
+			config.setdefault("add_nicks", []).append(" ".join(asimov_nicks))
+			config.setdefault("add_result_nicks", []).append("data"+nick_suffix)
+			config.setdefault("nicks_whitelist", []).extend(["^((?!(data|noplot)).)*$", "data"])
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
+			Samples._add_plot(config, "data", "E", "ELP", "data" if len(asimov_nicks) == 0 else "asimov", nick_suffix)
 
 		return config
 
@@ -506,11 +515,12 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		polarisation_weight = "tauSpinnerPolarisation>=0.0"
-		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), "pospol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
-		
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
+		
+		name = "pospol"+("_noplot" if polarisation_bias_correction else "")
+		polarisation_weight = "tauSpinnerPolarisation>=0.0"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
 		
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			Samples._add_input(
@@ -519,15 +529,16 @@ class Samples(samples.SamplesBase):
 					"gen/ntuple",
 					1.0,
 					"isZTT*(%s)" % polarisation_weight,
-					"zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot"),
+					"gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot"),
 					nick_suffix=nick_suffix
 			)
 		
 		if polarisation_bias_correction:
 			if not "NormalizeForPolarisation" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
-			config.setdefault("ztt_pos_pol_gen_nicks", []).extend(["zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
-			config.setdefault("ztt_pos_pol_reco_nicks", []).extend(["zttpospol"+nick_suffix, "zttpospol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_pos_pol_gen_nicks", []).extend(["gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
+			config.setdefault("ztt_pos_pol_reco_nicks", []).extend(["ztt"+name+nick_suffix, "gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_pos_pol_reco_result_nicks", []).extend(["zttpospol"+nick_suffix, "gen_zttpospol"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 		
 		if polarisation_gen_ztt_plots:
 			Samples._add_plot(config, "gen", "HIST", "F", "zttpospol", nick_suffix)
@@ -535,11 +546,12 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def zttnegpol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		polarisation_weight = "tauSpinnerPolarisation<0.0"
-		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), "negpol"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
-		
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
+		
+		name = "negpol"+("_noplot" if polarisation_bias_correction else "")
+		polarisation_weight = "tauSpinnerPolarisation<0.0"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
 		
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			Samples._add_input(
@@ -548,15 +560,16 @@ class Samples(samples.SamplesBase):
 					"gen/ntuple",
 					1.0,
 					"isZTT*(%s)" % polarisation_weight,
-					"zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot"),
+					"gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot"),
 					nick_suffix=nick_suffix
 			)
 		
 		if polarisation_bias_correction:
 			if not "NormalizeForPolarisation" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
-			config.setdefault("ztt_neg_pol_gen_nicks", []).extend(["zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
-			config.setdefault("ztt_neg_pol_reco_nicks", []).extend(["zttnegpol"+nick_suffix, "zttnegpol_gen"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_neg_pol_gen_nicks", []).extend(["gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
+			config.setdefault("ztt_neg_pol_reco_nicks", []).extend(["ztt"+name+nick_suffix, "gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			config.setdefault("ztt_neg_pol_reco_result_nicks", []).extend(["zttnegpol"+nick_suffix, "gen_zttnegpol"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 		
 		if polarisation_gen_ztt_plots:
 			Samples._add_plot(config, "gen", "HIST", "F", "zttnegpol", nick_suffix)
@@ -798,7 +811,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_bin_corrections(config, "zmt", nick_suffix)
 		
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)
 		
 		return config
 
@@ -831,7 +844,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_bin_corrections(config, "zet", nick_suffix)		
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zet"), nick_suffix)
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zet"), nick_suffix)
 		
 		return config
 
@@ -844,7 +857,7 @@ class Samples(samples.SamplesBase):
 		branching_ratio = "7.3e-7" # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"
 		jet_integral_weight = "1/1.03"
 		files_weight = "1/10.0"
-		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
+		cross_section_weight = "3.0" #"(0.03363+0.03366+0.0337)/(0.0337)"
 
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
@@ -864,7 +877,7 @@ class Samples(samples.SamplesBase):
 		Samples._add_bin_corrections(config, "zem", nick_suffix)
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zem"), nick_suffix)
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zem"), nick_suffix)
 		
 		return config
 

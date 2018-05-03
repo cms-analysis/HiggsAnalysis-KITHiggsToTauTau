@@ -93,7 +93,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZttPol13TeV_"+channel+"_a1_1"] = "(decayMode_1 == 10)"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_a1_2"] = "(decayMode_2 == 10)"
 
-			self.expressions_dict["testZttPol13TeV_"+channel+"_a1"] = "(((decayMode_1 == 10) * polarisationOmegabarSvfit_1) + ((decayMode_1 != 10) * polarisationOmegabarSvfit_2))"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_a1"] = "(((decayMode_1 == 10) * polarisationOmegaBarSvfit_1) + ((decayMode_1 != 10) * polarisationOmegaBarSvfit_2))"
 			self.expressions_dict["testZttPol13TeV_"+channel+"_a1_1"] = "polarisationOmegaBarSvfit_1"
 			self.expressions_dict["testZttPol13TeV_"+channel+"_a1_2"] = "polarisationOmegaBarSvfit_2"
 
@@ -101,7 +101,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho_1"] = "((decayMode_1 != 10) * (decayMode_1 == 1) * (decayMode_2 != 1))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_rho_2"] = "((decayMode_2 != 10) * (decayMode_2 == 1) * (decayMode_1 != 1))"
 
-			self.expressions_dict["testZttPol13TeV_"+channel+"_rho"] = "(((decayMode_1 == 1) * polarisationOmegabarSvfit_1) + ((decayMode_1 != 1) * polarisationOmegabarSvfit_2))"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_rho"] = "(((decayMode_1 == 1) * polarisationOmegaBarSvfit_1) + ((decayMode_1 != 1) * polarisationOmegaBarSvfit_2))"
 			self.expressions_dict["testZttPol13TeV_"+channel+"_rho_1"] = "polarisationOmegaBarSvfit_1"
 			self.expressions_dict["testZttPol13TeV_"+channel+"_rho_2"] = "polarisationOmegaBarSvfit_2"
 
@@ -109,7 +109,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong_1"] = "((decayMode_1 != 10) * (decayMode_1 != 1))"
 			self.expressions_dict["catZttPol13TeV_"+channel+"_oneprong_2"] = "((decayMode_2 != 10) * (decayMode_2 != 1))"
 
-			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong"] = "(((decayMode_1 != 10) *(decayMode_1 != 1) * polarisationOmegabarSvfit_1) + ((decayMode_2 != 10) *(decayMode_2 != 1) * polarisationOmegabarSvfit_2))"
+			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong"] = "(((decayMode_1 != 10) *(decayMode_1 != 1) * polarisationOmegaBarSvfit_1) + ((decayMode_2 != 10) *(decayMode_2 != 1) * polarisationOmegaBarSvfit_2))"
 			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong_1"] = "polarisationOmegaBarSvfit_1"
 			self.expressions_dict["testZttPol13TeV_"+channel+"_oneprong_2"] = "polarisationOmegaBarSvfit_2"
 

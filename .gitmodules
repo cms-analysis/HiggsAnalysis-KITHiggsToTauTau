@@ -1,0 +1,3 @@
+[submodule "python/uncertainties"]
+	path = python/uncertainties
+	url = https://github.com/lebigot/uncertainties.git

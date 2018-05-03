@@ -21,6 +21,7 @@ class CutStringsDict:
 		if channel == "mm":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
+
 			elif "smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type:
 				cuts["pt_1"] = "(pt_1 > 25.0)"
 				cuts["pt_2"] = "(pt_2 > 25.0)"
@@ -40,6 +41,7 @@ class CutStringsDict:
 		elif channel == "em" or channel == "ttbar":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_muonelectron == 1)"
+
 			elif "smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type and channel == "em":
 				cuts["bveto"] = "(nbtag == 0)"
 				cuts["pt_1"] = "(pt_1 > 13.0)"
@@ -55,6 +57,7 @@ class CutStringsDict:
 		elif channel == "mt":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
+
 			elif "smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type:
 				# trigger weights are saved as optional weights, and thus need to be applied here
 				cuts["trg"] = "((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23)+(trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23))"
@@ -70,6 +73,7 @@ class CutStringsDict:
 		elif channel == "et":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singleelectron == 1)"
+
 			elif "smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type:
 				cuts["pt_1"] = "(pt_1 > 25.0)"
 				cuts["pt_2"] = "(pt_2 > 30.0)"
@@ -83,6 +87,7 @@ class CutStringsDict:
 		elif channel == "tt":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_doubletau == 1)"
+
 			elif "smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type:
 				cuts["pt_1"] = "(pt_1 > 50.0)"
 				cuts["pt_2"] = "(pt_2 > 40.0)"
@@ -132,13 +137,8 @@ class CutStringsDict:
 	@staticmethod
 	def lfv(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
-		
-		if channel == "em":
-			cuts["mt"] = "mt_2 < 50"
-		elif channel == "et":
-			cuts["mt"] = "mt_2 < 60"
-		elif channel == "mt":
-			cuts["mt"] = "mt_2 < 105"
+		#cuts["nbtag"] = "nbtag==0"
+		#cuts["mt"] = ""
 			
 		return cuts
 			
@@ -687,7 +687,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.ztt2015cs(channel, cut_type)
 
 		elif cut_type=="lfv":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.lfv(channel, cut_type)
 
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)

@@ -36,13 +36,13 @@ def replace_observation_by_asimov_dataset(datacards, pol=-0.159, r=1.0):
 	negpol_signals = datacards.cb.cp().signals()
 	negpol_signals.FilterAll(lambda obj : ("negpol" not in obj.process().lower()))
 	
-	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 + pol))))
-	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 - pol))))
+	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 + pol) / 2.0)))
+	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 - pol) / 2.0)))
 	
 	datacards.replace_observation_by_asimov_dataset()
 	
-	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 + pol))))
-	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 - pol))))
+	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 + pol) / 2.0)))
+	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 - pol) / 2.0)))
 
 
 if __name__ == "__main__":
@@ -202,6 +202,11 @@ if __name__ == "__main__":
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
+				asimov_nicks = []
+				if args.use_asimov_dataset:
+					asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
+					if "data" in asimov_nicks:
+						asimov_nicks.remove("data")
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -225,7 +230,8 @@ if __name__ == "__main__":
 							polarisation_bias_correction=True,
 							cut_type="baseline_low_mvis",
 							no_ewk_samples = args.no_ewk_samples,
-							no_ewkz_as_dy = True
+							no_ewkz_as_dy = True,
+							asimov_nicks = asimov_nicks
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -234,17 +240,17 @@ if __name__ == "__main__":
 					
 					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 					
-					config["x_expressions"] = [("0" if "_gen" in nick else "testZttPol13TeV_"+category) for nick in config["nicks"]]
+					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "testZttPol13TeV_"+category) for nick in config["nicks"]]
 
 					binnings_key = "binningZttPol13TeV_"+category
 					if binnings_key in binnings_settings.binnings_dict:
-						config["x_bins"] = [("1,-1,1" if "_gen" in nick else binnings_key) for nick in config["nicks"]]
+						config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
 						
 					config["directories"] = [args.input_dir]
 					
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
-							PROCESS=datacards.configs.sample2process(sample),
+							PROCESS=datacards.configs.sample2process(sample.replace("asimov", "data")),
 							BIN=category,
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
@@ -342,7 +348,8 @@ if __name__ == "__main__":
 			if not asimov_polarisation is None:
 				replace_observation_by_asimov_dataset(datacards, asimov_polarisation, 1.0)
 			elif args.use_asimov_dataset:
-				replace_observation_by_asimov_dataset(datacards, -0.159, 1.0)
+				pass # done already in sample_settings.get_config(...)
+				# replace_observation_by_asimov_dataset(datacards, -0.159, 1.0)
 
 			if args.auto_rebin:
 				datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
@@ -404,7 +411,7 @@ if __name__ == "__main__":
 					datacards.pull_plots(
 							datacards_postfit_shapes,
 							s_fit_only=True,
-							plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args, "www" : www},
+							plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args.replace("--no-cache", ""), "www" : www},
 							n_processes=args.n_processes
 					)
 

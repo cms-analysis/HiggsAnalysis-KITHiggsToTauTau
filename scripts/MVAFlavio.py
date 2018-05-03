@@ -1,23 +1,31 @@
 #! /usr/bin/env python
 
 import ROOT
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.cutstrings as cuts 
 
-from multiprocessing import Pool
+from multiprocessing import Pool,  cpu_count
 import argparse
 import array
 from math import cos, sin, acos, fabs
 
 ##Define constants
+version = 2
 sample_dir = "/net/scratch_cms3b/brunner/artus/AllSamples/merged/"
 tree_name = "{channel}_nominal/ntuple"
 input_file = "$CMSSW_BASE/src/plots/FlavioOutput/MVA_trees_{sample_type}{cut_label}_{channel}.root"
-output_root = "$CMSSW_BASE/src/plots/FlavioOutput/output{cut_label}_{channel}.root"
+output_root = "$CMSSW_BASE/src/plots/FlavioOutput/output" + str(version) + "{cut_label}_{channel}.root"
 
 sig_list = ["zem"]
 bkg_list = ["ztt", "zll", "ttj", "vv", "wj"]
-parameter = ["deltaPhi_ll:= acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2))", "pt_1", "pt_2", "ptvis", "met", "pZetaMissVis", "m_vis", "mt_1", "mt_2"]
+parameter = ["deltaPhi_ll:= acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2))", "deltaPhi_l1met:= acos(cos(metphi)*cos(phi_1) + sin(metphi)*sin(phi_1))", "deltaPhi_l2met:= acos(cos(metphi)*cos(phi_2) + sin(metphi)*sin(phi_2))", "abs(d0_1)", "abs(d0_2)", "pt_1", "pt_2", "ptvis", "met", "mt_2"] #,"m_vis"]
+#parameter = ["deltaPhi_ll:= acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2))", "pt_1", "pt_2", "ptvis", "m_vis", "met"]
+
 user_def_parameter = {
 			0:	[lambda phi_1, phi_2: acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2)), ["phi_1", "phi_2"]],
+			1:	[lambda phi_1, phi_2: acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2)), ["metphi", "phi_1"]],
+			2:	[lambda phi_1, phi_2: acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2)), ["metphi", "phi_2"]],
+			3:	[lambda d0_1: abs(d0_1), ["d0_1"]],
+			4:	[lambda d0_2: abs(d0_2), ["d0_2"]],
 }
 	
 
@@ -27,7 +35,7 @@ def parser():
 
 	parser.add_argument("--create-input-trees", action = "store_true", default = False, help = "Do the splitting of background and signal samples into even and odd event number sample")
 	parser.add_argument("--training", action = "store_true", default = False, help = "Do the training on the background/signal samples")
-	parser.add_argument("--application", action = "store_true", default = False, help = "Use the trained BDT to apply on background/data and append it in the ROOT files")
+	parser.add_argument("--application", action = "store_true", default = False, help = "Use the trained BDT3 to apply on background/data and append it in the ROOT files")
 	parser.add_argument("--file-attach", action = "store", help = "Attach BDT score in ROOT File. Calling --application call this option for all files and submit it to the batch system.")
 	parser.add_argument("--results", action = "store", help = "Give .xml or .root output from TMVA to show results with the TMVA GUI")
 
@@ -88,7 +96,7 @@ def write_root_file(args):
 ##Do the training/evaluaton for the splitted samples for each channel
 def training():
 	##Config arguments for do_training function
-	pool = Pool(4)
+	pool = Pool(cpu_count())
 		
 	for channel in ["em", "et", "mt"]:
 		config_A = [channel, "A"]
@@ -133,7 +141,7 @@ def do_training(args):
 
 	##Create output file
 	output = ROOT.TFile(output_root.format(channel=channel, cut_label = cut_label), "RECREATE")
-	factory = ROOT.TMVA.Factory("BDT_" + channel + "_" + cut_label, output)
+	factory = ROOT.TMVA.Factory("BDT{version}_".format(version=version) + channel + "_" + cut_label, output)
 
 	##Add signal/background trees
 	factory.AddSignalTree(tree_sig_train, 1., "Training")
@@ -141,9 +149,16 @@ def do_training(args):
 	factory.AddBackgroundTree(tree_bkg_train, 1., "Training")
 	factory.AddBackgroundTree(tree_bkg_test, 1., "Testing")
 
+	##Get baseline selection	
+	weights = ""
+	
+	for index, weight in enumerate(cuts.CutStringsDict().baseline(channel, "").values()[1:]):
+		weights = weights + "*" if index != 0 else weights
+		weights += weight
+
 	##Set signal/background event weights
 	factory.SetSignalWeightExpression("jetCorrectionWeight")
-	factory.SetBackgroundWeightExpression( "" )
+	factory.SetBackgroundWeightExpression(weights)
 
 	##Add parameter for training
 	for param in parameter:
@@ -152,13 +167,11 @@ def do_training(args):
 	##Configure everything
 	sig_cut = ROOT.TCut("")
 	bkg_cut = ROOT.TCut("")
-	n_option = ROOT.TString("nTrain_Signal=4500:nTest_Signal=4500:nTrain_Background=4500:nTest_Background=4500:SplitMode=Random",) #ROOT.TString("")
-
-
+	n_option =  ROOT.TString("") #ROOT.TString("nTrain_Signal=100000:nTest_Signal=100000:nTrain_Background=100000:nTest_Background=100000:SplitMode=Random",)
+ 
 	factory.PrepareTrainingAndTestTree(sig_cut, bkg_cut, n_option)
 	factory.BookMethod(ROOT.TMVA.Types.kBDT, "BDT", "!H:!V:NTrees=500:MinNodeSize=2.5%:MaxDepth=10:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20")
-	#factory.BookMethod(ROOT.TMVA.Types.kKNN, "KNN", "H:nkNN=20:ScaleFrac=0.8:SigmaFact=1.0:Kernel=Gaus:UseKernel=F:UseWeight=T:!Trim")
-	#factory.BookMethod(ROOT.TMVA.Types.kMLP, "MLP", "H:!V:NeuronType=tanh:VarTransform=N:NCycles=600:HiddenLayers=N+5:TestRate=5:!UseRegulator")
+	#factory.BookMethod(ROOT.TMVA.Types.kMLP, "MLP", "H:!V:NeuronType=tanh:VarTransform=N:NCycles=500:HiddenLayers=N+10,N+2,N+2:TestRate=5:!UseRegulator:LearningRate=0.05:EstimatorType=CE")
 
 	##Run the training/evulation
 	factory.TrainAllMethods()
@@ -174,8 +187,7 @@ def application():
 	import ConfigParser
 	import os
 	from random import uniform
-	from pprint import pprint
-
+	
 	sample_settings = samples.Samples()
 	mc_list = []
 	mc_set = set()
@@ -192,35 +204,46 @@ def application():
 	##Write bash script for grid control
 
 	##Write config for grid control
-	seed = str(int(uniform(1, 10000)))
 
-	Config = ConfigParser.ConfigParser()
-	Config.optionxform = str
-	config_name = "config" + seed + ".cfg"
-	config = open(config_name, "w")
+	local = True
 
-	sections = ["global", "jobs", "UserTask", "parameters"]
-	entries = [
-			[("task", "UserTask"), ("backend", "condor"), ("cmdargs", "-c -G"), ("workdir create", True), ("workdir", "/tmp/Flavio_work" + seed), ("dataset", "dataset.file")],
-			[("wall time", "1:00"), ("max retry", 5)],
-			[("executable", "kappa.sh")],
-			[("parameters", "FILE_NAME"), ("FILE_NAME", " ".join(mc_list[0]))]
-	]
-
-	for section in sections: 	
-		Config.add_section(section)
-
-	for section, entry in zip(sections, entries):
-		for key, value in entry:
-			Config.set(section, key, value)
-
-	Config.write(config)
-	config.close()
-
-	#Send jobs to the batch system
-	os.system("go.py {config_name}".format(config_name = config_name))
-	os.system("rm config*.cfg")
+	if not local:
+		#Send jobs to the batch system
+		os.system("go.py {config_name}".format(config_name = config_name))
+		os.system("rm config*.cfg")
+		seed = str(int(uniform(1, 10000)))
 	
+		Config = ConfigParser.ConfigParser()
+		Config.optionxform = str
+		config_name = "config" + seed + ".cfg"
+		config = open(config_name, "w")
+
+		sections = ["global", "jobs", "UserTask", "parameters"]
+		entries = [
+				[("task", "UserTask"), ("backend", "condor"), ("cmdargs", "-c -G"), ("workdir create", True), ("workdir", "/tmp/Flavio_work" + seed)],
+				[("wall time", "1:00"), ("max retry", 5)],
+				[("executable", "kappa.sh")],
+				[("parameters", "FILE_NAME"), ("FILE_NAME", " ".join(mc_list))]
+		]
+	
+		for section in sections: 	
+			Config.add_section(section)
+
+		for section, entry in zip(sections, entries):
+			for key, value in entry:
+				Config.set(section, key, value)
+
+		Config.write(config)
+		config.close()
+	
+	else:
+		pool = Pool(cpu_count())
+
+		for filename in mc_list:
+			pool.apply_async(attach, args = (filename,))
+
+		pool.close()
+		pool.join()
 
 ##Function for attaching BDT score on root file
 def attach(file_name):
@@ -241,11 +264,11 @@ def attach(file_name):
 		reader.AddVariable(param, variable)
 
 	for channel in ["em", "et", "mt"]:
-		method_A = "BDT_A_{channel}".format(channel=channel)
-		method_B = "BDT_B_{channel}".format(channel=channel)
+		method_A = "BDT{version}_A_{channel}".format(channel=channel, version=version)
+		method_B = "BDT{version}_B_{channel}".format(channel=channel, version=version)
 		
-		reader.BookMVA(method_A, "/.automount/home/home__home2/institut_3b/brunner/analysis/master/CMSSW_8_1_0/src/weights/BDT_{channel}_A_BDT.weights.xml".format(channel = channel))
-		reader.BookMVA(method_B, "/.automount/home/home__home2/institut_3b/brunner/analysis/master/CMSSW_8_1_0/src/weights/BDT_{channel}_B_BDT.weights.xml".format(channel = channel))
+		reader.BookMVA(method_A, "/.automount/home/home__home2/institut_3b/brunner/analysis/master/CMSSW_8_1_0/src/weights/BDT{version}_{channel}_A_BDT.weights.xml".format(channel = channel, version=version))
+		reader.BookMVA(method_B, "/.automount/home/home__home2/institut_3b/brunner/analysis/master/CMSSW_8_1_0/src/weights/BDT{version}_{channel}_B_BDT.weights.xml".format(channel = channel, version=version))
 		
 		for key in list_of_keys:
 			if channel in key[:2]:
@@ -253,14 +276,14 @@ def attach(file_name):
 				tree = root_file.Get(key + "/ntuple")
 				print "Channel which is evaluated: {key}".format(key = key)
 	
-	
 				##Delete branch with BDT_score if already there
-				if tree.GetLeaf("BDT_score"):	
-					tree.GetListOfLeaves().Remove(tree.GetLeaf("BDT_score"))
-					tree.GetListOfBranches().Remove(tree.GetBranch("BDT_score"))
+				if tree.GetLeaf("BDT{version}_score".format(version=version)):	
+					tree.GetListOfLeaves().Remove(tree.GetLeaf("BDT{version}_score".format(version=version)))
+					tree.GetListOfBranches().Remove(tree.GetBranch("BDT{version}_score".format(version=version)))
 
 				##Create (new) branch for BDT_score and fill it
-				branch = tree.Branch("BDT_score", BDT_score, "BDT_score/F")
+				branch = tree.Branch("BDT{version}_score".format(version=version), BDT_score, "BDT{version}_score/F".format(version=version))
+				index = 0
 
 				for index, event in enumerate(tree):
 					for index2, (param, variable) in enumerate(zip(parameter, variables)):
@@ -269,8 +292,13 @@ def attach(file_name):
 							variable[0] = getattr(event, param)
 		
 						except AttributeError:
-							user_func, params = user_def_parameter[index2] 
-							variable[0] = user_func(*[getattr(event, param_string) for param_string in params]) 
+							user_func, params = user_def_parameter[index2]
+
+							try:
+								variable[0] = user_func(*[getattr(event, param_string) for param_string in params]) 
+							
+							except:
+								variable[0] = -999
 
 					##Get score for event/odd event and fill the branch
 					if event.event % 2 == 0:
@@ -288,6 +316,7 @@ def attach(file_name):
 				root_file.cd(key)
 				tree.Write("", ROOT.TObject.kOverwrite)
 				root_file.Close()
+				print "Number of events evaluated in total: {index}".format(index = index)
 				print "BDT score was sucessfully applied in tree: " + key + "/ntuple"
 
 

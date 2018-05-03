@@ -12,6 +12,7 @@ class Plotmodule():
 	cutflow_plot = 5
 	ratio = 6
 	limit = 7
+	blind = 8
 
 
 ### Class to create harry plotter configs for your special desire. All configs are safed as dictionaries and can be combined to the final config which is needed	
@@ -47,7 +48,8 @@ class ConfigMaster(object):
 					Plotmodule.datacard: 			self.__datacard__,
 					Plotmodule.cutflow_plot:		self.__cutflowplot__,
 					Plotmodule.ratio:			self.__ratio__,
-					Plotmodule.limit:			self.__limitplot__
+					Plotmodule.limit:			self.__limitplot__,
+					Plotmodule.blind:			self.__blind__
 		}
 
 	
@@ -147,7 +149,7 @@ class ConfigMaster(object):
 		
 		return self._cutflowplot
 
-	def __ratio__(self, ratio_numerator_nicks, ratio_denominator_nicks, ratio_result_nicks, analysis_modules, markers, stacks):
+	def __ratio__(self, ratio_numerator_nicks, ratio_denominator_nicks, ratio_result_nicks, analysis_modules, markers, stacks, y_subplot_lims):
 		
 		self._ratio = {
 					"ratio_numerator_nicks":	ratio_numerator_nicks, 
@@ -155,33 +157,45 @@ class ConfigMaster(object):
 					"ratio_result_nicks":		ratio_result_nicks, 
 					"analysis_modules":		analysis_modules,
 					"markers":			markers,
-					"stacks":			stacks
+					"stacks":			stacks,
+					"y_subplot_lims":		y_subplot_lims,
 		}
 
 		return self._ratio
 
 
-	def __limitplot__(self, y_label, files, folders, y_expressions, markers, colors, fill_styles, marker_styles, line_widths, tree_draw_options, y_tick_labels, nicks, y_lims, x_lims):
+	def __limitplot__(self, y_label, folders, y_expressions, markers, colors, marker_styles, line_widths, tree_draw_options, nicks, x_lims, y_lims, x_tick_labels, files):
 
 		self._limitplot = {
 					"y_label":			y_label,
-					"files":			files,
 					"folders":			folders,
 					"y_expressions":		y_expressions,
 					"markers":			markers,
 					"colors":			colors,
-					"fill_styles":			fill_styles,
 					"marker_styles":		marker_styles,
 					"line_widths":			line_widths,
 					"tree_draw_options":		tree_draw_options,
-					"y_tick_labels":		y_tick_labels,
 					"nicks":			nicks,
-					"y_lims":			y_lims,
 					"x_lims":			x_lims,
+					"y_lims":			y_lims,
+					"x_tick_labels":		x_tick_labels,
+					"files":			files,
 					
 		}
 
 		return self._limitplot
+
+	
+	def __blind__(self, analysis_modules, mask_nick, mask_ref, mask_value):
+		
+		self._blind = {
+					"analysis_modules":		analysis_modules,
+					"mask_histogram_nicks":		mask_nick,
+					"mask_above_reference_nick":	mask_ref,
+					"mask_above_reference_value":   mask_value
+		}
+		
+		return self._blind
 
 
 	###Function for adding information to the config

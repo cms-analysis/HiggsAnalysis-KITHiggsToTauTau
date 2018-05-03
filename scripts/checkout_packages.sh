@@ -61,7 +61,7 @@ cd ..
 git clone git@github.com:artus-analysis/Artus.git -b $BRANCH
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
+git clone --recursive git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
 
 # Di-tau system reconstruction
 git clone git@github.com:SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit -b release_2018Mar20
@@ -71,6 +71,7 @@ git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # polarisation
 git clone git@github.com:TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
+git clone git@github.com:TauPolSoftware/CalibrationCurve.git TauPolSoftware/CalibrationCurve
 
 # MadGraph
 git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
@@ -123,9 +124,6 @@ else
     cd -
 
 fi
-
-# needed for error propagation e.g. in the background estimations
-git clone git@github.com:lebigot/uncertainties.git -b 2.4.6.1 HiggsAnalysis/KITHiggsToTauTau/python/uncertainties
 
 # Grid-Control
 git clone git@github.com:grid-control/grid-control.git -b testing

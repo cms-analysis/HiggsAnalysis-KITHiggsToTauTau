@@ -109,6 +109,8 @@ if __name__ == "__main__":
 	                             "ggh", "susy_ggh", "gghsm", "gghmm", "gghps", "gghjhusm", "gghjhumm", "gghjhups", "qqh", "qqhsm", "qqhmm", "qqhps", "qqhjhusm", "qqhjhumm", "qqhjhups", "bbh", "vh", "htt", "data", "zmt", "zet", "zem",
 								 "susy", "httcpeven", "httcpodd", "httcpmix", "susycpodd", "wj_ss_forQCD", "qcd_prefit", "wj_mc_os", "wj_mc_ss"],
 	                    help="Samples. [Default: %(default)s]")
+	parser.add_argument("--use-asimov-dataset", default=None, const="", nargs="?",
+						help="Use expectation as observation instead of real data. Specify the nickts of samples (separated by whitespaces) to be used as expectation. [Default: all samples plotted appart from data]")
 	parser.add_argument("--stack-signal", default=False, action="store_true",
 	                    help="Draw signal (htt) stacked on top of each backgrounds. [Default: %(default)s]")
 	parser.add_argument("--scale-signal", type=int, default=1,
@@ -283,6 +285,12 @@ if __name__ == "__main__":
 		args.samples = [sample for sample in args.samples if hasattr(samples.Samples, sample)]
 
 	list_of_samples = [getattr(samples.Samples, sample) for sample in args.samples]
+	asimov_nicks = []
+	if not (args.use_asimov_dataset is None):
+		args.use_asimov_dataset = args.use_asimov_dataset.split()
+		asimov_nicks = copy.deepcopy(args.samples if len(args.use_asimov_dataset) == 0 else args.use_asimov_dataset)
+		if "data" in asimov_nicks:
+			asimov_nicks.remove("data")
 
 	if args.run1 and (args.emb or args.ttbar_retuned):
 			log.critical("Embedding --emb and --ttbar-retuned only valid for run2. Remove --emb and --tbar-retuned or select run2 samples.")
@@ -437,14 +445,16 @@ if __name__ == "__main__":
 						no_ewkz_as_dy = args.no_ewkz_as_dy,
 						useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,
 						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
-						nick_suffix = (channel if args.channel_comparison else "")
+						nick_suffix = (channel if args.channel_comparison else ""),
+						asimov_nicks = asimov_nicks
 				)
 				if (args.channel_comparison):
 					channel_config = samples.Samples.merge_configs(channel_config, config)
 					if last_loop:
 						config = channel_config
 
-				config["x_expressions"] = [("0" if "pol_gen" in nick else json_config.pop("x_expressions", [quantity])) for nick in config["nicks"]]
+				x_expression = json_config.pop("x_expressions", [quantity])
+				config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 				config["category"] = category
 
 
@@ -486,7 +496,8 @@ if __name__ == "__main__":
 					binnings_key = None
 				
 				if binnings_key is not None and "--x-bins" not in args.args:
-					config["x_bins"] = [("1,-1,1" if "pol_gen" in nick else json_config.pop("x_bins", [binnings_key])) for nick in config["nicks"]]
+					x_bins = json_config.pop("x_bins", [binnings_key])
+					config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_bins) for nick in config["nicks"]]
 				elif "--x-bins" in args.args:
 					x_binning = re.search("(--x-bins)[\s=\"\']*(?P<x_bins>\S*)[\"\']?\S", args.args)
 					config["x_bins"] = [" ".join(x_binning.group(2))]
