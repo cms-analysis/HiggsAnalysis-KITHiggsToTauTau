@@ -5,18 +5,20 @@
 - "/net/scratch_cms3b/brunner/artus/AllSamples/merged/"                                                         #"input_dir"
 - ["pdf", "png"]                                                                                                #"formats"
 - True                                                                                                          #"www_nodate"
+- True                                                                                                          #"cms_outframe"
+- "Work in progress"                                                                                            #"extra_text"
 
 -1:
 - null                               #category
 - "new"                              #estimation method
-- "lfv"                              #cut type
+- "baseline"                              #cut type
 
 0:
-- [0.65, 0.65, 1.00, 0.88]           #"legend"
+- [0.65, 0.55, 1.0, 0.85]            #"legend"
 - [35.87]                            #"lumis"
 - [13]                               #"energies"
 - "2016"                             #"year"
-- "Controlplot"                      #"www"
+- "Plots"                            #"www"
 
 1:
 - "CutEfficiency"                    #"analysis_modules"
@@ -57,21 +59,20 @@
 - "Cutflow"                          #"www"
 
 6:
-- ""                                                                    #"y_label"
-- ["limit"]                                                             #"folders"
-- ["category"]                                                          #"y_expressions"
-- ["E5", "E5", "P", "P"]                                                #"markers"
-- ["kYellow", "kGreen", "kBlack", "kBlack"]                             #"colors
-- [3001]                                                                #"fill_styles"
-- [20, 20, 20, 21]                                                      #"marker_styles"
-- [40, 40, 1, 1]                                                        #"line_widths"
-- ["TGraphAsymmErrorsX", "TGraphAsymmErrorsX", "TGraph", "TGraph"]      #"tree_draw_options"
-- []                                                                    #"y_ticks_label
-- ["95% excepted", "68% excepted", "Excepted", "Observed"]              #"nicks"
-- [0.0000001, 0.00001]                                                  #"x_lims"
-- [-0.5]                                                                #"y_lims"
+- "95% CL Limit on BR(Z#rightarrowLFV)"                                                                                                                  #"y_label"
+- ["limit"]                                                                                                                                              #"folders"
+- ["limit_exp:limit_exp-two_sigma_down:two_sigma_up-limit_exp", "limit_exp:limit_exp-one_sigma_down:one_sigma_up-limit_exp", "limit_exp:0:0", "limit_old:0:0", "limit_obs:0:0"]                                                                                                                                          #"y_expressions"
+- ["E5", "E5", "P", "P", "P"]                                                                                                                            #"markers"
+- ["kYellow", "kGreen", "kBlack", "kBlack", "kBlack"]                                                                                                    #"colors
+- [20, 20, 20, 21, 22]                                                                                                                                   #"marker_styles"
+- [40, 40, 1, 1, 1]                                                                                                                                      #"line_widths"
+- ["TGraphAsymmErrorsY", "TGraphAsymmErrorsY", "TGraphAsymmErrorsY", "TGraphAsymmErrorsY", "TGraphAsymmErrorsY"]                                         #"tree_draw_options"
+- ["95% expected", "68% expected", "Expected", "Old observed limit", "Observed"]                                                                         #"nicks"
+- [-0.5, 2.5]                                                                                                                                            #"x_lims"
+- [0.0, 0.0000016]                                                                                                                                                  #"y_lims"
+- ["1 jet", "0 jet", "combined"]                                                                                                                         #"x_ticks_label"
 - [0.65, 0.65, 0.95, 0.88]
 - [35.87]
 - [13]
 - "2016"
-- "Limitplots"
+- "Limits"
