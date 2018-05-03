@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['calculatewjetsosssfactor',['CalculateWJetsOSSSFactor',['../classcalculatewosssfactor_1_1CalculateWJetsOSSSFactor.html',1,'calculatewosssfactor']]],
+  ['calculateqcdostossfactor',['CalculateQcdOStoSSFactor',['../classcalcQcdOStoSSfactor_1_1CalculateQcdOStoSSFactor.html',1,'calcQcdOStoSSfactor']]],
   ['callablestddevs',['CallableStdDevs',['../classuncertainties_1_1unumpy_1_1core_1_1CallableStdDevs.html',1,'uncertainties::unumpy::core']]],
   ['categoriesdict',['CategoriesDict',['../classcategories_1_1CategoriesDict.html',1,'categories']]],
   ['colorsdict',['ColorsDict',['../classcolors_1_1ColorsDict.html',1,'colors']]],

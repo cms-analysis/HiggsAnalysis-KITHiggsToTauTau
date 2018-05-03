@@ -5,6 +5,7 @@ var searchData=
   ['uncertainty',['uncertainty',['../namespacemakePlots__shapeUncertainties.html#a8a149720d8435366ad6341806998a788',1,'makePlots_shapeUncertainties']]],
   ['uncorr_5freg',['uncorr_reg',['../namespacemvaCategory__Uncertainties.html#a0593f43fba4eb0dd3824421f9fa46ca8',1,'mvaCategory_Uncertainties']]],
   ['uncorr_5fvbf',['uncorr_vbf',['../namespacemvaCategory__Uncertainties.html#aeb5557a786bf768961f728ca16389caf',1,'mvaCategory_Uncertainties']]],
+  ['underline',['UNDERLINE',['../namespacemakePlots__datacardsZttPolarisation__shared.html#a0fe051f14a9ce726267eb446b76de312',1,'makePlots_datacardsZttPolarisation_shared']]],
   ['unroll_5ftwod_5fhistogram_5foptions',['unroll_twod_histogram_options',['../classunrolltwodhistogram_1_1UnrollTwoDHistogram.html#ab2d92e68a9dfc55b1a892778b62d0b8a',1,'unrolltwodhistogram::UnrollTwoDHistogram']]],
   ['up',['up',['../namespacelimit__collector.html#ab2d16189a8ca49f05df940ebbc740c97',1,'limit_collector.up()'],['../namespacemvaCategory__Uncertainties.html#ae9b8abf71b93482e6114861492eb4840',1,'mvaCategory_Uncertainties.up()']]],
   ['up_5fd',['up_d',['../namespacelimit__collector.html#a1daa2a6f66cbd1a0edf9f6e611138bdb',1,'limit_collector']]],
@@ -14,5 +15,5 @@ var searchData=
   ['upper',['upper',['../namespacemakePlots__BdtShiftLimits.html#a3f82b6c4f4aad738bb9f26ac2875006c',1,'makePlots_BdtShiftLimits.upper()'],['../namespacemvaCategory__Shifts.html#a725dadb0bb1aae878cbc83872cd9704e',1,'mvaCategory_Shifts.upper()']]],
   ['use_5fmixing_5fangle',['use_mixing_angle',['../classcpmodels_1_1CPMixing.html#a63d40674bd73062cefe1366b21761194',1,'cpmodels::CPMixing']]],
   ['user_5fdef_5fparameter',['user_def_parameter',['../namespaceMVAFlavio.html#ab959e6df4ae3a437372a89afbd8f45bd',1,'MVAFlavio']]],
-  ['userelaxedisolation',['useRelaxedIsolation',['../namespacemakePlots__datacardsTauEsStudies.html#affbc6b2281ea3a7af65a8e413dd44901',1,'makePlots_datacardsTauEsStudies']]]
+  ['userelaxedisolation',['useRelaxedIsolation',['../namespacemakePlots__datacardsQCDfactors.html#ab11e212fc18541c795d2925b8acb6197',1,'makePlots_datacardsQCDfactors.useRelaxedIsolation()'],['../namespacemakePlots__datacardsTauEsStudies.html#affbc6b2281ea3a7af65a8e413dd44901',1,'makePlots_datacardsTauEsStudies.useRelaxedIsolation()']]]
 ];

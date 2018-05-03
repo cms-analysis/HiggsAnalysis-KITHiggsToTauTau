@@ -50,6 +50,7 @@ var dir_6dc126b5212fc76b586b0f97a6cabd36 =
     [ "makePlots_datacardsZttCrossSection.py", "makePlots__datacardsZttCrossSection_8py.html", "makePlots__datacardsZttCrossSection_8py" ],
     [ "makePlots_datacardsZttEfficiency.py", "makePlots__datacardsZttEfficiency_8py.html", "makePlots__datacardsZttEfficiency_8py" ],
     [ "makePlots_datacardsZttPolarisation.py", "makePlots__datacardsZttPolarisation_8py.html", "makePlots__datacardsZttPolarisation_8py" ],
+    [ "makePlots_datacardsZttPolarisation_shared.py", "makePlots__datacardsZttPolarisation__shared_8py.html", "makePlots__datacardsZttPolarisation__shared_8py" ],
     [ "makePlots_EmbeddedScaledControlplots.py", "makePlots__EmbeddedScaledControlplots_8py.html", "makePlots__EmbeddedScaledControlplots_8py" ],
     [ "makePlots_genCPPlots.py", "makePlots__genCPPlots_8py.html", "makePlots__genCPPlots_8py" ],
     [ "makePlots_genCPPlots_1.py", "makePlots__genCPPlots__1_8py.html", "makePlots__genCPPlots__1_8py" ],
