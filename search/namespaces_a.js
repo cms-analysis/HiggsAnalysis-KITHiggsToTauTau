@@ -25,7 +25,6 @@ var searchData=
   ['makeplots_5fdatacardszttcrosssection',['makePlots_datacardsZttCrossSection',['../namespacemakePlots__datacardsZttCrossSection.html',1,'']]],
   ['makeplots_5fdatacardszttefficiency',['makePlots_datacardsZttEfficiency',['../namespacemakePlots__datacardsZttEfficiency.html',1,'']]],
   ['makeplots_5fdatacardszttpolarisation',['makePlots_datacardsZttPolarisation',['../namespacemakePlots__datacardsZttPolarisation.html',1,'']]],
-  ['makeplots_5fdatacardszttpolarisation_5fshared',['makePlots_datacardsZttPolarisation_shared',['../namespacemakePlots__datacardsZttPolarisation__shared.html',1,'']]],
   ['makeplots_5fembeddedscaledcontrolplots',['makePlots_EmbeddedScaledControlplots',['../namespacemakePlots__EmbeddedScaledControlplots.html',1,'']]],
   ['makeplots_5fgencpplots',['makePlots_genCPPlots',['../namespacemakePlots__genCPPlots.html',1,'']]],
   ['makeplots_5fgencpplots_5f1',['makePlots_genCPPlots_1',['../namespacemakePlots__genCPPlots__1.html',1,'']]],

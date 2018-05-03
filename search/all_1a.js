@@ -31,5 +31,5 @@ var searchData=
   ['ymean',['ymean',['../namespaceplot__AUC__1D.html#aee257ac4443d03ba6751f545968d5937',1,'plot_AUC_1D.ymean()'],['../namespaceplot__AUC__2D.html#a9cc013f99ee0827f7f943b5abe92dda2',1,'plot_AUC_2D.ymean()']]],
   ['ymeant',['ymeanT',['../namespaceplot__AUC__1D.html#a69eda3251ad5b5725bf54e657cc75eab',1,'plot_AUC_1D.ymeanT()'],['../namespaceplot__AUC__2D.html#aed900263d90d084768ad9b78f2ba3ac5',1,'plot_AUC_2D.ymeanT()']]],
   ['yt_5fvalues',['yT_values',['../namespaceplot__AUC__1D.html#af6f6b5691cc110586a0db69bf69f09f8',1,'plot_AUC_1D.yT_values()'],['../namespaceplot__AUC__2D.html#a5baf118baf99ebf840bc781b1787bb4f',1,'plot_AUC_2D.yT_values()']]],
-  ['yvalues',['yvalues',['../namespacemakePlots__datacardsQCDfactors.html#ae581a6c6f8d6ddf16d1de02c259370a5',1,'makePlots_datacardsQCDfactors.yvalues()'],['../namespacemakePlots__datacardsTauEsStudies.html#a9cbb306aee1f657bb0f5c6675124cc5f',1,'makePlots_datacardsTauEsStudies.yvalues()']]]
+  ['yvalues',['yvalues',['../namespacemakePlots__datacardsTauEsStudies.html#a9cbb306aee1f657bb0f5c6675124cc5f',1,'makePlots_datacardsTauEsStudies']]]
 ];

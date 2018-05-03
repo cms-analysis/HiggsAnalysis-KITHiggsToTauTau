@@ -30,7 +30,6 @@ var searchData=
   ['uncorr_5fvbf',['uncorr_vbf',['../namespacemvaCategory__Uncertainties.html#aeb5557a786bf768961f728ca16389caf',1,'mvaCategory_Uncertainties']]],
   ['uncorrected',['UNCORRECTED',['../classTagAndProbeMuonPairProducer.html#a44ec2570f06b8af69c9a3ac3f99e71d4ae3915a98c97b9d2c930c78f6a5d36f62',1,'TagAndProbeMuonPairProducer::UNCORRECTED()'],['../classTagAndProbeElectronPairProducer.html#a8b3b2df2b2703d3ae65a28a7f3c2e9b3ae3915a98c97b9d2c930c78f6a5d36f62',1,'TagAndProbeElectronPairProducer::UNCORRECTED()'],['../classTagAndProbeGenElectronProducer.html#ad9926c899c96d93d70d84062ef5ee9afae3915a98c97b9d2c930c78f6a5d36f62',1,'TagAndProbeGenElectronProducer::UNCORRECTED()'],['../classTagAndProbeGenMuonProducer.html#ac34570421f6806148d88207734b96d69ae3915a98c97b9d2c930c78f6a5d36f62',1,'TagAndProbeGenMuonProducer::UNCORRECTED()'],['../classTagAndProbeGenTauProducer.html#a6e5ff1e71dd8a4f7c16635b53ee027e2ae3915a98c97b9d2c930c78f6a5d36f62',1,'TagAndProbeGenTauProducer::UNCORRECTED()']]],
   ['undefined',['undefined',['../classHttEnumTypes.html#a59de7941a5c0c729fb10c39759859649a5e543256c480ac577d30f76f9120eb74',1,'HttEnumTypes']]],
-  ['underline',['UNDERLINE',['../namespacemakePlots__datacardsZttPolarisation__shared.html#a0fe051f14a9ce726267eb446b76de312',1,'makePlots_datacardsZttPolarisation_shared']]],
   ['unroll_5ftwod_5fhistogram_5foptions',['unroll_twod_histogram_options',['../classunrolltwodhistogram_1_1UnrollTwoDHistogram.html#ab2d92e68a9dfc55b1a892778b62d0b8a',1,'unrolltwodhistogram::UnrollTwoDHistogram']]],
   ['unrolltwodhistogram',['UnrollTwoDHistogram',['../classunrolltwodhistogram_1_1UnrollTwoDHistogram.html',1,'unrolltwodhistogram']]],
   ['unrolltwodhistogram',['unrolltwodhistogram',['../namespaceunrolltwodhistogram.html',1,'']]],
@@ -46,5 +45,5 @@ var searchData=
   ['use_5fmixing_5fangle',['use_mixing_angle',['../classcpmodels_1_1CPMixing.html#a63d40674bd73062cefe1366b21761194',1,'cpmodels::CPMixing']]],
   ['user',['USER',['../classTagAndProbeElectronPairProducer.html#a1c437ddc1588d32c3020189cbff2272fa2e40ad879e955201df4dedbf8d479a12',1,'TagAndProbeElectronPairProducer']]],
   ['user_5fdef_5fparameter',['user_def_parameter',['../namespaceMVAFlavio.html#ab959e6df4ae3a437372a89afbd8f45bd',1,'MVAFlavio']]],
-  ['userelaxedisolation',['useRelaxedIsolation',['../namespacemakePlots__datacardsQCDfactors.html#ab11e212fc18541c795d2925b8acb6197',1,'makePlots_datacardsQCDfactors.useRelaxedIsolation()'],['../namespacemakePlots__datacardsTauEsStudies.html#affbc6b2281ea3a7af65a8e413dd44901',1,'makePlots_datacardsTauEsStudies.useRelaxedIsolation()']]]
+  ['userelaxedisolation',['useRelaxedIsolation',['../namespacemakePlots__datacardsTauEsStudies.html#affbc6b2281ea3a7af65a8e413dd44901',1,'makePlots_datacardsTauEsStudies']]]
 ];
