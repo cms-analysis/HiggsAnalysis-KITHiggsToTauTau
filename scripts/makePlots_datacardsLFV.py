@@ -129,7 +129,6 @@ if __name__ == "__main__":
 
 			##Weight if BDT score is used for stastical anaylsis
 			elif args.quantity == "BDT3_score":
-				print "HELLO"
 				weight = categories[category][1]
 
 			##Weight for control region
