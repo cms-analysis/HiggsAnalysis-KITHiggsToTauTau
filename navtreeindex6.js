@@ -1,5 +1,9 @@
 var NAVTREEINDEX6 =
 {
+"classHttValidLooseElectronsProducer.html":[1,0,257],
+"classHttValidLooseElectronsProducer.html#a5eadcc58c3d058258eb36c9d4ec17aa9":[1,0,257,2],
+"classHttValidLooseElectronsProducer.html#ab185d483224e748d36cdd2af4b38dd08":[1,0,257,1],
+"classHttValidLooseElectronsProducer.html#ac2b54d97343624f4761102a45079ca70":[1,0,257,0],
 "classHttValidLooseMuonsProducer.html":[1,0,258],
 "classHttValidLooseMuonsProducer.html#a5b90c679cc8f4bf597e1435928402e4c":[1,0,258,2],
 "classHttValidLooseMuonsProducer.html#a5da103c0889ac8e7592d3d382db58255":[1,0,258,1],
@@ -245,9 +249,5 @@ var NAVTREEINDEX6 =
 "classPolarisationQuantitiesSvfitM91Producer.html#ade6cdb95a9956ec6d189536469be5170":[1,0,307,1],
 "classPolarisationQuantitiesSvfitProducer.html":[1,0,308],
 "classPolarisationQuantitiesSvfitProducer.html#ab73197d5c7547a3759f1b22d954cfd58":[1,0,308,1],
-"classPolarisationQuantitiesSvfitProducer.html#ac9b1c65c379dac6026684e47c2572d08":[1,0,308,0],
-"classQuantities.html":[1,0,309],
-"classRecoMuonInElectronConeVetoFilter.html":[1,0,311],
-"classRecoMuonInElectronConeVetoFilter.html#a28c2389ed3a5a3b4b5f21b50cccb14d7":[1,0,311,0],
-"classRecoMuonInElectronConeVetoFilter.html#a8b2194629ef6648e295babb183f28602":[1,0,311,1]
+"classPolarisationQuantitiesSvfitProducer.html#ac9b1c65c379dac6026684e47c2572d08":[1,0,308,0]
 };

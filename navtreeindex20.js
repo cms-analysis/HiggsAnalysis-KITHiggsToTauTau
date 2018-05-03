@@ -1,5 +1,11 @@
 var NAVTREEINDEX20 =
 {
+"makePlots__datacardsZttPolarisation_8py.html#a1dd31c5a57fe27d5675a7dc75953a5ba":[2,0,2,49,35],
+"makePlots__datacardsZttPolarisation_8py.html#a2253ca3fbb220b4c21a2f6b96688e2a9":[2,0,2,49,4],
+"makePlots__datacardsZttPolarisation_8py.html#a22c22b603b93b2eece252fc8a34d11e7":[2,0,2,49,53],
+"makePlots__datacardsZttPolarisation_8py.html#a23be031ebc228d054d5af67c43f15c47":[2,0,2,49,63],
+"makePlots__datacardsZttPolarisation_8py.html#a2ceb933d3f807142745249597d3d3f99":[2,0,2,49,15],
+"makePlots__datacardsZttPolarisation_8py.html#a31ecbbd90ba3b7ca118cb8e283249157":[2,0,2,49,54],
 "makePlots__datacardsZttPolarisation_8py.html#a31f9f18e94e78336d2ea836df777f62c":[2,0,2,49,47],
 "makePlots__datacardsZttPolarisation_8py.html#a3700ec9126d4a0a186141597e34e8e43":[2,0,2,49,18],
 "makePlots__datacardsZttPolarisation_8py.html#a3718c7370c9a7e1ba36297de5a01e1b1":[2,0,2,49,42],
@@ -243,11 +249,5 @@ var NAVTREEINDEX20 =
 "makePlots__jsonConfigs_8py.html#aa70aae959361fd0ce3922aeba1de3b14":[2,0,2,58,2],
 "makePlots__jsonConfigs_8py.html#aaec7c045cead0430322a6a1aeddc9633":[2,0,2,58,5],
 "makePlots__jsonConfigs_8py.html#abf9137c87f210778cf54e121952f2e8d":[2,0,2,58,3],
-"makePlots__limitComparison_8py.html":[2,0,2,59],
-"makePlots__limitComparison_8py.html#a07915e8d6588cfb596ba4f630a22e702":[2,0,2,59,7],
-"makePlots__limitComparison_8py.html#a269b68abed3824a7019a421190f24313":[2,0,2,59,8],
-"makePlots__limitComparison_8py.html#a6ad5603446b3f22657c1cf2d0b0b89cf":[2,0,2,59,0],
-"makePlots__limitComparison_8py.html#a6f2a73883e79944e42b43c54dcd85c30":[2,0,2,59,1],
-"makePlots__limitComparison_8py.html#a7de830aac4d9a5091f34347f1eb21b59":[2,0,2,59,6],
-"makePlots__limitComparison_8py.html#a8de8fa587f0c267d7cb7b65261efe13e":[2,0,2,59,9]
+"makePlots__limitComparison_8py.html":[2,0,2,59]
 };

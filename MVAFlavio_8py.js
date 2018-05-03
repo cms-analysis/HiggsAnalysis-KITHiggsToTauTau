@@ -16,5 +16,6 @@ var MVAFlavio_8py =
     [ "sample_dir", "MVAFlavio_8py.html#ae1207e49f8539dc3bde8c3e80c7dcb7a", null ],
     [ "sig_list", "MVAFlavio_8py.html#a6f46d1d869051dd6fe528b8badc36023", null ],
     [ "tree_name", "MVAFlavio_8py.html#a8ee7df0473b300895f046fb5f3965d70", null ],
-    [ "user_def_parameter", "MVAFlavio_8py.html#ab959e6df4ae3a437372a89afbd8f45bd", null ]
+    [ "user_def_parameter", "MVAFlavio_8py.html#ab959e6df4ae3a437372a89afbd8f45bd", null ],
+    [ "version", "MVAFlavio_8py.html#ace6be61c605710cf31ef228293f868a0", null ]
 ];

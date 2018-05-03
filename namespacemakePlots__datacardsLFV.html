@@ -89,12 +89,18 @@ $(document).ready(function(){initNavTree('namespacemakePlots__datacardsLFV.html'
 
 <div class="header">
   <div class="summary">
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">makePlots_datacardsLFV Namespace Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab3fff626aaea87f6a6fbc2d0308df146"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#ab3fff626aaea87f6a6fbc2d0308df146">harry_do_your_job</a></td></tr>
+<tr class="separator:ab3fff626aaea87f6a6fbc2d0308df146"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:ab4cb8084f5dd84437e4e70bc65b300b9"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#ab4cb8084f5dd84437e4e70bc65b300b9">log</a> = logging.getLogger(__name__)</td></tr>
@@ -155,7 +161,7 @@ Variables</h2></td></tr>
 <tr class="memitem:a550402a7bdfeac57c0143d2f98362624"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#a550402a7bdfeac57c0143d2f98362624">cut_strings</a> = [<a class="el" href="namespacemakePlots__datacardsLFV.html#acc3fd1f35d87aedced9ee34abd1b6216">parameter_info</a>[param][4] for param in <a class="el" href="namespacemakePlots__datacardsLFV.html#a48165078cda2800710ecfde6815559cc">cut_info</a>[<a class="el" href="namespacemakePlots__datacardsLFV.html#a3490fd6ec708a72bcce972191d67af90">categories</a>[<a class="el" href="namespacemakePlots__datacardsLFV.html#a4f00f7ab8e2f90dfffd28f8ac94f38ef">category</a>][0]][channel].keys()]</td></tr>
 <tr class="separator:a550402a7bdfeac57c0143d2f98362624"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a944612a2d86f8a2e40419d6c99cb4f3b"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#a944612a2d86f8a2e40419d6c99cb4f3b">weight</a> = &quot;*&quot;</td></tr>
-<tr class="memdesc:a944612a2d86f8a2e40419d6c99cb4f3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weight for control region.  <a href="#a944612a2d86f8a2e40419d6c99cb4f3b">More...</a><br/></td></tr>
+<tr class="memdesc:a944612a2d86f8a2e40419d6c99cb4f3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weight if BDT score is used for stastical anaylsis.  <a href="#a944612a2d86f8a2e40419d6c99cb4f3b">More...</a><br/></td></tr>
 <tr class="separator:a944612a2d86f8a2e40419d6c99cb4f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f00f7ab8e2f90dfffd28f8ac94f38ef"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#a4f00f7ab8e2f90dfffd28f8ac94f38ef">category</a> = channel+&quot;_&quot;</td></tr>
 <tr class="separator:a4f00f7ab8e2f90dfffd28f8ac94f38ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,6 +192,8 @@ Variables</h2></td></tr>
 <tr class="memitem:a298334d841b8b03981f20135d17b5e7d"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#a298334d841b8b03981f20135d17b5e7d">output_file</a> = os.path.join(args.output_dir, input_root_filename_template.replace(&quot;$&quot;, &quot;&quot;).format(ANALYSIS=&quot;LFV&quot;, CHANNEL = channel, BIN= <a class="el" href="namespacemakePlots__datacardsLFV.html#a4f00f7ab8e2f90dfffd28f8ac94f38ef">category</a>, ERA=&quot;13TeV&quot;))</td></tr>
 <tr class="memdesc:a298334d841b8b03981f20135d17b5e7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">File list with merged outputs.  <a href="#a298334d841b8b03981f20135d17b5e7d">More...</a><br/></td></tr>
 <tr class="separator:a298334d841b8b03981f20135d17b5e7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c56c109e1dbc17512087af92215353c"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#a8c56c109e1dbc17512087af92215353c">pool</a> = Pool(cpu_count())</td></tr>
+<tr class="separator:a8c56c109e1dbc17512087af92215353c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a542b650175cce82abec3b75b2de09f87"><td class="memItemLeft" align="right" valign="top">dictionary&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#a542b650175cce82abec3b75b2de09f87">datacards_cbs</a> = {}</td></tr>
 <tr class="separator:a542b650175cce82abec3b75b2de09f87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01cc97b256fa035a55dcf07d925a88b6"><td class="memItemLeft" align="right" valign="top">dictionary&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#a01cc97b256fa035a55dcf07d925a88b6">datacards_poi_ranges</a> = {}</td></tr>
@@ -195,6 +203,23 @@ Variables</h2></td></tr>
 <tr class="memitem:a0464b09aeed187dfc927bb5fa2a1b218"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemakePlots__datacardsLFV.html#a0464b09aeed187dfc927bb5fa2a1b218">datacards_workspaces</a> = datacards.text2workspace(<a class="el" href="namespacemakePlots__datacardsLFV.html#a542b650175cce82abec3b75b2de09f87">datacards_cbs</a>, n_processes=1)</td></tr>
 <tr class="separator:a0464b09aeed187dfc927bb5fa2a1b218"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ab3fff626aaea87f6a6fbc2d0308df146"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def makePlots_datacardsLFV.harry_do_your_job </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a class="anchor" id="acfee43ed181e7dbd30bc79fdad11b490"></a>
 <div class="memitem">
@@ -224,7 +249,7 @@ Variables</h2></td></tr>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                                        <span class="keyword">True</span>,</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                                        <span class="stringliteral">&quot;&quot;</span>,</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                                        [args.quantity],</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                                        [<span class="stringliteral">&quot;30,40,130&quot;</span>],</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                                        [<span class="stringliteral">&quot;30,40,130&quot;</span>] <span class="keywordflow">if</span> args.quantity == <span class="stringliteral">&quot;m_vis&quot;</span> <span class="keywordflow">else</span> [<span class="stringliteral">&quot;20,0,0.2&quot;</span>], <span class="comment">#Binning for m_vis or BDT_score</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                                        tmp_input_root_filename_template.replace(<span class="stringliteral">&quot;$&quot;</span>, <span class="stringliteral">&quot;&quot;</span>).format(ANALYSIS=<span class="stringliteral">&quot;LFV&quot;</span>, CHANNEL = channel, BIN= category,SYSTEMATIC=systematic, ERA=<span class="stringliteral">&quot;13TeV&quot;</span>),</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                                        <span class="stringliteral">&quot;&quot;</span>,</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                                        <span class="keyword">False</span>,</div>
@@ -626,6 +651,18 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a8c56c109e1dbc17512087af92215353c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple makePlots_datacardsLFV.pool = Pool(cpu_count())</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="abed3c33466f840937b5e3ba0367b319b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -774,6 +811,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Weight if BDT score is used for stastical anaylsis. </p>
 <p>Weight for control region. </p>
 
 </div>

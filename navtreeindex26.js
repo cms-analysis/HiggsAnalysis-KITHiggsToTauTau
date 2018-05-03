@@ -1,5 +1,12 @@
 var NAVTREEINDEX26 =
 {
+"significance__collector_8py.html#ab3dfd21e078fdcf77ade53422f98ec24":[2,0,2,94,11],
+"significance__collector_8py.html#abef28351533deaf28365d39263e0689b":[2,0,2,94,10],
+"significance__collector_8py.html#ac5763dc6294d2e74cd1a368a0d3c7115":[2,0,2,94,6],
+"significance__collector_8py.html#af2779eda14b4ed35fb38ac18507ce5ce":[2,0,2,94,3],
+"significance__collector_8py.html#af64458fcf54d27c4ff459df7d05f7f01":[2,0,2,94,1],
+"significance__collector_8py.html#aff52a00472c6fba9791fb2c841c01c24":[2,0,2,94,2],
+"smhttdatacards_8py.html":[2,0,1,1,11],
 "smhttdatacards_8py.html#ad27d446973abafb6c13e1cca7c7c157d":[2,0,1,1,11,2],
 "submitCrabSvfitJobs_8py.html":[2,0,2,95],
 "submitCrabSvfitJobs_8py.html#a0ecb9f4bc7e70b5472d247e6cb0e2e6d":[2,0,2,95,3],

@@ -1,5 +1,9 @@
 var NAVTREEINDEX7 =
 {
+"classQuantities.html":[1,0,309],
+"classRecoMuonInElectronConeVetoFilter.html":[1,0,311],
+"classRecoMuonInElectronConeVetoFilter.html#a28c2389ed3a5a3b4b5f21b50cccb14d7":[1,0,311,0],
+"classRecoMuonInElectronConeVetoFilter.html#a8b2194629ef6648e295babb183f28602":[1,0,311,1],
 "classRecoTauCPProducer.html":[1,0,312],
 "classRecoTauCPProducer.html#a23fae79696944e8a9762096cb982caca":[1,0,312,2],
 "classRecoTauCPProducer.html#a3483e9744cae5ee542fb31201cd48d1f":[1,0,312,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX7 =
 "classTagAndProbeMuonPairProducer.html#a5a6cc9ca681b407e03f3471eed8db393ac87f3be66ffc3c0d4249f1c2cc5f3cce":[1,0,337,0,2],
 "classTagAndProbeMuonPairProducer.html#a5a6cc9ca681b407e03f3471eed8db393adbaf6dcb72e493412eb5407eeb4c45ab":[1,0,337,0,3],
 "classTagAndProbeMuonPairProducer.html#a9a517b5e47d31b7f6c5343d670ec0f3f":[1,0,337,5],
-"classTagAndProbeMuonPairProducer.html#ae1f2dcdf85b71e242238c980b33fe8f0":[1,0,337,2],
-"classTaggedJetUncertaintyShiftProducer.html":[1,0,338],
-"classTaggedJetUncertaintyShiftProducer.html#a45171dc99c8a5f63ecdb9531831c473a":[1,0,338,2],
-"classTaggedJetUncertaintyShiftProducer.html#a8c04af8f7018d1e03f14f4bf89b90a0d":[1,0,338,0],
-"classTaggedJetUncertaintyShiftProducer.html#ac0810ddb6c73d8e1ff9fc55a801b6046":[1,0,338,1]
+"classTagAndProbeMuonPairProducer.html#ae1f2dcdf85b71e242238c980b33fe8f0":[1,0,337,2]
 };

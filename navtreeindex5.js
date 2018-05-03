@@ -1,5 +1,9 @@
 var NAVTREEINDEX5 =
 {
+"classHttSettings.html#a600c2c10faad6847cf76443c5688adb3":[1,0,250,107],
+"classHttSettings.html#a6072701632fb21cf187072f41fa1c88b":[1,0,250,80],
+"classHttSettings.html#a60758c002601ce89d79abe088a533c4d":[1,0,250,164],
+"classHttSettings.html#a614b9f9a6448fcd0eae1d09a75e1723c":[1,0,250,27],
 "classHttSettings.html#a628ac5fc04df1c3f59616431a6401868":[1,0,250,180],
 "classHttSettings.html#a630faf528cca577605aec717039f7114":[1,0,250,178],
 "classHttSettings.html#a64be19c15dbd362e2c66ad4be1fd46dd":[1,0,250,69],
@@ -245,9 +249,5 @@ var NAVTREEINDEX5 =
 "classHttValidJetsProducer.html#ac8070aad2e78408f5cbcf8a2936cbedb":[1,0,256,2],
 "classHttValidJetsProducer.html#ad913dcbe01bb00468ac3c24c29d4bf04":[1,0,256,1],
 "classHttValidJetsProducer.html#ae930091764326ded9cbeb6fc228d24ae":[1,0,256,5],
-"classHttValidJetsProducer.html#af051e11578ab0d12a1eff72d2a6913e7":[1,0,256,0],
-"classHttValidLooseElectronsProducer.html":[1,0,257],
-"classHttValidLooseElectronsProducer.html#a5eadcc58c3d058258eb36c9d4ec17aa9":[1,0,257,2],
-"classHttValidLooseElectronsProducer.html#ab185d483224e748d36cdd2af4b38dd08":[1,0,257,1],
-"classHttValidLooseElectronsProducer.html#ac2b54d97343624f4761102a45079ca70":[1,0,257,0]
+"classHttValidJetsProducer.html#af051e11578ab0d12a1eff72d2a6913e7":[1,0,256,0]
 };

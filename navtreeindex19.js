@@ -1,5 +1,11 @@
 var NAVTREEINDEX19 =
 {
+"makePlots__datacardsTauEsStudies_8py.html#a508d3c92a6fa4d28fe65cd8aaaae6384":[2,0,2,46,85],
+"makePlots__datacardsTauEsStudies_8py.html#a51ab19d5677f42b85021fedaca286871":[2,0,2,46,61],
+"makePlots__datacardsTauEsStudies_8py.html#a537fa39fa572361324911ca95c24eb86":[2,0,2,46,101],
+"makePlots__datacardsTauEsStudies_8py.html#a559ec6b80d3e408d0c6310db0988fb6f":[2,0,2,46,145],
+"makePlots__datacardsTauEsStudies_8py.html#a571f8c5b6bcd08988cc43b9978613ed8":[2,0,2,46,62],
+"makePlots__datacardsTauEsStudies_8py.html#a59d3a0a6ae49066d757b2dc6dc04bb8f":[2,0,2,46,1],
 "makePlots__datacardsTauEsStudies_8py.html#a5d59e74b75745061b18a8750c6c3afd8":[2,0,2,46,50],
 "makePlots__datacardsTauEsStudies_8py.html#a5e2a8d7e40fcc3b1d0ef8ef8467f7f3e":[2,0,2,46,139],
 "makePlots__datacardsTauEsStudies_8py.html#a5f2c2b34c865d6abba4cf439014889c8":[2,0,2,46,76],
@@ -243,11 +249,5 @@ var NAVTREEINDEX19 =
 "makePlots__datacardsZttPolarisation_8py.html#a176b4c6ab49ab92e719cab85c1871893":[2,0,2,49,32],
 "makePlots__datacardsZttPolarisation_8py.html#a1936e9d14aa49c5f6fb265b29b89714d":[2,0,2,49,10],
 "makePlots__datacardsZttPolarisation_8py.html#a1942c2f370779e71f8e6791b907c2133":[2,0,2,49,26],
-"makePlots__datacardsZttPolarisation_8py.html#a1bea8c70c5eb35a817bcd3e07f3cc540":[2,0,2,49,6],
-"makePlots__datacardsZttPolarisation_8py.html#a1dd31c5a57fe27d5675a7dc75953a5ba":[2,0,2,49,35],
-"makePlots__datacardsZttPolarisation_8py.html#a2253ca3fbb220b4c21a2f6b96688e2a9":[2,0,2,49,4],
-"makePlots__datacardsZttPolarisation_8py.html#a22c22b603b93b2eece252fc8a34d11e7":[2,0,2,49,53],
-"makePlots__datacardsZttPolarisation_8py.html#a23be031ebc228d054d5af67c43f15c47":[2,0,2,49,63],
-"makePlots__datacardsZttPolarisation_8py.html#a2ceb933d3f807142745249597d3d3f99":[2,0,2,49,15],
-"makePlots__datacardsZttPolarisation_8py.html#a31ecbbd90ba3b7ca118cb8e283249157":[2,0,2,49,54]
+"makePlots__datacardsZttPolarisation_8py.html#a1bea8c70c5eb35a817bcd3e07f3cc540":[2,0,2,49,6]
 };

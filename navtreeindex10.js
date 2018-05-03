@@ -1,5 +1,9 @@
 var NAVTREEINDEX10 =
 {
+"classsamples__run2__2015_1_1Samples.html#a3fd896625a2ab28252ce2a8595d2bad8":[1,0,143,0,1],
+"classsamples__run2__2015_1_1Samples.html#a4100e26d95e575fd588dfcfdf00bffa2":[1,0,143,0,4],
+"classsamples__run2__2015_1_1Samples.html#a84e54b78c872b07eb73cf987f91eb263":[1,0,143,0,18],
+"classsamples__run2__2015_1_1Samples.html#a9cda6bf29cb1860d225d6f604e8d3188":[1,0,143,0,7],
 "classsamples__run2__2015_1_1Samples.html#a9d40edb2ff3ae1c5dd959eb1a6fd29da":[1,0,143,0,6],
 "classsamples__run2__2015_1_1Samples.html#a9e340e1f89cec49fe19e5c47d75a2fe4":[1,0,143,0,15],
 "classsamples__run2__2015_1_1Samples.html#aa1615edc61aad6f148a6a0434238cd24":[1,0,143,0,19],
@@ -245,9 +249,5 @@ var NAVTREEINDEX10 =
 "classsettingsTauID_1_1Tau__ID.html":[1,0,166,0],
 "classsettingsTauID_1_1Tau__ID.html#aafc56c81f9aa9812fdeda8cdef3aa91e":[1,0,166,0,0],
 "classsettingsTauPolarisationMva_1_1TauPolarisationMva.html":[1,0,167,0],
-"classsettingsTauPolarisationMva_1_1TauPolarisationMva.html#ab8a2db08cbb0acc68cd78e7fa135bb3e":[1,0,167,0,0],
-"classsettingsTauSpinner_1_1TauSpinner.html":[1,0,168,0],
-"classsettingsTauSpinner_1_1TauSpinner.html#a768fadd6737f65e889482d4fb51bf480":[1,0,168,0,0],
-"classsignalcpcalibration_1_1SignalCPCalibration.html":[1,0,171,0],
-"classsignalcpcalibration_1_1SignalCPCalibration.html#a28a67854547c48f42751e5d12b8a2690":[1,0,171,0,3]
+"classsettingsTauPolarisationMva_1_1TauPolarisationMva.html#ab8a2db08cbb0acc68cd78e7fa135bb3e":[1,0,167,0,0]
 };

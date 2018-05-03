@@ -130,6 +130,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa8e2b7e2e03b2d0635d7193ef90abb07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27607017401983ebd7a79827f3ec2a38"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigMaster_1_1ConfigMaster.html#a27607017401983ebd7a79827f3ec2a38">__limitplot__</a></td></tr>
 <tr class="separator:a27607017401983ebd7a79827f3ec2a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4087ba9a4f23e20d7575a8077fa3f9fb"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigMaster_1_1ConfigMaster.html#a4087ba9a4f23e20d7575a8077fa3f9fb">__blind__</a></td></tr>
+<tr class="separator:a4087ba9a4f23e20d7575a8077fa3f9fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5552165104b7d899a55ae05e0aff081e"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigMaster_1_1ConfigMaster.html#a5552165104b7d899a55ae05e0aff081e">add_config_info</a></td></tr>
 <tr class="memdesc:a5552165104b7d899a55ae05e0aff081e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function for adding information to the config.  <a href="#a5552165104b7d899a55ae05e0aff081e">More...</a><br/></td></tr>
 <tr class="separator:a5552165104b7d899a55ae05e0aff081e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -276,6 +278,50 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Dictionaries for information for each plotting/analysis modules. </p>
+
+</div>
+</div>
+<a class="anchor" id="a4087ba9a4f23e20d7575a8077fa3f9fb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def ConfigMaster.ConfigMaster.__blind__ </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>analysis_modules</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>mask_nick</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>mask_ref</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>mask_value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -529,12 +575,6 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>files</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>folders</em>, </td>
         </tr>
         <tr>
@@ -559,12 +599,6 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>fill_styles</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>marker_styles</em>, </td>
         </tr>
         <tr>
@@ -583,13 +617,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>y_tick_labels</em>, </td>
+          <td class="paramname"><em>nicks</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>nicks</em>, </td>
+          <td class="paramname"><em>x_lims</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -601,7 +635,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>x_lims</em>&#160;</td>
+          <td class="paramname"><em>x_tick_labels</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>files</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -657,7 +697,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>stacks</em>&#160;</td>
+          <td class="paramname"><em>stacks</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>y_subplot_lims</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

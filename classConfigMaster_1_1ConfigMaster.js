@@ -2,6 +2,7 @@ var classConfigMaster_1_1ConfigMaster =
 [
     [ "__init__", "classConfigMaster_1_1ConfigMaster.html#ae47c2bd7fd8373d9b767242ca9fae3e1", null ],
     [ "__base__", "classConfigMaster_1_1ConfigMaster.html#a88fb4df0acd0ed6e6242ac795cd1f00d", null ],
+    [ "__blind__", "classConfigMaster_1_1ConfigMaster.html#a4087ba9a4f23e20d7575a8077fa3f9fb", null ],
     [ "__controlplot__", "classConfigMaster_1_1ConfigMaster.html#a6ca9fda917bbfe469e2004c84a24a45b", null ],
     [ "__cutflowplot__", "classConfigMaster_1_1ConfigMaster.html#a449d843a9adc66a5c1903e6214fcd74e", null ],
     [ "__datacard__", "classConfigMaster_1_1ConfigMaster.html#ac761aaa12a23b5e0bdd85a2ce311280c", null ],

@@ -1,5 +1,9 @@
 var NAVTREEINDEX8 =
 {
+"classTaggedJetUncertaintyShiftProducer.html":[1,0,338],
+"classTaggedJetUncertaintyShiftProducer.html#a45171dc99c8a5f63ecdb9531831c473a":[1,0,338,2],
+"classTaggedJetUncertaintyShiftProducer.html#a8c04af8f7018d1e03f14f4bf89b90a0d":[1,0,338,0],
+"classTaggedJetUncertaintyShiftProducer.html#ac0810ddb6c73d8e1ff9fc55a801b6046":[1,0,338,1],
 "classTauPolarisationTmvaReader.html":[1,0,339],
 "classTauPolarisationTmvaReader.html#a0e95c563ab5cdb09a52c093cf1158069":[1,0,339,0],
 "classTauPolarisationTmvaReader.html#a3ee9dcc6997a4c873aa516a626d2b9e1":[1,0,339,2],
@@ -245,9 +249,5 @@ var NAVTREEINDEX8 =
 "classembedding__plot__classes_1_1single__plot.html#afddcde530b0cdba687b52afe18176d79":[1,0,35,1,30],
 "classembedding__plot__classes_1_1single__plotline.html":[1,0,35,0],
 "classembedding__plot__classes_1_1single__plotline.html#a08bc0e1463a7ce4381ffbf2054c1f698":[1,0,35,0,4],
-"classembedding__plot__classes_1_1single__plotline.html#a094d6c68f1ab3f33dce381cd149c62e4":[1,0,35,0,8],
-"classembedding__plot__classes_1_1single__plotline.html#a1821eda550f7a7a58dedd8ecc6f1622c":[1,0,35,0,16],
-"classembedding__plot__classes_1_1single__plotline.html#a1b7801c3084b7b987e47a24d0b4b37ca":[1,0,35,0,13],
-"classembedding__plot__classes_1_1single__plotline.html#a21b262efa2cc2a67df8e68eed862aaa9":[1,0,35,0,15],
-"classembedding__plot__classes_1_1single__plotline.html#a2b2d4ec18b10765cf5c10f5c849e8a6d":[1,0,35,0,9]
+"classembedding__plot__classes_1_1single__plotline.html#a094d6c68f1ab3f33dce381cd149c62e4":[1,0,35,0,8]
 };

@@ -1,5 +1,9 @@
 var NAVTREEINDEX11 =
 {
+"classsettingsTauSpinner_1_1TauSpinner.html":[1,0,168,0],
+"classsettingsTauSpinner_1_1TauSpinner.html#a768fadd6737f65e889482d4fb51bf480":[1,0,168,0,0],
+"classsignalcpcalibration_1_1SignalCPCalibration.html":[1,0,171,0],
+"classsignalcpcalibration_1_1SignalCPCalibration.html#a28a67854547c48f42751e5d12b8a2690":[1,0,171,0,3],
 "classsignalcpcalibration_1_1SignalCPCalibration.html#a493e1e909f910092c07cbbd01e271705":[1,0,171,0,1],
 "classsignalcpcalibration_1_1SignalCPCalibration.html#a5750cead94e15803a1821e8b58d9c352":[1,0,171,0,4],
 "classsignalcpcalibration_1_1SignalCPCalibration.html#a9c9fc8cc0cfccf1be47867b709141e30":[1,0,171,0,2],
@@ -245,9 +249,5 @@ var NAVTREEINDEX11 =
 "convertEfficienciesToArtusRootInput_8py.html#aca232152411e6af51638daa5d8419953":[2,0,2,3,4],
 "convertEfficienciesToArtusRootInput_8py.html#acc5cff3f53e00e530527c0abc6806f36":[2,0,2,3,26],
 "convertEfficienciesToArtusRootInput_8py.html#adaeba35abaf2207b15b3c81c3dc3fb41":[2,0,2,3,22],
-"convertEfficienciesToArtusRootInput_8py.html#adba051e80c7db81500ad864c473de7c7":[2,0,2,3,13],
-"convertEfficienciesToArtusRootInput_8py.html#add7800e3c29181d1753e4121eb45ec9c":[2,0,2,3,14],
-"convertEfficienciesToArtusRootInput_8py.html#add78d8b9de4e9d65153d93248b333452":[2,0,2,3,12],
-"convertEfficienciesToArtusRootInput_8py.html#add842d2c10b2d19f23231abd8767830a":[2,0,2,3,24],
-"convertEfficienciesToArtusRootInput_8py.html#ae85dcefd792e92add6f11ad541abaca8":[2,0,2,3,10]
+"convertEfficienciesToArtusRootInput_8py.html#adba051e80c7db81500ad864c473de7c7":[2,0,2,3,13]
 };
