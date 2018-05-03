@@ -56,12 +56,12 @@ var NAVTREEINDEX =
 "makePlots__datacardsSMHtt_8py.html#a17e457e2e4edb355790eb4d82ff66de8",
 "makePlots__datacardsTauEsStudies_8py.html#a508d3c92a6fa4d28fe65cd8aaaae6384",
 "makePlots__datacardsZttPolarisation_8py.html#a1dd31c5a57fe27d5675a7dc75953a5ba",
-"makePlots__limitComparison_8py.html#a07915e8d6588cfb596ba4f630a22e702",
-"makePlots__triggerEfficiencyFits_8py.html#a1d6237f1bbd9761516245680695660cb",
-"namespacemakePlots__categoryOverlap.html",
-"namespacesettingsSvfit.html",
-"read__datacardshapes_8py.html#a5c4b47bf7f31c5d2511dbffc80d349cb",
-"significance__collector_8py.html#ab3dfd21e078fdcf77ade53422f98ec24"
+"makePlots__htautauPlots_8py.html#a304d261211dbedd38018e03ae381ebbb",
+"makePlots__triggerEfficiencies_8py.html#a5bd44d360051644030ca5082b1ec5c57",
+"namespacelimit__collector.html",
+"namespacesettingsElectronID.html",
+"printLaTeX__BDT_8py.html#a21f90b0861e58aab994babbd1c46730d",
+"significance__2d_8py.html#a6f4eb1f2aac92fe3476b083d27c3386a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

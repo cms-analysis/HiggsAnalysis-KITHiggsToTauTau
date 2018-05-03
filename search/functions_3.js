@@ -47,6 +47,7 @@ var searchData=
   ['cpcomb2016',['cpcomb2016',['../classcutstrings_1_1CutStringsDict.html#a41015eeafcf619d9f1278361a60f0fed',1,'cutstrings::CutStringsDict']]],
   ['cprho2016',['cprho2016',['../classcutstrings_1_1CutStringsDict.html#a0d585cc80dcffc7d7c7c57d45931097a',1,'cutstrings::CutStringsDict']]],
   ['create_5fchannels_5fsystematics',['create_channels_systematics',['../classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#a32a0de0394e8017724252a47969a935f',1,'higgstotautauanalysiswrapper::HiggsToTauTauAnalysisWrapper']]],
+  ['create_5finput_5froot_5ffiles',['create_input_root_files',['../namespacemakePlots__datacardsZttPolarisation__shared.html#a293cf02b68bd4ce70637b6d64e5a5d6b',1,'makePlots_datacardsZttPolarisation_shared']]],
   ['create_5finput_5ftrees',['create_input_trees',['../namespaceMVAFlavio.html#aead78d60a53a6706944e37befa7de8cf',1,'MVAFlavio']]],
   ['create_5fmorphing_5fsignals',['create_morphing_signals',['../classdatacards_1_1Datacards.html#a02e343a9f296a3dc69e519872ecd71ef',1,'datacards::Datacards']]],
   ['create_5fpipelines',['create_pipelines',['../classhiggstotautauanalysiswrapper_1_1HiggsToTauTauAnalysisWrapper.html#af5c386c164cfff7ee6a804634e61e939',1,'higgstotautauanalysiswrapper::HiggsToTauTauAnalysisWrapper']]],

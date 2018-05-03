@@ -92,6 +92,7 @@ var namespaces =
     [ "makePlots_datacardsZttCrossSection", "namespacemakePlots__datacardsZttCrossSection.html", null ],
     [ "makePlots_datacardsZttEfficiency", "namespacemakePlots__datacardsZttEfficiency.html", null ],
     [ "makePlots_datacardsZttPolarisation", "namespacemakePlots__datacardsZttPolarisation.html", null ],
+    [ "makePlots_datacardsZttPolarisation_shared", "namespacemakePlots__datacardsZttPolarisation__shared.html", null ],
     [ "makePlots_EmbeddedScaledControlplots", "namespacemakePlots__EmbeddedScaledControlplots.html", null ],
     [ "makePlots_genCPPlots", "namespacemakePlots__genCPPlots.html", null ],
     [ "makePlots_genCPPlots_1", "namespacemakePlots__genCPPlots__1.html", null ],

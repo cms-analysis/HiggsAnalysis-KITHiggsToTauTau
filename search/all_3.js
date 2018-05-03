@@ -71,6 +71,7 @@ var searchData=
   ['blind_5fconfig',['blind_config',['../namespaceLepFlaVio.html#aa35203b48ee30daa7ac60d40e3f566c6',1,'LepFlaVio']]],
   ['blind_5fsignal',['blind_signal',['../namespacemakePlots__controlPlots.html#ab0d5ace141a8f8997f0bf2053a5ced6a',1,'makePlots_controlPlots.blind_signal()'],['../namespacemakePlots__PolSelEfficiency.html#ad30adb40650f620740b12bb779d96952',1,'makePlots_PolSelEfficiency.blind_signal()']]],
   ['bmistagsystematic',['BMistagSystematic',['../classsystematics__run2_1_1BMistagSystematic.html',1,'systematics_run2']]],
+  ['bold',['BOLD',['../namespacemakePlots__datacardsZttPolarisation__shared.html#a658e79471de11f1206a5b83cfb22e976',1,'makePlots_datacardsZttPolarisation_shared']]],
   ['boostrestframeproducer_2ecc',['BoostRestFrameProducer.cc',['../BoostRestFrameProducer_8cc.html',1,'']]],
   ['boostrestframeproducer_2eh',['BoostRestFrameProducer.h',['../BoostRestFrameProducer_8h.html',1,'']]],
   ['boson',['BOSON',['../classMEtSys.html#afab2b6468da059ee0d9c8471ea7e7018a9c1abe56956a6b876cb4c9ce6b06c90e',1,'MEtSys']]],
