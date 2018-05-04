@@ -279,3 +279,21 @@ if __name__ == "__main__":
     #2.-----Creating input root files
     print WARNING + '-----      Creating input root files...             -----' + ENDC
     create_input_root_files(datacards,args)
+    
+    #3.-----Extract shapes from input root files or from samples with HP
+    print WARNING + '-----      Extracting histograms from input root files...             -----' + ENDC
+    
+    ExtractShapes(datacards, args.output_dir +"/input/")
+    datacards.cb.SetGroup("syst", [".*"])
+    
+    #4.-----Add BBB
+    print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
+
+    BinErrorsAndBBB(datacards, 0.1, 0.5, True)
+    datacards.cb.SetGroup("syst_plus_bbb", [".*"])
+
+    #5.-----Write Cards
+    print WARNING + '-----      Writing Datacards...                                       -----' + ENDC
+
+    datacards_cbs = WriteDatacard(datacards, args.output_dir)
+
