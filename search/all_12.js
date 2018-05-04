@@ -1,6 +1,7 @@
 var searchData=
 [
   ['qcd',['qcd',['../classsamples__run1_1_1Samples.html#ac56ff4570de9b741e2ca2a319f37667d',1,'samples_run1.Samples.qcd()'],['../classsamples__run2__2016_1_1Samples.html#a29c4f2ab21851cb9ba0589a146a8892c',1,'samples_run2_2016.Samples.qcd()'],['../classsamples__run2__etaufakerate_1_1Samples.html#a766af2265554db3aa12a4ede10df7178',1,'samples_run2_etaufakerate.Samples.qcd()'],['../classsamples__run2__etaufakerate__2016_1_1Samples.html#adf7e13f2a2b1de194e6715a65f7682f0',1,'samples_run2_etaufakerate_2016.Samples.qcd()']]],
+  ['qcd_5fprefit',['qcd_prefit',['../classsamples__run2__2016_1_1Samples.html#a98482747d747962242f448f83873b7ea',1,'samples_run2_2016::Samples']]],
   ['qcd_5fsyst_5fargs',['qcd_syst_args',['../classmvadatacards__base_1_1Datacards.html#afba5461bf7d4fd1d3c6477da8b086618',1,'mvadatacards_base::Datacards']]],
   ['qcdfactorsdatacards',['qcdfactorsdatacards',['../namespaceqcdfactorsdatacards.html',1,'']]],
   ['qcdfactorsdatacards',['QcdFactorsDatacards',['../classqcdfactorsdatacards_1_1QcdFactorsDatacards.html',1,'qcdfactorsdatacards']]],
