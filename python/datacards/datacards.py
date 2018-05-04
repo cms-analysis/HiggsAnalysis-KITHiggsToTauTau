@@ -39,8 +39,7 @@ def _call_command(args):
 	if not cwd is None:
 		old_cwd = os.getcwd()
 		os.chdir(cwd)
-	print(command)
-	#log.debug(command)
+	log.debug(command)
 	logger.subprocessCall(command, shell=True)
 
 	if not cwd is None:
@@ -63,7 +62,6 @@ class Datacards(object):
 
 	def add_processes(self, channel, categories, bkg_processes, sig_processes=["ztt"], add_data=True, *args, **kwargs):
 		bin = [(self.configs.category2binid(category, channel), category) for category in categories]
-		print(sig_processes)
 
 		for key in ["channel", "procs", "bin", "signal"]:
 			if key in kwargs:
@@ -311,9 +309,8 @@ class Datacards(object):
 			physics_model = {}
 		else:
 			physics_model = physics_model.groupdict()
-		higgs_mass = "125"
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "125"
+			
+		higgs_mass = kwargs.get("higgs_mass", 125)
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
 				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
@@ -330,10 +327,7 @@ class Datacards(object):
 			datacards_poi_ranges = {}
 		tmp_args = " ".join(args)
 		
-		higgs_mass = "125"
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "125"		
-
+		higgs_mass = kwargs.get("higgs_mass", 125)
 		chunks = [[None, None]]
 		if "{CHUNK}" in tmp_args and "--points" in tmp_args:
 			splited_args = tmp_args.split()
@@ -470,12 +464,9 @@ class Datacards(object):
 		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")) for datacard in datacards_cbs.keys()}
 	
 	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, *args, **kwargs):
-		tmp_args = "".join(args)
-		
-		higgs_mass = "125"
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "125"
-					
+		tmp_args = "".join(args)		
+		higgs_mass = kwargs.get("higgs_mass", 125)		
+			
 		for datacard, workspace in datacards_workspaces.iteritems():
 			if not os.path.exists(os.path.join(os.path.dirname(workspace), "plots/")):
 				os.makedirs(os.path.join(os.path.dirname(workspace), "plots/"))
@@ -495,8 +486,7 @@ class Datacards(object):
 		tools.parallelize(_call_command, commandsPlot, n_processes=n_processes, description="combineTool.py (plots)")	
 
 	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1,  *args, **kwargs):		
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"
+		higgs_mass = kwargs.get("higgs_mass", 125)
 		commands = []
 		datacards_postfit_shapes = {}
 		fit_type_list = kwargs.get("fit_type_list", ["fit_s", "fit_b"])
@@ -522,9 +512,7 @@ class Datacards(object):
 		return datacards_postfit_shapes
 
 	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, *args, **kwargs):
-		higgs_mass = "125"
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "125"	
+		higgs_mass = kwargs.get("higgs_mass", 125)
 				
 		commands = []
 		datacards_postfit_shapes = {}
@@ -749,9 +737,7 @@ class Datacards(object):
 	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args, **kwargs):
 
 		tmp_args = " ".join(args)
-		higgs_mass = "125"
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "125"	
+		higgs_mass = kwargs.get("higgs_mass", 125)	
 		
 		commandsInitialFit = []
 		commandsInitialFit.extend([[

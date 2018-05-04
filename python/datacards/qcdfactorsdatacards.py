@@ -108,7 +108,7 @@ class QcdFactorsDatacards(datacards.Datacards):
 
 			# Normalizations
 			self.cb.cp().process(["W"]).AddSyst(self.cb, *systematics_list.htt_wnorm_syst_args)
-			self.cb.cp().process(["TTT", "ttj"]).AddSyst(self.cb, *systematics_list.htt_ttnorm_syst_args)
+			self.cb.cp().process(["TTT", "TTJ"]).AddSyst(self.cb, *systematics_list.htt_ttnorm_syst_args)
 			self.cb.cp().process(["VVJ", "VVT"]).AddSyst(self.cb, *systematics_list.htt_vvnorm_syst_args)
 			
 			# signal acceptance/efficiency

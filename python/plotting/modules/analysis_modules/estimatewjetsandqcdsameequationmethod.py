@@ -87,7 +87,6 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys[:-1]]):
 			for nick in nicks:
 				if isinstance(nick, basestring):
-					print(nick)
 					assert isinstance(plotData.plotdict["root_objects"].get(nick), ROOT.TH1)
 				elif (not isinstance(nick, float) and not isinstance(nick, bool)):
 					for subnick in nick:
@@ -111,14 +110,13 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 			
 			# calculate w_os_ss factor and store it in the metadata
 			w_os_ss_extrapolation_factor = yield_wj_mc_os / yield_wj_mc_ss
-			print("w_os_ss_extraploation_factor", w_os_ss_extrapolation_factor)
+			log.debug("W+jets Opposite sign Same-sign factor is \"{FACTOR}\".".format(FACTOR = w_os_ss_extrapolation_factor))	
 	
-			plotData.metadata[wjets_os_mc_nick] = {
+			plotData.metadata[wjets_os_lowmt_shape_nick] = {
 				"w_os_ss_factor" : w_os_ss_extrapolation_factor.nominal_value,
 				"w_os_ss_factor_unc" : w_os_ss_extrapolation_factor.std_dev,
 				"w_os_ss_factor_unc_rel" : abs(w_os_ss_extrapolation_factor.std_dev/w_os_ss_extrapolation_factor.nominal_value if w_os_ss_extrapolation_factor.nominal_value != 0.0 else 0.0),
 			}
-			plotData.metadata
 			
 			########################################
 			# ------------ Step 2 ------------------
@@ -132,13 +130,13 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 			
 			# calculate w_highmt_lowmt factor and store it in the metadata
 			w_os_highmt_lowmt_extrapolation_factor = yield_wj_mc_os_lowmt/yield_wj_mc_os_highmt
-			print("w_os_highmt_lowmt_extrapolation_factor ",w_os_highmt_lowmt_extrapolation_factor )
-			plotData.metadata[wjets_os_mc_nick] = {
+			log.debug("W+jets Opposite-sign High mT to low mT factor is \"{FACTOR}\".".format(FACTOR = w_os_highmt_lowmt_extrapolation_factor))	
+
+			plotData.metadata[wjets_os_lowmt_shape_nick] = {
 				"w_os_highmt_lowmt_factor" : w_os_highmt_lowmt_extrapolation_factor.nominal_value,
 				"w_os_highmt_lowmt_factor_unc" : w_os_highmt_lowmt_extrapolation_factor.std_dev,
 				"w_os_highmt_lowmt_factor_unc_rel" : abs(w_os_highmt_lowmt_extrapolation_factor.std_dev/w_os_highmt_lowmt_extrapolation_factor.nominal_value if w_os_highmt_lowmt_extrapolation_factor.nominal_value != 0.0 else 0.0),
 			}
-			plotData.metadata
 			
 			########################################
 			# ------------ Step 3 ------------------
@@ -153,13 +151,12 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 			else: 
 				log.warning("W+jets & QCD estimation: W+jets high mT region in MC has no entries. High->low mT extrapolation factor is set to 1.0!")
 				w_ss_highmt_lowmt_extrapolation_factor = 1.0
-			print("w_ss_highmt_lowmt_extrapolation_factor ",w_ss_highmt_lowmt_extrapolation_factor) 
-			plotData.metadata[wjets_os_mc_nick] = {
+			log.debug("W+jets Same-sign High mT to low mT factor is \"{FACTOR}\".".format(FACTOR = w_ss_highmt_lowmt_extrapolation_factor))	
+			plotData.metadata[wjets_os_lowmt_shape_nick] = {
 				"w_ss_highmt_lowmt_factor" : w_ss_highmt_lowmt_extrapolation_factor.nominal_value,
 				"w_ss_highmt_lowmt_factor_unc" : w_ss_highmt_lowmt_extrapolation_factor.std_dev,
 				"w_ss_highmt_lowmt_factor_unc_rel" : abs(w_ss_highmt_lowmt_extrapolation_factor.std_dev/w_ss_highmt_lowmt_extrapolation_factor.nominal_value if w_ss_highmt_lowmt_extrapolation_factor.nominal_value != 0.0 else 0.0),
-			}
-			plotData.metadata	
+			}	
 			
 			########################################		
 			# ------------ Step 4 ------------------
@@ -187,10 +184,12 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 			yield_wjets_os_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_highmt_data_nick])()
 			for nick in wjets_os_highmt_subtract_nicks:
 				yield_wjets_os_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-			print("yield_wjets_ss_highmt", yield_wjets_ss_highmt)	
+				
+			log.debug("W+jets Same-sign High mT before estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_ss_highmt))	
 			yield_wjets_ss_highmt = yield_wjets_os_highmt - qcd_extrapolation_factor_ss_os * yield_wjets_ss_highmt
 			yield_wjets_ss_highmt = yield_wjets_ss_highmt / (w_os_ss_extrapolation_factor - qcd_extrapolation_factor_ss_os)
-			print("yield_wjets_ss_highmt", yield_wjets_ss_highmt)
+			
+			log.debug("W+jets Same-sign High mT after estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_ss_highmt))	
 			yield_wjets_ss_highmt = uncertainties.ufloat(max(0.0, yield_wjets_ss_highmt.nominal_value), yield_wjets_ss_highmt.std_dev)
 			
 			assert (yield_wjets_ss_highmt.nominal_value != 0.0), log.warning("W+jets & QCD estimation: data yield in high mT same-sign region after background subtraction is 0!")	
@@ -199,8 +198,15 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_highmt_shape_nick])()
 			if integral_shape != 0.0:
 				scale_factor = yield_wjets_ss_highmt / integral_shape
-				# log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_ss_shape_nick, scale_factor=scale_factor))
+				log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_ss_highmt_shape_nick, scale_factor=scale_factor))
 				plotData.plotdict["root_objects"][wjets_ss_highmt_shape_nick].Scale(scale_factor.nominal_value)			
+
+			plotData.metadata[wjets_os_lowmt_shape_nick] = {
+				"w_ss_highmt_yield" : yield_wjets_ss_highmt.nominal_value,
+				"w_ss_highmt_yield_unc" : yield_wjets_ss_highmt.std_dev,
+				"w_ss_highmt_yield_unc_rel" : abs(yield_wjets_ss_highmt.std_dev/yield_wjets_ss_highmt.nominal_value if yield_wjets_ss_highmt.nominal_value != 0.0 else 0.0),
+			}	
+
 			
 			########################################
 			# ------------ Step 6 a ------------------
@@ -209,15 +215,23 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 			# 2. Scale the shape nicks by the resulting scale factor. 
 			
 			final_yield_wjets_os_lowmt = w_os_highmt_lowmt_extrapolation_factor * w_os_ss_extrapolation_factor * yield_wjets_ss_highmt
-			print("final_yield_wjets_os_lowmt", final_yield_wjets_os_lowmt)
+			
+			log.debug("W+jets Opposite-sign low mT yield is \"{YIELD}\".".format(YIELD = final_yield_wjets_os_lowmt))	
 			assert (final_yield_wjets_os_lowmt.nominal_value != 0.0), log.warning("W+jets estimation: Final yield in low mT opposite-sign is 0!")	
 			
 			# scale same-sign highmt Wjets histograms for controlplots.
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_lowmt_shape_nick])()
 			if integral_shape != 0.0:
-				scale_factor =final_yield_wjets_os_lowmt / integral_shape
-				# log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_os_shape_nick, scale_factor=scale_factor))
+				scale_factor = final_yield_wjets_os_lowmt/integral_shape
+				log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_os_lowmt_shape_nick, scale_factor=scale_factor))
 				plotData.plotdict["root_objects"][wjets_os_lowmt_shape_nick].Scale(scale_factor.nominal_value)	
+
+			plotData.metadata[wjets_os_lowmt_shape_nick] = {
+				"w_os_lowmt_yield" : final_yield_wjets_os_lowmt.nominal_value,
+				"w_os_lowmt_yield_unc" : final_yield_wjets_os_lowmt.std_dev,
+				"w_os_lowmt_yield_unc_rel" : abs(final_yield_wjets_os_lowmt.std_dev/final_yield_wjets_os_lowmt.nominal_value if final_yield_wjets_os_lowmt.nominal_value != 0.0 else 0.0),
+			}	
+
 			
 			########################################
 			# ------------ Step 6 b ------------------
@@ -226,37 +240,22 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 			# 2. Scale the shape nicks by the resulting scale factor. 				
 			
 			final_yield_wjets_ss_lowmt = w_ss_highmt_lowmt_extrapolation_factor * yield_wjets_ss_highmt
-			print("final_yield_wjets_ss_lowmt",final_yield_wjets_ss_lowmt)
+			log.debug("W+jets Same-sign low mT yield is \"{YIELD}\".".format(YIELD = final_yield_wjets_ss_lowmt))	
 
 			assert (final_yield_wjets_ss_lowmt.nominal_value != 0.0), log.warning("W+jets estimation: Final yield in low mT same-sign is 0!")	
 			
 			# scale same-sign highmt Wjets histograms for controlplots.
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_lowmt_shape_nick])()
 			if integral_shape != 0.0:
-				scale_factor = final_yield_wjets_ss_lowmt / integral_shape
-				
-				# log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_ss_shape_nick, scale_factor=scale_factor))
+				scale_factor = final_yield_wjets_ss_lowmt / integral_shape				
+				log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_ss_lowmt_shape_nick, scale_factor=scale_factor))
 				plotData.plotdict["root_objects"][wjets_ss_lowmt_shape_nick].Scale(scale_factor.nominal_value)	
 
-			########################################
-			# ------------ Step 6 c ------------------
-			# Estimate final opposite-sign  highmT W+jets yield 
-			# 1. Multiply yield from before the Wjets OS/SS and the low-highmt factor.
-			# 2. Scale the shape nicks by the resulting scale factor. 				
-			
-			yield_wjets_os_highmt = w_os_ss_extrapolation_factor * yield_wjets_ss_highmt
-			print("yield_wjets_os_highmt",yield_wjets_os_highmt)
-
-			assert (yield_wjets_os_highmt.nominal_value != 0.0), log.warning("W+jets estimation: Final yield in low mT same-sign is 0!")	
-			
-			# scale same-sign highmt Wjets histograms for controlplots.
-			# integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_highmt_shape_nick])()
-			# if integral_shape != 0.0:
-			# 	scale_factor = final_yield_wjets_os_highmt / integral_shape
-			# 
-			# 	# log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_ss_shape_nick, scale_factor=scale_factor))
-			# 	plotData.plotdict["root_objects"][wjets_os_highmt_shape_nick].Scale(scale_factor.nominal_value)	
-
+			plotData.metadata[wjets_os_lowmt_shape_nick] = {
+				"w_ss_lowmt_yield" : final_yield_wjets_ss_lowmt.nominal_value,
+				"w_ss_lowmt_yield_unc" : final_yield_wjets_ss_lowmt.std_dev,
+				"w_ss_lowmt_yield_unc_rel" : abs(final_yield_wjets_ss_lowmt.std_dev/final_yield_wjets_ss_lowmt.nominal_value if final_yield_wjets_ss_lowmt.nominal_value != 0.0 else 0.0),
+			}	
 						
 			########################################
 			# ------------ Step 7 ------------------
@@ -269,31 +268,40 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 			
 							
 			yield_qcd_ss = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_ss_data_nick])()
-			print("yield_qcd_ss", yield_qcd_ss)
 			for nick in qcd_ss_yield_subtract_nicks:			
 				yield_qcd_ss -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 			yield_qcd_ss -= tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_lowmt_shape_nick])()	
-			
-			print("yield_qcd_ss", yield_qcd_ss)			
-			print("Wjets yields ss low mt", final_yield_wjets_ss_lowmt)			
 
-			print("yield_qcd_ss", yield_qcd_ss)
+			log.debug("QCD Same-sign yield is \"{YIELD}\".".format(YIELD = yield_qcd_ss))				
 			assert (yield_qcd_ss.nominal_value != 0.0), log.warning("QCD estimation: yield in low mT same-sign is 0!")	
 			
 			for nick in qcd_ss_shape_subtract_nicks:
 				plotData.plotdict["root_objects"][qcd_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1)
 			
 			plotData.plotdict["root_objects"][qcd_shape_nick].Add(plotData.plotdict["root_objects"][wjets_ss_lowmt_shape_nick], -1)
-			print("yield_qcd_ss_only_wjets_subtraction", tools.PoissonYield(plotData.plotdict["root_objects"][qcd_shape_nick])())
 			
 			qcd_shape_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_shape_nick])()
-			print("yield_qcd_ss_shape", qcd_shape_yield)
+			yield_qcd_os = yield_qcd_ss * qcd_extrapolation_factor_ss_os
 			if qcd_shape_yield != 0:
-				scale_factor = yield_qcd_ss / qcd_shape_yield * qcd_extrapolation_factor_ss_os
+				scale_factor = yield_qcd_os / qcd_shape_yield 
+				log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_shape_nick, scale_factor=scale_factor))
 				plotData.plotdict["root_objects"][qcd_shape_nick].Scale(scale_factor.nominal_value)	
 
+			plotData.metadata[qcd_shape_nick] = {
+				"QCD SS/OS factor" : qcd_extrapolation_factor_ss_os,
+				"QCD Opposite-sign yield" : yield_qcd_os.nominal_value,
+				"QCD Opposite-sign yield_unc" : yield_qcd_os.std_dev,
+				"QCD Opposite-sign yield_unc_rel" : abs(yield_qcd_os.std_dev/yield_qcd_os.nominal_value if yield_qcd_os.nominal_value != 0.0 else 0.0),
+			}
+
 			qcd_shape_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_ss_lowmt_nick])()
-			print("yield_qcd_ss_shape", qcd_shape_yield)
 			if qcd_shape_yield != 0:
 				scale_factor = yield_qcd_ss / qcd_shape_yield
+				log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_ss_lowmt_nick, scale_factor=scale_factor))
 				plotData.plotdict["root_objects"][qcd_ss_lowmt_nick].Scale(scale_factor.nominal_value)	
+
+			plotData.metadata[qcd_shape_nick] = {
+				"QCD Same-sign yield" : yield_qcd_ss.nominal_value,
+				"QCD Same-sign yield_unc" : yield_qcd_ss.std_dev,
+				"QCD Same-sign yield_unc_rel" : abs(yield_qcd_ss.std_dev/yield_qcd_ss.nominal_value if yield_qcd_ss.nominal_value != 0.0 else 0.0),
+			}

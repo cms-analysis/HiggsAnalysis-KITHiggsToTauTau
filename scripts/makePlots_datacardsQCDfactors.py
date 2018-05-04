@@ -188,8 +188,6 @@ if __name__ == "__main__":
 	
 	
 	datacards.cb.mass(["*", "125"])
-	print(datacards.get_samples_per_shape_systematic())	
-	# datacards.cb.PrintAll()
 	if args.categories == parser.get_default("categories"):
 		args.categories = len(args.channel) * args.categories
 	# create HP configs for each channel_category
@@ -206,11 +204,8 @@ if __name__ == "__main__":
 			ERA="13TeV"
 		))		
 		# categories = datacards.cb.cp().channel([channel]).bin_set()
-		categories = [channel + "_" + category for category in categories]
-		print(categories)
-		
+		categories = [channel + "_" + category for category in categories]		
 		categories_save = sorted(categories)
-		print(set(datacards.cb.cp().channel([channel]).bin_set()))
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
 		if(categories_save != sorted(categories))  and args.do_not_ignore_category_removal:
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
@@ -220,10 +215,8 @@ if __name__ == "__main__":
 				# restrict CombineHarvester to configured categories:
 			
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
-		
-		print(categories)		
+				
 		for category in categories:
-			print("-------------------", category)		
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			 
 			datacards_per_channel_category = qcdfactorsdatacards.QcdFactorsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
@@ -235,11 +228,8 @@ if __name__ == "__main__":
 
 		
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
-				print(shape_systematic, list_of_samples)
 				nominal = (shape_systematic == "nominal")
-				print(list_of_samples)
 				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
-				print(list_of_samples)
 			
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -414,10 +404,8 @@ if __name__ == "__main__":
 				if len(datacards_cbs[datacard].cp().bin_set()) > 1:
 					continue
 				for category in datacards_cbs[datacard].cp().bin_set():
-					print(category)
 					channel = category.split("_")[0]
 					bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
-					print(bkg_process)
 					sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
 				
 					processes = bkg_process + sig_process

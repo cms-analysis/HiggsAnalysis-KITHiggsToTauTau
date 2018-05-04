@@ -62,10 +62,8 @@ class EstimateQcdPrefit(estimatebase.EstimateBase):
 			# 1. Get Yield in Control region and subtract all backgrounds.
 			yield_qcd = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_yield_nick])()
 			# estimate the QCD yield
-			# print "yield qcd total: " + str(yield_qcd)
 			for nick in qcd_yield_subtract_nicks:
 				yield_bkg = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-				#print "minus " + nick + "  " + str(yield_bkg)	
 				yield_qcd -= yield_bkg
 			yield_qcd = uncertainties.ufloat(max(0.0, yield_qcd.nominal_value), yield_qcd.std_dev)
 			if(yield_qcd.nominal_value == 0.0):
@@ -79,24 +77,18 @@ class EstimateQcdPrefit(estimatebase.EstimateBase):
 			# Sidemark: In this script the factor is supposed to be 1.0 because we want to determine the	
 			# factor with this first estimate.
 					
-			#print "shape total: " + str(tools.PoissonYield(plotData.plotdict["root_objects"][qcd_shape_nick])())
 			for nick in qcd_shape_subtract_nicks:
-				#print "\t minus " + nick + " " + str(tools.PoissonYield(plotData.plotdict["root_objects"][nick])())
 				plotData.plotdict["root_objects"][qcd_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1.0/plotData.plotdict["qcd_scale_factor"])
 			
 			shape_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_shape_nick])()
 			if shape_yield != 0.0:
-				print(qcd_extrapolation_factor_ss_os)
 				qcd_extrapolation_factor_ss_os = 1.0
 				scale_factor = yield_qcd / shape_yield * qcd_extrapolation_factor_ss_os
 				plotData.plotdict["root_objects"][qcd_shape_nick].Scale(scale_factor.nominal_value)
 				
 			#log.debug("Relative statistical uncertainty of the yield for process QCD (nick \"{nick}\") is {unc}.".format(nick=qcd_data_shape_nick, unc=final_yield.std_dev/final_yield.nominal_value if final_yield.nominal_value != 0.0 else 0.0))
 			final_yield_qcd = yield_qcd * qcd_extrapolation_factor_ss_os
-			#print "QCD em estimation summary"
-			#print "scale factor : " + str(scale_factor)
-			#print "shape_yield :"  + str(shape_yield)
-			#print "yield_qcd :" + str(yield_qcd)
+			
 			# save to be picked up
 			plotData.metadata[qcd_shape_nick] = {
 				"yield" : final_yield_qcd.nominal_value,
