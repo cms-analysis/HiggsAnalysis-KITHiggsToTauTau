@@ -11,13 +11,13 @@ import HiggsAnalysis.KITHiggsToTauTau.tools as tools
 import HiggsAnalysis.KITHiggsToTauTau.uncertainties.uncertainties as uncertainties
 
 
-class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
+class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 	""" This modules estimates W+jets and QCD backgrounds using the same-equation method."""
 	def __init__(self):
-		super(EstimateWjetsAndQCDSameEquationMethod, self).__init__()
+		super(EstimateWjetsAndQCDSimEquationMethod, self).__init__()
 
 	def modify_argument_parser(self, parser, args):
-		super(EstimateWjetsAndQCDSameEquationMethod, self).modify_argument_parser(parser, args)
+		super(EstimateWjetsAndQCDSimEquationMethod, self).modify_argument_parser(parser, args)
 		
 		self.estimate_wjets_and_qcd_prefit_options = parser.add_argument_group("WJets and QCD estimation options")
 		
@@ -73,7 +73,7 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 
 
 	def prepare_args(self, parser, plotData):
-		super(EstimateWjetsAndQCDSameEquationMethod, self).prepare_args(parser, plotData)
+		super(EstimateWjetsAndQCDSimEquationMethod, self).prepare_args(parser, plotData)
 		self._plotdict_keys = ["wjets_ss_mc_nicks", "wjets_os_mc_nicks", "wjets_os_highmt_mc_nicks", "wjets_os_lowmt_mc_nicks", "wjets_ss_highmt_mc_nicks", "wjets_ss_lowmt_mc_nicks", "wjets_ss_highmt_data_nicks", "wjets_ss_highmt_subtract_nicks", "wjets_os_highmt_data_nicks", "wjets_os_highmt_subtract_nicks", "wjets_ss_highmt_shape_nicks", "wjets_ss_lowmt_shape_nicks", "wjets_os_lowmt_shape_nicks",  "qcd_extrapolation_factors_ss_os",  "qcd_os_highmt_nicks", "qcd_ss_lowmt_nicks","qcd_ss_data_nicks", "qcd_shape_nicks", "qcd_ss_yield_subtract_nicks", "qcd_ss_shape_subtract_nicks"]
 		self.prepare_list_args(plotData, self._plotdict_keys)
 		for index in [ "wjets_ss_highmt_subtract_nicks",  "wjets_os_highmt_subtract_nicks", "qcd_ss_yield_subtract_nicks", "qcd_ss_shape_subtract_nicks"]:
@@ -81,7 +81,7 @@ class EstimateWjetsAndQCDSameEquationMethod(estimatebase.EstimateBase):
 
 
 	def run(self, plotData=None):
-		super(EstimateWjetsAndQCDSameEquationMethod, self).run(plotData)
+		super(EstimateWjetsAndQCDSimEquationMethod, self).run(plotData)
 		
 		# make sure that all necessary histograms are available
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys[:-1]]):

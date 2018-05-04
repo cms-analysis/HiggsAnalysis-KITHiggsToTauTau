@@ -1596,7 +1596,7 @@ class Samples(samples.SamplesBase):
 					)
 				
 			
-			if "sameequation" in estimationMethod: 
+			if "simeqn" in estimationMethod: 
 				# add inclusive Wjets MC samples in OS and SS for W SS/OS determination 
 				ss_cut_type = cut_type + "SameSignRegion" 
 				# Step 1 - inclusive W os/ss factor determination
@@ -2067,8 +2067,8 @@ class Samples(samples.SamplesBase):
 					)
 
 				
-				if not "EstimateWjetsAndQCDSameEquationMethod" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSameEquationMethod")
+				if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
 				if controlregions:
 					# Step 1
 					config.setdefault("wjets_ss_mc_nicks", []).append("wj_mc_ss_inclusive"+nick_suffix)
@@ -2996,7 +2996,7 @@ class Samples(samples.SamplesBase):
 		
 		
 		if channel in ["et", "mt", "em", "tt", "mm", "ee", "ttbar"]:
-			if "sameequation" in estimationMethod:
+			if channel in ["et", "mt"] and "simeqn" in estimationMethod:
 				shape_weight = data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)
 				
 				# background subtraction nicks
@@ -3136,8 +3136,8 @@ class Samples(samples.SamplesBase):
 				if channel in ["et", "mt"]:
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 														
-				if not "EstimateWjetsAndQCDSameEquationMethod" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSameEquationMethod")
+				if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
 				if controlregions:											
 					# Step 7
 					config.setdefault("qcd_ss_yield_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
@@ -3476,8 +3476,8 @@ class Samples(samples.SamplesBase):
 				else:
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
 							
-			if "new" in estimationMethod:
-				if channel in ["et","mt"]:
+			if "new" or "simeqn" in estimationMethod:
+				if channel in ["et","mt"] and "simeqn" not in estimationMethod:
 					high_mt_cut_type = cut_type + "highMtControlRegionWJ"
 					high_mt_ss_cut_type = cut_type + "highMtSSControlRegionWJ"
 					qcd_shape_cut = cut_type
