@@ -13,13 +13,13 @@ var searchData=
   ['x_5fvalues_5flist',['x_values_list',['../namespacemakePlots__BdtShiftLimits.html#adc0b4339fe7a3eff90e345201fe56f38',1,'makePlots_BdtShiftLimits']]],
   ['x_5fvalues_5fraw',['x_values_raw',['../namespacemakePlots__datacardsZttPolarisation.html#a6dddbea29bfd15dfd7e99222bfa847a5',1,'makePlots_datacardsZttPolarisation']]],
   ['xbins',['xbins',['../namespacemakePlots__datacardsCPStudies__projection.html#aae82b60caeffec084b4cfdf6542252e0',1,'makePlots_datacardsCPStudies_projection']]],
-  ['xbinsf',['xbinsF',['../namespacemakePlots__datacardsTauEsStudies.html#abb8ebf8e16e02b9d2cbf85f06b8ce0ed',1,'makePlots_datacardsTauEsStudies']]],
+  ['xbinsf',['xbinsF',['../namespacemakePlots__datacardsQCDfactors.html#a95738755973dad03896a475622f6a579',1,'makePlots_datacardsQCDfactors.xbinsF()'],['../namespacemakePlots__datacardsTauEsStudies.html#abb8ebf8e16e02b9d2cbf85f06b8ce0ed',1,'makePlots_datacardsTauEsStudies.xbinsF()']]],
   ['xbinslist',['xBinslist',['../namespaceconvertEfficienciesToArtusRootInput.html#acc5cff3f53e00e530527c0abc6806f36',1,'convertEfficienciesToArtusRootInput']]],
   ['xerrhigh',['xErrHigh',['../namespaceconvertEfficienciesToArtusRootInput.html#a2a9c1de6d0d3c28892107719a4c80fda',1,'convertEfficienciesToArtusRootInput']]],
-  ['xerrsf',['xerrsF',['../namespacemakePlots__datacardsTauEsStudies.html#a96038064d5243114fa855344a21e34e9',1,'makePlots_datacardsTauEsStudies']]],
-  ['xerrsval',['xerrsval',['../namespacemakePlots__datacardsTauEsStudies.html#a37666422a474968908afa73f07425a45',1,'makePlots_datacardsTauEsStudies']]],
-  ['xval',['xval',['../namespacemakePlots__datacardsTauEsStudies.html#ad9b14c4e60ac3577aa3e4c02b200ac98',1,'makePlots_datacardsTauEsStudies']]],
-  ['xvalues',['xvalues',['../namespacemakePlots__datacardsTauEsStudies.html#a559ec6b80d3e408d0c6310db0988fb6f',1,'makePlots_datacardsTauEsStudies']]],
-  ['xvaluesf',['xvaluesF',['../namespacemakePlots__datacardsTauEsStudies.html#a4bac59a5e9b826cedfe00d26fe1e249a',1,'makePlots_datacardsTauEsStudies']]],
-  ['xvaluesf_5fbelowx',['xvaluesF_belowX',['../namespacemakePlots__datacardsTauEsStudies.html#a1552b430d8d2404f46156b254410dc03',1,'makePlots_datacardsTauEsStudies']]]
+  ['xerrsf',['xerrsF',['../namespacemakePlots__datacardsQCDfactors.html#aeaf476169517ad5aa86fe50eb7523c16',1,'makePlots_datacardsQCDfactors.xerrsF()'],['../namespacemakePlots__datacardsTauEsStudies.html#a96038064d5243114fa855344a21e34e9',1,'makePlots_datacardsTauEsStudies.xerrsF()']]],
+  ['xerrsval',['xerrsval',['../namespacemakePlots__datacardsQCDfactors.html#afa4aa82999a37cbd6aa273cf99a35b92',1,'makePlots_datacardsQCDfactors.xerrsval()'],['../namespacemakePlots__datacardsTauEsStudies.html#a37666422a474968908afa73f07425a45',1,'makePlots_datacardsTauEsStudies.xerrsval()']]],
+  ['xval',['xval',['../namespacemakePlots__datacardsQCDfactors.html#ac2cc8844bf26db61c94ec5fe2725853b',1,'makePlots_datacardsQCDfactors.xval()'],['../namespacemakePlots__datacardsTauEsStudies.html#ad9b14c4e60ac3577aa3e4c02b200ac98',1,'makePlots_datacardsTauEsStudies.xval()']]],
+  ['xvalues',['xvalues',['../namespacemakePlots__datacardsQCDfactors.html#adf3efe2ce826b1bd1b2af20e0c76d75d',1,'makePlots_datacardsQCDfactors.xvalues()'],['../namespacemakePlots__datacardsTauEsStudies.html#a559ec6b80d3e408d0c6310db0988fb6f',1,'makePlots_datacardsTauEsStudies.xvalues()']]],
+  ['xvaluesf',['xvaluesF',['../namespacemakePlots__datacardsQCDfactors.html#a6b43fe183bb50137d1cc415d012635e6',1,'makePlots_datacardsQCDfactors.xvaluesF()'],['../namespacemakePlots__datacardsTauEsStudies.html#a4bac59a5e9b826cedfe00d26fe1e249a',1,'makePlots_datacardsTauEsStudies.xvaluesF()']]],
+  ['xvaluesf_5fbelowx',['xvaluesF_belowX',['../namespacemakePlots__datacardsQCDfactors.html#a5963f916978a3b1007b5167fe6e2f768',1,'makePlots_datacardsQCDfactors.xvaluesF_belowX()'],['../namespacemakePlots__datacardsTauEsStudies.html#a1552b430d8d2404f46156b254410dc03',1,'makePlots_datacardsTauEsStudies.xvaluesF_belowX()']]]
 ];
