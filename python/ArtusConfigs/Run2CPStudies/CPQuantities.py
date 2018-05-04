@@ -27,8 +27,8 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.svfitSyncQuantities()
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
 				self["Quantities"] += self.splitJecUncertaintyQuantities()
+				self["Quantities"] += self.genQuantitiesZ()   #no lhe in 2017 skim
 			self["Quantities"] += self.genQuantities()
-			self["Quantities"] += self.genQuantitiesZ()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
@@ -42,8 +42,8 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.svfitSyncQuantities()
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
 				self["Quantities"] += self.splitJecUncertaintyQuantities()
+				self["Quantities"] += self.genHiggsQuantities() #no lhe in 2017 skim
 			self["Quantities"] += self.genQuantities()
-			self["Quantities"] += self.genHiggsQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()

@@ -16,8 +16,12 @@ class globalProccesors(dict):
 				"producer:GenBosonFromGenParticlesProducer",
 				"producer:GenBosonDiLeptonDecayModeProducer",
 				"producer:ValidGenTausProducer",
-				"producer:GenDiLeptonDecayModeProducer",
-				"producer:LHEParticlesProducer",
+				"producer:GenDiLeptonDecayModeProducer"]
+
+			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
+				self["Processors"] += ["producer:LHEParticlesProducer"]
+			
+			self["Processors"] += [
 				"producer:GenDiLeptonDecayModeLFVProducer",
 				"producer:GenParticleProducer",
 				"producer:RecoElectronGenParticleMatchingProducer",
@@ -143,8 +147,11 @@ class globalProccesors(dict):
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer",
 				"producer:GenTauDecayProducer",
-				"producer:GenTauCPProducer",
-				"producer:GenHiggsCPProducer",
+				"producer:GenTauCPProducer"]
+			
+			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
+				self["Processors"] += ["producer:GenHiggsCPProducer"]      #needs lhe info which is not stored for 2017
+			self["Processors"] += [				
 				"producer:TauSpinnerProducer",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer",

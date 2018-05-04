@@ -36,7 +36,7 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 		else:
 			self["RefitVertices"] = "AdvancedRefittedVerticesNoBS"
 			self["RefitBSVertices"] = "AdvancedRefittedVerticesBS"
-		if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLLM(10to50|50|150)|LFV", nickname):
+		if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLLM(10to50|50|150)|LFV", nickname) and re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 			self["LheParticles"] = "LHEafter"
 		else:
 			self["LheParticles"] = ""

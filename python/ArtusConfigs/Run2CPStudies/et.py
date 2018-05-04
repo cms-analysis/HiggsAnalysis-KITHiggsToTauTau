@@ -81,7 +81,7 @@ class et_ArtusConfig(dict):
 		self.update(Svfit_config)
 
 		MinimalPlotlevelFilter_config = sMPlF.MinimalPlotlevelFilter()
-		MinimalPlotlevelFilter_config.et()
+		MinimalPlotlevelFilter_config.et(nickname)
 		self.update(MinimalPlotlevelFilter_config)
 		
 		MVATestMethods_config = sMVATM.MVATestMethods()
