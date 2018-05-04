@@ -42,7 +42,7 @@ class CutStringsDict:
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_muonelectron == 1)"
 
-			elif "smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type and channel == "em":
+			elif ("smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type) and channel == "em":
 				cuts["bveto"] = "(nbtag == 0)"
 				cuts["pt_1"] = "(pt_1 > 13.0)"
 				cuts["pt_2"] = "(pt_2 > 10.0)"
