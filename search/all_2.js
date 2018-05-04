@@ -72,8 +72,6 @@ var searchData=
   ['antievloosepass',['antievloosepass',['../classcutstrings_1_1CutStringsDict.html#a0e9723c15e339c57a7fbdf0f63176670',1,'cutstrings::CutStringsDict']]],
   ['antievtightfail',['antievtightfail',['../classcutstrings_1_1CutStringsDict.html#a8deeee7bf2cb94b6810c823074679a47',1,'cutstrings::CutStringsDict']]],
   ['antievtightpass',['antievtightpass',['../classcutstrings_1_1CutStringsDict.html#a94a218554605603adb3718a9de2deaee',1,'cutstrings::CutStringsDict']]],
-  ['antiisolationregionqcd',['antiIsolationRegionQCD',['../classcutstrings_1_1CutStringsDict.html#a743b894b8a71dcbe3c4d0ad31c22d84c',1,'cutstrings::CutStringsDict']]],
-  ['antiisolationssregionqcd',['antiIsolationSSRegionQCD',['../classcutstrings_1_1CutStringsDict.html#aadcc16e408139ef068df1180663707c5',1,'cutstrings::CutStringsDict']]],
   ['antimuloosefail',['antimuloosefail',['../classcutstrings_1_1CutStringsDict.html#aa32cb874a98b4f9d394a9817a50f10eb',1,'cutstrings::CutStringsDict']]],
   ['antimuloosepass',['antimuloosepass',['../classcutstrings_1_1CutStringsDict.html#add9a2bd0328de748d02eb69d7d466237',1,'cutstrings::CutStringsDict']]],
   ['antimutightfail',['antimutightfail',['../classcutstrings_1_1CutStringsDict.html#a683d43ba906a51df7207b3308dba4324',1,'cutstrings::CutStringsDict']]],

@@ -3,6 +3,7 @@ var searchData=
   ['madgraphreweighting',['MadGraphReweighting',['../classsettingsMadGraphReweighting_1_1MadGraphReweighting.html',1,'settingsMadGraphReweighting']]],
   ['madgraphreweightingproducer',['MadGraphReweightingProducer',['../classMadGraphReweightingProducer.html',1,'']]],
   ['massressystematic',['MassResSystematic',['../classsystematics__run2_1_1MassResSystematic.html',1,'systematics_run2']]],
+  ['massressystematicv2',['MassResSystematicv2',['../classsystematics__run2_1_1MassResSystematicv2.html',1,'systematics_run2']]],
   ['matrix',['matrix',['../classuncertainties_1_1unumpy_1_1core_1_1matrix.html',1,'uncertainties::unumpy::core']]],
   ['maxlooseelectronscountfilter',['MaxLooseElectronsCountFilter',['../classMaxLooseElectronsCountFilter.html',1,'']]],
   ['maxloosemuonscountfilter',['MaxLooseMuonsCountFilter',['../classMaxLooseMuonsCountFilter.html',1,'']]],
