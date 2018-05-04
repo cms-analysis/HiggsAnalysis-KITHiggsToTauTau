@@ -150,6 +150,13 @@ class Baseconfig(dict):
 				self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927_306462_EOY2017ReReco_80bins_69p2MinBiasXS/puweights_WZ_RunIIFall17MiniAOD_94X_13TeV_MINIAOD_pythia8.root"
 			elif re.search("(ZZ_).*(?=Fall17)", nickname):
 				self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927_306462_EOY2017ReReco_80bins_69p2MinBiasXS/puweights_ZZ_RunIIFall17MiniAOD_94X_13TeV_MINIAOD_pythia8.root"
+			elif re.search("(GluGluHToTauTauM).*(?=Fall17)", nickname): #might change if jhu/madgraph is added
+				self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927_306462_EOY2017ReReco_80bins_69p2MinBiasXS/puweights_GluGluHToTauTauM125_RunIIFall17MiniAOD_94X_13TeV_MINIAOD_powheg-pythia8.root"
+			elif re.search("(VBFHToTauTauM).*(?=Fall17)", nickname):
+				self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927_306462_EOY2017ReReco_80bins_69p2MinBiasXS/puweights_VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8.root"
+			else:   #carefull took the one from summer17
+				log.warning("This is the incluse pilupweight used for summer2017 are you sure you want to use this one?")
+				self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_RunBtoF_80bins_MC_Moriond17_PU25ns_V1_69p2MinBiasXS.root"
 
 		elif re.search("(Spring16|Summer16)", nickname):
 			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-284044_13TeVMoriond17_23Sep2016ReReco_69p2mbMinBiasXS.root"
