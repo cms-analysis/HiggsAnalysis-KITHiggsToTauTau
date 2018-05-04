@@ -8,6 +8,7 @@ var makePlots__datacardsZttPolarisation__shared_8py =
     [ "BOLD", "makePlots__datacardsZttPolarisation__shared_8py.html#a658e79471de11f1206a5b83cfb22e976", null ],
     [ "choices", "makePlots__datacardsZttPolarisation__shared_8py.html#a886be675d9fa59efe9a0408909db631f", null ],
     [ "datacards", "makePlots__datacardsZttPolarisation__shared_8py.html#af7881512429bc26b79ade03b1b558e27", null ],
+    [ "datacards_cbs", "makePlots__datacardsZttPolarisation__shared_8py.html#af3d21623fa65a9fd6a30e703a3825694", null ],
     [ "default", "makePlots__datacardsZttPolarisation__shared_8py.html#a43d16344ef37fbec5c7b07978ae36c5f", null ],
     [ "ENDC", "makePlots__datacardsZttPolarisation__shared_8py.html#a780828fb63b5415bfd56029bab3f2b5d", null ],
     [ "FAIL", "makePlots__datacardsZttPolarisation__shared_8py.html#a608cd3029e491f41a929d3f310732789", null ],

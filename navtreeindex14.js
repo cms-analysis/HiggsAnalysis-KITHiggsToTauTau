@@ -1,13 +1,5 @@
 var NAVTREEINDEX14 =
 {
-"functions_func_q.html":[1,2,1,15],
-"functions_func_r.html":[1,2,1,16],
-"functions_func_s.html":[1,2,1,17],
-"functions_func_t.html":[1,2,1,18],
-"functions_func_v.html":[1,2,1,19],
-"functions_func_w.html":[1,2,1,20],
-"functions_func_z.html":[1,2,1,21],
-"functions_func_~.html":[1,2,1,22],
 "functions_g.html":[1,2,0,7],
 "functions_h.html":[1,2,0,8],
 "functions_i.html":[1,2,0,9],
@@ -249,5 +241,13 @@ var NAVTREEINDEX14 =
 "makePlots__EmbeddedScaledControlplots_8py.html":[2,0,2,51],
 "makePlots__EmbeddedScaledControlplots_8py.html#a085c7c2d8bc8e15bf9436e7315607a36":[2,0,2,51,1],
 "makePlots__EmbeddedScaledControlplots_8py.html#a29e5d8ed412ef5e68151bf67b2b576d3":[2,0,2,51,12],
-"makePlots__EmbeddedScaledControlplots_8py.html#a2cff891d585918c8c7eb6726a49ace71":[2,0,2,51,7]
+"makePlots__EmbeddedScaledControlplots_8py.html#a2cff891d585918c8c7eb6726a49ace71":[2,0,2,51,7],
+"makePlots__EmbeddedScaledControlplots_8py.html#a2f1e91c12a595dfb94eaeb56743c1535":[2,0,2,51,0],
+"makePlots__EmbeddedScaledControlplots_8py.html#a60fff49f744ed79a9c858bc074fd00ad":[2,0,2,51,11],
+"makePlots__EmbeddedScaledControlplots_8py.html#a81490a5b7fa0fdfb8c7681a97f225ba8":[2,0,2,51,5],
+"makePlots__EmbeddedScaledControlplots_8py.html#a86cb0930f88f0b0c37a0c0e3be5f3e1b":[2,0,2,51,2],
+"makePlots__EmbeddedScaledControlplots_8py.html#a9eb6cecc89b80fa8e8073591e375a951":[2,0,2,51,3],
+"makePlots__EmbeddedScaledControlplots_8py.html#aa777fcb342207fd71e6badf6d13533ff":[2,0,2,51,6],
+"makePlots__EmbeddedScaledControlplots_8py.html#ab954c2d759a37f1c58e91555b94c7f1b":[2,0,2,51,4],
+"makePlots__EmbeddedScaledControlplots_8py.html#ac97ec0d7d9101adeff9e9936c823178c":[2,0,2,51,10]
 };

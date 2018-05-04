@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['calcqcdostossfactor',['calcQcdOStoSSfactor',['../namespacecalcQcdOStoSSfactor.html',1,'']]],
+  ['calculatewosssfactor',['calculatewosssfactor',['../namespacecalculatewosssfactor.html',1,'']]],
   ['categories',['categories',['../namespacecategories.html',1,'']]],
   ['checkoutscriptshelper',['checkoutScriptsHelper',['../namespacecheckoutScriptsHelper.html',1,'']]],
   ['colors',['colors',['../namespacecolors.html',1,'']]],
