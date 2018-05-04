@@ -1,0 +1,4 @@
+var namespaceestimatewjetsandqcdsameequationmethod =
+[
+    [ "EstimateWjetsAndQCDSameEquationMethod", "classestimatewjetsandqcdsameequationmethod_1_1EstimateWjetsAndQCDSameEquationMethod.html", "classestimatewjetsandqcdsameequationmethod_1_1EstimateWjetsAndQCDSameEquationMethod" ]
+];
