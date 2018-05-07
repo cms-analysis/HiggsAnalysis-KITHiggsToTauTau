@@ -17,7 +17,7 @@ class quantities(run2_quantities.quantities):
 	def build_quantities(self, nickname, *args, **kwargs):
 		
 		self["Quantities"] += self.fourVectorQuantities()
-		self["Quantities"] += self.syncQuantities()
+		self["Quantities"] += self.syncQuantities(nickname)
 		self["Quantities"] += self.weightQuantities()
 
 		if re.search("Run2015", nickname):  					
