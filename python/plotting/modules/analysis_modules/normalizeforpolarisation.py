@@ -9,7 +9,7 @@ import hashlib
 import ROOT
 
 import Artus.HarryPlotter.analysisbase as analysisbase
-import CombineHarvester.ZTTPOL2016.polarisationsignalscaling as polarisationsignalscaling
+import TauPolSoftware.TauDecaysInterface.polarisationsignalscaling as polarisationsignalscaling
 import HiggsAnalysis.KITHiggsToTauTau.tools as tools
 
 
