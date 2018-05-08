@@ -20,10 +20,10 @@ class SystematicLibary(object):
 			"lumi_$ERA",
 			"lnN",
 			ch.SystMap("era")
-				(       ["13TeV"], 1.025)
+				(       ["13TeV"], 1.025) # http://inspirehep.net/record/1519242/files/LUM-17-001-pas.pdf
 
 		]
-		##-------------------------------Cross section-------------------------------##
+		##-------------------------------Cross section (sometimes referred to as normalization uncertainites) -------------------------------##
 		
 		self.ztt_cross_section_syst_args = [
 			"CMS_$ANALYSIS_zttNorm_$ERA",
