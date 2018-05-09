@@ -44,7 +44,7 @@ class MinimalPlotlevelFilter(dict):
 			self["PlotlevelFilterExpression"] += "*(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
 		
 		else:
-			self["PlotlevelFilterExpressionQuantities"] = [
+			self["PlotlevelFilterExpressionQuantities"] += [
 			"byLooseIsolationMVArun2v1DBoldDMwLT_2"
 		]
 			self["PlotlevelFilterExpression"] += "*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
