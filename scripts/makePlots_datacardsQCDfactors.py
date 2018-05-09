@@ -218,12 +218,16 @@ if __name__ == "__main__":
 				
 		for category in categories:
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
-			 
+			weight = args.weight
 			datacards_per_channel_category = qcdfactorsdatacards.QcdFactorsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			# exclude isolation cut which is set by default in cutstrings.py using the smhtt2016 cut_type
-			if any(bin in category for bin in ["ZeroJet2D_SB_antiiso","Boosted2D_SB_antiiso","dijet2D_lowboost_SB_antiiso","dijet2D_boosted_SB_antiiso"])  and channel in ["mt", "et"]:
-				exclude_cuts += ["iso_1"]
+			if any(bin in category for bin in ["ZeroJet2D_antiiso","Boosted2D_antiiso","dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "dijet2D_antiiso", "ZeroJet2D_antiiso_near","Boosted2D_antiiso_near","dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far","Boosted2D_antiiso_far","dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far"])  and channel in ["mt", "et"]:
+				exclude_cuts.append("iso_1")
+				if ("lowboost" in category or "boosted" in category):
+					exclude_cuts.append("iso_2")
+					weight+= "*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+					print(weight)
 				do_not_normalize_by_bin_width = True
 
 		
@@ -246,7 +250,7 @@ if __name__ == "__main__":
 						samples=[getattr(samples.Samples, sample if sample != "data_obs" else "data") for sample in list_of_samples],
 						channel=channel,
 						category="catHtt13TeV_{CATEGORY}".format(CATEGORY=category),
-						weight=args.weight,
+						weight=weight,
 						lumi=args.lumi * 1000,
 						higgs_masses=higgs_masses,
 						cut_type="smhtt2016", 
@@ -258,10 +262,10 @@ if __name__ == "__main__":
 					config= systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 				
 					# fit is to be performed for 
-					config["x_expressions"] = ["m_vis" if "ZeroJet2D_SB_antiiso" in category else "m_sv"]
+					config["x_expressions"] = ["m_vis" if "ZeroJet2D" in category else "m_sv"]
 								
 					# configure binnings etc 				
-					if any(bin in category for bin in ["ZeroJet2D_SB_antiiso","Boosted2D_SB_antiiso","dijet2D_lowboost_SB_antiiso","dijet2D_boosted_SB_antiiso"]) and channel in ["mt", "et"]:
+					if any(bin in category for bin in ["ZeroJet2D_antiiso","Boosted2D_antiiso","dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "dijet2D_antiiso", "ZeroJet2D_antiiso_near","Boosted2D_antiiso_near","dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far","Boosted2D_antiiso_far","dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far",]) and channel in ["mt", "et"]:
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_vis"]]
 				
 					# Miscellaneous
@@ -351,7 +355,7 @@ if __name__ == "__main__":
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
-	
+	datacards.cb.PrintAll()
 	if "t2w" or "prefitpostfitplots" in args.steps:
 		datacards_workspaces = datacards.text2workspace(datacards_cbs, n_processes=args.n_processes, higgs_mass=125)
 	
@@ -388,8 +392,9 @@ if __name__ == "__main__":
 	
 	# Postfitshapes call
 	if "prefitpostfitplots" in args.steps:
+		print("1")
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-	
+		print("2")
 	# Pull plots
 	# datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
 	
@@ -398,12 +403,14 @@ if __name__ == "__main__":
 		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]
 
 		for level in ["prefit", "postfit"]:
+			print("prefit")
 			for datacard in datacards_cbs.keys():
 				postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
 				# do not produce plots for combination as there is no proper implementation for that
 				if len(datacards_cbs[datacard].cp().bin_set()) > 1:
 					continue
 				for category in datacards_cbs[datacard].cp().bin_set():
+					print(category)
 					channel = category.split("_")[0]
 					bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
 					sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()

@@ -191,8 +191,10 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			
 			log.debug("W+jets Same-sign High mT after estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_ss_highmt))	
 			yield_wjets_ss_highmt = uncertainties.ufloat(max(0.0, yield_wjets_ss_highmt.nominal_value), yield_wjets_ss_highmt.std_dev)
+			log.debug("W+jets Same-sign High mT after estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_ss_highmt))
 			
-			assert (yield_wjets_ss_highmt.nominal_value != 0.0), log.warning("W+jets & QCD estimation: data yield in high mT same-sign region after background subtraction is 0!")	
+			if yield_wjets_ss_highmt.nominal_value == 0.0:
+				log.warning("W+jets & QCD estimation: data yield in high mT same-sign region after background subtraction is 0!")	
 			
 			# scale same-sign highmt Wjets histograms for controlplots.
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_highmt_shape_nick])()
@@ -217,7 +219,8 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			final_yield_wjets_os_lowmt = w_os_highmt_lowmt_extrapolation_factor * w_os_ss_extrapolation_factor * yield_wjets_ss_highmt
 			
 			log.debug("W+jets Opposite-sign low mT yield is \"{YIELD}\".".format(YIELD = final_yield_wjets_os_lowmt))	
-			assert (final_yield_wjets_os_lowmt.nominal_value != 0.0), log.warning("W+jets estimation: Final yield in low mT opposite-sign is 0!")	
+			if final_yield_wjets_os_lowmt.nominal_value == 0.0:
+				log.warning("W+jets estimation: Final yield in low mT opposite-sign is 0!")	
 			
 			# scale same-sign highmt Wjets histograms for controlplots.
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_lowmt_shape_nick])()
@@ -242,7 +245,8 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			final_yield_wjets_ss_lowmt = w_ss_highmt_lowmt_extrapolation_factor * yield_wjets_ss_highmt
 			log.debug("W+jets Same-sign low mT yield is \"{YIELD}\".".format(YIELD = final_yield_wjets_ss_lowmt))	
 
-			assert (final_yield_wjets_ss_lowmt.nominal_value != 0.0), log.warning("W+jets estimation: Final yield in low mT same-sign is 0!")	
+			if final_yield_wjets_ss_lowmt.nominal_value == 0.0:
+			 	log.warning("W+jets estimation: Final yield in low mT same-sign is 0!")	
 			
 			# scale same-sign highmt Wjets histograms for controlplots.
 			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_lowmt_shape_nick])()
@@ -273,7 +277,8 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			yield_qcd_ss -= tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_lowmt_shape_nick])()	
 
 			log.debug("QCD Same-sign yield is \"{YIELD}\".".format(YIELD = yield_qcd_ss))				
-			assert (yield_qcd_ss.nominal_value != 0.0), log.warning("QCD estimation: yield in low mT same-sign is 0!")	
+			if yield_qcd_ss.nominal_value == 0.0: 
+				log.warning("QCD estimation: yield in low mT same-sign is 0!")	
 			
 			for nick in qcd_ss_shape_subtract_nicks:
 				plotData.plotdict["root_objects"][qcd_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1)
