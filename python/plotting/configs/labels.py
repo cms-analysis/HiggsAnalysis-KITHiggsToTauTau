@@ -124,8 +124,12 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict["catZttPol13TeV_"+channel+"_index"] = ""
 				
-				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
-					suffix = "_{m_{Z}}" if "M91" in reco_fit else ""
+				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit", "GenMatched"]:
+					suffix = ""
+					if "M91" in reco_fit:
+						suffix = "_{m_{Z}}"
+					elif "GenMatched" in reco_fit:
+						suffix = "_{gen}"
 					self.labels_dict[channel+"_polarisationCombinedOmega"+reco_fit] = "Combined Optimal Observable #Omega" + suffix
 					self.labels_dict[channel+"_polarisationCombinedOmegaBar"+reco_fit] = "Combined Optimal Observable #bar{#Omega}" + suffix
 					self.labels_dict[channel+"_polarisationCombinedOmegaVisible"+reco_fit] = "Combined Optimal Observable #Omega^{vis}" + suffix
