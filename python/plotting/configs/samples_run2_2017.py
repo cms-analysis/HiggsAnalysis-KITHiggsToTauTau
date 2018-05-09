@@ -171,6 +171,29 @@ class Samples(samples.Samples):
 	#	                      "data" : False, "campaign" : self.mc_campaign}, 2)
 		return artus_files
 
+	#TODO do something similar for ggh like files_qqh if needed
+
+	def files_qqh(self, channel, mass=125, **kwargs):
+		cp = kwargs.get("cp", None)
+		print "this is VBF"
+		if cp is None or  cp =="cpeven":
+			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time. added v2 to this, if mc_campaign changes change this as well
+			return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "v2", "generator" : "powheg-pythia8"}, 1)  
+
+		#TODO add the 2017 samples cp samples if they are ready		
+		"""
+		elif "jhu" in cp: #TODO add the 2017 samples
+			
+			if "sm" in cp:
+				return "VBFHiggs0PMM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6//*.root"		
+			if "ps" in cp:
+				return "VBFHiggs0MM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6/*.root"
+			if "mm" in cp:
+				return "VBFHiggs0Mf05ph0M125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6/*.root"
+		elif cp in ["sm", "mm", "ps"]:
+			return "VBFHToTauTauM125_RunIISpring16MiniAODv2reHLT_PUSpring16RAWAODSIM_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+		"""
+
 	def files_vv(self, channel):
 		return None
 
