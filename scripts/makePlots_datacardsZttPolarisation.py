@@ -429,7 +429,7 @@ if __name__ == "__main__":
 							"-M MultiDimFit --algo grid --points 200 -P pol --redefineSignalPOIs pol "+datacards.stable_options+" -n Scan "
 					)
 
-			print("###################### annotations ######################")
+			print("###################### totstatuncs ######################")
 			if "totstatuncs" in args.steps: # (scaled_lumi is None) and (asimov_polarisation is None):
 				datacards.combine(
 						datacards_cbs,
@@ -440,7 +440,7 @@ if __name__ == "__main__":
 						split_stat_syst_uncs=True,
 						additional_freeze_nuisances=["r"]
 				)
-
+			
 			print("###################### annotations ######################")
 			annotation_replacements = {channel : index for (index, channel) in enumerate(["combined"] + args.channel)}
 			annotation_replacements.update({binid : index+1 for (index, binid) in enumerate(sorted(list(set([datacards.configs.category2binid(category, channel=category[:2]) for category in tools.flattenList(args.categories)]))))})

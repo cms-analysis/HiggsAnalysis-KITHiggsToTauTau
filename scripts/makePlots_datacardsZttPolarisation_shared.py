@@ -176,19 +176,6 @@ def create_input_root_files(datacards,args):
 
     return None
 
-def MaxLikelihoodFit():
-    
-    return None
-
-def PrefitPostfit():
-    
-    return None
-
-def PlotPolarisation():
-    
-    return None
-
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for ZTT polarisation analysis.",
@@ -296,4 +283,21 @@ if __name__ == "__main__":
     print WARNING + '-----      Writing Datacards...                                       -----' + ENDC
 
     datacards_cbs = WriteDatacard(datacards, args.output_dir)
+    
+    #6.-----Write Cards
+    print WARNING + UNDERLINE  + '-----      Performing statistical analysis                            -----' + ENDC
+    
+    if args.use_asimov_dataset:
+        print datacards
+        datacards = use_asimov_dataset(datacards)
+        print datacards
+        print OKBLUE + "Using asimov dataset!" + ENDC
+        
+    print OKBLUE + "datacards.cb.PrintAll()" + ENDC, datacards.cb.PrintAll()
+    
+    #7.-----text2workspace
+    print WARNING + '-----      text2workspace                                             -----' + ENDC
+
+    physicsmodel = "CombineHarvester.ZTTPOL2016.taupolarisationmodels:ztt_pol"
+    datacards_workspaces = text2workspace(datacards,datacards_cbs,physicsmodel,"workspace")
 
