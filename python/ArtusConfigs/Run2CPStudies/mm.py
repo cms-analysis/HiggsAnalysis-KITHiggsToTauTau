@@ -251,7 +251,7 @@ class mm_ArtusConfig(dict):
 		quantities_dict = quantities.quantities() 
 
 		quantities_dict["Quantities"] += quantities_dict.fourVectorQuantities()
-		quantities_dict["Quantities"] += quantities_dict.syncQuantities()
+		quantities_dict["Quantities"] += quantities_dict.syncQuantities(nickname)
 		quantities_dict["Quantities"] += iq.weightQuantities()
 		quantities_dict["Quantities"] += iq.SingleTauQuantities()
 		quantities_dict["Quantities"] += [
