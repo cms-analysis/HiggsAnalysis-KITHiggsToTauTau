@@ -57,7 +57,7 @@ class Systematics_Config(dict):
 					self["SvfitCacheFileFolder"] = "nominal"
 			
 			if systematic_uncertainty == "jecUncUp":
-				if re.search("Run201|Embedding"):
+				if re.search("Run201|Embedding", nickname):
 					self["JetEnergyCorrectionUncertaintyShift"] = 0.0
 				else:
 					self["JetEnergyCorrectionUncertaintyShift"] = 1.0
@@ -67,7 +67,7 @@ class Systematics_Config(dict):
 
 				self["SvfitCacheFileFolder"] = "nominal"
 			elif systematic_uncertainty == "jecUncDown":
-				if re.search("Run201|Embedding"):
+				if re.search("Run201|Embedding", nickname):
 					self["JetEnergyCorrectionUncertaintyShift"] = 0.0
 				else:
 					self["JetEnergyCorrectionUncertaintyShift"] = -1.0
