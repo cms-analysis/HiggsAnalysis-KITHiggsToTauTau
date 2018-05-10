@@ -277,16 +277,18 @@ class et_ArtusConfig(dict):
 				]
 		
 		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17)", nickname):
+			#'#producer:TauPolarisationTmvaReader', '#producer:MVATestMethodsProducer'
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["producer:MELAProducer"]
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 				self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 			
 			if re.search("Run2016|Run2017", nickname):
-				#self["Processors"] += ["producer:MVATestMethodsProducer"]
+				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						
 				self["Processors"] += ["producer:SimpleFitProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
@@ -296,12 +298,10 @@ class et_ArtusConfig(dict):
 				self["Processors"] += ["producer:SvfitM91Producer"]
 				self["Processors"] += ["producer:SvfitM125Producer"]
 
-				self["Processors"] += ["producer:MELAProducer"]
 				self["Processors"] += ["producer:MELAM125Producer"]
 
-				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
-
-			else:
+			else: #(Spring16|Summer16|||Summer17|Fall17)
+				self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 				self["Processors"] += ["producer:TauCorrectionsProducer"]
 				self["Processors"] += ["producer:RooWorkspaceWeightProducer"]  #changes from file to file
 				self["Processors"] += ["producer:MetCorrector"]
@@ -311,46 +311,37 @@ class et_ArtusConfig(dict):
 						]
 			
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
+					(LFV).*(?=(Spring16|Summer16)) :
 					self["Processors"] += [
 						"producer:ZPtReweightProducer"
-						#"filter:MinimalPlotlevelFilter"
+						#"filter:MinimalPlotlevelFilter", '#producer:SvfitProducer', '#producer:SvfitM91Producer', '#producer:SvfitM125Producer'
 					]
-					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 					self["Processors"] += ["producer:LFVJetCorrection2016Producer"]
 
-				else:              
+				else:
+					#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
+
 					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
-
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
 			
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += ["producer:ZPtReweightProducer"]			
-
 						self["Processors"] += ["producer:SimpleFitProducer"]
-						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-
-						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
-						self["Processors"] += [
-							"producer:TopPtReweightingProducer"
-						] 
-						#self["Processors"] += ["producer:MVATestMethodsProducer"]
-						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
-						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
-					else:
-						self["Processors"] += [	"producer:TopPtReweightingProducer"] 
+						self["Processors"] += ["producer:TopPtReweightingProducer"]
+
+					else: # what semples this correspond to? why no "producer:GenMatchedTauCPProducer"?
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
-						self["Processors"] += ["producer:SimpleFitProducer"]				
+						self["Processors"] += [	"producer:TopPtReweightingProducer"]
+						self["Processors"] += ["producer:SimpleFitProducer"]
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-				
-						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 		elif re.search("(Fall15|Run2015)", nickname):
 			#self["Processors"] += ["producer:RefitVertexSelector"]
