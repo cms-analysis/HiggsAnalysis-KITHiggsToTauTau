@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 import re
 import copy
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
+from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities import Quantities
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
 
 
@@ -248,12 +248,13 @@ class mm_ArtusConfig(dict):
 
 
 
-		quantities_dict = quantities.quantities() 
+		quantities_dict = Quantities()
+		# quantities_dict.build_quantities(nickname, channel = self["Channel"])
 
 		quantities_dict["Quantities"] += quantities_dict.fourVectorQuantities()
 		quantities_dict["Quantities"] += quantities_dict.syncQuantities(nickname)
-		quantities_dict["Quantities"] += iq.weightQuantities()
-		quantities_dict["Quantities"] += iq.SingleTauQuantities()
+		quantities_dict["Quantities"] += quantities_dict.minimalWeightQuantities()
+		quantities_dict["Quantities"] += quantities_dict.singleTauQuantities()
 		quantities_dict["Quantities"] += [
 			"nLooseElectrons",
 			"nLooseMuons",

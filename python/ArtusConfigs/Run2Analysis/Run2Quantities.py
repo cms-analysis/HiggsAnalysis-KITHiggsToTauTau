@@ -8,12 +8,13 @@ import re
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
 
-class quantities(dict):
+class Run2Quantities(dict):
 
 	def __init__(self, nickname):
 		pass
 
-	def fourVectorQuantities(self):
+	@staticmethod
+	def fourVectorQuantities():
 		return [
 			"leadingLepLV",
 			"lep1LV",
@@ -46,7 +47,8 @@ class quantities(dict):
 			"sixthJetLV"
 		]
 
-	def fakeFactorQuantities(self):
+	@staticmethod
+	def fakeFactorQuantities():
 		return [
 			"jetToTauFakeWeight_comb",
 			"jetToTauFakeWeight_qcd_up",
@@ -81,7 +83,8 @@ class quantities(dict):
 			"jetToTauFakeWeight_ff_tt_stat_down"
 		]
 
-	def ExtraTauQuantities(self):
+	@staticmethod
+	def extraTauQuantities():
 		return [
 			"decayDistX_1",
 			"decayDistX_2",
@@ -123,7 +126,8 @@ class quantities(dict):
 			"flightLengthSig_2"
 		]
 
-	def lheWeightsDYQuantities(self):
+	@staticmethod
+	def lheWeightsDYQuantities():
 		return [
 			"minPdfLheWeight",
 			"maxPdfLheWeight",
@@ -262,7 +266,8 @@ class quantities(dict):
 			"Central_scale_variation__mur_2_muf_2"
 		]
 
-	def lheWeightsHTTQuantities(self):
+	@staticmethod
+	def lheWeightsHTTQuantities():
 		return [
 			"minPdfLheWeight",
 			"maxPdfLheWeight",
@@ -401,265 +406,47 @@ class quantities(dict):
 			"scale_variation__muR_0_5_muF_0_5"
 		]
 
-	def splitJecUncertaintyQuantities(self):                #possibility to add options for adding only each subset with if statements
-		splitJecUncertaintyQuantities_list = [
-			"njetspt30_AbsoluteFlavMapUp",
-			"njetspt30_AbsoluteMPFBiasUp",
-			"njetspt30_AbsoluteScaleUp",
-			"njetspt30_AbsoluteStatUp",
-			"njetspt30_FlavorQCDUp",
-			"njetspt30_FragmentationUp",
-			"njetspt30_PileUpDataMCUp",
-			"njetspt30_PileUpPtBBUp",
-			"njetspt30_PileUpPtEC1Up",
-			"njetspt30_PileUpPtEC2Up",
-			"njetspt30_PileUpPtHFUp",
-			"njetspt30_PileUpPtRefUp",
-			"njetspt30_RelativeBalUp",
-			"njetspt30_RelativeFSRUp",
-			"njetspt30_RelativeJEREC1Up",
-			"njetspt30_RelativeJEREC2Up",
-			"njetspt30_RelativeJERHFUp",
-			"njetspt30_RelativePtBBUp",
-			"njetspt30_RelativePtEC1Up",
-			"njetspt30_RelativePtEC2Up",
-			"njetspt30_RelativePtHFUp",
-			"njetspt30_RelativeStatECUp",
-			"njetspt30_RelativeStatFSRUp",
-			"njetspt30_RelativeStatHFUp",
-			"njetspt30_SinglePionECALUp",
-			"njetspt30_SinglePionHCALUp",
-			"njetspt30_TimePtEtaUp",
-			"njetspt30_TotalUp",
-			"njetspt30_ClosureUp"]
+	@staticmethod
+	def splitJecUncertaintyQuantities(nuisances = ["njetspt30", "mjj", "jdeta", "jdphi"]):
+		l = []
+		s = ["_AbsoluteFlavMap",
+			"_AbsoluteMPFBias",
+			"_AbsoluteScale",
+			"_AbsoluteStat",
+			"_FlavorQCD",
+			"_Fragmentation",
+			"_PileUpDataMC",
+			"_PileUpPtBB",
+			"_PileUpPtEC1",
+			"_PileUpPtEC2",
+			"_PileUpPtHF",
+			"_PileUpPtRef",
+			"_RelativeBal",
+			"_RelativeFSR",
+			"_RelativeJEREC1",
+			"_RelativeJEREC2",
+			"_RelativeJERHF",
+			"_RelativePtBB",
+			"_RelativePtEC1",
+			"_RelativePtEC2",
+			"_RelativePtHF",
+			"_RelativeStatEC",
+			"_RelativeStatFSR",
+			"_RelativeStatHF",
+			"_SinglePionECAL",
+			"_SinglePionHCAL",
+			"_TimePtEta",
+			"_Total",
+			"_Closure"]
+
+		for i in nuisances:
+			l += [i + x + "Up" for x in s]
+			l += [i + x + "Down" for x in s]
 	
-		splitJecUncertaintyQuantities_list += [
-			"mjj_AbsoluteFlavMapUp",
-			"mjj_AbsoluteMPFBiasUp",
-			"mjj_AbsoluteScaleUp",
-			"mjj_AbsoluteStatUp",
-			"mjj_FlavorQCDUp",
-			"mjj_FragmentationUp",
-			"mjj_PileUpDataMCUp",
-			"mjj_PileUpPtBBUp",
-			"mjj_PileUpPtEC1Up",
-			"mjj_PileUpPtEC2Up",
-			"mjj_PileUpPtHFUp",
-			"mjj_PileUpPtRefUp",
-			"mjj_RelativeBalUp",
-			"mjj_RelativeFSRUp",
-			"mjj_RelativeJEREC1Up",
-			"mjj_RelativeJEREC2Up",
-			"mjj_RelativeJERHFUp",
-			"mjj_RelativePtBBUp",
-			"mjj_RelativePtEC1Up",
-			"mjj_RelativePtEC2Up",
-			"mjj_RelativePtHFUp",
-			"mjj_RelativeStatECUp",
-			"mjj_RelativeStatFSRUp",
-			"mjj_RelativeStatHFUp",
-			"mjj_SinglePionECALUp",
-			"mjj_SinglePionHCALUp",
-			"mjj_TimePtEtaUp",
-			"mjj_TotalUp",
-			"mjj_ClosureUp"
-		]
+		return l
 
-		splitJecUncertaintyQuantities_list += [
-			"jdeta_AbsoluteFlavMapUp",
-			"jdeta_AbsoluteMPFBiasUp",
-			"jdeta_AbsoluteScaleUp",
-			"jdeta_AbsoluteStatUp",
-			"jdeta_FlavorQCDUp",
-			"jdeta_FragmentationUp",
-			"jdeta_PileUpDataMCUp",
-			"jdeta_PileUpPtBBUp",
-			"jdeta_PileUpPtEC1Up",
-			"jdeta_PileUpPtEC2Up",
-			"jdeta_PileUpPtHFUp",
-			"jdeta_PileUpPtRefUp",
-			"jdeta_RelativeBalUp",
-			"jdeta_RelativeFSRUp",
-			"jdeta_RelativeJEREC1Up",
-			"jdeta_RelativeJEREC2Up",
-			"jdeta_RelativeJERHFUp",
-			"jdeta_RelativePtBBUp",
-			"jdeta_RelativePtEC1Up",
-			"jdeta_RelativePtEC2Up",
-			"jdeta_RelativePtHFUp",
-			"jdeta_RelativeStatECUp",
-			"jdeta_RelativeStatFSRUp",
-			"jdeta_RelativeStatHFUp",
-			"jdeta_SinglePionECALUp",
-			"jdeta_SinglePionHCALUp",
-			"jdeta_TimePtEtaUp",
-			"jdeta_TotalUp",
-			"jdeta_ClosureUp"
-		]
-
-		splitJecUncertaintyQuantities_list += [
-			"jdphi_AbsoluteFlavMapUp",
-			"jdphi_AbsoluteMPFBiasUp",
-			"jdphi_AbsoluteScaleUp",
-			"jdphi_AbsoluteStatUp",
-			"jdphi_FlavorQCDUp",
-			"jdphi_FragmentationUp",
-			"jdphi_PileUpDataMCUp",
-			"jdphi_PileUpPtBBUp",
-			"jdphi_PileUpPtEC1Up",
-			"jdphi_PileUpPtEC2Up",
-			"jdphi_PileUpPtHFUp",
-			"jdphi_PileUpPtRefUp",
-			"jdphi_RelativeBalUp",
-			"jdphi_RelativeFSRUp",
-			"jdphi_RelativeJEREC1Up",
-			"jdphi_RelativeJEREC2Up",
-			"jdphi_RelativeJERHFUp",
-			"jdphi_RelativePtBBUp",
-			"jdphi_RelativePtEC1Up",
-			"jdphi_RelativePtEC2Up",
-			"jdphi_RelativePtHFUp",
-			"jdphi_RelativeStatECUp",
-			"jdphi_RelativeStatFSRUp",
-			"jdphi_RelativeStatHFUp",
-			"jdphi_SinglePionECALUp",
-			"jdphi_SinglePionHCALUp",
-			"jdphi_TimePtEtaUp",
-			"jdphi_TotalUp",
-			"jdphi_ClosureUp"
-		]
-	
-		splitJecUncertaintyQuantities_list += [
-			"njetspt30_AbsoluteFlavMapDown",
-			"njetspt30_AbsoluteMPFBiasDown",
-			"njetspt30_AbsoluteScaleDown",
-			"njetspt30_AbsoluteStatDown",
-			"njetspt30_FlavorQCDDown",
-			"njetspt30_FragmentationDown",
-			"njetspt30_PileUpDataMCDown",
-			"njetspt30_PileUpPtBBDown",
-			"njetspt30_PileUpPtEC1Down",
-			"njetspt30_PileUpPtEC2Down",
-			"njetspt30_PileUpPtHFDown",
-			"njetspt30_PileUpPtRefDown",
-			"njetspt30_RelativeBalDown",
-			"njetspt30_RelativeFSRDown",
-			"njetspt30_RelativeJEREC1Down",
-			"njetspt30_RelativeJEREC2Down",
-			"njetspt30_RelativeJERHFDown",
-			"njetspt30_RelativePtBBDown",
-			"njetspt30_RelativePtEC1Down",
-			"njetspt30_RelativePtEC2Down",
-			"njetspt30_RelativePtHFDown",
-			"njetspt30_RelativeStatECDown",
-			"njetspt30_RelativeStatFSRDown",
-			"njetspt30_RelativeStatHFDown",
-			"njetspt30_SinglePionECALDown",
-			"njetspt30_SinglePionHCALDown",
-			"njetspt30_TimePtEtaDown",
-			"njetspt30_TotalDown",
-			"njetspt30_ClosureDown"
-		]
-
-		splitJecUncertaintyQuantities_list += [
-			"mjj_AbsoluteFlavMapDown",
-			"mjj_AbsoluteMPFBiasDown",
-			"mjj_AbsoluteScaleDown",
-			"mjj_AbsoluteStatDown",
-			"mjj_FlavorQCDDown",
-			"mjj_FragmentationDown",
-			"mjj_PileUpDataMCDown",
-			"mjj_PileUpPtBBDown",
-			"mjj_PileUpPtEC1Down",
-			"mjj_PileUpPtEC2Down",
-			"mjj_PileUpPtHFDown",
-			"mjj_PileUpPtRefDown",
-			"mjj_RelativeBalDown",
-			"mjj_RelativeFSRDown",
-			"mjj_RelativeJEREC1Down",
-			"mjj_RelativeJEREC2Down",
-			"mjj_RelativeJERHFDown",
-			"mjj_RelativePtBBDown",
-			"mjj_RelativePtEC1Down",
-			"mjj_RelativePtEC2Down",
-			"mjj_RelativePtHFDown",
-			"mjj_RelativeStatECDown",
-			"mjj_RelativeStatFSRDown",
-			"mjj_RelativeStatHFDown",
-			"mjj_SinglePionECALDown",
-			"mjj_SinglePionHCALDown",
-			"mjj_TimePtEtaDown",
-			"mjj_TotalDown",
-			"mjj_ClosureDown"
-		]
-
-		splitJecUncertaintyQuantities_list += [
-			"jdeta_AbsoluteFlavMapDown",
-			"jdeta_AbsoluteMPFBiasDown",
-			"jdeta_AbsoluteScaleDown",
-			"jdeta_AbsoluteStatDown",
-			"jdeta_FlavorQCDDown",
-			"jdeta_FragmentationDown",
-			"jdeta_PileUpDataMCDown",
-			"jdeta_PileUpPtBBDown",
-			"jdeta_PileUpPtEC1Down",
-			"jdeta_PileUpPtEC2Down",
-			"jdeta_PileUpPtHFDown",
-			"jdeta_PileUpPtRefDown",
-			"jdeta_RelativeBalDown",
-			"jdeta_RelativeFSRDown",
-			"jdeta_RelativeJEREC1Down",
-			"jdeta_RelativeJEREC2Down",
-			"jdeta_RelativeJERHFDown",
-			"jdeta_RelativePtBBDown",
-			"jdeta_RelativePtEC1Down",
-			"jdeta_RelativePtEC2Down",
-			"jdeta_RelativePtHFDown",
-			"jdeta_RelativeStatECDown",
-			"jdeta_RelativeStatFSRDown",
-			"jdeta_RelativeStatHFDown",
-			"jdeta_SinglePionECALDown",
-			"jdeta_SinglePionHCALDown",
-			"jdeta_TimePtEtaDown",
-			"jdeta_TotalDown",
-			"jdeta_ClosureDown"
-		]
-
-		splitJecUncertaintyQuantities_list += [
-			"jdphi_AbsoluteFlavMapDown",
-			"jdphi_AbsoluteMPFBiasDown",
-			"jdphi_AbsoluteScaleDown",
-			"jdphi_AbsoluteStatDown",
-			"jdphi_FlavorQCDDown",
-			"jdphi_FragmentationDown",
-			"jdphi_PileUpDataMCDown",
-			"jdphi_PileUpPtBBDown",
-			"jdphi_PileUpPtEC1Down",
-			"jdphi_PileUpPtEC2Down",
-			"jdphi_PileUpPtHFDown",
-			"jdphi_PileUpPtRefDown",
-			"jdphi_RelativeBalDown",
-			"jdphi_RelativeFSRDown",
-			"jdphi_RelativeJEREC1Down",
-			"jdphi_RelativeJEREC2Down",
-			"jdphi_RelativeJERHFDown",
-			"jdphi_RelativePtBBDown",
-			"jdphi_RelativePtEC1Down",
-			"jdphi_RelativePtEC2Down",
-			"jdphi_RelativePtHFDown",
-			"jdphi_RelativeStatECDown",
-			"jdphi_RelativeStatFSRDown",
-			"jdphi_RelativeStatHFDown",
-			"jdphi_SinglePionECALDown",
-			"jdphi_SinglePionHCALDown",
-			"jdphi_TimePtEtaDown",
-			"jdphi_TotalDown",
-			"jdphi_ClosureDown"
-		]
-	
-		return splitJecUncertaintyQuantities_list
-
-	def svfitSyncQuantities(self):
+	@staticmethod
+	def svfitSyncQuantities():
 		return [
 			"m_sv",
 			"pt_sv",
@@ -697,7 +484,8 @@ class quantities(dict):
 			"svfitM125Tau2ERatio"
 		]
 
-	def syncQuantities(self, nickname):
+	@staticmethod
+	def syncQuantities(nickname):
 		sync_quantities_list = [
 			"nickname",
 			"input",

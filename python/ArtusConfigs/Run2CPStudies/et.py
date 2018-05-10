@@ -7,8 +7,7 @@ log = logging.getLogger(__name__)
 import re
 import copy
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
+from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities import Quantities
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering as processorOrdering
 
@@ -102,10 +101,10 @@ class et_ArtusConfig(dict):
 		self["MinNTaus"] =  1
 		self["HltPaths_comment"] =  "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer."
 
-		self["NoHltFiltering"] = False  #else
+		self["NoHltFiltering"] = False
 		self["DiTauPairNoHLT" ] = False
 
-		self["ElectronLowerPtCuts"] = ["26.0"]  #default: !=2015
+		self["ElectronLowerPtCuts"] = ["26.0"]
 		self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"]  #default: !=2015 or !=2017
 		
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
@@ -115,14 +114,16 @@ class et_ArtusConfig(dict):
 
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele23_WPLoose_Gsf_v"]
 
-		elif re.search("Run2016|Spring16|Summer16", nickname):          #spring16 self["NoHltFiltering"] = True for cp config False for RUN2 set to false here
+		elif re.search("Run2016|Spring16|Summer16", nickname):
+			self["NoHltFiltering"] = True
 			self["HltPaths"] = ["HLT_Ele25_eta2p1_WPTight_Gsf"]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v"]
+			self["DiTauPairNoHLT" ] = True
 
 		elif re.search("Embedding(2016|MC)", nickname):
+			self["NoHltFiltering"] = True
 			self["HltPaths"] =[""]
-			self["NoHltFiltering"] = True               #else: self["NoHltFiltering"] = True
-			self["DiTauPairNoHLT" ] = False
+			self["DiTauPairNoHLT" ] = True
 
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v"]
 
@@ -188,9 +189,13 @@ class et_ArtusConfig(dict):
 			
 			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"]
 			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"]
+
+		if re.search("Spring16", nickname):
+			self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root" ]
 		
 		self["TriggerEfficiencyMode"] = "multiply_weights"
 		self["IdentificationEfficiencyMode"] = "multiply_weights"
+
 		if re.search("Run2017|Summer17|Fall17", nickname):
 			self["EleTauFakeRateWeightFile"] =[""]
 		
@@ -198,6 +203,7 @@ class et_ArtusConfig(dict):
 			self["EleTauFakeRateWeightFile"] = [
 				"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
 			]
+
 		self["TauTauRestFrameReco"] = "collinear_approximation"
 		
 
@@ -232,61 +238,10 @@ class et_ArtusConfig(dict):
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
 			"SvfitCacheConsumer",
-			"#CutFlowTreeConsumer",
-			"#KappaElectronsConsumer",
-			"#KappaTausConsumer",
-			"#KappaTaggedJetsConsumer",
-			"#RunTimeConsumer",
-			"#PrintEventsConsumer",
-			"#PrintGenParticleDecayTreeConsumer"
-		]
+		] # "#CutFlowTreeConsumer", "#KappaElectronsConsumer", "#KappaTausConsumer", "#KappaTaggedJetsConsumer", "#RunTimeConsumer", "#PrintEventsConsumer", "#PrintGenParticleDecayTreeConsumer"
 
-		quantities_dict = quantities.quantities() 
+		quantities_dict = Quantities()
 		quantities_dict.build_quantities(nickname, channel = self["Channel"])
-
-		#put rest of quantities in CPQuantities.py?
-
-		quantities_dict["Quantities"] += [
-				"nVetoElectrons",
-				"nLooseElectrons",
-				"nLooseMuons",
-				"nDiTauPairCandidates",
-				"nAllDiTauPairCandidates"
-			]
-
-		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):	 #the same as tt
-			
-			quantities_dict["Quantities"] += quantities_dict.genQuantities()
-			
-			quantities_dict["Quantities"] += [
-					"tauSpinnerPolarisation"
-			]
-
-		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
-			
-			quantities_dict["Quantities"] += [
-				"#tauPolarisationTMVA",
-				"#tauPolarisationSKLEARN",
-			]
-
-		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
-
-			quantities_dict["Quantities"] += [
-				"tauSpinnerPolarisation"
-			]
-
-
-		elif re.search("Embedding2016", nickname):
-			
-			quantities_dict["Quantities"] += [
-				"tauSpinnerPolarisation"
-			]
-
-		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-			quantities_dict["Quantities"] += [
-				"jetCorrectionWeight"
-			]
-
 		self.update(copy.deepcopy(quantities_dict))
 
 		self["Processors"] = [

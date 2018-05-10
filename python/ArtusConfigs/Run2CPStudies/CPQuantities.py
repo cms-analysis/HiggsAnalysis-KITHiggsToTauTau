@@ -6,14 +6,13 @@ log = logging.getLogger(__name__)
 
 import re
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Run2Quantities as run2_quantities
+from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Run2Quantities import Run2Quantities
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.IncludeQuantities as iq
-
-class quantities(run2_quantities.quantities):
+class Quantities(Run2Quantities):
 
 	def __init__(self):
-		self["Quantities"]=[]
+		self["Quantities"] = []
+
 	def build_quantities(self, nickname, *args, **kwargs):
 		
 		self["Quantities"] += self.fourVectorQuantities()
@@ -25,28 +24,35 @@ class quantities(run2_quantities.quantities):
 			
 		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()
+
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
 				self["Quantities"] += self.splitJecUncertaintyQuantities()
 				self["Quantities"] += self.genQuantitiesZ()   #no lhe in 2017 skim
+
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
 			self["Quantities"] += self.recoPolarisationQuantities()
 			self["Quantities"] += self.recoPolarisationQuantitiesSvfit()
+
 			if kwargs.get("channel", None) != "EM":
-				self["Quantities"] += iq.SingleTauQuantities()	
-			
+				self["Quantities"] += self.singleTauQuantities()
+
+			self["Quantities"].append("tauSpinnerPolarisation")
 		
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()
+
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
 				self["Quantities"] += self.splitJecUncertaintyQuantities()
 				self["Quantities"] += self.genHiggsQuantities() #no lhe in 2017 skim
+
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
+			# "#tauPolarisationTMVA", "#tauPolarisationSKLEARN"``
 			
 		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Quantities"] += self.recoPolarisationQuantities()
@@ -55,6 +61,7 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoPolarisationQuantities()
+			self["Quantities"].append("tauSpinnerPolarisation")
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):   #almost the same as 2016 signal, no splitJecUncertaintyQuantities()
 			self["Quantities"] += self.svfitSyncQuantities()
@@ -74,10 +81,12 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genQuantitiesZ()
 			if kwargs.get("channel", None) == "MT" or kwargs.get("channel", None) == "ET":
-				self["Quantities"] += iq.SingleTauQuantities()	#until here
+				self["Quantities"] += self.singleTauQuantities()	#until here
 				self["Quantities"] += self.recoCPQuantities()
 			elif kwargs.get("channel", None) == "EM":
 				self["Quantities"] += self.recoCPQuantities()
+			self["Quantities"] += "jetCorrectionWeight"
+
 		else:
 			self["Quantities"] += self.svfitSyncQuantities()
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
@@ -87,8 +96,21 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.recoPolarisationQuantities()
 			self["Quantities"] += self.recoPolarisationQuantitiesSvfit()
 
+			self["Quantities"]  += [
+				"nLooseElectrons",
+				"nLooseMuons",
+				"nDiTauPairCandidates",
+				"nAllDiTauPairCandidates"
+			]
 
-	def genCPQuantities(self, *args, **kwargs):    #TODO Is this really used, very similar to matchedcpquantities
+
+		if not re.search("Embedding2016", nickname):
+			self["Quantities"].append("nVetoElectrons")
+		else:
+			self["Quantities"].append("tauSpinnerPolarisation")
+
+	@staticmethod
+	def genCPQuantities():    #TODO Is this really used, very similar to matchedcpquantities
 		return [
 			#"1genBosonDaughterSize",
 			#"1genBoson1DaughterPt",
@@ -245,7 +267,8 @@ class quantities(run2_quantities.quantities):
 			"genZs"
 		]
 
-	def genHiggsQuantities(self, *args, **kwargs):
+	@staticmethod
+	def genHiggsQuantities():
 		return [
 			"lheSignedDiJetDeltaPhi",
 			"lheDiJetAbsDeltaEta",
@@ -263,7 +286,8 @@ class quantities(run2_quantities.quantities):
 			"lheParticleBoson1PdgId"
 		]
 
-	def genMatchedCPQuantities(self, *args, **kwargs):
+	@staticmethod
+	def genMatchedCPQuantities():
 		return [
 			#"1genBosonDaughterSize",
 			#"1genBoson1DaughterPt",
@@ -421,7 +445,8 @@ class quantities(run2_quantities.quantities):
 			"d0s_dist"
 		]
 
-	def genQuantities(self, *args, **kwargs):
+	@staticmethod
+	def genQuantities():
 		return [
 			"genBosonLV",
 			"genBosonParticleFound",
@@ -452,7 +477,8 @@ class quantities(run2_quantities.quantities):
 			"npartons"
 		]
 
-	def genQuantitiesZ(self, *args, **kwargs):
+	@staticmethod
+	def genQuantitiesZ():
 		return [
 			"genBosonLV",
 			"genBosonParticleFound",
@@ -507,7 +533,8 @@ class quantities(run2_quantities.quantities):
 			"LHE_p_2"
 		]
 
-	def recoCPQuantities(self, *args, **kwargs):
+	@staticmethod
+	def recoCPQuantities():
 		return [
 			"thePVx",
 			"thePVy",
@@ -714,7 +741,8 @@ class quantities(run2_quantities.quantities):
 			"d0s_dist"
 		]
 
-	def recoCPQuantitiesHiggs(self, *args, **kwargs):
+	@staticmethod
+	def recoCPQuantitiesHiggs():
 		return [
 			"madGraphLheParticle1LV",
 			"madGraphLheParticle2LV",
@@ -732,7 +760,8 @@ class quantities(run2_quantities.quantities):
 			"lheParticleJetNumber"
 		]
 
-	def recoPolarisationQuantities(self, *args, **kwargs):
+	@staticmethod
+	def recoPolarisationQuantities():
 		return [
 			"lep1SumChargedHadronsLV",
 			"lep1SumNeutralHadronsLV",
@@ -829,7 +858,8 @@ class quantities(run2_quantities.quantities):
 			#"polarisationCombinedOmegaVisibleHHKinFit"
 		]
 
-	def recoPolarisationQuantitiesSvfit(self, *args, **kwargs):
+	@staticmethod
+	def recoPolarisationQuantitiesSvfit():
 		return [
 			"polarisationOmegaSvfit_1",
 			"polarisationOmegaSvfit_2",
@@ -852,9 +882,48 @@ class quantities(run2_quantities.quantities):
 			"polarisationCombinedOmegaVisibleSvfitM91"
 		]
 
-	def weightQuantities(self, *args, **kwargs):
+	@staticmethod
+	def singleTauQuantities():
 		return [
-			"hltWeight",
+			"run",
+			"lumi",
+			"evt",
+			"npv",
+			"npu",
+			"rho",
+			"nLooseElectrons",
+			"nLooseMuons",
+			"nElectrons",
+			"nMuons",
+			"nTaus",
+			"leadingElePt",
+			"leadingEleEta",
+			"leadingEleIso",
+			"leadingEleIsoOverPt",
+			"leadingMuonPt",
+			"leadingMuonEta",
+			"leadingMuonIso",
+			"leadingMuonIsoOverPt",
+			"leadingTauPt",
+			"leadingTauEta",
+			"leadingTauIso",
+			"leadingTauIsoOverPt",
+			"trailingTauPt",
+			"trailingTauEta",
+			"trailingTauIso",
+			"trailingTauIsoOverPt",
+			"diTauPt",
+			"diTauEta",
+			"diTauPhi",
+			"diTauMass",
+			"diTauSystemReconstructed",
+			"weight",
+			"collinearMass"
+		]
+
+	@staticmethod
+	def minimalWeightQuantities():
+		return ["hltWeight",
 			"triggerWeight_1",
 			"triggerWeight_2",
 			"identificationWeight_1",
@@ -867,6 +936,30 @@ class quantities(run2_quantities.quantities):
 			"embeddingWeight",
 			"eventWeight",
 			"sampleStitchingWeight",
+			"antiEVLooseSFWeight_1",
+			"antiELooseSFWeight_1",
+			"antiEMediumSFWeight_1",
+			"antiETightSFWeight_1",
+			"antiEVTightSFWeight_1",
+			"antiEVLooseSFWeight_2",
+			"antiELooseSFWeight_2",
+			"antiEMediumSFWeight_2",
+			"antiETightSFWeight_2",
+			"antiEVTightSFWeight_2",
+			"emuQcdWeightUp",
+			"emuQcdWeightNom",
+			"emuQcdWeightDown",
+			"topPtReweightWeight",
+			"topPtReweightWeightRun1",
+			"topPtReweightWeightRun2",
+			"zPtReweightWeight",
+			"eleTauFakeRateWeight",
+			"muTauFakeRateWeight"
+		]
+
+	@classmethod
+	def weightQuantities(klass):
+		return klass.minimalWeightQuantities() + [
 			"tauSpinnerWeight",
 			"tauSpinnerWeight000",
 			"tauSpinnerWeight005",
@@ -891,25 +984,6 @@ class quantities(run2_quantities.quantities):
 			"tauSpinnerWeight100",
 			"tauSpinnerWeightSample",
 			"tauSpinnerWeightInvSample",
-			"antiEVLooseSFWeight_1",
-			"antiELooseSFWeight_1",
-			"antiEMediumSFWeight_1",
-			"antiETightSFWeight_1",
-			"antiEVTightSFWeight_1",
-			"antiEVLooseSFWeight_2",
-			"antiELooseSFWeight_2",
-			"antiEMediumSFWeight_2",
-			"antiETightSFWeight_2",
-			"antiEVTightSFWeight_2",
-			"emuQcdWeightUp",
-			"emuQcdWeightNom",
-			"emuQcdWeightDown",
-			"topPtReweightWeight",
-			"topPtReweightWeightRun1",
-			"topPtReweightWeightRun2",
-			"zPtReweightWeight",
-			"eleTauFakeRateWeight",
-			"muTauFakeRateWeight",
 			"madGraphWeight000",
 			"madGraphWeight010",
 			"madGraphWeight020",
@@ -922,9 +996,11 @@ class quantities(run2_quantities.quantities):
 			"madGraphWeight090",
 			"madGraphWeight100",
 			"madGraphWeightSample",
-			"madGraphWeightInvSample"]
+			"madGraphWeightInvSample"
+		]
 
-	def melaQuantities(self, *args, **kwargs):
+	@staticmethod
+	def melaQuantities():
 		return [
 			"melaProbCPEvenGGH",
 			"melaProbCPOddGGH",
@@ -998,7 +1074,3 @@ class quantities(run2_quantities.quantities):
 			#"melaM125DiscriminatorD0MinusZhadH",
 			#"melaM125DiscriminatorDCPZhadH"
 		]
-
-
-
-	
