@@ -18,7 +18,7 @@ import copy
 from string import Template
 from datetime import datetime
 
-import Artus.Configuration.artusWrapper as artusWrapper
+import Artus.KappaAnalysis.kappaanalysiswrapper as kappaanalysiswrapper
 
 import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
@@ -26,67 +26,29 @@ import Artus.Utility.jsonTools as jsonTools
 
 
 
-class HiggsToTauTauAnalysisWrapper(artusWrapper.ArtusWrapper):
+class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 
 	def __init__(self, executable="HiggsToTauTauAnalysis",  userArgParsers=None):
 		
-		self._executable = executable
+		super(HiggsToTauTauAnalysisWrapper, self).__init__(executable, userArgParsers)
 
-		self._parser = None
-		#Load default argument parser
-		self._initArgumentParser(userArgParsers)
-		#Parse command line arguments and return dict
-		self._args = self._parser.parse_args()
-		logger.initLogger(self._args)
-		
-		if self._args.use_json:
-			self._config = jsonTools.JsonDict()
-			log.warning("YOU ARE USING THE JSON FILES, THIS IS NOT SUPPORTED ANYMORE")
-		else:
-			self._config = {}
+		if not self._args.use_json:
+			if self._args.systematics != self._parser.get_default("systematics"):
+				self._args.systematics = self._args.systematics[1:]
 
-		if self._args.systematics != self._parser.get_default("systematics"):
-			self._args.systematics = self._args.systematics[1:]
+			if self._args.channels != self._parser.get_default("channels"):
+				self._args.channels = self._args.channels[1:]
+			if len(self._args.systematics) == 1:
+				self._args.systematics = self._args.systematics * len(self._args.channels)
 
-		if self._args.channels != self._parser.get_default("channels"):
-			self._args.channels = self._args.channels[1:]
-		if len(self._args.systematics) == 1:
-			self._args.systematics = self._args.systematics * len(self._args.channels)
-
-		log.debug("channels are ")
-		log.debug(self._args.channels)
-		log.debug("systematics are:")
-		log.debug(self._args.systematics)
-
-		self.channels_systematics = {}
-		self.create_channels_systematics()
-		
-		# expand the environment variables only at the batch node
-		if self._args.batch:
-			self._args.envvar_expansion = False
-
-		date_now = datetime.now().strftime("%Y-%m-%d_%H-%M")
-
-		# write repository revisions to the config
-		if not self._args.disable_repo_versions:
-			self.setRepositoryRevisions()
-			self._config["Date"] = date_now
-
-		#Expand Config
-		if self._args.use_json:
-			self.expandConfig()
-		else:
+			log.debug("Channels are:")
+			log.debug(self._args.channels)
+			log.debug("Systematics are:")
+			log.debug(self._args.systematics)
+			
+			self.channels_systematics = {}
+			self.create_channels_systematics()
 			self.expandConfig_python()
-		self.projectPath = None
-		self.localProjectPath = None
-		self.remote_se = False
-
-		if self._args.batch:
-			self.projectPath = os.path.join(os.path.expandvars(self._args.work), date_now+"_"+self._args.project_name)
-			self.localProjectPath = self.projectPath
-			if self.projectPath.startswith("srm://"):
-				self.remote_se = True
-				self.localProjectPath = os.path.join(os.path.expandvars(self._parser.get_default("work")), date_now+"_"+self._args.project_name)
 
 
 	def _initArgumentParser(self, userArgParsers=None):

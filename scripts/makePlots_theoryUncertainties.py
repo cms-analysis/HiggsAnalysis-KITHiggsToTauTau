@@ -132,7 +132,7 @@ if __name__ == "__main__":
 		global_category_string = "catMVAStudies"
 	elif args.polarisation:
 		global_category_string = "catZttPol13TeV"
-		global_cut_type = "baseline_low_mvis"
+		global_cut_type = "low_mvis_smhtt"
 	elif args.taues:
 		global_cut_type = "tauescuts"
 	if args.era == "2016":

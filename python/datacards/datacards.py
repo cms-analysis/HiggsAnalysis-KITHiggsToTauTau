@@ -39,8 +39,7 @@ def _call_command(args):
 	if not cwd is None:
 		old_cwd = os.getcwd()
 		os.chdir(cwd)
-	print command
-	#log.debug(command)
+	log.debug(command)
 	logger.subprocessCall(command, shell=True)
 
 	if not cwd is None:
@@ -310,10 +309,8 @@ class Datacards(object):
 			physics_model = {}
 		else:
 			physics_model = physics_model.groupdict()
-		
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"
-	
+			
+		higgs_mass = kwargs.get("higgs_mass", 125)
 		commands = ["text2workspace.py -m {MASS} {ARGS} {DATACARD} -o {OUTPUT}".format(
 				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else higgs_mass, # TODO: maybe there are more masses?
 				ARGS=" ".join(args),
@@ -330,9 +327,7 @@ class Datacards(object):
 			datacards_poi_ranges = {}
 		tmp_args = " ".join(args)
 		
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"		
-
+		higgs_mass = kwargs.get("higgs_mass", 125)
 		chunks = [[None, None]]
 		if "{CHUNK}" in tmp_args and "--points" in tmp_args:
 			splited_args = tmp_args.split()
@@ -469,20 +464,20 @@ class Datacards(object):
 		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")) for datacard in datacards_cbs.keys()}
 	
 	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, *args, **kwargs):
-		tmp_args = "".join(args)
-		
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"
-					
+		tmp_args = "".join(args)		
+		higgs_mass = kwargs.get("higgs_mass", 125)		
+			
 		for datacard, workspace in datacards_workspaces.iteritems():
 			if not os.path.exists(os.path.join(os.path.dirname(workspace), "plots/")):
 				os.makedirs(os.path.join(os.path.dirname(workspace), "plots/"))
 				
 		commandsPlot = []
 		commandsPlot.extend([[
-				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} higgsCombine.MultiDimFit.mH{MASS}.root".format(
+				"$CMSSW_BASE/src/CombineHarvester/CombineTools/scripts/plot1DScan.py --POI {POI} --output={OUTPUT} {ARGS} higgsCombine{NAME}.MultiDimFit.mH{MASS}.root".format(
+						OUTPUT="nll",	
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						POI=poi,
+						NAME="Test",
 						ARGS=tmp_args.format()				
 				),
 				os.path.dirname(workspace)
@@ -491,8 +486,7 @@ class Datacards(object):
 		tools.parallelize(_call_command, commandsPlot, n_processes=n_processes, description="combineTool.py (plots)")	
 
 	def postfit_shapes(self, datacards_cbs, s_fit_only=False, n_processes=1,  *args, **kwargs):		
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"
+		higgs_mass = kwargs.get("higgs_mass", 125)
 		commands = []
 		datacards_postfit_shapes = {}
 		fit_type_list = kwargs.get("fit_type_list", ["fit_s", "fit_b"])
@@ -518,8 +512,7 @@ class Datacards(object):
 		return datacards_postfit_shapes
 
 	def postfit_shapes_fromworkspace(self, datacards_cbs, datacards_workspaces, s_fit_only=False, n_processes=1, *args, **kwargs):
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"	
+		higgs_mass = kwargs.get("higgs_mass", 125)
 				
 		commands = []
 		datacards_postfit_shapes = {}
@@ -741,15 +734,14 @@ class Datacards(object):
 		# create result plots HarryPlotter
 		return higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[plotting_args.get("args", "")], n_processes=n_processes)
 
-	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args):
+	def nuisance_impacts(self, datacards_cbs, datacards_workspaces, n_processes=1, *args, **kwargs):
 
 		tmp_args = " ".join(args)
-		for key, value in kwargs.items():
-			higgs_mass = value if "higgs_mass" in key else "0"	
+		higgs_mass = kwargs.get("higgs_mass", 125)	
 		
 		commandsInitialFit = []
 		commandsInitialFit.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doInitialFit --allPars {ARGS}".format(
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1  --doInitialFit --allPars {ARGS}".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace
@@ -759,7 +751,7 @@ class Datacards(object):
 
 		commandsFits = []
 		commandsFits.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --doFits --parallel {NPROCS} --allPars {ARGS}".format(
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --doFits --parallel {NPROCS} --allPars {ARGS}".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace,
@@ -770,7 +762,7 @@ class Datacards(object):
 
 		commandsOutput = []
 		commandsOutput.extend([[
-				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} --robustFit 1 --minimizerTolerance 0.1 --minimizerStrategy 0 --minimizerAlgoForMinos Minuit2,migrad --output impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
+				"combineTool.py -M Impacts -d {WORKSPACE} -m {MASS} -o impacts.json --parallel {NPROCS} --allPars {ARGS}".format(
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						ARGS=tmp_args.format(),
 						WORKSPACE=workspace,

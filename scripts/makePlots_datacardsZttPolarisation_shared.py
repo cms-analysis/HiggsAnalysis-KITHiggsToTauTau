@@ -103,7 +103,7 @@ def create_input_root_files(datacards,args):
                             higgs_masses=higgs_masses,
                             estimationMethod="new",
                             polarisation_bias_correction=True,
-                            cut_type="baseline_low_mvis",
+                            cut_type="low_mvis_smhtt2016",
                             no_ewk_samples = args.no_ewk_samples,
                             no_ewkz_as_dy = True,
                             asimov_nicks = asimov_nicks
@@ -175,19 +175,6 @@ def create_input_root_files(datacards,args):
     higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 
     return None
-
-def MaxLikelihoodFit():
-    
-    return None
-
-def PrefitPostfit():
-    
-    return None
-
-def PlotPolarisation():
-    
-    return None
-
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~:
 if __name__ == "__main__":
@@ -296,4 +283,21 @@ if __name__ == "__main__":
     print WARNING + '-----      Writing Datacards...                                       -----' + ENDC
 
     datacards_cbs = WriteDatacard(datacards, args.output_dir)
+    
+    #6.-----Write Cards
+    print WARNING + UNDERLINE  + '-----      Performing statistical analysis                            -----' + ENDC
+    
+    if args.use_asimov_dataset:
+        print datacards
+        datacards = use_asimov_dataset(datacards)
+        print datacards
+        print OKBLUE + "Using asimov dataset!" + ENDC
+        
+    print OKBLUE + "datacards.cb.PrintAll()" + ENDC, datacards.cb.PrintAll()
+    
+    #7.-----text2workspace
+    print WARNING + '-----      text2workspace                                             -----' + ENDC
+
+    physicsmodel = "CombineHarvester.ZTTPOL2016.taupolarisationmodels:ztt_pol"
+    datacards_workspaces = text2workspace(datacards,datacards_cbs,physicsmodel,"workspace")
 

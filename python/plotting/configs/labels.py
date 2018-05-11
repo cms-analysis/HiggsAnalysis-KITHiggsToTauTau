@@ -36,6 +36,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["zem"] = "Z #rightarrow e#mu (LFV)"
 			self.labels_dict["ttjj"] = "t#bar{t} + jets (jet)"
 			self.labels_dict["wj"] = "W + jets"
+			self.labels_dict["wj_mc_os"] = self.labels_dict["wj"]
+			self.labels_dict["wj_mc_ss"] = self.labels_dict["wj"]
 			self.labels_dict["wjt"] = "W + jets (tau)"
 			self.labels_dict["wjl"] = "W + jets (lep)"
 			self.labels_dict["vv"] = "Di-boson"
@@ -44,6 +46,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["vvj"] = "Di-boson (jet)"
 			self.labels_dict["ewk"] = "Electroweak"
 			self.labels_dict["qcd"] = "QCD"
+			self.labels_dict["qcd_prefit"] = "QCD"
 			self.labels_dict["htt"] = "H #rightarrow #tau#tau"
 			self.labels_dict["ggh"] = "ggH"
 			self.labels_dict["susy_ggh"] = "SUSY ggH"
@@ -121,8 +124,12 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict["catZttPol13TeV_"+channel+"_index"] = ""
 				
-				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
-					suffix = "_{m_{Z}}" if "M91" in reco_fit else ""
+				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit", "GenMatched"]:
+					suffix = ""
+					if "M91" in reco_fit:
+						suffix = "_{m_{Z}}"
+					elif "GenMatched" in reco_fit:
+						suffix = "_{gen}"
 					self.labels_dict[channel+"_polarisationCombinedOmega"+reco_fit] = "Combined Optimal Observable #Omega" + suffix
 					self.labels_dict[channel+"_polarisationCombinedOmegaBar"+reco_fit] = "Combined Optimal Observable #bar{#Omega}" + suffix
 					self.labels_dict[channel+"_polarisationCombinedOmegaVisible"+reco_fit] = "Combined Optimal Observable #Omega^{vis}" + suffix
@@ -763,6 +770,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["vv"] = "$\\mathrm{Di}-boson$"
 			self.labels_dict["ewk"] = "$\\mathrm{Electroweak}$"
 			self.labels_dict["qcd"] = "$\\mathrm{QCD}$"
+			self.labels_dict["qcd_prefit"] = "$\\mathrm{QCD Prefit}$"
 			self.labels_dict["htt"] = "$\\mathrm{H}\\,\\rightarrow \\tau\\tau$"
 			self.labels_dict["ggh"] = "$\\mathrm{ggH}$"
 			self.labels_dict["susy_ggh"] = "$\\mathrm{SUSY ggH}$"

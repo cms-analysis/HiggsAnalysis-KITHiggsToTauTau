@@ -80,7 +80,7 @@ if __name__ == "__main__":
 						no_ewkz_as_dy=True,
 						channel=channel,
 						category="catZttPol13TeV_{channel}_{category}".format(channel=channel, category=category) if category else None,
-						cut_type="smhtt2016", # baseline_low_mvis2016
+						cut_type="low_mvis_smhtt2016",
 						lumi = args.lumi * 1000,
 						exclude_cuts=[],
 						estimationMethod="new",
@@ -142,7 +142,7 @@ if __name__ == "__main__":
 						no_ewkz_as_dy=True,
 						channel=channel,
 						category="catZttPol13TeV_{channel}_{category}".format(channel=channel, category=category) if category else None,
-						cut_type="smhtt2016", # baseline_low_mvis2016
+						cut_type="low_mvis_smhtt2016",
 						lumi = args.lumi * 1000,
 						exclude_cuts=[],
 						estimationMethod="new",
