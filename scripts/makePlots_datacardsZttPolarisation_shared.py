@@ -103,7 +103,7 @@ def create_input_root_files(datacards,args):
                             higgs_masses=higgs_masses,
                             estimationMethod="new",
                             polarisation_bias_correction=True,
-                            cut_type="baseline_low_mvis",
+                            cut_type="low_mvis_smhtt2016",
                             no_ewk_samples = args.no_ewk_samples,
                             no_ewkz_as_dy = True,
                             asimov_nicks = asimov_nicks

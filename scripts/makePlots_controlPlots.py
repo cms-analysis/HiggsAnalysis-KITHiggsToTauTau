@@ -340,7 +340,7 @@ if __name__ == "__main__":
 		global_category_string = "catLFV13TeV"
 	elif args.polarisation:
 		global_category_string = "catZttPol13TeV"
-		global_cut_type = "baseline_low_mvis"
+		global_cut_type = "low_mvis_smhtt"
 	elif args.taues:
 		global_cut_type = "tauescuts"
 	elif args.cp:

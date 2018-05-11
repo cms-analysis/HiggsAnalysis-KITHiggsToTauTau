@@ -488,7 +488,7 @@ class CutStringsDict:
 			cuts = {}
 		else:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["m_vis"] = "((m_vis > 40.0) * (m_vis < 90.0))"
+			cuts["m_vis"] = "((m_vis > 40.0) * (m_vis < 85.0))"
 
 		return cuts
 
@@ -674,10 +674,8 @@ class CutStringsDict:
 			cuts = CutStringsDict.highMtSSControlRegionWJ(channel, cut_type)
 		elif "SameSignRegion" in cut_type:
 			cuts = CutStringsDict.SameSignRegion(channel, cut_type)
-					
-		elif cut_type=="baseline_low_mvis":
-			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
-		elif cut_type=="baseline_low_mvis2016":
+		
+		elif "low_mvis_smhtt" in cut_type:
 			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
 		
 		elif cut_type=="cp2016":
