@@ -28,7 +28,7 @@ class mm_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def addProcesses(self, nickname):
+	def addProcessors(self, nickname):
 		if re.search("(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))",nickname):
 			self["Processors"] = [
 				"producer:HltProducer",
@@ -540,4 +540,4 @@ class mm_ArtusConfig(dict):
 			self["MuonEnergyCorrection"] = "rochcorr2016"
 			self["MuonRochesterCorrectionsFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr2016"
 
-		self.addProcesses(nickname)
+		self.addProcessors(nickname)

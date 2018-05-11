@@ -30,7 +30,7 @@ class et_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def addProcesses(self, nickname):
+	def addProcessors(self, nickname):
 		self["Processors"] = [
 				"producer:HltProducer",
 				"filter:HltFilter",
@@ -427,4 +427,4 @@ class et_ArtusConfig(dict):
 		quantities_dict.build_quantities(nickname, channel = self["Channel"])
 		self.update(copy.deepcopy(quantities_dict))
 
-		self.addProcesses(nickname)
+		self.addProcessors(nickname)
