@@ -111,7 +111,6 @@ class et_ArtusConfig(dict):
 						"producer:SvfitProducer",
 						"producer:SvfitM91Producer",
 						"producer:SvfitM125Producer",
-						"producer:MELAProducer",
 						"producer:MELAM125Producer"
 					]
 
@@ -189,17 +188,10 @@ class et_ArtusConfig(dict):
 					]
 
 		else:
+			# "#producer:TauPolarisationTmvaReader"
 			self["Processors"] += ["producer:TauCorrectionsProducer",
 				"producer:TaggedJetUncertaintyShiftProducer",
 				"producer:MetCorrector",
-				"producer:TauTauRestFrameSelector",
-				"producer:DiLeptonQuantitiesProducer",
-				"producer:DiJetQuantitiesProducer",
-				"producer:SimpleEleTauFakeRateWeightProducer",
-				"producer:SimpleMuTauFakeRateWeightProducer",
-				"producer:TopPtReweightingProducer",
-				"filter:MinimalPlotlevelFilter",
-				"#producer:MVATestMethodsProducer",
 				"producer:SvfitProducer",
 				"producer:SvfitM91Producer",
 				"producer:SvfitM125Producer",
@@ -213,7 +205,6 @@ class et_ArtusConfig(dict):
 				"producer:PolarisationQuantitiesSvfitProducer",
 				"producer:PolarisationQuantitiesSvfitM91Producer",
 				"producer:PolarisationQuantitiesSimpleFitProducer",
-				"#producer:TauPolarisationTmvaReader"
 			]
 
 		# self["Processors"] += ["producer:EventWeightProducer"]
