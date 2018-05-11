@@ -283,7 +283,7 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["producer:MELAProducer"]
+
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 				self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 			
@@ -298,6 +298,7 @@ class et_ArtusConfig(dict):
 				self["Processors"] += ["producer:SvfitM91Producer"]
 				self["Processors"] += ["producer:SvfitM125Producer"]
 
+				self["Processors"] += ["producer:MELAProducer"]
 				self["Processors"] += ["producer:MELAM125Producer"]
 
 			else: #(Spring16|Summer16|||Summer17|Fall17)
