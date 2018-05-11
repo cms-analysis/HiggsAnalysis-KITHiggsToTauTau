@@ -85,7 +85,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "(0.0)"
 				self.expressions_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "-999.0"
 			for category in ["a1_oneprong", "rho_oneprong", "oneprong_oneprong"]:
-				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "catZttPol13TeV_"+channel+"_"+(category.split("_")[0])
+				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = self.expressions_dict["catZttPol13TeV_"+channel+"_"+(category.split("_")[0])]
 				self.expressions_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "polarisationCombinedOmegaBarSvfit"
 
 		for channel in ["tt"]:
@@ -132,7 +132,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["testZttPol13TeV_"+channel+"_combined_oneprong_oneprong"] = "polarisationCombinedOmegaBarSvfit"
 
 		for channel in ["em", "mt", "et", "tt"]:
-			self.expressions_dict["catZttPol13TeV_"+channel+"_index"] = " + ".join(["(catZttPol13TeV_"+channel+"_"+cat+" * "+str(index)+")" for index, cat in enumerate(["oneprong"] if channel == "em" else ["oneprong", "rho", "a1"])])
+			self.expressions_dict["catZttPol13TeV_"+channel+"_index"] = " + ".join(["("+self.expressions_dict["catZttPol13TeV_"+channel+"_"+cat]+" * "+str(index)+")" for index, cat in enumerate(["oneprong"] if channel == "em" else ["oneprong", "rho", "a1"])])
 
 		# In the so-called "gen" channel, the categories are considered as tt,mt,et... for now,
 		# it will be adapted later considering the decay products of tau's

@@ -29,7 +29,7 @@ if __name__ == "__main__":
 	                             "oneprong", "oneprong_1", "oneprong_2",
 	                             "combined_a1_a1", "combined_a1_rho", "combined_a1_oneprong",
 	                             "combined_rho_rho", "combined_rho_oneprong",
-	                             "oneprong_oneprong"],
+	                             "combined_oneprong_oneprong"],
 	                    help="Categories. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
