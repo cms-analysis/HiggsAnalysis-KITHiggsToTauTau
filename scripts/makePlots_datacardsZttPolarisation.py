@@ -82,6 +82,8 @@ if __name__ == "__main__":
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
+	parser.add_argument("-b", "--batch", default=None, const="rwthcondor", nargs="?",
+	                    help="Run with grid-control. Optionally select backend. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
 	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
 	parser.add_argument("-o", "--output-dir",
@@ -294,7 +296,7 @@ if __name__ == "__main__":
 
 	# create input histograms with HarryPlotter
 	print("###################### 5 ######################")
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
