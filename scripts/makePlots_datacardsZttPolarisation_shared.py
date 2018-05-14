@@ -273,13 +273,13 @@ if __name__ == "__main__":
     print WARNING + '-----      Extracting histograms from input root files...             -----' + ENDC
     
     ExtractShapes(datacards, args.output_dir +"/input/")
-    datacards.cb.SetGroup("syst", [".*"])
+    #datacards.cb.SetGroup("syst", [".*"])
     
     #4.-----Add BBB
     print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
 
     BinErrorsAndBBB(datacards, 0.1, 0.5, True)
-    datacards.cb.SetGroup("syst_plus_bbb", [".*"])
+    #datacards.cb.SetGroup("syst_plus_bbb", [".*"])
 
     #5.-----Write Cards
     print WARNING + '-----      Writing Datacards...                                       -----' + ENDC
