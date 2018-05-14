@@ -503,8 +503,7 @@ class BinningsDict(binnings.BinningsDict):
 				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category] = "25,-1.001,1.001"
 				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_m_vis"] = "25,40,85"
 				
-				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
-					suffix = "_{m_{Z}}" if "M91" in reco_fit else ""
+				for reco_fit in ["GenMatched", "Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
 					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmega"+reco_fit] = "25,-1.001,1.001"
 					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaBar"+reco_fit] = "25,-1.001,1.001"
 					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaVisible"+reco_fit] = "25,-1.001,1.001"

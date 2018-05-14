@@ -124,7 +124,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict["catZttPol13TeV_"+channel+"_index"] = ""
 				
-				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit", "GenMatched"]:
+				for reco_fit in ["GenMatched", "Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
 					suffix = ""
 					if "M91" in reco_fit:
 						suffix = "_{m_{Z}}"
