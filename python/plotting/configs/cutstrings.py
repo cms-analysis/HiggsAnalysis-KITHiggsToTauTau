@@ -22,7 +22,7 @@ class CutStringsDict:
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
 
-			elif "smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type:
+			elif "smhtt2016" in cut_type or "cp2016" in cut_type:
 				cuts["pt_1"] = "(pt_1 > 25.0)"
 				cuts["pt_2"] = "(pt_2 > 25.0)"
 				cuts["eta_1"] = "(abs(eta_1) < 2.1)"
@@ -42,7 +42,7 @@ class CutStringsDict:
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_muonelectron == 1)"
 
-			elif ("smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type) and channel == "em":
+			elif ("smhtt2016" in cut_type or "cp2016" in cut_type) and channel == "em":
 				cuts["bveto"] = "(nbtag == 0)"
 				cuts["pt_1"] = "(pt_1 > 13.0)"
 				cuts["pt_2"] = "(pt_2 > 10.0)"
@@ -58,7 +58,7 @@ class CutStringsDict:
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
 
-			elif "smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type:
+			elif "smhtt2016" in cut_type or "cp2016" in cut_type:
 				# trigger weights are saved as optional weights, and thus need to be applied here
 				cuts["trg"] = "((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23)+(trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23))"
 				cuts["pt_1"] = "(pt_1 > 20.0)"
@@ -74,7 +74,7 @@ class CutStringsDict:
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singleelectron == 1)"
 
-			elif "smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type:
+			elif "smhtt2016" in cut_type or "cp2016" in cut_type:
 				cuts["pt_1"] = "(pt_1 > 25.0)"
 				cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["mt"] = "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)"
@@ -88,7 +88,7 @@ class CutStringsDict:
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_doubletau == 1)"
 
-			elif "smhtt2016" in cut_type or "cp2016" in cut_type or "cpggh2016" in cut_type:
+			elif "smhtt2016" in cut_type or "cp2016" in cut_type:
 				cuts["pt_1"] = "(pt_1 > 50.0)"
 				cuts["pt_2"] = "(pt_2 > 40.0)"
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
@@ -134,6 +134,40 @@ class CutStringsDict:
 			cuts["iso_2"] = iso_2_cut
 		return cuts
 	
+	@staticmethod
+	def cpggh2016(channel, cut_type):
+		cuts = CutStringsDict.baseline(channel, cut_type)
+		if channel == "mm":
+			cuts["pt_1"] = "(pt_1 > 25.0)"
+			cuts["pt_2"] = "(pt_2 > 25.0)"
+			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"					
+		elif channel == "em":
+			cuts["bveto"] = "(nbtag == 0)"
+			cuts["pt_1"] = "(pt_1 > 13.0)"
+			cuts["pt_2"] = "(pt_2 > 10.0)"
+			# used to remove overlap with H->WW->emu analysis
+			cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
+		elif channel == "mt":
+			cuts["trg"] = "((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23)+(trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23))"
+			cuts["pt_1"] = "(pt_1 > 20.0)"
+			cuts["pt_2"] = "(pt_2 > 30.0)"
+			cuts["mt"] = "(mt_1<50.0)"					
+			cuts["iso_1"] = "(iso_1 < 0.15)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+		elif channel == "et":
+			cuts["pt_1"] = "(pt_1 > 25.0)"
+			cuts["pt_2"] = "(pt_2 > 30.0)"	
+			cuts["mt"] = "(mt_1<50.0)"	
+			cuts["iso_1"] = "(iso_1 < 0.1)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+		elif channel == "tt":
+			cuts["pt_1"] = "(pt_1 > 50.0)"
+			cuts["pt_2"] = "(pt_2 > 40.0)"
+			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"									
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+		return cuts		
+									
 	@staticmethod
 	def lfv(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
