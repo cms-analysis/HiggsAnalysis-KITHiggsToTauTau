@@ -46,7 +46,6 @@ class QcdFactorsDatacards(datacards.Datacards):
 				self.cb.cp().channel(["mt"]).process(all_mc_bkgs_no_W).AddSyst(self.cb, *systematics_list.trigger_efficiency2016_syst_args)
 				self.cb.cp().channel(["mt"]).process(all_mc_bkgs).AddSyst(self.cb, *systematics_list.muon_efficiency2016_syst_args) #https://github.com/cms-analysis/CombineHarvester/blob/f553ba7f1c2816e535cfd98fb18210ba0c2bc16d/HTTSMCP2016/src/HttSystematics_SMRun2.cc#L101
 				self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *systematics_list.tau_efficiency_syst_args)
-				# self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *systematics_list.tau_es_syst_args)
 				self.cb.cp().channel(["mt"]).process(["ZL"]).AddSyst(self.cb, *systematics_list.muFakeTau_tight_syst_args)
 			
 
@@ -89,7 +88,8 @@ class QcdFactorsDatacards(datacards.Datacards):
 			# fake-rate
 			if year == "2016":
 				self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *systematics_list.eFakeTau2016_syst_args)
-				self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *systematics_list.eFakeTau_tight_syst_args)
+				# self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *systematics_list.eFakeTau_tight_syst_args)
+				self.cb.cp().channel(["et"]).process(["ZL"]).AddSyst(self.cb, *systematics_list.eFakeTau_vloose_syst_args)
 
 			# ======================================================================
 			# All channels
@@ -118,6 +118,13 @@ class QcdFactorsDatacards(datacards.Datacards):
 			# W+jets high->low mt extrapolation uncertainty
 			self.cb.cp().channel(["mt", "et"]).process(["W"]).AddSyst(self.cb, "WHighMTtoLowMT_13TeV", "lnN", ch.SystMap()(1.10))
 
+			# tau energy scale
+			if year == "2016":
+				# self.cb.cp().channel(["mt"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *systematics_list.tau_es_syst_args)
+				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *systematics_list.scale_t_1prong_syst_args)
+				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *systematics_list.scale_t_3prong_syst_args)
+				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *systematics_list.scale_t_1prong1pizero_syst_args)
+			
 			if year == "2016":
 				self.cb.cp().channel(["mt", "et"]).process(["ZTT", "TTT", "VVT"]).AddSyst(self.cb, *systematics_list.tau_efficiency2016_corr_syst_args)
 

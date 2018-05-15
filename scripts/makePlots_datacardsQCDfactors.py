@@ -436,21 +436,24 @@ if __name__ == "__main__":
 					config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot" if not "et_dijet2D_boosted" in category else "VVT_noplot W_noplot")
 					config["sum_scale_factors"].append("1.0 1.0 1.0"  if not "et_dijet2D_boosted" in category else "1.0 1.0")
 					config["sum_result_nicks"].append("EWK")
-					if (not "dijet2D_boosted" in category and "tau" in category):
-						processes_to_plot.insert(2, "ZLL")
-						config["sum_nicks"].append("ZJ_noplot" if ("et_dijet2D_lowboost" or "mt_dijet2D_boosted") in category else "ZL_noplot ZJ_noplot")
-						config["sum_scale_factors"].append("1.0"  if ("et_dijet2D_lowboost" or "mt_dijet2D_boosted") in category else "1.0 1.0")
-						config["sum_result_nicks"].append("ZLL")
-					elif "mt_dijet2D_lowboost_antiiso_far" in category:
+					
+					if any(bin in category for bin in ["mt_dijet2D_lowboost_antiiso_far","et_dijet2D_antiiso_far"]):
 						processes_to_plot.insert(2, "ZLL")
 						config["sum_nicks"].append("ZJ_noplot")
 						config["sum_scale_factors"].append("1.0")
 						config["sum_result_nicks"].append("ZLL")
-					elif "mt_dijet2D_lowboost_antiiso_far" in category:
+					elif any(bin in category for bin in ["et_ZeroJet2D_antiiso_far", "mt_dijet2D_lowboost_antiiso_far"]):
 						processes_to_plot.insert(2, "ZLL")
 						config["sum_nicks"].append("ZL_noplot")
 						config["sum_scale_factors"].append("1.0")
 						config["sum_result_nicks"].append("ZLL")
+					elif any(bin in category for bin in ["et_dijet2D_lowboost_antiiso_far"]): 
+						pass
+					else:
+						processes_to_plot.insert(2, "ZLL")
+						config["sum_nicks"].append("ZL_noplot ZJ_noplot")
+						config["sum_scale_factors"].append("1.0 1.0")
+						config["sum_result_nicks"].append("ZLL")						
 										
 					config["files"] = [postfit_shapes]
 					config["folders"] = [category+"_"+level]
