@@ -24,7 +24,7 @@ class QcdFactorsDatacards(datacards.Datacards):
 		all_mc_bkgs = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]
 		all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"] #don't no whether this is still needed here...
 		signal_processes = ["QCD"]
-		categories_for_SSOS_factor_estimation = ["ZeroJet2D_antiiso", "Boosted2D_antiiso", "dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "dijet2D_antiiso", "ZeroJet2D_antiiso_near", "Boosted2D_antiiso_near", "dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far", "Boosted2D_antiiso_far", "dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far"] 
+		categories_for_SSOS_factor_estimation = ["ZeroJet2D_antiiso", "Boosted2D_antiiso", "dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "ZeroJet2D_antiiso_tau", "Boosted2D_antiiso_tau", "dijet2D_lowboost_antiiso_tau", "dijet2D_boosted_antiiso_tau", "ZeroJet2D_antiiso_taulep", "Boosted2D_antiiso_taulep", "dijet2D_lowboost_antiiso_taulep", "dijet2D_boosted_antiiso_taulep", "dijet2D_antiiso", "ZeroJet2D_antiiso_near", "Boosted2D_antiiso_near", "dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far", "Boosted2D_antiiso_far", "dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far"] 
 		if cb is None:
 			# ======================================================================
 			# MT channel

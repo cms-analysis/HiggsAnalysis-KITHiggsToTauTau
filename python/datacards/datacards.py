@@ -442,8 +442,6 @@ class Datacards(object):
 		commands = []
 		hypotestresulttree = {}
 
-
-
 		#for fit_type in fit_type_list:
 		commands.extend(["root -q -b \"HiggsAnalysis/KITHiggsToTauTau/scripts/hypoTestResultTree.cxx(\\\"{INPUT}\\\",\\\"{OUTPUT}\\\",{MASS},{RVALUE},\\\"{POINAME}\\\")\"".format(
 				INPUT=os.path.join(os.path.dirname(datacard),"higgsCombine.HybridNew.mH{angle}.root".format(angle = [mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")),
