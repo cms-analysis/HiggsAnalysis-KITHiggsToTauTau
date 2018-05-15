@@ -267,24 +267,46 @@ if __name__ == "__main__":
 
     #2.-----Creating input root files
     print WARNING + '-----      Creating input root files...             -----' + ENDC
-    create_input_root_files(datacards,args)
+    create_input_root_files(datacards, args)
     
     #3.-----Extract shapes from input root files or from samples with HP
     print WARNING + '-----      Extracting histograms from input root files...             -----' + ENDC
     
     ExtractShapes(datacards, args.output_dir +"/input/")
-    datacards.cb.SetGroup("syst", [".*"])
+    #datacards.cb.SetGroup("syst", [".*"])
     
     #4.-----Add BBB
     print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
 
     BinErrorsAndBBB(datacards, 0.1, 0.5, True)
-    datacards.cb.SetGroup("syst_plus_bbb", [".*"])
+    #datacards.cb.SetGroup("syst_plus_bbb", [".*"])
 
     #5.-----Write Cards
     print WARNING + '-----      Writing Datacards...                                       -----' + ENDC
 
-    datacards_cbs = WriteDatacard(datacards, args.output_dir)
+    output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
+    datacard_filename_templates = []
+    if "individual" in args.combinations:
+        datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
+    if "channel" in args.combinations:
+        datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
+    if "category" in args.combinations:
+        datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
+    if "combined" in args.combinations:
+        datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")
+
+    datacards_cbs = {}
+    for datacard_filename_template in datacard_filename_templates:
+        datacards_cbs.update(WriteDatacard(
+                datacards,
+                datacard_filename_template.replace("{", "").replace("}", ""),
+                output_root_filename_template.replace("{", "").replace("}", ""),
+                args.output_dir
+        ))
+    
+    # exit here and do the rest with combineTool.py
+    import sys
+    sys.exit(0)
     
     #6.-----Write Cards
     print WARNING + UNDERLINE  + '-----      Performing statistical analysis                            -----' + ENDC
@@ -295,11 +317,11 @@ if __name__ == "__main__":
         print datacards
         print OKBLUE + "Using asimov dataset!" + ENDC
         
-    print OKBLUE + "datacards.cb.PrintAll()" + ENDC, datacards.cb.PrintAll()
+    #print OKBLUE + "datacards.cb.PrintAll()" + ENDC, datacards.cb.PrintAll()
     
     #7.-----text2workspace
     print WARNING + '-----      text2workspace                                             -----' + ENDC
 
     physicsmodel = "CombineHarvester.ZTTPOL2016.taupolarisationmodels:ztt_pol"
-    datacards_workspaces = text2workspace(datacards,datacards_cbs,physicsmodel,"workspace")
+    datacards_workspaces = text2workspace(datacards, datacards_cbs, physicsmodel, "workspace")
 
