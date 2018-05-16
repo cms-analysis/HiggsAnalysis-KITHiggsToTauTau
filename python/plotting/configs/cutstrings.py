@@ -17,7 +17,7 @@ class CutStringsDict:
 		else:
 			cuts["blind"] = "{blind}"
 			cuts["os"] = "((q_1*q_2)<0.0)"
-		
+
 		if channel == "mm":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
@@ -144,6 +144,44 @@ class CutStringsDict:
 		return cuts
 	
 	@staticmethod
+	def cpggh2016(channel, cut_type):
+		if channel == "mm":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["pt_1"] = "(pt_1 > 25.0)"
+			cuts["pt_2"] = "(pt_2 > 25.0)"
+			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
+		elif channel == "em":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["bveto"] = "(nbtag == 0)"
+			cuts["pt_1"] = "(pt_1 > 13.0)"
+			cuts["pt_2"] = "(pt_2 > 10.0)"
+			# used to remove overlap with H->WW->emu analysis
+			cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
+		elif channel == "mt":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["trg"] = "((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23)+(trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23))"
+			cuts["pt_1"] = "(pt_1 > 20.0)"
+			cuts["pt_2"] = "(pt_2 > 30.0)"
+			cuts["mt"] = "(mt_1<50.0)"
+			cuts["iso_1"] = "(iso_1 < 0.15)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+		elif channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["pt_1"] = "(pt_1 > 25.0)"
+			cuts["pt_2"] = "(pt_2 > 30.0)"
+			cuts["mt"] = "(mt_1<50.0)"
+			cuts["iso_1"] = "(iso_1 < 0.1)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+		elif channel == "tt":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["pt_1"] = "(pt_1 > 50.0)"
+			cuts["pt_2"] = "(pt_2 > 40.0)"
+			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+		return cuts
+
+	@staticmethod
 	def lfv(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
 		#cuts["nbtag"] = "nbtag==0"
@@ -157,7 +195,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.85 + (gen_match_2 != 5))"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVLooseMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -169,7 +207,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.85 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVLooseMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -181,7 +219,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronLooseMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -193,7 +231,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronLooseMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -205,7 +243,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronMediumMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -217,7 +255,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronMediumMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -229,7 +267,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronTightMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -241,7 +279,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronTightMVA6_2 < 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -253,7 +291,7 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.85 + (gen_match_2 != 5))"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVTightMVA6_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -265,8 +303,19 @@ class CutStringsDict:
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["mt"] = "(mt_1 < 30.0)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.85 + (gen_match_2 != 5))"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVTightMVA6_2 < 0.5)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+
+	@staticmethod
+	def antieinclusive(channel, cut_type):
+		if channel == "et":
+			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts["mt"] = "(mt_1 < 30.0)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)" if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
@@ -436,7 +485,7 @@ class CutStringsDict:
 		if channel in ["mt", "et"]:
 			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("relaxedETauMuTauWJ",""))
 			cuts["iso_1"] = "(iso_1 < 0.3)"
-			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "smhtt2016" in cut_type else "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "2016" in cut_type else "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "smhtt2016" in cut_type else "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "2016" in cut_type else "(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
 		elif channel in ["em", "ttbar"]:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 			cuts["iso_1"] = "(iso_1 < 0.3)"
@@ -659,6 +708,8 @@ class CutStringsDict:
 			cuts = CutStringsDict.antievtightpass(channel, cut_type)
 		elif cut_type=="antievtightfail2016" or cut_type=="antievtightfail2017":
 			cuts = CutStringsDict.antievtightfail(channel, cut_type)
+		elif cut_type=="antieinclusive2017":
+			cuts = CutStringsDict.antieinclusive(channel, cut_type)
 		
 		elif cut_type=="antimuloosepass":
 			cuts = CutStringsDict.antimuloosepass(channel, cut_type)

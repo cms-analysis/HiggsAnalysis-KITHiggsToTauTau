@@ -8,6 +8,7 @@ log = logging.getLogger(__name__)
 import argparse
 import copy
 import os
+import sys
 
 import CombineHarvester.CombineTools.ch as ch
 import ROOT
@@ -82,8 +83,15 @@ if __name__ == "__main__":
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
-	parser.add_argument("-b", "--background-method", default="new",
+	parser.add_argument("--background-method", default="new",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
+	parser.add_argument("-b", "--batch", default=None, const="rwthcondor", nargs="?",
+	                    help="Run with grid-control. Optionally select backend. [Default: %(default)s]")
+	parser.add_argument("--pt-ranges", nargs="*",
+	                    default=[],
+	                    help="Enter the lower bin edges for the pt ranges.")
+	parser.add_argument("--eta-binning", action="store_true", default=True,
+	                    help="Perform measurement in bins of eta instead of pt. [Default: %(default)s]")
 	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
 	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
@@ -103,11 +111,15 @@ if __name__ == "__main__":
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
-	
-	
+	parser.add_argument("--no-inclusive", action="store_true", default=False,
+	                    help="Do not produce inclusive results if pt or eta ranges are given. [Default: %(default)s]")
+	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
+	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
+
+
 	args = parser.parse_args()
 	logger.initLogger(args)
-	
+
 	if args.era == "2016":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 	elif args.era == "2017":
@@ -118,16 +130,31 @@ if __name__ == "__main__":
 	if args.clear_output_dir and os.path.exists(args.output_dir):
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 
-	weight_string = "(fabs(eta_2) < 1.460)"
+
+	cats_antieWPoints = ["antievloosepass", "antievloosefail"]
+	# Produce eta-bins (first one is always inclusive)
+	# for the moment only barrel and endcap considered
+	eta_ranges = ["0.0", "1.460", "2.3"]
+	eta_weights = ["(fabs(eta_2)<2.3)", "(fabs(eta_2)<1.460)", "(fabs(eta_2) > 1.558)" ] #"(fabs(eta_2)>1.479)*(fabs(eta_2)<2.3)"]
+	eta_strings = ["|#eta(#tau_{h})| < 2.3", "|#eta(#tau_{h})| < 1.460", "1.479 < |#eta(# tau_{h})| < 2.3"]
+	eta_bins = ["0", "1", "2"]
+
+	#weight_string = "(fabs(eta_2) < 1.460)"
 	#weight_string = "(fabs(eta_2) < 1.460)*(decayMode_2 == 1)"
 	#weight_string = "(fabs(eta_2) > 1.558)"
 	#weight_string = "1.0"
-	
+
+	weight_type = ("eta" if args.eta_binning else "pt")
+	weight_ranges = (eta_ranges if args.eta_binning else pt_ranges)
+	extra_weights = (eta_weights if args.eta_binning else pt_weights)
+	weight_string = (eta_strings if args.eta_binning else pt_strings)
+	weight_bins = (eta_bins if args.eta_binning else pt_bins)
+
 	# initialisations for plotting
-	
+
 	sample_settings = samples.Samples()
 	systematics_factory = systematics.SystematicsFactory()
-	
+
 	plot_configs = []
 	hadd_commands = []
 
@@ -135,13 +162,13 @@ if __name__ == "__main__":
 		datacards = zttxsecdatacards.ZttLepTauFakeRateDatacards()
 	elif args.model == "tauideff":
 		datacards = zttxsecdatacards.ZttEffDatacards()
-	
+
 	# statistical models
 	model_settings = models.get(args.model, {})
 	fit_settings = model_settings.get("fit", {"" : {}})
-	
+
 	excludecut_settings = model_settings['exclude_cuts'] if model_settings.has_key('exclude_cuts') else ['']
-	
+
 	# initialise datacards
 	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
@@ -154,7 +181,7 @@ if __name__ == "__main__":
 		"datacards/combined/${ANALYSIS}_${ERA}.txt",
 	]
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
-	
+
 	# prepare channel settings based on args and datacards
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[1:]
@@ -162,13 +189,25 @@ if __name__ == "__main__":
 		args.channel = datacards.cb.channel_set()
 	else:
 		args.channel = list(set(args.channel).intersection(set(datacards.cb.channel_set())))
-	
+
 	# restrict CombineHarvester to configured channels:
 	datacards.cb.channel(args.channel)
-	
+
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
+
+	quantity = args.quantity
+
+	#QCD os/ss factors for different categories
+	ss_os_factors = {
+		"mt" : 1.06,
+		"et" : 1.04
+	}
+	# w+jets scale factor shifts for different categories
+	# same uncertainties as used for WHighMTtoLowMT_$BIN_13TeV
+	wj_sf_shifts = 0.10
+
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		# prepare category settings based on args and datacards
@@ -177,7 +216,7 @@ if __name__ == "__main__":
 		else:
 			categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
 		args.categories[index] = categories
-		
+
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
@@ -185,11 +224,42 @@ if __name__ == "__main__":
 			if (channel != category[:2]):
 				continue
 			
-			if args.model in ["etaufakerate", "mutaufakerate"]: 
+			bin_id = 2000 if quantity == "m_2" else 3000
+			if args.eta_binning:
+				bin_id = bin_id + 2000
+			#for decayMode in args.decay_modes:
+			#	bin_id = bin_id + 1
+			#category_new=[]
+			#newcategories=[]
+			#for weight_index, (weight_bin) in enumerate(weight_bins):
+				#bin_id = bin_id + 1
+				#category_new = category + "_" + quantity + "_" + weight_type + "bin" + weight_bins[weight_index]
+				#print "category", category_new
+				#if weight_index == 0 and args.no_inclusive: continue
+				#newcategories.append(category_new)
+
+			if args.no_inclusive:
+				weight_ranges.pop(0)
+				extra_weights.pop(0)
+				weight_bins.pop(0)
+
+			print "weight_index", category.split("_")[-1].split(weight_type + "bin")[-1]
+			weight_index = int(category.split("_")[-1].split(weight_type + "bin")[-1])
+
+			# use relaxed isolation criteria for W+jets and QCD estimation
+			# if measurement is performed in bins of pt or eta
+			useRelaxedIsolation = False
+			if weight_index > 0:
+				useRelaxedIsolation = True
+			if args.no_inclusive:
+				weight_index = weight_index - 1
+
+
+			if args.model in ["etaufakerate", "mutaufakerate"]:
 				datacards_per_channel_category = zttxsecdatacards.ZttLepTauFakeRateDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			elif args.model == "tauideff":
 				datacards_per_channel_category = zttxsecdatacards.ZttEffDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
-			
+
 			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 					ANALYSIS="ztt",
 					CHANNEL=channel,
@@ -197,11 +267,14 @@ if __name__ == "__main__":
 					ERA="13TeV"
 			))
 			tmp_output_files = []
-			
+
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
 
+				# This is needed because wj and qcd are interdependent when using the new background estimation method
+				# NB: CH takes care to only use the templates for processes that you specified. This means that any
+				#     superfluous histograms created as a result of this problem do not influence the result
 				if args.background_method == "new":
 					if "qcd" in list_of_samples and "wj" not in list_of_samples:
 						list_of_samples += ["wj"]
@@ -210,7 +283,7 @@ if __name__ == "__main__":
 
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
-					
+
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 							samples="\", \"".join(list_of_samples),
 							channel=channel,
@@ -222,19 +295,27 @@ if __name__ == "__main__":
 					if "WSFUncert_lt" in shape_systematic:
 						wj_sf_shift = 1.1 if shift_up else 0.9
 
+					ss_os_factor = ss_os_factors.get(channel,0.0)
+					print "scalefactor:",  ss_os_factor
+
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel,
 							category=None,
-							weight = weight_string,
+							weight = extra_weights[weight_index],
 							lumi = args.lumi * 1000,
 							exclude_cuts=excludecut_settings,
-							cut_type=category[3:],
-							estimationMethod=args.background_method,	
-							wj_sf_shift=wj_sf_shift
+							cut_type=category.split("_")[1],
+							estimationMethod=args.background_method,
+							ss_os_factor = ss_os_factors.get(channel,0.0),
+							wj_sf_shift=wj_sf_shift,
+							useRelaxedIsolationForW = useRelaxedIsolation,
+							useRelaxedIsolationForQCD = useRelaxedIsolation
 					)
-					
+
+					import pprint
+					#pprint.pprint(config)
 					if args.model in ["etaufakerate", "mutaufakerate"]:
 						#do not apply shape subtraction in QCD estimate, to avoid poorly described templates
 						config["qcd_subtract_shape"] = [False]
@@ -251,10 +332,10 @@ if __name__ == "__main__":
 							#config["custom_rebin"] = [20,30,40,50,60,70,80,90,100,110,120,130,140,150]
 						#elif "fail" in category:
 							#config["custom_rebin"] = [20,30,40,50,60,70,80,90,100,110,120,130,140,150]
-					
+
 					config["x_expressions"] = [args.quantity]
 					config["directories"] = [args.input_dir]
-					
+
 					if args.era == "2017":
 						sub_conf_index = 0
 						while (sub_conf_index < len(config["files"])):
@@ -272,14 +353,14 @@ if __name__ == "__main__":
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-					
+
 					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
 					config["labels"] = [histogram_name_template.replace("$", "").format(
 							PROCESS=datacards.configs.sample2process(sample),
 							BIN=category,
 							SYSTEMATIC=systematic
 					) for sample in config["labels"]]
-					
+
 					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 							ANALYSIS="ztt",
 							CHANNEL=channel,
@@ -290,20 +371,20 @@ if __name__ == "__main__":
 					tmp_output_files.append(tmp_output_file)
 					config["output_dir"] = os.path.dirname(tmp_output_file)
 					config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
-				
+
 					config["plot_modules"] = ["ExportRoot"]
 					config["file_mode"] = "UPDATE"
-			
+
 					if "legend_markers" in config:
 						config.pop("legend_markers")
-			
+
 					plot_configs.append(config)
-			
+
 			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
 					DST=output_file,
 					SRC=" ".join(tmp_output_files)
 			))
-	
+
 	#if log.isEnabledFor(logging.DEBUG):
 	#	import pprint
 	#	pprint.pprint(plot_configs)
@@ -314,9 +395,9 @@ if __name__ == "__main__":
 		if os.path.exists(output_file):
 			os.remove(output_file)
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
-	
+
 	# create input histograms with HarryPlotter
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0],batch=args.batch)
 	tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
 	# update CombineHarvester with the yields and shapes
@@ -326,14 +407,14 @@ if __name__ == "__main__":
 			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
 			update_systematics=False
 	)
-	
+
 	# add bin-by-bin uncertainties
 	if not args.no_bbb_uncs:
 		datacards.add_bin_by_bin_uncertainties(
 				processes=datacards.cb.cp().backgrounds().process_set()+datacards.cb.cp().signals().process_set(),
 				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
 		)
-		
+
 	# remove processes with zero yield
 	def matching_process(obj1, obj2):
 		matches = (obj1.bin() == obj2.bin())
@@ -345,7 +426,7 @@ if __name__ == "__main__":
 		matches = matches and (obj1.bin_id() == obj2.bin_id())
 		matches = matches and (obj1.mass() == obj2.mass())
 		return matches
-		
+
 	def remove_procs_and_systs_with_zero_yield(proc):
 		null_yield = not proc.rate() > 0.
 		if null_yield:
@@ -362,7 +443,7 @@ if __name__ == "__main__":
 				output_root_filename_template.replace("{", "").replace("}", ""),
 				args.output_dir
 		))
-	
+
 	plot_configs = []
 	datacards_workspaces = {}
 	efficiency = {}
@@ -372,7 +453,7 @@ if __name__ == "__main__":
 			nPassPre = 0
 			nFailPre = 0
 			sig_process = cb.cp().bin([category]).signals().process_set()
-			
+
 			for category in cb.cp().analysis(["ztt"]).era(["13TeV"]).channel([channel]).bin_set():
 				if "pass" in category:
 					nPassPre = uncertainties.ufloat(cb.cp().bin([category]).process(sig_process).GetRate(),
@@ -388,12 +469,12 @@ if __name__ == "__main__":
 				EFF=efficiency[channel].nominal_value,
 				DATACARD=datacard,
 				OUTPUT=os.path.splitext(datacard)[0]+".root")]
-			
+
 			print "command -->", command
 			tools.parallelize(_call_command, command, n_processes=args.n_processes)
 
 		datacards_workspaces[datacard] = os.path.splitext(datacard)[0]+".root"
-	
+
 	# Max. likelihood fit and postfit plots
 	#--expectSignal=1 --toys -1 for Asimov dataset
 	datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes, "-M MaxLikelihoodFit {STABLE} -n \"\"".format(
@@ -410,29 +491,32 @@ if __name__ == "__main__":
 		n_processes=args.n_processes,
 		signal_stacked_on_bkg=True
 		)
-	datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']],"formats" : ["pdf", "png"], "args" : args.args}, n_processes=args.n_processes)
+	#datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : [fit_settings['poi']],"formats" : ["pdf", "png"], "args" : args.args}, n_processes=args.n_processes)
+	datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="r"))
+	datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
+
 
 	# plotting
 	plot_configs = []
 	plot_configs.extend(model_settings.get("fit_plots", []))
 	plot_configs = [jsonTools.JsonDict(os.path.expandvars(plot_config_file)).doIncludes().doComments() for plot_config_file in plot_configs]
-	
+
 	for config in plot_configs:
 		if config.get("output_dir") is None:
 			config["output_dir"] = args.output_dir
 		config["directories"] = [directory.format(OUTDIR=args.output_dir) for directory in config.get("directories", [])]
 
 	# create plots using HarryPlotter
-	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
-	
+	#higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs,list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+
 	# prefit-postfit plots
 	plot_configs = []
 	if args.model in ["etaufakerate", "mutaufakerate"]:
 		#bkg_plotting_order = ["ZLL", "ZL", "ZTT", "ZJ", "TT", "VV", "W", "QCD"]
-		bkg_plotting_order = ["ZL", "ZTT", "ZJ", "TT", "VV", "QCD"]
+		bkg_plotting_order = ["ZL", "ZTT", "TTJJ", "TTT", "ZJ", "VV", "W","QCD"]
 	elif args.model == "tauideff":
 		bkg_plotting_order = ["ZTT", "ZLL", "ZL", "ZJ", "TT", "VV", "W", "QCD"]
-	
+
 	for level in ["prefit", "postfit"]:
 		if not datacards_postfit_shapes:
 			continue
@@ -441,15 +525,18 @@ if __name__ == "__main__":
 			nPass = 0
 			nFail = 0
 			for category in datacards_cbs[datacard].cp().bin_set():
-				print "category = ", category
-				
+
 				results_file = ROOT.TFile(os.path.join(os.path.dirname(datacard), "fitDiagnostics.root"))
 				results_tree = results_file.Get("tree_fit_sb")
 				results_tree.GetEntry(0)
 				bestfit = results_tree.r
-				
+				bestfitLoErr = results_tree.rLoErr
+				bestfitHiErr = results_tree.rHiErr
+
 				bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
 				sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
+				#datacards_cbs[datacard].cp().PrintObs().PrintProcs().PrintSysts()
+
 				if "pass" in category:
 					nPass = uncertainties.ufloat(datacards_cbs[datacard].cp().bin([category]).process(sig_process).GetRate(),datacards_cbs[datacard].cp().bin([category]).process(sig_process).GetUncertainty())
 					signal_scale = bestfit
@@ -463,7 +550,8 @@ if __name__ == "__main__":
 					if level == "postfit":
 						nFail = nFail * signal_scale
 					print "\tNfail ({}) = {:6.0f}".format(level, nFail)
-				
+
+
 				processes = bkg_process + sig_process
 				processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
 
@@ -472,11 +560,15 @@ if __name__ == "__main__":
 				config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
 				config.setdefault("sum_scale_factors", []).append("1.0 1.0")
 				config.setdefault("sum_result_nicks", []).append("Total")
-				
+
 				processes_to_plot = list(processes)
 				if category[:2] in ["et", "mt", "tt"]:
-					processes = [p.replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
+					processes = [p.replace("TTT", "TTT_noplot").replace("TTJJ", "TTJJ_noplot").replace("ZJ","ZJ_noplot").replace("VV", "VV_noplot").replace("W", "W_noplot") for p in processes]
 					processes_to_plot = [p for p in processes if not "noplot" in p]
+					processes_to_plot.insert(2, "TT")
+					config["sum_nicks"].append("TTT_noplot TTJJ_noplot")
+					config["sum_scale_factors"].append("1.0 1.0")
+					config["sum_result_nicks"].append("TT")
 					processes_to_plot.insert(3, "EWK")
 					#config["sum_nicks"].append("ZJ_noplot VV_noplot W_noplot")
 					#config["sum_scale_factors"].append("1.0 1.0 1.0")
@@ -486,7 +578,7 @@ if __name__ == "__main__":
 					else:
 						config["sum_nicks"].append("ZJ_noplot VV_noplot")
 						config["sum_scale_factors"].append("1.0 1.0")
-				config["sum_result_nicks"].append("EWK")
+					config["sum_result_nicks"].append("EWK")
 
 				config["files"] = [postfit_shapes]
 				config["folders"] = [category+"_"+level]
@@ -503,7 +595,7 @@ if __name__ == "__main__":
 					config["x_lims"] = [60, 120]
 				elif args.model == "tauideff":
 					config["x_lims"] = [35, 200]
-				
+
 				#config["title"] = "channel_"+category[:2]
 				config["energies"] = [13.0]
 				config["lumis"] = [float("%.1f" % args.lumi)]
@@ -513,7 +605,7 @@ if __name__ == "__main__":
 				config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
 				config["filename"] = level+"_"+category
 				config["formats"] = ["png", "pdf"]
-				
+
 				if args.ratio:
 					if not "Ratio" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("Ratio")
@@ -530,12 +622,12 @@ if __name__ == "__main__":
 					config["y_subplot_lims"] = [0.5, 1.5]
 					config["y_subplot_label"] = "Obs./Exp."
 					config["subplot_grid"] = True
-				
+
 				if "fail" in category and args.model in ["etaufakerate", "mutaufakerate"]:
 					config.pop("legend")
-				
+
 				plot_configs.append(config)
 			print "\tefficiency ({}) = Npass/(Npass+Nfail) = {:6.5f}".format(level, nPass/(nPass+nFail))
-	
+
 	# create plots using HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
