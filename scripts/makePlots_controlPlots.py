@@ -507,6 +507,8 @@ if __name__ == "__main__":
 				if args.channel_comparison:
 					config["labels"] = ["channel_" + channel for channel in args.channels]
 					config["title"] = ", ".join(args.samples)
+				elif args.polarisation:
+					config["title"] = "channel_" + channel + ("" if category is None else ("_"+category))
 				else:
 					config["title"] = "channel_" + channel
 
