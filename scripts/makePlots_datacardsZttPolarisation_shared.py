@@ -115,9 +115,10 @@ def create_input_root_files(datacards, args):
 
                     #config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 
-                    config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "testZttPol13TeV_"+category) for nick in config["nicks"]]
+                    x_expression = args.quantity if args.quantity else ("testZttPol13TeV_"+category)
+                    config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 
-                    binnings_key = "binningZttPol13TeV_"+category
+                    binnings_key = "binningZttPol13TeV_"+category+(("_"+args.quantity) if args.quantity else "")
                     if binnings_key in binnings_settings.binnings_dict:
                         config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
 
@@ -203,6 +204,8 @@ if __name__ == "__main__":
                         help="Do auto rebinning [Default: %(default)s]")
     parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
                         help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
+    parser.add_argument("-x", "--quantity", default=None,
+                        help="Quantity. [Default: testZttPol13TeV_<category>]")
     parser.add_argument("-w", "--weight", default="1.0",
                         help="Additional weight (cut) expression. [Default: %(default)s]")
     parser.add_argument("--analysis-modules", default=[], nargs="+",
