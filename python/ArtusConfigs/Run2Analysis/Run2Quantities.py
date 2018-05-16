@@ -784,6 +784,8 @@ class Run2Quantities(dict):
 					"byMediumIsolationMVArun2v1DBnewDMwLT2016_2",
 					"byTightIsolationMVArun2v1DBnewDMwLT2016_2",
 					"byVTightIsolationMVArun2v1DBnewDMwLT2016_2",
-					"byVVTightIsolationMVArun2v1DBnewDMwLT2016_2"
+					"byVVTightIsolationMVArun2v1DBnewDMwLT2016_2",
+
+					"HLT_Ele35_WPTight_Gsf_v7"
 			]
 		return sync_quantities_list
