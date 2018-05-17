@@ -99,6 +99,53 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_et_nobtag"] = "e#tau_{h}, no b-tag"
 			self.labels_dict["channel_em_nobtag"] = "e#mu, no b-tag"
 			
+			self.labels_dict["channel_em_oneprong"] = self.labels_dict["channel_em"]
+			self.labels_dict["channel_em_oneprong_1"] = self.labels_dict["channel_em"]
+			self.labels_dict["channel_em_oneprong_2"] = self.labels_dict["channel_em"]
+			self.labels_dict["channel_em_combined_oneprong_oneprong"] = self.labels_dict["channel_em"]
+			
+			self.labels_dict["channel_et_oneprong"] = "e#tau_{h}+#pie"
+			self.labels_dict["channel_et_oneprong_1"] = "e#tau_{h}"
+			self.labels_dict["channel_et_oneprong_2"] = "#pie"
+			self.labels_dict["channel_et_rho"] = "e#tau_{h}+#rhoe"
+			self.labels_dict["channel_et_rho_1"] = "e#tau_{h}"
+			self.labels_dict["channel_et_rho_2"] = "#rhoe"
+			self.labels_dict["channel_et_a1"] = "e#tau_{h}+a_{1}e"
+			self.labels_dict["channel_et_a1_1"] = "e#tau_{h}"
+			self.labels_dict["channel_et_a1_2"] = "a_{1}e"
+			self.labels_dict["channel_et_combined_a1_oneprong"] = "ea_{1}"
+			self.labels_dict["channel_et_combined_rho_oneprong"] = "e#rho"
+			self.labels_dict["channel_et_combined_oneprong_oneprong"] = "e#pi"
+			
+			self.labels_dict["channel_mt_oneprong"] = "#mu#tau_{h}+#pi#mu"
+			self.labels_dict["channel_mt_oneprong_1"] = "#mu#tau_{h}"
+			self.labels_dict["channel_mt_oneprong_2"] = "#pi#mu"
+			self.labels_dict["channel_mt_rho"] = "#mu#tau_{h}+#rho#mu"
+			self.labels_dict["channel_mt_rho_1"] = "#mu#tau_{h}"
+			self.labels_dict["channel_mt_rho_2"] = "#rho#mu"
+			self.labels_dict["channel_mt_a1"] = "#mu#tau_{h}+a_{1}#mu"
+			self.labels_dict["channel_mt_a1_1"] = "#mu#tau_{h}"
+			self.labels_dict["channel_mt_a1_2"] = "a_{1}#mu"
+			self.labels_dict["channel_mt_combined_a1_oneprong"] = "#mua_{1}"
+			self.labels_dict["channel_mt_combined_rho_oneprong"] = "#mu#rho"
+			self.labels_dict["channel_mt_combined_oneprong_oneprong"] = "#mu#pi"
+			
+			self.labels_dict["channel_tt_oneprong"] = "#pi#tau_{h}+#tau_{h}#pi"
+			self.labels_dict["channel_tt_oneprong_1"] = "#pi#tau_{h}"
+			self.labels_dict["channel_tt_oneprong_2"] = "#tau_{h}#pi"
+			self.labels_dict["channel_tt_rho"] = "#rho#tau_{h}+#tau_{h}#rho"
+			self.labels_dict["channel_tt_rho_1"] = "#rho#tau_{h}"
+			self.labels_dict["channel_tt_rho_2"] = "#tau_{h}#rho"
+			self.labels_dict["channel_tt_a1"] = "a_{1}#tau_{h}+#tau_{h}a_{1}"
+			self.labels_dict["channel_tt_a1_1"] = "a_{1}#tau_{h}"
+			self.labels_dict["channel_tt_a1_2"] = "#tau_{h}a_{1}"
+			self.labels_dict["channel_tt_combined_a1_a1"] = "a_{1}a_{1}"
+			self.labels_dict["channel_tt_combined_a1_rho"] = "a_{1}#rho+#rhoa_{1}"
+			self.labels_dict["channel_tt_combined_a1_oneprong"] = "a_{1}#pi+#pia_{1}"
+			self.labels_dict["channel_tt_combined_rho_rho"] = "#rho#rho"
+			self.labels_dict["channel_tt_combined_rho_oneprong"] = "#rho#pi+#pi#rho"
+			self.labels_dict["channel_tt_combined_oneprong_oneprong"] = "#pi#pi"
+			
 			self.labels_dict["cat_oneprong"] = "#pi^{#pm} / l^{#pm}"
 			self.labels_dict["cat_rho"] = "#rho^{#pm} #rightarrow #pi^{#pm} #pi^{0}"
 			self.labels_dict["cat_a1"] = "a_{1}^{#pm} #rightarrow #pi^{#pm} #pi^{#pm} #pi^{#mp}"
@@ -124,7 +171,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict["catZttPol13TeV_"+channel+"_index"] = ""
 				
-				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit", "GenMatched"]:
+				for reco_fit in ["GenMatched", "Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
 					suffix = ""
 					if "M91" in reco_fit:
 						suffix = "_{m_{Z}}"
