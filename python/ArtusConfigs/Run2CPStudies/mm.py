@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 import re
 import copy
 
-from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities import Quantities
+from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.quantities import Quantities
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering import ProcessorsOrdered
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
@@ -503,34 +503,6 @@ class mm_ArtusConfig(dict):
 			"#PrintEventsConsumer"
 		]
 
-		quantities_dict = Quantities()
-		# quantities_dict.build_quantities(nickname, channel = self["Channel"])
-
-		quantities_dict["Quantities"] += quantities_dict.fourVectorQuantities()
-		quantities_dict["Quantities"] += quantities_dict.syncQuantities(nickname)
-		quantities_dict["Quantities"] += quantities_dict.minimalWeightQuantities()
-		quantities_dict["Quantities"] += quantities_dict.singleTauQuantities()
-		quantities_dict["Quantities"] += [
-			"nLooseElectrons",
-			"nLooseMuons",
-			"nDiTauPairCandidates",
-			"nAllDiTauPairCandidates"
-		]
-
-		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
-			quantities_dict["Quantities"] += quantities_dict.genMatchedCPQuantities()
-			quantities_dict["Quantities"] += quantities_dict.recoCPQuantities()
-			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
-			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
-
-		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-			quantities_dict["Quantities"] += quantities_dict.genQuantitiesLFV()
-		else:
-			quantities_dict["Quantities"] += quantities_dict.recoCPQuantities()
-			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
-
-		self.update(copy.deepcopy(quantities_dict))
-
 		self["OSChargeLeptons"] = True
 		if re.search("(Fall15MiniAODv2|Run2015)", nickname):
 			self["MuonEnergyCorrection"] = "rochcorr2015"
@@ -539,5 +511,9 @@ class mm_ArtusConfig(dict):
 		else:
 			self["MuonEnergyCorrection"] = "rochcorr2016"
 			self["MuonRochesterCorrectionsFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr2016"
+
+		quantities_set = Quantities()
+		quantities_set.build_quantities(nickname, channel = self["Channel"])
+		self["Quantities"] = list(quantities_set.quantities)
 
 		self.addProcessors(nickname)
