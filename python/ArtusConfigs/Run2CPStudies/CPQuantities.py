@@ -18,6 +18,7 @@ class Quantities(Run2Quantities):
 		self["Quantities"] += self.fourVectorQuantities()
 		self["Quantities"] += self.syncQuantities(nickname)
 		self["Quantities"] += self.weightQuantities()
+		self["Quantities"].append("nAllDiTauPairCandidates")
 
 		if re.search("Run2015", nickname):  					
 			self["Quantities"] += self.recoPolarisationQuantities() 	
@@ -85,7 +86,7 @@ class Quantities(Run2Quantities):
 				self["Quantities"] += self.recoCPQuantities()
 			elif kwargs.get("channel", None) == "EM":
 				self["Quantities"] += self.recoCPQuantities()
-			self["Quantities"] += "jetCorrectionWeight"
+			self["Quantities"] += ["jetCorrectionWeight"]
 
 		else:
 			self["Quantities"] += self.svfitSyncQuantities()
