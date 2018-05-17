@@ -48,7 +48,7 @@ class Run2Quantities():
 
 	@staticmethod
 	def fakeFactorQuantities():
-		return set(
+		return [
 			"jetToTauFakeWeight_comb",
 			"jetToTauFakeWeight_qcd_up",
 			"jetToTauFakeWeight_qcd_down",
@@ -80,11 +80,11 @@ class Run2Quantities():
 			"jetToTauFakeWeight_ff_tt_corr_down",
 			"jetToTauFakeWeight_ff_tt_stat_up",
 			"jetToTauFakeWeight_ff_tt_stat_down"
-		)
+		]
 
 	@staticmethod
 	def extraTauQuantities():
-		return set(
+		return [
 			"decayDistX_1",
 			"decayDistX_2",
 			"decayDistY_1",
@@ -123,11 +123,11 @@ class Run2Quantities():
 			"hasSecondaryVertex_2",
 			"flightLengthSig_1",
 			"flightLengthSig_2"
-		)
+		]
 
 	@staticmethod
 	def lheWeightsDYQuantities():
-		return set(
+		return [
 			"minPdfLheWeight",
 			"maxPdfLheWeight",
 			"meanPdfLheWeight",
@@ -263,11 +263,11 @@ class Run2Quantities():
 			#"Central_scale_variation__mur_2_muf_0_5",
 			"Central_scale_variation__mur_2_muf_1",
 			"Central_scale_variation__mur_2_muf_2"
-		)
+		]
 
 	@staticmethod
 	def lheWeightsHTTQuantities():
-		return set(
+		return [
 			"minPdfLheWeight",
 			"maxPdfLheWeight",
 			"meanPdfLheWeight",
@@ -403,7 +403,7 @@ class Run2Quantities():
 			"scale_variation__muR_0_5_muF_1",
 			#"scale_variation__muR_0_5_muF_2",
 			"scale_variation__muR_0_5_muF_0_5"
-		)
+		]
 
 	@staticmethod
 	def splitJecUncertaintyQuantities(nuisances = ["njetspt30", "mjj", "jdeta", "jdphi"]):
@@ -442,11 +442,11 @@ class Run2Quantities():
 			l += [i + x + "Up" for x in s]
 			l += [i + x + "Down" for x in s]
 
-		return set(l)
+		return l
 
 	@staticmethod
 	def svfitSyncQuantities():
-		return set([
+		return [
 			"m_sv",
 			"pt_sv",
 			"eta_sv",
@@ -480,8 +480,8 @@ class Run2Quantities():
 			"svfitM125Tau1ERatio",
 			"svfitM125Tau2Available",
 			"svfitM125Tau2LV",
-			"svfitM125Tau2ERatio"]
-		)
+			"svfitM125Tau2ERatio"
+		]
 
 	@staticmethod
 	def syncQuantities(nickname):
