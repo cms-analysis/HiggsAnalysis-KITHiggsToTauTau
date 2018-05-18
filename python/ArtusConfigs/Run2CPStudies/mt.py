@@ -367,6 +367,23 @@ class mt_ArtusConfig(dict):
 		elif re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["MuonTriggerFilterNames"] = ["HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"]
 
+
+		elif re.search("Run2017|Summer17|Fall17", nickname):
+			self["HltPaths"] = [
+				"HLT_IsoMu24_v"
+				"HLT_IsoMu27_v",
+				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1_v"
+				]
+			self["MuonLowerPtCuts"] = [28]
+			self["DiTauPairLepton1LowerPtCuts"] = [
+				"HLT_IsoMu24_v:"
+				"HLT_IsoMu27_v:28",
+				]
+			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
+				"HLT_IsoMu27_v",
+				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1_v8"
+				]
+
 		self["EventWeight"] = "eventWeight"
 		self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
 		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
