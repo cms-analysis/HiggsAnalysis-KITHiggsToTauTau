@@ -15,25 +15,25 @@ class IdAndTriggerSF(dict):
 		if dcach:
 			if channel == "ET":
 				if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
-					self["TriggerEfficiencyData"] = [ "0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root" ]
-					self["TriggerEfficiencyMc"] = [ "0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23_fall15.root"]
+					self["TriggerEfficiencyData"] = [ "0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root" ]
+					self["TriggerEfficiencyMc"] = [ "0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23_fall15.root"]
 
-					self["IdentificationEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"]
-					self["IdentificationEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"]
+					self["IdentificationEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"]
+					self["IdentificationEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"]
 
 				elif re.search("Run2017|Summer17|Fall17", nickname):
-					self["TriggerEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele32orEle35.root"]
-					self["TriggerEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_Ele32orEle35.root"]
+					self["TriggerEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele32orEle35.root"]
+					self["TriggerEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_Ele32orEle35.root"]
 
-					self["IdentificationEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
-					self["IdentificationEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MCFall2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
+					self["IdentificationEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
+					self["IdentificationEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MCFall2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
 
 				else:
-					self["TriggerEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele25WPTight_eff.root" ]
-					self["TriggerEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele25WPTight_eff.root" ]
+					self["TriggerEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele25WPTight_eff.root" ]
+					self["TriggerEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele25WPTight_eff.root" ]
 
-					self["IdentificationEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"]
-					self["IdentificationEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/hlushchenko/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"]
+					self["IdentificationEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"]
+					self["IdentificationEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"]
 		else:
 			if channel == "ET":
 				if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
