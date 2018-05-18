@@ -24,35 +24,33 @@ class Samples(samples.Samples):
 	# constants for all plots
 	data_format = "MINIAOD"
 	mc_campaign = "RunIIFall17MiniAOD"
-	#NOTES: zPtReweightWeight is used for 2016 values currently.
 
 
 	# For 2017 v2 MC samples, the npartons=4 part is removedfor now since the skimming is not completed, and also the highmass part in your return value is removed since we don't have it yet.
 	def ztt_stitchingweight(self):
 		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25469132e-3) + ((genbosonmass >= 150.0 && npartons == 1)*1.17290378e-3) + ((genbosonmass >= 150.0 && npartons == 2)*1.17845742e-3) + ((genbosonmass >= 150.0 && npartons == 3)*1.18139540e-3)+((genbosonmass >= 150.0 && npartons == 4)*1.15891212e-3)+"
-		mediummass = "((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*5.94801691e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.35840903e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.39144195e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.74929571e-5)+ ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.17813305e-5)+"
+		mediummass = "((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*5.94801691e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.35840903e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.39144195e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.74929571e-5)+ ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.17813305e-5)"
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		#return "("+highmass+mediummass+lowmass+")"+normalization
-		return "("+mediummass+lowmass+")"+normalization
-
+		return "("+mediummass+")"+normalization
 
 	# DYJetsToLLM_150 sample currently only contains Z->tautau decays
 	def zll_stitchingweight(self):
-		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*5.94801691e-5) + ((genbosonmass >= 50.0 && npartons == 1)*1.35840903e-5) + ((genbosonmass >= 50.0 && npartons == 2)*1.39144195e-5) + ((genbosonmass >= 50.0 && npartons == 3)*1.74929571e-5) + ((genbosonmass >= 50.0 && npartons == 4)*1.17813305e-5)+"
+		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*5.94801691e-5) + ((genbosonmass >= 50.0 && npartons == 1)*1.35840903e-5) + ((genbosonmass >= 50.0 && npartons == 2)*1.39144195e-5) + ((genbosonmass >= 50.0 && npartons == 3)*1.74929571e-5) + ((genbosonmass >= 50.0 && npartons == 4)*1.17813305e-5)"
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
-		return "("+mediummass+lowmass+")"+normalization
-		#return "("+mediummass+")"+normalization
-		
+		#return "("+mediummass+lowmass+")"+normalization
+		return "("+mediummass+")"+normalization
+
 	def wj_stitchingweight(self):
 		return "(((npartons == 0 || npartons >= 5)*2.64738024e-3) + ((npartons == 1)*3.41868457e-4) + ((npartons == 2)*1.79487955e-4) + ((npartons == 3)*5.80550830e-5) + ((npartons == 4)*5.15263589e-5))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 
 	def vv_stitchingweight(self):
 		return "(1.22671436926e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 
-	def ttbar_stitchingweight(self):
-		return "(1)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
+	#def ttbar_stitchingweight(self):
+	#	return "(1)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 
 	def files_data(self, channel):
 		query_rereco = {}
