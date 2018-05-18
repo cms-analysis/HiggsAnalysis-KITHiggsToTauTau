@@ -254,7 +254,7 @@ class Samples(samples.SamplesBase):
 	
 	# reweighting of l->tau fakes in ZL as done in SM HTT 2016 
 	def zl_shape_weight(self, channel, cut_type):
-		if "smhtt2016" in cut_type or "tight_pass" in cut_type:
+		if "smhtt2016" in cut_type:
 			if channel == "mt":
 				return "(((decayMode_2 == 0)*0.75) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))"
 			elif channel == "et":
@@ -268,7 +268,7 @@ class Samples(samples.SamplesBase):
 	# this function is needed since background methods for W+jets and QCD
 	# use zll instead of zl+zj separately
 	def zll_zl_shape_weight(self, channel, cut_type):
-		if ("smhtt2016" in cut_type or "tight_pass" in cut_type) and channel in ["mt", "et"]:
+		if "smhtt2016" in cut_type and channel in ["mt", "et"]:
 			return "(("+self.zl_genmatch(channel)+"*"+self.zl_shape_weight(channel, cut_type)+") + "+self.zj_genmatch(channel)+")"
 		else:
 			return "(1.0)"
