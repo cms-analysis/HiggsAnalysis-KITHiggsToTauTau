@@ -146,6 +146,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			for cat in ["vloose", "loose", "medium", "tight", "vtight"]:
 				self.expressions_dict["catETauFakeRate13TeV_"+channel+ "_"+ cat + "_pass"] = "(1.0)"
 				self.expressions_dict["catETauFakeRate13TeV_"+channel+ "_"+ cat + "_fail"] = "(1.0)"
+			for cat in ["inclusive"]:			
+				self.expressions_dict["catETauFakeRate13TeV_"+channel+ "_"+ cat] = "(1.0)"
 
 		# H->tautau categories
 		for channel in ["tt", "mt", "et", "em", "mm", "ee"]:
@@ -187,6 +189,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			
 			et_antiiso_inclusive_string = "(iso_1>0.1)*(iso_1<0.5)"
 			mt_antiiso_inclusive_string = "(iso_1>0.15)*(iso_1<0.5)"
+			mt_antiiso_tau_string = "(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5)) && !(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+			et_antiiso_tau_string = "(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5)) && !(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			et_antiiso_near_string = "(iso_1>0.1)*(iso_1<0.17)"
 			mt_antiiso_near_string = "(iso_1>0.15)*(iso_1<0.25)"
 			et_antiiso_far_string = "(iso_1>0.17)*(iso_1<0.5)"
@@ -303,43 +307,70 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# Categories for background estimation in QCD with inverted lepton isolation.
 		# inclusive categories
 		self.expressions_dict["catHtt13TeV_et_dijet2D_antiiso"] = self.combine([jet2_string, "(1.0)" if channel != "em" else pZeta_CP_string, et_antiiso_inclusive_string]) 
-		# self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_boosted"], et_antiiso_inclusive_string])
+		self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_boosted"], et_antiiso_inclusive_string])
 		self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost"], et_antiiso_inclusive_string]) 
 		self.expressions_dict["catHtt13TeV_et_ZeroJet2D_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_et_ZeroJetCP"], et_antiiso_inclusive_string]) 
 		self.expressions_dict["catHtt13TeV_et_Boosted2D_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_et_BoostedCP"], et_antiiso_inclusive_string]) 
 
 		self.expressions_dict["catHtt13TeV_mt_dijet2D_antiiso"] = self.combine([jet2_string, "(1.0)" if channel != "em" else pZeta_CP_string, mt_antiiso_inclusive_string]) 
-		# self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted"], mt_antiiso_inclusive_string])
+		self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted"], mt_antiiso_inclusive_string])
 		self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost"], mt_antiiso_inclusive_string]) 
 		self.expressions_dict["catHtt13TeV_mt_ZeroJet2D_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_mt_ZeroJetCP"], mt_antiiso_inclusive_string]) 
 		self.expressions_dict["catHtt13TeV_mt_Boosted2D_antiiso"] = self.combine([self.expressions_dict["catHtt13TeV_mt_BoostedCP"], mt_antiiso_inclusive_string]) 
 			
 		# near anti-isolated sideband 
 		self.expressions_dict["catHtt13TeV_et_dijet2D_antiiso_near"] = self.combine([jet2_string, "(1.0)" if channel != "em" else pZeta_CP_string, et_antiiso_near_string]) 
-		# self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso_near"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_boosted"], et_antiiso_near_string])
+		self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso_near"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_boosted"], et_antiiso_near_string])
 		self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost_antiiso_near"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost"], et_antiiso_near_string]) 
 		self.expressions_dict["catHtt13TeV_et_ZeroJet2D_antiiso_near"] = self.combine([self.expressions_dict["catHtt13TeV_et_ZeroJetCP"], et_antiiso_near_string]) 
 		self.expressions_dict["catHtt13TeV_et_Boosted2D_antiiso_near"] = self.combine([self.expressions_dict["catHtt13TeV_et_BoostedCP"], et_antiiso_near_string]) 
 
 		self.expressions_dict["catHtt13TeV_mt_dijet2D_antiiso_near"] = self.combine([jet2_string, "(1.0)" if channel != "em" else pZeta_CP_string, mt_antiiso_near_string]) 
-		# self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_antiiso_near"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted"], mt_antiiso_near_string])
+		self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_antiiso_near"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted"], mt_antiiso_near_string])
 		self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost_antiiso_near"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost"], mt_antiiso_near_string]) 
 		self.expressions_dict["catHtt13TeV_mt_ZeroJet2D_antiiso_near"] = self.combine([self.expressions_dict["catHtt13TeV_mt_ZeroJetCP"], mt_antiiso_near_string]) 
 		self.expressions_dict["catHtt13TeV_mt_Boosted2D_antiiso_near"] = self.combine([self.expressions_dict["catHtt13TeV_mt_BoostedCP"], mt_antiiso_near_string]) 
 
 		# far anti-isolated sideband 
 		self.expressions_dict["catHtt13TeV_et_dijet2D_antiiso_far"] = self.combine([jet2_string, "(1.0)" if channel != "em" else pZeta_CP_string, et_antiiso_far_string]) 
-		# self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_boosted"], et_antiiso_far_string])
+		self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_boosted"], et_antiiso_far_string])
 		self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost"], et_antiiso_far_string]) 
 		self.expressions_dict["catHtt13TeV_et_ZeroJet2D_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_et_ZeroJetCP"], et_antiiso_far_string]) 
 		self.expressions_dict["catHtt13TeV_et_Boosted2D_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_et_BoostedCP"], et_antiiso_far_string]) 
 
 		self.expressions_dict["catHtt13TeV_mt_dijet2D_antiiso_far"] = self.combine([jet2_string, "(1.0)" if channel != "em" else pZeta_CP_string, mt_antiiso_far_string]) 
-		# self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted"], mt_antiiso_far_string])
+		self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted"], mt_antiiso_far_string])
 		self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost"], mt_antiiso_far_string]) 
 		self.expressions_dict["catHtt13TeV_mt_ZeroJet2D_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_mt_ZeroJetCP"], mt_antiiso_far_string]) 
 		self.expressions_dict["catHtt13TeV_mt_Boosted2D_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_mt_BoostedCP"], mt_antiiso_far_string]) 
 
+		# Another approach using anti-isolated taus instead of anti-isolated leptons
+		# Anti-isolated taus with isolated lepton sideband
+		self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso_tau"] = self.combine([boosted_higgsCP_string, "(1.0)" if channel != "em" else pZeta_CP_string, et_antiiso_tau_string]) 
+		# self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso_tau"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_boosted"], et_antiiso_tau_string])
+		self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost_antiiso_tau"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost"], et_antiiso_tau_string]) 
+		self.expressions_dict["catHtt13TeV_et_ZeroJet2D_antiiso_tau"] = self.combine([self.expressions_dict["catHtt13TeV_et_ZeroJetCP"], et_antiiso_tau_string]) 
+		self.expressions_dict["catHtt13TeV_et_Boosted2D_antiiso_tau"] = self.combine([self.expressions_dict["catHtt13TeV_et_BoostedCP"], et_antiiso_tau_string]) 
+
+		self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_antiiso_tau"] = self.combine([boosted_higgsCP_string, "(1.0)" if channel != "em" else pZeta_CP_string, mt_antiiso_tau_string]) 
+		# self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_antiiso_tau"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted"], mt_antiiso_tau_string])
+		self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost_antiiso_tau"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost"], mt_antiiso_tau_string]) 
+		self.expressions_dict["catHtt13TeV_mt_ZeroJet2D_antiiso_tau"] = self.combine([self.expressions_dict["catHtt13TeV_mt_ZeroJetCP"], mt_antiiso_tau_string]) 
+		self.expressions_dict["catHtt13TeV_mt_Boosted2D_antiiso_tau"] = self.combine([self.expressions_dict["catHtt13TeV_mt_BoostedCP"], mt_antiiso_tau_string]) 
+
+		# Anti-isolated taus with anti-isolated lepton sideband
+		self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso_taulep"] = self.combine([boosted_higgsCP_string, "(1.0)" if channel != "em" else pZeta_CP_string, et_antiiso_tau_string, et_antiiso_inclusive_string]) 
+		# self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_boosted"], et_antiiso_tau_string, et_antiiso_inclusive_string])
+		self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_et_dijet2D_lowboost"], et_antiiso_tau_string, et_antiiso_inclusive_string]) 
+		self.expressions_dict["catHtt13TeV_et_ZeroJet2D_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_et_ZeroJetCP"], et_antiiso_tau_string, et_antiiso_inclusive_string]) 
+		self.expressions_dict["catHtt13TeV_et_Boosted2D_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_et_BoostedCP"], et_antiiso_tau_string, et_antiiso_inclusive_string]) 
+
+		self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_antiiso_taulep"] = self.combine([boosted_higgsCP_string, "(1.0)" if channel != "em" else pZeta_CP_string, mt_antiiso_tau_string, mt_antiiso_inclusive_string]) 
+		# self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_boosted"], mt_antiiso_tau_string, mt_antiiso_inclusive_string])
+		self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost"], mt_antiiso_tau_string, mt_antiiso_inclusive_string]) 
+		self.expressions_dict["catHtt13TeV_mt_ZeroJet2D_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_mt_ZeroJetCP"], mt_antiiso_tau_string, mt_antiiso_inclusive_string]) 
+		self.expressions_dict["catHtt13TeV_mt_Boosted2D_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_mt_BoostedCP"], mt_antiiso_tau_string, mt_antiiso_inclusive_string]) 
+		
 
 					
 		# Anti-isolation qcd control region in dijet categories

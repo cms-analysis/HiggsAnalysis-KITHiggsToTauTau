@@ -222,12 +222,16 @@ if __name__ == "__main__":
 			datacards_per_channel_category = qcdfactorsdatacards.QcdFactorsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			# exclude isolation cut which is set by default in cutstrings.py using the smhtt2016 cut_type
-			if any(bin in category for bin in ["ZeroJet2D_antiiso","Boosted2D_antiiso","dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "dijet2D_antiiso", "ZeroJet2D_antiiso_near","Boosted2D_antiiso_near","dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far","Boosted2D_antiiso_far","dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far"])  and channel in ["mt", "et"]:
+			if any(bin in category for bin in ["ZeroJet2D_antiiso","Boosted2D_antiiso","dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "ZeroJet2D_antiiso_tau","Boosted2D_antiiso_tau","dijet2D_lowboost_antiiso_tau","dijet2D_boosted_antiiso_tau", "ZeroJet2D_antiiso_taulep","Boosted2D_antiiso_taulep","dijet2D_lowboost_antiiso_taulep","dijet2D_boosted_antiiso_taulep", "dijet2D_antiiso", "ZeroJet2D_antiiso_near","Boosted2D_antiiso_near","dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far","Boosted2D_antiiso_far","dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far"])  and channel in ["mt", "et"]:
+				# exclude_cuts.append("iso_2")
+				# if ("taulep" in category):
+				# 	exclude_cuts.append("iso_1")
+					# weight+= "*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 				exclude_cuts.append("iso_1")
-				if ("lowboost" in category or "boosted" in category):
+				if ("dijet2D" in category):
 					exclude_cuts.append("iso_2")
-					weight+= "*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
-					print(weight)
+					weight+= "*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+
 				do_not_normalize_by_bin_width = True
 
 		
@@ -265,7 +269,7 @@ if __name__ == "__main__":
 					config["x_expressions"] = ["m_vis" if "ZeroJet2D" in category else "m_sv"]
 								
 					# configure binnings etc 				
-					if any(bin in category for bin in ["ZeroJet2D_antiiso","Boosted2D_antiiso","dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "dijet2D_antiiso", "ZeroJet2D_antiiso_near","Boosted2D_antiiso_near","dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far","Boosted2D_antiiso_far","dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far",]) and channel in ["mt", "et"]:
+					if any(bin in category for bin in ["ZeroJet2D_antiiso","Boosted2D_antiiso","dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "ZeroJet2D_antiiso_tau","Boosted2D_antiiso_tau","dijet2D_lowboost_antiiso_tau","dijet2D_boosted_antiiso_tau", "ZeroJet2D_antiiso_taulep","Boosted2D_antiiso_taulep","dijet2D_lowboost_antiiso_taulep","dijet2D_boosted_antiiso_taulep", "dijet2D_antiiso", "ZeroJet2D_antiiso_near","Boosted2D_antiiso_near","dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far","Boosted2D_antiiso_far","dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far",]) and channel in ["mt", "et"]:
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_vis"]]
 				
 					# Miscellaneous
@@ -429,15 +433,28 @@ if __name__ == "__main__":
 					processes_to_plot = [p for p in processes if not "noplot" in p]
 				
 					processes_to_plot.insert(1, "EWK")
-					config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot")
-					config["sum_scale_factors"].append("1.0 1.0 1.0")
+					config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot" if not "et_dijet2D_boosted" in category else "VVT_noplot W_noplot")
+					config["sum_scale_factors"].append("1.0 1.0 1.0"  if not "et_dijet2D_boosted" in category else "1.0 1.0")
 					config["sum_result_nicks"].append("EWK")
-					if category not in "et_dijet2D_lowboost_SB_antiiso":
+					
+					if any(bin in category for bin in ["et_dijet2D_antiiso_far", "et_dijet2D_lowboost_antiiso_near","et_dijet2D_lowboost_antiiso"]):
+						processes_to_plot.insert(2, "ZLL")
+						config["sum_nicks"].append("ZJ_noplot")
+						config["sum_scale_factors"].append("1.0")
+						config["sum_result_nicks"].append("ZLL")
+					elif any(bin in category for bin in ["et_ZeroJet2D_antiiso_far"]):
+						processes_to_plot.insert(2, "ZLL")
+						config["sum_nicks"].append("ZL_noplot")
+						config["sum_scale_factors"].append("1.0")
+						config["sum_result_nicks"].append("ZLL")
+					elif any(bin in category for bin in ["et_dijet2D_lowboost_antiiso_far", "mt_dijet2D_lowboost_antiiso_far"]): 
+						pass
+					else:
 						processes_to_plot.insert(2, "ZLL")
 						config["sum_nicks"].append("ZL_noplot ZJ_noplot")
 						config["sum_scale_factors"].append("1.0 1.0")
-						config["sum_result_nicks"].append("ZLL")
-				
+						config["sum_result_nicks"].append("ZLL")						
+										
 					config["files"] = [postfit_shapes]
 					config["folders"] = [category+"_"+level]
 					config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]

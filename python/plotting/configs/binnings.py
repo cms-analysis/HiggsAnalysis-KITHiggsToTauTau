@@ -500,17 +500,17 @@ class BinningsDict(binnings.BinningsDict):
 		for channel in ["mt", "et", "tt", "em"]:
 			for category in ["a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2", "oneprong", "oneprong_1", "oneprong_2", "combined_a1_a1", "combined_a1_rho", "combined_a1_oneprong", "combined_rho_rho", "combined_rho_oneprong", "combined_oneprong_oneprong"]:
 				
-				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category] = "25,-1,1"
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category] = "25,-1.001,1.001"
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_m_vis"] = "25,40,85"
 				
-				for reco_fit in ["Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
-					suffix = "_{m_{Z}}" if "M91" in reco_fit else ""
-					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmega"+reco_fit] = "25,-1,1"
-					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaBar"+reco_fit] = "25,-1,1"
-					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaVisible"+reco_fit] = "25,-1,1"
+				for reco_fit in ["GenMatched", "Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmega"+reco_fit] = "25,-1.001,1.001"
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaBar"+reco_fit] = "25,-1.001,1.001"
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaVisible"+reco_fit] = "25,-1.001,1.001"
 					for lepton_index in ["1", "2"]:
-						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "25,-1,1"
-						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "25,-1,1"
-						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaVisible"+reco_fit+"_"+lepton_index] = "25,-1,1"
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "25,-1.001,1.001"
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "25,-1.001,1.001"
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaVisible"+reco_fit+"_"+lepton_index] = "25,-1.001,1.001"
 		
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_a1"] = self.binnings_dict[channel+"_visibleOverFullEnergy"] # TODO change to dedicated a1 variable
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry"]
@@ -689,6 +689,15 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_lowboost_antiiso_m_vis"] =  "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 			self.binnings_dict["binningHttCP13TeV_et_dijet2D_boosted_antiiso_m_vis"] =  "40 80 120 160 200"
 			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_boosted_antiiso_m_vis"] =  "40 80 120 160 200" #0 400"
+			self.binnings_dict["binningHttCP13TeV_et_dijet2D_lowboost_antiiso_tau_m_vis"] =  "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_lowboost_antiiso_tau_m_vis"] =  "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_et_dijet2D_boosted_antiiso_tau_m_vis"] =  "40 80 120 160 200"
+			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_boosted_antiiso_tau_m_vis"] =  "40 80 120 160 200" #0 400"
+			self.binnings_dict["binningHttCP13TeV_et_dijet2D_lowboost_antiiso_taulep_m_vis"] =  "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_lowboost_antiiso_taulep_m_vis"] =  "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_et_dijet2D_boosted_antiiso_taulep_m_vis"] =  "40 120 200"
+			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_boosted_antiiso_taulep_m_vis"] =  "40 120 200" #0 400"
+
 			self.binnings_dict["binningHttCP13TeV_et_dijet2D_antiiso_m_vis"] =  "40 80 120 160 200"
 			self.binnings_dict["binningHttCP13TeV_mt_dijet2D_antiiso_m_vis"] =  "40 80 120 160 200" #0 400"
 
@@ -711,6 +720,11 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHttCP13TeV_"+channel+"_ZeroJet2D_m_sv"] = "0 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 220 240 260 280 300" if channel != "tt" else "0 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240 250 260 270 280 290 300"
 			self.binnings_dict["binningHttCP13TeV_et_ZeroJet2D_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 			self.binnings_dict["binningHttCP13TeV_mt_ZeroJet2D_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_et_ZeroJet2D_antiiso_tau_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_mt_ZeroJet2D_antiiso_tau_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_et_ZeroJet2D_antiiso_taulep_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_mt_ZeroJet2D_antiiso_taulep_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+
 			self.binnings_dict["binningHttCP13TeV_et_ZeroJet2D_antiiso_near_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 			self.binnings_dict["binningHttCP13TeV_mt_ZeroJet2D_antiiso_near_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 			self.binnings_dict["binningHttCP13TeV_et_ZeroJet2D_antiiso_far_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
@@ -721,6 +735,11 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHttCP13TeV_"+channel+"_Boosted2D_m_sv"] = "0 80 90 100 110 120 130 140 150 160 300" if channel != "tt" else "0 40 60 70 80 90 100 110 120 130 150 200 250"
 			self.binnings_dict["binningHttCP13TeV_et_Boosted2D_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 			self.binnings_dict["binningHttCP13TeV_mt_Boosted2D_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_et_Boosted2D_antiiso_tau_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_mt_Boosted2D_antiiso_tau_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_et_Boosted2D_antiiso_taulep_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+			self.binnings_dict["binningHttCP13TeV_mt_Boosted2D_antiiso_taulep_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
+
 			self.binnings_dict["binningHttCP13TeV_et_Boosted2D_antiiso_near_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 			self.binnings_dict["binningHttCP13TeV_mt_Boosted2D_antiiso_near_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 			self.binnings_dict["binningHttCP13TeV_et_Boosted2D_antiiso_far_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
