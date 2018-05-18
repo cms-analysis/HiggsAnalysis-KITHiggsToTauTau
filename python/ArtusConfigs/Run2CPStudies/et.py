@@ -313,20 +313,21 @@ class et_ArtusConfig(dict):
 
 		elif re.search("Run2017|Summer17|Fall17", nickname):
 			self["HltPaths"] = [
-					"HLT_Ele35_WPTight_Gsf",
 					"HLT_Ele32_WPTight_Gsf",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
 				]
 			self["ElectronLowerPtCuts"] = [	"36.0"]
 			self["DiTauPairLepton1LowerPtCuts"] = [
-					"HLT_Ele35_WPTight_Gsf_v:36.0",
 					"HLT_Ele32_WPTight_Gsf_v:36.0"
 				]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
-					"HLT_Ele35_WPTight_Gsf_v",
 					"HLT_Ele32_WPTight_Gsf_v",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v"
 				]
+			if re.search("Run2017", nickname):
+				self["DiTauPairHltPathsWithoutCommonMatchRequired"] += ["HLT_Ele35_WPTight_Gsf_v"]
+				self["DiTauPairLepton1LowerPtCuts"] += ["HLT_Ele35_WPTight_Gsf_v:36.0"]
+				self["HltPaths"] = ["HLT_Ele35_WPTight_Gsf"]
 
 		self["TauID"] =  "TauIDRecommendation13TeV"
 		self["TauUseOldDMs"] =  True
@@ -354,21 +355,17 @@ class et_ArtusConfig(dict):
 			"0:e_pt,e_eta"
 		]
 
-		self.update(IdAndTriggerSF(nickname, channel="ET", dcach=False))
+		self.update(IdAndTriggerSF(nickname, channel="ET", dcach=True))
 
 		self["TriggerEfficiencyMode"] = "multiply_weights"
 		self["IdentificationEfficiencyMode"] = "multiply_weights"
 
 		if re.search("Run2017|Summer17|Fall17", nickname):
-			self["EleTauFakeRateWeightFile"] =[""]
-
+			self["EleTauFakeRateWeightFile"] = [""]
 		else:
-			self["EleTauFakeRateWeightFile"] = [
-				"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
-			]
+			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 
 		self["TauTauRestFrameReco"] = "collinear_approximation"
-
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["ElectronTriggerFilterNames"] = ["HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"]
@@ -379,11 +376,13 @@ class et_ArtusConfig(dict):
 		#from https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2017#Trigger_Information
 		elif re.search("Run2017|Summer17|Fall17", nickname):
 			self["ElectronTriggerFilterNames"] = [
-					"HLT_Ele35_WPTight_Gsf_v:hltEle35noerWPTightGsfTrackIsoFilter",
 					"HLT_Ele32_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltEle24erWPTightGsfTrackIsoFilterForTau",
-					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltOverlapFilterIsoEle24WPTightGsfLooseIsoPFTau30"
+					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltOverlapFilterIsoEle24WPTightGsfLooseIsoPFTau30",
+					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltSelectedPFTau30LooseChargedIsolationL1HLTMatched"
 			]
+			if re.search("Run2017", nickname):
+				self["ElectronTriggerFilterNames"] += ["HLT_Ele35_WPTight_Gsf_v:hltEle35noerWPTightGsfTrackIsoFilter"]
 
 		self["InvalidateNonMatchingElectrons"] = True
 		self["InvalidateNonMatchingMuons"] = False
