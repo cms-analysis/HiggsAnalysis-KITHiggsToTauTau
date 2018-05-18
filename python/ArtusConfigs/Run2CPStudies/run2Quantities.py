@@ -686,7 +686,7 @@ class Run2Quantities():
 		]
 
 		if re.search("(Run2017|Summer17|Fall17)", nickname):
-			sync_quantities_list.union(set(
+			sync_quantities_list += [
 					"byIsolationMVArun2017v1DBoldDMwLTraw2017_1",
 					"byVVLooseIsolationMVArun2017v1DBoldDMwLT2017_1",
 					"byVLooseIsolationMVArun2017v1DBoldDMwLT2017_1",
@@ -785,5 +785,5 @@ class Run2Quantities():
 					"byTightIsolationMVArun2v1DBnewDMwLT2016_2",
 					"byVTightIsolationMVArun2v1DBnewDMwLT2016_2",
 					"byVVTightIsolationMVArun2v1DBnewDMwLT2016_2"
-			))
+			]
 		return sync_quantities_list
