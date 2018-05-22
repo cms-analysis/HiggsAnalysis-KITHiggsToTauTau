@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 import re
 import copy
 
-import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
+from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.quantities import Quantities
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsBTaggedJetID as sBTJID
@@ -40,44 +40,10 @@ class gen_ArtusConfig(dict):
 			"#PrintEventsConsumer",
 			"#PrintGenParticleDecayTreeConsumer"
 			]
-		quantities_dict = quantities.quantities() 
-		
-		quantities_dict["Quantities"] += quantities_dict.weightQuantities()
 
-
-		if re.search("DY.?JetsToLL",nickname):
-			quantities_dict["Quantities"] += quantities_dict.genQuantities()
-			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()
-			quantities_dict["Quantities"] += quantities_dict.genQuantitiesZ()
-			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]			
-
-		elif re.search("LFV",nickname):
-			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
-			quantities_dict["Quantities"] += quantities_dict.genQuantitiesZ()
-
-		elif re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
-			quantities_dict["Quantities"] += quantities_dict.genQuantities()
-			quantities_dict["Quantities"] += quantities_dict.genHiggsQuantities()
-			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
-			quantities_dict["Quantities"] += [
-				"nJets",
-				"nJets30",
-				"leadingJetLV",
-				"trailingJetLV",
-				"thirdJetLV",
-				"fourthJetLV",
-				"fifthJetLV",
-				"sixthJetLV",
-				"diJetDeltaPhi"
-			]
-
-		elif re.search("Embedding2016", nickname):
-			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
-
-
-		self.update(copy.deepcopy(quantities_dict))
-
-		self["Quantities"]=list(set(self["Quantities"])) #removes dublicates from list by making it a set and then again a list
+		quantities_set = Quantities()
+		quantities_set.build_quantities(nickname, channel = "GEN")
+		self["Quantities"] = list(quantities_set.quantities)
 
 
 		if re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
