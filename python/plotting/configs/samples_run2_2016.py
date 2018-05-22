@@ -3127,9 +3127,9 @@ class Samples(samples.SamplesBase):
 					ss_os_factor = 1.0
 					if category != None:
 						if channel == "et":
-							ss_os_factor = 1.42 if "BoostedCP" in category else 1.00 if "Vbf2D" in category else 0.99 if "ZeroJet2D" in category else 1.29 if "dijet2D_boosted" in category else 1.98 if "dijet2D_lowboost" in category else 1.0
+							ss_os_factor = 1.61 if "BoostedCP" in category else 0.97 if "ZeroJetCP" in category else 1.82 if "dijet2D" in category else 1.0
 						elif channel == "mt":
-							ss_os_factor = 1.15 if "BoostedCP" in category else 1.0 if "Vbf2D" in category else 1.18 if "ZeroJet2D" in category else 1.16 if "dijet2D_boosted" in category else 1.32 if "dijet2D_lowboost" in category else 1.0
+							ss_os_factor = 1.18 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.23 if "dijet2D" in category else 1.0
 												
 				if channel in ["et", "mt"]:
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
