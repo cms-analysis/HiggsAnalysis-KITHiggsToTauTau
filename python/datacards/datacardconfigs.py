@@ -56,7 +56,7 @@ class DatacardConfigs(object):
 			"qqHmm" : "qqhjhumm",
 			"qqHps" : "qqhjhups",
 			"smHcpeven": "httcpeven",
-			"susyHcpodd": "susycpodd",
+			"susyHcpodd_ALT": "susycpodd",
 			"CPODD_ALT": "httcpodd",
 			"CPMIX_ALT": "httcpmix",
 		}
