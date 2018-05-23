@@ -50,6 +50,30 @@ def private2official(category, category_replacements):
 		result = re.sub(private+"$", official, result)
 	return result
 
+def matching_process(obj1, obj2):
+	matches = (obj1.bin() == obj2.bin())
+	matches = matches and (obj1.process() == obj2.process())
+	matches = matches and (obj1.signal() == obj2.signal())
+	matches = matches and (obj1.analysis() == obj2.analysis())
+	matches = matches and (obj1.era() == obj2.era())
+	matches = matches and (obj1.channel() == obj2.channel())
+	matches = matches and (obj1.bin_id() == obj2.bin_id())
+	matches = matches and (obj1.mass() == obj2.mass())
+	return matches
+
+def is_control_region(obj):
+	return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "TTbarCR" in obj.bin() or obj.channel() == "mm")
+	
+	def remove_procs_and_systs_with_zero_yield(proc):
+		# TODO: find out why zero yield should be ok in control regions. until then remove them
+		#null_yield = not (proc.rate() > 0. or is_control_region(proc))
+		null_yield = not proc.rate() > 0.
+		if null_yield:
+			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
+		return null_yield
+
+
+
 
 if __name__ == "__main__":
 
@@ -68,14 +92,16 @@ if __name__ == "__main__":
 	                    help="Higgs masses. [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
+	parser.add_argument("--cp-study", default="rhometh",
+	                    help="Choose which CP study to do. [Default: %(default)s]")
+	parser.add_argument("--hypothesis", nargs="+", default=["susycpodd"],
+	                    help="Choose the hypothesis to test against CPeven hypothesis. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
-	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	                    help="Additional arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
 	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--auto-rebin", action="store_true", default=False,
 	                    help="Do auto rebinning [Default: %(default)s]")
-	parser.add_argument("--cp-study", default="rhometh",
-	                    help="Choose which CP study to do. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("--do-not-normalize-by-bin-width", default=False, action="store_true",
@@ -106,8 +132,6 @@ if __name__ == "__main__":
 	                    help="Produce debug Plots [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
-	parser.add_argument("--hypothesis", nargs="+", default=["susycpodd"],
-	                    help="Choose the hypothesis to test against CPeven hypothesis. [Default: %(default)s]")
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 	                    help="Do not include shape-uncertainties. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
@@ -118,17 +142,21 @@ if __name__ == "__main__":
 	                    help="Exit program in case categories are removed from CH. [Default: %(default)s]")
 	parser.add_argument("--no-ewkz-as-dy", default=True, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
-	# maybe to be removed
-	parser.add_argument("--for-dcsync", action="store_true", default=False,
-	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
+	parser.add_argument("--no-jec-unc-split", default=False, action="store_true",
+	                    help="Do not split JEC uncertainties into the 27 different sources but use the envelope instead. [Default: %(default)s]")
 	parser.add_argument("--ttbar-fit", action="store_true", default=False,
 	                    help="Use rate parameter to propagate ttbar normalization from control region to all categories. [Default: %(default)s]")
 	parser.add_argument("--mm-fit", action="store_true", default=False,
 	                    help="Use rate parameter to propagate zll normalization from mm control region to all categories. [Default: %(default)s]")
 	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
-	parser.add_argument("--no-jec-unc-split", default=False, action="store_true",
-	                    help="Do not split JEC uncertainties into the 27 different sources but use the envelope instead. [Default: %(default)s]")
+	# TODO: to be removed?
+	parser.add_argument("--steps", nargs="+",
+	                    default=["inputs", "t2w", "likelihoodscan"],
+	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots"],
+	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
+	parser.add_argument("--for-dcsync", action="store_true", default=False,
+	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
 	parser.add_argument("--new-tau-id", default=False, action="store_true",
 	                    help="Use rerun tau Id instead of nominal one. [Default: %(default)s]")
 	
@@ -164,7 +192,7 @@ if __name__ == "__main__":
 
 	if args.cp_study=="rhometh":
 		signal_processes.append("smHcpeven")
-		signal_processes.append("susyHcpodd")
+		signal_processes.append("susyHcpodd_ALT")
 	else:
 		log.critical("Invalid cp study: " + args.cp_study)
 		sys.exit(1)
@@ -215,7 +243,7 @@ if __name__ == "__main__":
 		"ggH_hww" : "hww_gg",
 		"qqH_hww" : "hww_qq",
 		"smHcpeven" : "httcpeven",
-		"susyHcpodd" : "susycpodd",
+		"susyHcpodd_ALT" : "susycpodd",
 	}
 	
 	category_replacements["0jet"] = "ZeroJet2D_CPrho"
@@ -681,6 +709,7 @@ if __name__ == "__main__":
 	output_files = list(set(output_files))
 	
 	# create input histograms with HarryPlotter
+	log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------")
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
@@ -692,7 +721,8 @@ if __name__ == "__main__":
 	
 	# call official script again with shapes that have just been created
 	datacards_module._call_command([
-			"MorphingSM2016 --output_folder RWTH --postfix \"-2D\" --control_region=1 --manual_rebin=false --real_data=true --mm_fit=false --ttbar_fit=true --input_folder_em RWTH --input_folder_et RWTH --input_folder_mt RWTH --input_folder_tt RWTH --input_folder_mm RWTH --input_folder_ttbar RWTH",
+			#"MorphingSM2016 --output_folder RWTH --postfix \"-2D\" --control_region=1 --manual_rebin=false --real_data=true --mm_fit=false --ttbar_fit=true --input_folder_em RWTH --input_folder_et RWTH --input_folder_mt RWTH --input_folder_tt RWTH --input_folder_mm RWTH --input_folder_ttbar RWTH",
+			"MorphingSM2016 --output_folder RWTH --postfix \"-2D\" --control_region=1 --manual_rebin=false --real_data=true --mm_fit=false --ttbar_fit=true --input_folder_tt RWTH",
 			args.output_dir
 	])
 	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/RWTH")))
@@ -722,27 +752,27 @@ if __name__ == "__main__":
 	datacards.cb.cp().channel(["mt", "et"]).ForEachSyst(lambda systematic: systematic.set_value_d(1 if "tauDMReco" in systematic.name() else systematic.value_d()))
 	
 	# remove processes with zero yield
-	def is_control_region(obj):
-		return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "TTbarCR" in obj.bin() or obj.channel() == "mm")
-	
-	def matching_process(obj1, obj2):
-		matches = (obj1.bin() == obj2.bin())
-		matches = matches and (obj1.process() == obj2.process())
-		matches = matches and (obj1.signal() == obj2.signal())
-		matches = matches and (obj1.analysis() == obj2.analysis())
-		matches = matches and (obj1.era() == obj2.era())
-		matches = matches and (obj1.channel() == obj2.channel())
-		matches = matches and (obj1.bin_id() == obj2.bin_id())
-		matches = matches and (obj1.mass() == obj2.mass())
-		return matches
-	
-	def remove_procs_and_systs_with_zero_yield(proc):
-		# TODO: find out why zero yield should be ok in control regions. until then remove them
-		#null_yield = not (proc.rate() > 0. or is_control_region(proc))
-		null_yield = not proc.rate() > 0.
-		if null_yield:
-			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
-		return null_yield
+#	def is_control_region(obj):
+#		return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "TTbarCR" in obj.bin() or obj.channel() == "mm")
+#	
+#	def matching_process(obj1, obj2):
+#		matches = (obj1.bin() == obj2.bin())
+#		matches = matches and (obj1.process() == obj2.process())
+#		matches = matches and (obj1.signal() == obj2.signal())
+#		matches = matches and (obj1.analysis() == obj2.analysis())
+#		matches = matches and (obj1.era() == obj2.era())
+#		matches = matches and (obj1.channel() == obj2.channel())
+#		matches = matches and (obj1.bin_id() == obj2.bin_id())
+#		matches = matches and (obj1.mass() == obj2.mass())
+#		return matches
+#	
+#	def remove_procs_and_systs_with_zero_yield(proc):
+#		# TODO: find out why zero yield should be ok in control regions. until then remove them
+#		#null_yield = not (proc.rate() > 0. or is_control_region(proc))
+#		null_yield = not proc.rate() > 0.
+#		if null_yield:
+#			datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
+#		return null_yield
 	
 	# TODO: comment out the following two commands if you want to use
 	#       the SM HTT data card creation method in CombineHarvester
