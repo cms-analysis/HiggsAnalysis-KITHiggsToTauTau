@@ -1,0 +1,39 @@
+#!/bin/sh
+
+
+annotate-trees.py $1/datacards/individual/em/1030/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/et/1010/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 6
+annotate-trees.py $1/datacards/individual/et/1012/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 6
+annotate-trees.py $1/datacards/individual/et/1020/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 3
+annotate-trees.py $1/datacards/individual/et/1021/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 3
+annotate-trees.py $1/datacards/individual/et/1030/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/et/1031/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/et/1032/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/et/1040/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 3
+annotate-trees.py $1/datacards/individual/et/1050/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 6
+annotate-trees.py $1/datacards/individual/et/1060/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/mt/1010/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 6
+annotate-trees.py $1/datacards/individual/mt/1012/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 6
+annotate-trees.py $1/datacards/individual/mt/1020/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 3
+annotate-trees.py $1/datacards/individual/mt/1022/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 3
+annotate-trees.py $1/datacards/individual/mt/1030/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/mt/1031/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/mt/1032/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/mt/1040/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 3
+annotate-trees.py $1/datacards/individual/mt/1050/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 6
+annotate-trees.py $1/datacards/individual/mt/1060/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/tt/1010/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 6
+annotate-trees.py $1/datacards/individual/tt/1011/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 6
+annotate-trees.py $1/datacards/individual/tt/1012/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 6
+annotate-trees.py $1/datacards/individual/tt/1020/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 3
+annotate-trees.py $1/datacards/individual/tt/1021/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 3
+annotate-trees.py $1/datacards/individual/tt/1022/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 3
+annotate-trees.py $1/datacards/individual/tt/1030/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/tt/1031/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/tt/1032/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/tt/1040/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 3
+annotate-trees.py $1/datacards/individual/tt/1050/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 6
+annotate-trees.py $1/datacards/individual/tt/1060/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 8
+annotate-trees.py $1/datacards/individual/tt/1070/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 5
+annotate-trees.py $1/datacards/individual/tt/1080/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 2
+annotate-trees.py $1/datacards/individual/tt/1090/higgsCombine.Test.MultiDimFit.mH0.root -t limit -b individual_per_channel --values 1
