@@ -31,6 +31,9 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards_module
 	Script to create ROOT inputs and datacards for the Higgs-boson CP studies in the final state.
 """
 
+# At the moment, the script is setup to work only with the CP rho method, i.e. only tt->rhorho channel.
+# TODO adapt script for also combined method and ip method, i.e. adjust categories and so on.
+# The categories are the same ones used in the SM Htautau analysis.
 
 
 def _call_command(command):
@@ -186,6 +189,7 @@ if __name__ == "__main__":
 	exit_code = logger.subprocessCall(shlex.split(command))
 	assert(exit_code == 0)
 	
+
 	init_cb = ch.CombineHarvester()
 	for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):
 		init_cb.QuickParseDatacard(init_datacard, "$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt", False)
@@ -201,10 +205,6 @@ if __name__ == "__main__":
 			#signal_processes=signal_processes,
 	)
 	
-
-	#datacards.cb.PrintAll()
-	#datacards.cb.PrintProcs()
-	sys.exit(0)
 
 	# sample = function in samples_run2
 	# process = process in CH/datacard
@@ -235,16 +235,17 @@ if __name__ == "__main__":
 	category_replacements["0jet"] = "ZeroJet2D"
 	category_replacements["boosted"] = "Boosted2D"
 	category_replacements["vbf"] = "Vbf2D"
+	category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR"
+	category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
+	category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
 	category_replacements["all"] = "TTbarCR"
+	# only semileptonic channels
 	category_replacements["wjets_0jet_cr"] = "ZeroJet2D_WJCR"
 	category_replacements["wjets_boosted_cr"] = "Boosted2D_WJCR"
 	category_replacements["wjets_vbf_cr"] = "Vbf2D_WJCR"
 	category_replacements["antiiso_0jet_cr"] = "ZeroJet2D_QCDCR"
 	category_replacements["antiiso_boosted_cr"] = "Boosted2D_QCDCR"
 	category_replacements["antiiso_vbf_cr"] = "Vbf2D_QCDCR"
-	category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR"
-	category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
-	category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
 	
 	# initialise datacards
 	tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -369,11 +370,13 @@ if __name__ == "__main__":
 		"noplot_ttj_ss_highmt" # mt & et channels: qcd high mt yield subtract
 	]
 	
+	# used only in semileptonic channels
 	categoriesWithRelaxedIsolationForW = [
 		"Boosted2D",
 		"Vbf2D"
 	]
 	
+	# used only in semileptonic channels
 	categoriesWithRelaxedIsolationForQCD = [
 		"ZeroJet2D",
 		"Boosted2D",
@@ -443,7 +446,7 @@ if __name__ == "__main__":
 			category = official2private(official_category, category_replacements)
 			#print "\t", category
 			
-			datacards_per_channel_category = smhttdatacards.SMHttDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
+			datacards_per_channel_category = finalstatecpstudiesdatacards.FinalStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			if "TTbarCR" in category and channel == "ttbar":
@@ -462,7 +465,7 @@ if __name__ == "__main__":
 					exclude_cuts += ["iso_1", "iso_2"]
 					do_not_normalize_by_bin_width = True
 				
-				datacards_per_channel_category = smhttdatacards.SMHttDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
+				datacards_per_channel_category = finalstatecpstudiesdatacards.FinalStateCPStudiesDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
@@ -506,6 +509,18 @@ if __name__ == "__main__":
 						#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1]+("_Up" if shift_up else "_Down"),"(1.0)")
 						zmm_cr_factor = zmm_cr_factors_official.get(category+("_Up" if shift_up else "_Down"),"(1.0)")
 					
+					# set cut_type
+					cut_type=""
+					if args.era == "2016":
+						if args.cp_study=="rhometh":
+							cut_type="cprho2016"
+						#elif args.cp_study=="combmeth":
+						#	cut_type=="cpcomb2016"
+						#elif args.cp_study=="ipmeth":
+						#	cut_type=="cpip2016"
+					else:
+						cut_type=="baseline"
+
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
@@ -515,7 +530,8 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="smhtt2016" if args.era == "2016" else "baseline",
+							#cut_type="smhtt2016" if args.era == "2016" else "baseline",
+							cut_type=cut_type,
 							estimationMethod=args.background_method,
 							ss_os_factor=ss_os_factor,
 							wj_sf_shift=wj_sf_shift,
@@ -575,6 +591,11 @@ if __name__ == "__main__":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 					
+					#datacards.cb.PrintAll()
+					#datacards.cb.PrintProcs()
+					#init_cb.PrintProcs()
+					sys.exit(0)
+
 					# Use 2d plots for 2d categories
 					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						config["x_expressions"] = ["m_sv" if channel == "tt" else "m_vis"]
