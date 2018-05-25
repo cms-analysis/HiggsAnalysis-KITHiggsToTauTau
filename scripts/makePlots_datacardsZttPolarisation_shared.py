@@ -64,7 +64,7 @@ def create_input_root_files(datacards, args):
             datacards_per_channel_category = zttpolarisationdatacards.ZttPolarisationDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
                         
             higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
-
+            
             output_file = os.path.join(args.output_dir,"input/{ANALYSIS}_{CHANNEL}_{BIN}_{ERA}.root".format(
                     ANALYSIS="ztt",
                     CHANNEL=channel,
@@ -73,7 +73,7 @@ def create_input_root_files(datacards, args):
             ))
             output_files.append(output_file)
             tmp_output_files = []
-
+            
             for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
                 nominal = (shape_systematic == "nominal")
                 list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
@@ -108,15 +108,17 @@ def create_input_root_files(datacards, args):
                             no_ewkz_as_dy = True,
                             asimov_nicks = asimov_nicks
                     )
-
+                    
                     systematics_settings = systematics_factory.get(shape_systematic)(config)
                     # TODO: evaluate shift from datacards_per_channel_category.cb
+                    
                     config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 
                     #config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 
                     x_expression = args.quantity if args.quantity else ("testZttPol13TeV_"+category)
                     config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
+
 
                     binnings_key = "binningZttPol13TeV_"+category+(("_"+args.quantity) if args.quantity else "")
                     if binnings_key in binnings_settings.binnings_dict:
@@ -204,10 +206,10 @@ if __name__ == "__main__":
                         help="Do auto rebinning [Default: %(default)s]")
     parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
                         help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
-    parser.add_argument("-x", "--quantity", default=None,
-                        help="Quantity. [Default: testZttPol13TeV_<category>]")
     parser.add_argument("-w", "--weight", default="1.0",
                         help="Additional weight (cut) expression. [Default: %(default)s]")
+    parser.add_argument("-x", "--quantity", default=None,
+                        help="Quantity. [Default: testZttPol13TeV_<category>]")
     parser.add_argument("--analysis-modules", default=[], nargs="+",
                         help="Additional analysis Modules. [Default: %(default)s]")
     parser.add_argument("-r", "--ratio", default=False, action="store_true",
@@ -262,7 +264,12 @@ if __name__ == "__main__":
     if args.no_shape_uncs:
         print OKBLUE + "No shape uncs!" + ENDC
         datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
-
+    else:
+        datacards.cb.FilterSysts(lambda systematic : systematic.name() == "tauEsUp")
+        datacards.cb.FilterSysts(lambda systematic : systematic.name() == "tauEsDown")
+        
+    
+    
     print OKGREEN + 'Datacard channels:' + ENDC, datacards.cb.channel_set()
     print OKGREEN + 'Datacard categories :' + ENDC, datacards.cb.bin_set()
     print OKGREEN + 'Datacard systematics :' + ENDC, datacards.cb.syst_name_set()
@@ -283,6 +290,10 @@ if __name__ == "__main__":
 
     BinErrorsAndBBB(datacards, 0.1, 0.5, True)
     #datacards.cb.SetGroup("syst_plus_bbb", [".*"])
+    
+    if args.use_asimov_dataset:
+        datacards = use_asimov_dataset(datacards)
+        print OKBLUE + "Using asimov dataset!" + ENDC
 
     #5.-----Write Cards
     print WARNING + '-----      Writing Datacards...                                       -----' + ENDC
@@ -311,15 +322,11 @@ if __name__ == "__main__":
     import sys
     sys.exit(0)
     
+    #print OKBLUE, datacards.cb.PrintAll() , ENDC #DEBUG output
+    
     #6.-----Write Cards
     print WARNING + UNDERLINE  + '-----      Performing statistical analysis                            -----' + ENDC
-    
-    if args.use_asimov_dataset:
-        print datacards
-        datacards = use_asimov_dataset(datacards)
-        print datacards
-        print OKBLUE + "Using asimov dataset!" + ENDC
-        
+            
     #print OKBLUE + "datacards.cb.PrintAll()" + ENDC, datacards.cb.PrintAll()
     
     #7.-----text2workspace
@@ -328,3 +335,7 @@ if __name__ == "__main__":
     physicsmodel = "CombineHarvester.ZTTPOL2016.taupolarisationmodels:ztt_pol"
     datacards_workspaces = text2workspace(datacards, datacards_cbs, physicsmodel, "workspace")
 
+    #8.-----totstatuncs
+    print WARNING + '-----      Tot and stat uncs                                          -----' + ENDC
+    
+    #MultiDimFit_TotStatUnc(datacards, datacards_workspaces, datacards_cbs, args,algo = "singles")
