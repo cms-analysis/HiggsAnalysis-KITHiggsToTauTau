@@ -61,11 +61,9 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("-c", "--channel", action = "append",
-	                    default=["all"],
+	parser.add_argument("-c", "--channel", action = "append", default=["all"],
 	                    help="Channel. This argument can be set multiple times. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+", action = "append",
-	                    default=[["all"]] * len(parser.get_default("channel")),
+	parser.add_argument("--categories", nargs="+", action = "append", default=[["all"]] * len(parser.get_default("channel")),
 	                    help="Categories per channel. This argument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantity", default="0",
 	                    help="Quantity. [Default: %(default)s]")
@@ -132,8 +130,7 @@ if __name__ == "__main__":
 	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
 	# TODO: to be removed?
-	parser.add_argument("--steps", nargs="+",
-	                    default=["inputs", "t2w", "likelihoodscan"],
+	parser.add_argument("--steps", nargs="+", default=["inputs", "t2w", "likelihoodscan"],
 	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots"],
 	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
 	parser.add_argument("--for-dcsync", action="store_true", default=False,
@@ -184,11 +181,12 @@ if __name__ == "__main__":
 	
 	# get "official" configuration
 	init_directory = os.path.join(args.output_dir, "init")
-	command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=true --only_init=" + init_directory
+	command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --only_init=" + init_directory
 	log.debug(command)
 	exit_code = logger.subprocessCall(shlex.split(command))
 	assert(exit_code == 0)
 	
+
 
 	init_cb = ch.CombineHarvester()
 	for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):
@@ -204,7 +202,7 @@ if __name__ == "__main__":
 			cp_study=args.cp_study
 			#signal_processes=signal_processes,
 	)
-	
+
 
 	# sample = function in samples_run2
 	# process = process in CH/datacard
@@ -264,6 +262,10 @@ if __name__ == "__main__":
 
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
+
+	
+
+
 
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
@@ -385,6 +387,7 @@ if __name__ == "__main__":
 	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
 
+	
 	#restriction to requested systematics
 	if args.no_shape_uncs:
 		datacards.remove_shape_uncertainties()
@@ -398,6 +401,7 @@ if __name__ == "__main__":
 	args.channel = datacards.cb.cp().channel_set()
 	if args.categories == parser.get_default("categories"):
 		args.categories = len(args.channel) * args.categories
+	
 	
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		#print index, (channel, categories)
@@ -429,6 +433,8 @@ if __name__ == "__main__":
 		else:
 			# include channel prefix
 			categories = [channel + "_" + category for category in categories]
+
+		
 		
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
@@ -438,14 +444,19 @@ if __name__ == "__main__":
 			log.fatal(list(set(categories_save) - set(categories)))
 			sys.exit(1)
 		
+	
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		
+
 		log.info("Building configs for channel = {channel}, categories = {categories}".format(channel=channel, categories=str(categories)))
+	
+	
 		for official_category in categories:
 			category = official2private(official_category, category_replacements)
 			#print "\t", category
 			
+
 			datacards_per_channel_category = finalstatecpstudiesdatacards.FinalStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
@@ -465,7 +476,7 @@ if __name__ == "__main__":
 					exclude_cuts += ["iso_1", "iso_2"]
 					do_not_normalize_by_bin_width = True
 				
-				datacards_per_channel_category = finalstatecpstudiesdatacards.FinalStateCPStudiesDatacardsForSync(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
+				datacards_per_channel_category = finalstatecpstudiesdatacards.FinalStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
@@ -560,6 +571,7 @@ if __name__ == "__main__":
 						config["weights"][index] = weightAtIndex
 					config["x_expressions"] = ["m_vis"] if channel == "mm" and args.quantity == "m_sv" else [args.quantity]
 
+
 					if "2D" not in category:
 						binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
 						if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
@@ -568,8 +580,9 @@ if __name__ == "__main__":
 							config["x_bins"] = [args.x_bins]
 						else:
 							log.fatal("binnings key " + binnings_key + " not found in binnings_dict!")
-							sys.exit()
+							sys.exit(1)
 					
+	
 					# define quantities and binning for control regions
 					if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
 						config["x_expressions"] = ["mt_1"]
@@ -591,34 +604,45 @@ if __name__ == "__main__":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 					
-					#datacards.cb.PrintAll()
-					#datacards.cb.PrintProcs()
-					#init_cb.PrintProcs()
-					sys.exit(0)
-
+	
+					# For the moment binning is hardcoded.
+					# TODO: optimise categories and define corresponding binning in binnings.py
+					tt_binnings_m_sv = "0 95 115 135 155 350"
+					tt_binnings_phiStarCP = "10,0.0,6.3"
 					# Use 2d plots for 2d categories
-					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
-						config["x_expressions"] = ["m_sv" if channel == "tt" else "m_vis"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_sv" if channel == "tt" else "_m_vis")]]
-						if channel in ["mt", "et"]:
-							config["y_expressions"] = ["decayMode_2"]
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_decayMode_2"]]
-						elif channel == "em":
-							config["y_expressions"] = ["pt_2"]
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
-					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
-						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
-						config["y_expressions"] = ["H_pt"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
-						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
-					elif "Vbf2D" in category and not "QCDCR" in category:
-						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
-						config["y_expressions"] = ["mjj"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
-						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
+					if channel=="tt":
+						if ("ZeroJet2D" in category or "Boosted2D" in category or "Vbf2D" in category) and not ("WJCR" in category or "QCDCR" in category):
+							config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
+							config["x_bins"] = [tt_binnings_phiStarCP]
+							config["y_expressions"] = ["m_sv"]
+							config["y_bins"] = [tt_binnings_m_sv]
+					else:
+						log.fatal("The following channel is not yet configured in this script: " + args.channel)
+						sys.exit(1)
+
+					#if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
+					#	config["x_expressions"] = ["m_sv" if channel == "tt" else "m_vis"]
+					#	config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_sv" if channel == "tt" else "_m_vis")]]
+					#	if channel in ["mt", "et"]:
+					#		config["y_expressions"] = ["decayMode_2"]
+					#		config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_decayMode_2"]]
+					#	elif channel == "em":
+					#		config["y_expressions"] = ["pt_2"]
+					#		config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_pt_2"]]
+					#elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
+					#	config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+					#	config["y_expressions"] = ["H_pt"]
+					#	config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+					#	config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
+					#elif "Vbf2D" in category and not "QCDCR" in category:
+					#	config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+					#	config["y_expressions"] = ["mjj"]
+					#	config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+					#	config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
 					
+
 					# Unroll 2d distribution to 1d in order for combine to fit it
-					if "2D" in category and not ("WJCR" in category or "QCDCR" in category) and not (channel == "tt" and "ZeroJet2D" in category):
+					if "2D" in category and not ("WJCR" in category or "QCDCR" in category):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollHistogram")
 						config["unroll_ordering"] = "zyx"
@@ -650,6 +674,7 @@ if __name__ == "__main__":
 						config.pop("legend_markers")
 					
 					plot_configs.append(config)
+	
 			
 		hadd_commands.append("hadd -f {DST} {SRC}".format(
 				DST=output_file,
@@ -668,6 +693,7 @@ if __name__ == "__main__":
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	output_files = list(set(output_files))
 	
+
 	# create input histograms with HarryPlotter
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	if args.n_plots[0] != 0:
@@ -678,12 +704,17 @@ if __name__ == "__main__":
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
+
 	# call official script again with shapes that have just been created
 	datacards_module._call_command([
-			"MorphingSM2016 --output_folder RWTH --postfix \"-2D\" --control_region=1 --manual_rebin=false --real_data=true --mm_fit=false --ttbar_fit=true --input_folder_em RWTH --input_folder_et RWTH --input_folder_mt RWTH --input_folder_tt RWTH --input_folder_mm RWTH --input_folder_ttbar RWTH",
+			"MorphingSM2016 --output_folder RWTH --postfix \"-2D\" --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --input_folder_tt RWTH",
 			args.output_dir
 	])
 	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/RWTH")))
+	
+	#datacards.cb.PrintAll()
+	#datacards.cb.PrintProcs()
+	#init_cb.PrintProcs()
 	sys.exit(0)
 	
 	# update CombineHarvester with the yields and shapes
