@@ -101,7 +101,7 @@ def create_input_root_files(datacards, args):
                             cut_type="low_mvis_smhtt2016",
                             no_ewk_samples = args.no_ewk_samples,
                             no_ewkz_as_dy = True,
-                            asimov_nicks = asimov_nicks
+                            asimov_nicks = []
                     )
                     
                     systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -259,11 +259,6 @@ if __name__ == "__main__":
     if args.no_shape_uncs:
         print OKBLUE + "No shape uncs!" + ENDC
         datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
-    else:
-        datacards.cb.FilterSysts(lambda systematic : systematic.name() == "tauEsUp")
-        datacards.cb.FilterSysts(lambda systematic : systematic.name() == "tauEsDown")
-        
-    
     
     print OKGREEN + 'Datacard channels:' + ENDC, datacards.cb.channel_set()
     print OKGREEN + 'Datacard categories :' + ENDC, datacards.cb.bin_set()
