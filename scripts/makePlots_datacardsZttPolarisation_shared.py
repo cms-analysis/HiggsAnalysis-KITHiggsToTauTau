@@ -77,12 +77,7 @@ def create_input_root_files(datacards, args):
             for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
                 nominal = (shape_systematic == "nominal")
                 list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
-                asimov_nicks = []
-                if args.use_asimov_dataset:
-                    asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
-                    if "data" in asimov_nicks:
-                        asimov_nicks.remove("data")
-
+                
                 for shift_up in ([True] if nominal else [True, False]):
                     systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 
