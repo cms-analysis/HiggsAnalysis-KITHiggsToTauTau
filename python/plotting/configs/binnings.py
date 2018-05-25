@@ -693,16 +693,19 @@ class BinningsDict(binnings.BinningsDict):
 
 		# CP in the final state
 		## rho method
-		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_CPrho_recoPhiStarCP_phiStarCP"] = "10,0.0,6.3"
-		self.binnings_dict["binningHtt13TeV_tt_Boosted2D_CPrho_recoPhiStarCP_phiStarCP"] = "10,0.0,6.3"
-		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_CPrho_recoPhiStarCP_phiStarCP"] = "10,0.0,6.3"
-		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_CPrho_recoPhiStarCP_m_sv"] = "0.0 90 120 150 300"
-		self.binnings_dict["binningHtt13TeV_tt_Boosted2D_CPrho_recoPhiStarCP_m_sv"] = "0.0 90 120 150 300"
-		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_CPrho_recoPhiStarCP_m_sv"] = "0.0 90 120 150 300"
+		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_recoPhiStarCP_rho_merged"] = "10,0.0,6.3"
+		self.binnings_dict["binningHtt13TeV_tt_Boosted2D_recoPhiStarCP_rho_merged"] = "10,0.0,6.3"
+		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_recoPhiStarCP_rho_merged"] = "10,0.0,6.3"
+		#self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_CPrho_recoPhiStarCP_phiStarCP"] = "10,0.0,6.3"
+		#self.binnings_dict["binningHtt13TeV_tt_Boosted2D_CPrho_recoPhiStarCP_phiStarCP"] = "10,0.0,6.3"
+		#self.binnings_dict["binningHtt13TeV_tt_Vbf2D_CPrho_recoPhiStarCP_phiStarCP"] = "10,0.0,6.3"
+		#self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_CPrho_recoPhiStarCP_m_sv"] = "0.0 90 120 150 300"
+		#self.binnings_dict["binningHtt13TeV_tt_Boosted2D_CPrho_recoPhiStarCP_m_sv"] = "0.0 90 120 150 300"
+		#self.binnings_dict["binningHtt13TeV_tt_Vbf2D_CPrho_recoPhiStarCP_m_sv"] = "0.0 90 120 150 300"
 		### control regions
-		self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_QCDCR_m_sv"] = "0.0 300.0"
-		self.binnings_dict["binningHtt13TeV_tt_Boosted2D_QCDCR_m_sv"] = "0.0 250.0"	
-		self.binnings_dict["binningHtt13TeV_tt_Vbf2D_QCDCR_m_sv"] = "0.0 250.0"
+		#self.binnings_dict["binningHtt13TeV_tt_ZeroJet2D_CPrho_QCDCR_m_sv"] = "0.0 300.0"
+		#self.binnings_dict["binningHtt13TeV_tt_Boosted2D_CPrho_QCDCR_m_sv"] = "0.0 250.0"	
+		#self.binnings_dict["binningHtt13TeV_tt_Vbf2D_CPrho_QCDCR_m_sv"] = "0.0 250.0"
 		
 
 		## comb method
