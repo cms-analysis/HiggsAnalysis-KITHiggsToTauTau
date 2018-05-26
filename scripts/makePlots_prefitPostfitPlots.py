@@ -56,6 +56,8 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the lepton flavour violation analysis. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
+	parser.add_argument("--analysis-modules", default=[], nargs="+",
+	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
@@ -224,6 +226,10 @@ if __name__ == "__main__":
 			if args.www:
 				config["www"] = os.path.join(args.www, os.path.dirname(input_file).replace(inputs_base, ""))
 			config["filename"] = os.path.basename(input_file).replace(".root", "")+"__"+folder
+			
+			for analysis_module in args.analysis_modules:
+				if analysis_module not in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append(analysis_module)
 			
 			plot_configs.append(config)
 	
