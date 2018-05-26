@@ -150,6 +150,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["cat_rho"] = "#rho^{#pm} #rightarrow #pi^{#pm} #pi^{0}"
 			self.labels_dict["cat_a1"] = "a_{1}^{#pm} #rightarrow #pi^{#pm} #pi^{#pm} #pi^{#mp}"
 			
+			# Z->tautau polarisation labels
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry_1"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
@@ -184,6 +185,63 @@ class LabelsDict(labels.LabelsDict):
 						self.labels_dict[channel+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "Optimal Observable #omega" + suffix
 						self.labels_dict[channel+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "Optimal Observable #bar{#omega}" + suffix
 						self.labels_dict[channel+"_polarisationOmegaVisible"+reco_fit+"_"+lepton_index] = "Optimal Observable #omega^{vis}" + suffix
+
+			for channel in ["mt", "et", "tt", "em"]:
+				self.labels_dict["testZttPol13TeV_"+channel+"_inclusive"] = "m_vis"
+
+			for channel in ["em"]:
+				for category in ["a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = "discriminator"
+				for category in ["oneprong_1"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				for category in ["oneprong", "oneprong_2"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+				for category in ["combined_oneprong_oneprong"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+
+				for category in ["a1_a1", "a1_rho", "a1_oneprong", "rho_rho", "rho_oneprong"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "discriminator"
+				for category in ["oneprong_oneprong"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_combined_"+category] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+
+			for channel in ["mt", "et"]:
+				for category in ["a1", "a1_2"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+				for category in ["rho", "rho_2"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+				for category in ["oneprong", "oneprong_2"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+				for category in ["a1_1", "rho_1"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = "discriminator"
+				for category in ["oneprong_1"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+
+				for category in ["a1_a1", "a1_rho", "rho_rho"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "discriminator"
+				for category in ["a1_oneprong", "rho_oneprong", "oneprong_oneprong"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_combined_"+category] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+
+			for channel in ["tt"]:
+				self.labels_dict["testZttPol13TeV_"+channel+"_a1"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_a1_1"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_a1_2"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+
+				self.labels_dict["testZttPol13TeV_"+channel+"_rho"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_rho_1"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_rho_2"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+
+				self.labels_dict["testZttPol13TeV_"+channel+"_oneprong"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_oneprong_1"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_oneprong_2"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_a1_a1"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_a1_rho"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_a1_oneprong"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_rho_rho"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_rho_oneprong"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_oneprong_oneprong"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
 			
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict["channel_"+channel+"_0jet_inclusive"] = self.labels_dict["channel_"+channel]+": 0-Jet-inclusive"
