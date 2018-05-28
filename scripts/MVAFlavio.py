@@ -6,36 +6,45 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.cutstrings as cuts
 from multiprocessing import Pool,  cpu_count
 import argparse
 import array
+import os
 from math import cos, sin, acos, fabs
 
 ##Define constants
-version = 2
+version = "_forcut"
 sample_dir = "/net/scratch_cms3b/brunner/artus/AllSamples/merged/"
 tree_name = "{channel}_nominal/ntuple"
-input_file = "$CMSSW_BASE/src/plots/FlavioOutput/MVA_trees_{sample_type}{cut_label}_{channel}.root"
-output_root = "$CMSSW_BASE/src/plots/FlavioOutput/output" + str(version) + "{cut_label}_{channel}.root"
+input_file = "$CMSSW_BASE/src/FlavioOutput/BDT/MVA_trees_{sample_type}{cut_label}_{channel}.root"
+output_root = "$CMSSW_BASE/src/FlavioOutput/BDT/output" + str(version) + "{cut_label}_{channel}.root"
 
 sig_list = ["zem"]
 bkg_list = ["ztt", "zll", "ttj", "vv", "wj"]
-parameter = ["deltaPhi_ll:= acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2))", "deltaPhi_l1met:= acos(cos(metphi)*cos(phi_1) + sin(metphi)*sin(phi_1))", "deltaPhi_l2met:= acos(cos(metphi)*cos(phi_2) + sin(metphi)*sin(phi_2))", "abs(d0_1)", "abs(d0_2)", "pt_1", "pt_2", "ptvis", "met", "mt_2"] #,"m_vis"]
-#parameter = ["deltaPhi_ll:= acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2))", "pt_1", "pt_2", "ptvis", "m_vis", "met"]
-
-user_def_parameter = {
-			0:	[lambda phi_1, phi_2: acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2)), ["phi_1", "phi_2"]],
-			1:	[lambda phi_1, phi_2: acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2)), ["metphi", "phi_1"]],
-			2:	[lambda phi_1, phi_2: acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2)), ["metphi", "phi_2"]],
-			3:	[lambda d0_1: abs(d0_1), ["d0_1"]],
-			4:	[lambda d0_2: abs(d0_2), ["d0_2"]],
+parameter = {
+		"deltaPhi_ll:= acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2))"	: 		[lambda phi_1, phi_2: acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2)), ["phi_1", "phi_2"]],
+		"deltaPhi_l1met:= acos(cos(metphi)*cos(phi_1) + sin(metphi)*sin(phi_1))": 		[lambda metphi, phi_1: acos(cos(metphi)*cos(phi_1) + sin(metphi)*sin(phi_1)), ["metphi", "phi_1"]],	
+		"deltaPhi_l2met:= acos(cos(metphi)*cos(phi_2) + sin(metphi)*sin(phi_2))": 		[lambda metphi, phi_2: acos(cos(metphi)*cos(phi_2) + sin(metphi)*sin(phi_2)), ["metphi", "phi_2"]],
+		"abs(d0_1)": 										[lambda d0_1: abs(d0_1), ["d0_1"]], 	
+		"abs(d0_2)":										[lambda d0_2: abs(d0_2), ["d0_2"]], 
+		"pt_1":											[lambda pt_1: pt_1, ["pt_1"]],
+		"pt_2":											[lambda pt_2: pt_2, ["pt_2"]], 
+		"pt_ll:= diLepLV.Pt()":									[lambda pt_ll: pt_ll, [("diLepLV", "Pt")]], 
+		"met":											[lambda met: met, ["met"]],
+		"mt_2":											[lambda mt_2: mt_2, ["mt_2"]], 
+		"deltaPhi_l1Z:= acos(cos(diLepLV.phi())*cos(phi_1) + sin(diLepLV.phi())*sin(phi_1))":	[lambda phi_Z, phi_1: acos(cos(phi_Z)*cos(phi_1) + sin(phi_Z)*sin(phi_1)), [("diLepLV", "phi"), "phi_1"]],
+		"deltaPhi_l2Z:= acos(cos(diLepLV.phi())*cos(phi_2) + sin(diLepLV.phi())*sin(phi_2))":	[lambda phi_Z, phi_2: acos(cos(phi_Z)*cos(phi_2) + sin(phi_Z)*sin(phi_2)), [("diLepLV", "phi"), "phi_2"]],
+		"diLepLV.Mt()":										[lambda Mt_Z: Mt_Z, [("diLepLV", "Mt")]],
+ 		"diLepLV.energy()":									[lambda E_Z: E_Z, [("diLepLV", "energy")]],
+		"deltaTheta_ll:= acos(cos(lep1LV.Theta())*cos(lep2LV.Theta()) + sin(lep1LV.Theta())*sin(lep2LV.Theta()))": [lambda t_1, t_2: acos(cos(t_1)*cos(t_2) + sin(t_1)*sin(t_2)), [("lep1LV", "Theta"), ("lep2LV", "Theta")]],
+		#"m_vis":										[lambda m_vis: m_vis, ["m_vis"]],
 }
-	
 
 ##Argument parser
 def parser():
+
 	parser = argparse.ArgumentParser(description = "Script for using TMVA method in LFV analysis", formatter_class=argparse.RawTextHelpFormatter)
 
 	parser.add_argument("--create-input-trees", action = "store_true", default = False, help = "Do the splitting of background and signal samples into even and odd event number sample")
 	parser.add_argument("--training", action = "store_true", default = False, help = "Do the training on the background/signal samples")
-	parser.add_argument("--application", action = "store_true", default = False, help = "Use the trained BDT3 to apply on background/data and append it in the ROOT files")
+	parser.add_argument("--application", action = "store_true", default = False, help = "Use the trained BDT to apply on background/data and append it in the ROOT files")
 	parser.add_argument("--file-attach", action = "store", help = "Attach BDT score in ROOT File. Calling --application call this option for all files and submit it to the batch system.")
 	parser.add_argument("--results", action = "store", help = "Give .xml or .root output from TMVA to show results with the TMVA GUI")
 
@@ -152,25 +161,27 @@ def do_training(args):
 	##Get baseline selection	
 	weights = ""
 	
-	for index, weight in enumerate(cuts.CutStringsDict().baseline(channel, "").values()[1:]):
+	for index, weight in enumerate(cuts.CutStringsDict().lfv(channel, "").values()[1:]):
 		weights = weights + "*" if index != 0 else weights
 		weights += weight
 
 	##Set signal/background event weights
-	factory.SetSignalWeightExpression("jetCorrectionWeight")
-	factory.SetBackgroundWeightExpression(weights)
+	factory.SetSignalWeightExpression("(jetCorrectionWeight)*(eventWeight)*(lheZto{channel} > 0.5)*".format(channel=channel.upper()) + weights)
+	factory.SetBackgroundWeightExpression("eventWeight*" + weights)
 
 	##Add parameter for training
-	for param in parameter:
+	for param in parameter.keys():
 		factory.AddVariable(param)
 
 	##Configure everything
 	sig_cut = ROOT.TCut("")
 	bkg_cut = ROOT.TCut("")
-	n_option =  ROOT.TString("") #ROOT.TString("nTrain_Signal=100000:nTest_Signal=100000:nTrain_Background=100000:nTest_Background=100000:SplitMode=Random",)
+	n_option = ROOT.TString("") #ROOT.TString("nTrain_Signal=10000:nTest_Signal=10000:nTrain_Background=10000:nTest_Background=10000:SplitMode=Random",) #VarTransform=G,D"
  
+	#"!H:!V::NTrees=100:VarTransform=G,D:MinNodeSize=2.5%:MaxDepth=10:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=SDivSqrtSPlusB:nCuts=20"
+
 	factory.PrepareTrainingAndTestTree(sig_cut, bkg_cut, n_option)
-	factory.BookMethod(ROOT.TMVA.Types.kBDT, "BDT", "!H:!V:NTrees=500:MinNodeSize=2.5%:MaxDepth=10:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20")
+	factory.BookMethod(ROOT.TMVA.Types.kBDT, "BDT", "!H:!V:VarTransform=G,D:NTrees=1000:MinNodeSize=2.5%:MaxDepth=2:BoostType=Grad:Shrinkage=0.1:UseBaggedBoost=True:GradBaggingFraction=0.7:SeparationType=GiniIndex:nCuts=20:NodePurityLimit=0.5")
 	#factory.BookMethod(ROOT.TMVA.Types.kMLP, "MLP", "H:!V:NeuronType=tanh:VarTransform=N:NCycles=500:HiddenLayers=N+10,N+2,N+2:TestRate=5:!UseRegulator:LearningRate=0.05:EstimatorType=CE")
 
 	##Run the training/evulation
@@ -205,12 +216,9 @@ def application():
 
 	##Write config for grid control
 
-	local = True
+	local = False
 
 	if not local:
-		#Send jobs to the batch system
-		os.system("go.py {config_name}".format(config_name = config_name))
-		os.system("rm config*.cfg")
 		seed = str(int(uniform(1, 10000)))
 	
 		Config = ConfigParser.ConfigParser()
@@ -235,6 +243,10 @@ def application():
 
 		Config.write(config)
 		config.close()
+
+		#Send jobs to the batch system
+		os.system("go.py {config_name}".format(config_name = config_name))
+		os.system("rm config*.cfg")
 	
 	else:
 		pool = Pool(cpu_count())
@@ -275,30 +287,20 @@ def attach(file_name):
 				root_file = ROOT.TFile(file_name, "UPDATE")
 				tree = root_file.Get(key + "/ntuple")
 				print "Channel which is evaluated: {key}".format(key = key)
-	
-				##Delete branch with BDT_score if already there
-				if tree.GetLeaf("BDT{version}_score".format(version=version)):	
-					tree.GetListOfLeaves().Remove(tree.GetLeaf("BDT{version}_score".format(version=version)))
-					tree.GetListOfBranches().Remove(tree.GetBranch("BDT{version}_score".format(version=version)))
-
+				
 				##Create (new) branch for BDT_score and fill it
 				branch = tree.Branch("BDT{version}_score".format(version=version), BDT_score, "BDT{version}_score/F".format(version=version))
 				index = 0
-
+				
 				for index, event in enumerate(tree):
-					for index2, (param, variable) in enumerate(zip(parameter, variables)):
-						##Try to get value for variable from tree, if it is user defined, the function in the constant section will be used
+					for index2, (param, variable) in enumerate(zip(parameter.values(), variables)):
+					#Try to get value for variable from tree, if it is user defined, the function in the constant section will be used
 						try:
-							variable[0] = getattr(event, param)
-		
-						except AttributeError:
-							user_func, params = user_def_parameter[index2]
-
-							try:
-								variable[0] = user_func(*[getattr(event, param_string) for param_string in params]) 
+							variable[0] = param[0](*[event.__getattr__(var) if type(var) == str else event.__getattr__(var[0]).__getattribute__(var[1])() for var in param[1]])
+	
+						except:
+							variable[0] = 0
 							
-							except:
-								variable[0] = -999
 
 					##Get score for event/odd event and fill the branch
 					if event.event % 2 == 0:
@@ -311,7 +313,7 @@ def attach(file_name):
 						print "Number of events evaluated: {index}".format(index = index)
  
 					branch.Fill()
-	
+				
 				##Overwrite old tree and close file
 				root_file.cd(key)
 				tree.Write("", ROOT.TObject.kOverwrite)
@@ -329,6 +331,13 @@ def show_results(file_name):
 
 def main():
 	args = parser()
+
+	if not os.path.exists(os.environ["CMSSW_BASE"] + "/src/plots/FlavioOutput"):
+		os.mkdir(os.environ["CMSSW_BASE"] + "/src/plots/FlavioOutput")
+		os.mkdir(os.environ["CMSSW_BASE"] + "/src/plots/FlavioOutput/BDT")
+
+	if not os.path.exists(os.environ["CMSSW_BASE"] + "/src/plots/FlavioOutput/BDT"):
+		os.mkdir(os.environ["CMSSW_BASE"] + "/src/plots/FlavioOutput/BDT")
 
 	if(args.create_input_trees):
 		create_input_trees()
