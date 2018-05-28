@@ -165,6 +165,8 @@ if __name__ == "__main__":
 #		)
 	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "init")):
 		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "init"), shell=True)
+	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "shapes/", args.output_suffix))
+		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "shapes/", args.output_suffix), shell=True)
 	#if not os.path.exists(args.output_dir):
 	#	os.makedirs(args.output_dir)
 	
@@ -729,7 +731,7 @@ if __name__ == "__main__":
 			),
 			args.output_dir
 	])
-	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/", args.output_suffix)))
+	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "shapes/", args.output_suffix)))
 	sys.exit(0)
 	
 	#datacards.cb.PrintAll()
