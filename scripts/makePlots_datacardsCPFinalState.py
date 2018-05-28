@@ -99,8 +99,10 @@ if __name__ == "__main__":
 	                    help="Number of (parallel) processes. [Default: %(default)s]")
 	parser.add_argument("-f", "--n-plots", type=int, nargs=2, default=[None, None],
 	                    help="Number of plots for datacard inputs (1st arg) and for postfit plots (2nd arg). [Default: all]")
-	parser.add_argument("-o", "--output-dir", default="$CMSSW_BASE/src/plots/htt_datacards/",
+	parser.add_argument("-o", "--output-dir", default="$CMSSW_BASE/src/CombineHarvester/HTTSM2016/", #default="$CMSSW_BASE/src/plots/htt_datacards/",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("--output-suffix", default="RWTH",
+						help="Output folder within output directory. [Default: %(default)s]") 
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--scale-lumi", default=False,
@@ -152,12 +154,21 @@ if __name__ == "__main__":
 		log.critical("Invalid era string selected: " + args.era)
 		sys.exit(1)
 	
-	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
-	if args.clear_output_dir and os.path.exists(args.output_dir):
-		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-	if not os.path.exists(args.output_dir):
-		os.makedirs(args.output_dir)
 	
+	# the old init folder needs to be deleted to again run the script
+	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
+#	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/init".format(OUTPUT_SUFFIX=args.output_suffix))):
+#		logger.subprocessCall(
+#			"rm -r " +
+#			os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/init".format(OUTPUT_SUFFIX=args.output_suffix)),
+#			shell=True
+#		)
+	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "init")):
+		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "init"), shell=True)
+	#if not os.path.exists(args.output_dir):
+	#	os.makedirs(args.output_dir)
+	
+
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
@@ -182,11 +193,14 @@ if __name__ == "__main__":
 	# get "official" configuration
 	init_directory = os.path.join(args.output_dir, "init")
 	command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --only_init=" + init_directory
+#	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix))
+#	command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false {INIT}".format(
+#				INIT="--only_init="+os.path.join(init_directory, "init")
+#				)
 	log.debug(command)
 	exit_code = logger.subprocessCall(shlex.split(command))
 	assert(exit_code == 0)
 	
-
 
 	init_cb = ch.CombineHarvester()
 	for init_datacard in glob.glob(os.path.join(init_directory, "*_*_*_*.txt")):
@@ -202,6 +216,7 @@ if __name__ == "__main__":
 			cp_study=args.cp_study
 			#signal_processes=signal_processes,
 	)
+
 
 
 	# sample = function in samples_run2
@@ -246,16 +261,16 @@ if __name__ == "__main__":
 	category_replacements["antiiso_vbf_cr"] = "Vbf2D_QCDCR"
 	
 	# initialise datacards
-	tmp_input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "shapes/RWTH/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
+	tmp_input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.htt_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
-	if args.for_dcsync:
-		output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-2D.root" if args.era == "2016" else "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-mvis.root"
+	#if args.for_dcsync:
+	#	output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-2D.root" if args.era == "2016" else "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-mvis.root"
 	
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
@@ -264,7 +279,6 @@ if __name__ == "__main__":
 		args.categories = args.categories[1:]
 
 	
-
 
 
 	# catch if on command-line only one set has been specified and repeat it
@@ -402,6 +416,8 @@ if __name__ == "__main__":
 	if args.categories == parser.get_default("categories"):
 		args.categories = len(args.channel) * args.categories
 	
+	
+
 	
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		#print index, (channel, categories)
@@ -707,15 +723,19 @@ if __name__ == "__main__":
 
 	# call official script again with shapes that have just been created
 	datacards_module._call_command([
-			"MorphingSM2016 --output_folder RWTH --postfix \"-2D\" --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --input_folder_tt RWTH",
+			"MorphingSM2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --input_folder_tt {OUTPUT_SUFFIX}".format(
+			OUTPUT_SUFFIX=args.output_suffix,
+			SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
+			),
 			args.output_dir
 	])
-	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/RWTH")))
+	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/", args.output_suffix)))
+	sys.exit(0)
 	
 	#datacards.cb.PrintAll()
 	#datacards.cb.PrintProcs()
 	#init_cb.PrintProcs()
-	sys.exit(0)
+	#sys.exit(0)
 	
 	# update CombineHarvester with the yields and shapes
 	datacards.extract_shapes(
