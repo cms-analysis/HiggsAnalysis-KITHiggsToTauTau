@@ -36,7 +36,7 @@ class Systematics_Config(dict):
 		log.debug("SYST= " + systematic_uncertainty)
 		if re.search("Run201", nickname) == None:    #data has no systematic
 			#I dont remember why I did this, it looks wrong if re.search("JetEnergyCorrectionSplitUncertainty", nickname):
-			elif systematic_uncertainty == "eleEsUp":
+			if systematic_uncertainty == "eleEsUp":
 
 				if re.search("Spring16|Summer16|Embedding2016", nickname):
 					self["ElectronEnergyCorrectionShiftEB"] = 1.01
