@@ -302,6 +302,7 @@ class mt_ArtusConfig(dict):
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):	 #the same as tt
 
 			quantities_dict["Quantities"] += [
+				"tauSpinnerValidOutputs",
 				"tauSpinnerPolarisation",
 				"trg_singlemuon",
 				"trg_mutaucross",
@@ -312,8 +313,9 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			quantities_dict["Quantities"] += [
-				"tauSpinnerPolarisation"
-				]
+				"tauSpinnerValidOutputs",
+				"tauSpinnerPolarisation",
+			]
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 

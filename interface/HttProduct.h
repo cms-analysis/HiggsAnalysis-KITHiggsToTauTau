@@ -109,6 +109,7 @@ public:
 	double m_col;
 
 	// filled by the TauSpinnerProducer
+	double m_tauSpinnerValidOutputs = false;
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
 
 	// filled by the PolarisationQuantitiesProducer

@@ -867,6 +867,7 @@ class quantities(run2_quantities.quantities):
 			"embeddingWeight",
 			"eventWeight",
 			"sampleStitchingWeight",
+			"tauSpinnerValidOutputs",
 			"tauSpinnerWeight",
 			"tauSpinnerWeight000",
 			"tauSpinnerWeight005",
