@@ -498,7 +498,7 @@ class BinningsDict(binnings.BinningsDict):
 		
 		# Z->tautau polarisation binnings
 		for channel in ["mt", "et", "tt", "em"]:
-			for category in ["a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2", "oneprong", "oneprong_1", "oneprong_2", "combined_a1_a1", "combined_a1_rho", "combined_a1_oneprong", "combined_rho_rho", "combined_rho_oneprong", "combined_oneprong_oneprong"]:
+			for category in ["inclusive","a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2", "oneprong", "oneprong_1", "oneprong_2", "combined_a1_a1", "combined_a1_rho", "combined_a1_oneprong", "combined_rho_rho", "combined_rho_oneprong", "combined_oneprong_oneprong"]:
 				
 				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category] = "25,-1.001,1.001"
 				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_m_vis"] = "25,40,85"
