@@ -44,11 +44,14 @@ if __name__ == "__main__":
 	                            ["genBosonTau1LV.mass()", "genBosonTau1LV.Pt()", "genBosonTau1LV.Eta()", "genBosonTau1LV.Phi()", "genBosonTau1LV.E()"]+
 	                            ["genBosonTau2LV.mass()", "genBosonTau2LV.Pt()", "genBosonTau2LV.Eta()", "genBosonTau2LV.Phi()", "genBosonTau2LV.E()"],
 	                    help="Gen-level quantities. [Default: %(default)s]")
-	parser.add_argument("-w", "--weights", nargs="+",
-	                    default=(["(svfitLV.mass()<8000)*(genBosonLV.mass()<9000)"]*5)+
-	                            (["(svfitTau1LV.mass()<8000)*(genBosonTau1LV.mass()<9000)"]*5)+
-	                            (["(svfitTau2LV.mass()<8000)*(genBosonTau2LV.mass()<9000)"]*5),
-	                    help="Weights/cuts to ensure proper fits and gen-reco matching. [Default: %(default)s]")
+	parser.add_argument("-w", "--weights", nargs="+", action="append",
+	                    default=[(["(svfitLV.mass()<8000)*(genBosonLV.mass()<9000)"]*5)+
+	                             (["(svfitTau1LV.mass()<8000)*(genBosonTau1LV.mass()<9000)"]*5)+
+	                             (["(svfitTau2LV.mass()<8000)*(genBosonTau2LV.mass()<9000)"]*5)]+
+	                            [(["(svfitM91LV.mass()<8000)*(genBosonLV.mass()<9000)"]*5)+
+	                             (["(svfitM91Tau1LV.mass()<8000)*(genBosonTau1LV.mass()<9000)"]*5)+
+	                             (["(svfitM91Tau2LV.mass()<8000)*(genBosonTau2LV.mass()<9000)"]*5)],
+	                    help="Weights/cuts to ensure proper fits and gen-reco matching. Use this argument multiple times to compare different sets of reconstructions. [Default: %(default)s]")
 	parser.add_argument("--axis-labels", nargs="+",
 	                    default=["m_{#tau#tau}", "p_{T, #tau#tau}", "#eta_{#tau#tau}", "#phi_{#tau#tau}", "E_{#tau#tau}"]+
 	                            ["m_{#tau_{1}}", "p_{T, #tau_{1}}", "#eta_{#tau_{1}}", "#phi_{#tau_{1}}", "E_{#tau_{1}}"]+
@@ -165,14 +168,14 @@ if __name__ == "__main__":
 				if category != None:
 					category_string = (global_category_string + "_{channel}_{category}").format(channel = channel, category = category)
 				
-				for reco_quantities, gen_quantity, weight, axis_label in zip(zip(*args.reco_quantities), args.gen_quantities, args.weights, args.axis_labels):
+				for reco_quantities, gen_quantity, weights, axis_label in zip(zip(*args.reco_quantities), args.gen_quantities, zip(*args.weights), args.axis_labels):
 					log.debug("Create comparison for sample={sample}, channel={channel}, category={category}...".format(sample=sample, channel=channel, category=category))
 					log.debug("\tReco level: "+(", ".join(reco_quantities)))
-					log.debug("\tGen level: "+gen_quantity)
-					log.debug("\tWeight: "+weight)
+					log.debug("\tGen level:  "+gen_quantity)
+					log.debug("\tWeights:    "+(", ".join(weights)))
 					
 					config = {}
-					for reco_index, (reco_quantity, legend_label) in enumerate(zip(reco_quantities, args.legend_labels)):
+					for reco_index, (reco_quantity, weight, legend_label) in enumerate(zip(reco_quantities, weights, args.legend_labels)):
 					
 						tmp_config = sample_settings.get_config(
 								samples = [getattr(samples.Samples, sample)],
@@ -206,8 +209,8 @@ if __name__ == "__main__":
 					config["legend_markers"] = ["L"]
 					config["legend"] = [0.6, 0.6, 0.9, 0.85]
 					
-					reco_label = axis_label.replace("_", "^{reco}_", 1)
-					gen_label = axis_label.replace("_", "^{gen}_", 1)
+					reco_label = axis_label.replace("_", "^{reco}_", 1) if "_" in axis_label else (axis_label+"^{reco}")
+					gen_label = axis_label.replace("_", "^{gen}_", 1) if "_" in axis_label else (axis_label+"^{gen}")
 					config["x_label"] = "Resolution #left({reco} - {gen}#right) / {gen}".format(reco=reco_label, gen=gen_label)
 					config["title"] = "channel_"+channel
 					if args.polarisation:
