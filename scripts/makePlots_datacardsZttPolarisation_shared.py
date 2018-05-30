@@ -257,7 +257,9 @@ if __name__ == "__main__":
         args.categories = args.categories[len(parser.get_default("categories")):]
     args.categories = (args.categories * len(args.channel))[:len(args.channel)]
 
-
+    args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
+    if args.clear_output_dir and os.path.exists(args.output_dir):
+        logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 
     #1.-----Create Datacards
     print WARNING + UNDERLINE + '-----      Creating datacard with processes and systematics...        -----' + ENDC
