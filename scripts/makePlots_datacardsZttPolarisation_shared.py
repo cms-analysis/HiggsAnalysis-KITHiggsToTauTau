@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import Artus.Utility.logger as logger
+log = logging.getLogger(__name__)
 
 import argparse
 import copy
@@ -24,11 +26,9 @@ from CombineHarvester.ZTTPOL2016.zttpol2016_functions import *
 import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
-import Artus.HarryPlotter
-import Artus.Utility.logger as logger
-log = logging.getLogger(__name__)
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions as expressions
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
@@ -55,6 +55,7 @@ def create_input_root_files(datacards, args):
     hadd_commands = []
 
     sample_settings = samples.Samples()
+    expression_settings = expressions.ExpressionsDict()
     binnings_settings = binnings.BinningsDict()
     systematics_factory = systematics.SystematicsFactory()
 
@@ -111,9 +112,14 @@ def create_input_root_files(datacards, args):
 
                     #config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 
-                    x_expression = args.quantity if args.quantity else ("testZttPol13TeV_"+category)
+                    x_expression = None
+                    if args.quantity:
+                        x_expression = args.quantity
+                    else:
+                        x_expression = "testZttPol13TeV_"+category
+                        if args.omega_version:
+                            x_expression = expression_settings.expressions_dict[x_expression].replace("BarSvfit", args.omega_version)
                     config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
-
 
                     binnings_key = "binningZttPol13TeV_"+category+(("_"+args.quantity) if args.quantity else "")
                     if binnings_key in binnings_settings.binnings_dict:
@@ -205,6 +211,8 @@ if __name__ == "__main__":
                         help="Additional weight (cut) expression. [Default: %(default)s]")
     parser.add_argument("-x", "--quantity", default=None,
                         help="Quantity. [Default: testZttPol13TeV_<category>]")
+    parser.add_argument("--omega-version", default=None,
+                        help="Version of the optimal observables. The parameter will replace \"BarSvfit\" in the name of the disciminator.")
     parser.add_argument("--analysis-modules", default=[], nargs="+",
                         help="Additional analysis Modules. [Default: %(default)s]")
     parser.add_argument("-r", "--ratio", default=False, action="store_true",
