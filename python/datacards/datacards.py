@@ -128,9 +128,19 @@ class Datacards(object):
 		for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
 			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
 		
+		if "shape_syst" in kwargs:
+			log.warning("Combine did not convert the systematic uncertainties in {UNC} of type lnN to shape although they have the signature of a mixed type uncertainty. This is done manually.".format(UNC=kwargs["shape_syst"]))
+			for systematic in kwargs["shape_syst"]:
+				cb.cp().syst_name([systematic]).ForEachSyst(lambda sys: sys.set_type("shape" if sys.value_u() == 1.0 else "lnN"))
+			for shape_systematic in cb.cp().syst_type(["shape"]).syst_name_set():
+				samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cb.cp().syst_type(["shape"]).syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
+
+
 		# There are systematics, which can have a mixed type of lnN/shape, where CH returns only lnN as type. Such which values 1.0 and 0.0 are assumed to be shape uncertainties.
 		cbOnlyShapeUncs = cb.cp()
 		cbOnlyShapeUncs.FilterSysts(lambda systematic : (systematic.value_u() != 1.0) or (systematic.value_d() != 0.0))
+		
+
 		# Some uncertainties which are indeed lnN are not filter with the command above. It can be avoided to transform them into shape type 
 		# by passing a list of these systematics in the args of this function.
 		if "lnN_syst" in kwargs:
@@ -138,12 +148,13 @@ class Datacards(object):
 			log.warning("Combine did not convert the systematic uncertainties in {UNC} of type lnN to shape although they have the signature of a mixed type uncertainty. Was this intended?".format(UNC=kwargs["lnN_syst"]))
 		for shape_systematic in cbOnlyShapeUncs.syst_name_set():
 			samples_per_shape_systematic.setdefault(shape_systematic, set([])).update(set(cbOnlyShapeUncs.cp().syst_name([shape_systematic]).SetFromSysts(ch.Systematic.process)))
-		
-		# sort samples for easiert comparisons of HP configs
+
 		for shape_systematic, list_of_samples in samples_per_shape_systematic.iteritems():
 			samples_per_shape_systematic[shape_systematic] = sorted(list(list_of_samples))
 		
 		return samples_per_shape_systematic
+
+
 
 	def lnN2shape(self, **kwargs):
 		"""

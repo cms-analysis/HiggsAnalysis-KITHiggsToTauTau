@@ -165,7 +165,7 @@ if __name__ == "__main__":
 #		)
 	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "init")):
 		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "init"), shell=True)
-	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "shapes/", args.output_suffix))
+	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "shapes/", args.output_suffix)):
 		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "shapes/", args.output_suffix), shell=True)
 	#if not os.path.exists(args.output_dir):
 	#	os.makedirs(args.output_dir)
@@ -498,9 +498,11 @@ if __name__ == "__main__":
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
-			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"]).iteritems():
+
+#			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"]).iteritems():
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"], shape_syst=["CMS_scale_j_RelativePtHF_13TeV", "CMS_scale_j_FlavorQCD_13TeV"]).iteritems():
 				#print "\t\t", shape_systematic, list_of_samples
-				
+
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
 				
@@ -722,7 +724,6 @@ if __name__ == "__main__":
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
-
 	# call official script again with shapes that have just been created
 	datacards_module._call_command([
 			"MorphingSM2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --input_folder_tt {OUTPUT_SUFFIX}".format(
