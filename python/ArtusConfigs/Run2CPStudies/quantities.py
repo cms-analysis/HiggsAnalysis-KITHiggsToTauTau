@@ -22,11 +22,29 @@ class Quantities(Run2Quantities):
 		if channel == "GEN":
 			self.quantities.update(self.weightQuantities(tauSpinner=False, minimalWeight=True, madGraphWeight=False))
 
+			if re.search("(Summer17|Fall17)", nickname):
+				#muon tau triggers
+				self.quantities.update([
+					"HLT_Ele32_WPTight_Gsf",
+					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
+				])
+				#electron tau triggers
+				self.quantities.update([
+					"HLT_IsoMu24",
+					#"HLT_IsoMu27", #only in data recommended
+					"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1"
+				])
+				#tautau triggers
+				self.quantities.update([
+					"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+					"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+					"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"
+				])
 
 			if re.search("DY.?JetsToLL",nickname):
 				self.quantities.update(self.genQuantities())
 				self.quantities.update(self.genCPQuantities())
-				self.quantities.update(self.genQuantities(LFV = True))
+				self.quantities.update(self.genQuantities(LFV = False))
 				self.quantities.update(["tauSpinnerPolarisation"])
 
 			elif re.search("LFV",nickname):
@@ -35,7 +53,8 @@ class Quantities(Run2Quantities):
 
 			elif re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
 				self.quantities.update(self.genQuantities())
-				self.quantities.update(self.genHiggsQuantities())
+				if re.search("(Summer17|Fall17)", nickname) == None:
+					self.quantities.update(self.genHiggsQuantities())
 				self.quantities.update(self.genCPQuantities())
 				self.quantities.update([
 					"nJets",
@@ -1157,7 +1176,7 @@ class Quantities(Run2Quantities):
 			"tauSpinnerWeight095",
 			"tauSpinnerWeight100",
 			"tauSpinnerWeightSample",
-			"tauSpinnerWeightInvSample",
+			"tauSpinnerWeightInvSample"
 		]
 
 	@classmethod
