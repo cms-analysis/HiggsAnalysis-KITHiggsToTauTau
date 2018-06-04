@@ -4,7 +4,6 @@
 
 #include <boost/format.hpp>
 
-#include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
@@ -111,12 +110,16 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 		if ((std::abs(selectedTau1.m_genParticle->pdgId) == DefaultValues::pdgIdTau) && (std::abs(selectedTau2.m_genParticle->pdgId) == DefaultValues::pdgIdTau))
 		{
 			TauSpinner::SimpleParticle boson = GetSimpleParticle(product.m_genBosonLV, settings.GetBosonPdgIds()[0]);
-			TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_genParticle->p4, selectedTau1.m_genParticle->pdgId);
-			TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_genParticle->p4, selectedTau2.m_genParticle->pdgId);
+			std::vector<TauSpinner::SimpleParticle> tmpTau1;
+			GetFinalStates(selectedTau1, tmpTau1, {DefaultValues::pdgIdTau});
+			TauSpinner::SimpleParticle tau1 = tmpTau1.at(0);
+			std::vector<TauSpinner::SimpleParticle> tmpTau2;
+			GetFinalStates(selectedTau2, tmpTau2, {DefaultValues::pdgIdTau});
+			TauSpinner::SimpleParticle tau2 = tmpTau2.at(0);
 			std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
-			GetFinalStates(selectedTau1, false, tauFinalStates1);
+			GetFinalStates(selectedTau1, tauFinalStates1);
 			std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
-			GetFinalStates(selectedTau2, false, tauFinalStates2);
+			GetFinalStates(selectedTau2, tauFinalStates2);
 
 			//LOG_N_TIMES(20, DEBUG) << "The event contains the following particles: " << std::endl;
 			//LOG_N_TIMES(20, DEBUG) << "Boson " << std::to_string(boson) << std::endl;
@@ -210,29 +213,18 @@ TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& pa
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
 std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
 		GenParticleDecayTree& currentParticle,
-		bool includePhotons,
-		std::vector<TauSpinner::SimpleParticle>& resultVector) const
+		std::vector<TauSpinner::SimpleParticle>& resultVector,
+		std::vector<int> const& validPdgIds) const
 {
 	// this if-condition has to define what particles go into TauSpinner
 	int pdgId = currentParticle.m_genParticle->pdgId;
-	int absPdgId = abs(pdgId);
-	if ((absPdgId == DefaultValues::pdgIdGamma && includePhotons) ||
-		absPdgId == DefaultValues::pdgIdPiZero ||
-		absPdgId == DefaultValues::pdgIdPiPlus ||
-		absPdgId == DefaultValues::pdgIdKPlus ||
-		absPdgId == DefaultValues::pdgIdKLong ||
-		absPdgId == DefaultValues::pdgIdKShort ||
-		absPdgId == DefaultValues::pdgIdElectron ||
-		absPdgId == DefaultValues::pdgIdNuE ||
-		absPdgId == DefaultValues::pdgIdMuon ||
-		absPdgId == DefaultValues::pdgIdNuMu ||
-		absPdgId == DefaultValues::pdgIdNuTau)
+	if (Utility::Contains(validPdgIds, std::abs(pdgId)))
 	{
 		// decend to last stage with given particles
 		std::vector<TauSpinner::SimpleParticle> nextStageResultVector;
 		for (unsigned int index = 0; index < currentParticle.m_daughters.size(); ++index)
 		{
-			GetFinalStates(currentParticle.m_daughters[index], includePhotons, nextStageResultVector);
+			GetFinalStates(currentParticle.m_daughters[index], nextStageResultVector, validPdgIds);
 		}
 		if (nextStageResultVector.empty())
 		{
@@ -247,7 +239,7 @@ std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
 	{
 		for (unsigned int index = 0; index < currentParticle.m_daughters.size(); ++index)
 		{
-			GetFinalStates(currentParticle.m_daughters[index], includePhotons, resultVector);
+			GetFinalStates(currentParticle.m_daughters[index], resultVector, validPdgIds);
 		}
 	}
 	return resultVector;

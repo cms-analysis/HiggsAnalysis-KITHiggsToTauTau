@@ -4,6 +4,8 @@
 #include "TauSpinner/SimpleParticle.h"
 #include "TauSpinner/tau_reweight_lib.h"
 
+#include "Artus/Utility/interface/DefaultValues.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
 /**
@@ -34,8 +36,22 @@ private:
 	virtual TauSpinner::SimpleParticle GetSimpleParticle(RMFLV const& particleLV, int particlePdgId) const;
 	virtual std::vector<TauSpinner::SimpleParticle> GetFinalStates(
 			GenParticleDecayTree& currentParticle,
-			bool includePhotons,
-			std::vector<TauSpinner::SimpleParticle>& resultVector) const;
+			std::vector<TauSpinner::SimpleParticle>& resultVector,
+			std::vector<int> const& validPdgIds={
+					//DefaultValues::pdgIdGamma,
+					DefaultValues::pdgIdPiZero,
+					DefaultValues::pdgIdPiPlus,
+					DefaultValues::pdgIdKPlus,
+					DefaultValues::pdgIdKLong,
+					DefaultValues::pdgIdKShort,
+					DefaultValues::pdgIdElectron,
+					DefaultValues::pdgIdNuE,
+					DefaultValues::pdgIdMuon,
+					DefaultValues::pdgIdNuMu,
+					DefaultValues::pdgIdNuTau
+			}
+	) const;
+	
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
 	
 	std::vector<float> mixingAnglesOverPiHalf;
