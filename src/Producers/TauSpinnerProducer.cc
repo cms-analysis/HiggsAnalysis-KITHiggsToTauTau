@@ -209,38 +209,45 @@ TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& pa
 
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
 std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
-		GenParticleDecayTree& mother,
+		GenParticleDecayTree& currentParticle,
 		bool includePhotons,
 		std::vector<TauSpinner::SimpleParticle>& resultVector) const
 {
-	for (unsigned int i = 0; i < mother.m_daughters.size(); ++i)
+	// this if-condition has to define what particles go into TauSpinner
+	int pdgId = currentParticle.m_genParticle->pdgId;
+	int absPdgId = abs(pdgId);
+	if ((absPdgId == DefaultValues::pdgIdGamma && includePhotons) ||
+		absPdgId == DefaultValues::pdgIdPiZero ||
+		absPdgId == DefaultValues::pdgIdPiPlus ||
+		absPdgId == DefaultValues::pdgIdKPlus ||
+		absPdgId == DefaultValues::pdgIdKLong ||
+		absPdgId == DefaultValues::pdgIdKShort ||
+		absPdgId == DefaultValues::pdgIdElectron ||
+		absPdgId == DefaultValues::pdgIdNuE ||
+		absPdgId == DefaultValues::pdgIdMuon ||
+		absPdgId == DefaultValues::pdgIdNuMu ||
+		absPdgId == DefaultValues::pdgIdNuTau)
 	{
-		// this if-condition has to define what particles go into TauSpinner
-		int absPdgId = abs(mother.m_daughters[i].m_genParticle->pdgId);
-		if ((absPdgId == DefaultValues::pdgIdGamma && includePhotons) ||
-			absPdgId == DefaultValues::pdgIdPiZero ||
-			absPdgId == DefaultValues::pdgIdPiPlus ||
-			absPdgId == DefaultValues::pdgIdKPlus ||
-			absPdgId == DefaultValues::pdgIdKLong ||
-			absPdgId == DefaultValues::pdgIdKShort ||
-			absPdgId == DefaultValues::pdgIdElectron ||
-			absPdgId == DefaultValues::pdgIdNuE ||
-			absPdgId == DefaultValues::pdgIdMuon ||
-			absPdgId == DefaultValues::pdgIdNuMu ||
-			absPdgId == DefaultValues::pdgIdNuTau)
+		// decend to last stage with given particles
+		std::vector<TauSpinner::SimpleParticle> nextStageResultVector;
+		for (unsigned int index = 0; index < currentParticle.m_daughters.size(); ++index)
 		{
-			resultVector.push_back(GetSimpleParticle(mother.m_daughters[i].m_genParticle->p4, mother.m_daughters[i].m_genParticle->pdgId));
+			GetFinalStates(currentParticle.m_daughters[index], includePhotons, nextStageResultVector);
+		}
+		if (nextStageResultVector.empty())
+		{
+			resultVector.push_back(GetSimpleParticle(currentParticle.m_genParticle->p4, pdgId));
 		}
 		else
 		{
-			/*
-			if (mother.m_daughters[i].m_finalState)
-			{
-				LOG(FATAL) << "Could not find a proper final state that can be handled by TauSpinner. Found particle with PDG ID " << mother.m_daughters[i].m_genParticle->pdgId << "." << std::endl;
-			}
-			*/
-			LOG_N_TIMES(20, DEBUG) << "Recursion, pdgId " << mother.m_daughters[i].m_genParticle->pdgId << " is not considered being a final states" << std::endl;
-			GetFinalStates(mother.m_daughters[i], includePhotons, resultVector);
+			resultVector.insert(resultVector.end(), nextStageResultVector.begin(), nextStageResultVector.end());
+		}
+	}
+	else
+	{
+		for (unsigned int index = 0; index < currentParticle.m_daughters.size(); ++index)
+		{
+			GetFinalStates(currentParticle.m_daughters[index], includePhotons, resultVector);
 		}
 	}
 	return resultVector;
