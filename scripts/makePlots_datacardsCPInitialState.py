@@ -394,18 +394,6 @@ if __name__ == "__main__":
 		"Closure"
 	]
 	
-	# os/ss factors for different categories
-	ss_os_factors = {
-		"mt_ZeroJet2D" : 1.07,
-		"mt_Boosted2D" : 1.06,
-		"mt_Vbf2D" : 1.0,
-		"et_ZeroJet2D" : 1.0,
-		"et_Boosted2D" : 1.28,
-		"et_Vbf2D" : 1.0,
-		"em_ZeroJet2D" : 2.27,
-		"em_Boosted2D" : 2.26,
-		"em_Vbf2D" : 2.84
-	}	
 	# w+jets scale factor shifts for different categories
 	# same uncertainties as used for WHighMTtoLowMT_$BIN_13TeV
 	wj_sf_shifts = {
@@ -459,17 +447,6 @@ if __name__ == "__main__":
 		"noplot_ttj_shape_ss_qcd_control", # mt & et channels: qcd shape subtract
 		"noplot_ttj_os_highmt", # mt & et channels: w+jets yield subtract
 		"noplot_ttj_ss_highmt" # mt & et channels: qcd high mt yield subtract
-	]
-
-	categoriesWithRelaxedIsolationForW = [
-		"Boosted2D",
-		"Vbf2D"
-	]
-
-	categoriesWithRelaxedIsolationForQCD = [
-		"ZeroJet2D",
-		"Boosted2D",
-		"Vbf2D"
 	]
 	
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
@@ -587,7 +564,6 @@ if __name__ == "__main__":
 							systematic=systematic
 					))
 						
-					ss_os_factor = ss_os_factors.get(category,0.0)
 					wj_sf_shift = wj_sf_shifts.get(category,0.0)
 					if "WSFUncert" in shape_systematic and wj_sf_shift != 0.0:
 						wj_sf_shift = 1.0 + wj_sf_shift if shift_up else 1.0 - wj_sf_shift
@@ -608,13 +584,10 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="smhtt2016" if args.era == "2016" else "baseline",
-							estimationMethod=args.background_method,
-							ss_os_factor=ss_os_factor,
+							cut_type="cpggh2016" if args.era == "2016" else "baseline",
+							estimationMethod="simeqn",
 							zmm_cr_factor=zmm_cr_factor,
-							no_ewkz_as_dy = args.no_ewkz_as_dy,
-							useRelaxedIsolationForW = (category.split("_")[1] in categoriesWithRelaxedIsolationForW),
-							useRelaxedIsolationForQCD = (category.split("_")[1] in categoriesWithRelaxedIsolationForQCD)
+							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)
 					
 					
