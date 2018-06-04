@@ -34,6 +34,7 @@ private:
 	virtual TauSpinner::SimpleParticle GetSimpleParticle(RMFLV const& particleLV, int particlePdgId) const;
 	virtual std::vector<TauSpinner::SimpleParticle> GetFinalStates(
 			GenParticleDecayTree& mother,
+			bool includePhotons,
 			std::vector<TauSpinner::SimpleParticle>& resultVector) const;
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
 	
