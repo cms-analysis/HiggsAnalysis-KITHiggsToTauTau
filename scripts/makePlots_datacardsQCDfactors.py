@@ -396,12 +396,7 @@ if __name__ == "__main__":
 	
 	# Postfitshapes call
 	if "prefitpostfitplots" in args.steps:
-		print("1")
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
-		print("2")
-	# Pull plots
-	# datacards.pull_plots(datacards_postfit_shapes, s_fit_only=True, plotting_args={"fit_poi" : ["mes"]}, n_processes=args.n_processes)
-	
 	# Plot postfit
 		postfit_plot_configs = [] #reset list containing the plot configs
 		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]
@@ -508,7 +503,5 @@ if __name__ == "__main__":
 				
 					if not (config["output_dir"] in www_output_dirs_postfit):
 						www_output_dirs_postfit.append(config["output_dir"])
-				
-					postfit_plot_configs.append(config)
-	
+					postfit_plot_configs.append(config)					
 		higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])

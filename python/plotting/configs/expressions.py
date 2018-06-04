@@ -348,6 +348,9 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["catHtt13TeV_mt_ZeroJet2D_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_mt_ZeroJetCP"], mt_antiiso_far_string]) 
 		self.expressions_dict["catHtt13TeV_mt_Boosted2D_antiiso_far"] = self.combine([self.expressions_dict["catHtt13TeV_mt_BoostedCP"], mt_antiiso_far_string]) 
 
+		#####################################################################################################
+		# QCD SS/OS determination in anti-isolated tau sideband.
+		#####################################################################################################
 		# Another approach using anti-isolated taus instead of anti-isolated leptons
 		# Anti-isolated taus with isolated lepton sideband
 		self.expressions_dict["catHtt13TeV_et_dijet2D_boosted_antiiso_tau"] = self.combine([boosted_higgsCP_string, "(1.0)" if channel=="tt" else btag_veto_string, "(1.0)" if channel != "em" else pZeta_CP_string, et_antiiso_tau_string]) 
@@ -374,7 +377,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_mt_dijet2D_lowboost"], mt_antiiso_tau_string, mt_antiiso_inclusive_string]) 
 		self.expressions_dict["catHtt13TeV_mt_ZeroJet2D_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_mt_ZeroJetCP"], mt_antiiso_tau_string, mt_antiiso_inclusive_string]) 
 		self.expressions_dict["catHtt13TeV_mt_Boosted2D_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_mt_BoostedCP"], mt_antiiso_tau_string, mt_antiiso_inclusive_string]) 
-		
+		########################################################################################################
 
 					
 		# Anti-isolation qcd control region in dijet categories

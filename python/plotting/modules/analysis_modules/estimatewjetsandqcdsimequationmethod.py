@@ -111,12 +111,7 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			# calculate w_os_ss factor and store it in the metadata
 			w_os_ss_extrapolation_factor = yield_wj_mc_os / yield_wj_mc_ss
 			log.debug("W+jets Opposite sign Same-sign factor is \"{FACTOR}\".".format(FACTOR = w_os_ss_extrapolation_factor))	
-	
-			plotData.metadata[wjets_os_lowmt_shape_nick] = {
-				"w_os_ss_factor" : w_os_ss_extrapolation_factor.nominal_value,
-				"w_os_ss_factor_unc" : w_os_ss_extrapolation_factor.std_dev,
-				"w_os_ss_factor_unc_rel" : abs(w_os_ss_extrapolation_factor.std_dev/w_os_ss_extrapolation_factor.nominal_value if w_os_ss_extrapolation_factor.nominal_value != 0.0 else 0.0),
-			}
+
 			
 			########################################
 			# ------------ Step 2 ------------------
@@ -131,12 +126,6 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			# calculate w_highmt_lowmt factor and store it in the metadata
 			w_os_highmt_lowmt_extrapolation_factor = yield_wj_mc_os_lowmt/yield_wj_mc_os_highmt
 			log.debug("W+jets Opposite-sign High mT to low mT factor is \"{FACTOR}\".".format(FACTOR = w_os_highmt_lowmt_extrapolation_factor))	
-
-			plotData.metadata[wjets_os_lowmt_shape_nick] = {
-				"w_os_highmt_lowmt_factor" : w_os_highmt_lowmt_extrapolation_factor.nominal_value,
-				"w_os_highmt_lowmt_factor_unc" : w_os_highmt_lowmt_extrapolation_factor.std_dev,
-				"w_os_highmt_lowmt_factor_unc_rel" : abs(w_os_highmt_lowmt_extrapolation_factor.std_dev/w_os_highmt_lowmt_extrapolation_factor.nominal_value if w_os_highmt_lowmt_extrapolation_factor.nominal_value != 0.0 else 0.0),
-			}
 			
 			########################################
 			# ------------ Step 3 ------------------
@@ -152,11 +141,7 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 				log.warning("W+jets & QCD estimation: W+jets high mT region in MC has no entries. High->low mT extrapolation factor is set to 1.0!")
 				w_ss_highmt_lowmt_extrapolation_factor = 1.0
 			log.debug("W+jets Same-sign High mT to low mT factor is \"{FACTOR}\".".format(FACTOR = w_ss_highmt_lowmt_extrapolation_factor))	
-			plotData.metadata[wjets_os_lowmt_shape_nick] = {
-				"w_ss_highmt_lowmt_factor" : w_ss_highmt_lowmt_extrapolation_factor.nominal_value,
-				"w_ss_highmt_lowmt_factor_unc" : w_ss_highmt_lowmt_extrapolation_factor.std_dev,
-				"w_ss_highmt_lowmt_factor_unc_rel" : abs(w_ss_highmt_lowmt_extrapolation_factor.std_dev/w_ss_highmt_lowmt_extrapolation_factor.nominal_value if w_ss_highmt_lowmt_extrapolation_factor.nominal_value != 0.0 else 0.0),
-			}	
+
 			
 			########################################		
 			# ------------ Step 4 ------------------
@@ -202,13 +187,6 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 				scale_factor = yield_wjets_ss_highmt / integral_shape
 				log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_ss_highmt_shape_nick, scale_factor=scale_factor))
 				plotData.plotdict["root_objects"][wjets_ss_highmt_shape_nick].Scale(scale_factor.nominal_value)			
-
-			plotData.metadata[wjets_os_lowmt_shape_nick] = {
-				"w_ss_highmt_yield" : yield_wjets_ss_highmt.nominal_value,
-				"w_ss_highmt_yield_unc" : yield_wjets_ss_highmt.std_dev,
-				"w_ss_highmt_yield_unc_rel" : abs(yield_wjets_ss_highmt.std_dev/yield_wjets_ss_highmt.nominal_value if yield_wjets_ss_highmt.nominal_value != 0.0 else 0.0),
-			}	
-
 			
 			########################################
 			# ------------ Step 6 a ------------------
@@ -228,13 +206,6 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 				scale_factor = final_yield_wjets_os_lowmt/integral_shape
 				log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_os_lowmt_shape_nick, scale_factor=scale_factor))
 				plotData.plotdict["root_objects"][wjets_os_lowmt_shape_nick].Scale(scale_factor.nominal_value)	
-
-			plotData.metadata[wjets_os_lowmt_shape_nick] = {
-				"w_os_lowmt_yield" : final_yield_wjets_os_lowmt.nominal_value,
-				"w_os_lowmt_yield_unc" : final_yield_wjets_os_lowmt.std_dev,
-				"w_os_lowmt_yield_unc_rel" : abs(final_yield_wjets_os_lowmt.std_dev/final_yield_wjets_os_lowmt.nominal_value if final_yield_wjets_os_lowmt.nominal_value != 0.0 else 0.0),
-			}	
-
 			
 			########################################
 			# ------------ Step 6 b ------------------
@@ -256,6 +227,21 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 				plotData.plotdict["root_objects"][wjets_ss_lowmt_shape_nick].Scale(scale_factor.nominal_value)	
 
 			plotData.metadata[wjets_os_lowmt_shape_nick] = {
+				"w_os_ss_factor" : w_os_ss_extrapolation_factor.nominal_value,
+				"w_os_ss_factor_unc" : w_os_ss_extrapolation_factor.std_dev,
+				"w_os_ss_factor_unc_rel" : abs(w_os_ss_extrapolation_factor.std_dev/w_os_ss_extrapolation_factor.nominal_value if w_os_ss_extrapolation_factor.nominal_value != 0.0 else 0.0),			
+				"w_os_highmt_lowmt_factor" : w_os_highmt_lowmt_extrapolation_factor.nominal_value,
+				"w_os_highmt_lowmt_factor_unc" : w_os_highmt_lowmt_extrapolation_factor.std_dev,
+				"w_os_highmt_lowmt_factor_unc_rel" : abs(w_os_highmt_lowmt_extrapolation_factor.std_dev/w_os_highmt_lowmt_extrapolation_factor.nominal_value if w_os_highmt_lowmt_extrapolation_factor.nominal_value != 0.0 else 0.0),	
+				"w_ss_highmt_lowmt_factor" : w_ss_highmt_lowmt_extrapolation_factor.nominal_value,
+				"w_ss_highmt_lowmt_factor_unc" : w_ss_highmt_lowmt_extrapolation_factor.std_dev,
+				"w_ss_highmt_lowmt_factor_unc_rel" : abs(w_ss_highmt_lowmt_extrapolation_factor.std_dev/w_ss_highmt_lowmt_extrapolation_factor.nominal_value if w_ss_highmt_lowmt_extrapolation_factor.nominal_value != 0.0 else 0.0),
+				"w_ss_highmt_yield" : yield_wjets_ss_highmt.nominal_value,
+				"w_ss_highmt_yield_unc" : yield_wjets_ss_highmt.std_dev,
+				"w_ss_highmt_yield_unc_rel" : abs(yield_wjets_ss_highmt.std_dev/yield_wjets_ss_highmt.nominal_value if yield_wjets_ss_highmt.nominal_value != 0.0 else 0.0),
+				"w_os_lowmt_yield" : final_yield_wjets_os_lowmt.nominal_value,
+				"w_os_lowmt_yield_unc" : final_yield_wjets_os_lowmt.std_dev,
+				"w_os_lowmt_yield_unc_rel" : abs(final_yield_wjets_os_lowmt.std_dev/final_yield_wjets_os_lowmt.nominal_value if final_yield_wjets_os_lowmt.nominal_value != 0.0 else 0.0),
 				"w_ss_lowmt_yield" : final_yield_wjets_ss_lowmt.nominal_value,
 				"w_ss_lowmt_yield_unc" : final_yield_wjets_ss_lowmt.std_dev,
 				"w_ss_lowmt_yield_unc_rel" : abs(final_yield_wjets_ss_lowmt.std_dev/final_yield_wjets_ss_lowmt.nominal_value if final_yield_wjets_ss_lowmt.nominal_value != 0.0 else 0.0),
@@ -310,3 +296,4 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 				"QCD Same-sign yield_unc" : yield_qcd_ss.std_dev,
 				"QCD Same-sign yield_unc_rel" : abs(yield_qcd_ss.std_dev/yield_qcd_ss.nominal_value if yield_qcd_ss.nominal_value != 0.0 else 0.0),
 			}
+			log.info(plotData.metadata)
