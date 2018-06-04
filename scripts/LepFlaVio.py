@@ -8,7 +8,7 @@ import subprocess
 from multiprocessing import Pool, cpu_count
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.lfv.ConfigMaster as configmaster
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.configmaster as configmaster
 
 import ROOT
 
@@ -73,24 +73,25 @@ def global_constants(args):
 	x		=	args.x_expression
 	jet_number 	= 	args.jet_number
 
+
 	##File to read/write informations
 	try:
-		cut_info	=	yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/cuts.yaml")), "r"))
+		cut_info	=	yaml.load(open(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Configs/cuts.yaml", "r"))
 	except IOError:
-		cut_file 	= 	open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/cuts.yaml")), "w")
+		cut_file 	= 	open(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Configs/cuts.yaml", "w")
 		cut_file.close()
 
-		cut_info 	= yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/cuts.yaml")), "r"))
+		cut_info 	= yaml.load(open(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Configs/cuts.yaml", "r"))
 	
-	config_info	=	yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/config_info.yaml")), "r"))
-	parameter_info  =	yaml.load(open(os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/python/lfv/parameter.yaml")), "r"))
+	config_info	=	yaml.load(open(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Configs/config_info.yaml", "r"))
+	parameter_info  =	yaml.load(open(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Configs/parameter.yaml", "r"))
 	
 	##Output path
-	flavio_path	= 	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/FlavioOutput/"))
+	flavio_path	= 	os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/FlavioOutput/"))
 
 	##samples
 	if args.analysis != 4:	
-		sample_list 	= 	["ztt", "zll", "ttj", "vv", "wj", "qcd"] + (["z" + channel] if signal else []) + (["data"] if data else [])
+		sample_list 	= 	["ztt", "zll", "ttj", "vv", "wj", "qcd"]  + (["z" + channel] if signal else []) + (["data"] if data else [])
 
 	else: 	
 		sample_list 	= 	["z" + channel] # ["ztt", "zll", "ttj", "vv", "wj", "qcd"] + (["z" + channel] if signal else [])	
@@ -123,6 +124,8 @@ def base_config(parameter, nick_suffix = "", no_plot = False, weight_input = "1"
 
 	base_values		= [input_dir, flavio_path, format,  www_nodate, www, x_expressions, x_bins, output, title, cms, text]
 	samples_values		= [sample_list, channel, category, estimationMethod, cut_type, nick_suffix, no_plot, weights]
+
+	print samples_values
 
 	return base_values, samples_values	
 
@@ -163,10 +166,10 @@ def nminus1_config(parameter):
 def ratio_config(numerator, denominator):
 	ratio_numerator_nicks	=	numerator
 	ratio_denominator_nicks =	denominator
-	ratio_result_nicks 	=	["ratio"]
+	ratio_result_nicks 	=	["ratio1", "ratio2"]
 	analysis_modules	=	"Ratio"
-	markers			=	"E"
-	stacks			=	["ratio"]
+	markers			=	["E", "E2"]
+	stacks			=	["ratio1", "ratio2"]
 	y_subplot_lims		= 	[.5, 1.5]
 
 	return [ratio_numerator_nicks, ratio_denominator_nicks, ratio_result_nicks, analysis_modules, markers, stacks, y_subplot_lims]
@@ -188,17 +191,18 @@ def limit_config(parameter):
 	y_label, folders, y_expressions, markers, colors, marker_styles, line_widths, tree_draw_options, nicks, x_lims, y_lims, x_tick_labels				= config_info[6][:12]
 	legend, lumis, energies, year, www																= config_info[6][12:]
 	x_label																				= parameter_info[parameter][3]
-	files 			= "limit_" + channel + ".root"	
+	files 			= "limits.root"	
 
 	return [x_label, legend, lumis, energies, year, www], [y_label, folders, y_expressions, markers, colors, marker_styles, line_widths, tree_draw_options, nicks, x_lims, y_lims, x_tick_labels, files]
 
 def blind_config():
 	analysis_modules = ["MaskHistograms"]	
-	mask_nick = ["data", "ratio"]
+	mask_nick = ["data", "ratio1"]
 	mask_ref = "z" + channel
 	mask_value = 100.0
 	
 	return [analysis_modules, mask_nick, mask_ref, mask_value]
+
 	
 
 ###Analysis function using the specific plotting modules
@@ -207,24 +211,24 @@ def controlplot(config_list):
 		if data:
 			config = configmaster.ConfigMaster(*base_config(parameter))
 			config.add_config_info(controlplot_config(parameter), 0)
-
-			config.add_config_info(sumofhists_config(["ztt zll ttj vv wj qcd"], ["bkg_sum_noplot"]), 1)
-			config.add_config_info(ratio_config(["data"], ["bkg_sum_noplot"]), 6)
+			config.add_config_info(sumofhists_config([" ".join([nick for nick in sample_list[:-2]])], ["bkg_sum_noplot"]), 1)
+			config.add_config_info(ratio_config(["data", "bkg_sum_noplot"], ["bkg_sum_noplot", "bkg_sum_noplot"]), 6)
 			config.add_config_info(blind_config(), 8)
+
 			
 		else:
 			config = configmaster.ConfigMaster(*base_config(parameter))
 			config.add_config_info(controlplot_config(parameter), 0)
-					
-
-		config_list.append(config.return_config())
 	
+	
+		config_list.append(config.return_config())
+		config_list[index]["no_cache"] = True
+
 		if signal:
 			config_list[index]["weights"][-2 if data else -1] += "*(10)"
 			config_list[index]["labels"][-2 if data else -1] = "Z #rightarrow " + {"em": "e#mu", "et": "e#tau", "mt": "#mu#tau"}[channel] + " (LFV) x 10"
 
 	return config_list
-
 
 def efficiencyplot(config_list):
 	for parameter in x:
@@ -415,50 +419,35 @@ def cutflowplot(config_list):
 
 def limitplot(config_list):
 	import array
-	
-	key = "BDT"
 
-	if not x[0]==30:
-		##Read out limits and sigma bands from output of higgs combined and save them into lists
-		directory = os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/plots/LFV_datacards/datacards"))	
-		
-		analysis = {
-				"cut_based":		"python HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsLFV.py -x m_vis -s z{channel} -c {channel}".format(channel=channel),
-				"BDT":			"python HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsLFV.py -x BDT3_score -s z{channel} -c {channel}".format(channel=channel),
-				"BDT_cut": 		"python HiggsAnalysis/KITHiggsToTauTau/scripts/makePlots_datacardsLFV.py -x m_vis -s z{channel} -c {channel} --use-BDT-as-cut".format(channel=channel)
-		}
-	
-		categories = [     #Bin IDs of categories as higg combined saves it, defined in python/datacards/datacardsconfig.py
-				["One Jet",		"/category/3002"],	
-				["Zero Jet",		"/category/3001"],
-				["Combined", 		"/combined/"	]
-		]
+	directory = os.path.abspath(os.path.expandvars("$CMSSW_BASE/src/FlavioOutput/Limits/{channel}".format(channel=channel)))
+
+	if not x[0]==30:	
+
 		old_limits = {
 				"em":		7.3e-7,
 				"et":		9.8e-6,
 				"mt":		1.2e-5
 		}	
 
-		os.system(analysis[key])
+		#for method in ["cut_based", "BDT_cut", "BDT"]:
+		#	os.system("python HiggsAnalysis/KITHiggsToTauTau/scripts/FlavioLimits.py --channel {channel} --method {method}".format(channel=channel, method=method))
 	
-		root_file = "/limit_" + channel + ".root"
-		output = ROOT.TFile(flavio_path + root_file, "UPDATE")
-		
-		if output.GetKey(key):
-			output.Delete(key + ";*")
-			output = ROOT.TFile(flavio_path + root_file, "UPDATE")
-		
-		output.mkdir(key)
-		output_tree = ROOT.TTree("limit", "tree with limit values for categories")	
-
-		branch_names = [("two_sigma_down", "/F"), ("one_sigma_down", "/F"), ("limit_exp", "/F"), ("one_sigma_up", "/F"), ("two_sigma_up", "/F"), ("limit_obs", "/F"), ("limit_old", "/F"), ("categories", "/I")]
-		branch_adresses = [array.array("f", [0]) for branch in branch_names[:-1]] + [array.array("i", [0])]
-		branches = [output_tree.Branch(branch_name, branch_adress, branch_name + branch_type) for (branch_name, branch_type), branch_adress in zip(branch_names, branch_adresses)]
+		root_file = "/limits.root"
+		output = ROOT.TFile(directory + root_file, "RECREATE")
 
 
-		for index2, (category_label, category_directory) in enumerate(categories):
-			if(os.path.exists(directory + category_directory)):
-				limit_file = ROOT.TFile.Open(directory + category_directory + "/higgsCombine.AsymptoticLimits.mH125.root")
+		for method in ["cut_based", "cut_BDT", "BDT"]:
+			output.mkdir(method)
+			output_tree = ROOT.TTree("limit", "tree with limit values for categories")	
+
+			branch_names = [("two_sigma_down", "/F"), ("one_sigma_down", "/F"), ("limit_exp", "/F"), ("one_sigma_up", "/F"), ("two_sigma_up", "/F"), ("limit_obs", "/F"), ("limit_old", "/F"), ("categories", "/I")]
+			branch_adresses = [array.array("f", [0]) for branch in branch_names[:-1]] + [array.array("i", [0])]
+			branches = [output_tree.Branch(branch_name, branch_adress, branch_name + branch_type) for (branch_name, branch_type), branch_adress in zip(branch_names, branch_adresses)]
+
+
+			for index2, category in enumerate(["OneJet", "ZeroJet", "combined"]):
+				limit_file = ROOT.TFile.Open(directory + "/limit_{cat}_{method}.root".format(cat=category, method = method))
 				tree = limit_file.Get("limit")
 
 				for index, event in enumerate(tree):
@@ -468,26 +457,25 @@ def limitplot(config_list):
 					branch_adresses[index+1][0] = old_limits[channel]					
 				else:
 					branch_adresses[index+1][0] = 0 
-					
+				
 				branch_adresses[index+2][0] = index2
 
 
 				output_tree.Fill()
 				limit_file.Close()
 				
-		output.cd(key)
-		output_tree.Write()
+			output.cd(method)
+			output_tree.Write()
 		output.Close()
 		sys.exit(0)
 
 	else:	
-		for index, analysis in enumerate(["cut_based", "BDT", "BDT_cut"]):
+		for index, analysis in enumerate(["cut_based", "BDT", "cut_BDT"]):
 			##Write config for limit plots
 			config = configmaster.ConfigMaster(base_config(x[0])[0])
 			config.add_config_info(limit_config(x[0])[0], 0)
 			config.add_config_info(limit_config(x[0])[1], 7)
-			config.replace(["directories", "folders", "filename"
-], ["$CMSSW_BASE/src/plots/FlavioOutput/", [analysis + "/limit"], "Limit_" + analysis])
+			config.replace(["directories", "folders", "filename", "y_lims"], [directory, [analysis + "/limit"], "Limit_" + analysis, {"em": [0.0, 2.5e-6], "et": [0., 2.5e-4], "mt": [0., 2.5e-4]}[channel]])
 
 			config_list.append(config.return_config())
 			config_list[index]["nicks"] = config_list[index]["nicks"][:-1]
@@ -497,7 +485,7 @@ def limitplot(config_list):
 
 
 def harry_do_your_job(config):
-	higgsplot.HiggsPlotter(list_of_config_dicts=[config], n_plots = 1)
+	higgsplot.HiggsPlotter(list_of_config_dicts=[config])
 
 
 ###Main Function

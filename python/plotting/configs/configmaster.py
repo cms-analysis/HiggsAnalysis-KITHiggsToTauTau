@@ -1,5 +1,4 @@
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
-import Artus.Utility.jsonTools as jsonTools
 
 ### Enumeration class for possible plotting/analysis modules
 
@@ -13,6 +12,7 @@ class Plotmodule():
 	ratio = 6
 	limit = 7
 	blind = 8
+	errorband = 9
 
 
 ### Class to create harry plotter configs for your special desire. All configs are safed as dictionaries and can be combined to the final config which is needed	
@@ -49,7 +49,8 @@ class ConfigMaster(object):
 					Plotmodule.cutflow_plot:		self.__cutflowplot__,
 					Plotmodule.ratio:			self.__ratio__,
 					Plotmodule.limit:			self.__limitplot__,
-					Plotmodule.blind:			self.__blind__
+					Plotmodule.blind:			self.__blind__,	
+					Plotmodule.errorband:			self.__errorband__,
 		}
 
 	
@@ -196,6 +197,16 @@ class ConfigMaster(object):
 		}
 		
 		return self._blind
+
+	def __errorband__(self, analysis_modules, errorband_histogram_nicks, errorband_result_nicks):
+
+		self._errorband = {
+					"analysis_modules": 			analysis_modules,
+					"systerrorband_histogram_nicks": 	errorband_histogram_nicks,
+					"systerrorband_result_nick":		errorband_result_nicks
+		}
+
+		return self._errorband
 
 
 	###Function for adding information to the config

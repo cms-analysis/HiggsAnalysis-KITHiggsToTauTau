@@ -49,7 +49,10 @@ class gen_ArtusConfig(dict):
 			quantities_dict["Quantities"] += quantities_dict.genQuantities()
 			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()
 			quantities_dict["Quantities"] += quantities_dict.genQuantitiesZ()
-			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]			
+			quantities_dict["Quantities"] += [
+				"tauSpinnerValidOutputs",
+				"tauSpinnerPolarisation",
+			]
 
 		elif re.search("LFV",nickname):
 			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
@@ -72,7 +75,10 @@ class gen_ArtusConfig(dict):
 			]
 
 		elif re.search("Embedding2016", nickname):
-			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
+			quantities_dict["Quantities"] += [
+				"tauSpinnerValidOutputs",
+				"tauSpinnerPolarisation",
+			]
 
 
 		self.update(copy.deepcopy(quantities_dict))

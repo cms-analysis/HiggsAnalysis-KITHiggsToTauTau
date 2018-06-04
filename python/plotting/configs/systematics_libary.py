@@ -981,8 +981,8 @@ class SystematicLibary(object):
 	
 		##Define background processes
 		
-		all_mc_bkgs = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "W", "QCD"]
-		all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "ZLL", "EWKZ", "TT", "TTT", "TTJJ", "VV", "VVT", "VVJ", "QCD"]	
+		all_mc_bkgs = ["ZTT", "VV", "W", "QCD"] + (["TT", "ZLL"] if channel == "em" else ["TTT", "TTJJ", "ZL", "ZJ"])
+		all_mc_bkgs_no_W = ["ZTT", "VV", "QCD"] + (["TT", "ZLL"] if channel == "em" else ["TTT", "TTJJ", "ZL", "ZJ"])
 		
 		##Define dictionary for with channel as keys, where a list is saved as [systematic, processes, category]. If no special category is choosen, an empty string "" is given
 
@@ -991,41 +991,41 @@ class SystematicLibary(object):
 				[self.trigger_efficiency2016_em_syst_args, 	["ZEM"]+all_mc_bkgs,			""],
 				[self.electron_efficiency2016_syst_args, 	["ZEM"]+all_mc_bkgs,			""],
 				[self.muon_efficiency2016_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
-				[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL"], 			""],
+				[self.lumi2016_syst_args, 			["ZEM"]+all_mc_bkgs, 			""],
 				[self.htt_jetFakeLep_syst_args, 		["W"], 					""],
-				[self.htt_QCD_0jet_syst_args,			["QCD"],				"em_ZeroJet_LFV"],
-				[self.htt_QCD_boosted_syst_args,		["QCD"],				"em_LFVJet"],
-				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZLL", "EWKZ"],			"em_ZeroJet_LFV"],
-				[self.ttj_cross_section_syst_args,		["TT", "TTT", "TTJJ"],			""],				
-				[self.vv_cross_section2016_syst_args, 		["VV", "VVT", "VVJ"], 			""]
+				[self.htt_QCD_0jet_syst_args,			["QCD"],				"ZeroJet"],
+				[self.htt_QCD_boosted_syst_args,		["QCD"],				"OneJet"],
+				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZLL"],				"ZeroJet"],
+				[self.ttj_cross_section_syst_args,		["TT"],					""],				
+				[self.vv_cross_section2016_syst_args, 		["VV"], 				""]
 			],
 
 			"et": [
 				[self.trigger_efficiency2016_syst_args, 	["ZET"]+all_mc_bkgs_no_W,		""],
 				[self.electron_efficiency2016_syst_args, 	["ZET"]+all_mc_bkgs_no_W,		""],
 				[self.tau_efficiency2016_syst_args,		["ZET"]+all_mc_bkgs, 			""],
-				[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL", "ZTT"], 		""],
+				[self.lumi2016_syst_args, 			["ZEM"]+all_mc_bkgs, 			""],
 				[self.tau_efficiency2016_corr_syst_args, 	["ZET"]+all_mc_bkgs, 			""],
 				[self.QCD_Extrap_Iso_nonIso_syst_args,		["QCD"],				""],
-				[self.WHighMTtoLowMT_0jet_syst_args,		["W"],					"et_ZeroJet_LFV"],
-				[self.WHighMTtoLowMT_boosted_syst_args,		["W"],					"et_LFVJet"],
-				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZL", "ZJ", "EWKZ"],		"et_ZeroJet_LFV"],
-				[self.ttj_cross_section_syst_args,		["TT", "TTT", "TTJJ"],			""],
-				[self.vv_cross_section2016_syst_args, 		["VV", "VVT", "VVJ"], 			""]
+				[self.WHighMTtoLowMT_0jet_syst_args,		["W"],					"ZeroJet"],
+				[self.WHighMTtoLowMT_boosted_syst_args,		["W"],					"OneJet"],
+				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZL", "ZJ", "EWKZ"],		"ZeroJet"],
+				[self.ttj_cross_section_syst_args,		["TTT", "TTJJ"],			""],
+				[self.vv_cross_section2016_syst_args, 		["VV"], 				""]
 			],
 				
 			"mt": [
 				[self.trigger_efficiency2016_syst_args, 	["ZMT"]+all_mc_bkgs_no_W,		""],
 				[self.muon_efficiency2016_syst_args, 		["ZMT"]+all_mc_bkgs_no_W,		""],
-				[self.tau_efficiency2016_syst_args,		["ZMT"]+all_mc_bkgs, 		""],
-				[self.lumi2016_syst_args, 			["ZL", "ZJ", "ZLL", "ZTT"], 		""],
-				[self.tau_efficiency2016_corr_syst_args, 	["zmt"]+all_mc_bkgs, 		""],
+				[self.tau_efficiency2016_syst_args,		["ZMT"]+all_mc_bkgs, 			""],
+				[self.lumi2016_syst_args, 			["ZEM"]+all_mc_bkgs, 			""],
+				[self.tau_efficiency2016_corr_syst_args, 	["zmt"]+all_mc_bkgs, 			""],
 				[self.QCD_Extrap_Iso_nonIso_syst_args,		["QCD"],				""],
-				[self.WHighMTtoLowMT_0jet_syst_args,		["W"],					"mt_ZeroJet_LFV"],
-				[self.WHighMTtoLowMT_boosted_syst_args,		["W"],					"mt_LFVJet"],
-				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZL", "ZJ", "EWKZ"],		"mt_ZeroJet_LFV"],
-				[self.ttj_cross_section_syst_args,		["TT", "TTT", "TTJJ"],			""],
-				[self.vv_cross_section2016_syst_args, 		["VV", "VVT", "VVJ"], 			""]	
+				[self.WHighMTtoLowMT_0jet_syst_args,		["W"],					"ZeroJet"],
+				[self.WHighMTtoLowMT_boosted_syst_args,		["W"],					"OneJet"],
+				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZL", "ZJ"],			"ZeroJet"],
+				[self.ttj_cross_section_syst_args,		["TTT", "TTJJ"],			""],
+				[self.vv_cross_section2016_syst_args, 		["VV"], 				""]	
 			]
 						
 		}
@@ -1035,9 +1035,6 @@ class SystematicLibary(object):
 				[self.jec_syst_args,				["ZEM"]+all_mc_bkgs, 			""],
 				[self.scale_met_clustered_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
 				[self.scale_met_unclustered_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
-				[self.scale_t_1prong_syst_args,			["ZEM"]+all_mc_bkgs, 			""],
-				[self.scale_t_3prong_syst_args,			["ZEM"]+all_mc_bkgs, 			""],
-				[self.scale_t_1prong1pizero_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
 				[self.ele_es_syst_args,				["ZEM"]+all_mc_bkgs, 			""],
 
 			],
@@ -1051,12 +1048,12 @@ class SystematicLibary(object):
 				[self.scale_t_1prong1pizero_syst_args,		["ZET"]+all_mc_bkgs, 			""],
 				[self.zl_shape_1prong_syst_args,		["ZL"],		 			""],
 				[self.zl_shape_1prong1pizero_syst_args,		["ZL"],		 			""],
-				[self.htt_jetToTauFake_syst_args,		["ZJ", "TTJJ", "VVJ", "W"],		""],
-				[self.tauDMReco_1prong_syst_args,		["ZTT"],		 		"et_ZeroJet_LFV"],
-				[self.tauDMReco_1prong1pizero_syst_args,	["ZTT"],		 		"et_ZeroJet_LFV"],
-				[self.tauDMReco_3prong_syst_args,		["ZTT"],		 		"et_ZeroJet_LFV"],
-				[self.WSFUncert_0jet_syst_args,			["QCD"],				""],
-				[self.WSFUncert_boosted_syst_args,		["QCD"],				""]
+				[self.htt_jetToTauFake_syst_args,		["ZJ", "TTJJ", "W"],			""],
+				[self.tauDMReco_1prong_syst_args,		["ZTT"],		 		"ZeroJet"],
+				[self.tauDMReco_1prong1pizero_syst_args,	["ZTT"],		 		"ZeroJet"],
+				[self.tauDMReco_3prong_syst_args,		["ZTT"],		 		"ZeroJet"],
+				[self.WSFUncert_0jet_syst_args,			["QCD"],				"ZeroJet"],
+				[self.WSFUncert_boosted_syst_args,		["QCD"],				"OneJet"]
 	
 			],
 					
@@ -1069,12 +1066,12 @@ class SystematicLibary(object):
 				[self.scale_t_1prong1pizero_syst_args,		["ZMT"]+all_mc_bkgs, 			""],
 				[self.zl_shape_1prong_syst_args,		["ZL"],		 			""],
 				[self.zl_shape_1prong1pizero_syst_args,		["ZL"],					""],
-				[self.htt_jetToTauFake_syst_args,		["ZJ", "TTJJ", "VVJ", "W"],		""],
-				[self.tauDMReco_1prong_syst_args,		["ZTT"],		 		"mt_ZeroJet_LFV"],
-				[self.tauDMReco_1prong1pizero_syst_args,	["ZTT"],		 		"mt_ZeroJet_LFV"],
-				[self.tauDMReco_3prong_syst_args,		["ZTT"],		 		"mt_ZeroJet_LFV"],
-				[self.WSFUncert_0jet_syst_args,			["QCD"],				""],
-				[self.WSFUncert_boosted_syst_args,		["QCD"],				""]
+				[self.htt_jetToTauFake_syst_args,		["ZJ", "TTJJ", "W"],			""],
+				[self.tauDMReco_1prong_syst_args,		["ZTT"],		 		"ZeroJet"],
+				[self.tauDMReco_1prong1pizero_syst_args,	["ZTT"],		 		"ZeroJet"],
+				[self.tauDMReco_3prong_syst_args,		["ZTT"],		 		"ZeroJet"],
+				[self.WSFUncert_0jet_syst_args,			["QCD"],				"ZeroJet"],
+				[self.WSFUncert_boosted_syst_args,		["QCD"],				"OneJet"]
 			]
 		}
 			
@@ -1084,9 +1081,11 @@ class SystematicLibary(object):
 		if lnN:	
 			return lnN_syst[channel]
 
-		if shape: 
+		elif shape: 
 			return shape_syst[channel]
 			
 			
+		else:
+			return []
 			
 			

@@ -59,9 +59,6 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			for category in ["oneprong", "oneprong_2"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(1.0)"
 				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "polarisationOmegaBarSvfit_2"
-			for category in ["combined_oneprong_oneprong"]:
-				self.expressions_dict["catZttPol13TeV_"+channel+"_"+category] = "(1.0)"
-				self.expressions_dict["testZttPol13TeV_"+channel+"_"+category] = "polarisationCombinedOmegaBarSvfit"
 
 			for category in ["a1_a1", "a1_rho", "a1_oneprong", "rho_rho", "rho_oneprong"]:
 				self.expressions_dict["catZttPol13TeV_"+channel+"_combined_"+category] = "(0.0)"

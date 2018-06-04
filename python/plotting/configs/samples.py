@@ -56,7 +56,7 @@ class SamplesBase(object):
 		"""
 		merged_config = copy.deepcopy(config1)
 		
-		for key in [
+		for key in list(set([
 				"nicks",
 				"directories",
 				"files",
@@ -82,7 +82,7 @@ class SamplesBase(object):
 				"shape_nicks",
 				"yield_nicks",
 				"shape_yield_nicks"
-		] + additional_keys:
+		] + additional_keys)):
 			if key in merged_config or key in config2:
 				merged_config.setdefault(key, []).extend(config2.get(key, []))
 		

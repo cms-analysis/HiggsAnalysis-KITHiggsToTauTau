@@ -184,13 +184,22 @@ class tt_ArtusConfig(dict):
 						 "nAllDiTauPairCandidates"
 					]
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
-			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
+			quantities_dict["Quantities"] += [
+				"tauSpinnerValidOutputs",
+				"tauSpinnerPolarisation",
+			]
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
-			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
+			quantities_dict["Quantities"] += [
+				"tauSpinnerValidOutputs",
+				"tauSpinnerPolarisation",
+			]
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			quantities_dict["Quantities"] += quantities_dict.genMatchedCPQuantities()
 		elif re.search("Embedding2016", nickname):
-			quantities_dict["Quantities"] += ["tauSpinnerPolarisation"]
+			quantities_dict["Quantities"] += [
+				"tauSpinnerValidOutputs",
+				"tauSpinnerPolarisation",
+			]
 		
 		self.update(copy.deepcopy(quantities_dict))
 

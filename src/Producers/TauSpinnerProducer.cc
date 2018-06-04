@@ -45,6 +45,10 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 	                               settings.GetTauSpinnerSettingsNonSMN(),
 	                               settings.GetTauSpinnerSettingsCmsEnergy());
 	
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "tauSpinnerValidOutputs", [](event_type const& event, product_type const& product)
+	{
+		return product.m_tauSpinnerValidOutputs;
+	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerPolarisation", [](event_type const& event, product_type const& product)
 	{
@@ -95,6 +99,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	// A generator level boson and its decay products must exist
 	// The boson is searched for by a GenBosonProducer
 	// and the decay tree is built by the GenTauDecayProducer
+	product.m_tauSpinnerValidOutputs = false;
 	if (product.m_genBosonTree.m_daughters.size() > 1)
 	{
 
@@ -141,17 +146,20 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			
 				product.m_optionalWeights["tauSpinnerWeight"] = calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
+				product.m_tauSpinnerValidOutputs = true;
 			}
 			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdZ)))
 			{
 				// call same function as for Higgs: http://tauolapp.web.cern.ch/tauolapp/namespaceTauSpinner.html#a33de132eef40cedcf39222fee0449d79
 				product.m_optionalWeights["tauSpinnerWeight"] = calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
+				product.m_tauSpinnerValidOutputs = true;
 			}
 			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdW)))
 			{
 				product.m_optionalWeights["tauSpinnerWeight"] = calculateWeightFromParticlesWorHpn(boson, tau1, tau2, tauFinalStates1);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
+				product.m_tauSpinnerValidOutputs = true;
 			}
 		
 			// calculate the weights for different mixing angles
