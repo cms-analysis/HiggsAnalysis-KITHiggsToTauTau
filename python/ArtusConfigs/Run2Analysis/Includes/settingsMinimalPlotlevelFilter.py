@@ -14,7 +14,7 @@ class MinimalPlotlevelFilter():
 		self.channel = channel
 		self.eTauFakeRate = eTauFakeRate
 		if   channel == "EM": self.em()
-		elif channel == "MT": self.mt()
+		elif channel == "MT": self.mt(nickname=nickname)
 		elif channel == "ET": self.et(nickname=nickname, eTauFakeRate=eTauFakeRate)
 		elif channel == "TT": self.tt()
 		elif channel == "MM": self.mm()
@@ -27,17 +27,22 @@ class MinimalPlotlevelFilter():
 		]
 		self.minPlotLevelDict["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 
-	def mt(self):
+	def mt(self, nickname):
 		self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = [
 			"againstElectronVLooseMVA6_2",
 			"extraelec_veto",
 			"againstMuonTight3_2",
 			"extramuon_veto",
-			"byLooseIsolationMVArun2v1DBoldDMwLT_2",
 			"nDiMuonVetoPairsOS"
 		]
-		self.minPlotLevelDict["PlotlevelFilterExpression"] = "(nDiMuonVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 
+		self.minPlotLevelDict["PlotlevelFilterExpression"] = "(nDiMuonVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
+		if re.search("(Fall17|Summer17|Run2017)", nickname):
+			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byLooseIsolationMVArun2017v2DBoldDMwLT2017_2"]
+			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+		else:
+			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byLooseIsolationMVArun2v1DBoldDMwLT_2"]
+			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 
 	def et(self, nickname, eTauFakeRate=False):
 		self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = ["againstMuonLoose3_2"]

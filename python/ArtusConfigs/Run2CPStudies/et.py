@@ -90,7 +90,7 @@ class et_ArtusConfig(dict):
 					"producer:SvfitM125Producer",
 					"producer:MELAM125Producer"
 				]
-			else: #(Spring16|Summer16|||Summer17|Fall17)
+			else: #(Spring16|Summer16|Summer17|Fall17)
 				self["Processors"] += [
 					"producer:GenMatchedTauCPProducer",
 					"producer:TauCorrectionsProducer",
@@ -126,7 +126,7 @@ class et_ArtusConfig(dict):
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 						self["Processors"] += ["producer:TopPtReweightingProducer"]
 
-					else: # what semples this correspond to? why no "producer:GenMatchedTauCPProducer"?
+					else: # what samples this correspond to? why no "producer:GenMatchedTauCPProducer"?
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += [
 							"producer:TopPtReweightingProducer",
@@ -314,14 +314,18 @@ class et_ArtusConfig(dict):
 		elif re.search("Run2017|Summer17|Fall17", nickname):
 			self["HltPaths"] = [
 					"HLT_Ele32_WPTight_Gsf",
+					"HLT_Ele35_WPTight_Gsf",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
 				]
-			self["ElectronLowerPtCuts"] = [	"36.0"]
+			self["ElectronLowerPtCuts"] = [	"25.0"]
 			self["DiTauPairLepton1LowerPtCuts"] = [
-					"HLT_Ele32_WPTight_Gsf_v:36.0"
+					"HLT_Ele32_WPTight_Gsf_v:33.0",
+					"HLT_Ele35_WPTight_Gsf_v:36.0"
+					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:25.0"
 				]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
 					"HLT_Ele32_WPTight_Gsf_v",
+					"HLT_Ele35_WPTight_Gsf_v"
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v"
 				]
 			if re.search("Run2017", nickname):
@@ -377,12 +381,18 @@ class et_ArtusConfig(dict):
 		elif re.search("Run2017|Summer17|Fall17", nickname):
 			self["ElectronTriggerFilterNames"] = [
 					"HLT_Ele32_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter",
+					"HLT_Ele35_WPTight_Gsf_v:hltEle35noerWPTightGsfTrackIsoFilter",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltEle24erWPTightGsfTrackIsoFilterForTau",
-					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltOverlapFilterIsoEle24WPTightGsfLooseIsoPFTau30",
-					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltSelectedPFTau30LooseChargedIsolationL1HLTMatched"
+					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltOverlapFilterIsoEle24WPTightGsfLooseIsoPFTau30"
 			]
-			if re.search("Run2017", nickname):
-				self["ElectronTriggerFilterNames"] += ["HLT_Ele35_WPTight_Gsf_v:hltEle35noerWPTightGsfTrackIsoFilter"]
+
+			self["TauTriggerFilterNames"] = [
+				"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltSelectedPFTau30LooseChargedIsolationL1HLTMatched",
+				"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltOverlapFilterIsoEle24WPTightGsfLooseIsoPFTau30"
+			]
+
+			#if re.search("Run2017", nickname):
+			#	self["ElectronTriggerFilterNames"] += ["HLT_Ele35_WPTight_Gsf_v:hltEle35noerWPTightGsfTrackIsoFilter"]
 
 		self["InvalidateNonMatchingElectrons"] = True
 		self["InvalidateNonMatchingMuons"] = False

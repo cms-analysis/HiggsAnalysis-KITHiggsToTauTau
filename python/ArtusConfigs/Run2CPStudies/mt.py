@@ -62,20 +62,18 @@ class mt_ArtusConfig(dict):
 				"producer:DiJetQuantitiesProducer",
 
 				]
-
-
-
-		if re.search("(Spring16|Summer16|Run2016)", nickname):
+		
+		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17)", nickname):
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
+				self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 
-			if re.search("Run2016", nickname):
+			if re.search("Run2016|Run2017", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
-
 				self["Processors"] += ["producer:SimpleFitProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
@@ -117,7 +115,7 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
 
-					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += ["producer:ZPtReweightProducer"]
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
@@ -126,7 +124,7 @@ class mt_ArtusConfig(dict):
 
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
-					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
+					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += [
 							"producer:TopPtReweightingProducer"
 						]
@@ -306,7 +304,9 @@ class mt_ArtusConfig(dict):
 			self["MuonLowerPtCuts"] = ["19.0"]
 
 		self["MuonUpperAbsEtaCuts"] = ["2.1"]
-		self["TauLowerPtCuts"] = ["20.0"]
+		if re.search("Run2017|Summer17|Fall17", nickname) == None:
+			self["TauLowerPtCuts"] = ["20.0"]
+
 		self["TauUpperAbsEtaCuts"] = ["2.3"]
 		self["TriggerObjectLowerPtCut"] = -1.0
 		self["DiTauPairMinDeltaRCut"] = 0.5
@@ -370,19 +370,32 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("Run2017|Summer17|Fall17", nickname):
 			self["HltPaths"] = [
-				"HLT_IsoMu24_v"
-				"HLT_IsoMu27_v",
-				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1_v"
-				]
-			self["MuonLowerPtCuts"] = [28]
+				"HLT_IsoMu24",
+				"HLT_IsoMu27",
+				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1"
+			]
+			self["MuonLowerPtCuts"] = [21]
 			self["DiTauPairLepton1LowerPtCuts"] = [
-				"HLT_IsoMu24_v:"
+				"HLT_IsoMu24_v:25",
 				"HLT_IsoMu27_v:28",
-				]
+				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1_v:21"
+			]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
+				"HLT_IsoMu24_v",
 				"HLT_IsoMu27_v",
-				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1_v8"
-				]
+				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1"
+			]
+			self["MuonTriggerFilterNames"] = [
+				"HLT_IsoMu24_v:hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07",
+				"HLT_IsoMu27_v:hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07",
+				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
+				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
+			]
+			self["TauTriggerFilterNames"] = [
+				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
+				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
+			]
+				
 
 		self["EventWeight"] = "eventWeight"
 		self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
