@@ -24,6 +24,7 @@ import Artus.Utility.jsonTools as jsonTools
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.labels as labels
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.smhttdatacards as smhttdatacards
 import HiggsAnalysis.KITHiggsToTauTau.datacards.initialstatecpstudiesdatacards as initialstatecpstudiesdatacards
@@ -42,8 +43,8 @@ def official2private(category, category_replacements):
 			result = re.sub(official+"$", private, result)	
 		if "dijet2D_boosted" in private and "dijet_boosted" in official:
 			result = re.sub("dijet_boosted", "dijet2D_boosted", result)
-		if "dijet2D_Boosted2D" in result:
-			result = re.sub("Boosted2D", "boosted", result)
+		if "dijet2D_BoostedCP" in result:
+			result = re.sub("BoostedCP", "boosted", result)
 		if "dijet2D_boosted" in result and "QCDCR" in result:
 			result = re.sub("QCDCR", "qcd_cr", result)	
 	return result
@@ -156,8 +157,6 @@ if __name__ == "__main__":
 	                    help="Do not include shape uncertainties. [Default: %(default)s]")
 	parser.add_argument("--scale-sig-IC", default=False, action="store_true",
 	                    help="Scale signal cross section to IC cross section. [Default: %(default)s]")	
-	parser.add_argument("--dijet-2D", default=False, action="store_true",
-	                    help="Use unrolled 2D distributions of m_sv/jdphi or mela discriminators. [Default: %(default)s]")											
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 	                    help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--production-mode", nargs="+",
@@ -171,7 +170,7 @@ if __name__ == "__main__":
 	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
-	parser.add_argument("--get-official-dc", action="store_true", default=False,
+	parser.add_argument("--get-official-dc", action="store_true", default=True,
 	                    help="Get official CP datacards. [Default: %(default)s]")
 	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
 						help="Exit program in case categories are removed from CH. [Default: %(default)s]")
@@ -208,6 +207,7 @@ if __name__ == "__main__":
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
+	labels_settings = labels.LabelsDict()
 	systematics_factory = systematics.SystematicsFactory()
 	
 	plot_configs = []
@@ -232,113 +232,83 @@ if __name__ == "__main__":
 	datacards = None
 	category_replacements = {}
 	
-	if args.get_official_dc:
-		# get "official" configuration
-		init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix)) 
-		command = "MorphingSMCP2016 --control_region=1 {DIJET_2D} --postfix -2D --mm_fit=false --ttbar_fit=true {INIT}".format(
-		DIJET_2D="--dijet_2d=true" if args.dijet_2D else "",
+
+	# get "official" configuration
+	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix)) 
+	command = "MorphingSMCP2016 --control_region=1 --postfix -2D --ttbar_fit=true {INIT}".format(
 		INIT="--only_init="+os.path.join(init_directory, "init")
-		)
-		log.debug(command)
-		exit_code = logger.subprocessCall(shlex.split(command))
-		assert(exit_code == 0)
-		
-		init_cb = ch.CombineHarvester()
-		for init_datacard in glob.glob(os.path.join(os.path.join(init_directory, "init"), "*_*_*_*.txt")):			
-			init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt', False)
-		
-		datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
-				cb=init_cb,
-				higgs_masses=args.higgs_masses,
-				year=args.era,
-				cp_study=args.cp_study
-		)
-		datacards.lnN2shape(is_lnN=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"])
+	)
+	log.debug(command)
+	exit_code = logger.subprocessCall(shlex.split(command))
+	assert(exit_code == 0)
+	
+	init_cb = ch.CombineHarvester()
+	for init_datacard in glob.glob(os.path.join(os.path.join(init_directory, "init"), "*_*_*_*.txt")):			
+		init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt', False)
+	
+	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
+			cb=init_cb,
+			higgs_masses=args.higgs_masses,
+			year=args.era,
+			cp_study=args.cp_study
+	)
+	datacards.lnN2shape(is_lnN=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"])
 
 		# The processes have different names in the official SM datacards
 		# So this workaround is needed to match the right processes
-		datacards.configs._mapping_process2sample = {
-			"data_obs" : "data",
-			"EWKZ" : "ewkz",
-			"ggH_htt" : "ggh",
-			"ggHps_htt"	: "gghjhups",
-			"ggHmm_htt"	: "gghjhumm",
-			"ggHsm_htt"	: "gghjhusm",
-		  	"ggH_hww" : "hww_gg",
-			"QCD" : "qcd",				
-			"qqH_htt" : "qqh",				
-			"qqHmm_htt"	: "qqhjhumm",
-			"qqHps_htt"	: "qqhjhups",
-			"qqHsm_htt"	: "qqhjhusm",			
-			"qqH_hww" : "hww_qq",
-			"TT" : "ttj",
-			"TTT" : "ttt",
-			"TTJ" : "ttj",
-			"VV" : "vv",
-			"VVT" : "vvt",
-			"VVJ" : "vvj",
-			"WH_htt" : "wh",
-			"W" : "wj",				
-			"ZH_htt" : "zh",	
-			"ZJ" : "zj",
-			"ZL" : "zl",
-			"ZLL" : "zll",	
-			"ZTT" : "ztt",															
-			}
+	datacards.configs._mapping_process2sample = {
+		"data_obs" : "data",
+		"EWKZ" : "ewkz",
+		"ggH_htt" : "ggh",
+		"ggHps_htt"	: "gghjhups",
+		"ggHmm_htt"	: "gghjhumm",
+		"ggHsm_htt"	: "gghjhusm",
+	  	"ggH_hww" : "hww_gg",
+		"QCD" : "qcd",				
+		"qqH_htt" : "qqh",				
+		"qqHmm_htt"	: "qqhjhumm",
+		"qqHps_htt"	: "qqhjhups",
+		"qqHsm_htt"	: "qqhjhusm",			
+		"qqH_hww" : "hww_qq",
+		"TT" : "ttj",
+		"TTT" : "ttt",
+		"TTJ" : "ttj",
+		"VV" : "vv",
+		"VVT" : "vvt",
+		"VVJ" : "vvj",
+		"WH_htt" : "wh",
+		"W" : "wj",				
+		"ZH_htt" : "zh",	
+		"ZJ" : "zj",
+		"ZL" : "zl",
+		"ZLL" : "zll",	
+		"ZTT" : "ztt",															
+		}
 			
 		# Also the categories have different names.
 		# Match SM categories and control regions. 
-		category_replacements["all"] = "TTbarCR"
-		category_replacements["wjets_0jet_cr"] = "ZeroJet2D_WJCR"
-		category_replacements["wjets_boosted_cr"] = "Boosted2D_WJCR"
-		category_replacements["wjets_vbf_cr"] = "Vbf2D_WJCR"
-		category_replacements["antiiso_0jet_cr"] = "ZeroJet2D_QCDCR"
-		category_replacements["antiiso_boosted_cr"] = "Boosted2D_QCDCR"
-		category_replacements["antiiso_vbf_cr"] = "Vbf2D_QCDCR"
-		category_replacements["0jet_qcd_cr"] = "ZeroJet2D_QCDCR"
-		category_replacements["boosted_qcd_cr"] = "Boosted2D_QCDCR"
-		category_replacements["vbf_qcd_cr"] = "Vbf2D_QCDCR"
-		
-		category_replacements["0jet"] = "ZeroJet2D"
-		category_replacements["boosted"] = "Boosted2D"
-		category_replacements["vbf"] = "Vbf2D"
-		if args.dijet_2D:
-			category_replacements["dijet_boosted"] = "dijet2D_boosted"
-			category_replacements["dijet_boosted_qcd_cr"] = "dijet2D_boosted_qcd_cr"
-			category_replacements["dijet_lowboost"] = "dijet2D_lowboost"
-			category_replacements["dijet_lowboost_qcd_cr"] = "dijet2D_lowboost_qcd_cr"
-			
-		
-	else:
-		# use the datacards created within Artus.
-		datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
-				higgs_masses=args.higgs_masses,
-				year=args.era,
-				cp_study=args.cp_study
-		)
-		
-		datacards.configs._mapping_process2sample = {
-			"data_obs" : "data",
-			"ZTT" : "ztt",
-			"ZL" : "zl",
-			"ZLL" : "zll",
-			"ZJ" : "zj",
-			"EWKZ" : "ewkz",
-			"TT" : "ttj",
-			"TTT" : "ttt",
-			"TTJJ" : "ttjj",
-			"VV" : "vv",
-			"VVT" : "vvt",
-			"VVJ" : "vvj",
-			"W" : "wj",
-			"QCD" : "qcd",
-			"qqH"	: "qqh",
-			"ggHps"	: "gghjhups",
-			"ggHmm"	: "gghjhumm",
-			"ggHsm"	: "gghjhusm",
-			"qqHsm"	: "qqhjhusm",
-			"ggH" : "ggh"
-		}
+	category_replacements["all"] = "TTbarCR"
+	
+	category_replacements["0jet"] = "ZeroJetCP"
+	category_replacements["boosted"] = "BoostedCP"
+	category_replacements["dijet_lowboost"] = "dijet2D_lowboost"
+	category_replacements["dijet_boosted"] = "dijet2D_boosted"
+	# control regions
+	# QCD
+	category_replacements["0jet_qcd_cr"] = "ZeroJetCP_qcd_cr"
+	category_replacements["boosted_qcd_cr"] = "BoostedCP_qcd_cr"	
+	category_replacements["dijet_lowboost_qcd_cr"] = "dijet2D_lowboost_qcd_cr"			
+	category_replacements["dijet_boosted_qcd_cr"] = "dijet2D_boosted_qcd_cr"
+	# Wjets OS
+	category_replacements["0jet_wjets_cr"] = "ZeroJetCP_wjets_cr"
+	category_replacements["boosted_wjets_cr"] = "BoostedCP_wjets_cr"
+	category_replacements["dijet_lowboost_wjets_cr"] = "dijet2D_lowboost_wjets_cr"
+	category_replacements["dijet_boosted_wjets_cr"] = "dijet2D_boosted_wjets_cr"
+	# Wjets SS
+	category_replacements["0jet_wjets_ss_cr"] = "ZeroJetCP_wjets_ss_cr"
+	category_replacements["boosted_wjets_ss_cr"] = "BoostedCP_wjets_ss_cr"
+	category_replacements["dijet_lowboost_wjets_ss_cr"] = "dijet2D_lowboost_wjets_ss_cr"
+	category_replacements["dijet_boosted_wjets_ss_cr"] = "dijet2D_boosted_wjets_ss_cr"			
 		
 	# initialise datacards
 	tmp_input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
@@ -509,31 +479,35 @@ if __name__ == "__main__":
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		log.info("Building configs for channel = {channel}, categories = {categories}".format(channel=channel, categories=str(categories)))
-		for official_category in categories:			
+		for official_category in categories:
+			# Do the category replacement to get the names defined in expressions.py 
+			print(official_category)			
 			category = official2private(official_category, category_replacements)
-			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))	
-
+			print(category)
+			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
+			
+			# Custumization necessary for the control regions
 			if "TTbarCR" in category and channel == "ttbar":
-				exclude_cuts += ["pzeta"]
+				exclude_cuts += ["pzeta"] # Studies show that the operator is the fastest way to add something to a list
+				do_not_normalize_by_bin_width = True				
+			if ("qcd_cr" in category)  and channel in ["mt", "et"]:
+				exclude_cuts += ["os"]
+				do_not_normalize_by_bin_width = True				
+			if "_wjets_cr" in category and channel in ["mt", "et"]:
+				exclude_cuts += ["mt"] 
 				do_not_normalize_by_bin_width = True
-			# TODO: check that this does what it should in samples_run2_2016.py !!!
-			#       a workaround solution may be necessary
-			if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
-				exclude_cuts += ["mt"]
-				do_not_normalize_by_bin_width = True
-			if ("ZeroJet2D_QCDCR" in category or "Boosted2D_QCDCR" in category or "Vbf2D_QCDCR" in category)  and channel in ["mt", "et", "tt"]:
-				if channel in ["mt", "et"]:
-					exclude_cuts += ["iso_1"]
-					do_not_normalize_by_bin_width = True
-				elif channel == "tt":
-					exclude_cuts += ["iso_1", "iso_2"]
-					do_not_normalize_by_bin_width = True
-			if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt":
+			if "_wjets_ss_cr" in category and channel in ["mt", "et"]:
+				exclude_cuts += ["mt", "os"] 
+				do_not_normalize_by_bin_width = True				
+					
+			# TODO: Check if that is really still needed and equivalent to the SM analysis.
+			if any( cr in category for cr in ["dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt":
 				exclude_cuts += ["iso_1", "iso_2"]
 				do_not_normalize_by_bin_width = True
-				
+				# TODO: Why that?
 				datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
+			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 
 			#merged_output_files.append(output_file)
@@ -569,7 +543,7 @@ if __name__ == "__main__":
 						wj_sf_shift = 1.0 + wj_sf_shift if shift_up else 1.0 - wj_sf_shift
 					else:
 						wj_sf_shift = 0.0
-					# Use official zmm corrections factors for now
+					# Use official zmm corrections factors for now TODO: To be updated
 					#zmm_cr_factor = zmm_cr_factors.get(category.split("_")[-1],"(1.0)")
 					zmm_cr_factor = zmm_cr_factors_official.get(category, "(1.0)")
 					if "zmumuShape_VBF" in shape_systematic:
@@ -607,15 +581,11 @@ if __name__ == "__main__":
 								weightAtIndex = weightAtIndex.replace("topPtReweightWeight", "topPtReweightWeightRun1")
 					
 						config["weights"][index] = weightAtIndex
-
-					# TODO: evaluate shift from datacards.cb
-					#config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-					#config["qcd_subtract_shape"] = [args.qcd_subtract_shapes]
+						
 					config["x_expressions"] = ["melaDiscriminatorD0MinusGGH"] if "mela" in args.quantity else ["jdphi"]
 					
 					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" not in category:	
 						binnings_key = "tt_jdphi"
-
 					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" in category:
 						binnings_key = "tt_melaDiscriminatorD0Minus"
 					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" in category and "Vbf4D" in category:
@@ -623,80 +593,37 @@ if __name__ == "__main__":
 					elif args.cp_study == "final":
 						binnings_key = "tt_phiStarCP"
 					
+					# customizations necessary for the control regions						
+					# define quantities and binning for control regions					
+					if ("wjets" in category or "qcd_cr" in category) and channel in ["mt", "et"]:
+						print(category)
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_m_sv"]] # 0.0-250-0 one bin
 						
-					if "2D" not in category and not any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet2D_lowboost_qcd_cr", "dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "ttbar", "Vbf4D_mela_GGH"]):
-						binnings_key = "binningHtt13TeV_"+category+"_%s"%args.quantity
-						if (binnings_key in binnings_settings.binnings_dict) and args.x_bins == None:
-							config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
-						elif args.x_bins != None:
-							config["x_bins"] = [args.x_bins]
-						else:
-							log.fatal("binnings key " + binnings_key + " not found in binnings_dict!")
-							sys.exit()
-						config["x_bins"] = [binnings_settings.binnings_dict[binnings_key]]
-					# define quantities and binning for control regions
-					if ("ZeroJet2D_WJCR" in category or "Boosted2D_WJCR" in category) and channel in ["mt", "et"]:
-						config["x_expressions"] = ["mt_1"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mt_1"]]
-					if "ZeroJet2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
-						if channel in ["mt", "et"]:
-							config["x_expressions"] = ["m_vis"]
-							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
-						elif channel == "tt":
-							config["x_expressions"] = ["m_sv"]
-							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "Boosted2D_QCDCR" in category and channel in ["mt", "et", "tt"]:
-						config["x_expressions"] = ["m_sv"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-					if "Vbf2D_QCDCR" in category  and channel == "tt":
-						config["x_expressions"] = ["m_sv"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
 					if "TTbarCR" in category and channel == "ttbar":
 						config["x_expressions"] = ["m_vis"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
 						
-					if any( cr in category for cr in ["dijet_lowM_qcd_cr", "dijet_highM_qcd_cr", "dijet_lowMjj_qcd_cr", "dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
+					if any( cr in category for cr in ["dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
 						
 					if any( cr in category for cr in ["dijet2D_lowboost_qcd_cr", "dijet2D_boosted_qcd_cr"]) and channel == "tt" and "mela" in args.quantity:
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
 										
 					# Use 2d plots for 2d categories
-					if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):	
+					if "ZeroJetCP" in category and not ("wjets" in category or "qcd_cr" in category):	
 						# Use only m_sv/ m_vis as discriminator opposed to SM analysis. By neglecting the split into decay mode we can drop 5 systematic uncertainites.					
 						# Also use only m_sv as a further simplification.
 						config["x_expressions"] = ["m_sv"] 
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_sv"]]
-							
-					elif "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category or "dijet" in category):
-						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_sv"]]	
+					elif "BoostedCP" in category and not ("wjets" in category or "qcd_cr" in category or "dijet" in category):
+						config["x_expressions"] = ["m_vis" if channel == "mm" else "m_sv"]
 						config["y_expressions"] = ["H_pt"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_H_pt"]]
-					elif ("Vbf2D" in category or "Vbf3D" in category or "Vbf4D" in category) and not "QCDCR" in category:
-						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
-						
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
-						if ("Vbf3D_CP_jdeta" in category):
-							config["y_expressions"] = ["jdeta"]
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdeta"]]
-						else:
-							config["y_expressions"] = ["mjj"]	
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_mjj"]]
-						
-						if "Vbf3D" in category and channel != "mm" and "mela" not in category:
-							config["z_expressions"] = ["jdphi"]
-							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
-						if "Vbf3D" in category and channel != "mm" and "mela" in category:
-							config["z_expressions"] = ["melaDiscriminatorD0MinusGGH"]
-							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]
 
-						if "Vbf4D" in category and channel != "mm" and "mela" in category:
-							config["z_expressions"] = ["TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH"]
-							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_TMath::Sign(1,melaDiscriminatorDCPGGH)*melaDiscriminatorD0MinusGGH"]]
-
-					elif "dijet2D" in category and not "qcd_cr" in category:
-						config["x_expressions"] = ["m_vis"] if channel == "mm" else ["m_sv"]
+					elif "dijet2D" in category and not ("wjets" in category or "qcd_cr" in category):
+						config["x_expressions"] = ["m_vis" if channel == "mm" else "m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]	
 						config["y_expressions"] = ["jdphi"]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
@@ -709,21 +636,8 @@ if __name__ == "__main__":
 							config["z_expressions"] = ["melaDiscriminatorDCPGGH"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorDCPGGH"]]													
 							
-							
-					# set quantity x depending on the category
-					if args.cp_study == "final":# NOTE: 
-						if all(["RHOmethod" in c for c in categories]):
-							config["x_expressions"] = ["recoPhiStarCP_rho_merged"]
-							args.quantity = "recoPhiStarCP_rho_merged"
-						elif all(["COMBmethod" in c for c in categories]):
-							config["x_expressions"] = ["recoPhiStarCPCombMerged"]
-							args.quantity = "recoPhiStarCPCombMerged"
-						else:
-							log.fatal("YOU SHALL NOT PASS different types of category (COMB and RHO) to the same channel. Repeat the channel for the each type of category.")
-							raise ValueError("You shall not pass different types of category (COMB and RHO) to the same channel. Repeat the channel for the each type of category.")
-
 					# Unroll 2d distribution to 1d in order for combine to fit it
-					if ("2D" in category or "3D" in category or "Vbf4D" in category) and not ("WJCR" in category or "QCDCR" in category) and not "qcd_cr" in category and not (channel == "tt" and "ZeroJet2D" in category):
+					if ("2D" in category or "BoostedCP" in category) and not ("wjets" in category or "qcd_cr" in category) and not (channel == "tt" and "ZeroJetCP" in category):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollHistogram")
 						config["unroll_ordering"] = "zyx"
@@ -786,11 +700,10 @@ if __name__ == "__main__":
 	# this steps creates the filled datacards in the output folder. 
 	if "t2w" in args.steps:	
 		datacards_module._call_command([
-				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --control_region=1 {DIJET_2D} --mm_fit=false --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
+				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
-				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else "",
-				DIJET_2D="--dijet_2d=true" if args.dijet_2D else ""
+				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else ""
 				),
 				args.output_dir
 		])
@@ -1073,10 +986,12 @@ if __name__ == "__main__":
 	
 		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes, no_plot=[""])
 		for plot_config in prefit_postfit_plot_configs:
+			
 			plot_category = plot_config["filename"].split("_")[-2]
 			plot_channel = plot_config["filename"].split("_")[-3]
 				
-			if "1" in plot_category or "2" in plot_category or "3" in plot_category or "4" in plot_category and not ("10" in plot_category or "11" in plot_category or "12" in plot_category or "13" in plot_category or "14" in plot_category):
+
+			if ("1" in plot_category or "2" in plot_category or "3" in plot_category or "4" in plot_category) and not ("10" in plot_category or "11" in plot_category or "12" in plot_category or "13" in plot_category or "14" in plot_category):
 
 				plot_config["canvas_width"] = 2100
 				plot_config["canvas_height"] = 1000
@@ -1108,46 +1023,7 @@ if __name__ == "__main__":
 					plot_config["bottom_pad_margin"] = 0.5
 					plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
 					plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
-					
+
 		if "nuisanceimpacts" in args.steps:
 			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_alpha, args.n_processes, higgs_mass="125")        
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
-    										
-	sys.exit(0)		 			
-	
-	"""
-	This option calculates the yields and signal to background ratio for each channel and category defined -c and --categories.
-	It considers the
-	"""
-	
-	# TODO: WIP: More elegant programming style planned.
-	if "yields" in args.steps:
-		log.info("\n -------------------------------------- Yields ---------------------------------")
-		for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
-			categories= [channel + "_" + category for category in categories]
-			# prepare category settings based on args and datacards
-			categories_save = sorted(categories)
-			categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-			if(categories_save != sorted(categories)):
-				log.fatal("CombineHarvester removed the following categories automatically. Was this intended?")
-				log.fatal(list(set(categories_save) - set(categories)))
-				sys.exit(1)
-			
-			# restrict CombineHarvester to configured categories:
-			datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
-			for category in categories:
-				bkg_yield = {}
-				sig_yield = {}
-				print("\n"+ "Channel: "+str(channel)+ " Category: "+str(category)+"\n")
-				bkg_procs = datacards.cb.cp().channel([channel]).bin([category]).cp().backgrounds().process_set()
-				sig_procs = datacards.cb.cp().channel([channel]).bin([category]).cp().signals().process_set()
-				for bkg in bkg_procs:
-					bkg_yield[bkg] = datacards.cb.cp().channel([channel]).bin([category]).process([bkg]).GetRate()
-				tot_bkg = sum(bkg_yield.values())
-				for sig in sig_procs:
-					sig_yield[sig] = datacards.cb.cp().channel([channel]).bin([category]).process([sig]).GetRate()
-				tot_sig = sum(sig_yield.values())
-				print("TotalBkg: "+str(tot_bkg)+ " TotalSig: "+str(tot_sig)+"\n")
-				for sig in sig_procs:
-					print(str(sig)+"/tot_bkg: ", str(sig_yield[sig]/tot_bkg))
-					print(str(sig)+"/tot_sig: ", str(sig_yield[sig]/tot_sig))

@@ -891,6 +891,19 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["httcpodd"] = "CP-odd"
 			self.labels_dict["susycpodd"] = "CP-odd"
 			self.labels_dict["susycpodd_alt"] = "CP-odd"
+			self.labels_dict["qqhsm125"] = "VBF 0^{#plus#plus}"
+			self.labels_dict["qqhps125"] = "VBF 0^{#minus#plus}"
+			self.labels_dict["qqhmm125"] = "VBF CPmix"			
+			self.labels_dict["gghsm125"] = "GF 0^{#plus#plus}"
+			self.labels_dict["gghps125"] = "GF 0^{#minus#plus}"
+			self.labels_dict["gghmm125"] = "GF CPmix"		
+
+			self.labels_dict["qqhjhusm125"] = "VBF 0^{#plus#plus}"
+			self.labels_dict["qqhjhups125"] = "VBF 0^{#minus#plus}"
+			self.labels_dict["qqhjhumm125"] = "VBF CPmix"			
+			self.labels_dict["gghjhusm125"] = "GF 0^{#plus#plus}"
+			self.labels_dict["gghjhups125"] = "GF 0^{#minus#plus}"
+			self.labels_dict["gghjhumm125"] = "GF CPmix"			
 
 			self.labels_dict["channel_tt"] = "$\\tau_{\\mathrm{h}}\\tau_{\\mathrm{h}}$"
 			self.labels_dict["channel_mt"] = "$\\mu\\tau_{\\mathrm{h}}$"
@@ -1425,7 +1438,6 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["susy_ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susy_ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["susy{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susy"].replace("H", "H({mass:d})".format(mass=higgs_mass))
-				self.labels_dict["bbh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["bbh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["httcpeven{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpeven"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["httcpmix{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpmix"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["httcpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpodd"].replace("H", "H({mass:d})".format(mass=higgs_mass))
@@ -1436,7 +1448,6 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["ggh"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susy_ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susy_ggh"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susy{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susy"]+" (\\times {scale:d})".format(scale=scale)
-					self.labels_dict["bbh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["bbh"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpeven{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpeven"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpmix{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpmix"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpodd"]+" (\\times {scale:d})".format(scale=scale)

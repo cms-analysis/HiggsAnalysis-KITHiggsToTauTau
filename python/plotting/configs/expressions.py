@@ -375,9 +375,29 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["catHtt13TeV_mt_ZeroJet2D_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_mt_ZeroJetCP"], mt_antiiso_tau_string, mt_antiiso_inclusive_string]) 
 		self.expressions_dict["catHtt13TeV_mt_Boosted2D_antiiso_taulep"] = self.combine([self.expressions_dict["catHtt13TeV_mt_BoostedCP"], mt_antiiso_tau_string, mt_antiiso_inclusive_string]) 
 		########################################################################################################
-
 					
-		# Anti-isolation qcd control region in dijet categories
+		# et and mt channels
+		cp_qcd_cr_string = "(q_1*q_2>0)" 
+		cp_highmt_cr_string = "(mt_1>70)"
+		cp_highmt_ss_cr_string = "(mt_1>70)*(q_1*q_2>0)"
+		
+		for channel in ["em", "et","mt", "tt"]:
+			# QCD control region in CP categories
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"], cp_qcd_cr_string]) 
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"], cp_qcd_cr_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP"], cp_qcd_cr_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP"], cp_qcd_cr_string]) 
+			# Wjets control region
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted_wjets_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"], cp_highmt_cr_string]) 
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost_wjets_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"], cp_highmt_cr_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP_wjets_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP"], cp_highmt_cr_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP_wjets_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP"], cp_highmt_cr_string]) 
+			# Wjets ss control region
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted_wjets_ss_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"], cp_highmt_ss_cr_string]) 
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost_wjets_ss_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"], cp_highmt_ss_cr_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP_wjets_ss_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP"], cp_highmt_ss_cr_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP_wjets_ss_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP"], cp_highmt_ss_cr_string]) 	
+					
 		self.expressions_dict["catHtt13TeV_tt_dijet2D_boosted_qcd_cr"] = self.combine([tt_antiiso_string, boosted_higgsCP_string, mjj_CP_string, jet2_string, btag_veto_string])
 		self.expressions_dict["catHtt13TeV_tt_dijet2D_lowboost_qcd_cr"] = self.combine([tt_antiiso_string, self.invert(boosted_higgsCP_string), mjj_CP_string, jet2_string, btag_veto_string])
 				
