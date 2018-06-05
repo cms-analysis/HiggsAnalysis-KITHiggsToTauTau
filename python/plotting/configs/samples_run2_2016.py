@@ -3454,6 +3454,14 @@ class Samples(samples.SamplesBase):
 		config = self.susy( config, channel, category, weight, "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, cp="cpodd", stacks="susycpodd", **kwargs)
 		return config
 
+	# cp-odd state from SUSY samples
+	# These samples are manually rescaled in each category (ZeroJet2D, Boosted2D, Vbf2D)
+	# to have same number of events for CPeven and CPodd.
+	# This is needed in order to perform a CPeven/CPodd hypothesis test.
+	def susycpoddALT(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, normalise_to_sm_xsec=True, scale_to_sm_sig=True, **kwargs):
+		config = self.susy( config, channel, category, weight, "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, scale_to_sm_sig=scale_to_sm_sig, cp="cpodd", stacks="susycpodd", **kwargs)
+		return config
+
 	# cp-mix state from SM samples
 	def httcpmix(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.htt( config, channel, category, weight, "cpmix"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpmix", stacks="httcpmix", **kwargs)
@@ -3470,6 +3478,19 @@ class Samples(samples.SamplesBase):
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("bbh", 1.0)
+		# The following block is needed for final state CP studies.
+		# Due to lack of SUSY samples in boosted and vbf categories,
+		# the susy samples are manually rescaled in each category
+		# in order to have same number of events for CP-even and CP-odd in each category
+		scale_to_sm_sig = kwargs.get("scale_to_sm_sig", "")
+		if scale_to_sm_sig==True:
+			if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
+				scale_factor *= 1.053
+			if "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
+				scale_factor *= 1.219
+			if "Vbf2D" in category and not ("WJCR" in category or "QCDCR" in category):
+				scale_factor *= 1.936
+
 
 		data_weight, mc_weight = self.projection(kwargs)
 
@@ -3531,6 +3552,19 @@ class Samples(samples.SamplesBase):
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("susy_ggh", 1.0)
+		# The following block is needed for final state CP studies.
+		# Due to lack of SUSY samples in boosted and vbf categories,
+		# the susy samples are manually rescaled in each category
+		# in order to have same number of events for CP-even and CP-odd in each category
+		scale_to_sm_sig = kwargs.get("scale_to_sm_sig", "")
+		if scale_to_sm_sig==True:
+			if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
+				scale_factor *= 1.053
+			if "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
+				scale_factor *= 1.219
+			if "Vbf2D" in category and not ("WJCR" in category or "QCDCR" in category):
+				scale_factor *= 1.936
+
 
 		data_weight, mc_weight = self.projection(kwargs)
 
