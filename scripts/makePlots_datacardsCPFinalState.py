@@ -244,7 +244,7 @@ if __name__ == "__main__":
 		"ggH_hww" : "hww_gg",
 		"qqH_hww" : "hww_qq",
 		"smHcpeven" : "httcpeven",
-		"susyHcpodd_ALT" : "susycpodd",
+		"susyHcpodd_ALT" : "susycpoddALT",
 	}
 	
 	category_replacements["0jet"] = "ZeroJet2D"
@@ -472,8 +472,7 @@ if __name__ == "__main__":
 	
 		for official_category in categories:
 			category = official2private(official_category, category_replacements)
-			#print "\t", category
-			
+			print "\t", category, " ", official_category
 
 			datacards_per_channel_category = finalstatecpstudiesdatacards.FinalStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			
@@ -724,6 +723,7 @@ if __name__ == "__main__":
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
+	sys.exit(0)
 	# call official script again with shapes that have just been created
 	datacards_module._call_command([
 			"MorphingSM2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --input_folder_tt {OUTPUT_SUFFIX}".format(
@@ -732,11 +732,10 @@ if __name__ == "__main__":
 			),
 			args.output_dir
 	])
-	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "shapes/", args.output_suffix)))
+	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/", args.output_suffix)))
 	sys.exit(0)
 	
 	#datacards.cb.PrintAll()
-	#datacards.cb.PrintProcs()
 	#init_cb.PrintProcs()
 	#sys.exit(0)
 	
