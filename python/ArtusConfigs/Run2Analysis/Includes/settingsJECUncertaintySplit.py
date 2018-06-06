@@ -18,7 +18,6 @@ class JECUncertaintySplit(dict):
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 0.0
 		else:
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 1.0
-
 		self["JetEnergyCorrectionSplitUncertaintyParameterNames"] = [
 			"AbsoluteFlavMap",
 			"AbsoluteMPFBias",
