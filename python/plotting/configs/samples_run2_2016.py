@@ -3400,7 +3400,14 @@ class Samples(samples.SamplesBase):
 		config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 		                  normalise_signal_to_one_pb, lumi=lumi*1.9, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
 		
+		# add the string "ALT" if using susycpoddALT method
+		#extra_string = ""
+		#scale_to_sm_sig = kwargs.get("scale_to_sm_sig", "")
+		#if scale_to_sm_sig==True:
+		#	extra_string = "ALT"
+
 		def final_nick(tmp_sample, tmp_mass, add_nick_suffix=True):
+			#return tmp_sample+str(kwargs.get("cp", ""))+extra_string+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
 			return tmp_sample+str(kwargs.get("cp", ""))+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
 
 		for index, mass in enumerate(additional_higgs_masses_for_shape+higgs_masses):
@@ -3459,7 +3466,8 @@ class Samples(samples.SamplesBase):
 	# to have same number of events for CPeven and CPodd.
 	# This is needed in order to perform a CPeven/CPodd hypothesis test.
 	def susycpoddALT(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, normalise_to_sm_xsec=True, scale_to_sm_sig=True, **kwargs):
-		config = self.susy( config, channel, category, weight, "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, scale_to_sm_sig=scale_to_sm_sig, cp="cpodd", stacks="susycpodd", **kwargs)
+		config = self.susy( config, channel, category, weight, "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, scale_to_sm_sig=scale_to_sm_sig, cp="cpoddALT", stacks="susycpoddALT", **kwargs)
+		#config = self.susy( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, scale_to_sm_sig=scale_to_sm_sig, cp="cpodd", stacks="susycpoddALT", **kwargs)
 		return config
 
 	# cp-mix state from SM samples
@@ -3483,7 +3491,9 @@ class Samples(samples.SamplesBase):
 		# the susy samples are manually rescaled in each category
 		# in order to have same number of events for CP-even and CP-odd in each category
 		scale_to_sm_sig = kwargs.get("scale_to_sm_sig", "")
+		#extra_string = ""
 		if scale_to_sm_sig==True:
+			#extra_string = "ALT"
 			if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 				scale_factor *= 1.053
 			if "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
@@ -3556,8 +3566,10 @@ class Samples(samples.SamplesBase):
 		# Due to lack of SUSY samples in boosted and vbf categories,
 		# the susy samples are manually rescaled in each category
 		# in order to have same number of events for CP-even and CP-odd in each category
+		#extra_string = ""
 		scale_to_sm_sig = kwargs.get("scale_to_sm_sig", "")
 		if scale_to_sm_sig==True:
+			#extra_string = "ALT"
 			if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 				scale_factor *= 1.053
 			if "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
