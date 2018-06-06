@@ -3400,14 +3400,8 @@ class Samples(samples.SamplesBase):
 		config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 		                  normalise_signal_to_one_pb, lumi=lumi*1.9, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
 		
-		# add the string "ALT" if using susycpoddALT method
-		#extra_string = ""
-		#scale_to_sm_sig = kwargs.get("scale_to_sm_sig", "")
-		#if scale_to_sm_sig==True:
-		#	extra_string = "ALT"
 
 		def final_nick(tmp_sample, tmp_mass, add_nick_suffix=True):
-			#return tmp_sample+str(kwargs.get("cp", ""))+extra_string+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
 			return tmp_sample+str(kwargs.get("cp", ""))+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
 
 		for index, mass in enumerate(additional_higgs_masses_for_shape+higgs_masses):
@@ -3490,10 +3484,7 @@ class Samples(samples.SamplesBase):
 		# Due to lack of SUSY samples in boosted and vbf categories,
 		# the susy samples are manually rescaled in each category
 		# in order to have same number of events for CP-even and CP-odd in each category
-		scale_to_sm_sig = kwargs.get("scale_to_sm_sig", "")
-		#extra_string = ""
-		if scale_to_sm_sig==True:
-			#extra_string = "ALT"
+		if kwargs.get("scale_to_sm_sig", "") == True:
 			if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 				scale_factor *= 1.053
 			if "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
@@ -3510,7 +3501,7 @@ class Samples(samples.SamplesBase):
 						config,
 						self.files_bbh(channel, str(int(mass)-5)) if int(mass)==125 else self.files_bbh(channel, mass),
 						self.root_file_folder(channel),
-						lumi*kwargs.get("scale_signal", 1.0),
+						scale_factor*kwargs.get("scale_signal", 1.0), #lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						"bbh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
@@ -3566,10 +3557,7 @@ class Samples(samples.SamplesBase):
 		# Due to lack of SUSY samples in boosted and vbf categories,
 		# the susy samples are manually rescaled in each category
 		# in order to have same number of events for CP-even and CP-odd in each category
-		#extra_string = ""
-		scale_to_sm_sig = kwargs.get("scale_to_sm_sig", "")
-		if scale_to_sm_sig==True:
-			#extra_string = "ALT"
+		if kwargs.get("scale_to_sm_sig", "") == True:
 			if "ZeroJet2D" in category and not ("WJCR" in category or "QCDCR" in category):
 				scale_factor *= 1.053
 			if "Boosted2D" in category and not ("WJCR" in category or "QCDCR" in category):
@@ -3586,7 +3574,7 @@ class Samples(samples.SamplesBase):
 						config,
 						self.files_susy_ggh(channel, str(int(mass)-5)) if int(mass)==125 else self.files_susy_ggh(channel, mass),
 						self.root_file_folder(channel),
-						lumi*kwargs.get("scale_signal", 1.0),
+						scale_factor*kwargs.get("scale_signal", 1.0), #lumi*kwargs.get("scale_signal", 1.0),
 						mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						"susy_ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
 						nick_suffix=nick_suffix
