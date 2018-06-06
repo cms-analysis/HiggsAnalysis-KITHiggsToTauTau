@@ -134,6 +134,11 @@ public:
 		SinglePionHCAL,
 		TimePtEta,
 		Total,
+		// Jet Energy Scale uncertainties grouped by eta
+		Eta0To5,
+		Eta0To3,
+		Eta3To5,
+		ClosureEta, // uncertainities grouped in eta added in quadrature to be compared to 'Total' for closure test 
 		Closure // individual uncertainties added in quadrature. to be compared to 'Total' for closure test
 	};
 
@@ -167,6 +172,10 @@ public:
 		else if (jetEnergyCorrectionUncertainty == "SinglePionHCAL") return JetEnergyUncertaintyShiftName::SinglePionHCAL;
 		else if (jetEnergyCorrectionUncertainty == "TimePtEta") return JetEnergyUncertaintyShiftName::TimePtEta;
 		else if (jetEnergyCorrectionUncertainty == "Total") return JetEnergyUncertaintyShiftName::Total;
+		else if (jetEnergyCorrectionUncertainty == "Eta0To5") return JetEnergyUncertaintyShiftName::Eta0To5;
+		else if (jetEnergyCorrectionUncertainty == "Eta0To3") return JetEnergyUncertaintyShiftName::Eta0To3;
+		else if (jetEnergyCorrectionUncertainty == "Eta3To5") return JetEnergyUncertaintyShiftName::Eta3To5;
+		else if (jetEnergyCorrectionUncertainty == "ClosureEta") return JetEnergyUncertaintyShiftName::ClosureEta;
 		else if (jetEnergyCorrectionUncertainty == "Closure") return JetEnergyUncertaintyShiftName::Closure;
 		else return JetEnergyUncertaintyShiftName::NONE;
 	}
@@ -196,4 +205,3 @@ public:
 		LOG(FATAL) << "You need to specify an implemented MET uncertainty in your config.";
 	};
 };
-

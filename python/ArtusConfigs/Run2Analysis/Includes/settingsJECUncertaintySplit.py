@@ -48,6 +48,40 @@ class JECUncertaintySplit(dict):
 			"SinglePionHCAL",
 			"TimePtEta",
 			"Total",
+			"ClosureEtaGrouping",
 			"Closure"
 		]
-
+		self["JetEnergyCorrectionSplitUncertaintyGroupings"] = {
+		"Eta0To5" :  [
+			"AbsoluteFlavMap",
+			"AbsoluteMPFBias",
+			"AbsoluteScale",
+			"AbsoluteStat",
+			"FlavorQCD",
+			"Fragmentation",
+			"PileUpDataMC",
+			"PileUpPtRef",		
+			"RelativeFSR",
+			"RelativeStatFSR",							
+			"SinglePionECAL",
+			"SinglePionHCAL",						
+			"TimePtEta"					
+			],
+		"Eta0To3" : [
+			"PileUpPtBB",
+			"PileUpPtEC1",
+			"PileUpPtEC2",
+			"RelativeJEREC1",
+			"RelativeJEREC2",
+			"RelativePtBB",		
+			"RelativePtEC1",
+			"RelativePtEC2",
+			"RelativeStatEC"							
+			],
+		"Eta3To5" : [
+			"PileUpPtHF",
+			"RelativeJERHF",			
+			"RelativePtHF",
+			"RelativeStatHF",
+			]
+		}

@@ -22,9 +22,17 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
 	
+	// load the uncertainties and individual uncertainty names from the config file.
+	// The configs are read in with support of the boost library and automatically created Get function (macros) 
+	// See Artus/Configuration/interface for more details.
+	// Definition in HiggsAnalysis/KITHiggsToTauTau/interface/HttSettings.h
 	uncertaintyFile = settings.GetJetEnergyCorrectionUncertaintyParameters();
 	individualUncertainties = settings.GetJetEnergyCorrectionSplitUncertaintyParameterNames();
-
+	uncertaintyGroupings = settings.GetJetEnergyCorrectionSplitUncertaintyGroupings();
+	// uncertaintiesGroupingsEta0To5 = settings.GetJetEnergyCorrectionSplitGroupingEta0To5();
+	// uncertaintiesGroupingsEta3To5 = settings.GetJetEnergyCorrectionSplitGroupingEta3To5();
+	// uncertaintiesGroupingsEta0To3 = settings.GetJetEnergyCorrectionSplitGroupingEta0To3();
+	
 	// make sure the necessary parameters are configured
 	assert(uncertaintyFile != "");
 	assert(individualUncertainties.size() > 0);
@@ -79,13 +87,15 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 	// settings used by the RecoJetGenParticleMatchingProducer
 	m_jetMatchingAlgorithm = RecoJetGenParticleMatchingProducer::ToJetMatchingAlgorithm(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetJetMatchingAlgorithm())));
 	
-
+	// For each uncertainty defined in JECUncertaintySplit
 	for (std::string const& uncertainty : individualUncertainties)
 	{
 		// only do string comparison once per uncertainty
 		HttEnumTypes::JetEnergyUncertaintyShiftName individualUncertainty = HttEnumTypes::ToJetEnergyUncertaintyShiftName(uncertainty);
+		
 		if (individualUncertainty == HttEnumTypes::JetEnergyUncertaintyShiftName::NONE)
 			continue;
+			
 		individualUncertaintyEnums.push_back(individualUncertainty);
 
 		// create uncertainty map (only if shifts are to be applied)
@@ -219,6 +229,7 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 	{
 		// shift copies of previously corrected jets
 		std::vector<double> closureUncertainty((product.m_correctedTaggedJets).size(), 0.);
+		std::vector<double> closureEtaUncertainty((product.m_correctedTaggedJets).size(), 0.);
 		for (HttEnumTypes::JetEnergyUncertaintyShiftName const& uncertainty : individualUncertaintyEnums)
 		{
 
@@ -364,4 +375,3 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 		}
 	}
 }
-

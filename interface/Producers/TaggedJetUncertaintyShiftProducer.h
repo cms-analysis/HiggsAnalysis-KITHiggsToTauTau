@@ -30,6 +30,7 @@ public:
 private:
 	std::string uncertaintyFile;
 	std::vector<std::string> individualUncertainties;
+	std::map<std::string, std::vector<std::string>> uncertaintyGroupings;
 	std::vector<HttEnumTypes::JetEnergyUncertaintyShiftName> individualUncertaintyEnums;
 
 	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, JetCorrectionUncertainty*> jetUncMap;
@@ -55,4 +56,3 @@ private:
 	                  std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>>& correctedJetsBySplitUncertainty,
 	                  std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>>& correctedBTaggedJetsBySplitUncertainty) const;
 };
-
