@@ -279,11 +279,7 @@ class DatacardConfigs(object):
 		return process.replace(tmp_process, self._mapping_process2sample.get(tmp_process, tmp_process))
 
 	def sample2process(self, sample):
-		print "888888 ", sample
 		tmp_sample = re.match("(?P<sample>[^0-9]*).*", sample).groupdict().get("sample", "")
-		print "111111 ", tmp_sample
-		for item in self._mapping_process2sample.iteritems():
-			print "77777 ", dict([reversed(item)]).get(tmp_sample, tmp_sample)
 		return sample.replace(tmp_sample, dict([reversed(item) for item in self._mapping_process2sample.iteritems()]).get(tmp_sample, tmp_sample))
 
 	def category2binid(self, category, channel="default"):
