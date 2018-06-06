@@ -259,7 +259,8 @@ class et_ArtusConfig(dict):
 			quantities_dict["Quantities"] += quantities_dict.genQuantities()
 			
 			quantities_dict["Quantities"] += [
-					"tauSpinnerPolarisation"
+				"tauSpinnerValidOutputs",
+				"tauSpinnerPolarisation",
 			]
 
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
@@ -272,14 +273,16 @@ class et_ArtusConfig(dict):
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 
 			quantities_dict["Quantities"] += [
-				"tauSpinnerPolarisation"
+				"tauSpinnerValidOutputs",
+				"tauSpinnerPolarisation",
 			]
 
 
 		elif re.search("Embedding2016", nickname):
 			
 			quantities_dict["Quantities"] += [
-				"tauSpinnerPolarisation"
+				"tauSpinnerValidOutputs",
+				"tauSpinnerPolarisation",
 			]
 
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):

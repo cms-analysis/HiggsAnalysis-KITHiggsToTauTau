@@ -81,4 +81,13 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 			neg_reco_scale_factor = scale_factors.get_scale_factor_negpol()
 			plotData.plotdict["root_objects"][ztt_neg_pol_reco_result_nick].Scale(neg_reco_scale_factor.nominal_value)
 			log.debug("Scaled histogram \"{nick}\" by a factor of {factor}".format(nick=ztt_neg_pol_reco_result_nick, factor=neg_reco_scale_factor))
+			
+			if log.isEnabledFor(logging.DEBUG):
+				reco_polarisation_before_scaling = (pos_reco_norm - neg_reco_norm) / (pos_reco_norm + neg_reco_norm)
+				reco_polarisation_after_scaling = (pos_reco_norm*pos_reco_scale_factor - neg_reco_norm*neg_reco_scale_factor) / (pos_reco_norm*pos_reco_scale_factor + neg_reco_norm*neg_reco_scale_factor)
+				log.debug("Tau polarisation changed from {before} to {after}.".format(before=reco_polarisation_before_scaling, after=reco_polarisation_after_scaling))
+				
+				# gen_polarisation_before_scaling = (pos_gen_norm - neg_gen_norm) / (pos_gen_norm + neg_gen_norm)
+				# gen_polarisation_after_scaling = (pos_gen_norm*pos_reco_scale_factor - neg_gen_norm*neg_reco_scale_factor) / (pos_gen_norm*pos_reco_scale_factor + neg_gen_norm*neg_reco_scale_factor)
+				# log.debug("Tau polarisation changed from {before} to {after} (on GEN level).".format(before=gen_polarisation_before_scaling, after=gen_polarisation_after_scaling))
 
