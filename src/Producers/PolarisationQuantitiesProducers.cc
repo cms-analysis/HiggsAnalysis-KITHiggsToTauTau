@@ -2,7 +2,6 @@
 #include "DataFormats/TauReco/interface/PFTau.h"
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
-#include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/Utility/interface/SafeMap.h"
 #include "Artus/Utility/interface/Utility.h"
 
@@ -118,7 +117,6 @@ void PolarisationQuantitiesProducerBase::Produce(
 			}
 		}
 		
-
 		if (inputs.back().size() > 0)
 		{
 			TauPolInterface singleTauPolInterface(inputs.back(), types.back(), charges.back());
@@ -449,3 +447,264 @@ std::string PolarisationQuantitiesHHKinFitProducer::GetProducerId() const
 	return "PolarisationQuantitiesHHKinFitProducer";
 }
 */
+
+
+std::string GenPolarisationQuantitiesProducer::GetProducerId() const
+{
+	return "GenPolarisationQuantitiesProducer";
+}
+
+void GenPolarisationQuantitiesProducer::Init(setting_type const& settings, metadata_type& metadata)
+{
+	ProducerBase<HttTypes>::Init(settings, metadata);
+	
+	// add possible quantities for the lambda ntuples consumers
+	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
+	{
+		std::string namePostfix = "Gen_" + std::to_string(leptonIndex+1);
+		
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmega"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
+			if ((product.m_genLeptonsFromBosonDecay.size() > leptonIndex) &&
+			    (std::abs(product.m_genLeptonsFromBosonDecay.at(leptonIndex)->pdgId) == DefaultValues::pdgIdTau))
+			{
+				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(leptonIndex), static_cast<KGenTau*>(nullptr));
+				return SafeMap::GetWithDefault(product.m_polarisationOmegasGen, genTau, DefaultValues::UndefinedFloat);
+			}
+			else
+			{
+				return DefaultValues::UndefinedFloat;
+			}
+		});
+		
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaBar"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
+			if ((product.m_genLeptonsFromBosonDecay.size() > leptonIndex) &&
+			    (std::abs(product.m_genLeptonsFromBosonDecay.at(leptonIndex)->pdgId) == DefaultValues::pdgIdTau))
+			{
+				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(leptonIndex), static_cast<KGenTau*>(nullptr));
+				return SafeMap::GetWithDefault(product.m_polarisationOmegaBarsGen, genTau, DefaultValues::UndefinedFloat);
+			}
+			else
+			{
+				return DefaultValues::UndefinedFloat;
+			}
+		});
+		
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaVisible"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
+			if ((product.m_genLeptonsFromBosonDecay.size() > leptonIndex) &&
+			    (std::abs(product.m_genLeptonsFromBosonDecay.at(leptonIndex)->pdgId) == DefaultValues::pdgIdTau))
+			{
+				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, product.m_genLeptonsFromBosonDecay.at(leptonIndex), static_cast<KGenTau*>(nullptr));
+				return SafeMap::GetWithDefault(product.m_polarisationOmegaVisiblesGen, genTau, DefaultValues::UndefinedFloat);
+			}
+			else
+			{
+				return DefaultValues::UndefinedFloat;
+			}
+		});
+	}
+	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaGen", [this](event_type const& event, product_type const& product) {
+		return product.m_polarisationCombinedOmegaGen;
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaBarGen", [this](event_type const& event, product_type const& product) {
+		return product.m_polarisationCombinedOmegaBarGen;
+	});
+	
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaVisibleGen", [this](event_type const& event, product_type const& product) {
+		return product.m_polarisationCombinedOmegaVisibleGen;
+	});
+}
+
+void GenPolarisationQuantitiesProducer::Produce(
+		event_type const& event,
+		product_type& product,
+		setting_type const& settings, metadata_type const& metadata
+) const
+{
+	assert(product.m_genLeptonsFromBosonDecay.size() > 1);
+	
+	std::vector<std::vector<TLorentzVector> > inputs;
+	std::vector<std::string> types;
+	std::vector<int> charges;
+	
+	for (std::vector<KGenParticle*>::iterator lepton = product.m_genLeptonsFromBosonDecay.begin();
+		 lepton != product.m_genLeptonsFromBosonDecay.end(); ++lepton)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, *lepton, static_cast<KGenTau*>(nullptr));
+		if (genTau != nullptr)
+		{
+			if (genTau->genDecayMode() < 0)
+			{
+				inputs.push_back(GetInputLepton(event, *lepton));
+				types.push_back("lepton");
+				charges.push_back(genTau->charge());
+			}
+			else if (genTau->genDecayMode() == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero)
+			{
+				inputs.push_back(GetInputA1(event, *lepton));
+				types.push_back("a1");
+				charges.push_back(genTau->charge());
+			}
+			else if (genTau->genDecayMode() == reco::PFTau::hadronicDecayMode::kOneProng1PiZero)
+			{
+				inputs.push_back(GetInputRho(event, *lepton));
+				types.push_back("rho");
+				charges.push_back(genTau->charge());
+			}
+			else if (genTau->genDecayMode() == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero)
+			{
+				inputs.push_back(GetInputPion(event, *lepton));
+				types.push_back("pion");
+				charges.push_back(genTau->charge());
+			}
+			
+			if ((inputs.size() > 0) && (inputs.back().size() > 0))
+			{
+				TauPolInterface singleTauPolInterface(inputs.back(), types.back(), charges.back());
+				if (singleTauPolInterface.isConfigured())
+				{
+					product.m_polarisationOmegasGen[genTau] = singleTauPolInterface.getOmega();
+					product.m_polarisationOmegaBarsGen[genTau] = singleTauPolInterface.getOmegabar();
+					product.m_polarisationOmegaVisiblesGen[genTau] = singleTauPolInterface.getVisibleOmega();
+				}
+			}
+		}
+	}
+	
+	if ((inputs.size() > 1) && (inputs.at(0).size() > 0) && (inputs.at(1).size() > 0))
+	{
+		TauPolInterface diTauPolInterface(inputs.at(0), types.at(0), inputs.at(1), types.at(1), charges.at(0), charges.at(1));
+		if (diTauPolInterface.isPairConfigured())
+		{
+			product.m_polarisationCombinedOmegaGen = diTauPolInterface.getCombOmega();
+			product.m_polarisationCombinedOmegaBarGen = diTauPolInterface.getCombOmegaBar();
+			product.m_polarisationCombinedOmegaVisibleGen = diTauPolInterface.getCombVisibleOmega();
+		}
+	}
+}
+
+std::vector<TLorentzVector> GenPolarisationQuantitiesProducer::GetInputLepton(event_type const& event, KGenParticle* genTauParticle) const
+{
+	std::vector<TLorentzVector> input;
+	
+	input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauParticle->p4));
+	
+	std::vector<KGenParticle*> finalStateParticles;
+	GetFinalStates(event.m_genParticles, genTauParticle, finalStateParticles);
+	input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(finalStateParticles.at(0)->p4));
+	
+	return input;
+}
+
+std::vector<TLorentzVector> GenPolarisationQuantitiesProducer::GetInputPion(event_type const& event, KGenParticle* genTauParticle) const
+{
+	std::vector<TLorentzVector> input;
+	
+	input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauParticle->p4));
+	
+	std::vector<KGenParticle*> finalStateParticles;
+	GetFinalStates(event.m_genParticles, genTauParticle, finalStateParticles);
+	input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(finalStateParticles.at(0)->p4));
+	
+	return input;
+}
+
+std::vector<TLorentzVector> GenPolarisationQuantitiesProducer::GetInputRho(event_type const& event, KGenParticle* genTauParticle) const
+{
+	std::vector<TLorentzVector> input;
+	
+	input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauParticle->p4));
+	
+	std::vector<KGenParticle*> finalStateParticles;
+	GetFinalStates(event.m_genParticles, genTauParticle, finalStateParticles);
+	if (std::abs(finalStateParticles.at(0)->charge()) > 0.1)
+	{
+		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(finalStateParticles.at(0)->p4));
+		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(finalStateParticles.at(1)->p4));
+	}
+	else
+	{
+		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(finalStateParticles.at(1)->p4));
+		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(finalStateParticles.at(0)->p4));
+	}
+	
+	return input;
+}
+
+std::vector<TLorentzVector> GenPolarisationQuantitiesProducer::GetInputA1(event_type const& event, KGenParticle* genTauParticle) const
+{
+	std::vector<TLorentzVector> input;
+	
+	input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauParticle->p4));
+	
+	std::vector<KGenParticle*> finalStateParticles;
+	GetFinalStates(event.m_genParticles, genTauParticle, finalStateParticles);
+	
+	// sort pions from a1 decay according to their charge
+	RMFLV* piSingleChargeSign = nullptr;
+	RMFLV* piDoubleChargeSign1 = nullptr;
+	RMFLV* piDoubleChargeSign2 = nullptr;
+	if ((finalStateParticles.at(0)->charge() * finalStateParticles.at(1)->charge()) > 0.0)
+	{
+		piSingleChargeSign = &(finalStateParticles.at(2)->p4);
+		piDoubleChargeSign1 = &(finalStateParticles.at(0)->p4);
+		piDoubleChargeSign2 = &(finalStateParticles.at(1)->p4);
+	}
+	else if ((finalStateParticles.at(0)->charge() * finalStateParticles.at(2)->charge()) > 0.0)
+	{
+		piSingleChargeSign = &(finalStateParticles.at(1)->p4);
+		piDoubleChargeSign1 = &(finalStateParticles.at(0)->p4);
+		piDoubleChargeSign2 = &(finalStateParticles.at(2)->p4);
+	}
+	else // if ((finalStateParticles.at(1)->charge() * finalStateParticles.at(2)->charge()) > 0.0)
+	{
+		piSingleChargeSign = &(finalStateParticles.at(0)->p4);
+		piDoubleChargeSign1 = &(finalStateParticles.at(1)->p4);
+		piDoubleChargeSign2 = &(finalStateParticles.at(2)->p4);
+	}
+	
+	input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piSingleChargeSign));
+	input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piDoubleChargeSign1));
+	input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piDoubleChargeSign2));
+	
+	return input;
+}
+
+// recursive function to create a vector of final states particles
+std::vector<KGenParticle*> GenPolarisationQuantitiesProducer::GetFinalStates(
+		KGenParticles* genParticles,
+		KGenParticle* currentGenParticle,
+		std::vector<KGenParticle*>& resultVector,
+		std::vector<int> const& validPdgIds) const
+{
+	int pdgId = currentGenParticle->pdgId;
+	if (Utility::Contains(validPdgIds, std::abs(pdgId)))
+	{
+		// decend to last stage with given particles
+		std::vector<KGenParticle*> nextStageResultVector;
+		for (std::vector<unsigned int>::iterator daughterIndex = currentGenParticle->daughterIndices.begin();
+		     daughterIndex != currentGenParticle->daughterIndices.end(); ++daughterIndex)
+		{
+			GetFinalStates(genParticles, &(genParticles->at(*daughterIndex)), nextStageResultVector, validPdgIds);
+		}
+		if (nextStageResultVector.empty())
+		{
+			resultVector.push_back(currentGenParticle);
+		}
+		else
+		{
+			resultVector.insert(resultVector.end(), nextStageResultVector.begin(), nextStageResultVector.end());
+		}
+	}
+	else
+	{
+		for (std::vector<unsigned int>::iterator daughterIndex = currentGenParticle->daughterIndices.begin();
+		     daughterIndex != currentGenParticle->daughterIndices.end(); ++daughterIndex)
+		{
+			GetFinalStates(genParticles, &(genParticles->at(*daughterIndex)), resultVector, validPdgIds);
+		}
+	}
+	return resultVector;
+}
+
