@@ -107,15 +107,14 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	
 		//TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 		// otherwise the weights are set to 1
+		//LOG(ERROR) << "std::abs(selectedTau1.m_genParticle->pdgId) = " << std::abs(selectedTau1.m_genParticle->pdgId);
+		//LOG(ERROR) << "std::abs(selectedTau2.m_genParticle->pdgId) = " << std::abs(selectedTau2.m_genParticle->pdgId);
+		//LOG(ERROR) << "DefaultValues::pdgIdTau = " << DefaultValues::pdgIdTau;
 		if ((std::abs(selectedTau1.m_genParticle->pdgId) == DefaultValues::pdgIdTau) && (std::abs(selectedTau2.m_genParticle->pdgId) == DefaultValues::pdgIdTau))
 		{
 			TauSpinner::SimpleParticle boson = GetSimpleParticle(product.m_genBosonLV, settings.GetBosonPdgIds()[0]);
-			std::vector<TauSpinner::SimpleParticle> tmpTau1;
-			GetFinalStates(selectedTau1, tmpTau1, {DefaultValues::pdgIdTau});
-			TauSpinner::SimpleParticle tau1 = tmpTau1.at(0);
-			std::vector<TauSpinner::SimpleParticle> tmpTau2;
-			GetFinalStates(selectedTau2, tmpTau2, {DefaultValues::pdgIdTau});
-			TauSpinner::SimpleParticle tau2 = tmpTau2.at(0);
+			TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_genParticle->p4, selectedTau1.m_genParticle->pdgId);
+			TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_genParticle->p4, selectedTau2.m_genParticle->pdgId);
 			std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
 			GetFinalStates(selectedTau1, tauFinalStates1);
 			std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
