@@ -221,9 +221,9 @@ std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
 	{
 		// decend to last stage with given particles
 		std::vector<TauSpinner::SimpleParticle> nextStageResultVector;
-		for (unsigned int index = 0; index < currentParticle.m_daughters.size(); ++index)
+		for (unsigned int daughterIndex = 0; daughterIndex < currentParticle.m_daughters.size(); ++daughterIndex)
 		{
-			GetFinalStates(currentParticle.m_daughters[index], nextStageResultVector, validPdgIds);
+			GetFinalStates(currentParticle.m_daughters[daughterIndex], nextStageResultVector, validPdgIds);
 		}
 		if (nextStageResultVector.empty())
 		{
@@ -236,9 +236,9 @@ std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
 	}
 	else
 	{
-		for (unsigned int index = 0; index < currentParticle.m_daughters.size(); ++index)
+		for (unsigned int daughterIndex = 0; daughterIndex < currentParticle.m_daughters.size(); ++daughterIndex)
 		{
-			GetFinalStates(currentParticle.m_daughters[index], resultVector, validPdgIds);
+			GetFinalStates(currentParticle.m_daughters[daughterIndex], resultVector, validPdgIds);
 		}
 	}
 	return resultVector;
