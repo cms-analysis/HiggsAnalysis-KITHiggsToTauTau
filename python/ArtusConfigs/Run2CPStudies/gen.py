@@ -43,6 +43,11 @@ class gen_ArtusConfig(dict):
 		quantities_dict = quantities.quantities() 
 		
 		quantities_dict["Quantities"] += quantities_dict.weightQuantities()
+		quantities_dict["Quantities"] += [
+			"run",
+			"lumi",
+			"event",
+		]
 
 
 		if re.search("DY.?JetsToLL",nickname):
