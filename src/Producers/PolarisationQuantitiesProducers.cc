@@ -534,32 +534,38 @@ void GenPolarisationQuantitiesProducer::Produce(
 		KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, *lepton, static_cast<KGenTau*>(nullptr));
 		if (genTau != nullptr)
 		{
+			bool tauWithSearchedDMFound = false;
+			
 			if (genTau->genDecayMode() < 0)
 			{
 				inputs.push_back(GetInputLepton(event, *lepton));
 				types.push_back("lepton");
 				charges.push_back(genTau->charge());
+				tauWithSearchedDMFound = true;
 			}
 			else if (genTau->genDecayMode() == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero)
 			{
 				inputs.push_back(GetInputA1(event, *lepton));
 				types.push_back("a1");
 				charges.push_back(genTau->charge());
+				tauWithSearchedDMFound = true;
 			}
 			else if (genTau->genDecayMode() == reco::PFTau::hadronicDecayMode::kOneProng1PiZero)
 			{
 				inputs.push_back(GetInputRho(event, *lepton));
 				types.push_back("rho");
 				charges.push_back(genTau->charge());
+				tauWithSearchedDMFound = true;
 			}
 			else if (genTau->genDecayMode() == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero)
 			{
 				inputs.push_back(GetInputPion(event, *lepton));
 				types.push_back("pion");
 				charges.push_back(genTau->charge());
+				tauWithSearchedDMFound = true;
 			}
 			
-			if ((inputs.size() > 0) && (inputs.back().size() > 0))
+			if (tauWithSearchedDMFound && (inputs.back().size() > 0))
 			{
 				TauPolInterface singleTauPolInterface(inputs.back(), types.back(), charges.back());
 				if (singleTauPolInterface.isConfigured())
