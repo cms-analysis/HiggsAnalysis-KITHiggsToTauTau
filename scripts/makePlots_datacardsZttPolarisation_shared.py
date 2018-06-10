@@ -311,7 +311,7 @@ if __name__ == "__main__":
 	print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
 
 	BinErrorsAndBBB(datacards, 0.1, 0.5, True)
-	#datacards.cb.SetGroup("syst_plus_bbb", [".*"])
+	datacards.cb.SetGroup("syst_plus_bbb", [".*"])
 	
 	if args.use_asimov_dataset:
 		datacards = use_asimov_dataset(datacards)
