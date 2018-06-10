@@ -58,6 +58,24 @@ def create_input_root_files(datacards, args):
 	expression_settings = expressions.ExpressionsDict()
 	binnings_settings = binnings.BinningsDict()
 	systematics_factory = systematics.SystematicsFactory()
+	
+	datacards.configs._mapping_process2sample = {
+		"data_obs" : "data",
+		"EWKZ" : "ewkz",
+		"QCD" : "qcd",
+		"TT" : "ttj",
+		"TTT" : "ttt",
+		"TTJ" : "ttj",
+		"VV" : "vv",
+		"VVT" : "vvt",
+		"VVJ" : "vvj",
+		"W" : "wj",
+		"ZJ" : "zj",
+		"ZL" : "zl",
+		"ZLL" : "zll",
+		"ZTTPOSPOL" : "zttpospol",
+		"ZTTNEGPOL" : "zttnegpol",
+	}
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 
@@ -78,6 +96,10 @@ def create_input_root_files(datacards, args):
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
+				if ("wj" in list_of_samples) and not ("qcd" in list_of_samples):
+					list_of_samples.append("qcd")
+				elif ("qcd" in list_of_samples) and not ("wj" in list_of_samples):
+					list_of_samples.append("wj")
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
