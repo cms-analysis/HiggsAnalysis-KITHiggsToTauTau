@@ -323,11 +323,11 @@ if __name__ == "__main__":
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	datacard_filename_templates = []
 	if "individual" in args.combinations:
-		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
+		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BIN}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
 	if "channel" in args.combinations:
 		datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
 	if "category" in args.combinations:
-		datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
+		datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BIN}_${ERA}.txt")
 	if "combined" in args.combinations:
 		datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")
 
