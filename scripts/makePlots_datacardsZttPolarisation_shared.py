@@ -59,6 +59,24 @@ def create_input_root_files(datacards, args):
 	binnings_settings = binnings.BinningsDict()
 	systematics_factory = systematics.SystematicsFactory()
 
+	datacards.configs._mapping_process2sample = {
+			"data_obs" : "data",
+			"EWKZ" : "ewkz",
+			"QCD" : "qcd",
+			"TT" : "ttj",
+			"TTT" : "ttt",
+			"TTJ" : "ttj",
+			"VV" : "vv",
+			"VVT" : "vvt",
+			"VVJ" : "vvj",
+			"W" : "wj",
+			"ZJ" : "zj",
+			"ZL" : "zl",
+			"ZLL" : "zll",
+			"ZTTPOSPOL" : "zttpospol",
+			"ZTTNEGPOL" : "zttnegpol",
+	}
+
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 
 		for category in categories:
