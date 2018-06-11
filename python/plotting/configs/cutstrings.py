@@ -522,7 +522,7 @@ class CutStringsDict:
 			cuts = {}
 		else:
 			cuts = CutStringsDict.baseline(channel, cut_type)
-			cuts["m_vis"] = "((m_vis > 40.0) * (m_vis < 130.0))"
+			cuts["m_vis"] = "((m_vis > 40.0) * (m_vis < 85.0))"
 
 		return cuts
 
