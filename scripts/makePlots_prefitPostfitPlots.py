@@ -201,6 +201,7 @@ if __name__ == "__main__":
 			
 			if "NormalizeByBinWidth" not in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("NormalizeByBinWidth")
+				config.setdefault("histograms_to_normalize_by_binwidth", []).extend(list(set(config["nicks"])))
 			
 			config["x_label"] = "Discriminator"
 			if args.polarisation:
