@@ -500,22 +500,46 @@ class BinningsDict(binnings.BinningsDict):
 		for channel in ["mt", "et", "tt", "em"]:
 			for category in ["inclusive","a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2", "oneprong", "oneprong_1", "oneprong_2", "combined_a1_a1", "combined_a1_rho", "combined_a1_oneprong", "combined_rho_rho", "combined_rho_oneprong", "combined_oneprong_oneprong"]:
 				
-				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category] = "25,-1.001,1.001"
-				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_m_vis"] = "25,40,85"
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category] = "32,-1.001,1.001"
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_m_vis"] = "35,30,100" if channel=="em" else "35,40,110"
 				
 				for reco_fit in ["GenMatched", "Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
-					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmega"+reco_fit] = "25,-1.001,1.001"
-					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaBar"+reco_fit] = "25,-1.001,1.001"
-					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaVisible"+reco_fit] = "25,-1.001,1.001"
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmega"+reco_fit] = "32,-1.001,1.001"
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaBar"+reco_fit] = "32,-1.001,1.001"
+					self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationCombinedOmegaVisible"+reco_fit] = "32,-1.001,1.001"
 					for lepton_index in ["1", "2"]:
-						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "25,-1.001,1.001"
-						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "25,-1.001,1.001"
-						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaVisible"+reco_fit+"_"+lepton_index] = "25,-1.001,1.001"
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "32,-1.001,1.001"
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "32,-1.001,1.001"
+						self.binnings_dict["binningZttPol13TeV_"+channel+"_"+category+"_polarisationOmegaVisible"+reco_fit+"_"+lepton_index] = "32,-1.001,1.001"
 		
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_a1"] = self.binnings_dict[channel+"_visibleOverFullEnergy"] # TODO change to dedicated a1 variable
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_rho"] = self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry"]
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong"] = self.binnings_dict[channel+"_visibleOverFullEnergy"]
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_catZttPol13TeV_"+channel+"_index"] = "3,0,3"
+		
+		for channel in ["mt", "et"]:
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_polarisationCombinedOmegaBarSvfit"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.28, 1.001, 0.04))]).replace("1.0", "1.001")
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_polarisationCombinedOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.2, 1.001, 0.0375))]).replace("1.0", "1.001")
+		
+		for channel in ["tt"]:
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_a1_a1_m_vis"] = "14,40,110"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_m_vis"] = "14,40,110"
+		
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_a1_a1_polarisationCombinedOmegaBarSvfit"] = "16,-1.001,1.001"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_a1_rho_polarisationCombinedOmegaBarSvfit"] = "24,-1.001,1.001"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_a1_oneprong_polarisationCombinedOmegaBarSvfit"] = "24,-1.001,1.001"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_rho_rho_polarisationCombinedOmegaBarSvfit"] = "24,-1.001,1.001"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_rho_oneprong_polarisationCombinedOmegaBarSvfit"] = "24,-1.001,1.001"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_polarisationCombinedOmegaBarSvfit"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(0.5, 0.799, 0.1))+list(numpy.arange(0.8, 1.001, 0.05))]).replace("1.0", "1.001")
+		
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_a1_a1_polarisationCombinedOmegaBarSvfitM91"] = "16,-1.001,1.001"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_a1_rho_polarisationCombinedOmegaBarSvfitM91"] = "24,-1.001,1.001"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_a1_oneprong_polarisationCombinedOmegaBarSvfitM91"] = "24,-1.001,1.001"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_rho_rho_polarisationCombinedOmegaBarSvfitM91"] = "24,-1.001,1.001"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_rho_oneprong_polarisationCombinedOmegaBarSvfitM91"] = "24,-1.001,1.001"
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_polarisationCombinedOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(0.1, 1.001, 0.05))]).replace("1.0", "1.001")
+		
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_rho_rho_polarisationCombinedOmegaVisibleSvfit"] = "24,-1.001,1.001"
 		
 		# H->tautau binnings
 		for channel in ["mt", "et", "em", "tt", "mm"]:
