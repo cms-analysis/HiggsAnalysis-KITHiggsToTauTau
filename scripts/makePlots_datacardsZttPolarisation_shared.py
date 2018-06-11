@@ -58,24 +58,6 @@ def create_input_root_files(datacards, args):
 	expression_settings = expressions.ExpressionsDict()
 	binnings_settings = binnings.BinningsDict()
 	systematics_factory = systematics.SystematicsFactory()
-	
-	datacards.configs._mapping_process2sample = {
-		"data_obs" : "data",
-		"EWKZ" : "ewkz",
-		"QCD" : "qcd",
-		"TT" : "ttj",
-		"TTT" : "ttt",
-		"TTJ" : "ttj",
-		"VV" : "vv",
-		"VVT" : "vvt",
-		"VVJ" : "vvj",
-		"W" : "wj",
-		"ZJ" : "zj",
-		"ZL" : "zl",
-		"ZLL" : "zll",
-		"ZTTPOSPOL" : "zttpospol",
-		"ZTTNEGPOL" : "zttnegpol",
-	}
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 
@@ -141,12 +123,44 @@ def create_input_root_files(datacards, args):
 					
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 
+					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
+
+					x_expression = None
+					if args.quantity:
+						x_expression = args.quantity
+					else:
+						x_expression = "testZttPol13TeV_"+category
+						if args.omega_version:
+							x_expression = expression_settings.expressions_dict[x_expression].replace("BarSvfit", args.omega_version)
+					if args.fixed_variables == True:
+						if channel == "tt":
+							x_expression = "testZttPol13TeV_"+category
+						else:
+							x_expression = "m_vis"
+					
 					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 
 					binnings_key = "binningZttPol13TeV_"+category+(("_"+args.quantity) if args.quantity else "")
 					if binnings_key in binnings_settings.binnings_dict:
-						config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
-
+						if args.fixed_variables:
+							if channel == "tt":
+								config["x_bins"] = ["binningZttPol13TeV_"+category for nick in config["nicks"]]
+							else:
+								config["x_bins"] = ["binningZttPol13TeV_"+category+"_m_vis"]
+						else:
+							config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
+					
+					if args.fixed_binning:
+						if args.fixed_variables:
+							if channel == "tt":
+								config["x_bins"] = [args.fixed_binning.split(",")[0] + ",-1.0001,1.0001" for nick in config["nicks"]]
+							else:
+								config["x_bins"] = [args.fixed_binning for nick in config["nicks"]] 
+						else:
+							config["x_bins"] = [args.fixed_binning for nick in config["nicks"]] 
+					
+					print OKBLUE , channel, config["x_bins"][0], ENDC
+					
 					config["directories"] = [args.input_dir]
 
 					histogram_name_template = "${BIN}/${PROCESS}" if nominal else "${BIN}/${PROCESS}_${SYSTEMATIC}"
@@ -268,6 +282,10 @@ if __name__ == "__main__":
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="datacards",
 	                    help="Publish plots. [Default: %(default)s]")
+	parser.add_argument("--fixed-variables", default=False, action="store_true",
+						help="Takes m_vis in all but the tt_combined as seperating variable")
+	parser.add_argument("--fixed-binning", default = False,
+						help="Use a fixed given binning.")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
