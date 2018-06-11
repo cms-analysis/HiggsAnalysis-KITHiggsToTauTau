@@ -291,6 +291,9 @@ if __name__ == "__main__":
 		asimov_nicks = copy.deepcopy(args.samples if len(args.use_asimov_dataset) == 0 else args.use_asimov_dataset)
 		if "data" in asimov_nicks:
 			asimov_nicks.remove("data")
+	
+	if args.polarisation:
+		args.no_ewkz_as_dy = True
 
 	if args.run1 and (args.emb or args.ttbar_retuned):
 			log.critical("Embedding --emb and --ttbar-retuned only valid for run2. Remove --emb and --tbar-retuned or select run2 samples.")
