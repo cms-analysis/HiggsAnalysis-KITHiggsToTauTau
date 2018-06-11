@@ -65,7 +65,7 @@ def create_input_root_files(datacards, args):
 			"QCD" : "qcd",
 			"TT" : "ttj",
 			"TTT" : "ttt",
-			"TTJ" : "ttj",
+			"TTJ" : "ttjj",
 			"VV" : "vv",
 			"VVT" : "vvt",
 			"VVJ" : "vvj",
