@@ -296,7 +296,8 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		
 		# ttbar control region
 		self.expressions_dict["catHtt13TeV_ttbar_TTbarCR"] = "(pZetaMissVis < -35.0)*(m_vis>90.0)*(njetspt30>0)"
-		self.expressions_dict["catHtt13TeV_ttbar_ttbar_cr"] = self.expressions_dict["catHtt13TeV_ttbar_TTbarCR"]
+		self.expressions_dict["catHtt13TeV_ttbar_ttbar_cr"] = self.expressions_dict["catHtt13TeV_ttbar_TTbarCR"]		
+		self.expressions_dict["catHtt13TeV_em_ttbar"] = self.expressions_dict["catHtt13TeV_ttbar_TTbarCR"]		
 		
 		# CP initial state category
 		for channel in ["em", "et", "mt", "tt"]:
