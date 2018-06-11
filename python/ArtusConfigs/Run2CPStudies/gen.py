@@ -43,18 +43,31 @@ class gen_ArtusConfig(dict):
 		quantities_dict = quantities.quantities() 
 		
 		quantities_dict["Quantities"] += quantities_dict.weightQuantities()
-
-
-		if re.search("DY.?JetsToLL",nickname):
+		quantities_dict["Quantities"] += [
+			"run",
+			"lumi",
+			"event",
+		]
+		
+		if re.search("DY.?JetsToLL", nickname):
 			quantities_dict["Quantities"] += quantities_dict.genQuantities()
 			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()
 			quantities_dict["Quantities"] += quantities_dict.genQuantitiesZ()
 			quantities_dict["Quantities"] += [
 				"tauSpinnerValidOutputs",
 				"tauSpinnerPolarisation",
+				"polarisationOmegaGen_1",
+				"polarisationOmegaGen_2",
+				"polarisationOmegaBarGen_1",
+				"polarisationOmegaBarGen_2",
+				"polarisationOmegaVisibleGen_1",
+				"polarisationOmegaVisibleGen_2",
+				"polarisationCombinedOmegaGen",
+				"polarisationCombinedOmegaBarGen",
+				"polarisationCombinedOmegaVisibleGen",
 			]
 
-		elif re.search("LFV",nickname):
+		elif re.search("LFV", nickname):
 			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()  
 			quantities_dict["Quantities"] += quantities_dict.genQuantitiesZ()
 
@@ -92,6 +105,10 @@ class gen_ArtusConfig(dict):
 				"producer:ValidTaggedJetsProducer",
 				"#producer:ValidBTaggedJetsProducer",
 				"producer:DiJetQuantitiesProducer"
+			]
+		elif re.search("DY.?JetsToLL", nickname):
+			self["Processors"] = [
+				"producer:GenPolarisationQuantitiesProducer",
 			]
 		else:
 			self["Processors"] = []

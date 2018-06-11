@@ -3,6 +3,8 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
+#include "Artus/Utility/interface/DefaultValues.h"
+
 #include <TLorentzVector.h>
 
 
@@ -84,3 +86,39 @@ public:
 	virtual std::string GetProducerId() const override;
 };
 */
+
+
+class GenPolarisationQuantitiesProducer: public ProducerBase<HttTypes> {
+public:
+	
+	virtual std::string GetProducerId() const override;
+	
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
+
+	virtual void Produce(event_type const& event, product_type& product,
+	                     setting_type const& settings, metadata_type const& metadata) const override;
+
+private:
+	
+	std::vector<TLorentzVector> GetInputLepton(event_type const& event, KGenParticle* genTauParticle) const;
+	std::vector<TLorentzVector> GetInputPion(event_type const& event, KGenParticle* genTauParticle) const;
+	std::vector<TLorentzVector> GetInputRho(event_type const& event, KGenParticle* genTauParticle) const;
+	std::vector<TLorentzVector> GetInputA1(event_type const& event, KGenParticle* genTauParticle) const;
+	
+	std::vector<KGenParticle*> GetFinalStates(
+			KGenParticles* genParticles,
+			KGenParticle* currentGenParticle,
+			std::vector<KGenParticle*>& resultVector,
+			std::vector<int> const& validPdgIds={
+					DefaultValues::pdgIdPiZero,
+					DefaultValues::pdgIdPiPlus,
+					DefaultValues::pdgIdKPlus,
+					DefaultValues::pdgIdKLong,
+					DefaultValues::pdgIdKShort,
+					DefaultValues::pdgIdElectron,
+					DefaultValues::pdgIdMuon,
+			}
+	) const;
+
+};
+
