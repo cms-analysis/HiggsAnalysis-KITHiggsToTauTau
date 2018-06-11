@@ -199,9 +199,13 @@ if __name__ == "__main__":
 				config.setdefault("colors", []).append("data_obs")
 				config.setdefault("labels", []).append("")
 			
+			if "NormalizeByBinWidth" not in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("NormalizeByBinWidth")
+			
 			config["x_label"] = "Discriminator"
 			if args.polarisation:
 				config["x_label"] = "testZttPol13TeV_"+channel+"_"+category
+			config["y_label"] = "Events/Bin"
 			config["title"] = "channel_"+channel
 			if args.polarisation:
 				config["title"] = "channel_"+channel+"_"+category
