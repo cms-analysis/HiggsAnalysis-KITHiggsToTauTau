@@ -123,6 +123,7 @@ def create_input_root_files(datacards, args):
 							x_expression = "testZttPol13TeV_"+category
 						else:
 							x_expression = "m_vis"
+					x_expression = expression_settings.expressions_dict.get(x_expression, x_expression)
 
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
@@ -149,8 +150,10 @@ def create_input_root_files(datacards, args):
 					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
 					
 					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
-
-					binnings_key = "binningZttPol13TeV_"+category+(("_"+args.quantity) if args.quantity else "")
+					
+					binnings_key = "binningZttPol13TeV_"+category+"_"+x_expression
+					if not binnings_key in binnings_settings.binnings_dict:
+						binnings_key = "binningZttPol13TeV_"+category+(("_"+args.quantity) if args.quantity else "")
 					if binnings_key in binnings_settings.binnings_dict:
 						if args.fixed_variables:
 							if channel == "tt":
@@ -167,9 +170,7 @@ def create_input_root_files(datacards, args):
 							else:
 								config["x_bins"] = [args.fixed_binning for nick in config["nicks"]] 
 						else:
-							config["x_bins"] = [args.fixed_binning for nick in config["nicks"]] 
-					
-					print OKBLUE , channel, config["x_bins"][0], ENDC
+							config["x_bins"] = [args.fixed_binning for nick in config["nicks"]]
 					
 					config["directories"] = [args.input_dir]
 
@@ -203,7 +204,7 @@ def create_input_root_files(datacards, args):
 					DST=output_file,
 					SRC=" ".join(tmp_output_files)
 			))
-			
+	
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
 	for output_file in tmp_output_files:
 		if os.path.exists(output_file):
