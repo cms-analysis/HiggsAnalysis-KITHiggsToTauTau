@@ -110,6 +110,20 @@ def create_input_root_files(datacards, args):
 							category=category,
 							systematic=systematic
 					))
+					
+					x_expression = None
+					if args.quantity:
+						x_expression = args.quantity
+					else:
+						x_expression = "testZttPol13TeV_"+category
+						if args.omega_version:
+							x_expression = expression_settings.expressions_dict[x_expression].replace("BarSvfit", args.omega_version)
+					if args.fixed_variables == True:
+						if channel == "tt":
+							x_expression = "testZttPol13TeV_"+category
+						else:
+							x_expression = "m_vis"
+
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
@@ -133,19 +147,6 @@ def create_input_root_files(datacards, args):
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 
 					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
-
-					x_expression = None
-					if args.quantity:
-						x_expression = args.quantity
-					else:
-						x_expression = "testZttPol13TeV_"+category
-						if args.omega_version:
-							x_expression = expression_settings.expressions_dict[x_expression].replace("BarSvfit", args.omega_version)
-					if args.fixed_variables == True:
-						if channel == "tt":
-							x_expression = "testZttPol13TeV_"+category
-						else:
-							x_expression = "m_vis"
 					
 					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 
