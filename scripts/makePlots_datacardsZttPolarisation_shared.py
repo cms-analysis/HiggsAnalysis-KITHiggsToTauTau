@@ -110,15 +110,6 @@ def create_input_root_files(datacards, args):
 							category=category,
 							systematic=systematic
 					))
-
-					x_expression = None
-					if args.quantity:
-						x_expression = args.quantity
-					else:
-						x_expression = "testZttPol13TeV_"+category
-						if args.omega_version:
-							x_expression = expression_settings.expressions_dict[x_expression].replace("BarSvfit", args.omega_version)
-
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
