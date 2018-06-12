@@ -98,6 +98,8 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 	// For each uncertainty defined in JECUncertaintySplit + potential uncertainty groupings
 	for (std::string const& uncertainty : individualUncertainties)
 	{
+		std::cout << "In Init for individualUncertainties" << "\n";
+		std::cout << uncertainty << "\n";
 		// only do string comparison once per uncertainty
 		HttEnumTypes::JetEnergyUncertaintyShiftName individualUncertainty = HttEnumTypes::ToJetEnergyUncertaintyShiftName(uncertainty);
 		
@@ -117,7 +119,10 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 
 			JetCorrectorParameters jetCorPar(uncertaintyFile, uncertainty);
 			jetUncMap[individualUncertainty] = new JetCorrectionUncertainty(jetCorPar);
+			std::cout << jetUncMap[individualUncertainty] << "\n";
+			std::cout << HttEnumTypes::FromJetEnergyUncertaintyShiftName(individualUncertainty) << "\n";
 
+		
 		}
 
 		// add quantities to event
@@ -286,6 +291,7 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 						}
 					if (isGrouping) 
 					{
+						std::cout << "Is in grouping. Try to print vector";
 						// Get the corresponding vector of individual uncertainties
 						std::vector<std::string> listOfGroupNames = uncertaintyGroupings.at(groupName);
 						for (std::string uncertaintyName : listOfGroupNames)

@@ -179,6 +179,44 @@ public:
 		else if (jetEnergyCorrectionUncertainty == "Closure") return JetEnergyUncertaintyShiftName::Closure;
 		else return JetEnergyUncertaintyShiftName::NONE;
 	}
+	
+	static std::string FromJetEnergyUncertaintyShiftName(JetEnergyUncertaintyShiftName const& jetEnergyCorrectionUncertainty)
+	{
+		if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::AbsoluteFlavMap) return "AbsoluteFlavMap";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::AbsoluteMPFBias) return "AbsoluteMPFBias";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::AbsoluteScale) return "AbsoluteScale";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::AbsoluteStat) return "AbsoluteStat";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::FlavorQCD) return "FlavorQCD";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::Fragmentation) return "Fragmentation";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::PileUpDataMC) return "PileUpDataMC";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::PileUpPtBB) return "PileUpPtBB";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::PileUpPtEC1) return "PileUpPtEC1";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::PileUpPtEC2) return "PileUpPtEC2";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::PileUpPtHF) return "PileUpPtHF";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::PileUpPtRef) return "PileUpPtRef";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeBal) return "RelativeBal";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeFSR) return "RelativeFSR";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeJEREC1) return "RelativeJEREC1";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeJEREC2) return "RelativeJEREC2";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeJERHF) return "RelativeJERHF";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtBB) return "RelativePtBB"; 
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtEC1) return "RelativePtEC1";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtEC2) return "RelativePtEC2";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtHF) return "RelativePtHF";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeStatEC) return "RelativeStatEC";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeStatFSR) return "RelativeStatFSR";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeStatHF) return "RelativeStatHF";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::SinglePionECAL) return "SinglePionECAL";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::SinglePionHCAL) return "SinglePionHCAL";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::TimePtEta) return "TimePtEta";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::Total) return "Total";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::Eta0To5) return "Eta0To5";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::Eta0To3) return "Eta0To3";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::Eta3To5) return "Eta3To5";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::ClosureEta) return "ClosureEta";
+		else if (jetEnergyCorrectionUncertainty ==  JetEnergyUncertaintyShiftName::Closure) return "Closure";
+		else return "";
+	}	
 
 	static KMETUncertainty::Type ToMETUncertaintyType(std::string const& metUncertainty)
 	{
