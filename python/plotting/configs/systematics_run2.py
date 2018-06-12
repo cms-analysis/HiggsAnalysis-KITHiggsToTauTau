@@ -44,6 +44,7 @@ class SystematicsFactory(dict):
 		self["CMS_ZLShape_et_1prong_13TeV"] = ElectronFakeOneProngTauEnergyScaleSystematic
 		self["CMS_ZLShape_et_1prong1pizero_13TeV"] = ElectronFakeOneProngPiZerosTauEnergyScaleSystematic
 		self["CMS_scale_gg_13TeV"] = GGHRenormalizationScaleSystematic
+		self["CMS_scale_e_13TeV"] = EleEsSystematic
 		self["CMS_scale_t_1prong_13TeV"] = TauESOneProngSystematic
 		self["CMS_scale_t_1prong1pizero_13TeV"] = TauESOneProngPiZerosSystematic
 		self["CMS_scale_t_3prong_13TeV"] = TauESThreeProngSystematic
