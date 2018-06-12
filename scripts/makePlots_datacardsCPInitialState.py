@@ -288,6 +288,7 @@ if __name__ == "__main__":
 		# Also the categories have different names.
 		# Match SM categories and control regions. 
 	category_replacements["all"] = "TTbarCR"
+	category_replacements["em_ttbar"] = "ttbar_ttbar_cr"
 	
 	category_replacements["0jet"] = "ZeroJetCP"
 	category_replacements["boosted"] = "BoostedCP"
@@ -525,7 +526,7 @@ if __name__ == "__main__":
 				# This is needed because wj and qcd are interdependent when using the new background estimation method
 				# NB: CH takes care to only use the templates for processes that you specified. This means that any
 				#     superfluous histograms created as a result of this problem do not influence the result
-				if args.background_method == "new":
+				if args.background_method == "simeqn":
 					if "qcd" in list_of_samples and "wj" not in list_of_samples:
 						list_of_samples += ["wj"]
 					elif "wj" in list_of_samples and "qcd" not in list_of_samples:

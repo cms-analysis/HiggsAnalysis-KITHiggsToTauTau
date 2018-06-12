@@ -41,6 +41,8 @@ if __name__ == "__main__":
 	parser.add_argument("--input-2", help="Input files 2.", required=True)
 	parser.add_argument("--folder-1", help="Folder for input 1.", required=True)
 	parser.add_argument("--folder-2", help="Folder for input 2.", required=True)
+	parser.add_argument("--quantities-1", help="Quantities for input 1. [Default: all in common]", nargs="+")
+	parser.add_argument("--quantities-2", help="Quantities for input 2. [Default: all in common]", nargs="+")
 	parser.add_argument("-e", "--event-matching", action="store_true", default=False,
 	                    help="Show four histograms per plot using the output of eventmatching.py. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -58,13 +60,16 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	quantities1 = get_quantities(args.input_1, args.folder_1)
-	quantities2 = get_quantities(args.input_2, args.folder_2)
-	common_quantities = list(set(quantities1).intersection(set(quantities2)))
+	quantities1 = args.quantities_1 if args.quantities_1 else get_quantities(args.input_1, args.folder_1)
+	quantities2 = args.quantities_2 if args.quantities_2 else get_quantities(args.input_2, args.folder_2)
+	if (not args.quantities_1) or (not args.quantities_2):
+		common_quantities = list(set(quantities1).intersection(set(quantities2)))
+		quantities1 = common_quantities
+		quantities2 = common_quantities
 	
 	plot_configs = []
 	event_matching_output = "eventmatching.root"
-	for index, quantity in enumerate(common_quantities):
+	for index, (quantity_1, quantity_2) in enumerate(zip(quantities1, quantities2)):
 		plot_config = {}
 		
 		if args.event_matching:
@@ -82,8 +87,8 @@ if __name__ == "__main__":
 			plot_config["files"] = [event_matching_output]
 			plot_config["folders"] = ["common1", "common2", "only1", "only2"]
 			plot_config["nicks"] = ["common1", "common2", "only1", "only2"]
-			plot_config["x_expressions"] = [quantity]
-			plot_config["weights"] = ["("+quantity+"> -990)"]
+			plot_config["x_expressions"] = [quantity_1, quantity_2]
+			plot_config["weights"] = ["("+quantity_1+"> -990)", "("+quantity_2+"> -990)"]
 			
 			plot_config.setdefault("analysis_modules", []).append("Ratio")
 			plot_config["ratio_numerator_nicks"] = plot_config["nicks"][0]
@@ -102,8 +107,8 @@ if __name__ == "__main__":
 			plot_config["files"] = [args.input_1, args.input_2]
 			plot_config["folders"] = [args.folder_1, args.folder_2]
 			plot_config["nicks"] = ["events1", "events2"]
-			plot_config["x_expressions"] = [quantity]
-			plot_config["weights"] = ["("+quantity+"> -990)"]
+			plot_config["x_expressions"] = [quantity_1, quantity_2]
+			plot_config["weights"] = ["("+quantity_1+"> -990)", "("+quantity_2+"> -990)"]
 			
 			plot_config.setdefault("analysis_modules", []).append("Ratio")
 			plot_config["ratio_numerator_nicks"] = plot_config["nicks"][0]

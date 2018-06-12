@@ -59,6 +59,24 @@ def create_input_root_files(datacards, args):
 	binnings_settings = binnings.BinningsDict()
 	systematics_factory = systematics.SystematicsFactory()
 
+	datacards.configs._mapping_process2sample = {
+			"data_obs" : "data",
+			"EWKZ" : "ewkz",
+			"QCD" : "qcd",
+			"TT" : "ttj",
+			"TTT" : "ttt",
+			"TTJ" : "ttjj",
+			"VV" : "vv",
+			"VVT" : "vvt",
+			"VVJ" : "vvj",
+			"W" : "wj",
+			"ZJ" : "zj",
+			"ZL" : "zl",
+			"ZLL" : "zll",
+			"ZTTPOSPOL" : "zttpospol",
+			"ZTTNEGPOL" : "zttnegpol",
+	}
+
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 
 		for category in categories:
@@ -78,6 +96,10 @@ def create_input_root_files(datacards, args):
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
+				if ("wj" in list_of_samples) and not ("qcd" in list_of_samples):
+					list_of_samples.append("qcd")
+				elif ("qcd" in list_of_samples) and not ("wj" in list_of_samples):
+					list_of_samples.append("wj")
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -88,6 +110,20 @@ def create_input_root_files(datacards, args):
 							category=category,
 							systematic=systematic
 					))
+					
+					x_expression = None
+					if args.quantity:
+						x_expression = args.quantity
+					else:
+						x_expression = "testZttPol13TeV_"+category
+						if args.omega_version:
+							x_expression = expression_settings.expressions_dict[x_expression].replace("BarSvfit", args.omega_version)
+					if args.fixed_variables == True:
+						if channel == "tt":
+							x_expression = "testZttPol13TeV_"+category
+						else:
+							x_expression = "m_vis"
+					x_expression = expression_settings.expressions_dict.get(x_expression, x_expression)
 
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
@@ -100,6 +136,7 @@ def create_input_root_files(datacards, args):
 							estimationMethod="new",
 							polarisation_bias_correction=True,
 							cut_type="low_mvis_smhtt2016",
+							exclude_cuts=(["m_vis"] if x_expression == "m_vis" else []),
 							no_ewk_samples = args.no_ewk_samples,
 							no_ewkz_as_dy = True,
 							asimov_nicks = []
@@ -111,20 +148,30 @@ def create_input_root_files(datacards, args):
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 
 					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
-
-					x_expression = None
-					if args.quantity:
-						x_expression = args.quantity
-					else:
-						x_expression = "testZttPol13TeV_"+category
-						if args.omega_version:
-							x_expression = expression_settings.expressions_dict[x_expression].replace("BarSvfit", args.omega_version)
+					
 					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
-
-					binnings_key = "binningZttPol13TeV_"+category+(("_"+args.quantity) if args.quantity else "")
+					
+					binnings_key = "binningZttPol13TeV_"+category+"_"+x_expression
+					if not binnings_key in binnings_settings.binnings_dict:
+						binnings_key = "binningZttPol13TeV_"+category+(("_"+args.quantity) if args.quantity else "")
 					if binnings_key in binnings_settings.binnings_dict:
-						config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
-
+						if args.fixed_variables:
+							if channel == "tt":
+								config["x_bins"] = ["binningZttPol13TeV_"+category for nick in config["nicks"]]
+							else:
+								config["x_bins"] = ["binningZttPol13TeV_"+category+"_m_vis"]
+						else:
+							config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
+					
+					if args.fixed_binning:
+						if args.fixed_variables:
+							if channel == "tt":
+								config["x_bins"] = [args.fixed_binning.split(",")[0] + ",-1.0001,1.0001" for nick in config["nicks"]]
+							else:
+								config["x_bins"] = [args.fixed_binning for nick in config["nicks"]] 
+						else:
+							config["x_bins"] = [args.fixed_binning for nick in config["nicks"]]
+					
 					config["directories"] = [args.input_dir]
 
 					histogram_name_template = "${BIN}/${PROCESS}" if nominal else "${BIN}/${PROCESS}_${SYSTEMATIC}"
@@ -157,7 +204,7 @@ def create_input_root_files(datacards, args):
 					DST=output_file,
 					SRC=" ".join(tmp_output_files)
 			))
-			
+	
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
 	for output_file in tmp_output_files:
 		if os.path.exists(output_file):
@@ -246,6 +293,10 @@ if __name__ == "__main__":
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="datacards",
 	                    help="Publish plots. [Default: %(default)s]")
+	parser.add_argument("--fixed-variables", default=False, action="store_true",
+						help="Takes m_vis in all but the tt_combined as seperating variable")
+	parser.add_argument("--fixed-binning", default = False,
+						help="Use a fixed given binning.")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -289,7 +340,7 @@ if __name__ == "__main__":
 	print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
 
 	BinErrorsAndBBB(datacards, 0.1, 0.5, True)
-	#datacards.cb.SetGroup("syst_plus_bbb", [".*"])
+	datacards.cb.SetGroup("syst_plus_bbb", [".*"])
 	
 	if args.use_asimov_dataset:
 		datacards = use_asimov_dataset(datacards)
@@ -301,11 +352,11 @@ if __name__ == "__main__":
 	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
 	datacard_filename_templates = []
 	if "individual" in args.combinations:
-		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
+		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BIN}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
 	if "channel" in args.combinations:
 		datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
 	if "category" in args.combinations:
-		datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
+		datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BIN}_${ERA}.txt")
 	if "combined" in args.combinations:
 		datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")
 

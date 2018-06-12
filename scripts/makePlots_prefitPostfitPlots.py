@@ -92,7 +92,7 @@ if __name__ == "__main__":
 	args.signal_samples = [sample.split() for sample in args.signal_samples]
 	args.background_samples = [sample.split() for sample in args.background_samples]
 	
-	inputs_base = tools.longest_common_substring_from_list(args.input_files)
+	inputs_base = tools.longest_common_substring_from_list([os.path.dirname(input_file) for input_file in args.input_files])
 	
 	input_file_content = {}
 	for input_filename in args.input_files:
@@ -121,8 +121,8 @@ if __name__ == "__main__":
 				if len(sample) > 0:
 					background_expressions.extend(sample)
 					background_nicks.extend(["_".join(sample)] * len(sample))
-					background_colors.append(sample[0].lower())
-					background_labels.append(sample[0].lower())
+					background_colors.append(tmp_samples[0].lower())
+					background_labels.append(tmp_samples[0].lower())
 			n_background_inputs = len(background_expressions)
 			n_background_outputs = len(background_colors)
 			
@@ -138,8 +138,8 @@ if __name__ == "__main__":
 				if len(sample) > 0:
 					signal_expressions.extend(sample)
 					signal_nicks.extend(["_".join(sample)] * len(sample))
-					signal_colors.append(sample[0].lower())
-					signal_labels.append(sample[0].lower())
+					signal_colors.append(tmp_samples[0].lower())
+					signal_labels.append(tmp_samples[0].lower())
 			n_signal_inputs = len(signal_expressions)
 			n_signal_outputs = len(signal_colors)
 			
@@ -171,8 +171,8 @@ if __name__ == "__main__":
 				if "Ratio" not in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("Ratio")
 				
-				config.setdefault("ratio_numerator_nicks", []).append(" ".join(background_nicks))
-				config.setdefault("ratio_denominator_nicks", []).append(" ".join(background_nicks))
+				config.setdefault("ratio_numerator_nicks", []).append(" ".join(list(set(background_nicks))))
+				config.setdefault("ratio_denominator_nicks", []).append(" ".join(list(set(background_nicks))))
 				config.setdefault("ratio_result_nicks", []).append("ratio_bkg")
 				config.setdefault("stacks", []).append("ratio_bkg")
 				config.setdefault("markers", []).append("E2")
@@ -181,8 +181,8 @@ if __name__ == "__main__":
 				config.setdefault("labels", []).append("")
 				
 				if n_signal_outputs > 0:
-					config.setdefault("ratio_numerator_nicks", []).append(" ".join(background_nicks+signal_nicks))
-					config.setdefault("ratio_denominator_nicks", []).append(" ".join(background_nicks))
+					config.setdefault("ratio_numerator_nicks", []).append(" ".join(list(set(background_nicks+signal_nicks))))
+					config.setdefault("ratio_denominator_nicks", []).append(" ".join(list(set(background_nicks))))
 					config.setdefault("ratio_result_nicks", []).append("ratio_sig")
 					config.setdefault("stacks", []).append("ratio_sig")
 					config.setdefault("markers", []).append("LINE")
@@ -191,7 +191,7 @@ if __name__ == "__main__":
 					config.setdefault("labels", []).append("")
 				
 				config.setdefault("ratio_numerator_nicks", []).append("data_obs")
-				config.setdefault("ratio_denominator_nicks", []).append(" ".join(background_nicks))
+				config.setdefault("ratio_denominator_nicks", []).append(" ".join(list(set(background_nicks))))
 				config.setdefault("ratio_result_nicks", []).append("ratio_data")
 				config.setdefault("stacks", []).append("ratio_data")
 				config.setdefault("markers", []).append("E")
@@ -199,9 +199,14 @@ if __name__ == "__main__":
 				config.setdefault("colors", []).append("data_obs")
 				config.setdefault("labels", []).append("")
 			
+			if "NormalizeByBinWidth" not in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("NormalizeByBinWidth")
+				config.setdefault("histograms_to_normalize_by_binwidth", []).extend(list(set(config["nicks"])))
+			
 			config["x_label"] = "Discriminator"
 			if args.polarisation:
 				config["x_label"] = "testZttPol13TeV_"+channel+"_"+category
+			config["y_label"] = "Events/Bin"
 			config["title"] = "channel_"+channel
 			if args.polarisation:
 				config["title"] = "channel_"+channel+"_"+category
