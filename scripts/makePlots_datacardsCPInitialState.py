@@ -288,7 +288,6 @@ if __name__ == "__main__":
 		# Also the categories have different names.
 		# Match SM categories and control regions. 
 	category_replacements["all"] = "TTbarCR"
-	category_replacements["em_ttbar"] = "ttbar_ttbar_cr"
 	
 	category_replacements["0jet"] = "ZeroJetCP"
 	category_replacements["boosted"] = "BoostedCP"
