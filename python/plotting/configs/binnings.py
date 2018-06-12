@@ -517,6 +517,9 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong"] = self.binnings_dict[channel+"_visibleOverFullEnergy"]
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_catZttPol13TeV_"+channel+"_index"] = "3,0,3"
 		
+		for channel in ["em"]:
+			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_polarisationCombinedOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.2, 1.001, 0.0375))]).replace("1.0", "1.001")
+		
 		for channel in ["mt", "et"]:
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_polarisationCombinedOmegaBarSvfit"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.28, 1.001, 0.04))]).replace("1.0", "1.001")
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_polarisationCombinedOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.2, 1.001, 0.0375))]).replace("1.0", "1.001")
