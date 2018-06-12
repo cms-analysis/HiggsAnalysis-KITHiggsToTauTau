@@ -67,7 +67,7 @@ def matching_process(obj1, obj2):
 	return matches	
 	
 def is_control_region(obj):
-	return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "qcd_cr" in obj.bin() or "TTbarCR" in obj.bin() or obj.channel() == "mm")	
+	return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "qcd_cr" in obj.bin() or "ttbar" in obj.bin() or obj.channel() == "mm")	
 	
 def remove_procs_and_systs_with_zero_yield(proc):
 	# TODO: find out why zero yield should be ok in control regions. until then remove them
@@ -288,7 +288,6 @@ if __name__ == "__main__":
 		# Also the categories have different names.
 		# Match SM categories and control regions. 
 	category_replacements["all"] = "TTbarCR"
-	category_replacements["em_ttbar"] = "ttbar_ttbar_cr"
 	
 	category_replacements["0jet"] = "ZeroJetCP"
 	category_replacements["boosted"] = "BoostedCP"
@@ -312,8 +311,8 @@ if __name__ == "__main__":
 	category_replacements["dijet_boosted_wjets_ss_cr"] = "dijet2D_boosted_wjets_ss_cr"			
 		
 	# initialise datacards
-	tmp_input_root_filename_template = "shapes/"+args.output_suffix+"/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "shapes/"+args.output_suffix+"$/{ANALYSIS}_${CHANNEL}.inputs-sm-${ERA}-2D.root"
+	tmp_input_root_filename_template = "shapes/"+args.output_suffix+"/${CHANNEL}/${ANALYSIS}_${CHN}_${BIN}_${SYSTEMATIC}_${ERA}.root"
+	input_root_filename_template = "shapes/"+args.output_suffix+"/${CHANNEL}$/{ANALYSIS}_${CHN}.inputs-sm-${ERA}-2D.root"
 	bkg_histogram_name_template = "${BIN}/${PROCESS}"
 	sig_histogram_name_template = "${BIN}/${PROCESS}${MASS}"
 	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
@@ -438,10 +437,9 @@ if __name__ == "__main__":
 		args.categories = len(args.channel) * args.categories
 			
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
+		chn = channel if channel != "ttbar" else "em"
 		if args.get_official_dc:
-			if channel in ["ttbar"]:
-				datacards.configs._mapping_process2sample["ZL"] = "zll"
-			elif channel in ["em"]:
+			if channel in ["ttbar","em"]:
 				datacards.configs._mapping_process2sample["ZLL"] = "zll"	
 			else:
 				datacards.configs._mapping_process2sample["ZL"] = "zl"
@@ -456,18 +454,13 @@ if __name__ == "__main__":
 				datacards.configs._mapping_process2sample.pop("TTJ")
 			
 		tmp_output_files = []
-		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
-				ANALYSIS="htt",
-				CHANNEL=channel,
-				ERA="13TeV"
-		))
-		output_files.append(output_file)
+
 		
 		if "all" in categories:
 			categories = datacards.cb.cp().channel([channel]).bin_set()
 		else:
 			# include channel prefix
-			categories = [channel + "_" + category for category in categories]
+			categories = [chn + "_" + category for category in categories]
 		
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
@@ -476,24 +469,35 @@ if __name__ == "__main__":
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
 			sys.exit(1)
+		
+		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
+				ANALYSIS="htt",
+				CHANNEL=chn,
+				CHN=chn,
+				ERA="13TeV"
+		))			
 				
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		log.info("Building configs for channel = {channel}, categories = {categories}".format(channel=channel, categories=str(categories)))
 		for official_category in categories:
 			# Do the category replacement to get the names defined in expressions.py 
-			print(official_category)			
+			print(official_category)		
 			category = official2private(official_category, category_replacements)
-			print(category)
+			print(category)	
 			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			
 			# Custumization necessary for the control regions
-			if "TTbarCR" in category and channel == "ttbar":
+			if "ttbar" in category:
 				exclude_cuts += ["pzeta"] # Studies show that the operator is the fastest way to add something to a list
 				do_not_normalize_by_bin_width = True				
-			if ("qcd_cr" in category)  and channel in ["mt", "et"]:
-				exclude_cuts += ["os"]
+			if ("qcd_cr" in category)  and channel in ["mt", "et", "tt"]:
+				if channel != "tt":
+					exclude_cuts += ["os"]
+				elif channel == "tt":
+					exclude_cuts += ["iso_1", "iso_2"]
+					
 				do_not_normalize_by_bin_width = True				
 			if "_wjets_cr" in category and channel in ["mt", "et"]:
 				exclude_cuts += ["mt"] 
@@ -534,7 +538,7 @@ if __name__ == "__main__":
 					
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 							samples="\", \"".join(list_of_samples),
-							channel=channel,
+							channel=channel  if category not in "em_ttbar" else "em",
 							category=category,
 							systematic=systematic
 					))
@@ -553,14 +557,14 @@ if __name__ == "__main__":
 					# prepare plotting configs for retrieving the input histograms
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
-							channel=channel,
+							channel=channel if category not in "em_ttbar" else "em",
 							category="catHtt13TeV_"+category,
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
 							cut_type="cpggh2016" if args.era == "2016" else "baseline",
-							estimationMethod="simeqn",
+							estimationMethod="new",
 							zmm_cr_factor=zmm_cr_factor,
 							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)
@@ -597,19 +601,20 @@ if __name__ == "__main__":
 					# customizations necessary for the control regions						
 					# define quantities and binning for control regions					
 					if ("wjets" in category or "qcd_cr" in category) and channel in ["mt", "et"]:
-						print(category)
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_m_sv"]] # 0.0-250-0 one bin
-						
-					if "TTbarCR" in category and channel == "ttbar":
-						config["x_expressions"] = ["m_vis"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_vis"]]
+					if "qcd_cr" in category and channel == "tt":
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_m_sv"]] # 0.0-250-0 one bin					
+					if "ttbar" in category:
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
 						
 					if any( cr in category for cr in ["dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
 						
-					if any( cr in category for cr in ["dijet2D_lowboost_qcd_cr", "dijet2D_boosted_qcd_cr"]) and channel == "tt" and "mela" in args.quantity:
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
+					# if any( cr in category for cr in ["dijet2D_lowboost_qcd_cr", "dijet2D_boosted_qcd_cr"]) and channel == "tt" and "mela" in args.quantity:
+					# 	config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
 										
 					# Use 2d plots for 2d categories
 					if "ZeroJetCP" in category and not ("wjets" in category or "qcd_cr" in category):	
@@ -653,7 +658,8 @@ if __name__ == "__main__":
 					) for sample in config["labels"]]
 					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
 							ANALYSIS="htt",
-							CHANNEL=channel,
+							CHANNEL=chn,
+							CHN=chn,
 							BIN=official_category,
 							SYSTEMATIC=systematic,
 							ERA="13TeV"
@@ -673,7 +679,8 @@ if __name__ == "__main__":
 						SRC=" ".join(tmp_output_files)
 				))
 			merged_output_files.append(output_file)
-
+			
+		output_files.append(output_file)
 	if log.isEnabledFor(logging.DEBUG):
 		pprint.pprint(plot_configs) 
 	
@@ -686,9 +693,10 @@ if __name__ == "__main__":
 	
 	if args.n_plots[0] != 0 and "t2w" in args.steps:
 		# tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
-		datacards_module._call_command([
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/hadd_shapes.sh {OUTPUT_FOLDER}".format(OUTPUT_FOLDER=os.path.join(args.output_dir, "shapes", args.output_suffix))
-		])
+		for channel in ["em","et","mt","tt","ttbar"]:
+			datacards_module._call_command([
+				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/hadd_shapes.sh {OUTPUT_FOLDER} {CHANNEL} {CHN}".format(OUTPUT_FOLDER=os.path.join(args.output_dir, "shapes", args.output_suffix), CHANNEL=channel if channel != "ttbar" else "em", CHN=channel if channel != "ttbar" else "em")
+			])
 	if args.debug_plots:
 		debug_plot_configs = []
 		for output_file in merged_output_files:
@@ -701,7 +709,7 @@ if __name__ == "__main__":
 	# this steps creates the filled datacards in the output folder. 
 	if "t2w" in args.steps:	
 		datacards_module._call_command([
-				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX} --input_folder_et {OUTPUT_SUFFIX} --input_folder_mt {OUTPUT_SUFFIX} --input_folder_tt {OUTPUT_SUFFIX} --input_folder_mm {OUTPUT_SUFFIX} --input_folder_ttbar {OUTPUT_SUFFIX} ".format(
+				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX}/em --input_folder_et {OUTPUT_SUFFIX}/et --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_tt {OUTPUT_SUFFIX}/tt --input_folder_mm {OUTPUT_SUFFIX}/mm --input_folder_ttbar {OUTPUT_SUFFIX}/em ".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
 				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else ""

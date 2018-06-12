@@ -384,10 +384,10 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		
 		for channel in ["em", "et","mt", "tt"]:
 			# QCD control region in CP categories
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"], cp_qcd_cr_string]) 
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"], cp_qcd_cr_string])
-			self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP"], cp_qcd_cr_string])
-			self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP"], cp_qcd_cr_string]) 
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"], cp_qcd_cr_string if channel != "tt" else tt_antiiso_string]) 
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"], cp_qcd_cr_string  if channel != "tt" else tt_antiiso_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP"], cp_qcd_cr_string if channel != "tt" else tt_antiiso_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP_qcd_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP"], cp_qcd_cr_string if channel != "tt" else tt_antiiso_string]) 
 			# Wjets control region
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted_wjets_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"], cp_highmt_cr_string]) 
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost_wjets_cr"] = self.combine([self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"], cp_highmt_cr_string])

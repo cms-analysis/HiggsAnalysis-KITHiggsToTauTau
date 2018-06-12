@@ -580,6 +580,7 @@ class BinningsDict(binnings.BinningsDict):
 		
 		#Boosted (1jet) category
 		self.binnings_dict["binningHtt13TeV_ttbar_TTbarCR_0"] = "1,0,1000"
+		self.binnings_dict["binningHtt13TeV_em_ttbar_m_sv"] = "0.0 300.0"
 		self.binnings_dict["binningHtt13TeV_ttbar_TTbarCR_m_vis"] = "0.0 10000.0"
 	
 		self.binnings_dict["binningHtt13TeV_mm_Boosted2D_ptvis"] = "0.0 100.0 150.0 200.0 250.0 300.0 1000.0" 	
