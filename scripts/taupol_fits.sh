@@ -66,3 +66,28 @@ for COMBINE_OUTPUT in $1/*/datacards/{individual/*/*,category/*,channel/*,combin
 
 done | runParallel.py -n 8
 
+
+# ===== comparisons ===============================================================================
+
+# channel comparison
+annotate-trees.py $1/*/datacards/combined/higgsCombine*.root -t limit -b channel --values 0
+annotate-trees.py $1/*/datacards/channel/mt/higgsCombine*.root -t limit -b channel --values 1
+annotate-trees.py $1/*/datacards/channel/et/higgsCombine*.root -t limit -b channel --values 2
+annotate-trees.py $1/*/datacards/channel/em/higgsCombine*.root -t limit -b channel --values 3
+annotate-trees.py $1/*/datacards/channel/tt/higgsCombine*.root -t limit -b channel --values 4
+
+for DIRECTORY in $1/*/datacards
+do
+	for POL_OPTION in "pol" "pol_r1"
+	do
+		for ZOOM_OPTION in " --y-lims -1 1" "_zoom --y-lims -0.3 0"
+		do
+			echo higgsplot.py -j ${CMSSW_BASE}/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_${POL_OPTION}_over_channel_tot_stat_unc.json \
+				-d "\"${DIRECTORY}/combined ${DIRECTORY}/channel/mt ${DIRECTORY}/channel/et ${DIRECTORY}/channel/em ${DIRECTORY}/channel/tt\"" \
+				--x-ticks 0 1 2 3 4 --x-tick-labels comb. channel_mt_large channel_et_large channel_em_large channel_tt_large --x-lims -0.5 4.5 \
+				--www $2/`echo ${DIRECTORY} | sed -e "s@${1}/@@g"`/combined --formats pdf png --filename best_fit_${POL_OPTION}_over_channel_tot_stat_unc${ZOOM_OPTION} \
+				--no-cache
+		done
+	done
+done | runParallel.py -n 8
+
