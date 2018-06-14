@@ -87,16 +87,13 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 	// settings used by the RecoJetGenParticleMatchingProducer
 	m_jetMatchingAlgorithm = RecoJetGenParticleMatchingProducer::ToJetMatchingAlgorithm(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetJetMatchingAlgorithm())));
 	
-	// In case we have groupings of JEC uncertainties, extract the names and create a vecotr containing
-	// their names to not confuse them with individual uncertainties
-	
+	// Add groupings to the list of uncertainties and create an exclusive vector containing the names of the groupings
 	for (std::pair<std::string, std::vector<std::string>> group : uncertaintyGroupings) 
 	{
 		individualUncertainties.push_back(group.first);
 		uncertaintyGroupingNames.push_back(HttEnumTypes::ToJetEnergyUncertaintyShiftName(group.first));
 	}
 	
-	// For each uncertainty defined in JECUncertaintySplit + potential uncertainty groupings
 	for (std::string const& uncertainty : individualUncertainties)
 	{
 		// only do string comparison once per uncertainty
@@ -237,8 +234,8 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 	{
 		// shift copies of previously corrected jets
 		std::vector<double> closureUncertainty((product.m_correctedTaggedJets).size(), 0.);
-		// container for the uncertainty values of the groupings
-		std::map<std::string, std::vector<double>* > groupedUncertainties;		
+		// container for the uncertainty values of the groupings for each Jet
+		std::map<std::string, std::vector<double>* > groupedUncertainties;			
 		for (std::pair<std::string, std::vector<std::string>> group : uncertaintyGroupings) 
 		{
 			groupedUncertainties.insert(std::pair<std::string, std::vector<double>* >(group.first, new std::vector<double>((product.m_correctedTaggedJets).size(), 0.))); 
