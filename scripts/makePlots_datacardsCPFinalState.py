@@ -183,8 +183,8 @@ if __name__ == "__main__":
 	
 	# the old init folder needs to be deleted to again run the script
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
-#	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "init")):
-#		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "init"), shell=True)
+	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "init")):
+		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "init"), shell=True)
 	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "shapes/", args.output_suffix)):
 		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "shapes/", args.output_suffix), shell=True)
 	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "output/", args.output_suffix)):
@@ -213,9 +213,8 @@ if __name__ == "__main__":
 	category_replacements = {}
 	
 	# get "official" configuration
-#	init_directory = os.path.join(args.output_dir, "init")
-#	command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --only_init=" + init_directory
-	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix), "init")
+	#init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix), "init")
+	init_directory = os.path.join(args.output_dir, "init")
 	command = "MorphingSM2016 --control_region=1 --postfix -2D --manual_rebin=false --mm_fit=false --ttbar_fit=false {INIT}".format(
 				INIT="--only_init="+init_directory
 				)
