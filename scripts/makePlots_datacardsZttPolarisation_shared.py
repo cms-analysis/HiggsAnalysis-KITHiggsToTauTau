@@ -111,18 +111,47 @@ def create_input_root_files(datacards, args):
 							systematic=systematic
 					))
 					
+					tmp_quantity = args.quantity
+					tmp_omega_version = args.omega_version
+					if args.fixed_variables:
+						if channel in ["tt"]:
+							if category in [channel+"_"+cat for cat in ["combined_a1_oneprong", "combined_rho_oneprong", "combined_oneprong_oneprong"]]:
+								tmp_quantity = "m_vis"
+								tmp_omega_version = None
+							if category in [channel+"_"+cat for cat in ["combined_a1_rho"]]:
+								tmp_quantity = None
+								tmp_omega_version = None
+							if category in [channel+"_"+cat for cat in ["combined_a1_a1"]]:
+								tmp_quantity = None
+								tmp_omega_version = "BarSvfitM91"
+							if category in [channel+"_"+cat for cat in ["combined_rho_rho"]]:
+								tmp_quantity = None
+								tmp_omega_version = "VisibleSvfit"
+						if channel in ["mt", "et"]:
+							if category in [channel+"_"+cat for cat in ["combined_a1_oneprong"]]:
+								tmp_quantity = "m_vis"
+								tmp_omega_version = None
+							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong"]]:
+								tmp_quantity = None
+								tmp_omega_version = None
+							if category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong"]]:
+								tmp_quantity = None
+								tmp_omega_version = "BarSvfitM91"
+							if category in [channel+"_"+cat for cat in ["rho"]]:
+								tmp_quantity = None
+								tmp_omega_version = "VisibleSvfit"
+						if channel in ["em"]:
+							if category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong"]]:
+								tmp_quantity = "m_vis"
+								tmp_omega_version = None
+					
 					x_expression = None
-					if args.quantity:
-						x_expression = args.quantity
+					if tmp_quantity:
+						x_expression = tmp_quantity
 					else:
 						x_expression = "testZttPol13TeV_"+category
-						if args.omega_version:
-							x_expression = expression_settings.expressions_dict[x_expression].replace("BarSvfit", args.omega_version)
-					if args.fixed_variables == True:
-						if channel == "tt":
-							x_expression = "testZttPol13TeV_"+category
-						else:
-							x_expression = "m_vis"
+						if tmp_omega_version:
+							x_expression = expression_settings.expressions_dict[x_expression].replace("BarSvfit", tmp_omega_version)
 					x_expression = expression_settings.expressions_dict.get(x_expression, x_expression)
 
 					# prepare plotting configs for retrieving the input histograms
@@ -152,16 +181,10 @@ def create_input_root_files(datacards, args):
 					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 					
 					binnings_key = "binningZttPol13TeV_"+category+"_"+x_expression
-					if not binnings_key in binnings_settings.binnings_dict:
-						binnings_key = "binningZttPol13TeV_"+category+(("_"+args.quantity) if args.quantity else "")
+					if not (binnings_key in binnings_settings.binnings_dict):
+						binnings_key = "binningZttPol13TeV_"+category+(("_"+tmp_quantity) if tmp_quantity else "")
 					if binnings_key in binnings_settings.binnings_dict:
-						if args.fixed_variables:
-							if channel == "tt":
-								config["x_bins"] = ["binningZttPol13TeV_"+category for nick in config["nicks"]]
-							else:
-								config["x_bins"] = ["binningZttPol13TeV_"+category+"_m_vis"]
-						else:
-							config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
+						config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
 					
 					if args.fixed_binning:
 						if args.fixed_variables:

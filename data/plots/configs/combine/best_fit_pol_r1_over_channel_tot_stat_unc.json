@@ -2,14 +2,14 @@
     "analysis_modules": [
         "GraphCombination"
     ],  
-    "filename": "best_fit_pol_over_channel_tot_stat_unc", 
+    "filename": "best_fit_pol_r1_over_channel_tot_stat_unc", 
     "files": [
-        "higgsCombine*.pol.tot_unc.MultiDimFit*mH*.root", 
-        "higgsCombine*.pol.tot_unc.MultiDimFit*mH*.root", 
-        "higgsCombine*.pol.tot_unc.MultiDimFit*mH*.root", 
-        "higgsCombine*.pol.stat_unc.MultiDimFit*mH*.root", 
-        "higgsCombine*.pol.stat_unc.MultiDimFit*mH*.root", 
-        "higgsCombine*.pol.stat_unc.MultiDimFit*mH*.root"
+        "higgsCombine*.pol_r1.tot_unc.MultiDimFit*mH*.root", 
+        "higgsCombine*.pol_r1.tot_unc.MultiDimFit*mH*.root", 
+        "higgsCombine*.pol_r1.tot_unc.MultiDimFit*mH*.root", 
+        "higgsCombine*.pol_r1.stat_unc.MultiDimFit*mH*.root", 
+        "higgsCombine*.pol_r1.stat_unc.MultiDimFit*mH*.root", 
+        "higgsCombine*.pol_r1.stat_unc.MultiDimFit*mH*.root"
     ], 
     "folders": [
         "limit"
