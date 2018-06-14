@@ -50,6 +50,8 @@ class JECUncertaintySplit(dict):
 			"ClosureEtaGrouping",
 			"Closure"
 		]
+		
+		# WARNING: Do not forget to add new jet Energy Correction Groupings as Quantities to Run2Quantities.py! 
 		self["JetEnergyCorrectionSplitUncertaintyGroupings"] = {
 		"Eta0To5" :  [
 			"AbsoluteFlavMap",
