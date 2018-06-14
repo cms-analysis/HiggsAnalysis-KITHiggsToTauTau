@@ -89,8 +89,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 	
 	// In case we have groupings of JEC uncertainties, extract the names and create a vecotr containing
 	// their names to not confuse them with individual uncertainties
-	std::vector<HttEnumTypes::JetEnergyUncertaintyShiftName> uncertaintyGroupingNames;
-
+	
 	for (std::pair<std::string, std::vector<std::string>> group : uncertaintyGroupings) 
 	{
 		individualUncertainties.push_back(group.first);
@@ -239,13 +238,10 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 		// shift copies of previously corrected jets
 		std::vector<double> closureUncertainty((product.m_correctedTaggedJets).size(), 0.);
 		// container for the uncertainty values of the groupings
-		std::vector<HttEnumTypes::JetEnergyUncertaintyShiftName> uncertaintyGroupingNames;
-		std::map<std::string, std::vector<double>* > groupedUncertainties;
-		
+		std::map<std::string, std::vector<double>* > groupedUncertainties;		
 		for (std::pair<std::string, std::vector<std::string>> group : uncertaintyGroupings) 
 		{
 			groupedUncertainties.insert(std::pair<std::string, std::vector<double>* >(group.first, new std::vector<double>((product.m_correctedTaggedJets).size(), 0.))); 
-			uncertaintyGroupingNames.push_back(HttEnumTypes::ToJetEnergyUncertaintyShiftName(group.first));
 		}
 
 		for (HttEnumTypes::JetEnergyUncertaintyShiftName const& uncertainty : individualUncertaintyEnums) //shift is produced for every uncertainty in individualUncertaintyEnums
