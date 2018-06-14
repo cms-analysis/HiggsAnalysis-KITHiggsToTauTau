@@ -233,10 +233,11 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 	{
 		// shift copies of previously corrected jets
 		// container for the uncertainty values of the groupings for each Jet
-		std::map<std::string, std::vector<double>* > groupedUncertainties;			
+		std::map<std::string, std::vector<double>> groupedUncertainties;			
 		for (std::pair<std::string, std::vector<std::string>> group : uncertaintyGroupings) 
 		{
-			groupedUncertainties.insert(std::pair<std::string, std::vector<double>* >(group.first, new std::vector<double>((product.m_correctedTaggedJets).size(), 0.))); 
+			// groupedUncertainties.insert(std::pair<std::string, std::vector<double>>(group.first, std::vector<double>((product.m_correctedTaggedJets).size(), 0.))); 
+			groupedUncertainties[group.first] = std::vector<double>((product.m_correctedTaggedJets).size(), 0.); 
 		}
 
 		for (HttEnumTypes::JetEnergyUncertaintyShiftName const& uncertainty : individualUncertaintyEnums) //shift is produced for every uncertainty in individualUncertaintyEnums
@@ -270,13 +271,13 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 				{
 					if (Utility::Contains(group.second, HttEnumTypes::FromJetEnergyUncertaintyShiftName(uncertainty)))
 					{
-						groupedUncertainties[group.first]->at(iJet) = groupedUncertainties[group.first]->at(iJet) + unc*unc; 
+						groupedUncertainties[group.first].at(iJet) = groupedUncertainties[group.first].at(iJet) + unc*unc; 
 					}			
 				}
 				// If the uncertainty name belong to a grouping, get the groupings uncertainty
 				if (Utility::Contains(uncertaintyGroupingNames, uncertainty))
 				{
-					unc = std::sqrt(groupedUncertainties[HttEnumTypes::FromJetEnergyUncertaintyShiftName(uncertainty)]->at(iJet));
+					unc = std::sqrt(groupedUncertainties[HttEnumTypes::FromJetEnergyUncertaintyShiftName(uncertainty)].at(iJet));
 				}
 				
 				// apply the shift to the jet four-vector
