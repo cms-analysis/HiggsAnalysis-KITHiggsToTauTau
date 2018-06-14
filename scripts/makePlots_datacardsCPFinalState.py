@@ -157,10 +157,10 @@ if __name__ == "__main__":
 	                    help="Use rate parameter to propagate zll normalization from mm control region to all categories. [Default: %(default)s]")
 	parser.add_argument("--plot-nuisance-impacts", action="store_true", default=False,
 	                    help="Produce nuisance impact plots. [Default: %(default)s]")
+	parser.add_argument("--steps", nargs="+", default=["inputs", "t2w"],
+	                    choices=["inputs", "t2w", "sensitivity", "prefitpostfitplots"],
+	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': write datacards and fills them using HP.\n 't2w': create ws.root files form the datacards.\n 'sensitivity': estimate sensitivity in discriminating CPeven/CPodd hypotheses.\n 'prefitpostfitplots': create prefit/postfit plots with HP.")
 	# TODO: to be removed?
-	parser.add_argument("--steps", nargs="+", default=["inputs", "t2w", "likelihoodscan"],
-	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots"],
-	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
 	parser.add_argument("--for-dcsync", action="store_true", default=False,
 	                    help="Produces simplified datacards for the synchronization exercise. [Default: %(default)s]")
 	parser.add_argument("--new-tau-id", default=False, action="store_true",
@@ -715,11 +715,11 @@ if __name__ == "__main__":
 					
 					plot_configs.append(config)
 	
-			
-		hadd_commands.append("hadd -f {DST} {SRC}".format(
-				DST=output_file,
-				SRC=" ".join(tmp_output_files)
-		))
+		if "inputs" in args.steps:
+			hadd_commands.append("hadd -f {DST} {SRC}".format(
+					DST=output_file,
+					SRC=" ".join(tmp_output_files)
+			))
 	
 	#if log.isEnabledFor(logging.DEBUG):
 	#	import pprint
@@ -735,9 +735,11 @@ if __name__ == "__main__":
 	
 
 	# create input histograms with HarryPlotter
-	log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------\n")
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
-	if args.n_plots[0] != 0:
+	if "inputs" in args.steps:
+		log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------\n")
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
+
+	if args.n_plots[0] != 0 and "t2w" in args.steps:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 	if args.debug_plots:
 		debug_plot_configs = []
@@ -746,21 +748,20 @@ if __name__ == "__main__":
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
 	# call official script again with shapes that have just been created
-	log.info("\n -------------------------------------- Creating datacards ---------------------------------\n")
-	datacards_module._call_command([
-			"MorphingSM2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --real_data={REAL_DATA} --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --input_folder_tt {OUTPUT_SUFFIX}".format(
-			OUTPUT_SUFFIX=args.output_suffix,
-			REAL_DATA="false" if args.use_asimov_dataset else "true",
-			SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
-			),
-			args.output_dir
-	])
-	log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/", args.output_suffix)))
+	if "t2w" in args.steps:
+		log.info("\n -------------------------------------- Creating datacards ---------------------------------\n")
+		datacards_module._call_command([
+				"MorphingSM2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --real_data={REAL_DATA} --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --input_folder_tt {OUTPUT_SUFFIX}".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				REAL_DATA="false" if args.use_asimov_dataset else "true",
+				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
+				),
+				args.output_dir
+		])
+		log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/", args.output_suffix)))
 
-	sys.exit(0)
 
 
-	log.info("\n -------------------------------------- Plotting prefit/postfit plots ---------------------------------\n")
 	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/tt/125/"
 	official_cb = ch.CombineHarvester()
 	
@@ -771,22 +772,23 @@ if __name__ == "__main__":
 	for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):
 		official_cb.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
 		
-		tmp_datacard = ch.CombineHarvester()
-		tmp_datacard.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
-
-		# this if statement is needed in order to avoid the creation of workspaces for single CR only
-		if int(official_datacard.split("_")[-2]) < 10 and not "ttbar" in official_datacard:
-			# fill dicts datacards_cbs and datacards_workspaces
-			datacards_cbs[official_datacard] = tmp_datacard.cp()
-			datacards_module._call_command([
-				"combineTool.py -M T2W -P HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs -i {DATACARD} -o {OUTPUT} --parallel {N_PROCESSES}".format(
-					DATACARD=official_datacard,
-					OUTPUT=os.path.splitext(official_datacard)[0]+"_cp.root",
-					N_PROCESSES=args.n_processes
-					),
-					args.output_dir
-			])
-			datacards_workspaces[official_datacard] = os.path.splitext(official_datacard)[0]+"_cp.root"
+		if "prefitpostfitplots" in args.steps:
+			tmp_datacard = ch.CombineHarvester()
+			tmp_datacard.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
+	
+			# this if statement is needed in order to avoid the creation of workspaces for single CR only
+			if int(official_datacard.split("_")[-2]) < 10 and not "ttbar" in official_datacard:
+				# fill dicts datacards_cbs and datacards_workspaces
+				datacards_cbs[official_datacard] = tmp_datacard.cp()
+				datacards_module._call_command([
+					"combineTool.py -M T2W -P HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs -i {DATACARD} -o {OUTPUT} --parallel {N_PROCESSES}".format(
+						DATACARD=official_datacard,
+						OUTPUT=os.path.splitext(official_datacard)[0]+"_cp.root",
+						N_PROCESSES=args.n_processes
+						),
+						args.output_dir
+				])
+				datacards_workspaces[official_datacard] = os.path.splitext(official_datacard)[0]+"_cp.root"
 	
 
 	# the object datacards is now filled with the datacards created previously
@@ -832,106 +834,109 @@ if __name__ == "__main__":
 			else:
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]	
 
-	## create workspaces from the datacards 
-	#datacards_module._call_command([
-	#		"combineTool.py -M T2W -P HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs -i output/{OUTPUT_SUFFIX}/tt/* -o ws.root --parallel {N_PROCESSES}".format(
-	#		OUTPUT_SUFFIX=args.output_suffix,
-	#		N_PROCESSES=args.n_processes
-	#		),
-	#		args.output_dir
-	#]) 
-	#log.info("\nWorkspace has been created in \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/tt/*".format(
-	#			OUTPUT_SUFFIX=args.output_suffix
-	#			)
-	#		))
-	#)
+	# create workspaces from the datacards 
+	if "t2w" in args.steps:
+		datacards_module._call_command([
+				"combineTool.py -M T2W -P HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs -i output/{OUTPUT_SUFFIX}/tt/* -o ws.root --parallel {N_PROCESSES}".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				N_PROCESSES=args.n_processes
+				),
+				args.output_dir
+		]) 
+		log.info("\nWorkspace has been created in \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/tt/*".format(
+					OUTPUT_SUFFIX=args.output_suffix
+					)
+				))
+		)
 
 
 	# Max. likelihood fit and prefit/postfit plots
-	datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes,
-		"-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\" -t -1 --setPhysicsModelParameters \"x=1\" ",
-		higgs_mass="125"
-	)
-	datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
+	if "prefitpostfitplots" in args.steps:
+		log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------\n")
+		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes,
+			"-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\" -t -1 --setPhysicsModelParameters \"x=1\" ",
+			higgs_mass="125"
+		)
+		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
 
 
-	# From now on the categories are given with the numbers instead of the name
-	# ZeroJet2D = 1
-	# Boosted2D = 2
-	# Vbf2D = 3
+		# From now on the categories are given with the numbers instead of the name
+		# ZeroJet2D = 1
+		# Boosted2D = 2
+		# Vbf2D = 3
 
-	# adapt prefit and postfit plot configs
-	backgrounds_to_merge = {
-		"ZLL" : ["ZL", "ZJ"],
-		"TT" : ["TTT", "TTJJ"],
-		"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
-	}
-	x_tick_labels = {
-		"tt_1" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5,
-		"tt_2" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5,
-		"tt_3" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5
-	}
-	texts = {
-		"tt_1" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"],
-		"tt_2" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"],
-		"tt_3" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"]
-	}
-	texts_x = {
-		"tt_1" : [0.14, 0.28, 0.42, 0.56, 0.70],
-		"tt_2" : [0.14, 0.28, 0.42, 0.56, 0.70],
-		"tt_3" : [0.14, 0.28, 0.42, 0.56, 0.70]
-	}
-	vertical_lines = {
-		"tt_1" : [10, 20, 30, 40],
-		"tt_2" : [10, 20, 30, 40],
-		"tt_3" : [10, 20, 30, 40]
-	}
-	
-
-	prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes)
-
-	
-	for plot_config in prefit_postfit_plot_configs:
+		# adapt prefit and postfit plot configs
+		backgrounds_to_merge = {
+			"ZLL" : ["ZL", "ZJ"],
+			"TT" : ["TTT", "TTJJ"],
+			"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
+		}
+		x_tick_labels = {
+			"tt_1" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5,
+			"tt_2" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5,
+			"tt_3" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5
+		}
+		texts = {
+			"tt_1" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"],
+			"tt_2" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"],
+			"tt_3" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"]
+		}
+		texts_x = {
+			"tt_1" : [0.14, 0.28, 0.42, 0.56, 0.70],
+			"tt_2" : [0.14, 0.28, 0.42, 0.56, 0.70],
+			"tt_3" : [0.14, 0.28, 0.42, 0.56, 0.70]
+		}
+		vertical_lines = {
+			"tt_1" : [10, 20, 30, 40],
+			"tt_2" : [10, 20, 30, 40],
+			"tt_3" : [10, 20, 30, 40]
+		}
 		
-		plot_category = plot_config["filename"].split("_")[-2]
-		plot_channel = plot_config["filename"].split("_")[-3]
-		# NB: in order for the channel to be displayed in the proper position,
-		#     change x_title in plotroot.py from 0.2 to 0.12.
-		# NB2: in order for the lumi text to be displayed in the proper position,
-		#      adjust the first two arguments of latex.DrawLatex(1-r,1-t+lumiTextOffset*t,lumiText)
-		#      in CMS_lumi.py. 0.8875 and 0.94 seem to be ok values.
-		# NB3: in order for pdf output to be readable, the following manual changes are needed:
-		#      1.) defaultrootstyle.py:
-		#           - default_root_style.SetLineWidth(1) (currently line 44)
-		#           - default_root_style.SetFrameLineWidth(1) (currently line 49)
-		#      2.) plotroot.py:
-		#           - line_graph.SetLineWidth(1) (concerns vertical lines, curretnly line 309)
-		if ("1" in plot_category or "2" in plot_category or "3" in plot_category) and not ("10" in plot_category or "11" in plot_category or "12" in plot_category):
-			plot_config["canvas_width"] = 1800
-			plot_config["canvas_height"] = 1000
-			plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
-			plot_config["legend"] = [0.895, 0.1, 0.995, 0.8]
-			plot_config["legend_cols"] = 1
-			plot_config["x_label"] = "#varphi^{*}_{CP} / rad"
-			plot_config["y_label"] = "Events/bin"
-			plot_config["formats"] = ["pdf", "png"]
-			plot_config["y_title_offset"] = 0.8
-			plot_config["y_subplot_title_offset"] = 0.31
-			plot_config["left_pad_margin"] = 0.1
-			plot_config["right_pad_margin"] = 0.11
-			plot_config["line_widths"] = [3]
-			plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
-			plot_config["texts"] = texts[plot_channel+"_"+plot_category]
-			plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category]
-			plot_config["texts_y"] = list((0.8 for i in range(len(plot_config["texts"]))))
-			plot_config["texts_size"] = [0.02]
-			plot_config["x_labels_vertical"] = True
-			plot_config["x_title_offset"] = 1.8
-			plot_config["bottom_pad_margin"] = 0.5
-			plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
-			plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
 
-	higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes)
+
+		
+		for plot_config in prefit_postfit_plot_configs:
+			
+			plot_category = plot_config["filename"].split("_")[-2]
+			plot_channel = plot_config["filename"].split("_")[-3]
+			# NB: in order for the channel to be displayed in the proper position,
+			#     change x_title in plotroot.py from 0.2 to 0.12.
+			# NB2: in order for the lumi text to be displayed in the proper position,
+			#      adjust the first two arguments of latex.DrawLatex(1-r,1-t+lumiTextOffset*t,lumiText)
+			#      in CMS_lumi.py. 0.8875 and 0.94 seem to be ok values.
+			# NB3: in order for pdf output to be readable, the following manual changes are needed:
+			#      1.) defaultrootstyle.py:
+			#           - default_root_style.SetLineWidth(1) (currently line 44)
+			#           - default_root_style.SetFrameLineWidth(1) (currently line 49)
+			#      2.) plotroot.py:
+			#           - line_graph.SetLineWidth(1) (concerns vertical lines, curretnly line 309)
+			if ("1" in plot_category or "2" in plot_category or "3" in plot_category) and not ("10" in plot_category or "11" in plot_category or "12" in plot_category):
+				plot_config["canvas_width"] = 1800
+				plot_config["canvas_height"] = 1000
+				plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
+				plot_config["legend"] = [0.895, 0.1, 0.995, 0.8]
+				plot_config["legend_cols"] = 1
+				plot_config["x_label"] = "#varphi^{*}_{CP} / rad"
+				plot_config["y_label"] = "Events/bin"
+				plot_config["formats"] = ["pdf", "png"]
+				plot_config["y_title_offset"] = 0.8
+				plot_config["y_subplot_title_offset"] = 0.31
+				plot_config["left_pad_margin"] = 0.1
+				plot_config["right_pad_margin"] = 0.11
+				plot_config["line_widths"] = [3]
+				plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
+				plot_config["texts"] = texts[plot_channel+"_"+plot_category]
+				plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category]
+				plot_config["texts_y"] = list((0.8 for i in range(len(plot_config["texts"]))))
+				plot_config["texts_size"] = [0.02]
+				plot_config["x_labels_vertical"] = True
+				plot_config["x_title_offset"] = 1.8
+				plot_config["bottom_pad_margin"] = 0.5
+				plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
+				plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
+
+		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 
 
 
