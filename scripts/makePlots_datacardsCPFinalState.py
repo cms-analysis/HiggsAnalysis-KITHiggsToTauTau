@@ -183,8 +183,8 @@ if __name__ == "__main__":
 	
 	# the old init folder needs to be deleted to again run the script
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
-	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "init")):
-		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "init"), shell=True)
+#	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "init")):
+#		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "init"), shell=True)
 	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "shapes/", args.output_suffix)):
 		logger.subprocessCall("rm -r " + os.path.join(args.output_dir, "shapes/", args.output_suffix), shell=True)
 	if args.clear_output_dir and os.path.exists(os.path.join(args.output_dir, "output/", args.output_suffix)):
@@ -213,12 +213,12 @@ if __name__ == "__main__":
 	category_replacements = {}
 	
 	# get "official" configuration
-	init_directory = os.path.join(args.output_dir, "init")
-	command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --only_init=" + init_directory
-#	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix))
-#	command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false {INIT}".format(
-#				INIT="--only_init="+os.path.join(init_directory, "init")
-#				)
+#	init_directory = os.path.join(args.output_dir, "init")
+#	command = "MorphingSM2016 --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --only_init=" + init_directory
+	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix), "init")
+	command = "MorphingSM2016 --control_region=1 --postfix -2D --manual_rebin=false --mm_fit=false --ttbar_fit=false {INIT}".format(
+				INIT="--only_init="+init_directory
+				)
 	log.debug(command)
 	exit_code = logger.subprocessCall(shlex.split(command))
 	assert(exit_code == 0)
@@ -736,7 +736,7 @@ if __name__ == "__main__":
 	
 
 	# create input histograms with HarryPlotter
-	log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------")
+	log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------\n")
 	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	if args.n_plots[0] != 0:
 		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
@@ -747,9 +747,11 @@ if __name__ == "__main__":
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
 	
 	# call official script again with shapes that have just been created
+	log.info("\n -------------------------------------- Creating datacards ---------------------------------\n")
 	datacards_module._call_command([
-			"MorphingSM2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --input_folder_tt {OUTPUT_SUFFIX}".format(
+			"MorphingSM2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D --real_data={REAL_DATA} --control_region=1 --manual_rebin=false --mm_fit=false --ttbar_fit=false --input_folder_tt {OUTPUT_SUFFIX}".format(
 			OUTPUT_SUFFIX=args.output_suffix,
+			REAL_DATA="false" if args.use_asimov_dataset else "true",
 			SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
 			),
 			args.output_dir
@@ -758,7 +760,7 @@ if __name__ == "__main__":
 
 
 
-
+	log.info("\n -------------------------------------- Plotting prefit/postfit plots ---------------------------------\n")
 	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/tt/125/"
 	official_cb = ch.CombineHarvester()
 	
