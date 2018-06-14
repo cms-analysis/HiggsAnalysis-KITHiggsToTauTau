@@ -8,7 +8,7 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"DY.?JetsToLL" : 1.02
+				"DY.?JetsToLL" : 1.03
 			}
 		}
 	},
@@ -17,7 +17,7 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"DY.?JetsToLL" : 0.98
+				"DY.?JetsToLL" : 0.97
 			}
 		}
 	},
@@ -25,7 +25,7 @@
 		"ElectronEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"DY.?JetsToLL" : 1.02
+				"DY.?JetsToLL" : 1.03
 			}
 		},
 		"TauEnergyCorrectionShift" : 1.0
@@ -34,7 +34,7 @@
 		"ElectronEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"DY.?JetsToLL" : 0.98
+				"DY.?JetsToLL" : 0.97
 			}
 		},
 		"TauEnergyCorrectionShift" : 1.0
@@ -44,7 +44,7 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"DY.?JetsToLL" : 1.10
+				"DY.?JetsToLL" : 1.15
 			}
 		}
 	},
@@ -53,7 +53,7 @@
 		"TauEnergyCorrectionShift" : {
 			"nick" : {
 				"default" : 1.0,
-				"DY.?JetsToLL" : 0.90
+				"DY.?JetsToLL" : 0.85
 			}
 		}
 	}
