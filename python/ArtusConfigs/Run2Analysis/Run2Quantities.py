@@ -439,7 +439,9 @@ class quantities(dict):
 			"njetspt30_Eta0To5Up",
 			"njetspt30_Eta3To5Up",
 			"njetspt30_Eta0To3Up",
-			"njetspt30_ClosureUp"]
+			"njetspt30_ClosureUp",
+			"njetspt30_ClosureCPGroupingsUp"
+			]
 	
 		splitJecUncertaintyQuantities_list += [
 			"mjj_AbsoluteFlavMapUp",
@@ -473,7 +475,8 @@ class quantities(dict):
 			"mjj_Eta0To5Up",
 			"mjj_Eta3To5Up",
 			"mjj_Eta0To3Up",
-			"mjj_ClosureUp"
+			"mjj_ClosureUp",
+			"mjj_ClosureCPGroupingsUp"
 		]
 
 		splitJecUncertaintyQuantities_list += [
@@ -508,7 +511,8 @@ class quantities(dict):
 			"jdeta_Eta0To5Up",
 			"jdeta_Eta3To5Up",
 			"jdeta_Eta0To3Up",
-			"jdeta_ClosureUp"
+			"jdeta_ClosureUp",
+			"jdeta_ClosureCPGroupingsUp"
 		]
 
 		splitJecUncertaintyQuantities_list += [
@@ -543,7 +547,8 @@ class quantities(dict):
 			"jdphi_Eta0To5Up",
 			"jdphi_Eta3To5Up",
 			"jdphi_Eta0To3Up",
-			"jdphi_ClosureUp"
+			"jdphi_ClosureUp",
+			"jdphi_ClosureCPGroupingsUp"
 		]
 	
 		splitJecUncertaintyQuantities_list += [
@@ -578,7 +583,8 @@ class quantities(dict):
 			"njetspt30_Eta0To5Down",
 			"njetspt30_Eta3To5Down",
 			"njetspt30_Eta0To3Down",
-			"njetspt30_ClosureDown"
+			"njetspt30_ClosureDown",
+			"njetspt30_ClosureCPGroupingsDown"
 		]
 
 		splitJecUncertaintyQuantities_list += [
@@ -613,7 +619,8 @@ class quantities(dict):
 			"mjj_Eta0To5Down",
 			"mjj_Eta3To5Down",
 			"mjj_Eta0To3Down",
-			"mjj_ClosureDown"
+			"mjj_ClosureDown",
+			"mjj_ClosureCPGroupingsDown"
 		]
 
 		splitJecUncertaintyQuantities_list += [
@@ -648,7 +655,8 @@ class quantities(dict):
 			"jdeta_Eta0To5Down",
 			"jdeta_Eta3To5Down",
 			"jdeta_Eta0To3Down",
-			"jdeta_ClosureDown"
+			"jdeta_ClosureDown",
+			"jdeta_ClosureCPGroupingsDown"
 		]
 
 		splitJecUncertaintyQuantities_list += [
@@ -683,7 +691,8 @@ class quantities(dict):
 			"jdphi_Eta0To5Down",
 			"jdphi_Eta3To5Down",
 			"jdphi_Eta0To3Down",
-			"jdphi_ClosureDown"
+			"jdphi_ClosureDown",
+			"jdphi_ClosureCPGroupingsDown"
 		]
 	
 		return splitJecUncertaintyQuantities_list

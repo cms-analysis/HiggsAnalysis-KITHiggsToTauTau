@@ -138,7 +138,7 @@ public:
 		Eta0To5,
 		Eta0To3,
 		Eta3To5,
-		ClosureEta, // uncertainities grouped in eta added in quadrature to be compared to 'Total' for closure test 
+		ClosureCPGroupings, // uncertainities grouped for the Higgs CP analysis added in quadrature to be compared to 'Total' for closure test 
 		Closure // individual uncertainties added in quadrature. to be compared to 'Total' for closure test
 	};
 
@@ -175,7 +175,7 @@ public:
 		else if (jetEnergyCorrectionUncertainty == "Eta0To5") return JetEnergyUncertaintyShiftName::Eta0To5;
 		else if (jetEnergyCorrectionUncertainty == "Eta0To3") return JetEnergyUncertaintyShiftName::Eta0To3;
 		else if (jetEnergyCorrectionUncertainty == "Eta3To5") return JetEnergyUncertaintyShiftName::Eta3To5;
-		else if (jetEnergyCorrectionUncertainty == "ClosureEta") return JetEnergyUncertaintyShiftName::ClosureEta;
+		else if (jetEnergyCorrectionUncertainty == "ClosureCPGroupings") return JetEnergyUncertaintyShiftName::ClosureCPGroupings;
 		else if (jetEnergyCorrectionUncertainty == "Closure") return JetEnergyUncertaintyShiftName::Closure;
 		else return JetEnergyUncertaintyShiftName::NONE;
 	}
@@ -213,7 +213,7 @@ public:
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::Eta0To5) return "Eta0To5";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::Eta0To3) return "Eta0To3";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::Eta3To5) return "Eta3To5";
-		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::ClosureEta) return "ClosureEta";
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::ClosureCPGroupings) return "ClosureCPGroupings";
 		else if (jetEnergyCorrectionUncertainty ==  JetEnergyUncertaintyShiftName::Closure) return "Closure";
 		else return "";
 	}	

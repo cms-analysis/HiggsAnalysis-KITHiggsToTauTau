@@ -107,7 +107,6 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 		// get the individual uncertainties map from the JEC.txt file.
 		if (settings.GetJetEnergyCorrectionSplitUncertainty()
 			&& settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift() != 0.0
-			&& individualUncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure
 			&& !Utility::Contains(uncertaintyGroupingNames, individualUncertainty))
 		{
 			JetCorrectorParameters jetCorPar(uncertaintyFile, uncertainty);
@@ -233,7 +232,6 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 	if (settings.GetJetEnergyCorrectionSplitUncertainty() && settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift() != 0.0)
 	{
 		// shift copies of previously corrected jets
-		std::vector<double> closureUncertainty((product.m_correctedTaggedJets).size(), 0.);
 		// container for the uncertainty values of the groupings for each Jet
 		std::map<std::string, std::vector<double>* > groupedUncertainties;			
 		for (std::pair<std::string, std::vector<std::string>> group : uncertaintyGroupings) 
@@ -257,7 +255,7 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 				double unc = 0;
 				
 				// Get the uncertainty for the jets for each individual and the total uncertainty
-				if (std::abs(jet->p4.Eta()) < 5.2 && jet->p4.Pt() > 9.0 && uncertainty != HttEnumTypes::JetEnergyUncertaintyShiftName::Closure && !Utility::Contains(uncertaintyGroupingNames, uncertainty))
+				if (std::abs(jet->p4.Eta()) < 5.2 && jet->p4.Pt() > 9.0 && !Utility::Contains(uncertaintyGroupingNames, uncertainty))
 				{
 					// Take the uncertainty from the previously stored jetUncMap and perform the shifts.
 					JetCorrectionUncertainty* tmpUncertainty = jetUncMap.at(uncertainty);
@@ -274,15 +272,6 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 					{
 						groupedUncertainties[group.first]->at(iJet) = groupedUncertainties[group.first]->at(iJet) + unc*unc; 
 					}			
-				}
-				
-				// Increase the closure uncertainty for the i-th jet				 
-				closureUncertainty.at(iJet) = closureUncertainty.at(iJet) + unc*unc;
-				
-				// 
-				if (uncertainty == HttEnumTypes::JetEnergyUncertaintyShiftName::Closure)
-				{
-					unc = std::sqrt(closureUncertainty.at(iJet));
 				}
 				// If the uncertainty name belong to a grouping, get the groupings uncertainty
 				if (Utility::Contains(uncertaintyGroupingNames, uncertainty))
