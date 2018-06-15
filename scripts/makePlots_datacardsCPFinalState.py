@@ -868,13 +868,16 @@ if __name__ == "__main__":
 		# adapt prefit and postfit plot configs
 		backgrounds_to_merge = {
 			"ZLL" : ["ZL", "ZJ"],
-			"TT" : ["TTT", "TTJJ"],
+			"TT" : ["TTT", "TTJ"],
 			"EWK" : ["EWKZ", "VVT", "VVJ", "VV", "W", "hww_gg125", "hww_qq125"]
 		}
 		x_tick_labels = {
-			"tt_1" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5,
-			"tt_2" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5,
-			"tt_3" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5
+			#"tt_1" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5,
+			#"tt_2" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5,
+			#"tt_3" : ["0.0-0.63","0.63-1.26","1.26-1.89","1.89-2.52","2.52-3.15","3.15-3.78","3.78-4.41","4.41-5.04","5.04-5.67","5.67-6.3"] * 5
+			"tt_1" : ["#scale[0.6]{(0.0-0.2) #pi}","#scale[0.6]{(0.2-0.4) #pi}","#scale[0.6]{(0.4-0.6) #pi}","#scale[0.6]{(0.6-0.8) #pi}","#scale[0.6]{(0.8-1.0) #pi}","#scale[0.6]{(1.0-1.2) #pi}","#scale[0.6]{(1.2-1.4) #pi}","#scale[0.6]{(1.4-1.6) #pi}","#scale[0.6]{(1.6-1.8) #pi}","#scale[0.6]{(1.8-2.0) #pi}"] * 5,
+			"tt_2" : ["#scale[0.6]{(0.0-0.2) #pi}","#scale[0.6]{(0.2-0.4) #pi}","#scale[0.6]{(0.4-0.6) #pi}","#scale[0.6]{(0.6-0.8) #pi}","#scale[0.6]{(0.8-1.0) #pi}","#scale[0.6]{(1.0-1.2) #pi}","#scale[0.6]{(1.2-1.4) #pi}","#scale[0.6]{(1.4-1.6) #pi}","#scale[0.6]{(1.6-1.8) #pi}","#scale[0.6]{(1.8-2.0) #pi}"] * 5,
+			"tt_3" : ["#scale[0.6]{(0.0-0.2) #pi}","#scale[0.6]{(0.2-0.4) #pi}","#scale[0.6]{(0.4-0.6) #pi}","#scale[0.6]{(0.6-0.8) #pi}","#scale[0.6]{(0.8-1.0) #pi}","#scale[0.6]{(1.0-1.2) #pi}","#scale[0.6]{(1.2-1.4) #pi}","#scale[0.6]{(1.4-1.6) #pi}","#scale[0.6]{(1.6-1.8) #pi}","#scale[0.6]{(1.8-2.0) #pi}"] * 5,
 		}
 		texts = {
 			"tt_1" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"],
@@ -882,9 +885,9 @@ if __name__ == "__main__":
 			"tt_3" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"]
 		}
 		texts_x = {
-			"tt_1" : [0.14, 0.28, 0.42, 0.56, 0.70],
-			"tt_2" : [0.14, 0.28, 0.42, 0.56, 0.70],
-			"tt_3" : [0.14, 0.28, 0.42, 0.56, 0.70]
+			"tt_1" : [0.18, 0.32, 0.48, 0.64, 0.80],
+			"tt_2" : [0.18, 0.32, 0.48, 0.64, 0.80],
+			"tt_3" : [0.18, 0.32, 0.48, 0.64, 0.80],
 		}
 		vertical_lines = {
 			"tt_1" : [10, 20, 30, 40],
@@ -911,7 +914,9 @@ if __name__ == "__main__":
 			#           - default_root_style.SetFrameLineWidth(1) (currently line 49)
 			#      2.) plotroot.py:
 			#           - line_graph.SetLineWidth(1) (concerns vertical lines, curretnly line 309)
+			category_name = {"1" : "ZeroJet", "2" : "Boosted", "3" : "Vbf"}
 			if ("1" in plot_category or "2" in plot_category or "3" in plot_category) and not ("10" in plot_category or "11" in plot_category or "12" in plot_category):
+				plot_config["title"] = "channel_"+plot_channel
 				plot_config["canvas_width"] = 1800
 				plot_config["canvas_height"] = 1000
 				plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
@@ -920,7 +925,7 @@ if __name__ == "__main__":
 				plot_config["x_label"] = "#varphi^{*}_{CP} / rad"
 				plot_config["y_label"] = "Events/bin"
 				plot_config["formats"] = ["pdf", "png"]
-				plot_config["y_title_offset"] = 0.8
+				plot_config["y_title_offset"] = 0.6
 				plot_config["y_subplot_title_offset"] = 0.31
 				plot_config["left_pad_margin"] = 0.1
 				plot_config["right_pad_margin"] = 0.11
@@ -929,9 +934,9 @@ if __name__ == "__main__":
 				plot_config["texts"] = texts[plot_channel+"_"+plot_category]
 				plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category]
 				plot_config["texts_y"] = list((0.8 for i in range(len(plot_config["texts"]))))
-				plot_config["texts_size"] = [0.02]
+				plot_config["texts_size"] = [0.03]
 				plot_config["x_labels_vertical"] = True
-				plot_config["x_title_offset"] = 1.8
+				plot_config["x_title_offset"] = 1.4
 				plot_config["bottom_pad_margin"] = 0.5
 				plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
 				plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
