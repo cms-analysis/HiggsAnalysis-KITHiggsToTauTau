@@ -147,23 +147,13 @@ std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputLepton(p
 	
 	if (genMatched)
 	{
-		size_t leptonIndex = Utility::Index(product.m_flavourOrderedLeptons, lepton);
-		if (product.m_genLeptonsFromBosonDecay.size() > leptonIndex)
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, lepton, static_cast<KGenTau*>(nullptr));
+		if (genTau)
 		{
-			KGenParticle* genParticle = product.m_genLeptonsFromBosonDecay.at(leptonIndex);
-			if (std::abs(genParticle->pdgId) == DefaultValues::pdgIdTau)
-			{
-				RMFLV* genTauLV = &(genParticle->p4);
+			RMFLV* genTauVisibleLV = &(genTau->visible.p4);
 			
-				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, genParticle, static_cast<KGenTau*>(nullptr));
-				if (genTau)
-				{
-					RMFLV* genTauVisibleLV = &(genTau->visible.p4);
-					
-					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauLV));
-					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauVisibleLV));
-				}
-			}
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau->p4));
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauVisibleLV));
 		}
 	}
 	else if (Utility::Contains((product.*m_fittedTausMember), lepton))
@@ -181,23 +171,13 @@ std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputPion(pro
 	
 	if (genMatched)
 	{
-		size_t leptonIndex = Utility::Index(product.m_flavourOrderedLeptons, lepton);
-		if (product.m_genLeptonsFromBosonDecay.size() > leptonIndex)
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, lepton, static_cast<KGenTau*>(nullptr));
+		if (genTau)
 		{
-			KGenParticle* genParticle = product.m_genLeptonsFromBosonDecay.at(leptonIndex);
-			if (std::abs(genParticle->pdgId) == DefaultValues::pdgIdTau)
-			{
-				RMFLV* genTauLV = &(genParticle->p4);
+			RMFLV* genTauVisibleLV = &(genTau->visible.p4);
 			
-				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, genParticle, static_cast<KGenTau*>(nullptr));
-				if (genTau)
-				{
-					RMFLV* genTauVisibleLV = &(genTau->visible.p4);
-					
-					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauLV));
-					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauVisibleLV));
-				}
-			}
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau->p4));
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauVisibleLV));
 		}
 	}
 	else if (Utility::Contains((product.*m_fittedTausMember), lepton))
@@ -215,22 +195,18 @@ std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputRho(prod
 	
 	if (genMatched)
 	{
-		size_t leptonIndex = Utility::Index(product.m_flavourOrderedLeptons, lepton);
-		if (product.m_genLeptonsFromBosonDecay.size() > leptonIndex)
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, lepton, static_cast<KGenTau*>(nullptr));
+		if (genTau)
 		{
-			KGenParticle* genParticle = product.m_genLeptonsFromBosonDecay.at(leptonIndex);
-			if (std::abs(genParticle->pdgId) == DefaultValues::pdgIdTau)
+			KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+			if (genParticle)
 			{
-				RMFLV* genTauLV = &(genParticle->p4);
-			
-				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, genParticle, static_cast<KGenTau*>(nullptr));
 				std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
 				std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
-				if (genTau &&
-				    (genTau->nProngs == 1) && (genTau->nPi0s == 1) &&
+				if ((genTau->nProngs == 1) && (genTau->nPi0s == 1) &&
 				    (genTauChargedHadrons.size() == 1) && (genTauNeutralHadrons.size() == 1))
 				{
-					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauLV));
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau->p4));
 					
 					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauChargedHadrons.front()->p4));
 					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauNeutralHadrons.front()->p4));
@@ -256,22 +232,18 @@ std::vector<TLorentzVector> PolarisationQuantitiesProducerBase::GetInputA1(produ
 	
 	if (genMatched)
 	{
-		size_t leptonIndex = Utility::Index(product.m_flavourOrderedLeptons, lepton);
-		if (product.m_genLeptonsFromBosonDecay.size() > leptonIndex)
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, lepton, static_cast<KGenTau*>(nullptr));
+		if (genTau)
 		{
-			KGenParticle* genParticle = product.m_genLeptonsFromBosonDecay.at(leptonIndex);
-			if (std::abs(genParticle->pdgId) == DefaultValues::pdgIdTau)
+			KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+			if (genParticle)
 			{
-				RMFLV* genTauLV = &(genParticle->p4);
-			
-				KGenTau* genTau = SafeMap::GetWithDefault(product.m_validGenTausMap, genParticle, static_cast<KGenTau*>(nullptr));
 				std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
 				std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
-				if (genTau &&
-				    (genTau->nProngs == 3) && (genTau->nPi0s == 0) &&
+				if ((genTau->nProngs == 3) && (genTau->nPi0s == 0) &&
 				    (genTauChargedHadrons.size() == 3) && (genTauNeutralHadrons.size() == 0))
 				{
-					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauLV));
+					input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau->p4));
 					
 					// sort pions from a1 decay according to their charge
 					RMFLV* piSingleChargeSign = nullptr;
