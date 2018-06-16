@@ -167,10 +167,12 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	
 	if ((product.*m_svfitResultsMember).fittedTau1LV)
 	{
+		*((product.*m_svfitResultsMember).fittedTau1LV) = SvfitProducer::CorrectTauLV(*((product.*m_svfitResultsMember).fittedTau1LV), (product.*m_svfitResultsMember).fittedTau1ERatio, lepton1->p4);
 		(product.*m_svfitTausMember)[lepton1] = *((product.*m_svfitResultsMember).fittedTau1LV);
 	}
 	if ((product.*m_svfitResultsMember).fittedTau2LV)
 	{
+		*((product.*m_svfitResultsMember).fittedTau2LV) = SvfitProducer::CorrectTauLV(*((product.*m_svfitResultsMember).fittedTau2LV), (product.*m_svfitResultsMember).fittedTau2ERatio, lepton2->p4);
 		(product.*m_svfitTausMember)[lepton2] = *((product.*m_svfitResultsMember).fittedTau2LV);
 	}
 	
@@ -178,6 +180,19 @@ void SvfitProducer::Produce(event_type const& event, product_type& product,
 	if((product.*m_svfitResultsMember).fittedHiggsLV)
 	{
 		(product.*m_svfitResultsMember).fittedHiggsLV->SetM((product.*m_svfitResultsMember).fittedHiggsLV->M() * settings.GetSvfitMassShift());
+	}
+}
+
+RMFLV SvfitProducer::CorrectTauLV(RMFLV const& fittedTauLV, float fittedTauERatio, RMFLV const& visibleTauLV)
+{
+	if (fittedTauLV == DefaultValues::UndefinedRMFLV)
+	{
+		return fittedTauLV;
+	}
+	else
+	{
+		float pt = std::sqrt(std::pow(visibleTauLV.E() / fittedTauERatio, 2) - fittedTauLV.M2()) / std::cosh(fittedTauLV.Eta());
+		return RMFLV(pt, fittedTauLV.Eta(), fittedTauLV.Phi(), fittedTauLV.M());
 	}
 }
 

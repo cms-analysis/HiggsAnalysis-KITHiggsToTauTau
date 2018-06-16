@@ -25,6 +25,8 @@ public:
 
 	virtual void Produce(event_type const& event, product_type& product,
 	                     setting_type const& settings, metadata_type const& metadata) const override;
+	
+	static RMFLV CorrectTauLV(RMFLV const& fittedTauLV, float fittedTauERatio, RMFLV const& visibleTauLV);
 
 private:
 	std::string m_name = "";
@@ -36,7 +38,6 @@ private:
 	
 	HttEnumTypes::SvfitCacheMissBehaviour m_svfitCacheMissBehaviour;
 	mutable SvfitTools svfitTools;
-
 };
 
 
