@@ -41,16 +41,16 @@ if __name__ == "__main__":
 	                    help="Reco-level quantities. Use this argument multiple times to compare different sets of reconstructions. [Default: %(default)s]")
 	parser.add_argument("-g", "--gen-quantities", nargs="+",
 	                    default=["genBosonLV.mass()", "genBosonLV.Pt()", "genBosonLV.Eta()", "genBosonLV.Phi()", "genBosonLV.E()"]+
-	                            ["genBosonTau1LV.mass()", "genBosonTau1LV.Pt()", "genBosonTau1LV.Eta()", "genBosonTau1LV.Phi()", "genBosonTau1LV.E()"]+
-	                            ["genBosonTau2LV.mass()", "genBosonTau2LV.Pt()", "genBosonTau2LV.Eta()", "genBosonTau2LV.Phi()", "genBosonTau2LV.E()"],
+	                            ["genMatchedTau1LV.mass()", "genMatchedTau1LV.Pt()", "genMatchedTau1LV.Eta()", "genMatchedTau1LV.Phi()", "genMatchedTau1LV.E()"]+
+	                            ["genMatchedTau2LV.mass()", "genMatchedTau2LV.Pt()", "genMatchedTau2LV.Eta()", "genMatchedTau2LV.Phi()", "genMatchedTau2LV.E()"],
 	                    help="Gen-level quantities. [Default: %(default)s]")
 	parser.add_argument("-w", "--weights", nargs="+", action="append",
 	                    default=[(["(svfitLV.mass()<8000)*(genBosonLV.mass()<9000)"]*5)+
-	                             (["(svfitTau1LV.mass()<8000)*(genBosonTau1LV.mass()<9000)"]*5)+
-	                             (["(svfitTau2LV.mass()<8000)*(genBosonTau2LV.mass()<9000)"]*5)]+
+	                             (["(svfitTau1LV.mass()<8000)*(genMatchedTau1LV.mass()<9000)"]*5)+
+	                             (["(svfitTau2LV.mass()<8000)*(genMatchedTau2LV.mass()<9000)"]*5)]+
 	                            [(["(svfitM91LV.mass()<8000)*(genBosonLV.mass()<9000)"]*5)+
-	                             (["(svfitM91Tau1LV.mass()<8000)*(genBosonTau1LV.mass()<9000)"]*5)+
-	                             (["(svfitM91Tau2LV.mass()<8000)*(genBosonTau2LV.mass()<9000)"]*5)],
+	                             (["(svfitM91Tau1LV.mass()<8000)*(genMatchedTau1LV.mass()<9000)"]*5)+
+	                             (["(svfitM91Tau2LV.mass()<8000)*(genMatchedTau2LV.mass()<9000)"]*5)],
 	                    help="Weights/cuts to ensure proper fits and gen-reco matching. Use this argument multiple times to compare different sets of reconstructions. [Default: %(default)s]")
 	parser.add_argument("--axis-labels", nargs="+",
 	                    default=["m_{#tau#tau}", "p_{T, #tau#tau}", "#eta_{#tau#tau}", "#phi_{#tau#tau}", "E_{#tau#tau}"]+
