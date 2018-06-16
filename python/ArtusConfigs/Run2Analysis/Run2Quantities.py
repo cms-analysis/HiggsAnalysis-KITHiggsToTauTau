@@ -436,7 +436,12 @@ class quantities(dict):
 			"njetspt30_SinglePionHCALUp",
 			"njetspt30_TimePtEtaUp",
 			"njetspt30_TotalUp",
-			"njetspt30_ClosureUp"]
+			"njetspt30_Eta0To5Up",
+			"njetspt30_Eta3To5Up",
+			"njetspt30_Eta0To3Up",
+			"njetspt30_ClosureUp",
+			"njetspt30_ClosureCPGroupingsUp"
+			]
 	
 		splitJecUncertaintyQuantities_list += [
 			"mjj_AbsoluteFlavMapUp",
@@ -467,7 +472,11 @@ class quantities(dict):
 			"mjj_SinglePionHCALUp",
 			"mjj_TimePtEtaUp",
 			"mjj_TotalUp",
-			"mjj_ClosureUp"
+			"mjj_Eta0To5Up",
+			"mjj_Eta3To5Up",
+			"mjj_Eta0To3Up",
+			"mjj_ClosureUp",
+			"mjj_ClosureCPGroupingsUp"
 		]
 
 		splitJecUncertaintyQuantities_list += [
@@ -499,7 +508,11 @@ class quantities(dict):
 			"jdeta_SinglePionHCALUp",
 			"jdeta_TimePtEtaUp",
 			"jdeta_TotalUp",
-			"jdeta_ClosureUp"
+			"jdeta_Eta0To5Up",
+			"jdeta_Eta3To5Up",
+			"jdeta_Eta0To3Up",
+			"jdeta_ClosureUp",
+			"jdeta_ClosureCPGroupingsUp"
 		]
 
 		splitJecUncertaintyQuantities_list += [
@@ -531,7 +544,11 @@ class quantities(dict):
 			"jdphi_SinglePionHCALUp",
 			"jdphi_TimePtEtaUp",
 			"jdphi_TotalUp",
-			"jdphi_ClosureUp"
+			"jdphi_Eta0To5Up",
+			"jdphi_Eta3To5Up",
+			"jdphi_Eta0To3Up",
+			"jdphi_ClosureUp",
+			"jdphi_ClosureCPGroupingsUp"
 		]
 	
 		splitJecUncertaintyQuantities_list += [
@@ -563,7 +580,11 @@ class quantities(dict):
 			"njetspt30_SinglePionHCALDown",
 			"njetspt30_TimePtEtaDown",
 			"njetspt30_TotalDown",
-			"njetspt30_ClosureDown"
+			"njetspt30_Eta0To5Down",
+			"njetspt30_Eta3To5Down",
+			"njetspt30_Eta0To3Down",
+			"njetspt30_ClosureDown",
+			"njetspt30_ClosureCPGroupingsDown"
 		]
 
 		splitJecUncertaintyQuantities_list += [
@@ -595,7 +616,11 @@ class quantities(dict):
 			"mjj_SinglePionHCALDown",
 			"mjj_TimePtEtaDown",
 			"mjj_TotalDown",
-			"mjj_ClosureDown"
+			"mjj_Eta0To5Down",
+			"mjj_Eta3To5Down",
+			"mjj_Eta0To3Down",
+			"mjj_ClosureDown",
+			"mjj_ClosureCPGroupingsDown"
 		]
 
 		splitJecUncertaintyQuantities_list += [
@@ -627,7 +652,11 @@ class quantities(dict):
 			"jdeta_SinglePionHCALDown",
 			"jdeta_TimePtEtaDown",
 			"jdeta_TotalDown",
-			"jdeta_ClosureDown"
+			"jdeta_Eta0To5Down",
+			"jdeta_Eta3To5Down",
+			"jdeta_Eta0To3Down",
+			"jdeta_ClosureDown",
+			"jdeta_ClosureCPGroupingsDown"
 		]
 
 		splitJecUncertaintyQuantities_list += [
@@ -659,7 +688,11 @@ class quantities(dict):
 			"jdphi_SinglePionHCALDown",
 			"jdphi_TimePtEtaDown",
 			"jdphi_TotalDown",
-			"jdphi_ClosureDown"
+			"jdphi_Eta0To5Down",
+			"jdphi_Eta3To5Down",
+			"jdphi_Eta0To3Down",
+			"jdphi_ClosureDown",
+			"jdphi_ClosureCPGroupingsDown"
 		]
 	
 		return splitJecUncertaintyQuantities_list
@@ -902,4 +935,3 @@ class quantities(dict):
 			"leadingJetGenMatch",
 			"trailingJetGenMatch"
 		]
-
