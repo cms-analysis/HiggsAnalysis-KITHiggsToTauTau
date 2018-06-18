@@ -764,7 +764,7 @@ if __name__ == "__main__":
 
 	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/tt/125/"
 	official_cb = ch.CombineHarvester()
-	
+
 	datacards_cbs = {}
 	datacards_workspaces = {}
 
@@ -772,7 +772,7 @@ if __name__ == "__main__":
 	for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):
 		official_cb.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
 		
-		if "prefitpostfitplots" in args.steps:
+		if "prefitpostfitplots" in args.steps or "sensitivity" in args.steps:
 			tmp_datacard = ch.CombineHarvester()
 			tmp_datacard.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
 	
@@ -789,6 +789,7 @@ if __name__ == "__main__":
 						args.output_dir
 				])
 				datacards_workspaces[official_datacard] = os.path.splitext(official_datacard)[0]+"_cp.root"
+
 	
 
 	# the object datacards is now filled with the datacards created previously
@@ -835,14 +836,17 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-25.0, 25.0]	
 
 	# create workspaces from the datacards 
-	if "t2w" in args.steps:
+	if "t2w" in args.steps or "sensitivity" in args.steps:
+		name_ws = "ws.root"
 		datacards_module._call_command([
-				"combineTool.py -M T2W -P HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs -i output/{OUTPUT_SUFFIX}/tt/* -o ws.root --parallel {N_PROCESSES}".format(
+				"combineTool.py -M T2W -P HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs -i output/{OUTPUT_SUFFIX}/tt/* -o {NAME_WS} --parallel {N_PROCESSES}".format(
 				OUTPUT_SUFFIX=args.output_suffix,
+				NAME_WS = name_ws,
 				N_PROCESSES=args.n_processes
 				),
 				args.output_dir
 		]) 
+		workspace = os.path.join(datacards_path, name_ws)
 		log.info("\nWorkspace has been created in \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/tt/*".format(
 					OUTPUT_SUFFIX=args.output_suffix
 					)
@@ -916,7 +920,7 @@ if __name__ == "__main__":
 			#           - line_graph.SetLineWidth(1) (concerns vertical lines, curretnly line 309)
 			category_name = {"1" : "ZeroJet", "2" : "Boosted", "3" : "Vbf"}
 			if ("1" in plot_category or "2" in plot_category or "3" in plot_category) and not ("10" in plot_category or "11" in plot_category or "12" in plot_category):
-				plot_config["title"] = "channel_"+plot_channel
+				plot_config["title"] = "channel_"+plot_channel+" - "+category_name
 				plot_config["canvas_width"] = 1800
 				plot_config["canvas_height"] = 1000
 				plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
@@ -942,6 +946,26 @@ if __name__ == "__main__":
 				plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
 
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+
+	
+	if "sensitivity" in args.steps:
+		log.info("\n -------------------------------------- CPeven/CPodd hypothesis test ---------------------------------\n")
+		datacards_module._call_command([
+			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T 50 -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"CPtest\" --parallel={N_PROCESSES} --there".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				N_PROCESSES=args.n_processes
+			)
+		])
+		#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes,
+		#	"-M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T 50 -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --parallel={N_PROCESSES} --there".format(
+		#		OUTPUT_SUFFIX=args.output_suffix,
+		#		N_PROCESSES=args.n_processes
+		#	),
+		#	higgs_mass="125"
+		#)
+
+		#datacards_hypotestresult = datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x")
+		#log.info(datacards_hypotestresult)
 
 
 
