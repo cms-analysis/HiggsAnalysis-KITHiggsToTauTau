@@ -34,3 +34,11 @@
 	<use name="Artus/Utility" />
 	<use name="HiggsAnalysis/KITHiggsToTauTau" />
 </bin>
+
+<bin name="TauSpinnerTest" file="TauSpinnerTest.cc">
+	<Flags LDFLAGS="-rdynamic" />
+	<use name="root"/>
+	<use name="rootmath"/>
+	<use name="boost"/>
+	<use name="tauspinner" />
+</bin>
