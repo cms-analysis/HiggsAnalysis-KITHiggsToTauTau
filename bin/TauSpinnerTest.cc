@@ -15,7 +15,7 @@ int main(int argc, const char *argv[])
 			2, // Ipol
 			0, // NonSM2
 			0, // NonSMN
-			8000 // CmsEnergy()
+			13000 // CmsEnergy()
 	);
 	
 	TauSpinner::SimpleParticle boson(9.057124, 4.738310, 362.649353, 373.200989, 23);
