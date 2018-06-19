@@ -1,5 +1,6 @@
 
 #include <algorithm>
+#include <cstdlib>
 #include <math.h>
 
 #include <boost/format.hpp>
@@ -36,6 +37,8 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 	// http://tauolapp.web.cern.ch/tauolapp/namespaceTauSpinner.html
 	// https://arxiv.org/pdf/1402.2068v1.pdf
 	Tauolapp::Tauola::initialize();
+	Tauolapp::Tauola::setRandomGenerator(&TauSpinnerProducer::CustomRandomGenerator);
+	
 	LHAPDF::initPDFSetByName(settings.GetTauSpinnerSettingsPDF());
 	
 	TauSpinner::initialize_spinner(settings.GetTauSpinnerSettingsIpp(),
@@ -145,7 +148,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				float twoTimesMixingAngleRadSample = M_PI * mixingAngleOverPiHalfSample;
 				TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRadSample), cos(twoTimesMixingAngleRadSample),
 					                             -sin(twoTimesMixingAngleRadSample), -sin(twoTimesMixingAngleRadSample));
-			
+				
+				srand(event.m_eventInfo->nRun);
 				product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 				product.m_tauSpinnerValidOutputs = true;
@@ -153,12 +157,14 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdZ)))
 			{
 				// call same function as for Higgs: http://tauolapp.web.cern.ch/tauolapp/namespaceTauSpinner.html#a33de132eef40cedcf39222fee0449d79
+				srand(event.m_eventInfo->nRun);
 				product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 				product.m_tauSpinnerValidOutputs = true;
 			}
 			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdW)))
 			{
+				srand(event.m_eventInfo->nRun);
 				product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesWorHpn(boson, tau1, tau2, tauFinalStates1);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 				product.m_tauSpinnerValidOutputs = true;
@@ -181,7 +187,8 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 					float twoTimesMixingAngleRad = M_PI * mixingAngleOverPiHalf;
 					TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRad), cos(twoTimesMixingAngleRad),
 						                             -sin(twoTimesMixingAngleRad), -sin(twoTimesMixingAngleRad));
-				
+					
+					srand(event.m_eventInfo->nRun);
 					tauSpinnerWeight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 				}
 				else {
@@ -250,6 +257,11 @@ std::string TauSpinnerProducer::GetLabelForWeightsMap(float mixingAngleOverPiHal
 	return ("tauSpinnerWeight" + str(boost::format("%03d") % (mixingAngleOverPiHalf * 100.0)));
 }
 
+double TauSpinnerProducer::CustomRandomGenerator()
+{
+	return static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+}
+
 
 std::string std::to_string(TauSpinner::SimpleParticle& particle)
 {
@@ -270,3 +282,4 @@ std::string std::to_string(std::vector<TauSpinner::SimpleParticle>& particleVect
 	}
 	return result;
 }
+
