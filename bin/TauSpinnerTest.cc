@@ -5,6 +5,38 @@
 #include "TauSpinner/tau_reweight_lib.h"
 
 
+std::pair<float, int> GetTauSpinnerWeightSpin(
+		TauSpinner::SimpleParticle boson,
+		TauSpinner::SimpleParticle tau1,
+		TauSpinner::SimpleParticle tau2,
+		std::vector<TauSpinner::SimpleParticle> tauFinalStates1,
+		std::vector<TauSpinner::SimpleParticle> tauFinalStates2,
+		int n=100
+)
+{
+	float weight = 0.0;
+	double spin = 0.0;
+	for (int i = 0; i < n; ++i)
+	{
+		weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+		spin += TauSpinner::getTauSpin();
+	}
+	spin /= n;
+	if (spin > 0.0)
+	{
+		return std::pair<float, int>(weight, 1);
+	}
+	else if (spin < 0.0)
+	{
+		return std::pair<float, int>(weight, -1);
+	}
+	else
+	{
+		return std::pair<float, int>(weight, 0);
+	}
+}
+
+
 int main(int argc, const char *argv[])
 {
 	Tauolapp::Tauola::initialize();
@@ -31,106 +63,54 @@ int main(int argc, const char *argv[])
 	std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
 	tauFinalStates2.push_back(TauSpinner::SimpleParticle(13.371717, -21.770473, 237.549759, 238.919739, 16)); // neutrino
 	tauFinalStates2.push_back(TauSpinner::SimpleParticle(2.831248, -6.347505, 65.174820, 65.544518, -211)); // pion
+
+	std::pair<float, int> weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	float weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	float spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
-	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
-	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
-	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
-	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
-	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
-	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
-	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
-	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
-	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
-	
-	weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-	spin = TauSpinner::getTauSpin();
-	std::cout << "weight = " << weight << "; spin = " << spin << std::endl;
+	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
 	return 0;
 }
