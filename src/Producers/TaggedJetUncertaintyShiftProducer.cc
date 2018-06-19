@@ -29,9 +29,6 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 	uncertaintyFile = settings.GetJetEnergyCorrectionUncertaintyParameters();
 	individualUncertainties = settings.GetJetEnergyCorrectionSplitUncertaintyParameterNames();
 	uncertaintyGroupings = settings.GetJetEnergyCorrectionSplitUncertaintyGroupings();
-	// uncertaintiesGroupingsEta0To5 = settings.GetJetEnergyCorrectionSplitGroupingEta0To5();
-	// uncertaintiesGroupingsEta3To5 = settings.GetJetEnergyCorrectionSplitGroupingEta3To5();
-	// uncertaintiesGroupingsEta0To3 = settings.GetJetEnergyCorrectionSplitGroupingEta0To3();
 	
 	// make sure the necessary parameters are configured
 	assert(uncertaintyFile != "");

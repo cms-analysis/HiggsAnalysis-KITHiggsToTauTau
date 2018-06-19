@@ -410,9 +410,6 @@ public:
 	IMPL_SETTING_DEFAULT(float, AbsJetEnergyCorrectionSplitUncertaintyShift, 0.0f);
 	IMPL_SETTING_STRINGLIST_DEFAULT(JetEnergyCorrectionSplitUncertaintyParameterNames, {});
 	IMPL_SETTING_MAPSTRINGTOLISTOFSTRINGS(JetEnergyCorrectionSplitUncertaintyGroupings);
-	IMPL_SETTING_STRINGLIST_DEFAULT(JetEnergyCorrectionSplitGroupingEta0To5, {});
-	IMPL_SETTING_STRINGLIST_DEFAULT(JetEnergyCorrectionSplitGroupingEta3To5, {});
-	IMPL_SETTING_STRINGLIST_DEFAULT(JetEnergyCorrectionSplitGroupingEta0To3, {});
 	IMPL_SETTING_DEFAULT(std::string, JetEnergyCorrectionSplitUncertaintyParameters, "");
 	IMPL_SETTING_DEFAULT(bool, UseJECShiftsForBJets, false);
 };
