@@ -145,18 +145,16 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				float twoTimesMixingAngleRadSample = M_PI * mixingAngleOverPiHalfSample;
 				TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRadSample), cos(twoTimesMixingAngleRadSample),
 					                             -sin(twoTimesMixingAngleRadSample), -sin(twoTimesMixingAngleRadSample));
-				
-				std::pair<double, double> weightSpin = TauSpinnerProducer::GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-				product.m_optionalWeights["tauSpinnerWeight"] = weightSpin.first;
-				product.m_tauSpinnerPolarisation = weightSpin.second;
+			
+				product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 				product.m_tauSpinnerValidOutputs = true;
 			}
 			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdZ)))
 			{
 				// call same function as for Higgs: http://tauolapp.web.cern.ch/tauolapp/namespaceTauSpinner.html#a33de132eef40cedcf39222fee0449d79
-				std::pair<double, double> weightSpin = TauSpinnerProducer::GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-				product.m_optionalWeights["tauSpinnerWeight"] = weightSpin.first;
-				product.m_tauSpinnerPolarisation = weightSpin.second;
+				product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 				product.m_tauSpinnerValidOutputs = true;
 			}
 			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdW)))
@@ -203,40 +201,6 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				product.m_optionalWeights[GetLabelForWeightsMap(mixingAngleOverPiHalf)] = tauSpinnerWeight;
 			}
 		}
-	}
-}
-
-std::pair<double, double> TauSpinnerProducer::GetTauSpinnerWeightSpin(
-		TauSpinner::SimpleParticle boson,
-		TauSpinner::SimpleParticle tau1,
-		TauSpinner::SimpleParticle tau2,
-		std::vector<TauSpinner::SimpleParticle> tauFinalStates1,
-		std::vector<TauSpinner::SimpleParticle> tauFinalStates2,
-		int nIterations
-)
-{
-	double weight = 0.0;
-	double spin = 0.0;
-	for (int iteration = 0; iteration < nIterations; ++iteration)
-	{
-		weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-		
-		// http://tauolapp.web.cern.ch/tauolapp/namespaceTauSpinner.html#af58cb8fff6c2c5bdd52f47c161fffe30
-		// http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
-		spin += TauSpinner::getTauSpin();
-	}
-	spin /= nIterations;
-	if (spin > 0.0)
-	{
-		return std::pair<double, double>(weight, 1.0);
-	}
-	else if (spin < 0.0)
-	{
-		return std::pair<double, double>(weight, -1.0);
-	}
-	else
-	{
-		return std::pair<double, double>(weight, 0.0);
 	}
 }
 
