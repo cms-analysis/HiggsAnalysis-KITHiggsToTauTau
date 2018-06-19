@@ -5,34 +5,34 @@
 #include "TauSpinner/tau_reweight_lib.h"
 
 
-std::pair<float, int> GetTauSpinnerWeightSpin(
+std::pair<double, double> GetTauSpinnerWeightSpin(
 		TauSpinner::SimpleParticle boson,
 		TauSpinner::SimpleParticle tau1,
 		TauSpinner::SimpleParticle tau2,
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates1,
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates2,
-		int n=100
+		int nIterations=100
 )
 {
-	float weight = 0.0;
+	double weight = 0.0;
 	double spin = 0.0;
-	for (int i = 0; i < n; ++i)
+	for (int iteration = 0; iteration < nIterations; ++iteration)
 	{
 		weight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 		spin += TauSpinner::getTauSpin();
 	}
-	spin /= n;
+	spin /= nIterations;
 	if (spin > 0.0)
 	{
-		return std::pair<float, int>(weight, 1);
+		return std::pair<double, double>(weight, 1.0);
 	}
 	else if (spin < 0.0)
 	{
-		return std::pair<float, int>(weight, -1);
+		return std::pair<double, double>(weight, -1.0);
 	}
 	else
 	{
-		return std::pair<float, int>(weight, 0);
+		return std::pair<double, double>(weight, 0.0);
 	}
 }
 
@@ -64,7 +64,7 @@ int main(int argc, const char *argv[])
 	tauFinalStates2.push_back(TauSpinner::SimpleParticle(13.371717, -21.770473, 237.549759, 238.919739, 16)); // neutrino
 	tauFinalStates2.push_back(TauSpinner::SimpleParticle(2.831248, -6.347505, 65.174820, 65.544518, -211)); // pion
 
-	std::pair<float, int> weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+	std::pair<double, double> weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 	std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	
 	weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
