@@ -322,8 +322,6 @@ class em_ArtusConfig(dict):
 
 		self.update(IdAndTriggerSF(nickname, channel="EM", dcach=False))
 
-		self["TriggerEfficiencyMode"] = "correlate_triggers"
-		self["IdentificationEfficiencyMode"] = "multiply_weights"
 		self["TauTauRestFrameReco"] = "collinear_approximation"
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):

@@ -100,7 +100,9 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 			efficienciesMcByIndex,
 			event, product, settings, metadata
 	);
-	
+
+	double efficienciesTau = 0.9; //TODO have to find this efficiency, just set it to 0.75 for no reason, maybe this will also become a std::vector<std::vector<double> >
+
 	// calculate the weight
 	if (m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::MULTIPLY_WEIGHTS)
 	{
@@ -127,12 +129,30 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 		       (efficienciesMc.size() == 2) &&
 		       (efficienciesMc[0].size() == 2) &&
 		       (efficienciesMc[1].size() == 2));
-		
+
 		double efficiencyData = efficienciesData[0][0]*efficienciesData[1][1] + efficienciesData[0][1]*efficienciesData[1][0] - efficienciesData[0][1]*efficienciesData[1][1];
 		double efficiencyMc = efficienciesMc[0][0]*efficienciesMc[1][1] + efficienciesMc[0][1]*efficienciesMc[1][0] - efficienciesMc[0][1]*efficienciesMc[1][1];
 		double weight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
 		product.m_weights[std::string(m_weightName + "_1")] = weight;
 	}
+
+	else if (m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS)
+	{
+		assert((efficienciesData.size() == 2) &&
+		       (efficienciesData[0].size() == 1) &&
+		       (efficienciesData[1].size() == 1) &&
+		       (efficienciesMc.size() == 2) &&
+		       (efficienciesMc[0].size() == 1) &&
+		       (efficienciesMc[1].size() == 1));
+
+		//TODO here the thing is changed
+		double efficiencyData = efficienciesData[0][0]*(1.0-efficienciesTau) + efficienciesData[1][0]*efficienciesTau;
+		double efficiencyMc = efficienciesMc[0][0]*(1.0-efficienciesTau)  + efficienciesMc[1][0]*efficienciesTau;
+		double weight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
+		product.m_weights[std::string(m_weightName + "_1")] = weight;
+	}
+
+
 }
 
 

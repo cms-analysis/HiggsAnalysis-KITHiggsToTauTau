@@ -99,6 +99,8 @@ class et_ArtusConfig(dict):
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer"
 				]
+				if re.search("Summer17|Fall17", nickname):
+					self["Processors"] += ["producer:TriggerWeightProducer"]
 
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 					#"filter:MinimalPlotlevelFilter", '#producer:SvfitProducer', '#producer:SvfitM91Producer', '#producer:SvfitM125Producer'
@@ -358,11 +360,10 @@ class et_ArtusConfig(dict):
 			"0:e_pt,e_eta",
 			"0:e_pt,e_eta"
 		]
+		
 
-		self.update(IdAndTriggerSF(nickname, channel="ET", dcach=True))
+		self.update(IdAndTriggerSF(nickname, channel="ET", dcach=False))
 
-		self["TriggerEfficiencyMode"] = "multiply_weights"
-		self["IdentificationEfficiencyMode"] = "multiply_weights"
 
 		if re.search("Run2017|Summer17|Fall17", nickname):
 			self["EleTauFakeRateWeightFile"] = [""]

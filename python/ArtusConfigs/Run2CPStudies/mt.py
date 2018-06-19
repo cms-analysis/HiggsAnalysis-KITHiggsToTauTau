@@ -86,12 +86,17 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:MELAM125Producer"]
 
 
+
+
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 			else:
 				self["Processors"] += ["producer:TauCorrectionsProducer"]
 				self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
-				self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
+				if re.search("Summer17|Fall17", nickname):
+					self["Processors"] += ["producer:TriggerWeightProducer"]
+				else:
+					self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 				self["Processors"] += ["producer:MetCorrector"]
 				self["Processors"] += [
 						"producer:SimpleEleTauFakeRateWeightProducer",
@@ -426,24 +431,9 @@ class mt_ArtusConfig(dict):
 			"0:m_pt,m_eta",
 			"1:t_pt,t_eta"
 		]
-
+		
 		self.update(IdAndTriggerSF(nickname, channel="MT", dcach=False))
-		self["TriggerEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Muon_Mu22OR_eta2p1_eff.root"]
-		self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_Mu22OR_eta2p1_eff.root"]
-		self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root"]
-		self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso_IsoLt0p15_2016BtoH_eff.root"]
-
-		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
-			self["TriggerEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_IsoMu18_fall15.root"]
-			self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu18_fall15.root"]
-			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p1_fall15.root"]
-			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p1_fall15.root"]
-
-		elif re.search("Spring16", nickname):
-			self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"]
-
-		self["TriggerEfficiencyMode"] = "multiply_weights"
-		self["IdentificationEfficiencyMode"] = "multiply_weights"
+		
 		self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 		self["TauTauRestFrameReco"] =  "collinear_approximation"
 		self["InvalidateNonMatchingElectrons"] =  False
