@@ -1,9 +1,15 @@
 
+#include <cstdlib>
 #include <iostream>
 
 #include "TauSpinner/SimpleParticle.h"
 #include "TauSpinner/tau_reweight_lib.h"
 
+
+double CustomRandomGenerator()
+{
+	return static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+}
 
 std::pair<double, double> GetTauSpinnerWeightSpin(
 		TauSpinner::SimpleParticle boson,
@@ -11,9 +17,12 @@ std::pair<double, double> GetTauSpinnerWeightSpin(
 		TauSpinner::SimpleParticle tau2,
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates1,
 		std::vector<TauSpinner::SimpleParticle> tauFinalStates2,
-		int nIterations=100
+		int nIterations=1
 )
 {
+	//Tauolapp::Tauola::setSeed(391486, 0, 0); // seems to have no effect
+	srand(391486);
+	
 	double weight = 0.0;
 	double spin = 0.0;
 	for (int iteration = 0; iteration < nIterations; ++iteration)
@@ -22,6 +31,7 @@ std::pair<double, double> GetTauSpinnerWeightSpin(
 		spin += TauSpinner::getTauSpin();
 	}
 	spin /= nIterations;
+	
 	if (spin > 0.0)
 	{
 		return std::pair<double, double>(weight, 1.0);
@@ -40,6 +50,8 @@ std::pair<double, double> GetTauSpinnerWeightSpin(
 int main(int argc, const char *argv[])
 {
 	Tauolapp::Tauola::initialize();
+	Tauolapp::Tauola::setRandomGenerator(*CustomRandomGenerator);
+	
 	LHAPDF::initPDFSetByName("MSTW2008nnlo90cl.LHgrid");
 	
 	TauSpinner::initialize_spinner(
@@ -47,7 +59,7 @@ int main(int argc, const char *argv[])
 			2, // Ipol
 			0, // NonSM2
 			0, // NonSMN
-			13000 // CmsEnergy()
+			13000 // CMS Energy
 	);
 	
 	TauSpinner::SimpleParticle boson(9.057124, 4.738310, 362.649353, 373.200989, 23);
