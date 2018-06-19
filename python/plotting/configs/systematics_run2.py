@@ -108,6 +108,9 @@ class SystematicsFactory(dict):
 			"SinglePionHCAL",
 			"TimePtEta",
 			"Total",
+			"eta0to5",
+			"eta0to3",
+			"eta3to5",
 			"Closure"
 		]
 		

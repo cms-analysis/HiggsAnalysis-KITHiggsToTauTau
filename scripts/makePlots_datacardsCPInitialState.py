@@ -360,6 +360,9 @@ if __name__ == "__main__":
 		"SinglePionECAL",
 		"SinglePionHCAL",
 		"TimePtEta",
+		"eta0to5",
+		"eta0to3",
+		"eta3to5",
 		"Total",
 		"Closure"
 	]
@@ -568,7 +571,6 @@ if __name__ == "__main__":
 							zmm_cr_factor=zmm_cr_factor,
 							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)
-					
 					
 					if "CMS_scale_gg_13TeV" in shape_systematic:
 						systematics_settings = systematics_factory.get(shape_systematic)(config, category)
