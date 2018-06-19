@@ -121,7 +121,7 @@ if __name__ == "__main__":
 	                    help="Turn off normalization by bin width [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
-	parser.add_argument("--background-method", default="new",
+	parser.add_argument("--background-method", default="simeqn",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("-b", "--batch", default=None, const="rwthcondor", nargs="?",
 	                    help="Run with grid-control. Optionally select backend. [Default: %(default)s]")
@@ -209,6 +209,7 @@ if __name__ == "__main__":
 	binnings_settings = binnings.BinningsDict()
 	labels_settings = labels.LabelsDict()
 	systematics_factory = systematics.SystematicsFactory()
+	background_method = args.background_method
 	
 	plot_configs = []
 	output_files = []
@@ -528,7 +529,7 @@ if __name__ == "__main__":
 				# This is needed because wj and qcd are interdependent when using the new background estimation method
 				# NB: CH takes care to only use the templates for processes that you specified. This means that any
 				#     superfluous histograms created as a result of this problem do not influence the result
-				if args.background_method == "simeqn":
+				if background_method == "simeqn":
 					if "qcd" in list_of_samples and "wj" not in list_of_samples:
 						list_of_samples += ["wj"]
 					elif "wj" in list_of_samples and "qcd" not in list_of_samples:
@@ -567,7 +568,7 @@ if __name__ == "__main__":
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
 							cut_type="cpggh2016" if args.era == "2016" else "baseline",
-							estimationMethod="new",
+							estimationMethod="simeqn",
 							zmm_cr_factor=zmm_cr_factor,
 							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)

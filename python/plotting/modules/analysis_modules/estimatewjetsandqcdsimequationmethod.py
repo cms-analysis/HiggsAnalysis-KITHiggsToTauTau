@@ -172,6 +172,7 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 				
 			log.debug("W+jets Same-sign High mT before estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_ss_highmt))	
 			yield_wjets_ss_highmt = yield_wjets_os_highmt - qcd_extrapolation_factor_ss_os * yield_wjets_ss_highmt
+			yield_wjets_ss_highmt = uncertainties.ufloat(max(0.0, yield_wjets_ss_highmt.nominal_value), yield_wjets_ss_highmt.std_dev)
 			yield_wjets_ss_highmt = yield_wjets_ss_highmt / (w_os_ss_extrapolation_factor - qcd_extrapolation_factor_ss_os)
 			
 			log.debug("W+jets Same-sign High mT after estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_ss_highmt))	
@@ -260,7 +261,8 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			yield_qcd_ss = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_ss_data_nick])()
 			for nick in qcd_ss_yield_subtract_nicks:			
 				yield_qcd_ss -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
-			yield_qcd_ss -= tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_lowmt_shape_nick])()	
+			yield_qcd_ss -= tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_lowmt_shape_nick])()
+			yield_qcd_ss = uncertainties.ufloat(max(0.0, yield_qcd_ss.nominal_value), yield_qcd_ss.std_dev)
 
 			log.debug("QCD Same-sign yield is \"{YIELD}\".".format(YIELD = yield_qcd_ss))				
 			if yield_qcd_ss.nominal_value == 0.0: 
@@ -272,8 +274,10 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			plotData.plotdict["root_objects"][qcd_shape_nick].Add(plotData.plotdict["root_objects"][wjets_ss_lowmt_shape_nick], -1)
 			
 			qcd_shape_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_shape_nick])()
+			qcd_shape_yield = uncertainties.ufloat(max(0.0, qcd_shape_yield.nominal_value), qcd_shape_yield.std_dev)
+
 			yield_qcd_os = yield_qcd_ss * qcd_extrapolation_factor_ss_os
-			if qcd_shape_yield != 0:
+			if qcd_shape_yield.nominal_value != 0:
 				scale_factor = yield_qcd_os / qcd_shape_yield 
 				log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_shape_nick, scale_factor=scale_factor))
 				plotData.plotdict["root_objects"][qcd_shape_nick].Scale(scale_factor.nominal_value)	
@@ -286,7 +290,8 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			}
 
 			qcd_shape_yield = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_ss_lowmt_nick])()
-			if qcd_shape_yield != 0:
+			qcd_shape_yield = uncertainties.ufloat(max(0.0, qcd_shape_yield.nominal_value), qcd_shape_yield.std_dev)
+			if qcd_shape_yield.nominal_value != 0:
 				scale_factor = yield_qcd_ss / qcd_shape_yield
 				log.debug("Scale factor for process QCD (nick \"{nick}\") is {scale_factor}.".format(nick=qcd_ss_lowmt_nick, scale_factor=scale_factor))
 				plotData.plotdict["root_objects"][qcd_ss_lowmt_nick].Scale(scale_factor.nominal_value)	
