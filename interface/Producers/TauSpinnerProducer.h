@@ -30,7 +30,15 @@ public:
 
 	virtual void Produce(event_type const& event, product_type& product,
 						 setting_type const& settings, metadata_type const& metadata) const override;
-
+	
+	static std::pair<double, double> GetTauSpinnerWeightSpin(
+			TauSpinner::SimpleParticle boson,
+			TauSpinner::SimpleParticle tau1,
+			TauSpinner::SimpleParticle tau2,
+			std::vector<TauSpinner::SimpleParticle> tauFinalStates1,
+			std::vector<TauSpinner::SimpleParticle> tauFinalStates2,
+			int nIterations=100
+	);
 
 private:
 	virtual TauSpinner::SimpleParticle GetSimpleParticle(RMFLV const& particleLV, int particlePdgId) const;
