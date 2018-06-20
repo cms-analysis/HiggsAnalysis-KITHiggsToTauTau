@@ -144,6 +144,8 @@ if __name__ == "__main__":
 	                    help="Do not include shape-uncertainties. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	parser.add_argument("--n-toys", default=100,
+	                    help="Number of toys to be used in the hypothesis test. [Default: %(default)s]")
 	parser.add_argument("--x-bins", default=None,
 	                    help="Manually set the binning. Default is taken from configuration files.")
 	parser.add_argument("--do-not-ignore-category-removal", default=False, action="store_true",
@@ -959,8 +961,9 @@ if __name__ == "__main__":
 #		])
 		
 		hybridcommandoutput = subprocess.check_output(
-			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T 2000 -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --there --parallel={N_PROCESSES} | tee HybridNew.log".format(
+			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T {N_TOYS} -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --there --parallel={N_PROCESSES} | tee HybridNew.log".format(
 				OUTPUT_SUFFIX=args.output_suffix,
+				N_TOYS=args.n_toys,
 				N_PROCESSES=args.n_processes
 			)
 			, shell=True
