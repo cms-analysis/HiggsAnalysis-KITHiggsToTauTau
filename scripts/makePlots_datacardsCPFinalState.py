@@ -959,7 +959,7 @@ if __name__ == "__main__":
 #		])
 		
 		hybridcommandoutput = subprocess.check_output(
-			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T 50 -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --there --parallel={N_PROCESSES} | tee HybridNew.log".format(
+			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T 2000 -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --there --parallel={N_PROCESSES} | tee HybridNew.log".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				N_PROCESSES=args.n_processes
 			)
@@ -985,7 +985,7 @@ if __name__ == "__main__":
 			pconfigs["weights"] = ["1", "type>0", "type<0", "type==0"]
 			pconfigs["x_expressions"] = ["q"]
 			pconfigs["output_dir"] = str(os.path.dirname(filename))
-			pconfigs["x_bins"] = ["500,0.0,6.3"]
+			pconfigs["x_bins"] = ["500,-3,3"]
 			pconfigs["analysis_modules"] = ["PValue"]
 			pconfigs["p_value_alternative_hypothesis_nicks"] = ["alternative_hypothesis"]
 			pconfigs["p_value_null_hypothesis_nicks"] = ["null_hypothesis"]
@@ -995,7 +995,7 @@ if __name__ == "__main__":
 			if args.use_asimov_dataset:
 				pconfigs["labels"] = ["CP-even", "CP-odd", "asimov"]
 			pconfigs["colors"] = ["#00549f", "#cc071e", "#57ab27"]
-			pconfigs["lines_width"] = [3]
+			pconfigs["line_widths"] = [3]
 
 			pconfigs_plot.append(pconfigs)
 		import pprint
