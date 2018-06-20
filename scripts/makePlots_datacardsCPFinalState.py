@@ -923,7 +923,7 @@ if __name__ == "__main__":
 			#           - line_graph.SetLineWidth(1) (concerns vertical lines, curretnly line 309)
 			category_name = {"1" : "ZeroJet", "2" : "Boosted", "3" : "Vbf"}
 			if ("1" in plot_category or "2" in plot_category or "3" in plot_category) and not ("10" in plot_category or "11" in plot_category or "12" in plot_category):
-				plot_config["title"] = "channel_"+plot_channel+" - "+category_name
+				plot_config["title"] = "channel_"+plot_channel #+" - "+category_name[plot_category]
 				plot_config["canvas_width"] = 1800
 				plot_config["canvas_height"] = 1000
 				plot_config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 2 if args.ratio else 1.9]
