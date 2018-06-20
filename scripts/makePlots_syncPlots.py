@@ -74,12 +74,13 @@ if __name__ == "__main__":
 		
 		if args.event_matching:
 			if index == 0:
-				command = "eventmatching.py {input1} {input2} -t {folder1} {folder2} -f {output}".format(
+				command = "eventmatching.py {input1} {input2} -t {folder1} {folder2} -f {output} --n-max-entries {n_max_entries}".format(
 					input1=args.input_1,
 					input2=args.input_2,
 					folder1=args.folder_1,
 					folder2=args.folder_2,
-					output=event_matching_output
+					output=event_matching_output,
+					n_max_entries=100000
 				)
 				log.info(command)
 				logger.subprocessCall(command, shell=True)
