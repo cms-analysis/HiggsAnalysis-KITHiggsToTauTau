@@ -995,11 +995,11 @@ if __name__ == "__main__":
 			if args.use_asimov_dataset:
 				pconfigs["labels"] = ["CP-even", "CP-odd", "asimov"]
 			pconfigs["colors"] = ["#00549f", "#cc071e", "#57ab27"]
-			pconfigs["line_widths"] = [3]
+			pconfigs["line_widths"] = [2]
 
 			pconfigs_plot.append(pconfigs)
-		import pprint
-		pprint.pprint(pconfigs_plot)
+		#import pprint
+		#pprint.pprint(pconfigs_plot)
 
 		higgsplot.HiggsPlotter(list_of_config_dicts=pconfigs_plot, list_of_args_strings=[args.args], n_processes=args.n_processes)
 
