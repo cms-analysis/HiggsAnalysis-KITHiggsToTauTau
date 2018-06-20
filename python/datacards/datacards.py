@@ -481,17 +481,21 @@ class Datacards(object):
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="annotate-trees.py")
 		return values_tree_files
 
-	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="x"):
+	def hypotestresulttree(self, datacards_cbs, n_processes=1, rvalue="1", poiname="x", inputfile=None):
 		commands = []
 		hypotestresulttree = {}
 
+		inputname = "higgsCombine.HybridNew"
+		if inputfile is not None:
+			assert inputfile != ""
+			inputname = inputfile
 
 
 		#for fit_type in fit_type_list:
 		commands.extend(["root -q -b \"HiggsAnalysis/KITHiggsToTauTau/scripts/hypoTestResultTree.cxx(\\\"{INPUT}\\\",\\\"{OUTPUT}\\\",{MASS},{RVALUE},\\\"{POINAME}\\\")\"".format(
-				INPUT=os.path.join(os.path.dirname(datacard),"higgsCombine.HybridNew.mH{angle}.root".format(angle = [mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")),
-				OUTPUT=os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")),
-				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0", # TODO: maybe there are more masses?
+				INPUT=os.path.join(os.path.dirname(datacard), inputname+".mH{angle}.root".format(angle = [mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125")),
+				OUTPUT=os.path.join(os.path.dirname(datacard), inputname+".mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125")),
+				MASS=[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125", # TODO: maybe there are more masses?
 				RVALUE= str(rvalue),
 				POINAME=str(poiname)
 
@@ -504,7 +508,7 @@ class Datacards(object):
 
 		tools.parallelize(_call_command, commands, n_processes=n_processes, description="hypoTestResultTree.cxx")
 
-		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")) for datacard in datacards_cbs.keys()}
+		return {datacard : os.path.join(os.path.dirname(datacard), inputname+".mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "125")) for datacard in datacards_cbs.keys()}
 	
 	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, *args, **kwargs):
 		tmp_args = "".join(args)

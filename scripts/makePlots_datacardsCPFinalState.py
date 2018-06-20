@@ -12,6 +12,7 @@ import os
 import re
 import shlex
 import sys
+import subprocess
 
 import CombineHarvester.CombineTools.ch as ch
 
@@ -950,24 +951,57 @@ if __name__ == "__main__":
 	
 	if "sensitivity" in args.steps:
 		log.info("\n -------------------------------------- CPeven/CPodd hypothesis test ---------------------------------\n")
-		datacards_module._call_command([
-			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T 50 -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"CPtest\" --parallel={N_PROCESSES} --there".format(
+#		datacards_module._call_command([
+#			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T 50 -i 2 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --there --parallel={N_PROCESSES}".format(
+#				OUTPUT_SUFFIX=args.output_suffix,
+#				N_PROCESSES=args.n_processes
+#			)
+#		])
+		
+		hybridcommandoutput = subprocess.check_output(
+			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T 50 -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --there --parallel={N_PROCESSES} | tee HybridNew.log".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				N_PROCESSES=args.n_processes
 			)
-		])
-		#datacards.combine(datacards_cbs, datacards_workspaces, None, args.n_processes,
-		#	"-M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T 50 -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --parallel={N_PROCESSES} --there".format(
-		#		OUTPUT_SUFFIX=args.output_suffix,
-		#		N_PROCESSES=args.n_processes
-		#	),
-		#	higgs_mass="125"
-		#)
+			, shell=True
+		)
+		
+		match = re.search(r"Hybrid result saved as ([\w\.]+) in ([\w\.]+).mH(\d+).root", hybridcommandoutput)
+		hybrid_outputfile = match.group(2)
 
-		#datacards_hypotestresult = datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x")
-		#log.info(datacards_hypotestresult)
+		datacards_hypotestresult = datacards.hypotestresulttree(datacards_cbs, n_processes=args.n_processes, poiname="x", inputfile=hybrid_outputfile)
+		log.info(datacards_hypotestresult)
 
+		pconfigs_plot = []
+		for filename in datacards_hypotestresult.values():
+			log.info(filename)
+			pconfigs = {}
+			pconfigs["files"] = [filename]
+			pconfigs["folders"] = ["q"]
+			pconfigs["nicks"] = ["noplot", "alternative_hypothesis", "null_hypothesis", "q_obs"]
+			pconfigs["tree_draw_options"] = ["", "", "", "TGraph"]
+			pconfigs["markers"] = ["line", "line", "line"]
+			pconfigs["y_expressions"] = ["None", "None", "None", "0"]
+			pconfigs["weights"] = ["1", "type>0", "type<0", "type==0"]
+			pconfigs["x_expressions"] = ["q"]
+			pconfigs["output_dir"] = str(os.path.dirname(filename))
+			pconfigs["x_bins"] = ["500,0.0,6.3"]
+			pconfigs["analysis_modules"] = ["PValue"]
+			pconfigs["p_value_alternative_hypothesis_nicks"] = ["alternative_hypothesis"]
+			pconfigs["p_value_null_hypothesis_nicks"] = ["null_hypothesis"]
+			pconfigs["p_value_observed_nicks"] = ["q_obs"]
+			pconfigs["legend"] = [0.7,0.6,0.9,0.88]
+			pconfigs["labels"] = ["CP-even", "CP-odd", "observed"]
+			if args.use_asimov_dataset:
+				pconfigs["labels"] = ["CP-even", "CP-odd", "asimov"]
+			pconfigs["colors"] = ["#00549f", "#cc071e", "#57ab27"]
+			pconfigs["lines_width"] = [3]
 
+			pconfigs_plot.append(pconfigs)
+		import pprint
+		pprint.pprint(pconfigs_plot)
+
+		higgsplot.HiggsPlotter(list_of_config_dicts=pconfigs_plot, list_of_args_strings=[args.args], n_processes=args.n_processes)
 
 
 
