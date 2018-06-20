@@ -149,7 +149,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRadSample), cos(twoTimesMixingAngleRadSample),
 					                             -sin(twoTimesMixingAngleRadSample), -sin(twoTimesMixingAngleRadSample));
 				
-				srand(event.m_eventInfo->nRun);
+				srand(event.m_eventInfo->nEvent);
 				product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 				product.m_tauSpinnerValidOutputs = true;
@@ -157,14 +157,14 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdZ)))
 			{
 				// call same function as for Higgs: http://tauolapp.web.cern.ch/tauolapp/namespaceTauSpinner.html#a33de132eef40cedcf39222fee0449d79
-				srand(event.m_eventInfo->nRun);
+				srand(event.m_eventInfo->nEvent);
 				product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 				product.m_tauSpinnerValidOutputs = true;
 			}
 			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdW)))
 			{
-				srand(event.m_eventInfo->nRun);
+				srand(event.m_eventInfo->nEvent);
 				product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesWorHpn(boson, tau1, tau2, tauFinalStates1);
 				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
 				product.m_tauSpinnerValidOutputs = true;
@@ -188,7 +188,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 					TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRad), cos(twoTimesMixingAngleRad),
 						                             -sin(twoTimesMixingAngleRad), -sin(twoTimesMixingAngleRad));
 					
-					srand(event.m_eventInfo->nRun);
+					srand(event.m_eventInfo->nEvent);
 					tauSpinnerWeight = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
 				}
 				else {
