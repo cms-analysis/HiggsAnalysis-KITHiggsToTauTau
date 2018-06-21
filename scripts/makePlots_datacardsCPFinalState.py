@@ -936,7 +936,7 @@ if __name__ == "__main__":
 				plot_config["y_subplot_title_offset"] = 0.31
 				plot_config["left_pad_margin"] = 0.1
 				plot_config["right_pad_margin"] = 0.11
-				plot_config["line_widths"] = [3]
+				#plot_config["line_widths"] = [3]
 				plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
 				plot_config["texts"] = texts[plot_channel+"_"+plot_category]
 				plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category]
