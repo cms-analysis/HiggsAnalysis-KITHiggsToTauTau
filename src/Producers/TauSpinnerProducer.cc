@@ -265,12 +265,14 @@ double TauSpinnerProducer::CustomRandomGenerator()
 
 std::string std::to_string(TauSpinner::SimpleParticle& particle)
 {
-	return std::string("PdgId=" + std::to_string(particle.pdgid()) + "\t|"
-			             "Px=" + std::to_string(particle.px()) + "\t|" +
-			             "Py=" + std::to_string(particle.py()) + "\t|" +
-			             "Pz=" + std::to_string(particle.pz()) + "\t|" +
-			             "E="  + std::to_string(particle.e()) + "\t|" +
-			             "Mass=" + std::to_string(pow(particle.e(), 2) - pow(particle.px(), 2) - pow(particle.py(), 2) - pow(particle.pz(), 2)) + "\t|");
+	return std::string("TauSpinner::SimpleParticle(" +
+			std::to_string(particle.px()) + ", " +
+			std::to_string(particle.py()) + ", " +
+			std::to_string(particle.pz()) + ", " +
+			std::to_string(particle.e()) + ", " +
+			std::to_string(particle.pdgid()) + "), mass=" +
+			std::to_string(std::sqrt(std::pow(particle.e(), 2.0) - std::pow(particle.px(), 2.0) - std::pow(particle.py(), 2.0) - std::pow(particle.pz(), 2.0)))
+	);
 }
 
 std::string std::to_string(std::vector<TauSpinner::SimpleParticle>& particleVector)
