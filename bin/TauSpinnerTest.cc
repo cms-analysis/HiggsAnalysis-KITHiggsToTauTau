@@ -164,5 +164,55 @@ int main(int argc, const char *argv[])
 		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
 	}
 	
+	// ##### event 9560272 ########################################################################
+	{
+		int eventNumber = 9560272;
+		std::cout << "\nevent = " << eventNumber << std::endl;
+	
+		TauSpinner::SimpleParticle boson(-5.594960, -1.221902, 2685.314941, 2686.802979, 23);
+	
+		TauSpinner::SimpleParticle tau1(8.606624, 21.970398, 2415.394043, 2415.509766, -15);
+	
+		std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
+		tauFinalStates1.push_back(TauSpinner::SimpleParticle(5.224224, 15.548992, 1682.171631, 1682.251587, -16)); // neutrino
+		tauFinalStates1.push_back(TauSpinner::SimpleParticle(3.382401, 6.421405, 733.222351, 733.258240, 211)); // pion
+	
+		TauSpinner::SimpleParticle tau2(-14.201586, -23.192297, 269.920868, 271.293213, 15);
+	
+		std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
+		tauFinalStates2.push_back(TauSpinner::SimpleParticle(-10.906036, -18.258516, 217.570587, 218.607590, 16)); // neutrino
+		tauFinalStates2.push_back(TauSpinner::SimpleParticle(-3.295550, -4.933780, 52.350307, 52.685650, -211)); // pion
+
+		std::pair<double, double> weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2, eventNumber, 1);
+		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
+
+		weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2, eventNumber, 1);
+		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
+
+		weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2, eventNumber, 1);
+		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
+
+		weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2, eventNumber, 1);
+		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
+
+		weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2, eventNumber, 1);
+		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
+
+		weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2, eventNumber, 1);
+		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
+
+		weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2, eventNumber, 1);
+		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
+
+		weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2, eventNumber, 1);
+		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
+
+		weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2, eventNumber, 1);
+		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
+
+		weightSpin = GetTauSpinnerWeightSpin(boson, tau1, tau2, tauFinalStates1, tauFinalStates2, eventNumber, 1);
+		std::cout << "weight = " << weightSpin.first << "; spin = " << weightSpin.second << std::endl;
+	}
+	
 	return 0;
 }
