@@ -73,6 +73,11 @@ def weightQuantities():
 		"emuQcdWeightUp",
 		"emuQcdWeightNom",
 		"emuQcdWeightDown",
+		"emuQcdOsssWeight",
+		"emuQcdOsssRateUpWeight",
+		"emuQcdOsssRateDownWeight",
+		"emuQcdOsssShapeUpWeight",
+		"emuQcdOsssShapeDownWeight"
 		"topPtReweightWeight",
 		"topPtReweightWeightRun1",
 		"topPtReweightWeightRun2",

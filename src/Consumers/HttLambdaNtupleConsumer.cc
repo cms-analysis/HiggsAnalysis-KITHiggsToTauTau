@@ -32,6 +32,26 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("puWeight"), 1.0);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_binned", [](event_type const& event, product_type const& product)
+	{
+		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdOsssWeight"), 1.0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_rateup_binned", [](event_type const& event, product_type const& product)
+	{
+		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdOsssRateUpWeight"), 1.0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_ratedown_binned", [](event_type const& event, product_type const& product)
+	{
+		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdOsssRateDownWeight"), 1.0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_shapeup_binned", [](event_type const& event, product_type const& product)
+	{
+		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdOsssShapeUpWeight"), 1.0);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_shapedown_binned", [](event_type const& event, product_type const& product)
+	{
+		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdOsssShapeDownWeight"), 1.0);
+	});	
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trigweight_1", [](event_type const& event, product_type const& product)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("triggerWeight_1"), 1.0);

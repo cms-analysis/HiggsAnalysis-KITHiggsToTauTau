@@ -141,18 +141,48 @@ class em_ArtusConfig(dict):
 		self["DiTauPairIsTauIsoMVA"] = True
 
 		self["EventWeight"] = "eventWeight"
-		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_5_1.root"
 		self["RooWorkspaceWeightNames"] = [
 			"0:idIsoWeight",
-			"1:idIsoWeight"
+			"0:emuQcdOsssWeight",
+			"0:emuQcdOsssRateUpWeight",
+			"0:emuQcdOsssRateDownWeight",
+			"0:emuQcdOsssShapeUpWeight",
+			"0:emuQcdOsssShapeDownWeight",
+			"1:idIsoWeight",
+			"1:emuQcdOsssWeight",
+			"1:emuQcdOsssRateUpWeight",
+			"1:emuQcdOsssRateDownWeight",
+			"1:emuQcdOsssShapeUpWeight",
+			"1:emuQcdOsssShapeDownWeight"			
 		]
 		self["RooWorkspaceObjectNames"] = [
 			"0:e_idiso0p15_desy_ratio",
-			"1:m_idiso0p20_desy_ratio"
+			"0:em_qcd_osss_binned",
+			"0:em_qcd_osss_rateup_binned",
+			"0:em_qcd_osss_ratedown_binned",
+			"0:em_qcd_osss_shapeup_binned",
+			"0:em_qcd_osss_shapedown_binned",
+			"1:m_idiso0p20_desy_ratio",
+			"1:em_qcd_osss_binned",
+			"1:em_qcd_osss_rateup_binned",
+			"1:em_qcd_osss_ratedown_binned",
+			"1:em_qcd_osss_shapeup_binned",
+			"1:em_qcd_osss_shapedown_binned"
 		]
 		self["RooWorkspaceObjectArguments"] = [
 			"0:e_pt,e_eta",
-			"1:m_pt,m_eta"
+			"0:njets,dR,e_pt,m_pt",
+			"0:njets,dR,e_pt,m_pt",
+			"0:njets,dR,e_pt,m_pt",
+			"0:njets,dR,e_pt,m_pt",
+			"0:njets,dR,e_pt,m_pt",
+			"1:m_pt,m_eta",
+			"1:njets,dR,e_pt,m_pt",
+			"1:njets,dR,e_pt,m_pt",
+			"1:njets,dR,e_pt,m_pt",
+			"1:njets,dR,e_pt,m_pt",
+			"1:njets,dR,e_pt,m_pt"
 		]
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
