@@ -213,7 +213,26 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 
 TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& particleLV, int particlePdgId) const
 {
-	return TauSpinner::SimpleParticle(particleLV.Px(), particleLV.Py(), particleLV.Pz(), particleLV.E(), particlePdgId);
+	// http://tauolapp.web.cern.ch/tauolapp/classTauSpinner_1_1SimpleParticle.html
+	TauSpinner::SimpleParticle particle(particleLV.Px(), particleLV.Py(), particleLV.Pz(), particleLV.E(), particlePdgId);
+	
+	// Adjust energy component to preseve mass. This is needed because of rounding problems in conversions of Lorentz vectors
+	int interation = 0;
+	int maxIterations = 20;
+	double targetMass = (particleLV.mass() > 0.001 ? particleLV.mass() : 0.0);
+	double currentMass = 0.0;
+	do
+	{
+		double energy = std::sqrt(std::pow(particle.px(), 2.0) + std::pow(particle.py(), 2.0) + std::pow(particle.pz(), 2.0) + std::pow(targetMass, 2.0));
+		particle.setE(energy);
+		currentMass = std::sqrt(std::abs(std::pow(particle.e(), 2.0) - std::pow(particle.px(), 2.0) - std::pow(particle.py(), 2.0) - std::pow(particle.pz(), 2.0)));
+		++interation;
+	}
+	while ((interation < maxIterations) &&
+	       (((targetMass < 0.001) && (currentMass > 0.001)) ||
+	        ((targetMass != 0.0) && ((std::abs(currentMass - targetMass) / targetMass) > 0.01))));
+	
+	return particle;
 }
 
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
