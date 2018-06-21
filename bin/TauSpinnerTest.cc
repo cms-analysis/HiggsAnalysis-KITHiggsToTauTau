@@ -8,7 +8,9 @@
 
 double CustomRandomGenerator()
 {
-	return static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+	double randomNumber = static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+	std::cout << "randomNumber = " << randomNumber << std::endl;
+	return randomNumber;
 }
 
 std::pair<double, double> GetTauSpinnerWeightSpin(
