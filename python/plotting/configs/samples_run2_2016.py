@@ -3951,6 +3951,18 @@ class Samples(samples.SamplesBase):
 						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
 							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
 				if channel == "em" or channel == "ttbar":
+					# in the em channel QCD is estimated from SS events in data
+					# in the SM analysis a constant QCD OSSS factor is measured in anti-isolated lepton events.
+					# in the CP analysis event weights in bins of njets, dR and pt where determined. 
+					if kwargs.get("ss_os_factor", 0.0) != 0.0:
+						ss_os_factor = kwargs["ss_os_factor"]
+					else:
+						ss_os_factor = 1.00
+						if category != None:
+							ss_os_factor = 2.27 if "ZeroJet2D" in category else 2.26 if "Boosted2D" in category else 2.84 if "Vbf2D" in category else 1.00
+					
+					# determine the weight to be used
+					em_qcd_event_weight = "emuQcdWeightNom" # if not any(CP_category in category for CP_category in ["ZeroJetCP", "BoostedCP", "dijet2D_lowboost", "dijet2D_boosted"]) else "emuQcdOsssWeight"
 					for estimation_type in ["shape", "yield"]:
 						qcd_weight = weight
 						qcd_shape_cut = cut_type
@@ -3959,7 +3971,7 @@ class Samples(samples.SamplesBase):
 							if estimation_type == "shape" and ("ZeroJet2D" in category or "Boosted2D" in category):
 								qcd_weight += "*(iso_1<0.3)*(iso_2>0.1)*(iso_2<0.3)"
 								qcd_exclude_cuts += ["iso_1", "iso_2"]
-							if estimation_type == "shape" and ("Vbf2D" in category or "dijet" in category):
+							if estimation_type == "shape" and ("Vbf2D" in category):
 								qcd_weight += "*(iso_1<0.5)*(iso_2>0.2)*(iso_2<0.5)"
 								qcd_exclude_cuts += ["iso_1", "iso_2"]
 							if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
@@ -3971,13 +3983,13 @@ class Samples(samples.SamplesBase):
 											  "eventWeight",
 											  self._cut_string(channel, exclude_cuts=qcd_exclude_cuts, cut_type=qcd_shape_cut),
 											  "((q_1*q_2)>0.0)",
-											  "emuQcdWeightNom"])
+											  em_qcd_event_weight])
 						mc_sample_weight = make_multiplication([  mc_weight,
 											  qcd_weight,
 											  "eventWeight",
 											  self._cut_string(channel, exclude_cuts=qcd_exclude_cuts, cut_type=qcd_shape_cut),
 											  "((q_1*q_2)>0.0)",
-											  "emuQcdWeightNom"])
+											  em_qcd_event_weight])
 						Samples._add_input(
 								config,
 								self.files_wj(channel),
@@ -4145,12 +4157,6 @@ class Samples(samples.SamplesBase):
 					else:
 						config.setdefault("qcd_yield_subtract_nicks", []).append(" ".join(["noplot_"+nick+"_yield"+nick_suffix for nick in "ztt zll ttj vv wj".split()]))
 						config.setdefault("qcd_shape_subtract_nicks", []).append(" ".join(["noplot_"+nick+"_shape"+nick_suffix for nick in "ztt zll ttj vv wj".split()]))
-					if kwargs.get("ss_os_factor", 0.0) != 0.0:
-						ss_os_factor = kwargs["ss_os_factor"]
-					else:
-						ss_os_factor = 2.22
-						if category != None:
-							ss_os_factor = 2.27 if "ZeroJet2D" in category else 2.26 if "Boosted2D" in category else 2.84 if "Vbf2D" in category else 2.22
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 				if channel == "tt":
 					if cut_type == "baseline2016":

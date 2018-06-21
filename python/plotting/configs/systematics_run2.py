@@ -144,6 +144,12 @@ class SystematicsFactory(dict):
 		# TODO: Where are these systematics to be implemented?
 		self["CMS_ggH_STXSVBF2j"] = Nominal
 		self["CMS_ggH_STXSmig12"] = Nominal	
+		
+		# QCD systematics for the GGH CP analysis.
+		self["em_qcd_osss_rate_syst"] = EmuQCDOsssrateSystematic
+		self["em_qcd_osss_shape_syst"] = EmuQCDOsssShapeSystematic
+		self["em_qcd_extrap_syst"] = EmuQCDExtrapSystematic
+
 	
 	def get(self, key, default_value=None):
 		value = super(SystematicsFactory, self).get(key, default_value)
@@ -337,6 +343,48 @@ class DYShapeSystematic(SystematicShiftBase):
 					plot_config["weights"][index] = weight.replace("zPtReweightWeight","zPtReweightWeight*zPtReweightWeight")
 				elif shift < 0.0:
 					plot_config["weights"][index] = weight.replace("zPtReweightWeight","(1.0)")
+		
+		return plot_config
+
+class EmuQCDOsssShapeSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(EmuQCDOsssShapeSystematic, self).get_config(shift=shift)
+		
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdOsssShapeUpWeight")
+				elif shift < 0.0:
+					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdOsssShapeDownWeight")
+		
+		return plot_config
+
+class EmuQCDOsssRateSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(EmuQCDOsssRateSystematic, self).get_config(shift=shift)
+		
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdOsssRateUpWeight")
+				elif shift < 0.0:
+					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdOsssRateDownWeight")
+		
+		return plot_config
+
+class EmuQCDOsssExtrapSystematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(EmuQCDOsssExtrapSystematic, self).get_config(shift=shift)
+		
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			if not "Run201" in plot_config["files"][index]:
+				if shift > 0.0:
+					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdExtrapUpWeight")
+				elif shift < 0.0:
+					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdExtrapDownWeight")
 		
 		return plot_config
 
