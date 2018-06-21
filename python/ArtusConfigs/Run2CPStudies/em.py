@@ -149,12 +149,16 @@ class em_ArtusConfig(dict):
 			"0:emuQcdOsssRateDownWeight",
 			"0:emuQcdOsssShapeUpWeight",
 			"0:emuQcdOsssShapeDownWeight",
+			"0:emuQcdExtrapUpWeight",
+			"0:emuQcdExtrapDownWeight",			
 			"1:idIsoWeight",
 			"1:emuQcdOsssWeight",
 			"1:emuQcdOsssRateUpWeight",
 			"1:emuQcdOsssRateDownWeight",
 			"1:emuQcdOsssShapeUpWeight",
-			"1:emuQcdOsssShapeDownWeight"			
+			"1:emuQcdOsssShapeDownWeight",
+			"1:emuQcdExtrapUpWeight",
+			"1:emuQcdExtrapDownWeight"							
 		]
 		self["RooWorkspaceObjectNames"] = [
 			"0:e_idiso0p15_desy_ratio",
@@ -163,12 +167,16 @@ class em_ArtusConfig(dict):
 			"0:em_qcd_osss_ratedown_binned",
 			"0:em_qcd_osss_shapeup_binned",
 			"0:em_qcd_osss_shapedown_binned",
+			"0:em_qcd_extrap_up",
+			"0:em_qcd_extrap_down",			
 			"1:m_idiso0p20_desy_ratio",
 			"1:em_qcd_osss_binned",
 			"1:em_qcd_osss_rateup_binned",
 			"1:em_qcd_osss_ratedown_binned",
 			"1:em_qcd_osss_shapeup_binned",
-			"1:em_qcd_osss_shapedown_binned"
+			"1:em_qcd_osss_shapedown_binned",
+			"1:em_qcd_extrap_up",
+			"1:em_qcd_extrap_down",				
 		]
 		self["RooWorkspaceObjectArguments"] = [
 			"0:e_pt,e_eta",
@@ -177,7 +185,11 @@ class em_ArtusConfig(dict):
 			"0:njets,dR,e_pt,m_pt",
 			"0:njets,dR,e_pt,m_pt",
 			"0:njets,dR,e_pt,m_pt",
+			"0:njets,dR,e_pt,m_pt",
+			"0:njets,dR,e_pt,m_pt",
 			"1:m_pt,m_eta",
+			"1:njets,dR,e_pt,m_pt",
+			"1:njets,dR,e_pt,m_pt",
 			"1:njets,dR,e_pt,m_pt",
 			"1:njets,dR,e_pt,m_pt",
 			"1:njets,dR,e_pt,m_pt",
@@ -493,5 +505,3 @@ class em_ArtusConfig(dict):
 		processorOrderingkey = processorOrdering.processors_ordered(channel = self["Channel"])
 		ordered_processors = processorOrderingkey.order_processors(self["Processors"]) 
 		self["Processors"] = copy.deepcopy(ordered_processors)
-
-

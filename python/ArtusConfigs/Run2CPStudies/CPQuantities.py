@@ -909,6 +909,8 @@ class quantities(run2_quantities.quantities):
 			"emuQcdOsssRateDownWeight",
 			"emuQcdOsssShapeUpWeight",
 			"emuQcdOsssShapeDownWeight",
+			"emuQcdExtrapUpWeight",
+			"emuQcdExtrapDownWeight",			
 			"topPtReweightWeight",
 			"topPtReweightWeightRun1",
 			"topPtReweightWeightRun2",
