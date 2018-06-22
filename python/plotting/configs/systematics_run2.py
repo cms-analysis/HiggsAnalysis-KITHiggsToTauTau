@@ -146,9 +146,11 @@ class SystematicsFactory(dict):
 		self["CMS_ggH_STXSmig12"] = Nominal	
 		
 		# QCD systematics for the GGH CP analysis.
-		self["em_qcd_osss_rate_syst"] = EmuQCDOsssrateSystematic
-		self["em_qcd_osss_shape_syst"] = EmuQCDOsssShapeSystematic
-		self["em_qcd_extrap_syst"] = EmuQCDExtrapSystematic
+		self["CMS_em_QCD_0JetRate_13TeV"] = EmuQCDOsssRateSystematic
+		self["CMS_em_QCD_1JetRate_13TeV"] = EmuQCDOsssRateSystematic
+		self["CMS_em_QCD_0JetShape_13TeV"] = EmuQCDOsssShapeSystematic
+		self["CMS_em_QCD_1JetShape_13TeV"] = EmuQCDOsssShapeSystematic
+		self["CMS_em_QCD_IsoExtrap_13TeV"] = EmuQCDExtrapSystematic
 
 	
 	def get(self, key, default_value=None):
