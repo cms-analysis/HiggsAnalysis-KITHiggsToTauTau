@@ -55,7 +55,6 @@ class et_ArtusConfig(dict):
 				"producer:DiVetoElectronVetoProducer",
 				##################
 				"producer:Run2DecayChannelProducer",
-				"producer:TaggedJetCorrectionsProducer",
 				"producer:ValidTaggedJetsProducer",
 				"producer:ValidBTaggedJetsProducer",
 				"producer:TauTauRestFrameSelector",
@@ -78,6 +77,7 @@ class et_ArtusConfig(dict):
 
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 				self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 
 			if re.search("Run2016|Run2017", nickname):
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
@@ -92,15 +92,19 @@ class et_ArtusConfig(dict):
 				]
 			else: #(Spring16|Summer16|Summer17|Fall17)
 				self["Processors"] += [
-					"producer:GenMatchedTauCPProducer",
-					"producer:TauCorrectionsProducer",
-					"producer:RooWorkspaceWeightProducer",  #changes from file to file
-					"producer:MetCorrector",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer"
+					"producer:GenMatchedTauCPProducer"
 				]
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:TriggerWeightProducer"]
+					self["Processors"] += ["producer:IdentificationWeightProducer"]
+				else:
+					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]  #changes from file to file
+					self["Processors"] += [
+						"producer:TauCorrectionsProducer",
+						"producer:MetCorrector",
+						"producer:SimpleEleTauFakeRateWeightProducer",
+						"producer:SimpleMuTauFakeRateWeightProducer"
+					]
 
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 					#"filter:MinimalPlotlevelFilter", '#producer:SvfitProducer', '#producer:SvfitM91Producer', '#producer:SvfitM125Producer'
@@ -120,21 +124,24 @@ class et_ArtusConfig(dict):
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += [
-							"producer:ZPtReweightProducer",
 							"producer:SimpleFitProducer",
 							"producer:GenMatchedPolarisationQuantitiesProducer"
 						]
-					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
+						if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+							self["Processors"] +=["producer:ZPtReweightProducer"]
+
+					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 						self["Processors"] += ["producer:TopPtReweightingProducer"]
 
 					else: # what samples this correspond to? why no "producer:GenMatchedTauCPProducer"?
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += [
-							"producer:TopPtReweightingProducer",
 							"producer:SimpleFitProducer",
 							"producer:GenMatchedPolarisationQuantitiesProducer"
 						]
+						if re.search("(Spring16|Summer16)", nickname):
+							self["Processors"] += ["producer:TopPtReweightingProducer"]
 
 		elif re.search("(Fall15|Run2015)", nickname):
 			#"producer:RefitVertexSelector"], '#producer:TaggedJetUncertaintyShiftProducer',  '#producer:SimpleFitProducer',  '#producer:TauPolarisationTmvaReader', '#producer:MVATestMethodsProducer'
@@ -146,6 +153,7 @@ class et_ArtusConfig(dict):
 				"filter:MinimalPlotlevelFilter",
 				"producer:MvaMetSelector"
 			]
+			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 
 			if re.search("Run2015", nickname):
 				#self["Processors"] += ["#producer:SimpleFitProducer", "#producer:SvfitProducer", "#producer:SvfitM91Producer", "#producer:SvfitM125Producer", "#producer:MELAProducer", "#producer:MELAM125Producer"]
@@ -322,19 +330,20 @@ class et_ArtusConfig(dict):
 			self["ElectronLowerPtCuts"] = [	"25.0"]
 			self["DiTauPairLepton1LowerPtCuts"] = [
 					"HLT_Ele32_WPTight_Gsf_v:33.0",
-					"HLT_Ele35_WPTight_Gsf_v:36.0"
+					"HLT_Ele35_WPTight_Gsf_v:36.0",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:25.0"
 				]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
 					"HLT_Ele32_WPTight_Gsf_v",
-					"HLT_Ele35_WPTight_Gsf_v"
+					"HLT_Ele35_WPTight_Gsf_v",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v"
 				]
-			if re.search("Run2017", nickname):
-				self["DiTauPairHltPathsWithoutCommonMatchRequired"] += ["HLT_Ele35_WPTight_Gsf_v"]
-				self["DiTauPairLepton1LowerPtCuts"] += ["HLT_Ele35_WPTight_Gsf_v:36.0"]
-				self["HltPaths"] = ["HLT_Ele35_WPTight_Gsf"]
-
+			"""
+			if re.search("Run2017(B|C)", nickname):
+				self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele35_WPTight_Gsf_v", "HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v"]
+				self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele35_WPTight_Gsf_v:36.0", "HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:25.0"]
+				self["HltPaths"] = ["HLT_Ele35_WPTight_Gsf", "HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"]
+			"""
 		self["TauID"] =  "TauIDRecommendation13TeV"
 		self["TauUseOldDMs"] =  True
 

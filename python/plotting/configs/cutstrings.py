@@ -69,8 +69,9 @@ class CutStringsDict:
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)" if "2016" in cut_type else "(iso_1 < 0.1)"    #TODO 2017
-			if "2017" in cut_type: 
-				cuts["iso_2"] = "(1)" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2
+			if "2017" in cut_type:
+				cuts["iso_1"] = "(iso_1 < 0.15)"
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
 			else:
 				cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "et":
@@ -81,7 +82,7 @@ class CutStringsDict:
 				cuts["pt_1"] = "(pt_1 > 25.0)"
 				cuts["pt_2"] = "(pt_2 > 30.0)"
 			elif "smhtt2017" in cut_type or "cp2017" in cut_type:  #TODO pt_1 set to 37 might change, pt_2 at 25 might change
-				cuts["pt_1"] = "(pt_1 > 37.0)"
+				cuts["pt_1"] = "(pt_1 > 25.0)"
 				cuts["pt_2"] = "(pt_2 > 25.0)"  
 			cuts["mt"] = "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)" #TODO 2017
 			cuts["anti_e_tau_discriminators"] = "(againstElectronTightMVA6_2 > 0.5)" #TODO 2017
@@ -89,8 +90,8 @@ class CutStringsDict:
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
-			if "2017" in cut_type:  
-				cuts["iso_2"] = "(1)" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2
+			if "2017" in cut_type:
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
 			else:
 				cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "tt":

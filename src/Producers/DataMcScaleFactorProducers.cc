@@ -101,7 +101,21 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 			event, product, settings, metadata
 	);
 
-	double efficienciesTau = 0.9; //TODO have to find this efficiency, just set it to 0.75 for no reason, maybe this will also become a std::vector<std::vector<double> >
+	double efficienciesTau = 0.7; //FIXME have to find this efficiency, just set it to 0.7 for no reason, maybe this will also become a std::vector<std::vector<double> >
+	if (product.m_flavourOrderedLeptons[0]->flavour() == KLeptonFlavour::ELECTRON)
+	{
+		if (product.m_flavourOrderedLeptons[1]->p4.Pt()<31.0)  //FIXME set to zero below 30 need fix if weightfiles available for tauleg
+		{
+			efficienciesTau = 0.01;
+		}
+	}
+	else if (product.m_flavourOrderedLeptons[0]->flavour() == KLeptonFlavour::MUON)
+	{
+		if (product.m_flavourOrderedLeptons[1]->p4.Pt()<28.0)  //FIXME set to zero below 28 need fix if weightfiles available for tauleg
+		{
+			efficienciesTau = 0.01;
+		}
+	}
 
 	// calculate the weight
 	if (m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::MULTIPLY_WEIGHTS)

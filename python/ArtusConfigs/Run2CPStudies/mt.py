@@ -54,7 +54,6 @@ class mt_ArtusConfig(dict):
 				##################
 				"producer:Run2DecayChannelProducer",
 				"producer:DiVetoMuonVetoProducer",
-				"producer:TaggedJetCorrectionsProducer",
 				"producer:ValidTaggedJetsProducer",
 				"producer:ValidBTaggedJetsProducer",
 				"producer:TauTauRestFrameSelector",
@@ -70,7 +69,7 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
-				self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+				self["Processors"] += [	"producer:TaggedJetCorrectionsProducer", "producer:TaggedJetUncertaintyShiftProducer"]
 
 			if re.search("Run2016|Run2017", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
@@ -85,23 +84,21 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:MELAProducer"]
 				self["Processors"] += ["producer:MELAM125Producer"]
 
-
-
-
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 			else:
-				self["Processors"] += ["producer:TauCorrectionsProducer"]
-				self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:TriggerWeightProducer"]
+					self["Processors"] += ["producer:IdentificationWeightProducer"]
 				else:
-					self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
-				self["Processors"] += ["producer:MetCorrector"]
-				self["Processors"] += [
-						"producer:SimpleEleTauFakeRateWeightProducer",
-						"producer:SimpleMuTauFakeRateWeightProducer"
-						]
+					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+					self["Processors"] += ["producer:MuTauTriggerWeightProducer"] #is a rooworkspace
+					self["Processors"] += ["producer:TauCorrectionsProducer"]
+					self["Processors"] += ["producer:MetCorrector"]
+					self["Processors"] += [
+							"producer:SimpleEleTauFakeRateWeightProducer",
+							"producer:SimpleMuTauFakeRateWeightProducer"
+							]
 
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 					self["Processors"] += [
@@ -121,7 +118,8 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
-						self["Processors"] += ["producer:ZPtReweightProducer"]
+						if re.search("Summer17|Fall17", nickname) == None:
+							self["Processors"] += ["producer:ZPtReweightProducer"]
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
 						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -130,16 +128,18 @@ class mt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
-						self["Processors"] += [
-							"producer:TopPtReweightingProducer"
-						]
+						if re.search("Summer17|Fall17", nickname) == None:
+							self["Processors"] += [
+								"producer:TopPtReweightingProducer"
+							]
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"] # I put this on in to create the same config as json but i dont think it is needed
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
-						self["Processors"] += [	"producer:TopPtReweightingProducer"]
+						if re.search("Summer17|Fall17", nickname) == None:
+							self["Processors"] += [	"producer:TopPtReweightingProducer"]
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"]
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
@@ -153,7 +153,7 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["filter:MinimalPlotlevelFilter"]
-			self["Processors"] += ["producer:MvaMetSelector"]
+			self["Processors"] += ["producer:TaggedJetCorrectionsProducer", "producer:MvaMetSelector"]
 
 
 			if re.search("Run2015", nickname):

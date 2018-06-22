@@ -38,8 +38,8 @@ class MinimalPlotlevelFilter():
 
 		self.minPlotLevelDict["PlotlevelFilterExpression"] = "(nDiMuonVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
 		if re.search("(Fall17|Summer17|Run2017)", nickname):
-			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byLooseIsolationMVArun2017v2DBoldDMwLT2017_2"]
-			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2"]
+			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
 		else:
 			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byLooseIsolationMVArun2v1DBoldDMwLT_2"]
 			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
@@ -59,8 +59,8 @@ class MinimalPlotlevelFilter():
 			self.minPlotLevelDict["PlotlevelFilterExpression"] = "(lep1IsoOverPt < 0.1)*(againstMuonLoose3_2 > 0.5)"
 
 		if re.search("(Fall17|Summer17|Run2017)", nickname):
-			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byLooseIsolationMVArun2017v2DBoldDMwLT2017_2"]
-			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2"]
+			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
 		else:
 			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byLooseIsolationMVArun2v1DBoldDMwLT_2"]
 			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
