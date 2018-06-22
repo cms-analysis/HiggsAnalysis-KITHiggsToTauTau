@@ -985,10 +985,10 @@ if __name__ == "__main__":
 			pconfigs["tree_draw_options"] = ["", "", "", "TGraph"]
 			pconfigs["markers"] = ["line", "line", "line"]
 			pconfigs["y_expressions"] = ["None", "None", "None", "0"]
-			pconfigs["weights"] = ["1", "type>0", "type<0", "type==0"]
+			pconfigs["weights"] = ["1", "type<0", "type>0", "type==0"]
 			pconfigs["x_expressions"] = ["q"]
 			pconfigs["output_dir"] = str(os.path.dirname(filename))
-			pconfigs["x_bins"] = ["500,-3,3"]
+			pconfigs["x_bins"] = ["100,-3,3"]
 			pconfigs["analysis_modules"] = ["PValue"]
 			pconfigs["p_value_alternative_hypothesis_nicks"] = ["alternative_hypothesis"]
 			pconfigs["p_value_null_hypothesis_nicks"] = ["null_hypothesis"]
