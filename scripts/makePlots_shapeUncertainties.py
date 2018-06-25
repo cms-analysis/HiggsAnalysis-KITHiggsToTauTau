@@ -60,11 +60,11 @@ if __name__ == "__main__":
 			shift_up = uncertainty.endswith("Up")
 			if shift_up:
 				uncertainty = uncertainty[:-2]
-				index = 1
+				index = 0
 			shift_down = uncertainty.endswith("Down")
 			if shift_down:
 				uncertainty = uncertainty[:-4]
-				index = 0
+				index = 1
 			if shift_up or shift_down:
 				parsed_root_file_content.setdefault(folder, {}).setdefault((process, uncertainty), [None, None])[index] = histogram
 		
@@ -74,14 +74,13 @@ if __name__ == "__main__":
 				config = {}
 				config["files"] = [input_file]
 				config["folders"] = [folder]
-				config["x_expressions"] = ([process]+histograms)[::-1]
-				config["nicks"] = ([process]+histograms)[::-1]
+				config["x_expressions"] = ([process]+histograms)
+				config["nicks"] = ([process]+histograms)
 				
-				config["colors"] = ["#FF0000", "#0000FF", "#000000"]
-				config["markers"] = ["LINE E", "LINE E", "E"]
-				config["marker_styles"] = [0, 0, 20]
-				config["legend_markers"] = ["L", "L", "ELP"]
-				config["labels"] = ["#plus1#sigma shift", "#minus1#sigma shift", "nominal"]
+				config["colors"] = ["kBlack", "kRed", "kBlue"]
+				config["markers"] = ["E", "LINE", "LINE"]
+				config["legend_markers"] = ["ELP", "L", "L"]
+				config["labels"] = ["nominal", "#plus1#sigma shift", "#minus1#sigma shift"]
 				
 				config["legend"] = [0.65, 0.7, 0.9, 0.88]
 				config["title"] = uncertainty+" ("+process+")"
@@ -90,18 +89,16 @@ if __name__ == "__main__":
 				if args.ratio:
 					if not "Ratio" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("Ratio")
-					config.setdefault("ratio_numerator_nicks", []).extend(histograms[::-1])
+					config.setdefault("ratio_numerator_nicks", []).extend(histograms)
 					config.setdefault("ratio_denominator_nicks", []).extend([process] * 2)
 					config.setdefault("ratio_result_nicks", []).extend(["ratio_up", "ratio_down"])
 					
-					config["colors"].extend(config["colors"][:2])
-					config["markers"].extend(config["markers"][:2])
-					config["marker_styles"].extend(config["marker_styles"][:2])
-					config["legend_markers"].extend(config["legend_markers"][:2])
+					config["colors"].extend(config["colors"][1:])
+					config["markers"].extend(["LINE", "LINE"])
+					config["legend_markers"].extend(config["legend_markers"][1:])
 					config["labels"].extend([""] * 2)
 					
 					config["legend"] = [0.65, 0.65, 0.95, 0.83]
-					config["y_subplot_lims"] = [0.0, 2.0]
 				
 				output_dir = args.output_dir
 				if output_dir is None:
