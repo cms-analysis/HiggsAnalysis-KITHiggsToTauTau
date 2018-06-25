@@ -225,6 +225,7 @@ if __name__ == "__main__":
 					config["output_dir"] = os.path.join(args.output_dir, output_dir)
 					if not args.www is None:
 						config["www"] = os.path.join(args.www, output_dir)
+					config["filename"] = re.sub("[^a-zA-Z0-9]", "_", "_".join(reco_quantities))
 					
 					plot_configs.append(config)
 	
