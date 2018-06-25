@@ -217,7 +217,7 @@ TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& pa
 	TauSpinner::SimpleParticle particle(particleLV.Px(), particleLV.Py(), particleLV.Pz(), particleLV.E(), particlePdgId);
 	
 	// Adjust energy component to preseve mass. This is needed because of rounding problems in conversions of Lorentz vectors
-	int interation = 0;
+	int iteration = 0;
 	int maxIterations = 20;
 	double almostZero = 1e-5;
 	double targetMass2 = (particleLV.M2() > almostZero ? particleLV.M2() : 0.0);
@@ -228,14 +228,14 @@ TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& pa
 		particle.setE(energy);
 		currentMass2 = std::pow(particle.e(), 2.0) - std::pow(particle.px(), 2.0) - std::pow(particle.py(), 2.0) - std::pow(particle.pz(), 2.0);
 		
-		if ((targetMass2 < almostZero) && (interation > maxIterations/2))
+		if ((targetMass2 < almostZero) && (iteration > maxIterations/2))
 		{
-			targetMass2 = std::pow(10.0, interation-maxIterations-5+1);
+			targetMass2 = std::pow(10.0, iteration-maxIterations-5+1);
 		}
 		
-		++interation;
+		++iteration;
 	}
-	while ((interation < maxIterations) &&
+	while ((iteration < maxIterations) &&
 	       ((currentMass2 < 0.0) ||
 	        ((targetMass2 <= almostZero) && (currentMass2 > almostZero)) ||
 	        ((targetMass2 > almostZero) && ((std::abs(currentMass2 - targetMass2) / targetMass2) > almostZero))));
