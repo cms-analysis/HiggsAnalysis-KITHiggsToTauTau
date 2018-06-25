@@ -376,11 +376,11 @@ class EmuQCDOsssRateSystematic(SystematicShiftBase):
 		
 		return plot_config
 
-class EmuQCDOsssExtrapSystematic(SystematicShiftBase):
-	
+class EmuQCDExtrapSystematic(SystematicShiftBase):
+
 	def get_config(self, shift=0.0):
-		plot_config = super(EmuQCDOsssExtrapSystematic, self).get_config(shift=shift)
-		
+		plot_config = super(EmuQCDExtrapSystematic, self).get_config(shift=shift)
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if not "Run201" in plot_config["files"][index]:
 				if shift > 0.0:
