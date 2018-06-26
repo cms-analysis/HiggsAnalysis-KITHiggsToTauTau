@@ -148,6 +148,7 @@ class ProcessorsOrdered(dict):
 
 		self["producer:SimpleFitProducer"] = 270
 
+		self["producer:TauTriggerEfficiency2017Producer"] = 274
 		self["producer:TriggerWeightProducer"] = 275
 		self["producer:IdentificationWeightProducer"] = 276
 		self["producer:EleTauFakeRateWeightProducer"] = 277

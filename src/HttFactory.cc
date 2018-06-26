@@ -57,6 +57,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTbarGenDecayModeProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/LFVJetCorrection2016Producer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTriggerEfficiency2017Producer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -262,6 +263,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TauTauTriggerWeightProducer();
 	else if(id == MuTauTriggerWeightProducer().GetProducerId())
 		return new MuTauTriggerWeightProducer();
+	else if(id == TauTriggerEfficiency2017Producer().GetProducerId())
+		return new TauTriggerEfficiency2017Producer();
 	else if(id == EmbeddingGlobalQuantitiesProducer().GetProducerId())
 		return new EmbeddingGlobalQuantitiesProducer();
 	//else if(id == BoostRestFrameProducer().GetProducerId())

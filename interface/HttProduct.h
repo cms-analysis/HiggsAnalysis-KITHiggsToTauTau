@@ -431,6 +431,9 @@ public:
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonTauMatchedPairs;
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronTauMatchedPairs;
 
+	double m_tautriggerefficienciesMC;
+	double m_tautriggerefficienciesData;
+
 	// filled by MVAInputQuantitiesProducer
 // 	int tsValue = 0;
 	double m_pVecSum = -1;

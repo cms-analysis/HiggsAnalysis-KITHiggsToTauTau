@@ -49,17 +49,20 @@ class IdAndTriggerSF(dict):
 				#TODO CHANGE TO HALES NEWEST COMMIT
 				elif re.search("Run2017|Summer17|Fall17", nickname):
 					self["TriggerEfficiencyData"] = [
-							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele32orEle35.root",
+							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele35WPTight_IsoLt0.10_eff_RerecoFall17.root",
 							"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_EleTau_Ele24.root"
 					]
 
 					self["TriggerEfficiencyMc"] = [
-							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_Ele32orEle35.root",
+							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_Ele35WPTight_IsoLt0.10_eff_RerecoFall17.root",
 							"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_EleTau_Ele24.root"
 					]
 
 					self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
 					self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MCFall2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
+
+					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
+					self["TauTrigger2017WorkingPoint"] = "tight"
 
 					self["TriggerEfficiencyMode"] = "cross_triggers"
 					self["IdentificationEfficiencyMode"] = "multiply_weights"
@@ -100,13 +103,17 @@ class IdAndTriggerSF(dict):
 
 					#or should 1 be 1:triggerEfficiency_Run2017_Muon_MuTau_IsoMu24.root? 				#TODO CHANGE TO HALES NEWEST COMMIT
 					self["TriggerEfficiencyData"] = [
-								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Muon_IsoMu24orIsoMu27.root",
+								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Muon_IsoMu27_IsoLt0.15_eff_RerecoFall17.root",
 								"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Muon_MuTau_IsoMu20.root",
 					]
 					self["TriggerEfficiencyMc"] = [
-								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Muon_IsoMu24orIsoMu27.root",
+								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Muon_IsoMu27_IsoLt0.15_eff_RerecoFall17.root",
 								"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Muon_MuTau_IsoMu20.root",
 					]
+					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
+					self["TauTrigger2017WorkingPoint"] = "tight"
+
+
 
 					# identificationEfficiency_Run2017_Muon_IdIso_IsoLt0p15_2017B_eff.root
 					# identificationEfficiency_MCFall2017_Muon_IdIso_IsoLt0p15_2017B_eff.root

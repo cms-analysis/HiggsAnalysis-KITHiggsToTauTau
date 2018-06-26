@@ -23,6 +23,7 @@
 <use name="TauPolSoftware/SimpleFits" />
 <use name="TauPolSoftware/TauDecaysInterface" />
 <use name="ZZMatrixElement/MELA" />
+<use name="TauTriggerSFs2017/TauTriggerSFs2017" />
 
 
 <flags ADD_SUBDIR="1"/>

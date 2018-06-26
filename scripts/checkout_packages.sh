@@ -90,6 +90,9 @@ cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
 git checkout v0.2.1
 cd $CMSSW_BASE/src/
 
+# 2017 tau trigger efficiencies
+git clone git@github.com:truggles/TauTriggerSFs2017.git TauTriggerSFs2017/TauTriggerSFs2017
+
 # EmuQCD Method
 git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
 

@@ -361,6 +361,10 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuTauTriggerWeightWorkspaceObjectNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuTauTriggerWeightWorkspaceObjectArguments, {});
 
+	// settings for 2017 TauTriggerEffiency2017Producer
+	IMPL_SETTING_DEFAULT(std::string, TauTrigger2017Input, "");
+	IMPL_SETTING_DEFAULT(std::string, TauTrigger2017WorkingPoint, "");
+
 	// settings for the EmbeddingConsumer
 	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);
 	IMPL_SETTING_DEFAULT(float, DeltaRMaximum, 0.4);

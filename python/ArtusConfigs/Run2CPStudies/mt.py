@@ -88,7 +88,7 @@ class mt_ArtusConfig(dict):
 
 			else:
 				if re.search("Summer17|Fall17", nickname):
-					self["Processors"] += ["producer:TriggerWeightProducer"]
+					self["Processors"] += ["producer:TriggerWeightProducer", "producer:TauTriggerEfficiency2017Producer"]
 					self["Processors"] += ["producer:IdentificationWeightProducer"]
 				else:
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]

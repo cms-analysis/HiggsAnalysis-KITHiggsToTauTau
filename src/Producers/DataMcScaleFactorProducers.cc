@@ -101,22 +101,6 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 			event, product, settings, metadata
 	);
 
-	double efficienciesTau = 0.7; //FIXME have to find this efficiency, just set it to 0.7 for no reason, maybe this will also become a std::vector<std::vector<double> >
-	if (product.m_flavourOrderedLeptons[0]->flavour() == KLeptonFlavour::ELECTRON)
-	{
-		if (product.m_flavourOrderedLeptons[1]->p4.Pt()<31.0)  //FIXME set to zero below 30 need fix if weightfiles available for tauleg
-		{
-			efficienciesTau = 0.01;
-		}
-	}
-	else if (product.m_flavourOrderedLeptons[0]->flavour() == KLeptonFlavour::MUON)
-	{
-		if (product.m_flavourOrderedLeptons[1]->p4.Pt()<28.0)  //FIXME set to zero below 28 need fix if weightfiles available for tauleg
-		{
-			efficienciesTau = 0.01;
-		}
-	}
-
 	// calculate the weight
 	if (m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::MULTIPLY_WEIGHTS)
 	{
@@ -160,8 +144,8 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 		       (efficienciesMc[1].size() == 1));
 
 		//TODO here the thing is changed
-		double efficiencyData = efficienciesData[0][0]*(1.0-efficienciesTau) + efficienciesData[1][0]*efficienciesTau;
-		double efficiencyMc = efficienciesMc[0][0]*(1.0-efficienciesTau)  + efficienciesMc[1][0]*efficienciesTau;
+		double efficiencyData = efficienciesData[0][0]*(1.0-product.m_tautriggerefficienciesData) + efficienciesData[1][0]*product.m_tautriggerefficienciesData;
+		double efficiencyMc = efficienciesMc[0][0]*(1.0-product.m_tautriggerefficienciesMC)  + efficienciesMc[1][0]*product.m_tautriggerefficienciesMC;
 		double weight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
 		product.m_weights[std::string(m_weightName + "_1")] = weight;
 	}
