@@ -56,6 +56,8 @@ class gen_ArtusConfig(dict):
 			quantities_dict["Quantities"] += [
 				"tauSpinnerValidOutputs",
 				"tauSpinnerPolarisation",
+				"tauSpinnerPdgIdTau_1",
+				"tauSpinnerPdgIdTau_2",
 				"tauSpinnerETau_1",
 				"tauSpinnerETau_2",
 				"tauSpinnerEPi_1",
