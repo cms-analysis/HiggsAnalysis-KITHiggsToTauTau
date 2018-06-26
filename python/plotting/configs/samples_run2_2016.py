@@ -2052,7 +2052,26 @@ class Samples(samples.SamplesBase):
 					scale_factor=1.0,
 					weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
 					nick="qcd"
-				)							
+				)				
+				# qcd data yield nick (for subtraction)
+				Samples._add_input(
+						input_file=self.files_data(channel),
+						scale_factor=1.0,
+						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
+						nick=("noplot_" if not controlregions else "") + "data_qcd_yield",
+				)
+				Samples._add_input(
+						input_file=self.files_data(channel),
+						scale_factor=1.0,
+						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
+						nick=("noplot_" if not controlregions else "") + "qcd_ss_lowmt",
+				)	
+				Samples._add_input(
+						input_file=self.files_data(channel),
+						scale_factor=1.0,
+						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
+						nick=("noplot_" if not controlregions else "") + "qcd_os_highmt",
+				)													
 				# background subtraction nicks in region B
 				Samples._add_input(
 						input_file=self.files_ztt(channel),
@@ -2100,65 +2119,7 @@ class Samples(samples.SamplesBase):
 						input_file=self.files_diboson(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel,exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick=("noplot_" if not controlregions else "") + "vv_ss_qcd",
-				)			
-			
-			if channel in ["et", "mt"] and "simeqn" in estimationMethod:				
-				# qcd data yield nick (for subtraction)
-				Samples._add_input(
-						input_file=self.files_data(channel),
-						scale_factor=1.0,
-						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
-						nick=("noplot_" if not controlregions else "") + "data_qcd_yield",
-				)
-				Samples._add_input(
-						input_file=self.files_data(channel),
-						scale_factor=1.0,
-						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
-						nick=("noplot_" if not controlregions else "") + "qcd_os_highmt",
-				)
-				Samples._add_input(
-						input_file=self.files_data(channel),
-						scale_factor=1.0,
-						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
-						nick=("noplot_" if not controlregions else "") + "qcd_ss_lowmt",
-				)
-				
-				if kwargs.get("ss_os_factor", 0.0) != 0.0:
-					ss_os_factor = kwargs["ss_os_factor"]
-				else:
-					ss_os_factor = 1.0
-					if category != None:
-						if channel == "et":
-							ss_os_factor = 1.61 if "BoostedCP" in category else 0.97 if "ZeroJetCP" in category else 1.82 if "dijet2D" in category else 1.0
-						elif channel == "mt":
-							ss_os_factor = 1.18 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.23 if "dijet2D" in category else 1.0
-												
-				if channel in ["et", "mt"]:
-					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
-														
-				if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
-				if controlregions:											
-					# Step 7
-					config.setdefault("qcd_ss_yield_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
-					config.setdefault("qcd_ss_shape_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
-					config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
-					config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
-					config.setdefault("qcd_ss_data_nicks", []).append("data_qcd_yield"+nick_suffix)					
-					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)	
-					for nick in ["ztt_ss_qcd", "zll_ss_qcd", "ttj_ss_qcd", "vv_ss_qcd", "qcd_ss_highmt", "qcd_ss_lowmt", "data_qcd_yield"]:
-						if not kwargs.get("mssm", False):
-							Samples._add_bin_corrections(config, nick, nick_suffix)
-						Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
-				else:
-					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
-					config.setdefault("qcd_ss_data_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
-					config.setdefault("qcd_ss_lowmt_nicks", []).append("noplot_qcd_ss_lowmt"+nick_suffix)
-					config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
-					# Step 7
-					config.setdefault("qcd_ss_yield_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd ".split()]))
-					config.setdefault("qcd_ss_shape_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd ".split()]))
-			
+				)						
 			if "new" or "simeqn" in estimationMethod:
 				if channel in ["et","mt"] and "simeqn" not in estimationMethod:
 					
@@ -2184,12 +2145,6 @@ class Samples(samples.SamplesBase):
 								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
 								nick=("noplot_" if not controlregions else "") + "wj_ss_qcd"
 						)
-					Samples._add_input(
-							input_file=self.files_data(channel),
-							scale_factor=1.0,
-							weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
-							nick=("noplot_" if not controlregions else "") + "data_ss_lowmt"
-					)
 					Samples._add_input(
 							input_file=self.files_ztt(channel),
 							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
@@ -2328,18 +2283,7 @@ class Samples(samples.SamplesBase):
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
 							nick="noplot_vv_shape_ss_highmt"
 					)
-					Samples._add_input(
-							input_file=self.files_data(channel),
-							scale_factor=1.0,
-							weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
-							nick=("noplot_" if not controlregions else "") + "qcd_os_highmt"
-					)
-					Samples._add_input(
-							input_file=self.files_data(channel),
-							scale_factor=1.0,
-							weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
-							nick=("noplot_" if not controlregions else "") + "qcd_ss_lowmt"
-					)
+
 					if kwargs.get("ss_os_factor", 0.0) != 0.0:
 						ss_os_factor = kwargs["ss_os_factor"]
 					else:
@@ -2357,7 +2301,7 @@ class Samples(samples.SamplesBase):
 					
 					if controlregions:
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
-						config.setdefault("qcd_yield_nicks", []).append("data_ss_lowmt"+nick_suffix)
+						config.setdefault("qcd_yield_nicks", []).append("data_qcd_yield"+nick_suffix)
 						if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
 							config.setdefault("qcd_yield_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ewkz_ss_qcd ttj_ss_qcd vv_ss_qcd wj_ss_qcd".split()]))
 							config.setdefault("qcd_shape_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ewkz_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
@@ -2378,7 +2322,7 @@ class Samples(samples.SamplesBase):
 							Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
 					else:
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
-						config.setdefault("qcd_yield_nicks", []).append("noplot_data_ss_lowmt"+nick_suffix)
+						config.setdefault("qcd_yield_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
 						if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
 							config.setdefault("qcd_yield_substract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ewkz_ss_qcd ttj_ss_qcd vv_ss_qcd wj_ss_qcd".split()]))
 							config.setdefault("qcd_shape_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ewkz_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
@@ -2392,6 +2336,44 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
 						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
 							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
+			if channel in ["et", "mt"] and "simeqn" in estimationMethod:				
+		
+				if kwargs.get("ss_os_factor", 0.0) != 0.0:
+					ss_os_factor = kwargs["ss_os_factor"]
+				else:
+					ss_os_factor = 1.0
+					if category != None:
+						if channel == "et":
+							ss_os_factor = 1.61 if "BoostedCP" in category else 0.97 if "ZeroJetCP" in category else 1.82 if "dijet2D" in category else 1.0
+						elif channel == "mt":
+							ss_os_factor = 1.18 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.23 if "dijet2D" in category else 1.0
+												
+				if channel in ["et", "mt"]:
+					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
+														
+				if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
+				if controlregions:											
+					# Step 7
+					config.setdefault("qcd_ss_yield_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
+					config.setdefault("qcd_ss_shape_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
+					config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
+					config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
+					config.setdefault("qcd_ss_data_nicks", []).append("data_qcd_yield"+nick_suffix)					
+					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)	
+					for nick in ["ztt_ss_qcd", "zll_ss_qcd", "ttj_ss_qcd", "vv_ss_qcd", "qcd_ss_highmt", "qcd_ss_lowmt", "data_qcd_yield"]:
+						if not kwargs.get("mssm", False):
+							Samples._add_bin_corrections(config, nick, nick_suffix)
+						Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
+				else:
+					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
+					config.setdefault("qcd_ss_data_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
+					config.setdefault("qcd_ss_lowmt_nicks", []).append("noplot_qcd_ss_lowmt"+nick_suffix)
+					config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
+					# Step 7
+					config.setdefault("qcd_ss_yield_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd ".split()]))
+					config.setdefault("qcd_ss_shape_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd ".split()]))
+			
 							
 														
 
