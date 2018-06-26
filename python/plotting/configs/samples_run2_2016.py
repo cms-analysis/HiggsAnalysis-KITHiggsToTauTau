@@ -1310,7 +1310,10 @@ class Samples(samples.SamplesBase):
 							nick="wj"
 					)
 				
-			if "simeqn" in estimationMethod or "new" in estimationMethod:				
+			if "simeqn" in estimationMethod or "new" in estimationMethod:
+				"""
+				Inputs shared by both method can by found below ordered by the ABCD region they are applied to.
+				"""				
 				# Type A inputs
 				# wj shape nick
 				Samples._add_input(
@@ -1330,7 +1333,7 @@ class Samples(samples.SamplesBase):
 							nick="wj"
 					)				
 				# Type C inputs
-				# noplot_xx_ss_highmt: for the w+jets ss high-mt yield
+				# noplot_xx_ss_highmt: for the w+jets ss high-mt yield subtract nicks
 				Samples._add_input(
 						input_file=self.files_data(channel),
 						scale_factor=1.0,
@@ -1397,7 +1400,7 @@ class Samples(samples.SamplesBase):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
 						nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
 				)
-				# Wj Monte Carlo nicks
+				# C Wj Monte Carlo nicks
 				Samples._add_input(
 						input_file=self.files_wj(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
@@ -1413,8 +1416,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_ss_highmt"
-					)				
-				
+					)							
 				# Type D inputs
 				# data yield in os highmt
 				Samples._add_input(
@@ -1423,7 +1425,7 @@ class Samples(samples.SamplesBase):
 						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
 						nick=("noplot_" if not controlregions else "") + "data_os_highmt",
 				)					
-				# wjets os highmt backgrounds to subtract
+				# wjets os highmt subtract nicks
 				Samples._add_input(
 						input_file=self.files_ztt(channel),
 						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
@@ -1482,7 +1484,7 @@ class Samples(samples.SamplesBase):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
 						nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
 				)
-				# Wj Monte Carlo nicks
+				# D Wj Monte Carlo nicks
 				Samples._add_input(
 						input_file=self.files_wj(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
@@ -1498,11 +1500,13 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_os_highmt"
-					)								
-			
+					)											
 			if "simeqn" in estimationMethod: 
+				"""
+				Inputs only needed by simeqn method.
+				"""
 				# add inclusive Wjets MC samples in OS and SS for W SS/OS determination 
-				# Step 1 - inclusive W os/ss factor determination
+				# Inclusive W os/ss factor determination 
 				Samples._add_input(
 					input_file=self.files_wj(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_inclusive_ss, cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -1567,7 +1571,6 @@ class Samples(samples.SamplesBase):
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_os_lowmt"
 					)												
-				# Step 4 - Taken from qcd method.
 				# Step 5 - Estimate highmt ss yield
 				# data yield in ss highmt
 				# shape nicks for the later usable histograms
@@ -1605,6 +1608,10 @@ class Samples(samples.SamplesBase):
 							nick=("noplot_" if not controlregions else "") + "wj_ss_lowmt"
 					)			
 			if "new" in estimationMethod:
+				"""
+				Inputs only needed by 'new' method.
+				"""
+				# relaxed selections
 				Samples._add_input(
 						input_file=self.files_wj(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
