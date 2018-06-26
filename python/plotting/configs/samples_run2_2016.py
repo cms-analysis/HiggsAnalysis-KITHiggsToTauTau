@@ -2120,222 +2120,221 @@ class Samples(samples.SamplesBase):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel,exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick=("noplot_" if not controlregions else "") + "vv_ss_qcd",
 				)						
-			if "new" or "simeqn" in estimationMethod:
-				if channel in ["et","mt"] and "simeqn" not in estimationMethod:
+			if channel in ["et","mt"] and "simeqn" not in estimationMethod:
 					
-					if kwargs.get("useRelaxedIsolationForQCD", False):
-						cut_type_A = cut_type_A + "relaxedETauMuTauWJ"
-					elif category != None:
-						cut_type_A = cut_type_A + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
+				if kwargs.get("useRelaxedIsolationForQCD", False):
+					cut_type_A = cut_type_A + "relaxedETauMuTauWJ"
+				elif category != None:
+					cut_type_A = cut_type_A + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
 					
 					
+				Samples._add_input(
+						input_file=self.files_wj(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
+						nick=("noplot_" if not controlregions else "") + "wj_ss_qcd"
+				)
+				if (not kwargs.get("no_ewk_samples", False)):
 					Samples._add_input(
-							input_file=self.files_wj(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
+							input_file=self.files_ewkwm(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwm_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_ss_qcd"
 					)
-					if (not kwargs.get("no_ewk_samples", False)):
-						Samples._add_input(
-								input_file=self.files_ewkwm(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwm_stitchingweight(),
-								nick=("noplot_" if not controlregions else "") + "wj_ss_qcd"
-						)
-						Samples._add_input(
-								input_file=self.files_ewkwp(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
-								nick=("noplot_" if not controlregions else "") + "wj_ss_qcd"
-						)
 					Samples._add_input(
-							input_file=self.files_ztt(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+							input_file=self.files_ewkwp(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "wj_ss_qcd"
+					)
+				Samples._add_input(
+						input_file=self.files_ztt(channel),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+						nick="noplot_ztt_shape_ss_qcd_control"
+				)
+				if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
+					Samples._add_input(
+							input_file=self.files_ewkz_zll(channel),
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 							nick="noplot_ztt_shape_ss_qcd_control"
 					)
-					if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
-						Samples._add_input(
-								input_file=self.files_ewkz_zll(channel),
-								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_ztt_shape_ss_qcd_control"
-						)
-						Samples._add_input(
-								input_file=self.files_ewkz_znn(channel),
-								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_ztt_shape_ss_qcd_control"
-						)
 					Samples._add_input(
-							input_file=self.files_zll(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor,
+							input_file=self.files_ewkz_znn(channel),
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+							nick="noplot_ztt_shape_ss_qcd_control"
+					)
+				Samples._add_input(
+						input_file=self.files_zll(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor,
+						nick="noplot_zll_shape_ss_qcd_control"
+				)
+				if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
+					Samples._add_input(
+							input_file=self.files_ewkz_zll(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 							nick="noplot_zll_shape_ss_qcd_control"
 					)
-					if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
-						Samples._add_input(
-								input_file=self.files_ewkz_zll(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_zll_shape_ss_qcd_control"
-						)
-						Samples._add_input(
-								input_file=self.files_ewkz_znn(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_zll_shape_ss_qcd_control"
-						)
-					if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
-						Samples._add_input(
-								input_file=self.files_ewkz_zll(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_ewkz_shape_ss_qcd_control"
-						)
-						Samples._add_input(
-								input_file=self.files_ewkz_znn(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_ewkz_shape_ss_qcd_control"
-						)
 					Samples._add_input(
-							input_file=self.files_ttj(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*topPtReweightWeight",
-							nick="noplot_ttj_shape_ss_qcd_control"
+							input_file=self.files_ewkz_znn(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+							nick="noplot_zll_shape_ss_qcd_control"
+					)
+				if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
+					Samples._add_input(
+							input_file=self.files_ewkz_zll(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
+							nick="noplot_ewkz_shape_ss_qcd_control"
 					)
 					Samples._add_input(
-							input_file=self.files_vv(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.vv_stitchingweight(),
-							nick="noplot_vv_shape_ss_qcd_control"
+							input_file=self.files_ewkz_znn(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+							nick="noplot_ewkz_shape_ss_qcd_control"
 					)
+				Samples._add_input(
+						input_file=self.files_ttj(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*topPtReweightWeight",
+						nick="noplot_ttj_shape_ss_qcd_control"
+				)
+				Samples._add_input(
+						input_file=self.files_vv(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.vv_stitchingweight(),
+						nick="noplot_vv_shape_ss_qcd_control"
+				)
+				Samples._add_input(
+						input_file=self.files_diboson(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
+						nick="noplot_vv_shape_ss_qcd_control"
+				)
+				Samples._add_input(
+						input_file=self.files_wj(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
+						nick="noplot_wj_shape_ss_qcd_control"
+				)
+				if (not kwargs.get("no_ewk_samples", False)):
 					Samples._add_input(
-							input_file=self.files_diboson(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
-							nick="noplot_vv_shape_ss_qcd_control"
-					)
-					Samples._add_input(
-							input_file=self.files_wj(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
+							input_file=self.files_ewkwm(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwm_stitchingweight(),
 							nick="noplot_wj_shape_ss_qcd_control"
 					)
-					if (not kwargs.get("no_ewk_samples", False)):
-						Samples._add_input(
-								input_file=self.files_ewkwm(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwm_stitchingweight(),
-								nick="noplot_wj_shape_ss_qcd_control"
-						)
-						Samples._add_input(
-								input_file=self.files_ewkwp(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
-								nick="noplot_wj_shape_ss_qcd_control"
-						)
 					Samples._add_input(
-							input_file=self.files_data(channel),
-							scale_factor=1.0,
-							weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
-							nick=("noplot_" if not controlregions else "") + "qcd_ss_highmt"
+							input_file=self.files_ewkwp(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
+							nick="noplot_wj_shape_ss_qcd_control"
 					)
+				Samples._add_input(
+						input_file=self.files_data(channel),
+						scale_factor=1.0,
+						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
+						nick=("noplot_" if not controlregions else "") + "qcd_ss_highmt"
+				)
+				Samples._add_input(
+						input_file=self.files_ztt(channel),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+						nick="noplot_ztt_shape_ss_highmt"
+				)
+				if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 					Samples._add_input(
-							input_file=self.files_ztt(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+							input_file=self.files_ewkz_zll(channel),
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 							nick="noplot_ztt_shape_ss_highmt"
 					)
-					if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
-						Samples._add_input(
-								input_file=self.files_ewkz_zll(channel),
-								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_ztt_shape_ss_highmt"
-						)
-						Samples._add_input(
-								input_file=self.files_ewkz_znn(channel),
-								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_ztt_shape_ss_highmt"
-						)
 					Samples._add_input(
-							input_file=self.files_zll(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor,
+							input_file=self.files_ewkz_znn(channel),
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+							nick="noplot_ztt_shape_ss_highmt"
+					)
+				Samples._add_input(
+						input_file=self.files_zll(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor,
+						nick="noplot_zll_shape_ss_highmt"
+				)
+				if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
+					Samples._add_input(
+							input_file=self.files_ewkz_zll(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 							nick="noplot_zll_shape_ss_highmt"
 					)
-					if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
-						Samples._add_input(
-								input_file=self.files_ewkz_zll(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_zll_shape_ss_highmt"
-						)
-						Samples._add_input(
-								input_file=self.files_ewkz_znn(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_zll_shape_ss_highmt"
-						)
+					Samples._add_input(
+							input_file=self.files_ewkz_znn(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+							nick="noplot_zll_shape_ss_highmt"
+					)
+				if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
+					Samples._add_input(
+							input_file=self.files_ewkz_zll(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
+							nick="noplot_ewkz_shape_ss_highmt"
+					)
+					Samples._add_input(
+							input_file=self.files_ewkz_znn(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+							nick="noplot_ewkz_shape_ss_highmt"
+					)
+				Samples._add_input(
+						input_file=self.files_ttj(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*topPtReweightWeight",
+						nick="noplot_ttj_shape_ss_highmt"
+				)
+				Samples._add_input(
+						input_file=self.files_vv(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.vv_stitchingweight(),
+						nick="noplot_vv_shape_ss_highmt"
+				)
+				Samples._add_input(
+						input_file=self.files_diboson(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
+						nick="noplot_vv_shape_ss_highmt"
+				)
+
+				if kwargs.get("ss_os_factor", 0.0) != 0.0:
+					ss_os_factor = kwargs["ss_os_factor"]
+				else:
+					ss_os_factor = 1.0
+					if category != None:
+						if channel == "et":
+							ss_os_factor =  1.28 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.0 if "ZeroJet2D" in category else 1.0
+						elif channel == "mt":
+							ss_os_factor =  1.06 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.07 if "ZeroJet2D" in category else 1.0
+				if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
+				
+				if channel in ["et", "mt"]:
+					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
+					
+				if controlregions:
+					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
+					config.setdefault("qcd_yield_nicks", []).append("data_qcd_yield"+nick_suffix)
 					if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
-						Samples._add_input(
-								input_file=self.files_ewkz_zll(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_ewkz_shape_ss_highmt"
-						)
-						Samples._add_input(
-								input_file=self.files_ewkz_znn(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
-								nick="noplot_ewkz_shape_ss_highmt"
-						)
-					Samples._add_input(
-							input_file=self.files_ttj(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*topPtReweightWeight",
-							nick="noplot_ttj_shape_ss_highmt"
-					)
-					Samples._add_input(
-							input_file=self.files_vv(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.vv_stitchingweight(),
-							nick="noplot_vv_shape_ss_highmt"
-					)
-					Samples._add_input(
-							input_file=self.files_diboson(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
-							nick="noplot_vv_shape_ss_highmt"
-					)
-
-					if kwargs.get("ss_os_factor", 0.0) != 0.0:
-						ss_os_factor = kwargs["ss_os_factor"]
+						config.setdefault("qcd_yield_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ewkz_ss_qcd ttj_ss_qcd vv_ss_qcd wj_ss_qcd".split()]))
+						config.setdefault("qcd_shape_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ewkz_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
+						config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ewkz_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
 					else:
-						ss_os_factor = 1.0
-						if category != None:
-							if channel == "et":
-								ss_os_factor =  1.28 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.0 if "ZeroJet2D" in category else 1.0
-							elif channel == "mt":
-								ss_os_factor =  1.06 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.07 if "ZeroJet2D" in category else 1.0
-					if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
-						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
-					
-					if channel in ["et", "mt"]:
-						config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
-					
-					if controlregions:
-						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
-						config.setdefault("qcd_yield_nicks", []).append("data_qcd_yield"+nick_suffix)
-						if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
-							config.setdefault("qcd_yield_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ewkz_ss_qcd ttj_ss_qcd vv_ss_qcd wj_ss_qcd".split()]))
-							config.setdefault("qcd_shape_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ewkz_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
-							config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ewkz_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
-						else:
-							config.setdefault("qcd_yield_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd wj_ss_qcd".split()]))
-							config.setdefault("qcd_shape_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
-							config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
-						config.setdefault("qcd_ss_highmt_shape_nicks", []).append("qcd_ss_highmt"+nick_suffix)
-						config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
-						config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
-						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
-							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
+						config.setdefault("qcd_yield_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd wj_ss_qcd".split()]))
+						config.setdefault("qcd_shape_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
+						config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
+					config.setdefault("qcd_ss_highmt_shape_nicks", []).append("qcd_ss_highmt"+nick_suffix)
+					config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
+					config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
+					if kwargs.get("wj_sf_shift", 0.0) != 0.0:
+						config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
 
-						for nick in ["ztt_ss_lowmt", "zll_ss_lowmt", "ttj_ss_lowmt", "vv_ss_lowmt", "wj_ss_lowmt","data_ss_lowmt", "qcd_ss_highmt", "qcd_os_highmt", "qcd_ss_lowmt"]+(["ewkz_ss_lowmt"] if (not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False)) else []):
-							if not kwargs.get("mssm", False):
-								Samples._add_bin_corrections(config, nick, nick_suffix)
-							Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
+					for nick in ["ztt_ss_lowmt", "zll_ss_lowmt", "ttj_ss_lowmt", "vv_ss_lowmt", "wj_ss_lowmt","data_ss_lowmt", "qcd_ss_highmt", "qcd_os_highmt", "qcd_ss_lowmt"]+(["ewkz_ss_lowmt"] if (not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False)) else []):
+						if not kwargs.get("mssm", False):
+							Samples._add_bin_corrections(config, nick, nick_suffix)
+						Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
+				else:
+					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
+					config.setdefault("qcd_yield_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
+					if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
+						config.setdefault("qcd_yield_substract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ewkz_ss_qcd ttj_ss_qcd vv_ss_qcd wj_ss_qcd".split()]))
+						config.setdefault("qcd_shape_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ewkz_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
+						config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ewkz_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
 					else:
-						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
-						config.setdefault("qcd_yield_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
-						if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
-							config.setdefault("qcd_yield_substract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ewkz_ss_qcd ttj_ss_qcd vv_ss_qcd wj_ss_qcd".split()]))
-							config.setdefault("qcd_shape_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ewkz_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
-							config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ewkz_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
-						else:
-							config.setdefault("qcd_yield_substract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd wj_ss_qcd".split()]))
-							config.setdefault("qcd_shape_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
-							config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
-						config.setdefault("qcd_ss_highmt_shape_nicks", []).append("noplot_qcd_ss_highmt"+nick_suffix)
-						config.setdefault("qcd_ss_lowmt_nicks", []).append("noplot_qcd_ss_lowmt"+nick_suffix)
-						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
-						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
-							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
+						config.setdefault("qcd_yield_substract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd wj_ss_qcd".split()]))
+						config.setdefault("qcd_shape_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
+						config.setdefault("qcd_shape_highmt_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_highmt noplot_zll_shape_ss_highmt noplot_ttj_shape_ss_highmt noplot_vv_shape_ss_highmt".split()]))
+					config.setdefault("qcd_ss_highmt_shape_nicks", []).append("noplot_qcd_ss_highmt"+nick_suffix)
+					config.setdefault("qcd_ss_lowmt_nicks", []).append("noplot_qcd_ss_lowmt"+nick_suffix)
+					config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
+					if kwargs.get("wj_sf_shift", 0.0) != 0.0:
+						config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
 			if channel in ["et", "mt"] and "simeqn" in estimationMethod:				
 		
 				if kwargs.get("ss_os_factor", 0.0) != 0.0:
