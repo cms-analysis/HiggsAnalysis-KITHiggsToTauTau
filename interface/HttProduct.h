@@ -111,6 +111,12 @@ public:
 	// filled by the TauSpinnerProducer
 	bool m_tauSpinnerValidOutputs = false;
 	double m_tauSpinnerPolarisation = DefaultValues::UndefinedDouble;
+	double m_tauSpinnerPdgIdTau_1 = DefaultValues::UndefinedInt;
+	double m_tauSpinnerPdgIdTau_2 = DefaultValues::UndefinedInt;
+	double m_tauSpinnerETau_1 = DefaultValues::UndefinedDouble;
+	double m_tauSpinnerETau_2 = DefaultValues::UndefinedDouble;
+	double m_tauSpinnerEPi_1 = DefaultValues::UndefinedDouble;
+	double m_tauSpinnerEPi_2 = DefaultValues::UndefinedDouble;
 
 	// filled by the PolarisationQuantitiesProducer
 	std::map<KLepton*, float> m_polarisationOmegasGenMatched;
