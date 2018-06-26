@@ -57,7 +57,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 				help="Nicks for ss highmt data histogram. [Default: %(default)s]")
 		self.estimate_wjets_and_qcd_options.add_argument("--wjets-os-data-nicks", nargs="+", default=[""],
 				help="Nicks for os highmt data histogram. [Default: %(default)s]")
-		self.estimate_wjets_and_qcd_options.add_argument("--wjets-shape-nicks", nargs="+", default=[""],
+		self.estimate_wjets_and_qcd_options.add_argument("--wjets-A-shape-nicks", nargs="+", default=[""],
 				help="Nicks for W+jets signal region histogram. [Default: %(default)s]")
 		self.estimate_wjets_and_qcd_options.add_argument("--wjets-wj-final-selection", nargs="+", default=[""],
 				help="Nicks for W+jets in final category. [Default: %(default)s]")
@@ -143,13 +143,13 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 				wjets_yield = wjets_yield * tools.PoissonYield(plotData.plotdict["root_objects"][wjets_final_selection])() / tools.PoissonYield(plotData.plotdict["root_objects"][wjets_relaxed_os_lowmt_nick])()
 			
 			# scale signal region histograms
-			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_shape_nick])()
+			integral_shape = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_A_shape_nick])()
 			if integral_shape != 0.0:
 				scale_factor = wjets_yield / integral_shape
-				log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_shape_nick, scale_factor=scale_factor))
-				plotData.plotdict["root_objects"][wjets_shape_nick].Scale(scale_factor.nominal_value)
+				log.debug("Scale factor for process W+jets (nick \"{nick}\") is {scale_factor}.".format(nick=wjets_A_shape_nick, scale_factor=scale_factor))
+				plotData.plotdict["root_objects"][wjets_A_shape_nick].Scale(scale_factor.nominal_value)
 			
-			plotData.metadata[wjets_shape_nick] = {
+			plotData.metadata[wjets_A_shape_nick] = {
 				"yield" : wjets_yield.nominal_value,
 				"yield_unc" : wjets_yield.std_dev,
 				"yield_unc_rel" : abs(wjets_yield.std_dev/wjets_yield.nominal_value if wjets_yield.nominal_value != 0.0 else 0.0),
