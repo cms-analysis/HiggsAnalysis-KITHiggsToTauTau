@@ -1489,6 +1489,23 @@ class Samples(samples.SamplesBase):
 						weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
 						nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
 				)
+				# Wj Monte Carlo nicks
+				Samples._add_input(
+						input_file=self.files_wj(channel),
+						weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
+						nick=("noplot_" if not controlregions else "") + "wj_mc_ss_highmt"
+				)
+				if (not kwargs.get("no_ewk_samples", False)):
+					Samples._add_input(
+							input_file=self.files_ewkwm(channel),
+							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkwm_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "wj_mc_ss_highmt"
+					)
+					Samples._add_input(
+							input_file=self.files_ewkwp(channel),
+							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkwp_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "wj_mc_ss_highmt"
+					)				
 				
 				# Type D inputs
 				# data yield in os highmt
@@ -1556,9 +1573,24 @@ class Samples(samples.SamplesBase):
 						input_file=self.files_diboson(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
 						nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
-				)				
-
-								
+				)
+				# Wj Monte Carlo nicks
+				Samples._add_input(
+						input_file=self.files_wj(channel),
+						weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
+						nick=("noplot_" if not controlregions else "") + "wj_mc_os_highmt"
+				)
+				if (not kwargs.get("no_ewk_samples", False)):
+					Samples._add_input(
+							input_file=self.files_ewkwm(channel),
+							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkwm_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "wj_mc_os_highmt"
+					)
+					Samples._add_input(
+							input_file=self.files_ewkwp(channel),
+							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkwp_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "wj_mc_os_highmt"
+					)								
 			
 			if "simeqn" in estimationMethod: 
 				# add inclusive Wjets MC samples in OS and SS for W SS/OS determination 
@@ -1594,23 +1626,6 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_inclusive, cut_type=cut_type)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_os_inclusive"
-					)
-				# Step 2 - OS highMt lowMt factor							
-				Samples._add_input(
-					input_file=self.files_wj(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
-					nick=("noplot_" if not controlregions else "") + "wj_mc_ss_highmt"
-				)
-				if (not kwargs.get("no_ewk_samples", False)):
-					Samples._add_input(
-							input_file=self.files_ewkwm(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkwm_stitchingweight(),
-							nick=("noplot_" if not controlregions else "") + "wj_mc_ss_highmt"
-					)
-					Samples._add_input(
-							input_file=self.files_ewkwp(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkwp_stitchingweight(),
-							nick=("noplot_" if not controlregions else "") + "wj_mc_ss_highmt"
 					)												
 				Samples._add_input(
 					input_file=self.files_wj(channel),
@@ -1627,24 +1642,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_ss_lowmt"
-					)												
-				# Step 3 OS highMt lowMt factor 
-				Samples._add_input(
-					input_file=self.files_wj(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
-					nick=("noplot_" if not controlregions else "") + "wj_mc_os_highmt"
-				)
-				if (not kwargs.get("no_ewk_samples", False)):
-					Samples._add_input(
-							input_file=self.files_ewkwm(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkwm_stitchingweight(),
-							nick=("noplot_" if not controlregions else "") + "wj_mc_os_highmt"
-					)
-					Samples._add_input(
-							input_file=self.files_ewkwp(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkwp_stitchingweight(),
-							nick=("noplot_" if not controlregions else "") + "wj_mc_os_highmt"
-					)												
+					)																							
 				Samples._add_input(
 					input_file=self.files_wj(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -1709,38 +1707,6 @@ class Samples(samples.SamplesBase):
 				if "newKIT" in estimationMethod:
 					wj_weight = split_multiplication(weight)[-1] # remove category selection for yield estimation
 
-				Samples._add_input(
-						input_file=self.files_wj(channel),
-						weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
-						nick=("noplot_" if not controlregions else "") + "wj_os_highmt"
-				)
-				if (not kwargs.get("no_ewk_samples", False)):
-					Samples._add_input(
-							input_file=self.files_ewkwm(channel),
-							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkwm_stitchingweight(),
-							nick=("noplot_" if not controlregions else "") + "wj_os_highmt"
-					)
-					Samples._add_input(
-							input_file=self.files_ewkwp(channel),
-							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkwp_stitchingweight(),
-							nick=("noplot_" if not controlregions else "") + "wj_os_highmt"
-					)
-				Samples._add_input(
-						input_file=self.files_wj(channel),
-						weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
-						nick=("noplot_" if not controlregions else "") + "wj_ss_highmt"
-				)
-				if (not kwargs.get("no_ewk_samples", False)):
-					Samples._add_input(
-							input_file=self.files_ewkwm(channel),
-							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkwm_stitchingweight(),
-							nick=("noplot_" if not controlregions else "") + "wj_ss_highmt"
-					)
-					Samples._add_input(
-							input_file=self.files_ewkwp(channel),
-							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkwp_stitchingweight(),
-							nick=("noplot_" if not controlregions else "") + "wj_ss_highmt"
-					)
 				# exact wj selection on MC
 				if "newKIT" in estimationMethod:
 					Samples._add_input(
@@ -1803,8 +1769,8 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_C_data_nicks", []).append("data_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_D_data_nicks", []).append("data_os_highmt"+nick_suffix)
 					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)
-					config.setdefault("wjets_ss_highmt_mc_nicks", []).append("wj_ss_highmt"+nick_suffix)
-					config.setdefault("wjets_os_highmt_mc_nicks", []).append("wj_os_highmt"+nick_suffix)
+					config.setdefault("wjets_C_mc_nicks", []).append("wj_mc_ss_highmt"+nick_suffix)
+					config.setdefault("wjets_D_mc_nicks", []).append("wj_mc_os_highmt"+nick_suffix)
 					config.setdefault("wjets_wj_final_selection", []).append(("noplot_wj_final_selection"+nick_suffix) if "newKIT" in estimationMethod else None)
 					config.setdefault("wjets_relaxed_os_highmt_nicks", []).append("noplot_wj_relaxed_os_highmt"+nick_suffix)
 					config.setdefault("wjets_relaxed_os_lowmt_nicks", []).append("noplot_wj_relaxed_os_lowmt"+nick_suffix)
@@ -1821,8 +1787,8 @@ class Samples(samples.SamplesBase):
 						config.setdefault("wjets_D_substract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_os_highmt zll_os_highmt ttj_os_highmt vv_os_highmt".split()]))
 					config.setdefault("wjets_C_data_nicks", []).append("noplot_data_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_D_data_nicks", []).append("noplot_data_os_highmt"+nick_suffix)
-					config.setdefault("wjets_ss_highmt_mc_nicks", []).append("noplot_wj_ss_highmt"+nick_suffix)
-					config.setdefault("wjets_os_highmt_mc_nicks", []).append("noplot_wj_os_highmt"+nick_suffix)
+					config.setdefault("wjets_C_mc_nicks", []).append("noplot_wj_mc_ss_highmt"+nick_suffix)
+					config.setdefault("wjets_D_mc_nicks", []).append("noplot_wj_mc_os_highmt"+nick_suffix)
 					config.setdefault("wjets_wj_final_selection", []).append(("noplot_wj_final_selection"+nick_suffix) if "newKIT" in estimationMethod else None)
 					config.setdefault("wjets_relaxed_os_highmt_nicks", []).append("noplot_wj_relaxed_os_highmt"+nick_suffix)
 					config.setdefault("wjets_relaxed_os_lowmt_nicks", []).append("noplot_wj_relaxed_os_lowmt"+nick_suffix)
@@ -1837,10 +1803,10 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_ss_mc_nicks", []).append("wj_mc_ss_inclusive"+nick_suffix)
 					config.setdefault("wjets_os_mc_nicks", []).append("wj_mc_os_inclusive"+nick_suffix)
 					# Step 2
-					config.setdefault("wjets_ss_highmt_mc_nicks", []).append("wj_mc_ss_highmt"+nick_suffix)
+					config.setdefault("wjets_C_mc_nicks", []).append("wj_mc_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_ss_lowmt_mc_nicks", []).append("wj_mc_ss_lowmt"+nick_suffix)
 					# Step 3 					
-					config.setdefault("wjets_os_highmt_mc_nicks", []).append("wj_mc_os_highmt"+nick_suffix)
+					config.setdefault("wjets_D_mc_nicks", []).append("wj_mc_os_highmt"+nick_suffix)
 					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj_mc_os_lowmt"+nick_suffix)
 					# Step 4
 					# To be added in the qcd method.
@@ -1863,10 +1829,10 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_ss_mc_nicks", []).append("noplot_wj_mc_ss_inclusive"+nick_suffix)
 					config.setdefault("wjets_os_mc_nicks", []).append("noplot_wj_mc_os_inclusive"+nick_suffix)
 					# Step 2
-					config.setdefault("wjets_ss_highmt_mc_nicks", []).append("noplot_wj_mc_ss_highmt"+nick_suffix)
+					config.setdefault("wjets_C_mc_nicks", []).append("noplot_wj_mc_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_ss_lowmt_mc_nicks", []).append("noplot_wj_mc_ss_lowmt"+nick_suffix)
 					# Step 3 					
-					config.setdefault("wjets_os_highmt_mc_nicks", []).append("noplot_wj_mc_os_highmt"+nick_suffix)
+					config.setdefault("wjets_D_mc_nicks", []).append("noplot_wj_mc_os_highmt"+nick_suffix)
 					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("noplot_wj_mc_os_lowmt"+nick_suffix)
 					# Step 4
 					# To be added in the qcd method.
