@@ -1946,18 +1946,18 @@ class Samples(samples.SamplesBase):
 						)
 				Samples._add_input(
 						input_file=self.files_wj(channel),
-						weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_C),
+						weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
 						nick="noplot_wj_relaxed_os_highmt"
 				)
 				if (not kwargs.get("no_ewk_samples", False)):
 					Samples._add_input(
 							input_file=self.files_ewkwm(channel),
-							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_C)+"*"+self.ewkwm_stitchingweight(),
+							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_D)+"*"+self.ewkwm_stitchingweight(),
 							nick="noplot_wj_relaxed_os_highmt"
 					)
 					Samples._add_input(
 							input_file=self.files_ewkwp(channel),
-							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_C)+"*"+self.ewkwp_stitchingweight(),
+							weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkwp_stitchingweight(),
 							nick="noplot_wj_relaxed_os_highmt"
 					)
 				Samples._add_input(
