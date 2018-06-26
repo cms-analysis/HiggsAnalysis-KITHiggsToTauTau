@@ -53,9 +53,9 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 				help="Nicks for highmt os W+jets histogram. [Default: %(default)s]")
 		self.estimate_wjets_and_qcd_options.add_argument("--wjets-ss-highmt-mc-nicks", nargs="+", default=[""],
 				help="Nicks for highmt ss W+jets histogram. [Default: %(default)s]")
-		self.estimate_wjets_and_qcd_options.add_argument("--wjets-ss-data-nicks", nargs="+", default=[""],
+		self.estimate_wjets_and_qcd_options.add_argument("--wjets-C-data-nicks", nargs="+", default=[""],
 				help="Nicks for ss highmt data histogram. [Default: %(default)s]")
-		self.estimate_wjets_and_qcd_options.add_argument("--wjets-os-data-nicks", nargs="+", default=[""],
+		self.estimate_wjets_and_qcd_options.add_argument("--wjets-D-data-nicks", nargs="+", default=[""],
 				help="Nicks for os highmt data histogram. [Default: %(default)s]")
 		self.estimate_wjets_and_qcd_options.add_argument("--wjets-A-shape-nicks", nargs="+", default=[""],
 				help="Nicks for W+jets signal region histogram. [Default: %(default)s]")
@@ -70,7 +70,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 
 	def prepare_args(self, parser, plotData):
 		super(EstimateWjetsAndQCD, self).prepare_args(parser, plotData)
-		self._plotdict_keys = ["qcd_extrapolation_factors_ss_os", "qcd_shape_nicks", "qcd_ss_lowmt_nicks", "qcd_ss_highmt_shape_nicks", "qcd_os_highmt_nicks", "qcd_shape_highmt_substract_nicks", "qcd_yield_nicks", "qcd_shape_substract_nicks", "qcd_yield_substract_nicks", "wjets_os_highmt_mc_nicks", "wjets_ss_highmt_mc_nicks", "wjets_C_substract_nicks", "wjets_ss_data_nicks", "wjets_D_substract_nicks", "wjets_os_data_nicks", "wjets_A_shape_nicks", "wjets_relaxed_os_highmt_nicks", "wjets_relaxed_os_lowmt_nicks", "wjets_scale_factor_shifts"]
+		self._plotdict_keys = ["qcd_extrapolation_factors_ss_os", "qcd_shape_nicks", "qcd_ss_lowmt_nicks", "qcd_ss_highmt_shape_nicks", "qcd_os_highmt_nicks", "qcd_shape_highmt_substract_nicks", "qcd_yield_nicks", "qcd_shape_substract_nicks", "qcd_yield_substract_nicks", "wjets_os_highmt_mc_nicks", "wjets_ss_highmt_mc_nicks", "wjets_C_substract_nicks", "wjets_C_data_nicks", "wjets_D_substract_nicks", "wjets_D_data_nicks", "wjets_A_shape_nicks", "wjets_relaxed_os_highmt_nicks", "wjets_relaxed_os_lowmt_nicks", "wjets_scale_factor_shifts"]
 		self.prepare_list_args(plotData, self._plotdict_keys)
 		for index in ["qcd_shape_substract_nicks", "qcd_yield_substract_nicks", "wjets_C_substract_nicks", "wjets_D_substract_nicks","qcd_shape_highmt_substract_nicks"]:
 			plotData.plotdict[index] = [nicks.split() for nicks in plotData.plotdict[index]]
@@ -90,7 +90,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 					for subnick in nick:
 						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
 
-		for qcd_extrapolation_factor_ss_os, qcd_shape_nick, qcd_ss_lowmt_nick, qcd_ss_highmt_shape_nick, qcd_os_highmt_nick, qcd_shape_highmt_substract_nick, qcd_yield_nick, qcd_shape_substract_nick, qcd_yield_substract_nick, wjets_os_highmt_mc_nick, wjets_ss_highmt_mc_nick, wjets_C_substract_nick, wjets_ss_data_nick, wjets_D_substract_nick, wjets_os_data_nick, wjets_A_shape_nick, wjets_relaxed_os_highmt_nick, wjets_relaxed_os_lowmt_nick, wjets_scale_factor_shift, wjets_final_selection in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
+		for qcd_extrapolation_factor_ss_os, qcd_shape_nick, qcd_ss_lowmt_nick, qcd_ss_highmt_shape_nick, qcd_os_highmt_nick, qcd_shape_highmt_substract_nick, qcd_yield_nick, qcd_shape_substract_nick, qcd_yield_substract_nick, wjets_os_highmt_mc_nick, wjets_ss_highmt_mc_nick, wjets_C_substract_nick, wjets_C_data_nick, wjets_D_substract_nick, wjets_D_data_nick, wjets_A_shape_nick, wjets_relaxed_os_highmt_nick, wjets_relaxed_os_lowmt_nick, wjets_scale_factor_shift, wjets_final_selection in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			########################################
 			# estimate QCD for the highmT region
 			
@@ -99,7 +99,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 				plotData.plotdict["root_objects"][qcd_ss_highmt_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1)
 			
 			# get qcd yield in ss high mt region
-			yield_qcd_ss_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_ss_data_nick])()
+			yield_qcd_ss_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_C_data_nick])()
 			for nick in wjets_C_substract_nick+[wjets_ss_highmt_mc_nick]:
 				yield_qcd_ss_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 			yield_qcd_ss_highmt = max(uncertainties.ufloat(0.0, yield_qcd_ss_highmt.std_dev), yield_qcd_ss_highmt)
@@ -120,7 +120,7 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			# estimate W+jets
 			
 			# get w+jets yield in os high mt region
-			yield_wjets_os_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_os_data_nick])()
+			yield_wjets_os_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_D_data_nick])()
 			for nick in wjets_D_substract_nick:
 				yield_wjets_os_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 			yield_wjets_os_highmt -= qcd_extrapolation_factor_ss_os*yield_qcd_ss_highmt
