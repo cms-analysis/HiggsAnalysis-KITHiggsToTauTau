@@ -886,95 +886,6 @@ class Samples(samples.SamplesBase):
 				weight=make_multiplication([mc_weight, weight, "eventWeight",self.embedding_ttbarveto_weight(channel), self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"])+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 				nick="ttj"
 		)
-		if (channel == "em") and ("newKIT" in estimationMethod):
-			channel_weight = Samples.get_jetbin(channel, category, weight)
-			
-			ttbar_data_weight = make_multiplication(["(pZetaMissVis < -70.0)", channel_weight] )   # get data / mc factor from inclusive
-
-			Samples._add_input(
-					input_file=self.files_data(channel),
-					scale_factor=1.0,
-					weight=make_multiplication([data_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) ]),
-					nick="noplot_ttj_data_control"
-			)
-			Samples._add_input(
-					input_file=self.files_ztt(channel),
-					weight=make_multiplication([Samples.ztt_genmatch(channel), ttbar_data_weight, self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type) ],"zPtReweightWeight", zmm_cr_factor, self.em_triggerweight_dz_filter(channel, cut_type)),
-					nick="noplot_ztt_mc_ttj_control"
-			)
-			if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
-				Samples._add_input(
-						input_file=self.files_ewkz_zll(channel),
-						weight=make_multiplication([Samples.ztt_genmatch(channel), ttbar_data_weight, self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type), zmm_cr_factor, self.ewkz_zll_stitchingweight(), self.em_triggerweight_dz_filter(channel, cut_type)]),
-						nick="noplot_ztt_mc_ttj_control"
-				)
-				Samples._add_input(
-						input_file=self.files_ewkz_znn(channel),
-						weight=make_multiplication([Samples.ztt_genmatch(channel), ttbar_data_weight, self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type), zmm_cr_factor, self.ewkz_znn_stitchingweight(), self.em_triggerweight_dz_filter(channel, cut_type)]),
-						nick="noplot_ztt_mc_ttj_control"
-				)
-			Samples._add_input(
-					input_file=self.files_zll(channel),
-					weight=make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self.zll_stitchingweight(), Samples.zll_genmatch(channel), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)],"zPtReweightWeight",self.zll_zl_shape_weight(channel, cut_type), zmm_cr_factor, self.em_triggerweight_dz_filter(channel, cut_type)),
-					nick="noplot_zll_ttj_control"
-			)
-			if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
-				Samples._add_input(
-						input_file=self.files_ewkz_zll(channel),
-						weight=make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", Samples.zll_genmatch(channel), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)],self.zll_zl_shape_weight(channel, cut_type), zmm_cr_factor, self.ewkz_zll_stitchingweight(), self.em_triggerweight_dz_filter(channel, cut_type)),
-						nick="noplot_zll_ttj_control"
-				)
-				Samples._add_input(
-						input_file=self.files_ewkz_znn(channel),
-						weight=make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", Samples.zll_genmatch(channel), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)],self.zll_zl_shape_weight(channel, cut_type), zmm_cr_factor, self.ewkz_znn_stitchingweight(), self.em_triggerweight_dz_filter(channel, cut_type)),
-						nick="noplot_zll_ttj_control"
-				)
-			if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
-				Samples._add_input(
-						input_file=self.files_ewkz_zll(channel),
-						weight=make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)], zmm_cr_factor, self.ewkz_zll_stitchingweight(), self.em_triggerweight_dz_filter(channel, cut_type)),
-						nick="noplot_ewkz_ttj_control"
-				)
-				Samples._add_input(
-						input_file=self.files_ewkz_znn(channel),
-						weight=make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)], zmm_cr_factor, self.ewkz_znn_stitchingweight(), self.em_triggerweight_dz_filter(channel, cut_type)),
-						nick="noplot_ewkz_ttj_control"
-				)
-			Samples._add_input(
-					input_file=self.files_wj(channel),
-					weight=make_multiplication([mc_weight, self.wj_stitchingweight(), ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type), self.em_triggerweight_dz_filter(channel, cut_type)]),
-					nick="noplot_wj_ttj_control"
-			)
-			Samples._add_input(
-					input_file=self.files_vv(channel),
-					weight=make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type), self.vv_stitchingweight(), self.em_triggerweight_dz_filter(channel, cut_type)]),
-					nick="noplot_vv_ttj_control"
-			)
-			Samples._add_input(
-					input_file=self.files_diboson(channel),
-					weight=make_multiplication([mc_weight, ttbar_data_weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type), self.em_triggerweight_dz_filter(channel, cut_type)]),
-					nick="noplot_vv_ttj_control"
-			)
-			Samples._add_input(
-					input_file=self.files_ttj(channel),
-					weight=make_multiplication([mc_weight, weight, "eventWeight",self.embedding_ttbarveto_weight(channel), self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight", self.em_triggerweight_dz_filter(channel, cut_type)]),
-					nick="noplot_ttj_mc_signal"
-			)
-			Samples._add_input(
-					input_file=self.files_ttj(channel),
-					weight=make_multiplication([mc_weight, ttbar_data_weight, "eventWeight",self.embedding_ttbarveto_weight(channel), self._cut_string(channel, exclude_cuts=exclude_cuts+["pzeta", "nobtag"], cut_type=cut_type)+"*topPtReweightWeight", self.em_triggerweight_dz_filter(channel, cut_type)]),
-					nick="noplot_ttj_mc_control"
-			)
-			if not "EstimateTtbar" in config.get("analysis_modules", []):
-				config.setdefault("analysis_modules", []).append("EstimateTtbar")
-			config.setdefault("ttbar_shape_nicks", []).append("ttj"+nick_suffix)
-			config.setdefault("ttbar_data_control_nicks", []).append("noplot_ttj_data_control"+nick_suffix)
-			if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
-				config.setdefault("ttbar_data_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_ewkz_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))
-			else:
-				config.setdefault("ttbar_data_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_mc_ttj_control noplot_zll_ttj_control noplot_wj_ttj_control noplot_vv_ttj_control".split()]))
-			config.setdefault("ttbar_mc_signal_nicks", []).append("noplot_ttj_mc_signal"+nick_suffix)
-			config.setdefault("ttbar_mc_control_nicks", []).append("noplot_ttj_mc_control"+nick_suffix)
 		if channel not in ["em", "et", "mt", "tt", "mm", "ee", "ttbar"]:
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
@@ -1662,8 +1573,6 @@ class Samples(samples.SamplesBase):
 				# Step 4 - Taken from qcd method.
 				# Step 5 - Estimate highmt ss yield
 				# data yield in ss highmt
-											
-
 				# shape nicks for the later usable histograms
 				Samples._add_input(
 						input_file=self.files_wj(channel),
@@ -1699,32 +1608,9 @@ class Samples(samples.SamplesBase):
 							nick=("noplot_" if not controlregions else "") + "wj_ss_lowmt"
 					)
 			
-			if "newKIT" in estimationMethod:
-				weight = make_multiplication(Samples.get_jetbin(category, channel, weight))
-			
 			if "new" in estimationMethod:
 				wj_weight = weight
-				if "newKIT" in estimationMethod:
-					wj_weight = split_multiplication(weight)[-1] # remove category selection for yield estimation
 
-				# exact wj selection on MC
-				if "newKIT" in estimationMethod:
-					Samples._add_input(
-							input_file=self.files_wj(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-							nick="noplot_wj_final_selection"
-					)
-					if (not kwargs.get("no_ewk_samples", False)):
-						Samples._add_input(
-								input_file=self.files_ewkwm(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwm_stitchingweight(),
-								nick="noplot_wj_final_selection"
-						)
-						Samples._add_input(
-								input_file=self.files_ewkwp(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwp_stitchingweight(),
-								nick="noplot_wj_final_selection"
-						)
 				Samples._add_input(
 						input_file=self.files_wj(channel),
 						weight=mc_weight+"*"+wj_weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
@@ -1771,7 +1657,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)
 					config.setdefault("wjets_C_mc_nicks", []).append("wj_mc_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_D_mc_nicks", []).append("wj_mc_os_highmt"+nick_suffix)
-					config.setdefault("wjets_wj_final_selection", []).append(("noplot_wj_final_selection"+nick_suffix) if "newKIT" in estimationMethod else None)
+					config.setdefault("wjets_wj_final_selection", []).append(None)
 					config.setdefault("wjets_relaxed_os_highmt_nicks", []).append("noplot_wj_relaxed_os_highmt"+nick_suffix)
 					config.setdefault("wjets_relaxed_os_lowmt_nicks", []).append("noplot_wj_relaxed_os_lowmt"+nick_suffix)
 					for nick in ["ztt_os_highmt", "zll_os_highmt", "ttj_os_highmt", "vv_os_highmt", "data_os_highmt", "wj_os_highmt", "ztt_ss_highmt", "zll_ss_highmt", "ttj_ss_highmt", "vv_ss_highmt", "data_ss_highmt", "wj_ss_highmt"]+(["ewkz_os_highmt", "ewkz_ss_highmt"] if (not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False)) else []):
@@ -1789,7 +1675,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_D_data_nicks", []).append("noplot_data_os_highmt"+nick_suffix)
 					config.setdefault("wjets_C_mc_nicks", []).append("noplot_wj_mc_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_D_mc_nicks", []).append("noplot_wj_mc_os_highmt"+nick_suffix)
-					config.setdefault("wjets_wj_final_selection", []).append(("noplot_wj_final_selection"+nick_suffix) if "newKIT" in estimationMethod else None)
+					config.setdefault("wjets_wj_final_selection", []).append(None)
 					config.setdefault("wjets_relaxed_os_highmt_nicks", []).append("noplot_wj_relaxed_os_highmt"+nick_suffix)
 					config.setdefault("wjets_relaxed_os_lowmt_nicks", []).append("noplot_wj_relaxed_os_lowmt"+nick_suffix)
 					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)
@@ -2478,8 +2364,6 @@ class Samples(samples.SamplesBase):
 						cut_type_A = cut_type_A + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
 					
 					qcd_shape_weight = weight
-					if "newKIT" in estimationMethod:
-						qcd_shape_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 					
 					Samples._add_input(
 							input_file=self.files_ztt(channel),
@@ -2792,10 +2676,6 @@ class Samples(samples.SamplesBase):
 							if estimation_type == "shape" and ("Vbf2D" in category):
 								qcd_weight += "*(iso_1<0.5)*(iso_2>0.2)*(iso_2<0.5)"
 								qcd_exclude_cuts += ["iso_1", "iso_2"]
-							if "newKIT" in estimationMethod and estimation_type == "shape": # take shape from full jet-bin
-								cut_type_B = cut_type_B + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category) else "")
-								qcd_exclude_cuts.append("pzeta")
-								qcd_weight = make_multiplication(Samples.get_jetbin(channel, category, weight))
 						data_sample_weight = make_multiplication([data_weight, 
 											  qcd_weight,
 											  "eventWeight",
