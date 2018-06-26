@@ -175,9 +175,6 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			
 			yield_qcd_ss_lowmt = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_yield_nick])()
 			for nick in qcd_yield_substract_nick:
-				# if "wj" in nick and tools.PoissonYield(plotData.plotdict["root_objects"][nick])() != 0.0:
-				# 	scale_factor = wjets_scale_factor * wjets_scale_factor_shift
-				# 	plotData.plotdict["root_objects"][nick].Scale(scale_factor.nominal_value)
 				yield_qcd_ss_lowmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 			yield_qcd_ss_lowmt = max(uncertainties.ufloat(0.0, yield_qcd_ss_lowmt.std_dev), yield_qcd_ss_lowmt)
 			if yield_qcd_ss_lowmt.nominal_value == 0.0:
