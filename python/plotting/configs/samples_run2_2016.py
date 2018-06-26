@@ -1804,10 +1804,10 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_os_mc_nicks", []).append("wj_mc_os_inclusive"+nick_suffix)
 					# Step 2
 					config.setdefault("wjets_C_mc_nicks", []).append("wj_mc_ss_highmt"+nick_suffix)
-					config.setdefault("wjets_ss_lowmt_mc_nicks", []).append("wj_mc_ss_lowmt"+nick_suffix)
+					config.setdefault("wjets_B_mc_nicks", []).append("wj_mc_ss_lowmt"+nick_suffix)
 					# Step 3 					
 					config.setdefault("wjets_D_mc_nicks", []).append("wj_mc_os_highmt"+nick_suffix)
-					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("wj_mc_os_lowmt"+nick_suffix)
+					config.setdefault("wjets_A_mc_nicks", []).append("wj_mc_os_lowmt"+nick_suffix)
 					# Step 4
 					# To be added in the qcd method.
 					# Step 5
@@ -1816,9 +1816,9 @@ class Samples(samples.SamplesBase):
 					
 					config.setdefault("wjets_C_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_highmt zll_ss_highmt ttj_ss_highmt vv_ss_highmt".split()]))
 					config.setdefault("wjets_D_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_os_highmt zll_os_highmt ttj_os_highmt vv_os_highmt".split()]))
-					config.setdefault("wjets_ss_highmt_shape_nicks", []).append("wj_ss_highmt"+nick_suffix)
+					config.setdefault("wjets_C_shape_nicks", []).append("wj_ss_highmt"+nick_suffix)
 					# Step 6
-					config.setdefault("wjets_ss_lowmt_shape_nicks", []).append("wj_ss_lowmt"+nick_suffix)
+					config.setdefault("wjets_B_shape_nicks", []).append("wj_ss_lowmt"+nick_suffix)
 					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)								
 					for nick in ["wj_mc_ss_inclusive", "wj_mc_os_inclusive", "wj_mc_ss_highmt", "wj_mc_ss_lowmt", "wj_mc_os_highmt", "wj_mc_os_lowmt", "data_ss_highmt", "data_os_highmt", "ztt_ss_highmt", "zll_ss_highmt", "ttj_ss_highmt", "vv_ss_highmt", "ztt_os_highmt", "zll_os_highmt", "ttj_os_highmt", "vv_os_highmt", "wj_ss_highmt", "wj_ss_lowmt"]:
 						if not kwargs.get("mssm", False):
@@ -1830,10 +1830,10 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_os_mc_nicks", []).append("noplot_wj_mc_os_inclusive"+nick_suffix)
 					# Step 2
 					config.setdefault("wjets_C_mc_nicks", []).append("noplot_wj_mc_ss_highmt"+nick_suffix)
-					config.setdefault("wjets_ss_lowmt_mc_nicks", []).append("noplot_wj_mc_ss_lowmt"+nick_suffix)
+					config.setdefault("wjets_B_mc_nicks", []).append("noplot_wj_mc_ss_lowmt"+nick_suffix)
 					# Step 3 					
 					config.setdefault("wjets_D_mc_nicks", []).append("noplot_wj_mc_os_highmt"+nick_suffix)
-					config.setdefault("wjets_os_lowmt_mc_nicks", []).append("noplot_wj_mc_os_lowmt"+nick_suffix)
+					config.setdefault("wjets_A_mc_nicks", []).append("noplot_wj_mc_os_lowmt"+nick_suffix)
 					# Step 4
 					# To be added in the qcd method.
 					# Step 5
@@ -1842,9 +1842,9 @@ class Samples(samples.SamplesBase):
 
 					config.setdefault("wjets_C_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_highmt zll_ss_highmt ttj_ss_highmt vv_ss_highmt".split()]))
 					config.setdefault("wjets_D_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_os_highmt zll_os_highmt ttj_os_highmt vv_os_highmt".split()]))
-					config.setdefault("wjets_ss_highmt_shape_nicks", []).append("noplot_wj_ss_highmt"+nick_suffix)
+					config.setdefault("wjets_C_shape_nicks", []).append("noplot_wj_ss_highmt"+nick_suffix)
 					# Step 6
-					config.setdefault("wjets_ss_lowmt_shape_nicks", []).append("noplot_wj_ss_lowmt"+nick_suffix)
+					config.setdefault("wjets_B_shape_nicks", []).append("noplot_wj_ss_lowmt"+nick_suffix)
 					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)	
 
 			if "classic" in estimationMethod:
