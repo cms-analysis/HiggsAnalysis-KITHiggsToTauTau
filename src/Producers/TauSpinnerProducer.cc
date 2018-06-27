@@ -57,6 +57,31 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 		return product.m_tauSpinnerPolarisation;
 	});
 	
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerPdgIdTau_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_tauSpinnerPdgIdTau_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerPdgIdTau_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_tauSpinnerPdgIdTau_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerETau_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_tauSpinnerETau_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerETau_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_tauSpinnerETau_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerEPi_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_tauSpinnerEPi_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerEPi_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_tauSpinnerEPi_2;
+	});
+	
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
 	     ++mixingAngleOverPiHalfIt)
@@ -122,6 +147,33 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			GetFinalStates(selectedTau1, tauFinalStates1);
 			std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
 			GetFinalStates(selectedTau2, tauFinalStates2);
+			
+			// debug information
+			if (tauFinalStates1.size() == 2)
+			{
+				for (std::vector<TauSpinner::SimpleParticle>::iterator particle = tauFinalStates1.begin(); particle != tauFinalStates1.end(); ++particle)
+				{
+					if (std::abs(particle->pdgid()) == DefaultValues::pdgIdPiPlus)
+					{
+						product.m_tauSpinnerPdgIdTau_1 = tau1.pdgid();
+						product.m_tauSpinnerETau_1 = tau1.e();
+						product.m_tauSpinnerEPi_1 = particle->e();
+					}
+				}
+			}
+			
+			if (tauFinalStates2.size() == 2)
+			{
+				for (std::vector<TauSpinner::SimpleParticle>::iterator particle = tauFinalStates2.begin(); particle != tauFinalStates2.end(); ++particle)
+				{
+					if (std::abs(particle->pdgid()) == DefaultValues::pdgIdPiPlus)
+					{
+						product.m_tauSpinnerPdgIdTau_2 = tau2.pdgid();
+						product.m_tauSpinnerETau_2 = tau2.e();
+						product.m_tauSpinnerEPi_2 = particle->e();
+					}
+				}
+			}
 
 			//LOG_N_TIMES(20, DEBUG) << "The event contains the following particles: " << std::endl;
 			//LOG_N_TIMES(20, DEBUG) << "Boson " << std::to_string(boson) << std::endl;
