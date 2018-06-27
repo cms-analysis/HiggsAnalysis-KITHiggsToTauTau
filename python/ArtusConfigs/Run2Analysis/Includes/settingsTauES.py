@@ -11,9 +11,17 @@ class TauES(dict):
 	def __init__(self, nickname):
 		if re.search("(Spring16|Summer16)",nickname):
 			self["TauEnergyCorrection"] = "smhtt2016"
+			self["TauEnergyCorrectionOneProng"] = 0.982
+			self["TauEnergyCorrectionOneProngPiZeros"] = 1.01
+			self["TauEnergyCorrectionThreeProng"] = 1.004
+		elif re.search("(Summer17|Fall17)",nickname):
+			self["TauEnergyCorrection"] = "smhtt2016"
+			self["TauEnergyCorrectionOneProng"] = 0.970 #+-3%
+			self["TauEnergyCorrectionOneProngPiZeros"] = 0.98 #+-3%
+			self["TauEnergyCorrectionThreeProng"] = 0.99 #+-3%
 		else:
 			self["TauEnergyCorrection"] = "none"
-
+		
 		self["TauEnergyCorrectionOneProng"] = 0.982
 		self["TauEnergyCorrectionOneProngPiZeros"] = 1.01
 		self["TauEnergyCorrectionThreeProng"] = 1.004

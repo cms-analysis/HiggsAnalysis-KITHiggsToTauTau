@@ -87,18 +87,20 @@ class mt_ArtusConfig(dict):
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 			else:
+				self["Processors"] += [
+						"producer:SimpleEleTauFakeRateWeightProducer",
+						"producer:SimpleMuTauFakeRateWeightProducer"
+						]
+				self["Processors"] += ["producer:TauCorrectionsProducer"]
+
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:TriggerWeightProducer", "producer:TauTriggerEfficiency2017Producer"]
 					self["Processors"] += ["producer:IdentificationWeightProducer"]
 				else:
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 					self["Processors"] += ["producer:MuTauTriggerWeightProducer"] #is a rooworkspace
-					self["Processors"] += ["producer:TauCorrectionsProducer"]
+
 					self["Processors"] += ["producer:MetCorrector"]
-					self["Processors"] += [
-							"producer:SimpleEleTauFakeRateWeightProducer",
-							"producer:SimpleMuTauFakeRateWeightProducer"
-							]
 
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 					self["Processors"] += [

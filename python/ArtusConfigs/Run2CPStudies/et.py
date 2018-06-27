@@ -92,7 +92,10 @@ class et_ArtusConfig(dict):
 				]
 			else: #(Spring16|Summer16|Summer17|Fall17)
 				self["Processors"] += [
-					"producer:GenMatchedTauCPProducer"
+					"producer:GenMatchedTauCPProducer",
+					"producer:TauCorrectionsProducer",
+					"producer:SimpleEleTauFakeRateWeightProducer",
+					"producer:SimpleMuTauFakeRateWeightProducer"
 				]
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:TriggerWeightProducer", "producer:TauTriggerEfficiency2017Producer"]
@@ -100,10 +103,7 @@ class et_ArtusConfig(dict):
 				else:
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]  #changes from file to file
 					self["Processors"] += [
-						"producer:TauCorrectionsProducer",
-						"producer:MetCorrector",
-						"producer:SimpleEleTauFakeRateWeightProducer",
-						"producer:SimpleMuTauFakeRateWeightProducer"
+						"producer:MetCorrector"
 					]
 
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):

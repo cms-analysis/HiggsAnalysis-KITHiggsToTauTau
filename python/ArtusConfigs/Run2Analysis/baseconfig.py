@@ -226,9 +226,10 @@ class Baseconfig(dict):
 			self["SimpleEleTauFakeRateWeightVLoose"] = [1.213, 1.375]
 			self["SimpleEleTauFakeRateWeightTight"] = [1.402, 1.90]
 
+# https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf
 		elif re.search("(Summer17|Fall17)", nickname):
-			self["SimpleMuTauFakeRateWeightLoose"]	= [1.0, 1.0, 1.0, 1.0, 1.0]
-			self["SimpleMuTauFakeRateWeightTight"] = [1.0, 1.0, 1.0, 1.0, 1.0]
-			self["SimpleEleTauFakeRateWeightVLoose"] = [1.0, 1.0]
-			self["SimpleEleTauFakeRateWeightTight"] = [1.0, 1.0]
+			self["SimpleMuTauFakeRateWeightLoose"]	= [1.06, 1.02, 1.10, 1.03,0.93]
+			self["SimpleMuTauFakeRateWeightTight"] = [1.17, 1.29, 1.14, 0.93, 1.61]
+			self["SimpleEleTauFakeRateWeightVLoose"] = [1.09, 1.19]
+			self["SimpleEleTauFakeRateWeightTight"] = [1.80, 1.53] #also available are other wp
 

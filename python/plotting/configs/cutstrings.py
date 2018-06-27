@@ -71,7 +71,7 @@ class CutStringsDict:
 			cuts["iso_1"] = "(iso_1 < 0.15)" if "2016" in cut_type else "(iso_1 < 0.1)"    #TODO 2017
 			if "2017" in cut_type:
 				cuts["iso_1"] = "(iso_1 < 0.15)"
-				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
 			else:
 				cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "et":
@@ -91,7 +91,7 @@ class CutStringsDict:
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			if "2017" in cut_type:
-				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
 			else:
 				cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		elif channel == "tt":
