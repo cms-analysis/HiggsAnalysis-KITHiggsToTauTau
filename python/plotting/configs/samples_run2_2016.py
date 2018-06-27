@@ -1255,7 +1255,9 @@ class Samples(samples.SamplesBase):
 		B := SS Control region / ss+low_mt
 		C := High mt SS region / ss+high_mt
 		D := High mt OS region / ss+low_mt
-		"""
+		As this method is entangled with the qcd function some nicks will be defined there and taken from there. 
+		See the analysis modules for details.
+		"""	
 		
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -1680,7 +1682,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_relaxed_os_highmt_nicks", []).append("noplot_wj_relaxed_os_highmt"+nick_suffix)
 					config.setdefault("wjets_relaxed_os_lowmt_nicks", []).append("noplot_wj_relaxed_os_lowmt"+nick_suffix)
 					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)
-			if "simeqn" in estimationMethod:				
+			elif "simeqn" in estimationMethod:				
 				if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
 				if controlregions:
@@ -1699,8 +1701,8 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_C_data_nicks", []).append("data_ss_highmt"+nick_suffix)				
 					config.setdefault("wjets_D_data_nicks", []).append("data_os_highmt"+nick_suffix)
 					
-					config.setdefault("wjets_C_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_highmt zll_ss_highmt ttj_ss_highmt vv_ss_highmt".split()]))
-					config.setdefault("wjets_D_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_os_highmt zll_os_highmt ttj_os_highmt vv_os_highmt".split()]))
+					config.setdefault("C_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_highmt zll_ss_highmt ttj_ss_highmt vv_ss_highmt".split()]))
+					config.setdefault("D_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_os_highmt zll_os_highmt ttj_os_highmt vv_os_highmt".split()]))
 					config.setdefault("wjets_C_shape_nicks", []).append("wj_ss_highmt"+nick_suffix)
 					# Step 6
 					config.setdefault("wjets_B_shape_nicks", []).append("wj_ss_lowmt"+nick_suffix)
@@ -1724,9 +1726,8 @@ class Samples(samples.SamplesBase):
 					# Step 5
 					config.setdefault("wjets_C_data_nicks", []).append("noplot_data_ss_highmt"+nick_suffix)				
 					config.setdefault("wjets_D_data_nicks", []).append("noplot_data_os_highmt"+nick_suffix)
-
-					config.setdefault("wjets_C_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_highmt zll_ss_highmt ttj_ss_highmt vv_ss_highmt".split()]))
-					config.setdefault("wjets_D_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_os_highmt zll_os_highmt ttj_os_highmt vv_os_highmt".split()]))
+					config.setdefault("C_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_highmt zll_ss_highmt ttj_ss_highmt vv_ss_highmt".split()]))
+					config.setdefault("D_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_os_highmt zll_os_highmt ttj_os_highmt vv_os_highmt".split()]))
 					config.setdefault("wjets_C_shape_nicks", []).append("noplot_wj_ss_highmt"+nick_suffix)
 					# Step 6
 					config.setdefault("wjets_B_shape_nicks", []).append("noplot_wj_ss_lowmt"+nick_suffix)
@@ -2016,6 +2017,8 @@ class Samples(samples.SamplesBase):
 		B := SS Control region / ss+low_mt
 		C := High mt SS region / ss+high_mt
 		D := High mt OS region / ss+low_mt
+		As this method is entangled with the wj function some nicks will be defined there and taken from there. 
+		See the analysis modules for details.
 		"""		
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -2044,6 +2047,7 @@ class Samples(samples.SamplesBase):
 		
 		
 		if channel in ["et", "mt", "em", "tt", "mm", "ee", "ttbar"]:
+			# background estimation in et/mt
 			if ("new" in estimationMethod or "simeqn" in estimationMethod) and channel in  ["et", "mt"]:
 				shape_weight = data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_A, cut_type=cut_type_A)
 				# qcd shape nick
@@ -2120,120 +2124,107 @@ class Samples(samples.SamplesBase):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel,exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick=("noplot_" if not controlregions else "") + "vv_ss_qcd",
 				)						
-			if channel in ["et","mt"] and "new" in estimationMethod:
-					
-				if kwargs.get("useRelaxedIsolationForQCD", False):
-					cut_type_A = cut_type_A + "relaxedETauMuTauWJ"
-				elif category != None:
-					cut_type_A = cut_type_A + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
-										
-				Samples._add_input(
+			 	if "new" in estimationMethod:					
+					if kwargs.get("useRelaxedIsolationForQCD", False):
+						cut_type_A = cut_type_A + "relaxedETauMuTauWJ"
+					elif category != None:
+						cut_type_A = cut_type_A + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")										
+					Samples._add_input(
 						input_file=self.files_wj(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
 						nick=("noplot_" if not controlregions else "") + "wj_ss_qcd"
-				)
-				if (not kwargs.get("no_ewk_samples", False)):
-					Samples._add_input(
+					)
+					if (not kwargs.get("no_ewk_samples", False)):
+						Samples._add_input(
 							input_file=self.files_ewkwm(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwm_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_ss_qcd"
-					)
-					Samples._add_input(
+						)
+						Samples._add_input(
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_ss_qcd"
-					)
-				Samples._add_input(
-						input_file=self.files_data(channel),
-						scale_factor=1.0,
-						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
-						nick=("noplot_" if not controlregions else "") + "qcd_ss_highmt"
-				)
-				if kwargs.get("ss_os_factor", 0.0) != 0.0:
-					ss_os_factor = kwargs["ss_os_factor"]
-				else:
-					ss_os_factor = 1.0
-					if category != None:
-						if channel == "et":
-							ss_os_factor =  1.28 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.0 if "ZeroJet2D" in category else 1.0
-						elif channel == "mt":
-							ss_os_factor =  1.06 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.07 if "ZeroJet2D" in category else 1.0
-				if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
-				
-				if channel in ["et", "mt"]:
-					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
+						)
+						Samples._add_input(
+							input_file=self.files_data(channel),
+							scale_factor=1.0,
+							weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
+							nick=("noplot_" if not controlregions else "") + "qcd_ss_highmt"
+						)
+					if kwargs.get("ss_os_factor", 0.0) != 0.0:
+						ss_os_factor = kwargs["ss_os_factor"]
+					else:
+						ss_os_factor = 1.0
+						if category != None:
+							if channel == "et":
+								ss_os_factor =  1.28 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.0 if "ZeroJet2D" in category else 1.0
+							elif channel == "mt":
+								ss_os_factor =  1.06 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.07 if "ZeroJet2D" in category else 1.0
+					if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
+						config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 					
-				if controlregions:
-					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
-					config.setdefault("qcd_yield_nicks", []).append("data_qcd_yield"+nick_suffix)
-					if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
-						config.setdefault("B_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ewkz_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
+					if controlregions:
+						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
+						config.setdefault("qcd_yield_nicks", []).append("data_qcd_yield"+nick_suffix)
+						if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
+							config.setdefault("B_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ewkz_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
+						else:
+							config.setdefault("B_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
+						config.setdefault("qcd_ss_highmt_shape_nicks", []).append("qcd_ss_highmt"+nick_suffix)
+						config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
+						config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
+						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
+							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
+						for nick in ["ztt_ss_lowmt", "zll_ss_lowmt", "ttj_ss_lowmt", "vv_ss_lowmt", "wj_ss_lowmt","data_ss_lowmt", "qcd_ss_highmt", "qcd_os_highmt", "qcd_ss_lowmt"]+(["ewkz_ss_lowmt"] if (not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False)) else []):
+							if not kwargs.get("mssm", False):
+								Samples._add_bin_corrections(config, nick, nick_suffix)
+							Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
 					else:
-						config.setdefault("B_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_shape_ss_qcd_control noplot_zll_shape_ss_qcd_control noplot_ttj_shape_ss_qcd_control noplot_vv_shape_ss_qcd_control noplot_wj_shape_ss_qcd_control".split()]))
-					config.setdefault("qcd_ss_highmt_shape_nicks", []).append("qcd_ss_highmt"+nick_suffix)
-					config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
-					config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
-					if kwargs.get("wj_sf_shift", 0.0) != 0.0:
-						config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
-					for nick in ["ztt_ss_lowmt", "zll_ss_lowmt", "ttj_ss_lowmt", "vv_ss_lowmt", "wj_ss_lowmt","data_ss_lowmt", "qcd_ss_highmt", "qcd_os_highmt", "qcd_ss_lowmt"]+(["ewkz_ss_lowmt"] if (not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False)) else []):
-						if not kwargs.get("mssm", False):
-							Samples._add_bin_corrections(config, nick, nick_suffix)
-						Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
-				else:
-					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
-					config.setdefault("qcd_yield_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
-					if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
-						config.setdefault("B_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_qcd noplot_zll_ss_qcd noplot_ewkz_ss_qcd noplot_ttj_ss_qcd noplot_vv_ss_qcd noplot_wj_ss_qcd".split()]))
-					else:
-						config.setdefault("B_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_qcd noplot_zll_ss_qcd noplot_ttj_ss_qcd noplot_vv_ss_qcd noplot_wj_ss_qcd".split()]))
-					config.setdefault("qcd_ss_highmt_shape_nicks", []).append("noplot_qcd_ss_highmt"+nick_suffix)
-					config.setdefault("qcd_ss_lowmt_nicks", []).append("noplot_qcd_ss_lowmt"+nick_suffix)
-					config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
-					if kwargs.get("wj_sf_shift", 0.0) != 0.0:
-						config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
-			if channel in ["et", "mt"] and "simeqn" in estimationMethod:				
+						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
+						config.setdefault("qcd_yield_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
+						if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
+							config.setdefault("B_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_qcd noplot_zll_ss_qcd noplot_ewkz_ss_qcd noplot_ttj_ss_qcd noplot_vv_ss_qcd noplot_wj_ss_qcd".split()]))
+						else:
+							config.setdefault("B_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_qcd noplot_zll_ss_qcd noplot_ttj_ss_qcd noplot_vv_ss_qcd noplot_wj_ss_qcd".split()]))
+						config.setdefault("qcd_ss_highmt_shape_nicks", []).append("noplot_qcd_ss_highmt"+nick_suffix)
+						config.setdefault("qcd_ss_lowmt_nicks", []).append("noplot_qcd_ss_lowmt"+nick_suffix)
+						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
+						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
+							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
+				if "simeqn" in estimationMethod:				
 		
-				if kwargs.get("ss_os_factor", 0.0) != 0.0:
-					ss_os_factor = kwargs["ss_os_factor"]
-				else:
-					ss_os_factor = 1.0
-					if category != None:
-						if channel == "et":
-							ss_os_factor = 1.61 if "BoostedCP" in category else 0.97 if "ZeroJetCP" in category else 1.82 if "dijet2D" in category else 1.0
-						elif channel == "mt":
-							ss_os_factor = 1.18 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.23 if "dijet2D" in category else 1.0
-												
-				if channel in ["et", "mt"]:
-					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
-														
-				if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
-				if controlregions:											
-					# Step 7
-					config.setdefault("qcd_ss_yield_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
-					config.setdefault("qcd_ss_shape_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
-					config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
-					config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
-					config.setdefault("qcd_ss_data_nicks", []).append("data_qcd_yield"+nick_suffix)					
-					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)	
-					for nick in ["ztt_ss_qcd", "zll_ss_qcd", "ttj_ss_qcd", "vv_ss_qcd", "qcd_ss_highmt", "qcd_ss_lowmt", "data_qcd_yield"]:
-						if not kwargs.get("mssm", False):
-							Samples._add_bin_corrections(config, nick, nick_suffix)
-						Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
-				else:
-					config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
-					config.setdefault("qcd_ss_data_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
-					config.setdefault("qcd_ss_lowmt_nicks", []).append("noplot_qcd_ss_lowmt"+nick_suffix)
-					config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
-					# Step 7
-					config.setdefault("qcd_ss_yield_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd ".split()]))
-					config.setdefault("qcd_ss_shape_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd ".split()]))
-			
-							
-														
-
-			if "new" or "simeqn" in estimationMethod:				
+					if kwargs.get("ss_os_factor", 0.0) != 0.0:
+						ss_os_factor = kwargs["ss_os_factor"]
+					else:
+						ss_os_factor = 1.0
+						if category != None:
+							if channel == "et":
+								ss_os_factor = 1.61 if "BoostedCP" in category else 0.97 if "ZeroJetCP" in category else 1.82 if "dijet2D" in category else 1.0
+							elif channel == "mt":
+								ss_os_factor = 1.18 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.23 if "dijet2D" in category else 1.0																										
+					
+					if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
+					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)					
+					
+					if controlregions:											
+						config.setdefault("B_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
+						config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
+						config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
+						config.setdefault("qcd_ss_data_nicks", []).append("data_qcd_yield"+nick_suffix)					
+						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)	
+						for nick in ["ztt_ss_qcd", "zll_ss_qcd", "ttj_ss_qcd", "vv_ss_qcd", "qcd_ss_highmt", "qcd_ss_lowmt", "data_qcd_yield"]:
+							if not kwargs.get("mssm", False):
+								Samples._add_bin_corrections(config, nick, nick_suffix)
+							Samples._add_plot(config, "bkg", "HIST", "F", nick, nick_suffix)
+					else:
+						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
+						config.setdefault("qcd_ss_data_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
+						config.setdefault("qcd_ss_lowmt_nicks", []).append("noplot_qcd_ss_lowmt"+nick_suffix)
+						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
+						config.setdefault("B_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd ".split()]))
+			elif ("new" in estimationMethod or "simeqn" in estimationMethod) and channel not in  ["et", "mt"]:				
 				if channel == "em" or channel == "ttbar":
 					# in the em channel QCD is estimated from SS events in data
 					# in the SM analysis a constant QCD OSSS factor is measured in anti-isolated lepton events.
