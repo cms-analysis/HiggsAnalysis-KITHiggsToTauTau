@@ -2565,10 +2565,10 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_from_mc", []).append(False)
 					config.setdefault("wjets_shape_nicks", []).append("noplot_wj_ss"+nick_suffix)
 					config.setdefault("wjets_data_control_nicks", []).append("noplot_wj_ss_data_control"+nick_suffix)
-					if not kwargs.get("no_ewk_samples", False) and kwargs.get("no_ewkz_as_dy", False):
-						config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ttj_ss_wj_control noplot_vv_ss_wj_control".split()]))
-					else:
+					if (not kwargs.get("no_ewk_samples", False)) and kwargs.get("no_ewkz_as_dy", False):
 						config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ewkz_ss_wj_control noplot_ttj_ss_wj_control noplot_vv_ss_wj_control".split()]))
+					else:
+						config.setdefault("wjets_data_substract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_ss_mc_wj_control noplot_zll_ss_wj_control noplot_ttj_ss_wj_control noplot_vv_ss_wj_control".split()]))
 					config.setdefault("wjets_mc_signal_nicks", []).append("noplot_wj_ss_mc_signal"+nick_suffix)
 					config.setdefault("wjets_mc_control_nicks", []).append("noplot_wj_ss_mc_control"+nick_suffix)
 
