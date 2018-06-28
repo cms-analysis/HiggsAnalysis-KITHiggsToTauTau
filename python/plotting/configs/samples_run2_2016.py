@@ -64,7 +64,7 @@ class Samples(samples.SamplesBase):
 
 	@staticmethod
 	def ttj_genmatch(channel, kwargs):
-		return "!"+Samples.ttt_genmatch(channel,kwargs)
+		return "(!("+Samples.ttt_genmatch(channel,kwargs)+"))"
 
 	# In order to specify the channels in gen-level info, one also needs the category as a parameter of the matching function!
 		#(In the so-called "gen" channel, the categories are considered as tt,mt,et... channels for now,
@@ -110,7 +110,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			return "(gen_match_2 < 5)"
 		elif channel == "tt":
-			return "(gen_match_1 < 6 && gen_match_2 < 6 && !(gen_match_1 == 5 && gen_match_2 == 5))"
+			return "(gen_match_1 < 6 && gen_match_2 < 6 && (!(gen_match_1 == 5 && gen_match_2 == 5)))"
 		else:
 			log.fatal("No ZL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -136,7 +136,7 @@ class Samples(samples.SamplesBase):
 		elif channel == "ee":
 			return "(gen_match_1 < 4 || gen_match_2 < 4)"
 		elif channel == "tt":
-			return "((gen_match_1 < 6 && gen_match_2 < 6 && !(gen_match_1 == 5 && gen_match_2 == 5)) || gen_match_2 == 6 || gen_match_1 == 6)"
+			return "((gen_match_1 < 6 && gen_match_2 < 6 && (!(gen_match_1 == 5 && gen_match_2 == 5))) || gen_match_2 == 6 || gen_match_1 == 6)"
 		else:
 			log.fatal("No ZLL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -168,13 +168,13 @@ class Samples(samples.SamplesBase):
 	def embedding_ttbarveto_weight(self,channel):
 		if self.embedding:
 			if channel == "mt":
-				return "!((gen_match_1 == 4) && (gen_match_2 == 5))"
+				return "(!((gen_match_1 == 4) && (gen_match_2 == 5)))"
 			elif channel == "et":
-				return "!((gen_match_1 == 3) && (gen_match_2 == 5))"
+				return "(!((gen_match_1 == 3) && (gen_match_2 == 5)))"
 			elif channel == "tt":
-				return "!((gen_match_1 == 5) && (gen_match_2 == 5))"
+				return "(!((gen_match_1 == 5) && (gen_match_2 == 5)))"
 			elif channel == "em":
-				return "!((gen_match_1 == 3) && (gen_match_2 == 4))"
+				return "(!((gen_match_1 == 3) && (gen_match_2 == 4)))"
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		else:
