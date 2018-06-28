@@ -90,13 +90,11 @@ class EstimateWjetsAndQCD(estimatebase.EstimateBase):
 			
 			# get qcd ss high mt shape
 			for nick in C_substract_nick+[wjets_C_mc_nick]:
-				print(nick)
 				plotData.plotdict["root_objects"][qcd_ss_highmt_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1)
 			
 			# get qcd yield in ss high mt region
 			yield_qcd_ss_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_C_data_nick])()
 			for nick in C_substract_nick+[wjets_C_mc_nick]:
-				print(nick)
 				yield_qcd_ss_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 			yield_qcd_ss_highmt = max(uncertainties.ufloat(0.0, yield_qcd_ss_highmt.std_dev), yield_qcd_ss_highmt)
 			
