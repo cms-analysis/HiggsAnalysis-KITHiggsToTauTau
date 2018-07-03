@@ -1384,7 +1384,7 @@ class Samples(samples.SamplesBase):
 						)
 					add_input(
 						input_file=self.files_ewkz_znn(channel),
-						weight=self.root_file_folder(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 						nick=("noplot_" if not controlregions else "") + "ewkz_ss_highmt"
 					)
 				add_input(
