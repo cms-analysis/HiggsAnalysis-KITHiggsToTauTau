@@ -3351,8 +3351,8 @@ class Samples(samples.SamplesBase):
 
 		if channel in ["mt", "et"]:
 			add_input(
-					input_file=self.files_ttj(channel),
-					folder=self.root_file_folder(channel) + " " + self.files_diboson(channel),
+					input_file=self.files_ttj(channel) + " " + self.files_diboson(channel),
+					folder=self.root_file_folder(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					nick="ewk"
 			)
