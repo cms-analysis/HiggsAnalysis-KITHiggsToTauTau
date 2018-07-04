@@ -207,7 +207,7 @@ def shape_plot(parameter, channel, processes, plotname, x_label, name_suffix, ww
 	bkgsum_hist.SetFillColor(ROOT.kRed)
 	bkgsum_hist.SetLineColor(ROOT.kRed+1)
 	bkgsum_hist.SetLineWidth(4)
-	legend.AddEntry(bkgsum_hist-, "Background", "F")
+	legend.AddEntry(bkgsum_hist, "Background", "F")
 	
 	for index, (hist, process) in enumerate(zip(hists[1:-1], processes[:-2])):
 		bkgsum_hist.Add(hist)
