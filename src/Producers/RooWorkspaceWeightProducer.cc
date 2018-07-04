@@ -103,7 +103,8 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 					args.push_back(1);
 				}
 			}
-			if(weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly)
+			if ((weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly) ||
+			    (weightNames.second.at(index).find("emuQcd") != std::string::npos))
 			{
 				product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 			}
