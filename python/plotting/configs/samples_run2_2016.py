@@ -2232,9 +2232,9 @@ class Samples(samples.SamplesBase):
 					if kwargs.get("ss_os_factor", 0.0) != 0.0:
 						ss_os_factor = kwargs["ss_os_factor"]
 					else:
-						ss_os_factor = 1.00
+						ss_os_factor = 2.22
 						if category != None:
-							ss_os_factor = 2.27 if "ZeroJet2D" in category else 2.26 if "Boosted2D" in category else 2.84 if "Vbf2D" in category else 1.00
+							ss_os_factor = 2.27 if "ZeroJet2D" in category else 2.26 if "Boosted2D" in category else 2.84 if "Vbf2D" in category else 2.22
 					
 					# determine the weight to be used
 					em_qcd_event_weight = "emuQcdWeightNom" # if not any(CP_category in category for CP_category in ["ZeroJetCP", "BoostedCP", "dijet2D_lowboost", "dijet2D_boosted"]) else "emuQcdOsssWeight"
@@ -2993,7 +2993,7 @@ class Samples(samples.SamplesBase):
 		return config
 	
 	def gghjhusm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhusm", stacks="gghjhusm", **kwargs)
+		config = self.ggh( config, channel, category, weight+"*(0.3987/0.921684152)", "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhusm", stacks="gghjhusm", **kwargs)
 		return config	
 
 	def gghmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
@@ -3001,7 +3001,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def gghjhumm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhumm", stacks="gghjhumm", **kwargs)
+		config = self.ggh(config, channel, category, weight+"*(0.7893/1.84349344)", "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhumm", stacks="gghjhumm", **kwargs)
 		return config
 	
 	def gghps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
@@ -3009,7 +3009,7 @@ class Samples(samples.SamplesBase):
 		return config
 	 
 	def gghjhups(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhups", stacks="gghjhups", **kwargs)
+		config = self.ggh(config, channel, category, weight+"*(0.3858/0.909898616)", "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhups", stacks="gghjhups", **kwargs)
 		return config
 	
 	def files_qqh(self, channel, mass=125, **kwargs):
