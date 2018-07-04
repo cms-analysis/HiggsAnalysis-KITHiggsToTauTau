@@ -16,7 +16,7 @@ def parser():
 	parser = argparse.ArgumentParser(description = "Script for plotting limits in LFV analysis", formatter_class=argparse.RawTextHelpFormatter)
 	parser.add_argument("--channel", action = "store", choices = ["all", "em", "et", "mt"], default = "all", help = "Channel which should be analyzed")
 	parser.add_argument("--method", action ="store" , choices = ["all", "cut_based", "Ada_BDT"],  default = "all", help = "Analysis method")
-	parser.add_argument("--category", action="store",  choices = ["all", "ZeroJet", "OneJet", "combined"], default = "all", help = "Analysis category")
+	parser.add_argument("--category", action="store",  choices = ["all", "ZeroJet", "OneJet", "MultiJet", "combined"], default = "all", help = "Analysis category")
 	parser.add_argument("--print-limits", action = "store_true", help = "Plot values of limits")
 
 	return parser.parse_args()
@@ -83,6 +83,8 @@ def plot_limit(channel, methods, categories, print_limits):
 	sigma2.GetXaxis().SetLabelSize(0.05)
 	sigma2.GetYaxis().SetTitle("95% CL Limit on BR(Z#rightarrow {})".format({"em": "e#mu", "et": "e#tau", "mt": "#mu#tau"}[channel]))
 
+	ROOT.gStyle.SetPalette(55)
+
 	##Legend style
 	ROOT.gStyle.SetLegendBorderSize(0)
 	ROOT.gStyle.SetFillStyle(0)
@@ -124,10 +126,10 @@ def main():
 
 	if args.channel == "all":
 		for channel in ["em", "et", "mt"]:
-			plot_limit(channel, {"all": ["cut_based", "Ada_BDT"], "cut_based": ["cut_based"], "Ada_BDT": ["Ada_BDT"]}[args.method], {"all": ["ZeroJet", "OneJet", "combined"], "ZeroJet": ["ZeroJet"], "OneJet": ["OneJet"], "combined": ["combined"]}[args.category], args.print_limits)
+			plot_limit(channel, {"all": ["cut_based", "Ada_BDT"], "cut_based": ["cut_based"], "Ada_BDT": ["Ada_BDT"]}[args.method], {"all": ["ZeroJet", "OneJet", "MultiJet", "combined"], "ZeroJet": ["ZeroJet"], "OneJet": ["OneJet"], "MultiJet": ["MultiJet"], "combined": ["combined"]}[args.category], args.print_limits)
 
 	else:
-		plot_limit(args.channel, {"all": ["cut_based", "Ada_BDT"], "cut_based": ["cut_based"], "Ada_BDT": ["Ada_BDT"]}[args.method], {"all": ["ZeroJet", "OneJet", "combined"], "ZeroJet": ["ZeroJet"], "OneJet": ["OneJet"], "combined": ["combined"]}[args.category], args.print_limits)
+		plot_limit(args.channel, {"all": ["cut_based", "Ada_BDT"], "cut_based": ["cut_based"], "Ada_BDT": ["Ada_BDT"]}[args.method], {"all": ["ZeroJet", "OneJet", "MultiJet", "combined"], "ZeroJet": ["ZeroJet"], "OneJet": ["OneJet"], "MultiJet": ["MultiJet"], "combined": ["combined"]}[args.category], args.print_limits)
 		
 		
 if __name__ == "__main__":
