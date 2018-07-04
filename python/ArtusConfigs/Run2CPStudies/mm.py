@@ -268,10 +268,7 @@ class mm_ArtusConfig(dict):
 			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
 		
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-			quantities_dict["Quantities"] += quantities_dict.genQuantitiesLFV()
-		else:
-			quantities_dict["Quantities"] += quantities_dict.recoCPQuantities()
-			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
+			quantities_dict["Quantities"] += quantities_dict.genQuantitiesZ()
 
 		self.update(copy.deepcopy(quantities_dict))
 

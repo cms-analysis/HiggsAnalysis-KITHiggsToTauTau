@@ -751,7 +751,7 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_lfv(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*jetCorrectionWeight*"+jet_integral_weight+"*"+cross_section_weight,
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
 				nick="zmt"
 		)
 
@@ -780,7 +780,7 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_lfv(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoET > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*jetCorrectionWeight*"+jet_integral_weight+"*"+cross_section_weight,
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoET > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
 				nick="zet"
 		)
 				
@@ -797,7 +797,7 @@ class Samples(samples.SamplesBase):
 
 		scale_factor = lumi
 
-		branching_ratio = "7.3e-7" # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"
+		branching_ratio = "7.3e-7" #"1.2e-5" #"9.8e-6"  # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"
 		jet_integral_weight = "1/1.03"
 		files_weight = "1/10.0"
 		cross_section_weight = "3.0" #"(0.03363+0.03366+0.0337)/(0.0337)"
@@ -808,8 +808,8 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
-				inupt_file=self.files_lfv(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*jetCorrectionWeight*"+jet_integral_weight+"*"+cross_section_weight,
+				input_file=self.files_lfv(channel),
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
 				nick="zem"
 		)
 

@@ -1041,6 +1041,8 @@ class SystematicLibary(object):
 				
 			"et": [
 				[self.jec_syst_args,				["ZET"]+all_mc_bkgs, 			""],
+				[self.eFakeTau_1prong_syst_args,		["ZL"],					""],
+				[self.eFakeTau_1prong1pizero_syst_args,		["ZL"],					""],
 				[self.scale_met_clustered_syst_args,		["ZET"]+all_mc_bkgs, 			""],
 				[self.scale_met_unclustered_syst_args,		["ZET"]+all_mc_bkgs, 			""],
 				[self.scale_t_1prong_syst_args,			["ZET"]+all_mc_bkgs, 			""],
@@ -1059,6 +1061,8 @@ class SystematicLibary(object):
 					
 			"mt": [
 				[self.jec_syst_args,				["ZMT"]+all_mc_bkgs, 			""],
+				[self.mFakeTau_1prong_syst_args,		["ZL"],					""],
+				[self.mFakeTau_1prong1pizero_syst_args,		["ZL"],					""],
 				[self.scale_met_clustered_syst_args,		["ZMT"]+all_mc_bkgs, 			""],
 				[self.scale_met_unclustered_syst_args,		["ZMT"]+all_mc_bkgs, 			""],
 				[self.scale_t_1prong_syst_args,			["ZMT"]+all_mc_bkgs, 			""],

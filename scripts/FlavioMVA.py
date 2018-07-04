@@ -10,14 +10,18 @@ import os
 from math import cos, sin, acos, fabs
 
 ##Define constants
-version = "_forcut"
+version = ""
 sample_dir = "/net/scratch_cms3b/brunner/artus/AllSamples/merged/"
 tree_name = "{channel}_nominal/ntuple"
 input_file = "$CMSSW_BASE/src/FlavioOutput/BDT/MVA_trees_{sample_type}{cut_label}_{channel}.root"
 output_root = "$CMSSW_BASE/src/FlavioOutput/BDT/output" + str(version) + "{cut_label}_{channel}.root"
 
+sig_name = "sig"
+bkg_name = "bkg"
+
 sig_list = ["zem"]
 bkg_list = ["ztt", "zll", "ttj", "vv", "wj"]
+
 parameter = {
 		"deltaPhi_ll:= acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2))"	: 		[lambda phi_1, phi_2: acos(cos(phi_1)*cos(phi_2) + sin(phi_1)*sin(phi_2)), ["phi_1", "phi_2"]],
 		"deltaPhi_l1met:= acos(cos(metphi)*cos(phi_1) + sin(metphi)*sin(phi_1))": 		[lambda metphi, phi_1: acos(cos(metphi)*cos(phi_1) + sin(metphi)*sin(phi_1)), ["metphi", "phi_1"]],	
@@ -34,7 +38,7 @@ parameter = {
 		"diLepLV.Mt()":										[lambda Mt_Z: Mt_Z, [("diLepLV", "Mt")]],
  		"diLepLV.energy()":									[lambda E_Z: E_Z, [("diLepLV", "energy")]],
 		"deltaTheta_ll:= acos(cos(lep1LV.Theta())*cos(lep2LV.Theta()) + sin(lep1LV.Theta())*sin(lep2LV.Theta()))": [lambda t_1, t_2: acos(cos(t_1)*cos(t_2) + sin(t_1)*sin(t_2)), [("lep1LV", "Theta"), ("lep2LV", "Theta")]],
-		#"m_vis":										[lambda m_vis: m_vis, ["m_vis"]],
+		"m_vis":										[lambda m_vis: m_vis, ["m_vis"]],
 }
 
 ##Argument parser
@@ -60,7 +64,7 @@ def create_input_trees():
 	mc_list = []
 
 	##Get file names using samples_run2_2016
-	for sample_list in [sig_list, bkg_list]:
+	for sample_list in [["ztt"], bkg_list[1:]]: #[sig_list, bkg_list]:
 		mc_set = set()
 		config = sample_settings.get_config(samples=[getattr(samples.Samples, sample) for sample in sample_list], channel = "em", category = None, cut_type = "lfv")
 		mc_set.update([glob.glob(sample_dir + mc_name)[0] for mc_name in [file_name for file_list in [config_string.split(" ") for config_string in config["files"]] for file_name in file_list]])
@@ -86,7 +90,7 @@ def create_input_trees():
 	
 		##Create input root files in paralell
 		pool = Pool(4)
-		pool.map(write_root_file, [[sig_chain, "event%2==0", "sig", channel], [sig_chain, "event%2==1", "sig", channel], [bkg_chain, "event%2==0", "bkg", channel], [bkg_chain, "event%2==1", "bkg", channel]])
+		pool.map(write_root_file, [[sig_chain, "event%2==0", sig_name, channel], [sig_chain, "event%2==1", sig_name, channel], [bkg_chain, "event%2==0", bkg_name, channel], [bkg_chain, "event%2==1", bkg_name, channel]])
 
 
 ##Function writing root files in paralell
@@ -112,7 +116,7 @@ def training():
 		config_B = [channel, "B"]
 		sub_config = []
 
-		for sample_type, cut_label in zip(["sig", "sig", "bkg", "bkg"], ["A", "B", "A", "B"]):
+		for sample_type, cut_label in zip([sig_name, sig_name, bkg_name, bkg_name], ["A", "B", "A", "B"]):
 			sub_config.append(input_file.format(sample_type = sample_type, cut_label = cut_label, channel=channel))
 			
 		pool.apply_async(do_training, args = (config_A + sub_config,))
@@ -166,8 +170,8 @@ def do_training(args):
 		weights += weight
 
 	##Set signal/background event weights
-	factory.SetSignalWeightExpression("(jetCorrectionWeight)*(eventWeight)*(lheZto{channel} > 0.5)*".format(channel=channel.upper()) + weights)
-	factory.SetBackgroundWeightExpression("eventWeight*" + weights)
+	factory.SetSignalWeightExpression("eventWeight*BDT_Ada_score<0*" + weights) #"(jetCorrectionWeight)*(eventWeight)*(lheZto{channel} > 0.5)*".format(channel=channel.upper()) + weights)
+	factory.SetBackgroundWeightExpression("eventWeight*BDT_Ada_score<0*" + weights)
 
 	##Add parameter for training
 	for param in parameter.keys():
@@ -176,12 +180,13 @@ def do_training(args):
 	##Configure everything
 	sig_cut = ROOT.TCut("")
 	bkg_cut = ROOT.TCut("")
-	n_option = ROOT.TString("") #ROOT.TString("nTrain_Signal=10000:nTest_Signal=10000:nTrain_Background=10000:nTest_Background=10000:SplitMode=Random",) #VarTransform=G,D"
+	n_option =  ROOT.TString("nTrain_Signal=50000:nTest_Signal=50000:nTrain_Background=50000:nTest_Background=50000:SplitMode=Random",) #ROOT.TString("")
  
 	#"!H:!V::NTrees=100:VarTransform=G,D:MinNodeSize=2.5%:MaxDepth=10:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=SDivSqrtSPlusB:nCuts=20"
+	#"!H:!V:VarTransform=G,D:NTrees=1000:MinNodeSize=2.5%:MaxDepth=2:BoostType=Grad:Shrinkage=0.1:UseBaggedBoost=True:GradBaggingFraction=0.7:SeparationType=GiniIndex:nCuts=20:NodePurityLimit=0.5"	
 
 	factory.PrepareTrainingAndTestTree(sig_cut, bkg_cut, n_option)
-	factory.BookMethod(ROOT.TMVA.Types.kBDT, "BDT", "!H:!V:VarTransform=G,D:NTrees=1000:MinNodeSize=2.5%:MaxDepth=2:BoostType=Grad:Shrinkage=0.1:UseBaggedBoost=True:GradBaggingFraction=0.7:SeparationType=GiniIndex:nCuts=20:NodePurityLimit=0.5")
+	factory.BookMethod(ROOT.TMVA.Types.kBDT, "BDT", "!H:!V::NTrees=800:VarTransform=G,D:MinNodeSize=2.5%:Shrinkage=0.1:MaxDepth=4:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=CrossEntropy:nCuts=20")
 	#factory.BookMethod(ROOT.TMVA.Types.kMLP, "MLP", "H:!V:NeuronType=tanh:VarTransform=N:NCycles=500:HiddenLayers=N+10,N+2,N+2:TestRate=5:!UseRegulator:LearningRate=0.05:EstimatorType=CE")
 
 	##Run the training/evulation
@@ -279,8 +284,8 @@ def attach(file_name):
 		method_A = "BDT{version}_A_{channel}".format(channel=channel, version=version)
 		method_B = "BDT{version}_B_{channel}".format(channel=channel, version=version)
 		
-		reader.BookMVA(method_A, "/.automount/home/home__home2/institut_3b/brunner/analysis/master/CMSSW_8_1_0/src/weights/BDT{version}_{channel}_A_BDT.weights.xml".format(channel = channel, version=version))
-		reader.BookMVA(method_B, "/.automount/home/home__home2/institut_3b/brunner/analysis/master/CMSSW_8_1_0/src/weights/BDT{version}_{channel}_B_BDT.weights.xml".format(channel = channel, version=version))
+		reader.BookMVA(method_A, os.environ["CMSSW_BASE"] + "/src/weights/BDT{version}_{channel}_A_BDT.weights.xml".format(channel = channel, version=version))
+		reader.BookMVA(method_B, os.environ["CMSSW_BASE"] + "/src/weights/BDT{version}_{channel}_B_BDT.weights.xml".format(channel = channel, version=version))
 		
 		for key in list_of_keys:
 			if channel in key[:2]:
@@ -332,12 +337,12 @@ def show_results(file_name):
 def main():
 	args = parser()
 
-	if not os.path.exists(os.environ["CMSSW_BASE"] + "/src/plots/FlavioOutput"):
-		os.mkdir(os.environ["CMSSW_BASE"] + "/src/plots/FlavioOutput")
-		os.mkdir(os.environ["CMSSW_BASE"] + "/src/plots/FlavioOutput/BDT")
+	if not os.path.exists(os.environ["CMSSW_BASE"] + "/src/FlavioOutput"):
+		os.mkdir(os.environ["CMSSW_BASE"] + "/src/FlavioOutput")
+		os.mkdir(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/BDT")
 
-	if not os.path.exists(os.environ["CMSSW_BASE"] + "/src/plots/FlavioOutput/BDT"):
-		os.mkdir(os.environ["CMSSW_BASE"] + "/src/plots/FlavioOutput/BDT")
+	if not os.path.exists(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/BDT"):
+		os.mkdir(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/BDT")
 
 	if(args.create_input_trees):
 		create_input_trees()
