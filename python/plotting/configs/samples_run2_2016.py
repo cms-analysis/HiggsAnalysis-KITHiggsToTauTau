@@ -806,23 +806,11 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-<<<<<<< Updated upstream
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				inupt_file=self.files_lfv(channel),
 				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
 				nick="zem"
-=======
-
-		Samples._add_input(
-				config,
-				self.files_lfv(channel),
-				self.root_file_folder(channel),
-				lumi,
-				mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
-				"zem",
-				nick_suffix=nick_suffix
->>>>>>> Stashed changes
 		)
 
 		Samples._add_bin_corrections(config, "zem", nick_suffix)
