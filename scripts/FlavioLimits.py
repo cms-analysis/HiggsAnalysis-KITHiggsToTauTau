@@ -20,7 +20,7 @@ output_dir = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Limits/"
 data = {"data_obs": "data"}
 signals = {"ZEM": "zem", "ZET": "zet", "ZMT": "zmt"}
 
-categories = [(0, "ZeroJet"), (1, "OneJet")]
+categories = [(0, "ZeroJet"), (1, "OneJet"), (2, "MultiJet")]
 controlregions = [] #[(2, "TT_CR")]
 
 x = {"cut_based": "m_vis", "cut_BDT": "m_vis", "cut_Ada_BDT": "m_vis", "BDT": "BDT_score", "Ada_BDT": "BDT_Ada_score"}
@@ -58,11 +58,11 @@ def create_datacards(channel, method):
 
 	weights = []
 
-	for index, category in enumerate(["(njetspt30==0)", "(njetspt30==1)"]): #, "(nbtag==2)"]):
-		cut_strings = [parameter_info[param][4] for param in cut_info[index][channel].keys()]
-		cut_values, cut_side = [[entry[index2] for entry in cut_info[index][channel].values()] for index2 in [0,1]]
+	for index, category in enumerate(["(njetspt30==0)", "(njetspt30==1)", "(njetspt30>1)"]): #, "(nbtag==2)"]):
+		#cut_strings = [parameter_info[param][4] for param in cut_info[index][channel].keys()]
+		#cut_values, cut_side = [[entry[index2] for entry in cut_info[index][channel].values()] for index2 in [0,1]]
 	
-		weights.append({"cut_based":	"*".join([cut_strings[index2].format(side = side, cut = value) for index2, (side, value) in enumerate(zip(cut_side, cut_values))] + [category]),
+		weights.append({#"cut_based":	"*".join([cut_strings[index2].format(side = side, cut = value) for index2, (side, value) in enumerate(zip(cut_side, cut_values))] + [category]),
 				"cut_BDT": 	"(BDT_forcut_score>0.7)*" + category,
 				"cut_Ada_BDT": 	"(BDT_Ada_forcut_score>0.0)*" + category,
 				"BDT":		category,
@@ -123,7 +123,13 @@ def create_datacards(channel, method):
 					config.pop("legend_markers")
 					config += {"filename": "input_" + method + "_" + systematic[0].replace("$ERA", "13TeV").replace("$CHANNEL", channel) + shift + "_" + category[1], "plot_modules": ["ExportRoot"], "file_mode": "UPDATE", "directories": os.environ["MCPATH"], "x_expressions": x[method], "x_bins": x_bins[method], "output_dir": output_dir + channel, "no_cache": True}
 					config["labels"] = [category[1] + "/" + proc + "_" + systematic[0].replace("$ERA", "13TeV").replace("$CHANNEL", channel) + shift for proc in process]
-					systematics_settings = systematics_factory.get(systematic[0].replace("$ERA", "13TeV").replace("$CHANNEL", channel))(config)
+
+					if systematic[0].replace("$ERA", "13TeV").replace("$CHANNEL", channel) == "CMS_scale_j_13TeV":
+						systematics_settings = systematics_factory.get(systematic[0].replace("$ERA", "13TeV").replace("$CHANNEL", channel))(config, "Total")
+					
+					else: 
+						systematics_settings = systematics_factory.get(systematic[0].replace("$ERA", "13TeV").replace("$CHANNEL", channel))(config)		
+					
 					config = systematics_settings.get_config(1 if shift == "Up" else -1)			
 					config_list.append(config)
 
@@ -199,12 +205,8 @@ def plots(channel, method):
 
 ##Main function
 def main():
-	if not os.path.exists(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/"):
-		os.mkdir(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/")
-		os.mkdir(output_dir)
-
 	if not os.path.exists(output_dir):
-		os.mkdir(output_dir)
+		os.system("mkdir -p $CMSSW_BASE/src/FlavioOutput/Plots/Histograms/")
 
 	args = parser()
 
