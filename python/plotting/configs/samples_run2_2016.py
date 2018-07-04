@@ -808,8 +808,8 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
-				inupt_file=self.files_lfv(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
+				input_file=self.files_lfv(channel),
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
 				nick="zem"
 		)
 
