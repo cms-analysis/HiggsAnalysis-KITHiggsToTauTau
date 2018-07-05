@@ -2960,7 +2960,6 @@ class Samples(samples.SamplesBase):
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
-				print("Type of the add input memnerfunction call:\n")
 
 				add_input(
 						input_file=self.files_ggh(channel, mass, cp=kwargs.get("cp", None)) if not mssm else self.files_susy_ggh(channel, mass),
