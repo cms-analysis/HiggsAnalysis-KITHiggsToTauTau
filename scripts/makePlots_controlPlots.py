@@ -365,15 +365,18 @@ if __name__ == "__main__":
 			global_cut_type = "cpggh"
 		global_cut_type += "2016"
 
-	args.weights = (args.weights * len(args.quantities))[:len(args.quantities)]
+	if args.channel_comparison:
+		args.weights = (args.weights * len(args.channels))[:len(args.channels)]
+	else:
+		args.weights = (args.weights * len(args.quantities))[:len(args.quantities)]
 
 	# Configs construction for HP
 	for category in args.categories:
-		for quantity, weight in zip(args.quantities, args.weights):
+		for index_quantity, quantity in enumerate(args.quantities):
 
 			channels_background_methods = zip(args.channels, args.background_method)
 			channel_config = {}
-			for index, (channel, background_method) in enumerate(channels_background_methods):
+			for index_channel, (channel, background_method) in enumerate(channels_background_methods):
 				if args.mssm:
 					cut_type = "mssm2016full"
 					if args.era == "2016":
@@ -408,7 +411,7 @@ if __name__ == "__main__":
 					elif "vtight_fail" in category:
 						global_cut_type = "etaufake2016_antievtightfail"
 
-				last_loop = index == len(channels_background_methods) - 1
+				last_loop = index_channel == len(channels_background_methods) - 1
 
 				category_string = None
 				if category != None:
@@ -423,6 +426,8 @@ if __name__ == "__main__":
 						break
 
 				quantity = json_config.pop("x_expressions", [quantity])[0]
+				weight = args.weights[index_channel if args.channel_comparison else index_quantity]
+				
 				config = sample_settings.get_config(
 						samples = list_of_samples,
 						channel = channel,
@@ -455,11 +460,10 @@ if __name__ == "__main__":
 					channel_config = samples.Samples.merge_configs(channel_config, config)
 					if last_loop:
 						config = channel_config
-
+				
 				x_expression = json_config.pop("x_expressions", [quantity])
 				config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 				config["category"] = category
-
 
 				# Introduced due to missing samples in 2017 MCv1, can be removed when 2017 MCv2 samples are out, and samples_rnu2_2017.py script is updated correspondingly.
 				if args.era == "2017":
@@ -654,8 +658,8 @@ if __name__ == "__main__":
 
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
-						channel if len(args.channels) > 1 and not args.channel_comparison else "",
-						category if len(args.categories) > 1 else ""
+						channel if not args.channel_comparison else "",
+						"" if category is None else category
 				))
 				if args.ratio_subplot:
 					samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
@@ -674,7 +678,7 @@ if __name__ == "__main__":
 				if not args.www is None:
 					config["www"] = os.path.join(
 							args.www,
-							channel if len(args.channels) > 1 and not args.channel_comparison else "",
+							channel if not args.channel_comparison else "",
 							"" if category is None else category
 					)
 
