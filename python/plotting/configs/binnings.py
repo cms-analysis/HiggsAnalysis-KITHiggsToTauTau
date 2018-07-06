@@ -70,6 +70,8 @@ class BinningsDict(binnings.BinningsDict):
 		
 		self.binnings_dict["tt_decayMode_1"] = "11,0.0,11.0"
 		self.binnings_dict["tt_decayMode_2"] = "11,0.0,11.0"
+		self.binnings_dict["tt_genMatchedTau1DecayMode"] = "18,-3.0,15.0"
+		self.binnings_dict["tt_genMatchedTau2DecayMode"] = "18,-3.0,15.0"
 		self.binnings_dict["tt_eta_1"] = "30,-3,3"
 		self.binnings_dict["tt_eta_2"] = "30,-3,3"
 		self.binnings_dict["tt_eta_ll"] = "25,-5.0,5.0"
@@ -159,6 +161,7 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[ch+"melaM125DiscriminatorD0MinusVBF_signDCP"] = self.binnings_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"]
 		
 		self.binnings_dict["mt_decayMode_2"] = "11,0.0,11.0"
+		self.binnings_dict["mt_genMatchedTau2DecayMode"] = "18,-3.0,15.0"
 		self.binnings_dict["mt_eta_1"] = "30,-3,3"
 		self.binnings_dict["mt_eta_2"] = "30,-3,3"
 		self.binnings_dict["mt_eta_ll"] = "25,-5.0,5.0"
@@ -226,6 +229,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["mt_phiStarCP"] = "20,0.0,6.28"
 
 		self.binnings_dict["et_decayMode_2"] = "11,0.0,11.0"
+		self.binnings_dict["et_genMatchedTau2DecayMode"] = "18,-3.0,15.0"
 		self.binnings_dict["et_eta_1"] = "30,-3,3"
 		self.binnings_dict["et_eta_2"] = "30,-3,3"
 		self.binnings_dict["et_eta_ll"] = "25,-5.0,5.0"

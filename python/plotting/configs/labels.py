@@ -281,6 +281,8 @@ class LabelsDict(labels.LabelsDict):
 
 			self.labels_dict["tt_decayMode_1"] = "Leading Tau DM"
 			self.labels_dict["tt_decayMode_2"] = "Trailing Tau DM"
+			self.labels_dict["tt_genMatchedTau1DecayMode"] = "Generated Leading Tau DM"
+			self.labels_dict["tt_genMatchedTau2DecayMode"] = "Generated Trailing Tau DM"
 			self.labels_dict["tt_eta_1"] = "Leading Tau #eta"
 			self.labels_dict["tt_eta_2"] = "Trailing Tau #eta"
 			self.labels_dict["tt_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -360,6 +362,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tt_visibleOverFullEnergy_2"] = "Trailing Tau E_{vis}(#tau_{had}) / E_{#tau}"
 			
 			self.labels_dict["mt_decayMode_2"] = "Tau DM"
+			self.labels_dict["mt_genMatchedTau2DecayMode"] = "Generated Tau DM"
 			self.labels_dict["mt_eta_1"] = "Muon #eta"
 			self.labels_dict["mt_eta_2"] = "Tau #eta"
 			self.labels_dict["mt_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -440,6 +443,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_visibleOverFullEnergy_2"] = "E(#tau_{had}) / E_{#tau}"
 			
 			self.labels_dict["et_decayMode_2"] = "Tau DM"
+			self.labels_dict["et_genMatchedTau2DecayMode"] = "Generated Tau DM"
 			self.labels_dict["et_eta_1"] = "Electron #eta"
 			self.labels_dict["et_eta_2"] = "Tau #eta"
 			self.labels_dict["et_eta_ll"] = "#eta^{\\ell\\ell}"
