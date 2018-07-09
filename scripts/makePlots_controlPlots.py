@@ -453,7 +453,7 @@ if __name__ == "__main__":
 						no_ewkz_as_dy = args.no_ewkz_as_dy,
 						useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,
 						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
-						nick_suffix = (channel if args.channel_comparison else ""),
+						nick_suffix = (channel+str(index_channel) if args.channel_comparison else ""),
 						asimov_nicks = asimov_nicks
 				)
 				if (args.channel_comparison):
