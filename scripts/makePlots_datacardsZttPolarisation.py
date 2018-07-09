@@ -100,6 +100,11 @@ def create_input_root_files(datacards, args):
 					list_of_samples.append("qcd")
 				elif ("qcd" in list_of_samples) and not ("wj" in list_of_samples):
 					list_of_samples.append("wj")
+				asimov_nicks = []
+				if args.use_asimov_dataset:
+					asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
+					if "data" in asimov_nicks:
+						asimov_nicks.remove("data")
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -168,7 +173,7 @@ def create_input_root_files(datacards, args):
 							exclude_cuts=(["m_vis"] if x_expression == "m_vis" else []),
 							no_ewk_samples = args.no_ewk_samples,
 							no_ewkz_as_dy = True,
-							asimov_nicks = []
+							asimov_nicks = asimov_nicks
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -357,7 +362,6 @@ if __name__ == "__main__":
 	print WARNING + '-----      Extracting histograms from input root files...             -----' + ENDC
 	
 	ExtractShapes(datacards, args.output_dir +"/input/")
-	#datacards.cb.SetGroup("syst", [".*"])
 	
 	#4.-----Add BBB
 	print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
@@ -366,7 +370,8 @@ if __name__ == "__main__":
 	datacards.cb.SetGroup("syst_plus_bbb", [".*"])
 	
 	if args.use_asimov_dataset:
-		datacards = use_asimov_dataset(datacards)
+		# datacards = use_asimov_dataset(datacards)
+		# is done by asimov_nicks in sample_settings.get_config
 		print OKBLUE + "Using asimov dataset!" + ENDC
 
 	#5.-----Write Cards
