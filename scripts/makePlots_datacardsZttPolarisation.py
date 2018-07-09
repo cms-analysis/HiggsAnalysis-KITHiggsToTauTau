@@ -246,7 +246,7 @@ def create_input_root_files(datacards, args):
 	if args.www:
 		for debug_plot_config in debug_plot_configs:
 			debug_plot_config["www"] = debug_plot_config["output_dir"].replace(args.output_dir, args.www)
-	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	#higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 
 	return None
 
