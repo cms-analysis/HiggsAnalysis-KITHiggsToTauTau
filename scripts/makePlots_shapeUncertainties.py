@@ -41,7 +41,9 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	inputs_base = tools.longest_common_substring_from_list([os.path.dirname(input_file) for input_file in args.input_files])+"/"
+	inputs_base = tools.longest_common_substring_from_list([os.path.dirname(input_file) for input_file in args.input_files])
+	if not inputs_base.endswith("/"):
+		inputs_base += "/"
 	
 	plot_configs = []
 	for input_file in args.input_files:

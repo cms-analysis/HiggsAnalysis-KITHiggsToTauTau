@@ -100,6 +100,11 @@ def create_input_root_files(datacards, args):
 					list_of_samples.append("qcd")
 				elif ("qcd" in list_of_samples) and not ("wj" in list_of_samples):
 					list_of_samples.append("wj")
+				asimov_nicks = []
+				if args.use_asimov_dataset:
+					asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
+					if "data" in asimov_nicks:
+						asimov_nicks.remove("data")
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -168,7 +173,7 @@ def create_input_root_files(datacards, args):
 							exclude_cuts=(["m_vis"] if x_expression == "m_vis" else []),
 							no_ewk_samples = args.no_ewk_samples,
 							no_ewkz_as_dy = True,
-							asimov_nicks = []
+							asimov_nicks = asimov_nicks
 					)
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
@@ -246,7 +251,7 @@ def create_input_root_files(datacards, args):
 	if args.www:
 		for debug_plot_config in debug_plot_configs:
 			debug_plot_config["www"] = debug_plot_config["output_dir"].replace(args.output_dir, args.www)
-	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+	#higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 
 	return None
 
@@ -357,16 +362,19 @@ if __name__ == "__main__":
 	print WARNING + '-----      Extracting histograms from input root files...             -----' + ENDC
 	
 	ExtractShapes(datacards, args.output_dir +"/input/")
-	#datacards.cb.SetGroup("syst", [".*"])
 	
 	#4.-----Add BBB
 	print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
-
 	BinErrorsAndBBB(datacards, 0.1, 0.5, True)
+	
+	print WARNING + '-----      Modify systematics...     -----' + ENDC
+	ModifySystematics(datacards)
+	
 	datacards.cb.SetGroup("syst_plus_bbb", [".*"])
 	
 	if args.use_asimov_dataset:
-		datacards = use_asimov_dataset(datacards)
+		# datacards = use_asimov_dataset(datacards)
+		# is done by asimov_nicks in sample_settings.get_config
 		print OKBLUE + "Using asimov dataset!" + ENDC
 
 	#5.-----Write Cards
