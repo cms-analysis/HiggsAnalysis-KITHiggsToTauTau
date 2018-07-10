@@ -1225,7 +1225,7 @@ class Samples(samples.SamplesBase):
 		cut_type_B = cut_type + "SameSignRegion" 
 		exclude_cuts_B = copy.deepcopy(exclude_cuts)+["os"]
 		add_input(
-				input_file=sself.files_wj(channel),
+				input_file=self.files_wj(channel),
 				weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 				nick="wj_mc_ss"
 		)
@@ -1236,7 +1236,7 @@ class Samples(samples.SamplesBase):
 					nick="wj_mc_ss"
 			)
 			add_input(
-					input_file=sself.files_ewkwp(channel),
+					input_file=self.files_ewkwp(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
 					nick="wj_mc_ss"
 			)		
@@ -2154,12 +2154,12 @@ class Samples(samples.SamplesBase):
 					if kwargs.get("ss_os_factor", 0.0) != 0.0:
 						ss_os_factor = kwargs["ss_os_factor"]
 					else:
-						ss_os_factor = 1.0
+						ss_os_factor = 2.22
 						if category != None:
 							if channel == "et":
-								ss_os_factor =  1.28 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.0 if "ZeroJet2D" in category else 1.0
+								ss_os_factor =  1.28 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.0 if "ZeroJet2D" in category else 2.22
 							elif channel == "mt":
-								ss_os_factor =  1.06 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.07 if "ZeroJet2D" in category else 1.0
+								ss_os_factor =  1.06 if "Boosted2D" in category else 1.0 if "Vbf2D" in category else 1.07 if "ZeroJet2D" in category else 2.22
 					if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
 						config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)

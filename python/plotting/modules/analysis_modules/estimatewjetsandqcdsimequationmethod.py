@@ -104,10 +104,14 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			yield_wj_mc_os = uncertainties.ufloat(max(0.0, yield_wj_mc_os.nominal_value), yield_wj_mc_os.std_dev)
 			yield_wj_mc_ss = uncertainties.ufloat(max(0.0, yield_wj_mc_ss.nominal_value), yield_wj_mc_ss.std_dev)
 			
-			assert (yield_wj_mc_os != 0.0) or (yield_wj_mc_ss != 0.0), "Yield of MC in opposite-sign or same-sign region is zero."
+			yield_wj_mc_os_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_D_mc_nick])()
+			yield_wj_mc_ss_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_C_mc_nick])()
+
+			assert (yield_wj_mc_os_highmt != 0.0) or (yield_wj_mc_ss_highmt != 0.0), "Yield of MC in opposite-sign or same-sign region is zero."
 			
 			# calculate w_os_ss factor and store it in the metadata
-			w_os_ss_extrapolation_factor = yield_wj_mc_os / yield_wj_mc_ss
+
+			w_os_ss_extrapolation_factor = yield_wj_mc_os_highmt / yield_wj_mc_ss_highmt
 			log.debug("W+jets Opposite sign Same-sign factor is \"{FACTOR}\".".format(FACTOR = w_os_ss_extrapolation_factor))	
 
 			
@@ -115,9 +119,9 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			# ------------ Step 2 ------------------
 			# Measure opposite-sign extrapolation factor from high Mt Control region (mT>70) to low Mt (mt<50)
 			# 1. Needs wj_mc in opposite region for both mT regions.
-			
 			yield_wj_mc_os_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_D_mc_nick])()
 			yield_wj_mc_os_lowmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_A_mc_nick])()
+			
 			
 			assert (yield_wj_mc_os_highmt != 0.0) or (yield_wj_mc_os_lowmt != 0.0), "Yield of MC in opposite-sign lowmt or opposite-sign highmt region is zero."
 			
@@ -164,13 +168,20 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 			for nick in C_subtract_nicks:
 				yield_wjets_ss_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
 				
+			log.debug("W+jets Same-sign High mT before estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_ss_highmt))	
+			
+			yield_wjets_ss_highmt = uncertainties.ufloat(max(0.0, yield_wjets_ss_highmt.nominal_value), yield_wjets_ss_highmt.std_dev)	
 			yield_wjets_os_highmt = tools.PoissonYield(plotData.plotdict["root_objects"][wjets_D_data_nick])()
 			for nick in D_subtract_nicks:
 				yield_wjets_os_highmt -= tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
+			yield_wjets_os_highmt = uncertainties.ufloat(max(0.0, yield_wjets_os_highmt.nominal_value), yield_wjets_os_highmt.std_dev)	
 				
 			log.debug("W+jets Same-sign High mT before estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_ss_highmt))	
+			log.debug("W+jets opposite-sign High mT before estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_os_highmt))	
+			print(qcd_extrapolation_factor_ss_os * yield_wjets_ss_highmt)
 			yield_wjets_ss_highmt = yield_wjets_os_highmt - qcd_extrapolation_factor_ss_os * yield_wjets_ss_highmt
-			yield_wjets_ss_highmt = uncertainties.ufloat(max(0.0, yield_wjets_ss_highmt.nominal_value), yield_wjets_ss_highmt.std_dev)
+			
+			# yield_wjets_ss_highmt = uncertainties.ufloat(max(0.0, yield_wjets_ss_highmt.nominal_value), yield_wjets_ss_highmt.std_dev)
 			yield_wjets_ss_highmt = yield_wjets_ss_highmt / (w_os_ss_extrapolation_factor - qcd_extrapolation_factor_ss_os)
 			
 			log.debug("W+jets Same-sign High mT after estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_ss_highmt))	
@@ -244,7 +255,8 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 				"w_ss_lowmt_yield" : final_yield_wjets_ss_lowmt.nominal_value,
 				"w_ss_lowmt_yield_unc" : final_yield_wjets_ss_lowmt.std_dev,
 				"w_ss_lowmt_yield_unc_rel" : abs(final_yield_wjets_ss_lowmt.std_dev/final_yield_wjets_ss_lowmt.nominal_value if final_yield_wjets_ss_lowmt.nominal_value != 0.0 else 0.0),
-			}	
+			}
+			log.debug(plotData.metadata)	
 						
 			########################################
 			# ------------ Step 7 ------------------
