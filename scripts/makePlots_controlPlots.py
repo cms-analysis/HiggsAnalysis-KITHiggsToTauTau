@@ -213,6 +213,8 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the lepton flavour violation analysis. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
+	parser.add_argument("--add-analysis-modules-before-ratio", default=False, action="store_true",
+	                    help="Analysis modules are called according to their position in the list of analysis modules. This option stores them after the call of the ratio option. [Default: %(default)s]")						
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -537,6 +539,11 @@ if __name__ == "__main__":
 					config["legend_markers"] = ["L"]
 					config["line_widths"] = [3]
 
+				if args.add_analysis_modules_before_ratio:
+					for analysis_module in args.analysis_modules:
+						if analysis_module not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append(analysis_module)
+						
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
 					if "Ratio" not in config.get("analysis_modules", []):
@@ -550,10 +557,10 @@ if __name__ == "__main__":
 					config.setdefault("labels", []).extend([""] * 2)
 					config.setdefault("stacks", []).extend(["unc", "ratio"])
 
-
-				for analysis_module in args.analysis_modules:
-					if analysis_module not in config.get("analysis_modules", []):
-						config.setdefault("analysis_modules", []).append(analysis_module)
+				if not args.add_analysis_modules_before_ratio:
+					for analysis_module in args.analysis_modules:
+						if analysis_module not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append(analysis_module)
 
 				if log.isEnabledFor(logging.DEBUG) and "PrintInfos" not in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("PrintInfos")
@@ -694,4 +701,3 @@ if __name__ == "__main__":
 			list_of_config_dicts=plot_configs, list_of_args_strings=[args.args],
 			n_processes=args.n_processes, n_plots=args.n_plots, batch=args.batch
 	)
-
