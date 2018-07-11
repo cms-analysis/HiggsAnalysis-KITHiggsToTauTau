@@ -2201,7 +2201,7 @@ class Samples(samples.SamplesBase):
 							if channel == "et":
 								ss_os_factor = 1.61 if "BoostedCP" in category else 0.97 if "ZeroJetCP" in category else 1.82 if "dijet2D" in category else 1.0
 							elif channel == "mt":
-								ss_os_factor = 1.18 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.23 if "dijet2D" in category else 1.0
+								ss_os_factor = 1.18 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.24 if "dijet2D" in category else 1.0
 					use_inclusive_wjets_mc = False
 					if category != None:
 						use_inclusive_wjets_mc = True if "dijet2D" in category else False
@@ -2226,6 +2226,7 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_ss_data_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
 						config.setdefault("qcd_ss_lowmt_nicks", []).append("noplot_qcd_ss_lowmt"+nick_suffix)
 						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
+						config.setdefault("qcd_ss_highmt_nicks", []).append("noplot_qcd_ss_highmt"+nick_suffix)
 						config.setdefault("B_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd ".split()]))
 			elif ("new" in estimationMethod or "simeqn" in estimationMethod) and channel not in  ["et", "mt"]:				
 				if channel == "em" or channel == "ttbar":
