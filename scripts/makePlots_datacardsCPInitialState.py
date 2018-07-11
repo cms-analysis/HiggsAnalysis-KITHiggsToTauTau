@@ -633,18 +633,23 @@ if __name__ == "__main__":
 
 					elif "dijet2D" in category and not ("wjets" in category or "qcd_cr" in category):
 						config["x_expressions"] = ["m_vis" if channel == "mm" else "m_sv"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]	
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_expressions"] = ["jdphi"]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
 						if "mela2D" in args.quantity:
 							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH*TMath::Sign(1, melaDiscriminatorDCPGGH)"]
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]
 						elif "mela3D" in args.quantity:
 							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH"]
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]		
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]
 							config["z_expressions"] = ["melaDiscriminatorDCPGGH"]
-							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorDCPGGH"]]													
-							
+							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorDCPGGH"]]
+						elif "mela_eta" in args.quantity:
+							config["z_expressions"] = ["melaDiscriminatorD0MinusGGH*TMath::Sign(1, melaDiscriminatorDCPGGH)"]
+							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]
+							config["y_expressions"] = ["min(abs(eta_sv-jeta_1),abs(eta_sv-jeta_2))"]
+							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_eta_sep"]]
+
 					# Unroll 2d distribution to 1d in order for combine to fit it
 					if ("2D" in category or "BoostedCP" in category) and not ("wjets" in category or "qcd_cr" in category) and not (channel == "tt" and "ZeroJetCP" in category):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
