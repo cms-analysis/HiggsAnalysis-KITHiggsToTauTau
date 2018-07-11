@@ -2192,8 +2192,7 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
 						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
 							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
-				if "simeqn" in estimationMethod:				
-		
+				if "simeqn" in estimationMethod:						
 					if kwargs.get("ss_os_factor", 0.0) != 0.0:
 						ss_os_factor = kwargs["ss_os_factor"]
 					else:
@@ -2202,11 +2201,15 @@ class Samples(samples.SamplesBase):
 							if channel == "et":
 								ss_os_factor = 1.61 if "BoostedCP" in category else 0.97 if "ZeroJetCP" in category else 1.82 if "dijet2D" in category else 1.0
 							elif channel == "mt":
-								ss_os_factor = 1.18 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.23 if "dijet2D" in category else 1.0																										
-					
+								ss_os_factor = 1.18 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.23 if "dijet2D" in category else 1.0
+					use_inclusive_wjets_mc = False
+					if category != None:
+						use_inclusive_wjets_mc = True if "dijet2D" in category else False
+						
 					if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)					
+					config.setdefault("use_inclusive_wjets_mc", []).append(use_inclusive_wjets_mc)					
 					
 					if controlregions:											
 						config.setdefault("B_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
