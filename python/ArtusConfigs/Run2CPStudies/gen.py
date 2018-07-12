@@ -49,7 +49,7 @@ class gen_ArtusConfig(dict):
 					#Muontriggers
 					"HLT_IsoMu24",
 					"HLT_IsoMu27", #only in data recommended
-					"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1",
 					#tautau
 					"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
 					"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
@@ -64,7 +64,7 @@ class gen_ArtusConfig(dict):
 					#Muon
 					"HLT_IsoMu24_v",
 					"HLT_IsoMu27_v",
-					"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1_v",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v",
 					#tautau
 					"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg_v",
 					"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v",

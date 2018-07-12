@@ -11,8 +11,24 @@ class JEC(dict):
 	def __init__(self, nickname):
 		if re.search("(Summer17)",nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = ""
-		elif re.search("(Run2017)", nickname):
-			self["JetEnergyCorrectionUncertaintyParameters"] = ""
+		elif re.search("(Fall17|Run2017)", nickname): #this is recomended in https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2017#%20Jet/MET%20uncertainty%20treatment
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017F_V6_DATA_UncertaintySources_AK4PFchs.txt"
+
+			"""
+			#from https://twiki.cern.ch/twiki/bin/viewauth/CMS/JECDataMC
+		elif re.search("(Fall17)", nickname):
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017_V6_MC_UncertaintySources_AK4PFchs.txt"
+		elif re.search("(Run2017B)", nickname):
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017B_V6_DATA_UncertaintySources_AK4PFchs.txt"
+		elif re.search("(Run2017C)", nickname):
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017C_V6_DATA_UncertaintySources_AK4PFchs.txt"
+		elif re.search("(Run2017D)", nickname):
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017D_V6_DATA_UncertaintySources_AK4PFchs.txt"
+		elif re.search("(Run2017E)", nickname):
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017E_V6_DATA_UncertaintySources_AK4PFchs.txt"
+		elif re.search("(Run2017F)", nickname):
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017F_V6_DATA_UncertaintySources_AK4PFchs.txt"
+			"""
 		elif re.search("(Run2016|Spring16|Summer16)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] =  "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_UncertaintySources_AK4PFchs.txt"
 		#elif re.search("Run2016|Embedding2016", nickname):

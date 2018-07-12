@@ -125,11 +125,13 @@ class IdAndTriggerSF(dict):
 				elif re.search("Spring16", nickname):
 					self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"]
 
-				elif re.search("Run2017|Summer17|Fall17", nickname):
-					pass
-
 			if channel == "TT":
-				pass
+				if re.search("Run2017|Summer17|Fall17", nickname):
+					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
+					self["TauTrigger2017WorkingPoint"] = "tight" #TODO might change for 2017
+					self["TriggerEfficiencyMode"] = "multiply_tau2017_weights"
+					self["IdentificationEfficiencyMode"] = "multiply_weights"
+					
 
 			if channel == "EM":
 				self["TriggerEfficiencyMode"] = "correlate_triggers" #TODO might change for 2017

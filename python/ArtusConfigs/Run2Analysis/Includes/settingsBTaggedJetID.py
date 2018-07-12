@@ -12,7 +12,7 @@ class BTaggedJet_ID(dict):
 
 		self["BTaggedJetID_documentation"] = ["https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2016#b_tagging"]
 
-		self["BTaggedJetCombinedSecondaryVertexName"] = "pfCombinedInclusiveSecondaryVertexV2BJetTags"
+		self["BTaggedJetCombinedSecondaryVertexName"] = "pfCombinedInclusiveSecondaryVertexV2BJetTags" #TODO might change to deepbtagger
 
 		if re.search("(Fall15MiniAODv2|Run2015D)", nickname):
 			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8

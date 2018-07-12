@@ -16,7 +16,7 @@ class Muon_ID(dict):
 			self["MuonIsoTypeUserMode"] = "fromcmsswr04"
 		if re.search("Run2017|Summer17|Fall17", nickname):
 			self["Year"] = 2016
-			self["MuonIsoTypeUserMode"] = "fromcmsswr04" #took the same as for 2016, needs update https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2017#Muons
+			self["MuonIsoTypeUserMode"] = "fromcmsswr04" #took the same as for 2016, needs maybe update https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2017#Muons
 		else:
 			self["Year"] = 2015
 			self["MuonIsoTypeUserMode"] = "fromcmssw"
@@ -31,8 +31,11 @@ class Muon_ID(dict):
 		self["MuonIso"] = "none"
 		if re.search("Run2017|Summer17|Fall17", nickname):
 			self["MuonIsoSignalConeSize"] = 0.4
+		elif re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
+			self["MuonIsoSignalConeSize"] = 0.4
+		else:
+			self["MuonIsoSignalConeSize"] = 0.3
 
-		self["MuonIsoSignalConeSize"] = 0.3
 		self["MuonDeltaBetaCorrectionFactor"] = 0.5
 	
 		self["MuonTrackDxyCut"] = 0.045

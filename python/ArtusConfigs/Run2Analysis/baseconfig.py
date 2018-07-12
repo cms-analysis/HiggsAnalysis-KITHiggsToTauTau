@@ -80,12 +80,12 @@ class Baseconfig(dict):
 		self["TopPtReweightingStrategy"] = "Run2"
 
 		if re.search("Summer17", nickname):
-			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_RunBtoF_80bins_MC_Moriond17_PU25ns_V1_69p2MinBiasXS.root"
-			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
-			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root"
+			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_RunBtoF_80bins_MC_Moriond17_PU25ns_V1_69p2MinBiasXS.root" 
+			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv" 
+			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root" 
 
 		elif re.search("Fall17", nickname):
-			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
+			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root"
 
 			if re.search("(DYJetsToLLM50).*(?=Fall17).*(?<!(ext1))$", nickname):
@@ -228,7 +228,7 @@ class Baseconfig(dict):
 
 # https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf
 		elif re.search("(Summer17|Fall17)", nickname):
-			self["SimpleMuTauFakeRateWeightLoose"]	= [1.06, 1.02, 1.10, 1.03,0.93]
+			self["SimpleMuTauFakeRateWeightLoose"]	= [1.06, 1.02, 1.10, 1.03, 1.94]
 			self["SimpleMuTauFakeRateWeightTight"] = [1.17, 1.29, 1.14, 0.93, 1.61]
 			self["SimpleEleTauFakeRateWeightVLoose"] = [1.09, 1.19]
 			self["SimpleEleTauFakeRateWeightTight"] = [1.80, 1.53] #also available are other wp

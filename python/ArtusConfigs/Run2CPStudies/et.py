@@ -323,18 +323,16 @@ class et_ArtusConfig(dict):
 
 		elif re.search("Run2017|Summer17|Fall17", nickname):
 			self["HltPaths"] = [
-					"HLT_Ele32_WPTight_Gsf",
 					"HLT_Ele35_WPTight_Gsf",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
 				]
-			self["ElectronLowerPtCuts"] = [	"25.0"]
+			self["ElectronLowerPtCuts"] = [	"26.0"]
 			self["DiTauPairLepton1LowerPtCuts"] = [
-					"HLT_Ele32_WPTight_Gsf_v:33.0",
-					"HLT_Ele35_WPTight_Gsf_v:36.0",
-					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:25.0"
+					"HLT_Ele35_WPTight_Gsf_v:37.0",
+					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:26.0"
 				]
+			self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:32.0"]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
-					"HLT_Ele32_WPTight_Gsf_v",
 					"HLT_Ele35_WPTight_Gsf_v",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v"
 				]

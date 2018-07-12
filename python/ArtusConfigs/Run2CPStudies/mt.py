@@ -379,34 +379,36 @@ class mt_ArtusConfig(dict):
 			self["HltPaths"] = [
 				"HLT_IsoMu24",
 				"HLT_IsoMu27",
-				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1"
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"
 			]
-			self["MuonLowerPtCuts"] = [21]
+			self["MuonLowerPtCuts"] = [22]
 			self["DiTauPairLepton1LowerPtCuts"] = [
-				"HLT_IsoMu24_v:25",
-				"HLT_IsoMu27_v:28",
-				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1_v:21"
+				"HLT_IsoMu24_v:26",
+				"HLT_IsoMu27_v:29",
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:22"
 			]
+			self["DiTauPairLepton1LowerPtCuts"] = ["HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:29"]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
 				"HLT_IsoMu24_v",
 				"HLT_IsoMu27_v",
-				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1"
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v"
 			]
 			self["MuonTriggerFilterNames"] = [
 				"HLT_IsoMu24_v:hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07",
 				"HLT_IsoMu27_v:hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07",
-				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
-				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
 			]
 			self["TauTriggerFilterNames"] = [
-				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
-				"HLT_IsoMu20_eta2p1_MediumChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
 			]
 				
 
 		self["EventWeight"] = "eventWeight"
 		self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
 		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		
 		self["RooWorkspaceWeightNames"] = [
 			"0:triggerWeight_singleMu",
 			"0:idIsoWeight"
