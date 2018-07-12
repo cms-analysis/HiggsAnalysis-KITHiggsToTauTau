@@ -63,12 +63,14 @@ public:
 		MULTIPLY_WEIGHTS = 0,
 		CORRELATE_TRIGGERS = 1,
 		CROSS_TRIGGERS = 2,
+		MULTIPLY_TAU2017_WEIGTHS = 3,
 	};
 	static DataMcScaleFactorProducerMode ToDataMcScaleFactorProducerMode(std::string const& dataMcScaleFactorProducerMode)
 	{
 		if (dataMcScaleFactorProducerMode == "multiply_weights") return DataMcScaleFactorProducerMode::MULTIPLY_WEIGHTS;
 		else if (dataMcScaleFactorProducerMode == "correlate_triggers") return DataMcScaleFactorProducerMode::CORRELATE_TRIGGERS;
 		else if (dataMcScaleFactorProducerMode == "cross_triggers") return DataMcScaleFactorProducerMode::CROSS_TRIGGERS;
+		else if (dataMcScaleFactorProducerMode == "multiply_tau2017_weights") return DataMcScaleFactorProducerMode::MULTIPLY_TAU2017_WEIGTHS;
 		else return DataMcScaleFactorProducerMode::NONE;
 	}
 	

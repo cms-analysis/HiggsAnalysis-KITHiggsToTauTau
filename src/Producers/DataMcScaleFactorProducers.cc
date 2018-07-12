@@ -141,16 +141,23 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 		       (efficienciesData[1].size() == 1) &&
 		       (efficienciesMc.size() == 2) &&
 		       (efficienciesMc[0].size() == 1) &&
-		       (efficienciesMc[1].size() == 1));
+		       (efficienciesMc[1].size() == 1) &&
+		       (product.m_tautriggerefficienciesMC.size() == 1) &&
+		       (product.m_tautriggerefficienciesData.size() == 1));
 
 		//TODO here the thing is changed
-		double efficiencyData = efficienciesData[0][0]*(1.0-product.m_tautriggerefficienciesData) + efficienciesData[1][0]*product.m_tautriggerefficienciesData;
-		double efficiencyMc = efficienciesMc[0][0]*(1.0-product.m_tautriggerefficienciesMC)  + efficienciesMc[1][0]*product.m_tautriggerefficienciesMC;
+		double efficiencyData = efficienciesData[0][0]*(1.0-product.m_tautriggerefficienciesData[0]) + efficienciesData[1][0]*product.m_tautriggerefficienciesData[0];
+		double efficiencyMc = efficienciesMc[0][0]*(1.0-product.m_tautriggerefficienciesMC[0])  + efficienciesMc[1][0]*product.m_tautriggerefficienciesMC[0];
 		double weight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
 		product.m_weights[std::string(m_weightName + "_1")] = weight;
 	}
-
-
+	else if (m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::MULTIPLY_TAU2017_WEIGTHS)
+		assert((product.m_tautriggerefficienciesMC.size() == 2) &&
+		       (product.m_tautriggerefficienciesData.size() == 2));
+		double efficiencyData =product.m_tautriggerefficienciesData[0] * product.m_tautriggerefficienciesData[1];
+		double efficiencyMc = product.m_tautriggerefficienciesMC[0] * product.m_tautriggerefficienciesMC[1];
+		double weight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
+		product.m_weights[std::string(m_weightName + "_1")] = weight;
 }
 
 
