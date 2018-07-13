@@ -1,0 +1,115 @@
+{
+        "analysis_modules": [
+        "Ratio"
+    ],
+    "files": [
+       "websync/2018_07_13/test/et/ZeroJetCP/m_sv.root"
+    ],
+    "colors": [
+        "ztt",
+        "zll",
+        "ttj",
+        "vv",
+        "wj",
+        "qcd",
+        "data",
+        "#000000",
+        "#000000"
+    ],
+    "labels": [
+        "ztt",
+        "zll",
+        "ttj",
+        "vv",
+        "wj",
+        "qcd",
+        "data",
+        "",
+        ""
+    ],
+    "legend": [
+        0.73,
+        0.45,
+        0.93,
+        0.85
+    ],
+    "legend_cols": 1,
+    "legend_markers": [
+        "F",
+        "F",
+        "F",
+        "F",
+        "F",
+        "F",
+        "ELP",
+        "ELP",
+        "ELP"
+    ],
+    "filename": "wjets_sshighmt",
+    "title": "                   SS high m_{T} region",
+    "x_label": "et_m_sv",
+        "stacks": [
+        "bkg",
+        "bkg",
+		"bkg",
+         "bkg",
+         "bkg",
+         "bkg",
+         "data",
+         "unc",
+         "ratio"
+      ],
+     "nicks": [
+         "ztt",
+         "zll",
+         "ttj",
+         "vv",
+         "wj",
+         "qcd",
+         "data"
+     ],
+    "markers": [
+         "HIST",
+         "HIST",
+         "HIST",
+         "HIST",
+         "HIST",
+         "HIST",
+         "E",
+         "E2",
+         "E"
+     ],
+     "x_expressions": [
+         "ztt_os_highmt",
+         "zll_os_highmt",
+         "ttj_os_highmt",
+         "vv_os_highmt",
+         "wj_os_highmt",
+         "qcd_os_highmt",
+         "data_os_highmt"
+     ],
+     "ratio_denominator_nicks": [
+         "ztt zll ttj vv wj qcd",
+         "ztt zll ttj vv wj qcd"
+     ],
+     "ratio_numerator_nicks": [
+         "ztt zll ttj vv wj qcd",
+         "data"
+     ],
+     "ratio_result_nicks": [
+         "ratio_MC",
+         "ratio_Data"
+     ],
+	 "www": "WJets_OS_highmt_controlregion",	 
+     "y_lims": [
+         0.0
+     ],		
+	 "y_rel_lims": [
+         0.0,
+         1.5
+     ],
+     "y_subplot_lims": [
+         0.7,
+         1.3
+     ]
+ }	 
