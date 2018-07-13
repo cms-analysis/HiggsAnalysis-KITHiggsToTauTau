@@ -16,20 +16,20 @@ parameter_yaml = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Configs/parameter
 plot_dir = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Plots/"
 
 ##ROOT plotting configuration
-labels = {"ztt": "Z#rightarrow#tau#tau", "zll": "Z#rightarrow ll", "ttj": "t#bar{t}", "wj": "W + jets", "vv": "WW/ZZ/WZ", "qcd": "QCD", "zem": "Z#rightarrow e#mu", "zet": "Z#rightarrow e#tau", "zmt": "Z#rightarrow #mu#tau", "data": "Data"}
+##new labels for zmte and zetm
+labels = {"ztt": "Z#rightarrow#tau#tau", "zll": "Z#rightarrow ll", "ttj": "t#bar{t}", "wj": "W + jets", "vv": "WW/ZZ/WZ", "qcd": "QCD", "zem": "Z#rightarrow e#mu", "zet": "Z#rightarrow e#tau", "zmt": "Z#rightarrow #mu#tau", "data": "Data", "zetm": "Z#rightarrow e#tau_{#mu}", "zmte": "Z#rightarrow #mu#tau_{e}"}
 colors = {"ztt": ROOT.kYellow, "zll": ROOT.kAzure+1, "ttj": ROOT.kViolet-3, "wj": ROOT.kRed+1, "vv": ROOT.kOrange+5, "qcd": ROOT.kPink+1}
 
 
 def parser():
 	parser = argparse.ArgumentParser(description = "Script for calculating plotting in LFV analysis", formatter_class=argparse.RawTextHelpFormatter)
-	parser.add_argument("--channel", nargs="+", required = True, choices = ["em", "et", "mt"] , help = "Channel which should be analyzed")
+	parser.add_argument("--channel", nargs="+", required = True, choices = ["em", "et", "mt", "etm", "mte"] , help = "Channel which should be analyzed")
 	parser.add_argument("--parameter", nargs="+", required = True, help = "Parameter to plot")
 	parser.add_argument("--shape", action = "store_true", help = "Draw shape histos for background/signal")
 	parser.add_argument("--data", action = "store_true", help = "Plot with real data")
 	parser.add_argument("--weight", action = "store", default="1", help = "Weight applied while tree is read out")
 	parser.add_argument("--name-suffix", action = "store", default = "", help = "Optional suffix for the output name of the plot")
 	parser.add_argument("--www", action = "store", default = "", help = "Directory name of web plotting, in which plot should be safed if wished")
-
 	return parser.parse_args()
 
 def get_hists(parameter, base_config, binning, channel):
@@ -66,6 +66,7 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 	bkgsum_hist = hists[0].Clone()
 
 	for index, (hist, process) in enumerate(zip(hists[:-2], processes[:-2])):
+		print process
 		hist.SetFillColor(colors[process])
 		hist.SetLineColor(colors[process])
 		
@@ -185,7 +186,6 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 	if www != "":
 		os.system("mkdir -p " + os.environ["CMSSW_BASE"] + "/src/FlavioOutput/WebPlots/{}/{}".format(channel, www))
 		canvas.SaveAs(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/WebPlots/{}/{}".format(channel, www) + "/{}{}.png".format(plotname, name_suffix))
-
 
 def shape_plot(parameter, channel, processes, plotname, x_label, name_suffix, www):
 	##Get all hists without data hist
@@ -309,23 +309,28 @@ def webplot(www, channel):
 	os.system("xrdcp -r -s -f {} root://eosuser.cern.ch//eos/user/d/dbrunner/www/".format(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/WebPlots/"))
 	print "Web plots: https://{}.web.cern.ch/{}/{}/{}/index.html".format(os.environ["HARRY_REMOTE_USER"], os.environ["HARRY_REMOTE_USER"], channel, www)
 
+
 def main():
 	##parser 
 	args = parser()
+	
+	##For zlt-leptonic there is just the em channel available with the addition of which lepton is first.
+	functions = [get_hists, plot] + ([shape_plot] if args.shape else [])
 
-	for func in [get_hists, plot] + ([shape_plot] if args.shape else []):
+	for func in functions:
 		
 		pool = Pool(cpu_count())
 		tasks = []
-
+		
 		for channel in args.channel:
-			##Create output directory/webplotting directory if not existing
+
 			if not os.path.exists(plot_dir + channel):
 				os.system("mkdir -p " + plot_dir + channel)
-
+				
 			##Procceses names 
 			processes =  ["qcd", "ttj", "vv", "wj", "ztt", "zll"] + ["z{}".format(channel)] + ["data"]
-	
+					
+
 			for param in args.parameter:
 				##Check if parameter plotting configuration is saved in parameter.yaml
 				param_config = 	yaml.load(open(parameter_yaml, "r"))
@@ -335,11 +340,11 @@ def main():
 	
 				else:
 					parameter, binning, plotname, x_label = (param, ["30"], param, param) 
-	
+
 				##Get histograms from of Ntuple with harry.py
 				if func == get_hists:
 					sample_settings = samples.Samples()
-					base_config = sample_settings.get_config([getattr(samples.Samples, process) for process in processes], channel, category = None, estimationMethod = "new", weight = args.weight)
+					base_config = sample_settings.get_config([getattr(samples.Samples, process) for process in processes], "em" if channel == "etm" or channel == "mte" else channel, category = None, estimationMethod = "new", weight = args.weight)
 					task = pool.apply_async(get_hists, args = (parameter, base_config, binning, channel))
 					tasks.append(task)
 
@@ -355,12 +360,11 @@ def main():
 
 		pool.close()
 		pool.join()
-	
+
 		[task.get() for task in tasks]
 
-
 	##Clean up
-	for channel in ["em", "et", "mt"]:
+	for channel in ["em", "et", "mt", "etm", "mte"]:
 		if os.path.exists(plot_dir + channel):
 			os.system("rm --force " + plot_dir + channel + "/*.root")
 			os.system("rm --force " + plot_dir + channel + "/*.json")
