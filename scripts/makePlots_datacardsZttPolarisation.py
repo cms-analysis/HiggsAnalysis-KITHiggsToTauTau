@@ -155,7 +155,7 @@ def create_input_root_files(datacards, args):
 								tmp_quantity = None
 								tmp_omega_version = "BarSvfitM91"
 						if channel in ["em"]:
-							if category in [channel+"_"+cat for cat in ["inclusive"]]:
+							if category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong"]]:
 								tmp_quantity = "m_vis"
 								tmp_omega_version = None
 					
