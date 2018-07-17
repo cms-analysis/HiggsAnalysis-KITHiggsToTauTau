@@ -73,6 +73,8 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 			neg_gen_norm = tools.PoissonYield(plotData.plotdict["root_objects"][ztt_neg_pol_gen_nick])()
 			
 			scale_factors = polarisationsignalscaling.PolarisationScaleFactors(pos_reco_norm, neg_reco_norm, pos_gen_norm, neg_gen_norm)
+			log.debug("Gen.  level polarisation = {polarisation}".format(polarisation=scale_factors.get_gen_polarisation()))
+			log.debug("Reco. level polarisation = {polarisation}".format(polarisation=scale_factors.get_reco_polarisation()))
 			
 			pos_reco_scale_factor = scale_factors.get_scale_factor_pospol()
 			plotData.plotdict["root_objects"][ztt_pos_pol_reco_result_nick].Scale(pos_reco_scale_factor.nominal_value)

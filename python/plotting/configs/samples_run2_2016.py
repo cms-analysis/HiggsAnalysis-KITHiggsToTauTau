@@ -734,13 +734,17 @@ class Samples(samples.SamplesBase):
 	def files_lfv(self, channel):
 		return self.artus_file_names({"process" : "LFV*", "data": False, "croote" : self.mc_campaign}, 10)
 
+
+
+
 	def zmt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
 		scale_factor = lumi
-		branching_ratio = "1.2e-5" #"(0.03363)*0.66*0.17*2"
-		jet_integral_weight = "1/1.05"
+
+		branching_ratio = "1.2e-5" #"(0.03363)*0.66*0.17*2" 				
+		jet_integral_weight = "1/1.05"							
 		files_weight = "1/10.0"
 		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
 	
@@ -751,14 +755,14 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_lfv(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
-				nick="zmt"
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",			
+				nick="zmt"														
 		)
 
-		Samples._add_bin_corrections(config, "zmt", nick_suffix)
+		Samples._add_bin_corrections(config, "zmt", nick_suffix)			
 		
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)				
 		
 		return config
 
@@ -788,7 +792,7 @@ class Samples(samples.SamplesBase):
 
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zet"), nick_suffix)
-		
+
 		return config
 
 	def zem(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
@@ -797,8 +801,8 @@ class Samples(samples.SamplesBase):
 
 		scale_factor = lumi
 
-		branching_ratio = "7.3e-7" #"1.2e-5" #"9.8e-6"  # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"
-		jet_integral_weight = "1/1.03"
+		branching_ratio = "7.3e-7" #"1.2e-5" #"9.8e-6"  # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"			
+		jet_integral_weight = "1/1.03"											
 		files_weight = "1/10.0"
 		cross_section_weight = "3.0" #"(0.03363+0.03366+0.0337)/(0.0337)"
 
@@ -809,16 +813,80 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_lfv(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
-				nick="zem"
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",			
+				nick="zem"											
 		)
 
-		Samples._add_bin_corrections(config, "zem", nick_suffix)
+		Samples._add_bin_corrections(config, "zem", nick_suffix)							
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zem"), nick_suffix)
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zem"), nick_suffix)	
 		
 		return config
+
+
+
+
+
+	def zetm(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		branching_ratio = "9.8e-6" #"(0.03363)*0.66*0.17*2"
+		jet_integral_weight = "1/1.05"
+		files_weight = "1/10.0"
+		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
+	
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
+		add_input(
+				input_file=self.files_lfv(channel),
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoET > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
+				nick="zetm"
+		)
+
+		Samples._add_bin_corrections(config, "zetm", nick_suffix)
+		
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zetm"), nick_suffix)
+		
+		return config
+
+
+
+	def zmte(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		branching_ratio = "1.2e-5" #"(0.03363)*0.66*0.17*2"
+		jet_integral_weight = "1/1.05"
+		files_weight = "1/10.0"
+		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
+	
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
+		add_input(
+				input_file=self.files_lfv(channel),
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
+				nick="zmte"
+		)
+
+		Samples._add_bin_corrections(config, "zmte", nick_suffix)
+		
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zmte"), nick_suffix)
+		
+		return config
+
+
 
 
 	def ttjj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):

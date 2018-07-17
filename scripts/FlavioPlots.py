@@ -16,20 +16,21 @@ parameter_yaml = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Configs/parameter
 plot_dir = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Plots/"
 
 ##ROOT plotting configuration
-labels = {"ztt": "Z#rightarrow#tau#tau", "zll": "Z#rightarrow ll", "ttj": "t#bar{t}", "wj": "W + jets", "vv": "WW/ZZ/WZ", "qcd": "QCD", "zem": "Z#rightarrow e#mu", "zet": "Z#rightarrow e#tau", "zmt": "Z#rightarrow #mu#tau", "data": "Data"}
+labels = {"ztt": "Z#rightarrow#tau#tau", "zll": "Z#rightarrow ll", "ttj": "t#bar{t}", "wj": "W + jets", "vv": "WW/ZZ/WZ", "qcd": "QCD", "zem": "Z#rightarrow e#mu", "zet": "Z#rightarrow e#tau", "zmt": "Z#rightarrow #mu#tau", "data": "Data", "zetm": "Z#rightarrow e#tau_{#mu}", "zmte": "Z#rightarrow #mu#tau_{e}"}
 colors = {"ztt": ROOT.kYellow, "zll": ROOT.kAzure+1, "ttj": ROOT.kViolet-3, "wj": ROOT.kRed+1, "vv": ROOT.kOrange+5, "qcd": ROOT.kPink+1}
+title = {"em": "e#mu", "etm": "e#mu", "mte": "e#mu", "et": "e#tau_{h}", "mt": "#mu#tau_{h}"}
 
 
 def parser():
 	parser = argparse.ArgumentParser(description = "Script for calculating plotting in LFV analysis", formatter_class=argparse.RawTextHelpFormatter)
-	parser.add_argument("--channel", nargs="+", required = True, choices = ["em", "et", "mt"] , help = "Channel which should be analyzed")
+
+	parser.add_argument("--channel", nargs="+", required = True, choices = ["em", "et", "mt", "etm", "mte"] , help = "Channel which should be analyzed")
 	parser.add_argument("--parameter", nargs="+", required = True, help = "Parameter to plot")
 	parser.add_argument("--shape", action = "store_true", help = "Draw shape histos for background/signal")
-	parser.add_argument("--data", action = "store_true", help = "Plot with real data")
+	parser.add_argument("--data", nargs='?', const="", help = "Plot with real data, to set region of blinding use --data 'start stop'")
 	parser.add_argument("--weight", action = "store", default="1", help = "Weight applied while tree is read out")
 	parser.add_argument("--name-suffix", action = "store", default = "", help = "Optional suffix for the output name of the plot")
 	parser.add_argument("--www", action = "store", default = "", help = "Directory name of web plotting, in which plot should be safed if wished")
-
 	return parser.parse_args()
 
 def get_hists(parameter, base_config, binning, channel):
@@ -44,6 +45,7 @@ def get_hists(parameter, base_config, binning, channel):
 		"filename": parameter,
 	}
 	config.pop("legend_markers")
+
 
 	higgsplot.HiggsPlotter(list_of_config_dicts=[config])
 
@@ -82,7 +84,7 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 	sig_hist.Scale(50)
 	legend.AddEntry(sig_hist, labels[processes[-2]] + " x50", "L")
 
-	if data:
+	if data != None:
 		##Data histogram
 		data_hist = hists[-1]
 	
@@ -98,24 +100,31 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 		errorband = bkgsum_hist.Clone()
 		errorband.Divide(bkgsum_hist)
 
-		errorband.SetFillColor(ROOT.kBlue)
+		errorband.SetFillColor(ROOT.kGray)
 		errorband.SetMarkerColor(ROOT.kWhite)
-		errorband.SetFillStyle(3004)
+		errorband.SetFillStyle(4050)
 		errorband.SetStats(0)
 
 		ratio_graph = ROOT.TGraphErrors()
 		ratio_graph.SetMarkerStyle(20)
 
 		##Blind data in signal range
+		start, stop = [0,0] if data == "" else [float(number) for number in data.split(" ")]
+
 		for index in range(data_hist.GetNbinsX()):
-			if sig_hist.GetBinContent(index+1) < 100:
+			if sig_hist.GetBinContent(index+1) < 200 and data_hist.GetBinContent(index+1)!=0 and not start < data_hist.GetBinCenter(index+1) < stop:
 				data_graph.SetPoint(index, data_hist.GetBinCenter(index+1), data_hist.GetBinContent(index+1))
 				data_graph.SetPointError(index, data_hist.GetBinWidth(index+1)/2., data_hist.GetBinError(index+1))
 
 				ratio_graph.SetPoint(index, ratio_hist.GetBinCenter(index+1), ratio_hist.GetBinContent(index+1))
 				ratio_graph.SetPointError(index, ratio_hist.GetBinWidth(index+1)/2., ratio_hist.GetBinError(index+1))
 
+
 	##CMS and lumi text
+	channel_title = ROOT.TLatex()
+	channel_title.SetTextFont(42)
+	channel_title.SetTextSize(0.03)
+
 	lumi = ROOT.TLatex()
 	lumi.SetTextFont(42)
 	lumi.SetTextSize(0.03)
@@ -135,17 +144,19 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 	stacked_hist.Draw("HIST")
 	sig_hist.Draw("SAME HIST")
 	
-	if data:
+	if data != None:
 		data_graph.Draw("SAME P")
 
 	legend.Draw("SAME")
 
+	channel_title.DrawLatexNDC(0.17, 0.905, title[channel])
 	lumi.DrawLatexNDC(0.605, 0.905, "35.87 fb^{-1} (2016, 13 TeV)")
-	cms.DrawLatexNDC(0.21, 0.905, "CMS")
-	work.DrawLatexNDC(0.278, 0.905, "Work in progress")
+	cms.DrawLatexNDC(0.25, 0.905, "CMS")
+	work.DrawLatexNDC(0.318, 0.905, "Work in progress")
 
-	##Axis options	
-	stacked_hist.GetYaxis().SetRangeUser(0, 1.3*bkgsum_hist.GetBinContent(bkgsum_hist.GetMaximumBin()))
+	##Axis options
+	stacked_hist.SetMinimum(0)
+	stacked_hist.SetMaximum(1.5*bkgsum_hist.GetBinContent(bkgsum_hist.GetMaximumBin()))
 	stacked_hist.GetXaxis().SetTitle(x_label)
 	stacked_hist.GetXaxis().SetLabelSize(0.025)
 	stacked_hist.GetYaxis().SetTitle("Events")
@@ -153,7 +164,7 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 	stacked_hist.GetYaxis().SetLabelSize(0.025)
 	ROOT.TGaxis().SetMaxDigits(3)
 	
-	if data:
+	if data != None:
 		##Draw pad for ratio plot
 		canvas.SetBottomMargin(0.35)
 		pad1 = ROOT.TPad("pad1", "pad1", 0, 0.08, 1, 0.31)
@@ -167,6 +178,7 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 		ratio_graph.Draw("SAME P")
 
 		##Axis options
+		errorband.SetTitle("")
 		stacked_hist.GetXaxis().SetTitleOffset(5.5)
 		errorband.GetXaxis().SetLabelSize(0.1)
 		errorband.SetAxisRange(0.6, 1.4, "Y")
@@ -178,6 +190,7 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 	##Save Histogram
 	ROOT.gPad.RedrawAxis()
 	ROOT.gPad.SetTicky()
+	ROOT.TGaxis.SetExponentOffset(-0.05, 0.005, "y")
 
 	canvas.SaveAs(plot_dir + channel + "/{}{}.pdf".format(plotname, name_suffix))
 	print "Saved plot: {}".format(plot_dir + channel + "/{}{}.pdf".format(plotname, name_suffix))
@@ -185,7 +198,6 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 	if www != "":
 		os.system("mkdir -p " + os.environ["CMSSW_BASE"] + "/src/FlavioOutput/WebPlots/{}/{}".format(channel, www))
 		canvas.SaveAs(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/WebPlots/{}/{}".format(channel, www) + "/{}{}.png".format(plotname, name_suffix))
-
 
 def shape_plot(parameter, channel, processes, plotname, x_label, name_suffix, www):
 	##Get all hists without data hist
@@ -221,6 +233,10 @@ def shape_plot(parameter, channel, processes, plotname, x_label, name_suffix, ww
 	legend.AddEntry(sig_hist, "Signal", "F")
 
 	##CMS and lumi text
+	channel_title = ROOT.TLatex()
+	channel_title.SetTextFont(42)
+	channel_title.SetTextSize(0.03)
+
 	lumi = ROOT.TLatex()
 	lumi.SetTextFont(42)
 	lumi.SetTextSize(0.03)
@@ -234,6 +250,7 @@ def shape_plot(parameter, channel, processes, plotname, x_label, name_suffix, ww
 	work.SetTextSize(0.03)
 
 	##Axis options
+	sig_hist.SetMaximum(1.5*sig_hist.GetBinContent(sig_hist.GetMaximumBin()))
 	sig_hist.GetXaxis().SetTitle(x_label)
 	sig_hist.GetXaxis().SetLabelSize(0.025)
 	sig_hist.GetYaxis().SetTitle("Events")
@@ -248,9 +265,10 @@ def shape_plot(parameter, channel, processes, plotname, x_label, name_suffix, ww
 	bkgsum_hist.DrawNormalized("SAME HIST")
 	legend.Draw("SAME")
 
+	channel_title.DrawLatexNDC(0.17, 0.905, title[channel])
 	lumi.DrawLatexNDC(0.605, 0.905, "35.87 fb^{-1} (2016, 13 TeV)")
-	cms.DrawLatexNDC(0.21, 0.905, "CMS")
-	work.DrawLatexNDC(0.278, 0.905, "Work in progress")
+	cms.DrawLatexNDC(0.25, 0.905, "CMS")
+	work.DrawLatexNDC(0.318, 0.905, "Work in progress")
 
 	##Save Histogram
 	ROOT.gStyle.SetOptStat(0)
@@ -274,8 +292,8 @@ def webplot(www, channel):
 			html_texts[var] = string.Template(htmlfile.read())
 
 	##Create channel directory web plotting space
-	for chan in ["em", "et", "mt"]:
-		os.system("xrdfs eosuser.cern.ch mkdir -p /eos/user/d/dbrunner/www/" + chan)
+	for chan in ["em", "et", "mt", "etm", "mte"]:
+		os.system("xrdfs eosuser.cern.ch mkdir -p /eos/user/{}/{}/www/".format(os.environ["CERN_USER"][0], os.environ["CERN_USER"]) + chan)
 
 
 	##Create index for main page
@@ -283,7 +301,7 @@ def webplot(www, channel):
 		file.write(html_texts["overview"].substitute(
 		title="Overwiew", 
 		description= "",
-		plots= " ".join([html_texts["subdir"].substitute(subdir=chan) for chan in ["em", "et", "mt"]]))
+		plots= " ".join([html_texts["subdir"].substitute(subdir=chan) for chan in ["em", "et", "mt", "etm", "mte"]]))
 	)
 	
 	##Create index channel directories
@@ -306,26 +324,30 @@ def webplot(www, channel):
 		plots= " ".join([html_texts["plot"].substitute(title=name, links ="", plot ="{}.png".format(name)) for name in parameters]))
 	)
 	
-	os.system("xrdcp -r -s -f {} root://eosuser.cern.ch//eos/user/d/dbrunner/www/".format(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/WebPlots/"))
-	print "Web plots: https://{}.web.cern.ch/{}/{}/{}/index.html".format(os.environ["HARRY_REMOTE_USER"], os.environ["HARRY_REMOTE_USER"], channel, www)
+	os.system("xrdcp -r -s -f {} root://eosuser.cern.ch//eos/user/{}/{}/www/".format(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/WebPlots/", os.environ["CERN_USER"][0], os.environ["CERN_USER"]))
+	print "Web plots: https://{}.web.cern.ch/{}/{}/{}/index.html".format(os.environ["CERN_USER"], os.environ["CERN_USER"], channel, www)
+
 
 def main():
 	##parser 
 	args = parser()
+	
+	##For zlt-leptonic there is just the em channel available with the addition of which lepton is first.
+	functions = [get_hists] + ([shape_plot] if args.shape else [plot])
 
-	for func in [get_hists, plot] + ([shape_plot] if args.shape else []):
+	for func in functions:
 		
 		pool = Pool(cpu_count())
 		tasks = []
-
+		
 		for channel in args.channel:
-			##Create output directory/webplotting directory if not existing
+
 			if not os.path.exists(plot_dir + channel):
 				os.system("mkdir -p " + plot_dir + channel)
-
+				
 			##Procceses names 
 			processes =  ["qcd", "ttj", "vv", "wj", "ztt", "zll"] + ["z{}".format(channel)] + ["data"]
-	
+
 			for param in args.parameter:
 				##Check if parameter plotting configuration is saved in parameter.yaml
 				param_config = 	yaml.load(open(parameter_yaml, "r"))
@@ -334,12 +356,16 @@ def main():
 					parameter, binning, plotname, x_label = param_config[param][:4]
 	
 				else:
-					parameter, binning, plotname, x_label = (param, ["30"], param, param) 
-	
+					parameter, binning, plotname, x_label = (param, ["30"], param, param)
+
+				
+				if type(binning)==dict:
+					binning = binning[channel]
+
 				##Get histograms from of Ntuple with harry.py
 				if func == get_hists:
 					sample_settings = samples.Samples()
-					base_config = sample_settings.get_config([getattr(samples.Samples, process) for process in processes], channel, category = None, estimationMethod = "new", weight = args.weight)
+					base_config = sample_settings.get_config([getattr(samples.Samples, process) for process in processes], "em" if channel == "etm" or channel == "mte" else channel, category = None, estimationMethod = "new", weight = args.weight)
 					task = pool.apply_async(get_hists, args = (parameter, base_config, binning, channel))
 					tasks.append(task)
 
@@ -355,12 +381,11 @@ def main():
 
 		pool.close()
 		pool.join()
-	
+
 		[task.get() for task in tasks]
 
-
 	##Clean up
-	for channel in ["em", "et", "mt"]:
+	for channel in ["em", "et", "mt", "etm", "mte"]:
 		if os.path.exists(plot_dir + channel):
 			os.system("rm --force " + plot_dir + channel + "/*.root")
 			os.system("rm --force " + plot_dir + channel + "/*.json")
