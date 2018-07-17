@@ -28,12 +28,12 @@
         ""
     ],
     "legend": [
-        0.73,
+        0.33,
         0.45,
         0.93,
         0.85
     ],
-    "legend_cols": 1,
+    "legend_cols": 3,
     "legend_markers": [
         "F",
         "F",
@@ -111,5 +111,5 @@
  "y_subplot_lims": [
 	 0.7,
 	 1.3
- ]
+ ]	 
  }	 

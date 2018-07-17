@@ -1755,7 +1755,7 @@ class Samples(samples.SamplesBase):
 					# Step 6
 					config.setdefault("wjets_B_shape_nicks", []).append("noplot_wj_ss_lowmt"+nick_suffix)
 					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)	
-					config.setdefault("wjets_A_shape_nicks", []).append("noplot_wj_os_highmt"+nick_suffix)	
+					config.setdefault("wjets_D_shape_nicks", []).append("noplot_wj_os_highmt"+nick_suffix)	
 
 			if "classic" in estimationMethod:
 				shape_weight = mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)
