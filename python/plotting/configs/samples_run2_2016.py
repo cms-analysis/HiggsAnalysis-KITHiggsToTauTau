@@ -792,7 +792,7 @@ class Samples(samples.SamplesBase):
 
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zet"), nick_suffix)
-		
+
 		return config
 
 	def zem(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
