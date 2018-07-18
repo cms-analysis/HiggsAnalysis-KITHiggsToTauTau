@@ -55,6 +55,22 @@ public:
 			return static_cast<int>(product.m_validDiTauPairCandidates.size()+product.m_invalidDiTauPairCandidates.size());
 		});
 		std::vector<std::string> hltPathsWithoutCommonMatch = settings.GetDiTauPairHltPathsWithoutCommonMatchRequired();
+
+		for (std::string triggerDiscriminator : settings.GetHltPaths())
+		{
+			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "matched_"+triggerDiscriminator, [triggerDiscriminator](event_type const& event, product_type const& product)
+		{
+
+			if (std::find(product.m_triggersmatched.begin(), product.m_triggersmatched.end(), triggerDiscriminator) != product.m_triggersmatched.end())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		});
+		}
 		/*
 		for(unsigned int i = 0; i < hltPathsWithoutCommonMatch.size(); i++)
 		{
@@ -256,7 +272,10 @@ public:
 									hltValidDiTauPair.at(hltPathNumber) = false;
 								}
 							}
+
+							product.m_triggersmatched.push_back(product.m_HltPathsNamesMap[commonHltPaths.at(hltPathNumber)]);
 						}
+
 						//default validity of ditaupair to false and set it to true in case it is a valid pair for at least one HLTPath
 						validDiTauPair = false;
 						for (std::vector<bool>::const_iterator hltPathResult = hltValidDiTauPair.begin(); hltPathResult != hltValidDiTauPair.end(); ++hltPathResult)
