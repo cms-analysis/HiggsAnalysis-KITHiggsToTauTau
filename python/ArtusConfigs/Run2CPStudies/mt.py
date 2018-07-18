@@ -68,8 +68,8 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
-				self["Processors"] += [	"producer:TaggedJetCorrectionsProducer", "producer:TaggedJetUncertaintyShiftProducer"]
+			#if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
+			self["Processors"] += [	"producer:TaggedJetCorrectionsProducer", "producer:TaggedJetUncertaintyShiftProducer"]
 
 			if re.search("Run2016|Run2017", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
@@ -381,7 +381,9 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu27",
 				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"
 			]
-			self["MuonLowerPtCuts"] = [22]
+			self["MuonLowerPtCuts"] = [21]
+			self["TauLowerPtCuts"] = ["20.0"]
+
 			self["DiTauPairLepton1LowerPtCuts"] = [
 				"HLT_IsoMu24_v:26",
 				"HLT_IsoMu27_v:29",
@@ -437,8 +439,10 @@ class mt_ArtusConfig(dict):
 		]
 		
 		self.update(IdAndTriggerSF(nickname, channel="MT", dcach=False))
-		
-		self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
+		if re.search("Run2017|Summer17|Fall17", nickname):
+			self["EleTauFakeRateWeightFile"] = [""]
+		else:
+			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 		self["TauTauRestFrameReco"] =  "collinear_approximation"
 		self["InvalidateNonMatchingElectrons"] =  False
 		self["InvalidateNonMatchingMuons"] =  True

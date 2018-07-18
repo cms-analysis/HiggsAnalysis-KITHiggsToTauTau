@@ -85,8 +85,8 @@ class Baseconfig(dict):
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root" 
 
 		elif re.search("Fall17", nickname):
-			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation80XReReco
-			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root"
+			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_94XSF_V2_B_F.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root" #TODO cant find this
 
 			if re.search("(DYJetsToLLM50).*(?=Fall17).*(?<!(ext1))$", nickname):
 				self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927_306462_EOY2017ReReco_80bins_69p2MinBiasXS/puweights_DYJetsToLLM50_RunIIFall17MiniAOD_RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8.root"

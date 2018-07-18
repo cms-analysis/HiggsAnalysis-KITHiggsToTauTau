@@ -298,7 +298,7 @@ class et_ArtusConfig(dict):
 		self["NoHltFiltering"] = False
 		self["DiTauPairNoHLT" ] = False
 
-		self["ElectronLowerPtCuts"] = ["26.0"]
+		self["ElectronLowerPtCuts"] = ["25.0"]
 		self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"]
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
@@ -326,7 +326,7 @@ class et_ArtusConfig(dict):
 					"HLT_Ele35_WPTight_Gsf",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
 				]
-			self["ElectronLowerPtCuts"] = [	"26.0"]
+			self["ElectronLowerPtCuts"] = [	"25.0"]
 			self["DiTauPairLepton1LowerPtCuts"] = [
 					"HLT_Ele35_WPTight_Gsf_v:37.0",
 					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:26.0"

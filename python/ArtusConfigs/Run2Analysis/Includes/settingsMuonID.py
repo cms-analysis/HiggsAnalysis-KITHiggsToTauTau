@@ -15,7 +15,7 @@ class Muon_ID(dict):
 			self["Year"] = 2016
 			self["MuonIsoTypeUserMode"] = "fromcmsswr04"
 		if re.search("Run2017|Summer17|Fall17", nickname):
-			self["Year"] = 2016
+			self["Year"] = 2017
 			self["MuonIsoTypeUserMode"] = "fromcmsswr04" #took the same as for 2016, needs maybe update https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2017#Muons
 		else:
 			self["Year"] = 2015

@@ -21,7 +21,16 @@ class BTaggedJet_ID(dict):
 				"medium:0.800",
 				"loose:0.460"
 			]
-
+			self["BTaggedJetAbsEtaCut"] = 2.4
+		
+		if re.search("(Fall17|Run2017)", nickname):
+			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8838
+			self["BTaggerWorkingPoints"] = [
+				"tight:0.9693",
+				"medium:0.8838",
+				"loose:0.5803"
+			]
+			self["BTaggedJetAbsEtaCut"] = 2.5
 		else:
 			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8484
 			self["BTaggerWorkingPoints"] = [
@@ -29,8 +38,9 @@ class BTaggedJet_ID(dict):
 				"medium:0.8484",
 				"loose:0.5426"
 			]
+			self["BTaggedJetAbsEtaCut"] = 2.4
 		
-		self["BTaggedJetAbsEtaCut"] = 2.4
+		
 		if re.search("(Fall15|Spring16)", nickname):
 			self["ApplyBTagSF"] = False
 		elif re.search("(Summer17)", nickname):
