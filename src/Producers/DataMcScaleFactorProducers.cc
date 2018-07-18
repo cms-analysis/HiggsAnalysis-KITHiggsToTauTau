@@ -152,12 +152,14 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 		product.m_weights[std::string(m_weightName + "_1")] = weight;
 	}
 	else if (m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::MULTIPLY_TAU2017_WEIGTHS)
+	{
 		assert((product.m_tautriggerefficienciesMC.size() == 2) &&
 		       (product.m_tautriggerefficienciesData.size() == 2));
 		double efficiencyData =product.m_tautriggerefficienciesData[0] * product.m_tautriggerefficienciesData[1];
 		double efficiencyMc = product.m_tautriggerefficienciesMC[0] * product.m_tautriggerefficienciesMC[1];
 		double weight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
 		product.m_weights[std::string(m_weightName + "_1")] = weight;
+	}
 }
 
 
