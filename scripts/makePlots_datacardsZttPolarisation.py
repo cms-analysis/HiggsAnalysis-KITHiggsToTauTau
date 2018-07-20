@@ -132,6 +132,9 @@ def create_input_root_files(datacards, args):
 							if category in [channel+"_"+cat for cat in ["combined_rho_rho"]]:
 								tmp_quantity = None
 								tmp_omega_version = "VisibleSvfit"
+							if category in [channel+"_"+cat for cat in ["rho"]]:
+								tmp_quantity = None
+								tmp_omega_version = "VisibleSvfit"
 						if channel in ["mt", "et"]:
 							if category in [channel+"_"+cat for cat in ["combined_a1_oneprong"]]:
 								tmp_quantity = "m_vis"
@@ -142,9 +145,15 @@ def create_input_root_files(datacards, args):
 							if category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong"]]:
 								tmp_quantity = None
 								tmp_omega_version = "BarSvfitM91"
+							if category in [channel+"_"+cat for cat in ["a1"]]:
+								tmp_quantity = None
+								tmp_omega_version = None
 							if category in [channel+"_"+cat for cat in ["rho"]]:
 								tmp_quantity = None
 								tmp_omega_version = "VisibleSvfit"
+							if category in [channel+"_"+cat for cat in ["oneprong"]]:
+								tmp_quantity = None
+								tmp_omega_version = "BarSvfitM91"
 						if channel in ["em"]:
 							if category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong"]]:
 								tmp_quantity = "m_vis"
