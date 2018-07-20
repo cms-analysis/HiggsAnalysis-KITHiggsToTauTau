@@ -236,7 +236,7 @@ if __name__ == "__main__":
 
 	# get "official" configuration
 	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix)) 
-	command = "MorphingSMCP2016 --control_region=1 --postfix -2D --ttbar_fit=true {INIT}".format(
+	command = "MorphingSMCP2016 --control_region=1 --real_data=false --postfix -2D --ttbar_fit=true {INIT}".format(
 		INIT="--only_init="+os.path.join(init_directory, "init")
 	)
 	log.debug(command)
@@ -717,7 +717,7 @@ if __name__ == "__main__":
 	# this steps creates the filled datacards in the output folder. 
 	if "t2w" in args.steps:	
 		datacards_module._call_command([
-				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX}/em --input_folder_et {OUTPUT_SUFFIX}/et --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_tt {OUTPUT_SUFFIX}/tt --input_folder_mm {OUTPUT_SUFFIX}/mm --input_folder_ttbar {OUTPUT_SUFFIX}/em ".format(
+				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --real_data=false --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX}/em --input_folder_et {OUTPUT_SUFFIX}/et --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_tt {OUTPUT_SUFFIX}/tt --input_folder_mm {OUTPUT_SUFFIX}/mm --input_folder_ttbar {OUTPUT_SUFFIX}/em ".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
 				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else ""
@@ -906,6 +906,7 @@ if __name__ == "__main__":
 			args.args += " --y-label 'dN / dm_{vis}  (1 / GeV)'"
 		if args.quantity == "jdphi" and not(do_not_normalize_by_bin_width):
 			args.args += " --y-label 'dN / d#Delta#phi_{jj}'"	
+			
 
 		# adapt prefit and postfit plot configs
 		backgrounds_to_merge = {
