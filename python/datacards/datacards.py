@@ -652,13 +652,12 @@ class Datacards(object):
 								config["y_subplot_label"] = "Obs./Exp."
 
 							# update ordering if backgrounds were merged
-							if plotting_args.get("merge_backgrounds", False):
-								config["nicks_whitelist"] = processes_to_plot + ["TotalSig" + ("_noplot" if signal_stacked_on_bkg else "")] + ["data_obs", "TotalBkg" + ("_noplot" if signal_stacked_on_bkg else "")]
-								if plotting_args.get("ratio", False):
-									if plotting_args.get("add_soverb_ratio", False):
-										config["nicks_whitelist"].append("ratio_soverb")
-									config["nicks_whitelist"].extend(["ratio_unc", "ratio"])
-
+							# if plotting_args.get("merge_backgrounds", False):
+								# config["nicks_whitelist"] = processes_to_plot + ["TotalSig" + ("_noplot" if signal_stacked_on_bkg else "")] + ["data_obs", "TotalBkg" + ("_noplot" if signal_stacked_on_bkg else "")]
+								# if plotting_args.get("ratio", False):
+								# 	if plotting_args.get("add_soverb_ratio", False):
+								# 		config["nicks_whitelist"].append("ratio_soverb")
+								# 	config["nicks_whitelist"].extend(["ratio_unc", "ratio"])
 							plot_configs.append(config)
 
 		if plotting_args.get("return_configs", False):
