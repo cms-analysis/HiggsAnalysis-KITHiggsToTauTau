@@ -63,12 +63,12 @@ class SystematicsFactory(dict):
 		self["CMS_WSFUncert_et_boosted_13TeV"] = WJetScaleFactorBoostedSystematic
 		self["CMS_WSFUncert_mt_vbf_13TeV"] = WJetScaleFactorVbfSystematic
 		self["CMS_WSFUncert_et_vbf_13TeV"] = WJetScaleFactorVbfSystematic
-		self["WSFUncert_mt_0jet_13TeV"] = WJetScaleFactor0JetSystematic
-		self["WSFUncert_et_0jet_13TeV"] = WJetScaleFactor0JetSystematic
-		self["WSFUncert_mt_boosted_13TeV"] = WJetScaleFactorBoostedSystematic
-		self["WSFUncert_et_boosted_13TeV"] = WJetScaleFactorBoostedSystematic
-		self["WSFUncert_mt_vbf_13TeV"] = WJetScaleFactorVbfSystematic
-		self["WSFUncert_et_vbf_13TeV"] = WJetScaleFactorVbfSystematic
+		self["WSFUncert_mt_0jet_13TeV"] = self["CMS_WSFUncert_mt_0jet_13TeV"]
+		self["WSFUncert_et_0jet_13TeV"] = self["CMS_WSFUncert_et_0jet_13TeV"]
+		self["WSFUncert_mt_boosted_13TeV"] = self["CMS_WSFUncert_mt_boosted_13TeV"]
+		self["WSFUncert_et_boosted_13TeV"] = self["CMS_WSFUncert_et_boosted_13TeV"]
+		self["WSFUncert_mt_vbf_13TeV"] = self["CMS_WSFUncert_mt_vbf_13TeV"]
+		self["WSFUncert_et_vbf_13TeV"] = self["CMS_WSFUncert_et_vbf_13TeV"]
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
@@ -133,12 +133,6 @@ class SystematicsFactory(dict):
 			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic if jecUncert != "Total" else JecUncSystematic 
 		
 		# these uncertainties currently need to be implemented in your datacards script
-		self["WSFUncert_mt_0jet_13TeV"] = Nominal
-		self["WSFUncert_et_0jet_13TeV"] = Nominal
-		self["WSFUncert_mt_boosted_13TeV"] = Nominal
-		self["WSFUncert_et_boosted_13TeV"] = Nominal
-		self["WSFUncert_mt_vbf_13TeV"] = Nominal
-		self["WSFUncert_et_vbf_13TeV"] = Nominal
 		self["WSFUncert_mt_dijet_boosted_13TeV"] = Nominal
 		self["WSFUncert_mt_dijet2D_boosted_13TeV"] = Nominal
 		self["WSFUncert_mt_dijet_lowboost_13TeV"] = Nominal
