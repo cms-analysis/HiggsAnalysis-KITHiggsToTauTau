@@ -63,6 +63,12 @@ class SystematicsFactory(dict):
 		self["CMS_WSFUncert_et_boosted_13TeV"] = WJetScaleFactorBoostedSystematic
 		self["CMS_WSFUncert_mt_vbf_13TeV"] = WJetScaleFactorVbfSystematic
 		self["CMS_WSFUncert_et_vbf_13TeV"] = WJetScaleFactorVbfSystematic
+		self["WSFUncert_mt_0jet_13TeV"] = WJetScaleFactor0JetSystematic
+		self["WSFUncert_et_0jet_13TeV"] = WJetScaleFactor0JetSystematic
+		self["WSFUncert_mt_boosted_13TeV"] = WJetScaleFactorBoostedSystematic
+		self["WSFUncert_et_boosted_13TeV"] = WJetScaleFactorBoostedSystematic
+		self["WSFUncert_mt_vbf_13TeV"] = WJetScaleFactorVbfSystematic
+		self["WSFUncert_et_vbf_13TeV"] = WJetScaleFactorVbfSystematic
 		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
