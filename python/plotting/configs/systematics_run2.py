@@ -34,6 +34,15 @@ class SystematicsFactory(dict):
 		self["CMS_mFakeTau_1prong_13TeV"] = MuonToTauOneProngFakeSystematic
 		self["CMS_mFakeTau_1prong1pizero_13TeV"] = MuonToTauOneProngPiZerosFakeSystematic
 		self["CMS_htt_jetToTauFake_13TeV"] = JetToTauFakeSystematic
+		self["CMS_htt_jetToTauFake_pi_13TeV"] = JetToTauFakeSystematic
+		self["CMS_htt_jetToTauFake_rho_13TeV"] = JetToTauFakeSystematic
+		self["CMS_htt_jetToTauFake_a1_13TeV"] = JetToTauFakeSystematic
+		self["CMS_htt_jetToTauFake_pi_pi_13TeV"] = JetToTauFakeSystematic
+		self["CMS_htt_jetToTauFake_rho_pi_13TeV"] = JetToTauFakeSystematic
+		self["CMS_htt_jetToTauFake_rho_rho_13TeV"] = JetToTauFakeSystematic
+		self["CMS_htt_jetToTauFake_a1_pi_13TeV"] = JetToTauFakeSystematic
+		self["CMS_htt_jetToTauFake_a1_rho_13TeV"] = JetToTauFakeSystematic
+		self["CMS_htt_jetToTauFake_a1_a1_13TeV"] = JetToTauFakeSystematic
 		self["CMS_scale_met_clustered_13TeV"] = MetJetEnSystematic
 		self["CMS_scale_met_unclustered_13TeV"] = MetUnclusteredEnSystematic
 		self["CMS_tauDMReco_1prong_13TeV"] = TauDMRecoOneProngSystematic
