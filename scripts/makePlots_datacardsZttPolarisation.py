@@ -373,8 +373,9 @@ if __name__ == "__main__":
 	ExtractShapes(datacards, args.output_dir +"/input/")
 	
 	#4.-----Add BBB
-	print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
-	BinErrorsAndBBB(datacards, 0.1, 0.5, True)
+	if not args.no_bbb_uncs:
+		print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
+		BinErrorsAndBBB(datacards, 0.1, 0.5, True)
 	
 	print WARNING + '-----      Modify systematics...     -----' + ENDC
 	ModifySystematics(datacards)
