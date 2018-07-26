@@ -120,41 +120,32 @@ def create_input_root_files(datacards, args):
 					tmp_omega_version = args.omega_version
 					if args.fixed_variables:
 						if channel in ["tt"]:
-							if category in [channel+"_"+cat for cat in ["combined_a1_oneprong", "combined_rho_oneprong", "combined_oneprong_oneprong"]]:
+							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong"]]:
 								tmp_quantity = "m_vis"
 								tmp_omega_version = None
-							if category in [channel+"_"+cat for cat in ["combined_a1_rho"]]:
+							elif category in [channel+"_"+cat for cat in ["combined_a1_rho"]]:
 								tmp_quantity = None
 								tmp_omega_version = None
-							if category in [channel+"_"+cat for cat in ["combined_a1_a1"]]:
+							elif category in [channel+"_"+cat for cat in ["combined_a1_a1", "combined_a1_oneprong", "combined_oneprong_oneprong"]]:
 								tmp_quantity = None
 								tmp_omega_version = "BarSvfitM91"
-							if category in [channel+"_"+cat for cat in ["combined_rho_rho"]]:
+							elif category in [channel+"_"+cat for cat in ["combined_rho_rho", "rho"]]:
 								tmp_quantity = None
 								tmp_omega_version = "VisibleSvfit"
-							if category in [channel+"_"+cat for cat in ["rho"]]:
-								tmp_quantity = None
-								tmp_omega_version = "VisibleSvfit"
-						if channel in ["mt", "et"]:
+						elif channel in ["mt", "et"]:
 							if category in [channel+"_"+cat for cat in ["combined_a1_oneprong"]]:
 								tmp_quantity = "m_vis"
 								tmp_omega_version = None
-							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong"]]:
+							elif category in [channel+"_"+cat for cat in ["combined_rho_oneprong"]]:
 								tmp_quantity = None
 								tmp_omega_version = None
-							if category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong"]]:
+							elif category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong", "a1", "oneprong"]]:
 								tmp_quantity = None
 								tmp_omega_version = "BarSvfitM91"
-							if category in [channel+"_"+cat for cat in ["a1"]]:
-								tmp_quantity = None
-								tmp_omega_version = None
-							if category in [channel+"_"+cat for cat in ["rho"]]:
+							elif category in [channel+"_"+cat for cat in ["rho"]]:
 								tmp_quantity = None
 								tmp_omega_version = "VisibleSvfit"
-							if category in [channel+"_"+cat for cat in ["oneprong"]]:
-								tmp_quantity = None
-								tmp_omega_version = "BarSvfitM91"
-						if channel in ["em"]:
+						elif channel in ["em"]:
 							if category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong"]]:
 								tmp_quantity = "m_vis"
 								tmp_omega_version = None
