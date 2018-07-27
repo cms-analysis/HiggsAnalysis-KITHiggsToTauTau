@@ -36,7 +36,7 @@ def parser():
 def get_hists(parameter, base_config, binning, channel):
 	##Get shapes for variables
 	config = base_config + {
-		"directories":	"/net/scratch_cms3b/brunner/artus/AllSamples/merged/",
+		"directories":	"/net/scratch_cms3b/{}/artus/AllSamples/merged/".format(os.environ["USER"]),
 		"x_expressions": parameter,
 		"plot_modules": ["ExportRoot"],
 		"output_dir": plot_dir + channel,
@@ -354,6 +354,9 @@ def main():
 
 				if param in param_config.keys():
 					parameter, binning, plotname, x_label = param_config[param][:4]
+
+					if param in args.weight:
+						args.weight = args.weight.replace(param, parameter)
 	
 				else:
 					parameter, binning, plotname, x_label = (param, ["30"], param, param)
