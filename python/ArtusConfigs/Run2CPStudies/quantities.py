@@ -79,6 +79,7 @@ class Quantities(Run2Quantities):
 			self.quantities.update(self.syncQuantities(nickname))
 
 			if channel == "ET" and re.search("(Summer17|Fall17|Run2017)", nickname):
+				self.quantities.update(["trg_singleelectron_35", "trg_crosselectron_ele24tau30"])
 				if  re.search("Run2017(B|C)", nickname):
 					self.quantities.update([
 						#"HLT_Ele32_WPTight_Gsf", 
@@ -91,8 +92,12 @@ class Quantities(Run2Quantities):
 						"HLT_Ele35_WPTight_Gsf", 
 						"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
 					])
+
 			elif channel == "MT" and re.search("(Summer17|Fall17|Run2017)", nickname):
 				self.quantities.update(["HLT_IsoMu24","HLT_IsoMu27","HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"])
+				self.quantities.update(["trg_singlemuon_24", "trg_singlemuon_27", "trg_crossmuon_mu20tau27"])
+				#self.quantities.update(["matched_HLT_IsoMu24","matched_HLT_IsoMu27","matched_HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"])
+
 			elif channel == "TT" and re.search("(Summer17|Fall17|Run2017)", nickname):
 				self.quantities.update([
 					"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",

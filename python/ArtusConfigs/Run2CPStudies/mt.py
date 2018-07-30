@@ -46,7 +46,6 @@ class mt_ArtusConfig(dict):
 				"filter:ValidTausFilter",
 				"producer:TauTriggerMatchingProducer",
 				"filter:MinTausCountFilter",
-				"producer:ValidMTPairCandidatesProducer",
 				"filter:ValidDiTauPairCandidatesFilter",
 				"producer:HttValidVetoMuonsProducer",
 				"producer:HttValidLooseElectronsProducer",
@@ -68,7 +67,10 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			#if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
+			if re.search("(Run2017|Summer17|Fall17)", nickname):
+				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
+			else:
+				self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]
 			self["Processors"] += [	"producer:TaggedJetCorrectionsProducer", "producer:TaggedJetUncertaintyShiftProducer"]
 
 			if re.search("Run2016|Run2017", nickname):
@@ -150,6 +152,7 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("(Fall15|Run2015)", nickname):
 			#self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
@@ -257,8 +260,10 @@ class mt_ArtusConfig(dict):
 
 		Svfit_config = sSvfit.Svfit(nickname)
 		self.update(Svfit_config)
-
-		mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False)
+		if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8",nickname):
+			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False, sync=True)
+		else:
+			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False, sync=False)
 		self.update(mplf.minPlotLevelDict)
 
 		MVATestMethods_config = sMVATM.MVATestMethods()
@@ -383,13 +388,19 @@ class mt_ArtusConfig(dict):
 			]
 			self["MuonLowerPtCuts"] = [21]
 			self["TauLowerPtCuts"] = ["20.0"]
+			self["HLTBranchNames"] = [
+			      "trg_singlemuon_24:HLT_IsoMu24_v",
+			      "trg_singlemuon_27:HLT_IsoMu27_v",
+			      "trg_crossmuon_mu20tau27:HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v"
+			]
 
 			self["DiTauPairLepton1LowerPtCuts"] = [
-				"HLT_IsoMu24_v:26",
-				"HLT_IsoMu27_v:29",
-				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:22"
+				"HLT_IsoMu24_v:25.0",
+				"HLT_IsoMu27_v:28.0",
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:21.0"
 			]
-			self["DiTauPairLepton1LowerPtCuts"] = ["HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:29"]
+			self["DiTauPairLepton2LowerPtCuts"] = ["HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:32.0"]
+
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
 				"HLT_IsoMu24_v",
 				"HLT_IsoMu27_v",
@@ -405,7 +416,30 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
 				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
 			]
-				
+
+			self["CheckLepton1TriggerMatch"] = [
+				"trg_singlemuon_24",
+				"trg_singlemuon_27",
+				"trg_crossmuon_mu20tau27",
+				"trg_crossele_ele24tau30",
+				"trg_doubletau_35_tightiso_tightid",
+				"trg_doubletau_40_mediso_tightid",
+				"trg_doubletau_40_tightiso",
+				"trg_muonelectron_mu12ele23",
+				"trg_muonelectron_mu23ele12",
+				"trg_muonelectron_mu8ele23"
+			  ]
+			self["CheckLepton2TriggerMatch"] = [
+				"trg_singletau_trailing",
+				"trg_crossmuon_mu20tau27",
+				"trg_crossele_ele24tau30",
+				"trg_doubletau_35_tightiso_tightid",
+				"trg_doubletau_40_mediso_tightid",
+				"trg_doubletau_40_tightiso",
+				"trg_muonelectron_mu12ele23",
+				"trg_muonelectron_mu23ele12",
+				"trg_muonelectron_mu8ele23"
+				]
 
 		self["EventWeight"] = "eventWeight"
 		self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"

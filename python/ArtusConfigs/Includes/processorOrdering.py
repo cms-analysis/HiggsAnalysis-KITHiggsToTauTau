@@ -37,6 +37,7 @@ class ProcessorsOrdered(dict):
 			self["filter:MinTausCountFilter"] = 44
 
 			self["producer:ValidMTPairCandidatesProducer"] = 50
+			self["producer:NewValidMTPairCandidatesProducer"] = 50.1
 			self["filter:ValidDiTauPairCandidatesFilter"] = 51
 			self["producer:HttValidVetoMuonsProducer"] = 60
 			self["producer:HttValidLooseElectronsProducer"] = 70
@@ -54,6 +55,7 @@ class ProcessorsOrdered(dict):
 			self["producer:ValidMuonsProducer"] = 40
 
 			self["producer:ValidTTPairCandidatesProducer"] = 50
+			self["producer:NewValidTTPairCandidatesProducer"] = 51
 			self["filter:ValidDiTauPairCandidatesFilter"] = 60
 			self["producer:HttValidLooseElectronsProducer"] = 70
 			self["producer:HttValidLooseMuonsProducer"] = 80
@@ -78,6 +80,7 @@ class ProcessorsOrdered(dict):
 			self["producer:ValidTausProducer"] = 40
 
 			self["producer:ValidEMPairCandidatesProducer"] = 50
+			self["producer:NewValidEMPairCandidatesProducer"] = 51
 			self["filter:ValidDiTauPairCandidatesFilter"] = 60
 			self["producer:HttValidLooseElectronsProducer"] = 70
 			self["producer:HttValidLooseMuonsProducer"] = 80
@@ -98,7 +101,9 @@ class ProcessorsOrdered(dict):
 			self["filter:MinTausCountFilter"] = 44
 
 			self["producer:ValidETPairCandidatesProducer"] = 50
+			self["producer:NewValidETPairCandidatesProducer"] = 51
 			self["filter:ValidDiTauPairCandidatesFilter"] = 60
+
 			self["producer:HttValidVetoElectronsProducer"] = 70
 			self["producer:HttValidLooseElectronsProducer"] = 80
 			self["producer:HttValidLooseMuonsProducer"] = 90
