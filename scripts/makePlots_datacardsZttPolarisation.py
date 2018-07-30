@@ -120,13 +120,13 @@ def create_input_root_files(datacards, args):
 					tmp_omega_version = args.omega_version
 					if args.fixed_variables:
 						if channel in ["tt"]:
-							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong"]]:
+							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong", "combined_oneprong_oneprong"]]:
 								tmp_quantity = "m_vis"
 								tmp_omega_version = None
 							elif category in [channel+"_"+cat for cat in ["combined_a1_rho"]]:
 								tmp_quantity = None
 								tmp_omega_version = None
-							elif category in [channel+"_"+cat for cat in ["combined_a1_a1", "combined_a1_oneprong", "combined_oneprong_oneprong"]]:
+							elif category in [channel+"_"+cat for cat in ["combined_a1_a1", "combined_a1_oneprong"]]:
 								tmp_quantity = None
 								tmp_omega_version = "BarSvfitM91"
 							elif category in [channel+"_"+cat for cat in ["combined_rho_rho", "rho"]]:
