@@ -525,25 +525,28 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_catZttPol13TeV_"+channel+"_index"] = "3,0,3"
 		
 		for channel in ["em"]:
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_1_polarisationOmegaBarSvfit"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.76, 1.001, 0.055))]).replace("1.0", "1.001")
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_2_polarisationOmegaBarSvfit"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.76, 1.001, 0.055))]).replace("1.0", "1.001")
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_1_polarisationOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.76, 1.001, 0.055))]).replace("1.0", "1.001")
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_2_polarisationOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.6, 1.001, 0.05))]).replace("1.0", "1.001")
+			for lepton_index in ["1", "2"]:
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_1_polarisationOmegaBarSvfit_"+lepton_index] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.76, 1.001, 0.055))]).replace("1.0", "1.001")
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_2_polarisationOmegaBarSvfit_"+lepton_index] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.76, 1.001, 0.055))]).replace("1.0", "1.001")
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_1_polarisationOmegaBarSvfitM91_"+lepton_index] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.76, 1.001, 0.055))]).replace("1.0", "1.001")
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_2_polarisationOmegaBarSvfitM91_"+lepton_index] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.6, 1.001, 0.05))]).replace("1.0", "1.001")
 			
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_polarisationCombinedOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.2, 1.001, 0.0375))]).replace("1.0", "1.001")
 		
 		for channel in ["mt", "et"]:
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_polarisationOmegaBarSvfit"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.28, 1.001, 0.04))]).replace("1.0", "1.001")
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_polarisationOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.2, 1.001, 0.0375))]).replace("1.0", "1.001")
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_1_polarisationOmegaBarSvfit"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.7, 0.801, 0.05))+[1.0]]).replace("1.0", "1.001")
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_1_polarisationOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.55, 0.801, 0.05))+[1.0]]).replace("1.0", "1.001")
+			for lepton_index in ["1", "2"]:
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_polarisationOmegaBarSvfit_"+lepton_index] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.28, 1.001, 0.04))]).replace("1.0", "1.001")
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_polarisationOmegaBarSvfitM91_"+lepton_index] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.2, 1.001, 0.0375))]).replace("1.0", "1.001")
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_1_polarisationOmegaBarSvfit_"+lepton_index] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.7, 0.801, 0.05))+[1.0]]).replace("1.0", "1.001")
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_1_polarisationOmegaBarSvfitM91_"+lepton_index] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.55, 0.801, 0.05))+[1.0]]).replace("1.0", "1.001")
 			
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_polarisationCombinedOmegaBarSvfit"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.28, 1.001, 0.04))]).replace("1.0", "1.001")
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_polarisationCombinedOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.2, 1.001, 0.0375))]).replace("1.0", "1.001")
 		
 		for channel in ["tt"]:
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_polarisationOmegaBarSvfit"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.28, 1.001, 0.08))]).replace("1.0", "1.001")
-			self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_polarisationOmegaBarSvfitM91"] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.28, 1.001, 0.08))]).replace("1.0", "1.001")
+			for lepton_index in ["1", "2"]:
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_polarisationOmegaBarSvfit_"+lepton_index] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.28, 1.001, 0.08))]).replace("1.0", "1.001")
+				self.binnings_dict["binningZttPol13TeV_"+channel+"_oneprong_polarisationOmegaBarSvfitM91_"+lepton_index] = " ".join([str(x) for x in [-1.0]+list(numpy.arange(-0.28, 1.001, 0.08))]).replace("1.0", "1.001")
 			
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_a1_a1_m_vis"] = "14,40,110"
 			self.binnings_dict["binningZttPol13TeV_"+channel+"_combined_oneprong_oneprong_m_vis"] = "14,40,110"
