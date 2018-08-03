@@ -105,9 +105,6 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
-	                    choices=["ztt", "zttpospol", "zttnegpol", "zll", "zl", "zj", "ewkz","tttautau", "ttj", "ttjt", "ttt", "ttjj", "ttjl", "vv", "vvt", "vvj", "vvl", "wj", "wjt", "wjl", "qcd", "ewk", "hww", "hww_gg", "hww_qq", "ff",
-	                             "ggh", "susy_ggh", "gghsm", "gghmm", "gghps", "gghjhusm", "gghjhumm", "gghjhups", "qqh", "qqhsm", "qqhmm", "qqhps", "qqhjhusm", "qqhjhumm", "qqhjhups", "bbh", "vh", "htt", "data", "zmt", "zet", "zem",
-								 "susy", "httcpeven", "httcpodd", "httcpmix", "susycpodd", "wj_ss_forQCD", "qcd_prefit", "wj_mc_os", "wj_mc_ss"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", default=None, const="", nargs="?",
 						help="Use expectation as observation instead of real data. Specify the nickts of samples (separated by whitespaces) to be used as expectation. [Default: all samples plotted appart from data]")

@@ -20,17 +20,12 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
-	parser.add_argument("-c", "--channels", action="append",
-	                    default=["tt", "mt", "et"],
-	                    help="Channels. [Default: %(default)s]")
-	parser.add_argument("--categories", nargs="+",
-	                    default=["a1", "a1_1", "a1_2",
-	                             "rho", "rho_1", "rho_2",
-	                             "oneprong", "oneprong_1", "oneprong_2",
-	                             "combined_a1_a1", "combined_a1_rho", "combined_a1_oneprong",
-	                             "combined_rho_rho", "combined_rho_oneprong",
-	                             "combined_oneprong_oneprong"],
-	                    help="Categories. [Default: %(default)s]")
+	parser.add_argument("-c", "--channel", action = "append",
+	                    default=["mt", "et", "tt", "em"],
+	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
+	parser.add_argument("--categories", action="append", nargs="+",
+	                    default=[["a1", "rho", "oneprong"], ["a1", "rho", "oneprong"], ["rho", "combined_a1_a1", "combined_a1_oneprong", "combined_oneprong_oneprong"], ["combined_oneprong_oneprong"]],
+	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
@@ -40,11 +35,18 @@ if __name__ == "__main__":
 	parser.add_argument("-f", "--n-plots", type=int,
 	                    help="Number of plots. [Default: all]")
 	parser.add_argument("-o", "--output-dir",
-	                    default="$CMSSW_BASE/src/plots/ztt_polarisation_calibration_curve/",
+	                    default="$CMSSW_BASE/src/TauPolSoftware/CalibrationCurve/data",
 	                    help="Output directory. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
+	
+	if args.channel != parser.get_default("channel"):
+		args.channel = args.channel[len(parser.get_default("channel")):]
+
+	if args.categories != parser.get_default("categories"):
+		args.categories = args.categories[len(parser.get_default("categories")):]
+	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
 	
 	args.output_dir = os.path.expandvars(args.output_dir)
 	
@@ -56,8 +58,8 @@ if __name__ == "__main__":
 	}
 	
 	plot_configs = []
-	for channel in args.channels:
-		for category in args.categories:
+	for channel, categories in zip(args.channel, args.categories):
+		for category in categories:
 			channel_category = channel+"_"+category
 			
 			for quark_type in ["up", "down"]:
