@@ -264,10 +264,10 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action = "append",
 	                    default=["mt", "et", "tt", "em"],
-	                   help="Channel. This agument can be set multiple times. [Default: %(default)s]")
+	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
-	                   help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
+	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("--combinations", nargs="+",
 	                    default=["individual", "channel", "category", "combined"],
 	                    choices=["individual", "channel", "category", "combined"],
