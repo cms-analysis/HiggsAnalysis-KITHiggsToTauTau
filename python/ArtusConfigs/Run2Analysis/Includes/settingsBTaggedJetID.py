@@ -13,6 +13,7 @@ class BTaggedJet_ID(dict):
 		self["BTaggedJetID_documentation"] = ["https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2016#b_tagging"]
 
 		self["BTaggedJetCombinedSecondaryVertexName"] = "pfCombinedInclusiveSecondaryVertexV2BJetTags" #TODO might change to deepbtagger
+		self["BTagger"] = "pfCombinedInclusiveSecondaryVertexV2BJetTags"
 
 		if re.search("(Fall15MiniAODv2|Run2015D)", nickname):
 			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8
@@ -24,6 +25,9 @@ class BTaggedJet_ID(dict):
 			self["BTaggedJetAbsEtaCut"] = 2.4
 		
 		if re.search("(Fall17|Run2017)", nickname):
+			#self["BTagger"] = "deepcsv"
+			#self["BTaggedJetDdeepCSVName"] = "pfDeepCSVDiscriminatorsJetTagsBvsAll"
+
 			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8838
 			self["BTaggerWorkingPoints"] = [
 				"tight:0.9693",
