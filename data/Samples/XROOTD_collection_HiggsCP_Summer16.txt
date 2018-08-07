@@ -1,2 +1,4 @@
 $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_HiggsCP_JHU.txt
 $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_SM_Run2Analysis_Summer16_HToTauTauM110-140.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_SM_Run2Analysis_Summer16_backgrounds.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_SM_Run2Analysis_Summer16_data.txt
