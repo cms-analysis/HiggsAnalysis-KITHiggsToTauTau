@@ -31,6 +31,7 @@ class CutStringsDict:
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"
 			cuts["m_vis"] = "(m_vis > 70.0)*(m_vis < 110.0)"
+
 		elif channel == "ee":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singleelectron == 1)"
@@ -38,6 +39,7 @@ class CutStringsDict:
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(iso_2 < 0.1)"
 			cuts["m_vis"] = "(m_vis > 60.0)*(m_vis < 120.0)"
+
 		elif channel == "em" or channel == "ttbar":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_muonelectron == 1)"
@@ -54,6 +56,7 @@ class CutStringsDict:
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.2)" if "2016" in cut_type else "(iso_2 < 0.15)"
+
 		elif channel == "mt":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
@@ -93,7 +96,7 @@ class CutStringsDict:
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			if "2017" in cut_type:
-				cuts["trigger"] = "((trg_singleelectron_35>0.5)||((trg_crosselectron_ele24tau30>0.5)*(pt_1>25)*(pt_2>35))"
+				cuts["trigger"] = "((trg_singleelectron_35>0.5)||((trg_crosselectron_ele24tau30>0.5)*(pt_1>25)*(pt_2>35)))"
 				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
 			else:
 				cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
