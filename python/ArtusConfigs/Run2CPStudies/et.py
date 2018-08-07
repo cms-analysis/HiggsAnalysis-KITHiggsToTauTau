@@ -101,9 +101,11 @@ class et_ArtusConfig(dict):
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer"
 				]
+
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:TriggerWeightProducer", "producer:TauTriggerEfficiency2017Producer"]
-					self["Processors"] += ["producer:IdentificationWeightProducer"]
+					#self["Processors"] += ["producer:IdentificationWeightProducer"]
+					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]  #changes from file to file
 				else:
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]  #changes from file to file
 					self["Processors"] += [
@@ -394,26 +396,70 @@ class et_ArtusConfig(dict):
 		self["DiTauPairIsTauIsoMVA"] = True
 
 		self["EventWeight"] =  "eventWeight"
-		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		self["RooWorkspaceWeightNames"] = [
-			"0:triggerWeight",
-			"0:idIsoWeight"
-		]
-		self["RooWorkspaceObjectNames"] = [
-			"0:e_trgEle25eta2p1WPTight_desy_ratio",
-			"0:e_idiso0p1_desy_ratio"
-		]
-		self["RooWorkspaceObjectArguments"] = [
-			"0:e_pt,e_eta",
-			"0:e_pt,e_eta"
-		]
+
+		if re.search("(Run2017|Summer17|Fall17)", nickname):
+			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_1.root"
+			self["RooWorkspaceWeightNames"] = [
+				#"0:crossTriggerMCEfficiencyWeight",
+				#"0:crossTriggerDataEfficiencyWeight",
+				#"0:singleTriggerMCEfficiencyWeight",
+				#"0:singleTriggerDataEfficiencyWeight",
+				#"0:singleTriggerMCEfficiencyWeightKIT",
+				#"0:singleTriggerDataEfficiencyWeightKIT",
+			    
+				"0:idWeight",
+				"0:isoWeight",
+				"0:trackWeight",
+			    ]
+			self["RooWorkspaceObjectNames"] = [
+				#"0:e_trg_EleTau_Ele24Leg_desy_mc",
+				#"0:e_trg_EleTau_Ele24Leg_desy_data",
+				#"0:e_trg_SingleEle_Ele32OREle35_desy_mc",
+				#"0:e_trg_SingleEle_Ele32OREle35_desy_data",
+				#"0:e_trg32or35_mc",
+				#"0:e_trg32or35_data",
+
+				"0:e_iso_ratio",
+				"0:e_id_ratio",
+				"0:e_reco_ratio",
+			]
+			self["RooWorkspaceObjectArguments"] = [
+				#"0:e_pt,e_eta",
+				#"0:e_pt,e_eta",
+				#"0:e_pt,e_eta",
+				#"0:e_pt,e_eta",
+				#"0:e_pt,e_eta",
+				#"0:e_pt,e_eta",
+			    
+				"0:e_pt,e_eta",
+				"0:e_pt,e_eta",
+				"0:e_pt,e_eta",
+			]
+
+
+
+
+		else:
+			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+			self["RooWorkspaceWeightNames"] = [
+				"0:triggerWeight",
+				"0:idIsoWeight"
+			]
+			self["RooWorkspaceObjectNames"] = [
+				"0:e_trgEle25eta2p1WPTight_desy_ratio",
+				"0:e_idiso0p1_desy_ratio"
+			]
+			self["RooWorkspaceObjectArguments"] = [
+				"0:e_pt,e_eta",
+				"0:e_pt,e_eta"
+			]
 		
 
 		self.update(IdAndTriggerSF(nickname, channel="ET", dcach=False))
 
 
-		if re.search("Run2017|Summer17|Fall17", nickname):
-			self["EleTauFakeRateWeightFile"] = [""]
+		if re.search("Run2017|Summer17|Fall17", nickname): #same as for 2016?
+			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"] 
 		else:
 			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 
