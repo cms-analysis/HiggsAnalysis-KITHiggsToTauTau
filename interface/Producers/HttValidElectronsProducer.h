@@ -12,6 +12,8 @@
 	Required config tags in addtion to the ones of the base class:
 	- ElectronIDType
 	- ElectronIDName (default given)
+	- ElectronEtaBinnedEAValues
+	- ElectronEtaBinsForEA
 	- ElectronMvaIDCutEB1 (default given)
 	- ElectronMvaIDCutEB2 (default given)
 	- ElectronMvaIDCutEE (default given)
@@ -118,6 +120,8 @@ class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>
 			std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetElectronID,
 			std::string (setting_type::*GetElectronIDType)(void) const=&setting_type::GetElectronIDType,
 			std::string (setting_type::*GetElectronIDName)(void) const=&setting_type::GetElectronIDName,
+			std::vector<float>& (setting_type::*GetElectronEtaBinnedEAValues)(void) const=&setting_type::GetElectronEtaBinnedEAValues,
+			std::vector<float>& (setting_type::*GetElectronEtaBinsForEA)(void) const=&setting_type::GetElectronEtaBinsForEA,
 			float (setting_type::*GetElectronMvaIDCutEB1)(void) const=&setting_type::GetElectronMvaIDCutEB1,
 			float (setting_type::*GetElectronMvaIDCutEB2)(void) const=&setting_type::GetElectronMvaIDCutEB2,
 			float (setting_type::*GetElectronMvaIDCutEE)(void) const=&setting_type::GetElectronMvaIDCutEE,
@@ -168,6 +172,10 @@ class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>
 	private:
 	std::string (setting_type::*GetElectronIDType)(void) const;
 	std::string (setting_type::*GetElectronIDName)(void) const;
+
+	std::vector<float>& (setting_type::*GetElectronEtaBinnedEAValues)(void) const;
+	std::vector<float>& (setting_type::*GetElectronEtaBinsForEA)(void) const;
+
 	float (setting_type::*GetElectronMvaIDCutEB1)(void) const;
 	float (setting_type::*GetElectronMvaIDCutEB2)(void) const;
 	float (setting_type::*GetElectronMvaIDCutEE)(void) const;
@@ -206,6 +214,9 @@ class HttValidElectronsProducer: public ValidElectronsProducer<HttTypes>
 
 	std::string electronIDName;
 	std::vector<std::string> electronIDList;
+
+	std::vector<float> eaValues = {};
+        std::vector<float> etaBins = {};
 
 	float electronMvaIDCutEB1;
 	float electronMvaIDCutEB2;
@@ -258,6 +269,8 @@ class HttValidLooseElectronsProducer: public HttValidElectronsProducer
 			std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetLooseElectronID,
 			std::string (setting_type::*GetElectronIDType)(void) const=&setting_type::GetLooseElectronIDType,
 			std::string (setting_type::*GetElectronIDName)(void) const=&setting_type::GetLooseElectronIDName,
+			std::vector<float>& (setting_type::*GetElectronEtaBinnedEAValues)(void) const=&setting_type::GetElectronEtaBinnedEAValues,
+			std::vector<float>& (setting_type::*GetElectronEtaBinsForEA)(void) const=&setting_type::GetElectronEtaBinsForEA,
 			float (setting_type::*GetElectronMvaIDCutEB1)(void) const=&setting_type::GetLooseElectronMvaIDCutEB1,
 			float (setting_type::*GetElectronMvaIDCutEB2)(void) const=&setting_type::GetLooseElectronMvaIDCutEB2,
 			float (setting_type::*GetElectronMvaIDCutEE)(void) const=&setting_type::GetLooseElectronMvaIDCutEE,
@@ -325,6 +338,8 @@ class HttValidVetoElectronsProducer: public HttValidElectronsProducer
 			std::string (setting_type::*GetElectronID)(void) const=&setting_type::GetVetoElectronID,
 			std::string (setting_type::*GetElectronIDType)(void) const=&setting_type::GetVetoElectronIDType,
 			std::string (setting_type::*GetElectronIDName)(void) const=&setting_type::GetVetoElectronIDName,
+			std::vector<float>& (setting_type::*GetElectronEtaBinnedEAValues)(void) const=&setting_type::GetElectronEtaBinnedEAValues,
+			std::vector<float>& (setting_type::*GetElectronEtaBinsForEA)(void) const=&setting_type::GetElectronEtaBinsForEA,
 			float (setting_type::*GetElectronMvaIDCutEB1)(void) const=&setting_type::GetVetoElectronMvaIDCutEB1,
 			float (setting_type::*GetElectronMvaIDCutEB2)(void) const=&setting_type::GetVetoElectronMvaIDCutEB2,
 			float (setting_type::*GetElectronMvaIDCutEE)(void) const=&setting_type::GetVetoElectronMvaIDCutEE,

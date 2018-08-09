@@ -10,6 +10,8 @@ HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KElectron*> pro
 													 std::string (setting_type::*GetElectronID)(void) const,
 													 std::string (setting_type::*GetElectronIDType)(void) const,
 													 std::string (setting_type::*GetElectronIDName)(void) const,
+													 std::vector<float>& (setting_type::*GetElectronEtaBinnedEAValues)(void) const,
+													 std::vector<float>& (setting_type::*GetElectronEtaBinsForEA)(void) const,
 													 float (setting_type::*GetElectronMvaIDCutEB1)(void) const,
 													 float (setting_type::*GetElectronMvaIDCutEB2)(void) const,
 													 float (setting_type::*GetElectronMvaIDCutEE)(void) const,
@@ -48,6 +50,8 @@ HttValidElectronsProducer::HttValidElectronsProducer(std::vector<KElectron*> pro
 						   GetLowerPtCuts, GetUpperAbsEtaCuts),
 	GetElectronIDType(GetElectronIDType),
 	GetElectronIDName(GetElectronIDName),
+	GetElectronEtaBinnedEAValues(GetElectronEtaBinnedEAValues),
+	GetElectronEtaBinsForEA(GetElectronEtaBinsForEA),
 	GetElectronMvaIDCutEB1(GetElectronMvaIDCutEB1),
 	GetElectronMvaIDCutEB2(GetElectronMvaIDCutEB2),
 	GetElectronMvaIDCutEE(GetElectronMvaIDCutEE),
@@ -98,6 +102,9 @@ void HttValidElectronsProducer::Init(setting_type const& settings, metadata_type
 	ElectronMvaIDCutEB1ParamsHighPt = (settings.*GetElectronMvaIDCutEB1ParamsHighPt)();
 	ElectronMvaIDCutEB2ParamsHighPt = (settings.*GetElectronMvaIDCutEB2ParamsHighPt)();
 	ElectronMvaIDCutEEParamsHighPt = (settings.*GetElectronMvaIDCutEEParamsHighPt)();
+
+	eaValues = (settings.*GetElectronEtaBinnedEAValues)();
+	etaBins = (settings.*GetElectronEtaBinsForEA)();
 
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "leadingEleIso", [this](event_type const& event, product_type const& product) {
@@ -264,6 +271,25 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 				(settings.*GetElectronDeltaBetaIsoPtThreshold)()
 			);
 		}
+		else if ( etaBins.size() > 0 && eaValues.size() > 0 && etaBins.size() == eaValues.size() +1)
+                {
+                    LOG(DEBUG) << "\t\tFalling in case of rho corrected Isolation";
+                    // event.m_pileupDensity->rho
+                    float abseta = std::abs(electron->superclusterPosition.Eta());
+                    float eA = 0.0;
+                    isolationPtSum = 0.0;
+                    for (unsigned int i = 0; i < eaValues.size(); ++i)
+                    {
+                        if (abseta > etaBins[i] && abseta < etaBins[i+1])
+                        {
+                            eA = eaValues[i];
+                            isolationPtSum = electron->pfIsoRho(event.m_pileupDensity->rho, eA);
+                            LOG(DEBUG) << "\t\tComputed rho corrected iso: " << isolationPtSum << " delta beta corrected iso: " << electron->pfIso();
+                            break;
+                        }
+                    }
+		}
+		
 		else isolationPtSum = electron->pfIso((settings.*GetElectronDeltaBetaCorrectionFactor)());
 		
 		double isolationPtSumOverPt = isolationPtSum / electron->p4.Pt();
@@ -437,6 +463,8 @@ HttValidLooseElectronsProducer::HttValidLooseElectronsProducer(
 	std::string (setting_type::*GetElectronID)(void) const,
 	std::string (setting_type::*GetElectronIDType)(void) const,
 	std::string (setting_type::*GetElectronIDName)(void) const,
+	std::vector<float>& (setting_type::*GetElectronEtaBinnedEAValues)(void) const,
+	std::vector<float>& (setting_type::*GetElectronEtaBinsForEA)(void) const,
 	float (setting_type::*GetElectronMvaIDCutEB1)(void) const,
 	float (setting_type::*GetElectronMvaIDCutEB2)(void) const,
 	float (setting_type::*GetElectronMvaIDCutEE)(void) const,
@@ -478,6 +506,8 @@ HttValidLooseElectronsProducer::HttValidLooseElectronsProducer(
 		GetElectronID,
 		GetElectronIDType,
 		GetElectronIDName,
+		GetElectronEtaBinnedEAValues,
+		GetElectronEtaBinsForEA,
 		GetElectronMvaIDCutEB1,
 		GetElectronMvaIDCutEB2,
 		GetElectronMvaIDCutEE,
@@ -520,6 +550,8 @@ HttValidVetoElectronsProducer::HttValidVetoElectronsProducer(
 	std::string (setting_type::*GetElectronID)(void) const,
 	std::string (setting_type::*GetElectronIDType)(void) const,
 	std::string (setting_type::*GetElectronIDName)(void) const,
+	std::vector<float>& (setting_type::*GetElectronEtaBinnedEAValues)(void) const,
+	std::vector<float>& (setting_type::*GetElectronEtaBinsForEA)(void) const,
 	float (setting_type::*GetElectronMvaIDCutEB1)(void) const,
 	float (setting_type::*GetElectronMvaIDCutEB2)(void) const,
 	float (setting_type::*GetElectronMvaIDCutEE)(void) const,
@@ -562,6 +594,8 @@ HttValidVetoElectronsProducer::HttValidVetoElectronsProducer(
 		GetElectronID,
 		GetElectronIDType,
 		GetElectronIDName,
+		GetElectronEtaBinnedEAValues,
+		GetElectronEtaBinsForEA,
 		GetElectronMvaIDCutEB1,
 		GetElectronMvaIDCutEB2,
 		GetElectronMvaIDCutEE,

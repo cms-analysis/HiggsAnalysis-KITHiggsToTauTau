@@ -40,6 +40,10 @@ class Electron_ID(dict):
 			self["ElectronMvaIDCutEB2"] = 0.9819
 			self["ElectronMvaIDCutEE"] = 0.9625
 			self["ElectronIDType"] = "mvabased2017andlater"
+
+			self["ElectronEtaBinnedEAValues"] = [0.1440, 0.1562, 0.1032, 0.0859, 0.1116, 0.1321, 0.1654]
+			self["ElectronEtaBinsForEA"] = [0.0, 1.0, 1.479, 2.0, 2.2, 2.3, 2.4, 5.0]
+
 			assert (wp==80 or wp==90), "wp should be 80 or 90. look inside settingselectronID.py"
 			#In 2017 the working points are determined by a function dependent on pt, WP(pT) = c − Aexp( − pt/t), and the number there corresponds to [c, A, t] in this function
 			# https://rembserj.web.cern.ch/rembserj/notes/Electron_MVA_ID_2017_documentation/
@@ -178,6 +182,9 @@ class Electron_ID(dict):
 		if re.search("(Run2015|Fall15MiniAODv2)", nickname):
 			self["VetoElectronIDType"] = "cutbased2015noisoandipcutsveto"
 			self["VetoElectronIDName"] = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"
+		elif re.search("(Run2017|Fall17)", nickname):
+			self["VetoElectronIDType"] = "cutbased2015andlater"
+			self["VetoElectronIDName"] = "egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-veto"
 		else:
 			self["VetoElectronIDType"] = "cutbased2016noisocutsveto"
 			self["VetoElectronIDName"] =  "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto"
