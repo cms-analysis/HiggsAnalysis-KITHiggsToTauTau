@@ -1322,7 +1322,7 @@ if __name__ == "__main__":
 				plot_config["legend_cols"] = 1
 				# plot_config["x_label"] = "m_{vis} (GeV)" if "1" in plot_category and plot_channel in ["mt", "et", "em"] else "m_{#tau#tau} (GeV)"
 				plot_config["y_label"] = "Events/bin"
-				plot_config["y_subplot_label"] = ["Ratio"]
+				plot_config["y_subplot_label"] = "Ratio"
 				plot_config["formats"] = ["pdf", "png"]
 				plot_config["title"] = titles[plot_channel+"_"+plot_category]
 				plot_config["y_title_offset"] = 0.5
