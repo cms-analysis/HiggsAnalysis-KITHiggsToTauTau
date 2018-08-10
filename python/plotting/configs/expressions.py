@@ -184,10 +184,12 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 			# Standard Model experimental
 			btag_veto_string = "(nbtag == 0)"
-			mjj_CP_string = "(mjj>300)"
-			boosted_higgsCP_string = "(H_pt>200)"
+			#mjj_CP_string = "(mjj>300)"
+			etaH_CP_string = "((jeta_1<(eta_sv))*(jeta_2>(eta_sv))+(jeta_2<(eta_sv))*(jeta_1>(eta_sv)))*(mjj>210)" #"((jeta_1<(eta_sv))*(jeta_2>(eta_sv))+(jeta_2<(eta_sv))*(jeta_1>(eta_sv)))"
+			#boosted_higgsCP_string = "(H_pt>200)"
+			boosted_higgsCP_string = "(H_pt>150)" #"(H_pt>200)"
 			pZeta_CP_string = "(pZetaMissVis > -10.0)"
-			
+
 			et_antiiso_inclusive_string = "(iso_1>0.1)*(iso_1<0.5)"
 			mt_antiiso_inclusive_string = "(iso_1>0.15)*(iso_1<0.5)"
 			mt_antiiso_tau_string = "(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5)) && !(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"

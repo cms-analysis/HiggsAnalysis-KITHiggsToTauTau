@@ -254,6 +254,8 @@ if __name__ == "__main__":
 	                    help="Use relaxed isolation for W+jets shape estimation in MT and ET channels. [Default: %(default)s]")
 	parser.add_argument("--use-relaxed-isolation-for-QCD", default=False, action="store_true",
 	                    help="Use relaxed isolation for QCD shape estimation in MT and ET channels. [Default: %(default)s]")
+	parser.add_argument("--x-bins", default=None,
+                        help="Manualy set the binning. Default is taken from configuration files.")
 	args = parser.parse_args()
 	logger.initLogger(args)
 

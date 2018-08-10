@@ -42,13 +42,15 @@ class MadGraphReweighting(dict):
 
 		if re.search("SM_(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["MadGraphMixingAnglesOverPiHalfSample"] = 0.0
+		elif re.search("GluGluH2JetsToTauTauM125CPmixingsmJHU", nickname):
+			self["MadGraphMixingAnglesOverPiHalfSample"] = 0.0
 		elif re.search("^(W(minus|plus)|Z|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["MadGraphMixingAnglesOverPiHalfSample"] = 0.0
 		elif re.search("SUSY(BB|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["MadGraphMixingAnglesOverPiHalfSample"] = 1.0
 		else:
 			self["MadGraphMixingAnglesOverPiHalfSample"] = -1.0
-		
+
 		self["UseMadGraph2p5"] = False
 
 		if re.search("GluGlu", nickname):
