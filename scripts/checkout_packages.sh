@@ -3,7 +3,7 @@
 
 ssh -vT git@github.com
 
-echo -n "Enter the CMMSW release you want to use (747, 810 [default]) and press [ENTER] : "
+echo -n "Enter the CMMSW release you want to use (747, 810 [default]) and press [ENTER] (747 is for SL6, 810 is for SL7): "
 read cmssw_version
 
 echo -n "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev [default], classicsvfit) and press [ENTER] : "
@@ -24,7 +24,7 @@ if [[ $cmssw_version = "747" ]]; then
 
 else
         # set up CMSSW release area
-        export SCRAM_ARCH=slc6_amd64_gcc530
+        export SCRAM_ARCH=slc7_amd64_gcc530
         scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
         eval `scramv1 runtime -sh`
 
@@ -113,6 +113,14 @@ elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "747" ]]; then
 	cd HiggsAnalysis/CombinedLimit
 	git checkout 3cb65246555d094734a81e20181e399714d22c7e
 	cd -
+	
+elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "810" ]]; then
+	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	cd HiggsAnalysis/CombinedLimit
+	git fetch origin
+	git checkout v7.0.10
+	cd -
+	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
 
 else
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester -b SMCP2016-dev
