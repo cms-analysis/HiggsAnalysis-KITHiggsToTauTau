@@ -474,7 +474,7 @@ class Samples(samples.SamplesBase):
 		scale_factor = 1.0
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
-			
+		
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)		
 		if channel in ['gen']:
 			add_input(
@@ -507,6 +507,18 @@ class Samples(samples.SamplesBase):
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ztt"), nick_suffix)
 
+		return config
+
+	def ztt_dm0_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(decayMode_2==0)*(%s)" % weight, "_dm0_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm0_2", label="ztt_dm0_2", **kwargs)
+		return config
+
+	def ztt_dm1_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(decayMode_2==1)*(%s)" % weight, "_dm1_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm1_2", label="ztt_dm1_2", **kwargs)
+		return config
+
+	def ztt_dm10_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(decayMode_2==10)*(%s)" % weight, "_dm10_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm10_2", label="ztt_dm10_2", **kwargs)
 		return config
 
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
