@@ -15,17 +15,20 @@ class TauES(dict):
 			self["TauEnergyCorrectionOneProngPiZeros"] = 1.01
 			self["TauEnergyCorrectionThreeProng"] = 1.004
 		elif re.search("(Summer17|Fall17)",nickname):
+			#https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf 
 			self["TauEnergyCorrection"] = "smhtt2016"
-			self["TauEnergyCorrectionOneProng"] = 0.970 #+-3%  https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf 
+			self["TauEnergyCorrectionOneProng"] = 0.970 #+-3%  
 			self["TauEnergyCorrectionOneProngPiZeros"] = 0.98 #+-3%
 			self["TauEnergyCorrectionThreeProng"] = 0.99 #+-3%
+			self["TauElectronFakeEnergyCorrectionOneProng"] = 1.0
+			self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.0
 		else:
 			self["TauEnergyCorrection"] = "none"
 		
 			self["TauEnergyCorrectionOneProng"] = 0.982
 			self["TauEnergyCorrectionOneProngPiZeros"] = 1.01
 			self["TauEnergyCorrectionThreeProng"] = 1.004
-
+			
 		if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
 			self["TauElectronFakeEnergyCorrectionOneProng"] = 1.0
 			self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.095

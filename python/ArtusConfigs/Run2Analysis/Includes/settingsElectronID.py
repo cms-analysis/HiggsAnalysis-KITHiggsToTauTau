@@ -19,7 +19,8 @@ class Electron_ID(dict):
 	
 		self["ElectronID"] = "user"
 		self["ElectronIDType"] = "mvabased2015andlater"
-
+		self["ElectronEtaBinnedEAValues"] = [] #if empty than not rho corrected
+		self["ElectronEtaBinsForEA"] = []      #if empty than not rho corrected
 		if re.search("(Run2015|Fall15MiniAODv2)", nickname):
 			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
 			self["ElectronMvaIDCutEB1"] = 0.967083
@@ -40,7 +41,8 @@ class Electron_ID(dict):
 			self["ElectronMvaIDCutEB2"] = 0.9819
 			self["ElectronMvaIDCutEE"] = 0.9625
 			self["ElectronIDType"] = "mvabased2017andlater"
-
+			#rho corrections
+			#https://github.com/cms-sw/cmssw/blob/master/RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_94X.txt
 			self["ElectronEtaBinnedEAValues"] = [0.1440, 0.1562, 0.1032, 0.0859, 0.1116, 0.1321, 0.1654]
 			self["ElectronEtaBinsForEA"] = [0.0, 1.0, 1.479, 2.0, 2.2, 2.3, 2.4, 5.0]
 

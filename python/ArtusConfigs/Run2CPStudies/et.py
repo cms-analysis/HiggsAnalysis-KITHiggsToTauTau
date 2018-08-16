@@ -376,7 +376,7 @@ class et_ArtusConfig(dict):
 			  ]
 			self["CheckLepton2TriggerMatch"] = [
 				"trg_crossmuon_mu20tau27",
-				"trg_crossele_ele24tau30"
+				"trg_crosselectron_ele24tau30"
 				]
 			"""
 			if re.search("Run2017(B|C)", nickname):
