@@ -162,6 +162,18 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["vega_cat1_08"] = "#7f7f7f"
 		self.colors_dict["vega_cat1_09"] = "#bcbd22"
 		self.colors_dict["vega_cat1_10"] = "#17becf"
+
+		#google material theme colors
+		self.colors_dict["material_blue"] = "#0395DE"
+		self.colors_dict["material_orange"] = "#FF5722"
+		self.colors_dict["material_petrol"] = "#009688"
+		self.colors_dict["material_green"] = "#4CAF50"
+		self.colors_dict["material_grasgreen"] = "#CDDC39"
+		self.colors_dict["material_pink"] = "#FB4485"
+		self.colors_dict["material_blue2"] = "#2196F3"
+		self.colors_dict["material_yellow"] = "#FFC107"
+		self.colors_dict["material_brown"] = "#795548"
+		self.colors_dict["material_orange2"] = "#FF4436"
 		
 		#light colors for backgrounds
 		self.colors_dict["ztt_light"] = "#FFCC66"
