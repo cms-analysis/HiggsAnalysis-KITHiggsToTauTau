@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import re
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
-
-import re
 
 
 class Jet_ID(dict):
@@ -12,6 +11,9 @@ class Jet_ID(dict):
 		if re.search("(Fall17|Run2017)", nickname):
 			self["JetID"] = "Tight"
 			self["JetIDVersion"] = "2017"
+		elif re.search("Run2016|Spring16|Summer16", nickname):
+			self["JetIDVersion"] = "2016"
+			self["JetID"] = "loose"
 		else:
 			self["JetID"] = "loose"
 			self["JetIDVersion"] = "2015"

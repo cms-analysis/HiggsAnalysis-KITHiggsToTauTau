@@ -40,7 +40,7 @@ class Baseconfig(dict):
 		self["SkipEvents"] = 0
 		self["EventCount"] = -1
 		
-		self["OutputPath"] = "output.root"
+		#self["OutputPath"] = "output.root"
 		
 		if re.search("Run201", nickname):
 			self["InputIsData"] = "true" #string in json, possible to change to boolean?

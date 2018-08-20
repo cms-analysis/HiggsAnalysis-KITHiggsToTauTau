@@ -9,44 +9,254 @@ import argparse
 import copy
 import os
 import sys
+import re
+import glob
+from types import *
+
+import ROOT
+
+import CombineHarvester.CombineTools.ch as ch
+import CombineHarvester.ZTTPOL2016.zttpol2016_datacards as zttdatacards
+
+import CombineHarvester.ZTTPOL2016.tools as tools
+from CombineHarvester.ZTTPOL2016.tools import _call_command
+
+from CombineHarvester.ZTTPOL2016.zttpol2016_functions import *
 
 import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
 import Artus.HarryPlotter.utility.plotconfigs as plotconfigs
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
-import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions as expressions
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
+import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
 import HiggsAnalysis.KITHiggsToTauTau.datacards.zttpolarisationdatacards as zttpolarisationdatacards
 
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 
 
-def _call_command(command):
-	log.debug(command)
-	logger.subprocessCall(command, shell=True)
+#Colors
+HEADER = '\033[95m'
+OKBLUE = '\033[94m'
+OKGREEN = '\033[92m'
+WARNING = '\033[93m'
+FAIL = '\033[91m'
+ENDC = '\033[0m'
+BOLD = '\033[1m'
+UNDERLINE = '\033[4m'
 
+def create_input_root_files(datacards, args):
+	''' Configuring Harry plotter according to the samples and creating input root files according to the args.'''
+	plot_configs = []
+	output_files = []
+	merged_output_files = []
+	hadd_commands = []
 
-def replace_observation_by_asimov_dataset(datacards, pol=-0.159, r=1.0):
-	# asimov_options = "--expectSignal 1.0 -t -1 --setParameters \"pol=-0.159,r=1\""
+	sample_settings = samples.Samples()
+	expression_settings = expressions.ExpressionsDict()
+	binnings_settings = binnings.BinningsDict()
+	systematics_factory = systematics.SystematicsFactory()
+
+	datacards.configs._mapping_process2sample = {
+			"data_obs" : "data",
+			"EWKZ" : "ewkz",
+			"QCD" : "qcd",
+			"TT" : "ttj",
+			"TTT" : "ttt",
+			"TTJ" : "ttjj",
+			"VV" : "vv",
+			"VVT" : "vvt",
+			"VVJ" : "vvj",
+			"W" : "wj",
+			"ZJ" : "zj",
+			"ZL" : "zl",
+			"ZLL" : "zll",
+			"ZTTPOSPOL" : "zttpospol",
+			"ZTTNEGPOL" : "zttnegpol",
+	}
+
+	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
+
+		for category in categories:
+			datacards_per_channel_category = zttpolarisationdatacards.ZttPolarisationDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+
+			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
+
+			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
+					ANALYSIS="ztt",
+					CHANNEL=channel,
+					BIN=category,
+					ERA="13TeV"
+			))
+			output_files.append(output_file)
+			tmp_output_files = []
+			
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
+				nominal = (shape_systematic == "nominal")
+				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
+				if ("wj" in list_of_samples) and not ("qcd" in list_of_samples):
+					list_of_samples.append("qcd")
+				elif ("qcd" in list_of_samples) and not ("wj" in list_of_samples):
+					list_of_samples.append("wj")
+				asimov_nicks = []
+				if args.use_asimov_dataset:
+					asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
+					if "data" in asimov_nicks:
+						asimov_nicks.remove("data")
+				
+				for shift_up in ([True] if nominal else [True, False]):
+					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
+
+					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
+							samples="\", \"".join(list_of_samples),
+							channel=channel,
+							category=category,
+							systematic=systematic
+					))
+					
+					tmp_quantity = args.quantity
+					tmp_omega_version = args.omega_version
+					if args.fixed_variables:
+						if channel in ["tt"]:
+							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong", "combined_oneprong_oneprong"]]:
+								tmp_quantity = "m_vis"
+								tmp_omega_version = None
+							elif category in [channel+"_"+cat for cat in ["combined_a1_rho"]]:
+								tmp_quantity = None
+								tmp_omega_version = None
+							elif category in [channel+"_"+cat for cat in ["combined_a1_a1", "combined_a1_oneprong"]]:
+								tmp_quantity = None
+								tmp_omega_version = "BarSvfitM91"
+							elif category in [channel+"_"+cat for cat in ["combined_rho_rho", "rho"]]:
+								tmp_quantity = None
+								tmp_omega_version = "VisibleSvfit"
+						elif channel in ["mt", "et"]:
+							if category in [channel+"_"+cat for cat in ["combined_a1_oneprong"]]:
+								tmp_quantity = "m_vis"
+								tmp_omega_version = None
+							elif category in [channel+"_"+cat for cat in ["combined_rho_oneprong"]]:
+								tmp_quantity = None
+								tmp_omega_version = None
+							elif category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong", "a1", "oneprong"]]:
+								tmp_quantity = None
+								tmp_omega_version = "BarSvfitM91"
+							elif category in [channel+"_"+cat for cat in ["rho"]]:
+								tmp_quantity = None
+								tmp_omega_version = "VisibleSvfit"
+						elif channel in ["em"]:
+							if category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong"]]:
+								tmp_quantity = "m_vis"
+								tmp_omega_version = None
+					
+					x_expression = None
+					if tmp_quantity:
+						x_expression = tmp_quantity
+					else:
+						x_expression = "testZttPol13TeV_"+category
+						if tmp_omega_version:
+							x_expression = expression_settings.expressions_dict[x_expression].replace("BarSvfit", tmp_omega_version)
+					x_expression = expression_settings.expressions_dict.get(x_expression, x_expression)
+
+					# prepare plotting configs for retrieving the input histograms
+					config = sample_settings.get_config(
+							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
+							channel=channel,
+							category="catZttPol13TeV_"+category,
+							weight=args.weight,
+							lumi = args.lumi * 1000,
+							higgs_masses=higgs_masses,
+							estimationMethod="new",
+							polarisation_bias_correction=True,
+							cut_type="low_mvis_smhtt2016",
+							exclude_cuts=(["m_vis"] if x_expression == "m_vis" else []),
+							no_ewk_samples = args.no_ewk_samples,
+							no_ewkz_as_dy = True,
+							asimov_nicks = asimov_nicks
+					)
+					
+					systematics_settings = systematics_factory.get(shape_systematic)(config)
+					# TODO: evaluate shift from datacards_per_channel_category.cb
+					
+					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
+
+					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
+					
+					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
+					
+					binnings_key = "binningZttPol13TeV_"+category+"_"+x_expression
+					if not (binnings_key in binnings_settings.binnings_dict):
+						binnings_key = "binningZttPol13TeV_"+category+(("_"+tmp_quantity) if tmp_quantity else "")
+					if binnings_key in binnings_settings.binnings_dict:
+						config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
+					
+					if args.fixed_binning:
+						if args.fixed_variables:
+							if channel == "tt":
+								config["x_bins"] = [args.fixed_binning.split(",")[0] + ",-1.0001,1.0001" for nick in config["nicks"]]
+							else:
+								config["x_bins"] = [args.fixed_binning for nick in config["nicks"]] 
+						else:
+							config["x_bins"] = [args.fixed_binning for nick in config["nicks"]]
+					
+					config["directories"] = [args.input_dir]
+
+					histogram_name_template = "${BIN}/${PROCESS}" if nominal else "${BIN}/${PROCESS}_${SYSTEMATIC}"
+					config["labels"] = [histogram_name_template.replace("$", "").format(
+							PROCESS=datacards.configs.sample2process(sample.replace("asimov", "data")),
+							BIN=category,
+							SYSTEMATIC=systematic
+					) for sample in config["labels"]]
+
+					tmp_output_file = os.path.join(args.output_dir, "input/{ANALYSIS}_{CHANNEL}_{BIN}_{SYSTEMATIC}_{ERA}.root".format(
+							ANALYSIS="ztt",
+							CHANNEL=channel,
+							BIN=category,
+							SYSTEMATIC=systematic,
+							ERA="13TeV"
+					))
+					tmp_output_files.append(tmp_output_file)
+					config["output_dir"] = os.path.dirname(tmp_output_file)
+					config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
+
+					config["plot_modules"] = ["ExportRoot"]
+					config["file_mode"] = "UPDATE"
+
+					if "legend_markers" in config:
+						config.pop("legend_markers")
+						
+					plot_configs.append(config)
+
+			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
+					DST=output_file,
+					SRC=" ".join(tmp_output_files)
+			))
 	
-	pospol_signals = datacards.cb.cp().signals()
-	pospol_signals.FilterAll(lambda obj : ("pospol" not in obj.process().lower()))
-	
-	negpol_signals = datacards.cb.cp().signals()
-	negpol_signals.FilterAll(lambda obj : ("negpol" not in obj.process().lower()))
-	
-	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 + pol) / 2.0)))
-	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() * (r * (1.0 - pol) / 2.0)))
-	
-	datacards.replace_observation_by_asimov_dataset()
-	
-	pospol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 + pol) / 2.0)))
-	negpol_signals.ForEachProc(lambda process: process.set_rate(process.no_norm_rate() / (r * (1.0 - pol) / 2.0)))
+	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
+	for output_file in tmp_output_files:
+		if os.path.exists(output_file):
+			os.remove(output_file)
+			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
+	output_files = list(set(output_files))
 
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
+	
+	if args.n_plots[0] != 0:
+		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
+	debug_plot_configs = []
+	for output_file in (output_files):
+		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
+	if args.www:
+		for debug_plot_config in debug_plot_configs:
+			debug_plot_config["www"] = debug_plot_config["output_dir"].replace(args.output_dir, args.www)
+	#higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
+
+	return None
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~:
 if __name__ == "__main__":
-
 	parser = argparse.ArgumentParser(description="Create ROOT inputs and datacards for ZTT polarisation analysis.",
 	                                 parents=[logger.loggingParser])
 
@@ -74,6 +284,10 @@ if __name__ == "__main__":
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weight", default="1.0",
 	                    help="Additional weight (cut) expression. [Default: %(default)s]")
+	parser.add_argument("-x", "--quantity", default=None,
+	                    help="Quantity. [Default: testZttPol13TeV_<category>]")
+	parser.add_argument("--omega-version", default=None,
+	                    help="Version of the optimal observables. The parameter will replace \"BarSvfit\" in the name of the disciminator.")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
@@ -92,71 +306,28 @@ if __name__ == "__main__":
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--lumi-projection", type=float, nargs="+", default=[],
-	                    help="Specify luminosity values in fb^(-1) for a projection. [Default: %(default)s]")
+	                    help="Specify luminosi ty values in fb^(-1) for a projection. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
-						help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
 	parser.add_argument("--check-linearity", type=float, nargs="+", default=[],
-						help="Specify the polarisation values for which to check the linearity of the discriminator. [Default: %(default)s]")
+	                    help="Specify the polarisation values for which to check the linearity of the discriminator. [Default: %(default)s]")
 	parser.add_argument("--no-ewk-samples", default=False, action="store_true",
 	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
+	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
+	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 	                    help="Do not include shape-uncertainties. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="datacards",
 	                    help="Publish plots. [Default: %(default)s]")
-	
+	parser.add_argument("--fixed-variables", default=False, action="store_true",
+						help="Takes m_vis in all but the tt_combined as seperating variable")
+	parser.add_argument("--fixed-binning", default = False,
+						help="Use a fixed given binning.")
+
 	args = parser.parse_args()
 	logger.initLogger(args)
-	
-	args.n_plots = [n_plots if n_plots >= 0 else None for n_plots in args.n_plots]
-	
-	if (args.era == "2015") or (args.era == "2015new"):
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
-	elif args.era == "2016":
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
-		if args.lumi == parser.get_default("lumi"):
-			args.lumi = samples.default_lumi/1000.0
-	else:
-		log.critical("Invalid era string selected: " + args.era)
-		sys.exit(1)
-
-
-	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
-	if args.clear_output_dir and os.path.exists(args.output_dir):
-		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-
-	# initialisations for plotting
-	print("###################### 1 ######################")
-	sample_settings = samples.Samples()
-	binnings_settings = binnings.BinningsDict()
-	systematics_factory = systematics.SystematicsFactory()
-
-	plot_configs = []
-	output_files = []
-	merged_output_files = []
-	hadd_commands = []
-
-	datacards = zttpolarisationdatacards.ZttPolarisationDatacards() # useRateParam=args.use_rate_parameter
-
-	# initialise datacards
-	print("###################### 2 ######################")
-	tmp_input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${SYSTEMATIC}_${ERA}.root"
-	input_root_filename_template = "input/${ANALYSIS}_${CHANNEL}_${BIN}_${ERA}.root"
-	bkg_histogram_name_template = "${BIN}/${PROCESS}"
-	sig_histogram_name_template = "${BIN}/${PROCESS}"
-	bkg_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	sig_syst_histogram_name_template = "${BIN}/${PROCESS}_${SYSTEMATIC}"
-	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
-	datacard_filename_templates = []
-	if "individual" in args.combinations:
-		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BINID}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
-	if "channel" in args.combinations:
-		datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
-	if "category" in args.combinations:
-		datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BINID}_${ERA}.txt")
-	if "combined" in args.combinations:
-		datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")
 
 	if args.channel != parser.get_default("channel"):
 		args.channel = args.channel[len(parser.get_default("channel")):]
@@ -165,434 +336,89 @@ if __name__ == "__main__":
 		args.categories = args.categories[len(parser.get_default("categories")):]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
 
-	# restrict CombineHarvester to configured channels
-	print("###################### 3 ######################")
-	datacards.cb.channel(args.channel)
+	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
+	if args.clear_output_dir and os.path.exists(args.output_dir):
+		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
 
-	if args.no_shape_uncs:
- 		print("No shape uncs")
- 		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
- 		#datacards.cb.PrintSysts()
-
-
-	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
-
-		# prepare category settings based on args and datacards
-		if (len(categories) == 1) and (categories[0] == "all"):
-			categories = datacards.cb.cp().channel([channel]).bin_set()
-		else:
-			categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
-		args.categories[index] = categories
-
-		# restrict CombineHarvester to configured categories:
-		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
-
-		for category in categories:
-			datacards_per_channel_category = zttpolarisationdatacards.ZttPolarisationDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
-
-			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
-
-			output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
-					ANALYSIS="ztt",
-					CHANNEL=channel,
-					BIN=category,
-					ERA="13TeV"
-			))
-			output_files.append(output_file)
-			tmp_output_files = []
-			
-			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
-				nominal = (shape_systematic == "nominal")
-				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
-				asimov_nicks = []
-				if args.use_asimov_dataset:
-					asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
-					if "data" in asimov_nicks:
-						asimov_nicks.remove("data")
-				
-				for shift_up in ([True] if nominal else [True, False]):
-					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
-					
-					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
-							samples="\", \"".join(list_of_samples),
-							channel=channel,
-							category=category,
-							systematic=systematic
-					))
-					
-					# prepare plotting configs for retrieving the input histograms
-					config = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
-							channel=channel,
-							category="catZttPol13TeV_"+category,
-							weight=args.weight,
-							lumi = args.lumi * 1000,
-							higgs_masses=higgs_masses,
-							estimationMethod="new",
-							polarisation_bias_correction=True,
-							cut_type="low_mvis_smhtt2016",
-							no_ewk_samples = args.no_ewk_samples,
-							no_ewkz_as_dy = True,
-							asimov_nicks = asimov_nicks
-					)
-					
-					systematics_settings = systematics_factory.get(shape_systematic)(config)
-					# TODO: evaluate shift from datacards_per_channel_category.cb
-					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-					
-					#config["qcd_subtract_shape"] =[args.qcd_subtract_shapes]
-					
-					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "testZttPol13TeV_"+category) for nick in config["nicks"]]
-
-					binnings_key = "binningZttPol13TeV_"+category
-					if binnings_key in binnings_settings.binnings_dict:
-						config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else binnings_key) for nick in config["nicks"]]
-						
-					config["directories"] = [args.input_dir]
-					
-					histogram_name_template = bkg_histogram_name_template if nominal else bkg_syst_histogram_name_template
-					config["labels"] = [histogram_name_template.replace("$", "").format(
-							PROCESS=datacards.configs.sample2process(sample.replace("asimov", "data")),
-							BIN=category,
-							SYSTEMATIC=systematic
-					) for sample in config["labels"]]
-					
-					tmp_output_file = os.path.join(args.output_dir, tmp_input_root_filename_template.replace("$", "").format(
-							ANALYSIS="ztt",
-							CHANNEL=channel,
-							BIN=category,
-							SYSTEMATIC=systematic,
-							ERA="13TeV"
-					))
-					tmp_output_files.append(tmp_output_file)
-					config["output_dir"] = os.path.dirname(tmp_output_file)
-					config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
-
-					config["plot_modules"] = ["ExportRoot"]
-					config["file_mode"] = "UPDATE"
-
-					if "legend_markers" in config:
-						config.pop("legend_markers")
-
-					plot_configs.append(config)
-
-			hadd_commands.append("hadd -f {DST} {SRC} && rm {SRC}".format(
-					DST=output_file,
-					SRC=" ".join(tmp_output_files)
-			))
-
-	if log.isEnabledFor(logging.DEBUG):
-		import pprint
-		pprint.pprint(plot_configs)
-
-	# delete existing output files
-	print("###################### 4 ######################")
-	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
-	for output_file in tmp_output_files:
-		if os.path.exists(output_file):
-			os.remove(output_file)
-			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
-	output_files = list(set(output_files))
-
-	# create input histograms with HarryPlotter
-	print("###################### 5 ######################")
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
-	if args.n_plots[0] != 0:
-		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
-
-	debug_plot_configs = []
-	for output_file in (output_files):
-		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
-	if args.www:
-		for debug_plot_config in debug_plot_configs:
-			debug_plot_config["www"] = debug_plot_config["output_dir"].replace(args.output_dir, args.www)
-	higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
-
-	# update CombineHarvester with the yields and shapes
-	print("###################### 6 ######################")
-	datacards.extract_shapes(
-			os.path.join(args.output_dir, input_root_filename_template.replace("$", "")),
-			bkg_histogram_name_template, sig_histogram_name_template,
-			bkg_syst_histogram_name_template, sig_syst_histogram_name_template,
-			update_systematics=True
-	)
-
-	# add bin-by-bin uncertainties
-	print("###################### 7 ######################")
-	if not args.no_bbb_uncs:
-		datacards.add_bin_by_bin_uncertainties(
-				processes=datacards.cb.cp().backgrounds().process_set(),
-				add_threshold=0.1, merge_threshold=0.5, fix_norm=True
-		)
-
-	plot_configs = []
-
-	# lumi scale
-
-	print("###################### 8 ######################")
-	for scaled_lumi in [None]+args.lumi_projection:
-		tmp_output_dir = os.path.join(args.output_dir, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
-		tmp_www = None
-		if args.www:
-			tmp_www = os.path.join(args.www, "" if scaled_lumi is None else ("lumi{:07}pb".format(int(scale_lumi*1000))))
-
-		if not scaled_lumi is None:
-			datacards.scale_expectation(scaled_lumi / args.lumi)
-
-		# linearity
-		polarisation_values_tree_files = {}
-		for asimov_polarisation in [None]+(args.check_linearity if scaled_lumi is None else []):
-			output_dir = os.path.join(tmp_output_dir, "" if asimov_polarisation is None else ("pol{:04}".format(int(asimov_polarisation*1000))))
-			www = None
-			if args.www:
-				www = os.path.join(tmp_www, "" if asimov_polarisation is None else ("pol{:04}".format(int(asimov_polarisation*1000))))
-			
-			if not asimov_polarisation is None:
-				replace_observation_by_asimov_dataset(datacards, asimov_polarisation, 1.0)
-			elif args.use_asimov_dataset:
-				pass # done already in sample_settings.get_config(...)
-				# replace_observation_by_asimov_dataset(datacards, -0.159, 1.0)
-
-			if args.auto_rebin:
-				datacards.auto_rebin(bin_threshold = 1.0, rebin_mode = 0)
-
-			# write datacards and call text2workspace
-			print("###################### datacards,text2workspace ######################")
-			datacards_cbs = {}
-			for datacard_filename_template in datacard_filename_templates:
-				datacards_cbs.update(datacards.write_datacards(
-						datacard_filename_template.replace("{", "").replace("}", ""),
-						output_root_filename_template.replace("{", "").replace("}", ""),
-						output_dir
-				))
+	#1.-----Create Datacards
+	print WARNING + UNDERLINE + '-----      Creating datacard with processes and systematics...        -----' + ENDC
+	datacards = CreateDatacard(args)
+	datacards.configs = datacardconfigs.DatacardConfigs()
 	
-			datacards_workspaces = datacards.text2workspace(
-					datacards_cbs,
-					args.n_processes,
-					"-P {MODEL} {MODEL_PARAMETERS}".format(
-							MODEL="CombineHarvester.ZTTPOL2016.taupolarisationmodels:ztt_pol",
-							MODEL_PARAMETERS=""
-					)
-			)
-			
-			if "maxlikelihoodfit" in args.steps:
-				datacards.combine(
-						datacards_cbs,
-						datacards_workspaces,
-						None,
-						args.n_processes,
-						"-M MaxLikelihoodFit --redefineSignalPOIs pol "+datacards.stable_options+" -n \"\"",
-						split_stat_syst_uncs=False # MaxLikelihoodFit does not support the splitting of uncertainties
-				)
+	if args.no_shape_uncs:
+		print OKBLUE + "No shape uncs!" + ENDC
+		datacards.cb.FilterSysts(lambda systematic : systematic.type() == "shape")
+	
+	print OKGREEN + 'Datacard channels:' + ENDC, datacards.cb.channel_set()
+	print OKGREEN + 'Datacard categories :' + ENDC, datacards.cb.bin_set()
+	print OKGREEN + 'Datacard systematics :' + ENDC, datacards.cb.syst_name_set()
 
-			print("###################### prefitpostfitplots,pulls,nuisanceimpacts ######################")
-			if (scaled_lumi is None) and (asimov_polarisation is None):
-				print("###################### 1.1 ######################")
-				if "prefitpostfitplots" in args.steps:
-					datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(
-							datacards_cbs,
-							datacards_workspaces,
-							False,
-							args.n_processes,
-							"--sampling" + (" --print" if args.n_processes <= 1 else ""),
-							#fit_type_list=["fit_mdf"],
-							#fit_result="multidimfit.root"
-					)
 
-					datacards.prefit_postfit_plots(
-							datacards_cbs,
-							datacards_postfit_shapes,
-							plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "x_expressions" : "tauPolarisationDiscriminatorSvfit", "era" : "2015", "www" : www},
-							n_processes=args.n_processes,
-							signal_stacked_on_bkg=True
-					)
+	#2.-----Creating input root files
+	print WARNING + '-----      Creating input root files...             -----' + ENDC
+	create_input_root_files(datacards, args)
+	
+	#3.-----Extract shapes from input root files or from samples with HP
+	print WARNING + '-----      Extracting histograms from input root files...             -----' + ENDC
+	
+	ExtractShapes(datacards, args.output_dir +"/input/")
+	
+	#4.-----Add BBB
+	if not args.no_bbb_uncs:
+		print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
+		BinErrorsAndBBB(datacards, 0.1, 0.5, True)
+	
+	print WARNING + '-----      Modify systematics...     -----' + ENDC
+	ModifySystematics(datacards)
+	
+	datacards.cb.SetGroup("syst_plus_bbb", [".*"])
+	
+	if args.use_asimov_dataset:
+		# datacards = use_asimov_dataset(datacards)
+		# is done by asimov_nicks in sample_settings.get_config
+		print OKBLUE + "Using asimov dataset!" + ENDC
 
-				print("###################### 1.2 ######################")
-				if "pulls" in args.steps:
-					datacards.print_pulls(datacards_cbs, args.n_processes, "-A -p {POI}".format(POI="pol"))
-					datacards.pull_plots(
-							datacards_postfit_shapes,
-							s_fit_only=True,
-							plotting_args={"fit_poi" : ["pol"], "formats" : ["pdf", "png"], "args" : args.args.replace("--no-cache", ""), "www" : www},
-							n_processes=args.n_processes
-					)
+	#5.-----Write Cards
+	print WARNING + '-----      Writing Datacards...                                       -----' + ENDC
 
-				print("###################### 1.3 ######################")
-				if "nuisanceimpacts" in args.steps:
-					datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes, "-P pol --redefineSignalPOIs pol")
+	output_root_filename_template = "datacards/common/${ANALYSIS}.input_${ERA}.root"
+	datacard_filename_templates = []
+	if "individual" in args.combinations:
+		datacard_filename_templates.append("datacards/individual/${CHANNEL}/${BIN}/${ANALYSIS}_${CHANNEL}_${BINID}_${ERA}.txt")
+	if "channel" in args.combinations:
+		datacard_filename_templates.append("datacards/channel/${CHANNEL}/${ANALYSIS}_${CHANNEL}_${ERA}.txt")
+	if "category" in args.combinations:
+		datacard_filename_templates.append("datacards/category/${BINID}/${ANALYSIS}_${BIN}_${ERA}.txt")
+	if "combined" in args.combinations:
+		datacard_filename_templates.append("datacards/combined/${ANALYSIS}_${ERA}.txt")
 
-				print("###################### 1.4 ######################")
-				if "deltanll" in args.steps:
-					datacards.combine(
-							datacards_cbs,
-							datacards_workspaces,
-							None,
-							args.n_processes,
-							"-M MultiDimFit --algo grid --points 200 -P pol --redefineSignalPOIs pol "+datacards.stable_options+" -n Scan "
-					)
+	datacards_cbs = {}
+	for datacard_filename_template in datacard_filename_templates:
+		datacards_cbs.update(WriteDatacard(
+				datacards,
+				datacard_filename_template.replace("{", "").replace("}", ""),
+				output_root_filename_template.replace("{", "").replace("}", ""),
+				args.output_dir
+		))
+	
+	# exit here and do the rest with combineTool.py
+	import sys
+	sys.exit(0)
+	
+	#print OKBLUE, datacards.cb.PrintAll() , ENDC #DEBUG output
+	
+	#6.-----Write Cards
+	print WARNING + UNDERLINE  + '-----	  Performing statistical analysis                            -----' + ENDC
+	
+	#print OKBLUE + "datacards.cb.PrintAll()" + ENDC, datacards.cb.PrintAll()
+	
+	#7.-----text2workspace
+	print WARNING + '-----      text2workspace                                             -----' + ENDC
 
-			print("###################### totstatuncs ######################")
-			if "totstatuncs" in args.steps: # (scaled_lumi is None) and (asimov_polarisation is None):
-				datacards.combine(
-						datacards_cbs,
-						datacards_workspaces,
-						None,
-						args.n_processes,
-						"-M MultiDimFit --algo singles -P pol --redefineSignalPOIs pol "+datacards.stable_options+" -n",
-						split_stat_syst_uncs=True,
-						additional_freeze_nuisances=["r"]
-				)
-			
-			print("###################### annotations ######################")
-			annotation_replacements = {channel : index for (index, channel) in enumerate(["combined"] + args.channel)}
-			annotation_replacements.update({binid : index+1 for (index, binid) in enumerate(sorted(list(set([datacards.configs.category2binid(category, channel=category[:2]) for category in tools.flattenList(args.categories)]))))})
-			if not asimov_polarisation is None:
-				annotation_replacements.update({"pol{:04}".format(int(asimov_polarisation*1000)) : asimov_polarisation})
-			values_tree_files = {}
-			if ("channel" in args.combinations) or ("category" in args.combinations):
-				datacards.annotate_trees(
-						datacards_workspaces,
-						"higgsCombine*.*.mH*.root",
-						([[os.path.join(os.path.dirname(template.replace("${CHANNEL}", "(.*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "channel" in template][0]] if "channel" in args.combinations else [])+
-						([[os.path.join(os.path.dirname(template.replace("${BINID}", "(\d*)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "category" in template][0]] if "category" in args.combinations else [])+
-						([os.path.join("/(pol-?\d*)", ".*.root")] if not asimov_polarisation is None else []),
-						annotation_replacements,
-						args.n_processes,
-						values_tree_files,
-						"-t limit -b" + (" channel" if "channel" in args.combinations else "") + (" category" if "category" in args.combinations else "") + (" polarisation" if not asimov_polarisation is None else "")
-				)
-				datacards.annotate_trees(
-						datacards_workspaces,
-						"higgsCombine*.*.mH*.root",
-						[[os.path.join(os.path.dirname(template.replace("combined", "(combined)").replace("${MASS}", "\d*")), ".*.root") for template in datacard_filename_templates if "combined" in template][0]]*(2 if ("channel" in args.combinations) and ("category" in args.combinations) else 1)+
-						([os.path.join("/(pol-?\d*)", ".*.root")] if not asimov_polarisation is None else []),
-						annotation_replacements,
-						args.n_processes,
-						values_tree_files,
-						"-t limit -b" + (" channel" if "channel" in args.combinations else "") + (" category" if "category" in args.combinations else "") + (" polarisation" if not asimov_polarisation is None else "")
-				)
-			if not asimov_polarisation is None:
-				polarisation_values_tree_files.update(values_tree_files)
+	physicsmodel = "CombineHarvester.ZTTPOL2016.taupolarisationmodels:ztt_pol"
+	datacards_workspaces = text2workspace(datacards, datacards_cbs, physicsmodel, "workspace")
 
-			# plot best fit values of parameter pol from physics model
-			print("###################### best fit value, channel ######################")
-			if "channel" in args.combinations:
-				for template in ([
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel.json",
-				] if "maxlikelihoodfit" in args.steps else []) + ([
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_tot_stat_unc.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_tot_unc.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_channel_stat_unc.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_stat_unc.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_tot_unc.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_channel_stat_unc.json",
-				] if "totstatuncs" in args.steps else []): # if (scaled_lumi is None) and (asimov_polarisation is None) else []):
-					
-					x_values = sorted([values[0] for values in values_tree_files.keys() if values[0] > -990.0])
-					config = jsonTools.JsonDict(os.path.expandvars(template))
-					config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/channel" in root_file) or ("datacards/combined" in root_file)]))]
-					config["x_ticks"] = x_values
-					inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems() if (type(key) != int) or (key < 1000)}
-					config["x_tick_labels"] = [str(inv_annotation_replacements.get(int(value), value)) for value in x_values]
-					#config["x_tick_labels"] = ["#scale[1.5]{" + ("" if label == "combined" else "channel_") + label + "}" for label in config["x_tick_labels"]]
-					config["x_tick_labels"] = ["" + ("" if label == "combined" else "channel_") + label for label in config["x_tick_labels"]]
-					config["x_lims"] = [min(x_values) - 0.5, max(x_values) + 0.5]
-					config["output_dir"] = os.path.join(output_dir, "datacards/combined/plots")
-					if args.www:
-						config["www"] = os.path.join(www, "combined/plots")
-					plot_configs.append(config)
-				
-				if ("deltanll" in args.steps) and (scaled_lumi is None) and (asimov_polarisation is None):
-					for template in [
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_over_pol.json",
-					]:
-						config = jsonTools.JsonDict(os.path.expandvars(template))
-						config["directories"] = list(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/channel" in root_file) or ("datacards/combined" in root_file)]))
-						config["labels"] = [""]
-						config["output_dir"] = os.path.join(output_dir, "datacards/combined/plots")
-						config["filename"] += "_per_channel"
-						if args.www:
-							config["www"] = os.path.join(www, "combined/plots")
-						plot_configs.append(config)
-
-			print("###################### best fit value, category ######################")
-			if "category" in args.combinations:
-				for template in ([
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category.json",
-				] if "maxlikelihoodfit" in args.steps else []) + ([
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_tot_stat_unc.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_tot_unc.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_category_stat_unc.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_tot_stat_unc.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_tot_unc.json",
-						"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_weinberg_angle_over_category_stat_unc.json",
-				] if "totstatuncs" in args.steps else []): # if (scaled_lumi is None) and (asimov_polarisation is None) else []):
-					
-					x_values_raw = sorted([values[1] for values in values_tree_files.keys() if values[1] > -990.0])
-					x_values = [(((value-1000.0)/10.0-1.0) if value > 1000.0 else value) for value in x_values_raw]
-					config = jsonTools.JsonDict(os.path.expandvars(template))
-					config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/category" in root_file) or ("datacards/combined" in root_file)]))]
-					config["x_ticks"] = x_values
-					inv_annotation_replacements = {value : key for key, value in annotation_replacements.iteritems() if (type(key) != int) or (key > 1000)}
-					config["x_tick_labels"] = [str(inv_annotation_replacements.get(int(value), value)).replace("1020.0", "rho").replace("1030.0", "oneprong") for value in x_values_raw]
-					config["x_lims"] = [min(x_values) - 0.5, max(x_values) + 0.5]
-					config["output_dir"] = os.path.join(output_dir, "datacards/combined/plots")
-					if args.www:
-						config["www"] = os.path.join(www, "combined/plots")
-					plot_configs.append(config)
-				
-				if ("deltanll" in args.steps) and (scaled_lumi is None) and (asimov_polarisation is None):
-					for template in [
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_over_pol.json",
-					]:
-						config = jsonTools.JsonDict(os.path.expandvars(template))
-						config["directories"] = list(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if ("datacards/category" in root_file) or ("datacards/combined" in root_file)]))
-						config["labels"] = [""]
-						config["output_dir"] = os.path.join(output_dir, "datacards/combined/plots")
-						config["filename"] += "_per_category"
-						if args.www:
-							config["www"] = os.path.join(www, "combined/plots")
-						plot_configs.append(config)
-			
-			if ("deltanll" in args.steps) and (scaled_lumi is None) and (asimov_polarisation is None):
-				for directory in set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(values_tree_files.values())) if "higgsCombineScan.MultiDimFit" in root_file]):
-					for template in [
-							"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/likelihood_ratio_over_pol.json",
-					]:
-						config = jsonTools.JsonDict(os.path.expandvars(template))
-						config["directories"] = [directory]
-						config["labels"] = [""]
-						config["output_dir"] = os.path.join(directory, "plots")
-						if args.www:
-							config["www"] = os.path.join(www, os.path.join(directory).replace(os.path.join(output_dir, "datacards"), "").strip("/"), "plots")
-						plot_configs.append(config)
-		
-		if len(args.check_linearity) > 0:
-			for template in ([
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation.json",
-			] if "maxlikelihoodfit" in args.steps else []) + ([
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_tot_stat_unc.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_tot_unc.json",
-					"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/plots/configs/combine/best_fit_pol_over_polarisation_stat_unc.json",
-			] if "totstatuncs" in args.steps else []): # if (scaled_lumi is None) and (asimov_polarisation is None) else []): (scaled_lumi is None) and (asimov_polarisation is None) else []):
-				
-				config = jsonTools.JsonDict(os.path.expandvars(template))
-				config["directories"] = [" ".join(set([os.path.dirname(root_file) for root_file in sorted(tools.flattenList(polarisation_values_tree_files.values())) if "datacards/combined" in root_file])).replace("/pol{:04}/".format(int(args.check_linearity[-1]*1000)), "/*/")]
-				config["x_rel_lims"] = [0.95, 1.05]
-				config["output_dir"] = os.path.join(args.output_dir, "pol/datacards/combined/plots")
-				if args.www:
-					config["www"] = os.path.join(args.www, "pol/combined/plots")
-				plot_configs.append(config)
-
-		# scale back to preserve initial state
-		if not scaled_lumi is None:
-			datacards.scale_expectation(args.lumi / scaled_lumi)
-
-	print("###################### 9 ######################")
-	if log.isEnabledFor(logging.DEBUG):
-		import pprint
-		pprint.pprint(plot_configs)
-
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+	#8.-----totstatuncs
+	print WARNING + '-----      Tot and stat uncs                                          -----' + ENDC
+	
+	#MultiDimFit_TotStatUnc(datacards, datacards_workspaces, datacards_cbs, args,algo = "singles")

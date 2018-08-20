@@ -267,6 +267,7 @@ class mt_ArtusConfig(dict):
 			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False, sync=False)
 		self.update(mplf.minPlotLevelDict)
 
+	
 		MVATestMethods_config = sMVATM.MVATestMethods()
 		self.update(MVATestMethods_config)
 
@@ -317,24 +318,21 @@ class mt_ArtusConfig(dict):
 			self["MuonLowerPtCuts"] = ["19.0"]
 
 		self["MuonUpperAbsEtaCuts"] = ["2.1"]
-		if re.search("Run2017|Summer17|Fall17", nickname) == None:
-			self["TauLowerPtCuts"] = ["20.0"]
-
+		self["TauLowerPtCuts"] = ["20.0"]
 		self["TauUpperAbsEtaCuts"] = ["2.3"]
 		self["TriggerObjectLowerPtCut"] = -1.0
 		self["DiTauPairMinDeltaRCut"] = 0.5
 		self["DiTauPairIsTauIsoMVA"] = True
-
-		self["DiTauPairLepton1LowerPtCuts"] = [
-			"HLT_IsoMu24_v:25.0",
-			"HLT_IsoTkMu24_v:25.0"
-		]
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["DiTauPairLepton1LowerPtCuts"] = ["HLT_IsoMu18_v:19.0"]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_IsoMu18_v"]
 
 		elif re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
+			self["DiTauPairLepton1LowerPtCuts"] = [
+				"HLT_IsoMu24_v:25.0",
+				"HLT_IsoTkMu24_v:25.0"
+			]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
 				"HLT_IsoMu22_v",
 				"HLT_IsoTkMu22_v",
@@ -343,9 +341,16 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
 				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
 			]
+		
+		else:                                         #I believe "Run2016|Spring16|Summer16|Embedding(2016|MC)" is everything else but for safety i did it here, 2017 not included yet
+			self["DiTauPairLepton1LowerPtCuts"] = [
+				"HLT_IsoMu24_v:25.0",
+				"HLT_IsoTkMu24_v:25.0"
+			]
+		
 
 		self["DiTauPairHLTLast"] = False
-		if re.search("DiTauPairHLTLast", nickname): self["DiTauPairHLTLast"] = True
+		if re.search("Spring16", nickname): self["DiTauPairHLTLast"] = True
 
 		if re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
 			self["DiTauPairHLTLast"] = True
@@ -538,8 +543,15 @@ class mt_ArtusConfig(dict):
 		self["Consumers"] = [
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
-			"SvfitCacheConsumer"
-		]#"#CutFlowTreeConsumer", "#KappaMuonsConsumer", "#KappaTausConsumer", "#KappaTaggedJetsConsumer", "#RunTimeConsumer", "#PrintEventsConsumer", "#PrintGenParticleDecayTreeConsumer"
+			"SvfitCacheConsumer",
+			"#CutFlowTreeConsumer",
+			"#KappaMuonsConsumer",
+			"#KappaTausConsumer",
+			"#KappaTaggedJetsConsumer",
+			"#RunTimeConsumer",
+			"#PrintEventsConsumer",
+			"#PrintGenParticleDecayTreeConsumer"
+		]
 
 		quantities_set = Quantities()
 		quantities_set.build_quantities(nickname, channel = self["Channel"])

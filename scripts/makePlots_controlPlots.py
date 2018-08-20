@@ -208,6 +208,8 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the lepton flavour violation analysis. [Default: %(default)s]")
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
+	parser.add_argument("--add-analysis-modules-before-ratio", default=False, action="store_true",
+	                    help="Analysis modules are called according to their position in the list of analysis modules. This option stores them after the call of the ratio option. [Default: %(default)s]")						
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -292,6 +294,9 @@ if __name__ == "__main__":
 		asimov_nicks = copy.deepcopy(args.samples if len(args.use_asimov_dataset) == 0 else args.use_asimov_dataset)
 		if "data" in asimov_nicks:
 			asimov_nicks.remove("data")
+	
+	if args.polarisation:
+		args.no_ewkz_as_dy = True
 
 	if args.run1 and (args.emb or args.ttbar_retuned):
 			log.critical("Embedding --emb and --ttbar-retuned only valid for run2. Remove --emb and --tbar-retuned or select run2 samples.")
@@ -361,15 +366,18 @@ if __name__ == "__main__":
 			global_cut_type = "smhtt"
 		global_cut_type += "2016"
 
-	args.weights = (args.weights * len(args.quantities))[:len(args.quantities)]
+	if args.channel_comparison:
+		args.weights = (args.weights * len(args.channels))[:len(args.channels)]
+	else:
+		args.weights = (args.weights * len(args.quantities))[:len(args.quantities)]
 
 	# Configs construction for HP
 	for category in args.categories:
-		for quantity, weight in zip(args.quantities, args.weights):
+		for index_quantity, quantity in enumerate(args.quantities):
 
 			channels_background_methods = zip(args.channels, args.background_method)
 			channel_config = {}
-			for index, (channel, background_method) in enumerate(channels_background_methods):
+			for index_channel, (channel, background_method) in enumerate(channels_background_methods):
 				if args.mssm:
 					cut_type = "mssm2016full"
 					if args.era == "2016":
@@ -404,7 +412,7 @@ if __name__ == "__main__":
 					elif "vtight_fail" in category:
 						global_cut_type = "antievtightfail" + args.era
 
-				last_loop = index == len(channels_background_methods) - 1
+				last_loop = index_channel == len(channels_background_methods) - 1
 
 				category_string = None
 				if category != None:
@@ -419,6 +427,8 @@ if __name__ == "__main__":
 						break
 
 				quantity = json_config.pop("x_expressions", [quantity])[0]
+				weight = args.weights[index_channel if args.channel_comparison else index_quantity]
+				
 				config = sample_settings.get_config(
 						samples = list_of_samples,
 						channel = channel,
@@ -444,18 +454,17 @@ if __name__ == "__main__":
 						no_ewkz_as_dy = args.no_ewkz_as_dy,
 						useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,
 						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
-						nick_suffix = (channel if args.channel_comparison else ""),
+						nick_suffix = (channel+str(index_channel) if args.channel_comparison else ""),
 						asimov_nicks = asimov_nicks
 				)
 				if (args.channel_comparison):
 					channel_config = samples.Samples.merge_configs(channel_config, config)
 					if last_loop:
 						config = channel_config
-
+				
 				x_expression = json_config.pop("x_expressions", [quantity])
 				config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 				config["category"] = category
-
 
 				# Introduced due to missing samples in 2017 MCv1, can be removed when 2017 MCv2 samples are out, and samples_rnu2_2017.py script is updated correspondingly.
 				if args.era == "2017":
@@ -506,6 +515,8 @@ if __name__ == "__main__":
 				if args.channel_comparison:
 					config["labels"] = ["channel_" + channel for channel in args.channels]
 					config["title"] = ", ".join(args.samples)
+				elif args.polarisation:
+					config["title"] = "channel_" + channel + ("" if category is None else ("_"+category))
 				else:
 					config["title"] = "channel_" + channel
 
@@ -527,6 +538,11 @@ if __name__ == "__main__":
 					config["legend_markers"] = ["L"]
 					config["line_widths"] = [3]
 
+				if args.add_analysis_modules_before_ratio:
+					for analysis_module in args.analysis_modules:
+						if analysis_module not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append(analysis_module)
+						
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
 					if "Ratio" not in config.get("analysis_modules", []):
@@ -540,10 +556,10 @@ if __name__ == "__main__":
 					config.setdefault("labels", []).extend([""] * 2)
 					config.setdefault("stacks", []).extend(["unc", "ratio"])
 
-
-				for analysis_module in args.analysis_modules:
-					if analysis_module not in config.get("analysis_modules", []):
-						config.setdefault("analysis_modules", []).append(analysis_module)
+				if not args.add_analysis_modules_before_ratio:
+					for analysis_module in args.analysis_modules:
+						if analysis_module not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append(analysis_module)
 
 				if log.isEnabledFor(logging.DEBUG) and "PrintInfos" not in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("PrintInfos")
@@ -648,8 +664,8 @@ if __name__ == "__main__":
 
 				config["output_dir"] = os.path.expandvars(os.path.join(
 						args.output_dir,
-						channel if len(args.channels) > 1 and not args.channel_comparison else "",
-						category if len(args.categories) > 1 else ""
+						channel if not args.channel_comparison else "",
+						"" if category is None else category
 				))
 				if args.ratio_subplot:
 					samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
@@ -668,7 +684,7 @@ if __name__ == "__main__":
 				if not args.www is None:
 					config["www"] = os.path.join(
 							args.www,
-							channel if len(args.channels) > 1 and not args.channel_comparison else "",
+							channel if not args.channel_comparison else "",
 							"" if category is None else category
 					)
 
@@ -684,4 +700,3 @@ if __name__ == "__main__":
 			list_of_config_dicts=plot_configs, list_of_args_strings=[args.args],
 			n_processes=args.n_processes, n_plots=args.n_plots, batch=args.batch
 	)
-

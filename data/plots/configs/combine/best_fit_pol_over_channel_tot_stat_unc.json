@@ -4,12 +4,12 @@
     ],  
     "filename": "best_fit_pol_over_channel_tot_stat_unc", 
     "files": [
-        "higgsCombine*TotUnc*.MultiDimFit*mH*.root", 
-        "higgsCombine*TotUnc*.MultiDimFit*mH*.root", 
-        "higgsCombine*TotUnc*.MultiDimFit*mH*.root", 
-        "higgsCombine*StatUnc*.MultiDimFit*mH*.root", 
-        "higgsCombine*StatUnc*.MultiDimFit*mH*.root", 
-        "higgsCombine*StatUnc*.MultiDimFit*mH*.root"
+        "higgsCombine*.pol.tot_unc.MultiDimFit*mH*.root", 
+        "higgsCombine*.pol.tot_unc.MultiDimFit*mH*.root", 
+        "higgsCombine*.pol.tot_unc.MultiDimFit*mH*.root", 
+        "higgsCombine*.pol.stat_unc.MultiDimFit*mH*.root", 
+        "higgsCombine*.pol.stat_unc.MultiDimFit*mH*.root", 
+        "higgsCombine*.pol.stat_unc.MultiDimFit*mH*.root"
     ], 
     "folders": [
         "limit"

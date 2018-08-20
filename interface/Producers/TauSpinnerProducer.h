@@ -4,6 +4,8 @@
 #include "TauSpinner/SimpleParticle.h"
 #include "TauSpinner/tau_reweight_lib.h"
 
+#include "Artus/Utility/interface/DefaultValues.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
 /**
@@ -29,12 +31,28 @@ public:
 	virtual void Produce(event_type const& event, product_type& product,
 						 setting_type const& settings, metadata_type const& metadata) const override;
 
+	static double CustomRandomGenerator();
 
 private:
 	virtual TauSpinner::SimpleParticle GetSimpleParticle(RMFLV const& particleLV, int particlePdgId) const;
 	virtual std::vector<TauSpinner::SimpleParticle> GetFinalStates(
-			GenParticleDecayTree& mother,
-			std::vector<TauSpinner::SimpleParticle>& resultVector) const;
+			GenParticleDecayTree& currentParticle,
+			std::vector<TauSpinner::SimpleParticle>& resultVector,
+			std::vector<int> const& validPdgIds={
+					//DefaultValues::pdgIdGamma,
+					DefaultValues::pdgIdPiZero,
+					DefaultValues::pdgIdPiPlus,
+					DefaultValues::pdgIdKPlus,
+					DefaultValues::pdgIdKLong,
+					DefaultValues::pdgIdKShort,
+					DefaultValues::pdgIdElectron,
+					DefaultValues::pdgIdNuE,
+					DefaultValues::pdgIdMuon,
+					DefaultValues::pdgIdNuMu,
+					DefaultValues::pdgIdNuTau
+			}
+	) const;
+	
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
 	
 	std::vector<float> mixingAnglesOverPiHalf;

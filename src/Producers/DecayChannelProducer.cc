@@ -384,17 +384,17 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "leadingGenMatchedTauDecayMode", [](event_type const& event, product_type const& product)
 	{
 		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_ptOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
-		return (genTau ? genTau->decayMode : DefaultValues::UndefinedInt);
+		return (genTau ? genTau->genDecayMode() : DefaultValues::UndefinedInt);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "genMatchedTau1DecayMode", [](event_type const& event, product_type const& product)
 	{
 		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
-		return (genTau ? genTau->decayMode : DefaultValues::UndefinedInt);
+		return (genTau ? genTau->genDecayMode() : DefaultValues::UndefinedInt);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "posGenMatchedTauDecayMode", [](event_type const& event, product_type const& product)
 	{
 		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_chargeOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
-		return (genTau ? genTau->decayMode : DefaultValues::UndefinedInt);
+		return (genTau ? genTau->genDecayMode() : DefaultValues::UndefinedInt);
 	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "leadingGenMatchedTauNProngs", [](event_type const& event, product_type const& product)
@@ -552,17 +552,17 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "trailingGenMatchedTauDecayMode", [](event_type const& event, product_type const& product)
 	{
 		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_ptOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
-		return (genTau ? genTau->decayMode : DefaultValues::UndefinedInt);
+		return (genTau ? genTau->genDecayMode() : DefaultValues::UndefinedInt);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "genMatchedTau2DecayMode", [](event_type const& event, product_type const& product)
 	{
 		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
-		return (genTau ? genTau->decayMode : DefaultValues::UndefinedInt);
+		return (genTau ? genTau->genDecayMode() : DefaultValues::UndefinedInt);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "negGenMatchedTauDecayMode", [](event_type const& event, product_type const& product)
 	{
 		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_chargeOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
-		return (genTau ? genTau->decayMode : DefaultValues::UndefinedInt);
+		return (genTau ? genTau->genDecayMode() : DefaultValues::UndefinedInt);
 	});
 	
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "trailingGenMatchedTauNProngs", [](event_type const& event, product_type const& product)

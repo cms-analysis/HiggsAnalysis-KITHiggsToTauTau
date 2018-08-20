@@ -442,8 +442,6 @@ class Datacards(object):
 		commands = []
 		hypotestresulttree = {}
 
-
-
 		#for fit_type in fit_type_list:
 		commands.extend(["root -q -b \"HiggsAnalysis/KITHiggsToTauTau/scripts/hypoTestResultTree.cxx(\\\"{INPUT}\\\",\\\"{OUTPUT}\\\",{MASS},{RVALUE},\\\"{POINAME}\\\")\"".format(
 				INPUT=os.path.join(os.path.dirname(datacard),"higgsCombine.HybridNew.mH{angle}.root".format(angle = [mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")),
@@ -545,7 +543,7 @@ class Datacards(object):
 		base_path = reduce(lambda datacard1, datacard2: tools.longest_common_substring(datacard1, datacard2), datacards_cbs.keys())
 
 		plot_configs = []
-		bkg_plotting_order = ["ZTTPOSPOL", "ZTTNEGPOL", "ZTT", "ZLL", "ZL", "ZJ", "EWKZ", "TTTAUTAU", "TTT", "TTJJ", "TTJ", "TT", "VVT", "VVJ", "VV", "WJ", "W", "hww_gg125", "hww_qq125", "EWK", "QCD"]
+		bkg_plotting_order = ["ZTTPOSPOL", "ZTTNEGPOL", "ZTT", "ZLL", "ZL", "ZJ", "TTTAUTAU", "TTT", "TTJJ", "TTJ", "TT", "EWKZ", "EWK", "VVT", "VVJ", "VV", "WJ", "W", "hww_gg125", "hww_qq125", "EWK", "QCD"]
 		for level in ["prefit", "postfit"]:
 			for index, (fit_type, datacards_postfit_shapes_dict) in enumerate(datacards_postfit_shapes.iteritems()):
 				if (index == 0) or (level == "postfit"):
@@ -654,13 +652,12 @@ class Datacards(object):
 								config["y_subplot_label"] = "Obs./Exp."
 
 							# update ordering if backgrounds were merged
-							if plotting_args.get("merge_backgrounds", False):
-								config["nicks_whitelist"] = processes_to_plot + ["TotalSig" + ("_noplot" if signal_stacked_on_bkg else "")] + ["data_obs", "TotalBkg" + ("_noplot" if signal_stacked_on_bkg else "")]
-								if plotting_args.get("ratio", False):
-									if plotting_args.get("add_soverb_ratio", False):
-										config["nicks_whitelist"].append("ratio_soverb")
-									config["nicks_whitelist"].extend(["ratio_unc", "ratio"])
-
+							# if plotting_args.get("merge_backgrounds", False):
+								# config["nicks_whitelist"] = processes_to_plot + ["TotalSig" + ("_noplot" if signal_stacked_on_bkg else "")] + ["data_obs", "TotalBkg" + ("_noplot" if signal_stacked_on_bkg else "")]
+								# if plotting_args.get("ratio", False):
+								# 	if plotting_args.get("add_soverb_ratio", False):
+								# 		config["nicks_whitelist"].append("ratio_soverb")
+								# 	config["nicks_whitelist"].extend(["ratio_unc", "ratio"])
 							plot_configs.append(config)
 
 		if plotting_args.get("return_configs", False):

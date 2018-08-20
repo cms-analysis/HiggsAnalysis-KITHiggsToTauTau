@@ -1,0 +1,52 @@
+{
+    "analysis_modules": [
+        "GraphCombination"
+    ],  
+    "filename": "best_fit_pol_over_individual", 
+    "files": [
+        "higgsCombine*.MultiDimFit*mH*.root"
+    ], 
+    "folders": [
+        "limit"
+    ], 
+    "graph_error_modes": [
+        "abs"
+    ], 
+    "graph_high_errors_nicks": [
+        "p1s_noplot"
+    ], 
+    "graph_low_errors_nicks": [
+        "m1s_noplot"
+    ], 
+    "graph_result_nicks": [
+        "exp"
+    ], 
+    "graph_values_nicks": [
+        "central_noplot"
+    ], 
+    "markers": [
+        "P"
+    ], 
+    "nicks": [
+        "central_noplot", 
+        "m1s_noplot", 
+        "p1s_noplot"
+    ], 
+    "no_cache": true, 
+    "tree_draw_options": [
+        "TGraph"
+    ], 
+    "weights": [
+        "quantileExpected<0.0", 
+        "(quantileExpected>0.0)*(quantileExpected<0.4)*(Entry$%3==1)", 
+        "(quantileExpected>0.0)*(quantileExpected<0.4)*(Entry$%3==2)"
+    ], 
+    "x_expressions": [
+        "individual_per_channel"
+    ], 
+    "x_label": "", 
+    "y_expressions": [
+        "pol"
+    ], 
+    "y_label": "Best Fit #LT P_{#tau} #GT"
+}

@@ -2,6 +2,8 @@
 #pragma once
 
 #include <limits.h>
+#include <map>
+#include <vector>
 
 #include "Artus/KappaAnalysis/interface/KappaSettings.h"
 
@@ -438,6 +440,7 @@ public:
 	IMPL_SETTING_DEFAULT(bool, JetEnergyCorrectionSplitUncertainty, false);
 	IMPL_SETTING_DEFAULT(float, AbsJetEnergyCorrectionSplitUncertaintyShift, 0.0f);
 	IMPL_SETTING_STRINGLIST_DEFAULT(JetEnergyCorrectionSplitUncertaintyParameterNames, {});
+	IMPL_SETTING_MAPSTRINGTOLISTOFSTRINGS(JetEnergyCorrectionSplitUncertaintyGroupings);
 	IMPL_SETTING_DEFAULT(std::string, JetEnergyCorrectionSplitUncertaintyParameters, "");
 	IMPL_SETTING_DEFAULT(bool, UseJECShiftsForBJets, false);
 };

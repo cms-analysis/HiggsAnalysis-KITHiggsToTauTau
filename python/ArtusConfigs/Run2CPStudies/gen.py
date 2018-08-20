@@ -7,7 +7,7 @@ log = logging.getLogger(__name__)
 import re
 import copy
 
-from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.quantities import Quantities
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJetID as sJID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsBTaggedJetID as sBTJID
@@ -82,10 +82,12 @@ class gen_ArtusConfig(dict):
 			self["Processors"] = []
 
 		if re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
-			self["Processors"] += [
+			self["Processors"] = [
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:ValidTaggedJetsProducer",
 				"#producer:ValidBTaggedJetsProducer",
 				"producer:DiJetQuantitiesProducer"
 			]
+		else:
+			self["Processors"] = []
 

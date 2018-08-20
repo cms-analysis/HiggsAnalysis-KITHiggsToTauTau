@@ -43,9 +43,11 @@ void RooWorkspaceWeightProducer::Init(setting_type const& settings, metadata_typ
 	f.Close();
 	gDirectory = savedir;
 	gFile = savefile;
+	// Load the names of the weight to be included from the workspace 
 	m_weightNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceWeightNames)()));
-
+	// Load all functions which can be used to retreive weights
 	std::map<int,std::vector<std::string>> objectNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceObjectNames)()));
+	// Load the arguments to be passed to the functions
 	m_functorArgs = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceObjectArguments)()));
 	for(auto objectName:objectNames)
 	{
@@ -66,7 +68,7 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 {
 
 	for(auto weightNames:m_weightNames)
-	{
+	{			
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
 		for(size_t index = 0; index < weightNames.second.size(); index++)
 		{
@@ -79,26 +81,35 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 				{
 					args.push_back(lepton->p4.Pt());
 				}
-				if(arg=="m_eta")
+				else if(arg=="m_eta")
 				{
 					args.push_back(lepton->p4.Eta());
 				}
-				if(arg=="e_eta")
+				else if(arg=="e_eta")
 				{
 					KElectron* electron = static_cast<KElectron*>(lepton);
 					args.push_back(electron->superclusterPosition.Eta());
 				}
-				if(arg=="m_iso" || arg=="e_iso")
+				else if(arg=="m_iso" || arg=="e_iso")
 				{
 					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
 				}
+				else if(arg=="dR")
+				{
+					args.push_back(ROOT::Math::VectorUtil::DeltaR(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4));
+				}
+				else if(arg=="njets")
+				{
+					args.push_back(1);
+				}
 			}
-			if(weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly)
+			if ((weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly) ||
+			    (weightNames.second.at(index).find("emuQcd") != std::string::npos))
 			{
 				product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 			}
 			else
-			{
+			{	
 				product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 			}
 		}

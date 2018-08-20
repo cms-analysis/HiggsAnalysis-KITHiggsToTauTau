@@ -306,12 +306,11 @@ class et_ArtusConfig(dict):
 		self["MinNTaus"] =  1
 		self["HltPaths_comment"] =  "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer."
 
-		self["NoHltFiltering"] = False
+		self["NoHltFiltering"] = False  #else
 		self["DiTauPairNoHLT" ] = False
 
-		self["ElectronLowerPtCuts"] = ["25.0"]
-		self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"]
-
+		self["ElectronLowerPtCuts"] = ["26.0"]  #default: !=2015
+		self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"]  #default: !=2015 or !=2017
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["HltPaths"] = ["HLT_Ele23_WPLoose_Gsf"]
 			self["ElectronLowerPtCuts"] = ["24.0"]
@@ -464,6 +463,7 @@ class et_ArtusConfig(dict):
 			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 
 		self["TauTauRestFrameReco"] = "collinear_approximation"
+		
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["ElectronTriggerFilterNames"] = ["HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"]
@@ -490,7 +490,14 @@ class et_ArtusConfig(dict):
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
 			"SvfitCacheConsumer",
-		] # "#CutFlowTreeConsumer", "#KappaElectronsConsumer", "#KappaTausConsumer", "#KappaTaggedJetsConsumer", "#RunTimeConsumer", "#PrintEventsConsumer", "#PrintGenParticleDecayTreeConsumer"
+			"#CutFlowTreeConsumer",
+			"#KappaElectronsConsumer",
+			"#KappaTausConsumer",
+			"#KappaTaggedJetsConsumer",
+			"#RunTimeConsumer",
+			"#PrintEventsConsumer",
+			"#PrintGenParticleDecayTreeConsumer"
+		]
 
 		quantities_set = Quantities()
 		quantities_set.build_quantities(nickname, channel = self["Channel"])

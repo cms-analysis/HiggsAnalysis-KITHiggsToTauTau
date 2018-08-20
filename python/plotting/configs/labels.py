@@ -22,6 +22,9 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["zmm"] = "Z #rightarrow #mu#mu"
 			self.labels_dict["zee"] = "Z #rightarrow ee"
 			self.labels_dict["ztt"] = "Z #rightarrow #tau#tau"
+			self.labels_dict["ztt_dm0_2"] = "Z #rightarrow #tau#tau, 1h^{#pm}"
+			self.labels_dict["ztt_dm1_2"] = "Z #rightarrow #tau#tau, 1h^{#pm} #geq1#pi^{0}"
+			self.labels_dict["ztt_dm10_2"] = "Z #rightarrow #tau#tau, 3h^{#pm}"
 			self.labels_dict["zttpospol"] = "Z #rightarrow #tau_{R}^{#minus}#tau_{L}^{#plus}"
 			self.labels_dict["zttnegpol"] = "Z #rightarrow #tau_{L}^{#minus}#tau_{R}^{#plus}"
 			self.labels_dict["zttposcp"] = "Z #rightarrow #tau#tau, #psi_{2} > #frac{#pi}{4}"
@@ -83,6 +86,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["cpmix_alt"] = "CP-mix"
 			self.labels_dict["cpodd_alt"] = "CP-odd"
 
+			self.labels_dict["channel_combined"] = "combined"
+			
 			self.labels_dict["channel_tt"] = "#tau_{h}#tau_{h}"
 			self.labels_dict["channel_mt"] = "#mu#tau_{h}"
 			self.labels_dict["channel_et"] = "e#tau_{h}"
@@ -99,10 +104,58 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_et_nobtag"] = "e#tau_{h}, no b-tag"
 			self.labels_dict["channel_em_nobtag"] = "e#mu, no b-tag"
 			
+			self.labels_dict["channel_em_oneprong"] = self.labels_dict["channel_em"]
+			self.labels_dict["channel_em_oneprong_1"] = self.labels_dict["channel_em"]
+			self.labels_dict["channel_em_oneprong_2"] = self.labels_dict["channel_em"]
+			self.labels_dict["channel_em_combined_oneprong_oneprong"] = self.labels_dict["channel_em"]
+			
+			self.labels_dict["channel_et_oneprong"] = "e#pi"
+			self.labels_dict["channel_et_oneprong_1"] = "e#tau_{h}"
+			self.labels_dict["channel_et_oneprong_2"] = "#pie"
+			self.labels_dict["channel_et_rho"] = "e#rho"
+			self.labels_dict["channel_et_rho_1"] = "e#tau_{h}"
+			self.labels_dict["channel_et_rho_2"] = "#rhoe"
+			self.labels_dict["channel_et_a1"] = "ea_{1}"
+			self.labels_dict["channel_et_a1_1"] = "e#tau_{h}"
+			self.labels_dict["channel_et_a1_2"] = "a_{1}e"
+			self.labels_dict["channel_et_combined_a1_oneprong"] = "ea_{1}"
+			self.labels_dict["channel_et_combined_rho_oneprong"] = "e#rho"
+			self.labels_dict["channel_et_combined_oneprong_oneprong"] = "e#pi"
+			
+			self.labels_dict["channel_mt_oneprong"] = "#mu#pi"
+			self.labels_dict["channel_mt_oneprong_1"] = "#mu#tau_{h}"
+			self.labels_dict["channel_mt_oneprong_2"] = "#pi#mu"
+			self.labels_dict["channel_mt_rho"] = "#mu#rho"
+			self.labels_dict["channel_mt_rho_1"] = "#mu#tau_{h}"
+			self.labels_dict["channel_mt_rho_2"] = "#rho#mu"
+			self.labels_dict["channel_mt_a1"] = "#mua_{1}"
+			self.labels_dict["channel_mt_a1_1"] = "#mu#tau_{h}"
+			self.labels_dict["channel_mt_a1_2"] = "a_{1}#mu"
+			self.labels_dict["channel_mt_combined_a1_oneprong"] = "#mua_{1}"
+			self.labels_dict["channel_mt_combined_rho_oneprong"] = "#mu#rho"
+			self.labels_dict["channel_mt_combined_oneprong_oneprong"] = "#mu#pi"
+			
+			self.labels_dict["channel_tt_oneprong"] = "#pi#tau_{h}+#tau_{h}#pi"
+			self.labels_dict["channel_tt_oneprong_1"] = "#pi#tau_{h}"
+			self.labels_dict["channel_tt_oneprong_2"] = "#tau_{h}#pi"
+			self.labels_dict["channel_tt_rho"] = "#rho#tau_{h}"
+			self.labels_dict["channel_tt_rho_1"] = "#rho#tau_{h}"
+			self.labels_dict["channel_tt_rho_2"] = "#tau_{h}#rho"
+			self.labels_dict["channel_tt_a1"] = "a_{1}#tau_{h}+#tau_{h}a_{1}"
+			self.labels_dict["channel_tt_a1_1"] = "a_{1}#tau_{h}"
+			self.labels_dict["channel_tt_a1_2"] = "#tau_{h}a_{1}"
+			self.labels_dict["channel_tt_combined_a1_a1"] = "a_{1}a_{1}"
+			self.labels_dict["channel_tt_combined_a1_rho"] = "a_{1}#rho+#rhoa_{1}"
+			self.labels_dict["channel_tt_combined_a1_oneprong"] = "a_{1}#pi"
+			self.labels_dict["channel_tt_combined_rho_rho"] = "#rho#rho"
+			self.labels_dict["channel_tt_combined_rho_oneprong"] = "#rho#pi+#pi#rho"
+			self.labels_dict["channel_tt_combined_oneprong_oneprong"] = "#pi#pi"
+			
 			self.labels_dict["cat_oneprong"] = "#pi^{#pm} / l^{#pm}"
 			self.labels_dict["cat_rho"] = "#rho^{#pm} #rightarrow #pi^{#pm} #pi^{0}"
 			self.labels_dict["cat_a1"] = "a_{1}^{#pm} #rightarrow #pi^{#pm} #pi^{#pm} #pi^{#mp}"
 			
+			# Z->tautau polarisation labels
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry_1"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
@@ -137,6 +190,63 @@ class LabelsDict(labels.LabelsDict):
 						self.labels_dict[channel+"_polarisationOmega"+reco_fit+"_"+lepton_index] = "Optimal Observable #omega" + suffix
 						self.labels_dict[channel+"_polarisationOmegaBar"+reco_fit+"_"+lepton_index] = "Optimal Observable #bar{#omega}" + suffix
 						self.labels_dict[channel+"_polarisationOmegaVisible"+reco_fit+"_"+lepton_index] = "Optimal Observable #omega^{vis}" + suffix
+
+			for channel in ["mt", "et", "tt", "em"]:
+				self.labels_dict["testZttPol13TeV_"+channel+"_inclusive"] = "m_vis"
+
+			for channel in ["em"]:
+				for category in ["a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = "discriminator"
+				for category in ["oneprong_1"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				for category in ["oneprong", "oneprong_2"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+				for category in ["combined_oneprong_oneprong"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+
+				for category in ["a1_a1", "a1_rho", "a1_oneprong", "rho_rho", "rho_oneprong"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "discriminator"
+				for category in ["oneprong_oneprong"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_combined_"+category] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+
+			for channel in ["mt", "et"]:
+				for category in ["a1", "a1_2"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+				for category in ["rho", "rho_2"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+				for category in ["oneprong", "oneprong_2"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+				for category in ["a1_1", "rho_1"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = "discriminator"
+				for category in ["oneprong_1"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_"+category] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+
+				for category in ["a1_a1", "a1_rho", "rho_rho"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_combined_"+category] = "discriminator"
+				for category in ["a1_oneprong", "rho_oneprong", "oneprong_oneprong"]:
+					self.labels_dict["testZttPol13TeV_"+channel+"_combined_"+category] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+
+			for channel in ["tt"]:
+				self.labels_dict["testZttPol13TeV_"+channel+"_a1"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_a1_1"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_a1_2"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+
+				self.labels_dict["testZttPol13TeV_"+channel+"_rho"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_rho_1"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_rho_2"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+
+				self.labels_dict["testZttPol13TeV_"+channel+"_oneprong"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_oneprong_1"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_1"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_oneprong_2"] = self.labels_dict[channel+"_polarisationOmegaBarSvfit_2"]
+
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_a1_a1"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_a1_rho"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_a1_oneprong"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_rho_rho"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_rho_oneprong"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
+
+				self.labels_dict["testZttPol13TeV_"+channel+"_combined_oneprong_oneprong"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
 			
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict["channel_"+channel+"_0jet_inclusive"] = self.labels_dict["channel_"+channel]+": 0-Jet-inclusive"
@@ -176,6 +286,8 @@ class LabelsDict(labels.LabelsDict):
 
 			self.labels_dict["tt_decayMode_1"] = "Leading Tau DM"
 			self.labels_dict["tt_decayMode_2"] = "Trailing Tau DM"
+			self.labels_dict["tt_genMatchedTau1DecayMode"] = "Generated Leading Tau DM"
+			self.labels_dict["tt_genMatchedTau2DecayMode"] = "Generated Trailing Tau DM"
 			self.labels_dict["tt_eta_1"] = "Leading Tau #eta"
 			self.labels_dict["tt_eta_2"] = "Trailing Tau #eta"
 			self.labels_dict["tt_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -255,6 +367,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tt_visibleOverFullEnergy_2"] = "Trailing Tau E_{vis}(#tau_{had}) / E_{#tau}"
 			
 			self.labels_dict["mt_decayMode_2"] = "Tau DM"
+			self.labels_dict["mt_genMatchedTau2DecayMode"] = "Generated Tau DM"
 			self.labels_dict["mt_eta_1"] = "Muon #eta"
 			self.labels_dict["mt_eta_2"] = "Tau #eta"
 			self.labels_dict["mt_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -335,6 +448,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_visibleOverFullEnergy_2"] = "E(#tau_{had}) / E_{#tau}"
 			
 			self.labels_dict["et_decayMode_2"] = "Tau DM"
+			self.labels_dict["et_genMatchedTau2DecayMode"] = "Generated Tau DM"
 			self.labels_dict["et_eta_1"] = "Electron #eta"
 			self.labels_dict["et_eta_2"] = "Tau #eta"
 			self.labels_dict["et_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -786,6 +900,19 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["httcpodd"] = "CP-odd"
 			self.labels_dict["susycpodd"] = "CP-odd"
 			self.labels_dict["susycpodd_alt"] = "CP-odd"
+			self.labels_dict["qqhsm125"] = "VBF 0^{#plus#plus}"
+			self.labels_dict["qqhps125"] = "VBF 0^{#minus#plus}"
+			self.labels_dict["qqhmm125"] = "VBF CPmix"			
+			self.labels_dict["gghsm125"] = "GF 0^{#plus#plus}"
+			self.labels_dict["gghps125"] = "GF 0^{#minus#plus}"
+			self.labels_dict["gghmm125"] = "GF CPmix"		
+
+			self.labels_dict["qqhjhusm125"] = "VBF 0^{#plus#plus}"
+			self.labels_dict["qqhjhups125"] = "VBF 0^{#minus#plus}"
+			self.labels_dict["qqhjhumm125"] = "VBF CPmix"			
+			self.labels_dict["gghjhusm125"] = "GF 0^{#plus#plus}"
+			self.labels_dict["gghjhups125"] = "GF 0^{#minus#plus}"
+			self.labels_dict["gghjhumm125"] = "GF CPmix"			
 
 			self.labels_dict["channel_tt"] = "$\\tau_{\\mathrm{h}}\\tau_{\\mathrm{h}}$"
 			self.labels_dict["channel_mt"] = "$\\mu\\tau_{\\mathrm{h}}$"
@@ -1320,7 +1447,6 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["susy_ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susy_ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["susy{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susy"].replace("H", "H({mass:d})".format(mass=higgs_mass))
-				self.labels_dict["bbh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["bbh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["httcpeven{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpeven"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["httcpmix{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpmix"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["httcpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpodd"].replace("H", "H({mass:d})".format(mass=higgs_mass))
@@ -1331,7 +1457,6 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["ggh"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susy_ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susy_ggh"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susy{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susy"]+" (\\times {scale:d})".format(scale=scale)
-					self.labels_dict["bbh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["bbh"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpeven{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpeven"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpmix{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpmix"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["httcpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpodd"]+" (\\times {scale:d})".format(scale=scale)
