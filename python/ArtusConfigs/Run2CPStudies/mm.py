@@ -22,6 +22,8 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.setting
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMethods as sMVATM
 
+from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.idAndTriggerSF import IdAndTriggerSF
+
 
 class mm_ArtusConfig(dict):
 
