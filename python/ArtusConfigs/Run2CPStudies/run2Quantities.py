@@ -490,7 +490,7 @@ class Run2Quantities():
 
 	@staticmethod
 	def syncQuantities(nickname):
-		sync_quantities_list = [
+		return [
 			"nickname",
 			"input",
 			"run",
