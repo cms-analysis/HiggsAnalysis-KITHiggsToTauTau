@@ -45,7 +45,7 @@ class Quantities(Run2Quantities):
 			if re.search("DY.?JetsToLL",nickname):
 				self.quantities.update(self.genQuantities())
 				self.quantities.update(self.genCPQuantities())
-				self.quantities.update(self.genQuantities(LFV = False))
+				self.quantities.update(self.genQuantities(LFV = False, Z= True))
 				self.quantities.update(["tauSpinnerPolarisation"])
 
 			elif re.search("LFV",nickname):
@@ -132,7 +132,7 @@ class Quantities(Run2Quantities):
 				self.quantities.update(self.genMatchedCPQuantities())
 				self.quantities.update(self.recoCPQuantities(melaQuantities=True))
 				if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
-					self.quantities.update(self.genQuantities(LFV = False))
+					self.quantities.update(self.genQuantities(LFV = False)) #TODO for 2017 also , Z = True
 					self.quantities.update(self.splitJecUncertaintyQuantities())  #no lhe in 2017 skim
 
 				if channel == "MM":
@@ -569,7 +569,7 @@ class Quantities(Run2Quantities):
 		]
 
 	@classmethod
-	def genQuantities(klass, LFV = False):
+	def genQuantities(klass, LFV = False, Z = False):
 		s = [
 			"genBosonLV",
 			"genBosonParticleFound",
@@ -606,6 +606,16 @@ class Quantities(Run2Quantities):
 		if LFV:
 			s.remove("npartons")
 			s += klass.genQuantitiesLFV()
+
+		if Z:
+			s += [
+				"lheZBosonProductionMode",
+				"lheZfromUUbar",
+				"lheZfromDDbar",
+				"lheZfromCCbar",
+				"lheZfromSSbar",
+				"lheZfromBBbar"
+			]
 		return s
 
 	@staticmethod

@@ -406,9 +406,9 @@ class Run2Quantities():
 		]
 
 	@staticmethod
-	def splitJecUncertaintyQuantities(nuisances = ["njetspt30", "mjj", "jdeta", "jdphi"]):
+	def splitJecUncertaintyQuantities(observables = ["njetspt30", "mjj", "jdeta", "jdphi"]):
 		l = []
-		s = ["_AbsoluteFlavMap",
+		jec_sources = ["_AbsoluteFlavMap",
 			"_AbsoluteMPFBias",
 			"_AbsoluteScale",
 			"_AbsoluteStat",
@@ -436,11 +436,16 @@ class Run2Quantities():
 			"_SinglePionHCAL",
 			"_TimePtEta",
 			"_Total",
-			"_Closure"]
+			"_Eta0To5",
+			"_Eta3To5",
+			"_Eta0To3",
+			"_Closure",
+			"_ClosureCPGroupings"
+		]
 
-		for i in nuisances:
-			l += [i + x + "Up" for x in s]
-			l += [i + x + "Down" for x in s]
+		for observable in observables:
+			l += [observable + source + "Up" for source in jec_sources]
+			l += [observable + source + "Down" for source in jec_sources]
 
 		return l
 
