@@ -54,6 +54,7 @@ class gen_ArtusConfig(dict):
 			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()
 			quantities_dict["Quantities"] += quantities_dict.genQuantitiesZ()
 			quantities_dict["Quantities"] += [
+				"genbosonmass",
 				"tauSpinnerValidOutputs",
 				"tauSpinnerPolarisation",
 				"tauSpinnerPdgIdTau_1",
