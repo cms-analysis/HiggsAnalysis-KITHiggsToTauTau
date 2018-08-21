@@ -3173,9 +3173,9 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
 				add_input(
 						input_file=self.files_qqh(channel, mass, cp=kwargs.get("cp", None)),
-						scale_factor=lumi*kwargs.get("scale_signal", 1.0),
+						scale_factor=lumi,
 						weight=tauSpinner_weight+"*"+matrix_weight+mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
-						nick="qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")
+						nick="qqh"+str(kwargs.get("cp", ""))+str(mass)
 			)
 			else:
 				log.error("Sample config (VBF%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
@@ -3184,15 +3184,15 @@ class Samples(samples.SamplesBase):
 				if not kwargs.get("mssm", False):
 					Samples._add_bin_corrections(
 							config,
-							"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							"qqh"+str(kwargs.get("cp", ""))+str(mass),
 							str(kwargs.get("cp", ""))+nick_suffix
 					)
 				Samples._add_plot(
 						config,
-						"bkg" if kwargs.get("stack_signal", False) else kwargs.get("stacks", "qqh"),
-						"LINE",
-						"L",
-						"qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						"bkg",# if kwargs.get("stack_signal", False) else kwargs.get("stacks", "qqh"),
+						"HIST",
+						"F",
+						"qqh"+str(kwargs.get("cp", ""))+str(mass),
 						str(kwargs.get("cp", ""))+nick_suffix
 				)
 		return config
