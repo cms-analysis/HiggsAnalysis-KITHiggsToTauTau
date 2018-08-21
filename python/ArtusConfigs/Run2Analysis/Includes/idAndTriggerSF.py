@@ -104,11 +104,11 @@ class IdAndTriggerSF(dict):
 					#or should 1 be 1:triggerEfficiency_Run2017_Muon_MuTau_IsoMu24.root? 				#TODO CHANGE TO HALES NEWEST COMMIT
 					self["TriggerEfficiencyData"] = [
 								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Muon_IsoMu27_IsoLt0.15_eff_RerecoFall17.root",
-								"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Muon_MuTau_IsoMu20.root",
+								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Muon_MuTau_IsoMu20.root",
 					]
 					self["TriggerEfficiencyMc"] = [
 								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Muon_IsoMu27_IsoLt0.15_eff_RerecoFall17.root",
-								"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Muon_MuTau_IsoMu20.root",
+								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Muon_MuTau_IsoMu20.root",
 					]
 					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
 					self["TauTrigger2017WorkingPoint"] = "tight"
