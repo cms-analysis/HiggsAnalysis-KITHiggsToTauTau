@@ -70,9 +70,9 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["qqhjhusm125"] = "VBF 0^{#plus#plus}"
 			self.labels_dict["qqhjhups125"] = "VBF 0^{#minus#plus}"
 			self.labels_dict["qqhjhumm125"] = "VBF CPmix"			
-			self.labels_dict["gghjhusm125"] = "GF 0^{#plus#plus}"
-			self.labels_dict["gghjhups125"] = "GF 0^{#minus#plus}"
-			self.labels_dict["gghjhumm125"] = "GF CPmix"	
+			self.labels_dict["gghjhusm125"] = "ggH+2j 0^{#plus#plus}"
+			self.labels_dict["gghjhups125"] = "ggH+2j 0^{#minus#plus}"
+			self.labels_dict["gghjhumm125"] = "ggH+2j CPmix"	
 			
 			self.labels_dict["httcpeven"] = "CP-even"
 			self.labels_dict["httcpmix"] = "CP-mix"
@@ -907,9 +907,9 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["qqhjhusm125"] = "VBF 0^{#plus#plus}"
 			self.labels_dict["qqhjhups125"] = "VBF 0^{#minus#plus}"
 			self.labels_dict["qqhjhumm125"] = "VBF CPmix"			
-			self.labels_dict["gghjhusm125"] = "GF 0^{#plus#plus}"
-			self.labels_dict["gghjhups125"] = "GF 0^{#minus#plus}"
-			self.labels_dict["gghjhumm125"] = "GF CPmix"			
+			self.labels_dict["gghjhusm125"] = "ggH+2j 0^{#plus#plus}"
+			self.labels_dict["gghjhups125"] = "ggH+2j 0^{#minus#plus}"
+			self.labels_dict["gghjhumm125"] = "ggH+2j CPmix"			
 
 			self.labels_dict["channel_tt"] = "$\\tau_{\\mathrm{h}}\\tau_{\\mathrm{h}}$"
 			self.labels_dict["channel_mt"] = "$\\mu\\tau_{\\mathrm{h}}$"
@@ -1439,7 +1439,7 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["susycpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susycpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd_alt"]+" (\\times {scale:d})".format(scale=scale)
 					
-			for higgs_mass in xrange(90, 3201, 10):
+			for higgs_mass in xrange(90, 3201, 5):
 				self.labels_dict["htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["susy_ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susy_ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))

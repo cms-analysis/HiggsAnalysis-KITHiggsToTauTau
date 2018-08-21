@@ -266,7 +266,7 @@ if __name__ == "__main__":
 		"ggHsm_htt"	: "gghjhusm",
 	  	"ggH_hww" : "hww_gg",
 		"QCD" : "qcd",				
-		"qqH_htt" : "qqh",				
+		# "qqH_htt" : "qqhjhusm",				
 		"qqHmm_htt"	: "qqhjhumm",
 		"qqHps_htt"	: "qqhjhups",
 		"qqHsm_htt"	: "qqhjhusm",			
@@ -361,9 +361,9 @@ if __name__ == "__main__":
 		"SinglePionECAL",
 		"SinglePionHCAL",
 		"TimePtEta",
-		"eta0to5",
-		"eta0to3",
-		"eta3to5",
+		"Eta0To5",
+		"Eta0To3",
+		"Eta3To5",
 		"Total",
 		"Closure"
 	]
@@ -578,6 +578,7 @@ if __name__ == "__main__":
 					elif "CMS_scale_j_" in shape_systematic and shape_systematic.split("_")[-2] in jecUncertNames:
 						systematics_settings = systematics_factory.get(shape_systematic)(config, shape_systematic.split("_")[-2])
 					else:
+						print(shape_systematic)
 						systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
@@ -717,10 +718,9 @@ if __name__ == "__main__":
 	# this steps creates the filled datacards in the output folder. 
 	if "t2w" in args.steps:	
 		datacards_module._call_command([
-				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --real_data=false --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX}/em --input_folder_et {OUTPUT_SUFFIX}/et --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_tt {OUTPUT_SUFFIX}/tt --input_folder_mm {OUTPUT_SUFFIX}/mm --input_folder_ttbar {OUTPUT_SUFFIX}/em ".format(
+				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} --real_data=false --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX}/em --input_folder_et {OUTPUT_SUFFIX}/et --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_tt {OUTPUT_SUFFIX}/tt --input_folder_mm {OUTPUT_SUFFIX}/mm --input_folder_ttbar {OUTPUT_SUFFIX}/em ".format(
 				OUTPUT_SUFFIX=args.output_suffix,
-				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
-				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else ""
+				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else ""
 				),
 				args.output_dir
 		])
@@ -805,43 +805,43 @@ if __name__ == "__main__":
 	if "likelihoodscan" in args.steps:
 		log.info("\nScanning alpha with muF=1,muV=1,alpha=0,f=0 with asimov dataset.")
 		datacards_module._call_command([
-				"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .alpha --parallel={N_PROCESSES}".format(
+				"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges alpha=0,1 --points 20 --split-points 10 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .alpha --parallel={N_PROCESSES}".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				N_PROCESSES=args.n_processes	
 				),
 				args.output_dir	
 		])
-		# datacards_module._call_command([
-		# 		"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges muF=0,4 --points 20 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
-		# 		OUTPUT_SUFFIX=args.output_suffix,
-		# 		N_PROCESSES=args.n_processes		
-		# 		),
-		# 		args.output_dir	 
-		# ])
-		# datacards_module._call_command([
-		# 		"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f,muF --setParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha_freezemuF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
-		# 		OUTPUT_SUFFIX=args.output_suffix,
-		# 		N_PROCESSES=args.n_processes			
-		# 		),
-		# 		args.output_dir	
-		# ])
-		# datacards_module._call_command([
-		# 		"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges alpha=0,1 --redefineSignalPOIs alpha,muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --points 500 --algo grid -t -1 --there -n .2DScan --parallel={N_PROCESSES}".format(
-		# 		OUTPUT_SUFFIX=args.output_suffix,
-		# 		N_PROCESSES=args.n_processes			
-		# 		),
-		# 		args.output_dir	
-		# ])
+		datacards_module._call_command([
+				"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges muF=0,4 --points 20  --split-points 10 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				N_PROCESSES=args.n_processes		
+				),
+				args.output_dir	 
+		])
+		datacards_module._call_command([
+				"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f,muF --setParameterRanges alpha=0,1 --points 20 --split-points 10 --redefineSignalPOIs alpha_freezemuF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				N_PROCESSES=args.n_processes			
+				),
+				args.output_dir	
+		])
+		datacards_module._call_command([
+				"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges alpha=0,1 --redefineSignalPOIs alpha,muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --points 500 --split-points 10 --algo grid -t -1 --there -n .2DScan --parallel={N_PROCESSES}".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				N_PROCESSES=args.n_processes			
+				),
+				args.output_dir	
+		])
 								
-		for channel in ["cmb","em","et","mt","tt"]:
-			directory = "output/"+args.output_suffix+"/"+channel+"/125/"
-			datacards_module._call_command([
-					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --logo 'Work in progress' --logo-sub '' ".format(
-					INPUT_FILE=directory+"higgsCombine.alpha.MultiDimFit.mH125.root",
-					OUTPUT_FILE=directory+"alpha"	
-					),
-					args.output_dir	
-			])
+		# for channel in ["cmb","em","et","mt","tt"]:
+		# 	directory = "output/"+args.output_suffix+"/"+channel+"/125/"
+		# 	datacards_module._call_command([
+		# 			"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 '' ".format(
+		# 			INPUT_FILE=directory+"higgsCombine.alpha.MultiDimFit.mH125.root",
+		# 			OUTPUT_FILE=directory+"alpha"	
+		# 			),
+		# 			args.output_dir	
+		# 	])
 			# datacards_module._call_command([
 			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=muF --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#mu_{{F}}' --y-max=10.0".format(
 			# 		INPUT_FILE=directory+"higgsCombine.muF.MultiDimFit.mH125.root",
@@ -849,14 +849,14 @@ if __name__ == "__main__":
 			# 		),
 			# 		args.output_dir	
 			# ])			
-		datacards_module._call_command([
-				"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --others output/{OUTPUT_SUFFIX}/tt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#tau_{{h}}#tau_{{h}}:2 output/{OUTPUT_SUFFIX}/mt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#mu#tau_{{h}}:7 output/{OUTPUT_SUFFIX}/et/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#tau_{{h}}:9 output/{OUTPUT_SUFFIX}/em/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#mu:8  --logo 'Work in progress' --logo-sub '' --main-label Expected ".format(
-				INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
-				OUTPUT_FILE="output/"+args.output_suffix+"/cmb/125/alpha_channel_comparison",	
-				OUTPUT_SUFFIX=args.output_suffix
-				),
-				args.output_dir	
-		])	
+		# datacards_module._call_command([
+		# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --others output/{OUTPUT_SUFFIX}/tt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#tau_{{h}}#tau_{{h}}:2 output/{OUTPUT_SUFFIX}/mt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#mu#tau_{{h}}:7 output/{OUTPUT_SUFFIX}/et/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#tau_{{h}}:9 output/{OUTPUT_SUFFIX}/em/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#mu:8  --logo 'Work in progress' --logo-sub '' --main-label Expected ".format(
+		# 		INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
+		# 		OUTPUT_FILE="output/"+args.output_suffix+"/cmb/125/alpha_channel_comparison",	
+		# 		OUTPUT_SUFFIX=args.output_suffix
+		# 		),
+		# 		args.output_dir	
+		# ])	
 		
 
 			# datacards_module._call_command([
@@ -923,7 +923,7 @@ if __name__ == "__main__":
 			"mt_2" : "#mu#tau_{h} - boosted",
 			"et_2" : "e#tau_{h} - boosted",
 			"em_2" : "e#mu - boosted",
-			"tt_2" : "#tau_{h}#tau_{h} - boosted",
+		 	"tt_2" : "#tau_{h}#tau_{h} - boosted",
 			"mt_3" : "#mu#tau_{h} - dijet lowboost",
 			"et_3" : "e#tau_{h} - dijet lowboost",
 			"em_3" : "e#mu - dijet lowboost",
@@ -1196,7 +1196,7 @@ if __name__ == "__main__":
 					plot_config["texts"] = texts[plot_channel+"_"+plot_category] #  + sub_texts[plot_channel+"_"+plot_category]
 					plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category] #  + sub_texts_x[plot_channel+"_"+plot_category]
 					plot_config["texts_y"] = texts_y[plot_channel+"_"+plot_category] #  +  list((0.65 for i in range(len(sub_texts[plot_channel+"_"+plot_category]))))
-					plot_config["texts_size"] = [0.04] if "2" in plot_category and plot_channel in ["mt", "et", "em"] else [0.032]
+					plot_config["texts_size"] = [0.025]
 					plot_config["x_labels_vertical"] = True
 					plot_config["x_title_offset"] = 1.6
 					plot_config["bottom_pad_margin"] = 0.5
