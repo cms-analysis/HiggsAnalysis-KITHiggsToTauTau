@@ -28,6 +28,9 @@ void TauTriggerEfficiency2017Producer::Produce(event_type const& event, product_
 		//if(mc_weight)
         	product.m_tautriggerefficienciesMC.push_back(TauSFs->getETauEfficiencyMC(lepton->p4.Pt(),lepton->p4.Eta(),lepton->p4.Phi())); 
 		product.m_tautriggerefficienciesData.push_back(TauSFs->getETauEfficiencyData(lepton->p4.Pt(),lepton->p4.Eta(),lepton->p4.Phi()));
+		
+		LOG(DEBUG) << "Lepton 1     Pt: " << lepton->p4.Pt() << "Eta: " <<  lepton->p4.Eta() << std::endl;
+		LOG(DEBUG) << "MC:  " << product.m_tautriggerefficienciesMC[0] << "DATA: " << product.m_tautriggerefficienciesData[0] << std::endl;
 	}
 	else if(product.m_decayChannel ==  HttEnumTypes::DecayChannel::MT)
         {

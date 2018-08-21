@@ -50,12 +50,12 @@ class IdAndTriggerSF(dict):
 				elif re.search("Run2017|Summer17|Fall17", nickname):
 					self["TriggerEfficiencyData"] = [
 							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele35WPTight_IsoLt0.10_eff_RerecoFall17.root",
-							"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_EleTau_Ele24.root"
+							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_EleTau_Ele24.root"
 					]
 
 					self["TriggerEfficiencyMc"] = [
 							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_Ele35WPTight_IsoLt0.10_eff_RerecoFall17.root",
-							"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_EleTau_Ele24.root"
+							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_EleTau_Ele24.root"
 					]
 
 					self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
