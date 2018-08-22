@@ -32,7 +32,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions as expression
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
-import HiggsAnalysis.KITHiggsToTauTau.datacards.zttpolarisationdatacards as zttpolarisationdatacards
+import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacardsbase
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 
@@ -75,12 +75,17 @@ def create_input_root_files(datacards, args):
 			"ZLL" : "zll",
 			"ZTTPOSPOL" : "zttpospol",
 			"ZTTNEGPOL" : "zttnegpol",
+			"ZTT_GEN_DM_ZERO" : "ztt_gendm0_2",
+			"ZTT_GEN_DM_ONE" : "ztt_gendm1_2",
+			"ZTT_GEN_DM_TWO" : "ztt_gendm2_2",
+			"ZTT_GEN_DM_TEN" : "ztt_gendm10_2",
+			"ZTT_GEN_DM_ELEVEN" : "ztt_gendm11_2",
 	}
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 
 		for category in categories:
-			datacards_per_channel_category = zttpolarisationdatacards.ZttPolarisationDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+			datacards_per_channel_category = datacardsbase.Datacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
@@ -278,6 +283,8 @@ if __name__ == "__main__":
 	                    default=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls"],
 	                    choices=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls", "deltanll", "nuisanceimpacts"],
 	                    help="Steps to perform. [Default: %(default)s]")
+	parser.add_argument("--decay-mode-migrations", action="store_true", default=False,
+	                    help="Run fits for decay mode migration analysis of normal polarisation analysis. [Default: %(default)s]")
 	parser.add_argument("--auto-rebin", action="store_true", default=False,
 	                    help="Do auto rebinning [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
