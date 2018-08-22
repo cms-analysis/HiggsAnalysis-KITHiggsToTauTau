@@ -551,9 +551,12 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix)	
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			add_input(
-					input_file=self.files_dy_m50(channel),
+					input_file=self.files_ztt(channel),
 					folder="gen/ntuple",
-					weight="isZTT*(%s)" % polarisation_weight,
+					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})".format(
+							polarisation_weight=polarisation_weight,
+							stitching_weight=self.ztt_stitchingweight()
+					),
 					nick="gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")
 			)
 		
@@ -580,9 +583,12 @@ class Samples(samples.SamplesBase):
 
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			add_input(
-					input_file=self.files_dy_m50(channel),
+					input_file=self.files_ztt(channel),
 					folder="gen/ntuple",
-					weight="isZTT*(%s)" % polarisation_weight,
+					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})".format(
+							polarisation_weight=polarisation_weight,
+							stitching_weight=self.ztt_stitchingweight()
+					),
 					nick="gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")
 			)
 		
