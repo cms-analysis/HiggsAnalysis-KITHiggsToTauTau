@@ -521,6 +521,26 @@ class Samples(samples.SamplesBase):
 		config = self.ztt(config, channel, category, "(decayMode_2==10)*(%s)" % weight, "_dm10_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm10_2", label="ztt_dm10_2", **kwargs)
 		return config
 
+	def ztt_gendm0_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==0)*(%s)" % weight, "_gendm0_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm0_2", label="ztt_gendm0_2", **kwargs)
+		return config
+
+	def ztt_gendm1_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==1)*(%s)" % weight, "_gendm1_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm1_2", label="ztt_gendm1_2", **kwargs)
+		return config
+
+	def ztt_gendm2_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<10)*(%s)" % weight, "_gendm2_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm2_2", label="ztt_gendm2_2", **kwargs)
+		return config
+
+	def ztt_gendm10_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==10)*(%s)" % weight, "_gendm10_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm10_2", label="ztt_gendm10_2", **kwargs)
+		return config
+
+	def ztt_gendm11_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode>10)*(%s)" % weight, "_gendm11_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm11_2", label="ztt_gendm11_2", **kwargs)
+		return config
+
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
