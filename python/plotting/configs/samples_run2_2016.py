@@ -474,7 +474,7 @@ class Samples(samples.SamplesBase):
 		scale_factor = 1.0
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
-			
+		
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)		
 		if channel in ['gen']:
 			add_input(
@@ -509,6 +509,38 @@ class Samples(samples.SamplesBase):
 
 		return config
 
+	def ztt_dm0_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(decayMode_2==0)*(%s)" % weight, "_dm0_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm0_2", label="ztt_dm0_2", **kwargs)
+		return config
+
+	def ztt_dm1_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(decayMode_2==1)*(%s)" % weight, "_dm1_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm1_2", label="ztt_dm1_2", **kwargs)
+		return config
+
+	def ztt_dm10_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(decayMode_2==10)*(%s)" % weight, "_dm10_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm10_2", label="ztt_dm10_2", **kwargs)
+		return config
+
+	def ztt_gendm0_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==0)*(%s)" % weight, "_gendm0_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm0_2", label="ztt_gendm0_2", **kwargs)
+		return config
+
+	def ztt_gendm1_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==1)*(%s)" % weight, "_gendm1_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm1_2", label="ztt_gendm1_2", **kwargs)
+		return config
+
+	def ztt_gendm2_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<10)*(%s)" % weight, "_gendm2_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm2_2", label="ztt_gendm2_2", **kwargs)
+		return config
+
+	def ztt_gendm10_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==10)*(%s)" % weight, "_gendm10_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm10_2", label="ztt_gendm10_2", **kwargs)
+		return config
+
+	def ztt_gendm11_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode>10)*(%s)" % weight, "_gendm11_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm11_2", label="ztt_gendm11_2", **kwargs)
+		return config
+
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
@@ -519,9 +551,12 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix)	
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			add_input(
-					input_file=self.files_dy_m50(channel),
+					input_file=self.files_ztt(channel),
 					folder="gen/ntuple",
-					weight="isZTT*(%s)" % polarisation_weight,
+					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})".format(
+							polarisation_weight=polarisation_weight,
+							stitching_weight=self.ztt_stitchingweight()
+					),
 					nick="gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")
 			)
 		
@@ -548,9 +583,12 @@ class Samples(samples.SamplesBase):
 
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			add_input(
-					input_file=self.files_dy_m50(channel),
+					input_file=self.files_ztt(channel),
 					folder="gen/ntuple",
-					weight="isZTT*(%s)" % polarisation_weight,
+					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})".format(
+							polarisation_weight=polarisation_weight,
+							stitching_weight=self.ztt_stitchingweight()
+					),
 					nick="gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")
 			)
 		
