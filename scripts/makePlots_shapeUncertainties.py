@@ -55,62 +55,73 @@ if __name__ == "__main__":
 		for key, path in root_file_content:
 			folder = os.path.dirname(path)
 			histogram = os.path.basename(path)
-			histogram_parts = histogram.split("_")
-			process = histogram_parts[0]
-			uncertainty = "_".join(histogram_parts[1:])
-			index = None
-			shift_up = uncertainty.endswith("Up")
-			if shift_up:
-				uncertainty = uncertainty[:-2]
-				index = 0
-			shift_down = uncertainty.endswith("Down")
-			if shift_down:
-				uncertainty = uncertainty[:-4]
-				index = 1
-			if shift_up or shift_down:
-				parsed_root_file_content.setdefault(folder, {}).setdefault((process, uncertainty), [None, None])[index] = histogram
+			if (not histogram.endswith("Up")) and (not histogram.endswith("Down")):
+				parsed_root_file_content.setdefault(folder, {})[histogram] = {}
+		
+		for key, path in root_file_content:
+			folder = os.path.dirname(path)
+			histogram = os.path.basename(path)
+			if (histogram.endswith("Up")) or (histogram.endswith("Down")):
+				for process in sorted(parsed_root_file_content.get(folder, {}).keys())[::-1]:
+					if histogram.startswith(process+"_"):
+						uncertainty = histogram.replace(process+"_", "")
+		
+						index = None
+						shift_up = uncertainty.endswith("Up")
+						if shift_up:
+							uncertainty = uncertainty[:-2]
+							index = 0
+						shift_down = uncertainty.endswith("Down")
+						if shift_down:
+							uncertainty = uncertainty[:-4]
+							index = 1
+						if shift_up or shift_down:
+							parsed_root_file_content.setdefault(folder, {}).setdefault(process, {}).setdefault(uncertainty, [None, None])[index] = histogram
+						
+						break
 		
 		for folder, folder_content in parsed_root_file_content.iteritems():
-			for (process, uncertainty), histograms in folder_content.iteritems():
+			for process, process_content in folder_content.iteritems():
+				for uncertainty, histograms in process_content.iteritems():
 				
-				config = {}
-				config["files"] = [input_file]
-				config["folders"] = [folder]
-				config["x_expressions"] = ([process]+histograms)
-				config["nicks"] = ([process]+histograms)
+					config = {}
+					config["files"] = [input_file]
+					config["folders"] = [folder]
+					config["x_expressions"] = ([process]+histograms)
+					config["nicks"] = ([process]+histograms)
 				
-				config["colors"] = ["kBlack", "kRed", "kBlue"]
-				config["markers"] = ["E", "LINE", "LINE"]
-				config["legend_markers"] = ["ELP", "L", "L"]
-				config["labels"] = ["nominal", "#plus1#sigma shift", "#minus1#sigma shift"]
+					config["colors"] = ["kBlack", "kRed", "kBlue"]
+					config["markers"] = ["E", "LINE", "LINE"]
+					config["legend_markers"] = ["ELP", "L", "L"]
+					config["labels"] = ["nominal", "#plus1#sigma shift", "#minus1#sigma shift"]
 				
-				config["legend"] = [0.65, 0.7, 0.9, 0.88]
-				config["title"] = uncertainty+" ("+process+")"
-				config["x_label"] = "Disciminator"
+					config["legend"] = [0.65, 0.7, 0.9, 0.88]
+					config["title"] = uncertainty+" ("+process+")"
+					config["x_label"] = "Disciminator"
 				
-				if args.ratio:
-					if not "Ratio" in config.get("analysis_modules", []):
-						config.setdefault("analysis_modules", []).append("Ratio")
-					config.setdefault("ratio_numerator_nicks", []).extend(histograms)
-					config.setdefault("ratio_denominator_nicks", []).extend([process] * 2)
-					config.setdefault("ratio_result_nicks", []).extend(["ratio_up", "ratio_down"])
+					if args.ratio:
+						if not "Ratio" in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("Ratio")
+						config.setdefault("ratio_numerator_nicks", []).extend(histograms)
+						config.setdefault("ratio_denominator_nicks", []).extend([process] * 2)
+						config.setdefault("ratio_result_nicks", []).extend(["ratio_up", "ratio_down"])
 					
-					config["colors"].extend(config["colors"][1:])
-					config["markers"].extend(["LINE", "LINE"])
-					config["legend_markers"].extend(config["legend_markers"][1:])
-					config["labels"].extend([""] * 2)
+						config["colors"].extend(config["colors"][1:])
+						config["markers"].extend(["LINE", "LINE"])
+						config["legend_markers"].extend(config["legend_markers"][1:])
+						config["labels"].extend([""] * 2)
 					
-					config["legend"] = [0.65, 0.65, 0.95, 0.83]
+						config["legend"] = [0.65, 0.65, 0.95, 0.83]
 				
-				output_dir = args.output_dir
-				if output_dir is None:
-					output_dir = os.path.join(os.path.splitext(input_file)[0], folder, uncertainty)
-				config["output_dir"] = output_dir
-				if args.www:
-					config["www"] = os.path.join(args.www, os.path.splitext(input_file)[0].replace(inputs_base, ""), folder, uncertainty)
-				config["filename"] = process
+					output_dir = args.output_dir
+					if output_dir is None:
+						output_dir = os.path.join(os.path.splitext(input_file)[0], folder, uncertainty)
+					config["output_dir"] = output_dir
+					if args.www:
+						config["www"] = os.path.join(args.www, os.path.splitext(input_file)[0].replace(inputs_base, ""), folder, uncertainty)
+					config["filename"] = process
 				
-				plot_configs.append(config)
+					plot_configs.append(config)
 	
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
