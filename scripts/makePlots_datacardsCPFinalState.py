@@ -649,8 +649,14 @@ if __name__ == "__main__":
 	
 					# For the moment binning is hardcoded.
 					# TODO: optimise categories and define corresponding binning in binnings.py
-					tt_binnings_m_sv = "0 95 115 135 155 350"
 					tt_binnings_phiStarCP = "10,0.0,6.3"
+					tt_binnings_m_sv = "0 95 115 135 155 350"  # default
+					if ("ZeroJet2D" in category):
+						tt_binnings_m_sv = "0 115 135 155 350"
+					if ("Boosted2D" in category):
+						tt_binnings_m_sv = "0 95 115 155 350"
+					if ("Vbf2D" in category):
+						tt_binnings_m_sv = "0 95 135 350"
 					# Use 2d plots for 2d categories
 					if channel=="tt":
 						if ("ZeroJet2D" in category or "Boosted2D" in category or "Vbf2D" in category) and not ("WJCR" in category or "QCDCR" in category):
@@ -887,14 +893,14 @@ if __name__ == "__main__":
 			"tt_3" : ["#scale[0.6]{(0.0-0.2) #pi}","#scale[0.6]{(0.2-0.4) #pi}","#scale[0.6]{(0.4-0.6) #pi}","#scale[0.6]{(0.6-0.8) #pi}","#scale[0.6]{(0.8-1.0) #pi}","#scale[0.6]{(1.0-1.2) #pi}","#scale[0.6]{(1.2-1.4) #pi}","#scale[0.6]{(1.4-1.6) #pi}","#scale[0.6]{(1.6-1.8) #pi}","#scale[0.6]{(1.8-2.0) #pi}"] * 5,
 		}
 		texts = {
-			"tt_1" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"],
-			"tt_2" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"],
-			"tt_3" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"]
+			"tt_1" : ["0 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"],
+			"tt_2" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 155 GeV", "155 < m_{#tau#tau} < 350 GeV"],
+			"tt_3" : ["0 < m_{#tau#tau} < 95 GeV", "95 < m_{#tau#tau} < 135 GeV", "135 < m_{#tau#tau} < 350 GeV"]
 		}
 		texts_x = {
-			"tt_1" : [0.18, 0.32, 0.48, 0.64, 0.80],
-			"tt_2" : [0.18, 0.32, 0.48, 0.64, 0.80],
-			"tt_3" : [0.18, 0.32, 0.48, 0.64, 0.80],
+			"tt_1" : [0.18, 0.40, 0.60, 0.80],
+			"tt_2" : [0.18, 0.40, 0.60, 0.80],
+			"tt_3" : [0.22, 0.48, 0.76],
 		}
 		vertical_lines = {
 			"tt_1" : [10, 20, 30, 40],
