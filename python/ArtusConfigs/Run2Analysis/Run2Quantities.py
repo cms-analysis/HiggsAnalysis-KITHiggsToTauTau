@@ -836,6 +836,8 @@ class quantities(dict):
 			"njetingap",
 			"njetingap20",
 			"jdphi",
+			"etaSep",
+			#"eta_h",
 			"dijetpt",
 			"dijetphi",
 			"hdijetphi",

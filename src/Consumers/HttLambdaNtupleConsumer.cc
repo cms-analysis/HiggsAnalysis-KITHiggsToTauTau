@@ -97,6 +97,10 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	{
 		return sqrt(pow(SafeMap::Get(metadata.m_commonFloatQuantities,std::string("mt_tt"))(event,product),2)+pow(SafeMap::Get(metadata.m_commonFloatQuantities,std::string("lep1MetMt"))(event,product),2)+pow(SafeMap::Get(metadata.m_commonFloatQuantities,std::string("lep2MetMt"))(event,product),2));
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "etaSep", [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? std::min(std::abs(product.m_svfitResults.fittedHiggsLV->Eta() - product.m_validJets[0]->p4.Eta()),std::abs(product.m_svfitResults.fittedHiggsLV->Eta() - product.m_validJets[1]->p4.Eta())) :
+		                                        DefaultValues::UndefinedDouble;
+	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "m_vis", metadata.m_commonFloatQuantities["diLepMass"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvis", metadata.m_commonFloatQuantities["diLepMass"]);
