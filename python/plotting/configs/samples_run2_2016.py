@@ -509,36 +509,36 @@ class Samples(samples.SamplesBase):
 
 		return config
 
-	def ztt_dm0_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		config = self.ztt(config, channel, category, "(decayMode_2==0)*(%s)" % weight, "_dm0_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm0_2", label="ztt_dm0_2", **kwargs)
+	def ztt_dm_zero(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(decayMode_2==0)*(%s)" % weight, "_dm_zero", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm_zero", label="ztt_dm_zero", **kwargs)
 		return config
 
-	def ztt_dm1_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		config = self.ztt(config, channel, category, "(decayMode_2==1)*(%s)" % weight, "_dm1_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm1_2", label="ztt_dm1_2", **kwargs)
+	def ztt_dm_one(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(decayMode_2==1)*(%s)" % weight, "_dm_one", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm_one", label="ztt_dm_one", **kwargs)
 		return config
 
-	def ztt_dm10_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		config = self.ztt(config, channel, category, "(decayMode_2==10)*(%s)" % weight, "_dm10_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm10_2", label="ztt_dm10_2", **kwargs)
+	def ztt_dm_ten(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(decayMode_2==10)*(%s)" % weight, "_dm_ten", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_dm_ten", label="ztt_dm_ten", **kwargs)
 		return config
 
-	def ztt_gendm0_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==0)*(%s)" % weight, "_gendm0_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm0_2", label="ztt_gendm0_2", **kwargs)
+	def ztt_gen_dm_zero(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==0)*(%s)" % weight, "_gen_dm_zero", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gen_dm_zero", label="ztt_gen_dm_zero", **kwargs)
 		return config
 
-	def ztt_gendm1_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==1)*(%s)" % weight, "_gendm1_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm1_2", label="ztt_gendm1_2", **kwargs)
+	def ztt_gen_dm_one(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==1)*(%s)" % weight, "_gen_dm_one", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gen_dm_one", label="ztt_gen_dm_one", **kwargs)
 		return config
 
-	def ztt_gendm2_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<10)*(%s)" % weight, "_gendm2_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm2_2", label="ztt_gendm2_2", **kwargs)
+	def ztt_gen_dm_two(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<10)*(%s)" % weight, "_gen_dm_two", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gen_dm_two", label="ztt_gen_dm_two", **kwargs)
 		return config
 
-	def ztt_gendm10_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==10)*(%s)" % weight, "_gendm10_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm10_2", label="ztt_gendm10_2", **kwargs)
+	def ztt_gen_dm_ten(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode==10)*(%s)" % weight, "_gen_dm_ten", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gen_dm_ten", label="ztt_gen_dm_ten", **kwargs)
 		return config
 
-	def ztt_gendm11_2(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
-		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode>10)*(%s)" % weight, "_gendm11_2", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gendm11_2", label="ztt_gendm11_2", **kwargs)
+	def ztt_gen_dm_eleven(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		config = self.ztt(config, channel, category, "(genMatchedTau2DecayMode>10)*(%s)" % weight, "_gen_dm_eleven", lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="ztt_gen_dm_eleven", label="ztt_gen_dm_eleven", **kwargs)
 		return config
 
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):

@@ -75,11 +75,11 @@ def create_input_root_files(datacards, args):
 			"ZLL" : "zll",
 			"ZTTPOSPOL" : "zttpospol",
 			"ZTTNEGPOL" : "zttnegpol",
-			"ZTT_GEN_DM_ZERO" : "ztt_gendm0_2",
-			"ZTT_GEN_DM_ONE" : "ztt_gendm1_2",
-			"ZTT_GEN_DM_TWO" : "ztt_gendm2_2",
-			"ZTT_GEN_DM_TEN" : "ztt_gendm10_2",
-			"ZTT_GEN_DM_ELEVEN" : "ztt_gendm11_2",
+			"ZTT_GEN_DM_ZERO" : "ztt_gen_dm_zero",
+			"ZTT_GEN_DM_ONE" : "ztt_gen_dm_one",
+			"ZTT_GEN_DM_TWO" : "ztt_gen_dm_two",
+			"ZTT_GEN_DM_TEN" : "ztt_gen_dm_ten",
+			"ZTT_GEN_DM_ELEVEN" : "ztt_gen_dm_eleven",
 	}
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
