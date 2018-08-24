@@ -1,0 +1,1 @@
+XROOTD_sample_SingleElectron_Run2017C_31Mar2018v1_13TeV_MINIAOD_2018-08-21.txt

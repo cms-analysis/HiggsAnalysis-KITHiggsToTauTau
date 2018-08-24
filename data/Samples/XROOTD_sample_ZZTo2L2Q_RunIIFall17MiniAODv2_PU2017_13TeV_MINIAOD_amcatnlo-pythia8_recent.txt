@@ -1,0 +1,1 @@
+XROOTD_sample_ZZTo2L2Q_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8_2018-08-15.txt
