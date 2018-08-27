@@ -5,6 +5,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import re
+import os
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsKappa as sKappa
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsSampleStitchingWeights as sSSW
@@ -49,7 +50,7 @@ class Baseconfig(dict):
 
 		if re.search("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)|LFV", nickname):
 			self["BosonPdgIds"] = [23]
-		elif re.search("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
+		elif re.search("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z|JJ)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["BosonPdgIds"] = [25]
 		elif re.search("W.?JetsToLN|EWKW", nickname):
 			self["BosonPdgIds"] = [24]
@@ -88,7 +89,14 @@ class Baseconfig(dict):
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_94XSF_V2_B_F.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root" #TODO cant find this
 
-			if re.search("(DYJetsToLLM50).*(?=Fall17).*(?<!(ext1))$", nickname):
+			if re.search("MiniAODv2", nickname):
+				pileupweightfile = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017mcv2_defaults/" + nickname +".root"
+				if os.path.isfile(os.path.expandvars(pileupweightfile)):
+					self["PileupWeightFile"] = pileupweightfile
+				else:
+					log.warning("automatic finding doesnt work,This is the incluse pilupweight used for summer2017 are you sure you want to use this one?")
+					self["PileupWeightFile"] =  "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_13TeV_MC_94XFall17_99bins_69p2mbMinBiasXS.root"
+			elif re.search("(DYJetsToLLM50).*(?=Fall17).*(?<!(ext1))$", nickname):
 				self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927_306462_EOY2017ReReco_80bins_69p2MinBiasXS/puweights_DYJetsToLLM50_RunIIFall17MiniAOD_RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8.root"
 			elif re.search("(DYJetsToLLM50).*(?=Fall17).*(amcatnlo).*(?<!(ext1))$",nickname):
 				self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927_306462_EOY2017ReReco_80bins_69p2MinBiasXS/puweights_DYJetsToLLM50_RunIIFall17MiniAOD_94X_13TeV_MINIAOD_amcatnlo-pythia8.root"
@@ -192,7 +200,7 @@ class Baseconfig(dict):
 			self["MvaMetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root"
 			self["ZptReweightProducerWeights"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root"
 	
-		elif re.search("(Run2017|Summer17|Fall17)", nickname):
+		elif re.search("(Run2017|Summer17|Fall17)", nickname): #TODO
 			self["MetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root"
 			self["MvaMetRecoilCorrectorFile"] = ""
 			self["ZptReweightProducerWeights"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root"
