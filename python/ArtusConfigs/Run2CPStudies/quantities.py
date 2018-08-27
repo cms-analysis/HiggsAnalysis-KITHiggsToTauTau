@@ -36,23 +36,28 @@ class Quantities(Run2Quantities):
 					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"
 				])
 				#tautau triggers
+				"""
 				self.quantities.update([
 					"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
 					"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
 					"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"
 				])
+				"""
 
 			if re.search("DY.?JetsToLL",nickname):
 				self.quantities.update(self.genQuantities())
 				self.quantities.update(self.genCPQuantities())
-				self.quantities.update(self.genQuantities(LFV = False, Z= True))
+				if re.search("(Summer17|Fall17)", nickname):
+					self.quantities.update(self.genQuantities(LFV = False, Z= False))
+				else:
+					self.quantities.update(self.genQuantities(LFV = False, Z= True))
 				self.quantities.update(["tauSpinnerPolarisation"])
 
 			elif re.search("LFV",nickname):
 				self.quantities.update(self.genCPQuantities())
 				self.quantities.update(self.genQuantities(LFV = True))
 
-			elif re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
+			elif re.search("HToTauTau|H2JetsToTauTau|Higgs|JJHiggs",nickname):
 				self.quantities.update(self.genQuantities())
 				if re.search("(Summer17|Fall17)", nickname) == None:
 					self.quantities.update(self.genHiggsQuantities())
@@ -158,7 +163,7 @@ class Quantities(Run2Quantities):
 
 			# ************ datasets(groups, samples) common across all except mm channels are all the rest
 			else:
-				if not channel == "MM" and re.search('(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
+				if not channel == "MM" and re.search('(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
 					if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 						self.quantities.update(self.splitJecUncertaintyQuantities())
 						self.quantities.update(self.genHiggsQuantities()) #no lhe in 2017 skim

@@ -83,12 +83,11 @@ class gen_ArtusConfig(dict):
 			self["Processors"] = []
 
 		if re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
-			self["Processors"] = [
+			self["Processors"] += [
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:ValidTaggedJetsProducer",
 				"#producer:ValidBTaggedJetsProducer",
 				"producer:DiJetQuantitiesProducer"
 			]
-		else:
-			self["Processors"] = []
+			
 
