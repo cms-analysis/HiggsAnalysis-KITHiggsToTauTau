@@ -383,8 +383,9 @@ if __name__ == "__main__":
 		print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
 		BinErrorsAndBBB(datacards, 0.1, 0.5, True)
 	
-	print WARNING + '-----      Modify systematics...     -----' + ENDC
-	ModifySystematics(datacards)
+	if not args.decay_mode_migrations:
+		print WARNING + '-----      Modify systematics...     -----' + ENDC
+		ModifySystematics(datacards)
 	
 	datacards.cb.SetGroup("syst_plus_bbb", [".*"])
 	
