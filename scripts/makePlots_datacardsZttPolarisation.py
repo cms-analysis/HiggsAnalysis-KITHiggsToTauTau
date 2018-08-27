@@ -123,7 +123,7 @@ def create_input_root_files(datacards, args):
 					
 					tmp_quantity = args.quantity
 					tmp_omega_version = args.omega_version
-					if args.fixed_variables:
+					if args.fixed_variables == "best_choice":
 						if channel in ["tt"]:
 							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong", "combined_oneprong_oneprong"]]:
 								tmp_quantity = "m_vis"
@@ -154,6 +154,13 @@ def create_input_root_files(datacards, args):
 							if category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong"]]:
 								tmp_quantity = "m_vis"
 								tmp_omega_version = None
+					elif args.fixed_variables == "best_choice_no_svfit":
+						tmp_quantity = "m_vis"
+						tmp_omega_version = None
+						if channel in ["tt", "mt", "et"]:
+							if category in [channel+"_"+cat for cat in ["combined_rho_rho", "rho"]]:
+								tmp_quantity = None
+								tmp_omega_version = "VisibleSvfit"
 					
 					x_expression = None
 					if tmp_quantity:
@@ -328,8 +335,9 @@ if __name__ == "__main__":
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="datacards",
 	                    help="Publish plots. [Default: %(default)s]")
-	parser.add_argument("--fixed-variables", default=False, action="store_true",
-						help="Takes m_vis in all but the tt_combined as seperating variable")
+	parser.add_argument("--fixed-variables", default=None, const="best_choice", nargs="?",
+	                    choices=["best_choice", "best_choice_no_svfit"],
+						help="Takes pre-defined discriminator variables [Default: %(default)s]")
 	parser.add_argument("--fixed-binning", default = False,
 						help="Use a fixed given binning.")
 
