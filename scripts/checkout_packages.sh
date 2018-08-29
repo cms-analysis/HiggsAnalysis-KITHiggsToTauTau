@@ -24,7 +24,7 @@ if [[ $cmssw_version = "747" ]]; then
 
 else
         # set up CMSSW release area
-        export SCRAM_ARCH=slc7_amd64_gcc530
+        export SCRAM_ARCH=slc6_amd64_gcc530
         scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
         eval `scramv1 runtime -sh`
 
@@ -79,8 +79,8 @@ git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGrap
 # MELA/JHU
 git clone git@github.com:cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
 cd ZZMatrixElement
-mkdir MELA/data/slc7_amd64_gcc530
-cp MELA/data/slc6_amd64_gcc530/download.url MELA/data/slc7_amd64_gcc530/
+#mkdir MELA/data/slc7_amd64_gcc530
+#cp MELA/data/slc6_amd64_gcc530/download.url MELA/data/slc7_amd64_gcc530/
 ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
 cd $CMSSW_BASE/src/
 
