@@ -3074,7 +3074,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
 
 				add_input(
-						input_file=self.files_ggh(channel, mass, cp=kwargs.get("cp", None)) if not mssm else self.files_susy_ggh(channel, mass),
+						input_file=self.files_ggh(channel, mass, cp=kwargs.get('cp', None)) if not mssm else self.files_susy_ggh(channel, mass),
 						scale_factor=lumi*kwargs.get("scale_signal", 1.0),
 						weight=tauSpinner_weight+"*"+matrix_weight+mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="ggh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")
