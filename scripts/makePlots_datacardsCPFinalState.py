@@ -849,6 +849,9 @@ if __name__ == "__main__":
 		name_ws = "ws.root"
 		datacards_module._call_command([
 				"combineTool.py -M T2W -P HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs -i output/{OUTPUT_SUFFIX}/tt/* -o {NAME_WS} --parallel {N_PROCESSES}".format(
+				#"combineTool.py -M T2W -P HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs -i output/{OUTPUT_SUFFIX}/tt/125/htt_tt_1_13TeV.txt -o {NAME_WS} --parallel {N_PROCESSES}".format(
+				#"combineTool.py -M T2W -P HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs -i output/{OUTPUT_SUFFIX}/tt/125/htt_tt_2_13TeV.txt -o {NAME_WS} --parallel {N_PROCESSES}".format(
+				#"combineTool.py -M T2W -P HiggsAnalysis.CombinedLimit.HiggsJPC:twoHypothesisHiggs -i output/{OUTPUT_SUFFIX}/tt/125/htt_tt_3_13TeV.txt -o {NAME_WS} --parallel {N_PROCESSES}".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				NAME_WS = name_ws,
 				N_PROCESSES=args.n_processes
