@@ -402,14 +402,12 @@ if __name__ == "__main__":
 		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]
 
 		for level in ["prefit", "postfit"]:
-			print("prefit")
 			for datacard in datacards_cbs.keys():
 				postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
 				# do not produce plots for combination as there is no proper implementation for that
 				if len(datacards_cbs[datacard].cp().bin_set()) > 1:
 					continue
 				for category in datacards_cbs[datacard].cp().bin_set():
-					print(category)
 					channel = category.split("_")[0]
 					bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
 					sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()

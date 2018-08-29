@@ -166,7 +166,7 @@ if __name__ == "__main__":
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")											
 	parser.add_argument("--steps", nargs="+",
 	                    default=["inputs", "t2w", "likelihoodscan"],
-	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots"],
+	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots", "nuisanceimpacts"],
 	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
@@ -181,8 +181,12 @@ if __name__ == "__main__":
 	parser.add_argument("--x-bins", default=None,
 	                    help="Manualy set the binning. Default is taken from configuration files.")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
-	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")						
-
+	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")	
+	parser.add_argument("--jec-groupings", default=False, action="store_true", 
+						help="Use the jec uncertainty groupings instead of the 27 individual JEC sources. [Default: %(default)s]")					
+	parser.add_argument("--www", nargs="?", default=None, const="control_plots",
+	                    help="Publish plots. [Default: %(default)s]")
+						
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -236,8 +240,9 @@ if __name__ == "__main__":
 
 	# get "official" configuration
 	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix)) 
-	command = "MorphingSMCP2016 --control_region=1 --real_data=false --postfix -2D --ttbar_fit=true {INIT}".format(
-		INIT="--only_init="+os.path.join(init_directory, "init")
+	command = "MorphingSMCP2016 --control_region=1 --real_data=false --no_jec_split=false {JEC_GROUPINGS} --postfix -2D --ttbar_fit=true {INIT}".format(
+		INIT="--only_init="+os.path.join(init_directory, "init"),
+		JEC_GROUPINGS=" --use_jec_groupings=true" if args.jec_groupings else " "
 	)
 	log.debug(command)
 	exit_code = logger.subprocessCall(shlex.split(command))
@@ -485,10 +490,8 @@ if __name__ == "__main__":
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		log.info("Building configs for channel = {channel}, categories = {categories}".format(channel=channel, categories=str(categories)))
 		for official_category in categories:
-			# Do the category replacement to get the names defined in expressions.py 
-			print(official_category)		
+			# Do the category replacement to get the names defined in expressions.py 	
 			category = official2private(official_category, category_replacements)
-			print(category)	
 			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			
@@ -614,8 +617,8 @@ if __name__ == "__main__":
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
 						
-					if any( cr in category for cr in ["dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
+					# if any( cr in category for cr in ["dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
+					# 	config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
 						
 					# if any( cr in category for cr in ["dijet2D_lowboost_qcd_cr", "dijet2D_boosted_qcd_cr"]) and channel == "tt" and "mela" in args.quantity:
 					# 	config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
@@ -637,14 +640,13 @@ if __name__ == "__main__":
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 						config["y_expressions"] = ["jdphi"]
 						config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
-						if "mela2D" in args.quantity:
-							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH*TMath::Sign(1, melaDiscriminatorDCPGGH)"]
-							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]
-						elif "mela3D" in args.quantity:
+						if "mela3D" in args.quantity:
+							config["z_expressions"] = ["m_vis" if channel == "mm" else "m_sv"]
+							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]							
 							config["y_expressions"] = ["melaDiscriminatorD0MinusGGH"]
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorD0MinusGGH"]]
-							config["z_expressions"] = ["melaDiscriminatorDCPGGH"]
-							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorDCPGGH"]]
+							config["x_expressions"] = ["melaDiscriminatorDCPGGH"]
+							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_melaDiscriminatorDCPGGH"]]
 						elif "mela_eta" in args.quantity:
 							config["z_expressions"] = ["melaDiscriminatorD0MinusGGH*TMath::Sign(1, melaDiscriminatorDCPGGH)"]
 							config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]
@@ -655,7 +657,11 @@ if __name__ == "__main__":
 					if ("2D" in category or "BoostedCP" in category) and not ("wjets" in category or "qcd_cr" in category) and not (channel == "tt" and "ZeroJetCP" in category):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollHistogram")
-						config["unroll_ordering"] = "zyx"
+						if args.quantity == "jdphi":
+							config["unroll_ordering"] = "zxy"
+						else:
+							config["unroll_ordering"] = "zxy"
+
 
 					config["directories"] = [args.input_dir]
 
@@ -718,9 +724,10 @@ if __name__ == "__main__":
 	# this steps creates the filled datacards in the output folder. 
 	if "t2w" in args.steps:	
 		datacards_module._call_command([
-				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} --real_data=false --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX}/em --input_folder_et {OUTPUT_SUFFIX}/et --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_tt {OUTPUT_SUFFIX}/tt --input_folder_mm {OUTPUT_SUFFIX}/mm --input_folder_ttbar {OUTPUT_SUFFIX}/em ".format(
+				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} --no_jec_split=false {JEC_GROUPINGS}  --real_data=false --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX}/em --input_folder_et {OUTPUT_SUFFIX}/et --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_tt {OUTPUT_SUFFIX}/tt --input_folder_mm {OUTPUT_SUFFIX}/mm --input_folder_ttbar {OUTPUT_SUFFIX}/em ".format(
 				OUTPUT_SUFFIX=args.output_suffix,
-				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else ""
+				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
+				JEC_GROUPINGS=" --use_jec_groupings=true" if args.jec_groupings else " "
 				),
 				args.output_dir
 		])
@@ -785,6 +792,7 @@ if __name__ == "__main__":
 		"ZLL" : "zll",	
 		"ZTT" : "ztt",															
 		}
+	
 	
 	# Create workspaces from the datacards 
 	if "t2w" in args.steps:
@@ -1073,9 +1081,6 @@ if __name__ == "__main__":
 				"tt_4" : [0.8]*6+[0.75, 0.7, 0.75]*6			
 			}							
 			vertical_lines = {
-				"mt_1" : [12, 24],
-				"et_1" : [12, 24],
-				"em_1" : [12, 24],
 				"mt_2" : [10, 20, 30, 40, 50],
 				"et_2" : [10, 20, 30, 40, 50],
 				"em_2" : [10, 20, 30, 40, 50],
@@ -1142,10 +1147,24 @@ if __name__ == "__main__":
 				"em_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
 				"tt_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82]			
 			}
+			texts_y = {
+				"mt_1" : [0.8],
+				"et_1" : [0.8],
+				"em_1" : [0.8],
+				"mt_2" : [0.8],
+				"et_2" : [0.8],
+				"em_2" : [0.8],
+				"tt_2" : [0.8],
+				"mt_3" : [0.8],
+				"et_3" : [0.8],
+				"em_3" : [0.8],
+				"tt_3" : [0.8],
+				"mt_4" : [0.8],
+				"et_4" : [0.8],
+				"em_4" : [0.8],
+				"tt_4" : [0.8]			
+			}			
 			vertical_lines = {
-				"mt_1" : [12, 24],
-				"et_1" : [12, 24],
-				"em_1" : [12, 24],
 				"mt_2" : [10, 20, 30, 40, 50],
 				"et_2" : [10, 20, 30, 40, 50],
 				"em_2" : [10, 20, 30, 40, 50],
@@ -1162,7 +1181,7 @@ if __name__ == "__main__":
 			
 					
 	
-		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes, no_plot=[""])
+		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "www": args.www, "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes, no_plot=[""])
 		for plot_config in prefit_postfit_plot_configs:
 			
 			plot_category = plot_config["filename"].split("_")[-2]
@@ -1174,7 +1193,10 @@ if __name__ == "__main__":
 				print("Category to be plotted: ", plot_category)
 				plot_config["canvas_width"] = 2100
 				plot_config["canvas_height"] = 1000
-				plot_config["x_label"] = "#Delta#phi_{jj}" if "jdphi" == args.quantity else "D_{CP}^{*}"
+				if "3" in plot_category or "4" in plot_category:
+					plot_config["x_label"] = "#Delta#phi_{jj}" if "jdphi" == args.quantity else "D_{CP}^{*}"
+				else:
+					plot_config["x_label"] = "m_{#tau#tau}/GeV"					
 				if "--y-log" in args.args:
 					plot_config["y_lims"] = ylog_lims[plot_channel+"_"+plot_category]
 				else: 
@@ -1195,13 +1217,14 @@ if __name__ == "__main__":
 					plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
 					plot_config["texts"] = texts[plot_channel+"_"+plot_category] #  + sub_texts[plot_channel+"_"+plot_category]
 					plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category] #  + sub_texts_x[plot_channel+"_"+plot_category]
-					plot_config["texts_y"] = texts_y[plot_channel+"_"+plot_category] #  +  list((0.65 for i in range(len(sub_texts[plot_channel+"_"+plot_category]))))
+					plot_config["texts_y"] = texts_y[plot_channel+"_"+plot_category]
 					plot_config["texts_size"] = [0.025]
 					plot_config["x_labels_vertical"] = True
 					plot_config["x_title_offset"] = 1.6
 					plot_config["bottom_pad_margin"] = 0.5
-					plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category]
-					plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
+					if "1" not in plot_category:
+						plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category] 
+						plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
 
 		if "nuisanceimpacts" in args.steps:
 			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_alpha, args.n_processes, higgs_mass="125")        
