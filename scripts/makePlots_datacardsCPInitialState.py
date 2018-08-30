@@ -630,10 +630,10 @@ if __name__ == "__main__":
 						config["x_expressions"] = ["m_sv"] 
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_sv"]]	
 					elif "BoostedCP" in category and not ("wjets" in category or "qcd_cr" in category or "dijet" in category):
-						config["x_expressions"] = ["m_vis" if channel == "mm" else "m_sv"]
-						config["y_expressions"] = ["H_pt"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
-						config["y_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_H_pt"]]
+						config["y_expressions"] = ["m_vis" if channel == "mm" else "m_sv"]
+						config["x_expressions"] = ["H_pt"]
+						config["y_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_H_pt"]]
 
 					elif "dijet2D" in category and not ("wjets" in category or "qcd_cr" in category):
 						config["x_expressions"] = ["m_vis" if channel == "mm" else "m_sv"]
@@ -1025,14 +1025,14 @@ if __name__ == "__main__":
 				"et_2" : [0.8],
 				"em_2" : [0.8],
 				"tt_2" : [0.8],
-				"mt_3" : [0.905]*6+[0.75, 0.75, 0.75]*6,
-				"et_3" : [0.905]*6+[0.75, 0.75, 0.75]*6,
-				"em_3" : [0.905]*6+[0.75, 0.75, 0.75]*6,
-				"tt_3" : [0.905]*6+[0.75, 0.75, 0.75]*6,
-				"mt_4" : [0.905]*6+[0.75, 0.75, 0.75]*6,
-				"et_4" : [0.905]*6+[0.75, 0.75, 0.75]*6,
-				"em_4" : [0.905]*6+[0.75, 0.75, 0.75]*6,
-				"tt_4" : [0.905]*6+[0.75, 0.75, 0.75]*6			
+				"mt_3" : [0.902]*6+[0.75, 0.75, 0.75]*6,
+				"et_3" : [0.902]*6+[0.75, 0.75, 0.75]*6,
+				"em_3" : [0.902]*6+[0.75, 0.75, 0.75]*6,
+				"tt_3" : [0.902]*6+[0.75, 0.75, 0.75]*6,
+				"mt_4" : [0.902]*6+[0.75, 0.75, 0.75]*6,
+				"et_4" : [0.902]*6+[0.75, 0.75, 0.75]*6,
+				"em_4" : [0.902]*6+[0.75, 0.75, 0.75]*6,
+				"tt_4" : [0.902]*6+[0.75, 0.75, 0.75]*6			
 			}							
 			vertical_lines = {
 				"mt_2" : [10, 20, 30, 40, 50],
@@ -1140,7 +1140,7 @@ if __name__ == "__main__":
 					plot_config["y_lims"] = ylog_lims[plot_channel+"_"+plot_category]
 				else: 
 					plot_config["y_rel_lims"] = [0.5, 10]
-				plot_config["legend"] = [0.895, 0.1, 0.95, 0.8] if "1" not in plot_category else [0.23, 0.56, 0.85, 0.87]
+				plot_config["legend"] = [0.895, 0.1, 0.97, 0.85] if "1" not in plot_category else [0.23, 0.56, 0.85, 0.87]
 				plot_config["legend_cols"] = 1 if "1" not in plot_category else 3
 				plot_config["y_label"] = "Events/bin"
 				plot_config["formats"] = ["pdf", "png"]
@@ -1161,7 +1161,7 @@ if __name__ == "__main__":
 					plot_config["left_pad_margin"] = 0.1
 					plot_config["right_pad_margin"] = 0.11
 					plot_config["x_labels_vertical"] = True
-					plot_config["x_title_offset"] = 1.7
+					plot_config["x_title_offset"] = 1.8
 					plot_config["bottom_pad_margin"] = 0.6
 					plot_config["vertical_lines"] = vertical_lines[plot_channel+"_"+plot_category] 
 					plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
