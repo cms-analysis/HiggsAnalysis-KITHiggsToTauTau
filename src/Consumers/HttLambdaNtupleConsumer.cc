@@ -101,6 +101,13 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 		return product.m_diJetSystemAvailable ? std::min(std::abs(product.m_svfitResults.fittedHiggsLV->Eta() - product.m_validJets[0]->p4.Eta()),std::abs(product.m_svfitResults.fittedHiggsLV->Eta() - product.m_validJets[1]->p4.Eta())) :
 		                                        DefaultValues::UndefinedDouble;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "etaH_cut", [](event_type const& event, product_type const& product) {
+		return product.m_diJetSystemAvailable ? (((product.m_validJets[0]->p4.Eta() < product.m_svfitResults.fittedHiggsLV->Eta()) && (product.m_validJets[1]->p4.Eta() > product.m_svfitResults.fittedHiggsLV->Eta())) || ((product.m_validJets[1]->p4.Eta() < product.m_svfitResults.fittedHiggsLV->Eta()) && (product.m_validJets[0]->p4.Eta() > product.m_svfitResults.fittedHiggsLV->Eta()))) :
+		                                        false;
+	});
+
+//min(abs(eta_sv-jeta_1),abs(eta_sv-jeta_2))
+//((jeta_1<(eta_sv))*(jeta_2>(eta_sv))+(jeta_2<(eta_sv))*(jeta_1>(eta_sv)))
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "m_vis", metadata.m_commonFloatQuantities["diLepMass"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvis", metadata.m_commonFloatQuantities["diLepMass"]);
