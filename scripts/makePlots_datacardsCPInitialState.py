@@ -993,10 +993,10 @@ if __name__ == "__main__":
 				"tt_4" : ["0.00--0.25","0.25--0.5","-0.05--0.75","0.75--1.0"] * 18
 			}
 			texts = {
-				"mt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV"],
-				"et_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV"],
-				"em_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV"],
-				"tt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "170 < p_{T}^{#tau#tau} < 300 GeV"],
+				"mt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+				"et_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+				"em_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+				"tt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "170 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
 				"mt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
 				"et_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
 				"em_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
@@ -1035,10 +1035,10 @@ if __name__ == "__main__":
 				"tt_4" : [0.902]*6+[0.75, 0.75, 0.75]*6			
 			}							
 			vertical_lines = {
-				"mt_2" : [10, 20, 30, 40, 50],
-				"et_2" : [10, 20, 30, 40, 50],
-				"em_2" : [10, 20, 30, 40, 50],
-				"tt_2" : [12, 24, 36],
+				"mt_2" : [10, 20, 30, 40,50],
+				"et_2" : [10, 20, 30, 40,50],
+				"em_2" : [10, 20, 30, 40,50],
+				"tt_2" : [12, 24, 36, 48],
 				"mt_3" : [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68],
 				"et_3" : [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68],
 				"em_3" : [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68],
@@ -1109,7 +1109,7 @@ if __name__ == "__main__":
 				"mt_2" : [10, 20, 30, 40, 50],
 				"et_2" : [10, 20, 30, 40, 50],
 				"em_2" : [10, 20, 30, 40, 50],
-				"tt_2" : [12, 24, 36, 48, 60],
+				"tt_2" : [12, 24, 36, 48],
 				"mt_3" : [12, 24, 36, 48, 60],
 				"et_3" : [12, 24, 36, 48, 60],
 				"em_3" : [12, 24, 36, 48, 60],
@@ -1146,9 +1146,9 @@ if __name__ == "__main__":
 				plot_config["formats"] = ["pdf", "png"]
 				plot_config["title"] = titles[plot_channel+"_"+plot_category]		 
 				plot_config["y_subplot_lims"] = [0.9, 1.1] if "1" in plot_category else [0.4,1.6] 
-				plot_config["line_widths"] = [3]
+				plot_config["line_widths"] = [1]
 				plot_config["y_subplot_label"] = "Sig+Bkg/Bkg"
-				plot_config["texts_size"] = [0.025] if (not "jdphi" in args.quantity or "2" in plot_category) else [0.04]
+				plot_config["texts_size"] = [0.025] if (not "jdphi" in args.quantity or "2" in plot_category) else [0.055]
 				if "1" not in plot_category:
 					plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category] 
 					plot_config["texts"] = texts[plot_channel+"_"+plot_category] 

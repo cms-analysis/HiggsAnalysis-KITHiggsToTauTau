@@ -782,7 +782,7 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict["binningHttCP13TeV_mt_ZeroJet2D_antiiso_far_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 			
 			# boosted CP category
-			self.binnings_dict["binningHttCP13TeV_"+channel+"_BoostedCP_H_pt"] = "0 100 150 200 250 300" if channel != "tt" else "0 100 170 300"
+			self.binnings_dict["binningHttCP13TeV_"+channel+"_BoostedCP_H_pt"] = "0 100 150 200 250 300 1000" if channel != "tt" else "0 100 170 300 1000"
 			self.binnings_dict["binningHttCP13TeV_"+channel+"_BoostedCP_m_sv"] = "0 80 90 100 110 120 130 140 150 160 300" if channel != "tt" else "0 40 60 70 80 90 100 110 120 130 150 200 250"
 			self.binnings_dict["binningHttCP13TeV_et_Boosted2D_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"
 			self.binnings_dict["binningHttCP13TeV_mt_Boosted2D_antiiso_m_vis"] = "40 80 120 160 200" #"0 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 180 200 250 300 400"

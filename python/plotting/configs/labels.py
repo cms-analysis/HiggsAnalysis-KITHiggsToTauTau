@@ -47,7 +47,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ewk"] = "Electroweak"
 			self.labels_dict["qcd"] = "QCD"
 			self.labels_dict["qcd_prefit"] = "QCD"
-			self.labels_dict["htt"] = "H #rightarrow #tau#tau"
+			self.labels_dict["htt"] = "gg #rightarrow H(#alpha=0) #rightarrow #tau#tau"
 			self.labels_dict["ggh"] = "ggH"
 			self.labels_dict["susy_ggh"] = "SUSY ggH"
 			self.labels_dict["bbh"] = "bbH"
@@ -1460,7 +1460,7 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["susycpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susycpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd_alt"]+" (\\times {scale:d})".format(scale=scale)
 
-		self.labels_dict["data_obs"] = "Observed"
+		self.labels_dict["data_obs"] = "Expected"
 		self.labels_dict["ttj"] = self.labels_dict["tt"]
 		self.labels_dict["ttbar"] = self.labels_dict["tt"]
 		self.labels_dict["wjets"]  = self.labels_dict["wj"]
