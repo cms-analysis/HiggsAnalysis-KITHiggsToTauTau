@@ -869,10 +869,16 @@ if __name__ == "__main__":
 	# Max. likelihood fit and prefit/postfit plots
 	if "prefitpostfitplots" in args.steps:
 		log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------\n")
-		datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes,
-			"-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\" -t -1 --setPhysicsModelParameters \"x=1\" ",
-			higgs_mass="125"
-		)
+		if args.use_asimov_dataset=="true":
+			datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes,
+				"-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\" -t -1 --setPhysicsModelParameters \"x=1\" ",
+				higgs_mass="125"
+			)
+		else:
+			datacards.combine(datacards_cbs, datacards_workspaces, datacards_poi_ranges, args.n_processes,
+				"-M MaxLikelihoodFit "+datacards.stable_options+" -n \"\" --setPhysicsModelParameters \"x=1\" ",
+				higgs_mass="125"
+			)
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
 
 
@@ -970,7 +976,7 @@ if __name__ == "__main__":
 #		])
 		
 		hybridcommandoutput = subprocess.check_output(
-			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --singlePoint 1 --fork 8 -T {N_TOYS} -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --there --parallel={N_PROCESSES} | tee HybridNew.log".format(
+			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --fitNuisances=1 --singlePoint 1 --fork 8 -T {N_TOYS} -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --there --parallel={N_PROCESSES} | tee HybridNew.log".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				N_TOYS=args.n_toys,
 				N_PROCESSES=args.n_processes
