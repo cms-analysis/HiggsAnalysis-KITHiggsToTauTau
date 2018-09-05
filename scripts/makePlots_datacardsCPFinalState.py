@@ -976,7 +976,7 @@ if __name__ == "__main__":
 #		])
 		
 		hybridcommandoutput = subprocess.check_output(
-			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --fitNuisances=1 --singlePoint 1 --fork 8 -T {N_TOYS} -i 1 --clsAcc 0 --fullBToys --generateExternalMeasurements=1 -n \"\" --there --parallel={N_PROCESSES} | tee HybridNew.log".format(
+			"combineTool.py -m 125 -M HybridNew --testStat=TEV -d CombineHarvester/HTTSM2016/output/{OUTPUT_SUFFIX}/tt/125/ws.root --saveHybridResult --generateNuisances=0 --generateExternalMeasurements=1 --fitNuisances=1 --singlePoint 1 --fork 8 -T {N_TOYS} -i 1 --clsAcc 0 --fullBToys -n \"\" --there --parallel={N_PROCESSES} | tee HybridNew.log".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				N_TOYS=args.n_toys,
 				N_PROCESSES=args.n_processes
