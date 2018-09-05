@@ -32,7 +32,7 @@ import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions as expression
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.systematics_run2 as systematics
 import HiggsAnalysis.KITHiggsToTauTau.datacards.datacardconfigs as datacardconfigs
-import HiggsAnalysis.KITHiggsToTauTau.datacards.zttpolarisationdatacards as zttpolarisationdatacards
+import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacardsbase
 
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 
@@ -75,12 +75,17 @@ def create_input_root_files(datacards, args):
 			"ZLL" : "zll",
 			"ZTTPOSPOL" : "zttpospol",
 			"ZTTNEGPOL" : "zttnegpol",
+			"ZTT_GEN_DM_ZERO" : "ztt_gen_dm_zero",
+			"ZTT_GEN_DM_ONE" : "ztt_gen_dm_one",
+			"ZTT_GEN_DM_TWO" : "ztt_gen_dm_two",
+			"ZTT_GEN_DM_TEN" : "ztt_gen_dm_ten",
+			"ZTT_GEN_DM_ELEVEN" : "ztt_gen_dm_eleven",
 	}
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 
 		for category in categories:
-			datacards_per_channel_category = zttpolarisationdatacards.ZttPolarisationDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
+			datacards_per_channel_category = datacardsbase.Datacards(cb=datacards.cb.cp().channel([channel]).bin([category]))
 			
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			
@@ -118,15 +123,15 @@ def create_input_root_files(datacards, args):
 					
 					tmp_quantity = args.quantity
 					tmp_omega_version = args.omega_version
-					if args.fixed_variables:
+					if args.fixed_variables == "best_choice":
 						if channel in ["tt"]:
-							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong"]]:
+							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong", "combined_oneprong_oneprong"]]:
 								tmp_quantity = "m_vis"
 								tmp_omega_version = None
 							elif category in [channel+"_"+cat for cat in ["combined_a1_rho"]]:
 								tmp_quantity = None
 								tmp_omega_version = None
-							elif category in [channel+"_"+cat for cat in ["combined_a1_a1", "combined_a1_oneprong", "combined_oneprong_oneprong"]]:
+							elif category in [channel+"_"+cat for cat in ["combined_a1_a1", "combined_a1_oneprong"]]:
 								tmp_quantity = None
 								tmp_omega_version = "BarSvfitM91"
 							elif category in [channel+"_"+cat for cat in ["combined_rho_rho", "rho"]]:
@@ -149,6 +154,13 @@ def create_input_root_files(datacards, args):
 							if category in [channel+"_"+cat for cat in ["combined_oneprong_oneprong"]]:
 								tmp_quantity = "m_vis"
 								tmp_omega_version = None
+					elif args.fixed_variables == "best_choice_no_svfit":
+						tmp_quantity = "m_vis"
+						tmp_omega_version = None
+						if channel in ["tt", "mt", "et"]:
+							if category in [channel+"_"+cat for cat in ["combined_rho_rho", "rho"]]:
+								tmp_quantity = None
+								tmp_omega_version = "VisibleSvfit"
 					
 					x_expression = None
 					if tmp_quantity:
@@ -264,10 +276,10 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action = "append",
 	                    default=["mt", "et", "tt", "em"],
-	                   help="Channel. This agument can be set multiple times. [Default: %(default)s]")
+	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["all"]] * len(parser.get_default("channel")),
-	                   help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
+	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("--combinations", nargs="+",
 	                    default=["individual", "channel", "category", "combined"],
 	                    choices=["individual", "channel", "category", "combined"],
@@ -278,6 +290,8 @@ if __name__ == "__main__":
 	                    default=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls"],
 	                    choices=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls", "deltanll", "nuisanceimpacts"],
 	                    help="Steps to perform. [Default: %(default)s]")
+	parser.add_argument("--decay-mode-migrations", action="store_true", default=False,
+	                    help="Run fits for decay mode migration analysis of normal polarisation analysis. [Default: %(default)s]")
 	parser.add_argument("--auto-rebin", action="store_true", default=False,
 	                    help="Do auto rebinning [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
@@ -321,8 +335,9 @@ if __name__ == "__main__":
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="datacards",
 	                    help="Publish plots. [Default: %(default)s]")
-	parser.add_argument("--fixed-variables", default=False, action="store_true",
-						help="Takes m_vis in all but the tt_combined as seperating variable")
+	parser.add_argument("--fixed-variables", default=None, const="best_choice", nargs="?",
+	                    choices=["best_choice", "best_choice_no_svfit"],
+						help="Takes pre-defined discriminator variables [Default: %(default)s]")
 	parser.add_argument("--fixed-binning", default = False,
 						help="Use a fixed given binning.")
 
@@ -368,8 +383,9 @@ if __name__ == "__main__":
 		print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
 		BinErrorsAndBBB(datacards, 0.1, 0.5, True)
 	
-	print WARNING + '-----      Modify systematics...     -----' + ENDC
-	ModifySystematics(datacards)
+	if not args.decay_mode_migrations:
+		print WARNING + '-----      Modify systematics...     -----' + ENDC
+		ModifySystematics(datacards)
 	
 	datacards.cb.SetGroup("syst_plus_bbb", [".*"])
 	

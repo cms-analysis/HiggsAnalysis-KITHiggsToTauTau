@@ -3,7 +3,7 @@
 
 ssh -vT git@github.com
 
-echo -n "Enter the CMMSW release you want to use (747, 810 [default]) and press [ENTER] : "
+echo -n "Enter the CMMSW release you want to use (747, 810 [default]) and press [ENTER] (747 is for SL6, 810 is for SL7): "
 read cmssw_version
 
 echo -n "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev [default], classicsvfit) and press [ENTER] : "
@@ -79,6 +79,8 @@ git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGrap
 # MELA/JHU
 git clone git@github.com:cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
 cd ZZMatrixElement
+#mkdir MELA/data/slc7_amd64_gcc530
+#cp MELA/data/slc6_amd64_gcc530/download.url MELA/data/slc7_amd64_gcc530/
 ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
 cd $CMSSW_BASE/src/
 
@@ -111,6 +113,14 @@ elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "747" ]]; then
 	cd HiggsAnalysis/CombinedLimit
 	git checkout 3cb65246555d094734a81e20181e399714d22c7e
 	cd -
+	
+elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "810" ]]; then
+	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	cd HiggsAnalysis/CombinedLimit
+	git fetch origin
+	git checkout v7.0.10
+	cd -
+	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
 
 else
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester -b SMCP2016-dev
