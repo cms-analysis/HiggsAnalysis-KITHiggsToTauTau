@@ -309,7 +309,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["qcd_prefit"+nick_suffix] = "#000000 #FFCCFF"
 				self.colors_dict["fakes"+nick_suffix] = self.colors_dict["qcd"]
 				self.colors_dict["qcdwj"+nick_suffix] = self.colors_dict["qcd"]
-				self.colors_dict["htt"+nick_suffix] = "#0000FF"
+				self.colors_dict["htt"+nick_suffix] = "material_blue2"
 				self.colors_dict["ggh"+nick_suffix] = self.colors_dict["kit_rot_1"]
 				self.colors_dict["susy_ggh"+nick_suffix] = self.colors_dict["rwth_lila_100"]
 				self.colors_dict["susy"+nick_suffix] = self.colors_dict["rwth_lila_100"]
@@ -369,7 +369,7 @@ class ColorsDict(colors.ColorsDict):
 			
 
 		for higgs_mass in xrange(90, 161, 5):
-			self.colors_dict["htt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["htt"]
+			self.colors_dict["htt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["material_blue2"]
 			self.colors_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["material_blue2"] #self.colors_dict["ggh"]
 			self.colors_dict["susy_ggh{mass:d}".format(mass=higgs_mass)] = self.colors_dict["susy_ggh"]
 			self.colors_dict["susy{mass:d}".format(mass=higgs_mass)] = self.colors_dict["susy"]
