@@ -240,9 +240,10 @@ if __name__ == "__main__":
 
 	# get "official" configuration
 	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix)) 
-	command = "MorphingSMCP2016 --control_region=1 --real_data=false --no_jec_split=false {JEC_GROUPINGS} --postfix -2D --ttbar_fit=true {INIT}".format(
+	command = "MorphingSMCP2016 --control_region=1 --real_data=false --no_jec_split=false {JEC_GROUPINGS} {BBB_UNCS} --postfix -2D --ttbar_fit=true {INIT}".format(
 		INIT="--only_init="+os.path.join(init_directory, "init"),
-		JEC_GROUPINGS=" --use_jec_groupings=true" if args.jec_groupings else " "
+		JEC_GROUPINGS=" --use_jec_groupings=true" if args.jec_groupings else " ",
+		BBB_UNCS=" --no_bbb_uncs=true" if args.no_bbb_uncs else ""
 	)
 	log.debug(command)
 	exit_code = logger.subprocessCall(shlex.split(command))
@@ -497,7 +498,7 @@ if __name__ == "__main__":
 			
 			# Custumization necessary for the control regions
 			if "ttbar" in category:
-				exclude_cuts += ["pzeta"] # Studies show that the operator is the fastest way to add something to a list
+				exclude_cuts += ["pzeta","bveto"] # Studies show that the operator is the fastest way to add something to a list
 				do_not_normalize_by_bin_width = True				
 			if ("qcd_cr" in category)  and channel in ["mt", "et", "tt"]:
 				if channel != "tt":
@@ -724,10 +725,11 @@ if __name__ == "__main__":
 	# this steps creates the filled datacards in the output folder. 
 	if "t2w" in args.steps:	
 		datacards_module._call_command([
-				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} --no_jec_split=false {JEC_GROUPINGS}  --real_data=false --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX}/em --input_folder_et {OUTPUT_SUFFIX}/et --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_tt {OUTPUT_SUFFIX}/tt --input_folder_mm {OUTPUT_SUFFIX}/mm --input_folder_ttbar {OUTPUT_SUFFIX}/em ".format(
+				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D {BBB_UNCS} {SHAPE_UNCS} --no_jec_split=false {JEC_GROUPINGS}  --real_data=false --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX}/em --input_folder_et {OUTPUT_SUFFIX}/et --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_tt {OUTPUT_SUFFIX}/tt --input_folder_mm {OUTPUT_SUFFIX}/mm --input_folder_ttbar {OUTPUT_SUFFIX}/em ".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
-				JEC_GROUPINGS=" --use_jec_groupings=true" if args.jec_groupings else " "
+				JEC_GROUPINGS=" --use_jec_groupings=true" if args.jec_groupings else " ",
+				BBB_UNCS=" --no_bbb_uncs=true" if args.no_bbb_uncs else ""
 				),
 				args.output_dir
 		])
@@ -958,31 +960,27 @@ if __name__ == "__main__":
 			"et_4" : [0.001, 1000],
 			"em_4" : [0.001, 1000],
 			"tt_4" : [0.001, 1000]		
-		}					
-		if "mela3D" in args.quantity:
-			titles = {
-				"mt_1" : "#mu#tau_{h} - 0jet",
-				"et_1" : "e#tau_{h} - 0jet",
-				"em_1" : "e#mu - 0jet",
-				"tt_1" : "#tau_{h}#tau_{h} - 0jet",
-				"mt_2" : "#mu#tau_{h} - boosted",
-				"et_2" : "e#tau_{h} - boosted",
-				"em_2" : "e#mu - boosted",
-				"tt_2" : "#tau_{h}#tau_{h} - boosted",
-				"mt_3" : "#mu#tau_{h} - dijet lowboost",
-				"et_3" : "e#tau_{h} - dijet lowboost",
-				"em_3" : "e#mu - dijet lowboost",
-				"tt_3" : "#tau_{h}#tau_{h} - dijet lowboost",
-				"mt_4" : "#mu#tau_{h} - dijet boosted",
-				"et_4" : "e#tau_{h} - dijet boosted",
-				"em_4" : "e#mu - dijet boosted",
-				"tt_4" : "#tau_{h}#tau_{h} - dijet boosted"
-			}	
+		}
+		texts = {
+			"mt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"et_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"em_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"tt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "170 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+			"mt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
+			"et_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
+			"em_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
+			"tt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"], 
+			"mt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
+			"et_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
+			"em_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
+			"tt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"]		
+		}							
+		if "mela3D" in args.quantity:	
 			x_tick_labels = {
-				"mt_2" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 5,
-				"et_2" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 5,
-				"em_2" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 5,
-				"tt_2" : ["0-40","40-60","60-70","70-80","80-90","90-100","100-110","110-120","120-130","130-150","150-200","200-250"] * 3,
+				"mt_2" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 6,
+				"et_2" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 6,
+				"em_2" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 6,
+				"tt_2" : ["0-40","40-60","60-70","70-80","80-90","90-100","100-110","110-120","120-130","130-150","150-200","200-250"] * 4,
 				"mt_3" : ["0.00--0.25","0.25--0.5","-0.05--0.75","0.75--1.0"] * 18,
 				"et_3" : ["0.00--0.25","0.25--0.5","-0.05--0.75","0.75--1.0"] * 18,
 				"em_3" : ["0.00--0.25","0.25--0.5","-0.05--0.75","0.75--1.0"] * 18,
@@ -992,25 +990,11 @@ if __name__ == "__main__":
 				"em_4" : ["0.00--0.25","0.25--0.5","-0.05--0.75","0.75--1.0"] * 18,
 				"tt_4" : ["0.00--0.25","0.25--0.5","-0.05--0.75","0.75--1.0"] * 18
 			}
-			texts = {
-				"mt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
-				"et_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
-				"em_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
-				"tt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "170 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
-				"mt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
-				"et_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
-				"em_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
-				"tt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"], 
-				"mt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
-				"et_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
-				"em_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"],
-				"tt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "|D_{CP}| < 0.4","D_{CP} > 0.4"]		
-			}
 			texts_x = {
-				"mt_2" : [0.17, 0.34, 0.5, 0.65, 0.82],
-				"et_2" : [0.17, 0.34, 0.5, 0.65, 0.82],
-				"em_2" : [0.17, 0.34, 0.5, 0.65, 0.82],
-				"tt_2" : [0.17, 0.52, 0.75],
+				"mt_2" : [0.17, 0.30, 0.43, 0.56, 0.69, 0.82],
+				"et_2" : [0.17, 0.30, 0.43, 0.56, 0.69, 0.82],
+				"em_2" : [0.17, 0.30, 0.43, 0.56, 0.69, 0.82],
+				"tt_2" : [0.22, 0.4, 0.60, 0.82],
 				"mt_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82, 0.127, 0.169, 0.207, 0.25, 0.30, 0.34, 0.3825, 0.43, 0.474, 0.52, 0.56, 0.608, 0.65, 0.69, 0.733, 0.78, 0.823, 0.87],
 				"et_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82, 0.127, 0.169, 0.207, 0.25, 0.30, 0.34, 0.3825, 0.43, 0.474, 0.52, 0.56, 0.608, 0.65, 0.69, 0.733, 0.78, 0.823, 0.87],
 				"em_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82, 0.127, 0.169, 0.207, 0.25, 0.30, 0.34, 0.3825, 0.43, 0.474, 0.52, 0.56, 0.608, 0.65, 0.69, 0.733, 0.78, 0.823, 0.87],
@@ -1063,25 +1047,11 @@ if __name__ == "__main__":
 				"em_4" : ["-3.2--2.7","-2.7--2.1","-2.1--1.6","-1.6--1.1", "-1.1--0.5","-0.5-0", "0-0.5","0.5-1.1","1.1-1.6","1.6-2.1","2.1-2.7","2.7-3.2"] * 6,
 				"tt_4" : ["-3.2--2.7","-2.7--2.1","-2.1--1.6","-1.6--1.1", "-1.1--0.5","-0.5-0", "0-0.5","0.5-1.1","1.1-1.6","1.6-2.1","2.1-2.7","2.7-3.2"] * 6
 			}
-			texts = {
-				"mt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
-				"et_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
-				"em_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
-				"tt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "170 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
-				"mt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
-				"et_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
-				"em_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
-				"tt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"], 
-				"mt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
-				"et_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
-				"em_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
-				"tt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"]		
-			}
 			texts_x = {
-				"mt_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
-				"et_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
-				"em_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
-				"tt_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+				"mt_2" : [0.17, 0.30, 0.43, 0.56, 0.69, 0.82],
+				"et_2" : [0.17, 0.30, 0.43, 0.56, 0.69, 0.82],
+				"em_2" : [0.17, 0.30, 0.43, 0.56, 0.69, 0.82],
+				"tt_2" : [0.22, 0.4, 0.60, 0.82],
 				"mt_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
 				"et_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
 				"em_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
@@ -1140,15 +1110,15 @@ if __name__ == "__main__":
 					plot_config["y_lims"] = ylog_lims[plot_channel+"_"+plot_category]
 				else: 
 					plot_config["y_rel_lims"] = [0.5, 10]
-				plot_config["legend"] = [0.895, 0.1, 0.97, 0.85] if "1" not in plot_category else [0.23, 0.56, 0.85, 0.87]
+				plot_config["legend"] = [0.895, 0.02, 0.99, 0.9] if "1" not in plot_category else [0.23, 0.56, 0.85, 0.87]
 				plot_config["legend_cols"] = 1 if "1" not in plot_category else 3
 				plot_config["y_label"] = "Events/bin"
 				plot_config["formats"] = ["pdf", "png"]
 				plot_config["title"] = titles[plot_channel+"_"+plot_category]		 
 				plot_config["y_subplot_lims"] = [0.9, 1.1] if "1" in plot_category else [0.4,1.6] 
-				plot_config["line_widths"] = [1]
+				plot_config["line_widths"] = [3]
 				plot_config["y_subplot_label"] = "Sig+Bkg/Bkg"
-				plot_config["texts_size"] = [0.025] if (not "jdphi" in args.quantity or "2" in plot_category) else [0.055]
+				plot_config["texts_size"] = [0.025] if (not "jdphi" in args.quantity or not "2" in plot_category) else [0.045]
 				if "1" not in plot_category:
 					plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category] 
 					plot_config["texts"] = texts[plot_channel+"_"+plot_category] 
