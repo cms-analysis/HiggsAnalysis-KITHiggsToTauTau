@@ -148,6 +148,7 @@ class CutStringsDict:
 			cuts["pt_2"] = "(pt_2 > 10.0)"
 			# used to remove overlap with H->WW->emu analysis
 			cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
+			cuts["pzeta"] = "(pZetaMissVis > -10.0)"
 		elif channel == "mt":
 			cuts["trg"] = "((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23)+(trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23))"
 			cuts["pt_1"] = "(pt_1 > 20.0)"
