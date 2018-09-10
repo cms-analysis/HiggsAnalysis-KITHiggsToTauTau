@@ -399,10 +399,12 @@ if __name__ == "__main__":
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	# Plot postfit
 		postfit_plot_configs = [] #reset list containing the plot configs
-		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]
+		# Take care that the ordering is kept like this also when some of the processes are merged. Watch out!
+		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTJ", "TTT", "TTJJ" "EWK", "VVT", "VVJ", "W"]
 
 		for level in ["prefit", "postfit"]:
 			for datacard in datacards_cbs.keys():
+				
 				postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
 				# do not produce plots for combination as there is no proper implementation for that
 				if len(datacards_cbs[datacard].cp().bin_set()) > 1:
@@ -422,34 +424,50 @@ if __name__ == "__main__":
 					config.setdefault("sum_result_nicks", []).append("Total")
 				
 					processes_to_plot = list(processes)
-					processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("VVT", "VVT_noplot").replace("VVJ", "VVJ_noplot").replace("W", "W_noplot")  for p in processes]
-					processes_to_plot = [p for p in processes if not "noplot" in p]
-				
-					processes_to_plot.insert(1, "EWK")
-					config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot" if not "et_dijet2D_boosted" in category else "VVT_noplot W_noplot")
-					config["sum_scale_factors"].append("1.0 1.0 1.0"  if not "et_dijet2D_boosted" in category else "1.0 1.0")
-					config["sum_result_nicks"].append("EWK")
-					
+					processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("TTT","TTT_noplot").replace("TTJJ","TTJJ_noplot").replace("VVT", "VVT_noplot").replace("VVJ", "VVJ_noplot").replace("W", "W_noplot")  for p in processes]
+					processes_to_plot = [p for p in processes if not "noplot" in p]	
+					insert_position = 1
 					if any(bin in category for bin in ["et_dijet2D_antiiso_far", "et_dijet2D_lowboost_antiiso_near","et_dijet2D_lowboost_antiiso"]):
-						processes_to_plot.insert(2, "ZLL")
+						processes_to_plot.insert(insert_position, "ZLL")
 						config["sum_nicks"].append("ZJ_noplot")
 						config["sum_scale_factors"].append("1.0")
 						config["sum_result_nicks"].append("ZLL")
+						insert_position+=1
 					elif any(bin in category for bin in ["et_ZeroJet2D_antiiso_far"]):
-						processes_to_plot.insert(2, "ZLL")
+						processes_to_plot.insert(insert_position, "ZLL")
 						config["sum_nicks"].append("ZL_noplot")
 						config["sum_scale_factors"].append("1.0")
 						config["sum_result_nicks"].append("ZLL")
+						insert_position+=1
 					elif any(bin in category for bin in ["et_dijet2D_lowboost_antiiso_far", "mt_dijet2D_lowboost_antiiso_far"]): 
 						pass
 					else:
-						processes_to_plot.insert(2, "ZLL")
+						processes_to_plot.insert(insert_position, "ZLL")
 						config["sum_nicks"].append("ZL_noplot ZJ_noplot")
 						config["sum_scale_factors"].append("1.0 1.0")
-						config["sum_result_nicks"].append("ZLL")						
-										
+						config["sum_result_nicks"].append("ZLL")
+						insert_position+=1
+					if any(bin in category for bin in ["et_ZeroJet2D_antiiso_near","mt_ZeroJet2D_antiiso_far","et_Boosted2D_antiiso_far"]):
+						processes_to_plot.insert(insert_position, "TTJ")
+						config["sum_nicks"].append("TTT_noplot")
+						config["sum_scale_factors"].append("1.0")
+						config["sum_result_nicks"].append("TTJ")
+						insert_position+=1
+					elif any(bin in category for bin in ["et_ZeroJet2D_antiiso_far"]):
+						pass 
+					else:
+						processes_to_plot.insert(insert_position, "TTJ")
+						config["sum_nicks"].append("TTT_noplot TTJJ_noplot")
+						config["sum_scale_factors"].append("1.0 1.0")
+						config["sum_result_nicks"].append("TTJ")
+						insert_position+=1						
+					processes_to_plot.insert(insert_position, "EWK")						
+					config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot" if not "et_dijet2D_boosted" in category else "VVT_noplot W_noplot")
+					config["sum_scale_factors"].append("1.0 1.0 1.0"  if not "et_dijet2D_boosted" in category else "1.0 1.0")
+					config["sum_result_nicks"].append("EWK")																	
 					config["files"] = [postfit_shapes]
 					config["folders"] = [category+"_"+level]
+					config["formats"] = ["png","pdf"]
 					config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
 					config["x_expressions"] = [p.split("_")[0] for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
 					config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"] + [""]
