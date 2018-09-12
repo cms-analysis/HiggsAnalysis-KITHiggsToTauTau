@@ -2302,9 +2302,9 @@ class Samples(samples.SamplesBase):
 						ss_os_factor = 1.0
 						if category != None:
 							if channel == "et":
-								ss_os_factor = 1.61 if "BoostedCP" in category else 0.97 if "ZeroJetCP" in category else 1.82 if "dijet2D" in category else 1.0
+								ss_os_factor = 1.76 if "BoostedCP" in category else 1.2 if "ZeroJetCP" in category else 2.00 if "dijet2D" in category else 1.0
 							elif channel == "mt":
-								ss_os_factor = 1.18 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.24 if "dijet2D" in category else 1.0
+								ss_os_factor = 1.19 if "BoostedCP" in category else 1.15 if "ZeroJetCP" in category else 1.3 if "dijet2D_boosted" in category else 1.47 if "dijet2D_lowboost" in category else 1.0
 					use_inclusive_wjets_mc = False
 					if category != None:
 						use_inclusive_wjets_mc = True if "dijet2D" in category else False
