@@ -461,7 +461,7 @@ class Datacards(object):
 
 		return {datacard : os.path.join(os.path.dirname(datacard), "higgsCombine.HybridNew.mH{angle}_qmu.root".format(angle =[mass for mass in cb.mass_set() if mass != "*"][0] if len(cb.mass_set()) > 1 else "0")) for datacard in datacards_cbs.keys()}
 	
-	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1,  *args, **kwargs):
+	def plot1DScan(self, datacards_cbs, datacards_workspaces, poi, n_processes=1, main_label="Expected",  *args, **kwargs):
 		tmp_args = "".join(args)		
 		higgs_mass = kwargs.get("higgs_mass", 125)		
 			
@@ -471,12 +471,13 @@ class Datacards(object):
 				
 		commandsPlot = []
 		commandsPlot.extend([[
-				"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --POI {POI} --output={OUTPUT} {ARGS} --main={INPUT}/higgsCombine{NAME}.MultiDimFit.mH{MASS}.root --title 'QCD signal strength'  --use-html-colors".format(
+				"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main-label={MAIN_LABEL} --POI {POI} --output={OUTPUT} {ARGS} --main={INPUT}/higgsCombine{NAME}.MultiDimFit.mH{MASS}.root --title 'QCD signal strength'  --use-html-colors".format(
 						INPUT=os.path.dirname(workspace),
-						OUTPUT="nll",	
+						OUTPUT="plots/nll",	
 						MASS=[mass for mass in datacards_cbs[datacard].mass_set() if mass != "*"][0] if len(datacards_cbs[datacard].mass_set()) > 1 else higgs_mass,
 						POI=poi,
 						NAME="Test",
+						MAIN_LABEL=main_label,
 						ARGS=tmp_args.format()				
 				),
 				os.path.dirname(workspace)

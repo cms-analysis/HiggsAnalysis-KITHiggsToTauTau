@@ -388,7 +388,7 @@ if __name__ == "__main__":
 					STABLE=datacards.stable_options
 				)
 			)
-		datacards.plot1DScan(datacards_cbs, datacards_workspaces, "r")
+		datacards.plot1DScan(datacards_cbs, datacards_workspaces, "r", main_label="Observed")
 			
 	# Plot nuisance impacts
 	if "nuisanceimpacts" in args.steps:
