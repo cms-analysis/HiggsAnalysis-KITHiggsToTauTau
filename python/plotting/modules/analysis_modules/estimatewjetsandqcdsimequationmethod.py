@@ -189,7 +189,7 @@ class EstimateWjetsAndQCDSimEquationMethod(estimatebase.EstimateBase):
 				
 			log.debug("W+jets Same-sign High mT before estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_ss_highmt))	
 			log.debug("W+jets opposite-sign High mT before estimation yield is \"{YIELD}\".".format(YIELD = yield_wjets_os_highmt))	
-			print(qcd_extrapolation_factor_ss_os * yield_wjets_ss_highmt)
+			print("qcd_extrapolation_factor_ss_os * yield_wjets_ss_highmt: ", qcd_extrapolation_factor_ss_os * yield_wjets_ss_highmt)
 			yield_wjets_ss_highmt = yield_wjets_os_highmt - qcd_extrapolation_factor_ss_os * yield_wjets_ss_highmt
 			
 			# yield_wjets_ss_highmt = uncertainties.ufloat(max(0.0, yield_wjets_ss_highmt.nominal_value), yield_wjets_ss_highmt.std_dev)
