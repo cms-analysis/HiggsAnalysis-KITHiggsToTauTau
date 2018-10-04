@@ -226,7 +226,8 @@ bool HttValidElectronsProducer::AdditionalCriteria(KElectron* electron,
 		{
 			assert(CheckElectronMetadata(event.m_electronMetadata, electronIDName, electronIDInMetadata));
 			assert(CheckElectronMetadata(event.m_electronMetadata, electronIDList, electronIDListInMetadata));
-			validElectron = IsMVABasedFunctional(&(*electron), event, electronIDName);
+			validElectron = IsMVABasedFunctional(&(*electron), event, electronIDName, true, true);
+			//std::cout << "check electron debugging " << validElectron << " according to IDNAME:  " << electronIDName <<std::endl;  
 		}
 		// 2017
 		else if (electronIDType == ElectronIDType::CUTBASED2017NOISOCUTSVETO)
@@ -417,12 +418,52 @@ bool HttValidElectronsProducer::IsMVABased(KElectron* electron, event_type const
 }
 
 
-bool HttValidElectronsProducer::IsMVABasedFunctional(KElectron* electron, event_type const& event, const std::string &idName) const
+bool HttValidElectronsProducer::IsMVABasedFunctional(KElectron* electron, event_type const& event, const std::string &idName, bool tightID, bool Iso) const
 {
 	bool validElectron = true;
 
+	//std::cout << "Param0: " << ElectronMvaIDCutEB1ParamsHighPt.at(0) << " Param1: " << ElectronMvaIDCutEB1ParamsHighPt.at(1) << " Param2: "  << ElectronMvaIDCutEB1ParamsHighPt.at(2) << std::endl;
+	/*
+	float ElectronMvaIDCutEB1ParamsHighPtC;
+	float ElectronMvaIDCutEB1ParamsHighPtA;
+	float ElectronMvaIDCutEB1ParamsHighPtT;
+
+	float ElectronMvaIDCutEB2ParamsHighPtC;
+	float ElectronMvaIDCutEB2ParamsHighPtA;
+	float ElectronMvaIDCutEB2ParamsHighPtT;
+
+	float ElectronMvaIDCutEEParamsHighPtC;
+	float ElectronMvaIDCutEEParamsHighPtA;
+	float ElectronMvaIDCutEEParamsHighPtT;
+
+	if( Iso)
+	{
+		if( tightID)
+		{
+			ElectronMvaIDCutEB1ParamsHighPtC = ElectronMvaIDCutEB1ParamsHighPt.at(0);
+			ElectronMvaIDCutEB1ParamsHighPtA = ElectronMvaIDCutEB1ParamsHighPt.at(1);
+			ElectronMvaIDCutEB1ParamsHighPtT = ElectronMvaIDCutEB1ParamsHighPt.at(2);
+
+			ElectronMvaIDCutEB2ParamsHighPtC = ElectronMvaIDCutEB2ParamsHighPt.at(0);
+			ElectronMvaIDCutEB2ParamsHighPtA = ElectronMvaIDCutEB2ParamsHighPt.at(1);
+			ElectronMvaIDCutEB2ParamsHighPtT = ElectronMvaIDCutEB2ParamsHighPt.at(2);
+
+			ElectronMvaIDCutEEParamsHighPtC = ElectronMvaIDCutEEParamsHighPt.at(0);
+			ElectronMvaIDCutEEParamsHighPtA = ElectronMvaIDCutEEParamsHighPt.at(1);
+			ElectronMvaIDCutEEParamsHighPtT = ElectronMvaIDCutEEParamsHighPt.at(2);
+		}
+		else
+		{
+			std::cout << "NOT implemented yet" << std::endl;
+		}
+	}
+
+	//std::cout << " EB1   c: " << ElectronMvaIDCutEB1ParamsHighPtC << "    A:   " << ElectronMvaIDCutEB1ParamsHighPtA << "   t    " << ElectronMvaIDCutEB1ParamsHighPtT << std::endl;
+	//std::cout << " EB2   c: " << ElectronMvaIDCutEB2ParamsHighPtC << "    A:   " << ElectronMvaIDCutEB2ParamsHighPtA << "   t    " << ElectronMvaIDCutEB2ParamsHighPtT << std::endl;
+	//std::cout << " EE   c: " << ElectronMvaIDCutEEParamsHighPtC << "    A:   " << ElectronMvaIDCutEEParamsHighPtA << "   t    " << ElectronMvaIDCutEEParamsHighPtT << std::endl;
+	*/
 	// https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2#General_Purpose_MVA_training_det
-	// pT always greater than 10 GeV
+	// pT always greater than 10 GeV, function = c - A exp(pt/t), ElectronMvaIDCutparams= [c,A,t]
 	validElectron = validElectron &&
 	(
 		(std::abs(electron->superclusterPosition.Eta()) < 0.8 && electron->getId(idName, event.m_electronMetadata) > (ElectronMvaIDCutEB1ParamsHighPt.at(0) - ElectronMvaIDCutEB1ParamsHighPt.at(1) * std::exp(- electron->p4.Pt() / ElectronMvaIDCutEB1ParamsHighPt.at(2))))
@@ -470,7 +511,7 @@ HttValidLooseElectronsProducer::HttValidLooseElectronsProducer(
 	float (setting_type::*GetElectronMvaIDCutEE)(void) const,
 
 
-													 std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsLowPt)(void) const,
+													std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsLowPt)(void) const,
 													std::vector<float>& (setting_type::*GetElectronMvaIDCutEB2ParamsLowPt)(void) const,
 													std::vector<float>& (setting_type::*GetElectronMvaIDCutEEParamsLowPt)(void) const,
 													std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsHighPt)(void) const,
@@ -557,7 +598,7 @@ HttValidVetoElectronsProducer::HttValidVetoElectronsProducer(
 	float (setting_type::*GetElectronMvaIDCutEE)(void) const,
 
 
-													 std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsLowPt)(void) const,
+													std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsLowPt)(void) const,
 													std::vector<float>& (setting_type::*GetElectronMvaIDCutEB2ParamsLowPt)(void) const,
 													std::vector<float>& (setting_type::*GetElectronMvaIDCutEEParamsLowPt)(void) const,
 													std::vector<float>& (setting_type::*GetElectronMvaIDCutEB1ParamsHighPt)(void) const,

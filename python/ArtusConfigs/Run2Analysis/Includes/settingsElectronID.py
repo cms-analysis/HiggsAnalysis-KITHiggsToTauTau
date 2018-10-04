@@ -98,6 +98,7 @@ class Electron_ID(dict):
 	
 		else:
 			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"
+			#corresponds to wp80
 			self["ElectronMvaIDCutEB1"] = 0.941
 			self["ElectronMvaIDCutEB2"] = 0.899
 			self["ElectronMvaIDCutEE"] = 0.758
