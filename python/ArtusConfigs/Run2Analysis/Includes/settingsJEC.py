@@ -42,7 +42,7 @@ class JEC(dict):
 		#self["JetEnergyCorrectionUncertaintyShift"] = 0.0
 		
 		#All commented out
-		
+		"""
 		if re.search("Run2015|Embedding2016", nickname):
 			self["JetEnergyCorrectionParameters"] = [
 				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_L1FastJet_AK4PFchs.txt",
@@ -57,4 +57,5 @@ class JEC(dict):
 				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_L2Relative_AK4PFchs.txt",
 				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_L3Absolute_AK4PFchs.txt"
 			]
+		"""
 

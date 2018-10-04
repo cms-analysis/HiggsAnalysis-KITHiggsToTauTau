@@ -71,7 +71,9 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
 			else:
 				self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]
-			self["Processors"] += [	"producer:TaggedJetCorrectionsProducer", "producer:TaggedJetUncertaintyShiftProducer"]
+			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+			if re.search("(Spring16|Summer16|Run2016)",nickname):
+				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe
 
 			if re.search("Run2016|Run2017", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
@@ -102,8 +104,7 @@ class mt_ArtusConfig(dict):
 				else:
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 					self["Processors"] += ["producer:MuTauTriggerWeightProducer"] #is a rooworkspace
-
-					self["Processors"] += ["producer:MetCorrector"]
+					self["Processors"] += ["producer:MetCorrector"] #FIXME No file for 2017 yet, use 2016 file
 
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 					self["Processors"] += [
@@ -123,8 +124,8 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
-						if re.search("Summer17|Fall17", nickname) == None:
-							self["Processors"] += ["producer:ZPtReweightProducer"]
+						#if re.search("Summer17|Fall17", nickname) == None:
+						self["Processors"] += ["producer:ZPtReweightProducer"] #FIXME No file for 2017 yet, use 2016 file
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
 						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -132,10 +133,10 @@ class mt_ArtusConfig(dict):
 
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
-					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
+					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						if re.search("Summer17|Fall17", nickname) == None:
 							self["Processors"] += [
-								"producer:TopPtReweightingProducer"
+								"producer:TopPtReweightingProducer" #FIXME No file for 2017 yet
 							]
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -144,7 +145,7 @@ class mt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
 						if re.search("Summer17|Fall17", nickname) == None:
-							self["Processors"] += [	"producer:TopPtReweightingProducer"]
+							self["Processors"] += [	"producer:TopPtReweightingProducer"]  #FIXME No file for 2017 yet
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"]
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]

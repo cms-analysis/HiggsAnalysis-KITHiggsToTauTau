@@ -129,7 +129,7 @@ class globalProccesors(dict):
 				"producer:NumberGeneratedEventsWeightProducer"
 			]
 
-		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs)",nickname):
+		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs)",nickname):
 			self["Processors"] = [
 				"#producer:PrintGenParticleDecayTreeProducer",
 				"#filter:RunLumiEventFilter",

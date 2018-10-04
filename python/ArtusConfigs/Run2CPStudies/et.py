@@ -72,7 +72,9 @@ class et_ArtusConfig(dict):
 				"producer:PolarisationQuantitiesSvfitM91Producer",
 				"producer:PolarisationQuantitiesSimpleFitProducer"
 			]
-			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
+			if re.search("(Spring16|Summer16|Run2016)",nickname):
+				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe
+
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 			if not re.search("(LFV).*(?=(Spring16|Summer16))", nickname): self["Processors"] += ["producer:MELAProducer"]
 
@@ -134,10 +136,10 @@ class et_ArtusConfig(dict):
 							"producer:SimpleFitProducer",
 							"producer:GenMatchedPolarisationQuantitiesProducer"
 						]
-						if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
-							self["Processors"] +=["producer:ZPtReweightProducer"]
+						#if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+						self["Processors"] +=["producer:ZPtReweightProducer"] #FIXME no file for 2017 use 2016 file
 
-					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
+					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16))", nickname):
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 						self["Processors"] += ["producer:TopPtReweightingProducer"]
 
@@ -148,7 +150,7 @@ class et_ArtusConfig(dict):
 							"producer:GenMatchedPolarisationQuantitiesProducer"
 						]
 						if re.search("(Spring16|Summer16)", nickname):
-							self["Processors"] += ["producer:TopPtReweightingProducer"]
+							self["Processors"] += ["producer:TopPtReweightingProducer"] #FIXME no file for 2017
 
 		elif re.search("(Fall15|Run2015)", nickname):
 			#"producer:RefitVertexSelector"], '#producer:TaggedJetUncertaintyShiftProducer',  '#producer:SimpleFitProducer',  '#producer:TauPolarisationTmvaReader', '#producer:MVATestMethodsProducer'

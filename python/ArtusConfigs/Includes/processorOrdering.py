@@ -110,9 +110,7 @@ class ProcessorsOrdered(dict):
 			
 
 		self["producer:Run2DecayChannelProducer"] = 100
-
-		self["producer:MvaMetSelector"] = 105
-					
+			
 		self["producer:DiVetoMuonVetoProducer"] = 110
 		self["producer:DiVetoElectronVetoProducer"] = 111
 
