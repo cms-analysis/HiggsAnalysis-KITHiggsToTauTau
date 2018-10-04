@@ -264,7 +264,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["et_mt_llmet"] = "40,0.0,400"
 		self.binnings_dict["et_mvamet"] = "40,0.0,200.0"
 		self.binnings_dict["et_mvametphi"] = "32,-3.2,3.2"
-		self.binnings_dict["et_m_vis"] = "60,0.0,300"
+		self.binnings_dict["et_m_vis"] = " ".join([str(float(f)) for f in range(0, 200, 10)+range(200, 351, 25)])
 		self.binnings_dict["et_nJets30"] = "8,-0.5,7.5"
 		self.binnings_dict["et_njetspt30"] = "10,-0.5,9.5"
 		self.binnings_dict["et_njets"] = "8,-0.5,7.5"

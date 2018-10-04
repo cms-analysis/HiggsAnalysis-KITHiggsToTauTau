@@ -79,6 +79,8 @@ def addArguments(parser):
 	                    default=["inputs", "t2w", "dofit", "prefitpostfitplots"],
 	                    choices=["inputs", "t2w", "dofit", "prefitpostfitplots", "nuisanceimpacts"],
 	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
+	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
+	                    help="Do not include shape uncertainties. [Default: %(default)s]")
 												
 def _call_command(args):
 	command = None
@@ -110,10 +112,14 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-				
+	print args.era			
 	# Initialisations for plotting
 	if (args.era == "2015") or (args.era == "2015new"):
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
+	elif args.era == "2017":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017_mcv2 as samples
+		if args.lumi == parser.get_default("lumi"):
+			args.lumi = samples.default_lumi/1000.0
 	else:
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 		if args.lumi == parser.get_default("lumi"):
@@ -190,6 +196,8 @@ if __name__ == "__main__":
 	datacards.cb.mass(["*", "125"])
 	if args.categories == parser.get_default("categories"):
 		args.categories = len(args.channel) * args.categories
+	if args.no_shape_uncs:
+		datacards.remove_shape_uncertainties()
 	# create HP configs for each channel_category
 
 
@@ -219,10 +227,19 @@ if __name__ == "__main__":
 		for category in categories:
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			weight = args.weight
+			print weight
 			datacards_per_channel_category = qcdfactorsdatacards.QcdFactorsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			# exclude isolation cut which is set by default in cutstrings.py using the smhtt2016 cut_type
-			if any(bin in category for bin in ["ZeroJet2D_antiiso","Boosted2D_antiiso","dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "ZeroJet2D_antiiso_tau","Boosted2D_antiiso_tau","dijet2D_lowboost_antiiso_tau","dijet2D_boosted_antiiso_tau", "ZeroJet2D_antiiso_taulep","Boosted2D_antiiso_taulep","dijet2D_lowboost_antiiso_taulep","dijet2D_boosted_antiiso_taulep", "dijet2D_antiiso", "ZeroJet2D_antiiso_near","Boosted2D_antiiso_near","dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far","Boosted2D_antiiso_far","dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far"])  and channel in ["mt", "et"]:
+			if args.era == "2017":
+				binlist = ["Inclusive_antiiso", "Inclusive_antiiso_tau", "Inclusive_antiiso_taulep", "Inclusive_antiiso_near", "Inclusive_antiiso_far"]
+				cuttype_= "baseline2017"
+			else:
+				binlist = ["ZeroJet2D_antiiso","Boosted2D_antiiso","dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "ZeroJet2D_antiiso_tau","Boosted2D_antiiso_tau","dijet2D_lowboost_antiiso_tau","dijet2D_boosted_antiiso_tau", "ZeroJet2D_antiiso_taulep","Boosted2D_antiiso_taulep","dijet2D_lowboost_antiiso_taulep","dijet2D_boosted_antiiso_taulep", "dijet2D_antiiso", "ZeroJet2D_antiiso_near","Boosted2D_antiiso_near","dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far","Boosted2D_antiiso_far","dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far"]
+				cuttype_= "smhtt2016"
+			
+
+			if any(bin in category for bin in binlist)  and channel in ["mt", "et"]:
 				# exclude_cuts.append("iso_2")
 				# if ("taulep" in category):
 				# 	exclude_cuts.append("iso_1")
@@ -231,14 +248,14 @@ if __name__ == "__main__":
 				if ("dijet2D" in category):
 					exclude_cuts.append("iso_2")
 					weight+= "*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
-
+				#if era=="2017":
+				#	weight+= "*(1/generatorWeight)"
 				do_not_normalize_by_bin_width = True
-
-		
+			
 			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic().iteritems():
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
-			
+				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
 		
@@ -248,7 +265,9 @@ if __name__ == "__main__":
 						category=category,
 						systematic=systematic
 					))
-				
+					print list_of_samples
+					print cuttype_
+					print weight
 					# very basic config
 					config = sample_settings.get_config(
 						samples=[getattr(samples.Samples, sample if sample != "data_obs" else "data") for sample in list_of_samples],
@@ -257,21 +276,31 @@ if __name__ == "__main__":
 						weight=weight,
 						lumi=args.lumi * 1000,
 						higgs_masses=higgs_masses,
-						cut_type="smhtt2016", 
-						background_method="mc",
+						cut_type=cuttype_, #TODO
+						estimationMethod="mc",
 						exclude_cuts = exclude_cuts
 					)
+					
+
 
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					config= systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
 				
-					# fit is to be performed for 
-					config["x_expressions"] = ["m_vis" if "ZeroJet2D" in category else "m_sv"]
+					# fit is to be performed for
+					if "ZeroJet2D" in category or "Inclusive" in category:
+						config["x_expressions"] = ["m_vis"]
+					else:
+						config["x_expressions"] = ["m_sv"]
 								
-					# configure binnings etc 				
-					if any(bin in category for bin in ["ZeroJet2D_antiiso","Boosted2D_antiiso","dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "ZeroJet2D_antiiso_tau","Boosted2D_antiiso_tau","dijet2D_lowboost_antiiso_tau","dijet2D_boosted_antiiso_tau", "ZeroJet2D_antiiso_taulep","Boosted2D_antiiso_taulep","dijet2D_lowboost_antiiso_taulep","dijet2D_boosted_antiiso_taulep", "dijet2D_antiiso", "ZeroJet2D_antiiso_near","Boosted2D_antiiso_near","dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far","Boosted2D_antiiso_far","dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far",]) and channel in ["mt", "et"]:
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_vis"]]
-				
+					# configure binnings etc
+					print category
+					if args.era=="2017":
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_mt_dijet2D_lowboost_antiiso_m_vis"]]
+					elif any(bin in category for bin in binlist) and channel in ["mt", "et"]:
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_"+config["x_expressions"][0]]]
+					
+					print "binning: "
+					print config["x_bins"]
 					# Miscellaneous
 					config["directories"] = [args.input_dir]
 		
@@ -394,22 +423,22 @@ if __name__ == "__main__":
 	if "nuisanceimpacts" in args.steps:
 		datacards.nuisance_impacts(datacards_cbs, datacards_workspaces, args.n_processes)
 	
-	# Postfitshapes call
+
 	if "prefitpostfitplots" in args.steps:
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	# Plot postfit
 		postfit_plot_configs = [] #reset list containing the plot configs
-		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]
+		# Take care that the ordering is kept like this also when some of the processes are merged. Watch out!
+		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTJ", "TTT", "TTJJ" "EWK", "W"]
 
 		for level in ["prefit", "postfit"]:
-			print("prefit")
 			for datacard in datacards_cbs.keys():
+				
 				postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
 				# do not produce plots for combination as there is no proper implementation for that
 				if len(datacards_cbs[datacard].cp().bin_set()) > 1:
 					continue
 				for category in datacards_cbs[datacard].cp().bin_set():
-					print(category)
 					channel = category.split("_")[0]
 					bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
 					sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
@@ -424,34 +453,52 @@ if __name__ == "__main__":
 					config.setdefault("sum_result_nicks", []).append("Total")
 				
 					processes_to_plot = list(processes)
-					processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("VVT", "VVT_noplot").replace("VVJ", "VVJ_noplot").replace("W", "W_noplot")  for p in processes]
-					processes_to_plot = [p for p in processes if not "noplot" in p]
-				
-					processes_to_plot.insert(1, "EWK")
-					config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot" if not "et_dijet2D_boosted" in category else "VVT_noplot W_noplot")
-					config["sum_scale_factors"].append("1.0 1.0 1.0"  if not "et_dijet2D_boosted" in category else "1.0 1.0")
-					config["sum_result_nicks"].append("EWK")
-					
+					processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("TTT","TTT_noplot").replace("TTJJ","TTJJ_noplot").replace("W", "W_noplot")  for p in processes]
+					processes_to_plot = [p for p in processes if not "noplot" in p]	
+					insert_position = 1
 					if any(bin in category for bin in ["et_dijet2D_antiiso_far", "et_dijet2D_lowboost_antiiso_near","et_dijet2D_lowboost_antiiso"]):
-						processes_to_plot.insert(2, "ZLL")
+						processes_to_plot.insert(insert_position, "ZLL")
 						config["sum_nicks"].append("ZJ_noplot")
 						config["sum_scale_factors"].append("1.0")
 						config["sum_result_nicks"].append("ZLL")
+						insert_position+=1
 					elif any(bin in category for bin in ["et_ZeroJet2D_antiiso_far"]):
-						processes_to_plot.insert(2, "ZLL")
+						processes_to_plot.insert(insert_position, "ZLL")
 						config["sum_nicks"].append("ZL_noplot")
 						config["sum_scale_factors"].append("1.0")
 						config["sum_result_nicks"].append("ZLL")
+						insert_position+=1
 					elif any(bin in category for bin in ["et_dijet2D_lowboost_antiiso_far", "mt_dijet2D_lowboost_antiiso_far"]): 
 						pass
 					else:
-						processes_to_plot.insert(2, "ZLL")
+						processes_to_plot.insert(insert_position, "ZLL")
 						config["sum_nicks"].append("ZL_noplot ZJ_noplot")
 						config["sum_scale_factors"].append("1.0 1.0")
-						config["sum_result_nicks"].append("ZLL")						
-										
+						config["sum_result_nicks"].append("ZLL")
+						insert_position+=1
+					if any(bin in category for bin in ["et_ZeroJet2D_antiiso_near","mt_ZeroJet2D_antiiso_far","et_Boosted2D_antiiso_far"]):
+						processes_to_plot.insert(insert_position, "TTJ")
+						config["sum_nicks"].append("TTT_noplot")
+						config["sum_scale_factors"].append("1.0")
+						config["sum_result_nicks"].append("TTJ")
+						insert_position+=1
+					elif any(bin in category for bin in ["et_ZeroJet2D_antiiso_far"]):
+						pass 
+					else:
+						processes_to_plot.insert(insert_position, "TTJ")
+						config["sum_nicks"].append("TTT_noplot TTJJ_noplot")
+						config["sum_scale_factors"].append("1.0 1.0")
+						config["sum_result_nicks"].append("TTJ")
+						insert_position+=1						
+					processes_to_plot.insert(insert_position, "EWK")						
+					#config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot" if not "et_dijet2D_boosted" in category else "VVT_noplot W_noplot")
+					#config["sum_scale_factors"].append("1.0 1.0 1.0"  if not "et_dijet2D_boosted" in category else "1.0 1.0")
+					config["sum_nicks"].append("W_noplot")
+					config["sum_scale_factors"].append("1.0")
+					config["sum_result_nicks"].append("EWK")
 					config["files"] = [postfit_shapes]
 					config["folders"] = [category+"_"+level]
+					config["formats"] = ["png","pdf"]
 					config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
 					config["x_expressions"] = [p.split("_")[0] for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
 					config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"] + [""]
@@ -504,4 +551,123 @@ if __name__ == "__main__":
 					if not (config["output_dir"] in www_output_dirs_postfit):
 						www_output_dirs_postfit.append(config["output_dir"])
 					postfit_plot_configs.append(config)					
+higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
+
+"""
+
+	# Postfitshapes call
+	if "prefitpostfitplots" in args.steps:
+		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
+	# Plot postfit
+		postfit_plot_configs = [] #reset list containing the plot configs
+		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "W"]
+
+		for level in ["prefit", "postfit"]:
+			print("prefit")
+			for datacard in datacards_cbs.keys():
+				postfit_shapes = datacards_postfit_shapes.get("fit_s", {}).get(datacard)
+				# do not produce plots for combination as there is no proper implementation for that
+				if len(datacards_cbs[datacard].cp().bin_set()) > 1:
+					continue
+				for category in datacards_cbs[datacard].cp().bin_set():
+					print(category)
+					channel = category.split("_")[0]
+					bkg_process = datacards_cbs[datacard].cp().bin([category]).backgrounds().process_set()
+					sig_process = datacards_cbs[datacard].cp().bin([category]).signals().process_set()
+				
+					processes = bkg_process + sig_process
+					processes.sort(key=lambda process: bkg_plotting_order.index(process) if process in bkg_plotting_order else len(bkg_plotting_order))
+					
+					config = {}
+					config.setdefault("analysis_modules", []).extend(["SumOfHistograms"])
+					config.setdefault("sum_nicks", []).append("noplot_TotalBkg noplot_TotalSig")
+					config.setdefault("sum_scale_factors", []).append("1.0 1.0")
+					config.setdefault("sum_result_nicks", []).append("Total")
+				
+					processes_to_plot = list(processes)
+					processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("W", "W_noplot") for p in processes] 
+					processes_to_plot = [p for p in processes if not "noplot" in p]
+				
+					processes_to_plot.insert(1, "EWK")
+					#config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot" if not "et_dijet2D_boosted" in category else "VVT_noplot W_noplot")
+					#config["sum_scale_factors"].append("1.0 1.0 1.0"  if not "et_dijet2D_boosted" in category else "1.0 1.0")
+
+					config["sum_nicks"].append("W_noplot")
+					config["sum_scale_factors"].append("1.0")
+					config["sum_result_nicks"].append("EWK")
+					
+					if any(bin in category for bin in ["et_dijet2D_antiiso_far", "et_dijet2D_lowboost_antiiso_near","et_dijet2D_lowboost_antiiso"]):
+						processes_to_plot.insert(2, "ZLL")
+						config["sum_nicks"].append("ZJ_noplot")
+						config["sum_scale_factors"].append("1.0")
+						config["sum_result_nicks"].append("ZLL")
+					elif any(bin in category for bin in ["et_ZeroJet2D_antiiso_far"]):
+						processes_to_plot.insert(2, "ZLL")
+						config["sum_nicks"].append("ZL_noplot")
+						config["sum_scale_factors"].append("1.0")
+						config["sum_result_nicks"].append("ZLL")
+					elif any(bin in category for bin in ["et_dijet2D_lowboost_antiiso_far", "mt_dijet2D_lowboost_antiiso_far"]): 
+						pass
+					else:
+						processes_to_plot.insert(2, "ZLL")
+						config["sum_nicks"].append("ZL_noplot ZJ_noplot")
+						config["sum_scale_factors"].append("1.0 1.0")
+						config["sum_result_nicks"].append("ZLL")						
+					
+					print "processes to plot", processes_to_plot		
+					config["files"] = [postfit_shapes]
+					config["folders"] = [category+"_"+level]
+					config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
+					config["x_expressions"] = [p.split("_")[0] for p in processes] + ["TotalBkg", "TotalSig", "data_obs"]
+					config["stacks"] = ["bkg"]*len(processes_to_plot) + ["data"] + [""]
+					config["labels"] = [label.lower() for label in processes_to_plot + ["totalbkg"] + ["data_obs"]]
+					config["colors"] = [color.lower() for color in processes_to_plot + ["#000000 transgrey"] + ["data_obs"]]
+					config["markers"] = ["HIST"]*len(processes_to_plot) + ["E2"] + ["E"]
+					config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
+				
+					config["y_label"] = "Events / bin"
+					config["x_label"] = "m_{vis}" #if "ZeroJet2D_QCDCR" in category else "m_{#tau#tau}"
+				
+					config.setdefault("analysis_modules", []).append("Ratio")
+					config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig", "data_obs"])
+					config.setdefault("ratio_denominator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig"] * 2)
+					config.setdefault("ratio_result_nicks", []).extend(["ratio_unc", "ratio"])
+					config["ratio_denominator_no_errors"] = True
+					config.setdefault("colors", []).extend(["#000000 transgrey", "#000000"])
+					config.setdefault("markers", []).extend(["E2", "E"])
+					config.setdefault("legend_markers", []).extend(["F", "ELP"])
+					config.setdefault("labels", []).extend([""] * 2)
+					config.setdefault("stacks", []).extend(["unc", "ratio"])
+					config["legend"] = [0.7, 0.4, 0.92, 0.82]
+					config["y_subplot_lims"] = [0.5, 1.5]
+					config["y_subplot_label"] = "Obs./Exp."
+					config["subplot_grid"] = True
+				
+					config["energies"] = [13.0]
+					config["lumis"] = [float("%.1f" % args.lumi)]
+					if args.cms:
+						config["cms"] = True
+						config["extra_text"] = "Preliminary"
+					config["year"] = args.era
+					config["output_dir"] = os.path.join(os.path.dirname(datacard), "plots")
+					config["filename"] = level+"_"+category
+					if args.pdf:
+						config["formats"] = ["png", "pdf"]
+						config["texts_x"] = [0.52]
+						config["texts_y"] = [0.81]
+
+					config["texts_size"] = [0.055]
+					config["title"] = "channel_"+channel
+					if not args.www is None:
+						config["www"] = os.path.join(
+								args.www,
+								channel if len(args.channels) > 1 else "",
+								"" if category is None else category
+						)
+
+				
+					if not (config["output_dir"] in www_output_dirs_postfit):
+						www_output_dirs_postfit.append(config["output_dir"])
+					postfit_plot_configs.append(config)					
 		higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+"""

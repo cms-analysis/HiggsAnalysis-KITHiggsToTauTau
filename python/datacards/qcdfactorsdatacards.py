@@ -21,10 +21,11 @@ class QcdFactorsDatacards(datacards.Datacards):
 
 		systematics_list = SystLib.SystematicLibary()
 					
-		all_mc_bkgs = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]
-		all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ"] #don't no whether this is still needed here...
+		all_mc_bkgs = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "W"]
+		all_mc_bkgs_no_W = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ"] #don't no whether this is still needed here...
 		signal_processes = ["QCD"]
-		categories_for_SSOS_factor_estimation = ["ZeroJet2D_antiiso", "Boosted2D_antiiso", "dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "ZeroJet2D_antiiso_tau", "Boosted2D_antiiso_tau", "dijet2D_lowboost_antiiso_tau", "dijet2D_boosted_antiiso_tau", "ZeroJet2D_antiiso_taulep", "Boosted2D_antiiso_taulep", "dijet2D_lowboost_antiiso_taulep", "dijet2D_boosted_antiiso_taulep", "dijet2D_antiiso", "ZeroJet2D_antiiso_near", "Boosted2D_antiiso_near", "dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far", "Boosted2D_antiiso_far", "dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far"] 
+		#categories_for_SSOS_factor_estimation = ["ZeroJet2D_antiiso", "Boosted2D_antiiso", "dijet2D_lowboost_antiiso","dijet2D_boosted_antiiso", "ZeroJet2D_antiiso_tau", "Boosted2D_antiiso_tau", "dijet2D_lowboost_antiiso_tau", "dijet2D_boosted_antiiso_tau", "ZeroJet2D_antiiso_taulep", "Boosted2D_antiiso_taulep", "dijet2D_lowboost_antiiso_taulep", "dijet2D_boosted_antiiso_taulep", "dijet2D_antiiso", "ZeroJet2D_antiiso_near", "Boosted2D_antiiso_near", "dijet2D_lowboost_antiiso_near","dijet2D_boosted_antiiso_near", "dijet2D_antiiso_near", "ZeroJet2D_antiiso_far", "Boosted2D_antiiso_far", "dijet2D_lowboost_antiiso_far","dijet2D_boosted_antiiso_far", "dijet2D_antiiso_far"]
+		categories_for_SSOS_factor_estimation = ["Inclusive_antiiso_near"]
 		if cb is None:
 			# ======================================================================
 			# MT channel
@@ -101,15 +102,15 @@ class QcdFactorsDatacards(datacards.Datacards):
 			
 			# cross section
 			self.cb.cp().process(["ZTT", "ZLL", "ZL", "ZJ"]).AddSyst(self.cb, *systematics_list.ztt_cross_section_syst_args)
-			if year == "2016":
-				self.cb.cp().process(["VVT", "VVJ"]).AddSyst(self.cb, *systematics_list.vv_cross_section2016_syst_args)			
+			#if year == "2016":
+				#self.cb.cp().process(["VVT", "VVJ"]).AddSyst(self.cb, *systematics_list.vv_cross_section2016_syst_args)			
 			self.cb.cp().process(["TTT", "TTJJ"]).AddSyst(self.cb, *systematics_list.ttj_cross_section_syst_args)
 			self.cb.cp().process(["W"]).AddSyst(self.cb, *systematics_list.wj_cross_section_syst_args)
 
 			# Normalizations
 			self.cb.cp().process(["W"]).AddSyst(self.cb, *systematics_list.htt_wnorm_syst_args)
 			self.cb.cp().process(["TTT", "TTJ"]).AddSyst(self.cb, *systematics_list.htt_ttnorm_syst_args)
-			self.cb.cp().process(["VVJ", "VVT"]).AddSyst(self.cb, *systematics_list.htt_vvnorm_syst_args)
+			#self.cb.cp().process(["VVJ", "VVT"]).AddSyst(self.cb, *systematics_list.htt_vvnorm_syst_args)
 			
 			# signal acceptance/efficiency
 			self.cb.cp().process(["ZTT"]).AddSyst(self.cb, *systematics_list.ztt_pdf_scale_syst_args)
