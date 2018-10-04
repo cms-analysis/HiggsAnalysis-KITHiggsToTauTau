@@ -68,7 +68,7 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 {
 
 	for(auto weightNames:m_weightNames)
-	{			
+	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
 		for(size_t index = 0; index < weightNames.second.size(); index++)
 		{
@@ -81,16 +81,16 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 				{
 					args.push_back(lepton->p4.Pt());
 				}
-				else if(arg=="m_eta")
+				if(arg=="m_eta")
 				{
 					args.push_back(lepton->p4.Eta());
 				}
-				else if(arg=="e_eta")
+				if(arg=="e_eta")
 				{
 					KElectron* electron = static_cast<KElectron*>(lepton);
 					args.push_back(electron->superclusterPosition.Eta());
 				}
-				else if(arg=="m_iso" || arg=="e_iso")
+				if(arg=="m_iso" || arg=="e_iso")
 				{
 					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
 				}
@@ -109,7 +109,7 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 				product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 			}
 			else
-			{	
+			{
 				product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 			}
 		}

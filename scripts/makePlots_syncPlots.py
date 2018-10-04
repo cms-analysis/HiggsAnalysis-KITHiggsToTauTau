@@ -41,8 +41,6 @@ if __name__ == "__main__":
 	parser.add_argument("--input-2", help="Input files 2.", required=True)
 	parser.add_argument("--folder-1", help="Folder for input 1.", required=True)
 	parser.add_argument("--folder-2", help="Folder for input 2.", required=True)
-	parser.add_argument("--quantities-1", help="Quantities for input 1. [Default: all in common]", nargs="+")
-	parser.add_argument("--quantities-2", help="Quantities for input 2. [Default: all in common]", nargs="+")
 	parser.add_argument("-e", "--event-matching", action="store_true", default=False,
 	                    help="Show four histograms per plot using the output of eventmatching.py. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -54,33 +52,34 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/plots/sync_plots/",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("-w", "--weights",
+	                    default="(1)",
+	                    help="weights. [Default: %(default)s]")
 	parser.add_argument("-k", "--keep-eventmatching-output", action="store_true", default=False,
 						help="Keep eventmatching.root. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	quantities1 = args.quantities_1 if args.quantities_1 else get_quantities(args.input_1, args.folder_1)
-	quantities2 = args.quantities_2 if args.quantities_2 else get_quantities(args.input_2, args.folder_2)
-	if (not args.quantities_1) or (not args.quantities_2):
-		common_quantities = list(set(quantities1).intersection(set(quantities2)))
-		quantities1 = common_quantities
-		quantities2 = common_quantities
+	quantities1 = get_quantities(args.input_1, args.folder_1)
+	quantities2 = get_quantities(args.input_2, args.folder_2)
+	common_quantities = list(set(quantities1).intersection(set(quantities2)))
 	
 	plot_configs = []
-	event_matching_output = "eventmatching.root"
-	for index, (quantity_1, quantity_2) in enumerate(zip(quantities1, quantities2)):
+	event_matching_output = args.output_dir+"eventmatching.root"
+	for index, quantity in enumerate(common_quantities):
 		plot_config = {}
 		
 		if args.event_matching:
+			if not os.path.exists(args.output_dir):
+				os.makedirs(args.output_dir)
 			if index == 0:
-				command = "eventmatching.py {input1} {input2} -t {folder1} {folder2} -f {output} --n-max-entries {n_max_entries}".format(
+				command = "eventmatching.py {input1} {input2} -t {folder1} {folder2} -f {output}".format(
 					input1=args.input_1,
 					input2=args.input_2,
 					folder1=args.folder_1,
 					folder2=args.folder_2,
-					output=event_matching_output,
-					n_max_entries=100000
+					output=event_matching_output
 				)
 				log.info(command)
 				logger.subprocessCall(command, shell=True)

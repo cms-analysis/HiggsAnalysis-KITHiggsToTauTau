@@ -192,6 +192,10 @@ if __name__ == "__main__":
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2016 as samples
 		if args.lumi == parser.get_default("lumi"):
 			args.lumi = samples.default_lumi/1000.0
+	elif args.era == "2017":
+		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017_mcv2 as samples
+		if args.lumi == parser.get_default("lumi"):
+			args.lumi = samples.default_lumi/1000.0
 	else:
 		log.critical("Invalid era string selected: " + args.era)
 		sys.exit(1)
@@ -246,7 +250,27 @@ if __name__ == "__main__":
 	init_cb = ch.CombineHarvester()
 	for init_datacard in glob.glob(os.path.join(os.path.join(init_directory, "init"), "*_*_*_*.txt")):			
 		init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt', False)
-	
+
+	#init_cb.PrintObs().PrintProcs().PrintSysts()
+
+	if args.era == "2017":
+		print "THINGS TO BE CHANGED FOR 2017"
+		#print datacards.cb.cp().process(["qqHmm_htt"])
+		#datacards.cb.cp().process(["qqHmm_htt"]).FilterAll()
+		#cmb.FilterProcs([]
+		a_ = init_cb
+
+		filter_proc2017 = ["qqHsm_htt125", "qqHsm_htt", "qqHps_htt", "qqHmm_htt", "WH_htt125", "ZH_htt125", "VV", "VVT", "VVJ"]
+ 
+		a_ = a_.cp().process(filter_proc2017, False)
+		
+		print args.channel[1:]
+		a_ = a_.cp().channel(args.channel[1:], True)
+		print "-----------------------------------------------------------------"
+		#datacards.cb.PrintObs().PrintProcs().PrintSysts()
+		init_cb = a_
+		
+	#init_cb.PrintObs().PrintProcs().PrintSysts()
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
 			cb=init_cb,
 			higgs_masses=args.higgs_masses,
@@ -323,7 +347,13 @@ if __name__ == "__main__":
 	
 		
 	if args.channel != parser.get_default("channel"):
-		args.channel = args.channel[len(parser.get_default("channel")):]
+		channel_list = args.channel[len(parser.get_default("channel")):]
+	else:
+		channel_list = ["em","et","mt","tt","ttbar"]
+	
+
+	print channel_list
+	
 
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
@@ -435,10 +465,11 @@ if __name__ == "__main__":
 
 	#restriction to requested channels
 	if args.channel != parser.get_default("channel"):
-		datacards.cb.channel(args.channel)
+		datacards.cb.channel(args.channel[1:])
 	args.channel = datacards.cb.cp().channel_set()
 	if args.categories == parser.get_default("categories"):
-		args.categories = len(args.channel) * args.categories
+		args.categories = (len(args.channel)-1) * args.categories
+
 			
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		chn = channel if channel != "ttbar" else "em"
@@ -567,7 +598,7 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="cpggh2016" if args.era == "2016" else "baseline",
+							cut_type="cpggh2016" if args.era == "2016" else "cpggh2017" if args.era == "2017" else "baseline",
 							estimationMethod="simeqn",
 							zmm_cr_factor=zmm_cr_factor,
 							no_ewkz_as_dy = args.no_ewkz_as_dy
@@ -700,8 +731,10 @@ if __name__ == "__main__":
 		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	
 	if args.n_plots[0] != 0 and "t2w" in args.steps:
+		print "====================================================================================================================="
 		# tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
-		for channel in ["em","et","mt","tt","ttbar"]:
+		for channel in channel_list:
+			print channel
 			datacards_module._call_command([
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/hadd_shapes.sh {OUTPUT_FOLDER} {CHANNEL} {CHN}".format(OUTPUT_FOLDER=os.path.join(args.output_dir, "shapes", args.output_suffix), CHANNEL=channel if channel != "ttbar" else "em", CHN=channel if channel != "ttbar" else "em")
 			])
@@ -715,9 +748,11 @@ if __name__ == "__main__":
 	
 	# call official script again with shapes that have just been created
 	# this steps creates the filled datacards in the output folder. 
-	if "t2w" in args.steps:	
+
+	if "t2w" in args.steps:
+		print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 		datacards_module._call_command([
-				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --real_data=false --control_region=1  --ttbar_fit=true --input_folder_em {OUTPUT_SUFFIX}/em --input_folder_et {OUTPUT_SUFFIX}/et --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_tt {OUTPUT_SUFFIX}/tt --input_folder_mm {OUTPUT_SUFFIX}/mm --input_folder_ttbar {OUTPUT_SUFFIX}/em ".format(
+				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --real_data=false --control_region=1  --ttbar_fit=true --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_et {OUTPUT_SUFFIX}/et".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
 				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else ""
@@ -725,16 +760,36 @@ if __name__ == "__main__":
 				args.output_dir
 		])
 		log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir)))
-		
+	print "--------------------------------------------------------------------------------------------------------------------------------------"	
 	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/cmb/125/"
 	official_cb = ch.CombineHarvester()
-	
+
 	datacards_cbs = {}
 	datacards_workspaces_alpha = {}
 	
 	for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):			
 		official_cb.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
+		#official_cb.PrintObs().PrintProcs().PrintSysts()
+		"""
+		if args.era == "2017":
+			print "THINGS TO BE CHANGED FOR 2017"
+			#print datacards.cb.cp().process(["qqHmm_htt"])
+			#datacards.cb.cp().process(["qqHmm_htt"]).FilterAll()
+			#cmb.FilterProcs([]
+			b_ = official_cb
+
+			filter_proc2017 = ["qqHsm_htt125", "qqHsm_htt", "qqHps_htt", "qqHmm_htt", "WH_htt125", "ZH_htt125", "VV", "VVT", "VVJ"]
+	 
+			b_ = b_.cp().process(filter_proc2017, False)
 		
+			print args.channel
+			b_ = b_.cp().channel(args.channel[1:], True)
+			print "-----------------------------------------------------------------"
+			#datacards.cb.PrintObs().PrintProcs().PrintSysts()
+			#official_cb = b_
+		official_cb.PrintObs().PrintProcs().PrintSysts()
+		"""
+
 		if "prefitpostfitplots" in args.steps:
 			tmp_datacard = ch.CombineHarvester()	
 			tmp_datacard.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
@@ -791,7 +846,7 @@ if __name__ == "__main__":
 		datacards_module._call_command([
 				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i output/{OUTPUT_SUFFIX}/{{cmb,{CHANNELS}}}/* -o ws.root --parallel {N_PROCESSES}".format(
 				OUTPUT_SUFFIX=args.output_suffix,
-				CHANNELS=",".join(args.channel),
+				CHANNELS=",".join(channel_list),
 				N_PROCESSES=args.n_processes			
 				),
 				args.output_dir	
@@ -803,10 +858,11 @@ if __name__ == "__main__":
 						
 	# Perform likelihoodscan
 	if "likelihoodscan" in args.steps:
-		log.info("\nScanning alpha with muF=1,muV=1,alpha=0,f=0 with asimov dataset.")
+		log.info("\nScanning alpha with muF=1,alpha=0 with asimov dataset.") #FIXME ,muV=1, f=0
 		datacards_module._call_command([
-				"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .alpha --parallel={N_PROCESSES}".format(
+				"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,alpha=0 --setParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{{CHANNELS}}}/125/ws.root --algo grid -t -1 --there -n .alpha --parallel={N_PROCESSES} -S 0".format(
 				OUTPUT_SUFFIX=args.output_suffix,
+				CHANNELS=",".join(channel_list), #TODO change this to use only a single channel
 				N_PROCESSES=args.n_processes	
 				),
 				args.output_dir	
@@ -833,7 +889,7 @@ if __name__ == "__main__":
 		# 		args.output_dir	
 		# ])
 								
-		for channel in ["cmb","em","et","mt","tt"]:
+		for channel in ["cmb"]+channel_list:
 			directory = "output/"+args.output_suffix+"/"+channel+"/125/"
 			datacards_module._call_command([
 					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --logo 'Work in progress' --logo-sub '' ".format(

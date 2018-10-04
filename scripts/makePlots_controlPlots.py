@@ -266,7 +266,7 @@ if __name__ == "__main__":
 			if args.lumi == parser.get_default("lumi"):
 				args.lumi = samples.default_lumi/1000.0
 		elif args.era == "2017" and args.calculate_QCD_os_ss_scalefactor==False:
-			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017 as samples
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2017_mcv2 as samples
 			if args.lumi == parser.get_default("lumi"):
 				args.lumi = samples.default_lumi/1000.0
 		elif args.era == "2017" and args.calculate_QCD_os_ss_scalefactor==True:
@@ -365,6 +365,10 @@ if __name__ == "__main__":
 		if args.smhtt:
 			global_cut_type = "smhtt"
 		global_cut_type += "2016"
+	elif args.era == "2017":
+		if args.smhtt:
+			global_cut_type = "smhtt"
+		global_cut_type += "2017"
 
 	if args.channel_comparison:
 		args.weights = (args.weights * len(args.channels))[:len(args.channels)]
@@ -461,12 +465,18 @@ if __name__ == "__main__":
 					channel_config = samples.Samples.merge_configs(channel_config, config)
 					if last_loop:
 						config = channel_config
-				
+
 				x_expression = json_config.pop("x_expressions", [quantity])
 				config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 				config["category"] = category
+				
+				for i in range(len(config["files"])):
+						if config["files"][i] == None:
+							print i
+							print config["nicks"][i]
 
-				# Introduced due to missing samples in 2017 MCv1, can be removed when 2017 MCv2 samples are out, and samples_rnu2_2017.py script is updated correspondingly.
+				# Introduced due to missing samples in 2017 MCv1, can be removed when 2017 MCv2 samples are out, and samples_rnu2_2017.py script is updated correspondingly.		
+				"""
 				if args.era == "2017":
 					sub_conf_index = 0
 					while (sub_conf_index < len(config["files"])):
@@ -479,6 +489,7 @@ if __name__ == "__main__":
 							config["nicks"].pop(sub_conf_index)
 						else:
 							sub_conf_index +=1
+				"""
 
 				if args.new_tau_id:
 					for weight_index, weight in enumerate(config.get("weights", [])):
