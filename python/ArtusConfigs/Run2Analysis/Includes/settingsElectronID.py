@@ -50,6 +50,7 @@ class Electron_ID(dict):
 			#In 2017 the working points are determined by a function dependent on pt, WP(pT) = c − Aexp( − pt/t), and the number there corresponds to [c, A, t] in this function
 			# https://rembserj.web.cern.ch/rembserj/notes/Electron_MVA_ID_2017_documentation/
 			if iso:
+				self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"
 				if wp==80:
 					self["ElectronMvaIDCutEB1ParamsLowPt"] = [0.9725509559754997, 0.2653858736397496, 2.976593261509491]
 					self["ElectronMvaIDCutEB2ParamsLowPt"] = [0.9508038141601247, 0.2355820499260076, 2.6633500558725713]
@@ -65,6 +66,7 @@ class Electron_ID(dict):
 					self["ElectronMvaIDCutEB2ParamsHighPt"] = [0.9458745023265976, 2.40849932040698, 8.83104420392795]
 					self["ElectronMvaIDCutEEParamsHighPt"] = [0.8979112012086751, 4.171581694893849, 9.814082144168015]
 			else:
+				self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"
 				if wp==80:
 					
 					self["ElectronMvaIDCutEB1ParamsLowPt"] = [ 0.9530240956555949, 0.4669644718545271, 2.7591425841003647 ]
@@ -121,7 +123,8 @@ class Electron_ID(dict):
 		self["ElectronTrackDzCut"] = 0.2
 
 	#since looseElectron_ID includes Electron_ID settings, when this is not ok then just write everything in init to seperate function electron_ID
-	def looseElectron_ID(self, nickname, iso=True):
+	def looseElectron_ID(self, nickname, iso=False):
+		#"Loose" tagged electrons by artus are used for third lepton vetos 
 		self["LooseElectronReco"] = "mvanontrig"
 
 		self["LooseElectronID"] = "user"
@@ -143,6 +146,8 @@ class Electron_ID(dict):
 
 			# https://github.com/guitargeek/cmssw/blob/ElectronID_MVA2017_940pre3/RecoEgamma/ElectronIdentification/python/Identification/mvaElectronID_Fall17_noIso_V1_cff.py#L60-L81
 			if iso:
+				self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"
+
 				self["LooseElectronMvaIDCutEB1ParamsLowPt"] = [0.9387070396095831, 0.8222647164151365, 2.6525585228167636]
 				self["LooseElectronMvaIDCutEB2ParamsLowPt"] = [0.8948802925677235, 0.4123381218697539, 2.7645670358783523]
 				self["LooseElectronMvaIDCutEEParamsLowPt"] = [-1830.8583661119892, -1831.2083578116517,-36578.11055382301]
@@ -150,6 +155,7 @@ class Electron_ID(dict):
 				self["LooseElectronMvaIDCutEB2ParamsHighPt"] = [0.9458745023265976, 2.40849932040698, 8.83104420392795]
 				self["LooseElectronMvaIDCutEEParamsHighPt"] = [0.8979112012086751, 4.171581694893849, 9.814082144168015]
 			else:
+				self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"
 				#wp 90 no iso
 				self["LooseElectronMvaIDCutEB1ParamsLowPt"] = [ 0.9165112826974601, 1.03549199648109, 2.7381703555094217 ]
 				self["LooseElectronMvaIDCutEB2ParamsLowPt"] = [ 0.8655738322220173, 0.7975615613282494, 2.4027944652597073 ]
