@@ -507,6 +507,8 @@ if __name__ == "__main__":
 				elif "--x-bins" in args.args:
 					x_binning = re.search("(--x-bins)[\s=\"\']*(?P<x_bins>\S*)[\"\']?\S", args.args)
 					config["x_bins"] = [" ".join(x_binning.group(2))]
+
+				config["x_bins"] = "0 50 80 110 150 200 250 300 1000"
 					
 				config["x_label"] = json_config.pop("x_label", channel + "_" + quantity)
 

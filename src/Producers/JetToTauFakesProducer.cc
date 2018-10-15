@@ -129,6 +129,7 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 				mjj_ = product.m_diJetSystem.mass();
 				signed_jdphi_ = ROOT::Math::VectorUtil::DeltaPhi(product.m_validJets[0]->p4, product.m_validJets[1]->p4) * (product.m_validJets[0]->p4.Eta() > 0.0 ? 1.0 : -1.0);
 			}
+
 		args.push_back(mjj_); //mjj
 		args.push_back(signed_jdphi_);	  //signed jdphi
 	}
@@ -154,7 +155,7 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 			w_frac = fns_fraction.second->eval(args.data());
 		}
 		//tt_frac
-		else if(fns_fraction.first == "tt_fracs")
+		else if(fns_fraction.first == "ttbar_fracs")
 		{
 			tt_frac = fns_fraction.second->eval(args.data());
 		}
@@ -170,67 +171,62 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 	inputs[7] = w_frac;
 	inputs[8] = tt_frac;
 
-	
-	
-
         for(auto  ff_comb: m_ffComb)
         {
-
-
             // Retrieve nominal fake factors
             // To see the way to call each factor/systematic visit:
             // https://github.com/CMS-HTT/Jet2TauFakes/blob/master/test/producePublicFakeFactors.py#L735-L766
 	    double ff_nom = ff_comb.second->value(inputs);
 	    std::cout << ff_comb.first << "      :         " << ff_nom << std::endl;
 
-            product.m_optionalWeights["fakefactorWeight_comb_inclusive"] = ff_nom;
+            product.m_optionalWeights["fakefactorWeight_comb_inclusive_2"] = ff_nom;
 
             // Retrieve uncertainties
 	    //wt_ff_realtau_up_1 and down_1
 
-	    product.m_optionalWeights["fakefactorWeight_realtau_up_inclusive"] = ff_nom*(1.-real_frac*1.1)/(1.-real_frac);
-            product.m_optionalWeights["fakefactorWeight_realtau_down_inclusive"] = ff_nom*(1.-real_frac*0.9)/(1.-real_frac);
+	    product.m_optionalWeights["fakefactorWeight_realtau_up_inclusive_2"] = ff_nom*(1.-real_frac*1.1)/(1.-real_frac);
+            product.m_optionalWeights["fakefactorWeight_realtau_down_inclusive_2"] = ff_nom*(1.-real_frac*0.9)/(1.-real_frac);
 
 
             // Total systematic uncertainties on the QCD fake factor
-            product.m_optionalWeights["fakefactorWeight_qcd_syst_up_inclusive"] = ff_comb.second->value(inputs, "ff_qcd_syst_up");
-            product.m_optionalWeights["fakefactorWeight_qcd_syst_down_inclusive"] = ff_comb.second->value(inputs, "ff_qcd_syst_down");
-            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet0_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_qcd_dm0_njet0_stat_up");
-            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet0_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_qcd_dm0_njet0_stat_down");
-            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet1_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_qcd_dm0_njet1_stat_up");
-            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet1_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_qcd_dm0_njet1_stat_down");
-            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet0_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_qcd_dm1_njet0_stat_up");
-            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet0_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_qcd_dm1_njet0_stat_down");
-            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet1_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_qcd_dm1_njet1_stat_up");
-            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet1_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_qcd_dm1_njet1_stat_down");
+            product.m_optionalWeights["fakefactorWeight_qcd_syst_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_qcd_syst_up");
+            product.m_optionalWeights["fakefactorWeight_qcd_syst_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_qcd_syst_down");
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet0_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_qcd_dm0_njet0_stat_up");
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet0_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_qcd_dm0_njet0_stat_down");
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet1_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_qcd_dm0_njet1_stat_up");
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet1_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_qcd_dm0_njet1_stat_down");
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet0_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_qcd_dm1_njet0_stat_up");
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet0_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_qcd_dm1_njet0_stat_down");
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet1_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_qcd_dm1_njet1_stat_up");
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet1_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_qcd_dm1_njet1_stat_down");
             // Total systematic uncertainties on the W fake factor
-            product.m_optionalWeights["fakefactorWeight_w_syst_up_inclusive"] = ff_comb.second->value(inputs, "ff_w_syst_up");
-            product.m_optionalWeights["fakefactorWeight_w_syst_down_inclusive"] = ff_comb.second->value(inputs, "ff_w_syst_down");
-            product.m_optionalWeights["fakefactorWeight_w_dm0_njet0_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_w_dm0_njet0_stat_up");
-            product.m_optionalWeights["fakefactorWeight_w_dm0_njet0_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_w_dm0_njet0_stat_down");
-            product.m_optionalWeights["fakefactorWeight_w_dm0_njet1_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_w_dm0_njet1_stat_up");
-            product.m_optionalWeights["fakefactorWeight_w_dm0_njet1_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_w_dm0_njet1_stat_down");
-            product.m_optionalWeights["fakefactorWeight_w_dm1_njet0_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_w_dm1_njet0_stat_up");
-            product.m_optionalWeights["fakefactorWeight_w_dm1_njet0_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_w_dm1_njet0_stat_down");
-            product.m_optionalWeights["fakefactorWeight_w_dm1_njet1_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_w_dm1_njet1_stat_up");
-            product.m_optionalWeights["fakefactorWeight_w_dm1_njet1_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_w_dm1_njet1_stat_down");
+            product.m_optionalWeights["fakefactorWeight_w_syst_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_w_syst_up");
+            product.m_optionalWeights["fakefactorWeight_w_syst_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_w_syst_down");
+            product.m_optionalWeights["fakefactorWeight_w_dm0_njet0_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_w_dm0_njet0_stat_up");
+            product.m_optionalWeights["fakefactorWeight_w_dm0_njet0_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_w_dm0_njet0_stat_down");
+            product.m_optionalWeights["fakefactorWeight_w_dm0_njet1_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_w_dm0_njet1_stat_up");
+            product.m_optionalWeights["fakefactorWeight_w_dm0_njet1_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_w_dm0_njet1_stat_down");
+            product.m_optionalWeights["fakefactorWeight_w_dm1_njet0_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_w_dm1_njet0_stat_up");
+            product.m_optionalWeights["fakefactorWeight_w_dm1_njet0_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_w_dm1_njet0_stat_down");
+            product.m_optionalWeights["fakefactorWeight_w_dm1_njet1_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_w_dm1_njet1_stat_up");
+            product.m_optionalWeights["fakefactorWeight_w_dm1_njet1_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_w_dm1_njet1_stat_down");
             // Total systematic uncertainties on the tt fake factor
-            product.m_optionalWeights["fakefactorWeight_tt_syst_up_inclusive"] = ff_comb.second->value(inputs, "ff_tt_syst_up");
-            product.m_optionalWeights["fakefactorWeight_tt_syst_down_inclusive"] = ff_comb.second->value(inputs, "ff_tt_syst_down");
-            product.m_optionalWeights["fakefactorWeight_tt_dm0_njet0_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_tt_dm0_njet0_stat_up");
-            product.m_optionalWeights["fakefactorWeight_tt_dm0_njet0_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_tt_dm0_njet0_stat_down");
-            product.m_optionalWeights["fakefactorWeight_tt_dm0_njet1_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_tt_dm0_njet1_stat_up");
-            product.m_optionalWeights["fakefactorWeight_tt_dm0_njet1_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_tt_dm0_njet1_stat_down");
-            product.m_optionalWeights["fakefactorWeight_tt_dm1_njet0_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_tt_dm1_njet0_stat_up");
-            product.m_optionalWeights["fakefactorWeight_tt_dm1_njet0_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_tt_dm1_njet0_stat_down");
-            product.m_optionalWeights["fakefactorWeight_tt_dm1_njet1_stat_up_inclusive"] = ff_comb.second->value(inputs, "ff_tt_dm1_njet1_stat_up");
-            product.m_optionalWeights["fakefactorWeight_tt_dm1_njet1_stat_down_inclusive"] = ff_comb.second->value(inputs, "ff_tt_dm1_njet1_stat_down");
+            product.m_optionalWeights["fakefactorWeight_tt_syst_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_tt_syst_up");
+            product.m_optionalWeights["fakefactorWeight_tt_syst_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_tt_syst_down");
+            product.m_optionalWeights["fakefactorWeight_tt_dm0_njet0_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_tt_dm0_njet0_stat_up");
+            product.m_optionalWeights["fakefactorWeight_tt_dm0_njet0_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_tt_dm0_njet0_stat_down");
+            product.m_optionalWeights["fakefactorWeight_tt_dm0_njet1_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_tt_dm0_njet1_stat_up");
+            product.m_optionalWeights["fakefactorWeight_tt_dm0_njet1_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_tt_dm0_njet1_stat_down");
+            product.m_optionalWeights["fakefactorWeight_tt_dm1_njet0_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_tt_dm1_njet0_stat_up");
+            product.m_optionalWeights["fakefactorWeight_tt_dm1_njet0_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_tt_dm1_njet0_stat_down");
+            product.m_optionalWeights["fakefactorWeight_tt_dm1_njet1_stat_up_inclusive_2"] = ff_comb.second->value(inputs, "ff_tt_dm1_njet1_stat_up");
+            product.m_optionalWeights["fakefactorWeight_tt_dm1_njet1_stat_down_inclusive_2"] = ff_comb.second->value(inputs, "ff_tt_dm1_njet1_stat_down");
         }
     }
     if (m_isTT)
     {
-        std::vector<double> inputs1(6);
-        std::vector<double> inputs2(6);
+        std::vector<double> inputs1(9);
+        std::vector<double> inputs2(9);
         // Tau pT 
         inputs1[0] = product.m_flavourOrderedLeptons[0]->p4.Pt();
         inputs2[0] = product.m_flavourOrderedLeptons[1]->p4.Pt();
@@ -251,67 +247,179 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
         inputs1[4] = product.m_diLeptonSystem.mass();
         inputs2[4] = inputs1[4];
         
-        // Total Transverse Mass  - needs Quantities to compute
+        // Total Transverse Mass  - needs Quantities to compute  NOT NEEDED ANYMORE AS INPUT
+	/*
         double mt_1 = Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4);
         double mt_2 = Quantities::CalculateMt(product.m_flavourOrderedLeptons[1]->p4, product.m_met.p4);
         double mt_tt = Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4);
         inputs1[5] = sqrt(pow(mt_tt,2)+pow(mt_1,2)+pow(mt_2,2));
-        inputs2[5] = inputs1[5];
+        inputs2[5] = inputs1[5];*/
+
+	auto args1 = std::vector<double>{};
+	auto args2 = std::vector<double>{};
+
+	double real_frac_1=0.; //fraction real taus
+	double real_frac_2=0.; //fraction real taus
+
+	if (fakefactormethod == "cp2016")
+	{
+		args1.push_back(product.m_svfitResults.fittedHiggsLV->M()); // m_sv
+		args1.push_back(product.m_diLeptonSystem.Pt()); //pt di-tau
+		args1.push_back(inputs1[2]); //njets
+
+		args2.push_back(product.m_svfitResults.fittedHiggsLV->M()); // m_sv
+		args2.push_back(product.m_diLeptonSystem.Pt()); //pt di-tau
+		args2.push_back(inputs2[2]); //njets
+
+		double mjj_ = 0.;
+		double signed_jdphi_ = -9999.;
+		if (product.m_diJetSystemAvailable) //dijetsyst available if njets>1 look in dijetquantitiesproducer
+			{
+				mjj_ = product.m_diJetSystem.mass();
+				signed_jdphi_ = ROOT::Math::VectorUtil::DeltaPhi(product.m_validJets[0]->p4, product.m_validJets[1]->p4) * (product.m_validJets[0]->p4.Eta() > 0.0 ? 1.0 : -1.0);
+			}
+
+		args1.push_back(mjj_); //mjj
+		args1.push_back(signed_jdphi_);	  //signed jdphi
+		args2.push_back(mjj_); //mjj
+		args2.push_back(signed_jdphi_);	  //signed jdphi
+	}
+	else if (fakefactormethod == "cp2017")
+	{
+		
+		args1.push_back(inputs1[0]); //pt tau 1
+		args1.push_back(inputs1[2]); //njets
+		args1.push_back(0.);	  //nbjets
+	
+		args2.push_back(inputs2[0]); //pt tau 1
+		args2.push_back(inputs2[2]); //njets
+		args2.push_back(0.);	  //nbjets
+	}
+
+	double qcd_frac_1=1.0, w_frac_1=0.0, tt_frac_1=0.0, dy_frac_1=0.0, qcd_frac_2=1.0, w_frac_2=0.0, tt_frac_2=0.0, dy_frac_2=0.0;
+	
+
+	for(auto fns_fraction: fns_fractions)
+	{
+		//qcd_frac
+		if(fns_fraction.first == "qcd_fracs_1")
+		{
+			qcd_frac_1 = fns_fraction.second->eval(args1.data());
+		}
+		else if(fns_fraction.first == "qcd_fracs_2")
+		{
+			qcd_frac_2 = fns_fraction.second->eval(args2.data());
+		}
+		//wj_frac
+		else if(fns_fraction.first == "w_fracs_1")
+		{
+			w_frac_1 = fns_fraction.second->eval(args1.data());
+		}
+		else if(fns_fraction.first == "w_fracs_2")
+		{
+			w_frac_2 = fns_fraction.second->eval(args2.data());
+		}
+		//tt_frac
+		else if(fns_fraction.first == "ttbar_fracs_1")
+		{
+			tt_frac_1 = fns_fraction.second->eval(args1.data());
+		}
+		else if(fns_fraction.first == "ttbar_fracs_2")
+		{
+			tt_frac_2 = fns_fraction.second->eval(args2.data());
+		}
+		//dy_fracs
+		else if(fns_fraction.first == "dy_fracs_1")
+		{
+			dy_frac_1 = fns_fraction.second->eval(args1.data());
+		}
+		else if(fns_fraction.first == "dy_fracs_2")
+		{
+			dy_frac_2 = fns_fraction.second->eval(args2.data());
+		}
+		else
+		{
+			LOG(WARNING) << "DID not find: \t \"" << fns_fraction.first << "\" LOOK INSIDE SETTINGS FAKEFACTOR OR JETTOTAUFAKESPRODUCER";
+		}
+	}
+
+	real_frac_1 = 1-qcd_frac_1-w_frac_1-tt_frac_1-dy_frac_1;
+        real_frac_2 = 1-qcd_frac_2-w_frac_2-tt_frac_2-dy_frac_2; 
+
+
+	inputs1[5] = qcd_frac_1;
+	inputs1[6] = w_frac_1; //+ dy_frac_1;
+	inputs1[7] = tt_frac_1;
+
+	inputs1[8] = dy_frac_1; //TODO THIS IS WHAT DANNY DOES, NOT LIKE THIS IN TWIKI
+
+
+	inputs2[5] = qcd_frac_2;
+	inputs2[6] = w_frac_2; //+ dy_frac_2;
+	inputs2[7] = tt_frac_2;
+
+	inputs2[8] = dy_frac_2; //TODO THIS IS WHAT DANNY DOES, NOT LIKE THIS IN TWIKI
+
         for(auto  ff_comb: m_ffComb)
         {
             // Retrieve nominal fake factors
             // To see the way to call each factor/systematic visit:
             // https://github.com/CMS-HTT/Jet2TauFakes/blob/master/test/producePublicFakeFactors.py#L735-L766
-            product.m_optionalWeights["ff_comb_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1);
-            product.m_optionalWeights["ff_comb_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2);
+	    double ff_nom_1 = ff_comb.second->value(inputs1) *0.5;
+	    double ff_nom_2 = ff_comb.second->value(inputs2) *0.5;
+
+            product.m_optionalWeights["fakefactorWeight_comb_"+ff_comb.first+"_1"] = ff_nom_1;
+            product.m_optionalWeights["fakefactorWeight_comb_"+ff_comb.first+"_2"] = ff_nom_2;
+
+	    product.m_optionalWeights["fakefactorWeight_realtau_up_inclusive_1"] = ff_nom_1*(1.-real_frac_1*1.1)/(1.-real_frac_1);
+            product.m_optionalWeights["fakefactorWeight_realtau_down_inclusive_2"] = ff_nom_2*(1.-real_frac_2*0.9)/(1.-real_frac_2);
+
             // Retrieve uncertainties
             // Total systematic uncertainties on the QCD fake factor
-            product.m_optionalWeights["ff_qcd_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_syst_up");
-            product.m_optionalWeights["ff_qcd_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_syst_down");
-            product.m_optionalWeights["ff_qcd_dm0_njet0_stat_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm0_njet0_stat_up");
-            product.m_optionalWeights["ff_qcd_dm0_njet0_stat_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm0_njet0_stat_down");
-            product.m_optionalWeights["ff_qcd_dm0_njet1_stat_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm0_njet1_stat_up");
-            product.m_optionalWeights["ff_qcd_dm0_njet1_stat_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm0_njet1_stat_down");
-            product.m_optionalWeights["ff_qcd_dm1_njet0_stat_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm1_njet0_stat_up");
-            product.m_optionalWeights["ff_qcd_dm1_njet0_stat_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm1_njet0_stat_down");
-            product.m_optionalWeights["ff_qcd_dm1_njet1_stat_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm1_njet1_stat_up");
-            product.m_optionalWeights["ff_qcd_dm1_njet1_stat_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm1_njet1_stat_down");
-            product.m_optionalWeights["ff_qcd_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_syst_up");
-            product.m_optionalWeights["ff_qcd_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_syst_down");
-            product.m_optionalWeights["ff_qcd_dm0_njet0_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet0_stat_up");
-            product.m_optionalWeights["ff_qcd_dm0_njet0_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet0_stat_down");
-            product.m_optionalWeights["ff_qcd_dm0_njet1_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet1_stat_up");
-            product.m_optionalWeights["ff_qcd_dm0_njet1_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet1_stat_down");
-            product.m_optionalWeights["ff_qcd_dm1_njet0_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet0_stat_up");
-            product.m_optionalWeights["ff_qcd_dm1_njet0_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet0_stat_down");
-            product.m_optionalWeights["ff_qcd_dm1_njet1_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet1_stat_up");
-            product.m_optionalWeights["ff_qcd_dm1_njet1_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet1_stat_down");
+            product.m_optionalWeights["fakefactorWeight_qcd_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_syst_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet0_stat_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm0_njet0_stat_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet0_stat_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm0_njet0_stat_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet1_stat_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm0_njet1_stat_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet1_stat_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm0_njet1_stat_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet0_stat_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm1_njet0_stat_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet0_stat_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm1_njet0_stat_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet1_stat_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm1_njet1_stat_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet1_stat_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_qcd_dm1_njet1_stat_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_syst_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet0_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet0_stat_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet0_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet0_stat_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet1_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet1_stat_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm0_njet1_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm0_njet1_stat_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet0_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet0_stat_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet0_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet0_stat_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet1_stat_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet1_stat_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_qcd_dm1_njet1_stat_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_qcd_dm1_njet1_stat_down") *0.5;
             // Total systematic uncertainties on the W fake factor
-            product.m_optionalWeights["ff_w_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_w_syst_up");
-            product.m_optionalWeights["ff_w_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_w_syst_down");
-            product.m_optionalWeights["ff_w_frac_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_w_frac_syst_up");
-            product.m_optionalWeights["ff_w_frac_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_w_frac_syst_down");
-            product.m_optionalWeights["ff_w_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_w_syst_up");
-            product.m_optionalWeights["ff_w_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_w_syst_down");
-            product.m_optionalWeights["ff_w_frac_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_w_frac_syst_up");
-            product.m_optionalWeights["ff_w_frac_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_w_frac_syst_down");
+            product.m_optionalWeights["fakefactorWeight_w_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_w_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_w_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_w_syst_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_w_frac_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_w_frac_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_w_frac_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_w_frac_syst_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_w_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_w_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_w_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_w_syst_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_w_frac_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_w_frac_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_w_frac_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_w_frac_syst_down") *0.5;
             // Total systematic uncertainties on the tt fake factor
-            product.m_optionalWeights["ff_tt_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_tt_syst_up");
-            product.m_optionalWeights["ff_tt_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_tt_syst_down");
-            product.m_optionalWeights["ff_tt_frac_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_tt_frac_syst_up");
-            product.m_optionalWeights["ff_tt_frac_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_tt_frac_syst_down");
-            product.m_optionalWeights["ff_tt_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_syst_up");
-            product.m_optionalWeights["ff_tt_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_syst_down");
-            product.m_optionalWeights["ff_tt_frac_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_frac_syst_up");
-            product.m_optionalWeights["ff_tt_frac_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_frac_syst_down");
+            product.m_optionalWeights["fakefactorWeight_tt_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_tt_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_tt_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_tt_syst_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_tt_frac_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_tt_frac_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_tt_frac_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_tt_frac_syst_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_tt_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_tt_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_syst_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_tt_frac_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_frac_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_tt_frac_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_frac_syst_down") *0.5;
             // Uncertainties for the dy FF
-            product.m_optionalWeights["ff_dy_frac_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_dy_frac_syst_up");
-            product.m_optionalWeights["ff_dy_frac_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_dy_frac_syst_down");
-            product.m_optionalWeights["ff_dy_frac_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_dy_frac_syst_up");
-            product.m_optionalWeights["ff_dy_frac_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_dy_frac_syst_down");
+            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_dy_frac_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_dy_frac_syst_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_dy_frac_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_dy_frac_syst_down") *0.5;
 	}
         
     }
-
-	
 }
