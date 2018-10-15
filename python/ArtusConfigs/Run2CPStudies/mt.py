@@ -238,6 +238,8 @@ class mt_ArtusConfig(dict):
 			"0:m_pt,m_eta",
 			"1:t_pt,t_eta"
 		]
+
+		
 	
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["TriggerEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_IsoMu18_fall15.root"]
@@ -273,6 +275,19 @@ class mt_ArtusConfig(dict):
 		self["AddGenMatchedTauJets"] = True
 		self["BranchGenMatchedMuons"] = True
 		self["BranchGenMatchedTaus"] = True
+
+		if re.search("Run2016|Spring16|Summer16", nickname):
+			#settings for jetstotaufakesproducer
+			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data/SM2016_ML/tight/mt/fakeFactors_20180831_tight.root"]
+			self["FakeFactorMethod"] = "cp2016"
+			self["FakeFactorRooWorkspaceFunction"] = [
+				"w_fracs:w_mt_fracs",
+				"qcd_fracs:qcd_mt_fracs",
+				"ttbar_fracs:ttbar_mt_fracs"
+			]
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
+
+
 		self["Consumers"] = [
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
@@ -416,6 +431,7 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 			
 			if re.search("Run2016", nickname):
+				self["Processors"] += ["producer:JetToTauFakesProducer"]
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						
 				self["Processors"] += ["producer:SimpleFitProducer"]
@@ -460,6 +476,7 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAM125Producer"]
 	
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+						self["Processors"] += ["producer:JetToTauFakesProducer"]
 						self["Processors"] += ["producer:ZPtReweightProducer"]			
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
@@ -478,6 +495,7 @@ class mt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
+						self["Processors"] += ["producer:JetToTauFakesProducer"]
 						self["Processors"] += [	"producer:TopPtReweightingProducer"] 
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"]				

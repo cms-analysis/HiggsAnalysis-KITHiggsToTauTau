@@ -20,11 +20,13 @@ class quantities(run2_quantities.quantities):
 		self["Quantities"] += self.syncQuantities()
 		self["Quantities"] += self.weightQuantities()
 
+
 		if re.search("Run2015", nickname):  					
 			self["Quantities"] += self.recoPolarisationQuantities() 	
 			
 		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()
+
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
 				self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
@@ -35,7 +37,8 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.recoPolarisationQuantities()
 			self["Quantities"] += self.recoPolarisationQuantitiesSvfit()
 			if kwargs.get("channel", None) != "EM":
-				self["Quantities"] += iq.SingleTauQuantities()	
+				self["Quantities"] += iq.SingleTauQuantities()
+				self["Quantities"] += self.fakefactorQuantities()
 			
 		
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
@@ -86,6 +89,8 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.melaQuantities()
 			self["Quantities"] += self.recoPolarisationQuantities()
 			self["Quantities"] += self.recoPolarisationQuantitiesSvfit()
+			if kwargs.get("channel", None) != "EM":
+				self["Quantities"] += self.fakefactorQuantities()
 
 
 	def genCPQuantities(self, *args, **kwargs):    #TODO Is this really used, very similar to matchedcpquantities
@@ -1014,6 +1019,171 @@ class quantities(run2_quantities.quantities):
 			#"melaM125DiscriminatorDCPZhadH"
 		]
 
+	def fakefactorQuantities(self, *args, **kwargs):
+		return [
+		    "fakefactorWeight_comb_inclusive",
+		    "fakefactorWeight_qcd_syst_up_inclusive",
+		    "fakefactorWeight_qcd_syst_down_inclusive",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_inclusive",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_inclusive",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_inclusive",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_inclusive",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_inclusive",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_inclusive",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_inclusive",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_inclusive",
+		    "fakefactorWeight_w_syst_up_inclusive",
+		    "fakefactorWeight_w_syst_down_inclusive",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_inclusive",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_inclusive",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_inclusive",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_inclusive",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_inclusive",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_inclusive",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_inclusive",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_inclusive",
+		    "fakefactorWeight_tt_syst_up_inclusive",
+		    "fakefactorWeight_tt_syst_down_inclusive",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_inclusive",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_inclusive",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_inclusive",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_inclusive",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_inclusive",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_inclusive",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_inclusive",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_inclusive",
 
 
+
+		    "fakefactorWeight_realtau_up_inclusive",
+		    "fakefactorWeight_realtau_down_inclusive"
+		  ]
+
+
+		"""
+		    "fakefactorWeight_comb_nobtag_tight",
+		    "fakefactorWeight_qcd_syst_up_nobtag_tight",
+		    "fakefactorWeight_qcd_syst_down_nobtag_tight",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_w_syst_up_nobtag_tight",
+		    "fakefactorWeight_w_syst_down_nobtag_tight",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_tt_syst_up_nobtag_tight",
+		    "fakefactorWeight_tt_syst_down_nobtag_tight",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_comb_nobtag_loosemt",
+		    "fakefactorWeight_qcd_syst_up_nobtag_loosemt",
+		    "fakefactorWeight_qcd_syst_down_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_w_syst_up_nobtag_loosemt",
+		    "fakefactorWeight_w_syst_down_nobtag_loosemt",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_tt_syst_up_nobtag_loosemt",
+		    "fakefactorWeight_tt_syst_down_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_comb_btag_tight",
+		    "fakefactorWeight_qcd_syst_up_btag_tight",
+		    "fakefactorWeight_qcd_syst_down_btag_tight",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_w_syst_up_btag_tight",
+		    "fakefactorWeight_w_syst_down_btag_tight",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_tt_syst_up_btag_tight",
+		    "fakefactorWeight_tt_syst_down_btag_tight",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_comb_btag_loosemt",
+		    "fakefactorWeight_qcd_syst_up_btag_loosemt",
+		    "fakefactorWeight_qcd_syst_down_btag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_btag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_btag_loosemt",
+		    "fakefactorWeight_w_syst_up_btag_loosemt",
+		    "fakefactorWeight_w_syst_down_btag_loosemt",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_btag_loosemt",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_btag_loosemt",
+		    "fakefactorWeight_tt_syst_up_btag_loosemt",
+		    "fakefactorWeight_tt_syst_down_btag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_btag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_btag_loosemt",
+		"""
 	
