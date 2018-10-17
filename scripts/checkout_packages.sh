@@ -86,10 +86,13 @@ cd ZZMatrixElement
 ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
 cd $CMSSW_BASE/src/
 
-# Jet2Tau Fakes
+# Jet2Tau Fakes as described here https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauJet2TauFakes
 git clone git@github.com:CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
-git checkout v0.2.1
+git checkout v0.2.2
+mkdir data
+git clone https://gitlab.cern.ch/cms-htt/Jet2TauFakesFiles.git data
+
 cd $CMSSW_BASE/src/
 
 # 2017 tau trigger efficiencies
