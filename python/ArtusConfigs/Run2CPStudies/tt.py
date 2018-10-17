@@ -294,6 +294,23 @@ class tt_ArtusConfig(dict):
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
 		]
 
+		if re.search("Run2016|Spring16|Summer16", nickname):
+			#settings for jetstotaufakesproducer
+			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data/SM2016_ML/tight/tt/fakeFactors_tt_inclusive.root"]
+			self["FakeFactorMethod"] = "cp2016"
+			self["FakeFactorRooWorkspaceFunction"] = [
+				"w_fracs_1:w_tt_fracs_1",
+				"qcd_fracs_1:qcd_tt_fracs_1",
+				"ttbar_fracs_1:ttbar_tt_fracs_1",
+				"dy_fracs_1:dy_fracs_tt_1",
+				"w_fracs_2:w_tt_fracs_2",
+				"qcd_fracs_2:qcd_tt_fracs_2",
+				"ttbar_fracs_2:ttbar_tt_fracs_2",
+				"dy_fracs_2:dy_fracs_tt_2"
+			]
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
+
+		
 		self["TauTauRestFrameReco"] = "collinear_approximation"
 		self["TriggerObjectLowerPtCut"] = 28.0
 		self["InvalidateNonMatchingElectrons"] = False

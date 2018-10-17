@@ -152,7 +152,7 @@ if __name__ == "__main__":
 					background_expressions=str(background_expressions)
 			))
 			
-			uncertainty_expressions = ["TotalBkg"] + (["TotalSig"] if n_signal_inputs == 0 else [])
+			uncertainty_expressions = [expression for expression in ["TotalBkg"] + (["TotalSig"] if n_signal_inputs == 0 else []) if expression in input_histograms]
 			uncertainty_nicks = ["TotalExp"] * len(uncertainty_expressions)
 			
 			config = {}
@@ -161,11 +161,11 @@ if __name__ == "__main__":
 			config["x_expressions"] = background_expressions + uncertainty_expressions + signal_expressions + ["data_obs"]
 			config["nicks"] = background_nicks + uncertainty_nicks + signal_nicks + ["data_obs"]
 			
-			config["stacks"] = (["background"]*n_background_outputs) + ["totalbkg"] + signal_labels + ["data"]
-			config["markers"] = (["HIST"]*n_background_outputs) + ["E2"] + (["LINE"]*n_signal_outputs) + ["E"]
-			config["legend_markers"] = (["F"]*n_background_outputs) + ["F"] + (["L"]*n_signal_outputs) + ["ELP"]
-			config["colors"] = background_colors + ["totalbkg"] + signal_colors + ["data_obs"]
-			config["labels"] = background_labels + ["totalbkg"] + signal_labels + ["data_obs"]
+			config["stacks"] = (["background"]*n_background_outputs) + (["totalbkg"]*min(1, len(uncertainty_expressions))) + signal_labels + ["data"]
+			config["markers"] = (["HIST"]*n_background_outputs) + (["E2"]*min(1, len(uncertainty_expressions))) + (["LINE"]*n_signal_outputs) + ["E"]
+			config["legend_markers"] = (["F"]*n_background_outputs) + (["F"]*min(1, len(uncertainty_expressions))) + (["L"]*n_signal_outputs) + ["ELP"]
+			config["colors"] = background_colors + (["totalbkg"]*min(1, len(uncertainty_expressions))) + signal_colors + ["data_obs"]
+			config["labels"] = background_labels + (["totalbkg"]*min(1, len(uncertainty_expressions))) + signal_labels + ["data_obs"]
 			
 			if args.ratio:
 				if "Ratio" not in config.get("analysis_modules", []):

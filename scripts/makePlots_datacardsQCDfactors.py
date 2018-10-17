@@ -112,7 +112,7 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	logger.initLogger(args)
 	
-	print args.era			
+				
 	# Initialisations for plotting
 	if (args.era == "2015") or (args.era == "2015new"):
 		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
@@ -227,7 +227,6 @@ if __name__ == "__main__":
 		for category in categories:
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
 			weight = args.weight
-			print weight
 			datacards_per_channel_category = qcdfactorsdatacards.QcdFactorsDatacards(cb=datacards.cb.cp().channel([channel]).bin([category]), mapping_category2binid=mapping_category2binid)
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 			# exclude isolation cut which is set by default in cutstrings.py using the smhtt2016 cut_type
@@ -265,9 +264,7 @@ if __name__ == "__main__":
 						category=category,
 						systematic=systematic
 					))
-					print list_of_samples
-					print cuttype_
-					print weight
+				
 					# very basic config
 					config = sample_settings.get_config(
 						samples=[getattr(samples.Samples, sample if sample != "data_obs" else "data") for sample in list_of_samples],
@@ -280,8 +277,6 @@ if __name__ == "__main__":
 						estimationMethod="mc",
 						exclude_cuts = exclude_cuts
 					)
-					
-
 
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					config= systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
@@ -560,7 +555,7 @@ higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, list_of_args_s
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces, True, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""))
 	# Plot postfit
 		postfit_plot_configs = [] #reset list containing the plot configs
-		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "W"]
+		bkg_plotting_order = ["ZTT", "ZL", "ZJ", "TTT", "TTJJ", "VVT", "VVJ", "W"]
 
 		for level in ["prefit", "postfit"]:
 			print("prefit")
@@ -585,15 +580,12 @@ higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, list_of_args_s
 					config.setdefault("sum_result_nicks", []).append("Total")
 				
 					processes_to_plot = list(processes)
-					processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("W", "W_noplot") for p in processes] 
+					processes = [p.replace("ZL", "ZL_noplot").replace("ZJ", "ZJ_noplot").replace("VVT", "VVT_noplot").replace("VVJ", "VVJ_noplot").replace("W", "W_noplot")  for p in processes]
 					processes_to_plot = [p for p in processes if not "noplot" in p]
 				
 					processes_to_plot.insert(1, "EWK")
-					#config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot" if not "et_dijet2D_boosted" in category else "VVT_noplot W_noplot")
-					#config["sum_scale_factors"].append("1.0 1.0 1.0"  if not "et_dijet2D_boosted" in category else "1.0 1.0")
-
-					config["sum_nicks"].append("W_noplot")
-					config["sum_scale_factors"].append("1.0")
+					config["sum_nicks"].append("VVT_noplot VVJ_noplot W_noplot" if not "et_dijet2D_boosted" in category else "VVT_noplot W_noplot")
+					config["sum_scale_factors"].append("1.0 1.0 1.0"  if not "et_dijet2D_boosted" in category else "1.0 1.0")
 					config["sum_result_nicks"].append("EWK")
 					
 					if any(bin in category for bin in ["et_dijet2D_antiiso_far", "et_dijet2D_lowboost_antiiso_near","et_dijet2D_lowboost_antiiso"]):
@@ -613,8 +605,7 @@ higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, list_of_args_s
 						config["sum_nicks"].append("ZL_noplot ZJ_noplot")
 						config["sum_scale_factors"].append("1.0 1.0")
 						config["sum_result_nicks"].append("ZLL")						
-					
-					print "processes to plot", processes_to_plot		
+										
 					config["files"] = [postfit_shapes]
 					config["folders"] = [category+"_"+level]
 					config["nicks"] = [processes + ["noplot_TotalBkg", "noplot_TotalSig", "data_obs"]]
@@ -626,7 +617,7 @@ higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, list_of_args_s
 					config["legend_markers"] = ["F"]*len(processes_to_plot) + ["F"] + ["ELP"]
 				
 					config["y_label"] = "Events / bin"
-					config["x_label"] = "m_{vis}" #if "ZeroJet2D_QCDCR" in category else "m_{#tau#tau}"
+					config["x_label"] = "m_{vis}" if "ZeroJet2D_QCDCR" in category else "m_{#tau#tau}"
 				
 					config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend(["noplot_TotalBkg noplot_TotalSig", "data_obs"])

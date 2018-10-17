@@ -291,6 +291,8 @@ class mt_ArtusConfig(dict):
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["HltPaths"] = ["HLT_IsoMu18"]
+			self["NoHltFiltering"] = False
+			self["DiTauPairNoHLT"] = False
 
 		elif re.search("Run2016|Spring16|Summer16", nickname):
 			self["HltPaths"] = [
@@ -507,6 +509,9 @@ class mt_ArtusConfig(dict):
 			]
 			self["SaveMuTauTriggerWeightAsOptionalOnly"] = "true"
 
+			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p1_fall15.root"]
+			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p1_fall15.root"]		
+
 			self["MuTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 			self["MuTauTriggerWeightWorkspaceWeightNames"] = [
 				"0:triggerWeight_muTauCross",
@@ -541,6 +546,19 @@ class mt_ArtusConfig(dict):
 		self["AddGenMatchedTauJets"] = True
 		self["BranchGenMatchedMuons"] = True
 		self["BranchGenMatchedTaus"] = True
+
+		if re.search("Run2016|Spring16|Summer16", nickname):
+			#settings for jetstotaufakesproducer
+			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data/SM2016_ML/tight/mt/fakeFactors_20180831_tight.root"]
+			self["FakeFactorMethod"] = "cp2016"
+			self["FakeFactorRooWorkspaceFunction"] = [
+				"w_fracs:w_mt_fracs",
+				"qcd_fracs:qcd_mt_fracs",
+				"ttbar_fracs:ttbar_mt_fracs"
+			]
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
+
+
 		self["Consumers"] = [
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",

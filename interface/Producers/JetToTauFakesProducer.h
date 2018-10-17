@@ -6,6 +6,9 @@
 #include "HTTutilities/Jet2TauFakes/interface/FakeFactor.h"
 #include <boost/regex.hpp>
 
+#include "RooWorkspace.h"
+#include "RooFunctor.h"
+
 
 #if ROOT_VERSION_CODE < ROOT_VERSION(6,0,0)
 #include <TROOT.h>
@@ -34,7 +37,12 @@ private:
 
 	std::map<std::string,std::shared_ptr<FakeFactor>> m_ffComb;
 	bool m_applyFakeFactors;
-	bool m_isET;
-	bool m_isMT;
-	bool m_isTT;
+	std::string fakefactormethod;
+	std::string ff_function_variables;
+
+
+protected:
+	RooWorkspace *m_workspace;
+	std::map<std::string,std::shared_ptr<RooFunctor>> fns_fractions;
+	//std::map<std::string,std::string> ff_functions;
 };

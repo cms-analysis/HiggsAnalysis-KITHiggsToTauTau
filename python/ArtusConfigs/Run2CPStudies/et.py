@@ -284,12 +284,10 @@ class et_ArtusConfig(dict):
 		Svfit_config = sSvfit.Svfit(nickname)
 		self.update(Svfit_config)
 
-		if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8",nickname):
-			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="ET", eTauFakeRate=False, sync=True)
-		else:
-			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="ET", eTauFakeRate=False, sync=False)
-		self.update(mplf.minPlotLevelDict)
-
+		MinimalPlotlevelFilter_config = sMPlF.MinimalPlotlevelFilter()
+		MinimalPlotlevelFilter_config.et()
+		self.update(MinimalPlotlevelFilter_config)
+		
 		MVATestMethods_config = sMVATM.MVATestMethods()
 		self.update(MVATestMethods_config)
 
@@ -313,6 +311,7 @@ class et_ArtusConfig(dict):
 
 		self["ElectronLowerPtCuts"] = ["26.0"]  #default: !=2015
 		self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"]  #default: !=2015 or !=2017
+		
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["HltPaths"] = ["HLT_Ele23_WPLoose_Gsf"]
 			self["ElectronLowerPtCuts"] = ["24.0"]
@@ -332,6 +331,7 @@ class et_ArtusConfig(dict):
 			self["DiTauPairNoHLT" ] = True
 
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v"]
+
 
 		elif re.search("Run2017|Summer17|Fall17", nickname):
 			#from https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2017#Trigger_Information
@@ -472,6 +472,18 @@ class et_ArtusConfig(dict):
 
 		elif re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
 			self["ElectronTriggerFilterNames"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"]
+
+		if re.search("Run2016|Spring16|Summer16", nickname):
+			#settings for jetstotaufakesproducer
+			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data/SM2016_ML/tight/et/fakeFactors_20180831_tight.root"]
+			self["FakeFactorMethod"] = "cp2016"
+			self["FakeFactorRooWorkspaceFunction"] = [
+				"w_fracs:w_et_fracs",
+				"qcd_fracs:qcd_et_fracs",
+				"ttbar_fracs:ttbar_et_fracs"
+			]
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
+
 
 		self["InvalidateNonMatchingElectrons"] = True
 		self["InvalidateNonMatchingMuons"] = False
