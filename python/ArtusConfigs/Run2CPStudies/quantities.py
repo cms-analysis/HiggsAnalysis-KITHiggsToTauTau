@@ -110,6 +110,9 @@ class Quantities(Run2Quantities):
 					"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"
 				])
 
+			if not channel == "EM":
+				self.quantities.update(self.fakefactorQuantities())
+
 			# *********** datasets(groups, samples) common across all channels including mm
 			if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 				# common:
@@ -1249,7 +1252,7 @@ class Quantities(Run2Quantities):
 		return s
 
 	@staticmethod
-	def fakefactorQuantities(self, *args, **kwargs):
+	def fakefactorQuantities():
 		return [
 		    "fakefactorWeight_comb_inclusive_1",
 		    "fakefactorWeight_qcd_syst_up_inclusive_1",

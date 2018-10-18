@@ -88,6 +88,8 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:MELAProducer"]
 				self["Processors"] += ["producer:MELAM125Producer"]
 
+				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
+
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 			else:
@@ -547,16 +549,23 @@ class mt_ArtusConfig(dict):
 		self["BranchGenMatchedMuons"] = True
 		self["BranchGenMatchedTaus"] = True
 
+		self["FakeFactorRooWorkspaceFunction"] = [
+			"w_fracs:w_mt_fracs",
+			"qcd_fracs:qcd_mt_fracs",
+			"ttbar_fracs:ttbar_mt_fracs"
+		]
+
 		if re.search("Run2016|Spring16|Summer16", nickname):
 			#settings for jetstotaufakesproducer
 			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data/SM2016_ML/tight/mt/fakeFactors_20180831_tight.root"]
 			self["FakeFactorMethod"] = "cp2016"
-			self["FakeFactorRooWorkspaceFunction"] = [
-				"w_fracs:w_mt_fracs",
-				"qcd_fracs:qcd_mt_fracs",
-				"ttbar_fracs:ttbar_mt_fracs"
-			]
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
+
+
+		elif re.search("Run2017|Summer17|Fall17", nickname):
+			["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data2017/SM2017/tight/vloose/mt/fakeFactors.root"] #TODO
+			self["FakeFactorMethod"] = "cp2017"
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
 
 
 		self["Consumers"] = [

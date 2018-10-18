@@ -92,6 +92,9 @@ cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
 git checkout v0.2.2
 mkdir data
 git clone https://gitlab.cern.ch/cms-htt/Jet2TauFakesFiles.git data
+mkdir data2017
+git clone -b 2017 https://gitlab.cern.ch/cms-htt/Jet2TauFakesFiles.git data2017
+
 
 cd $CMSSW_BASE/src/
 

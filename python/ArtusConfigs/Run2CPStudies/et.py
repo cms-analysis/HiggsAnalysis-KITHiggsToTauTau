@@ -75,6 +75,7 @@ class et_ArtusConfig(dict):
 			if re.search("(Spring16|Summer16|Run2016)",nickname):
 				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe
 
+
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 			if not re.search("(LFV).*(?=(Spring16|Summer16))", nickname): self["Processors"] += ["producer:MELAProducer"]
 
@@ -96,6 +97,8 @@ class et_ArtusConfig(dict):
 					"producer:SvfitM125Producer",
 					"producer:MELAM125Producer"
 				]
+				self["Processorrs"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
+
 			else: #(Spring16|Summer16|Summer17|Fall17)
 				self["Processors"] += [
 					"producer:GenMatchedTauCPProducer",
@@ -385,6 +388,8 @@ class et_ArtusConfig(dict):
 				self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele35_WPTight_Gsf_v:36.0", "HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:25.0"]
 				self["HltPaths"] = ["HLT_Ele35_WPTight_Gsf", "HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"]
 			"""
+
+
 		self["TauID"] =  "TauIDRecommendation13TeV"
 		self["TauUseOldDMs"] =  True
 
@@ -460,7 +465,8 @@ class et_ArtusConfig(dict):
 
 
 		if re.search("Run2017|Summer17|Fall17", nickname): #same as for 2016?
-			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"] 
+			pass
+			#self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]  TODO is not yet provided
 		else:
 			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 
@@ -473,16 +479,23 @@ class et_ArtusConfig(dict):
 		elif re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
 			self["ElectronTriggerFilterNames"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:hltEle25erWPTightGsfTrackIsoFilter"]
 
+
+		self["FakeFactorRooWorkspaceFunction"] = [
+			"w_fracs:w_et_fracs",
+			"qcd_fracs:qcd_et_fracs",
+			"ttbar_fracs:ttbar_et_fracs"
+		]
+
 		if re.search("Run2016|Spring16|Summer16", nickname):
 			#settings for jetstotaufakesproducer
 			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data/SM2016_ML/tight/et/fakeFactors_20180831_tight.root"]
 			self["FakeFactorMethod"] = "cp2016"
-			self["FakeFactorRooWorkspaceFunction"] = [
-				"w_fracs:w_et_fracs",
-				"qcd_fracs:qcd_et_fracs",
-				"ttbar_fracs:ttbar_et_fracs"
-			]
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
+
+		elif re.search("Run2017|Summer17|Fall17", nickname):
+			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data2017/SM2017/tight/vloose/et/fakeFactors.root"] #TODO
+			self["FakeFactorMethod"] = "cp2017"
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
 
 
 		self["InvalidateNonMatchingElectrons"] = True
