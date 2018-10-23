@@ -122,11 +122,11 @@ class tt_ArtusConfig(dict):
 				"w_fracs_1:w_tt_fracs_1",
 				"qcd_fracs_1:qcd_tt_fracs_1",
 				"ttbar_fracs_1:ttbar_tt_fracs_1",
-				"dy_fracs_1:dy_fracs_tt_1",
+				"dy_fracs_1:dy_tt_fracs_1",
 				"w_fracs_2:w_tt_fracs_2",
 				"qcd_fracs_2:qcd_tt_fracs_2",
 				"ttbar_fracs_2:ttbar_tt_fracs_2",
-				"dy_fracs_2:dy_fracs_tt_2"
+				"dy_fracs_2:dy_tt_fracs_2"
 			]
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
 
@@ -271,6 +271,8 @@ class tt_ArtusConfig(dict):
 
 				self["Processors"] += ["producer:MELAProducer"]
 				self["Processors"] += ["producer:MELAM125Producer"]
+				
+				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
 
 
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
@@ -303,6 +305,7 @@ class tt_ArtusConfig(dict):
 
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+						self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO also needed for mc to -
 						self["Processors"] += ["producer:ZPtReweightProducer"]			
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
@@ -321,6 +324,7 @@ class tt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
+						self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO Also needed for MC to -
 						self["Processors"] += [	"producer:TopPtReweightingProducer"] 
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"]				

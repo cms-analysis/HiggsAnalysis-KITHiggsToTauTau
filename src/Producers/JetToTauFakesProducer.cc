@@ -170,14 +170,24 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 	inputs[6] = qcd_frac;
 	inputs[7] = w_frac;
 	inputs[8] = tt_frac;
-
+	/*
+	std::cout << "pt tau:           " << inputs[0] << std::endl;
+	std::cout << "decaymode tau:    " << inputs[1] << std::endl;
+	std::cout << "njets:            " << inputs[2] << std::endl;
+	std::cout << "mvis:             " << inputs[3] << std::endl;
+	std::cout << "mt_1:             " << inputs[4] << std::endl;
+	std::cout << "iso lepton:       " << inputs[5] << std::endl;
+	std::cout << "qcd frac:         " << inputs[6] << std::endl;
+	std::cout << "w frac:           " << inputs[7] << std::endl;
+	std::cout << "tt frac:          " << inputs[8] << std::endl;
+	*/
         for(auto  ff_comb: m_ffComb)
         {
             // Retrieve nominal fake factors
             // To see the way to call each factor/systematic visit:
             // https://github.com/CMS-HTT/Jet2TauFakes/blob/master/test/producePublicFakeFactors.py#L735-L766
 	    double ff_nom = ff_comb.second->value(inputs);
-	    std::cout << ff_comb.first << "      :         " << ff_nom << std::endl;
+	    //std::cout << ff_comb.first << "      :         " << ff_nom << std::endl;
 
             product.m_optionalWeights["fakefactorWeight_comb_inclusive_2"] = ff_nom;
 
@@ -225,8 +235,8 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
     }
     if (m_isTT)
     {
-        std::vector<double> inputs1(9);
-        std::vector<double> inputs2(9);
+        std::vector<double> inputs1(8);
+        std::vector<double> inputs2(8);
         // Tau pT 
         inputs1[0] = product.m_flavourOrderedLeptons[0]->p4.Pt();
         inputs2[0] = product.m_flavourOrderedLeptons[1]->p4.Pt();
@@ -305,37 +315,46 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 		if(fns_fraction.first == "qcd_fracs_1")
 		{
 			qcd_frac_1 = fns_fraction.second->eval(args1.data());
+			//std::cout << "qcd 1:    " << qcd_frac_1 << std::endl;
+
 		}
 		else if(fns_fraction.first == "qcd_fracs_2")
 		{
 			qcd_frac_2 = fns_fraction.second->eval(args2.data());
+			//std::cout << "qcd 2:    " << qcd_frac_2 << std::endl;
 		}
 		//wj_frac
 		else if(fns_fraction.first == "w_fracs_1")
 		{
 			w_frac_1 = fns_fraction.second->eval(args1.data());
+			//std::cout << "w frac 1:    " << w_frac_1 << std::endl;
 		}
 		else if(fns_fraction.first == "w_fracs_2")
 		{
 			w_frac_2 = fns_fraction.second->eval(args2.data());
+			//std::cout << "w frac 2:    " << w_frac_2 << std::endl;
 		}
 		//tt_frac
 		else if(fns_fraction.first == "ttbar_fracs_1")
 		{
 			tt_frac_1 = fns_fraction.second->eval(args1.data());
+			//std::cout << "tt frac 1:    " << tt_frac_1 << std::endl;
 		}
 		else if(fns_fraction.first == "ttbar_fracs_2")
 		{
 			tt_frac_2 = fns_fraction.second->eval(args2.data());
+			//std::cout << "tt frac 2:    " << tt_frac_2 << std::endl;
 		}
 		//dy_fracs
 		else if(fns_fraction.first == "dy_fracs_1")
 		{
 			dy_frac_1 = fns_fraction.second->eval(args1.data());
+			//std::cout << "dy frac 1:    " << dy_frac_1 << std::endl;
 		}
 		else if(fns_fraction.first == "dy_fracs_2")
 		{
 			dy_frac_2 = fns_fraction.second->eval(args2.data());
+			//std::cout << "dy frac 2:    " << dy_frac_2 << std::endl;
 		}
 		else
 		{
@@ -348,17 +367,17 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 
 
 	inputs1[5] = qcd_frac_1;
-	inputs1[6] = w_frac_1; //+ dy_frac_1;
+	inputs1[6] = w_frac_1+ dy_frac_1;
 	inputs1[7] = tt_frac_1;
 
-	inputs1[8] = dy_frac_1; //TODO THIS IS WHAT DANNY DOES, NOT LIKE THIS IN TWIKI
+	//inputs1[8] = dy_frac_1; //TODO THIS IS WHAT DANNY DOES, NOT LIKE THIS IN TWIKI
 
 
 	inputs2[5] = qcd_frac_2;
-	inputs2[6] = w_frac_2; //+ dy_frac_2;
+	inputs2[6] = w_frac_2+ dy_frac_2;
 	inputs2[7] = tt_frac_2;
 
-	inputs2[8] = dy_frac_2; //TODO THIS IS WHAT DANNY DOES, NOT LIKE THIS IN TWIKI
+	//inputs2[8] = dy_frac_2; //TODO THIS IS WHAT DANNY DOES, NOT LIKE THIS IN TWIKI
 
         for(auto  ff_comb: m_ffComb)
         {
@@ -368,11 +387,18 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 	    double ff_nom_1 = ff_comb.second->value(inputs1) *0.5;
 	    double ff_nom_2 = ff_comb.second->value(inputs2) *0.5;
 
+	    //std::cout << "ff1:   " << ff_nom_1 << std::endl;
+	    //std::cout << "ff2:   " << ff_nom_2 << std::endl;
+
             product.m_optionalWeights["fakefactorWeight_comb_"+ff_comb.first+"_1"] = ff_nom_1;
             product.m_optionalWeights["fakefactorWeight_comb_"+ff_comb.first+"_2"] = ff_nom_2;
 
 	    product.m_optionalWeights["fakefactorWeight_realtau_up_inclusive_1"] = ff_nom_1*(1.-real_frac_1*1.1)/(1.-real_frac_1);
+	    product.m_optionalWeights["fakefactorWeight_realtau_down_inclusive_1"] = ff_nom_1*(1.-real_frac_1*0.9)/(1.-real_frac_1);
+
+            product.m_optionalWeights["fakefactorWeight_realtau_up_inclusive_2"] = ff_nom_2*(1.-real_frac_2*1.1)/(1.-real_frac_2);
             product.m_optionalWeights["fakefactorWeight_realtau_down_inclusive_2"] = ff_nom_2*(1.-real_frac_2*0.9)/(1.-real_frac_2);
+
 
             // Retrieve uncertainties
             // Total systematic uncertainties on the QCD fake factor
@@ -415,11 +441,12 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
             product.m_optionalWeights["fakefactorWeight_tt_frac_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_frac_syst_up") *0.5;
             product.m_optionalWeights["fakefactorWeight_tt_frac_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_frac_syst_down") *0.5;
             // Uncertainties for the dy FF
-            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_dy_frac_syst_up") *0.5;
-            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_dy_frac_syst_down") *0.5;
-            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_dy_frac_syst_up") *0.5;
-            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_dy_frac_syst_down") *0.5;
+	    /* NOT NEEDED ANYMORE
+            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_up_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_tt_dy_frac_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_down_"+ff_comb.first+"_1"] = ff_comb.second->value(inputs1, "ff_tt_dy_frac_syst_down") *0.5;
+            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_up_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_dy_frac_syst_up") *0.5;
+            product.m_optionalWeights["fakefactorWeight_dy_frac_syst_down_"+ff_comb.first+"_2"] = ff_comb.second->value(inputs2, "ff_tt_dy_frac_syst_down") *0.5;
+	   */
 	}
-        
     }
 }
