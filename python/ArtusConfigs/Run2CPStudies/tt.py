@@ -139,7 +139,7 @@ class tt_ArtusConfig(dict):
 		self["InvalidateNonMatchingJets"] = False
 		self["UseUWGenMatching"] = "true"                   #TODO change this to boolean? or change the rest to string?
 		self["DirectIso"] = True
-		self["TopPtReweightingStrategy"] = "Run1"
+		self["TopPtReweightingStrategy"] = "Run2" #FIXME this looks more right
 
 		self["OSChargeLeptons"] = True
 		self["SvfitKappaParameter"] = 5.0
