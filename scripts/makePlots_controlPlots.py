@@ -278,8 +278,10 @@ if __name__ == "__main__":
 			sys.exit(1)
 
 	if args.fakefactor_method is not None:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
-
+		if args.era == "2015":
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
+		
+			
 	if args.shapes:
 		args.ratio = False
 		args.ratio_subplot = False

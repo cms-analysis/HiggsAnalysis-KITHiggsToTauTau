@@ -302,11 +302,11 @@ class tt_ArtusConfig(dict):
 				"w_fracs_1:w_tt_fracs_1",
 				"qcd_fracs_1:qcd_tt_fracs_1",
 				"ttbar_fracs_1:ttbar_tt_fracs_1",
-				"dy_fracs_1:dy_fracs_tt_1",
+				"dy_fracs_1:dy_tt_fracs_1",
 				"w_fracs_2:w_tt_fracs_2",
 				"qcd_fracs_2:qcd_tt_fracs_2",
 				"ttbar_fracs_2:ttbar_tt_fracs_2",
-				"dy_fracs_2:dy_fracs_tt_2"
+				"dy_fracs_2:dy_tt_fracs_2"
 			]
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
 
@@ -319,7 +319,7 @@ class tt_ArtusConfig(dict):
 		self["InvalidateNonMatchingJets"] = False
 		self["UseUWGenMatching"] = "true"                   #TODO change this to boolean? or change the rest to string?
 		self["DirectIso"] = True
-		self["TopPtReweightingStrategy"] = "Run1"
+		self["TopPtReweightingStrategy"] = "Run2" #FIXME this looks more right
 
 		self["OSChargeLeptons"] = True
 		self["SvfitKappaParameter"] = 5.0
@@ -343,8 +343,8 @@ class tt_ArtusConfig(dict):
 			self["DiTauPairNoHLT"]= True
 		else:
 			self["NoHltFiltering"]=False
-			self["DiTauPairNoHLT"]= False
-
+			self["DiTauPairNoHLT"]= False	
+		
 		 #set it here and if it is something else then change it in the ifs below
 		self["HltPaths"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg", "HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"]
 		self["TauTriggerFilterNames"] = [

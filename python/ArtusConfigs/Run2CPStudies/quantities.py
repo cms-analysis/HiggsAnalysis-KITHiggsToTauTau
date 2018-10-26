@@ -1323,10 +1323,28 @@ class Quantities(Run2Quantities):
 		    "fakefactorWeight_tt_dm1_njet1_stat_up_inclusive_2",
 		    "fakefactorWeight_tt_dm1_njet1_stat_down_inclusive_2",
 
+		    #"fakefactorWeight_dy_frac_syst_up_inclusive_1",
+		    #"fakefactorWeight_dy_frac_syst_down_inclusive_1",
+		    #"fakefactorWeight_dy_frac_syst_up_inclusive_2",
+		    #"fakefactorWeight_dy_frac_syst_down_inclusive_2",
 
+		    "fakefactorWeight_realtau_up_inclusive_1",
+		    "fakefactorWeight_realtau_down_inclusive_1",
 
 		    "fakefactorWeight_realtau_up_inclusive_2",
 		    "fakefactorWeight_realtau_down_inclusive_2"
+
+		    "fakefactorWeight_w_frac_syst_up_inclusive_1",
+		    "fakefactorWeight_tt_frac_syst_up_inclusive_1"
+
+		    "fakefactorWeight_w_frac_syst_up_inclusive_2",
+		    "fakefactorWeight_tt_frac_syst_up_inclusive_2",
+
+		    "fakefactorWeight_w_frac_syst_down_inclusive_1",
+		    "fakefactorWeight_tt_frac_syst_down_inclusive_1"
+
+		    "fakefactorWeight_w_frac_syst_down_inclusive_2",
+		    "fakefactorWeight_tt_frac_syst_down_inclusive_2"
 
 
 		  ]

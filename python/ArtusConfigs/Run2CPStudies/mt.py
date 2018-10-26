@@ -563,7 +563,7 @@ class mt_ArtusConfig(dict):
 
 
 		elif re.search("Run2017|Summer17|Fall17", nickname):
-			["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data2017/SM2017/tight/vloose/mt/fakeFactors.root"] #TODO
+			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data2017/SM2017/tight/vloose/mt/fakeFactors.root"] #TODO
 			self["FakeFactorMethod"] = "cp2017"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
 
