@@ -265,7 +265,7 @@ class Samples(samples.SamplesBase):
 	
 	# reweighting of l->tau fakes in ZL as done in SM HTT 2016 
 	def zl_shape_weight(self, channel, cut_type):
-		if "smhtt2016" in cut_type:
+		if "smhtt2016" in cut_type or "cpggh2016" in cut_type:
 			if channel == "mt":
 				return "(((decayMode_2 == 0)*0.75) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))"
 			elif channel == "et":
@@ -279,7 +279,7 @@ class Samples(samples.SamplesBase):
 	# this function is needed since background methods for W+jets and QCD
 	# use zll instead of zl+zj separately
 	def zll_zl_shape_weight(self, channel, cut_type):
-		if "smhtt2016" in cut_type and channel in ["mt", "et"]:
+		if ("smhtt2016" in cut_type or "cpggh2016" in cut_type) and channel in ["mt", "et"]:
 			return "(("+self.zl_genmatch(channel)+"*"+self.zl_shape_weight(channel, cut_type)+") + "+self.zj_genmatch(channel)+")"
 		else:
 			return "(1.0)"
@@ -465,7 +465,7 @@ class Samples(samples.SamplesBase):
 								
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7)
 
-	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -479,24 +479,24 @@ class Samples(samples.SamplesBase):
 		if channel in ['gen']:
 			add_input(
 					input_file=self.files_ztt(channel),
-					weight=Samples.ztt_genchannelmatch(channel, category)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight=Samples.ztt_genchannelmatch(channel, category)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					nick="ztt"
 		)
 		elif channel in ["mt", "et", "tt", "em", "mm", "ee", "ttbar"]:
 			add_input(
 					input_file=self.files_ztt(channel),
-					weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel)+"*"+zmm_cr_factor+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="ztt"
 			)
 			if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 				add_input(
 						input_file=self.files_ewkz_zll(channel),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.decay_mode_reweight(channel)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.decay_mode_reweight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="ztt"
 				)
 				add_input(
 						input_file=self.files_ewkz_znn(channel),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.decay_mode_reweight(channel)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.decay_mode_reweight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="ztt"
 				)
 		else:
@@ -617,7 +617,7 @@ class Samples(samples.SamplesBase):
 	def files_zll(self, channel):
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7)
 
-	def zll(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def zll(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -656,7 +656,7 @@ class Samples(samples.SamplesBase):
 		
 		return config
 
-	def zl(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+	def zl(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -672,7 +672,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_zll(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*zPtReweightWeight"+"*"+self.zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*zPtReweightWeight"+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="zl",
 			)
 			if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
@@ -744,7 +744,7 @@ class Samples(samples.SamplesBase):
 		else:
 			return self.artus_file_names({"process" : "TT_", "data": False, "campaign" : self.mc_campaign}, 1)
 
-	def ttt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def ttt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -756,7 +756,7 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_ttj(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+				weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 				nick="ttt"
 		)
 		if channel not in ["et", "mt", "tt"]:
@@ -775,7 +775,7 @@ class Samples(samples.SamplesBase):
 
 
 
-	def zmt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def zmt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -804,7 +804,7 @@ class Samples(samples.SamplesBase):
 		
 		return config
 
-	def zet(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def zet(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -833,7 +833,7 @@ class Samples(samples.SamplesBase):
 
 		return config
 
-	def zem(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def zem(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -866,7 +866,7 @@ class Samples(samples.SamplesBase):
 
 
 
-	def zetm(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def zetm(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -896,7 +896,7 @@ class Samples(samples.SamplesBase):
 
 
 
-	def zmte(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def zmte(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -927,7 +927,7 @@ class Samples(samples.SamplesBase):
 
 
 
-	def ttjj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def ttjj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -952,7 +952,7 @@ class Samples(samples.SamplesBase):
 	
 		return config
 
-	def tttautau(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=None, **kwargs):
+	def tttautau(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -976,7 +976,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "tttautau"), nick_suffix)
 		return config
 
-	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=None, **kwargs):
+	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -1148,7 +1148,7 @@ class Samples(samples.SamplesBase):
 				Samples._add_plot(config, "bkg", "HIST", "F", "hww"+str(mass), nick_suffix)
 		return config
 
-	def vvt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def vvt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -1161,7 +1161,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_vv(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="vvt"
 			)
 			add_input(
@@ -1178,7 +1178,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvt"), nick_suffix)
 		return config
 
-	def vvj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def vvj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -1209,7 +1209,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_bin_corrections(config, "vvj", nick_suffix)
 		return config
 
-	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def vv(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -1285,7 +1285,7 @@ class Samples(samples.SamplesBase):
 		artus_files = self.artus_file_names(ewkz_query, 3)
 		return artus_files
 
-	def ewkz(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	def ewkz(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		
@@ -1300,12 +1300,12 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 			add_input(
 					input_file=self.files_ewkz_zll(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+zmm_cr_factor+"*"+self.ewkz_zll_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+zmm_cr_factor+"*"+self.ewkz_zll_stitchingweight()+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="ewkz"
 			)
 			add_input(
 					input_file=self.files_ewkz_znn(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+zmm_cr_factor+"*"+self.ewkz_znn_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+zmm_cr_factor+"*"+self.ewkz_znn_stitchingweight()+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="ewkz"
 			)
 		else:
@@ -1317,7 +1317,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ewkz"), nick_suffix)
 		return config
 	
-	def wj_mc_ss(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
+	def wj_mc_ss(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -1354,7 +1354,7 @@ class Samples(samples.SamplesBase):
 
 	
 	
-	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
+	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, estimationMethod="classic", controlregions=False,**kwargs):
 		"""
 		Using ABCD method in background-method types 'new' and 'simeqn'
 		A := Signal region / os+low_mt
@@ -2514,7 +2514,7 @@ class Samples(samples.SamplesBase):
 				if channel == "tt":
 					if cut_type == "baseline2016":
 						isolationDefinition = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))"
-					elif cut_type == "smhtt2016":
+					elif cut_type == "smhtt2016":  #TODO or cut_type == "cpggh2016"?
 						isolationDefinition = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 					else:
 						isolationDefinition = "(byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
@@ -3434,7 +3434,6 @@ class Samples(samples.SamplesBase):
 			weight_ff = weight + "*(" + ff_weight_1 + "+" + ff_weight_2 + ")"
 		elif channel in ["mt","et"]:
 			weight_ff = weight + "*(" + ff_weight_2 + ")"
-		print weight
 			
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 
@@ -3452,10 +3451,16 @@ class Samples(samples.SamplesBase):
 			)
 			"noplot_jetFakes_raw"
 
+			if channel =="tt":
+				weight_ff_reals = weight + "*(((gen_match_1<6)*" + ff_weight_1 + ")+(" + ff_weight_2 + "*(gen_match_2<6)))"
+			elif channel in ["mt","et"]:
+				weight_ff_reals = weight + "*(" + ff_weight_2 + ")*(gen_match_2<6)"
+
+			print weight_ff_reals
 			
 			add_input(
 				input_file=self.files_ztt(channel),
-				weight=mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight_ff)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)",
+				weight=mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight_ff_reals)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)",
 				nick="noplot_ff_realtaus_subtract"
 			)
 			"""
@@ -3467,23 +3472,23 @@ class Samples(samples.SamplesBase):
 
 			add_input(
 				input_file=self.files_zll(channel),
-				weight=mc_weight+"*"+weight_ff+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts= exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+				weight=mc_weight+"*"+weight_ff_reals+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts= exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 				nick="noplot_ff_realtaus_subtract"
 				)
 
 			add_input(
 				input_file=self.files_ttj(channel),
-				weight=mc_weight+"*"+weight_ff+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)",
+				weight=mc_weight+"*"+weight_ff_reals+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)",
 				nick="noplot_ff_realtaus_subtract"
 			)
 			add_input(
 				input_file=self.files_vv(channel),
-				weight=mc_weight+"*"+weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)"+"*"+self.vv_stitchingweight(),
+				weight=mc_weight+"*"+weight_ff_reals+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)"+"*"+self.vv_stitchingweight(),
 				nick="noplot_ff_realtaus_subtract"
 			)
 			add_input(
 				input_file=self.files_diboson(channel),
-				weight=mc_weight+"*"+weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)",
+				weight=mc_weight+"*"+weight_ff_reals+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)",
 				nick="noplot_ff_realtaus_subtract"
 			)
 
@@ -3521,9 +3526,9 @@ class Samples(samples.SamplesBase):
 
 			config.setdefault("add_nicks", []).append("noplot_jetFakes_raw noplot_ff_realtaus_subtract")
 
-			config.setdefault("add_scale_factors", ["1. -1."])
+			config.setdefault("add_scale_factors",[]).append( "1. -1.")
 
-			config.setdefault("add_result_nicks", ["jetFakes"])
+			config.setdefault("add_result_nicks", []).append("ff")
 
 		else:
 			log.error("Sample config (FakeFactor) currently not implemented for channel \"%s\"!" % channel)
@@ -3531,8 +3536,16 @@ class Samples(samples.SamplesBase):
 		Samples._add_plot(config, "bkg", "HIST", "F", "ff", nick_suffix)
 		return config
 
+	def nojetsfakefactor_weight(self, channel, fakefactor_method=False, **kwargs):
+		if fakefactor_method==False or channel =="em":
+			return "(1)"
+		elif channel in ["mt", "et"]:
+			return "(gen_match_2<6)"
+		if channel=="tt":
+			return "(gen_match_1<6)*(gen_match_2<6)"
 
-	def ewk(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, **kwargs):
+	#TODO add fakefactor nojetweight
+	def ewk(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -3548,26 +3561,26 @@ class Samples(samples.SamplesBase):
 			add_input(
 					input_file=self.files_ttj(channel) + " " + self.files_diboson(channel),
 					folder=self.root_file_folder(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					nick="ewk"
 			)
 			add_input(
 					input_file=self.files_wj(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.wj_stitchingweight(),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.wj_stitchingweight(),
 					nick="ewk"
 			)
 			add_input(
 					input_file=self.files_vv(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.vv_stitchingweight(),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.vv_stitchingweight(),
 					nick="ewk"
 			)
 		else:
 			log.error("Sample config (EWK) currently not implemented for channel \"%s\"!" % channel)
 		
-		if channel in ["mt", "et"] and fakefactor_method == "standard":
-			config["weights"][config["nicks"].index("ewk")] = config["weights"][config["nicks"].index("ewk")]+"*(gen_match_2 != 6)"
-		if channel in ["mt", "et"] and fakefactor_method == "comparison":
-			config["weights"][config["nicks"].index("ewk")] = config["weights"][config["nicks"].index("ewk")]+"*(gen_match_2 == 6)"
+		#if channel in ["mt", "et"] and fakefactor_method:
+		#	config["weights"][config["nicks"].index("ewk")] = config["weights"][config["nicks"].index("ewk")]+"*(gen_match_2 != 6)"
+		#if channel in ["mt", "et"] and fakefactor_method == "comparison":
+		#	config["weights"][config["nicks"].index("ewk")] = config["weights"][config["nicks"].index("ewk")]+"*(gen_match_2 == 6)"
 		
 		Samples._add_plot(config, "bkg", "HIST", "F", "ewk", nick_suffix)
 		return config

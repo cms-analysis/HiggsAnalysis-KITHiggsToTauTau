@@ -141,6 +141,55 @@ class SystematicsFactory(dict):
 		for jecUncert in jecUncertNames:
 			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic if jecUncert != "Total" else JecUncSystematic 
 		
+		fakeFactorUncertNames = [
+		    "qcd_syst", #et,mt,tt
+
+		    "qcd_dm0_njet0_stat", #et,mt,tt
+
+		    "qcd_dm0_njet1_stat", #et,mt,tt
+
+		    "qcd_dm1_njet0_stat", #et,mt,tt
+
+		    "qcd_dm1_njet1_stat", #et,mt,tt
+
+		    "w_syst",  #et,mt,tt
+
+		    "tt_syst", #et,mt,tt
+
+		    "realtau" #et,mt,tt (not in twiki, but in dannys way)
+		]
+
+		if channel in ["mt", "et"]:
+			fakeFactorUncertNames += [
+				"w_dm0_njet0_stat", #et,mt
+
+				"w_dm0_njet1_stat", #et,mt
+
+				"w_dm1_njet0_stat", #et,mt
+
+				"w_dm1_njet1_stat", #et,mt
+
+				"tt_dm0_njet0_stat", #et,mt
+
+				"tt_dm0_njet1_stat", #et,mt
+
+				"tt_dm1_njet0_stat", #et,mt
+
+				"tt_dm1_njet1_stat"  #et,mt
+			]
+		#only in next to next artus run, i forgot to add them in cpquantities
+		elif channel in ["tt"]:
+			fakeFactorUncertNames += [
+				"w_frac_syst",
+				"tt_frac_syst"
+			]
+
+
+		#TODO: ff_sub_syst_et_0jet and more
+
+		for fakeFactorUncertainty in fakeFactorUncertNames:
+			self["ff_"+fakeFactorUncertainty ] = FakeFactorUncSystematic
+
 		# these uncertainties currently need to be implemented in your datacards script
 		self["WSFUncert_mt_dijet_boosted_13TeV"] = Nominal
 		self["WSFUncert_mt_dijet2D_boosted_13TeV"] = Nominal
@@ -288,6 +337,25 @@ class GGHRenormalizationScaleSystematic(SystematicShiftBase):
 
 class Nominal(SystematicShiftBase):
 	pass
+
+class FakeFactorUncSystematic(SystematicShiftBase):
+	
+	def __init__(self, plot_config, fakeFactorUncertainty):
+		super(FakeFactorUncSystematic, self).__init__(plot_config)
+		self.plot_config = plot_config
+		self.fakeFactorUncertainty = fakeFactorUncertainty	
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(FakeFactorUncSystematic, self).get_config(shift=shift)
+		
+		for index, weight in enumerate(plot_config.get("weight", [])):
+			if (shift != 0.0) and (not "data" in plot_config["nicks"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				if shift > 0.0 or shift < 0.0:
+					shift_string = "Up" if shift > 0.0 else "Down"
+					plot_config["weights"][index] = weight.replace("fakefactorWeight_comb", "fakefactorWeight_"+self.fakeFactorUncertainty+shift_string)
+		return plot_config
+
+
 
 
 class JecUncSystematic(SystematicShiftBase):

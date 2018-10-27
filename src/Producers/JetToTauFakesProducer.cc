@@ -119,7 +119,7 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 	if (fakefactormethod == "cp2016")
 	{
 		args.push_back(product.m_svfitResults.fittedHiggsLV->M()); // m_sv
-		args.push_back(product.m_diLeptonSystem.Pt()); //pt di-tau
+		args.push_back(product.m_diLeptonPlusMetSystem.Pt()); //pt di-tau
 		args.push_back(inputs[2]); //njets
 
 		double mjj_ = 0.;
@@ -274,11 +274,11 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 	if (fakefactormethod == "cp2016")
 	{
 		args1.push_back(product.m_svfitResults.fittedHiggsLV->M()); // m_sv
-		args1.push_back(product.m_diLeptonSystem.Pt()); //pt di-tau
+		args1.push_back(product.m_diLeptonPlusMetSystem.Pt()); //pt di-tau +met
 		args1.push_back(inputs1[2]); //njets
 
 		args2.push_back(product.m_svfitResults.fittedHiggsLV->M()); // m_sv
-		args2.push_back(product.m_diLeptonSystem.Pt()); //pt di-tau
+		args2.push_back(product.m_diLeptonPlusMetSystem.Pt()); //pt di-tau +met
 		args2.push_back(inputs2[2]); //njets
 
 		double mjj_ = 0.;
