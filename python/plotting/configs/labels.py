@@ -876,6 +876,16 @@ class LabelsDict(labels.LabelsDict):
 			
 			for alias, label in self.labels_dict.items():
 				self.labels_dict[alias+"_large"] = "#scale[1.5]{"+label+"}"
+			
+			self.labels_dict["Central_scale_variation__mur_0_5_muf_0_5"] = "0.5#times#mu_{R}, 0.5#times#mu_{F}"
+			self.labels_dict["Central_scale_variation__mur_0_5_muf_1"] = "0.5#times#mu_{R}, 1#times#mu_{F}"
+			self.labels_dict["Central_scale_variation__mur_0_5_muf_2"] = "0.5#times#mu_{R}, 2#times#mu_{F}"
+			self.labels_dict["Central_scale_variation__mur_1_muf_0_5"] = "1#times#mu_{R}, 0.5#times#mu_{F}"
+			self.labels_dict["Central_scale_variation__mur_1_muf_1"] = "1#times#mu_{R}, 1#times#mu_{F}"
+			self.labels_dict["Central_scale_variation__mur_1_muf_2"] = "1#times#mu_{R}, 2#times#mu_{F}"
+			self.labels_dict["Central_scale_variation__mur_2_muf_0_5"] = "2#times#mu_{R}, 0.5#times#mu_{F}"
+			self.labels_dict["Central_scale_variation__mur_2_muf_1"] = "2#times#mu_{R}, 1#times#mu_{F}"
+			self.labels_dict["Central_scale_variation__mur_2_muf_2"] = "2#times#mu_{R}, 2#times#mu_{F}"
 		
 		else:
 			self.labels_dict["totalbkg"] = "$\\mathrm{Exp.} unc.$"
