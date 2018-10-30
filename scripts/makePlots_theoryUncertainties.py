@@ -41,8 +41,12 @@ if __name__ == "__main__":
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-w", "--weights", nargs="+", required=True,
 	                    help="LHE weights to shift nominal histogram and estimate effect on acceptances.")
+	parser.add_argument("--evaluate-alpha-s-uncertainties", default=False, action="store_true",
+	                    help="Run analysis module for alpha_s uncertainty evaluation. [Default: %(default)s]")
 	parser.add_argument("--evaluate-pdf-uncertainties", default=False, action="store_true",
 	                    help="Run analysis module for PDF uncertainty evaluation. [Default: %(default)s]")
+	parser.add_argument("--evaluate-scale-uncertainties", default=False, action="store_true",
+	                    help="Run analysis module for scale (muR and muF) uncertainty evaluation. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--controlregions", action="store_true", default=False,
@@ -162,7 +166,7 @@ if __name__ == "__main__":
 			global_cut_type = "cpggh"
 		global_cut_type += "2016"
 
-	evaluate_uncertainties = args.evaluate_pdf_uncertainties
+	evaluate_uncertainties = args.evaluate_alpha_s_uncertainties or args.evaluate_pdf_uncertainties or args.evaluate_scale_uncertainties
 
 	# Configs construction for HP
 	for sample in args.samples:
@@ -313,12 +317,26 @@ if __name__ == "__main__":
 
 					config["directories"] = [args.input_dir]
 					
+					if args.evaluate_alpha_s_uncertainties:
+						if "UncertaintiesAlphaS" not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UncertaintiesAlphaS")
+						config.setdefault("uncertainties_alpha_s_reference_nicks", []).append(sample)
+						config.setdefault("uncertainties_alpha_s_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
+						config.setdefault("uncertainties_alpha_s_result_nicks", []).append(sample)
+					
 					if args.evaluate_pdf_uncertainties:
 						if "UncertaintiesPdf" not in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UncertaintiesPdf")
 						config.setdefault("uncertainties_pdf_reference_nicks", []).append(sample)
 						config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
 						config.setdefault("uncertainties_pdf_result_nicks", []).append(sample)
+					
+					if args.evaluate_scale_uncertainties:
+						if "UncertaintiesScale" not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UncertaintiesScale")
+						config.setdefault("uncertainties_scale_reference_nicks", []).append(sample)
+						config.setdefault("uncertainties_scale_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
+						config.setdefault("uncertainties_scale_result_nicks", []).append(sample)
 					
 					if args.ratio:
 						if "Ratio" not in config.get("analysis_modules", []):

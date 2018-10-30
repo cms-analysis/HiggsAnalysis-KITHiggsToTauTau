@@ -67,7 +67,10 @@ class UncertaintiesPdf(analysisbase.AnalysisBase):
 				uncertainties_pdf_shift_integral = uncertainties_pdf_shift_histogram.Integral()
 				uncertainty_pdf += pow(uncertainties_pdf_shift_integral - uncertainties_pdf_reference_integral, 2)
 			
-			uncertainty_pdf = math.sqrt(uncertainty_pdf / len(uncertainties_pdf_shift_nicks)) / uncertainties_pdf_reference_integral
+			if uncertainties_pdf_reference_integral != 0.0:
+				uncertainty_pdf = math.sqrt(uncertainty_pdf / len(uncertainties_pdf_shift_nicks)) / uncertainties_pdf_reference_integral
+			else:
+				uncertainty_pdf = 0.0
 			log.info("PDF uncertainty on nick \"{nick}\" is {unc}.".format(
 					nick=uncertainties_pdf_reference_nick,
 					unc=uncertainty_pdf
