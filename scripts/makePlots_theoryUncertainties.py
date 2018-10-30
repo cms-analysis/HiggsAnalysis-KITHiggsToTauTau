@@ -39,8 +39,10 @@ if __name__ == "__main__":
 	                    help="CMS Preliminary lable. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
-	parser.add_argument("-w", "--weights", default=["1.0"], nargs="+",
-	                    help="Additional weight (cut) expressions. The list of weigths is repeated until it matches the number of quantities [Default: %(default)s]")
+	parser.add_argument("-w", "--weights", nargs="+", required=True,
+	                    help="LHE weights to shift nominal histogram and estimate effect on acceptances.")
+	parser.add_argument("--evaluate-pdf-uncertainties", default=False, action="store_true",
+	                    help="Run analysis module for PDF uncertainty evaluation. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
 	                    help="Exclude (default) selection cuts. [Default: %(default)s]")
 	parser.add_argument("--controlregions", action="store_true", default=False,
@@ -160,6 +162,8 @@ if __name__ == "__main__":
 			global_cut_type = "cpggh"
 		global_cut_type += "2016"
 
+	evaluate_uncertainties = args.evaluate_pdf_uncertainties
+
 	# Configs construction for HP
 	for sample in args.samples:
 		for category in args.categories:
@@ -236,7 +240,7 @@ if __name__ == "__main__":
 								cut_type = global_cut_type,
 								no_ewk_samples = args.no_ewk_samples,
 								no_ewkz_as_dy = args.no_ewkz_as_dy,
-								nick_suffix = "" if index_weight == 0 else weight
+								nick_suffix = "" if index_weight == 0 else (weight + ("_noplot" if evaluate_uncertainties else ""))
 								#polarisation_bias_correction=True,
 								#polarisation_gen_ztt_plots=False,
 						)
@@ -294,12 +298,13 @@ if __name__ == "__main__":
 					if "stacks" in config:
 						config.pop("stacks")
 					
-					config["markers"] = ["E"]+(["LINE"] * len(args.weights))
-					config["legend_markers"] = ["ELP"]+(["L"] * len(args.weights))
-					config["colors"] = [str(color+1) for color in range(len(args.weights)+1)]
+					n_shifted_plots = 2 if evaluate_uncertainties else len(args.weights)
+					config["markers"] = ["E"]+(["LINE"] * n_shifted_plots)
+					config["legend_markers"] = ["ELP"]+(["L"] * n_shifted_plots)
+					config["colors"] = [str(color+1) for color in range(n_shifted_plots+1)]
 					
 					config["x_label"] = json_config.pop("x_label", channel + "_" + quantity)
-					config["labels"] = ["nominal"]+args.weights
+					config["labels"] = ["nominal"]+ (["shift up", "shift down"] if evaluate_uncertainties else args.weights)
 
 					if args.polarisation:
 						config["title"] = "channel_" + channel + ("" if category is None else ("_"+category))
@@ -307,17 +312,24 @@ if __name__ == "__main__":
 						config["title"] = "channel_" + channel
 
 					config["directories"] = [args.input_dir]
-							
+					
+					if args.evaluate_pdf_uncertainties:
+						if "UncertaintiesPdf" not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UncertaintiesPdf")
+						config.setdefault("uncertainties_pdf_reference_nicks", []).append(sample)
+						config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
+						config.setdefault("uncertainties_pdf_result_nicks", []).append(sample)
+					
 					if args.ratio:
 						if "Ratio" not in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("Ratio")
-						config.setdefault("ratio_numerator_nicks", []).extend([sample+weight for weight in args.weights])
-						config.setdefault("ratio_denominator_nicks", []).extend([sample] * len(args.weights))
-						config.setdefault("ratio_result_nicks", []).extend((["ratio"+weight for weight in args.weights]))
-						config.setdefault("colors", []).extend([str(color+1) for color in range(1, len(args.weights)+1)])
-						config.setdefault("markers", []).extend(["LINE"] * len(args.weights))
-						config.setdefault("legend_markers", []).extend(["L"] * len(args.weights))
-						config.setdefault("labels", []).extend([""] * len(args.weights))
+						config.setdefault("ratio_numerator_nicks", []).extend([sample+weight for weight in (["_up", "_down"] if evaluate_uncertainties else args.weights)])
+						config.setdefault("ratio_denominator_nicks", []).extend([sample] * n_shifted_plots)
+						config.setdefault("ratio_result_nicks", []).extend(["ratio"+weight for weight in (["_up", "_down"] if evaluate_uncertainties else args.weights)])
+						config.setdefault("colors", []).extend([str(color+1) for color in range(1, n_shifted_plots+1)])
+						config.setdefault("markers", []).extend(["LINE"] * n_shifted_plots)
+						config.setdefault("legend_markers", []).extend(["L"] * n_shifted_plots)
+						config.setdefault("labels", []).extend([""] * n_shifted_plots)
 
 					if log.isEnabledFor(logging.DEBUG) and "PrintInfos" not in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("PrintInfos")
