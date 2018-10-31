@@ -29,6 +29,7 @@ class JEC(dict):
 		elif re.search("(Run2017F)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017F_V6_DATA_UncertaintySources_AK4PFchs.txt"
 			"""
+
 		elif re.search("(Run2016|Spring16|Summer16)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] =  "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_UncertaintySources_AK4PFchs.txt"
 		#elif re.search("Run2016|Embedding2016", nickname):

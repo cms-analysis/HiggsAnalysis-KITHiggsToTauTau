@@ -61,7 +61,7 @@ class Quantities(Run2Quantities):
 				self.quantities.update(self.genQuantities())
 				if re.search("(Summer17|Fall17)", nickname) == None:
 					self.quantities.update(self.genHiggsQuantities())
-				self.quantities.update(self.genCPQuantities())
+					self.quantities.update(self.genCPQuantities())
 				self.quantities.update([
 					"nJets",
 					"nJets30",
@@ -84,7 +84,13 @@ class Quantities(Run2Quantities):
 			self.quantities.update(self.syncQuantities(nickname))
 
 			if channel == "ET" and re.search("(Summer17|Fall17|Run2017)", nickname):
-				self.quantities.update(["trg_singleelectron_35", "trg_crosselectron_ele24tau30"])
+				self.quantities.update([
+					"trg_singleelectron_27",
+      					"trg_singleelectron_32",
+      					"trg_singleelectron_32_fallback",
+					"trg_singleelectron_35",
+					"trg_crosselectron_ele24tau30"
+				])
 				if  re.search("Run2017(B|C)", nickname):
 					self.quantities.update([
 						#"HLT_Ele32_WPTight_Gsf", 
@@ -137,19 +143,19 @@ class Quantities(Run2Quantities):
 							self.quantities.update(set(['nVetoElectrons', 'jetCorrectionWeight']))
 
 			elif re.search('(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
-				self.quantities.update(self.genMatchedCPQuantities())
 				self.quantities.update(self.recoCPQuantities(melaQuantities=True))
 				if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 					self.quantities.update(self.genQuantities(LFV = False)) #TODO for 2017 also , Z = True
 					self.quantities.update(self.splitJecUncertaintyQuantities())  #no lhe in 2017 skim
+					self.quantities.update(self.genMatchedCPQuantities())
+					self.quantities.update(self.recoPolarisationQuantitiesSvfit())
+					self.quantities.update(self.recoPolarisationQuantities())
 
 				if channel == "MM":
 					self.quantities.update(self.singleTauQuantities())
 					self.quantities.update(self.weightQuantities(tauSpinner=False, minimalWeight=True, madGraphWeight=False))
 
 				else:
-					self.quantities.update(self.recoPolarisationQuantitiesSvfit())
-					self.quantities.update(self.recoPolarisationQuantities())
 
 					self.quantities.update(self.svfitSyncQuantities())
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
@@ -170,10 +176,10 @@ class Quantities(Run2Quantities):
 					if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 						self.quantities.update(self.splitJecUncertaintyQuantities())
 						self.quantities.update(self.genHiggsQuantities()) #no lhe in 2017 skim
+						self.quantities.update(self.genMatchedCPQuantities())
 
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.svfitSyncQuantities())
-					self.quantities.update(self.genMatchedCPQuantities())
 					self.quantities.update(self.recoCPQuantities(melaQuantities=True))
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					# if channel in ["TT", "MT", "ET"]:
@@ -230,12 +236,12 @@ class Quantities(Run2Quantities):
 						self.quantities.update(self.weightQuantities(tauSpinner=False, minimalWeight=True, madGraphWeight=False))
 
 					else:
-						self.quantities.update(self.recoPolarisationQuantitiesSvfit())
-						self.quantities.update(self.recoPolarisationQuantities())
 						self.quantities.update(self.svfitSyncQuantities())
 						self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 						if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 							self.quantities.update(self.splitJecUncertaintyQuantities())
+							self.quantities.update(self.recoPolarisationQuantitiesSvfit())
+							self.quantities.update(self.recoPolarisationQuantities())
 
 						if channel == "ET": self.quantities.update(set(['nVetoElectrons']))
 						if channel in ["MT"]: self.quantities.add('nVetoMuons')
@@ -1156,6 +1162,7 @@ class Quantities(Run2Quantities):
 	def minimalWeightQuantities():
 		return [
 			"hltWeight",
+			"totalTriggerWeight",
 			"triggerWeight_1",
 			"triggerWeight_2",
 			"identificationWeight_1",

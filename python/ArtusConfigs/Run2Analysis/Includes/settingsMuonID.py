@@ -45,7 +45,6 @@ class Muon_ID(dict):
 
 		if re.search("Run2016(B|C|D|E|F)",nickname):
 			self["LooseMuonID"] = "mediumHIPsafe2016"
-
 		else:
 			self["LooseMuonID"] = "medium"
 

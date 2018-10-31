@@ -52,7 +52,7 @@ class Samples(samples.Samples):
 		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(5.89503542e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(2.14832024e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.36744541e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(3.74962884e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
 
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight) +"
-		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight*zPtReweightWeight)"
 		#return "("+mediummass+ " + " + lowmass+")"+normalization
 		return "("+lowmass+mediummass+")"+normalization
 
@@ -320,15 +320,132 @@ class Samples(samples.Samples):
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
 		
 		if channel== "mt":
-			ss_os_factor = 1.218 #TODO for 2017
+			ss_os_factor = 1.29 #TODO for 2017
 		elif channel == "et":
-			ss_os_factor = 1.361 #TODO for 2017
+			ss_os_factor = 1.56 #TODO for 2017
 		else:
 			ss_os_factor = 0.0
 
 
 
 		return super(Samples, self).wj(config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, fakefactor_method=fakefactor_method, estimationMethod=estimationMethod, controlregions=controlregions, ss_os_factor=ss_os_factor, **kwargs)
+
+
+	def ff(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fake_factor_name_1="fakefactorWeight_comb_inclusive_1", fake_factor_name_2="fakefactorWeight_comb_inclusive_2", **kwargs):
+
+		data_weight, mc_weight = self.projection(kwargs)
+		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
+		if exclude_cuts is None:
+			exclude_cuts = []
+		exclude_cuts_ff = []
+		if channel in ["mt","et"]:
+			exclude_cuts_ff += ["iso_2"]
+			ff_weight_2 = "((" + fake_factor_name_2 + ")*(byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5))"
+
+
+		if channel == "tt":
+			exclude_cuts_ff += ["iso_1", "iso_2"]
+			ff_weight_1 = "((" + fake_factor_name_1 + ")*(byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1>0.5)*(byVlooseIsolationMVArun2017v2DBoldDMwLT2017_1<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2>0.5))"   #factor 1/2 for tt already aplied in producer 
+			ff_weight_2 = "((" + fake_factor_name_2 + ")*(byVLooseIsolationMVArun2017v2DBoldDMwLT201_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1>0.5))"
+
+		if channel =="tt":
+			weight_ff = weight + "*(" + ff_weight_1 + "+" + ff_weight_2 + ")"
+		elif channel in ["mt","et"]:
+			weight_ff = weight + "*(" + ff_weight_2 + ")"
+		print weight
+			
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+
+		#Samples._add_plot(config, "bkg", "HIST", "F", "jetFakes", "jetFakes")
+		#TODO, ff_weight is always 1 in current artus output, set it manually to 1/3 for testing
+		#return config
+		#if sum of shapes for wj qcd and ttbar sum up to 1,
+		if channel in ["mt","et", "tt"]:
+			#full data jetfakes"
+			add_input(
+				input_file=self.files_data(channel),
+				scale_factor=1.0,
+				weight=data_weight+"*"+weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+				nick="noplot_jetFakes_raw"
+			)
+			add_input(
+				input_file=self.files_ztt(channel),
+				weight=mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight_ff)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)",
+				nick="noplot_ff_realtaus_subtract"
+			)
+			"""
+			add_input(
+				input_file=self.files_zll(channel),
+				weight=self.get_weights_zll(channel=channel,cut_type=cut_type,weight=weight_ff)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)",
+				nick="noplot_ff_realtaus_subtract"
+			)"""
+
+			add_input(
+				input_file=self.files_zll(channel),
+				weight=mc_weight+"*"+weight_ff+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts= exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*(gen_match_2 < 6)"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+				nick="noplot_ff_realtaus_subtract"
+				)
+
+			add_input(
+				input_file=self.files_ttj(channel),
+				weight=mc_weight+"*(1/generatorWeight)*"+weight_ff+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)",
+				nick="noplot_ff_realtaus_subtract"
+			)
+			"""
+			add_input(
+				input_file=self.files_vv(channel),
+				weight=mc_weight+"*"+weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)"+"*"+self.vv_stitchingweight(),
+				nick="noplot_ff_realtaus_subtract"
+			)"""
+			add_input(
+				input_file=self.files_diboson(channel),
+				weight=mc_weight+"*"+weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)",
+				nick="noplot_ff_realtaus_subtract"
+			)
+
+			"""
+			add_input(
+					input_file=self.files_data(channel),
+					scale_factor=1.0,
+					weight=weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight",
+					nick="noplot_ff_norm"
+			)
+
+			add_input(
+					input_file=self.files_ztt(channel),
+					weight=self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					nick="noplot_dy_ff_norm"
+			)
+			add_input(
+					input_file=self.files_ttj(channel),
+					weight=weight+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					nick="noplot_tt_ff_norm"
+			)
+			add_input(
+					input_file=self.files_vv(channel),
+					weight=weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb"+"*"+self.vv_stitchingweight(),
+					nick="noplot_vv_ff_norm"
+			)
+			add_input(
+					input_file=self.files_diboson(channel),
+					weight=weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					nick="noplot_vv_ff_norm"
+			)"""
+			if not "AddHistograms" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("AddHistograms")
+
+
+			config.setdefault("add_nicks", []).append("noplot_jetFakes_raw noplot_ff_realtaus_subtract") #TODO
+
+			config.setdefault("add_scale_factors", []).append("1. -1.")#TODO ff_weight is always 1 in current artus output, set it manually to 1/3 for testing should be 1 
+
+			config.setdefault("add_result_nicks", []).append("ff")
+
+		else:
+			log.error("Sample config (FakeFactor) currently not implemented for channel \"%s\"!" % channel)
+
+		Samples._add_plot(config, "bkg", "HIST", "F", "ff", nick_suffix)
+		return config
 
 	
 

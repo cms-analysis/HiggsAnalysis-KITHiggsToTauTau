@@ -8,7 +8,7 @@ import re
 
 
 class Electron_ID(dict):
-	def __init__(self, nickname, wp=80, iso=True):  #might change to wp=90 iso False
+	def __init__(self, nickname, wp=90, iso=False):  #might change to wp=90 iso False
 		
 		self["ElectronID_documentation"] = [
 			"https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2",
@@ -124,7 +124,7 @@ class Electron_ID(dict):
 
 	#since looseElectron_ID includes Electron_ID settings, when this is not ok then just write everything in init to seperate function electron_ID
 	def looseElectron_ID(self, nickname, iso=False):
-		#"Loose" tagged electrons by artus are used for third lepton vetos 
+		#"Loose" tagged electrons by artus are used for third lepton vetos
 		self["LooseElectronReco"] = "mvanontrig"
 
 		self["LooseElectronID"] = "user"
@@ -145,6 +145,7 @@ class Electron_ID(dict):
 			self["LooseElectronIDType"] = "mvabased2017andlater"
 
 			# https://github.com/guitargeek/cmssw/blob/ElectronID_MVA2017_940pre3/RecoEgamma/ElectronIdentification/python/Identification/mvaElectronID_Fall17_noIso_V1_cff.py#L60-L81
+			#always use the wp90
 			if iso:
 				self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"
 

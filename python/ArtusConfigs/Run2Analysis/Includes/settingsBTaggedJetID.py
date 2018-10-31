@@ -25,15 +25,26 @@ class BTaggedJet_ID(dict):
 			self["BTaggedJetAbsEtaCut"] = 2.4
 		
 		if re.search("(Fall17|Run2017)", nickname):
-			#self["BTagger"] = "deepcsv"
-			#self["BTaggedJetDdeepCSVName"] = "pfDeepCSVDiscriminatorsJetTagsBvsAll"
+			self["BTagger"] = "deepcsv"
+			#self["BTaggedJetCombinedSecondaryVertexName"] = "pfDeepCSVDiscriminatorsJetTagsBvsAll"
 
+			self["BTaggedJetDdeepCSVName"]= "pfDeepCSVDiscriminatorsJetTagsBvsAll"
+			"""
 			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8838
 			self["BTaggerWorkingPoints"] = [
 				"tight:0.9693",
 				"medium:0.8838",
 				"loose:0.5803"
+			]"""
+
+			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.4941
+			self["BTaggerWorkingPoints"] = [
+				"tight:0.8001",
+				"medium:0.4941",
+				"loose:0.1522"
 			]
+			
+
 			self["BTaggedJetAbsEtaCut"] = 2.5
 		else:
 			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8484

@@ -34,7 +34,7 @@ class mt_ArtusConfig(dict):
 	def addProcessors(self, nickname):
 		self["Processors"] = [
 				"producer:HltProducer",
-				"filter:HltFilter",
+				#"filter:HltFilter",
 				"producer:MetSelector",
 				################## special for each channel in et mt tt em.
 				"producer:ValidMuonsProducer",
@@ -78,7 +78,6 @@ class mt_ArtusConfig(dict):
 			if re.search("Run2016|Run2017", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
 				self["Processors"] += ["producer:SimpleFitProducer"]
-				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
 				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 				self["Processors"] += ["producer:SvfitProducer"]
@@ -89,7 +88,8 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:MELAM125Producer"]
 
 				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
-
+				if re.search("Run2016", nickname):
+					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 			else:
@@ -100,7 +100,10 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:TauCorrectionsProducer"]
 
 				if re.search("Summer17|Fall17", nickname):
-					self["Processors"] += ["producer:TriggerWeightProducer", "producer:TauTriggerEfficiency2017Producer"]
+					self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
+					#"producer:TriggerWeightProducer"
+					self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"] #is a rooworkspace
+
 					#self["Processors"] += ["producer:IdentificationWeightProducer"]
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 				else:
@@ -126,31 +129,36 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
+						self["Processors"] += ["producer:JetToTauFakesProducer"]
 						#if re.search("Summer17|Fall17", nickname) == None:
-						self["Processors"] += ["producer:ZPtReweightProducer"] #FIXME No file for 2017 yet, use 2016 file
+						self["Processors"] += ["producer:ZPtReweightProducer"]
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
-						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
-						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
+							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
-						if re.search("Summer17|Fall17", nickname) == None:
-							self["Processors"] += [
-								"producer:TopPtReweightingProducer" #FIXME No file for 2017 yet
-							]
+						
+						self["Processors"] += [
+							"producer:TopPtReweightingProducer" #FIXME only ttbar?
+						]
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
-						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
-						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"] # I put this on in to create the same config as json but i dont think it is needed
+						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
+							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"] # I put this on in to create the same config as json but i dont think it is needed
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
-						if re.search("Summer17|Fall17", nickname) == None:
-							self["Processors"] += [	"producer:TopPtReweightingProducer"]  #FIXME No file for 2017 yet
+						self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
+						#if re.search("Summer17|Fall17", nickname) == None:  
+						self["Processors"] += [	"producer:TopPtReweightingProducer"]  #FIXME only ttbar?
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
-						self["Processors"] += ["producer:SimpleFitProducer"]
-						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+						self["Processors"] += ["producer:SimpleFitProducer"] #FIXME Needed?
+						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
+							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
@@ -456,7 +464,7 @@ class mt_ArtusConfig(dict):
 
 		if re.search("(Run2017|Summer17|Fall17)", nickname):
 			if re.search("(Run2017|Summer17|Fall17)", nickname):
-				self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_1.root"
+				self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v1_IC.root"
 				self["RooWorkspaceWeightNames"] = [
 					#"0:crossTriggerMCEfficiencyWeight",
 					#"0:crossTriggerDataEfficiencyWeight",
@@ -465,8 +473,8 @@ class mt_ArtusConfig(dict):
 					#"0:singleTriggerMCEfficiencyWeightKIT",
 					#"0:singleTriggerDataEfficiencyWeightKIT",
 				 	
-					"0:isoWeight",
-					"0:idWeight",
+					"0:idIsoWeight",
+					#"0:idWeight",
 					"0:trackWeight"
 					]
 				self["RooWorkspaceObjectNames"] = [
@@ -477,8 +485,8 @@ class mt_ArtusConfig(dict):
 					#"0:m_trg24or27_mc",
 					#"0:m_trg24or27_data",
 				  
-					"0:m_iso_ratio",
-					"0:m_id_ratio",
+					"0:m_idiso_binned_ratio",
+					#"0:m_id_ratio",
 					"0:m_trk_ratio"
 					]
 				self["RooWorkspaceObjectArguments"] = [
@@ -490,9 +498,32 @@ class mt_ArtusConfig(dict):
 					#"0:m_pt,m_eta",
 				  
 					"0:m_pt,m_eta",
-					"0:m_pt,m_eta",
-					"0:m_eta"
+					#"0:m_pt,m_eta",
+					"0:m_pt,m_eta"
 					]
+
+				self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v1_IC.root"
+				self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
+					"0:m_triggerEffSingle_mc",
+					"0:m_triggerEffCross_mc",
+					"0:m_triggerEffSingle_data",
+					"0:m_triggerEffCross_data"
+				]
+				self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
+					"0:m_trg_binned_mc",
+					"0:m_trg20_mc",
+					"0:m_trg_binned_data",
+					"0:m_trg20_data"
+					
+				]
+				self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
+					"0:m_pt,m_eta,m_iso",
+					"0:m_pt,m_eta",  
+					"0:m_pt,m_eta,m_iso",
+					"0:m_pt,m_eta"
+				]
+
+
 		else:
 			self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
 			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
@@ -563,7 +594,7 @@ class mt_ArtusConfig(dict):
 
 
 		elif re.search("Run2017|Summer17|Fall17", nickname):
-			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data2017/SM2017/tight/vloose/mt/fakeFactors.root"] #TODO
+			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/2017/mt/fakeFactors.root"] #TODO
 			self["FakeFactorMethod"] = "cp2017"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
 
