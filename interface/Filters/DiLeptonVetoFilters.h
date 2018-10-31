@@ -52,7 +52,7 @@ public:
 	virtual bool DoesEventPass(event_type const& event, product_type const& product,
 							   setting_type const& settings, metadata_type const& metadata) const override
 	{
-		// TODO: This producer should be adapted to use the outputs of the new DiLeptonVetoProducers.
+		// TODO: This producer should be adapted to use the outputs of the new DiLeptonVetoProducers. This is now done in minimalplotlevelfilter
 		
 		if ((vetoMode == VetoMode::KEEP_OS_KEEP_SS) ||
 		    (vetoMode == VetoMode::NONE) ||

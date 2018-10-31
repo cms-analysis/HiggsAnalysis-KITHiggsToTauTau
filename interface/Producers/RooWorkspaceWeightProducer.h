@@ -9,6 +9,7 @@
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string.hpp>
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 
 /**
    \brief RooWorkspaceWeightProducer
@@ -48,6 +49,7 @@ protected:
 	std::map<int,std::vector<std::string>> m_functorArgs;
 	std::map<int,std::vector<RooFunctor*>> m_functors;
 	RooWorkspace *m_workspace;
+	HttEnumTypes::DataMcScaleFactorProducerMode m_scaleFactorMode = HttEnumTypes::DataMcScaleFactorProducerMode::NONE;
 
 };
 
@@ -98,3 +100,19 @@ public:
 	virtual void Produce(event_type const& event, product_type & product,
 						 setting_type const& settings, metadata_type const& metadata) const override;
 };
+
+
+class LeptonTauTrigger2017WeightProducer: public RooWorkspaceWeightProducer {
+public:
+	LeptonTauTrigger2017WeightProducer();
+
+	virtual std::string GetProducerId() const override {
+		return "LeptonTauTrigger2017WeightProducer";
+	}
+
+	virtual void Produce(event_type const& event, product_type & product,
+						 setting_type const& settings, metadata_type const& metadata) const override;
+};
+
+
+

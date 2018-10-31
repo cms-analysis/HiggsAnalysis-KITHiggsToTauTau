@@ -35,8 +35,11 @@ void RooWorkspaceWeightProducer::Init(setting_type const& settings, metadata_typ
 
 	m_saveTriggerWeightAsOptionalOnly = (settings.*GetSaveRooWorkspaceTriggerWeightAsOptionalOnly)();
 
+	m_scaleFactorMode =  HttEnumTypes::ToDataMcScaleFactorProducerMode(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.GetTriggerEfficiencyMode)())));
+
 	TDirectory *savedir(gDirectory);
 	TFile *savefile(gFile);
+	std::cout << settings.GetRooWorkspace().c_str() <<std::endl;
 	TFile f(settings.GetRooWorkspace().c_str());
 	gSystem->AddIncludePath("-I$ROOFITSYS/include");
 	m_workspace = (RooWorkspace*)f.Get("w");
@@ -57,6 +60,7 @@ void RooWorkspaceWeightProducer::Init(setting_type const& settings, metadata_typ
 			boost::split(objects, objectName.second[index], boost::is_any_of(","));
 			for(auto object:objects)
 			{
+				std::cout << objectName.first << "    " << object.c_str() << "   " << m_functorArgs[objectName.first][index].c_str() << std::endl; 
 				m_functors[objectName.first].push_back(m_workspace->function(object.c_str())->functor(m_workspace->argSet(m_functorArgs[objectName.first][index].c_str())));
 			}
 		}
@@ -411,5 +415,127 @@ void MuTauTriggerWeightProducer::Produce( event_type const& event, product_type 
 				}
 			}
 		}
+	}
+}
+
+LeptonTauTrigger2017WeightProducer::LeptonTauTrigger2017WeightProducer() :
+		RooWorkspaceWeightProducer(&setting_type::GetSaveLeptonTauTrigger2017WeightAsOptionalOnly,
+								   &setting_type::GetLeptonTauTrigger2017WeightWorkspace,
+								   &setting_type::GetLeptonTauTrigger2017WeightWorkspaceWeightNames,
+								   &setting_type::GetLeptonTauTrigger2017WeightWorkspaceObjectNames,
+								   &setting_type::GetLeptonTauTrigger2017WeightWorkspaceObjectArguments)
+{
+}
+
+void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, product_type & product,
+						   setting_type const& settings, metadata_type const& metadata) const
+{
+	double leptonTrigEffSingle_mc(1.0), leptonTrigEffSingle_data(1.0), leptonTrigEffCross_mc(1.0), leptonTrigEffCross_data(1.0);
+	double leptonTauTrigWeight = 1.0;
+
+	for(auto weightNames:m_weightNames)
+	{
+		// muon-tau cross trigger scale factors currently depend only on tau pt and eta
+		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
+		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
+		
+		for(size_t index = 0; index < weightNames.second.size(); index++)
+		{
+			if(weightNames.second.at(index).find("triggerWeight") == std::string::npos && weightNames.second.at(index).find("_triggerEff") == std::string::npos)
+			{
+				continue;
+			}
+
+			auto args = std::vector<double>{};
+			std::vector<std::string> arguments;
+			boost::split(arguments,  m_functorArgs.at(weightNames.first).at(index) , boost::is_any_of(","));
+			for(auto arg:arguments)
+			{
+				if(arg=="m_pt" || arg=="t_pt" || "e_pt")
+				{
+					args.push_back(lepton->p4.Pt());
+				}
+				if(arg=="m_eta" || arg=="t_eta" || "e_eta")
+				{
+					args.push_back(lepton->p4.Eta());
+				}
+				if(arg=="m_phi" || arg=="t_phi" || "e_phi")
+				{
+					args.push_back(lepton->p4.Phi());
+				}
+				if(arg=="m_iso"|| "e_iso")
+				{
+					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
+				}
+			}
+			if(m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS) //For 2017 cross triggers
+			{
+				if (lepton->flavour() == KLeptonFlavour::MUON)
+				{
+					LOG(DEBUG) << weightNames.second.at(index) << std::endl;
+					if(weightNames.second.at(index) == "m_triggerEffSingle_mc") 
+					{
+						leptonTrigEffSingle_mc = m_functors.at(weightNames.first).at(index)->eval(args.data());
+						LOG(DEBUG) << "muTrigEffSingle_mc:  " << leptonTrigEffSingle_mc << std::endl;
+					}
+					else if (weightNames.second.at(index) == "m_triggerEffCross_mc")
+					{
+						leptonTrigEffCross_mc = m_functors.at(weightNames.first).at(index)->eval(args.data());
+						LOG(DEBUG) << "muTrigEffCross_mc:  " << leptonTrigEffCross_mc << std::endl;
+					}
+					else if (weightNames.second.at(index) == "m_triggerEffSingle_data") 
+					{
+						leptonTrigEffSingle_data = m_functors.at(weightNames.first).at(index)->eval(args.data());
+						LOG(DEBUG) << "muTrigEffSingle_data:  " << leptonTrigEffSingle_data << std::endl;
+					}
+					else if (weightNames.second.at(index) == "m_triggerEffCross_data")
+					{
+						leptonTrigEffCross_data = m_functors.at(weightNames.first).at(index)->eval(args.data());
+						LOG(DEBUG) << "muTrigEffCross_data:  " << leptonTrigEffCross_data << std::endl;
+					}
+				}
+				else if (lepton->flavour() == KLeptonFlavour::ELECTRON)
+				{
+					LOG(DEBUG) << weightNames.second.at(index) << std::endl;
+					if(weightNames.second.at(index) == "e_triggerEffSingle_mc") 
+					{
+						leptonTrigEffSingle_mc = m_functors.at(weightNames.first).at(index)->eval(args.data());
+						LOG(DEBUG) << "eleTrigEffSingle_mc:  " << leptonTrigEffSingle_mc << std::endl;
+					}
+					else if (weightNames.second.at(index) == "e_triggerEffCross_mc")
+					{
+						leptonTrigEffCross_mc = m_functors.at(weightNames.first).at(index)->eval(args.data());
+						LOG(DEBUG) << "eleTrigEffCross_mc:  " << leptonTrigEffCross_mc << std::endl;
+					}
+					else if (weightNames.second.at(index) == "e_triggerEffSingle_data") 
+					{
+						leptonTrigEffSingle_data = m_functors.at(weightNames.first).at(index)->eval(args.data());
+						LOG(DEBUG) << "eleTrigEffSingle_data:  " << leptonTrigEffSingle_data << std::endl;
+					}
+					else if (weightNames.second.at(index) == "e_triggerEffCross_data")
+					{
+						leptonTrigEffCross_data = m_functors.at(weightNames.first).at(index)->eval(args.data());
+						LOG(DEBUG) << "eleTrigEffCross_data:  " << leptonTrigEffCross_data << std::endl;
+					}
+				}
+			}
+		}
+	}
+	//std::cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << std::endl;
+	if(m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS) //For 2017 cross triggers
+	{
+		assert((product.m_tautriggerefficienciesMC.size() == 1) &&
+		(product.m_tautriggerefficienciesData.size() == 1));
+
+		double efficiencyData = leptonTrigEffSingle_data*(1.0-product.m_tautriggerefficienciesData[0]) + leptonTrigEffCross_data*product.m_tautriggerefficienciesData[0];
+		double efficiencyMc = leptonTrigEffSingle_mc*(1.0-product.m_tautriggerefficienciesMC[0])  + leptonTrigEffCross_mc*product.m_tautriggerefficienciesMC[0];
+		leptonTauTrigWeight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
+
+		LOG(DEBUG) << "-------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		LOG(DEBUG) << "dataEff: " << efficiencyData << std::endl;
+		LOG(DEBUG) << "MCEff: " << efficiencyMc << std::endl;
+		LOG(DEBUG) << "weight: " << leptonTauTrigWeight << std::endl;
+		LOG(DEBUG) << "-------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		product.m_weights[std::string("totalTriggerWeight")] = leptonTauTrigWeight;
 	}
 }

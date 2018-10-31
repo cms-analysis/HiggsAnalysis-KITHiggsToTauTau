@@ -161,6 +161,8 @@ class ProcessorsOrdered(dict):
 		self["producer:MuTauTriggerWeightProducer"] = 290
 		self["producer:TauTauTriggerWeightProducer"] = 291
 
+		self["producer:LeptonTauTrigger2017WeightProducer"] = 292
+
 		self["producer:GenMatchedTauCPProducer"] = 295
 
 		self["producer:RefitVertexSelector"] = 300
