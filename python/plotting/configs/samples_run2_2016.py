@@ -476,10 +476,12 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 		
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)		
-		if channel in ['gen']:
+		if channel in ["gen"]:
 			add_input(
 					input_file=self.files_ztt(channel),
-					weight=Samples.ztt_genchannelmatch(channel, category)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight="((isZTT*numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight}))".format(
+							stitching_weight=self.ztt_stitchingweight()
+					),
 					nick="ztt"
 		)
 		elif channel in ["mt", "et", "tt", "em", "mm", "ee", "ttbar"]:
