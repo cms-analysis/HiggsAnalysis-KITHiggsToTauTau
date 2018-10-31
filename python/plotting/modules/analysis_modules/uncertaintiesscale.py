@@ -36,15 +36,15 @@ class UncertaintiesScale(analysisbase.AnalysisBase):
 		
 		self.prepare_list_args(plotData, ["uncertainties_scale_reference_nicks", "uncertainties_scale_shifts_nicks", "uncertainties_scale_result_nicks"])
 		
-		for index, (uncertainties_scale_reference_nick, uncertainties_scale_shift_nicks, uncertainties_scale_result_nick) in enumerate(zip(
+		for index, (reference_nick, shift_nicks, result_nick) in enumerate(zip(
 				*[plotData.plotdict[k] for k in ["uncertainties_scale_reference_nicks", "uncertainties_scale_shifts_nicks", "uncertainties_scale_result_nicks"]]
 		)):
-			plotData.plotdict["uncertainties_scale_shifts_nicks"][index] = uncertainties_scale_shift_nicks.split()
+			plotData.plotdict["uncertainties_scale_shifts_nicks"][index] = shift_nicks.split()
 			
-			if uncertainties_scale_result_nick is None:
-				uncertainties_scale_result_nick = "unc_scale_" + uncertainties_scale_reference_nick
+			if result_nick is None:
+				result_nick = "unc_scale_" + reference_nick
 			for shift in ["down", "up"]:
-				final_result_nick = uncertainties_scale_result_nick + "_" + shift
+				final_result_nick = result_nick + "_" + shift
 				if not final_result_nick in plotData.plotdict["nicks"]:
 					plotData.plotdict["nicks"].insert(
 							max([plotData.plotdict["nicks"].index(nick) for nick in plotData.plotdict["uncertainties_scale_shifts_nicks"][index]])+1,
@@ -54,36 +54,36 @@ class UncertaintiesScale(analysisbase.AnalysisBase):
 	def run(self, plotData=None):
 		super(UncertaintiesScale, self).run(plotData)
 		
-		for index, (uncertainties_scale_reference_nick, uncertainties_scale_shift_nicks, uncertainties_scale_result_nick) in enumerate(zip(
+		for index, (reference_nick, shift_nicks, result_nick) in enumerate(zip(
 				*[plotData.plotdict[k] for k in ["uncertainties_scale_reference_nicks", "uncertainties_scale_shifts_nicks", "uncertainties_scale_result_nicks"]]
 		)):
 			
-			uncertainties_scale_reference_histogram = plotData.plotdict["root_objects"][uncertainties_scale_reference_nick]
-			uncertainties_scale_reference_integral = uncertainties_scale_reference_histogram.Integral()
+			reference_histogram = plotData.plotdict["root_objects"][reference_nick]
+			reference_integral = reference_histogram.Integral()
 			
-			uncertainties_scale_shift_histograms = [plotData.plotdict["root_objects"][nick] for nick in uncertainties_scale_shift_nicks]
-			uncertainties_scale_shift_integrals = [hist.Integral() for hist in uncertainties_scale_shift_histograms]
+			shift_histograms = [plotData.plotdict["root_objects"][nick] for nick in shift_nicks]
+			shift_integrals = [hist.Integral() for hist in shift_histograms]
 			
-			uncertainty_scale = 0.0
-			if uncertainties_scale_reference_integral != 0.0:
-				uncertainty_scale = (max(uncertainties_scale_shift_integrals) - min(uncertainties_scale_shift_integrals)) / (2.0 * uncertainties_scale_reference_integral)
+			uncertainty = 0.0
+			if reference_integral != 0.0:
+				uncertainty = (max(shift_integrals) - min(shift_integrals)) / (2.0 * reference_integral)
 			log.info("Scale uncertainty on nick \"{nick}\" is {unc}.".format(
-					nick=uncertainties_scale_reference_nick,
-					unc=uncertainty_scale
+					nick=reference_nick,
+					unc=uncertainty
 			))
 			
-			uncertainty_scale_up_histogram = roottools.RootTools.histogram_calculation(
+			uncertainty_up_histogram = roottools.RootTools.histogram_calculation(
 					lambda *args: max(args),
 					None,
-					*uncertainties_scale_shift_histograms
+					*shift_histograms
 			)
-			plotData.plotdict["root_objects"][uncertainties_scale_result_nick+"_up"] = uncertainty_scale_up_histogram
+			plotData.plotdict["root_objects"][result_nick+"_up"] = uncertainty_up_histogram
 			
-			uncertainty_scale_down_histogram = roottools.RootTools.histogram_calculation(
+			uncertainty_down_histogram = roottools.RootTools.histogram_calculation(
 					lambda *args: min(args),
 					None,
-					uncertainties_scale_reference_histogram,
-					*uncertainties_scale_shift_histograms
+					reference_histogram,
+					*shift_histograms
 			)
-			plotData.plotdict["root_objects"][uncertainties_scale_result_nick+"_down"] = uncertainty_scale_down_histogram
+			plotData.plotdict["root_objects"][result_nick+"_down"] = uncertainty_down_histogram
 

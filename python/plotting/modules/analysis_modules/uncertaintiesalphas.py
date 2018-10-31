@@ -44,19 +44,19 @@ class UncertaintiesAlphaS(analysisbase.AnalysisBase):
 		
 		self.prepare_list_args(plotData, ["uncertainties_alpha_s_reference_nicks", "uncertainties_alpha_s_reference_values", "uncertainties_alpha_s_shifts_nicks", "uncertainties_alpha_s_shifts_values", "uncertainties_alpha_s_result_nicks"])
 		
-		for index, (uncertainties_alpha_s_reference_nick, uncertainties_alpha_s_reference_value, uncertainties_alpha_s_shift_nicks, uncertainties_alpha_s_shift_values, uncertainties_alpha_s_result_nick) in enumerate(zip(
+		for index, (reference_nick, reference_value, shift_nicks, shift_values, result_nick) in enumerate(zip(
 				*[plotData.plotdict[k] for k in ["uncertainties_alpha_s_reference_nicks", "uncertainties_alpha_s_reference_values", "uncertainties_alpha_s_shifts_nicks", "uncertainties_alpha_s_shifts_values", "uncertainties_alpha_s_result_nicks"]]
 		)):
-			plotData.plotdict["uncertainties_alpha_s_shifts_nicks"][index] = uncertainties_alpha_s_shift_nicks.split()
-			plotData.plotdict["uncertainties_alpha_s_shifts_values"][index] = [float(value) for value in uncertainties_alpha_s_shift_values.split()]
+			plotData.plotdict["uncertainties_alpha_s_shifts_nicks"][index] = shift_nicks.split()
+			plotData.plotdict["uncertainties_alpha_s_shifts_values"][index] = [float(value) for value in shift_values.split()]
 			assert len(plotData.plotdict["uncertainties_alpha_s_shifts_nicks"][index]) == len(plotData.plotdict["uncertainties_alpha_s_shifts_values"][index])
 			if len(plotData.plotdict["uncertainties_alpha_s_shifts_nicks"][index]) > 1:
 				log.warning("Uncertainty estimation for alpha_s currently only implemented for one shifted histogram. Take first given histogram.")
 			
-			if uncertainties_alpha_s_result_nick is None:
-				uncertainties_alpha_s_result_nick = "unc_alpha_s_" + uncertainties_alpha_s_reference_nick
+			if result_nick is None:
+				result_nick = "unc_alpha_s_" + reference_nick
 			for shift in ["down", "up"]:
-				final_result_nick = uncertainties_alpha_s_result_nick + "_" + shift
+				final_result_nick = result_nick + "_" + shift
 				if not final_result_nick in plotData.plotdict["nicks"]:
 					plotData.plotdict["nicks"].insert(
 							max([plotData.plotdict["nicks"].index(nick) for nick in plotData.plotdict["uncertainties_alpha_s_shifts_nicks"][index]])+1,
@@ -66,38 +66,38 @@ class UncertaintiesAlphaS(analysisbase.AnalysisBase):
 	def run(self, plotData=None):
 		super(UncertaintiesAlphaS, self).run(plotData)
 		
-		for index, (uncertainties_alpha_s_reference_nick, uncertainties_alpha_s_reference_value, uncertainties_alpha_s_shift_nicks, uncertainties_alpha_s_shift_values, uncertainties_alpha_s_result_nick) in enumerate(zip(
+		for index, (reference_nick, reference_value, shift_nicks, shift_values, result_nick) in enumerate(zip(
 				*[plotData.plotdict[k] for k in ["uncertainties_alpha_s_reference_nicks", "uncertainties_alpha_s_reference_values", "uncertainties_alpha_s_shifts_nicks", "uncertainties_alpha_s_shifts_values", "uncertainties_alpha_s_result_nicks"]]
 		)):
 			
-			uncertainties_alpha_s_reference_histogram = plotData.plotdict["root_objects"][uncertainties_alpha_s_reference_nick]
-			uncertainties_alpha_s_reference_integral = uncertainties_alpha_s_reference_histogram.Integral()
+			reference_histogram = plotData.plotdict["root_objects"][reference_nick]
+			reference_integral = reference_histogram.Integral()
 			
-			uncertainties_alpha_s_shift_histogram = plotData.plotdict["root_objects"][uncertainties_alpha_s_shift_nicks[0]]
-			uncertainties_alpha_s_shift_integral = uncertainties_alpha_s_shift_histogram.Integral()
-			uncertainties_alpha_s_shift_value = uncertainties_alpha_s_shift_values[0]
+			shift_histogram = plotData.plotdict["root_objects"][shift_nicks[0]]
+			shift_integral = shift_histogram.Integral()
+			shift_value = shift_values[0]
 			
-			uncertainty_alpha_s = 0.0
-			if uncertainties_alpha_s_reference_integral != 0.0:
-				uncertainty_alpha_s = 0.0015 * (uncertainties_alpha_s_shift_integral - uncertainties_alpha_s_reference_integral) / ((uncertainties_alpha_s_shift_value - uncertainties_alpha_s_reference_value) * uncertainties_alpha_s_reference_integral)
+			uncertainty = 0.0
+			if reference_integral != 0.0:
+				uncertainty = 0.0015 * (shift_integral - reference_integral) / ((shift_value - reference_value) * reference_integral)
 			log.info("alpha_s uncertainty on nick \"{nick}\" is {unc}.".format(
-					nick=uncertainties_alpha_s_reference_nick,
-					unc=uncertainty_alpha_s
+					nick=reference_nick,
+					unc=uncertainty
 			))
 			
-			uncertainty_alpha_s_up_histogram = roottools.RootTools.histogram_calculation(
-					lambda *args: args[0] + 0.0015 * (args[1] - args[0]) / (uncertainties_alpha_s_shift_value - uncertainties_alpha_s_reference_value),
+			uncertainty_up_histogram = roottools.RootTools.histogram_calculation(
+					lambda *args: args[0] + 0.0015 * (args[1] - args[0]) / (shift_value - reference_value),
 					None,
-					uncertainties_alpha_s_reference_histogram,
-					uncertainties_alpha_s_shift_histogram
+					reference_histogram,
+					shift_histogram
 			)
-			plotData.plotdict["root_objects"][uncertainties_alpha_s_result_nick+"_up"] = uncertainty_alpha_s_up_histogram
+			plotData.plotdict["root_objects"][result_nick+"_up"] = uncertainty_up_histogram
 			
-			uncertainty_alpha_s_down_histogram = roottools.RootTools.histogram_calculation(
-					lambda *args: args[0] - 0.0015 * (args[1] - args[0]) / (uncertainties_alpha_s_shift_value - uncertainties_alpha_s_reference_value),
+			uncertainty_down_histogram = roottools.RootTools.histogram_calculation(
+					lambda *args: args[0] - 0.0015 * (args[1] - args[0]) / (shift_value - reference_value),
 					None,
-					uncertainties_alpha_s_reference_histogram,
-					uncertainties_alpha_s_shift_histogram
+					reference_histogram,
+					shift_histogram
 			)
-			plotData.plotdict["root_objects"][uncertainties_alpha_s_result_nick+"_down"] = uncertainty_alpha_s_down_histogram
+			plotData.plotdict["root_objects"][result_nick+"_down"] = uncertainty_down_histogram
 
