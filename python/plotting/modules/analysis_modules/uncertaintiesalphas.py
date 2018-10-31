@@ -80,7 +80,6 @@ class UncertaintiesAlphaS(analysisbase.AnalysisBase):
 			uncertainty_alpha_s = 0.0
 			if uncertainties_alpha_s_reference_integral != 0.0:
 				uncertainty_alpha_s = 0.0015 * (uncertainties_alpha_s_shift_integral - uncertainties_alpha_s_reference_integral) / ((uncertainties_alpha_s_shift_value - uncertainties_alpha_s_reference_value) * uncertainties_alpha_s_reference_integral)
-			uncertainty_alpha_s = math.sqrt(uncertainty_alpha_s / len(uncertainties_alpha_s_shift_nicks)) / uncertainties_alpha_s_reference_integral
 			log.info("alpha_s uncertainty on nick \"{nick}\" is {unc}.".format(
 					nick=uncertainties_alpha_s_reference_nick,
 					unc=uncertainty_alpha_s
@@ -90,7 +89,7 @@ class UncertaintiesAlphaS(analysisbase.AnalysisBase):
 					lambda *args: args[0] + 0.0015 * (args[1] - args[0]) / (uncertainties_alpha_s_shift_value - uncertainties_alpha_s_reference_value),
 					None,
 					uncertainties_alpha_s_reference_histogram,
-					*uncertainties_alpha_s_shift_histograms
+					uncertainties_alpha_s_shift_histogram
 			)
 			plotData.plotdict["root_objects"][uncertainties_alpha_s_result_nick+"_up"] = uncertainty_alpha_s_up_histogram
 			
@@ -98,7 +97,7 @@ class UncertaintiesAlphaS(analysisbase.AnalysisBase):
 					lambda *args: args[0] - 0.0015 * (args[1] - args[0]) / (uncertainties_alpha_s_shift_value - uncertainties_alpha_s_reference_value),
 					None,
 					uncertainties_alpha_s_reference_histogram,
-					*uncertainties_alpha_s_shift_histograms
+					uncertainties_alpha_s_shift_histogram
 			)
 			plotData.plotdict["root_objects"][uncertainties_alpha_s_result_nick+"_down"] = uncertainty_alpha_s_down_histogram
 
