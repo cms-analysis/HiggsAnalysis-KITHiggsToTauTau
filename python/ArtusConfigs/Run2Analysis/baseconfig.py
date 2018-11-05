@@ -214,8 +214,8 @@ class Baseconfig(dict):
 			self["SimpleEleTauFakeRateWeightTight"] = [1.80, 1.30]
 
 		elif re.search("(Spring16|Summer16)", nickname):
-			self["SimpleMuTauFakeRateWeightLoose"]	= [1.01, 1.007, 0.87, 1.154, 2.281]
-			self["SimpleMuTauFakeRateWeightTight"] = [1.263, 1.364, 0.854, 1.712, 2.324]
+			self["SimpleMuTauFakeRateWeightLoose"]	= [1.22, 1.12, 1.26, 1.22, 2.39]
+			self["SimpleMuTauFakeRateWeightTight"] = [1.47, 1.55, 1.33, 1.72, 2.50]
 			self["SimpleEleTauFakeRateWeightVLoose"] = [1.213, 1.375]
 			self["SimpleEleTauFakeRateWeightTight"] = [1.402, 1.90]
 
