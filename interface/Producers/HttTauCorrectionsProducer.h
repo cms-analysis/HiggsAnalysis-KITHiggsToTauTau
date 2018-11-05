@@ -33,6 +33,7 @@ public:
 		NEWTAUID = 1,
 		SMHTT2016,
 		MSSMHTT2016,
+		SMHTT2017,
 	};
 	static TauEnergyCorrection ToTauEnergyCorrection(std::string const& tauEnergyCorrection)
 	{
@@ -40,6 +41,7 @@ public:
 		else if (tauEnergyCorrection == "newtauid") return TauEnergyCorrection::NEWTAUID;
 		else if (tauEnergyCorrection == "smhtt2016") return TauEnergyCorrection::SMHTT2016;
 		else if (tauEnergyCorrection == "mssmhtt2016") return TauEnergyCorrection::MSSMHTT2016;
+		else if (tauEnergyCorrection == "smhtt2017") return TauEnergyCorrection::SMHTT2017;
 		else return TauEnergyCorrection::NONE;
 	}
 	

@@ -15,11 +15,13 @@ class TauES(dict):
 			self["TauEnergyCorrectionOneProngPiZeros"] = 1.01
 			self["TauEnergyCorrectionThreeProng"] = 1.004
 		elif re.search("(Summer17|Fall17)",nickname):
-			#https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf 
-			self["TauEnergyCorrection"] = "smhtt2016"
-			self["TauEnergyCorrectionOneProng"] = 0.970 #+-3%  
-			self["TauEnergyCorrectionOneProngPiZeros"] = 0.98 #+-3%
-			self["TauEnergyCorrectionThreeProng"] = 0.99 #+-3%
+			#https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf old
+			#newest look at tautwiki
+			self["TauEnergyCorrection"] = "smhtt2017"
+			self["TauEnergyCorrectionOneProng"] = 1.007 #+-0.8%  
+			self["TauEnergyCorrectionOneProngPiZeros"] = 0.998 #+-0.8%
+			self["TauEnergyCorrectionThreeProng"] = 1.01 #+-0.9%
+			self["TauEnergyCorrectionThreeProngPizeros"] = 0.999 #+-1%
 			self["TauElectronFakeEnergyCorrectionOneProng"] = 1.0
 			self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.0
 		else:
