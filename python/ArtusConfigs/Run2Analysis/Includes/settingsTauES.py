@@ -24,6 +24,14 @@ class TauES(dict):
 			self["TauEnergyCorrectionThreeProngPizeros"] = 0.999 #+-1%
 			self["TauElectronFakeEnergyCorrectionOneProng"] = 1.0
 			self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.0
+			if re.search("(DY.?JetsToLL|EWKZ2Jets)", nickname):
+				self["TauElectronFakeEnergyCorrectionOneProng"] = 1.01  #+-1.4%
+				self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.041 #+-1.8%
+				self["TauElectronFakeEnergyCorrectionThreeProng"] = 1.0
+				self["TauMuonFakeEnergyCorrectionOneProng"] = 0.999 #+-3%
+				self["TauMuonFakeEnergyCorrectionOneProngPiZeros"] = 1.012 #+-0.3%
+				self["TauMuonFakeEnergyCorrectionThreeProng"] = 1.0
+
 		else:
 			self["TauEnergyCorrection"] = "none"
 		
