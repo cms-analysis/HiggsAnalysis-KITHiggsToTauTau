@@ -15,7 +15,7 @@ class TauES(dict):
 			self["TauEnergyCorrection"] = "none"
 
 		self["TauEnergyCorrectionOneProng"] = 0.995
-		self["TauEnergyCorrectionOneProngPiZeros"] = 1.01
+		self["TauEnergyCorrectionOneProngPiZeros"] = 1.011
 		self["TauEnergyCorrectionThreeProng"] = 1.006
 
 		if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
