@@ -496,11 +496,12 @@ if __name__ == "__main__":
 						category = "_" + category if category else "",
 						quantity = quantity
 				)
+				print binnings_key
 				if binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict and "--x-bins" not in args.args:
 					binnings_key = channel + "_" + quantity
 				if binnings_key not in binnings_settings.binnings_dict:
 					binnings_key = None
-				
+				print binnings_key
 				if binnings_key is not None and "--x-bins" not in args.args:
 					x_bins = json_config.pop("x_bins", [binnings_key])
 					config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_bins) for nick in config["nicks"]]

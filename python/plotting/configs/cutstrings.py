@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 import sys
 
 class CutStringsDict:
-	
+
 	@staticmethod
 	def baseline(channel, cut_type):
 		cuts = {}
@@ -17,7 +17,7 @@ class CutStringsDict:
 		else:
 			cuts["blind"] = "{blind}"
 			cuts["os"] = "((q_1*q_2)<0.0)"
-		
+
 		if channel == "mm":
 			if "mssm" in cut_type:
 				cuts["trg"] = "(trg_singlemuon == 1)"
@@ -100,7 +100,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def mssm2016(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
@@ -117,7 +117,7 @@ class CutStringsDict:
 			else:
 				iso_2_cut = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.99 + (gen_match_2 != 5))"
 			cuts["mt"] = "(mt_1<40.0)" if cut_type == "mssm2016tight" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<70.0)"
-			cuts["iso_2"] = iso_2_cut 
+			cuts["iso_2"] = iso_2_cut
 		elif channel == "et":
 			iso_2_cut = ""
 			if cut_type == "mssm2016fflooseiso":
@@ -133,15 +133,15 @@ class CutStringsDict:
 			cuts["mt"] = "(mt_1<40.0)" if cut_type == "mssm2016tight" else "(mt_1>40.0)*(mt_1<70.0)" if cut_type == "mssm2016loosemt" else "(mt_1<70.0)"
 			cuts["iso_2"] = iso_2_cut
 		return cuts
-	
+
 	@staticmethod
 	def cpggh2016(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
-		if channel == "mm":		
+		if channel == "mm":
 			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 25.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
-			cuts["eta_2"] = "(abs(eta_2) < 2.1)"					
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 		elif channel == "em":
 			cuts["bveto"] = "(nbtag == 0)"
 			cuts["pt_1"] = "(pt_1 > 13.0)"
@@ -149,34 +149,35 @@ class CutStringsDict:
 			# used to remove overlap with H->WW->emu analysis
 			cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
 		elif channel == "mt":
-			cuts["trg"] = "((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23)+(trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23))"
-			cuts["pt_1"] = "(pt_1 > 20.0)"
+			#cuts["trg"] = "(((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23))+((trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23)))"  #remove cross trigger weights for embedding as they are not provided (increased muon pt cut (25 GeV))
+			cuts["trg"] = "(triggerWeight_singleMu_1)"
+			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
-			cuts["mt"] = "(mt_1<50.0)"					
+			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 		elif channel == "et":
 			cuts["pt_1"] = "(pt_1 > 25.0)"
-			cuts["pt_2"] = "(pt_2 > 30.0)"	
-			cuts["mt"] = "(mt_1<50.0)"	
+			cuts["pt_2"] = "(pt_2 > 30.0)"
+			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 		elif channel == "tt":
 			cuts["pt_1"] = "(pt_1 > 50.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
-			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"									
+			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
 			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
-		return cuts		
-									
+		return cuts
+
 	@staticmethod
 	def lfv(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
 		#cuts["nbtag"] = "nbtag==0"
 		#cuts["mt"] = ""
-			
+
 		return cuts
-			
-	
+
+
 	@staticmethod
 	def antievloosepass(channel, cut_type):
 		if channel == "et":
@@ -188,7 +189,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antievloosefail(channel, cut_type):
 		if channel == "et":
@@ -200,7 +201,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antieloosepass(channel, cut_type):
 		if channel == "et":
@@ -212,7 +213,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antieloosefail(channel, cut_type):
 		if channel == "et":
@@ -224,7 +225,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antiemediumpass(channel, cut_type):
 		if channel == "et":
@@ -236,7 +237,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antiemediumfail(channel, cut_type):
 		if channel == "et":
@@ -248,7 +249,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antietightpass(channel, cut_type):
 		if channel == "et":
@@ -260,7 +261,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antietightfail(channel, cut_type):
 		if channel == "et":
@@ -272,7 +273,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antievtightpass(channel, cut_type):
 		if channel == "et":
@@ -284,7 +285,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antievtightfail(channel, cut_type):
 		if channel == "et":
@@ -296,7 +297,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antimuloosepass(channel, cut_type):
 		if channel == "mt":
@@ -307,7 +308,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antimuloosefail(channel, cut_type):
 		if channel == "mt":
@@ -318,7 +319,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antimutightpass(channel, cut_type):
 		if channel == "mt":
@@ -329,7 +330,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antimutightfail(channel, cut_type):
 		if channel == "mt":
@@ -340,7 +341,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def tauidloosepass(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -352,7 +353,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def tauidloosefail(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -364,7 +365,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def tauidmediumpass(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -376,7 +377,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def tauidmediumfail(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -388,7 +389,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def tauidtightpass(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -400,7 +401,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def tauidtightfail(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -412,7 +413,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def tauidvtightpass(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -424,7 +425,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def tauidvtightfail(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -436,7 +437,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def tauescuts(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -495,7 +496,7 @@ class CutStringsDict:
 		cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ","").replace("SameSignRegion",""))
 		cuts["ss"] = "((q_1*q_2)>0.0)"
 		return cuts
-	
+
 	@staticmethod
 	def highMtControlRegionWJ(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -505,7 +506,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def highMtSSControlRegionWJ(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -553,7 +554,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	def cprho2016(channel, cut_type):
 		if channel == "tt":
 			cuts = CutStringsDict.cp2016(channel, cut_type)
@@ -575,7 +576,7 @@ class CutStringsDict:
 		cuts = {}
 		cuts["blind"] = "{blind}"
 		cuts["os"] = "((q_1*q_2)<0.0)"
-		
+
 		if channel == "mm":
 			cuts["trigger_threshold"] = "(pt_1 > 20.0 || pt_2 > 20.0)" #new
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
@@ -615,7 +616,7 @@ class CutStringsDict:
 			cuts["iso_2"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronVLooseMVA6_1 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_1 > 0.5)*(againstMuonLoose3_2 > 0.5)"
-			
+
 			cuts["extra_lepton_veto"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"# shouldnt be there
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -632,7 +633,7 @@ class CutStringsDict:
 		elif cut_type=="smhtt2016":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="cpggh2016":
-			cuts = CutStringsDict.cpggh2016(channel, cut_type)			
+			cuts = CutStringsDict.cpggh2016(channel, cut_type)
 		elif cut_type=="mssm":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="mssm2016":
@@ -669,7 +670,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.antievtightpass(channel, cut_type)
 		elif cut_type=="antievtightfail" or cut_type=="etaufake2016_antievtightfail":
 			cuts = CutStringsDict.antievtightfail(channel, cut_type)
-		
+
 		elif cut_type=="antimuloosepass":
 			cuts = CutStringsDict.antimuloosepass(channel, cut_type)
 		elif cut_type=="antimuloosefail":
@@ -678,7 +679,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.antimutightpass(channel, cut_type)
 		elif cut_type=="antimutightfail":
 			cuts = CutStringsDict.antimutightfail(channel, cut_type)
-		
+
 		elif cut_type=="tauidloosepass":
 			cuts = CutStringsDict.tauidloosepass(channel, cut_type)
 		elif cut_type=="tauidloosefail":
@@ -695,7 +696,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.tauidvtightpass(channel, cut_type)
 		elif cut_type=="tauidvtightfail":
 			cuts = CutStringsDict.tauidvtightfail(channel, cut_type)
-		
+
 		elif cut_type=="tauescuts":
 			cuts = CutStringsDict.tauescuts(channel, cut_type)
 		elif cut_type=="tauescuts2016":
@@ -708,10 +709,10 @@ class CutStringsDict:
 			cuts = CutStringsDict.highMtSSControlRegionWJ(channel, cut_type)
 		elif "SameSignRegion" in cut_type:
 			cuts = CutStringsDict.SameSignRegion(channel, cut_type)
-		
+
 		elif "low_mvis_smhtt" in cut_type:
 			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
-		
+
 		elif cut_type=="cp2016":
 			cuts = CutStringsDict.cp2016(channel, cut_type)
 

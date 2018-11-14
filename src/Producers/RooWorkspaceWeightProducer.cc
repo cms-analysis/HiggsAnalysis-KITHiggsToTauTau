@@ -37,13 +37,15 @@ void RooWorkspaceWeightProducer::Init(setting_type const& settings, metadata_typ
 
 	TDirectory *savedir(gDirectory);
 	TFile *savefile(gFile);
-	TFile f(settings.GetRooWorkspace().c_str());
+	TFile f((settings.*GetRooWorkspace)().c_str());
 	gSystem->AddIncludePath("-I$ROOFITSYS/include");
 	m_workspace = (RooWorkspace*)f.Get("w");
 	f.Close();
 	gDirectory = savedir;
 	gFile = savefile;
-	// Load the names of the weight to be included from the workspace 
+
+
+	// Load the names of the weight to be included from the workspace
 	m_weightNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceWeightNames)()));
 	// Load all functions which can be used to retreive weights
 	std::map<int,std::vector<std::string>> objectNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceObjectNames)()));
@@ -63,12 +65,11 @@ void RooWorkspaceWeightProducer::Init(setting_type const& settings, metadata_typ
 	}
 }
 
-void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type & product, 
+void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type & product,
 	                     setting_type const& settings, metadata_type const& metadata) const
 {
-
 	for(auto weightNames:m_weightNames)
-	{			
+	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
 		for(size_t index = 0; index < weightNames.second.size(); index++)
 		{
@@ -102,6 +103,30 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 				{
 					args.push_back(1);
 				}
+				else if(arg=="gt1_pt")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					// std::cout << "leadingTau " << leadingTau.p4.Pt() << "\n";
+					args.push_back(leadingTau.p4.Pt());
+				}
+				else if(arg=="gt1_eta")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					// std::cout << "leadingTau " << leadingTau.p4.Eta() << "\n";
+					args.push_back(leadingTau.p4.Eta());
+				}
+				else if(arg=="gt2_pt")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					// std::cout << "trailingTau " << trailingTau.p4.Pt() << "\n";
+					args.push_back(trailingTau.p4.Pt());
+				}
+				else if(arg=="gt2_eta")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					// std::cout << "trailingTau " << trailingTau.p4.Eta() << "\n";
+					args.push_back(trailingTau.p4.Eta());
+				}
 			}
 			if ((weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly) ||
 			    (weightNames.second.at(index).find("emuQcd") != std::string::npos))
@@ -109,7 +134,7 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 				product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 			}
 			else
-			{	
+			{
 				product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 			}
 		}

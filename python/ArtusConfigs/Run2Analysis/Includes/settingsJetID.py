@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 class Jet_ID(dict):
 	def __init__(self, nickname):
 		self["JetID"] = "loose"
-		if re.search("Run2016|Spring16|Summer16", nickname):
+		if re.search("Run2016|Spring16|Summer16|Embedding2016", nickname):
 			self["JetIDVersion"] = "2016"
 		else:
 			self["JetIDVersion"] = "2015" 

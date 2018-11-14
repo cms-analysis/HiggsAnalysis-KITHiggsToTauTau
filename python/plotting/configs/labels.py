@@ -30,6 +30,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ztt_gen_dm_two"] = "Z #rightarrow #tau#tau, gen. 1h^{#pm} #geq2#pi^{0}"
 			self.labels_dict["ztt_gen_dm_ten"] = "Z #rightarrow #tau#tau, gen. 3h^{#pm}"
 			self.labels_dict["ztt_gen_dm_eleven"] = "Z #rightarrow #tau#tau, gen. 3h^{#pm} #geq1#pi^{0}"
+			self.labels_dict["ztt_emb"] = "Z #rightarrow #tau#tau (emb)"
 			self.labels_dict["zttpospol"] = "Z #rightarrow #tau_{R}^{#minus}#tau_{L}^{#plus}"
 			self.labels_dict["zttnegpol"] = "Z #rightarrow #tau_{L}^{#minus}#tau_{R}^{#plus}"
 			self.labels_dict["zttposcp"] = "Z #rightarrow #tau#tau, #psi_{2} > #frac{#pi}{4}"
@@ -67,21 +68,21 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["hww"] = "H #rightarrow WW"
 			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
 			self.labels_dict["ff"] = "Fake Factor"
-			
+
 			self.labels_dict["qqhsm125"] = "VBF 0^{#plus#plus}"
 			self.labels_dict["qqhps125"] = "VBF 0^{#minus#plus}"
-			self.labels_dict["qqhmm125"] = "VBF CPmix"			
+			self.labels_dict["qqhmm125"] = "VBF CPmix"
 			self.labels_dict["gghsm125"] = "GF 0^{#plus#plus}"
 			self.labels_dict["gghps125"] = "GF 0^{#minus#plus}"
-			self.labels_dict["gghmm125"] = "GF CPmix"		
+			self.labels_dict["gghmm125"] = "GF CPmix"
 
 			self.labels_dict["qqhjhusm125"] = "VBF 0^{#plus#plus}"
 			self.labels_dict["qqhjhups125"] = "VBF 0^{#minus#plus}"
-			self.labels_dict["qqhjhumm125"] = "VBF CPmix"			
+			self.labels_dict["qqhjhumm125"] = "VBF CPmix"
 			self.labels_dict["gghjhusm125"] = "GF 0^{#plus#plus}"
 			self.labels_dict["gghjhups125"] = "GF 0^{#minus#plus}"
-			self.labels_dict["gghjhumm125"] = "GF CPmix"	
-			
+			self.labels_dict["gghjhumm125"] = "GF CPmix"
+
 			self.labels_dict["httcpeven"] = "CP-even"
 			self.labels_dict["httcpmix"] = "CP-mix"
 			self.labels_dict["httcpodd"] = "CP-odd"
@@ -92,7 +93,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["cpodd_alt"] = "CP-odd"
 
 			self.labels_dict["channel_combined"] = "combined"
-			
+
 			self.labels_dict["channel_tt"] = "#tau_{h}#tau_{h}"
 			self.labels_dict["channel_mt"] = "#mu#tau_{h}"
 			self.labels_dict["channel_et"] = "e#tau_{h}"
@@ -108,12 +109,12 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_mt_nobtag"] = "#mu#tau_{h}, no b-tag"
 			self.labels_dict["channel_et_nobtag"] = "e#tau_{h}, no b-tag"
 			self.labels_dict["channel_em_nobtag"] = "e#mu, no b-tag"
-			
+
 			self.labels_dict["channel_em_oneprong"] = self.labels_dict["channel_em"]
 			self.labels_dict["channel_em_oneprong_1"] = self.labels_dict["channel_em"]
 			self.labels_dict["channel_em_oneprong_2"] = self.labels_dict["channel_em"]
 			self.labels_dict["channel_em_combined_oneprong_oneprong"] = self.labels_dict["channel_em"]
-			
+
 			self.labels_dict["channel_et_oneprong"] = "e#pi"
 			self.labels_dict["channel_et_oneprong_1"] = "e#tau_{h}"
 			self.labels_dict["channel_et_oneprong_2"] = "#pie"
@@ -126,7 +127,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_et_combined_a1_oneprong"] = "ea_{1}"
 			self.labels_dict["channel_et_combined_rho_oneprong"] = "e#rho"
 			self.labels_dict["channel_et_combined_oneprong_oneprong"] = "e#pi"
-			
+
 			self.labels_dict["channel_mt_oneprong"] = "#mu#pi"
 			self.labels_dict["channel_mt_oneprong_1"] = "#mu#tau_{h}"
 			self.labels_dict["channel_mt_oneprong_2"] = "#pi#mu"
@@ -139,7 +140,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_mt_combined_a1_oneprong"] = "#mua_{1}"
 			self.labels_dict["channel_mt_combined_rho_oneprong"] = "#mu#rho"
 			self.labels_dict["channel_mt_combined_oneprong_oneprong"] = "#mu#pi"
-			
+
 			self.labels_dict["channel_tt_oneprong"] = "#pi#tau_{h}+#tau_{h}#pi"
 			self.labels_dict["channel_tt_oneprong_1"] = "#pi#tau_{h}"
 			self.labels_dict["channel_tt_oneprong_2"] = "#tau_{h}#pi"
@@ -155,11 +156,11 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_tt_combined_rho_rho"] = "#rho#rho"
 			self.labels_dict["channel_tt_combined_rho_oneprong"] = "#rho#pi+#pi#rho"
 			self.labels_dict["channel_tt_combined_oneprong_oneprong"] = "#pi#pi"
-			
+
 			self.labels_dict["cat_oneprong"] = "#pi^{#pm} / l^{#pm}"
 			self.labels_dict["cat_rho"] = "#rho^{#pm} #rightarrow #pi^{#pm} #pi^{0}"
 			self.labels_dict["cat_a1"] = "a_{1}^{#pm} #rightarrow #pi^{#pm} #pi^{#pm} #pi^{#mp}"
-			
+
 			# Z->tautau polarisation labels
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
@@ -181,7 +182,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_lep1SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict["catZttPol13TeV_"+channel+"_index"] = ""
-				
+
 				for reco_fit in ["GenMatched", "Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
 					suffix = ""
 					if "M91" in reco_fit:
@@ -252,7 +253,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict["testZttPol13TeV_"+channel+"_combined_rho_oneprong"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
 
 				self.labels_dict["testZttPol13TeV_"+channel+"_combined_oneprong_oneprong"] = self.labels_dict[channel+"_polarisationCombinedOmegaBarSvfit"]
-			
+
 			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
 				self.labels_dict["channel_"+channel+"_0jet_inclusive"] = self.labels_dict["channel_"+channel]+": 0-Jet-inclusive"
 				self.labels_dict["channel_"+channel+"_0jet_low"] = self.labels_dict["channel_"+channel]+": 0-Jet-low"
@@ -370,7 +371,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tt_rhoNeutralChargedAsymmetry_2"] = "Trailing Tau (E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 			self.labels_dict["tt_visibleOverFullEnergy_1"] = "Leading Tau E_{vis}(#tau_{had}) / E_{#tau}"
 			self.labels_dict["tt_visibleOverFullEnergy_2"] = "Trailing Tau E_{vis}(#tau_{had}) / E_{#tau}"
-			
+
 			self.labels_dict["mt_decayMode_2"] = "Tau DM"
 			self.labels_dict["mt_genMatchedTau2DecayMode"] = "Generated Tau DM"
 			self.labels_dict["mt_eta_1"] = "Muon #eta"
@@ -451,7 +452,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_metProjectionPhi"] = "#nu_{#phi}"
 			self.labels_dict["mt_visibleOverFullEnergy_1"] = "E(#mu) / E_{#tau}"
 			self.labels_dict["mt_visibleOverFullEnergy_2"] = "E(#tau_{had}) / E_{#tau}"
-			
+
 			self.labels_dict["et_decayMode_2"] = "Tau DM"
 			self.labels_dict["et_genMatchedTau2DecayMode"] = "Generated Tau DM"
 			self.labels_dict["et_eta_1"] = "Electron #eta"
@@ -529,7 +530,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["et_metProjectionPhi"] = "#nu_{#phi}"
 			self.labels_dict["et_visibleOverFullEnergy_1"] = "E(e) / E_{#tau}"
 			self.labels_dict["et_visibleOverFullEnergy_2"] = "E(#tau_{had}) / E_{#tau}"
-			
+
 			self.labels_dict["em_eta_1"] = "Electron #eta"
 			self.labels_dict["em_eta_2"] = "Muon #eta"
 			self.labels_dict["em_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -605,7 +606,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["em_metProjectionPhi"] = "#nu_{#phi}"
 			self.labels_dict["em_visibleOverFullEnergy_1"] = "E(e) / E_{#tau}"
 			self.labels_dict["em_visibleOverFullEnergy_2"] = "E(#mu) / E_{#tau}"
-			
+
 			self.labels_dict["mm_eta_1"] = "Leading Muon #eta"
 			self.labels_dict["mm_eta_2"] = "Trailing Muon #eta"
 			self.labels_dict["mm_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -677,7 +678,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mm_metProjectionPhi"] = "#nu_{#phi}"
 			self.labels_dict["mm_visibleOverFullEnergy_1"] = "Leading Muon E(#mu) / E_{#tau}"
 			self.labels_dict["mm_visibleOverFullEnergy_2"] = "Trailing Muon E(#mu) / E_{#tau}"
-			
+
 			self.labels_dict["ee_eta_1"] = "Leading Electron #eta"
 			self.labels_dict["ee_eta_2"] = "Trailing Electron #eta"
 			self.labels_dict["ee_eta_ll"] = "#eta^{\\ell\\ell}"
@@ -749,7 +750,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ee_metProjectionPhi"] = "#nu_{#phi}"
 			self.labels_dict["ee_visibleOverFullEnergy_1"] = "Leading Electron E(e) / E_{#tau}"
 			self.labels_dict["ee_visibleOverFullEnergy_2"] = "Trailing Electron E(e) / E_{#tau}"
-			
+
 			for ch in ["ee_", "em_", "et_", "mm_", "mt_", "tt_"]:
 				self.labels_dict[ch+"TrainingSelectionValue"] = "N-Fold Split Variable"
 				self.labels_dict[ch+"all_vs_all"] = "BDT_{all}^{all}"
@@ -768,7 +769,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["BDT_ggh_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{ggH}"
 			self.labels_dict["BDT_vbf_zll"] = "BDT_{Z#rightarrow \\ell\\ell}^{vbf}"
 			self.labels_dict["BDT_vbf_ztt"] = "BDT_{Z#rightarrow#tau#tau}^{vbf}"
-			
+
 			for ch in ["em_", "et_", "mt_", "tt_"]:
 				self.labels_dict[ch+"melaProbCPEvenGGH"] = "MELA Prob_{0^{#minus}}^{ggH}"
 				self.labels_dict[ch+"melaProbCPOddGGH"] = "MELA Prob_{0^{#plus}}^{ggH}"
@@ -776,28 +777,28 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[ch+"melaProbCPEvenVBF"] = "MELA Prob_{0^{#minus}}^{VBF}"
 				self.labels_dict[ch+"melaProbCPOddVBF"] = "MELA Prob_{0^{#plus}}^{VBF}"
 				self.labels_dict[ch+"melaProbCPMixVBF"] = "MELA Prob_{0^{#pm}}^{VBF}"
-			
+
 				self.labels_dict[ch+"melaM125ProbCPEvenGGH"] = self.labels_dict[ch+"melaProbCPEvenGGH"].replace("MELA", "MELA_{m_{H}}")
 				self.labels_dict[ch+"melaM125ProbCPOddGGH"] = self.labels_dict[ch+"melaProbCPOddGGH"].replace("MELA", "MELA_{m_{H}}")
 				self.labels_dict[ch+"melaM125ProbCPMixGGH"] = self.labels_dict[ch+"melaProbCPMixGGH"].replace("MELA", "MELA_{m_{H}}")
 				self.labels_dict[ch+"melaM125ProbCPEvenVBF"] = self.labels_dict[ch+"melaProbCPEvenVBF"].replace("MELA", "MELA_{m_{H}}")
 				self.labels_dict[ch+"melaM125ProbCPOddVBF"] = self.labels_dict[ch+"melaProbCPOddVBF"].replace("MELA", "MELA_{m_{H}}")
 				self.labels_dict[ch+"melaM125ProbCPMixVBF"] = self.labels_dict[ch+"melaProbCPMixVBF"].replace("MELA", "MELA_{m_{H}}")
-				
+
 				self.labels_dict[ch+"melaDiscriminatorD0MinusGGH"] = "MELA D_{0^{#minus}}^{ggH}"
 				self.labels_dict[ch+"melaDiscriminatorDCPGGH"] = "MELA D_{CP}^{ggH}"
 				self.labels_dict[ch+"melaDiscriminatorD0MinusVBF"] = "MELA D_{0^{#minus}}^{VBF}"
 				self.labels_dict[ch+"melaDiscriminatorDCPVBF"] = "MELA D_{CP}^{VBF}"
 				self.labels_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"] = "MELA D_{0^{#minus}}^{ggH} #upoint sign #left(D_{CP}^{ggH}#right)"
 				self.labels_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"] = "MELA D_{0^{#minus}}^{VBF} #upoint sign #left(D_{CP}^{VBF}#right)"
-			
+
 				self.labels_dict[ch+"melaM125DiscriminatorD0MinusGGH"] = self.labels_dict[ch+"melaDiscriminatorD0MinusGGH"].replace("MELA", "MELA_{m_{H}}")
 				self.labels_dict[ch+"melaM125DiscriminatorDCPGGH"] = self.labels_dict[ch+"melaDiscriminatorDCPGGH"].replace("MELA", "MELA_{m_{H}}")
 				self.labels_dict[ch+"melaM125DiscriminatorD0MinusVBF"] = self.labels_dict[ch+"melaDiscriminatorD0MinusVBF"].replace("MELA", "MELA_{m_{H}}")
 				self.labels_dict[ch+"melaM125DiscriminatorDCPVBF"] = self.labels_dict[ch+"melaDiscriminatorDCPVBF"].replace("MELA", "MELA_{m_{H}}")
 				self.labels_dict[ch+"melaM125DiscriminatorD0MinusGGH_signDCP"] = self.labels_dict[ch+"melaDiscriminatorD0MinusGGH_signDCP"].replace("MELA", "MELA_{m_{H}}")
 				self.labels_dict[ch+"melaM125DiscriminatorD0MinusVBF_signDCP"] = self.labels_dict[ch+"melaDiscriminatorD0MinusVBF_signDCP"].replace("MELA", "MELA_{m_{H}}")
-			
+
 			for higgs_mass in xrange(90, 161, 5):
 				self.labels_dict["htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
@@ -843,7 +844,7 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["cpeven{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpeven"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["cpmix_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpmix_alt"]+" (#times {scale:d})".format(scale=scale)
 					self.labels_dict["cpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpodd_alt"]+" (#times {scale:d})".format(scale=scale)
-					
+
 			for higgs_mass in xrange(90, 3201, 10):
 				self.labels_dict["htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
@@ -872,10 +873,10 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["cpeven{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpeven"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["cpmix_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpmix_alt"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["cpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["cpodd_alt"]+" (\\times {scale:d})".format(scale=scale)
-			
+
 			for alias, label in self.labels_dict.items():
 				self.labels_dict[alias+"_large"] = "#scale[1.5]{"+label+"}"
-		
+
 		else:
 			self.labels_dict["totalbkg"] = "$\\mathrm{Exp.} unc.$"
 			self.labels_dict["data"] = "$\\mathrm{Data}$"
@@ -907,17 +908,17 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["susycpodd_alt"] = "CP-odd"
 			self.labels_dict["qqhsm125"] = "VBF 0^{#plus#plus}"
 			self.labels_dict["qqhps125"] = "VBF 0^{#minus#plus}"
-			self.labels_dict["qqhmm125"] = "VBF CPmix"			
+			self.labels_dict["qqhmm125"] = "VBF CPmix"
 			self.labels_dict["gghsm125"] = "GF 0^{#plus#plus}"
 			self.labels_dict["gghps125"] = "GF 0^{#minus#plus}"
-			self.labels_dict["gghmm125"] = "GF CPmix"		
+			self.labels_dict["gghmm125"] = "GF CPmix"
 
 			self.labels_dict["qqhjhusm125"] = "VBF 0^{#plus#plus}"
 			self.labels_dict["qqhjhups125"] = "VBF 0^{#minus#plus}"
-			self.labels_dict["qqhjhumm125"] = "VBF CPmix"			
+			self.labels_dict["qqhjhumm125"] = "VBF CPmix"
 			self.labels_dict["gghjhusm125"] = "GF 0^{#plus#plus}"
 			self.labels_dict["gghjhups125"] = "GF 0^{#minus#plus}"
-			self.labels_dict["gghjhumm125"] = "GF CPmix"			
+			self.labels_dict["gghjhumm125"] = "GF CPmix"
 
 			self.labels_dict["channel_tt"] = "$\\tau_{\\mathrm{h}}\\tau_{\\mathrm{h}}$"
 			self.labels_dict["channel_mt"] = "$\\mu\\tau_{\\mathrm{h}}$"
@@ -1446,7 +1447,7 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["httcpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpodd"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susycpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susycpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd_alt"]+" (\\times {scale:d})".format(scale=scale)
-					
+
 			for higgs_mass in xrange(90, 3201, 10):
 				self.labels_dict["htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["htt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["ggh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["ggh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
