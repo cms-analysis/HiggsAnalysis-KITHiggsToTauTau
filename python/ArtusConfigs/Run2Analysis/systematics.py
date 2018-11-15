@@ -19,16 +19,21 @@ class Systematics_Config(dict):
 		self["MetUncertaintyType"] = ""
 		self["SvfitCacheFileFolder"] = "nominal"
 		self["TauElectronFakeEnergyCorrection"] = 1.0
-		self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 1.0
-		self["TauElectronFakeEnergyCorrectionOneProngShift"] = 1.0
-		self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.0
-		self["TauEnergyCorrectionOneProngShift"] = 1.0
-		self["TauEnergyCorrectionShift"] = 1.0
-		self["TauEnergyCorrectionThreeProngShift"] = 1.0
+
+		self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 0.0
+		self["TauElectronFakeEnergyCorrectionOneProngShift"] = 0.0
+
+		self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.0
+		self["TauEnergyCorrectionOneProngShift"] = 0.0
+		self["TauEnergyCorrectionShift"] = 0.0
+		self["TauEnergyCorrectionThreeProngShift"] = 0.0
+
 		self["TauJetFakeEnergyCorrection"] = 0.0
-		self["TauMuonFakeEnergyCorrection"] = 1.0
-		self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 1.0
-		self["TauMuonFakeEnergyCorrectionOneProngShift"] = 1.0
+
+		self["TauMuonFakeEnergyCorrection"] = 0.0
+
+		self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 0.0
+		self["TauMuonFakeEnergyCorrectionOneProngShift"] = 0.0
 
 
 	#for each systematic shift if statement which changes the config accordingly
@@ -134,7 +139,7 @@ class Systematics_Config(dict):
 					self["TauElectronFakeEnergyCorrection"] = 1.0
 					self["SvfitCacheFileFolder"] = "nominal"
 
-			elif systematic_uncertainty == "tauMuFakeEsUp":
+			elif systematic_uncertainty == "tauMuFakeEsUp": #FIXME also taucorrectionsproducer
 				if re.search("(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))", nickname):
 					self["TauMuonFakeEnergyCorrection"] = 1.015
 					self["SvfitCacheFileFolder"] = "tauMuFakeEsUp"
@@ -142,7 +147,7 @@ class Systematics_Config(dict):
 					self["TauMuonFakeEnergyCorrection"] = 1.0
 					self["SvfitCacheFileFolder"] = "nominal"
 
-			elif systematic_uncertainty == "tauMuFakeEsDown":
+			elif systematic_uncertainty == "tauMuFakeEsDown": #FIXME also taucorrectionsproducer
 				if re.search("(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))", nickname):
 					self["TauMuonFakeEnergyCorrection"] = 0.985
 					self["SvfitCacheFileFolder"] = "tauMuFakeEsDown"
@@ -152,60 +157,60 @@ class Systematics_Config(dict):
 
 			elif systematic_uncertainty == "tauMuFakeEsOneProngUp":
 				if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
-					self["TauMuonFakeEnergyCorrectionOneProngShift"] = 1.015
+					self["TauMuonFakeEnergyCorrectionOneProngShift"] = 0.015
 					self["SvfitCacheFileFolder"] = "tauMuFakeEsOneProngUp"
 				else:
-					self["TauMuonFakeEnergyCorrectionOneProngShift"] = 1.0
+					self["TauMuonFakeEnergyCorrectionOneProngShift"] = 0.0
 					self["SvfitCacheFileFolder"] = "nominal"
 
 			elif systematic_uncertainty == "tauMuFakeEsOneProngDown":
 				if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
-					self["TauMuonFakeEnergyCorrectionOneProngShift"] = 0.985
+					self["TauMuonFakeEnergyCorrectionOneProngShift"] = -0.015
 					self["SvfitCacheFileFolder"] = "tauMuFakeEsOneProngDown"
 				else:
-					self["TauMuonFakeEnergyCorrectionOneProngShift"] = 1.0
+					self["TauMuonFakeEnergyCorrectionOneProngShift"] = 0.0
 					self["SvfitCacheFileFolder"] = "nominal"
 
 			elif systematic_uncertainty == "tauMuFakeEsOneProngPiZerosUp":
-					self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 1.015
+					self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 0.015
 					self["SvfitCacheFileFolder"] =  "tauMuFakeEsOneProngPiZerosUp"
 			elif systematic_uncertainty == "tauMuFakeEsOneProngPiZerosDown":
-					self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 0.985
+					self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = -0.015
 					self["SvfitCacheFileFolder"] =  "tauMuFakeEsOneProngPiZerosDown"
 
 			elif systematic_uncertainty == "tauEleFakeEsOneProngUp":
 				if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
-					self["TauElectronFakeEnergyCorrectionOneProngShift"] = 1.03
+					self["TauElectronFakeEnergyCorrectionOneProngShift"] = 0.03
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsOneProngUp"
 				else:
-					self["TauElectronFakeEnergyCorrectionOneProngShift"] = 1.0
+					self["TauElectronFakeEnergyCorrectionOneProngShift"] = 0.0
 					self["SvfitCacheFileFolder"] = "nominal"
 
 			elif systematic_uncertainty == "tauEleFakeEsOneProngDown":
 				if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
-					self["TauElectronFakeEnergyCorrectionOneProngShift"] = 0.97
+					self["TauElectronFakeEnergyCorrectionOneProngShift"] = -0.03
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsOneProngDown"
 				else:
-					self["TauElectronFakeEnergyCorrectionOneProngShift"] = 1.0
+					self["TauElectronFakeEnergyCorrectionOneProngShift"] = 0.0
 					self["SvfitCacheFileFolder"] = "nominal"
 
 			elif systematic_uncertainty == "tauEleFakeEsOneProngPiZerosUp":
 				if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
-					self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 1.03
+					self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 0.03
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsOneProngPiZerosUp"
 				else:
-					self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 1.0
+					self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 0.0
 					self["SvfitCacheFileFolder"] = "nominal"
 			elif systematic_uncertainty == "tauEleFakeEsOneProngPiZerosDown":
 				if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
-					self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 0.97
+					self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = -0.03
 					self["SvfitCacheFileFolder"] = "tauEleFakeEsOneProngPiZerosDown"
 				else:
-					self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 1.0
+					self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 0.0
 					self["SvfitCacheFileFolder"] = "nominal"
 			
 			#caution tauEs splitted for several nicknames/files
-			elif systematic_uncertainty == "tauEsUp":
+			elif systematic_uncertainty == "tauEsUp": #FIXME als htttaucorrectionsproducer
 				if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
 					self["TauEnergyCorrectionShift"] = 1.03
 				elif re.search("Embedding2016", nickname):
@@ -219,7 +224,7 @@ class Systematics_Config(dict):
 					self["SvfitCacheFileFolder"] = "tauEsUp"
 				else:
 					self["SvfitCacheFileFolder"] = "nominal"
-			elif systematic_uncertainty == "tauEsDown":
+			elif systematic_uncertainty == "tauEsDown": #FIXME also taucorrectionsproducer
 				if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
 					self["TauEnergyCorrectionShift"] = 0.97
 				elif re.search("Embedding2016", nickname):
@@ -236,13 +241,13 @@ class Systematics_Config(dict):
 
 			elif systematic_uncertainty == "tauEsOneProngUp":
 				if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
-					self["TauEnergyCorrectionOneProngShift"] = 1.03
+					self["TauEnergyCorrectionOneProngShift"] = 0.03
 				elif re.search("Embedding2016", nickname):
-					self["TauEnergyCorrectionOneProngShift"] = 1.03
+					self["TauEnergyCorrectionOneProngShift"] = 0.012
 				elif re.search("Spring16|Summer16", nickname):
-					self["TauEnergyCorrectionOneProngShift"] = 1.012
+					self["TauEnergyCorrectionOneProngShift"] = 0.012
 				else:
-					self["TauEnergyCorrectionOneProngShift"] = 1.0
+					self["TauEnergyCorrectionOneProngShift"] = 0.0
 
 				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
@@ -251,13 +256,13 @@ class Systematics_Config(dict):
 
 			elif systematic_uncertainty == "tauEsOneProngDown":
 				if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
-					self["TauEnergyCorrectionOneProngShift"] = 0.97
+					self["TauEnergyCorrectionOneProngShift"] = -0.03
 				elif re.search("Embedding2016", nickname):
-					self["TauEnergyCorrectionOneProngShift"] = 0.97
+					self["TauEnergyCorrectionOneProngShift"] = -0.012
 				elif re.search("Spring16|Summer16", nickname):
-					self["TauEnergyCorrectionOneProngShift"] = 0.988
+					self["TauEnergyCorrectionOneProngShift"] = -0.012
 				else:
-					self["TauEnergyCorrectionOneProngShift"] = 1.0
+					self["TauEnergyCorrectionOneProngShift"] = 0.0
 
 				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"
@@ -266,13 +271,13 @@ class Systematics_Config(dict):
 		
 			elif systematic_uncertainty == "tauEsOneProngPiZerosUp":
 				if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
-					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.03
+					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.03
 				elif re.search("Embedding2016", nickname):
-					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.03
+					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.03
 				elif re.search("Spring16|Summer16", nickname):
-					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.012
+					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.012
 				else:
-					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.0
+					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.0
 				
 				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosUp"
@@ -281,13 +286,13 @@ class Systematics_Config(dict):
 
 			elif systematic_uncertainty == "tauEsOneProngPiZerosDown":
 				if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
-					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.97
+					self["TauEnergyCorrectionOneProngPiZerosShift"] = -0.03
 				elif re.search("Embedding2016", nickname):
-					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.97
+					self["TauEnergyCorrectionOneProngPiZerosShift"] = -0.012
 				elif re.search("Spring16|Summer16", nickname):
-					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.988
+					self["TauEnergyCorrectionOneProngPiZerosShift"] = -0.012
 				else:
-					self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.0
+					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.0
 				
 
 				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
@@ -297,13 +302,13 @@ class Systematics_Config(dict):
 
 			elif systematic_uncertainty == "tauEsThreeProngUp":
 				if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
-					self["TauEnergyCorrectionThreeProngShift"] = 1.03
+					self["TauEnergyCorrectionThreeProngShift"] = 0.03
 				elif re.search("Embedding2016", nickname):
-					self["TauEnergyCorrectionThreeProngShift"] = 1.03
+					self["TauEnergyCorrectionThreeProngShift"] = 0.012
 				elif re.search("Spring16|Summer16", nickname):
-					self["TauEnergyCorrectionThreeProngShift"] = 1.012
+					self["TauEnergyCorrectionThreeProngShift"] = 0.012
 				else:
-					self["TauEnergyCorrectionThreeProngShift"] = 1.0
+					self["TauEnergyCorrectionThreeProngShift"] = 0.0
 
 
 				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
@@ -313,13 +318,13 @@ class Systematics_Config(dict):
 
 			elif systematic_uncertainty == "tauEsThreeProngDown":
 				if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
-					self["TauEnergyCorrectionThreeProngShift"] = 0.97
+					self["TauEnergyCorrectionThreeProngShift"] = -0.03
 				elif re.search("Embedding2016", nickname):
-					self["TauEnergyCorrectionThreeProngShift"] = 0.97
+					self["TauEnergyCorrectionThreeProngShift"] = -0.012
 				elif re.search("Spring16|Summer16", nickname):
-					self["TauEnergyCorrectionThreeProngShift"] = 0.988
+					self["TauEnergyCorrectionThreeProngShift"] = -0.012
 				else:
-					self["TauEnergyCorrectionThreeProngShift"] = 1.0
+					self["TauEnergyCorrectionThreeProngShift"] = 0.0
 
 				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsThreeProngDown"
@@ -353,14 +358,19 @@ class Systematics_Config(dict):
 		self["MetUncertaintyType"] = ""
 		self["SvfitCacheFileFolder"] = "nominal"
 		self["TauElectronFakeEnergyCorrection"] = 1.0
-		self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 1.0
-		self["TauElectronFakeEnergyCorrectionOneProngShift"] = 1.0
-		self["TauEnergyCorrectionOneProngPiZerosShift"] = 1.0
-		self["TauEnergyCorrectionOneProngShift"] = 1.0
-		self["TauEnergyCorrectionShift"] = 1.0
-		self["TauEnergyCorrectionThreeProngShift"] = 1.0
+
+		self["TauElectronFakeEnergyCorrectionOneProngPiZerosShift"] = 0.0
+		self["TauElectronFakeEnergyCorrectionOneProngShift"] = 0.0
+
+		self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.0
+		self["TauEnergyCorrectionOneProngShift"] = 0.0
+		self["TauEnergyCorrectionShift"] = 0.0
+		self["TauEnergyCorrectionThreeProngShift"] = 0.0
+
 		self["TauJetFakeEnergyCorrection"] = 0.0
-		self["TauMuonFakeEnergyCorrection"] = 1.0
-		self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 1.0
-		self["TauMuonFakeEnergyCorrectionOneProngShift"] = 1.0
+
+		self["TauMuonFakeEnergyCorrection"] = 0.0
+
+		self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 0.0
+		self["TauMuonFakeEnergyCorrectionOneProngShift"] = 0.0
 

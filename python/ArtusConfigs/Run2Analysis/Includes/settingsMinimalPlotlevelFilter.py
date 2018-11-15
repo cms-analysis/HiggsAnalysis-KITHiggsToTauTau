@@ -36,6 +36,7 @@ class MinimalPlotlevelFilter():
 			"extraelec_veto",
 			"againstMuonTight3_2",
 			"extramuon_veto",
+			"byVLooseIsolationMVArun2v1DBoldDMwLT_2",
 			"nDiMuonVetoPairsOS"
 			]
 

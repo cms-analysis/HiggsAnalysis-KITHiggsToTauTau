@@ -74,16 +74,42 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			float tauEnergyCorrectionOneProngPiZeros = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZeros();
 			float tauEnergyCorrectionThreeProng = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProng();
 			float tauEnergyCorrectionThreeProngPiZeros = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProngPiZeros();
+			
+			//float tauEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionShift();
+			float tauEnergyCorrectionOneProngShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngShift();
+			float tauEnergyCorrectionOneProngPiZerosShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZerosShift();
+			float tauEnergyCorrectionThreeProngShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProngShift();
+
+
 			if (tau->decayMode == 0 && tauEnergyCorrectionOneProng != 1.0)
 			{
+				if (tauEnergyCorrectionOneProngShift != 0.0)
+				{
+					tauEnergyCorrectionOneProng += tauEnergyCorrectionOneProngShift;
+					//TODO cached svfit cache, has to rerun				
+				}
+				LOG(DEBUG) << "tauEnergyCorrectionOneProng:    " << tauEnergyCorrectionOneProng << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionOneProng;
 			}
 			else if ((tau->decayMode == 1 || tau->decayMode == 2) && tauEnergyCorrectionOneProngPiZeros != 1.0)
 			{
+				if (tauEnergyCorrectionOneProngPiZerosShift != 0.0)
+				{
+					tauEnergyCorrectionOneProngPiZeros += tauEnergyCorrectionOneProngPiZerosShift;
+					//TODO cached svfit cache, has to rerun				
+				}
+				LOG(DEBUG) << "tauEnergyCorrectionOneProngPiZeros:    " << tauEnergyCorrectionOneProngPiZeros << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionOneProngPiZeros;
 			}
 			else if (tau->decayMode == 10 && tauEnergyCorrectionThreeProng != 1.0)
 			{
+				if (tauEnergyCorrectionThreeProngShift != 0.0)
+				{
+					tauEnergyCorrectionThreeProng += tauEnergyCorrectionThreeProngShift;
+					//TODO cached svfit cache, has to rerun				
+				}
+
+				LOG(DEBUG) << "tauEnergyCorrectionThreeProng:    " << tauEnergyCorrectionThreeProng << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionThreeProng;
 			}
 			else if(tauEnergyCorrection == TauEnergyCorrection::SMHTT2017 && tau->decayMode >= 11 && tauEnergyCorrectionThreeProngPiZeros != 1.0)
@@ -97,16 +123,39 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			float tauMuonFakeEnergyCorrectionOneProng = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionOneProng();
 			float tauMuonFakeEnergyCorrectionOneProngPiZeros = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionOneProngPiZeros();
 			float tauMuonFakeEnergyCorrectionThreeProng = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionThreeProng();
-			if (tau->decayMode == 0 && tauMuonFakeEnergyCorrectionOneProng != 1.0)
+
+			//float tauMuonFakeEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionShift();
+			float tauMuonFakeEnergyCorrectionOneProngShift = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionOneProngShift();
+			float tauMuonFakeEnergyCorrectionOneProngPiZerosShift = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionOneProngPiZerosShift();
+			float tauMuonFakeEnergyCorrectionThreeProngShift = static_cast<HttSettings const&>(settings).GetTauMuonFakeEnergyCorrectionThreeProngShift();
+			if (tau->decayMode == 0) //&& tauMuonFakeEnergyCorrectionOneProng != 1.0
 			{
+				if (tauMuonFakeEnergyCorrectionOneProngShift != 0.0)
+				{
+					tauMuonFakeEnergyCorrectionOneProng += tauMuonFakeEnergyCorrectionOneProngShift;
+					//TODO cached svfit cache, has to rerun				
+				}
+				LOG(DEBUG) << "tauMuonFakeEnergyCorrectionOneProng:    " << tauMuonFakeEnergyCorrectionOneProng << std::endl;
 				tau->p4 = tau->p4 * tauMuonFakeEnergyCorrectionOneProng;
 			}
-			else if ((tau->decayMode == 1 || tau->decayMode == 2) && tauMuonFakeEnergyCorrectionOneProngPiZeros != 1.0)
+			else if ((tau->decayMode == 1 || tau->decayMode == 2)) //&& tauMuonFakeEnergyCorrectionOneProngPiZeros != 1.0
 			{
+				if (tauMuonFakeEnergyCorrectionOneProngPiZerosShift != 0.0)
+				{
+					tauMuonFakeEnergyCorrectionOneProngPiZeros += tauMuonFakeEnergyCorrectionOneProngPiZerosShift;
+					//TODO cached svfit cache, has to rerun				
+				}
+				LOG(DEBUG) << "tauMuonFakeEnergyCorrectionOneProngPiZeros:    " << tauMuonFakeEnergyCorrectionOneProngPiZeros << std::endl;
 				tau->p4 = tau->p4 * tauMuonFakeEnergyCorrectionOneProngPiZeros;
 			}
 			else if (tau->decayMode == 10 && tauMuonFakeEnergyCorrectionThreeProng != 1.0)
 			{
+				if (tauMuonFakeEnergyCorrectionThreeProngShift != 0.0)
+				{
+					tauMuonFakeEnergyCorrectionThreeProng += tauMuonFakeEnergyCorrectionThreeProngShift;
+					//TODO cached svfit cache, has to rerun				
+				}
+				LOG(DEBUG) << "tauMuonFakeEnergyCorrectionThreeProng:    " << tauMuonFakeEnergyCorrectionThreeProng << std::endl;
 				tau->p4 = tau->p4 * tauMuonFakeEnergyCorrectionThreeProng;
 			}
 		}
@@ -115,16 +164,40 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			float tauElectronFakeEnergyCorrectionOneProng = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProng();
 			float tauElectronFakeEnergyCorrectionOneProngPiZeros = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProngPiZeros();
 			float tauElectronFakeEnergyCorrectionThreeProng = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionThreeProng();
-			if (tau->decayMode == 0 && tauElectronFakeEnergyCorrectionOneProng != 1.0)
+
+			//float tauElectronFakeEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionShift();
+			float tauElectronFakeEnergyCorrectionOneProngShift = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProngShift();
+			float tauElectronFakeEnergyCorrectionOneProngPiZerosShift = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionOneProngPiZerosShift();
+			float tauElectronFakeEnergyCorrectionThreeProngShift = static_cast<HttSettings const&>(settings).GetTauElectronFakeEnergyCorrectionThreeProngShift();
+
+			if (tau->decayMode == 0) // && tauElectronFakeEnergyCorrectionOneProng != 1.0
 			{
+				if (tauElectronFakeEnergyCorrectionOneProngShift != 0.0)
+				{
+					tauElectronFakeEnergyCorrectionOneProng += tauElectronFakeEnergyCorrectionOneProngShift;
+					//TODO cached svfit cache, has to rerun				
+				}
+				LOG(DEBUG) << "tauElectronFakeEnergyCorrectionOneProng:    " << tauElectronFakeEnergyCorrectionOneProng << std::endl;
 				tau->p4 = tau->p4 * tauElectronFakeEnergyCorrectionOneProng;
 			}
-			else if ((tau->decayMode == 1 || tau->decayMode == 2) && tauElectronFakeEnergyCorrectionOneProngPiZeros != 1.0)
+			else if ((tau->decayMode == 1 || tau->decayMode == 2) ) //&& tauElectronFakeEnergyCorrectionOneProngPiZeros != 1.0
 			{
+				if (tauElectronFakeEnergyCorrectionOneProngPiZerosShift != 0.0)
+				{
+					tauElectronFakeEnergyCorrectionOneProngPiZeros += tauElectronFakeEnergyCorrectionOneProngPiZerosShift;
+					//TODO cached svfit cache, has to rerun				
+				}
+				LOG(DEBUG) << "tauElectronFakeEnergyCorrectionOneProngPiZeros:    " << tauElectronFakeEnergyCorrectionOneProngPiZeros << std::endl;
 				tau->p4 = tau->p4 * tauElectronFakeEnergyCorrectionOneProngPiZeros;
 			}
-			else if (tau->decayMode == 10 && tauElectronFakeEnergyCorrectionThreeProng != 1.0)
+			else if (tau->decayMode == 10) // && tauElectronFakeEnergyCorrectionThreeProng != 1.0
 			{
+				if (tauElectronFakeEnergyCorrectionThreeProngShift != 0.0)
+				{
+					tauElectronFakeEnergyCorrectionThreeProng += tauElectronFakeEnergyCorrectionThreeProngShift;
+					//TODO cached svfit cache, has to rerun				
+				}
+				LOG(DEBUG) << "tauElectronFakeEnergyCorrectionThreeProng:    " << tauElectronFakeEnergyCorrectionThreeProng << std::endl;
 				tau->p4 = tau->p4 * tauElectronFakeEnergyCorrectionThreeProng;
 			}
 		}
@@ -163,7 +236,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	{
 		LOG(FATAL) << "Tau energy correction of type " << Utility::ToUnderlyingValue(tauEnergyCorrection) << " not yet implemented!";
 	}
-	
+	/* if no objection this is wrong and will be deleted
 	// -------------------------------------
 	// tau energy scale shifts
 	float tauEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionShift();
@@ -309,6 +382,9 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		}
 	}
 	// -------------------------------------
+
+	*/
+
 	// jet->tau fake energy scale shifts
 	float tauJetFakeEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauJetFakeEnergyCorrection();
 	if (tauJetFakeEnergyCorrectionShift != 0.0)

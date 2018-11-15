@@ -420,6 +420,19 @@ class et_ArtusConfig(dict):
 		self["DiTauPairIsTauIsoMVA"] = True
 
 		self["EventWeight"] =  "eventWeight"
+		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		self["RooWorkspaceWeightNames"] = [
+			"0:triggerWeight",
+			"0:idIsoWeight"
+		]
+		self["RooWorkspaceObjectNames"] = [
+			"0:e_trgEle25eta2p1WPTight_desy_ratio",
+			"0:e_idiso0p1_desy_ratio"
+		]
+		self["RooWorkspaceObjectArguments"] = [
+			"0:e_pt,e_eta",
+			"0:e_pt,e_eta"
+		]
 
 		if re.search("(Run2017|Summer17|Fall17)", nickname):
 			#self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_1.root"

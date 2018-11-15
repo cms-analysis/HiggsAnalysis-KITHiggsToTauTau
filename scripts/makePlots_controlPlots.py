@@ -138,7 +138,7 @@ if __name__ == "__main__":
 						help="integration background nicks [Default:%(default)s]")
 	parser.add_argument("--full-integral", action="store_true",
 						help="calculate full integral of all histograms and write to file")
-	parser.add_argument("-ff", "--fakefactor-method", choices = ["standard", "comparison"],
+	parser.add_argument("-ff", "--fakefactor-method", default=False, action="store_true",
 			help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
 	parser.add_argument("--scale-mc-only", default="1.0",
                         help="scales only MC events. [Default: %(default)s]")
@@ -277,12 +277,7 @@ if __name__ == "__main__":
 				args.lumi = samples.default_lumi/1000.0
 		else:
 			log.critical("Invalid era string selected: " + args.era)
-			sys.exit(1)
-
-	if args.fakefactor_method is not None:
-		if args.era == "2015":
-			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
-		
+			sys.exit(1)	
 			
 	if args.shapes:
 		args.ratio = False
@@ -318,7 +313,7 @@ if __name__ == "__main__":
 
 	sig_samples = []
 	for mass in args.higgs_masses:
-		scale_str = ""#"_%i"%args.scale_signal
+		scale_str = "_%i"%args.scale_signal
 		if int(args.scale_signal) == 1:
 			scale_str = ""
 		for sample in sig_samples_raw:
@@ -351,7 +346,7 @@ if __name__ == "__main__":
 		global_category_string = "catLFV13TeV"
 	elif args.polarisation:
 		global_category_string = "catZttPol13TeV"
-		global_cut_type = "baseline_low_mvis"
+		global_cut_type = "low_mvis_smhtt"
 	elif args.taues:
 		global_cut_type = "tauescuts"
 	elif args.cp:
@@ -479,11 +474,6 @@ if __name__ == "__main__":
 				x_expression = json_config.pop("x_expressions", [quantity])
 				config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 				config["category"] = category
-				
-				for i in range(len(config["files"])):
-						if config["files"][i] == None:
-							print i
-							print config["nicks"][i]
 
 				# Introduced due to missing samples in 2017 MCv1, can be removed when 2017 MCv2 samples are out, and samples_rnu2_2017.py script is updated correspondingly.		
 				"""
@@ -565,7 +555,7 @@ if __name__ == "__main__":
 							config.setdefault("analysis_modules", []).append(analysis_module)
 						
 				if args.ratio:
-					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
+					bkg_samples_used = [nick for nick in bkg_samples if (nick in config["nicks"] or nick == "ff")]
 					if "Ratio" not in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])
