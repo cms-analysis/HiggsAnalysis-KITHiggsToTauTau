@@ -17,7 +17,8 @@ void JetToTauFakesProducer::Init(setting_type const& settings, metadata_type& me
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
 
-	std::map<std::string,std::vector<std::string>> ffFiles = Utility::ParseMapTypes<std::string,std::string>(Utility::ParseVectorToMap(settings.GetFakeFaktorFiles()));
+	std::string ffFile = settings.GetFakeFaktorFile();
+
 
 	std::string ffFractionsWorkSpaceFile = settings.GetFakeFactorFractionsRooWorkspaceFile();
 	fakefactormethod = settings.GetFakeFactorMethod(); //TODO change this to enumtype
@@ -38,38 +39,26 @@ void JetToTauFakesProducer::Init(setting_type const& settings, metadata_type& me
 
 	TDirectory *savedir(gDirectory);
 	TFile *savefile(gFile);
-
-	// Save some time by excluding not needed samples (e.g. HTauTau)
-	m_applyFakeFactors = boost::regex_search(settings.GetNickname(), boost::regex("^(Single|MuonEG|Tau|Double|DY|TT|ST|WW|WZ|ZZ|VV)", boost::regex::icase | boost::regex::extended));
-	
-
 	
 	#if ROOT_VERSION_CODE < ROOT_VERSION(6,0,0)
 	gROOT->ProcessLine("#include <map>");
 	#endif
 
-    
 	TFile f(ffFractionsWorkSpaceFile.c_str());
 	m_workspace = (RooWorkspace*)f.Get("w");;
 	f.Close();
 
-
-	
 	for(auto ff_function: ff_functions)
 	{	
 		fns_fractions[ff_function.first] = std::shared_ptr<RooFunctor>(
 			m_workspace->function(ff_function.second[0].c_str())->functor(m_workspace->argSet(ff_function_variables.c_str())));
 	}
 
-
-	for(auto ffFile: ffFiles)
-	{
-		TFile* ffTFile = new TFile(ffFile.second.at(0).c_str(), "READ");
-		FakeFactor* ff = (FakeFactor*)ffTFile->Get("ff_comb");
-		m_ffComb[ffFile.first] = std::shared_ptr<FakeFactor>(ff);
-		ffTFile->Close();
-		delete ffTFile;
-	}
+	TFile* ffTFile = TFile::Open(ffFile.c_str(), "READ");
+	FakeFactor* ff = (FakeFactor*)ffTFile->Get("ff_comb");
+	m_ffComb["inclusive"] = std::shared_ptr<FakeFactor>(ff);
+	ffTFile->Close();
+	delete ffTFile;
 	
 	gDirectory = savedir;
 	gFile = savefile;

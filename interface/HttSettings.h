@@ -388,7 +388,7 @@ public:
 	IMPL_SETTING(std::string, ZptReweightProducerWeights);
 
 	// settings for JetToTauFakesProducer
-	IMPL_SETTING_STRINGLIST_DEFAULT(FakeFaktorFiles, {});  //You can see that a german implemented this...
+	IMPL_SETTING(std::string, FakeFaktorFile);  //You can see that a german implemented this...
 	IMPL_SETTING(std::string, FakeFactorFractionsRooWorkspaceFile);
 	IMPL_SETTING(std::string, FakeFactorMethod);
 	IMPL_SETTING_STRINGLIST_DEFAULT(FakeFactorRooWorkspaceFunction, {});

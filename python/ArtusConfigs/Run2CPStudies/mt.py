@@ -278,7 +278,7 @@ class mt_ArtusConfig(dict):
 
 		if re.search("Run2016|Spring16|Summer16", nickname):
 			#settings for jetstotaufakesproducer
-			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data/SM2016_ML/tight/mt/fakeFactors_20180831_tight.root"]
+			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/mt/fakeFactors_20180831_tight.root"
 			self["FakeFactorMethod"] = "cp2016"
 			self["FakeFactorRooWorkspaceFunction"] = [
 				"w_fracs:w_mt_fracs",
