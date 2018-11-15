@@ -194,6 +194,8 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the polarisation analysis. [Default: %(default)s]")
 	parser.add_argument("--smhtt", default=False, action="store_true",
 	                    help="Produce the plots for the SM HTT analysis. [Default: %(default)s]")
+	parser.add_argument("--cpggh", default=False, action="store_true",
+			    help="Produce plots for the Higgs CP ggH analysis. [Default: %(default)s]")
 	parser.add_argument("--cp", default=False, action="store_true",
 	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")  #TODO instead of 3 different boolean flag, change to option with 3 possible values
 	parser.add_argument("--cprho", default=False, action="store_true",
@@ -313,9 +315,10 @@ if __name__ == "__main__":
 	else:
 		bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "qqh", "vh"]]
 		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "qqh", "vh", "gghjhusm", "gghjhumm", "gghjhups", "qqhjhusm", "qqhjhumm", "qqhjhups"]]
+
 	sig_samples = []
 	for mass in args.higgs_masses:
-		scale_str = "_%i"%args.scale_signal
+		scale_str = ""#"_%i"%args.scale_signal
 		if int(args.scale_signal) == 1:
 			scale_str = ""
 		for sample in sig_samples_raw:
@@ -366,10 +369,14 @@ if __name__ == "__main__":
 	if args.era == "2016":
 		if args.smhtt:
 			global_cut_type = "smhtt"
+		if args.cpggh:
+			global_cut_type = "cpggh"
 		global_cut_type += "2016"
 	elif args.era == "2017":
 		if args.smhtt:
 			global_cut_type = "smhtt"
+		if args.cpggh:
+			global_cut_type = "cpggh"
 		global_cut_type += "2017"
 
 	if args.channel_comparison:
@@ -426,6 +433,7 @@ if __name__ == "__main__":
 
 				json_config = {}
 				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity + ".json") for channel_dir in [channel, "default"]]
+
 				for json_filename in json_filenames:
 					json_filename = os.path.expandvars(json_filename)
 					if os.path.exists(json_filename):
@@ -434,7 +442,7 @@ if __name__ == "__main__":
 
 				quantity = json_config.pop("x_expressions", [quantity])[0]
 				weight = args.weights[index_channel if args.channel_comparison else index_quantity]
-				
+
 				config = sample_settings.get_config(
 						samples = list_of_samples,
 						channel = channel,
