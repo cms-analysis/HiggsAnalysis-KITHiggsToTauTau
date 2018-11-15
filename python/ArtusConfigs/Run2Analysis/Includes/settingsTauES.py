@@ -9,6 +9,8 @@ import re
 
 class TauES(dict):
 	def __init__(self, nickname):
+	#HttTauCorrectionsProducer.cc in kithiggs
+	#tau.p4*shiftvalue     shiftvalue = 1. means no shift
 		if re.search("(Spring16|Summer16)",nickname):
 			self["TauEnergyCorrection"] = "smhtt2016"
 			self["TauEnergyCorrectionOneProng"] = 0.982
