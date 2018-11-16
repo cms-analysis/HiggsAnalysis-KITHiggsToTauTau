@@ -159,10 +159,12 @@ class SystematicLibary(object):
 		self.btag_efficiency2016_syst_args = [ # https://github.com/cms-analysis/CombineHarvester/blob/SM2016-dev/HTTSM2016/src/HttSystematics_SMRun2.cc#L151-L154
 			"CMS_htt_eff_b_$ERA",
 			"lnN",
-			ch.SystMap("era", "channel", "bin", "process")
+			ch.SystMap("era", "channel", "process", "bin")
 				(["13TeV"], ["em"], ["TTJ", "TTJJ", "TTT", "TT"], ["em_ZeroJet2D"], 1.035)
 				(["13TeV"], ["em"], ["TTJ", "TTJJ", "TTT", "TT"], ["em_Boosted2D", "em_Vbf2D"], 1.05)
 				(["13TeV"], ["em"], ["VVJ", "VVT", "VV"], ["em_Boosted2D", "em_Vbf2D"], 1.015)
+				(["13TeV"], ["em"], ["TTJ", "TTJJ", "TTT", "TT"], ["ZeroJet"], 1.035)
+				(["13TeV"], ["em"], ["TTJ", "TTJJ", "TTT", "TT"], ["OneJet", "MultiJet"], 1.05)
 		]
 		
 		##-------------------------------Normalization-------------------------------##
@@ -988,16 +990,17 @@ class SystematicLibary(object):
 
 		lnN_syst = {
 			"em": [
-				[self.trigger_efficiency2016_em_syst_args, 	["ZEM"]+all_mc_bkgs,			""],
-				[self.electron_efficiency2016_syst_args, 	["ZEM"]+all_mc_bkgs,			""],
-				[self.muon_efficiency2016_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
-				[self.lumi2016_syst_args, 			["ZEM"]+all_mc_bkgs, 			""],
+				[self.trigger_efficiency2016_em_syst_args, 	["ZEM","ZETM","ZMTE"]+all_mc_bkgs,			""],
+				[self.electron_efficiency2016_syst_args, 	["ZEM","ZETM","ZMTE"]+all_mc_bkgs,			""],
+				[self.muon_efficiency2016_syst_args,		["ZEM","ZETM","ZMTE"]+all_mc_bkgs, 			""],
+				[self.lumi2016_syst_args, 			["ZEM","ZETM","ZMTE"]+all_mc_bkgs, 			""],
 				[self.htt_jetFakeLep_syst_args, 		["W"], 					""],
 				[self.htt_QCD_0jet_syst_args,			["QCD"],				"ZeroJet"],
 				[self.htt_QCD_boosted_syst_args,		["QCD"],				"OneJet"],
 				[self.htt_zmm_norm_extrap_0jet,			["ZTT", "ZLL"],				"ZeroJet"],
 				[self.ttj_cross_section_syst_args,		["TT"],					""],				
-				[self.vv_cross_section2016_syst_args, 		["VV"], 				""]
+				[self.vv_cross_section2016_syst_args, 		["VV"], 				""],
+				[self.btag_efficiency2016_syst_args,		["TT"],					""]
 			],
 
 			"et": [
@@ -1032,10 +1035,10 @@ class SystematicLibary(object):
 
 		shape_syst = {
 			"em" : [
-				[self.jec_syst_args,				["ZEM"]+all_mc_bkgs, 			""],
-				[self.scale_met_clustered_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
-				[self.scale_met_unclustered_syst_args,		["ZEM"]+all_mc_bkgs, 			""],
-				[self.ele_es_syst_args,				["ZEM"]+all_mc_bkgs, 			""],
+				[self.jec_syst_args,				["ZEM","ZETM","ZMTE"]+all_mc_bkgs, 			""],
+				[self.scale_met_clustered_syst_args,		["ZEM","ZETM","ZMTE"]+all_mc_bkgs, 			""],
+				[self.scale_met_unclustered_syst_args,		["ZEM","ZETM","ZMTE"]+all_mc_bkgs, 			""],
+				[self.ele_es_syst_args,				["ZEM","ZETM","ZMTE"]+all_mc_bkgs, 			""],
 
 			],
 				

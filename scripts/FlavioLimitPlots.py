@@ -9,13 +9,18 @@ import argparse
 old_limits = {"em": 7.6e-7, "et": 9.8e-6, "mt": 1.2e-5}
 
 limit_path = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Limits/{}/{}"
-output = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Limits/{}_limits.pdf"
+
+try:
+	output = os.environ["THESIS_PLOTS"] + "/{}/limits.pdf"
+
+except KeyError:
+	output = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Limits/{}_limits.pdf"
 
 ##Parser
 def parser():
 	parser = argparse.ArgumentParser(description = "Script for plotting limits in LFV analysis", formatter_class=argparse.RawTextHelpFormatter)
 	parser.add_argument("--channel", action = "store", choices = ["all", "em", "et", "mt"], default = "all", help = "Channel which should be analyzed")
-	parser.add_argument("--method", action ="store" , choices = ["all", "cut_based", "Ada_BDT"],  default = "all", help = "Analysis method")
+	parser.add_argument("--method", action ="store" , choices = ["all", "cut_based", "BDT"],  default = "all", help = "Analysis method")
 	parser.add_argument("--category", action="store",  choices = ["all", "ZeroJet", "OneJet", "MultiJet", "combined"], default = "all", help = "Analysis category")
 	parser.add_argument("--print-limits", action = "store_true", help = "Plot values of limits")
 
@@ -28,6 +33,8 @@ def plot_limit(channel, methods, categories, print_limits):
 	old_limit = ROOT.TGraph()
 	sigma1 = ROOT.TGraphAsymmErrors()
 	sigma2 = ROOT.TGraphAsymmErrors()	
+
+	canvas = ROOT.TCanvas()
 
 	##Read out limits
 	index = 0
@@ -55,7 +62,6 @@ def plot_limit(channel, methods, categories, print_limits):
 
 
 	##Marker styles
-	canvas = ROOT.TCanvas()
 	canvas.SetBottomMargin(0.16)
 
 	sigma2.SetFillColor(ROOT.kYellow)
@@ -75,13 +81,16 @@ def plot_limit(channel, methods, categories, print_limits):
 	##Alphanumeric labels
 	index = 0
 	for method in methods:
-		for category in categories:
+		for index2, category in enumerate(categories):
 			sigma2.GetXaxis().SetBinLabel(sigma2.GetXaxis().FindBin(index+1), "#splitline" + "{" + method.replace("_", " ") + "}" + "{" + category + "}")
-
+			#sigma2.GetXaxis().ChangeLabel(1 + index2, -1, -1, -1, -1, -1, "#splitline" + "{" + method.replace("_", " ") + "}" + "{" + category + "}")
 			index+=1
+
 
 	sigma2.GetXaxis().SetLabelSize(0.05)
 	sigma2.GetYaxis().SetTitle("95% CL Limit on BR(Z#rightarrow {})".format({"em": "e#mu", "et": "e#tau", "mt": "#mu#tau"}[channel]))
+	sigma2.SetMinimum(sigma2.GetMinimum())
+	#sigma2.SetMaximum(1.5*bkgsum_hist.GetBinContent(bkgsum_hist.GetMaximumBin()))
 
 	ROOT.gStyle.SetPalette(55)
 
@@ -126,10 +135,10 @@ def main():
 
 	if args.channel == "all":
 		for channel in ["em", "et", "mt"]:
-			plot_limit(channel, {"all": ["cut_based", "Ada_BDT"], "cut_based": ["cut_based"], "Ada_BDT": ["Ada_BDT"]}[args.method], {"all": ["ZeroJet", "OneJet", "MultiJet", "combined"], "ZeroJet": ["ZeroJet"], "OneJet": ["OneJet"], "MultiJet": ["MultiJet"], "combined": ["combined"]}[args.category], args.print_limits)
+			plot_limit(channel, {"all": ["cut_based", "BDT"], "cut_based": ["cut_based"], "BDT": ["BDT"]}[args.method], {"all": ["ZeroJet", "OneJet", "MultiJet", "combined"], "ZeroJet": ["ZeroJet"], "OneJet": ["OneJet"], "MultiJet": ["MultiJet"], "combined": ["combined"]}[args.category], args.print_limits)
 
 	else:
-		plot_limit(args.channel, {"all": ["cut_based", "Ada_BDT"], "cut_based": ["cut_based"], "Ada_BDT": ["Ada_BDT"]}[args.method], {"all": ["ZeroJet", "OneJet", "MultiJet", "combined"], "ZeroJet": ["ZeroJet"], "OneJet": ["OneJet"], "MultiJet": ["MultiJet"], "combined": ["combined"]}[args.category], args.print_limits)
+		plot_limit(args.channel, {"all": ["cut_based", "BDT"], "cut_based": ["cut_based"], "BDT": ["BDT"]}[args.method], {"all": ["ZeroJet", "OneJet", "MultiJet", "combined"], "ZeroJet": ["ZeroJet"], "OneJet": ["OneJet"], "MultiJet": ["MultiJet"], "combined": ["combined"]}[args.category], args.print_limits)
 		
 		
 if __name__ == "__main__":

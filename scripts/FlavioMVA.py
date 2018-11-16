@@ -242,7 +242,7 @@ def application(channelselection):
 
 	##Write config for grid control
 
-	local = False
+	local = True
 
 	if not local:
 		seed = str(int(uniform(1, 10000)))
@@ -303,62 +303,57 @@ def attach(file_name):
 	for param, variable in zip(parameter, variables):
 		reader.AddVariable(param, variable)
 
-	for channel in ["em", "et", "mt", "etm", "mte"]: 
-
-		outputs = glob.glob(os.environ["CMSSW_BASE"] + "/src/FlavioOutput/BDT/output*")		
-		out_channel = []
-		for out in outputs:
-			out_channel.append(out[89:-5])		
-
-		if channel in out_channel:
-
+	for channel in ["em", "et", "mt"]: 
+		method_A = "BDT{version}_A_{channel}".format(channel=channel, version=version)
+		method_B = "BDT{version}_B_{channel}".format(channel=channel, version=version)
 		
-			method_A = "BDT{version}_A_{channel}".format(channel=channel, version=version)
-			method_B = "BDT{version}_B_{channel}".format(channel=channel, version=version)
-		
+		try:
 			reader.BookMVA(method_A, os.environ["CMSSW_BASE"] + "/src/weights/BDT{version}_{channel}_A_BDT.weights.xml".format(channel = channel, version=version))
 			reader.BookMVA(method_B, os.environ["CMSSW_BASE"] + "/src/weights/BDT{version}_{channel}_B_BDT.weights.xml".format(channel = channel, version=version))
 		
-			for key in list_of_keys:
-				channel_key = "em" if channel == "etm" or channel == "mte" else channel 
-				if channel_key in key[:2]:
-					root_file = ROOT.TFile(file_name, "UPDATE")
-					tree = root_file.Get(key + "/ntuple")
-					print "Channel which is evaluated: {key}".format(key = key)
+		except:
+			break
+
+		for key in list_of_keys:
+			channel_key = "em" if channel == "etm" or channel == "mte" else channel 
+			if channel_key in key[:2]:
+				root_file = ROOT.TFile(file_name, "UPDATE")
+				tree = root_file.Get(key + "/ntuple")
+				print "Channel which is evaluated: {key}".format(key = key)
 				
-					##Create (new) branch for BDT_score and fill it
-					branch_arg0 = "BDT{version}_score".format(version=version) + ("_{}".format(channel) if channel == "etm" or channel == "mte" else "") 
-					branch_arg2 = "BDT{version}_score/F".format(version=version) + ("_{}".format(channel) if channel == "etm" or channel == "mte" else "")
-					branch = tree.Branch(branch_arg0, BDT_score, branch_arg2)
+				##Create (new) branch for BDT_score and fill it
+				branch_arg0 = "BDT{version}_score".format(version=version) + ("_{}".format(channel) if channel == "etm" or channel == "mte" else "") 
+				branch_arg2 = "BDT{version}_score/F".format(version=version) + ("_{}".format(channel) if channel == "etm" or channel == "mte" else "")
+				branch = tree.Branch(branch_arg0, BDT_score, branch_arg2)
 				
-					for index, event in enumerate(tree):
-						for index2, (param, variable) in enumerate(zip(parameter.values(), variables)):
-						#Try to get value for variable from tree, if it is user defined, the function in the constant section will be used
-							try:
-								variable[0] = param[0](*[event.__getattr__(var) if type(var) == str else event.__getattr__(var[0]).__getattribute__(var[1])() for var in param[1]])
+				for index, event in enumerate(tree):
+					for index2, (param, variable) in enumerate(zip(parameter.values(), variables)):
+					#Try to get value for variable from tree, if it is user defined, the function in the constant section will be used
+						try:
+							variable[0] = param[0](*[event.__getattr__(var) if type(var) == str else event.__getattr__(var[0]).__getattribute__(var[1])() for var in param[1]])
 	
-							except:
-								variable[0] = 0
+						except:
+							variable[0] = 0
 							
 
-						##Get score for event/odd event and fill the branch
-						if event.event % 2 == 0:
-							BDT_score[0] = reader.EvaluateMVA(method_B)
+					##Get score for event/odd event and fill the branch
+					if event.event % 2 == 0:
+						BDT_score[0] = reader.EvaluateMVA(method_B)
 	
-						if event.event % 2 == 1:
-							BDT_score[0] = reader.EvaluateMVA(method_A)
+					if event.event % 2 == 1:
+						BDT_score[0] = reader.EvaluateMVA(method_A)
 
-						if index % 10000 == 0:
-							print "Number of events evaluated: {index}".format(index = index)
+					if index % 10000 == 0:
+						print "Number of events evaluated: {index}".format(index = index)
  	
-						branch.Fill()
+					branch.Fill()
 				
-					##Overwrite old tree and close file
-					root_file.cd(key)
-					tree.Write("", ROOT.TObject.kOverwrite)
-					root_file.Close()
-					print "Number of events evaluated in total: {index}".format(index = index)
-					print "BDT score was sucessfully applied in tree: " + key + "/ntuple"
+				##Overwrite old tree and close file
+				root_file.cd(key)
+				tree.Write("", ROOT.TObject.kOverwrite)
+				root_file.Close()
+				print "Number of events evaluated in total: {index}".format(index = index)
+				print "BDT score was sucessfully applied in tree: " + key + "/ntuple"
 
 
 
