@@ -71,6 +71,8 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.recoPolarisationQuantities()
+			if kwargs.get("channel", None) != "EM":
+				self["Quantities"] += self.fakefactorQuantities()
 
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
