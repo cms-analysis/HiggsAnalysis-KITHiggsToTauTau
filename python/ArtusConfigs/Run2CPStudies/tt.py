@@ -135,6 +135,23 @@ class tt_ArtusConfig(dict):
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
 		]
 
+		if re.search("Run2016|Spring16|Summer16", nickname):
+			#settings for jetstotaufakesproducer
+			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/tt/fakeFactors_tt_inclusive.root"
+			self["FakeFactorMethod"] = "cp2016"
+			self["FakeFactorRooWorkspaceFunction"] = [
+				"w_fracs_1:w_tt_fracs_1",
+				"qcd_fracs_1:qcd_tt_fracs_1",
+				"ttbar_fracs_1:ttbar_tt_fracs_1",
+				"dy_fracs_1:dy_tt_fracs_1",
+				"w_fracs_2:w_tt_fracs_2",
+				"qcd_fracs_2:qcd_tt_fracs_2",
+				"ttbar_fracs_2:ttbar_tt_fracs_2",
+				"dy_fracs_2:dy_tt_fracs_2"
+			]
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
+
+
 		self["TauTauRestFrameReco"] = "collinear_approximation"
 		self["TriggerObjectLowerPtCut"] = 28.0
 		self["InvalidateNonMatchingElectrons"] = False
@@ -143,7 +160,7 @@ class tt_ArtusConfig(dict):
 		self["InvalidateNonMatchingJets"] = False
 		self["UseUWGenMatching"] = "true"                   #TODO change this to boolean? or change the rest to string?
 		self["DirectIso"] = True
-		self["TopPtReweightingStrategy"] = "Run1"
+		self["TopPtReweightingStrategy"] = "Run2" #FIXME this looks more right
 
 		self["OSChargeLeptons"] = True
 		self["SvfitKappaParameter"] = 5.0
@@ -206,8 +223,6 @@ class tt_ArtusConfig(dict):
 						 "nAllDiTauPairCandidates"
 					]
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
-			quantities_dict["Quantities"] += quantities_dict.genQuantities()
-			quantities_dict["Quantities"] += quantities_dict.lheWeightsDYQuantities()
 			quantities_dict["Quantities"] += [
 				"tauSpinnerValidOutputs",
 				"tauSpinnerPolarisation",
@@ -277,6 +292,8 @@ class tt_ArtusConfig(dict):
 				self["Processors"] += ["producer:MELAProducer"]
 				self["Processors"] += ["producer:MELAM125Producer"]
 
+				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
+
 
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
@@ -311,6 +328,7 @@ class tt_ArtusConfig(dict):
 
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+						self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO also needed for mc to -
 						self["Processors"] += ["producer:ZPtReweightProducer"]
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
@@ -329,6 +347,7 @@ class tt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
+						self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO Also needed for MC to -
 						self["Processors"] += [	"producer:TopPtReweightingProducer"]
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"]

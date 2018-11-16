@@ -22,10 +22,10 @@ class MinimalPlotlevelFilter(dict):
 			"extraelec_veto",
 			"againstMuonTight3_2",
 			"extramuon_veto",
-			"byLooseIsolationMVArun2v1DBoldDMwLT_2",
+			"byVLooseIsolationMVArun2v1DBoldDMwLT_2",
 			"nDiMuonVetoPairsOS"
 		]
-		self["PlotlevelFilterExpression"] = "(nDiMuonVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+		self["PlotlevelFilterExpression"] = "(nDiMuonVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonTight3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 	
 	def et(self):
 		self["PlotlevelFilterExpressionQuantities"] = [
@@ -33,10 +33,10 @@ class MinimalPlotlevelFilter(dict):
 			"extraelec_veto",
 			"againstMuonLoose3_2",
 			"extramuon_veto",
-			"byLooseIsolationMVArun2v1DBoldDMwLT_2",
+			"byVLooseIsolationMVArun2v1DBoldDMwLT_2",
 			"nDiElectronVetoPairsOS"
 		]
-		self["PlotlevelFilterExpression"] = "(nDiElectronVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(againstElectronTightMVA6_2 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+		self["PlotlevelFilterExpression"] = "(nDiElectronVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(againstElectronTightMVA6_2 > 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 
 	def tt(self):
 		self["PlotlevelFilterExpressionQuantities"] = [
@@ -44,10 +44,10 @@ class MinimalPlotlevelFilter(dict):
 			"extraelec_veto",
 			"againstMuonLoose3_2",
 			"extramuon_veto",
-			"byLooseIsolationMVArun2v1DBoldDMwLT_1",
-			"byLooseIsolationMVArun2v1DBoldDMwLT_2"
+			"byVLooseIsolationMVArun2v1DBoldDMwLT_1",
+			"byVLooseIsolationMVArun2v1DBoldDMwLT_2"
 		]
-		self["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+		self["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 
 	def mm(self):
 		self["PlotlevelFilterExpressionQuantities"] = [

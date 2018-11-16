@@ -138,7 +138,7 @@ if __name__ == "__main__":
 						help="integration background nicks [Default:%(default)s]")
 	parser.add_argument("--full-integral", action="store_true",
 						help="calculate full integral of all histograms and write to file")
-	parser.add_argument("-ff", "--fakefactor-method", choices = ["standard", "comparison"],
+	parser.add_argument("-ff", "--fakefactor-method", default=False, action="store_true",
 			help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
 	parser.add_argument("--scale-mc-only", default="1.0",
                         help="scales only MC events. [Default: %(default)s]")
@@ -271,11 +271,8 @@ if __name__ == "__main__":
 				args.lumi = samples.default_lumi/1000.0
 		else:
 			log.critical("Invalid era string selected: " + args.era)
-			sys.exit(1)
-
-	if args.fakefactor_method is not None:
-		import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_ff as samples
-
+			sys.exit(1)	
+			
 	if args.shapes:
 		args.ratio = False
 		args.ratio_subplot = False
@@ -543,7 +540,7 @@ if __name__ == "__main__":
 							config.setdefault("analysis_modules", []).append(analysis_module)
 						
 				if args.ratio:
-					bkg_samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
+					bkg_samples_used = [nick for nick in bkg_samples if (nick in config["nicks"] or nick == "ff")]
 					if "Ratio" not in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("Ratio")
 					config.setdefault("ratio_numerator_nicks", []).extend([" ".join(bkg_samples_used), "data"])

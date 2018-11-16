@@ -13,7 +13,12 @@ import ROOT
 
 ##Global Constants
 parameter_yaml = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Configs/parameter.yaml"
-plot_dir = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Plots/"
+
+try:
+	plot_dir = os.environ["THESIS_PLOTS"] + "/"
+
+except KeyError:
+	plot_dir = os.environ["CMSSW_BASE"] + "/src/FlavioOutput/Plots/"
 
 ##ROOT plotting configuration
 labels = {"ztt": "Z#rightarrow#tau#tau", "zll": "Z#rightarrow ll", "ttj": "t#bar{t}", "wj": "W + jets", "vv": "WW/ZZ/WZ", "qcd": "QCD", "zem": "Z#rightarrow e#mu", "zet": "Z#rightarrow e#tau", "zmt": "Z#rightarrow #mu#tau", "data": "Data", "zetm": "Z#rightarrow e#tau_{#mu}", "zmte": "Z#rightarrow #mu#tau_{e}"}
@@ -27,7 +32,7 @@ def parser():
 	parser.add_argument("--channel", nargs="+", required = True, choices = ["em", "et", "mt", "etm", "mte"] , help = "Channel which should be analyzed")
 	parser.add_argument("--parameter", nargs="+", required = True, help = "Parameter to plot")
 	parser.add_argument("--shape", action = "store_true", help = "Draw shape histos for background/signal")
-	parser.add_argument("--data", nargs='?', const="", help = "Plot with real data, to set region of blinding use --data 'start stop'")
+	parser.add_argument("--data", action = "store", choices = ["Asimov", "Blinded", "Unblinded"], help = "Plot data")
 	parser.add_argument("--weight", action = "store", default="1", help = "Weight applied while tree is read out")
 	parser.add_argument("--name-suffix", action = "store", default = "", help = "Optional suffix for the output name of the plot")
 	parser.add_argument("--www", action = "store", default = "", help = "Directory name of web plotting, in which plot should be safed if wished")
@@ -58,10 +63,10 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 	ROOT.gStyle.SetLegendBorderSize(0)
 	ROOT.gStyle.SetFillStyle(0)
 	legend = ROOT.TLegend()
-	legend.SetX1NDC(0.65)
-	legend.SetX2NDC(0.95)
-	legend.SetY1NDC(0.7)
-	legend.SetY2NDC(0.9)
+	legend.SetX1NDC(0.60)
+	legend.SetX2NDC(0.90)
+	legend.SetY1NDC(0.60)
+	legend.SetY2NDC(0.90)
 
 	##Stacked background histogram
 	stacked_hist = ROOT.THStack()
@@ -77,17 +82,24 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 		legend.AddEntry(hist, labels[process], "F")
 		stacked_hist.Add(hist)
 
+	
+
 	##Signal histogram
 	sig_hist = hists[-2]
 	sig_hist.SetLineColor(ROOT.kBlack)
 	sig_hist.SetLineWidth(4)
 	sig_hist.Scale(50)
-	legend.AddEntry(sig_hist, labels[processes[-2]] + " x50", "L")
+	legend.AddEntry(sig_hist, labels[processes[-2]] + " x 50", "L")
 
 	if data != None:
 		##Data histogram
-		data_hist = hists[-1]
-	
+		if data != "Asimov":
+			data_hist = hists[-1]
+
+		else:
+			data_hist = bkgsum_hist.Clone()
+			#data_hist.Add(sig_hist)	
+
 		data_graph = ROOT.TGraphErrors()
 		data_graph.SetMarkerStyle(20)
 	
@@ -100,42 +112,72 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 		errorband = bkgsum_hist.Clone()
 		errorband.Divide(bkgsum_hist)
 
-		errorband.SetFillColor(ROOT.kGray)
+		errorband.SetFillColor(ROOT.kGray +1)
 		errorband.SetMarkerColor(ROOT.kWhite)
-		errorband.SetFillStyle(4050)
+		errorband.SetFillStyle(3001)
 		errorband.SetStats(0)
 
 		ratio_graph = ROOT.TGraphErrors()
 		ratio_graph.SetMarkerStyle(20)
 
-		##Blind data in signal range
-		start, stop = [0,0] if data == "" else [float(number) for number in data.split(" ")]
 
-		for index in range(data_hist.GetNbinsX()):
-			if sig_hist.GetBinContent(index+1) < 200 and data_hist.GetBinContent(index+1)!=0 and not start < data_hist.GetBinCenter(index+1) < stop:
+		if data == "Blinded":	
+			for index in range(data_hist.GetNbinsX()):
+				try:
+					s_b_ratio = sig_hist.GetBinContent(index+1)/bkgsum_hist.GetBinContent(index+1)
+
+				except:
+					s_b_ratio = 1
+
+				if s_b_ratio < 0.05 and data_hist.GetBinContent(index+1)!=0:
+					data_graph.SetPoint(index, data_hist.GetBinCenter(index+1), data_hist.GetBinContent(index+1))
+					data_graph.SetPointError(index, data_hist.GetBinWidth(index+1)/2., data_hist.GetBinError(index+1))
+	
+					try:
+						ratio_graph.SetPoint(index, data_hist.GetBinCenter(index+1), data_hist.GetBinContent(index+1)/bkgsum_hist.GetBinContent(index+1))
+						ratio_graph.SetPointError(index, data_hist.GetBinWidth(index+1)/2., data_hist.GetBinError(index+1)/bkgsum_hist.GetBinContent(index+1))
+		
+					except:
+						pass
+
+		else: 
+			for index in range(data_hist.GetNbinsX()):
 				data_graph.SetPoint(index, data_hist.GetBinCenter(index+1), data_hist.GetBinContent(index+1))
 				data_graph.SetPointError(index, data_hist.GetBinWidth(index+1)/2., data_hist.GetBinError(index+1))
+	
+				try:
+					ratio_graph.SetPoint(index, data_hist.GetBinCenter(index+1), data_hist.GetBinContent(index+1)/bkgsum_hist.GetBinContent(index+1))
+					ratio_graph.SetPointError(index, data_hist.GetBinWidth(index+1)/2., data_hist.GetBinError(index+1)/bkgsum_hist.GetBinContent(index+1))
 
-				ratio_graph.SetPoint(index, ratio_hist.GetBinCenter(index+1), ratio_hist.GetBinContent(index+1))
-				ratio_graph.SetPointError(index, ratio_hist.GetBinWidth(index+1)/2., ratio_hist.GetBinError(index+1))
+				except:
+					pass
 
+
+	##Erroband of background
+	errorband_main = bkgsum_hist.Clone()
+	errorband_main.SetFillColor(ROOT.kGray+1)
+	errorband_main.SetMarkerColor(ROOT.kGray+1)
+	errorband_main.SetLineColor(ROOT.kGray+1)
+
+	errorband_main.SetFillStyle(3001)
+	legend.AddEntry(errorband_main, "Stat. uncertainty", "F")
 
 	##CMS and lumi text
 	channel_title = ROOT.TLatex()
 	channel_title.SetTextFont(42)
-	channel_title.SetTextSize(0.03)
+	channel_title.SetTextSize(0.035)
 
 	lumi = ROOT.TLatex()
 	lumi.SetTextFont(42)
-	lumi.SetTextSize(0.03)
+	lumi.SetTextSize(0.035)
 
 	cms = ROOT.TLatex()
 	cms.SetTextFont(62)
-	cms.SetTextSize(0.029)
+	cms.SetTextSize(0.0295)
 
 	work = ROOT.TLatex()
 	work.SetTextFont(52)
-	work.SetTextSize(0.03)
+	work.SetTextSize(0.035)
 
 	#Draw all things
 	canvas = ROOT.TCanvas("c", "c", 800,800)
@@ -145,24 +187,27 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 	sig_hist.Draw("SAME HIST")
 	
 	if data != None:
+		errorband_main.Draw("SAME E2")
 		data_graph.Draw("SAME P")
 
 	legend.Draw("SAME")
 
 	channel_title.DrawLatexNDC(0.17, 0.905, title[channel])
-	lumi.DrawLatexNDC(0.605, 0.905, "35.87 fb^{-1} (2016, 13 TeV)")
+	lumi.DrawLatexNDC(0.605, 0.905, "35.9 fb^{-1} (2016, 13 TeV)")
 	cms.DrawLatexNDC(0.25, 0.905, "CMS")
 	work.DrawLatexNDC(0.318, 0.905, "Work in progress")
 
 	##Axis options
 	stacked_hist.SetMinimum(0)
-	stacked_hist.SetMaximum(1.5*bkgsum_hist.GetBinContent(bkgsum_hist.GetMaximumBin()))
+	stacked_hist.SetMaximum(1.3*bkgsum_hist.GetBinContent(bkgsum_hist.GetMaximumBin()))
 	stacked_hist.GetXaxis().SetTitle(x_label)
-	stacked_hist.GetXaxis().SetLabelSize(0.025)
+	stacked_hist.GetXaxis().SetTitleSize(0.04)
+	stacked_hist.GetXaxis().SetLabelSize(0.035)
 	stacked_hist.GetYaxis().SetTitle("Events")
-	stacked_hist.GetYaxis().SetTitleOffset(1.8)
-	stacked_hist.GetYaxis().SetLabelSize(0.025)
+	stacked_hist.GetYaxis().SetTitleOffset(1.9)
+	stacked_hist.GetYaxis().SetLabelSize(0.035)
 	ROOT.TGaxis().SetMaxDigits(3)
+
 	
 	if data != None:
 		##Draw pad for ratio plot
@@ -179,13 +224,14 @@ def plot(parameter, channel, processes, plotname, x_label, data, name_suffix, ww
 
 		##Axis options
 		errorband.SetTitle("")
-		stacked_hist.GetXaxis().SetTitleOffset(5.5)
-		errorband.GetXaxis().SetLabelSize(0.1)
+		stacked_hist.GetXaxis().SetTitleOffset(4.5)
+		errorband.GetXaxis().SetLabelSize(0.17)
 		errorband.SetAxisRange(0.6, 1.4, "Y")
 		errorband.GetYaxis().SetTitle("#frac{Data}{MC}")
-		errorband.GetYaxis().SetTitleSize(0.12)
+		errorband.GetYaxis().SetTitleSize(0.08)
 		errorband.GetYaxis().SetLabelSize(0.1)
 		errorband.GetYaxis().SetTitleOffset(0.5)
+
 
 	##Save Histogram
 	ROOT.gPad.RedrawAxis()

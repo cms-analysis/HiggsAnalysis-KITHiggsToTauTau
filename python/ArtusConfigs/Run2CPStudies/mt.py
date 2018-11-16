@@ -299,6 +299,19 @@ class mt_ArtusConfig(dict):
 		self["AddGenMatchedTauJets"] = True
 		self["BranchGenMatchedMuons"] = True
 		self["BranchGenMatchedTaus"] = True
+
+		if re.search("Run2016|Spring16|Summer16", nickname):
+			#settings for jetstotaufakesproducer
+			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/mt/fakeFactors_20180831_tight.root"
+			self["FakeFactorMethod"] = "cp2016"
+			self["FakeFactorRooWorkspaceFunction"] = [
+				"w_fracs:w_mt_fracs",
+				"qcd_fracs:qcd_mt_fracs",
+				"ttbar_fracs:ttbar_mt_fracs"
+			]
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
+
+
 		self["Consumers"] = [
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
@@ -327,8 +340,6 @@ class mt_ArtusConfig(dict):
 
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):	 #the same as tt
 
-			quantities_dict["Quantities"] += quantities_dict.genQuantities()
-			quantities_dict["Quantities"] += quantities_dict.lheWeightsDYQuantities()
 			quantities_dict["Quantities"] += [
 				"tauSpinnerValidOutputs",
 				"tauSpinnerPolarisation",
@@ -448,6 +459,7 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 
 			if re.search("(Run2016|Embedding2016)", nickname):
+				self["Processors"] += ["producer:JetToTauFakesProducer"]
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
 
 				self["Processors"] += ["producer:SimpleFitProducer"]
@@ -496,6 +508,7 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+						self["Processors"] += ["producer:JetToTauFakesProducer"]
 						self["Processors"] += ["producer:ZPtReweightProducer"]
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
@@ -514,6 +527,7 @@ class mt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
+						self["Processors"] += ["producer:JetToTauFakesProducer"]
 						self["Processors"] += [	"producer:TopPtReweightingProducer"]
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"]

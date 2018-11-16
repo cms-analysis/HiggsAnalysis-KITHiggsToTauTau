@@ -55,7 +55,7 @@ def addArguments(parser):
 	                    help="Publish plots. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
-	parser.add_argument("-b", "--background-method", default="new",
+	parser.add_argument("-b", "--background-method", default="mc",
 	                    help="Background estimation method to be used. [Default: %(default)s]")
 	parser.add_argument("--use-scan-without-fit", action="store_true", default=False,
 	                    help="Obtain result from likelihood scan without fitting the parabola but instead finding the minimum and the first points crossing 1 on either side. [Default: %(default)s]")
@@ -257,8 +257,8 @@ if __name__ == "__main__":
 						weight=weight,
 						lumi=args.lumi * 1000,
 						higgs_masses=higgs_masses,
-						cut_type="smhtt2016", 
-						background_method="mc",
+						cut_type="cpggh2016", 
+						estimationMethod="mc",
 						exclude_cuts = exclude_cuts
 					)
 
@@ -312,7 +312,7 @@ if __name__ == "__main__":
 	
 		# Create input histograms with HarryPlotter
 	if "inputs" in args.steps:	
-		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[0])
+		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0])
 		if args.n_plots[0] != 0:
 			tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 
@@ -504,4 +504,4 @@ if __name__ == "__main__":
 					if not (config["output_dir"] in www_output_dirs_postfit):
 						www_output_dirs_postfit.append(config["output_dir"])
 					postfit_plot_configs.append(config)					
-		higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, n_processes=args.n_processes, n_plots=args.n_plots[1])
+		higgsplot.HiggsPlotter(list_of_config_dicts=postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])

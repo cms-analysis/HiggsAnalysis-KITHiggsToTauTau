@@ -15,17 +15,19 @@ class quantities(run2_quantities.quantities):
 	def __init__(self):
 		self["Quantities"]=[]
 	def build_quantities(self, nickname, *args, **kwargs):
-		
+
 		self["Quantities"] += self.fourVectorQuantities()
 		self["Quantities"] += self.syncQuantities()
 		self["Quantities"] += self.weightQuantities()
 
-		if re.search("Run2015", nickname):  					
-			self["Quantities"] += self.recoPolarisationQuantities() 	
-			
+
+		if re.search("Run2015", nickname):
+			self["Quantities"] += self.recoPolarisationQuantities()
+
 		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()
-			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
+
+			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 				self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genQuantitiesZ()
@@ -35,22 +37,23 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.recoPolarisationQuantities()
 			self["Quantities"] += self.recoPolarisationQuantitiesSvfit()
 			if kwargs.get("channel", None) != "EM":
-				self["Quantities"] += iq.SingleTauQuantities()	
-			
-		
+				self["Quantities"] += iq.SingleTauQuantities()
+				self["Quantities"] += self.fakefactorQuantities()
+
+
 		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()
-			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
+			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 				self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genHiggsQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
-			
+
 		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Quantities"] += self.recoPolarisationQuantities()
-			
+
 		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
@@ -68,7 +71,7 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.recoPolarisationQuantities()
-		
+
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.genQuantities()
@@ -80,12 +83,14 @@ class quantities(run2_quantities.quantities):
 				self["Quantities"] += self.recoCPQuantities()
 		else:
 			self["Quantities"] += self.svfitSyncQuantities()
-			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:	 
+			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 				self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
 			self["Quantities"] += self.recoPolarisationQuantities()
 			self["Quantities"] += self.recoPolarisationQuantitiesSvfit()
+			if kwargs.get("channel", None) != "EM":
+				self["Quantities"] += self.fakefactorQuantities()
 
 
 	def genCPQuantities(self, *args, **kwargs):    #TODO Is this really used, very similar to matchedcpquantities
@@ -204,7 +209,7 @@ class quantities(run2_quantities.quantities):
 			"genIP1x",
 			"genIP1y",
 			"genIP1z",
-		
+
 			"genIP2mag",
 			"genIP2x",
 			"genIP2y",
@@ -377,12 +382,12 @@ class quantities(run2_quantities.quantities):
 
 			"genD01",
 			"genD02",
-		
+
 			"genIP1mag",
 			"genIP1x",
 			"genIP1y",
 			"genIP1z",
-		
+
 			"genIP2mag",
 			"genIP2x",
 			"genIP2y",
@@ -567,13 +572,13 @@ class quantities(run2_quantities.quantities):
 			"refP2x",
 			"refP2y",
 			"refP2z",
-		
+
 			"lep1TrackChi2OverNdof",
 			"lep1TrackNInnerHits",
 			"lep1TrackIsLooseQuality",
 			"lep1TrackIsTightQuality",
 			"lep1TrackIsHighPurityQuality",
-		
+
 			"lep2TrackChi2OverNdof",
 			"lep2TrackNInnerHits",
 			"lep2TrackIsLooseQuality",
@@ -761,7 +766,7 @@ class quantities(run2_quantities.quantities):
 			"genMatchedTau2DecayMode",
 			"genMatchedTau2NProngs",
 			"genMatchedTau2NPi0s",
-		
+
 			"leadingTauLV",
 			"trailingTauLV",
 
@@ -787,7 +792,7 @@ class quantities(run2_quantities.quantities):
 			#"a1OmegaHHKinFit_2",
 			#"a1OmegaSimpleFit_1",
 			#"a1OmegaSimpleFit_2",
-		
+
 			#"rhoNeutralChargedAsymmetry_1",
 			#"rhoNeutralChargedAsymmetry_2",
 
@@ -802,36 +807,36 @@ class quantities(run2_quantities.quantities):
 
 			#"tauPolarisationDiscriminatorHHKinFit",
 			#"tauPolarisationDiscriminatorSimpleFit",
-		
+
 			"polarisationOmegaGenMatched_1",
 			"polarisationOmegaGenMatched_2",
 			"polarisationOmegaSimpleFit_1",
 			"polarisationOmegaSimpleFit_2",
 			#"polarisationOmegaHHKinFit_1",
 			#"polarisationOmegaHHKinFit_2",
-		
+
 			"polarisationOmegaBarGenMatched_1",
 			"polarisationOmegaBarGenMatched_2",
 			"polarisationOmegaBarSimpleFit_1",
 			"polarisationOmegaBarSimpleFit_2",
 			#"polarisationOmegaBarHHKinFit_1",
 			#"polarisationOmegaBarHHKinFit_2",
-		
+
 			"polarisationOmegaVisibleGenMatched_1",
 			"polarisationOmegaVisibleGenMatched_2",
 			"polarisationOmegaVisibleSimpleFit_1",
 			"polarisationOmegaVisibleSimpleFit_2",
 			#"polarisationOmegaVisibleHHKinFit_1",
 			#"polarisationOmegaVisibleHHKinFit_2",
-		
+
 			"polarisationCombinedOmegaGenMatched",
 			"polarisationCombinedOmegaSimpleFit",
 			#"polarisationCombinedOmegaHHKinFit",
-		
+
 			"polarisationCombinedOmegaBarGenMatched",
 			"polarisationCombinedOmegaBarSimpleFit",
 			#"polarisationCombinedOmegaBarHHKinFit",
-		
+
 			"polarisationCombinedOmegaVisibleGenMatched",
 			"polarisationCombinedOmegaVisibleSimpleFit",
 			#"polarisationCombinedOmegaVisibleHHKinFit"
@@ -848,7 +853,7 @@ class quantities(run2_quantities.quantities):
 			"polarisationCombinedOmegaSvfit",
 			"polarisationCombinedOmegaBarSvfit",
 			"polarisationCombinedOmegaVisibleSvfit",
-		
+
 			"polarisationOmegaSvfitM91_1",
 			"polarisationOmegaSvfitM91_2",
 			"polarisationOmegaBarSvfitM91_1",
@@ -918,7 +923,7 @@ class quantities(run2_quantities.quantities):
 			"emuQcdOsssShapeUpWeight",
 			"emuQcdOsssShapeDownWeight",
 			"emuQcdExtrapUpWeight",
-			"emuQcdExtrapDownWeight",			
+			"emuQcdExtrapDownWeight",
 			"topPtReweightWeight",
 			"topPtReweightWeightRun1",
 			"topPtReweightWeightRun2",
@@ -952,31 +957,31 @@ class quantities(run2_quantities.quantities):
 			"melaProbCPMixVBF",
 			"melaDiscriminatorD0MinusVBF",
 			"melaDiscriminatorDCPVBF",
-		
+
 			#"melaProbCPEvenWlepH",
 			#"melaProbCPOddWlepH",
 			#"melaProbCPMixWlepH",
 			#"melaDiscriminatorD0MinusWlepH",
 			#"melaDiscriminatorDCPWlepH",
-		
+
 			#"melaProbCPEvenWhadH",
 			#"melaProbCPOddWhadH",
 			#"melaProbCPMixWhadH",
 			#"melaDiscriminatorD0MinusWhadH",
 			#"melaDiscriminatorDCPWhadH",
-		
+
 			#"melaProbCPEvenZlepH",
 			#"melaProbCPOddZlepH",
 			#"melaProbCPMixZlepH",
 			#"melaDiscriminatorD0MinusZlepH",
 			#"melaDiscriminatorDCPZlepH",
-		
+
 			#"melaProbCPEvenZhadH",
 			#"melaProbCPOddZhadH",
 			#"melaProbCPMixZhadH",
 			#"melaDiscriminatorD0MinusZhadH",
 			#"melaDiscriminatorDCPZhadH",
-		
+
 			"melaM125ProbCPEvenGGH",
 			"melaM125ProbCPOddGGH",
 			"melaM125ProbCPMixGGH",
@@ -988,25 +993,25 @@ class quantities(run2_quantities.quantities):
 			"melaM125ProbCPMixVBF",
 			"melaM125DiscriminatorD0MinusVBF",
 			"melaM125DiscriminatorDCPVBF",
-		
+
 			#"melaM125ProbCPEvenWlepH",
 			#"melaM125ProbCPOddWlepH",
 			#"melaM125ProbCPMixWlepH",
 			#"melaM125DiscriminatorD0MinusWlepH",
 			#"melaM125DiscriminatorDCPWlepH",
-		
+
 			#"melaM125ProbCPEvenWhadH",
 			#"melaM125ProbCPOddWhadH",
 			#"melaM125ProbCPMixWhadH",
 			#"melaM125DiscriminatorD0MinusWhadH",
 			#"melaM125DiscriminatorDCPWhadH",
-		
+
 			#"melaM125ProbCPEvenZlepH",
 			#"melaM125ProbCPOddZlepH",
 			#"melaM125ProbCPMixZlepH",
 			#"melaM125DiscriminatorD0MinusZlepH",
 			#"melaM125DiscriminatorDCPZlepH",
-		
+
 			#"melaM125ProbCPEvenZhadH",
 			#"melaM125ProbCPOddZhadH",
 			#"melaM125ProbCPMixZhadH",
@@ -1014,6 +1019,227 @@ class quantities(run2_quantities.quantities):
 			#"melaM125DiscriminatorDCPZhadH"
 		]
 
+	def fakefactorQuantities(self, *args, **kwargs):
+		return [
+		    "fakefactorWeight_comb_inclusive_1",
+		    "fakefactorWeight_qcd_syst_up_inclusive_1",
+		    "fakefactorWeight_qcd_syst_down_inclusive_1",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_inclusive_1",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_inclusive_1",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_inclusive_1",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_inclusive_1",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_inclusive_1",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_inclusive_1",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_inclusive_1",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_inclusive_1",
+		    "fakefactorWeight_w_syst_up_inclusive_1",
+		    "fakefactorWeight_w_syst_down_inclusive_1",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_inclusive_1",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_inclusive_1",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_inclusive_1",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_inclusive_1",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_inclusive_1",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_inclusive_1",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_inclusive_1",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_inclusive_1",
+		    "fakefactorWeight_tt_syst_up_inclusive_1",
+		    "fakefactorWeight_tt_syst_down_inclusive_1",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_inclusive_1",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_inclusive_1",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_inclusive_1",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_inclusive_1",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_inclusive_1",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_inclusive_1",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_inclusive_1",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_inclusive_1",
 
 
-	
+
+		    "fakefactorWeight_realtau_up_inclusive_1",
+		    "fakefactorWeight_realtau_down_inclusive_1",
+
+		    "fakefactorWeight_comb_inclusive_2",
+		    "fakefactorWeight_qcd_syst_up_inclusive_2",
+		    "fakefactorWeight_qcd_syst_down_inclusive_2",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_inclusive_2",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_inclusive_2",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_inclusive_2",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_inclusive_2",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_inclusive_2",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_inclusive_2",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_inclusive_2",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_inclusive_2",
+		    "fakefactorWeight_w_syst_up_inclusive_2",
+		    "fakefactorWeight_w_syst_down_inclusive_2",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_inclusive_2",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_inclusive_2",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_inclusive_2",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_inclusive_2",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_inclusive_2",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_inclusive_2",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_inclusive_2",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_inclusive_2",
+		    "fakefactorWeight_tt_syst_up_inclusive_2",
+		    "fakefactorWeight_tt_syst_down_inclusive_2",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_inclusive_2",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_inclusive_2",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_inclusive_2",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_inclusive_2",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_inclusive_2",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_inclusive_2",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_inclusive_2",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_inclusive_2",
+
+		    #"fakefactorWeight_dy_frac_syst_up_inclusive_1",
+		    #"fakefactorWeight_dy_frac_syst_down_inclusive_1",
+		    #"fakefactorWeight_dy_frac_syst_up_inclusive_2",
+		    #"fakefactorWeight_dy_frac_syst_down_inclusive_2",
+
+		    "fakefactorWeight_realtau_up_inclusive_1",
+		    "fakefactorWeight_realtau_down_inclusive_1",
+
+		    "fakefactorWeight_realtau_up_inclusive_2",
+		    "fakefactorWeight_realtau_down_inclusive_2",
+
+		    "fakefactorWeight_w_frac_syst_up_inclusive_1",
+		    "fakefactorWeight_tt_frac_syst_up_inclusive_1",
+
+		    "fakefactorWeight_w_frac_syst_up_inclusive_2",
+		    "fakefactorWeight_tt_frac_syst_up_inclusive_2",
+
+		    "fakefactorWeight_w_frac_syst_down_inclusive_1",
+		    "fakefactorWeight_tt_frac_syst_down_inclusive_1",
+
+		    "fakefactorWeight_w_frac_syst_down_inclusive_2",
+		    "fakefactorWeight_tt_frac_syst_down_inclusive_2"
+
+
+		  ]
+
+		#TODO if other wp or setting this can be added, but also producer has to be changed
+		"""
+		    "fakefactorWeight_comb_nobtag_tight",
+		    "fakefactorWeight_qcd_syst_up_nobtag_tight",
+		    "fakefactorWeight_qcd_syst_down_nobtag_tight",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_w_syst_up_nobtag_tight",
+		    "fakefactorWeight_w_syst_down_nobtag_tight",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_tt_syst_up_nobtag_tight",
+		    "fakefactorWeight_tt_syst_down_nobtag_tight",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_nobtag_tight",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_nobtag_tight",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_nobtag_tight",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_nobtag_tight",
+		    "fakefactorWeight_comb_nobtag_loosemt",
+		    "fakefactorWeight_qcd_syst_up_nobtag_loosemt",
+		    "fakefactorWeight_qcd_syst_down_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_w_syst_up_nobtag_loosemt",
+		    "fakefactorWeight_w_syst_down_nobtag_loosemt",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_tt_syst_up_nobtag_loosemt",
+		    "fakefactorWeight_tt_syst_down_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_nobtag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_nobtag_loosemt",
+		    "fakefactorWeight_comb_btag_tight",
+		    "fakefactorWeight_qcd_syst_up_btag_tight",
+		    "fakefactorWeight_qcd_syst_down_btag_tight",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_w_syst_up_btag_tight",
+		    "fakefactorWeight_w_syst_down_btag_tight",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_tt_syst_up_btag_tight",
+		    "fakefactorWeight_tt_syst_down_btag_tight",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_btag_tight",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_btag_tight",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_btag_tight",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_btag_tight",
+		    "fakefactorWeight_comb_btag_loosemt",
+		    "fakefactorWeight_qcd_syst_up_btag_loosemt",
+		    "fakefactorWeight_qcd_syst_down_btag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_qcd_dm0_njet1_stat_down_btag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_qcd_dm1_njet1_stat_down_btag_loosemt",
+		    "fakefactorWeight_w_syst_up_btag_loosemt",
+		    "fakefactorWeight_w_syst_down_btag_loosemt",
+		    "fakefactorWeight_w_dm0_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_w_dm0_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_w_dm0_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_w_dm0_njet1_stat_down_btag_loosemt",
+		    "fakefactorWeight_w_dm1_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_w_dm1_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_w_dm1_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_w_dm1_njet1_stat_down_btag_loosemt",
+		    "fakefactorWeight_tt_syst_up_btag_loosemt",
+		    "fakefactorWeight_tt_syst_down_btag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_tt_dm0_njet1_stat_down_btag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet0_stat_up_btag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet0_stat_down_btag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet1_stat_up_btag_loosemt",
+		    "fakefactorWeight_tt_dm1_njet1_stat_down_btag_loosemt",
+		"""

@@ -173,6 +173,8 @@ class processors_ordered(dict):
 		self["producer:PolarisationQuantitiesSimpleFitProducer"] = 666 #Producer of the devil, I hope he approves this if I go to hell
 
 		self["producer:TauPolarisationTmvaReader"] = 700
+
+		self["producer:JetToTauFakesProducer"] = 800
 			
 		#left a lot of numbers since "producer:EventWeightProducer" is always the last one
 		self["producer:LFVJetCorrection2016Producer"] = 1900
