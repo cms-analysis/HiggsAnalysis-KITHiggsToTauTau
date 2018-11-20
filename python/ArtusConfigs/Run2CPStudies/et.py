@@ -108,6 +108,7 @@ class et_ArtusConfig(dict):
 				]
 
 				if re.search("Summer17|Fall17", nickname):
+					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer", "producer:TauTriggerEfficiency2017Producer"]
 					#self["Processors"] += ["producer:IdentificationWeightProducer"]
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]  #changes from file to file

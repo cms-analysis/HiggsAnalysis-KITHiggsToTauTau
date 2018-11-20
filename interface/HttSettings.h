@@ -456,4 +456,7 @@ public:
 	IMPL_SETTING_MAPSTRINGTOLISTOFSTRINGS(JetEnergyCorrectionSplitUncertaintyGroupings);
 	IMPL_SETTING_DEFAULT(std::string, JetEnergyCorrectionSplitUncertaintyParameters, "");
 	IMPL_SETTING_DEFAULT(bool, UseJECShiftsForBJets, false);
+
+	// setting for PrefiringWeightProducer
+	IMPL_SETTING(std::string, JetPrefireProbabilityFile);
 };

@@ -100,6 +100,7 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:TauCorrectionsProducer"]
 
 				if re.search("Summer17|Fall17", nickname):
+					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
 					#"producer:TriggerWeightProducer"
 					self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"] #is a rooworkspace

@@ -82,6 +82,8 @@ class Quantities(Run2Quantities):
 			self.quantities.update(['nDiTauPairCandidates', 'nLooseElectrons', 'nAllDiTauPairCandidates', 'nLooseMuons'])
 			self.quantities.update(self.fourVectorQuantities())
 			self.quantities.update(self.syncQuantities(nickname))
+			if re.search("(Summer17|Fall17)", nickname):
+					self.quantities.update(["prefiringWeight"])
 
 			if channel == "ET" and re.search("(Summer17|Fall17|Run2017)", nickname):
 				self.quantities.update([
