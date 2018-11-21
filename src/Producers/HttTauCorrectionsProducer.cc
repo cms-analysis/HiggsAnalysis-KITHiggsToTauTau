@@ -79,6 +79,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			float tauEnergyCorrectionOneProngShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngShift();
 			float tauEnergyCorrectionOneProngPiZerosShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZerosShift();
 			float tauEnergyCorrectionThreeProngShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProngShift();
+			float tauEnergyCorrectionThreeProngPiZerosShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProngPiZerosShift();
 
 
 			if (tau->decayMode == 0 && tauEnergyCorrectionOneProng != 1.0)
@@ -114,6 +115,11 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			}
 			else if(tauEnergyCorrection == TauEnergyCorrection::SMHTT2017 && tau->decayMode >= 11 && tauEnergyCorrectionThreeProngPiZeros != 1.0)
 			{
+				if (tauEnergyCorrectionOneProngShift != 0.0)
+				{
+					tauEnergyCorrectionThreeProngPiZeros += tauEnergyCorrectionThreeProngPiZerosShift;
+					//TODO cached svfit cache, has to rerun				
+				}
 				std::cout << "tau decay mode 11 and 2017" << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionThreeProngPiZeros;
 			}

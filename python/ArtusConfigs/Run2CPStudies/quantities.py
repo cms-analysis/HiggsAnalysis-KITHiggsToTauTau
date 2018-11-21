@@ -71,7 +71,8 @@ class Quantities(Run2Quantities):
 					"fourthJetLV",
 					"fifthJetLV",
 					"sixthJetLV",
-					"diJetDeltaPhi"
+					"diJetDeltaPhi",
+					"lhenpNLO"
 				])
 
 			elif re.search("Embedding2016", nickname):
@@ -83,7 +84,7 @@ class Quantities(Run2Quantities):
 			self.quantities.update(self.fourVectorQuantities())
 			self.quantities.update(self.syncQuantities(nickname))
 			if re.search("(Summer17|Fall17)", nickname):
-					self.quantities.update(["prefiringWeight"])
+					self.quantities.update(["prefiringWeight", "globalWeight"])
 
 			if channel == "ET" and re.search("(Summer17|Fall17|Run2017)", nickname):
 				self.quantities.update([
@@ -179,7 +180,8 @@ class Quantities(Run2Quantities):
 						self.quantities.update(self.splitJecUncertaintyQuantities())
 						self.quantities.update(self.genHiggsQuantities()) #no lhe in 2017 skim
 						self.quantities.update(self.genMatchedCPQuantities())
-
+					if re.search("amcatnlo",nickname):
+						self.quantities.update(["lhenpNLO"])
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.svfitSyncQuantities())
 					self.quantities.update(self.recoCPQuantities(melaQuantities=True))

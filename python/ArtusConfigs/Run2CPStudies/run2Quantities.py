@@ -404,7 +404,7 @@ class Run2Quantities():
 			#"scale_variation__muR_0_5_muF_2",
 			"scale_variation__muR_0_5_muF_0_5"
 		]
-
+	#TODO, etah and etasep?
 	@staticmethod
 	def splitJecUncertaintyQuantities(observables = ["njetspt30", "mjj", "jdeta", "jdphi"]):
 		l = []
@@ -590,6 +590,8 @@ class Run2Quantities():
 			"njetingap",
 			"njetingap20",
 			"jdphi",
+			"etaSep",
+			"etaH_cut",
 			"dijetpt",
 			"dijetphi",
 			"hdijetphi",
