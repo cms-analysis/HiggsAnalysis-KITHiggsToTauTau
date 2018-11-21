@@ -1,0 +1,1 @@
+XROOTD_sample_GluGluToPseudoscalarHToTauTauM125_dwinterb_RunIIFall17MiniAODv2_GluGluToPseudoscalarHToTauTau_13TeV_USER_amcatnlo-pythia8_2018-11-20.txt
