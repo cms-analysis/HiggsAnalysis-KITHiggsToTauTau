@@ -459,4 +459,6 @@ public:
 
 	// setting for PrefiringWeightProducer
 	IMPL_SETTING(std::string, JetPrefireProbabilityFile);
+	//settings for CPInitialStateQuantitiesProducer
+	IMPL_SETTING_DEFAULT(bool, DoLhenpNLO, false);
 };

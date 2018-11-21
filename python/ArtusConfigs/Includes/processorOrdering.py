@@ -179,6 +179,8 @@ class ProcessorsOrdered(dict):
 		self["producer:TauPolarisationTmvaReader"] = 700
 
 		self["producer:JetToTauFakesProducer"] = 800
+		self["producer:CPInitialStateQuantitiesProducer"] = 850
+		self["producer:PrefiringWeightProducer"] = 900
 			
 		#left a lot of numbers since "producer:EventWeightProducer" is always the last one
 		self["producer:LFVJetCorrection2016Producer"] = 1900

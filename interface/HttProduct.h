@@ -585,4 +585,6 @@ public:
 	float m_melaM125DiscriminatorD0MinusZhadH = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorDCPZhadH = DefaultValues::UndefinedFloat;
 	*/
+
+	int m_lhenpNLO = 0; 
 };
