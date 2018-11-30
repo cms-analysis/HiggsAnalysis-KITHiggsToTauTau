@@ -123,6 +123,9 @@ def create_input_root_files(datacards, args):
 					
 					tmp_quantity = args.quantity
 					tmp_omega_version = args.omega_version
+					if args.quantity == "m_2":
+						if category in [channel+"_oneprong"]:
+							tmp_quantity = "m_vis"
 					if args.fixed_variables == "best_choice":
 						if channel in ["tt"]:
 							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong", "combined_oneprong_oneprong"]]:
