@@ -56,15 +56,15 @@ void PrefiringWeightProducer::Produce(event_type const& event, product_type& pro
 		jetPrefireProbabilityShift= std::max(jetPrefireStatError, jetPrefire20Error);
 
 		jetPrefireProbabilityUp=std::min(1.f,jetPrefireProbability+jetPrefireProbabilityShift); //make sure its smaller<1
-		jetPrefireProbabilityDown=std::max(0.f,jetPrefireProbability-jetPrefireProbabilityShift);//make sure its smaller>0
+		jetPrefireProbabilityDown=std::max(0.f,jetPrefireProbability-jetPrefireProbabilityShift);//make sure its larger>0
 
 		//std::cout << "jetPrefireProbability \t" << jetPrefireProbability << std::endl;
 
 		prefiringWeight = prefiringWeight * std::min(1.f,1.f-jetPrefireProbability); //make sure its smaller<1
 		//smaller chance for prefireprobability is a shift up in the prefiringweight, (fewer prefiring)
-		prefiringWeightUp = prefiringWeight * std::min(1.f,1.f-jetPrefireProbabilityDown); //make sure its smaller<1
+		prefiringWeightUp = prefiringWeightUp * std::min(1.f,1.f-jetPrefireProbabilityDown); //make sure its smaller<1
 		//higher chance for prefireprobability is a shift down in the prefiringweight, (larger prefiring)
-		prefiringWeightDown = prefiringWeight * std::min(1.f,1.f-jetPrefireProbabilityUp); //make sure its smaller<1
+		prefiringWeightDown = prefiringWeightDown * std::min(1.f,1.f-jetPrefireProbabilityUp); //make sure its smaller<1
 		
 		LOG(DEBUG) << "prefiringWeight \t " << prefiringWeight << std::endl;
 		
