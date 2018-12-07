@@ -33,6 +33,11 @@ private:
 	std::map<size_t, std::vector<TH2F*> > efficienciesDataByIndex;
 	std::map<std::string, std::vector<TH2F*> > efficienciesMcByHltName;
 	std::map<size_t, std::vector<TH2F*> > efficienciesMcByIndex;
+
+	std::map<std::string, std::vector<TH2F*> > IdentificationEfficiencyData;
+	//std::map<size_t, std::vector<TH2F*> > efficienciesDataByIndex;
+	//std::map<std::string, std::vector<TH2F*> > efficienciesMcByHltName;
+	//std::map<size_t, std::vector<TH2F*> > efficienciesMcByIndex;
 	
 	HttEnumTypes::DataMcScaleFactorProducerMode m_scaleFactorMode = HttEnumTypes::DataMcScaleFactorProducerMode::NONE;
 	

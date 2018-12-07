@@ -282,6 +282,10 @@ public:
 				product.m_met = product.*m_metMemberCorrected;
 			}
 		}
+		else if (settings.GetDoJecGroupings())   //only for MC with no recoilcorrections, in TaggedJetUncertaintyShiftProducer
+		{
+			product.m_met.p4 += product.m_MET_shift.p4;
+		}
 		
 		// Apply the correction to the MET object, if required (done for all the samples)
 		if (m_doMetSys)
