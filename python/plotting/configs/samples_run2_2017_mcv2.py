@@ -39,7 +39,7 @@ class Samples(samples.Samples):
 	def ztt_stitchingweight(self):
 		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25469132e-3) + (((genbosonmass >= 150.0) && (npartons == 1))*1.17290378e-3) + (((genbosonmass >= 150.0) && (npartons == 2))*1.17845742e-3) + (((genbosonmass >= 150.0) && (npartons == 3))*1.18139540e-3)+((genbosonmass >= 150.0 && npartons == 4)*1.15891212e-3)"
 
-		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(5.89503542e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(2.14832024e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.36744541e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(3.74962884e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
+		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.36539901e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.11088685e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.30871136e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.45336607e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.36539901e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
 
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight) +"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
@@ -49,15 +49,15 @@ class Samples(samples.Samples):
 	# DYJetsToLLM_150 sample currently only contains Z->tautau decays  5.94801691-05
 
 	def zll_stitchingweight(self):
-		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(5.89503542e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(2.14832024e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.36744541e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(3.74962884e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
+		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.36539901e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.11088685e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.30871136e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.45336607e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.36539901e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
 
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight) +"
-		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight*zPtReweightWeight)"
+		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		#return "("+mediummass+ " + " + lowmass+")"+normalization
 		return "("+lowmass+mediummass+")"+normalization
 
 	def wj_stitchingweight(self):
-		return "(((npartons == 0 || npartons >= 5)*1.37088105e-03) + ((npartons == 1)*1.37088105e-03) + ((npartons == 2)*4.09458756e-04) + ((npartons == 3)*5.67393385e-05) + ((npartons == 4)*5.04028071e-05))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+		return "(((npartons == 0 || npartons >= 5)*(1.37088105e-03)) + ((npartons == 1)*(1.54354730e-04)) + ((npartons == 2)*(3.62872916e-04)) + ((npartons == 3)*(5.61528581e-05)) + ((npartons == 4)*(5.36308423e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 
 	#no stitching weights since no extensions
 	def ewkz_zll_stitchingweight(self):
@@ -80,6 +80,26 @@ class Samples(samples.Samples):
 
 	def ttbar_stitchingweight(self):
 		return "(1)"
+
+	def wwtolnuqq_stitchingweight(self):
+		return "(5.32574493e-8)/(numberGeneratedEventsWeight)" # (5.32574493e-8) = 1/(8782525+9994191)
+
+	def zzto4l_stitchingweight(self):
+		return "(9.51876639e-9)/(numberGeneratedEventsWeight)" # (9.51876639e-9) = 1/(98091559+6964071)
+
+	def ggh_stitchingweight(self, cp=None):
+		if cp == None:
+			log.warning("you want to add stitching weight but did not define cp state, returning 1")
+			return "(1)"
+		elif cp == "sm":
+			return "((lhenpNLO<2)+((lhenpNLO==2)*(1.30458e-08*3.045966)*(1/(numberGeneratedEventsWeight*generatorWeight*crossSectionPerEventWeight))))"
+		elif cp == "mm":
+			return "((lhenpNLO<2)+((lhenpNLO==2)*(9.98162e-09*3.045966)*(1/(numberGeneratedEventsWeight*crossSectionPerEventWeight))))"
+		elif cp == "ps":
+			return "((lhenpNLO<2)+((lhenpNLO==2)*(9.87958e-09*3.045966)*(1/(numberGeneratedEventsWeight*crossSectionPerEventWeight))))"
+		else:
+			log.warning("you want to add stitching weight but did define a wrongly configured cp state, returning 1")
+			return "(1)"
 
 	def files_data(self, channel):
 		query_rereco = {}
@@ -159,13 +179,13 @@ class Samples(samples.Samples):
 
 
 	def files_ztt(self, channel):
-		#artus_files = self.artus_file_names({"process" : "(DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7) #8 mit norm DY3 jets und DY4jets
-		artus_files = "DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DYJetsToLLM10to50_RunIIFall17MiniAOD_94X_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root"
+		#artus_files = self.artus_file_names({"process" : "(DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7) #8 mit norm DY3 jets und DY4jets		TOO many not used samples in samples run 2 so i did it the fast and dirty way
+		artus_files = "DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DYJetsToLLM10to50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root"
 		return artus_files
 
 	def files_zll(self, channel):
-		#artus_files = self.artus_file_names({"process" : "(DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7) #8 mit norm DY3 jets und DY4jets
-		artus_files = "DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DYJetsToLLM10to50_RunIIFall17MiniAOD_94X_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root"
+		#artus_files = self.artus_file_names({"process" : "(DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7) #8 mit norm DY3 jets und DY4jets		TOO many not used samples in samples run 2 so i did it the fast and dirty way
+		artus_files = "DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DYJetsToLLM10to50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root"
 		return artus_files
 
 	def files_ewkwm(self, channel):
@@ -239,22 +259,218 @@ class Samples(samples.Samples):
 			return self.artus_file_names({"process" : "TTTo.*", "data": False, "campaign" : self.mc_campaign}, 3)
 
 
-	def files_diboson(self, channel):
 
-		artus_files = self.artus_file_names({ "process" :
-		                                      "(WW|"
-		                                    + "WZ|"
-		                                    + "ZZ"
-		                                    +  ")",
-		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "pythia8"}, 3)
-		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STtWantitop5finclusiveDecaysTuneCP5|STtWtop5finclusiveDecaysTuneCP5)",
+	########### W+NJETS FILES ################
+	def files_wj(self, channel):
+		artus_files = self.artus_file_names({"process" : "W.*JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8",  "analysis_2017" : "skim_mcv2_CP"}, 5)
+		return artus_files
+
+
+
+	############ DIBOSON FILES ###############
+	def files_wwtolnuqq(self, channel):
+		artus_files = self.artus_file_names({ "process" : "WWToLNuQQ","data" : False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 2)
+		return artus_files
+
+	def files_wwto4q(self, channel):
+		artus_files = self.artus_file_names({ "process" : "WWTo4Q", "data" : False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
+		return artus_files
+
+	def files_wzto1l3nu(self, channel):
+		artus_files = self.artus_file_names({ "process" : "WZTo1L3Nu", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 1)
+		return artus_files
+
+	def files_wzto3lnu(self, channel):
+		artus_files = self.artus_file_names({ "process" : "WZTo3LNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 1)
+		return artus_files
+
+	def files_zzto2l2nu(self, channel):
+		artus_files = self.artus_file_names({ "process" : "ZZTo2L2Nu", "data" : False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
+		return artus_files
+
+	def files_zzto4l(self, channel):
+		print "hi"
+		artus_files = self.artus_file_names({ "process" : "ZZTo4L", "data" : False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 2)
+		return artus_files
+
+
+	def files_singletop(self, channel):
+		artus_files = self.artus_file_names({ "process" : "(STtWantitop5finclusiveDecaysTuneCP5|STtWtop5finclusiveDecaysTuneCP5)",
 							"data" : False, "campaign" : self.mc_campaign}, 2)
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4finclusiveDecaysTuneCP5|STt-channeltop4finclusiveDecaysTuneCP5)",
 		                      "data" : False, "campaign" : self.mc_campaign}, 2)
 		return artus_files
 
-	#TODO do something similar for ggh like files_qqh if needed
 
+	#wwtolnuqq_stitchingweight
+	#zzto4l_stitchingweight
+
+	def vvt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
+		if channel in ["mt", "et", "tt"]:
+			add_input(
+					input_file=self.files_wwtolnuqq(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight(),
+					nick="vvt"
+			)
+			add_input(
+					input_file=self.files_wwto4q(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					nick="vvt"
+			)
+			add_input(
+					input_file=self.files_wzto1l3nu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					nick="vvt"
+			)
+			add_input(
+					input_file=self.files_wzto3lnu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					nick="vvt"
+			)
+			add_input(
+					input_file=self.files_zzto2l2nu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					nick="vvt"
+			)
+			add_input(
+					input_file=self.files_zzto4l(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight(),
+					nick="vvt"
+			)
+			add_input(
+					input_file=self.files_singletop(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vvt"
+			)
+		else:
+			log.error("Sample config (VVT) currently not implemented for channel \"%s\"!" % channel)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "vvt", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvt"), nick_suffix)
+		return config
+
+	def vvj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
+		if channel in ["mt", "et", "tt"]:
+			add_input(
+					input_file=self.files_wwtolnuqq(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.wwtolnuqq_stitchingweight(),
+					nick="vvj"
+			)
+			add_input(
+					input_file=self.files_wwto4q(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vvj"
+			)
+			add_input(
+					input_file=self.files_wzto1l3nu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vvj"
+			)
+			add_input(
+					input_file=self.files_wzto3lnu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vvj"
+			)
+			add_input(
+					input_file=self.files_zzto2l2nu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vvj"
+			)
+			add_input(
+					input_file=self.files_zzto4l(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.zzto4l_stitchingweight(),
+					nick="vvj"
+			)
+			add_input(
+					input_file=self.files_singletop(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vvj"
+			)
+		else:
+			log.error("Sample config (VVJ) currently not implemented for channel \"%s\"!" % channel)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "vvt", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvt"), nick_suffix)
+		return config
+
+	def vvj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
+		if channel in ["mt", "et", "tt"]:
+			add_input(
+					input_file=self.files_wwtolnuqq(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.wwtolnuqq_stitchingweight(),
+					nick="vv"
+			)
+			add_input(
+					input_file=self.files_wwto4q(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vv"
+			)
+			add_input(
+					input_file=self.files_wzto1l3nu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vv"
+			)
+			add_input(
+					input_file=self.files_wzto3lnu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vv"
+			)
+			add_input(
+					input_file=self.files_zzto2l2nu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vv"
+			)
+			add_input(
+					input_file=self.files_zzto4l(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.zzto4l_stitchingweight(),
+					nick="vv"
+			)
+			add_input(
+					input_file=self.files_singletop(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vv"
+			)
+		else:
+			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "vvt", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvt"), nick_suffix)
+		return config
+
+	################higgs files###########################
 	def files_qqh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
 		print "this is VBF"
@@ -278,29 +494,31 @@ class Samples(samples.Samples):
 
 	def files_ggh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
-		if cp is None or cp == "cpeven":
+		generator = kwargs.get("generator", "madgraph")
+		if generator == "madgraph":
+			if "sm" in cp:
+				return "GluGluToHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root GluGluToHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root" #FIXME change to total sm		
+			if "ps" in cp:
+				return "GluGluToPseudoscalarHToTauTauM125_dwinterb_RunIIFall17MiniAODv2_GluGluToPseudoscalarHToTauTau_13TeV_USER_amcatnlo-pythia8/*.root GluGluToPseudoscalarHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+			if "mm" in cp:
+				return "GluGluToMaxmixHToTauTauM125_dwinterb_RunIIFall17MiniAODv2_GluGluToMaxmixHToTauTau_13TeV_USER_amcatnlo-pythia8/*.root GluGluToMaxmixHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+
+		elif generator == "jhu":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
-			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
-		
-		elif "jhu" in cp:
 			if "sm" in cp:
 				return "JJHiggs0PMToTauTauPseudoscalarDecayM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_JHUgen-pythia8/*.root" #FIXME change to total sm		
 			if "ps" in cp:
 				return "JJHiggs0MToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_JHUgen-pythia8/*.root"
 			if "mm" in cp:
 				return "JJHiggs0Mf05ph0ToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_JHUgen-pythia8/*.root"
-		elif cp in ["sm", "mm", "ps"]:
-			return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+		else:
+			if cp in ["sm", "mm", "ps"]:
+				return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+			else:
+				return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 
 	def files_vv(self, channel):
 		return None
-
-	#missing w1jets in das
-	def files_wj(self, channel):
-		artus_files = self.artus_file_names({"process" : "W.*JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8"}, 4)
-		return artus_files
-
-
 	
 	def qcd(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", controlregions=False,**kwargs):
 
@@ -314,8 +532,6 @@ class Samples(samples.Samples):
 		#Call the function as in samples_run2_2016 with the kwarg ss_os_factor as defined above 
 
 		return super(Samples, self).qcd(config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, estimationMethod=estimationMethod, controlregions=controlregions, ss_os_factor=ss_os_factor)
-
-
 
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=None, estimationMethod="classic", controlregions=False,**kwargs):
 		
@@ -331,7 +547,7 @@ class Samples(samples.Samples):
 		return super(Samples, self).wj(config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, fakefactor_method=fakefactor_method, estimationMethod=estimationMethod, controlregions=controlregions, ss_os_factor=ss_os_factor, **kwargs)
 
 
-	def ff(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fake_factor_name_1="fakefactorWeight_comb_inclusive_1", fake_factor_name_2="fakefactorWeight_comb_inclusive_2", **kwargs):
+	def ff(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fake_factor_name_1="fakefactorWeight_comb_inclusive_1", fake_factor_name_2="fakefactorWeight_comb_inclusive_2",fakefactor_method=True, **kwargs):
 
 		data_weight, mc_weight = self.projection(kwargs)
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
@@ -368,9 +584,10 @@ class Samples(samples.Samples):
 				weight=data_weight+"*"+weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
 				nick="noplot_jetFakes_raw"
 			)
+			
 			add_input(
 				input_file=self.files_ztt(channel),
-				weight=mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight_ff)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)",
+				weight=mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight_ff)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*(zPtReweightWeight)*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
 				nick="noplot_ff_realtaus_subtract"
 			)
 			"""
@@ -382,26 +599,51 @@ class Samples(samples.Samples):
 
 			add_input(
 				input_file=self.files_zll(channel),
-				weight=mc_weight+"*"+weight_ff+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts= exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*(gen_match_2 < 6)"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+				weight=mc_weight+"*"+weight_ff+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts= exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*(gen_match_2 < 6)"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))*(zPtReweightWeight)",
 				nick="noplot_ff_realtaus_subtract"
 				)
 
 			add_input(
 				input_file=self.files_ttj(channel),
-				weight=mc_weight+"*(1/generatorWeight)*"+weight_ff+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)",
+				weight=mc_weight+"*"+weight_ff+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
 				nick="noplot_ff_realtaus_subtract"
 			)
-			"""
 			add_input(
-				input_file=self.files_vv(channel),
-				weight=mc_weight+"*"+weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)"+"*"+self.vv_stitchingweight(),
-				nick="noplot_ff_realtaus_subtract"
-			)"""
-			add_input(
-				input_file=self.files_diboson(channel),
-				weight=mc_weight+"*"+weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)",
-				nick="noplot_ff_realtaus_subtract"
+					input_file=self.files_wwtolnuqq(channel),
+					weight=mc_weight+"*"+weight_ff+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight()+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract"
 			)
+			add_input(
+					input_file=self.files_wwto4q(channel),
+					weight=mc_weight+"*"+weight_ff+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract"
+			)
+			add_input(
+					input_file=self.files_wzto1l3nu(channel),
+					weight=mc_weight+"*"+weight_ff+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract"
+			)
+			add_input(
+					input_file=self.files_wzto3lnu(channel),
+					weight=mc_weight+"*"+weight_ff+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract"
+			)
+			add_input(
+					input_file=self.files_zzto2l2nu(channel),
+					weight=mc_weight+"*"+weight_ff+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract"
+			)
+			add_input(
+					input_file=self.files_zzto4l(channel),
+					weight=mc_weight+"*"+weight_ff+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight()+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract"
+			)
+			add_input(
+					input_file=self.files_singletop(channel),
+					weight=mc_weight+"*"+weight_ff+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract"
+			)
+
 
 			"""
 			add_input(

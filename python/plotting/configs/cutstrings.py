@@ -79,7 +79,7 @@ class CutStringsDict:
 			if "2017" in cut_type:
 				cuts["trigger"] = "((trg_singlemuon_24>0.5)||(trg_singlemuon_27>0.5)||(trg_crossmuon_mu20tau27>0.5))"
 				cuts["iso_1"] = "(iso_1 < 0.15)"
-				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))" 
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))" 
 				cuts["pt_1"] = "(pt_1 > 25.0)"
 				cuts["pt_2"] = "(pt_2 > 30.0)"
 				cuts["mt"] = "(mt_1<50.0)"
@@ -104,7 +104,7 @@ class CutStringsDict:
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			if "2017" in cut_type:
 				cuts["trigger"] = "(((trg_singleelectron_35>0.5)*(pt_1>36))||((trg_crosselectron_ele24tau30>0.5)*(pt_1>25)*(pt_2>35))||((trg_singleelectron_27>0.5)*(pt_1>28))||((trg_singleelectron_32>0.5)*(pt_1>33))|| ((trg_singleelectron_32_fallback>0.5)*(pt_1>33)))"
-				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
 				cuts["mt"] = "(mt_1<50.0)"
 			else:
 				cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
@@ -200,12 +200,13 @@ class CutStringsDict:
 	@staticmethod
 	def cpggh2017(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
-		if channel == "mm":		
+		cuts["bveto"] = "(nbtag == 0)"
+		if channel == "mm":  #TODO	
 			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 25.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"					
-		elif channel == "em":
+		elif channel == "em": #TODO
 			cuts["bveto"] = "(nbtag == 0)"
 			cuts["pt_1"] = "(pt_1 > 13.0)"
 			cuts["pt_2"] = "(pt_2 > 10.0)"
@@ -217,19 +218,20 @@ class CutStringsDict:
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["mt"] = "(mt_1<50.0)"					
 			cuts["iso_1"] = "(iso_1 < 0.15)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
 		elif channel == "et":
 			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"	
 			cuts["mt"] = "(mt_1<50.0)"	
 			cuts["iso_1"] = "(iso_1 < 0.1)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))"
-		elif channel == "tt":
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
+		elif channel == "tt": #TODO
 			cuts["pt_1"] = "(pt_1 > 50.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
 			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"									
 			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
-		cuts["generatorweight"] = "(1/generatorWeight)" #TODO
+		#cuts["generatorweight"] = "(1/generatorWeight)" #TODO
+		print "hallo"
 		return cuts
 
 
