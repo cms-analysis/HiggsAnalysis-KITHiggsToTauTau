@@ -110,8 +110,7 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 				else:
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
-					self["Processors"] += ["producer:MuTauTriggerWeightProducer"] #is a rooworkspace
- file
+					self["Processors"] += ["producer:MuTauTriggerWeightProducer"] #is a rooworkspace file
 
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 					self["Processors"] += [
@@ -133,12 +132,13 @@ class mt_ArtusConfig(dict):
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += ["producer:JetToTauFakesProducer"]
 						#if re.search("Summer17|Fall17", nickname) == None:
-						self["Processors"] += ["producer:ZPtReweightProducer"]
+
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
 						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+							self["Processors"] += ["producer:ZPtReweightProducer"]
 
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
@@ -265,8 +265,8 @@ class mt_ArtusConfig(dict):
 		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)
 
-		JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
-		self.update(JECUncertaintySplit_config)
+		#JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
+		#self.update(JECUncertaintySplit_config)
 
 		JetID_config = sJID.Jet_ID(nickname)
 		self.update(JetID_config)
@@ -466,67 +466,74 @@ class mt_ArtusConfig(dict):
 
 		self["EventWeight"] = "eventWeight"
 
+		
 		if re.search("(Run2017|Summer17|Fall17)", nickname):
-			if re.search("(Run2017|Summer17|Fall17)", nickname):
-				self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v1_IC.root"
-				self["RooWorkspaceWeightNames"] = [
-					#"0:crossTriggerMCEfficiencyWeight",
-					#"0:crossTriggerDataEfficiencyWeight",
-					#"0:singleTriggerMCEfficiencyWeight",
-					#"0:singleTriggerDataEfficiencyWeight",
-					#"0:singleTriggerMCEfficiencyWeightKIT",
-					#"0:singleTriggerDataEfficiencyWeightKIT",
-				 	
-					"0:idIsoWeight",
-					#"0:idWeight",
-					"0:trackWeight"
-					]
-				self["RooWorkspaceObjectNames"] = [
-					#"0:m_trg_MuTau_Mu20Leg_desy_mc",
-					#"0:m_trg_MuTau_Mu20Leg_desy_data",
-					#"0:m_trg_SingleMu_Mu24ORMu27_desy_mc",
-					#"0:m_trg_SingleMu_Mu24ORMu27_desy_data",
-					#"0:m_trg24or27_mc",
-					#"0:m_trg24or27_data",
-				  
-					"0:m_idiso_binned_ratio",
-					#"0:m_id_ratio",
-					"0:m_trk_ratio"
-					]
-				self["RooWorkspaceObjectArguments"] = [
-					#"0:m_pt,m_eta",
-					#"0:m_pt,m_eta",
-					#"0:m_pt,m_eta",
-					#"0:m_pt,m_eta",
-					#"0:m_pt,m_eta",
-					#"0:m_pt,m_eta",
-				  
-					"0:m_pt,m_eta",
-					#"0:m_pt,m_eta",
-					"0:m_eta"
-					]
+			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
+			self["RooWorkspaceWeightNames"] = [
+				#"0:crossTriggerMCEfficiencyWeight",
+				#"0:crossTriggerDataEfficiencyWeight",
+				#"0:singleTriggerMCEfficiencyWeight",
+				#"0:singleTriggerDataEfficiencyWeight",
+				#"0:singleTriggerMCEfficiencyWeightKIT",
+				#"0:singleTriggerDataEfficiencyWeightKIT",
+			 	
+				"0:idIsoWeight",
+				#"0:idWeight",
+				"0:trackWeight"
+				]
+			self["RooWorkspaceObjectNames"] = [
+				#"0:m_trg_MuTau_Mu20Leg_desy_mc",
+				#"0:m_trg_MuTau_Mu20Leg_desy_data",
+				#"0:m_trg_SingleMu_Mu24ORMu27_desy_mc",
+				#"0:m_trg_SingleMu_Mu24ORMu27_desy_data",
+				#"0:m_trg24or27_mc",
+				#"0:m_trg24or27_data",
+			  
+				"0:m_idiso_binned_ratio",
+				#"0:m_id_ratio",
+				"0:m_trk_ratio"
+				]
+			self["RooWorkspaceObjectArguments"] = [
+				#"0:m_pt,m_eta",
+				#"0:m_pt,m_eta",
+				#"0:m_pt,m_eta",
+				#"0:m_pt,m_eta",
+				#"0:m_pt,m_eta",
+				#"0:m_pt,m_eta",
+			  
+				"0:m_pt,m_eta",
+				#"0:m_pt,m_eta",
+				"0:m_eta"
+				]
+			if re.search("HToTauTau", nickname):
+				self["RooWorkspaceWeightNames"] += ["0:quarkmassWeight", "0:quarkmassUpWeight", "0:quarkmassDownWeight"]
+				self["RooWorkspaceObjectNames"] += ["0:ggH_quarkmass_corr", "0:ggH_quarkmass_corr_up", "0:ggH_quarkmass_corr_down"]
+				self["RooWorkspaceObjectArguments"] += ["0:HpT", "0:HpT", "0:HpT"] #gen Higgs pt
+			if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
+				self["RooWorkspaceWeightNames"] += ["0:zPtReweightWeight"]
+				self["RooWorkspaceObjectNames"] += ["0:zpt_weight_nom"]
+				self["RooWorkspaceObjectArguments"] += ["0:z_gen_pt"]
 
-				self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v1_IC.root"
-				self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
-					"0:m_triggerEffSingle_mc",
-					"0:m_triggerEffCross_mc",
-					"0:m_triggerEffSingle_data",
-					"0:m_triggerEffCross_data"
-				]
-				self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
-					"0:m_trg_binned_mc",
-					"0:m_trg20_mc",
-					"0:m_trg_binned_data",
-					"0:m_trg20_data"
-					
-				]
-				self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
-					"0:m_pt,m_eta,m_iso",
-					"0:m_pt,m_eta",  
-					"0:m_pt,m_eta,m_iso",
-					"0:m_pt,m_eta"
-				]
-
+			self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
+			self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
+				"0:m_triggerEffSingle_mc",
+				"0:m_triggerEffCross_mc",
+				"0:m_triggerEffSingle_data",
+				"0:m_triggerEffCross_data"
+			]
+			self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
+				"0:m_trg_binned_mc",
+				"0:m_trg20_mc",
+				"0:m_trg_binned_data",
+				"0:m_trg20_data"
+				
+			]
+			self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
+				"0:m_pt,m_eta,m_iso",
+				"0:m_pt,m_eta",  
+				"0:m_pt,m_eta,m_iso",
+				"0:m_pt,m_eta"
+			]
 
 		else:
 			self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"

@@ -71,9 +71,10 @@ class Quantities(Run2Quantities):
 					"fourthJetLV",
 					"fifthJetLV",
 					"sixthJetLV",
-					"diJetDeltaPhi",
-					"lhenpNLO"
+					"diJetDeltaPhi"
 				])
+				if re.search("amcatnlo",nickname):
+					self.quantities.update(["lhenpNLO"])
 
 			elif re.search("Embedding2016", nickname):
 				self.quantities.update(["tauSpinnerPolarisation"])
@@ -83,8 +84,8 @@ class Quantities(Run2Quantities):
 			self.quantities.update(['nDiTauPairCandidates', 'nLooseElectrons', 'nAllDiTauPairCandidates', 'nLooseMuons'])
 			self.quantities.update(self.fourVectorQuantities())
 			self.quantities.update(self.syncQuantities(nickname))
-			if re.search("(Summer17|Fall17)", nickname):
-					self.quantities.update(["prefiringWeight", "globalWeight"])
+			if re.search("(Summer17|Fall17|Run2017)", nickname):
+					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
 
 			if channel == "ET" and re.search("(Summer17|Fall17|Run2017)", nickname):
 				self.quantities.update([
@@ -133,7 +134,7 @@ class Quantities(Run2Quantities):
 
 				else:
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
-					self.quantities.update(self.splitJecUncertaintyQuantities())
+					#self.quantities.update(self.splitJecUncertaintyQuantities())
 
 					if not channel == "TT":
 						self.quantities.update(self.recoCPQuantities(melaQuantities=False))
@@ -149,7 +150,7 @@ class Quantities(Run2Quantities):
 				self.quantities.update(self.recoCPQuantities(melaQuantities=True))
 				if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 					self.quantities.update(self.genQuantities(LFV = False)) #TODO for 2017 also , Z = True
-					self.quantities.update(self.splitJecUncertaintyQuantities())  #no lhe in 2017 skim
+					#self.quantities.update(self.splitJecUncertaintyQuantities())  #no lhe in 2017 skim
 					self.quantities.update(self.genMatchedCPQuantities())
 					self.quantities.update(self.recoPolarisationQuantitiesSvfit())
 					self.quantities.update(self.recoPolarisationQuantities())
@@ -177,11 +178,11 @@ class Quantities(Run2Quantities):
 			else:
 				if not channel == "MM" and re.search('(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
 					if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
-						self.quantities.update(self.splitJecUncertaintyQuantities())
+						#self.quantities.update(self.splitJecUncertaintyQuantities())
 						self.quantities.update(self.genHiggsQuantities()) #no lhe in 2017 skim
 						self.quantities.update(self.genMatchedCPQuantities())
 					if re.search("amcatnlo",nickname):
-						self.quantities.update(["lhenpNLO"])
+						self.quantities.update(["lhenpNLO", "quarkmassWeight","quarkmassUpWeight","quarkmassDownWeight"])
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.svfitSyncQuantities())
 					self.quantities.update(self.recoCPQuantities(melaQuantities=True))
@@ -202,7 +203,7 @@ class Quantities(Run2Quantities):
 					self.quantities.update(self.recoPolarisationQuantities())
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
-					self.quantities.update(self.splitJecUncertaintyQuantities())
+					#self.quantities.update(self.splitJecUncertaintyQuantities())
 
 				elif not channel == "MM" and re.search('(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)', nickname):
 					self.quantities.update(set(['melaProbCPOddVBF', 'melaDiscriminatorDCPGGH', 'melaM125ProbCPEvenGGH', 'melaProbCPMixVBF', 'melaM125ProbCPMixVBF', 'melaM125DiscriminatorDCPVBF', 'melaDiscriminatorD0MinusGGH', 'melaDiscriminatorD0MinusVBF', 'melaProbCPEvenGGH', 'melaM125ProbCPEvenVBF', 'melaM125ProbCPMixGGH', 'melaProbCPOddGGH', 'melaDiscriminatorDCPVBF', 'melaM125ProbCPOddGGH', 'melaM125DiscriminatorDCPGGH', 'melaProbCPMixGGH', 'melaProbCPEvenVBF', 'melaM125DiscriminatorD0MinusGGH', 'melaM125ProbCPOddVBF', 'melaM125DiscriminatorD0MinusVBF']))
@@ -243,7 +244,7 @@ class Quantities(Run2Quantities):
 						self.quantities.update(self.svfitSyncQuantities())
 						self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 						if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
-							self.quantities.update(self.splitJecUncertaintyQuantities())
+							#self.quantities.update(self.splitJecUncertaintyQuantities())
 							self.quantities.update(self.recoPolarisationQuantitiesSvfit())
 							self.quantities.update(self.recoPolarisationQuantities())
 

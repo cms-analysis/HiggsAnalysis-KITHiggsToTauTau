@@ -9,15 +9,102 @@ import re
 
 class JECUncertaintySplit(dict):
 	def __init__(self, nickname):
-		if re.search("(Run2016|Spring16|Summer16)", nickname):
-			self["JetEnergyCorrectionSplitUncertainty"] = True
-		else:
-			self["JetEnergyCorrectionSplitUncertainty"] = False
-
+		self["JetEnergyCorrectionSplitUncertainty"] = False
+		self["JetEnergyCorrectionSplitUncertaintyParameterNames"] = []
 		if re.search("(Run201|Embedding)", nickname):
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 0.0
 		else:
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 1.0
+
+		self["JetEnergyCorrectionCorrelationMap"] = [
+			"AbsoluteFlavMap:0.",
+			"AbsoluteMPFBias:1.",
+			"AbsoluteScale:1.",
+			"AbsoluteStat:0.",
+			"FlavorQCD:1.",
+			"Fragmentation:1.",
+			"PileUpDataMC:0.5",
+			"PileUpPtBB:0.5",
+			"PileUpPtEC1:0.5",
+			"PileUpPtEC2:0.5",
+			"PileUpPtHF:0.5",
+			"PileUpPtRef:0.5",
+			"RelativeFSR:0.5",
+			"RelativeJEREC1:0.",
+			"RelativeJEREC2:0.",
+			"RelativeJERHF:0.5",
+			"RelativePtBB:0.5",
+			"RelativePtEC1:0.",
+			"RelativePtEC2:0.",
+			"RelativePtHF:0.5",
+			"RelativeBal:0.5",
+			"RelativeSample:0.",
+			"RelativeStatEC:0.",
+			"RelativeStatFSR:0.",
+			"RelativeStatHF:0.",
+			"SinglePionECAL:1.",
+			"SinglePionHCAL:1.",
+			"TimePtEta:0"
+		]
+		print len(self["JetEnergyCorrectionCorrelationMap"])
+
+	def group_eta0to5(self):
+		self["JetEnergyCorrectionSplitUncertainty"] = True
+		self["JetEnergyCorrectionSplitUncertaintyParameterNames"] = [
+			"AbsoluteFlavMap",
+			"AbsoluteMPFBias",
+			"AbsoluteScale",
+			"AbsoluteStat",
+			"FlavorQCD",
+			"Fragmentation",
+			"PileUpDataMC",
+			"PileUpPtRef",		
+			"RelativeFSR",
+			"RelativeStatFSR",							
+			"SinglePionECAL",
+			"SinglePionHCAL",						
+			"TimePtEta"					
+		]
+
+	def group_eta0to3(self):
+		self["JetEnergyCorrectionSplitUncertainty"] = True
+		self["JetEnergyCorrectionSplitUncertaintyParameterNames"] = [
+			"PileUpPtBB",
+			"PileUpPtEC1",
+			"PileUpPtEC2",
+			"RelativeJEREC1",
+			"RelativeJEREC2",
+			"RelativePtBB",		
+			"RelativePtEC1",
+			"RelativePtEC2",
+			"RelativeStatEC"							
+		]
+	def group_eta3to5(self):
+		self["JetEnergyCorrectionSplitUncertainty"] = True
+		self["JetEnergyCorrectionSplitUncertaintyParameterNames"] = [
+			"PileUpPtHF",
+			"RelativeJERHF",			
+			"RelativePtHF",
+			"RelativeStatHF",
+		]
+
+	def group_relativebal(self):
+		self["JetEnergyCorrectionSplitUncertainty"] = True
+		self["JetEnergyCorrectionSplitUncertaintyParameterNames"] = [
+			"RelativeBal"
+		]
+
+		
+	def group_relativesample(self):
+		self["JetEnergyCorrectionSplitUncertainty"] = True
+		self["JetEnergyCorrectionSplitUncertaintyParameterNames"] = [
+			"RelativeSample"
+		]
+
+	"""
+
+
+
 		self["JetEnergyCorrectionSplitUncertaintyParameterNames"] = [
 			"AbsoluteFlavMap",
 			"AbsoluteMPFBias",
@@ -120,3 +207,4 @@ class JECUncertaintySplit(dict):
 				"Eta3To5"
 			]
 		}
+	"""

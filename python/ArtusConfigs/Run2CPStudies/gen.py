@@ -87,7 +87,9 @@ class gen_ArtusConfig(dict):
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:ValidTaggedJetsProducer",
 				"#producer:ValidBTaggedJetsProducer",
-				"producer:DiJetQuantitiesProducer"
+				"producer:DiJetQuantitiesProducer",
+				"producer:CPInitialStateQuantitiesProducer"
 			]
-			
+			if re.search("amcatnlo",nickname):
+				self["DoLhenpNLO"] = True	#NEEDED for stitching
 

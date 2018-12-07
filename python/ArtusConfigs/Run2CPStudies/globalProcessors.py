@@ -160,7 +160,7 @@ class globalProccesors(dict):
 				"producer:NumberGeneratedEventsWeightProducer",
 				"producer:PUWeightProducer",
 				"producer:ScaleVariationProducer",
-				"filter:MetFilter"
+				"#filter:MetFilter"
 			]
 		else:
 			self["Processors"] = [

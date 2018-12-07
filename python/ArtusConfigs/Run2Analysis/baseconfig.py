@@ -52,6 +52,8 @@ class Baseconfig(dict):
 			self["BosonPdgIds"] = [23]
 		elif re.search("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z|JJ)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["BosonPdgIds"] = [25]
+		elif re.search("Pseudoscalar|Maxmix",nickname):
+			self["BosonPdgIds"] = [25]
 		elif re.search("W.?JetsToLN|EWKW", nickname):
 			self["BosonPdgIds"] = [24]
 		elif re.search("SUSY(BB|GluGlu|GluGluTo)(BB)?HToTauTau", nickname):

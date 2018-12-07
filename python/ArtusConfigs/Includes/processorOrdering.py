@@ -116,6 +116,8 @@ class ProcessorsOrdered(dict):
 
 		self["producer:TaggedJetCorrectionsProducer"] = 120
 
+		self["producer:GroupedJetUncertaintyShiftProducer"] = 125 #Not together with TaggedJetUncertaintyShiftProducer, but before validtaggedjetsProducer and validBtaggedJetsProducer
+
 		self["producer:ValidTaggedJetsProducer"] = 130
 
 		self["producer:ValidBTaggedJetsProducer"] = 140

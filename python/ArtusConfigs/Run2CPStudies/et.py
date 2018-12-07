@@ -77,7 +77,7 @@ class et_ArtusConfig(dict):
 				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe
 
 
-			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"] #TaggedJetUncertaintyShiftProducer is old
 			if not re.search("(LFV).*(?=(Spring16|Summer16))", nickname): self["Processors"] += ["producer:MELAProducer"]
 
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
@@ -144,9 +144,9 @@ class et_ArtusConfig(dict):
 						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-
+							self["Processors"] +=["producer:ZPtReweightProducer"] #done via rooworkspace in 2017
 						#if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
-						self["Processors"] +=["producer:ZPtReweightProducer"] 
+						
 
 					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16))", nickname):
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
@@ -285,8 +285,9 @@ class et_ArtusConfig(dict):
 		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)
 
-		JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
-		self.update(JECUncertaintySplit_config)
+		#
+		#JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
+		#self.update(JECUncertaintySplit_config)
 
 		JetID_config = sJID.Jet_ID(nickname)
 		self.update(JetID_config)
@@ -436,7 +437,7 @@ class et_ArtusConfig(dict):
 
 		if re.search("(Run2017|Summer17|Fall17)", nickname):
 			#self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_1.root"
-			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v1_IC.root"
+			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
 			self["RooWorkspaceWeightNames"] = [
 				#"0:crossTriggerMCEfficiencyWeight",
 				#"0:crossTriggerDataEfficiencyWeight",
@@ -476,8 +477,18 @@ class et_ArtusConfig(dict):
 				"0:e_pt,e_eta",
 				"0:e_pt,e_eta"
 			]
+			if re.search("HToTauTau", nickname):
+				self["RooWorkspaceWeightNames"] += ["0:quarkmassWeight", "0:quarkmassUpWeight", "0:quarkmassDownWeight"]
+				self["RooWorkspaceObjectNames"] += ["0:ggH_quarkmass_corr", "0:ggH_quarkmass_corr_up", "0:ggH_quarkmass_corr_down"]
+				self["RooWorkspaceObjectArguments"] += ["0:HpT", "0:HpT", "0:HpT"] #gen Higgs pt
+			if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
+				self["RooWorkspaceWeightNames"] += ["0:zPtReweightWeight"]
+				self["RooWorkspaceObjectNames"] += ["0:zpt_weight_nom"]
+				self["RooWorkspaceObjectArguments"] += ["0:z_gen_pt"]
 
-			self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v1_IC.root"
+
+
+			self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
 			self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
 				"0:e_triggerEffSingle_mc",
 				"0:e_triggerEffCross_mc",
@@ -486,9 +497,9 @@ class et_ArtusConfig(dict):
 			]
 			self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
 				"0:e_trg_binned_mc",
-				"0:e_trg24_mc",
+				"0:e_trg24_fromDoubleE_mc",
 				"0:e_trg_binned_data",
-				"0:e_trg24_data"
+				"0:e_trg24_fromDoubleE_data"
 			]
 			self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
 				"0:e_pt,e_eta,e_iso",

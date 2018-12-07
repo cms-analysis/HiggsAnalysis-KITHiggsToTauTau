@@ -8,7 +8,7 @@ import re
 
 
 class Electron_ID(dict):
-	def __init__(self, nickname, wp=90, iso=False):  #might change to wp=90 iso False
+	def __init__(self, nickname, wp=90, iso=False):
 		
 		self["ElectronID_documentation"] = [
 			"https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2",
@@ -36,29 +36,49 @@ class Electron_ID(dict):
 			#self["ElectronIDType"] = "mvabased2017andlater"
 
 		elif re.search("(Run2017|Fall17)", nickname):
-			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values" #TODO check if this is the one used in analysis
+			
+			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV2Values" #TODO check if this is the one used in analysis
 			self["ElectronMvaIDCutEB1"] = 0.9897
 			self["ElectronMvaIDCutEB2"] = 0.9819
 			self["ElectronMvaIDCutEE"] = 0.9625
-			self["ElectronIDType"] = "mvabased2017andlater"
+			self["ElectronIDType"] = "mvabased2015andlater"
 			#rho corrections
 			#https://github.com/cms-sw/cmssw/blob/master/RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_94X.txt
-			self["ElectronEtaBinnedEAValues"] = [0.1440, 0.1562, 0.1032, 0.0859, 0.1116, 0.1321, 0.1654]
+
+			###################TODO#####################
+			#IC uses old values from here https://github.com/cms-sw/cmssw/blob/CMSSW_9_4_X/RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_92X.txt but are not changing it because of scalefactors derived with old EA
+			#New EA values are here: #https://github.com/cms-sw/cmssw/blob/master/RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_94X.txt
+			#self["ElectronEtaBinnedEAValues"] = [0.1440, 0.1562, 0.1032, 0.0859, 0.1116, 0.1321, 0.1654]
+			############################################
+			self["ElectronEtaBinnedEAValues"] = [0.1566, 0.1626, 0.1073, 0.0854, 0.1051, 0.1204, 0.1524]
 			self["ElectronEtaBinsForEA"] = [0.0, 1.0, 1.479, 2.0, 2.2, 2.3, 2.4, 5.0]
+
 
 			assert (wp==80 or wp==90), "wp should be 80 or 90. look inside settingselectronID.py"
 			#In 2017 the working points are determined by a function dependent on pt, WP(pT) = c − Aexp( − pt/t), and the number there corresponds to [c, A, t] in this function
 			# https://rembserj.web.cern.ch/rembserj/notes/Electron_MVA_ID_2017_documentation/
 			if iso:
-				self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"
 				if wp==80:
+					self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wp80"
+				if wp==90:
+					self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wp90"
+
+			else:
+				if wp==80:
+					self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp80"
+				if wp==90:
+					self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp90"
+			"""
+			if iso:
+				self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"
+				if wp==80: #TODO change to v2 values
 					self["ElectronMvaIDCutEB1ParamsLowPt"] = [0.9725509559754997, 0.2653858736397496, 2.976593261509491]
 					self["ElectronMvaIDCutEB2ParamsLowPt"] = [0.9508038141601247, 0.2355820499260076, 2.6633500558725713]
 					self["ElectronMvaIDCutEEParamsLowPt"] = [0.9365037167596238, 3.067015289215309, 1.5765442323949856]
 					self["ElectronMvaIDCutEB1ParamsHighPt"] = [0.9896562087723659, 0.40204156417414094, 10.342490511998674] 
 					self["ElectronMvaIDCutEB2ParamsHighPt"] = [0.9819232656533827, 0.772674931169389, 9.05548836482051]
 					self["ElectronMvaIDCutEEParamsHighPt"] = [0.9625098201744635, 8.42589315557279, 2.2916152615134173]
-				if wp==90:
+				if wp==90: #TODO change to v2 values
 					self["ElectronMvaIDCutEB1ParamsLowPt"] = [0.9387070396095831, 0.8222647164151365, 2.6525585228167636]
 					self["ElectronMvaIDCutEB2ParamsLowPt"] = [0.8948802925677235, 0.4123381218697539, 2.7645670358783523]
 					self["ElectronMvaIDCutEEParamsLowPt"] = [-1830.8583661119892, -1831.2083578116517,-36578.11055382301]
@@ -67,7 +87,7 @@ class Electron_ID(dict):
 					self["ElectronMvaIDCutEEParamsHighPt"] = [0.8979112012086751, 4.171581694893849, 9.814082144168015]
 			else:
 				self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"
-				if wp==80:
+				if wp==80: #TODO change to v2 values
 					
 					self["ElectronMvaIDCutEB1ParamsLowPt"] = [ 0.9530240956555949, 0.4669644718545271, 2.7591425841003647 ]
 					self["ElectronMvaIDCutEB2ParamsLowPt"] = [ 0.9336564763961019, 0.33512286599215946, 2.709276284272272 ]
@@ -82,7 +102,7 @@ class Electron_ID(dict):
 					self["ElectronMvaIDCutEB1ParamsHighPt"] = [0.9616542816132922, 3.1390200321591206, 8.757943837889817] 
 					self["ElectronMvaIDCutEB2ParamsHighPt"] = [0.9319258011430132, 3.5985063793347787, 8.846057432565809]
 					self["ElectronMvaIDCutEEParamsHighPt"] = [0.8899260780999244, 4.352791250718547, 10.124234115859881]
-
+			"""
 			self["ElectronIDList"] = [
 				"egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-veto",
 				"egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-loose",
@@ -142,10 +162,19 @@ class Electron_ID(dict):
 			self["LooseElectronMvaIDCutEB1"] =  0.9718
 			self["LooseElectronMvaIDCutEB2"] =  0.9459
 			self["LooseElectronMvaIDCutEE"] =  0.8979
-			self["LooseElectronIDType"] = "mvabased2017andlater"
+			self["LooseElectronIDType"] = "mvabased2015andlater"
+
+			
 
 			# https://github.com/guitargeek/cmssw/blob/ElectronID_MVA2017_940pre3/RecoEgamma/ElectronIdentification/python/Identification/mvaElectronID_Fall17_noIso_V1_cff.py#L60-L81
 			#always use the wp90
+			
+			if iso:
+				self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wp90"
+			else:
+				self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp90"
+			"""
+
 			if iso:
 				self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"
 
@@ -164,7 +193,7 @@ class Electron_ID(dict):
 				self["LooseElectronMvaIDCutEB1ParamsHighPt"] = [ 0.9616542816132922, 3.1390200321591206, 8.757943837889817 ]
 				self["LooseElectronMvaIDCutEB2ParamsHighPt"] = [0.9319258011430132, 3.5985063793347787, 8.846057432565809 ]
 				self["LooseElectronMvaIDCutEEParamsHighPt"] = [ 0.8899260780999244, 4.352791250718547, 10.124234115859881 ]
-
+			"""
 		else:
 			self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"
 			self["LooseElectronMvaIDCutEB1"] = 0.837
