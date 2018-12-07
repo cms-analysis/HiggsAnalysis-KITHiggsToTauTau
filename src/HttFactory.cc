@@ -61,6 +61,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTriggerEfficiency2017Producer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PrefiringWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/CPInitialStateQuantitiesProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GroupedJetUncertaintyShiftProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -316,6 +317,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new PrefiringWeightProducer();
 	else if(id == CPInitialStateQuantitiesProducer().GetProducerId())
 		return new CPInitialStateQuantitiesProducer();
+	else if(id == GroupedJetUncertaintyShiftProducer().GetProducerId())
+		return new GroupedJetUncertaintyShiftProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

@@ -104,13 +104,43 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 				}
 				else if(arg=="njets")
 				{
-					args.push_back(1);
+					args.push_back(1);//TODO this is wrong as fuck but not used
 				}
-			}
+				else if(arg=="HpT" || arg=="z_gen_pt")
+				{
+					args.push_back(product.m_genBosonLV.Pt());	
+				}
+			}	
 			if ((weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly) ||
 			    (weightNames.second.at(index).find("emuQcd") != std::string::npos))
 			{
 				product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+			}
+			else if (weightNames.second.at(index).find("quarkmassWeight") != std::string::npos)
+			{
+				//std::cout <<"quarkmassWeight:  " << product.m_genBosonLV.Pt() << " : " << m_functors.at(weightNames.first).at(index)->eval(args.data()) << std::endl;
+				product.m_optionalWeights["quarkmassWeight"] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+			}
+			else if (weightNames.second.at(index).find("quarkmassUpWeight") != std::string::npos)
+			{
+				//std::cout <<"quarkmassWeightup:  " << product.m_genBosonLV.Pt() << " : " << m_functors.at(weightNames.first).at(index)->eval(args.data()) << std::endl;
+				product.m_optionalWeights["quarkmassUpWeight"] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+			}
+			else if (weightNames.second.at(index).find("quarkmassDownWeight") != std::string::npos)
+			{
+				//std::cout <<"quarkmassWeightdown:  " << product.m_genBosonLV.Pt() << " : " << m_functors.at(weightNames.first).at(index)->eval(args.data()) << std::endl;
+				product.m_optionalWeights["quarkmassDownWeight"] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+			}
+
+			else if (weightNames.second.at(index).find("fullQuarkmassWeight") != std::string::npos)
+			{
+				//std::cout <<"fullQuarkmassWeight:  " <<product.m_genBosonLV.Pt() << " : " << m_functors.at(weightNames.first).at(index)->eval(args.data()) << std::endl;
+				product.m_optionalWeights["fullQuarkmassWeight"] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+			}
+
+			else if (weightNames.second.at(index).find("zPtReweightWeight") != std::string::npos)
+			{
+				product.m_optionalWeights["zPtReweightWeight"] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 			}
 			else
 			{

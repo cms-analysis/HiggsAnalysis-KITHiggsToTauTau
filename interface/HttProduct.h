@@ -220,13 +220,19 @@ public:
 	// filled by TaggedJetUncertaintyShiftProducer
 	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedJetsBySplitUncertaintyUp;
 	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedJetsBySplitUncertaintyDown;
+	std::vector<KJet> m_correctedJetsBySplitUncertainty;
 	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedBTaggedJetsBySplitUncertaintyUp;
 	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedBTaggedJetsBySplitUncertaintyDown;
+	std::vector<KJet> m_correctedBTaggedJetsBySplitUncertainty;
+
+	KMET m_MET_shift;
 
 	KMET* m_metUncorr = 0;
 	KMET* m_puppiMetUncorr = 0;
 	KMET* m_pfmetUncorr = 0;
 	KMET* m_mvametUncorr = 0;
+
+	
 
 	// filled by the MetCorrectors
 	std::vector<float> m_mvametCorrections;
@@ -586,5 +592,15 @@ public:
 	float m_melaM125DiscriminatorDCPZhadH = DefaultValues::UndefinedFloat;
 	*/
 
-	int m_lhenpNLO = 0; 
+	int m_lhenpNLO = 0;
+	RMDLV m_diJetSystem_CP1;
+	RMDLV m_diJetSystem_CP2;
+	bool m_etaH_cut = false;
+	RMDLV m_jet_higher_CP1;
+	RMDLV m_jet_lower_CP1;
+	RMDLV m_jet_higher_CP2;
+	RMDLV m_jet_lower_CP2;
+	float m_etasep_1 = DefaultValues::UndefinedFloat;
+	float m_etasep_2 = DefaultValues::UndefinedFloat;
+
 };
