@@ -7,9 +7,11 @@ log = logging.getLogger(__name__)
 import re
 import sys
 
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJECUncertaintySplit as sJECUS
+
 
 class Systematics_Config(dict):
-	def __init__(self):
+	def __init__(self, nickname):
 		
 		#Nominal the clear config function is also just a copy of this. (caution python does strange things when updating a dict!!!!)
 		self["ElectronEnergyCorrectionShiftEB"] = 1.0
@@ -36,11 +38,77 @@ class Systematics_Config(dict):
 		self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 0.0
 		self["TauMuonFakeEnergyCorrectionOneProngShift"] = 0.0
 
+		self.JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
+		self.update(self.JECUncertaintySplit_config)
+		self["DoJecGroupings()"] = False
+
 
 	#for each systematic shift if statement which changes the config accordingly
 	def build_systematic_config(self, nickname, systematic_uncertainty, *args, **kwargs):
 		log.debug("SYST= " + systematic_uncertainty)
-		if re.search("Run201", nickname) == None:    #data has no systematic
+		#Jet uncertainties:
+
+		if "eta0to5" in systematic_uncertainty:
+			self.JECUncertaintySplit_config.group_eta0to5()
+			self.update(self.JECUncertaintySplit_config)
+			self["DoJecGroupings"] = True #will only run if no met-
+			if "Down" in systematic_uncertainty:
+				self["IsShiftUp"] = False
+			elif "Up" in systematic_uncertainty:
+				self["IsShiftUp"] = True
+			if "Uncorrelated" in systematic_uncertainty:
+				self["IsCorrelated"] = True
+			else:
+				self["IsCorrelated"] = False
+		elif "eta0to3" in systematic_uncertainty:
+			self.JECUncertaintySplit_config.group_eta0to3()
+			self.update(self.JECUncertaintySplit_config)
+			self["DoJecGroupings"] = True
+			if "Down" in systematic_uncertainty:
+				self["IsShiftUp"] = False
+			elif "Up" in systematic_uncertainty:
+				self["IsShiftUp"] = True
+			if "Uncorrelated" in systematic_uncertainty:
+				self["IsCorrelated"] = True
+			else:
+				self["IsCorrelated"] = False
+			
+
+		elif "eta3to5" in systematic_uncertainty:
+			self.JECUncertaintySplit_config.group_eta3to5()
+			self.update(self.JECUncertaintySplit_config)
+			self["DoJecGroupings"] = True
+			if "Down" in systematic_uncertainty:
+				self["IsShiftUp"] = False
+			elif "Up" in systematic_uncertainty:
+				self["IsShiftUp"] = True
+			if "Uncorrelated" in systematic_uncertainty:
+				self["IsCorrelated"] = True
+			else:
+				self["IsCorrelated"] = False
+		elif "relativeBal" in systematic_uncertainty:
+			self.JECUncertaintySplit_config.relativebal()
+			self.update(self.JECUncertaintySplit_config)
+			self["DoJecGroupings"] = True
+			if "Down" in systematic_uncertainty:
+				self["IsShiftUp"] = False
+			elif "Up" in systematic_uncertainty:
+				self["IsShiftUp"] = True	
+		elif "relativeSample" in systematic_uncertainty: #only for 2017
+			self.JECUncertaintySplit_config.group_relativesample()
+			self.update(self.JECUncertaintySplit_config)
+			self["DoJecGroupings"] = True
+			if "Down" in systematic_uncertainty:
+				self["IsShiftUp"] = False
+			elif "Up" in systematic_uncertainty:
+				self["IsShiftUp"] = True
+			if "Uncorrelated" in systematic_uncertainty:
+				self["IsCorrelated"] = True
+			else:
+				self["IsCorrelated"] = False
+
+		elif re.search("Run201", nickname) == None:    #data has no systematic
+			print "not a JEC"
 			#I dont remember why I did this, it looks wrong if re.search("JetEnergyCorrectionSplitUncertainty", nickname):
 			if systematic_uncertainty == "eleEsUp":
 
@@ -89,6 +157,10 @@ class Systematics_Config(dict):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "JetEnUp"
 					self["SvfitCacheFileFolder"] = "metJetEnUp"
+				elif re.search("Fall17"):
+					self["MetUncertaintyShift"] = True
+					self["MetUncertaintyType"] = "JetEnUp"
+					self["SvfitCacheFileFolder"] = "metJetEnUp"
 				else:
 					self["MetUncertaintyShift"] = False
 					self["MetUncertaintyType"] = ""
@@ -99,6 +171,10 @@ class Systematics_Config(dict):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "JetEnDown"
 					self["SvfitCacheFileFolder"] = "metJetEnDown"
+				elif re.search("Fall17"):
+					self["MetUncertaintyShift"] = True
+					self["MetUncertaintyType"] = "JetEnDown"
+					self["SvfitCacheFileFolder"] = None #"metJetEnDown"
 				else:
 					self["MetUncertaintyShift"] = False
 					self["MetUncertaintyType"] = ""
@@ -112,7 +188,7 @@ class Systematics_Config(dict):
 				elif re.search("Fall17"):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "UnclusteredEnUp"
-					#self["SvfitCacheFileFolder"] = "metUnclusteredEnUp"
+					self["SvfitCacheFileFolder"] = None #"metUnclusteredEnUp" 
 				else:
 					self["MetUncertaintyShift"] = False
 					self["MetUncertaintyType"] = ""
@@ -126,7 +202,7 @@ class Systematics_Config(dict):
 				elif re.search("Fall17"):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "UnclusteredEnDown"
-					#self["SvfitCacheFileFolder"] = "metUnclusteredEnDown"
+					self["SvfitCacheFileFolder"] = None#"metUnclusteredEnDown"
 				else:
 					self["MetUncertaintyShift"] = False
 					self["MetUncertaintyType"] = ""
@@ -410,7 +486,7 @@ class Systematics_Config(dict):
 				log.critical("COULD NOT FIND THE SYSTEMATIC %s" %systematic_uncertainty)
 				sys.exit(1)
 
-	def clear_config(self):
+	def clear_config(self, nickname):
 		self["ElectronEnergyCorrectionShiftEB"] = 1.0
 		self["ElectronEnergyCorrectionShiftEE"] = 1.0
 		self["JetEnergyCorrectionUncertaintyShift"] = 0.0
@@ -434,4 +510,8 @@ class Systematics_Config(dict):
 
 		self["TauMuonFakeEnergyCorrectionOneProngPiZerosShift"] = 0.0
 		self["TauMuonFakeEnergyCorrectionOneProngShift"] = 0.0
+
+		self.JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
+		self.update(self.JECUncertaintySplit_config)
+		self["DoJecGroupings()"] = False
 

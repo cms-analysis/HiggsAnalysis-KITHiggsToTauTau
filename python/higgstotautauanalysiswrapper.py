@@ -134,7 +134,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			if self._args.channels and len(self._args.channels) > 0:
 
 				pipeline_config = {}
-				syst_python_config = systematicsfile.Systematics_Config()
+				syst_python_config = systematicsfile.Systematics_Config(nickname)
 				
 				for selected_channel in self.channels_systematics.keys(): #loop over the keys, which are the channels
 					if selected_channel == "mt":
@@ -180,18 +180,17 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 					"""
 					if selected_channel != "gen":	
 						for systematic_shift in self.channels_systematics[selected_channel]: #loop over the values, the systematics per key
-
 							if systematic_shift != "nominal":
 								for shiftdirection in ["Up", "Down"]:
 									systematic_name = systematic_shift+shiftdirection
-									syst_python_config.clear_config()
+									syst_python_config.clear_config(nickname)
 									syst_python_config.build_systematic_config(nickname, systematic_name)
 									pipeline_config[selected_channel+"_"+systematic_name] = copy.deepcopy(syst_python_config)
 									pipeline_config[selected_channel+"_"+systematic_name].update(copy.deepcopy(channel_python_config))
 
 
 							elif systematic_shift == "nominal":
-								syst_python_config.clear_config()
+								syst_python_config.clear_config(nickname)
 								pipeline_config[selected_channel+"_"+systematic_shift] = copy.deepcopy(syst_python_config)
 								pipeline_config[selected_channel+"_"+systematic_shift].update(channel_python_config)
 
