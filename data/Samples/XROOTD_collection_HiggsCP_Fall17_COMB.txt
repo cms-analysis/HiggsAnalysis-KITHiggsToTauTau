@@ -1,0 +1,2 @@
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_HiggsCP_Fall17_DATA.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_HiggsCP_Fall17_MC.txt
