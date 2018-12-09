@@ -72,7 +72,7 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
 			else:
 				self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]
-			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 			if re.search("(Spring16|Summer16|Run2016)",nickname):
 				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe
 

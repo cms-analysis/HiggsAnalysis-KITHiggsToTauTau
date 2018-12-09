@@ -15,6 +15,10 @@ class JECUncertaintySplit(dict):
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 0.0
 		else:
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 1.0
+		if re.search("(Run2017|Fall17)", nickname):
+			self["JetsCorrectedInKappa"] = True
+		else:
+			self["JetsCorrectedInKappa"] = False
 
 		self["JetEnergyCorrectionCorrelationMap"] = [
 			"AbsoluteFlavMap:0.",

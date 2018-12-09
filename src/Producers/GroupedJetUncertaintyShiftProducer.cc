@@ -97,9 +97,9 @@ void GroupedJetUncertaintyShiftProducer::Produce(event_type const& event, produc
 			copiedJets.push_back((jet->get()));
 		}
 	}
-
 	if (settings.GetJetEnergyCorrectionSplitUncertainty() && settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift() != 0.0)
 	{
+		
 		unsigned iJet = 0;
 		for (std::vector<KJet*>::iterator jet = copiedJets.begin(); jet != copiedJets.end(); ++jet, ++iJet)
 		{
@@ -107,8 +107,6 @@ void GroupedJetUncertaintyShiftProducer::Produce(event_type const& event, produc
 			double groupunc =0;
 			double junc = 0;
 			product.m_MET_shift.p4 += (*jet)->p4; //Add the original p4 of the jet
-			
-			
 
 			// Get the uncertainty for the jets for each individual and the total uncertainty
 			if (std::abs((*jet)->p4.Eta()) < 5.2 && (*jet)->p4.Pt() > 9.0)

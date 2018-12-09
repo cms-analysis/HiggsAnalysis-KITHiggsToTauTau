@@ -40,7 +40,7 @@ class Systematics_Config(dict):
 
 		self.JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
 		self.update(self.JECUncertaintySplit_config)
-		self["DoJecGroupings()"] = False
+		self["DoJecGroupings"] = False
 
 
 	#for each systematic shift if statement which changes the config accordingly
@@ -57,9 +57,9 @@ class Systematics_Config(dict):
 			elif "Up" in systematic_uncertainty:
 				self["IsShiftUp"] = True
 			if "Uncorrelated" in systematic_uncertainty:
-				self["IsCorrelated"] = True
-			else:
 				self["IsCorrelated"] = False
+			else:
+				self["IsCorrelated"] = True
 		elif "eta0to3" in systematic_uncertainty:
 			self.JECUncertaintySplit_config.group_eta0to3()
 			self.update(self.JECUncertaintySplit_config)
@@ -69,9 +69,9 @@ class Systematics_Config(dict):
 			elif "Up" in systematic_uncertainty:
 				self["IsShiftUp"] = True
 			if "Uncorrelated" in systematic_uncertainty:
-				self["IsCorrelated"] = True
-			else:
 				self["IsCorrelated"] = False
+			else:
+				self["IsCorrelated"] = True
 			
 
 		elif "eta3to5" in systematic_uncertainty:
@@ -83,9 +83,9 @@ class Systematics_Config(dict):
 			elif "Up" in systematic_uncertainty:
 				self["IsShiftUp"] = True
 			if "Uncorrelated" in systematic_uncertainty:
-				self["IsCorrelated"] = True
-			else:
 				self["IsCorrelated"] = False
+			else:
+				self["IsCorrelated"] = True
 		elif "relativeBal" in systematic_uncertainty:
 			self.JECUncertaintySplit_config.relativebal()
 			self.update(self.JECUncertaintySplit_config)
@@ -93,7 +93,12 @@ class Systematics_Config(dict):
 			if "Down" in systematic_uncertainty:
 				self["IsShiftUp"] = False
 			elif "Up" in systematic_uncertainty:
-				self["IsShiftUp"] = True	
+				self["IsShiftUp"] = True
+			if "Uncorrelated" in systematic_uncertainty:
+				self["IsCorrelated"] = False
+			else:
+				self["IsCorrelated"] = True
+	
 		elif "relativeSample" in systematic_uncertainty: #only for 2017
 			self.JECUncertaintySplit_config.group_relativesample()
 			self.update(self.JECUncertaintySplit_config)
@@ -103,9 +108,9 @@ class Systematics_Config(dict):
 			elif "Up" in systematic_uncertainty:
 				self["IsShiftUp"] = True
 			if "Uncorrelated" in systematic_uncertainty:
-				self["IsCorrelated"] = True
-			else:
 				self["IsCorrelated"] = False
+			else:
+				self["IsCorrelated"] = True
 
 		elif re.search("Run201", nickname) == None:    #data has no systematic
 			print "not a JEC"
@@ -513,5 +518,5 @@ class Systematics_Config(dict):
 
 		self.JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
 		self.update(self.JECUncertaintySplit_config)
-		self["DoJecGroupings()"] = False
+		self["DoJecGroupings"] = False
 
