@@ -61,6 +61,28 @@ void CPInitialStateQuantitiesProducer::Init(setting_type const& settings, metada
 		return product.m_etaH_cut ? (product.m_jet_higher_CP1.Eta() - product.m_jet_lower_CP1.Eta()): DefaultValues::UndefinedFloat;
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_1_CP1", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_higher_CP1.Pt()): DefaultValues::UndefinedFloat;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_2_CP1", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_lower_CP1.Pt()): DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_1_CP1", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_higher_CP1.Eta()): DefaultValues::UndefinedFloat;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_2_CP1", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_lower_CP1.Eta()): DefaultValues::UndefinedFloat;
+	});
+LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_1_CP1", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_higher_CP1.Phi()): DefaultValues::UndefinedFloat;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_2_CP1", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_lower_CP1.Phi()): DefaultValues::UndefinedFloat;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "etasep_CP1", [this](event_type const& event, product_type const& product) {
 		return product.m_etaH_cut ? product.m_etasep_1 : DefaultValues::UndefinedFloat;
 	});	
@@ -96,6 +118,28 @@ void CPInitialStateQuantitiesProducer::Init(setting_type const& settings, metada
 		return product.m_etaH_cut ? product.m_etasep_2 : DefaultValues::UndefinedFloat;
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_1_CP2", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_higher_CP2.Pt()): DefaultValues::UndefinedFloat;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_2_CP2", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_lower_CP2.Pt()): DefaultValues::UndefinedFloat;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_1_CP2", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_higher_CP2.Eta()): DefaultValues::UndefinedFloat;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_2_CP2", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_lower_CP2.Eta()): DefaultValues::UndefinedFloat;
+	});
+LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_1_CP2", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_higher_CP2.Phi()): DefaultValues::UndefinedFloat;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_2_CP2", [this](event_type const& event, product_type const& product) {
+		return product.m_etaH_cut ? (product.m_jet_lower_CP2.Phi()): DefaultValues::UndefinedFloat;
+	});
+
 }
 
 void CPInitialStateQuantitiesProducer::Produce(event_type const& event, product_type& product,
@@ -119,7 +163,7 @@ void CPInitialStateQuantitiesProducer::Produce(event_type const& event, product_
 
 	RMFLV CPJet_higher_eta;
 	RMFLV CPJet_lower_eta;
-	bool haslowerjeteta, hashigherjeteta = false;
+	bool haslowerjeteta = false, hashigherjeteta = false;
 	
 
 	////////////////////////////////////////////////////
@@ -132,9 +176,10 @@ void CPInitialStateQuantitiesProducer::Produce(event_type const& event, product_
 
 
 	
-	if (KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 30.0) >= 2)
+	if ((KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 30.0) >= 2) && (Higgs_eta>-900))
 	{
 		LOG(DEBUG) << "has at least 2 jets" << std::endl;
+		// only sum over 3 highest pt jets, since NLO H+2jets only first 3 from Matrix Calc
 		for (std::vector<KBasicJet*>::const_iterator jet = product.m_validJets.begin();
 			     (jet != product.m_validJets.begin()+3) && (jet != product.m_validJets.end()); ++jet)
 		{
@@ -145,7 +190,7 @@ void CPInitialStateQuantitiesProducer::Produce(event_type const& event, product_
 			{
 				if ((*jet)->p4.Eta() < Higgs_eta)
 				{
-					if (haslowerjeteta == false || CPJet_lower_eta.Pt()<(*jet)->p4.Pt())
+					if (haslowerjeteta == false || CPJet_lower_eta.Pt()< (*jet)->p4.Pt())
 					{
 						CPJet_lower_eta = (*jet)->p4;
 					}
@@ -156,9 +201,9 @@ void CPInitialStateQuantitiesProducer::Produce(event_type const& event, product_
 					LOG(DEBUG) << "Pt" << CPSumJet_lower_eta.Pt() << std::endl;
 					LOG(DEBUG) << "Phi" << CPSumJet_lower_eta.Phi() << std::endl;
 				}
-				if ((*jet)->p4.Eta() >= Higgs_eta)
+				else if ((*jet)->p4.Eta() > Higgs_eta)
 				{
-					if (hashigherjeteta == false || CPJet_higher_eta.Pt()<(*jet)->p4.Pt())
+					if (hashigherjeteta == false || CPJet_higher_eta.Pt() < (*jet)->p4.Pt())
 					{
 						CPJet_higher_eta = (*jet)->p4;
 					}
@@ -179,10 +224,13 @@ void CPInitialStateQuantitiesProducer::Produce(event_type const& event, product_
 
 			product.m_jet_higher_CP1 = CPSumJet_higher_eta;
 			product.m_jet_lower_CP1 = CPSumJet_lower_eta;
+
 			product.m_jet_higher_CP2 = CPJet_higher_eta;
 			product.m_jet_lower_CP2 = CPJet_lower_eta;
+
 			product.m_etasep_1 = std::min(std::abs(CPSumJet_higher_eta.Eta()-Higgs_eta), std::abs(CPSumJet_lower_eta.Eta()-Higgs_eta));
 			product.m_etasep_2 = std::min(std::abs(CPJet_higher_eta.Eta()-Higgs_eta), std::abs(CPJet_lower_eta.Eta()-Higgs_eta));
+
 			product.m_etaH_cut = true;
 		}
 	}	
