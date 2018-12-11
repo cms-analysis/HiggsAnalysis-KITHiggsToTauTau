@@ -68,8 +68,13 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.melaQuantities()
 
 		elif re.search("Embedding2016", nickname):
-			self["Quantities"] += self.splitJecUncertaintyQuantities()
+			self["Quantities"] += self.svfitSyncQuantities()
+			self["Quantities"] += self.melaQuantities()
 			self["Quantities"] += self.genQuantities()
+			self["Quantities"] += self.genHiggsQuantities()
+			self["Quantities"] += self.genMatchedCPQuantities()
+			self["Quantities"] += self.recoCPQuantities()
+			self["Quantities"] += self.splitJecUncertaintyQuantities()
 			self["Quantities"] += self.recoPolarisationQuantities()
 			if kwargs.get("channel", None) != "EM":
 				self["Quantities"] += self.fakefactorQuantities()

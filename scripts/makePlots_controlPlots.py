@@ -211,7 +211,7 @@ if __name__ == "__main__":
 	parser.add_argument("--analysis-modules", default=[], nargs="+",
 	                    help="Additional analysis Modules. [Default: %(default)s]")
 	parser.add_argument("--add-analysis-modules-before-ratio", default=False, action="store_true",
-	                    help="Analysis modules are called according to their position in the list of analysis modules. This option stores them after the call of the ratio option. [Default: %(default)s]")						
+	                    help="Analysis modules are called according to their position in the list of analysis modules. This option stores them after the call of the ratio option. [Default: %(default)s]")
 	parser.add_argument("--era", default="2016",
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
@@ -219,7 +219,7 @@ if __name__ == "__main__":
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("--ratio-subplot", default=False, action="store_true",
-	                    help="Add a subplot showing the relative fraction of the processes per bin. [Default: %(default)s]")						
+	                    help="Add a subplot showing the relative fraction of the processes per bin. [Default: %(default)s]")
 	parser.add_argument("--shapes", default=False, action="store_true",
 	                    help="Show shape comparisons. [Default: %(default)s]")
 	parser.add_argument("--channel-comparison", default=False, action="store_true",
@@ -271,8 +271,8 @@ if __name__ == "__main__":
 				args.lumi = samples.default_lumi/1000.0
 		else:
 			log.critical("Invalid era string selected: " + args.era)
-			sys.exit(1)	
-			
+			sys.exit(1)
+
 	if args.shapes:
 		args.ratio = False
 		args.ratio_subplot = False
@@ -287,7 +287,7 @@ if __name__ == "__main__":
 		asimov_nicks = copy.deepcopy(args.samples if len(args.use_asimov_dataset) == 0 else args.use_asimov_dataset)
 		if "data" in asimov_nicks:
 			asimov_nicks.remove("data")
-	
+
 	if args.polarisation:
 		args.no_ewkz_as_dy = True
 
@@ -423,7 +423,7 @@ if __name__ == "__main__":
 
 				quantity = json_config.pop("x_expressions", [quantity])[0]
 				weight = args.weights[index_channel if args.channel_comparison else index_quantity]
-				
+
 				config = sample_settings.get_config(
 						samples = list_of_samples,
 						channel = channel,
@@ -456,7 +456,7 @@ if __name__ == "__main__":
 					channel_config = samples.Samples.merge_configs(channel_config, config)
 					if last_loop:
 						config = channel_config
-				
+
 				x_expression = json_config.pop("x_expressions", [quantity])
 				config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
 				config["category"] = category
@@ -505,7 +505,7 @@ if __name__ == "__main__":
 				elif "--x-bins" in args.args:
 					x_binning = re.search("(--x-bins)[\s=\"\']*(?P<x_bins>\S*)[\"\']?\S", args.args)
 					config["x_bins"] = [" ".join(x_binning.group(2))]
-					
+
 				config["x_label"] = json_config.pop("x_label", channel + "_" + quantity)
 
 				if args.channel_comparison:
@@ -538,7 +538,7 @@ if __name__ == "__main__":
 					for analysis_module in args.analysis_modules:
 						if analysis_module not in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append(analysis_module)
-						
+
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if (nick in config["nicks"] or nick == "ff")]
 					if "Ratio" not in config.get("analysis_modules", []):
@@ -675,7 +675,7 @@ if __name__ == "__main__":
 					config.setdefault("stacks", []).extend(["ratio_subplot"]*len(samples_used))
 					config.setdefault("subplot_nicks", []).extend([str(bkg)+"_subplot" for bkg in samples_used])
 					config["y_subplot_lims"] = [0.0, 1.0]
-					config["y_subplot_label"] = "a.u."			
+					config["y_subplot_label"] = "a.u."
 
 				if not args.www is None:
 					config["www"] = os.path.join(

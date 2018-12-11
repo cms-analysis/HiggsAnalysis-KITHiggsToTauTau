@@ -119,7 +119,7 @@ class mt_ArtusConfig(dict):
 			self["NoHltFiltering"] = False
 			self["DiTauPairNoHLT"] = False
 
-		elif re.search("Run2016|Spring16|Summer16", nickname):
+		elif re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
 			self["HltPaths"] = [
 				"HLT_IsoMu22",
 				"HLT_IsoTkMu22",
@@ -128,13 +128,13 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20",
 				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1"
 			]
-			self["NoHltFiltering"] = False
+			self["NoHltFiltering"] = True if isEmbedded else False
 			self["DiTauPairNoHLT"] = False
 
-		elif re.search("Embedding(2016|MC)", nickname):
-			self["HltPaths"] = [""]
-			self["NoHltFiltering"] = True
-			self["DiTauPairNoHLT"] = True
+		# elif re.search("Embedding(2016|MC)", nickname):
+		# 	self["HltPaths"] = []
+		# 	self["NoHltFiltering"] = True
+		# 	self["DiTauPairNoHLT"] = True
 
 		self["TauID"] = "TauIDRecommendation13TeV"
 		self["TauUseOldDMs"] = True
@@ -300,7 +300,7 @@ class mt_ArtusConfig(dict):
 		self["BranchGenMatchedMuons"] = True
 		self["BranchGenMatchedTaus"] = True
 
-		if re.search("Run2016|Spring16|Summer16", nickname):
+		if re.search("Run2016|Spring16|Summer16|Embedding2016", nickname):
 			#settings for jetstotaufakesproducer
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/mt/fakeFactors_20180831_tight.root"
 			self["FakeFactorMethod"] = "cp2016"

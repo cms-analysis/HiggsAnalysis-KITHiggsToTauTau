@@ -149,8 +149,8 @@ class CutStringsDict:
 			# used to remove overlap with H->WW->emu analysis
 			cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
 		elif channel == "mt":
-			#cuts["trg"] = "(((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23))+((trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23)))"  #remove cross trigger weights for embedding as they are not provided (increased muon pt cut (25 GeV))
-			cuts["trg"] = "(triggerWeight_singleMu_1)"
+			cuts["trg"] = "(((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23))+((trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23)))"  #remove cross trigger weights for embedding as they are not provided (increased muon pt cut (25 GeV))
+			#cuts["trg"] = "(triggerWeight_singleMu_1)"
 			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["mt"] = "(mt_1<50.0)"
