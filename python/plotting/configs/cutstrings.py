@@ -201,6 +201,7 @@ class CutStringsDict:
 	def cpggh2017(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
 		cuts["bveto"] = "(nbtag == 0)"
+		cuts["prefiringWeight"] = "(prefiringWeight)"
 		if channel == "mm":  #TODO	
 			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 25.0)"

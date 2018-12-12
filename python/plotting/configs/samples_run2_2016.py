@@ -3133,6 +3133,7 @@ class Samples(samples.SamplesBase):
 		ggh_stitching_weight = "(1)"
 		if kwargs.get("generator",None) =="madgraph":
 			ggh_stitching_weight = self.ggh_stitchingweight(cp=kwargs.get("cp",None))
+			matrix_weight = "(quarkmassWeight)*" #accounts for infinite top mass reweighting
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
