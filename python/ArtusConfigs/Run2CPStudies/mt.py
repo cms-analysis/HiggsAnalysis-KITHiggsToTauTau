@@ -73,8 +73,8 @@ class mt_ArtusConfig(dict):
 			else:
 				self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
-			if re.search("(Spring16|Summer16|Run2016)",nickname):
-				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe
+			#if re.search("(Spring16|Summer16|Run2016)",nickname):
+			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe TODO in next skim
 
 			if re.search("Run2016|Run2017", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]

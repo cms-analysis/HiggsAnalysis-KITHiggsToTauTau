@@ -13,6 +13,11 @@ class JEC(dict):
 			self["JetEnergyCorrectionUncertaintyParameters"] = ""
 		elif re.search("(Fall17|Run2017)", nickname): #this is recomended in https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2017#%20Jet/MET%20uncertainty%20treatment
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017F_V6_DATA_UncertaintySources_AK4PFchs.txt"
+			if re.search("(Run2017)", nickname):
+				self["JetEnergyCorrectionParameters"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_dataRun2_v10_L1FastJet_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_dataRun2_v10_L2Relative_AK4PFchs.txt", "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_dataRun2_v10_L3Absolute_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_dataRun2_v10_L2L3Residual_AK4PFchs.txt"]
+
+			elif re.search("(Fall17)", nickname):
+				self["JetEnergyCorrectionParameters"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_mc2017_realistic_v15_L1FastJet_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_mc2017_realistic_v15_L2Relative_AK4PFchs.txt", "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_mc2017_realistic_v15_L3Absolute_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_mc2017_realistic_v15_L2L3Residual_AK4PFchs.txt"]
 
 			"""
 			#from https://twiki.cern.ch/twiki/bin/viewauth/CMS/JECDataMC
@@ -39,9 +44,11 @@ class JEC(dict):
 		elif re.search("(Run2015|Embedding2015)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_Uncertainty_AK4PFchs.txt"
 		
-		self["JetEnergyCorrectionUncertaintySource"] = "Total"
+			self["JetEnergyCorrectionUncertaintySource"] = "Total"
 		#self["JetEnergyCorrectionUncertaintyShift"] = 0.0
-		
+				
+
+
 		#All commented out
 		"""
 		if re.search("Run2015|Embedding2016", nickname):

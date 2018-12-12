@@ -73,8 +73,8 @@ class et_ArtusConfig(dict):
 				"producer:PolarisationQuantitiesSvfitM91Producer",
 				"producer:PolarisationQuantitiesSimpleFitProducer"
 			]
-			if re.search("(Spring16|Summer16|Run2016)",nickname):
-				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe
+			#if re.search("(Spring16|Summer16|Run2016)",nickname):
+			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe, TODO in next skim they will be
 
 
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"] #TaggedJetUncertaintyShiftProducer is old
