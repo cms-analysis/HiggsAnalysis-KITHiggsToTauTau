@@ -477,6 +477,7 @@ class mt_ArtusConfig(dict):
 				if re.search("Embedding2016", nickname):
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"] #do this properly after checking
 					self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
+					self["Processors"] += ["producer:TauCorrectionsProducer"]
 
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 

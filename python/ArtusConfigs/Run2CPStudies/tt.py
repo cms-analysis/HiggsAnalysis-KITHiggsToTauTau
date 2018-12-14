@@ -298,6 +298,7 @@ class tt_ArtusConfig(dict):
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 				if re.search("Embedding2016", nickname):
+					self["Processors"] += ["producer:TauCorrectionsProducer"]
 					self["Processors"] += ["producer:TauTauTriggerWeightProducer"]
 
 			else:

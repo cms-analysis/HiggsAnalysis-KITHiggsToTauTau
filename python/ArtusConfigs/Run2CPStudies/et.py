@@ -238,7 +238,7 @@ class et_ArtusConfig(dict):
 					"HLT_Ele32_WPTight_Gsf_v:hltEle32WPTightGsfTrackIsoFilter"
 			]
 
-		if re.search("Run2016|Spring16|Summer16", nickname):
+		if re.search("Run2016|Spring16|Summer16|Embedding2016", nickname):
 			#settings for jetstotaufakesproducer
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/et/fakeFactors_20180831_tight.root"
 			self["FakeFactorMethod"] = "cp2016"
@@ -392,6 +392,7 @@ class et_ArtusConfig(dict):
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 				if re.search("Embedding2016", nickname):
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]  #changes from file to file
+					self["Processors"] += ["producer:TauCorrectionsProducer"]
 
 			else:
 				self["Processors"] += ["producer:TauCorrectionsProducer"]
