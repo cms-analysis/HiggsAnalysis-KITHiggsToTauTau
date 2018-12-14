@@ -50,7 +50,7 @@ class quantities(dict):
 			"fifthJetLV",
 			"sixthJetLV"
 		]
-
+	"""
 	def fakeFactorQuantities(self):
 		return [
 			"jetToTauFakeWeight_comb",
@@ -85,6 +85,7 @@ class quantities(dict):
 			"jetToTauFakeWeight_ff_tt_stat_up",
 			"jetToTauFakeWeight_ff_tt_stat_down"
 		]
+	"""
 
 	def ExtraTauQuantities(self):
 		return [

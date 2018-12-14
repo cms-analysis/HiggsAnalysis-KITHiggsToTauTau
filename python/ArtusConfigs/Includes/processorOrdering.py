@@ -23,6 +23,7 @@ class processors_ordered(dict):
 		#print examplelist => ["a", "d", "k", "e"]
 
 		self["producer:MetSelector"] = 10
+		self["producer:MetFilterProducer"] = 11
 
 		if kwargs.get("channel", None) == "MT":
 			self["producer:ValidMuonsProducer"] = 21

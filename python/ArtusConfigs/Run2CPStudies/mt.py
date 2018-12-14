@@ -427,6 +427,7 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+			self["Processors"]+= ["producer:MetFilterProducer"]
 			
 			if re.search("Run2016", nickname):
 				self["Processors"] += ["producer:JetToTauFakesProducer"]

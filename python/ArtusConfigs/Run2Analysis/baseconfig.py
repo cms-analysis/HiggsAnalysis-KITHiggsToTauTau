@@ -78,6 +78,30 @@ class Baseconfig(dict):
 		self["MatchGenTauDecayMode"] = "true"
 		self["UpdateMetWithCorrectedLeptons"] = "true"
 		self["TopPtReweightingStrategy"] = "Run2"
+		"""
+		if re.search("(Run2016|Summer16|Spring16)", nickname):
+			self["MetFilter"] = [
+			#"Flag_HBHENoiseFilter",
+			#"Flag_HBHENoiseIsoFilter",
+			#"Flag_EcalDeadCellTriggerPrimitiveFilter",
+			#"Flag_goodVertices",
+			#"Flag_globalTightHalo2016Filter",
+			"Flag_BadPFMuonFilter",
+			"Flag_BadChargedCandidateFilter"
+			]
+		"""
+		if re.search("Run2016", nickname):
+			#self["MetFilter"].append("Flag_eeBadScFilter")
+			self["MetFilter"] = [
+			"!Flag_duplicateMuons",
+			"!Flag_badMuons"
+			]
+		elif re.search("Summer16", nickname):
+			self["MetFilter"] = [
+			"!Flag_badGlobalMuonTaggerMAOD",
+			"!Flag_cloneGlobalMuonTaggerMAOD"
+			]
+
 
 		if re.search("Summer17", nickname):
 			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_RunBtoF_80bins_MC_Moriond17_PU25ns_V1_69p2MinBiasXS.root"
