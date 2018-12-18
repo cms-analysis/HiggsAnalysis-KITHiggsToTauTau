@@ -48,9 +48,8 @@ void GroupedJetUncertaintyShiftProducer::Init(setting_type const& settings, meta
 				std::cout << "JetEnergyUncertaintyShift enum not found" << std::endl;
 				continue;
 			}
-			std::cout << "uncertainty:\t" << uncertainty << std::endl;
+			//std::cout << "uncertainty:\t" << uncertainty << std::endl;
 			correlation = m_correlationMapFromSettings.at(uncertainty).at(0);
-			
 
 			individualUncertaintyEnumsMap.insert(std::pair<HttEnumTypes::JetEnergyUncertaintyShiftName,float>  (individualUncertainty, correlation));
 			std::cout << uncertainty << "   :   " << correlation << std::endl;
@@ -120,7 +119,7 @@ void GroupedJetUncertaintyShiftProducer::Produce(event_type const& event, produc
 					unc = tmpUncertainty->getUncertainty(settings.GetIsShiftUp()); //shiftUp==true: Up, ==false:Down
 					if(settings.GetIsCorrelated())
 					{
-					groupunc += it->second *unc*unc;	
+						groupunc += it->second *unc*unc;
 					}
 					else
 					{
@@ -132,7 +131,7 @@ void GroupedJetUncertaintyShiftProducer::Produce(event_type const& event, produc
 			junc = std::sqrt(groupunc); //uncertainty for a group is the square root
 
 			// apply the shift to the jet four-vector
-			(*jet)->p4 = (*jet)->p4 * junc * settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift();
+			(*jet)->p4 = (*jet)->p4 *  (1.0 + (settings.GetIsShiftUp() ? 1.0 : -1.0) * junc * settings.GetAbsJetEnergyCorrectionSplitUncertaintyShift());
 			//The shift to be applied to the MET is defined by summing together the 4-vectors of all jets in the collection before and after the JES shifts are applied. The MET shift is then the difference between the 2 resultant 4-vectors
 			product.m_MET_shift.p4 -= (*jet)->p4; //substract the p4 of the shifted jet, met 
 		}
