@@ -156,17 +156,27 @@ class CutStringsDict:
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+			if "emb" in cut_type:
+				cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*1.02 + (gen_match_2 != 5))"
+				cuts["trg"] += "*(triggerWeight_doublemu_1)"
 		elif channel == "et":
 			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+			if "emb" in cut_type:
+				cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*1.02 + (gen_match_2 != 5))"
+				cuts["trg"] = "(triggerWeight_singleE_1*triggerWeight_doublemu_1)"
 		elif channel == "tt":
 			cuts["pt_1"] = "(pt_1 > 50.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
 			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
 			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+			if "emb" in cut_type:
+				cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_2 == 5)*1.02 + (gen_match_2 != 5))"
+				cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*1.02 + (gen_match_2 != 5))"
+				cuts["trg"] = "(triggerWeight_doubletau_1*triggerWeight_doublemu_1)"
 		return cuts
 
 	@staticmethod
@@ -632,7 +642,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="smhtt2016":
 			cuts = CutStringsDict.baseline(channel, cut_type)
-		elif cut_type=="cpggh2016":
+		elif "cpggh2016" in cut_type:
 			cuts = CutStringsDict.cpggh2016(channel, cut_type)
 		elif cut_type=="mssm":
 			cuts = CutStringsDict.baseline(channel, cut_type)
