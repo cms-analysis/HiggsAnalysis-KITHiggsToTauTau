@@ -113,29 +113,38 @@ class tt_ArtusConfig(dict):
 		self["DiTauPairIsTauIsoMVA"] = True
 		self["EventWeight"] = "eventWeight"
 		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		self["TauTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_8_embedded.root" if isEmbedded else "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		self["TauTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root" if isEmbedded else "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 
-		self["TauTauTriggerWeightWorkspaceWeightNames"] = ["0:triggerWeight", "1:triggerWeight"]
+		self["TauTauTriggerWeightWorkspaceWeightNames"] = [
+			"0:triggerWeight",
+			"1:triggerWeight"
+		] if not isEmbedded else [
+			"0:triggerWeight_doublemu",
+			"0:triggerWeight_tau",
+			"1:triggerWeight_tau"
+		]
 		self["TauTauTriggerWeightWorkspaceObjectNames"] = [
 			"0:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio",
 			"1:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio"
 		] if not isEmbedded else [
 			"0:m_sel_trg_ratio",
-			"0:t_TightIso_tt_emb_ratio"
+			"0:t_TightIso_tt_emb_ratio",
+			"1:t_TightIso_tt_emb_ratio"
 		]
 		self["TauTauTriggerWeightWorkspaceObjectArguments"] = [
 			"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
 			"0:t_pt,t_dm"
 		] if not isEmbedded else [
-			"0:m_sel_trg_ratio",
-			"0:t_pt,t_dm"
+			"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+			"0:t_pt,t_dm",
+			"1:t_pt,t_dm"
 		]
 		self["EleTauFakeRateWeightFile"] = [
 			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root",
 			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
 		]
 
-		if re.search("Run2016|Spring16|Summer16", nickname):
+		if re.search("Run2016|Spring16|Summer16|Embedding2016", nickname):
 			#settings for jetstotaufakesproducer
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/tt/fakeFactors_tt_inclusive.root"
 			self["FakeFactorMethod"] = "cp2016"
@@ -180,10 +189,10 @@ class tt_ArtusConfig(dict):
 			#"PrintGenParticleDecayTreeConsumer"]
 
 		if re.search("Embedding", nickname):
-			self["NoHltFiltering"]= False
-			self["DiTauPairNoHLT"]= False
+			self["NoHltFiltering"]= True
+			self["DiTauPairNoHLT"]= True
 		else:
-			self["NoHltFiltering"]= False
+			self["NoHltFiltering"]= True
 			self["DiTauPairNoHLT"]= False
 
 		 #set it here and if it is something else then change it in the ifs below
@@ -236,8 +245,11 @@ class tt_ArtusConfig(dict):
 			quantities_dict["Quantities"] += quantities_dict.genMatchedCPQuantities()
 		elif re.search("Embedding2016", nickname):
 			quantities_dict["Quantities"] += [
-				"tauSpinnerValidOutputs",
-				"tauSpinnerPolarisation",
+				# "tauSpinnerValidOutputs",
+				# "tauSpinnerPolarisation",
+				"triggerWeight_doublemu_1",
+				"triggerWeight_tau_1",
+				"triggerWeight_tau_2"
 			]
 
 		self.update(copy.deepcopy(quantities_dict))
@@ -298,6 +310,7 @@ class tt_ArtusConfig(dict):
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 				if re.search("Embedding2016", nickname):
+					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 					self["Processors"] += ["producer:TauCorrectionsProducer"]
 					self["Processors"] += ["producer:TauTauTriggerWeightProducer"]
 

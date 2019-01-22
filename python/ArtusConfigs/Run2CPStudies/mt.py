@@ -62,7 +62,6 @@ class mt_ArtusConfig(dict):
 
 		# define frequently used conditions
 		isEmbedded = datasetsHelper.isEmbedded(nickname)
-		print "####################################################### \n YES THIS IS EMBEDDED \n####################################################### " if isEmbedded else "NOPE THIS IS NOT EMEBEDDED"
 		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
 
 		ElectronID_config = sEID.Electron_ID(nickname)
@@ -220,7 +219,7 @@ class mt_ArtusConfig(dict):
 
 		self["EventWeight"] = "eventWeight"
 		self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
-		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_8_embedded.root" if isEmbedded else "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root" if isEmbedded else "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 		#self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 		print self["RooWorkspace"]
 		self["RooWorkspaceWeightNames"] = [

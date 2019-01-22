@@ -322,6 +322,30 @@ void TauTauTriggerWeightProducer::Produce( event_type const& event, product_type
 					KTau* tau = static_cast<KTau*>(lepton);
 					args.push_back(tau->decayMode);
 				}
+				else if(arg=="gt1_pt")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					// std::cout << "leadingTau " << leadingTau.p4.Pt() << "\n";
+					args.push_back(leadingTau.p4.Pt());
+				}
+				else if(arg=="gt1_eta")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					// std::cout << "leadingTau " << leadingTau.p4.Eta() << "\n";
+					args.push_back(leadingTau.p4.Eta());
+				}
+				else if(arg=="gt2_pt")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					// std::cout << "trailingTau " << trailingTau.p4.Pt() << "\n";
+					args.push_back(trailingTau.p4.Pt());
+				}
+				else if(arg=="gt2_eta")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					// std::cout << "trailingTau " << trailingTau.p4.Eta() << "\n";
+					args.push_back(trailingTau.p4.Eta());
+				}
 			}
 			if(genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY)
 			{

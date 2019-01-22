@@ -360,17 +360,17 @@ class Samples(samples.SamplesBase):
 		if embedding:
 			if channel == "et":
 				if not 'eventWeight' in mc_sample_weight:
-					return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[1]])
-				return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight<1.0)",self.embedding_weight[1]])
+					return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[1]])
+				return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel), "(eventWeight<1.0)",self.embedding_weight[1]])
 			elif channel == "mt":
 				if not 'eventWeight' in mc_sample_weight:
 					#return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "identificationWeight_1*(triggerWeight_singleMu_1<2.0)*triggerWeight_doublemu_1*(generatorWeight)*(generatorWeight<=1.0)",self.embedding_weight[0]]) #triggerWeight_singleMu_1 is applied in cut_strings.py
-					return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)*triggerWeight_doublemu_1*(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*1.02 + (gen_match_2 != 5))",self.embedding_weight[0]])
+					return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[0]])
 				return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel), "(eventWeight<1.0)",self.embedding_weight[0]])
 			elif channel == "tt":
 				if not 'eventWeight' in mc_sample_weight:
-					return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[3]])
-				return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight<1.0)",self.embedding_weight[3]])
+					return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[3]])
+				return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel), "(eventWeight<1.0)",self.embedding_weight[3]])
 			elif channel == "em" or channel == "ttbar":
 				if not 'eventWeight' in mc_sample_weight:
 					return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[2]])
