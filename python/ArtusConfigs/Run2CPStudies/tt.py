@@ -113,36 +113,43 @@ class tt_ArtusConfig(dict):
 		self["DiTauPairIsTauIsoMVA"] = True
 		self["EventWeight"] = "eventWeight"
 		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		self["TauTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root" if isEmbedded else "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		if isEmbedded:
+			self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root"
 
-		self["TauTauTriggerWeightWorkspaceWeightNames"] = [
-			"0:triggerWeight",
-			"1:triggerWeight"
-		] if not isEmbedded else [
-			"0:triggerWeight_doublemu",
-			"0:triggerWeight_tau",
-			"1:triggerWeight_tau"
-		]
-		self["TauTauTriggerWeightWorkspaceObjectNames"] = [
-			"0:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio",
-			"1:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio"
-		] if not isEmbedded else [
-			"0:m_sel_trg_ratio",
-			"0:t_TightIso_tt_emb_ratio",
-			"1:t_TightIso_tt_emb_ratio"
-		]
-		self["TauTauTriggerWeightWorkspaceObjectArguments"] = [
-			"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
-			"0:t_pt,t_dm"
-		] if not isEmbedded else [
-			"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
-			"0:t_pt,t_dm",
-			"1:t_pt,t_dm"
-		]
-		self["EleTauFakeRateWeightFile"] = [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root",
-			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
-		]
+			self["EmbeddingWeightWorkspaceWeightNames"] = [
+				"0:triggerWeight_doublemu",
+				"0:triggerWeight_tau",
+				"1:triggerWeight_tau"
+			]
+			self["EmbeddingWeightWorkspaceObjectNames"] = [
+				"0:m_sel_trg_ratio",
+				"0:t_TightIso_tt_emb_ratio",
+				"1:t_TightIso_tt_emb_ratio"
+			]
+			self["EmbeddingWeightWorkspaceObjectArguments"] = [
+				"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+				"0:t_pt,t_dm",
+				"1:t_pt,t_dm"
+			]
+		else:
+			self["TauTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+
+			self["TauTauTriggerWeightWorkspaceWeightNames"] = [
+				"0:triggerWeight",
+				"1:triggerWeight"
+			]
+			self["TauTauTriggerWeightWorkspaceObjectNames"] = [
+				"0:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio",
+				"1:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio"
+			]
+			self["TauTauTriggerWeightWorkspaceObjectArguments"] = [
+				"0:t_pt,t_dm",
+				"1:t_pt,t_dm"
+			]
+			self["EleTauFakeRateWeightFile"] = [
+				"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root",
+				"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
+			]
 
 		if re.search("Run2016|Spring16|Summer16|Embedding2016", nickname):
 			#settings for jetstotaufakesproducer
@@ -294,7 +301,7 @@ class tt_ArtusConfig(dict):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
 
 				self["Processors"] += ["producer:SimpleFitProducer"]
-				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+				#self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
 				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 				self["Processors"] += ["producer:SvfitProducer"]
@@ -312,7 +319,7 @@ class tt_ArtusConfig(dict):
 				if re.search("Embedding2016", nickname):
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 					self["Processors"] += ["producer:TauCorrectionsProducer"]
-					self["Processors"] += ["producer:TauTauTriggerWeightProducer"]
+					self["Processors"] += ["producer:EmbeddingWeightProducer"]
 
 			else:
 				self["Processors"] += ["producer:TauCorrectionsProducer"]

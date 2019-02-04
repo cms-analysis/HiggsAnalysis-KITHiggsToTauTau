@@ -202,10 +202,11 @@ class mt_ArtusConfig(dict):
 			]
 
 			self["TauTriggerFilterNames"] = [
-				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltPFTau20TrackLooseIsoAgainstMuon",
-				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
-				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltPFTau20TrackLooseIsoAgainstMuon",
-				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltL1sMu18erTau20er",
+				#"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltL1sSingleMu18erIorSingleMu20er",
+				#"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltPFTau20TrackLooseIsoAgainstMuon",
+				#"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
 			]
 
 
@@ -219,50 +220,63 @@ class mt_ArtusConfig(dict):
 
 		self["EventWeight"] = "eventWeight"
 		self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
-		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root" if isEmbedded else "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		#self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		print self["RooWorkspace"]
-		self["RooWorkspaceWeightNames"] = [
-			"0:triggerWeight_singleMu",
-			"0:idIsoWeight"
-		] if not isEmbedded else [
-			"0:triggerWeight_doublemu",
-			"0:isoweight",
-			"0:idweight",
-			"0:triggerWeight_singleMu"
-		]
-		self["RooWorkspaceObjectNames"] = [
-			"0:m_trgMu22OR_eta2p1_desy_ratio",
-			"0:m_idiso0p15_desy_ratio"
-		] if not isEmbedded else [
-			"0:m_sel_trg_ratio",
-			"0:m_iso_ratio",
-			"0:m_id_ratio",
-			"0:m_trg_ratio"
-		]
-		self["RooWorkspaceObjectArguments"] = [
-			"0:m_pt,m_eta",
-			"0:m_pt,m_eta"
-		] if not isEmbedded else [
-			"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
-			"0:m_pt,m_eta",
-			"0:m_pt,m_eta",
-			"0:m_pt,m_eta"
-		]
-		self["SaveMuTauTriggerWeightAsOptionalOnly"] = "true"
-		self["MuTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		self["MuTauTriggerWeightWorkspaceWeightNames"] = [
-			"0:triggerWeight_muTauCross",
-			"1:triggerWeight_muTauCross"
-		]
-		self["MuTauTriggerWeightWorkspaceObjectNames"] = [
-			"0:m_trgMu19leg_eta2p1_desy_ratio",
-			"1:t_genuine_TightIso_mt_ratio,t_fake_TightIso_mt_ratio"
-		]
-		self["MuTauTriggerWeightWorkspaceObjectArguments"] = [
-			"0:m_pt,m_eta",
-			"1:t_pt,t_eta"
-		]
+		if isEmbedded:
+			self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root"
+			self["EmbeddingWeightWorkspaceWeightNames"] = [
+				"0:triggerWeight_doublemu",
+				"0:isoweight",
+				"0:idweight",
+				"0:triggerWeight_singleMu",
+
+				"1:MuTau_TauLeg_EmbeddedEfficiencyWeight",
+				"1:MuTau_TauLeg_DataEfficiencyWeight"
+			]
+			self["EmbeddingWeightWorkspaceObjectNames"] = [
+				"0:m_sel_trg_ratio",
+				"0:m_iso_ratio",
+				"0:m_id_ratio",
+				"0:m_trg_ratio",
+
+				"1:t_TightIso_mt_emb",
+				"1:t_genuine_TightIso_mt_data,t_fake_TightIso_mt_data"
+			]
+			self["EmbeddingWeightWorkspaceObjectArguments"] = [
+				"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta",
+
+				"1:t_pt,t_eta",
+				"1:t_pt,t_eta"
+			]
+		else:
+			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+			self["RooWorkspaceWeightNames"] = [
+				"0:triggerWeight_singleMu",
+				"0:idIsoWeight"
+			]
+			self["RooWorkspaceObjectNames"] = [
+				"0:m_trgMu22OR_eta2p1_desy_ratio",
+				"0:m_idiso0p15_desy_ratio"
+			]
+			self["RooWorkspaceObjectArguments"] = [
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta"
+			]
+			self["SaveMuTauTriggerWeightAsOptionalOnly"] = "true"
+			self["MuTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+			self["MuTauTriggerWeightWorkspaceWeightNames"] = [
+				"0:triggerWeight_muTauCross",
+				"1:triggerWeight_muTauCross"
+			]
+			self["MuTauTriggerWeightWorkspaceObjectNames"] = [
+				"0:m_trgMu19leg_eta2p1_desy_ratio",
+				"1:t_genuine_TightIso_mt_ratio,t_fake_TightIso_mt_ratio"
+			]
+			self["MuTauTriggerWeightWorkspaceObjectArguments"] = [
+				"0:m_pt,m_eta",
+				"1:t_pt,t_eta"
+			]
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["TriggerEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_IsoMu18_fall15.root"]
@@ -377,8 +391,9 @@ class mt_ArtusConfig(dict):
 				"idweight_1",
 				"triggerWeight_singleMu_1",
 				"trg_mutaucross",
-				"triggerWeight_muTauCross_1",
-				"triggerWeight_muTauCross_2"
+				"triggerWeight_muTauCross_2",
+				"MuTau_TauLeg_EmbeddedEfficiencyWeight_2",
+				"MuTau_TauLeg_DataEfficiencyWeight_2"
 			]
 
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
@@ -462,7 +477,7 @@ class mt_ArtusConfig(dict):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
 
 				self["Processors"] += ["producer:SimpleFitProducer"]
-				self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+				#self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
 				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
@@ -475,6 +490,7 @@ class mt_ArtusConfig(dict):
 
 				if re.search("Embedding2016", nickname):
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"] #do this properly after checking
+					self["Processors"] += ["producer:EmbeddingWeightProducer"]
 					self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 					self["Processors"] += ["producer:TauCorrectionsProducer"]
 

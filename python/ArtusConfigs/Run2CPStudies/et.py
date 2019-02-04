@@ -379,7 +379,7 @@ class et_ArtusConfig(dict):
 				self["Processors"] += ["producer:JetToTauFakesProducer"]
 
 				self["Processors"] += ["producer:SimpleFitProducer"]
-				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+				#self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
 				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 				self["Processors"] += ["producer:SvfitProducer"]

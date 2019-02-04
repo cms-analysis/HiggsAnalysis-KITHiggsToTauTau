@@ -149,16 +149,16 @@ class CutStringsDict:
 			# used to remove overlap with H->WW->emu analysis
 			cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
 		elif channel == "mt":
-			cuts["trg"] = "(((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23))+((trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23)))"  #remove cross trigger weights for embedding as they are not provided (increased muon pt cut (25 GeV))
-			#cuts["trg"] = "(triggerWeight_singleMu_1)"
-			cuts["pt_1"] = "(pt_1 > 25.0)"
+			cuts["pt_1"] = "(pt_1 > 20.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 			if "emb" in cut_type:
 				cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*1.02 + (gen_match_2 != 5))"
-				cuts["trg"] += "*(triggerWeight_doublemu_1)"
+				cuts["trg"] = "(((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(pt_1 <= 23))+((trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23)))*(triggerWeight_doublemu_1)"
+			else:
+				cuts["trg"] = "(((trg_mutaucross == 1)*(triggerWeight_muTauCross_1)*(triggerWeight_muTauCross_2)*(pt_1 <= 23))+((trg_singlemuon == 1)*(triggerWeight_singleMu_1)*(pt_1 > 23)))"
 		elif channel == "et":
 			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
@@ -174,9 +174,9 @@ class CutStringsDict:
 			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
 			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 			if "emb" in cut_type:
-				cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_2 == 5)*1.02 + (gen_match_2 != 5))"
+				cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*1.02 + (gen_match_1 != 5))"
 				cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*1.02 + (gen_match_2 != 5))"
-				cuts["trg"] = "(triggerWeight_doubletau_1*triggerWeight_doublemu_1)"
+				cuts["trg"] = "(triggerWeight_tau_1*triggerWeight_tau_2*triggerWeight_doublemu_1)"
 		return cuts
 
 	@staticmethod

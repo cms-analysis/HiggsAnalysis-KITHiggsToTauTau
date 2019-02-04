@@ -40,6 +40,5 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 			self["LheParticles"] = "LHEafter"
 		else:
 			self["LheParticles"] = ""
-		
-		self["GenCollectionToPrint"] = "LHE"
 
+		self["GenCollectionToPrint"] = "GEN"

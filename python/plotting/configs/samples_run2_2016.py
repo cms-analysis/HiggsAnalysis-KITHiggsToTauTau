@@ -320,6 +320,7 @@ class Samples(samples.SamplesBase):
 		elif channel in ["tt"]:
 			if self.embedding and "emb" in cut_type:
 				return "(((decayMode_1 == 0)*0.975) + ((decayMode_1 == 1 || decayMode_1 == 2)*0.975*1.051) + ((decayMode_1 == 10)*0.975*0.975*0.975))*(((decayMode_2 == 0)*0.975) + ((decayMode_2 == 1 || decayMode_2 == 2)*0.975*1.051) + ((decayMode_2 == 10)*0.975*0.975*0.975))"
+			return "(1.0)"
 		else:
 			return "(1.0)"
 
@@ -3505,7 +3506,10 @@ class Samples(samples.SamplesBase):
 			"noplot_jetFakes_raw"
 
 			if channel =="tt":
-				weight_ff_reals = weight + "*(((gen_match_1<6)*" + ff_weight_1 + ")+(" + ff_weight_2 + "*(gen_match_2<6)))"
+				if self.embedding:
+					weight_ff_reals = weight + "*(((gen_match_1<6)*" + ff_weight_1 + ")+(" + ff_weight_2 + "*(gen_match_2<6)))*((gen_match_1 == 5)*1.02 + (gen_match_1 != 5))*((gen_match_2 == 5)*1.02 + (gen_match_2 != 5))"
+				else:
+					weight_ff_reals = weight + "*(((gen_match_1<6)*" + ff_weight_1 + ")+(" + ff_weight_2 + "*(gen_match_2<6)))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 			elif channel in ["mt","et"]:
 				if self.embedding:
 					weight_ff_reals = weight + "*(" + ff_weight_2 + ")*(gen_match_2<6)*((gen_match_2 == 5)*1.02 + (gen_match_2 != 5))"
@@ -3515,7 +3519,7 @@ class Samples(samples.SamplesBase):
 
 			add_input(
 				input_file=self.files_ztt(channel, embedding=self.embedding),
-				weight=mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff_reals,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb)+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*zPtReweightWeight*(gen_match_2 < 6)",
+				weight=Samples.ztt_genmatch(channel)+"*"+mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff_reals,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb)+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*zPtReweightWeight*(gen_match_2 < 6)",
 				scale_factor = 1.0 if self.embedding else lumi,
 				nick="noplot_ff_realtaus_subtract"
 			)

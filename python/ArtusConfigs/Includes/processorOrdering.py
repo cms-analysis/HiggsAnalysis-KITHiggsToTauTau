@@ -155,9 +155,10 @@ class processors_ordered(dict):
 		self["producer:EleTauFakeRateWeightProducer"] = 277
 
 		self["producer:RooWorkspaceWeightProducer"] = 280
-			
+
 		self["producer:MuTauTriggerWeightProducer"] = 290
 		self["producer:TauTauTriggerWeightProducer"] = 291
+		self["producer:EmbeddingWeightProducer"] = 292
 
 		self["producer:GenMatchedTauCPProducer"] = 295
 
