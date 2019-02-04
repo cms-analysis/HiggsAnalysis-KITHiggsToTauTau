@@ -9,13 +9,18 @@ import re
 
 class TauES(dict):
 	def __init__(self, nickname):
-		if re.search("(Spring16|Summer16)",nickname):
+		if re.search("(Spring16|Summer16|Embedding2016)",nickname):
 			self["TauEnergyCorrection"] = "smhtt2016"
 		else:
 			self["TauEnergyCorrection"] = "none"
 
-		self["TauEnergyCorrectionOneProng"] = 0.995
-		self["TauEnergyCorrectionOneProngPiZeros"] = 1.011
+		if re.search("Embedding2016",nickname):
+			self["TauEnergyCorrectionOneProng"] = 0.997
+			self["TauEnergyCorrectionOneProngPiZeros"] = 1.002
+		else:
+			self["TauEnergyCorrectionOneProng"] = 0.995
+			self["TauEnergyCorrectionOneProngPiZeros"] = 1.011
+
 		self["TauEnergyCorrectionThreeProng"] = 1.006
 
 		if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
