@@ -31,10 +31,10 @@ import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
 class tt_ArtusConfig(dict):
 
 	def __init__(self):
-		pass
+		pass	
 
 	def build_config(self, nickname, *args, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
-
+		
 		#Change this json config files as well?
 		"""
 		if hasattr(self, "include") == False:
@@ -63,11 +63,11 @@ class tt_ArtusConfig(dict):
 
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
-		self.update(ElectronID_config)
+		self.update(ElectronID_config)	
 
 		MuonID_config = sMID.Muon_ID(nickname)
 		MuonID_config.looseMuon_ID(nickname) 		#append the config for loose Muon ID because it is used
-		self.update(MuonID_config)
+		self.update(MuonID_config)	
 
 		TauID_config = sTID.Tau_ID(nickname)			#here loose is not appended since loose tau ID is not used
 		self.update(TauID_config)
@@ -90,16 +90,16 @@ class tt_ArtusConfig(dict):
 		MinimalPlotlevelFilter_config = sMPlF.MinimalPlotlevelFilter()
 		MinimalPlotlevelFilter_config.tt()
 		self.update(MinimalPlotlevelFilter_config)
-
+		
 		MVATestMethods_config = sMVATM.MVATestMethods()
 		self.update(MVATestMethods_config)
 
 		TauES_config = sTES.TauES(nickname)
 		self.update(TauES_config)
-
+		
 		TauPolarisationMva_config = sTPMVA.TauPolarisationMva()
 		self.update(TauPolarisationMva_config)
-
+		
 		self["TauPolarisationTmvaWeights"] = ["/afs/cern.ch/user/m/mfackeld/public/weights_tmva/training.weights.xml",
 						"/afs/cern.ch/user/m/mfackeld/public/weights_sklearn/training_tt.weights.xml"]
 
@@ -167,7 +167,7 @@ class tt_ArtusConfig(dict):
 			]
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
 
-
+		
 		self["TauTauRestFrameReco"] = "collinear_approximation"
 		self["TriggerObjectLowerPtCut"] = 28.0
 		self["InvalidateNonMatchingElectrons"] = False
@@ -227,13 +227,13 @@ class tt_ArtusConfig(dict):
 			self["TauTriggerFilterNames"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35Reg"]
 
 		#Quantities, this looks for tt em mt et very similar, check if it is the same and if so put it in baseconfig for all channels
-		quantities_dict = quantities.quantities()
+		quantities_dict = quantities.quantities() 
 		quantities_dict.build_quantities(nickname, channel = self["Channel"])
 
 		#put rest of quantities in CPQuantities.py?
 
 		quantities_dict["Quantities"] += [
-						"nLooseElectrons",
+						"nLooseElectrons", 
 						"nLooseMuons",
 						"nDiTauPairCandidates",
 						 "nAllDiTauPairCandidates"
@@ -258,7 +258,7 @@ class tt_ArtusConfig(dict):
 				"triggerWeight_tau_1",
 				"triggerWeight_tau_2"
 			]
-
+		
 		self.update(copy.deepcopy(quantities_dict))
 
 		#Producers and filters, TODO filter everything which is the same and use this as the startint list, then just add the other variables per sample
@@ -269,24 +269,24 @@ class tt_ArtusConfig(dict):
 				"producer:MetSelector",
 				################## special for each channel in et mt tt em.
 				"producer:ValidTausProducer",
-				"filter:ValidTausFilter",
-				"producer:TauTriggerMatchingProducer",
-				"filter:MinTausCountFilter",
+				"filter:ValidTausFilter", 
+				"producer:TauTriggerMatchingProducer", 
+				"filter:MinTausCountFilter", 
 				"producer:ValidElectronsProducer",
 				"producer:ValidMuonsProducer",
-				"producer:ValidTTPairCandidatesProducer",
-				"filter:ValidDiTauPairCandidatesFilter",
-				"producer:HttValidLooseElectronsProducer",
-				"producer:HttValidLooseMuonsProducer",
+				"producer:ValidTTPairCandidatesProducer", 
+				"filter:ValidDiTauPairCandidatesFilter", 
+				"producer:HttValidLooseElectronsProducer", 
+				"producer:HttValidLooseMuonsProducer", 
 				##################
-				"producer:Run2DecayChannelProducer",
+				"producer:Run2DecayChannelProducer",          
 				"producer:TaggedJetCorrectionsProducer",
 				"producer:ValidTaggedJetsProducer",
-				"producer:ValidBTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",	
 				"producer:TauTauRestFrameSelector",
 				"producer:DiLeptonQuantitiesProducer",
 				"producer:DiJetQuantitiesProducer",
-
+				
 				]
 
 		if re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
@@ -296,10 +296,11 @@ class tt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+			self["Processors"]+= ["producer:MetFilterProducer"]
 
 			if re.search("(Run2016|Embedding2016)", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
-
+						
 				self["Processors"] += ["producer:SimpleFitProducer"]
 				#self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
@@ -310,7 +311,7 @@ class tt_ArtusConfig(dict):
 
 				self["Processors"] += ["producer:MELAProducer"]
 				self["Processors"] += ["producer:MELAM125Producer"]
-
+				
 				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
 
 
@@ -329,7 +330,7 @@ class tt_ArtusConfig(dict):
 						"producer:SimpleEleTauFakeRateWeightProducer",
 						"producer:SimpleMuTauFakeRateWeightProducer"
 						]
-
+			
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 					self["Processors"] += [
 						"producer:ZPtReweightProducer"
@@ -337,7 +338,7 @@ class tt_ArtusConfig(dict):
 					]
 					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 
-				else:
+				else:              
 					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
@@ -345,12 +346,12 @@ class tt_ArtusConfig(dict):
 
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
-
+			
 
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 						self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO also needed for mc to -
-						self["Processors"] += ["producer:ZPtReweightProducer"]
+						self["Processors"] += ["producer:ZPtReweightProducer"]			
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
 						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -361,7 +362,7 @@ class tt_ArtusConfig(dict):
 					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16))", nickname):
 						self["Processors"] += [
 							"producer:TopPtReweightingProducer"
-						]
+						] 
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
@@ -369,11 +370,11 @@ class tt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
 						self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO Also needed for MC to -
-						self["Processors"] += [	"producer:TopPtReweightingProducer"]
+						self["Processors"] += [	"producer:TopPtReweightingProducer"] 
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
-						self["Processors"] += ["producer:SimpleFitProducer"]
+						self["Processors"] += ["producer:SimpleFitProducer"]				
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-
+				
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 		elif re.search("(Fall15|Run2015)", nickname):
@@ -385,11 +386,11 @@ class tt_ArtusConfig(dict):
 			self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 			self["Processors"] += ["producer:MvaMetSelector"]
 
-
+			
 			if re.search("Run2015", nickname):
 				#self["Processors"] += ["producer:SimpleFitProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-
+				
 				#self["Processors"] += ["producer:SvfitProducer"]
 				#self["Processors"] += ["producer:SvfitM91Producer"]
 				#self["Processors"] += ["producer:SvfitM125Producer"]
@@ -407,7 +408,7 @@ class tt_ArtusConfig(dict):
 
 				if re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
 
-					self["Processors"] += ["producer:ZPtReweightProducer"]
+					self["Processors"] += ["producer:ZPtReweightProducer"]			
 					#self["Processors"] += ["producer:SimpleFitProducer"]
 					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
@@ -433,6 +434,8 @@ class tt_ArtusConfig(dict):
 		self["Processors"] += ["producer:EventWeightProducer"]
 		self["Processors"] = list(set(self["Processors"]))
 		processorOrderingkey = processorOrdering.processors_ordered(channel = self["Channel"])
-		ordered_processors = processorOrderingkey.order_processors(self["Processors"])
+		ordered_processors = processorOrderingkey.order_processors(self["Processors"]) 
 		self["Processors"] = copy.deepcopy(ordered_processors)
 		#processorOrderingkey.get_demon_processor(self["Processors"])
+
+

@@ -28,9 +28,9 @@ class Samples(samples.SamplesBase):
 	# constants for all plots
 	data_format = "MINIAOD"
 	mc_campaign = "RunIISummer16MiniAODv2"
-
-
-	@staticmethod
+	
+	
+	@staticmethod 
 	def root_file_folder(channel):
 		if channel == "inclusive":
 			return "inclusive/ntuple"
@@ -283,14 +283,14 @@ class Samples(samples.SamplesBase):
 
 	def ewkwp_stitchingweight(self):
 		return "(5.190747826298e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
-
+	
 	def wgamma_stitchingweight(self):
 		return "(1.7829004749953e-5)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
-
+	
 	def vv_stitchingweight(self):
 		return "(1.22671436926e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
-
-	# reweighting of l->tau fakes in ZL as done in SM HTT 2016
+	
+	# reweighting of l->tau fakes in ZL as done in SM HTT 2016 
 	def zl_shape_weight(self, channel, cut_type):
 		if "smhtt2016" in cut_type:# or "cpggh2016" in cut_type:
 			if channel == "mt":
@@ -301,7 +301,7 @@ class Samples(samples.SamplesBase):
 				return "(1.0)"
 		else:
 			return "(1.0)"
-
+	
 	# reweighting of l->tau fakes in ZL as done in SM HTT 2016
 	# this function is needed since background methods for W+jets and QCD
 	# use zll instead of zl+zj separately
@@ -310,7 +310,7 @@ class Samples(samples.SamplesBase):
 			return "(("+self.zl_genmatch(channel)+"*"+self.zl_shape_weight(channel, cut_type)+") + "+self.zj_genmatch(channel)+")"
 		else:
 			return "(1.0)"
-
+	
 	# decay mode reweighting (currently no default reweighting but only used as workaround for shape systematics)
 	def decay_mode_reweight(self, channel, cut_type):
 		if channel in ["et", "mt"]:
@@ -321,9 +321,23 @@ class Samples(samples.SamplesBase):
 			if self.embedding and "emb" in cut_type:
 				return "(((decayMode_1 == 0)*0.975) + ((decayMode_1 == 1 || decayMode_1 == 2)*0.975*1.051) + ((decayMode_1 == 10)*0.975*0.975*0.975))*(((decayMode_2 == 0)*0.975) + ((decayMode_2 == 1 || decayMode_2 == 2)*0.975*1.051) + ((decayMode_2 == 10)*0.975*0.975*0.975))"
 			return "(1.0)"
-		else:
-			return "(1.0)"
-
+		if ("2016" in cut_type) and ("low_mvis" in cut_type) and not (self.embedding):
+			return ("((1.0)+"+
+			         "((decayMode_1==0)*(genMatchedTau1DecayMode==0)*(1.14-1.0))+"+
+				     "((decayMode_1==0)*(genMatchedTau1DecayMode==1)*(0.66-1.0))+"+
+				     "((decayMode_1==1)*(genMatchedTau1DecayMode==1)*(0.97-1.0))+"+
+				     "((decayMode_1==1)*(genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(1.07-1.0))+"+
+				     "((decayMode_1==10)*(genMatchedTau1DecayMode==10)*(0.95-1.0))+"+
+				     "((decayMode_1==10)*(genMatchedTau1DecayMode>10)*(genMatchedTau1DecayMode<15)*(1.27-1.0)))*"+
+				    "((1.0)+"+
+			         "((decayMode_2==0)*(genMatchedTau2DecayMode==0)*(1.14-1.0))+"+
+				     "((decayMode_2==0)*(genMatchedTau2DecayMode==1)*(0.66-1.0))+"+
+				     "((decayMode_2==1)*(genMatchedTau2DecayMode==1)*(0.97-1.0))+"+
+				     "((decayMode_2==1)*(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(1.07-1.0))+"+
+				     "((decayMode_2==10)*(genMatchedTau2DecayMode==10)*(0.95-1.0))+"+
+				     "((decayMode_2==10)*(genMatchedTau2DecayMode>10)*(genMatchedTau2DecayMode<15)*(1.27-1.0)))")
+		else: return "(1.0)"
+	
 	# lumi-weighted average to account for EM cross trigger with DZ filter used only in data for periods G-H
 	def em_triggerweight_dz_filter(self, channel, cut_type):
 		if channel in ["em", "ttbar"] and "2016" in cut_type:
@@ -461,13 +475,13 @@ class Samples(samples.SamplesBase):
 			data_weight = "(1.0)"
 			if kwargs.get("project_to_lumi", False):
 				data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-
+			
 			add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), nick_suffix=nick_suffix)
 			add_input(
 					input_file=self.files_data(channel),
 					scale_factor=1.0,
 					weight=make_multiplication([data_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)]),
-					nick="data"
+					nick="data"					
 			)
 		else:
 			if not "AddHistograms" in config.get("analysis_modules", []):
@@ -491,12 +505,12 @@ class Samples(samples.SamplesBase):
 			elif channel=='et':
 				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "ElTauFinalState","scenario": ".*v2" }, 7)
 			elif channel=='tt':
-				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "TauTauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 6)
+				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "TauTauFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 6)				
 			elif channel=='em':
 				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "ElMuFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 6)
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
-
+								
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7)
 
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
@@ -539,7 +553,7 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (ZTT) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ztt", nick_suffix)
-
+		
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ztt"), nick_suffix)
 
@@ -585,11 +599,11 @@ class Samples(samples.SamplesBase):
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
-
+		
 		name = "pospol"+("_noplot" if polarisation_bias_correction else "")
 		polarisation_weight = "tauSpinnerPolarisation>=0.0"
 		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix)	
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
@@ -601,27 +615,27 @@ class Samples(samples.SamplesBase):
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")
 			)
-
+		
 		if polarisation_bias_correction:
 			if not "NormalizeForPolarisation" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
 			config.setdefault("ztt_pos_pol_gen_nicks", []).extend(["gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
 			config.setdefault("ztt_pos_pol_reco_nicks", []).extend(["ztt"+name+nick_suffix, "gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 			config.setdefault("ztt_pos_pol_reco_result_nicks", []).extend(["zttpospol"+nick_suffix, "gen_zttpospol"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
-
+		
 		if polarisation_gen_ztt_plots:
 			Samples._add_plot(config, "gen", "HIST", "F", "zttpospol", nick_suffix)
-
+		
 		return config
-
+	
 	def zttnegpol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
-
+		
 		name = "negpol"+("_noplot" if polarisation_bias_correction else "")
 		polarisation_weight = "tauSpinnerPolarisation<0.0"
 		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix)	
 
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			add_input(
@@ -634,17 +648,17 @@ class Samples(samples.SamplesBase):
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")
 			)
-
+		
 		if polarisation_bias_correction:
 			if not "NormalizeForPolarisation" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("NormalizeForPolarisation")
 			config.setdefault("ztt_neg_pol_gen_nicks", []).extend(["gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
 			config.setdefault("ztt_neg_pol_reco_nicks", []).extend(["ztt"+name+nick_suffix, "gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 			config.setdefault("ztt_neg_pol_reco_result_nicks", []).extend(["zttnegpol"+nick_suffix, "gen_zttnegpol"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
-
+		
 		if polarisation_gen_ztt_plots:
 			Samples._add_plot(config, "gen", "HIST", "F", "zttnegpol", nick_suffix)
-
+		
 		return config
 
 	def zttposcp(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -663,7 +677,7 @@ class Samples(samples.SamplesBase):
 	def zll(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = lumi
@@ -671,7 +685,7 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ZLL", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		if channel in ["mt", "et", "tt", "em", "mm", "ee", "ttbar"]:
 			add_input(
 					input_file=self.files_zll(channel),
@@ -693,16 +707,16 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (ZLL) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zll", nick_suffix)
-
+		
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zll"), nick_suffix)
-
+		
 		return config
 
 	def zl(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = lumi
@@ -710,8 +724,8 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ZL", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_zll(channel),
@@ -735,7 +749,7 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (ZL) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "zl", nick_suffix)
-
+	
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zl"), nick_suffix)
 		return config
@@ -743,7 +757,7 @@ class Samples(samples.SamplesBase):
 	def zj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = lumi
@@ -751,7 +765,7 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("ZJ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_zll(channel),
@@ -780,7 +794,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "zj"), nick_suffix)
 
 		return config
-
+		
 	def files_ttj(self, channel):
 		if self.ttbar_retuned:
 			return self.artus_file_names({"process" : "TTTo.*", "data": False, "campaign" : self.mc_campaign}, 2)
@@ -796,7 +810,7 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_ttj(channel),
 				weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -806,7 +820,7 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (TTT) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttt", nick_suffix)
-
+		
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ttt"), nick_suffix)
 
@@ -824,27 +838,27 @@ class Samples(samples.SamplesBase):
 
 		scale_factor = lumi
 
-		branching_ratio = "1.2e-5" #"(0.03363)*0.66*0.17*2"
-		jet_integral_weight = "1/1.05"
+		branching_ratio = "1.2e-5" #"(0.03363)*0.66*0.17*2" 				
+		jet_integral_weight = "1/1.05"							
 		files_weight = "1/10.0"
 		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
-
+	
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_lfv(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
-				nick="zmt"
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",			
+				nick="zmt"														
 		)
 
-		Samples._add_bin_corrections(config, "zmt", nick_suffix)
-
+		Samples._add_bin_corrections(config, "zmt", nick_suffix)			
+		
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)
-
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)				
+		
 		return config
 
 	def zet(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
@@ -857,19 +871,19 @@ class Samples(samples.SamplesBase):
 		jet_integral_weight = "1/1.06"
 		files_weight = "1/10.0"
 		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
-
+	
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_lfv(channel),
 				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoET > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
 				nick="zet"
 		)
-
-		Samples._add_bin_corrections(config, "zet", nick_suffix)
+				
+		Samples._add_bin_corrections(config, "zet", nick_suffix)		
 
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zet"), nick_suffix)
@@ -882,8 +896,8 @@ class Samples(samples.SamplesBase):
 
 		scale_factor = lumi
 
-		branching_ratio = "7.3e-7" #"1.2e-5" #"9.8e-6"  # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"
-		jet_integral_weight = "1/1.03"
+		branching_ratio = "7.3e-7" #"1.2e-5" #"9.8e-6"  # "(0.03363+0.03366+0.0337)*0.1741*0.1783*2"			
+		jet_integral_weight = "1/1.03"											
 		files_weight = "1/10.0"
 		cross_section_weight = "3.0" #"(0.03363+0.03366+0.0337)/(0.0337)"
 
@@ -891,18 +905,18 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_lfv(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
-				nick="zem"
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoEM > 0.5)"+"*"+ branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",			
+				nick="zem"											
 		)
 
-		Samples._add_bin_corrections(config, "zem", nick_suffix)
+		Samples._add_bin_corrections(config, "zem", nick_suffix)							
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zem"), nick_suffix)
-
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zem"), nick_suffix)	
+		
 		return config
 
 
@@ -918,12 +932,12 @@ class Samples(samples.SamplesBase):
 		jet_integral_weight = "1/1.05"
 		files_weight = "1/10.0"
 		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
-
+	
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_lfv(channel),
 				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoET > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
@@ -931,10 +945,10 @@ class Samples(samples.SamplesBase):
 		)
 
 		Samples._add_bin_corrections(config, "zetm", nick_suffix)
-
+		
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zetm"), nick_suffix)
-
+		
 		return config
 
 
@@ -948,12 +962,12 @@ class Samples(samples.SamplesBase):
 		jet_integral_weight = "1/1.05"
 		files_weight = "1/10.0"
 		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
-
+	
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_lfv(channel),
 				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(lheZtoMT > 0.5)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight+"*jetCorrectionWeight",
@@ -961,10 +975,10 @@ class Samples(samples.SamplesBase):
 		)
 
 		Samples._add_bin_corrections(config, "zmte", nick_suffix)
-
+		
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zmte"), nick_suffix)
-
+		
 		return config
 
 
@@ -979,7 +993,7 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_ttj(channel),
 				weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -992,7 +1006,7 @@ class Samples(samples.SamplesBase):
 
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ttjj"), nick_suffix)
-
+	
 		return config
 
 	def tttautau(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=False, **kwargs):
@@ -1003,8 +1017,8 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTTAUTAU", 1.0)
 		data_weight, mc_weight = self.projection(kwargs)
-
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_ttj(channel),
 				weight=make_multiplication([mc_weight, weight, "eventWeight",self.tttautau_genmatch(channel), self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"])+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -1013,8 +1027,8 @@ class Samples(samples.SamplesBase):
 		if channel not in ["em", "et", "mt", "tt", "mm", "ee", "ttbar"]:
 			log.error("Sample config (TTTAUTAU) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
-			Samples._add_bin_corrections(config, "tttautau", nick_suffix)
-
+			Samples._add_bin_corrections(config, "tttautau", nick_suffix)	
+		
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "tttautau"), nick_suffix)
 		return config
@@ -1022,14 +1036,14 @@ class Samples(samples.SamplesBase):
 	def ttj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		add_input(
 				input_file=self.files_ttj(channel),
 				weight=make_multiplication([mc_weight, weight, "eventWeight",self.embedding_ttbarveto_weight(channel), self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type), "topPtReweightWeight"])+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -1039,18 +1053,18 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (TTJ) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ttj", nick_suffix)
-
+		
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ttj"), nick_suffix)
 
 		return config
 
 	def files_diboson(self, channel):
-		artus_files = self.artus_file_names({ "process" :
+		artus_files = self.artus_file_names({ "process" : 
 		                                      "(WWTo1L1Nu2Q|"
 		                                    + "WZTo1L1Nu2Q|"
 		                                    + "WZTo1L3Nu|"
-		                                    + "WZTo2L2Q|"
+		                                    + "WZTo2L2Q|" 
 		                                    + "ZZTo2L2Q"
 		                                    +  ")",
 		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 5)
@@ -1064,21 +1078,21 @@ class Samples(samples.SamplesBase):
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4finclusiveDecays|STt-channeltop4finclusiveDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays)",
 		                      "data" : False, "campaign" : self.mc_campaign}, 4)
 		return artus_files
-
+	
 	def files_vv(self, channel):
 		artus_files = self.artus_file_names({ "process" : "VVTo2L2Nu", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 2)
 		return artus_files
 
 	def files_hww_gg(self, channel, mass=125):
 		return self.artus_file_names({"process" : "GluGluHToWWTo2L2Nu_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
-
+	
 	def hww_gg(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
-
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
+		
 		for mass in higgs_masses:
 			if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 				add_input(
@@ -1090,18 +1104,18 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (HWW_gg) currently not implemented for channel \"%s\"!" % channel)
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "hww_gg"+str(mass), nick_suffix)
-
+		
 			if not kwargs.get("no_plot", False):
 				Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg"+str(mass), nick_suffix)
-
+		
 		return config
 
 	def hww_gg125(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 			add_input(
 				input_file=self.files_hww_gg(channel, 125),
@@ -1112,10 +1126,10 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (HWW_gg125) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "hww_gg125", nick_suffix)
-
+		
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", "hww_gg125", nick_suffix)
-
+		
 		return config
 
 	def files_hww_qq(self, channel, mass=125):
@@ -1124,9 +1138,9 @@ class Samples(samples.SamplesBase):
 	def hww_qq(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		for mass in higgs_masses:
 			if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 				add_input(
@@ -1138,18 +1152,18 @@ class Samples(samples.SamplesBase):
 				log.error("Sample config (HWW_qq) currently not implemented for channel \"%s\"!" % channel)
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "hww_qq"+str(mass), nick_suffix)
-
+			
 			if not kwargs.get("no_plot", False):
 				Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq"+str(mass), nick_suffix)
-
+		
 		return config
 
 	def hww_qq125(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)			
 		if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 			add_input(
 				input_file=self.files_hww_qq(channel, 125),
@@ -1162,7 +1176,7 @@ class Samples(samples.SamplesBase):
 			Samples._add_bin_corrections(config, "hww_qq125", nick_suffix)
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", "hww_qq125", nick_suffix)
-
+		
 		return config
 
 	def hww(self, config, channel, category, weight, nick_suffix, higgs_masses, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -1170,7 +1184,7 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		for mass in higgs_masses:
 			if channel == "em" or channel == "ttbar":
 				add_input(
@@ -1200,7 +1214,7 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_vv(channel),
@@ -1230,7 +1244,7 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_vv(channel),
@@ -1261,7 +1275,7 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 			add_input(
 					input_file=self.files_vv(channel),
@@ -1277,21 +1291,21 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "vv", nick_suffix)
-
+		
 
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vv"), nick_suffix)
-
+		
 		return config
 
 	def files_wj(self, channel):
 		artus_files = self.artus_file_names({"process" : "W.*JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8"}, 10)
 		return artus_files
-
+	
 	def files_wgamma(self, channel):
 		artus_files = self.artus_file_names({"process" : "WGToLNuG", "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 3)
 		return artus_files
-
+	
 	def files_wgamma_star(self, channel):
 		artus_files = self.artus_file_names({"process" : "WGstarToLNuEE|WGstarToLNuMuMu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph"}, 2)
 		return artus_files
@@ -1331,7 +1345,7 @@ class Samples(samples.SamplesBase):
 	def ewkz(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = lumi
@@ -1339,7 +1353,7 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("EWKZ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
 		if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 			add_input(
 					input_file=self.files_ewkz_zll(channel),
@@ -1355,11 +1369,11 @@ class Samples(samples.SamplesBase):
 			log.error("Sample config (EWKZ) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ewkz", nick_suffix)
-
+		
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ewkz"), nick_suffix)
 		return config
-
+	
 	def wj_mc_ss(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -1369,9 +1383,9 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("WJets", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
-
-		cut_type_B = cut_type + "SameSignRegion"
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
+		
+		cut_type_B = cut_type + "SameSignRegion" 
 		exclude_cuts_B = copy.deepcopy(exclude_cuts)+["os"]
 		add_input(
 				input_file=self.files_wj(channel),
@@ -1388,15 +1402,15 @@ class Samples(samples.SamplesBase):
 					input_file=self.files_ewkwp(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
 					nick="wj_mc_ss"
-			)
+			)		
 		if not kwargs.get("no_plot", False):
 			if not kwargs.get("mssm", False):
 				Samples._add_bin_corrections(config, "wj", nick_suffix)
 			Samples._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
 
-
-
+	
+	
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, estimationMethod="classic", controlregions=False,**kwargs):
 		"""
 		Using ABCD method in background-method types 'new' and 'simeqn'
@@ -1404,13 +1418,13 @@ class Samples(samples.SamplesBase):
 		B := SS Control region / ss+low_mt
 		C := High mt SS region / ss+high_mt
 		D := High mt OS region / ss+low_mt
-		As this method is entangled with the qcd function some nicks will be defined there and taken from there.
+		As this method is entangled with the qcd function some nicks will be defined there and taken from there. 
 		See the analysis modules for details.
-		"""
-
+		"""	
+		
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = lumi
@@ -1418,32 +1432,32 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("WJets", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
-
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
+		
 		# Definition of the 4 regions of phase space used for the ABCD method
 		cut_type_A = cut_type
 		cut_type_B = cut_type + "SameSignRegion"
 		cut_type_C = cut_type + "highMtSSControlRegionWJ"
 		cut_type_D = cut_type + "highMtControlRegionWJ"
-
+		
 		exclude_cuts_A = exclude_cuts
 		# This structure is needed to avoid that some cuts appear twice in the list of cuts to exclude.
-		exclude_cuts_B = [cut for cut in exclude_cuts if cut not in ["os"]] + ["os"]
+		exclude_cuts_B = [cut for cut in exclude_cuts if cut not in ["os"]] + ["os"]	
 		exclude_cuts_D = [cut for cut in exclude_cuts if cut not in ["mt"]] + ["mt"]
 		exclude_cuts_C = [cut for cut in exclude_cuts_D if cut not in ["os"]] + ["os"]
 		exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)+["mt"]
 		exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts_inclusive)+["os"]
+		
 
-
-		if channel in ["mt", "et"]:
+		if channel in ["mt", "et"]:			
 			if kwargs.get("useRelaxedIsolationForW", False):
 				cut_type_A = cut_type_A + "relaxedETauMuTauWJ"
 				cut_type_C = cut_type_C + "relaxedETauMuTauWJ"
 			elif category != None:
 				cut_type_A = cut_type_A + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
 				cut_type_C = cut_type_C + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
-
-			# wj shape and highmt to lowmt extrapolation
+			
+			# wj shape and highmt to lowmt extrapolation				
 			if "mc" in estimationMethod:
 				# Determine W+jets from Monte Carlo
 				add_input(
@@ -1462,11 +1476,11 @@ class Samples(samples.SamplesBase):
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwp_stitchingweight(),
 							nick="wj"
 					)
-
+				
 			if "simeqn" in estimationMethod or "new" in estimationMethod:
 				"""
 				Inputs shared by both method can by found below ordered by the ABCD region they are applied to.
-				"""
+				"""				
 				# Type A inputs
 				# wj shape nick
 				add_input(
@@ -1484,7 +1498,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_A)+"*"+self.ewkwp_stitchingweight(),
 							nick="wj"
-					)
+					)				
 				# Type C inputs
 				# noplot_xx_ss_highmt: for the w+jets ss high-mt yield subtract nicks
 				add_input(
@@ -1493,7 +1507,7 @@ class Samples(samples.SamplesBase):
 						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
 						nick=("noplot_" if not controlregions else "") + "data_ss_highmt",
 				)
-
+				
 				# Type C subtract nicks - nick type xx_ss_highmt
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
@@ -1527,7 +1541,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkz_znn(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 							nick=("noplot_" if not controlregions else "") + "zll_ss_highmt"
-					)
+					)	
 				if (not kwargs.get("no_ewk_samples", False)) and kwargs.get("no_ewkz_as_dy", False):
 					add_input(
 						input_file=self.files_ewkz_zll(channel),
@@ -1570,7 +1584,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_ss_highmt"
-					)
+					)							
 				# Type D inputs
 				# data yield in os highmt
 				add_input(
@@ -1578,7 +1592,7 @@ class Samples(samples.SamplesBase):
 						scale_factor=1.0,
 						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
 						nick=("noplot_" if not controlregions else "") + "data_os_highmt",
-				)
+				)					
 				# wjets os highmt subtract nicks
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
@@ -1612,7 +1626,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkz_znn(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 							nick=("noplot_" if not controlregions else "") + "ewkz_os_highmt"
-					)
+					)				
 				if not (kwargs.get("no_ewk_samples", False)):
 					add_input(
 							input_file=self.files_ewkz_zll(channel),
@@ -1623,7 +1637,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkz_znn(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 							nick=("noplot_" if not controlregions else "") + "zll_os_highmt"
-					)
+					)					
 				add_input(
 						input_file=self.files_ttj(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*topPtReweightWeight",
@@ -1655,13 +1669,13 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_os_highmt"
-					)
-			if "simeqn" in estimationMethod:
+					)											
+			if "simeqn" in estimationMethod: 
 				"""
 				Inputs only needed by simeqn method.
 				"""
-				# add inclusive Wjets MC samples in OS and SS for W SS/OS determination
-				# Inclusive W os/ss factor determination
+				# add inclusive Wjets MC samples in OS and SS for W SS/OS determination 
+				# Inclusive W os/ss factor determination 
 				add_input(
 					input_file=self.files_wj(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_inclusive_ss, cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -1677,7 +1691,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_inclusive_ss, cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_ss_inclusive"
-					)
+					)												
 				add_input(
 					input_file=self.files_wj(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_inclusive, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -1693,7 +1707,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_inclusive, cut_type=cut_type)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_os_inclusive"
-					)
+					)												
 				add_input(
 					input_file=self.files_wj(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -1709,7 +1723,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_ss_lowmt"
-					)
+					)																							
 				add_input(
 					input_file=self.files_wj(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -1725,7 +1739,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_mc_os_lowmt"
-					)
+					)												
 				# Step 5 - Estimate highmt ss yield
 				# data yield in ss highmt
 				# shape nicks for the later usable histograms
@@ -1745,7 +1759,7 @@ class Samples(samples.SamplesBase):
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel,  exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_ss_highmt"
 					)
-				# Step 6 - Estimate lowmt shapes both os and ss
+				# Step 6 - Estimate lowmt shapes both os and ss	
 				add_input(
 						input_file=self.files_wj(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel,  exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
@@ -1777,7 +1791,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkwp(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel,  exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkwp_stitchingweight(),
 							nick=("noplot_" if not controlregions else "") + "wj_os_highmt"
-					)
+					)								
 			if "new" in estimationMethod:
 				"""
 				Inputs only needed by 'new' method.
@@ -1851,7 +1865,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("wjets_relaxed_os_highmt_nicks", []).append("noplot_wj_relaxed_os_highmt"+nick_suffix)
 					config.setdefault("wjets_relaxed_os_lowmt_nicks", []).append("noplot_wj_relaxed_os_lowmt"+nick_suffix)
 					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)
-			elif "simeqn" in estimationMethod:
+			elif "simeqn" in estimationMethod:				
 				if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
 				if controlregions:
@@ -1861,22 +1875,22 @@ class Samples(samples.SamplesBase):
 					# Step 2
 					config.setdefault("wjets_C_mc_nicks", []).append("wj_mc_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_B_mc_nicks", []).append("wj_mc_ss_lowmt"+nick_suffix)
-					# Step 3
+					# Step 3 					
 					config.setdefault("wjets_D_mc_nicks", []).append("wj_mc_os_highmt"+nick_suffix)
 					config.setdefault("wjets_A_mc_nicks", []).append("wj_mc_os_lowmt"+nick_suffix)
 					# Step 4
 					# To be added in the qcd method.
 					# Step 5
-					config.setdefault("wjets_C_data_nicks", []).append("data_ss_highmt"+nick_suffix)
+					config.setdefault("wjets_C_data_nicks", []).append("data_ss_highmt"+nick_suffix)				
 					config.setdefault("wjets_D_data_nicks", []).append("data_os_highmt"+nick_suffix)
-
+					
 					config.setdefault("C_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_highmt zll_ss_highmt ttj_ss_highmt vv_ss_highmt".split()]))
 					config.setdefault("D_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_os_highmt zll_os_highmt ttj_os_highmt vv_os_highmt".split()]))
 					config.setdefault("wjets_C_shape_nicks", []).append("wj_ss_highmt"+nick_suffix)
 					# Step 6
 					config.setdefault("wjets_B_shape_nicks", []).append("wj_ss_lowmt"+nick_suffix)
-					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)
-					config.setdefault("wjets_D_shape_nicks", []).append("wj_os_highmt"+nick_suffix)
+					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)								
+					config.setdefault("wjets_D_shape_nicks", []).append("wj_os_highmt"+nick_suffix)								
 					for nick in ["wj_mc_ss_inclusive", "wj_mc_os_inclusive", "wj_mc_ss_highmt", "wj_mc_ss_lowmt", "wj_mc_os_highmt", "wj_mc_os_lowmt", "ztt_ss_highmt", "zll_ss_highmt", "ttj_ss_highmt", "vv_ss_highmt", "ztt_os_highmt", "zll_os_highmt", "ttj_os_highmt", "vv_os_highmt", "wj_ss_highmt", "wj_ss_lowmt"]:
 						if not kwargs.get("mssm", False):
 							Samples._add_bin_corrections(config, nick, nick_suffix)
@@ -1884,7 +1898,7 @@ class Samples(samples.SamplesBase):
 					for nick in ["data_ss_highmt", "data_os_highmt", "data_os_lowmt"]:
 						if not kwargs.get("mssm", False):
 							Samples._add_bin_corrections(config, nick, nick_suffix)
-						Samples._add_plot(config, "data", "E", "ELP", nick, nick_suffix)
+						Samples._add_plot(config, "data", "E", "ELP", nick, nick_suffix)						
 				else:
 					# Step 1
 					config.setdefault("wjets_ss_mc_nicks", []).append("noplot_wj_mc_ss_inclusive"+nick_suffix)
@@ -1892,21 +1906,21 @@ class Samples(samples.SamplesBase):
 					# Step 2
 					config.setdefault("wjets_C_mc_nicks", []).append("noplot_wj_mc_ss_highmt"+nick_suffix)
 					config.setdefault("wjets_B_mc_nicks", []).append("noplot_wj_mc_ss_lowmt"+nick_suffix)
-					# Step 3
+					# Step 3 					
 					config.setdefault("wjets_D_mc_nicks", []).append("noplot_wj_mc_os_highmt"+nick_suffix)
 					config.setdefault("wjets_A_mc_nicks", []).append("noplot_wj_mc_os_lowmt"+nick_suffix)
 					# Step 4
 					# To be added in the qcd method.
 					# Step 5
-					config.setdefault("wjets_C_data_nicks", []).append("noplot_data_ss_highmt"+nick_suffix)
+					config.setdefault("wjets_C_data_nicks", []).append("noplot_data_ss_highmt"+nick_suffix)				
 					config.setdefault("wjets_D_data_nicks", []).append("noplot_data_os_highmt"+nick_suffix)
 					config.setdefault("C_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_highmt zll_ss_highmt ttj_ss_highmt vv_ss_highmt".split()]))
 					config.setdefault("D_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_os_highmt zll_os_highmt ttj_os_highmt vv_os_highmt".split()]))
 					config.setdefault("wjets_C_shape_nicks", []).append("noplot_wj_ss_highmt"+nick_suffix)
 					# Step 6
 					config.setdefault("wjets_B_shape_nicks", []).append("noplot_wj_ss_lowmt"+nick_suffix)
-					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)
-					config.setdefault("wjets_D_shape_nicks", []).append("noplot_wj_os_highmt"+nick_suffix)
+					config.setdefault("wjets_A_shape_nicks", []).append("wj"+nick_suffix)	
+					config.setdefault("wjets_D_shape_nicks", []).append("noplot_wj_os_highmt"+nick_suffix)	
 
 			if "classic" in estimationMethod:
 				shape_weight = mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)
@@ -2049,7 +2063,7 @@ class Samples(samples.SamplesBase):
 	def qcd_prefit(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = 1.0
@@ -2057,13 +2071,13 @@ class Samples(samples.SamplesBase):
 			scale_factor *= self.postfit_scales.get("QCD", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-
-		cut_type_B = cut_type + "SameSignRegion"
+		
+		cut_type_B = cut_type + "SameSignRegion" 
 		exclude_cuts_B = copy.deepcopy(exclude_cuts)+["os"]
-
+		
 		shape_weight = data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
-		if channel in ["et", "mt"]:
+		if channel in ["et", "mt"]:	
 			add_input(
 					input_file=self.files_data(channel),
 					scale_factor=1.0,
@@ -2097,7 +2111,7 @@ class Samples(samples.SamplesBase):
 						input_file=self.files_ewkwp(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkwp_stitchingweight(),
 						nick="noplot_wj_mc_qcd_control"
-				)
+				)			
 			add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
 					weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -2194,12 +2208,12 @@ class Samples(samples.SamplesBase):
 		B := SS Control region / ss+low_mt
 		C := High mt SS region / ss+high_mt
 		D := High mt OS region / ss+low_mt
-		As this method is entangled with the wj function some nicks will be defined there and taken from there.
+		As this method is entangled with the wj function some nicks will be defined there and taken from there. 
 		See the analysis modules for details.
-		"""
+		"""		
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = 1.0
@@ -2208,21 +2222,21 @@ class Samples(samples.SamplesBase):
 
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
-
-		# Same-sign region cut type
+		
+		# Same-sign region cut type		
 		cut_type_A = cut_type
 		cut_type_B = cut_type + "SameSignRegion"
 		cut_type_C = cut_type + "highMtSSControlRegionWJ"
 		cut_type_D = cut_type + "highMtControlRegionWJ"
-
+		
 		exclude_cuts_A = exclude_cuts
-		exclude_cuts_B = copy.deepcopy(exclude_cuts)+["os"]
+		exclude_cuts_B = copy.deepcopy(exclude_cuts)+["os"]	
 		exclude_cuts_D = copy.deepcopy(exclude_cuts)+["mt"]
 		exclude_cuts_C = copy.deepcopy(exclude_cuts_D)+["os"]
 		exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)+["mt"]
 		exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts_inclusive)+["os"]
-
-
+		
+		
 		if channel in ["et", "mt", "em", "tt", "mm", "ee", "ttbar"]:
 			# background estimation in et/mt
 			if ("new" in estimationMethod or "simeqn" in estimationMethod) and channel in  ["et", "mt"]:
@@ -2233,7 +2247,7 @@ class Samples(samples.SamplesBase):
 					scale_factor=1.0,
 					weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
 					nick="qcd"
-				)
+				)				
 				# qcd data yield nick (for subtraction)
 				add_input(
 						input_file=self.files_data(channel),
@@ -2246,13 +2260,13 @@ class Samples(samples.SamplesBase):
 						scale_factor=1.0,
 						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
 						nick=("noplot_" if not controlregions else "") + "qcd_ss_lowmt",
-				)
+				)	
 				add_input(
 						input_file=self.files_data(channel),
 						scale_factor=1.0,
 						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
 						nick=("noplot_" if not controlregions else "") + "qcd_os_highmt",
-				)
+				)													
 				# background subtraction nicks in region B
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
@@ -2275,7 +2289,7 @@ class Samples(samples.SamplesBase):
 						input_file=self.files_zll(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick=("noplot_" if not controlregions else "") + "zll_ss_qcd",
-				)
+				)									
 				if not (kwargs.get("no_ewk_samples", False)):
 					add_input(
 							input_file=self.files_ewkz_zll(channel),
@@ -2297,7 +2311,7 @@ class Samples(samples.SamplesBase):
 							input_file=self.files_ewkz_znn(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 							nick=("noplot_" if not controlregions else "") + "ewkz_ss_qcd"
-					)
+					)					
 				add_input(
 						input_file=self.files_ttj(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -2318,12 +2332,12 @@ class Samples(samples.SamplesBase):
 						scale_factor=1.0,
 						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
 						nick=("noplot_" if not controlregions else "") + "qcd_ss_highmt"
-				)
-			 	if "new" in estimationMethod:
+				)										
+			 	if "new" in estimationMethod:					
 					if kwargs.get("useRelaxedIsolationForQCD", False):
 						cut_type_A = cut_type_A + "relaxedETauMuTauWJ"
 					elif category != None:
-						cut_type_A = cut_type_A + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")
+						cut_type_A = cut_type_A + ("relaxedETauMuTauWJ" if ("1jet" in category or "vbf" in category or "Boosted2D" in category or "Vbf2D" in category or "dijet" in category) else "")										
 					add_input(
 						input_file=self.files_wj(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
@@ -2352,7 +2366,7 @@ class Samples(samples.SamplesBase):
 					if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
 						config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
-
+					
 					if controlregions:
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
 						config.setdefault("qcd_yield_nicks", []).append("data_qcd_yield"+nick_suffix)
@@ -2381,7 +2395,7 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
 						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
 							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
-				if "simeqn" in estimationMethod:
+				if "simeqn" in estimationMethod:						
 					if kwargs.get("ss_os_factor", 0.0) != 0.0:
 						ss_os_factor = kwargs["ss_os_factor"]
 					else:
@@ -2394,19 +2408,19 @@ class Samples(samples.SamplesBase):
 					use_inclusive_wjets_mc = False
 					if category != None:
 						use_inclusive_wjets_mc = True if "dijet2D" in category else False
-
+						
 					if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
-					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
-					config.setdefault("use_inclusive_wjets_mc", []).append(use_inclusive_wjets_mc)
-
-					if controlregions:
+					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)					
+					config.setdefault("use_inclusive_wjets_mc", []).append(use_inclusive_wjets_mc)					
+					
+					if controlregions:											
 						config.setdefault("B_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
 						config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
 						config.setdefault("qcd_ss_highmt_nicks", []).append("qcd_ss_highmt"+nick_suffix)
 						config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
-						config.setdefault("qcd_ss_data_nicks", []).append("data_qcd_yield"+nick_suffix)
-						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
+						config.setdefault("qcd_ss_data_nicks", []).append("data_qcd_yield"+nick_suffix)					
+						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)	
 						for nick in ["ztt_ss_qcd", "zll_ss_qcd", "ttj_ss_qcd", "vv_ss_qcd", "qcd_ss_highmt", "qcd_ss_lowmt"]:
 							if not kwargs.get("mssm", False):
 								Samples._add_bin_corrections(config, nick, nick_suffix)
@@ -2414,7 +2428,7 @@ class Samples(samples.SamplesBase):
 						for nick in ["data_qcd_yield"]:
 							if not kwargs.get("mssm", False):
 								Samples._add_bin_corrections(config, nick, nick_suffix)
-							Samples._add_plot(config, "data", "E", "ELP", nick, nick_suffix)
+							Samples._add_plot(config, "data", "E", "ELP", nick, nick_suffix)							
 					else:
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
 						config.setdefault("qcd_ss_data_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
@@ -2422,18 +2436,18 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
 						config.setdefault("qcd_ss_highmt_nicks", []).append("noplot_qcd_ss_highmt"+nick_suffix)
 						config.setdefault("B_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd ".split()]))
-			elif ("new" in estimationMethod or "simeqn" in estimationMethod) and channel not in  ["et", "mt"]:
+			elif ("new" in estimationMethod or "simeqn" in estimationMethod) and channel not in  ["et", "mt"]:				
 				if channel == "em" or channel == "ttbar":
 					# in the em channel QCD is estimated from SS events in data
 					# in the SM analysis a constant QCD OSSS factor is measured in anti-isolated lepton events.
-					# in the CP analysis event weights in bins of njets, dR and pt where determined.
+					# in the CP analysis event weights in bins of njets, dR and pt where determined. 
 					if kwargs.get("ss_os_factor", 0.0) != 0.0:
 						ss_os_factor = kwargs["ss_os_factor"]
 					else:
 						ss_os_factor = 2.22
 						if category != None:
 							ss_os_factor = 2.27 if "ZeroJet2D" in category else 2.26 if "Boosted2D" in category else 2.84 if "Vbf2D" in category else 2.22
-
+					
 					# determine the weight to be used
 					em_qcd_event_weight = "emuQcdWeightNom" # if not any(CP_category in category for CP_category in ["ZeroJetCP", "BoostedCP", "dijet2D_lowboost", "dijet2D_boosted"]) else "emuQcdOsssWeight"
 					for estimation_type in ["shape", "yield"]:
@@ -2446,7 +2460,7 @@ class Samples(samples.SamplesBase):
 							if estimation_type == "shape" and ("Vbf2D" in category):
 								qcd_weight += "*(iso_1<0.5)*(iso_2>0.2)*(iso_2<0.5)"
 								qcd_exclude_cuts += ["iso_1", "iso_2"]
-						data_sample_weight = make_multiplication([data_weight,
+						data_sample_weight = make_multiplication([data_weight, 
 											  qcd_weight,
 											  "eventWeight",
 											  self._cut_string(channel, exclude_cuts=qcd_exclude_cuts, cut_type=cut_type_B),
@@ -2674,7 +2688,7 @@ class Samples(samples.SamplesBase):
 						config.setdefault("qcd_control_relaxed_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "noplot_ztt_qcd_relaxed_ss noplot_zll_qcd_relaxed_ss noplot_ttj_qcd_relaxed_ss noplot_vv_qcd_relaxed_ss noplot_wj_qcd_relaxed_ss".split()]))
 				elif channel in ["mm","ee"]:
 					log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
-
+			
 			if "classic" in estimationMethod or "mc" in estimationMethod:
 				# WJets for QCD estimate
 				add_input(
@@ -2682,7 +2696,7 @@ class Samples(samples.SamplesBase):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="noplot_wj_ss"
 				)
-
+						
 				if channel in ["mt", "et"]:
 
 					add_input(
@@ -2878,7 +2892,7 @@ class Samples(samples.SamplesBase):
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0 + (0.0 if not "os" in exclude_cuts else 1.0))
 				else:
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
-
+												
 		else:
 			log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
 
@@ -2889,7 +2903,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def htt(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
-
+		
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -2899,12 +2913,12 @@ class Samples(samples.SamplesBase):
 		if mssm and  normalise_to_sm_xsec:
 			config = self.ggh(config, channel, category, weight, nick_suffix+"_sm_noplot", higgs_masses,
 			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=False, **kwargs)
-
+		
 		# vector boson fusion (SM)
 		if (not mssm) or normalise_to_sm_xsec:
 			config = self.qqh(config, channel, category, weight, nick_suffix+("_sm" if mssm else "")+"_noplot", higgs_masses+([] if mssm else additional_higgs_masses_for_shape),
 			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-
+		
 		# Higgs strahlung (SM)
 		if (not mssm) or normalise_to_sm_xsec:
 			config = self.vh(config, channel, category, weight, nick_suffix+("_sm" if mssm else "")+"_noplot", higgs_masses+([] if mssm else additional_higgs_masses_for_shape),
@@ -2914,32 +2928,32 @@ class Samples(samples.SamplesBase):
 		if mssm:
 			config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
-
+			
 		def final_nick(tmp_sample, tmp_mass, add_nick_suffix=True):
 			return tmp_sample+str(kwargs.get("cp", ""))+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
 
 		for index, mass in enumerate(additional_higgs_masses_for_shape+higgs_masses):
 			is_additional_mass = (index < len(additional_higgs_masses_for_shape))
-
+			
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
 			config.setdefault("add_nicks", []).append(" ".join([final_nick(sample, mass)+"_noplot" for sample in ["ggh"]+(["bbh"] if mssm else ["qqh", "vh"])]))
 			config.setdefault("add_result_nicks", []).append(final_nick("htt", mass)+"_noplot")
-
+			
 			if not is_additional_mass:
 				config.setdefault("add_nicks", []).append(" ".join([final_nick("htt", m)+"_noplot" for m in [mass]+additional_higgs_masses_for_shape]))
 				config.setdefault("add_result_nicks", []).append(final_nick("htt", mass)+"_noplot_shape")
-
+				
 				if mssm and normalise_to_sm_xsec:
 					config.setdefault("add_nicks", []).append(" ".join([final_nick(sample, mass)+"_sm_noplot" for sample in ["ggh", "qqh", "vh"]]))
 					config.setdefault("add_result_nicks", []).append(final_nick("htt", mass)+"_sm_noplot")
-
+				
 				if not "ShapeYieldMerge" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("ShapeYieldMerge")
 				config.setdefault("shape_nicks", []).append(final_nick("htt", mass)+"_noplot_shape")
 				config.setdefault("yield_nicks", []).append(final_nick("htt", mass)+("_sm" if mssm and normalise_to_sm_xsec else "")+"_noplot")
 				config.setdefault("shape_yield_nicks", []).append(final_nick("htt", mass))
-
+			
 			if (not kwargs.get("no_plot", False)) and (not is_additional_mass):
 				if not mssm:
 					Samples._add_bin_corrections(
@@ -2960,7 +2974,7 @@ class Samples(samples.SamplesBase):
 	# samples which merge susy_ggh and bbh
 	# susy ssamples to be used with SM analysis (mssm = False)
 	def susy(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, additional_higgs_masses_for_shape=[], mssm=False, normalise_to_sm_xsec=False, **kwargs):
-
+		
 		if exclude_cuts is None:
 			exclude_cuts = []
 
@@ -2971,28 +2985,28 @@ class Samples(samples.SamplesBase):
 		# bbh
 		config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
 		                  normalise_signal_to_one_pb, lumi=lumi*1.9, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
-
+		
 		def final_nick(tmp_sample, tmp_mass, add_nick_suffix=True):
 			return tmp_sample+str(kwargs.get("cp", ""))+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
 
 		for index, mass in enumerate(additional_higgs_masses_for_shape+higgs_masses):
 			is_additional_mass = (index < len(additional_higgs_masses_for_shape))
-
+			
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
 			config.setdefault("add_nicks", []).append(" ".join([final_nick(sample, mass)+"_noplot" for sample in ["susy_ggh"]+["bbh"] ]))
 			config.setdefault("add_result_nicks", []).append(final_nick("susy", mass)+"_noplot")
-
+			
 			if not is_additional_mass:
 				config.setdefault("add_nicks", []).append(" ".join([final_nick("susy", m)+"_noplot" for m in [mass]+additional_higgs_masses_for_shape]))
 				config.setdefault("add_result_nicks", []).append(final_nick("susy", mass)+"_noplot_shape")
-
+				
 				if not "ShapeYieldMerge" in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("ShapeYieldMerge")
 				config.setdefault("shape_nicks", []).append(final_nick("susy", mass)+"_noplot_shape")
 				config.setdefault("yield_nicks", []).append(final_nick("susy", mass)+("_sm" if mssm and normalise_to_sm_xsec else "")+"_noplot")
 				config.setdefault("shape_yield_nicks", []).append(final_nick("susy", mass))
-
+			
 			if (not kwargs.get("no_plot", False)) and (not is_additional_mass):
 				if not mssm:
 					Samples._add_bin_corrections(
@@ -3015,8 +3029,8 @@ class Samples(samples.SamplesBase):
 	def httcpeven(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, normalise_to_sm_xsec=True, **kwargs):
 		config = self.htt( config, channel, category, weight, "cpeven"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, normalise_to_sm_xsec=normalise_to_sm_xsec, cp="cpeven", stacks="httcpeven", **kwargs)
 		return config
-
-	# cp-odd state from SM samples %FIXME
+	
+	# cp-odd state from SM samples %FIXME 
 	def httcpodd(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.htt( config, channel, category, weight, "cpodd"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="cpodd", stacks="httcpodd", **kwargs)
 		return config
@@ -3079,24 +3093,24 @@ class Samples(samples.SamplesBase):
 		if cp is None or cp == "cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
-
+		
 		elif "jhu" in cp:
 			if "sm" in cp:
-				return "GluGluH2JetsToTauTauM125CPmixingsmJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
+				return "GluGluH2JetsToTauTauM125CPmixingsmJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"		
 			if "ps" in cp:
 				return "GluGluH2JetsToTauTauM125CPmixingpseudoscalarJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
 			if "mm" in cp:
 				return "GluGluH2JetsToTauTauM125CPmixingmaxmixJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
 		elif cp in ["sm", "mm", "ps"]:
 			return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
-
+	
 	def files_susy_ggh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "SUSYGluGluToHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
 	def susy_ggh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("susy_ggh", 1.0)
@@ -3131,18 +3145,18 @@ class Samples(samples.SamplesBase):
 						str(kwargs.get("cp", ""))+nick_suffix
 				)
 		return config
-
+		
 	def ggh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-
+		
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ggh", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
-
+		
 		matrix_weight = "(1.0)*"
 		if (kwargs.get("cp", None) == "sm"):
 			matrix_weight = "(madGraphWeightSample>-899)*"
@@ -3192,10 +3206,10 @@ class Samples(samples.SamplesBase):
 	def gghsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh( config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", stacks="gghsm", **kwargs)
 		return config
-
+	
 	def gghjhusm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh( config, channel, category, weight+"*(0.3987/0.921684152)", "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhusm", stacks="gghjhusm", **kwargs)
-		return config
+		return config	
 
 	def gghmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", stacks="gghmm", **kwargs)
@@ -3204,32 +3218,32 @@ class Samples(samples.SamplesBase):
 	def gghjhumm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh(config, channel, category, weight+"*(0.7893/1.84349344)", "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhumm", stacks="gghjhumm", **kwargs)
 		return config
-
+	
 	def gghps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="gghps", **kwargs)
 		return config
-
+	 
 	def gghjhups(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh(config, channel, category, weight+"*(0.3858/0.909898616)", "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhups", stacks="gghjhups", **kwargs)
 		return config
-
+	
 	def files_qqh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
-
+		
 		if cp is None or  cp =="cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "VBFHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
-
+		
 		elif "jhu" in cp:
 			if "sm" in cp:
-				return "VBFHiggs0PMM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6//*.root"
+				return "VBFHiggs0PMM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6//*.root"		
 			if "ps" in cp:
 				return "VBFHiggs0MM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6/*.root"
 			if "mm" in cp:
 				return "VBFHiggs0Mf05ph0M125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6/*.root"
 		elif cp in ["sm", "mm", "ps"]:
 			return "VBFHToTauTauM125_RunIISpring16MiniAODv2reHLT_PUSpring16RAWAODSIM_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
-
+	
 	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -3297,7 +3311,7 @@ class Samples(samples.SamplesBase):
 
 	def qqhps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.qqh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", stacks="qqhps", **kwargs)
-		return config
+		return config	
 
 	def qqhjhusm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.qqh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhusm", stacks="qqhjhusm", **kwargs)
@@ -3309,8 +3323,8 @@ class Samples(samples.SamplesBase):
 
 	def qqhjhups(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.qqh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhups", stacks="qqhjhups", **kwargs)
-		return config
-
+		return config	
+	
 	def vh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -3481,14 +3495,14 @@ class Samples(samples.SamplesBase):
 
 		if channel == "tt":
 			exclude_cuts_ff += ["iso_1", "iso_2"]
-			ff_weight_1 = "((" + fake_factor_name_1 + ")*(byVLooseIsolationMVArun2v1DBoldDMwLT_1>0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_1<0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2>0.5))"   #factor 1/2 for tt already aplied in producer
+			ff_weight_1 = "((" + fake_factor_name_1 + ")*(byVLooseIsolationMVArun2v1DBoldDMwLT_1>0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_1<0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2>0.5))"   #factor 1/2 for tt already aplied in producer 
 			ff_weight_2 = "((" + fake_factor_name_2 + ")*(byVLooseIsolationMVArun2v1DBoldDMwLT_2>0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2<0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_1>0.5))"
 
 		if channel =="tt":
 			weight_ff = weight + "*(" + ff_weight_1 + "+" + ff_weight_2 + ")"
 		elif channel in ["mt","et"]:
 			weight_ff = weight + "*(" + ff_weight_2 + ")"
-
+			
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 
 		#Samples._add_plot(config, "bkg", "HIST", "F", "jetFakes", "jetFakes")
@@ -3516,7 +3530,8 @@ class Samples(samples.SamplesBase):
 				else:
 					weight_ff_reals = weight + "*(" + ff_weight_2 + ")*(gen_match_2<6)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 
-
+			print weight_ff_reals
+			
 			add_input(
 				input_file=self.files_ztt(channel, embedding=self.embedding),
 				weight=Samples.ztt_genmatch(channel)+"*"+mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff_reals,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb)+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*zPtReweightWeight*(gen_match_2 < 6)",
@@ -3636,11 +3651,11 @@ class Samples(samples.SamplesBase):
 			)
 		else:
 			log.error("Sample config (EWK) currently not implemented for channel \"%s\"!" % channel)
-
+		
 		#if channel in ["mt", "et"] and fakefactor_method:
 		#	config["weights"][config["nicks"].index("ewk")] = config["weights"][config["nicks"].index("ewk")]+"*(gen_match_2 != 6)"
 		#if channel in ["mt", "et"] and fakefactor_method == "comparison":
 		#	config["weights"][config["nicks"].index("ewk")] = config["weights"][config["nicks"].index("ewk")]+"*(gen_match_2 == 6)"
-
+		
 		Samples._add_plot(config, "bkg", "HIST", "F", "ewk", nick_suffix)
 		return config

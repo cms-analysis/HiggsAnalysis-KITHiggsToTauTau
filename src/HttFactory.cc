@@ -57,6 +57,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TTbarGenDecayModeProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/LFVJetCorrection2016Producer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetFilterProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -294,6 +295,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new TaggedJetUncertaintyShiftProducer();
 	else if(id == LFVJetCorrection2016Producer().GetProducerId())
 		return new LFVJetCorrection2016Producer();
+	else if(id == MetFilterProducer().GetProducerId())
+		return new MetFilterProducer();
 	else
 		return KappaFactory::createProducer( id );
 }

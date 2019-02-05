@@ -123,6 +123,9 @@ def create_input_root_files(datacards, args):
 					
 					tmp_quantity = args.quantity
 					tmp_omega_version = args.omega_version
+					if args.quantity == "m_2":
+						if category in [channel+"_oneprong", channel+"_a1"]:
+							tmp_quantity = "m_vis"
 					if args.fixed_variables == "best_choice":
 						if channel in ["tt"]:
 							if category in [channel+"_"+cat for cat in ["combined_rho_oneprong", "combined_oneprong_oneprong"]]:
@@ -290,8 +293,10 @@ if __name__ == "__main__":
 	                    default=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls"],
 	                    choices=["maxlikelihoodfit", "totstatuncs", "prefitpostfitplots", "pulls", "deltanll", "nuisanceimpacts"],
 	                    help="Steps to perform. [Default: %(default)s]")
-	parser.add_argument("--decay-mode-migrations", action="store_true", default=False,
-	                    help="Run fits for decay mode migration analysis of normal polarisation analysis. [Default: %(default)s]")
+	parser.add_argument("--reco-decay-mode-migrations", action="store_true", default=False,
+	                    help="Run fits for reco. decay mode migration analysis of normal polarisation analysis. [Default: %(default)s]")
+	parser.add_argument("--gen-decay-mode-migrations", action="store_true", default=False,
+	                    help="Run fits for gen. decay mode migration analysis of normal polarisation analysis. [Default: %(default)s]")
 	parser.add_argument("--auto-rebin", action="store_true", default=False,
 	                    help="Do auto rebinning [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
@@ -383,7 +388,7 @@ if __name__ == "__main__":
 		print WARNING + '-----      Merging bin errors and generating bbb uncertainties...     -----' + ENDC
 		BinErrorsAndBBB(datacards, 0.1, 0.5, True)
 	
-	if not args.decay_mode_migrations:
+	if True: # (not args.reco_decay_mode_migrations) and (not args.gen_decay_mode_migrations):
 		print WARNING + '-----      Modify systematics...     -----' + ENDC
 		ModifySystematics(datacards)
 	
