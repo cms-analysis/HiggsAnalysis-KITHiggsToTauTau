@@ -39,10 +39,8 @@ class SamplesBase(object):
 		weight = "(1.0)"
 		if len(weights) > 0:
 			weight = "(" + ("*".join(weights)) + ")"
-		print samples
 		for sample in samples:
 			config = sample(self, config, channel, category, weight, nick_suffix, **kwargs)
-			print config
 		
 		config["nicks_blacklist"] = ["noplot"]
 		#config["file_mode"] = "UPDATE"
