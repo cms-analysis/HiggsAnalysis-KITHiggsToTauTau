@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import re
 import copy
+import os
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
 
@@ -25,6 +26,8 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMetho
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.settingsTauPolarisationMva as sTPMVA
 
+import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
+
 
 class em_ArtusConfig(dict):
 
@@ -32,6 +35,12 @@ class em_ArtusConfig(dict):
 		pass
 
 	def build_config(self, nickname, *args, **kwargs): #Maybe change this the arguments to process/year and DATA/MC
+
+		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
+
+		# define frequently used conditions
+		isEmbedded = datasetsHelper.isEmbedded(nickname)
+		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
 
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used

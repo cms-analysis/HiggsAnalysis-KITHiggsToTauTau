@@ -6,7 +6,7 @@ log = logging.getLogger(__name__)
 
 import re
 import copy
-
+import os
 
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.CPQuantities as quantities
@@ -28,6 +28,8 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.setting
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMethods as sMVATM
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.settingsTauPolarisationMva as sTPMVA
+
+import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
 
 
 class mt_ArtusConfig(dict):
@@ -55,6 +57,12 @@ class mt_ArtusConfig(dict):
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"
 		],
 		"""
+
+		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
+
+		# define frequently used conditions
+		isEmbedded = datasetsHelper.isEmbedded(nickname)
+		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
 
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
@@ -110,7 +118,7 @@ class mt_ArtusConfig(dict):
 			self["NoHltFiltering"] = False
 			self["DiTauPairNoHLT"] = False
 
-		elif re.search("Run2016|Spring16|Summer16", nickname):
+		elif re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
 			self["HltPaths"] = [
 				"HLT_IsoMu22",
 				"HLT_IsoTkMu22",
@@ -119,14 +127,14 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20",
 				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1"
 			]
-			self["NoHltFiltering"] = False
+			self["NoHltFiltering"] = True if isEmbedded else False
 			self["DiTauPairNoHLT"] = False
-			
-		elif re.search("Embedding(2016|MC)", nickname):
-			self["HltPaths"] = [""]
-			self["NoHltFiltering"] = True
-			self["DiTauPairNoHLT"] = True
-			
+
+		# elif re.search("Embedding(2016|MC)", nickname):
+		# 	self["HltPaths"] = []
+		# 	self["NoHltFiltering"] = True
+		# 	self["DiTauPairNoHLT"] = True
+
 		self["TauID"] = "TauIDRecommendation13TeV"
 		self["TauUseOldDMs"] = True
 
@@ -194,10 +202,11 @@ class mt_ArtusConfig(dict):
 			]
 
 			self["TauTriggerFilterNames"] = [
-				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltPFTau20TrackLooseIsoAgainstMuon",
-				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
-				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltPFTau20TrackLooseIsoAgainstMuon",
-				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltL1sMu18erTau20er",
+				#"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v:hltOverlapFilterIsoMu19LooseIsoPFTau20",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltL1sSingleMu18erIorSingleMu20er",
+				#"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltPFTau20TrackLooseIsoAgainstMuon",
+				#"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
 			]
 
 	
@@ -211,36 +220,64 @@ class mt_ArtusConfig(dict):
 		
 		self["EventWeight"] = "eventWeight"
 		self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
-		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		self["RooWorkspaceWeightNames"] = [
-			"0:triggerWeight_singleMu",
-			"0:idIsoWeight"
-		]
-		self["RooWorkspaceObjectNames"] = [
-			"0:m_trgMu22OR_eta2p1_desy_ratio",
-			"0:m_idiso0p15_desy_ratio"
-		]
-		self["RooWorkspaceObjectArguments"] = [
-			"0:m_pt,m_eta",
-			"0:m_pt,m_eta"
-		]
-		self["SaveMuTauTriggerWeightAsOptionalOnly"] = "true"
-		self["MuTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		self["MuTauTriggerWeightWorkspaceWeightNames"] = [
-			"0:triggerWeight_muTauCross",
-			"1:triggerWeight_muTauCross"
-		]
-		self["MuTauTriggerWeightWorkspaceObjectNames"] = [
-			"0:m_trgMu19leg_eta2p1_desy_ratio",
-			"1:t_genuine_TightIso_mt_ratio,t_fake_TightIso_mt_ratio"
-		]
-		self["MuTauTriggerWeightWorkspaceObjectArguments"] = [
-			"0:m_pt,m_eta",
-			"1:t_pt,t_eta"
-		]
+		if isEmbedded:
+			self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root"
+			self["EmbeddingWeightWorkspaceWeightNames"] = [
+				"0:triggerWeight_doublemu",
+				"0:isoweight",
+				"0:idweight",
+				"0:triggerWeight_singleMu",
 
-		
-	
+				"1:MuTau_TauLeg_EmbeddedEfficiencyWeight",
+				"1:MuTau_TauLeg_DataEfficiencyWeight"
+			]
+			self["EmbeddingWeightWorkspaceObjectNames"] = [
+				"0:m_sel_trg_ratio",
+				"0:m_iso_ratio",
+				"0:m_id_ratio",
+				"0:m_trg_ratio",
+
+				"1:t_TightIso_mt_emb",
+				"1:t_genuine_TightIso_mt_data,t_fake_TightIso_mt_data"
+			]
+			self["EmbeddingWeightWorkspaceObjectArguments"] = [
+				"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta",
+
+				"1:t_pt,t_eta",
+				"1:t_pt,t_eta"
+			]
+		else:
+			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+			self["RooWorkspaceWeightNames"] = [
+				"0:triggerWeight_singleMu",
+				"0:idIsoWeight"
+			]
+			self["RooWorkspaceObjectNames"] = [
+				"0:m_trgMu22OR_eta2p1_desy_ratio",
+				"0:m_idiso0p15_desy_ratio"
+			]
+			self["RooWorkspaceObjectArguments"] = [
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta"
+			]
+			self["SaveMuTauTriggerWeightAsOptionalOnly"] = "true"
+			self["MuTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+			self["MuTauTriggerWeightWorkspaceWeightNames"] = [
+				"0:triggerWeight_muTauCross",
+				"1:triggerWeight_muTauCross"
+			]
+			self["MuTauTriggerWeightWorkspaceObjectNames"] = [
+				"0:m_trgMu19leg_eta2p1_desy_ratio",
+				"1:t_genuine_TightIso_mt_ratio,t_fake_TightIso_mt_ratio"
+			]
+			self["MuTauTriggerWeightWorkspaceObjectArguments"] = [
+				"0:m_pt,m_eta",
+				"1:t_pt,t_eta"
+			]
+
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["TriggerEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Muon_IsoMu18_fall15.root"]
 			self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Muon_IsoMu18_fall15.root"]
@@ -276,7 +313,7 @@ class mt_ArtusConfig(dict):
 		self["BranchGenMatchedMuons"] = True
 		self["BranchGenMatchedTaus"] = True
 
-		if re.search("Run2016|Spring16|Summer16", nickname):
+		if re.search("Run2016|Spring16|Summer16|Embedding2016", nickname):
 			#settings for jetstotaufakesproducer
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/mt/fakeFactors_20180831_tight.root"
 			self["FakeFactorMethod"] = "cp2016"
@@ -346,10 +383,17 @@ class mt_ArtusConfig(dict):
 
 		elif re.search("Embedding2016", nickname):
 
+			quantities_dict["Quantities"] += quantities_dict.genQuantities()
 			quantities_dict["Quantities"] += [
+				"trg_singlemuon",
+				"triggerWeight_doublemu_1",
+				"isoweight_1",
+				"idweight_1",
 				"triggerWeight_singleMu_1",
-				"triggerWeight_muTauCross_1",
-				"triggerWeight_muTauCross_2"
+				"trg_mutaucross",
+				"triggerWeight_muTauCross_2",
+				"MuTau_TauLeg_EmbeddedEfficiencyWeight_2",
+				"MuTau_TauLeg_DataEfficiencyWeight_2"
 			]
 		
 		elif re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
@@ -420,20 +464,21 @@ class mt_ArtusConfig(dict):
 		
 
 
-		if re.search("(Spring16|Summer16|Run2016)", nickname):
+
+		if re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
-			self["Processors"]+= ["producer:MetFilterProducer"]
-			
-			if re.search("Run2016", nickname):
+
+			if re.search("(Run2016|Embedding2016)", nickname):
 				self["Processors"] += ["producer:JetToTauFakesProducer"]
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						
 				self["Processors"] += ["producer:SimpleFitProducer"]
+				#self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
 				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
@@ -444,6 +489,11 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:MELAProducer"]
 				self["Processors"] += ["producer:MELAM125Producer"]
 
+				if re.search("Embedding2016", nickname):
+					self["Processors"] += ["producer:RooWorkspaceWeightProducer"] #do this properly after checking
+					self["Processors"] += ["producer:EmbeddingWeightProducer"]
+					self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
+					self["Processors"] += ["producer:TauCorrectionsProducer"]
 
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
