@@ -51,7 +51,7 @@ git cms-addpkg CondFormats/JetMETObjects
 
 # From Kappa, only the DataFormats are needed
 # Mind that for certain skims, you need exactly the Kappa git tag that has been used for the production
-git clone git@github.com:KappaAnalysis/Kappa.git
+git clone git@github.com:KappaAnalysis/Kappa.git -b dictchanges_CMSSW94X
 cd Kappa
 echo docs/ >> .git/info/sparse-checkout
 echo DataFormats/ >> .git/info/sparse-checkout
@@ -60,10 +60,10 @@ git config core.sparsecheckout true
 git read-tree -mu HEAD
 cd ..
 
-git clone git@github.com:artus-analysis/Artus.git -b $BRANCH
+git clone git@github.com:artus-analysis/Artus.git -b dictchanges_CMSSW94X
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone --recursive git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b $BRANCH
+git clone --recursive git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b dictchanges_CMSSW94
 
 # Di-tau system reconstruction
 git clone git@github.com:SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit -b release_2018Mar20
@@ -90,11 +90,6 @@ cd $CMSSW_BASE/src/
 git clone git@github.com:CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
 git checkout v0.2.2
-mkdir data
-git clone https://gitlab.cern.ch/cms-htt/Jet2TauFakesFiles.git data
-mkdir data2017
-git clone -b 2017 https://gitlab.cern.ch/cms-htt/Jet2TauFakesFiles.git data2017
-
 
 cd $CMSSW_BASE/src/
 
@@ -132,6 +127,7 @@ elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "810" ]]; then
 	git checkout v7.0.10
 	cd -
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
+
 
 elif [ $cmssw_version = "940" ]; then
         echo "No valid CombineHarvester for 940. Compilation won't work. Checking out state of 810"
