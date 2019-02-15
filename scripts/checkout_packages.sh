@@ -129,7 +129,7 @@ elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "810" ]]; then
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
 
 
-elif [ $cmssw_version = "940" ]; then
+elif [ $cmssw_version == "940" ]; then
         echo "No valid CombineHarvester for 940. Compilation won't work. Checking out state of 810"
         # needed for plotting and statistical inference
         git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
