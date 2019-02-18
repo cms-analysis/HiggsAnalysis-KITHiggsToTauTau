@@ -87,19 +87,33 @@ class Samples(samples.Samples):
 	def zzto4l_stitchingweight(self):
 		return "(9.51876639e-9)/(numberGeneratedEventsWeight)" # (9.51876639e-9) = 1/(98091559+6964071)
 
-	def ggh_stitchingweight(self, cp=None):
-		if cp == None:
-			log.warning("you want to add stitching weight but did not define cp state, returning 1")
-			return "(1)"
-		elif cp == "sm":
-			return "((lhenpNLO<2)+((lhenpNLO==2)*(1.30458e-08*3.045966)*(1/(numberGeneratedEventsWeight*generatorWeight*crossSectionPerEventWeight))))"
-		elif cp == "mm":
-			return "((lhenpNLO<2)+((lhenpNLO==2)*(9.98162e-09*3.045966)*(1/(numberGeneratedEventsWeight*crossSectionPerEventWeight))))"
-		elif cp == "ps":
-			return "((lhenpNLO<2)+((lhenpNLO==2)*(9.87958e-09*3.045966)*(1/(numberGeneratedEventsWeight*crossSectionPerEventWeight))))"
-		else:
-			log.warning("you want to add stitching weight but did define a wrongly configured cp state, returning 1")
-			return "(1)"
+	def ggh_stitchingweight(self, cp=None, channel=None):
+		if channel=="et":
+			if cp == None:
+				log.warning("you want to add stitching weight but did not define cp state, returning 1")
+				return "(1)"
+			elif cp == "sm":
+				return "((npartons<2)+((npartons>=2)*(1.30458e-08*3.045966)*(1/(numberGeneratedEventsWeight*generatorWeight*crossSectionPerEventWeight))))"
+			elif cp == "mm":
+				return "((npartons<2)+((npartons>=2)*(9.98162e-09*3.045966)*(1/(numberGeneratedEventsWeight*crossSectionPerEventWeight))))"
+			elif cp == "ps":
+				return "((npartons<2)+((npartons>=2)*(9.87958e-09*3.045966)*(1/(numberGeneratedEventsWeight*crossSectionPerEventWeight))))"
+			else:
+				log.warning("you want to add stitching weight but did define a wrongly configured cp state, returning 1")
+				return "(1)"
+		else:	
+			if cp == None:
+				log.warning("you want to add stitching weight but did not define cp state, returning 1")
+				return "(1)"
+			elif cp == "sm":
+				return "((lhenpNLO<2)+((lhenpNLO==2)*(1.30458e-08*3.045966)*(1/(numberGeneratedEventsWeight*generatorWeight*crossSectionPerEventWeight))))"
+			elif cp == "mm":
+				return "((lhenpNLO<2)+((lhenpNLO==2)*(9.98162e-09*3.045966)*(1/(numberGeneratedEventsWeight*crossSectionPerEventWeight))))"
+			elif cp == "ps":
+				return "((lhenpNLO<2)+((lhenpNLO==2)*(9.87958e-09*3.045966)*(1/(numberGeneratedEventsWeight*crossSectionPerEventWeight))))"
+			else:
+				log.warning("you want to add stitching weight but did define a wrongly configured cp state, returning 1")
+				return "(1)"
 
 	def files_data(self, channel):
 		query_rereco = {}

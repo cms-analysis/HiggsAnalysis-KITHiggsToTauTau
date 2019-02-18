@@ -104,6 +104,7 @@ class CutStringsDict:
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			if "2017" in cut_type:
 				cuts["trigger"] = "(((trg_singleelectron_35>0.5)*(pt_1>36))||((trg_crosselectron_ele24tau30>0.5)*(pt_1>25)*(pt_2>35))||((trg_singleelectron_27>0.5)*(pt_1>28))||((trg_singleelectron_32>0.5)*(pt_1>33))|| ((trg_singleelectron_32_fallback>0.5)*(pt_1>33)))"
+				cuts["iso_1"] = "(iso_1 < 0.15)"
 				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
 				cuts["mt"] = "(mt_1<50.0)"
 			else:

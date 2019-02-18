@@ -262,7 +262,7 @@ class Samples(samples.SamplesBase):
 	def vv_stitchingweight(self):
 		return "(1.22671436926e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 
-	def ggh_stitchingweight(self, cp=None):
+	def ggh_stitchingweight(self, cp=None, channel=None):
 		return "(1)" #TODO, wrong numbers below. are those for 2017
 		if cp == None:
 			log.warning("you want to add stitching weight but did not define cp state, returning 1")
@@ -3132,7 +3132,7 @@ class Samples(samples.SamplesBase):
 		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
 		ggh_stitching_weight = "(1)"
 		if kwargs.get("generator",None) =="madgraph":
-			ggh_stitching_weight = self.ggh_stitchingweight(cp=kwargs.get("cp",None))
+			ggh_stitching_weight = self.ggh_stitchingweight(cp=kwargs.get("cp",None), channel=channel)
 			matrix_weight = "(quarkmassWeight)*" #accounts for infinite top mass reweighting
 
 		for mass in higgs_masses:
@@ -3188,15 +3188,15 @@ class Samples(samples.SamplesBase):
 		config = self.ggh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", generator="jhu", stacks="gghjhups", **kwargs)
 		return config
 
-	def gghicsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+	def gghmadgraphsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", generator="madgraph", stacks="gghicsm", **kwargs)
 		return config
 
-	def gghicmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+	def gghmadgraphmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", generator="madgraph", stacks="gghicmm", **kwargs)
 		return config
 
-	def gghicps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+	def gghmadgraphps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", generator="madgraph", stacks="gghicps", **kwargs)
 		return config
 
