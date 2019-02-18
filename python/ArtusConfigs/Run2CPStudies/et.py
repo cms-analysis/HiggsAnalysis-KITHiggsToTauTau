@@ -70,7 +70,7 @@ class et_ArtusConfig(dict):
 				"producer:RefitVertexSelector",
 				"producer:RecoTauCPProducer",
 				"producer:PolarisationQuantitiesSvfitProducer",
-				"producer:PolarisationQuantitiesSvfitM91Producer",
+				#"producer:PolarisationQuantitiesSvfitM91Producer",
 				"producer:PolarisationQuantitiesSimpleFitProducer"
 			]
 			#if re.search("(Spring16|Summer16|Run2016)",nickname):
@@ -93,10 +93,10 @@ class et_ArtusConfig(dict):
 				self["Processors"] += [
 					"producer:SimpleFitProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer",
-					"producer:SvfitM91Producer",
-					"producer:SvfitM125Producer",
-					"producer:MELAM125Producer"
+					"producer:SvfitProducer"
+					#"producer:SvfitM91Producer",
+					#"producer:SvfitM125Producer",
+					#"producer:MELAM125Producer"
 				]
 				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
 
@@ -130,14 +130,14 @@ class et_ArtusConfig(dict):
 					#if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8",nickname) == None: 
 					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 					self["Processors"] += [
-						"producer:SvfitProducer",
-						"producer:SvfitM91Producer",
-						"producer:SvfitM125Producer",
-						"producer:MELAM125Producer"
+						"producer:SvfitProducer"
+						#"producer:SvfitM91Producer",
+						#"producer:SvfitM125Producer",
+						#"producer:MELAM125Producer"
 					]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
-						self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
+						self["Processors"] += ["producer:JetToTauFakesProducer"]
 						self["Processors"] += [
 							"producer:SimpleFitProducer"
 						]
@@ -148,7 +148,7 @@ class et_ArtusConfig(dict):
 						#if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 						
 
-					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16))", nickname):
+					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 						self["Processors"] += ["producer:TopPtReweightingProducer"]
 						if re.search("amcatnlo",nickname):
@@ -392,7 +392,10 @@ class et_ArtusConfig(dict):
 			self["DiTauPairLepton2LowerPtCuts"] = ["HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:35.0"]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
 					"HLT_Ele35_WPTight_Gsf_v",
-					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v"
+					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v",
+					"HLT_Ele32_WPTight_Gsf_v",
+					"HLT_Ele32_WPTight_Gsf_L1DoubleEG_v",
+					"HLT_Ele27_WPTight_Gsf_v"
 				]
 
 			self["CheckLepton1TriggerMatch"] = [
@@ -485,8 +488,6 @@ class et_ArtusConfig(dict):
 				self["RooWorkspaceWeightNames"] += ["0:zPtReweightWeight"]
 				self["RooWorkspaceObjectNames"] += ["0:zpt_weight_nom"]
 				self["RooWorkspaceObjectArguments"] += ["0:z_gen_pt"]
-
-
 
 			self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
 			self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [

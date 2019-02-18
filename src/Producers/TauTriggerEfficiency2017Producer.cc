@@ -18,7 +18,7 @@ void TauTriggerEfficiency2017Producer::Init(setting_type const& settings, metada
 void TauTriggerEfficiency2017Producer::Produce(event_type const& event, product_type& product,
                                           setting_type const& settings, metadata_type const& metadata) const
 {
-	//TODO loop over both leptons for tt channel, and put it in the triggerweight. for et and mt it is calculated in DataMCScaleFactorProducer.cc
+	//TODO loop over both leptons for tt channel, and put it in the triggerweight. for et and mt it is calculated in RooWorkspaceWeightProducer.cc
 	//if variable changes into vector please also change DataMCScaleFactorProducer.cc, feel free to improve.
 	//https://github.com/truggles/TauTriggerSFs2017
 	
@@ -26,7 +26,7 @@ void TauTriggerEfficiency2017Producer::Produce(event_type const& event, product_
         {
 		KLepton* lepton = product.m_flavourOrderedLeptons[1];
 		//if(mc_weight)
-        	product.m_tautriggerefficienciesMC.push_back(TauSFs->getETauEfficiencyMC(lepton->p4.Pt(),lepton->p4.Eta(),lepton->p4.Phi())); 
+        	product.m_tautriggerefficienciesMC.push_back(TauSFs->getETauEfficiencyMC(lepton->p4.Pt(),lepton->p4.Eta(),lepton->p4.Phi()));
 		product.m_tautriggerefficienciesData.push_back(TauSFs->getETauEfficiencyData(lepton->p4.Pt(),lepton->p4.Eta(),lepton->p4.Phi()));
 		
 		LOG(DEBUG) << "Lepton 1     Pt: " << lepton->p4.Pt() << "Eta: " <<  lepton->p4.Eta() << std::endl;

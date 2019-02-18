@@ -465,7 +465,6 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 
 	for(auto weightNames:m_weightNames)
 	{
-		// muon-tau cross trigger scale factors currently depend only on tau pt and eta
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
 		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
 		
@@ -556,6 +555,9 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 	{
 		assert((product.m_tautriggerefficienciesMC.size() == 1) &&
 		(product.m_tautriggerefficienciesData.size() == 1));
+		LOG(DEBUG) << "tau cross-trigger efficiency DATA: " << product.m_tautriggerefficienciesData[0] << std::endl;
+		LOG(DEBUG) << "tau cross-trigger efficiency MC: " << product.m_tautriggerefficienciesMC[0] << std::endl;
+
 
 		double efficiencyData = leptonTrigEffSingle_data*(1.0-product.m_tautriggerefficienciesData[0]) + leptonTrigEffCross_data*product.m_tautriggerefficienciesData[0];
 		double efficiencyMc = leptonTrigEffSingle_mc*(1.0-product.m_tautriggerefficienciesMC[0])  + leptonTrigEffCross_mc*product.m_tautriggerefficienciesMC[0];

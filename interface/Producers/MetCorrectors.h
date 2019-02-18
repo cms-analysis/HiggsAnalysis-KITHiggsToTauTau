@@ -282,7 +282,7 @@ public:
 				product.m_met = product.*m_metMemberCorrected;
 			}
 		}
-		else if (settings.GetDoJecGroupings())   //only for MC with no recoilcorrections, in TaggedJetUncertaintyShiftProducer
+		if (m_processType != MEtSys::ProcessType::BOSON && m_processType != MEtSys::ProcessType::TOP)   //only for MC with no recoilcorrections, calculated in TaggedJetUncertaintyShiftProducer
 		{
 			product.m_met.p4 += product.m_MET_shift.p4;
 		}

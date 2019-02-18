@@ -450,8 +450,8 @@ class Run2Quantities():
 		return l
 
 	@staticmethod
-	def svfitSyncQuantities():
-		return [
+	def svfitSyncQuantities(m91=False, m125=False):
+		l = [
 			"m_sv",
 			"pt_sv",
 			"eta_sv",
@@ -467,26 +467,31 @@ class Run2Quantities():
 			"svfitTau1ERatio",
 			"svfitTau2Available",
 			"svfitTau2LV",
-			"svfitTau2ERatio",
-
-			"svfitM91Available",
-			"svfitM91LV",
-			"svfitM91Tau1Available",
-			"svfitM91Tau1LV",
-			"svfitM91Tau1ERatio",
-			"svfitM91Tau2Available",
-			"svfitM91Tau2LV",
-			"svfitM91Tau2ERatio",
-
-			"svfitM125Available",
-			"svfitM125LV",
-			"svfitM125Tau1Available",
-			"svfitM125Tau1LV",
-			"svfitM125Tau1ERatio",
-			"svfitM125Tau2Available",
-			"svfitM125Tau2LV",
-			"svfitM125Tau2ERatio"
+			"svfitTau2ERatio"
 		]
+		if m91:
+			l+=[
+				"svfitM91Available",
+				"svfitM91LV",
+				"svfitM91Tau1Available",
+				"svfitM91Tau1LV",
+				"svfitM91Tau1ERatio",
+				"svfitM91Tau2Available",
+				"svfitM91Tau2LV",
+				"svfitM91Tau2ERatio"
+			]
+		if m125:
+			l+=[
+				"svfitM125Available",
+				"svfitM125LV",
+				"svfitM125Tau1Available",
+				"svfitM125Tau1LV",
+				"svfitM125Tau1ERatio",
+				"svfitM125Tau2Available",
+				"svfitM125Tau2LV",
+				"svfitM125Tau2ERatio"
+			]
+		return l
 
 	@staticmethod
 	def syncQuantities(nickname):

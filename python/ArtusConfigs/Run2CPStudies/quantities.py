@@ -86,6 +86,7 @@ class Quantities(Run2Quantities):
 			self.quantities.update(self.syncQuantities(nickname))
 			if re.search("(Summer17|Fall17|Run2017)", nickname):
 					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
+					self.quantities.update(self.singleTauQuantities())
 
 			if channel == "ET" and re.search("(Summer17|Fall17|Run2017)", nickname):
 				self.quantities.update([
@@ -698,8 +699,8 @@ class Quantities(Run2Quantities):
 		]
 
 	@staticmethod
-	def melaQuantities():
-		return [
+	def melaQuantities(m125=False):
+		l= [
 			"melaProbCPEvenGGH",
 			"melaProbCPOddGGH",
 			"melaProbCPMixGGH",
@@ -710,7 +711,7 @@ class Quantities(Run2Quantities):
 			"melaProbCPOddVBF",
 			"melaProbCPMixVBF",
 			"melaDiscriminatorD0MinusVBF",
-			"melaDiscriminatorDCPVBF",
+			"melaDiscriminatorDCPVBF"]
 
 			#"melaProbCPEvenWlepH",
 			#"melaProbCPOddWlepH",
@@ -735,43 +736,44 @@ class Quantities(Run2Quantities):
 			#"melaProbCPMixZhadH",
 			#"melaDiscriminatorD0MinusZhadH",
 			#"melaDiscriminatorDCPZhadH",
+		if m125:
+			l += [
+				"melaM125ProbCPEvenGGH",
+				"melaM125ProbCPOddGGH",
+				"melaM125ProbCPMixGGH",
+				"melaM125DiscriminatorD0MinusGGH",
+				"melaM125DiscriminatorDCPGGH",
 
-			"melaM125ProbCPEvenGGH",
-			"melaM125ProbCPOddGGH",
-			"melaM125ProbCPMixGGH",
-			"melaM125DiscriminatorD0MinusGGH",
-			"melaM125DiscriminatorDCPGGH",
+				"melaM125ProbCPEvenVBF",
+				"melaM125ProbCPOddVBF",
+				"melaM125ProbCPMixVBF",
+				"melaM125DiscriminatorD0MinusVBF",
+				"melaM125DiscriminatorDCPVBF"]
 
-			"melaM125ProbCPEvenVBF",
-			"melaM125ProbCPOddVBF",
-			"melaM125ProbCPMixVBF",
-			"melaM125DiscriminatorD0MinusVBF",
-			"melaM125DiscriminatorDCPVBF",
+				#"melaM125ProbCPEvenWlepH",
+				#"melaM125ProbCPOddWlepH",
+				#"melaM125ProbCPMixWlepH",
+				#"melaM125DiscriminatorD0MinusWlepH",
+				#"melaM125DiscriminatorDCPWlepH",
 
-			#"melaM125ProbCPEvenWlepH",
-			#"melaM125ProbCPOddWlepH",
-			#"melaM125ProbCPMixWlepH",
-			#"melaM125DiscriminatorD0MinusWlepH",
-			#"melaM125DiscriminatorDCPWlepH",
+				#"melaM125ProbCPEvenWhadH",
+				#"melaM125ProbCPOddWhadH",
+				#"melaM125ProbCPMixWhadH",
+				#"melaM125DiscriminatorD0MinusWhadH",
+				#"melaM125DiscriminatorDCPWhadH",
 
-			#"melaM125ProbCPEvenWhadH",
-			#"melaM125ProbCPOddWhadH",
-			#"melaM125ProbCPMixWhadH",
-			#"melaM125DiscriminatorD0MinusWhadH",
-			#"melaM125DiscriminatorDCPWhadH",
+				#"melaM125ProbCPEvenZlepH",
+				#"melaM125ProbCPOddZlepH",
+				#"melaM125ProbCPMixZlepH",
+				#"melaM125DiscriminatorD0MinusZlepH",
+				#"melaM125DiscriminatorDCPZlepH",
 
-			#"melaM125ProbCPEvenZlepH",
-			#"melaM125ProbCPOddZlepH",
-			#"melaM125ProbCPMixZlepH",
-			#"melaM125DiscriminatorD0MinusZlepH",
-			#"melaM125DiscriminatorDCPZlepH",
-
-			#"melaM125ProbCPEvenZhadH",
-			#"melaM125ProbCPOddZhadH",
-			#"melaM125ProbCPMixZhadH",
-			#"melaM125DiscriminatorD0MinusZhadH",
-			#"melaM125DiscriminatorDCPZhadH"
-		]
+				#"melaM125ProbCPEvenZhadH",
+				#"melaM125ProbCPOddZhadH",
+				#"melaM125ProbCPMixZhadH",
+				#"melaM125DiscriminatorD0MinusZhadH",
+				#"melaM125DiscriminatorDCPZhadH"
+		return l
 
 	@classmethod
 	def recoCPQuantities(klass, melaQuantities=True):
@@ -980,7 +982,7 @@ class Quantities(Run2Quantities):
 			"d0s_area",
 			"d0s_dist"
 			]
-		if melaQuantities: s += klass.melaQuantities()
+		if melaQuantities: s += klass.melaQuantities(m125=False)
 		return s
 
 	@staticmethod
@@ -1101,8 +1103,8 @@ class Quantities(Run2Quantities):
 		]
 
 	@staticmethod
-	def recoPolarisationQuantitiesSvfit():
-		return [
+	def recoPolarisationQuantitiesSvfit(m91=False):
+		l= [
 			"polarisationOmegaSvfit_1",
 			"polarisationOmegaSvfit_2",
 			"polarisationOmegaBarSvfit_1",
@@ -1111,18 +1113,21 @@ class Quantities(Run2Quantities):
 			"polarisationOmegaVisibleSvfit_2",
 			"polarisationCombinedOmegaSvfit",
 			"polarisationCombinedOmegaBarSvfit",
-			"polarisationCombinedOmegaVisibleSvfit",
+			"polarisationCombinedOmegaVisibleSvfit"]
+		if m91:
+			l+=[
 
-			"polarisationOmegaSvfitM91_1",
-			"polarisationOmegaSvfitM91_2",
-			"polarisationOmegaBarSvfitM91_1",
-			"polarisationOmegaBarSvfitM91_2",
-			"polarisationOmegaVisibleSvfitM91_1",
-			"polarisationOmegaVisibleSvfitM91_2",
-			"polarisationCombinedOmegaSvfitM91",
-			"polarisationCombinedOmegaBarSvfitM91",
-			"polarisationCombinedOmegaVisibleSvfitM91"
-		]
+				"polarisationOmegaSvfitM91_1",
+				"polarisationOmegaSvfitM91_2",
+				"polarisationOmegaBarSvfitM91_1",
+				"polarisationOmegaBarSvfitM91_2",
+				"polarisationOmegaVisibleSvfitM91_1",
+				"polarisationOmegaVisibleSvfitM91_2",
+				"polarisationCombinedOmegaSvfitM91",
+				"polarisationCombinedOmegaBarSvfitM91",
+				"polarisationCombinedOmegaVisibleSvfitM91"
+			]
+		return l
 
 	@staticmethod
 	def singleTauQuantities():
@@ -1344,16 +1349,16 @@ class Quantities(Run2Quantities):
 		    "fakefactorWeight_realtau_down_inclusive_1",
 
 		    "fakefactorWeight_realtau_up_inclusive_2",
-		    "fakefactorWeight_realtau_down_inclusive_2"
+		    "fakefactorWeight_realtau_down_inclusive_2",
 
 		    "fakefactorWeight_w_frac_syst_up_inclusive_1",
-		    "fakefactorWeight_tt_frac_syst_up_inclusive_1"
+		    "fakefactorWeight_tt_frac_syst_up_inclusive_1",
 
 		    "fakefactorWeight_w_frac_syst_up_inclusive_2",
 		    "fakefactorWeight_tt_frac_syst_up_inclusive_2",
 
 		    "fakefactorWeight_w_frac_syst_down_inclusive_1",
-		    "fakefactorWeight_tt_frac_syst_down_inclusive_1"
+		    "fakefactorWeight_tt_frac_syst_down_inclusive_1",
 
 		    "fakefactorWeight_w_frac_syst_down_inclusive_2",
 		    "fakefactorWeight_tt_frac_syst_down_inclusive_2"

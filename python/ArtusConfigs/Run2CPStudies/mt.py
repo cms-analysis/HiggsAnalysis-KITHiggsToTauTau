@@ -82,11 +82,11 @@ class mt_ArtusConfig(dict):
 
 				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 				self["Processors"] += ["producer:SvfitProducer"]
-				self["Processors"] += ["producer:SvfitM91Producer"]
-				self["Processors"] += ["producer:SvfitM125Producer"]
+				#self["Processors"] += ["producer:SvfitM91Producer"]
+				#self["Processors"] += ["producer:SvfitM125Producer"]
 
 				self["Processors"] += ["producer:MELAProducer"]
-				self["Processors"] += ["producer:MELAM125Producer"]
+				#self["Processors"] += ["producer:MELAM125Producer"]
 
 				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
 				if re.search("Run2016", nickname):
@@ -123,11 +123,11 @@ class mt_ArtusConfig(dict):
 				else:
 					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 					self["Processors"] += ["producer:SvfitProducer"]
-					self["Processors"] += ["producer:SvfitM91Producer"]
-					self["Processors"] += ["producer:SvfitM125Producer"]
+					#self["Processors"] += ["producer:SvfitM91Producer"]
+					#self["Processors"] += ["producer:SvfitM125Producer"]
 
 					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+					#self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += ["producer:JetToTauFakesProducer"]

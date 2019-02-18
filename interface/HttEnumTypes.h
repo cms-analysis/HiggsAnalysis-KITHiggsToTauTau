@@ -123,6 +123,7 @@ public:
 		PileUpPtHF,
 		PileUpPtRef,
 		RelativeBal,
+		RelativeSample,
 		RelativeFSR,
 		RelativeJEREC1,
 		RelativeJEREC2,
@@ -161,6 +162,7 @@ public:
 		else if (jetEnergyCorrectionUncertainty == "PileUpPtHF") return JetEnergyUncertaintyShiftName::PileUpPtHF;
 		else if (jetEnergyCorrectionUncertainty == "PileUpPtRef") return JetEnergyUncertaintyShiftName::PileUpPtRef;
 		else if (jetEnergyCorrectionUncertainty == "RelativeBal") return JetEnergyUncertaintyShiftName::RelativeBal;
+		else if (jetEnergyCorrectionUncertainty == "RelativeSample") return JetEnergyUncertaintyShiftName::RelativeSample;
 		else if (jetEnergyCorrectionUncertainty == "RelativeFSR") return JetEnergyUncertaintyShiftName::RelativeFSR;
 		else if (jetEnergyCorrectionUncertainty == "RelativeJEREC1") return JetEnergyUncertaintyShiftName::RelativeJEREC1;
 		else if (jetEnergyCorrectionUncertainty == "RelativeJEREC2") return JetEnergyUncertaintyShiftName::RelativeJEREC2;

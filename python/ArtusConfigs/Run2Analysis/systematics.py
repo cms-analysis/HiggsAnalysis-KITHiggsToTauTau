@@ -87,17 +87,15 @@ class Systematics_Config(dict):
 			else:
 				self["IsCorrelated"] = True
 		elif "relativeBal" in systematic_uncertainty:
-			self.JECUncertaintySplit_config.relativebal()
+			self.JECUncertaintySplit_config.group_relativebal()
 			self.update(self.JECUncertaintySplit_config)
 			self["DoJecGroupings"] = True
 			if "Down" in systematic_uncertainty:
 				self["IsShiftUp"] = False
 			elif "Up" in systematic_uncertainty:
 				self["IsShiftUp"] = True
-			if "Uncorrelated" in systematic_uncertainty:
-				self["IsCorrelated"] = False
-			else:
-				self["IsCorrelated"] = True
+			#50 % correlated, however this results in the same shape for corr and uncorr (1-0.5)=0.5
+			self["IsCorrelated"] = True
 	
 		elif "relativeSample" in systematic_uncertainty: #only for 2017
 			self.JECUncertaintySplit_config.group_relativesample()
@@ -107,10 +105,8 @@ class Systematics_Config(dict):
 				self["IsShiftUp"] = False
 			elif "Up" in systematic_uncertainty:
 				self["IsShiftUp"] = True
-			if "Uncorrelated" in systematic_uncertainty:
-				self["IsCorrelated"] = False
-			else:
-				self["IsCorrelated"] = True
+			#only in 2017 so 0% correlated
+			self["IsCorrelated"] = False
 
 		elif re.search("Run201", nickname) == None:    #data has no systematic
 			print "not a JEC"
@@ -135,7 +131,8 @@ class Systematics_Config(dict):
 					self["ElectronEnergyCorrectionShiftEB"] = 1.0
 					self["ElectronEnergyCorrectionShiftEE"] = 1.0
 					self["SvfitCacheFileFolder"] = "nominal"
-			
+
+			#FIXME this is the total JEC if I am not mistaken			
 			elif systematic_uncertainty == "jecUncUp":
 				if re.search("Run201|Embedding", nickname):
 					self["JetEnergyCorrectionUncertaintyShift"] = 0.0
@@ -162,7 +159,7 @@ class Systematics_Config(dict):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "JetEnUp"
 					self["SvfitCacheFileFolder"] = "metJetEnUp"
-				elif re.search("Fall17"):
+				elif re.search("Fall17", nickname):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "JetEnUp"
 					self["SvfitCacheFileFolder"] = "metJetEnUp"
@@ -176,7 +173,7 @@ class Systematics_Config(dict):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "JetEnDown"
 					self["SvfitCacheFileFolder"] = "metJetEnDown"
-				elif re.search("Fall17"):
+				elif re.search("Fall17", nickname):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "JetEnDown"
 					self["SvfitCacheFileFolder"] = None #"metJetEnDown"
@@ -190,7 +187,7 @@ class Systematics_Config(dict):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "UnclusteredEnUp"
 					self["SvfitCacheFileFolder"] = "metUnclusteredEnUp"
-				elif re.search("Fall17"):
+				elif re.search("Fall17", nickname):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "UnclusteredEnUp"
 					self["SvfitCacheFileFolder"] = None #"metUnclusteredEnUp" 
@@ -204,7 +201,7 @@ class Systematics_Config(dict):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "UnclusteredEnDown"
 					self["SvfitCacheFileFolder"] = "metUnclusteredEnDown"
-				elif re.search("Fall17"):
+				elif re.search("Fall17",nickname):
 					self["MetUncertaintyShift"] = True
 					self["MetUncertaintyType"] = "UnclusteredEnDown"
 					self["SvfitCacheFileFolder"] = None#"metUnclusteredEnDown"
