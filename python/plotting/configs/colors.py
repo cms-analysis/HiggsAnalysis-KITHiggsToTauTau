@@ -240,6 +240,7 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["totalbkg"] = "#000000 transgrey"
 			self.colors_dict["jetFakes"] = "#9ACD32"
 			self.colors_dict["ff"] = self.colors_dict["jetFakes"]
+			self.colors_dict["jetfakes"] = self.colors_dict["jetFakes"]
 			self.colors_dict["httcpeven"] = self.colors_dict["rwth_blau_050"]
 			self.colors_dict["httcpmix"] = self.colors_dict["rwth_gruen_100"]
 			self.colors_dict["httcpodd"] = self.colors_dict["rwth_rot_100"]
@@ -334,6 +335,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["qqhjhups"+nick_suffix] = self.colors_dict["qqhps"]
 				self.colors_dict["qqhps_alt"+nick_suffix] = self.colors_dict["kit_gruen_1"]
 				self.colors_dict["qqhmm_alt"+nick_suffix] = self.colors_dict["kit_rot_2"]
+				self.colors_dict["qqh_htt125"+nick_suffix] = self.colors_dict["qqhsm"]
 				self.colors_dict["vh"+nick_suffix]  = self.colors_dict["kit_lila_1"]
 				self.colors_dict["zh"+nick_suffix]  = self.colors_dict["kit_lila_1"]
 				self.colors_dict["zh"+nick_suffix]  = self.colors_dict["kit_lila_1"]
@@ -356,6 +358,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["totalbkg"+nick_suffix] = "#000000 transgrey"
 				self.colors_dict["ff"+nick_suffix] = "#9ACD32"
 				self.colors_dict["jetFakes"+nick_suffix] = "#9ACD32"
+				self.colors_dict["jetfakes"+nick_suffix] = "#9ACD32"
 				self.colors_dict["httcpeven"+nick_suffix] = self.colors_dict["rwth_blau_050"]
 				self.colors_dict["httcpmix"+nick_suffix] = self.colors_dict["rwth_gruen_100"]
 				self.colors_dict["httcpodd"+nick_suffix] = self.colors_dict["rwth_rot_100"]
