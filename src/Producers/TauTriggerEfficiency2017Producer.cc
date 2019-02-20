@@ -12,7 +12,7 @@ void TauTriggerEfficiency2017Producer::Init(setting_type const& settings, metada
 	{
 	ProducerBase<HttTypes>::Init(settings, metadata);
         //TauSFs = new TauTriggerSFs2017("$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root","tight");
-	TauSFs = new TauTriggerSFs2017(settings.GetTauTrigger2017Input(), settings.GetTauTrigger2017WorkingPoint()); // TODO: , "MVA" not yet updated for c++ code
+	TauSFs = new TauTriggerSFs2017(settings.GetTauTrigger2017Input(), settings.GetTauTrigger2017InputOLD(), settings.GetTauTrigger2017WorkingPoint()); // TODO: , "MVA" not yet updated for c++ code
 	}
 
 void TauTriggerEfficiency2017Producer::Produce(event_type const& event, product_type& product,

@@ -404,7 +404,7 @@ class tt_ArtusConfig(dict):
 		elif "Embedding2016" in nickname or "EmbeddingMC" in nickname:	 #TODO Ask thomas what it should be line 40 in json
 			self["HltPaths"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v"]
 			self["TauTriggerFilterNames"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35Reg"]
-			]
+
 		elif re.search("Run2017|Summer17|Fall17", nickname):
 			self["HltPaths"] = ["HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg", "HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg", "HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"]
 			self["TauTriggerFilterNames"] = [

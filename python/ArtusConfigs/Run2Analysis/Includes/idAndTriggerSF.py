@@ -110,7 +110,8 @@ class IdAndTriggerSF(dict):
 								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Muon_IsoMu27_IsoLt0.15_eff_RerecoFall17.root",
 								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Muon_MuTau_IsoMu20.root",
 					]
-					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
+					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017_New.root"
+					self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
 					self["TauTrigger2017WorkingPoint"] = "tight"
 
 
