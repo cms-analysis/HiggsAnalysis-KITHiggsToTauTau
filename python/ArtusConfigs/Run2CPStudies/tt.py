@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import re
 import copy
+import os
 
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.quantities import Quantities
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering import ProcessorsOrdered
@@ -25,6 +26,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMetho
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.settingsTauPolarisationMva as sTPMVA
 
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.idAndTriggerSF import IdAndTriggerSF
+import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
 
 
 class tt_ArtusConfig(dict):
@@ -231,6 +233,12 @@ class tt_ArtusConfig(dict):
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"] #Done
 		"""
 
+		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
+
+		# define frequently used conditions
+		isEmbedded = datasetsHelper.isEmbedded(nickname)
+		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
+
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
 		self.update(ElectronID_config)
@@ -284,19 +292,47 @@ class tt_ArtusConfig(dict):
 		self["DiTauPairIsTauIsoMVA"] = True
 		self["EventWeight"] = "eventWeight"
 		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		self["TauTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		if isEmbedded:
+			self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root"
 
-		self["TauTauTriggerWeightWorkspaceWeightNames"] = ["0:triggerWeight", "1:triggerWeight"]
-		self["TauTauTriggerWeightWorkspaceObjectNames"] = ["0:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio", "1:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio"]
-		self["TauTauTriggerWeightWorkspaceObjectArguments"] = ["0:t_pt,t_dm","1:t_pt,t_dm"]
-		self["EleTauFakeRateWeightFile"] = [
-			"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root",
-			"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
-		]
+			self["EmbeddingWeightWorkspaceWeightNames"] = [
+				"0:triggerWeight_doublemu",
+				"0:triggerWeight_tau",
+				"1:triggerWeight_tau"
+			]
+			self["EmbeddingWeightWorkspaceObjectNames"] = [
+				"0:m_sel_trg_ratio",
+				"0:t_TightIso_tt_emb_ratio",
+				"1:t_TightIso_tt_emb_ratio"
+			]
+			self["EmbeddingWeightWorkspaceObjectArguments"] = [
+				"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+				"0:t_pt,t_dm",
+				"1:t_pt,t_dm"
+			]
+		else:
+			self["TauTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 
-		if re.search("Run2016|Spring16|Summer16", nickname):
+			self["TauTauTriggerWeightWorkspaceWeightNames"] = [
+				"0:triggerWeight",
+				"1:triggerWeight"
+			]
+			self["TauTauTriggerWeightWorkspaceObjectNames"] = [
+				"0:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio",
+				"1:t_genuine_TightIso_tt_ratio,t_fake_TightIso_tt_ratio"
+			]
+			self["TauTauTriggerWeightWorkspaceObjectArguments"] = [
+				"0:t_pt,t_dm",
+				"1:t_pt,t_dm"
+			]
+			self["EleTauFakeRateWeightFile"] = [
+				"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root",
+				"1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"
+			]
+
+		if re.search("Run2016|Spring16|Summer16|Embedding2016", nickname):
 			#settings for jetstotaufakesproducer
-			self["FakeFaktorFiles"] = ["inclusive:$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data/SM2016_ML/tight/tt/fakeFactors_tt_inclusive.root"]
+			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/tt/fakeFactors_tt_inclusive.root"
 			self["FakeFactorMethod"] = "cp2016"
 			self["FakeFactorRooWorkspaceFunction"] = [
 				"w_fracs_1:w_tt_fracs_1",
@@ -342,9 +378,9 @@ class tt_ArtusConfig(dict):
 			self["NoHltFiltering"]= True
 			self["DiTauPairNoHLT"]= True
 		else:
-			self["NoHltFiltering"]=False
-			self["DiTauPairNoHLT"]= False	
-		
+			self["NoHltFiltering"]= False
+			self["DiTauPairNoHLT"]= True
+
 		 #set it here and if it is something else then change it in the ifs below
 		self["HltPaths"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg", "HLT_DoubleMediumCombinedIsoPFTau35_Trk1_eta2p1_Reg"]
 		self["TauTriggerFilterNames"] = [
@@ -366,7 +402,9 @@ class tt_ArtusConfig(dict):
 			self["TauTriggerFilterNames"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35TrackPt1MediumIsolationDz02Reg"]
 
 		elif "Embedding2016" in nickname or "EmbeddingMC" in nickname:	 #TODO Ask thomas what it should be line 40 in json
-			self["HltPaths"] = [""]
+			self["HltPaths"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v"]
+			self["TauTriggerFilterNames"] = ["HLT_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v:hltDoublePFTau35Reg"]
+			]
 		elif re.search("Run2017|Summer17|Fall17", nickname):
 			self["HltPaths"] = ["HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg", "HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg", "HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"]
 			self["TauTriggerFilterNames"] = [
@@ -374,7 +412,6 @@ class tt_ArtusConfig(dict):
 				"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v:hltDoublePFTau40TrackPt1MediumChargedIsolationAndTightOOSCPhotonsDz02Reg",
 				"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg_v:hltDoublePFTau40TrackPt1TightChargedIsolationDz02Reg"
 			]
-
 		quantities_set = Quantities()
 		quantities_set.build_quantities(nickname, channel = self["Channel"])
 		self["Quantities"] = list(quantities_set.quantities)

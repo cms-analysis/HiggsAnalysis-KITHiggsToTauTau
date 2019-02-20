@@ -35,7 +35,7 @@ class JEC(dict):
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017F_V6_DATA_UncertaintySources_AK4PFchs.txt"
 			"""
 
-		elif re.search("(Run2016|Spring16|Summer16)", nickname):
+		elif re.search("(Run2016|Spring16|Summer16|Embedding2016)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] =  "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_UncertaintySources_AK4PFchs.txt"
 		#elif re.search("Run2016|Embedding2016", nickname):
 		#	self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_Uncertainty_AK4PFchs.txt"
@@ -43,22 +43,20 @@ class JEC(dict):
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt"
 		elif re.search("(Run2015|Embedding2015)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_Uncertainty_AK4PFchs.txt"
-		
-			self["JetEnergyCorrectionUncertaintySource"] = "Total"
+
+		self["JetEnergyCorrectionUncertaintySource"] = "Total"
 		#self["JetEnergyCorrectionUncertaintyShift"] = 0.0
-				
-
-
+		
 		#All commented out
-		"""
-		if re.search("Run2015|Embedding2016", nickname):
+
+		if re.search("Run2015", nickname):
 			self["JetEnergyCorrectionParameters"] = [
 				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_L1FastJet_AK4PFchs.txt",
 				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_L2Relative_AK4PFchs.txt",
 				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_L3Absolute_AK4PFchs.txt",
 				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_DATA_L2L3Residual_AK4PFchs.txt"
 			]
-
+		"""
 		else:
 			self["JetEnergyCorrectionParameters"] = [
 				"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_L1FastJet_AK4PFchs.txt",

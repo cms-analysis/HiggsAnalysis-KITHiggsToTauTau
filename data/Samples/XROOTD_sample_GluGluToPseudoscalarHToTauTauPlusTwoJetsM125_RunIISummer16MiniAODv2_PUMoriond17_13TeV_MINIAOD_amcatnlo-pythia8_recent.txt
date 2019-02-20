@@ -1,0 +1,1 @@
+XROOTD_sample_GluGluToPseudoscalarHToTauTauPlusTwoJetsM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_amcatnlo-pythia8_2018-12-19.txt

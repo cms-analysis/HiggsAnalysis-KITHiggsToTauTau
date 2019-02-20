@@ -39,14 +39,13 @@ void RooWorkspaceWeightProducer::Init(setting_type const& settings, metadata_typ
 
 	TDirectory *savedir(gDirectory);
 	TFile *savefile(gFile);
-	std::cout << settings.GetRooWorkspace().c_str() <<std::endl;
-	TFile f(settings.GetRooWorkspace().c_str());
+	TFile f((settings.*GetRooWorkspace)().c_str());
 	gSystem->AddIncludePath("-I$ROOFITSYS/include");
 	m_workspace = (RooWorkspace*)f.Get("w");
 	f.Close();
 	gDirectory = savedir;
 	gFile = savefile;
-	// Load the names of the weight to be included from the workspace 
+	// Load the names of the weight to be included from the workspace
 	m_weightNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceWeightNames)()));
 	// Load all functions which can be used to retreive weights
 	std::map<int,std::vector<std::string>> objectNames = Utility::ParseMapTypes<int,std::string>(Utility::ParseVectorToMap((settings.*GetRooWorkspaceObjectNames)()));
@@ -60,14 +59,13 @@ void RooWorkspaceWeightProducer::Init(setting_type const& settings, metadata_typ
 			boost::split(objects, objectName.second[index], boost::is_any_of(","));
 			for(auto object:objects)
 			{
-				std::cout << objectName.first << "    " << object.c_str() << "   " << m_functorArgs[objectName.first][index].c_str() << std::endl; 
 				m_functors[objectName.first].push_back(m_workspace->function(object.c_str())->functor(m_workspace->argSet(m_functorArgs[objectName.first][index].c_str())));
 			}
 		}
 	}
 }
 
-void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type & product, 
+void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type & product,
 	                     setting_type const& settings, metadata_type const& metadata) const
 {
 
@@ -85,16 +83,16 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 				{
 					args.push_back(lepton->p4.Pt());
 				}
-				if(arg=="m_eta")
+				else if(arg=="m_eta")
 				{
 					args.push_back(lepton->p4.Eta());
 				}
-				if(arg=="e_eta")
+				else if(arg=="e_eta")
 				{
 					KElectron* electron = static_cast<KElectron*>(lepton);
 					args.push_back(electron->superclusterPosition.Eta());
 				}
-				if(arg=="m_iso" || arg=="e_iso")
+				else if(arg=="m_iso" || arg=="e_iso")
 				{
 					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
 				}
@@ -108,9 +106,33 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 				}
 				else if(arg=="HpT" || arg=="z_gen_pt")
 				{
-					args.push_back(product.m_genBosonLV.Pt());	
+					args.push_back(product.m_genBosonLV.Pt());
 				}
-			}	
+				else if(arg=="gt1_pt")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					// std::cout << "leadingTau " << leadingTau.p4.Pt() << "\n";
+					args.push_back(leadingTau.p4.Pt());
+				}
+				else if(arg=="gt1_eta")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					// std::cout << "leadingTau " << leadingTau.p4.Eta() << "\n";
+					args.push_back(leadingTau.p4.Eta());
+				}
+				else if(arg=="gt2_pt")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					// std::cout << "trailingTau " << trailingTau.p4.Pt() << "\n";
+					args.push_back(trailingTau.p4.Pt());
+				}
+				else if(arg=="gt2_eta")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					// std::cout << "trailingTau " << trailingTau.p4.Eta() << "\n";
+					args.push_back(trailingTau.p4.Eta());
+				}
+			}
 			if ((weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly) ||
 			    (weightNames.second.at(index).find("emuQcd") != std::string::npos))
 			{
@@ -331,6 +353,30 @@ void TauTauTriggerWeightProducer::Produce( event_type const& event, product_type
 					KTau* tau = static_cast<KTau*>(lepton);
 					args.push_back(tau->decayMode);
 				}
+				else if(arg=="gt1_pt")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					// std::cout << "leadingTau " << leadingTau.p4.Pt() << "\n";
+					args.push_back(leadingTau.p4.Pt());
+				}
+				else if(arg=="gt1_eta")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					// std::cout << "leadingTau " << leadingTau.p4.Eta() << "\n";
+					args.push_back(leadingTau.p4.Eta());
+				}
+				else if(arg=="gt2_pt")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					// std::cout << "trailingTau " << trailingTau.p4.Pt() << "\n";
+					args.push_back(trailingTau.p4.Pt());
+				}
+				else if(arg=="gt2_eta")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					// std::cout << "trailingTau " << trailingTau.p4.Eta() << "\n";
+					args.push_back(trailingTau.p4.Eta());
+				}
 			}
 			if(genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY)
 			{
@@ -447,6 +493,109 @@ void MuTauTriggerWeightProducer::Produce( event_type const& event, product_type 
 		}
 	}
 }
+
+// ==========================================================================================
+
+EmbeddingWeightProducer::EmbeddingWeightProducer() :
+		RooWorkspaceWeightProducer(&setting_type::GetSaveEmbeddingWeightAsOptionalOnly,
+								   &setting_type::GetEmbeddingWeightWorkspace,
+								   &setting_type::GetEmbeddingWeightWorkspaceWeightNames,
+								   &setting_type::GetEmbeddingWeightWorkspaceObjectNames,
+								   &setting_type::GetEmbeddingWeightWorkspaceObjectArguments)
+{
+}
+
+void EmbeddingWeightProducer::Produce( event_type const& event, product_type & product,
+						   setting_type const& settings, metadata_type const& metadata) const
+{
+	for(auto weightNames:m_weightNames)
+	{
+		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
+		KGenParticle* genTau = product.m_flavourOrderedGenTaus[weightNames.first];
+
+		for(size_t index = 0; index < weightNames.second.size(); index++)
+		{
+			// if(weightNames.second.at(index).find("triggerWeight") == std::string::npos)
+			// 	continue;
+			// if(m_functors.at(weightNames.first).size() != 2)
+			// {
+			// 	LOG(WARNING) << "TauTauTriggerWeightProducer: two object names are required in json config file. Trigger weight will be set to 1.0!";
+			// 	break;
+			// }
+			auto args = std::vector<double>{};
+			std::vector<std::string> arguments;
+			boost::split(arguments,  m_functorArgs.at(weightNames.first).at(index) , boost::is_any_of(","));
+			for(auto arg:arguments)
+			{
+				if(arg=="m_pt" || arg=="e_pt")
+				{
+					args.push_back(lepton->p4.Pt());
+				}
+				else if(arg=="m_eta")
+				{
+					args.push_back(lepton->p4.Eta());
+				}
+				else if(arg=="e_eta")
+				{
+					KElectron* electron = static_cast<KElectron*>(lepton);
+					args.push_back(electron->superclusterPosition.Eta());
+				}
+				if(arg=="t_pt")
+				{
+					args.push_back(lepton->p4.Pt());
+				}
+				if(arg=="t_eta")
+				{
+					args.push_back(lepton->p4.Eta());
+				}
+				if(arg=="t_dm")
+				{
+					KTau* tau = static_cast<KTau*>(lepton);
+					args.push_back(tau->decayMode);
+				}
+				else if(arg=="gt1_pt")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					// std::cout << "leadingTau " << leadingTau.p4.Pt() << "\n";
+					args.push_back(leadingTau.p4.Pt());
+				}
+				else if(arg=="gt1_eta")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					// std::cout << "leadingTau " << leadingTau.p4.Eta() << "\n";
+					args.push_back(leadingTau.p4.Eta());
+				}
+				else if(arg=="gt2_pt")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					// std::cout << "trailingTau " << trailingTau.p4.Pt() << "\n";
+					args.push_back(trailingTau.p4.Pt());
+				}
+				else if(arg=="gt2_eta")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					// std::cout << "trailingTau " << trailingTau.p4.Eta() << "\n";
+					args.push_back(trailingTau.p4.Eta());
+				}
+			}
+			if((weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly))
+			{
+				product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+			}
+			else{
+				product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+			}
+			if((product.m_weights.find("MuTau_TauLeg_EmbeddedEfficiencyWeight_2") != product.m_weights.end()) && (product.m_weights.find("MuTau_TauLeg_DataEfficiencyWeight_2") != product.m_weights.end()))
+			{
+				product.m_weights["triggerWeight_muTauCross_2"] = product.m_weights["MuTau_TauLeg_DataEfficiencyWeight_2"]/product.m_weights["MuTau_TauLeg_EmbeddedEfficiencyWeight_2"];
+				product.m_weights["MuTau_TauLeg_EmbeddedEfficiencyWeight_2"] = 1.0;
+				product.m_weights["MuTau_TauLeg_DataEfficiencyWeight_2"] = 1.0;
+			}
+		}
+	}
+}
+
+// ==========================================================================================
 
 LeptonTauTrigger2017WeightProducer::LeptonTauTrigger2017WeightProducer() :
 		RooWorkspaceWeightProducer(&setting_type::GetSaveLeptonTauTrigger2017WeightAsOptionalOnly,

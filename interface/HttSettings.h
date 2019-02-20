@@ -391,6 +391,13 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, TauTrigger2017Input, "");
 	IMPL_SETTING_DEFAULT(std::string, TauTrigger2017WorkingPoint, "");
 
+	// settings for EmbeddingWeightProducer
+	IMPL_SETTING_DEFAULT(bool, SaveEmbeddingWeightAsOptionalOnly, false);
+	IMPL_SETTING_DEFAULT(std::string, EmbeddingWeightWorkspace, "");
+	IMPL_SETTING_STRINGLIST_DEFAULT(EmbeddingWeightWorkspaceWeightNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(EmbeddingWeightWorkspaceObjectNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(EmbeddingWeightWorkspaceObjectArguments, {});
+
 	// settings for the EmbeddingConsumer
 	IMPL_SETTING_DEFAULT(int, DeltaRBinning, 100);
 	IMPL_SETTING_DEFAULT(float, DeltaRMaximum, 0.4);

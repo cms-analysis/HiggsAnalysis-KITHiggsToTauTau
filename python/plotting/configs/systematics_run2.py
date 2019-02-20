@@ -48,15 +48,12 @@ class SystematicsFactory(dict):
 		self["CMS_tauDMReco_1prong_13TeV"] = TauDMRecoOneProngSystematic
 		self["CMS_tauDMReco_1prong1pizero_13TeV"] = TauDMRecoOneProngPiZerosSystematic
 		self["CMS_tauDMReco_3prong_13TeV"] = TauDMRecoThreeProngSystematic
-		self["tauDecayModeFake_pi_13TeV"] = TauDecayModeFakePiSystematic
-		self["tauDecayModeFake_rho_13TeV"] = TauDecayModeFakeRhoSystematic
-		self["tauDecayModeFake_a1_13TeV"] = TauDecayModeFakeA1Systematic
-		self["tauDecayModeFake_pi_pi_13TeV"] = TauDecayModeFakePiPiSystematic
-		self["tauDecayModeFake_rho_pi_13TeV"] = TauDecayModeFakeRhoPiSystematic
-		self["tauDecayModeFake_rho_rho_13TeV"] = TauDecayModeFakeRhoRhoSystematic
-		self["tauDecayModeFake_a1_pi_13TeV"] = TauDecayModeFakeA1PiSystematic
-		self["tauDecayModeFake_a1_rho_13TeV"] = TauDecayModeFakeA1RhoSystematic
-		self["tauDecayModeFake_a1_a1_13TeV"] = TauDecayModeFakeA1A1Systematic
+		self["CMS_recoTauDecayModeFake_pi_13TeV"] = RecoTauDecayModeFakePiSystematic
+		self["CMS_recoTauDecayModeFake_rho_13TeV"] = RecoTauDecayModeFakeRhoSystematic
+		self["CMS_recoTauDecayModeFake_a1_13TeV"] = RecoTauDecayModeFakeA1Systematic
+#		self["CMS_genTauDecayModeFake_pi_13TeV"] = GenTauDecayModeFakePiSystematic
+#		self["CMS_genTauDecayModeFake_rho_13TeV"] = GenTauDecayModeFakeRhoSystematic
+#		self["CMS_genTauDecayModeFake_a1_13TeV"] = GenTauDecayModeFakeA1Systematic
 		self["CMS_ZLShape_mt_1prong_13TeV"] = MuonFakeOneProngTauEnergyScaleSystematic
 		self["CMS_ZLShape_mt_1prong1pizero_13TeV"] = MuonFakeOneProngPiZerosTauEnergyScaleSystematic
 		self["CMS_ZLShape_et_1prong_13TeV"] = ElectronFakeOneProngTauEnergyScaleSystematic
@@ -900,9 +897,13 @@ class TauDMRecoOneProngSystematic(SystematicShiftBase):
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*1.03) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))")
+					plot_config["weights"][index] = ("({weight})*(((decayMode_2 == 0)*1.03) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))").format(
+							weight=weight
+					)
 				else:
-					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*0.97) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))")
+					plot_config["weights"][index] = ("({weight})*(((decayMode_2 == 0)*0.97) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))").format(
+							weight=weight
+					)
 		
 		return plot_config
 
@@ -915,9 +916,13 @@ class TauDMRecoOneProngPiZerosSystematic(SystematicShiftBase):
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.03) + ((decayMode_2 == 10)*1.0))")
+					plot_config["weights"][index] = ("({weight})*(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.03) + ((decayMode_2 == 10)*1.0))").format(
+							weight=weight
+					)
 				else:
-					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*0.97) + ((decayMode_2 == 10)*1.0))")
+					plot_config["weights"][index] = ("({weight})*(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*0.97) + ((decayMode_2 == 10)*1.0))").format(
+							weight=weight
+					)
 		
 		return plot_config
 
@@ -930,158 +935,99 @@ class TauDMRecoThreeProngSystematic(SystematicShiftBase):
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
-					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.03))")
+					plot_config["weights"][index] = ("({weight})*(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.03))").format(
+							weight=weight
+					)
 				else:
-					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*0.97))")
+					plot_config["weights"][index] = ("({weight})*(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*0.97))").format(
+							weight=weight
+					)
 		
 		return plot_config
 
 
-class TauDecayModeFakePiSystematic(SystematicShiftBase):
+class RecoTauDecayModeFakePiSystematic(SystematicShiftBase):
 	
 	def get_config(self, shift=0.0):
-		plot_config = super(TauDecayModeFakePiSystematic, self).get_config(shift=shift)
+		plot_config = super(RecoTauDecayModeFakePiSystematic, self).get_config(shift=shift)
 		
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
-				plot_config["weights"][index] = ("({weight})*(1.0+(((decayMode_1==0)*(((genMatchedTau1DecayMode==0)*(0.0))+((genMatchedTau1DecayMode!=0)*({shift}))))+"+
-				                                                  "((decayMode_1!=0)*(decayMode_2==0)*(((genMatchedTau2DecayMode==0)*(0.0))+((genMatchedTau2DecayMode!=0)*({shift}))))))").format(
+				plot_config["weights"][index] = ("({weight})*({syst})").format(
 						weight=weight,
-						shift=("0.1" if shift > 0.0 else "-0.1")
+						syst=(
+								"((1.0)+"+
+								 "((decayMode_1==0)*(genMatchedTau1DecayMode==0)*(1.13-1.0))+"+
+								 "((decayMode_1==0)*(genMatchedTau1DecayMode==1)*(0.69-1.0)))*"+
+								"((1.0)+"+
+								 "((decayMode_2==0)*(genMatchedTau2DecayMode==0)*(1.13-1.0))+"+
+								 "((decayMode_2==0)*(genMatchedTau2DecayMode==1)*(0.69-1.0)))"
+						) if shift > 0.0 else (
+								"((1.0)+"+
+								 "((decayMode_1==0)*(genMatchedTau1DecayMode==0)*(0.88-1.0))+"+
+								 "((decayMode_1==0)*(genMatchedTau1DecayMode==1)*(1.30-1.0)))*"+
+								"((1.0)+"+
+								 "((decayMode_2==0)*(genMatchedTau2DecayMode==0)*(0.88-1.0))+"+
+								 "((decayMode_2==0)*(genMatchedTau2DecayMode==1)*(1.30-1.0)))"
+						)
 				)
 		
 		return plot_config
 
 
-class TauDecayModeFakeRhoSystematic(SystematicShiftBase):
+class RecoTauDecayModeFakeRhoSystematic(SystematicShiftBase):
 	
 	def get_config(self, shift=0.0):
-		plot_config = super(TauDecayModeFakeRhoSystematic, self).get_config(shift=shift)
+		plot_config = super(RecoTauDecayModeFakeRhoSystematic, self).get_config(shift=shift)
 		
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
-				plot_config["weights"][index] = ("({weight})*(1.0+(((decayMode_1==1)*(((genMatchedTau1DecayMode==1)*(0.0))+((genMatchedTau1DecayMode!=1)*({shift}))))+"+
-				                                                  "((decayMode_1!=1)*(decayMode_2==1)*(((genMatchedTau2DecayMode==1)*(0.0))+((genMatchedTau2DecayMode!=1)*({shift}))))))").format(
+				plot_config["weights"][index] = ("({weight})*({syst})").format(
 						weight=weight,
-						shift=("0.1" if shift > 0.0 else "-0.1")
+						syst=(
+								"((1.0)+"+
+								 "((decayMode_1==1)*(genMatchedTau1DecayMode==1)*(1.02-1.0))+"+
+								 "((decayMode_1==1)*(genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(0.96-1.0)))*"+
+								"((1.0)+"+
+								 "((decayMode_2==1)*(genMatchedTau2DecayMode==1)*(1.02-1.0))+"+
+								 "((decayMode_2==1)*(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(0.96-1.0)))"
+						) if shift > 0.0 else (
+								"((1.0)+"+
+								 "((decayMode_1==1)*(genMatchedTau1DecayMode==1)*(0.98-1.0))+"+
+								 "((decayMode_1==1)*(genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(1.04-1.0)))*"+
+								"((1.0)+"+
+								 "((decayMode_2==1)*(genMatchedTau2DecayMode==1)*(0.98-1.0))+"+
+								 "((decayMode_2==1)*(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(1.04-1.0)))"
+						)
 				)
 		
 		return plot_config
 
 
-class TauDecayModeFakeA1Systematic(SystematicShiftBase):
+class RecoTauDecayModeFakeA1Systematic(SystematicShiftBase):
 	
 	def get_config(self, shift=0.0):
-		plot_config = super(TauDecayModeFakeA1Systematic, self).get_config(shift=shift)
+		plot_config = super(RecoTauDecayModeFakeA1Systematic, self).get_config(shift=shift)
 		
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
-				plot_config["weights"][index] = ("({weight})*(1.0+(((decayMode_1==10)*(((genMatchedTau1DecayMode==10)*(0.0))+((genMatchedTau1DecayMode!=10)*({shift}))))+"+
-				                                             "((decayMode_1!=10)*(decayMode_2==10)*(((genMatchedTau2DecayMode==10)*(0.0))+((genMatchedTau2DecayMode!=10)*({shift}))))))").format(
+				plot_config["weights"][index] = ("({weight})*({syst})").format(
 						weight=weight,
-						shift=("0.1" if shift > 0.0 else "-0.1")
-				)
-		
-		return plot_config
-
-
-class TauDecayModeFakePiPiSystematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(TauDecayModeFakePiPiSystematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
-				plot_config["weights"][index] = ("({weight})*(1.0+((decayMode_1==0)*(decayMode_2==0)*((((genMatchedTau1DecayMode==0)*(0.0))+((genMatchedTau1DecayMode!=0)*({shift})))+"+
-				                                                                                     "(((genMatchedTau2DecayMode==0)*(0.0))+((genMatchedTau2DecayMode!=0)*({shift}))))))").format(
-						weight=weight,
-						shift=("0.1" if shift > 0.0 else "-0.1")
-				)
-		
-		return plot_config
-
-
-class TauDecayModeFakeRhoPiSystematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(TauDecayModeFakeRhoPiSystematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
-				plot_config["weights"][index] = ("({weight})*(1.0+(((decayMode_1==0)*(decayMode_2==1)*((((genMatchedTau1DecayMode==0)*(0.0))+((genMatchedTau1DecayMode!=0)*({shift})))+"+
-				                                                                                      "(((genMatchedTau2DecayMode==1)*(0.0))+((genMatchedTau2DecayMode!=1)*({shift})))))+"+
-				                                                  "((decayMode_1==1)*(decayMode_2==0)*((((genMatchedTau1DecayMode==1)*(0.0))+((genMatchedTau1DecayMode!=1)*({shift})))+"+
-				                                                                                      "(((genMatchedTau2DecayMode==0)*(0.0))+((genMatchedTau2DecayMode!=0)*({shift})))))))").format(
-						weight=weight,
-						shift=("0.1" if shift > 0.0 else "-0.1")
-				)
-		
-		return plot_config
-
-
-class TauDecayModeFakeRhoRhoSystematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(TauDecayModeFakeRhoRhoSystematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
-				plot_config["weights"][index] = ("({weight})*(1.0+((decayMode_1==1)*(decayMode_2==1)*((((genMatchedTau1DecayMode==1)*(0.0))+((genMatchedTau1DecayMode!=1)*({shift})))+"+
-				                                                                                     "(((genMatchedTau2DecayMode==1)*(0.0))+((genMatchedTau2DecayMode!=1)*({shift}))))))").format(
-						weight=weight,
-						shift=("0.1" if shift > 0.0 else "-0.1")
-				)
-		
-		return plot_config
-
-
-class TauDecayModeFakeA1PiSystematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(TauDecayModeFakeA1PiSystematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
-				plot_config["weights"][index] = ("({weight})*(1.0+(((decayMode_1==0)*(decayMode_2==10)*((((genMatchedTau1DecayMode==0)*(0.0))+((genMatchedTau1DecayMode!=0)*({shift})))+"+
-				                                                                                       "(((genMatchedTau2DecayMode==10)*(0.0))+((genMatchedTau2DecayMode!=10)*({shift})))))+"+
-				                                                  "((decayMode_1==10)*(decayMode_2==0)*((((genMatchedTau1DecayMode==10)*(0.0))+((genMatchedTau1DecayMode!=10)*({shift})))+"+
-				                                                                                       "(((genMatchedTau2DecayMode==0)*(0.0))+((genMatchedTau2DecayMode!=0)*({shift})))))))").format(
-						weight=weight,
-						shift=("0.1" if shift > 0.0 else "-0.1")
-				)
-		
-		return plot_config
-
-
-class TauDecayModeFakeA1RhoSystematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(TauDecayModeFakeA1RhoSystematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
-				plot_config["weights"][index] = ("({weight})*(1.0+(((decayMode_1==1)*(decayMode_2==10)*((((genMatchedTau1DecayMode==1)*(0.0))+((genMatchedTau1DecayMode!=1)*({shift})))+"+
-				                                                                                       "(((genMatchedTau2DecayMode==10)*(0.0))+((genMatchedTau2DecayMode!=10)*({shift})))))+"+
-				                                                  "((decayMode_1==10)*(decayMode_2==1)*((((genMatchedTau1DecayMode==10)*(0.0))+((genMatchedTau1DecayMode!=10)*({shift})))+"+
-				                                                                                       "(((genMatchedTau2DecayMode==1)*(0.0))+((genMatchedTau2DecayMode!=1)*({shift})))))))").format(
-						weight=weight,
-						shift=("0.1" if shift > 0.0 else "-0.1")
-				)
-		
-		return plot_config
-
-
-class TauDecayModeFakeA1A1Systematic(SystematicShiftBase):
-	
-	def get_config(self, shift=0.0):
-		plot_config = super(TauDecayModeFakeA1A1Systematic, self).get_config(shift=shift)
-		
-		for index, weight in enumerate(plot_config.get("weights", [])):
-			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
-				plot_config["weights"][index] = ("({weight})*(1.0+((decayMode_1==10)*(decayMode_2==10)*((((genMatchedTau1DecayMode==10)*(0.0))+((genMatchedTau1DecayMode!=10)*({shift})))+"+
-				                                                                                       "(((genMatchedTau2DecayMode==10)*(0.0))+((genMatchedTau2DecayMode!=10)*({shift}))))))").format(
-						weight=weight,
-						shift=("0.1" if shift > 0.0 else "-0.1")
+						syst=(
+								"((1.0)+"+
+								 "((decayMode_1==10)*(genMatchedTau1DecayMode==10)*(1.05-1.0))+"+
+								 "((decayMode_1==10)*(genMatchedTau1DecayMode>10)*(genMatchedTau1DecayMode<15)*(0.76-1.0)))*"+
+								"((1.0)+"+
+								 "((decayMode_2==10)*(genMatchedTau2DecayMode==10)*(1.05-1.0))+"+
+								 "((decayMode_2==10)*(genMatchedTau2DecayMode>10)*(genMatchedTau2DecayMode<15)*(0.76-1.0)))"
+						) if shift > 0.0 else (
+								"((1.0)+"+
+								 "((decayMode_1==10)*(genMatchedTau1DecayMode==10)*(0.96-1.0))+"+
+								 "((decayMode_1==10)*(genMatchedTau1DecayMode>10)*(genMatchedTau1DecayMode<15)*(1.23-1.0)))*"+
+								"((1.0)+"+
+								 "((decayMode_2==10)*(genMatchedTau2DecayMode==10)*(0.96-1.0))+"+
+								 "((decayMode_2==10)*(genMatchedTau2DecayMode>10)*(genMatchedTau2DecayMode<15)*(1.23-1.0)))"
+						)
 				)
 		
 		return plot_config

@@ -39,7 +39,6 @@ class SamplesBase(object):
 		weight = "(1.0)"
 		if len(weights) > 0:
 			weight = "(" + ("*".join(weights)) + ")"
-		
 		for sample in samples:
 			config = sample(self, config, channel, category, weight, nick_suffix, **kwargs)
 		

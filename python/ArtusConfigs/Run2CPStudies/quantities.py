@@ -88,38 +88,65 @@ class Quantities(Run2Quantities):
 					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
 					self.quantities.update(self.singleTauQuantities())
 
-			if channel == "ET" and re.search("(Summer17|Fall17|Run2017)", nickname):
-				self.quantities.update([
-					"trg_singleelectron_27",
-      					"trg_singleelectron_32",
-      					"trg_singleelectron_32_fallback",
-					"trg_singleelectron_35",
-					"trg_crosselectron_ele24tau30"
-				])
-				if  re.search("Run2017(B|C)", nickname):
+			if channel == "ET":
+				if re.search("(Summer17|Fall17|Run2017)", nickname):
 					self.quantities.update([
-						#"HLT_Ele32_WPTight_Gsf", 
-						"HLT_Ele35_WPTight_Gsf", 
-						"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
+						"trg_singleelectron_27",
+						"trg_singleelectron_32",
+						"trg_singleelectron_32_fallback",
+						"trg_singleelectron_35",
+						"trg_crosselectron_ele24tau30"
 					])
-				else:
+					if  re.search("Run2017(B|C)", nickname):
+						self.quantities.update([
+							#"HLT_Ele32_WPTight_Gsf",
+							"HLT_Ele35_WPTight_Gsf",
+							"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
+						])
+					else:
+						self.quantities.update([
+							#"HLT_Ele32_WPTight_Gsf",
+							"HLT_Ele35_WPTight_Gsf",
+							"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
+						])
+				elif research("Embedding2016", nickname):
 					self.quantities.update([
-						#"HLT_Ele32_WPTight_Gsf", 
-						"HLT_Ele35_WPTight_Gsf", 
-						"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
+						"triggerWeight_doublemu_1",
+						"isoweight_1",
+						"idweight_1",
+						"triggerWeight_singleE_1",
 					])
 
-			elif channel == "MT" and re.search("(Summer17|Fall17|Run2017)", nickname):
-				self.quantities.update(["HLT_IsoMu24","HLT_IsoMu27","HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"])
-				self.quantities.update(["trg_singlemuon_24", "trg_singlemuon_27", "trg_crossmuon_mu20tau27"])
-				#self.quantities.update(["matched_HLT_IsoMu24","matched_HLT_IsoMu27","matched_HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"])
-
-			elif channel == "TT" and re.search("(Summer17|Fall17|Run2017)", nickname):
-				self.quantities.update([
-					"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
-					"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
-					"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"
-				])
+			elif channel == "MT":
+				if re.search("(Summer17|Fall17|Run2017)", nickname):
+					self.quantities.update(["HLT_IsoMu24","HLT_IsoMu27","HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"])
+					self.quantities.update(["trg_singlemuon_24", "trg_singlemuon_27", "trg_crossmuon_mu20tau27"])
+					#self.quantities.update(["matched_HLT_IsoMu24","matched_HLT_IsoMu27","matched_HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"])
+				elif research("Embeddin2016", nickname):
+					self.quantities.update([
+						"trg_singlemuon",
+						"triggerWeight_doublemu_1",
+						"isoweight_1",
+						"idweight_1",
+						"triggerWeight_singleMu_1",
+						"trg_mutaucross",
+						"triggerWeight_muTauCross_2",
+						"MuTau_TauLeg_EmbeddedEfficiencyWeight_2",
+						"MuTau_TauLeg_DataEfficiencyWeight_2"
+					])
+			elif channel == "TT":
+				if re.search("(Summer17|Fall17|Run2017)", nickname):
+					self.quantities.update([
+						"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+						"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+						"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"
+					])
+				elif re.search("Embedding2016", nickname):
+					self.quantities.update([
+						"triggerWeight_doublemu_1",
+						"triggerWeight_tau_1",
+						"triggerWeight_tau_2"
+					])
 
 			if not channel == "EM":
 				self.quantities.update(self.fakefactorQuantities())
@@ -1185,6 +1212,30 @@ class Quantities(Run2Quantities):
 			"embeddingWeight",
 			"eventWeight",
 			"sampleStitchingWeight",
+			"tauSpinnerWeight",
+			"tauSpinnerWeight000",
+			"tauSpinnerWeight005",
+			"tauSpinnerWeight010",
+			"tauSpinnerWeight015",
+			"tauSpinnerWeight020",
+			"tauSpinnerWeight025",
+			"tauSpinnerWeight030",
+			"tauSpinnerWeight035",
+			"tauSpinnerWeight040",
+			"tauSpinnerWeight045",
+			"tauSpinnerWeight050",
+			"tauSpinnerWeight055",
+			"tauSpinnerWeight060",
+			"tauSpinnerWeight065",
+			"tauSpinnerWeight070",
+			"tauSpinnerWeight075",
+			"tauSpinnerWeight080",
+			"tauSpinnerWeight085",
+			"tauSpinnerWeight090",
+			"tauSpinnerWeight095",
+			"tauSpinnerWeight100",
+			"tauSpinnerWeightSample",
+			"tauSpinnerWeightInvSample",
 			"antiEVLooseSFWeight_1",
 			"antiELooseSFWeight_1",
 			"antiEMediumSFWeight_1",
@@ -1204,7 +1255,7 @@ class Quantities(Run2Quantities):
 			"emuQcdOsssShapeUpWeight",
 			"emuQcdOsssShapeDownWeight",
 			"emuQcdExtrapUpWeight",
-			"emuQcdExtrapDownWeight",			
+			"emuQcdExtrapDownWeight",
 			"topPtReweightWeight",
 			"topPtReweightWeightRun1",
 			"topPtReweightWeightRun2",
@@ -1493,4 +1544,3 @@ class Quantities(Run2Quantities):
 		    "fakefactorWeight_tt_dm1_njet1_stat_up_btag_loosemt",
 		    "fakefactorWeight_tt_dm1_njet1_stat_down_btag_loosemt",
 		"""
-

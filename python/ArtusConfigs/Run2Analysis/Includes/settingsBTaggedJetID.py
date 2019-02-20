@@ -58,7 +58,7 @@ class BTaggedJet_ID(dict):
 		
 		if re.search("(Fall15|Spring16)", nickname):
 			self["ApplyBTagSF"] = False
-		elif re.search("(Summer17)", nickname):
+		elif re.search("(Summer17|Embedding)", nickname):
 			self["ApplyBTagSF"] = False
 		else:
 			self["ApplyBTagSF"] = True

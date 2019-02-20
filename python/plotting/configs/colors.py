@@ -162,7 +162,7 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["vega_cat1_08"] = "#7f7f7f"
 		self.colors_dict["vega_cat1_09"] = "#bcbd22"
 		self.colors_dict["vega_cat1_10"] = "#17becf"
-		
+
 		#light colors for backgrounds
 		self.colors_dict["ztt_light"] = "#FFCC66"
 		self.colors_dict["zll_light"] = "#80B1D3"
@@ -173,13 +173,13 @@ class ColorsDict(colors.ColorsDict):
 		self.colors_dict["wj_mc_ss_light"] = self.colors_dict["wj_light"]
 		self.colors_dict["qcd_light"] = "#FCBFD2"
 		self.colors_dict["qcd_prefit_light"] = "#FCBFD2"
-		
+
 		#phil harris paper colors
 		self.colors_dict["harris_teal"] = "#34AEAE"
 		self.colors_dict["harris_violet"] = "#990099"
 		self.colors_dict["harris_orange"] = "#CC6600"
-		
-		
+
+
 
 		self.colors_dict["tttautau"] = "#000000 #00FF00"
 		if color_scheme.lower() == "kit":
@@ -278,6 +278,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["ztt_gen_dm_two"+nick_suffix] = "#FFDD88"
 				self.colors_dict["ztt_gen_dm_ten"+nick_suffix] = "#FFFFCC"
 				self.colors_dict["ztt_gen_dm_eleven"+nick_suffix] = "#FFFF88"
+				self.colors_dict["ztt_emb"+nick_suffix] = "#000000 #191406"# #FFD03E"
 				self.colors_dict["zttpospol"+nick_suffix] = "#000000 #FFEEBB"
 				self.colors_dict["zttnegpol"+nick_suffix] = "#000000 #FFCC66"
 				self.colors_dict["zttposcp"+nick_suffix] = "#000000 #FFEEBB"
@@ -340,8 +341,8 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["zh"+nick_suffix]  = self.colors_dict["kit_lila_1"]
 				self.colors_dict["zh"+nick_suffix]  = self.colors_dict["kit_lila_1"]
 				self.colors_dict["zh_htt"+nick_suffix]  = self.colors_dict["kit_lila_1"]
-				self.colors_dict["wh"+nick_suffix]  = self.colors_dict["kit_lila_1"]			
-				self.colors_dict["wh_htt"+nick_suffix]  = self.colors_dict["kit_lila_1"]			
+				self.colors_dict["wh"+nick_suffix]  = self.colors_dict["kit_lila_1"]
+				self.colors_dict["wh_htt"+nick_suffix]  = self.colors_dict["kit_lila_1"]
 				self.colors_dict["totalsig"+nick_suffix] = self.colors_dict["htt"]
 				self.colors_dict["hww"+nick_suffix] = self.colors_dict["kit_lila_3"]+" "+self.colors_dict["kit_lila_4"]
 				self.colors_dict["hww120"+nick_suffix] = self.colors_dict["hww"]
@@ -367,7 +368,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["cpeven"+nick_suffix] = self.colors_dict["rwth_blau_050"]
 				self.colors_dict["cpmix_alt"+nick_suffix] = self.colors_dict["rwth_gelb_100"]
 				self.colors_dict["cpodd_alt"+nick_suffix] = self.colors_dict["rwth_gelb_100"]
-			
+
 
 		for higgs_mass in xrange(90, 161, 5):
 			self.colors_dict["htt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["htt"]
@@ -419,7 +420,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["gghsm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghsm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["gghmm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghmm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["gghps{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghps{mass:d}".format(mass=higgs_mass)]
-				
+
 				self.colors_dict["qqhsm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["qqhsm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["qqhmm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["qqhmm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["qqhps{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["qqhps{mass:d}".format(mass=higgs_mass)]
@@ -437,7 +438,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["cpmix_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["cpmix_alt{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["cpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["cpodd_alt{mass:d}".format(mass=higgs_mass)]
 
-				self.colors_dict["qqh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["qqh{mass:d}".format(mass=higgs_mass)]			
+				self.colors_dict["qqh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["qqh{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["vh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["vh{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["wh_htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["wh_htt{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["zh_htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["zh_htt{mass:d}".format(mass=higgs_mass)]
@@ -451,11 +452,11 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["gghsm{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghsm"]
 			self.colors_dict["gghmm{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghmm"]
 			self.colors_dict["gghps{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghps"]
-			
+
 			self.colors_dict["qqhsm{mass:d}".format(mass=higgs_mass)] = self.colors_dict["qqhsm"]
 			self.colors_dict["qqhmm{mass:d}".format(mass=higgs_mass)] = self.colors_dict["qqhmm"]
 			self.colors_dict["qqhps{mass:d}".format(mass=higgs_mass)] = self.colors_dict["qqhps"]
-			
+
 			self.colors_dict["gghmm_alt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghmm"]
 			self.colors_dict["gghps_alt{mass:d}".format(mass=higgs_mass)] = self.colors_dict["gghps"]
 
@@ -480,7 +481,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["gghsm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghsm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["gghmm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghmm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["gghps{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["gghps{mass:d}".format(mass=higgs_mass)]
-				
+
 				self.colors_dict["qqhsm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["qqhsm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["qqhmm{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["qqhmm{mass:d}".format(mass=higgs_mass)]
 				self.colors_dict["qqhps{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.colors_dict["qqhps{mass:d}".format(mass=higgs_mass)]

@@ -35,18 +35,18 @@ import HiggsAnalysis.KITHiggsToTauTau.datacards.datacards as datacards_module
 def _call_command(command):
 	log.debug(command)
 	logger.subprocessCall(command, shell=True)
-	
+
 def official2private(category, category_replacements):
 	result = copy.deepcopy(category)
 	for official, private in category_replacements.iteritems():
 		if not "dijet_boosted" in result:
-			result = re.sub(official+"$", private, result)	
+			result = re.sub(official+"$", private, result)
 		if "dijet2D_boosted" in private and "dijet_boosted" in official:
 			result = re.sub("dijet_boosted", "dijet2D_boosted", result)
 		if "dijet2D_BoostedCP" in result:
 			result = re.sub("BoostedCP", "boosted", result)
 		if "dijet2D_boosted" in result and "QCDCR" in result:
-			result = re.sub("QCDCR", "qcd_cr", result)	
+			result = re.sub("QCDCR", "qcd_cr", result)
 	return result
 
 def private2official(category, category_replacements):
@@ -54,7 +54,7 @@ def private2official(category, category_replacements):
 	for official, private in category_replacements.iteritems():
 		result = re.sub(private+"$", official, result)
 	return result
-	
+
 def matching_process(obj1, obj2):
 	matches = (obj1.bin() == obj2.bin())
 	matches = matches and (obj1.process() == obj2.process())
@@ -64,11 +64,11 @@ def matching_process(obj1, obj2):
 	matches = matches and (obj1.channel() == obj2.channel())
 	matches = matches and (obj1.bin_id() == obj2.bin_id())
 	matches = matches and (obj1.mass() == obj2.mass())
-	return matches	
-	
+	return matches
+
 def is_control_region(obj):
-	return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "qcd_cr" in obj.bin() or "ttbar" in obj.bin() or obj.channel() == "mm")	
-	
+	return ("WJCR" in obj.bin() or "QCDCR" in obj.bin() or "qcd_cr" in obj.bin() or "ttbar" in obj.bin() or obj.channel() == "mm")
+
 def remove_procs_and_systs_with_zero_yield(proc):
 	# TODO: find out why zero yield should be ok in control regions. until then remove them
 	null_yield = not (proc.rate() > 0. or is_control_region(proc))
@@ -76,7 +76,7 @@ def remove_procs_and_systs_with_zero_yield(proc):
 	if null_yield:
 		datacards.cb.FilterSysts(lambda systematic: matching_process(proc,systematic))
 	return null_yield
-	
+
 
 if __name__ == "__main__":
 
@@ -102,7 +102,7 @@ if __name__ == "__main__":
 	parser.add_argument("--no-bbb-uncs", action="store_true", default=False,
 	                    help="Do not add bin-by-bin uncertainties. [Default: %(default)s]")
 	parser.add_argument("--auto-rebin", action="store_true", default=False,
-	                    help="Do auto rebinning [Default: %(default)s]")	
+	                    help="Do auto rebinning [Default: %(default)s]")
 	parser.add_argument("--combinations", nargs="+",
 	                    default=["individual", "channel", "category", "combined"],
 	                    choices=["individual", "channel", "category", "combined"],
@@ -138,7 +138,7 @@ if __name__ == "__main__":
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--output-suffix",
 	                    default="RWTH",
-	                    help="Output folder within output directory. [Default: %(default)s]")						
+	                    help="Output folder within output directory. [Default: %(default)s]")
 	parser.add_argument("--clear-output-dir", action="store_true", default=False,
 	                    help="Delete/clear output directory before running this script. [Default: %(default)s]")
 	parser.add_argument("--scale-lumi", default=False,
@@ -152,18 +152,18 @@ if __name__ == "__main__":
 	parser.add_argument("--hypothesis", nargs="+",
 	                    default=["susycpodd"],
 	                    choices=["susycpodd", "cpodd", "cpmix"],
-	                    help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")						
+	                    help="Choose the hypothesis to test against CPeven hypothesis. Option needed for final state studies. [Default: %(default)s]")
 	parser.add_argument("--no-shape-uncs", default=False, action="store_true",
 	                    help="Do not include shape uncertainties. [Default: %(default)s]")
 	parser.add_argument("--scale-sig-IC", default=False, action="store_true",
-	                    help="Scale signal cross section to IC cross section. [Default: %(default)s]")	
+	                    help="Scale signal cross section to IC cross section. [Default: %(default)s]")
 	parser.add_argument("--no-syst-uncs", default=False, action="store_true",
 	                    help="Do not include systematic uncertainties. This should only be used together with --use-asimov-dataset. [Default: %(default)s]")
 	parser.add_argument("--production-mode", nargs="+",
 	                    default=["ggh", "qqh"],
 	                    choices=["ggh", "qqh"],
-	                    help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")	
-	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")											
+	                    help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")
+	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("--steps", nargs="+",
 	                    default=["inputs", "t2w", "likelihoodscan"],
 	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots"],
@@ -181,7 +181,7 @@ if __name__ == "__main__":
 	parser.add_argument("--x-bins", default=None,
 	                    help="Manualy set the binning. Default is taken from configuration files.")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
-	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")						
+	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -199,7 +199,7 @@ if __name__ == "__main__":
 	else:
 		log.critical("Invalid era string selected: " + args.era)
 		sys.exit(1)
-	
+
 	args.output_dir = os.path.abspath(os.path.expandvars(args.output_dir))
 	if args.clear_output_dir:
 		clear_output_dir = raw_input("Do you really want to clear the output directory? [yes]").lower() == "yes"
@@ -207,19 +207,19 @@ if __name__ == "__main__":
 			log.info("Terminate. Remove the clear_output_dir option and run the programm again.")
 			sys.exit(1)
 		logger.subprocessCall("rm -r " + args.output_dir, shell=True)
-	
+
 	# initialisations for plotting
 	sample_settings = samples.Samples()
 	binnings_settings = binnings.BinningsDict()
 	labels_settings = labels.LabelsDict()
 	systematics_factory = systematics.SystematicsFactory()
 	background_method = args.background_method
-	
+
 	plot_configs = []
 	output_files = []
 	merged_output_files = []
 	hadd_commands = []
-	
+
 	"""
 	# final state studies
 	if args.cp_study == "final":
@@ -233,22 +233,22 @@ if __name__ == "__main__":
 			signal_processes.append("CPEVEN")
 			signal_processes.append("CPMIX_ALT")
 	"""
-	
+
 	datacards = None
 	category_replacements = {}
-	
+
 
 	# get "official" configuration
-	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix)) 
+	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix))
 	command = "MorphingSMCP2016 --control_region=1 --real_data=false --postfix -2D --ttbar_fit=true {INIT}".format(
 		INIT="--only_init="+os.path.join(init_directory, "init")
 	)
 	log.debug(command)
 	exit_code = logger.subprocessCall(shlex.split(command))
 	assert(exit_code == 0)
-	
+
 	init_cb = ch.CombineHarvester()
-	for init_datacard in glob.glob(os.path.join(os.path.join(init_directory, "init"), "*_*_*_*.txt")):			
+	for init_datacard in glob.glob(os.path.join(os.path.join(init_directory, "init"), "*_*_*_*.txt")):
 		init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$ERA_$CHANNEL_$BINID_$MASS.txt', False)
 
 	#init_cb.PrintObs().PrintProcs().PrintSysts()
@@ -289,11 +289,11 @@ if __name__ == "__main__":
 		"ggHmm_htt"	: "gghjhumm",
 		"ggHsm_htt"	: "gghjhusm",
 	  	"ggH_hww" : "hww_gg",
-		"QCD" : "qcd",				
-		"qqH_htt" : "qqh",				
+		"QCD" : "qcd",
+		"qqH_htt" : "qqh",
 		"qqHmm_htt"	: "qqhjhumm",
 		"qqHps_htt"	: "qqhjhups",
-		"qqHsm_htt"	: "qqhjhusm",			
+		"qqHsm_htt"	: "qqhjhusm",
 		"qqH_hww" : "hww_qq",
 		"TT" : "ttj",
 		"TTT" : "ttt",
@@ -302,18 +302,18 @@ if __name__ == "__main__":
 		"VVT" : "vvt",
 		"VVJ" : "vvj",
 		"WH_htt" : "wh",
-		"W" : "wj",				
-		"ZH_htt" : "zh",	
+		"W" : "wj",
+		"ZH_htt" : "zh",
 		"ZJ" : "zj",
 		"ZL" : "zl",
-		"ZLL" : "zll",	
-		"ZTT" : "ztt",															
+		"ZLL" : "zll",
+		"ZTT" : "ztt",
 		}
-			
+
 		# Also the categories have different names.
-		# Match SM categories and control regions. 
+		# Match SM categories and control regions.
 	category_replacements["all"] = "TTbarCR"
-	
+
 	category_replacements["0jet"] = "ZeroJetCP"
 	category_replacements["boosted"] = "BoostedCP"
 	category_replacements["dijet_lowboost"] = "dijet2D_lowboost"
@@ -321,8 +321,8 @@ if __name__ == "__main__":
 	# control regions
 	# QCD
 	category_replacements["0jet_qcd_cr"] = "ZeroJetCP_qcd_cr"
-	category_replacements["boosted_qcd_cr"] = "BoostedCP_qcd_cr"	
-	category_replacements["dijet_lowboost_qcd_cr"] = "dijet2D_lowboost_qcd_cr"			
+	category_replacements["boosted_qcd_cr"] = "BoostedCP_qcd_cr"
+	category_replacements["dijet_lowboost_qcd_cr"] = "dijet2D_lowboost_qcd_cr"
 	category_replacements["dijet_boosted_qcd_cr"] = "dijet2D_boosted_qcd_cr"
 	# Wjets OS
 	category_replacements["0jet_wjets_cr"] = "ZeroJetCP_wjets_cr"
@@ -333,8 +333,8 @@ if __name__ == "__main__":
 	category_replacements["0jet_wjets_ss_cr"] = "ZeroJetCP_wjets_ss_cr"
 	category_replacements["boosted_wjets_ss_cr"] = "BoostedCP_wjets_ss_cr"
 	category_replacements["dijet_lowboost_wjets_ss_cr"] = "dijet2D_lowboost_wjets_ss_cr"
-	category_replacements["dijet_boosted_wjets_ss_cr"] = "dijet2D_boosted_wjets_ss_cr"			
-		
+	category_replacements["dijet_boosted_wjets_ss_cr"] = "dijet2D_boosted_wjets_ss_cr"
+
 	# initialise datacards
 	tmp_input_root_filename_template = "shapes/"+args.output_suffix+"/${CHANNEL}/${ANALYSIS}_${CHN}_${BIN}_${SYSTEMATIC}_${ERA}.root"
 	input_root_filename_template = "shapes/"+args.output_suffix+"/${CHANNEL}$/{ANALYSIS}_${CHN}.inputs-sm-${ERA}-2D.root"
@@ -344,16 +344,13 @@ if __name__ == "__main__":
 	sig_syst_histogram_name_template = "${BIN}/${PROCESS}${MASS}_${SYSTEMATIC}"
 	datacard_filename_templates = datacards.configs.cp_datacard_filename_templates
 	output_root_filename_template = "datacards/common/${ANALYSIS}.inputs-sm-${ERA}-2D.root"
-	
-		
+
+
 	if args.channel != parser.get_default("channel"):
 		channel_list = args.channel[len(parser.get_default("channel")):]
 	else:
 		channel_list = ["em","et","mt","tt","ttbar"]
-	
 
-	print channel_list
-	
 
 	if args.categories != parser.get_default("categories"):
 		args.categories = args.categories[1:]
@@ -361,7 +358,7 @@ if __name__ == "__main__":
 	# catch if on command-line only one set has been specified and repeat it
 	if(len(args.categories) == 1):
 		args.categories = [args.categories[0]] * len(args.channel)
-				
+
 	# list of JEC uncertainties
 	jecUncertNames = [
 		"AbsoluteFlavMap",
@@ -397,7 +394,7 @@ if __name__ == "__main__":
 		"Total",
 		"Closure"
 	]
-	
+
 	# w+jets scale factor shifts for different categories
 	# same uncertainties as used for WHighMTtoLowMT_$BIN_13TeV
 	wj_sf_shifts = {
@@ -452,12 +449,12 @@ if __name__ == "__main__":
 		"noplot_ttj_os_highmt", # mt & et channels: w+jets yield subtract
 		"noplot_ttj_ss_highmt" # mt & et channels: qcd high mt yield subtract
 	]
-	
+
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
-	
+
 	#restriction to requested systematics
 	if args.no_shape_uncs:
-		datacards.remove_shape_uncertainties()		
+		datacards.remove_shape_uncertainties()
 	#restriction to requested masses
 
 	if args.get_official_dc:
@@ -470,33 +467,32 @@ if __name__ == "__main__":
 	if args.categories == parser.get_default("categories"):
 		args.categories = (len(args.channel)-1) * args.categories
 
-			
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 		chn = channel if channel != "ttbar" else "em"
 		if args.get_official_dc:
 			if channel in ["ttbar","em"]:
-				datacards.configs._mapping_process2sample["ZLL"] = "zll"	
+				datacards.configs._mapping_process2sample["ZLL"] = "zll"
 			else:
 				datacards.configs._mapping_process2sample["ZL"] = "zl"
 
 			if channel in ["et", "mt", "tt"] :
 				datacards.configs._mapping_process2sample.pop("TT", None)
 				datacards.configs._mapping_process2sample["TTT"]= "ttt"
-				datacards.configs._mapping_process2sample["TTJ"]= "ttjj"			
+				datacards.configs._mapping_process2sample["TTJ"]= "ttjj"
 			else:
 				datacards.configs._mapping_process2sample["TT"] = "ttj"
 				datacards.configs._mapping_process2sample.pop("TTT")
 				datacards.configs._mapping_process2sample.pop("TTJ")
-			
+
 		tmp_output_files = []
 
-		
+
 		if "all" in categories:
 			categories = datacards.cb.cp().channel([channel]).bin_set()
 		else:
 			# include channel prefix
 			categories = [chn + "_" + category for category in categories]
-		
+
 		# prepare category settings based on args and datacards
 		categories_save = sorted(categories)
 		categories = list(set(categories).intersection(set(datacards.cb.cp().channel([channel]).bin_set())))
@@ -504,54 +500,54 @@ if __name__ == "__main__":
 			log.fatal("CombineHarverster removed the following categories automatically. Was this intended?")
 			log.fatal(list(set(categories_save) - set(categories)))
 			sys.exit(1)
-		
+
 		output_file = os.path.join(args.output_dir, input_root_filename_template.replace("$", "").format(
 				ANALYSIS="htt",
 				CHANNEL=chn,
 				CHN=chn,
 				ERA="13TeV"
-		))			
-				
+		))
+
 		# restrict CombineHarvester to configured categories:
 		datacards.cb.FilterAll(lambda obj : (obj.channel() == channel) and (obj.bin() not in categories))
 		log.info("Building configs for channel = {channel}, categories = {categories}".format(channel=channel, categories=str(categories)))
 		for official_category in categories:
-			# Do the category replacement to get the names defined in expressions.py 
-			print(official_category)		
+			# Do the category replacement to get the names defined in expressions.py
+			print(official_category)
 			category = official2private(official_category, category_replacements)
-			print(category)	
+			print(category)
 			datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
 			exclude_cuts = copy.deepcopy(args.exclude_cuts)
-			
+
 			# Custumization necessary for the control regions
 			if "ttbar" in category:
 				exclude_cuts += ["pzeta"] # Studies show that the operator is the fastest way to add something to a list
-				do_not_normalize_by_bin_width = True				
+				do_not_normalize_by_bin_width = True
 			if ("qcd_cr" in category)  and channel in ["mt", "et", "tt"]:
 				if channel != "tt":
 					exclude_cuts += ["os"]
 				elif channel == "tt":
 					exclude_cuts += ["iso_1", "iso_2"]
-					
-				do_not_normalize_by_bin_width = True				
+
+				do_not_normalize_by_bin_width = True
 			if "_wjets_cr" in category and channel in ["mt", "et"]:
-				exclude_cuts += ["mt"] 
+				exclude_cuts += ["mt"]
 				do_not_normalize_by_bin_width = True
 			if "_wjets_ss_cr" in category and channel in ["mt", "et"]:
-				exclude_cuts += ["mt", "os"] 
-				do_not_normalize_by_bin_width = True				
-					
+				exclude_cuts += ["mt", "os"]
+				do_not_normalize_by_bin_width = True
+
 			# TODO: Check if that is really still needed and equivalent to the SM analysis.
 			if any( cr in category for cr in ["dijet_boosted_qcd_cr", "dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt":
 				exclude_cuts += ["iso_1", "iso_2"]
 				do_not_normalize_by_bin_width = True
 				# TODO: Why that?
 				datacards_per_channel_category = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(cb=datacards.cb.cp().channel([channel]).bin([official_category]))
-			
+
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 
 			#merged_output_files.append(output_file)
-			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"]).iteritems():	
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"]).iteritems():
 
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
@@ -568,16 +564,16 @@ if __name__ == "__main__":
 
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
-									
+
 					config={}
-					
+
 					log.debug("Create inputs for (samples, systematic) = ([\"{samples}\"], {systematic}), (channel, category) = ({channel}, {category}).".format(
 							samples="\", \"".join(list_of_samples),
 							channel=channel  if category not in "em_ttbar" else "em",
 							category=category,
 							systematic=systematic
 					))
-						
+
 					wj_sf_shift = wj_sf_shifts.get(category,0.0)
 					if "WSFUncert" in shape_systematic and wj_sf_shift != 0.0:
 						wj_sf_shift = 1.0 + wj_sf_shift if shift_up else 1.0 - wj_sf_shift
@@ -603,7 +599,7 @@ if __name__ == "__main__":
 							zmm_cr_factor=zmm_cr_factor,
 							no_ewkz_as_dy = args.no_ewkz_as_dy
 					)
-					
+
 					if "CMS_scale_gg_13TeV" in shape_systematic:
 						systematics_settings = systematics_factory.get(shape_systematic)(config, category)
 					elif "CMS_scale_j_" in shape_systematic and shape_systematic.split("_")[-2] in jecUncertNames:
@@ -612,18 +608,18 @@ if __name__ == "__main__":
 						systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
 					config = systematics_settings.get_config(shift=(0.0 if nominal else (1.0 if shift_up else -1.0)))
-					
+
 					for index, weight in enumerate(config.get("weights", [])):
 						weightAtIndex = config["weights"][index]
 						if channel in ["mt", "et", "tt"]:
 							if config["nicks"][index] in top_pt_reweight_nicks or channel == "tt":
 								weightAtIndex = weightAtIndex.replace("topPtReweightWeight", "topPtReweightWeightRun1")
-					
+
 						config["weights"][index] = weightAtIndex
-						
+
 					config["x_expressions"] = ["melaDiscriminatorD0MinusGGH"] if "mela" in args.quantity else ["jdphi"]
-					
-					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" not in category:	
+
+					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" not in category:
 						binnings_key = "tt_jdphi"
 					if (args.cp_study == "ggh" or args.cp_study == "vbf") and "mela" in category:
 						binnings_key = "tt_melaDiscriminatorD0Minus"
@@ -631,31 +627,31 @@ if __name__ == "__main__":
 						binnings_key = "tt_melaDiscriminatorD0Minus_signDCP"
 					elif args.cp_study == "final":
 						binnings_key = "tt_phiStarCP"
-					
-					# customizations necessary for the control regions						
-					# define quantities and binning for control regions					
+
+					# customizations necessary for the control regions
+					# define quantities and binning for control regions
 					if ("wjets" in category or "qcd_cr" in category) and channel in ["mt", "et"]:
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_m_sv"]] # 0.0-250-0 one bin
 					if "qcd_cr" in category and channel == "tt":
 						config["x_expressions"] = ["m_sv"]
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_m_sv"]] # 0.0-250-0 one bin					
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_m_sv"]] # 0.0-250-0 one bin
 					if "ttbar" in category:
 						config["x_expressions"] = ["m_sv"]
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_m_sv"]]
-						
+
 					if any( cr in category for cr in ["dijet2D_boosted_qcd_cr", "dijet2D_lowboost_qcd_cr"]) and channel == "tt" and args.quantity == "jdphi":
 						config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
-						
+
 					# if any( cr in category for cr in ["dijet2D_lowboost_qcd_cr", "dijet2D_boosted_qcd_cr"]) and channel == "tt" and "mela" in args.quantity:
-					# 	config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]	
-										
+					# 	config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_dcp_star"]]
+
 					# Use 2d plots for 2d categories
-					if "ZeroJetCP" in category and not ("wjets" in category or "qcd_cr" in category):	
-						# Use only m_sv/ m_vis as discriminator opposed to SM analysis. By neglecting the split into decay mode we can drop 5 systematic uncertainites.					
+					if "ZeroJetCP" in category and not ("wjets" in category or "qcd_cr" in category):
+						# Use only m_sv/ m_vis as discriminator opposed to SM analysis. By neglecting the split into decay mode we can drop 5 systematic uncertainites.
 						# Also use only m_sv as a further simplification.
-						config["x_expressions"] = ["m_sv"] 
-						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_sv"]]	
+						config["x_expressions"] = ["m_sv"]
+						config["x_bins"] = [binnings_settings.binnings_dict["binningHttCP13TeV_"+category+"_m_sv"]]
 					elif "BoostedCP" in category and not ("wjets" in category or "qcd_cr" in category or "dijet" in category):
 						config["x_expressions"] = ["m_vis" if channel == "mm" else "m_sv"]
 						config["y_expressions"] = ["H_pt"]
@@ -706,35 +702,34 @@ if __name__ == "__main__":
 					tmp_output_files.append(tmp_output_file)
 					config["output_dir"] = os.path.dirname(tmp_output_file)
 					config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
-				
+
 					config["plot_modules"] = ["ExportRoot"]
 					config["file_mode"] = "UPDATE"
 					if "legend_markers" in config:
 						config.pop("legend_markers")
-					plot_configs.append(config)		
+					plot_configs.append(config)
 			if "inputs" in args.steps:
 				hadd_commands.append("hadd -f {DST} {SRC}".format(
 						DST=output_file,
 						SRC=" ".join(tmp_output_files)
 				))
 			merged_output_files.append(output_file)
-			
+
 		output_files.append(output_file)
 	if log.isEnabledFor(logging.DEBUG):
-		pprint.pprint(plot_configs) 
-	
+		pprint.pprint(plot_configs)
+
 	if args.only_config:
 		sys.exit(1)
 	# create input histograms with HarryPlotter
 	if "inputs" in args.steps:
 		log.info("\n -------------------------------------- Creating input histograms with HarryPlotter ---------------------------------")
 		higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
-	
+
 	if args.n_plots[0] != 0 and "t2w" in args.steps:
-		print "====================================================================================================================="
 		# tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
 		for channel in channel_list:
-			print channel
+
 			datacards_module._call_command([
 				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/hadd_shapes.sh {OUTPUT_FOLDER} {CHANNEL} {CHN}".format(OUTPUT_FOLDER=os.path.join(args.output_dir, "shapes", args.output_suffix), CHANNEL=channel if channel != "ttbar" else "em", CHN=channel if channel != "ttbar" else "em")
 			])
@@ -743,14 +738,13 @@ if __name__ == "__main__":
 		for output_file in merged_output_files:
 			debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 		higgsplot.HiggsPlotter(list_of_config_dicts=debug_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])
-	
-	
-	
-	# call official script again with shapes that have just been created
-	# this steps creates the filled datacards in the output folder. 
 
+
+
+	# call official script again with shapes that have just been created
+	# this steps creates the filled datacards in the output folder.
 	if "t2w" in args.steps:
-		print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
 		datacards_module._call_command([
 				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --real_data=false --control_region=1  --ttbar_fit=true --input_folder_mt {OUTPUT_SUFFIX}/mt --input_folder_et {OUTPUT_SUFFIX}/et".format(
 				OUTPUT_SUFFIX=args.output_suffix,
@@ -760,14 +754,14 @@ if __name__ == "__main__":
 				args.output_dir
 		])
 		log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir)))
-	print "--------------------------------------------------------------------------------------------------------------------------------------"	
+
 	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/cmb/125/"
 	official_cb = ch.CombineHarvester()
 
 	datacards_cbs = {}
 	datacards_workspaces_alpha = {}
-	
-	for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):			
+
+	for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):
 		official_cb.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
 		#official_cb.PrintObs().PrintProcs().PrintSysts()
 		"""
@@ -791,21 +785,21 @@ if __name__ == "__main__":
 		"""
 
 		if "prefitpostfitplots" in args.steps:
-			tmp_datacard = ch.CombineHarvester()	
+			tmp_datacard = ch.CombineHarvester()
 			tmp_datacard.QuickParseDatacard(official_datacard, '$MASS/$ANALYSIS_$CHANNEL_$BINID_$ERA.txt', False)
-				
-			if int(official_datacard.split("_")[-2]) < 10 and not "ttbar" in official_datacard: #this statement avoids the creation of workspaces for single CR only.					
+
+			if int(official_datacard.split("_")[-2]) < 10 and not "ttbar" in official_datacard: #this statement avoids the creation of workspaces for single CR only.
 				datacards_cbs[official_datacard] = tmp_datacard.cp()
-				datacards_module._call_command([ 
+				datacards_module._call_command([
 						"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i {DATACARD} -o {OUTPUT} --parallel {N_PROCESSES}".format(
 						DATACARD=official_datacard,
 						OUTPUT=os.path.splitext(official_datacard)[0]+"_cpmixture.root",
-						N_PROCESSES=args.n_processes			
+						N_PROCESSES=args.n_processes
 						),
-						args.output_dir	
-				]) 
+						args.output_dir
+				])
 				datacards_workspaces_alpha[official_datacard] = os.path.splitext(official_datacard)[0]+"_cpmixture.root"
-		
+
 	datacards = initialstatecpstudiesdatacards.InitialStateCPStudiesDatacards(
 			cb=official_cb,
 			higgs_masses=args.higgs_masses,
@@ -820,11 +814,11 @@ if __name__ == "__main__":
 		"ggHmm_htt"	: "gghjhumm",
 		"ggHsm_htt"	: "gghjhusm",
 		"ggH_hww" : "hww_gg",
-		"QCD" : "qcd",				
-		"qqH_htt" : "qqh",				
+		"QCD" : "qcd",
+		"qqH_htt" : "qqh",
 		"qqHmm_htt"	: "qqhjhumm",
 		"qqHps_htt"	: "qqhjhups",
-		"qqHsm_htt"	: "qqhjhusm",			
+		"qqHsm_htt"	: "qqhjhusm",
 		"qqH_hww" : "hww_qq",
 		"TT" : "ttj",
 		"TTT" : "ttt",
@@ -833,29 +827,29 @@ if __name__ == "__main__":
 		"VVT" : "vvt",
 		"VVJ" : "vvj",
 		"WH_htt125" : "wh",
-		"W" : "wj",				
-		"ZH_htt125" : "zh",	
+		"W" : "wj",
+		"ZH_htt125" : "zh",
 		"ZJ" : "zj",
 		"ZL" : "zl",
-		"ZLL" : "zll",	
-		"ZTT" : "ztt",															
+		"ZLL" : "zll",
+		"ZTT" : "ztt",
 		}
-	
-	# Create workspaces from the datacards 
+
+	# Create workspaces from the datacards
 	if "t2w" in args.steps:
 		datacards_module._call_command([
 				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i output/{OUTPUT_SUFFIX}/{{cmb,{CHANNELS}}}/* -o ws.root --parallel {N_PROCESSES}".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				CHANNELS=",".join(channel_list),
-				N_PROCESSES=args.n_processes			
+				N_PROCESSES=args.n_processes
 				),
-				args.output_dir	
-		]) 
+				args.output_dir
+		])
 		log.info("\nWorkspaces have been created in \"%s\"." % os.path.join(os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/*".format(
 				OUTPUT_SUFFIX=args.output_suffix
 				)
-				)))	
-						
+				)))
+
 	# Perform likelihoodscan
 	if "likelihoodscan" in args.steps:
 		log.info("\nScanning alpha with muF=1,alpha=0 with asimov dataset.") #FIXME ,muV=1, f=0
@@ -863,74 +857,74 @@ if __name__ == "__main__":
 				"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,alpha=0 --setParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{{CHANNELS}}}/125/ws.root --algo grid -t -1 --there -n .alpha --parallel={N_PROCESSES} -S 0".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				CHANNELS=",".join(channel_list), #TODO change this to use only a single channel
-				N_PROCESSES=args.n_processes	
+				N_PROCESSES=args.n_processes
 				),
-				args.output_dir	
+				args.output_dir
 		])
 		# datacards_module._call_command([
 		# 		"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges muF=0,4 --points 20 --redefineSignalPOIs muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
 		# 		OUTPUT_SUFFIX=args.output_suffix,
-		# 		N_PROCESSES=args.n_processes		
+		# 		N_PROCESSES=args.n_processes
 		# 		),
-		# 		args.output_dir	 
+		# 		args.output_dir
 		# ])
 		# datacards_module._call_command([
 		# 		"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f,muF --setParameterRanges alpha=0,1 --points 20 --redefineSignalPOIs alpha_freezemuF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --algo grid -t -1 --there -n .muF --parallel={N_PROCESSES}".format(
 		# 		OUTPUT_SUFFIX=args.output_suffix,
-		# 		N_PROCESSES=args.n_processes			
+		# 		N_PROCESSES=args.n_processes
 		# 		),
-		# 		args.output_dir	
+		# 		args.output_dir
 		# ])
 		# datacards_module._call_command([
 		# 		"combineTool.py -m 125 -M MultiDimFit --setParameters muF=1,muV=1,alpha=0,f=0 --freezeParameters f --setParameterRanges alpha=0,1 --redefineSignalPOIs alpha,muF -d output/{OUTPUT_SUFFIX}/{{cmb,em,et,mt,tt}}/125/ws.root --points 500 --algo grid -t -1 --there -n .2DScan --parallel={N_PROCESSES}".format(
 		# 		OUTPUT_SUFFIX=args.output_suffix,
-		# 		N_PROCESSES=args.n_processes			
+		# 		N_PROCESSES=args.n_processes
 		# 		),
-		# 		args.output_dir	
+		# 		args.output_dir
 		# ])
-								
+
 		for channel in ["cmb"]+channel_list:
 			directory = "output/"+args.output_suffix+"/"+channel+"/125/"
 			datacards_module._call_command([
 					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --logo 'Work in progress' --logo-sub '' ".format(
 					INPUT_FILE=directory+"higgsCombine.alpha.MultiDimFit.mH125.root",
-					OUTPUT_FILE=directory+"alpha"	
+					OUTPUT_FILE=directory+"alpha"
 					),
-					args.output_dir	
+					args.output_dir
 			])
 			# datacards_module._call_command([
 			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=muF --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#mu_{{F}}' --y-max=10.0".format(
 			# 		INPUT_FILE=directory+"higgsCombine.muF.MultiDimFit.mH125.root",
-			# 		OUTPUT_FILE=directory+"muF"	
+			# 		OUTPUT_FILE=directory+"muF"
 			# 		),
-			# 		args.output_dir	
-			# ])			
+			# 		args.output_dir
+			# ])
 		datacards_module._call_command([
 				"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --others output/{OUTPUT_SUFFIX}/tt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#tau_{{h}}#tau_{{h}}:2 output/{OUTPUT_SUFFIX}/mt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#mu#tau_{{h}}:7 output/{OUTPUT_SUFFIX}/et/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#tau_{{h}}:9 output/{OUTPUT_SUFFIX}/em/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#mu:8  --logo 'Work in progress' --logo-sub '' --main-label Expected ".format(
 				INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
-				OUTPUT_FILE="output/"+args.output_suffix+"/cmb/125/alpha_channel_comparison",	
+				OUTPUT_FILE="output/"+args.output_suffix+"/cmb/125/alpha_channel_comparison",
 				OUTPUT_SUFFIX=args.output_suffix
 				),
-				args.output_dir	
-		])	
-		
+				args.output_dir
+		])
+
 
 			# datacards_module._call_command([
 			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0".format(
 			# 		INPUT_FILE=directory+"higgsCombine.alpha_freezemuF.MultiDimFit.mH125.root",
-			# 		OUTPUT_FILE=directory+"alpha_freezemuF"	
+			# 		OUTPUT_FILE=directory+"alpha_freezemuF"
 			# 		),
-			# 		args.output_dir	
+			# 		args.output_dir
 			# ])
 			# datacards_module._call_command([
 			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCP2016/scripts/plotMultiDimFit.py --title-right='35.9 fb^{-1}' --mass=125 --cms-sub='Preliminary' --POI=alpha -o {OUTPUT_FILE}  {INPUT_FILE}".format(
 			# 		INPUT_FILE=directory+"higgsCombine.2DScan.MultiDimFit.mH125.root",
-			# 		OUTPUT_FILE=directory+"muF_vs_alpha"	
+			# 		OUTPUT_FILE=directory+"muF_vs_alpha"
 			# 		),
-			# 		args.output_dir	
-			# ])						
-						
-	
+			# 		args.output_dir
+			# ])
+
+
 	datacards_poi_ranges = {}
 	for datacard, cb in datacards_cbs.iteritems():
 		channels = cb.channel_set()
@@ -944,25 +938,25 @@ if __name__ == "__main__":
 			if len(categories) == 1:
 				datacards_poi_ranges[datacard] = [-50.0, 50.0]
 			else:
-				datacards_poi_ranges[datacard] = [-25.0, 25.0]	
-							
-		# fit diagnostics	
+				datacards_poi_ranges[datacard] = [-25.0, 25.0]
+
+		# fit diagnostics
 	if "prefitpostfitplots" in args.steps:
 		# https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsWG/HiggsPAGPreapprovalChecks
 		# TODO: Somehow I need provide an interface to the old prefitpost fit functions.
-		# TODO: I need a function that takes the created workspaces and datacards and wraps them up in the form of datacards_cbs and  
-		log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")	
-		datacards.combine(datacards_cbs, datacards_workspaces_alpha, datacards_poi_ranges, args.n_processes, "-M FitDiagnostics "+datacards.stable_options+" -n \"\"", higgs_mass="125")	
+		# TODO: I need a function that takes the created workspaces and datacards and wraps them up in the form of datacards_cbs and
+		log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")
+		datacards.combine(datacards_cbs, datacards_workspaces_alpha, datacards_poi_ranges, args.n_processes, "-M FitDiagnostics "+datacards.stable_options+" -n \"\"", higgs_mass="125")
 		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_alpha, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
-		
+
 		# divide plots by bin width and change the label correspondingly
 		if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
 			args.args += " --y-label 'dN / dm_{#tau #tau}  (1 / GeV)'"
 		if args.quantity == "m_vis" and not(do_not_normalize_by_bin_width):
 			args.args += " --y-label 'dN / dm_{vis}  (1 / GeV)'"
 		if args.quantity == "jdphi" and not(do_not_normalize_by_bin_width):
-			args.args += " --y-label 'dN / d#Delta#phi_{jj}'"	
-			
+			args.args += " --y-label 'dN / d#Delta#phi_{jj}'"
+
 
 		# adapt prefit and postfit plot configs
 		backgrounds_to_merge = {
@@ -988,7 +982,7 @@ if __name__ == "__main__":
 			"et_4" : "e#tau_{h} - dijet boosted",
 			"em_4" : "e#mu - dijet boosted",
 			"tt_4" : "#tau_{h}#tau_{h} - dijet boosted"
-		}	
+		}
 		ylog_lims = {
 			"mt_1" : [1, 100000],
 			"et_1" : [1, 100000],
@@ -1005,8 +999,8 @@ if __name__ == "__main__":
 			"mt_4" : [0.001, 1000],
 			"et_4" : [0.001, 1000],
 			"em_4" : [0.001, 1000],
-			"tt_4" : [0.001, 1000]		
-		}					
+			"tt_4" : [0.001, 1000]
+		}
 		if "mela3D" in args.quantity:
 			titles = {
 				"mt_1" : "#mu#tau_{h} - 0jet",
@@ -1025,7 +1019,7 @@ if __name__ == "__main__":
 				"et_4" : "e#tau_{h} - dijet boosted",
 				"em_4" : "e#mu - dijet boosted",
 				"tt_4" : "#tau_{h}#tau_{h} - dijet boosted"
-			}	
+			}
 			x_tick_labels = {
 				"mt_1" : ["0-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-105","105-110","110-400"] * 3,
 				"et_1" : ["0-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-105","105-110","110-400"] * 3,
@@ -1054,11 +1048,11 @@ if __name__ == "__main__":
 				"mt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"],
 				"et_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"],
 				"em_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"],
-				"tt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"], 
+				"tt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"],
 				"mt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"],
 				"et_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"],
 				"em_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"],
-				"tt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]		
+				"tt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4","D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]
 			}
 			sub_texts = {
 				"mt_1" : ["h^{#pm}", "h^{#pm}#pi^{0}", "h^{#pm}h^{#pm}h^{#mp}"],
@@ -1071,12 +1065,12 @@ if __name__ == "__main__":
 				"mt_3" : ["D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]*6,
 				"et_3" : ["D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]*6,
 				"em_3" : ["D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]*6,
-				"tt_3" : ["D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]*6, 
+				"tt_3" : ["D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]*6,
 				"mt_4" : ["D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]*6,
 				"et_4" : ["D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]*6,
 				"em_4" : ["D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]*6,
-				"tt_4" : ["D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]*6		
-			}						
+				"tt_4" : ["D_{CP}< -0.4", "-0.4 < D_{CP} < 0.4","D_{CP} > 0.4"]*6
+			}
 			sub_texts_x = {
 				"mt_1" : [0.14, 0.4, 0.67],
 				"et_1" : [0.14, 0.4, 0.67],
@@ -1092,7 +1086,7 @@ if __name__ == "__main__":
 				"mt_4" : [0.13, 0.17, 0.21, 0.26, 0.30, 0.34, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.65, 0.69, 0.73, 0.78, 0.82, 0.86],
 				"et_4" : [0.13, 0.17, 0.21, 0.26, 0.30, 0.34, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.65, 0.69, 0.73, 0.78, 0.82, 0.86],
 				"em_4" : [0.13, 0.17, 0.21, 0.26, 0.30, 0.34, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.65, 0.69, 0.73, 0.78, 0.82, 0.86],
-				"tt_4" : [0.13, 0.17, 0.21, 0.26, 0.30, 0.34, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.65, 0.69, 0.73, 0.78, 0.82, 0.86]			
+				"tt_4" : [0.13, 0.17, 0.21, 0.26, 0.30, 0.34, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.65, 0.69, 0.73, 0.78, 0.82, 0.86]
 			}
 			texts_x = {
 				"mt_1" : [0.14, 0.4, 0.67],
@@ -1126,8 +1120,8 @@ if __name__ == "__main__":
 				"mt_4" : [0.8]*6+[0.75, 0.7, 0.75]*6,
 				"et_4" : [0.8]*6+[0.75, 0.7, 0.75]*6,
 				"em_4" : [0.8]*6+[0.75, 0.7, 0.75]*6,
-				"tt_4" : [0.8]*6+[0.75, 0.7, 0.75]*6			
-			}							
+				"tt_4" : [0.8]*6+[0.75, 0.7, 0.75]*6
+			}
 			vertical_lines = {
 				"mt_1" : [12, 24],
 				"et_1" : [12, 24],
@@ -1143,7 +1137,7 @@ if __name__ == "__main__":
 				"mt_4" : [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60],
 				"et_4" : [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60],
 				"em_4" : [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60],
-				"tt_4" : [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60]			
+				"tt_4" : [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60]
 			}
 
 		else:
@@ -1175,11 +1169,11 @@ if __name__ == "__main__":
 				"mt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
 				"et_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
 				"em_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
-				"tt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"], 
+				"tt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
 				"mt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
 				"et_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
 				"em_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
-				"tt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"]		
+				"tt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"]
 			}
 			texts_x = {
 				"mt_1" : [0.14, 0.4, 0.67],
@@ -1196,7 +1190,7 @@ if __name__ == "__main__":
 				"mt_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
 				"et_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
 				"em_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
-				"tt_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82]			
+				"tt_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82]
 			}
 			vertical_lines = {
 				"mt_1" : [12, 24],
@@ -1213,17 +1207,17 @@ if __name__ == "__main__":
 				"mt_4" : [12, 24, 36, 48, 60],
 				"et_4" : [12, 24, 36, 48, 60],
 				"em_4" : [12, 24, 36, 48, 60],
-				"tt_4" : [12, 24, 36, 48, 60]			
+				"tt_4" : [12, 24, 36, 48, 60]
 			}
-			
-					
-	
+
+
+
 		prefit_postfit_plot_configs = datacards.prefit_postfit_plots(datacards_cbs, datacards_postfit_shapes, plotting_args={"ratio" : args.ratio, "args" : args.args, "lumi" : args.lumi, "normalize" : not(do_not_normalize_by_bin_width), "era" : args.era, "x_expressions" : config["x_expressions"][0], "return_configs" : True, "merge_backgrounds" : backgrounds_to_merge, "add_soverb_ratio" : True}, n_processes=args.n_processes, no_plot=[""])
 		for plot_config in prefit_postfit_plot_configs:
-			
+
 			plot_category = plot_config["filename"].split("_")[-2]
 			plot_channel = plot_config["filename"].split("_")[-3]
-				
+
 
 			if ("1" in plot_category or "2" in plot_category or "3" in plot_category or "4" in plot_category) and not any(control_region_ID in plot_category for control_region_ID in ["10","11","12","13","14","15","16","17","18","19","20"]):
 
@@ -1233,7 +1227,7 @@ if __name__ == "__main__":
 				plot_config["x_label"] = "#Delta#phi_{jj}" if "jdphi" == args.quantity else "D_{CP}^{*}"
 				if "--y-log" in args.args:
 					plot_config["y_lims"] = ylog_lims[plot_channel+"_"+plot_category]
-				else: 
+				else:
 					plot_config["y_rel_lims"] = [0.5, 10]
 				plot_config["legend"] = [0.895, 0.1, 0.995, 0.8]
 				plot_config["legend_cols"] = 1
@@ -1251,7 +1245,8 @@ if __name__ == "__main__":
 					plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+plot_category]
 					plot_config["texts"] = texts[plot_channel+"_"+plot_category] #  + sub_texts[plot_channel+"_"+plot_category]
 					plot_config["texts_x"] = texts_x[plot_channel+"_"+plot_category] #  + sub_texts_x[plot_channel+"_"+plot_category]
-					plot_config["texts_y"] = texts_y[plot_channel+"_"+plot_category] #  +  list((0.65 for i in range(len(sub_texts[plot_channel+"_"+plot_category]))))
+					if "mela3D" in args.quantity:
+						plot_config["texts_y"] = texts_y[plot_channel+"_"+plot_category] #  +  list((0.65 for i in range(len(sub_texts[plot_channel+"_"+plot_category]))))
 					plot_config["texts_size"] = [0.04] if "2" in plot_category and plot_channel in ["mt", "et", "em"] else [0.032]
 					plot_config["x_labels_vertical"] = True
 					plot_config["x_title_offset"] = 1.6
@@ -1260,5 +1255,5 @@ if __name__ == "__main__":
 					plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
 
 		if "nuisanceimpacts" in args.steps:
-			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_alpha, args.n_processes, higgs_mass="125")        
+			datacards.nuisance_impacts(datacards_cbs, datacards_workspaces_alpha, args.n_processes, higgs_mass="125")
 		higgsplot.HiggsPlotter(list_of_config_dicts=prefit_postfit_plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[1])

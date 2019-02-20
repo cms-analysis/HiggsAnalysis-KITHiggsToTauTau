@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import re
 import copy
+import os
 
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.quantities import Quantities
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering import ProcessorsOrdered
@@ -25,6 +26,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMetho
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.settingsTauPolarisationMva as sTPMVA
 
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.idAndTriggerSF import IdAndTriggerSF
+import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
 
 
 class et_ArtusConfig(dict):
@@ -63,7 +65,7 @@ class et_ArtusConfig(dict):
 				"producer:EventWeightProducer"
 			]
 
-		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17)", nickname):
+		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17|Embedding2016)", nickname):
 			#'#producer:TauPolarisationTmvaReader', '#producer:MVATestMethodsProducer'
 			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples 
 			self["Processors"] += [
@@ -73,7 +75,7 @@ class et_ArtusConfig(dict):
 				#"producer:PolarisationQuantitiesSvfitM91Producer",
 				"producer:PolarisationQuantitiesSimpleFitProducer"
 			]
-			#if re.search("(Spring16|Summer16|Run2016)",nickname):
+			#if re.search("(Spring16|Summer16|Run2016|Embedding2016)",nickname):
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe, TODO in next skim they will be
 
 
@@ -100,7 +102,7 @@ class et_ArtusConfig(dict):
 				]
 				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
 
-			else: #(Spring16|Summer16|Summer17|Fall17)
+			else: #(Spring16|Summer16|Summer17|Fall17|Embedding2016)
 				self["Processors"] += [
 					"producer:GenMatchedTauCPProducer",
 					"producer:TauCorrectionsProducer",
@@ -269,6 +271,13 @@ class et_ArtusConfig(dict):
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"
 		],
 		"""
+
+		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
+
+		# define frequently used conditions
+		isEmbedded = datasetsHelper.isEmbedded(nickname)
+		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
+
 		ElectronID_config = sEID.Electron_ID(nickname, iso=False, wp=90)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
 		ElectronID_config.vetoElectron_ID(nickname)
@@ -285,7 +294,6 @@ class et_ArtusConfig(dict):
 		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)
 
-		#
 		#JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
 		#self.update(JECUncertaintySplit_config)
 
@@ -327,14 +335,14 @@ class et_ArtusConfig(dict):
 
 		self["ElectronLowerPtCuts"] = ["26.0"]  #default: !=2015
 		self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v:26.0"]  #default: !=2015 or !=2017
-		
+
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["HltPaths"] = ["HLT_Ele23_WPLoose_Gsf"]
-			self["ElectronLowerPtCuts"] = ["24.0"]
-			self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele23_WPLoose_Gsf_v:24.0"]
+			self["ElectronLowerPtCuts"] = ["24.0"]           #2015
+			self["DiTauPairLepton1LowerPtCuts"] = ["HLT_Ele23_WPLoose_Gsf_v:24.0"]  #2015
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele23_WPLoose_Gsf_v"]
 
-		elif re.search("Run2016|Spring16|Summer16", nickname):
+		elif re.search("Run2016|Spring16|Summer16", nickname):          #spring16 self["NoHltFiltering"] = True for cp config False for RUN2 set to false here
 			self["HltPaths"] = ["HLT_Ele25_eta2p1_WPTight_Gsf"]
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v"]
 			if re.search("Spring16", nickname):
@@ -342,8 +350,8 @@ class et_ArtusConfig(dict):
 				self["NoHltFiltering"] = True
 
 		elif re.search("Embedding(2016|MC)", nickname):
-			self["NoHltFiltering"] = True
 			self["HltPaths"] =[""]
+			self["NoHltFiltering"] = True               #else: self["NoHltFiltering"] = True
 			self["DiTauPairNoHLT" ] = True
 
 			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = ["HLT_Ele25_eta2p1_WPTight_Gsf_v"]
@@ -424,16 +432,31 @@ class et_ArtusConfig(dict):
 		self["DiTauPairIsTauIsoMVA"] = True
 
 		self["EventWeight"] =  "eventWeight"
-		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root" if isEmbedded else "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
 		self["RooWorkspaceWeightNames"] = [
 			"0:triggerWeight",
 			"0:idIsoWeight"
+		] if not isEmbedded else [ #TODO: Use Embedding weight rooworkspace producer instead
+			"0:triggerWeight_doublemu",
+			"0:isoweight",
+			"0:idweight",
+			"0:triggerWeight_singleE"
 		]
 		self["RooWorkspaceObjectNames"] = [
 			"0:e_trgEle25eta2p1WPTight_desy_ratio",
 			"0:e_idiso0p1_desy_ratio"
+		] if not isEmbedded else [
+			"0:m_sel_trg_ratio",
+			"0:e_iso_ratio",
+			"0:e_id_ratio",
+			"0:e_trg_ratio"
 		]
 		self["RooWorkspaceObjectArguments"] = [
+			"0:e_pt,e_eta",
+			"0:e_pt,e_eta"
+		] if not isEmbedded else [
+			"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+			"0:e_pt,e_eta",
 			"0:e_pt,e_eta",
 			"0:e_pt,e_eta"
 		]
@@ -460,12 +483,10 @@ class et_ArtusConfig(dict):
 				#"0:e_trg_SingleEle_Ele32OREle35_desy_data",
 				#"0:e_trg32or35_mc",
 				#"0:e_trg32or35_data",
-
 				"0:e_id_ratio",
 				"0:e_iso_binned_ratio",
 				"0:e_trk_ratio"
 			]
-
 			#for embedding use e_id_embed_ratio and e_iso_binned_embed_ratio
 
 			self["RooWorkspaceObjectArguments"] = [
@@ -508,22 +529,26 @@ class et_ArtusConfig(dict):
 				"0:e_pt,e_eta,e_iso",
 				"0:e_pt,e_eta"
 			]
+		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
+			self["TriggerEfficiencyData"] = [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root" ]
+			self["TriggerEfficiencyMc"] = [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele23_fall15.root"]
+
+			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"]
+			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"]
+
+		elif re.search("Run2017|Summer17|Fall17", nickname):
+			self["TriggerEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele32orEle35.root"]
+			self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_Ele32orEle35.root"]
+		
+			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
+			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MCFall2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
 
 		else:
-			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-			self["RooWorkspaceWeightNames"] = [
-				"0:triggerWeight",
-				"0:idIsoWeight"
-			]
-			self["RooWorkspaceObjectNames"] = [
-				"0:e_trgEle25eta2p1WPTight_desy_ratio",
-				"0:e_idiso0p1_desy_ratio"
-			]
-			self["RooWorkspaceObjectArguments"] = [
-				"0:e_pt,e_eta",
-				"0:e_pt,e_eta"
-			]
-		
+			self["TriggerEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2016_Electron_Ele25WPTight_eff.root" ]
+			self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MC_Electron_Ele25WPTight_eff.root" ]
+			
+			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"]
+			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"]
 
 		self.update(IdAndTriggerSF(nickname, channel="ET", dcach=False))
 
@@ -535,7 +560,7 @@ class et_ArtusConfig(dict):
 			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 
 		self["TauTauRestFrameReco"] = "collinear_approximation"
-		
+
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["ElectronTriggerFilterNames"] = ["HLT_Ele23_WPLoose_Gsf_v:hltEle23WPLooseGsfTrackIsoFilter"]
@@ -552,7 +577,7 @@ class et_ArtusConfig(dict):
 
 		if re.search("Run2016|Spring16|Summer16", nickname):
 			#settings for jetstotaufakesproducer
-			self["FakeFaktorFile"] = "$CMSSW_BASE/src/HTTutilities/Jet2TauFakes/data/SM2016_ML/tight/et/fakeFactors_20180831_tight.root"
+			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/et/fakeFactors_20180831_tight.root"
 			self["FakeFactorMethod"] = "cp2016"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
 

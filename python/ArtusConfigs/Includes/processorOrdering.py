@@ -21,6 +21,7 @@ class ProcessorsOrdered(dict):
 		#print examplelist => ["a", "d", "k", "e"]
 
 		self["producer:MetSelector"] = 10
+		self["producer:MetFilterProducer"] = 11
 
 		if kwargs.get("channel", None) == "MT":
 			self["producer:ValidMuonsProducer"] = 21
@@ -159,9 +160,10 @@ class ProcessorsOrdered(dict):
 		self["producer:EleTauFakeRateWeightProducer"] = 277
 
 		self["producer:RooWorkspaceWeightProducer"] = 280
-			
+
 		self["producer:MuTauTriggerWeightProducer"] = 290
 		self["producer:TauTauTriggerWeightProducer"] = 291
+		self["producer:EmbeddingWeightProducer"] = 292
 
 		self["producer:LeptonTauTrigger2017WeightProducer"] = 292
 

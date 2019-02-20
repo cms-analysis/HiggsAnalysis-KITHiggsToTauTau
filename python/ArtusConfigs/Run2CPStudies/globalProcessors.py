@@ -86,15 +86,20 @@ class globalProccesors(dict):
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer"
 			]
-	
+
 		elif re.search("Embedding201", nickname):
 			self["Processors"] = [
-				"#producer:PrintGenParticleDecayTreeProducer",
 				"#filter:RunLumiEventFilter",
+				"#producer:PrintGenParticleDecayTreeProducer",
 				"#filter:MetFilter",
 				"filter:JsonFilter",
 				"producer:NicknameProducer",
+				"producer:ValidGenTausProducer",
 				"producer:GenParticleProducer",
+				"producer:GenBosonFromGenParticlesProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
+				"producer:GenDiLeptonDecayModeProducer",
+				"producer:GenTauDecayProducer",
 				"producer:RecoElectronGenParticleMatchingProducer",
 				"producer:RecoElectronGenTauMatchingProducer",
 				"producer:RecoMuonGenParticleMatchingProducer",
@@ -103,9 +108,8 @@ class globalProccesors(dict):
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer",
 				"#producer:TaggedJetCorrectionsProducer",
-				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
-				"producer:NumberGeneratedEventsWeightProducer"
+
 			]
 
 		elif re.search("EmbeddingMC", nickname):
@@ -183,4 +187,3 @@ class globalProccesors(dict):
 				"#producer:ScaleVariationProducer",
 				"#filter:MetFilter"
 			]
-
