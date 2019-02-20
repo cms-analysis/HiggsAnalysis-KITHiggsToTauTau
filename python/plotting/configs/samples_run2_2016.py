@@ -313,15 +313,14 @@ class Samples(samples.SamplesBase):
 	
 	# decay mode reweighting (currently no default reweighting but only used as workaround for shape systematics)
 	def decay_mode_reweight(self, channel, cut_type):
-		if channel in ["et", "mt"]:
-			if self.embedding and "emb" in cut_type:
+		
+		if self.embedding and ("emb" in cut_type):
+			if channel in ["et", "mt"]:
 				return "(((decayMode_2 == 0)*0.975) + ((decayMode_2 == 1 || decayMode_2 == 2)*0.975*1.051) + ((decayMode_2 == 10)*0.975*0.975*0.975))"
-			return "(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))"
-		elif channel in ["tt"]:
-			if self.embedding and "emb" in cut_type:
+			elif channel in ["tt"]:
 				return "(((decayMode_1 == 0)*0.975) + ((decayMode_1 == 1 || decayMode_1 == 2)*0.975*1.051) + ((decayMode_1 == 10)*0.975*0.975*0.975))*(((decayMode_2 == 0)*0.975) + ((decayMode_2 == 1 || decayMode_2 == 2)*0.975*1.051) + ((decayMode_2 == 10)*0.975*0.975*0.975))"
-			return "(1.0)"
-		if ("2016" in cut_type) and ("low_mvis" in cut_type) and not (self.embedding):
+		
+		elif ("2016" in cut_type) and ("low_mvis" in cut_type):
 			return ("((1.0)+"+
 			         "((decayMode_1==0)*(genMatchedTau1DecayMode==0)*(1.14-1.0))+"+
 				     "((decayMode_1==0)*(genMatchedTau1DecayMode==1)*(0.66-1.0))+"+
@@ -336,6 +335,7 @@ class Samples(samples.SamplesBase):
 				     "((decayMode_2==1)*(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(1.07-1.0))+"+
 				     "((decayMode_2==10)*(genMatchedTau2DecayMode==10)*(0.95-1.0))+"+
 				     "((decayMode_2==10)*(genMatchedTau2DecayMode>10)*(genMatchedTau2DecayMode<15)*(1.27-1.0)))")
+		
 		else: return "(1.0)"
 	
 	# lumi-weighted average to account for EM cross trigger with DZ filter used only in data for periods G-H
