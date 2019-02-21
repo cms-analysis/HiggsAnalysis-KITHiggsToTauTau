@@ -1,1 +1,0 @@
-XROOTD_sample_MuonEG_Run2016C_PromptRecov2_13TeV_MINIAOD_2016-10-13.txt

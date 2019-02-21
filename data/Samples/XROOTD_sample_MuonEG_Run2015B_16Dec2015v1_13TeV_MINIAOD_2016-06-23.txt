@@ -1,8 +1,0 @@
-root://dcache-cms-xrootd.desy.de:1094//store/user/anehrkor/higgs-kit/skimming/76X_2016-06-23/MuonEG/crab_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD/160623_081834/0000/kappa_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD_1.root
-root://dcache-cms-xrootd.desy.de:1094//store/user/anehrkor/higgs-kit/skimming/76X_2016-06-23/MuonEG/crab_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD/160623_081834/0000/kappa_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD_2.root
-root://dcache-cms-xrootd.desy.de:1094//store/user/anehrkor/higgs-kit/skimming/76X_2016-06-23/MuonEG/crab_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD/160623_081834/0000/kappa_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD_3.root
-root://dcache-cms-xrootd.desy.de:1094//store/user/anehrkor/higgs-kit/skimming/76X_2016-06-23/MuonEG/crab_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD/160623_081834/0000/kappa_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD_4.root
-root://dcache-cms-xrootd.desy.de:1094//store/user/anehrkor/higgs-kit/skimming/76X_2016-06-23/MuonEG/crab_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD/160623_081834/0000/kappa_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD_5.root
-root://dcache-cms-xrootd.desy.de:1094//store/user/anehrkor/higgs-kit/skimming/76X_2016-06-23/MuonEG/crab_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD/160623_081834/0000/kappa_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD_6.root
-root://dcache-cms-xrootd.desy.de:1094//store/user/anehrkor/higgs-kit/skimming/76X_2016-06-23/MuonEG/crab_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD/160623_081834/0000/kappa_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD_7.root
-root://dcache-cms-xrootd.desy.de:1094//store/user/anehrkor/higgs-kit/skimming/76X_2016-06-23/MuonEG/crab_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD/160623_081834/0000/kappa_MuonEG_Run2015B_16Dec2015v1_13TeV_MINIAOD_8.root

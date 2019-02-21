@@ -1,1 +1,0 @@
-XROOTD_sample_DoubleEG_Run2016E_PromptRecov2_13TeV_MINIAOD_2016-10-13.txt
