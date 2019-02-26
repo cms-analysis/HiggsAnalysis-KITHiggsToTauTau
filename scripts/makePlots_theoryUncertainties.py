@@ -45,6 +45,8 @@ if __name__ == "__main__":
 	                    help="Run analysis module for alpha_s uncertainty evaluation. [Default: %(default)s]")
 	parser.add_argument("--evaluate-pdf-uncertainties", default=False, action="store_true",
 	                    help="Run analysis module for PDF uncertainty evaluation. [Default: %(default)s]")
+	parser.add_argument("--evaluate-pdf-uncertainty-correlations", default=False, action="store_true",
+	                    help="Run analysis module for PDF uncertainty correlation evaluation. [Default: %(default)s]")
 	parser.add_argument("--evaluate-scale-uncertainties", default=False, action="store_true",
 	                    help="Run analysis module for scale (muR and muF) uncertainty evaluation. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
@@ -166,7 +168,7 @@ if __name__ == "__main__":
 			global_cut_type = "cpggh"
 		global_cut_type += "2016"
 
-	evaluate_uncertainties = args.evaluate_alpha_s_uncertainties or args.evaluate_pdf_uncertainties or args.evaluate_scale_uncertainties
+	evaluate_uncertainties = args.evaluate_alpha_s_uncertainties or args.evaluate_pdf_uncertainties or args.evaluate_pdf_uncertainty_correlations or args.evaluate_scale_uncertainties
 
 	# Configs construction for HP
 	for sample in args.samples:
@@ -303,12 +305,14 @@ if __name__ == "__main__":
 						config.pop("stacks")
 					
 					n_shifted_plots = 2 if evaluate_uncertainties else len(args.weights)
-					config["markers"] = ["E"]+(["LINE"] * n_shifted_plots)
+					config["markers"] = ["COLZ"] if args.evaluate_pdf_uncertainty_correlations else (["E"]+(["LINE"] * n_shifted_plots))
 					config["legend_markers"] = ["ELP"]+(["L"] * n_shifted_plots)
-					config["colors"] = [str(color+1) for color in range(n_shifted_plots+1)]
+					config["colors"] = ["kBlue kWhite kRed"] if args.evaluate_pdf_uncertainty_correlations else [str(color+1) for color in range(n_shifted_plots+1)]
 					
 					config["x_label"] = json_config.pop("x_label", channel + "_" + quantity)
-					config["labels"] = ["nominal"]+ (["shift up", "shift down"] if evaluate_uncertainties else args.weights)
+					if args.evaluate_pdf_uncertainty_correlations:
+						config["y_label"] = config["x_label"]
+					config["labels"] = [""] if args.evaluate_pdf_uncertainty_correlations else (["nominal"]+ (["shift up", "shift down"] if evaluate_uncertainties else args.weights))
 
 					if args.polarisation:
 						config["title"] = "channel_" + channel + ("" if category is None else ("_"+category))
@@ -324,12 +328,13 @@ if __name__ == "__main__":
 						config.setdefault("uncertainties_alpha_s_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
 						config.setdefault("uncertainties_alpha_s_result_nicks", []).append(sample)
 					
-					if args.evaluate_pdf_uncertainties:
+					if args.evaluate_pdf_uncertainties or args.evaluate_pdf_uncertainty_correlations:
 						if "UncertaintiesPdf" not in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UncertaintiesPdf")
 						config.setdefault("uncertainties_pdf_reference_nicks", []).append(sample)
 						config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
 						config.setdefault("uncertainties_pdf_result_nicks", []).append(sample)
+						config.setdefault("nicks_"+("black" if args.evaluate_pdf_uncertainties else "white")+"list", []).append("_correlation")
 					
 					if args.evaluate_scale_uncertainties:
 						if "UncertaintiesScale" not in config.get("analysis_modules", []):
@@ -338,7 +343,7 @@ if __name__ == "__main__":
 						config.setdefault("uncertainties_scale_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
 						config.setdefault("uncertainties_scale_result_nicks", []).append(sample)
 					
-					if args.ratio:
+					if args.ratio and not args.evaluate_pdf_uncertainty_correlations:
 						if "Ratio" not in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("Ratio")
 						config.setdefault("ratio_numerator_nicks", []).extend([sample+weight for weight in (["_up", "_down"] if evaluate_uncertainties else args.weights)])
@@ -352,8 +357,13 @@ if __name__ == "__main__":
 					if log.isEnabledFor(logging.DEBUG) and "PrintInfos" not in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("PrintInfos")
 
-					if "--y-log" not in args.args:
+					if ("--y-log" not in args.args) and (not args.evaluate_pdf_uncertainty_correlations):
 						config["y_lims"] = [0.0]
+					
+					if args.evaluate_pdf_uncertainty_correlations:
+						config["z_lims"] = [-1, 1]
+						config["z_label"] = "Correlation Coefficient"
+					
 					if args.cms:
 						config["cms"] = True
 						config["extra_text"] = "Preliminary"

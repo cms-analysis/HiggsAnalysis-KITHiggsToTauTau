@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import hashlib
 import math
+import numpy
 
 import Artus.HarryPlotter.analysisbase as analysisbase
 import Artus.HarryPlotter.utility.roottools as roottools
@@ -43,7 +44,7 @@ class UncertaintiesPdf(analysisbase.AnalysisBase):
 			
 			if result_nick is None:
 				result_nick = "unc_pdf_" + reference_nick
-			for shift in ["down", "up"]:
+			for shift in ["down", "up", "correlation"]:
 				final_result_nick = result_nick + "_" + shift
 				if not final_result_nick in plotData.plotdict["nicks"]:
 					plotData.plotdict["nicks"].insert(
@@ -91,4 +92,11 @@ class UncertaintiesPdf(analysisbase.AnalysisBase):
 					*shift_histograms
 			)
 			plotData.plotdict["root_objects"][result_nick+"_down"] = uncertainty_down_histogram
+			
+			covariance_histogram = roottools.RootTools.histogram_calculation_2d(
+					lambda *args: numpy.corrcoef(args[0], args[1])[0, 1],
+					None,
+					*shift_histograms
+			)
+			plotData.plotdict["root_objects"][result_nick+"_correlation"] = covariance_histogram
 
