@@ -51,9 +51,9 @@ class SystematicsFactory(dict):
 		self["CMS_recoTauDecayModeFake_pi_13TeV"] = RecoTauDecayModeFakePiSystematic
 		self["CMS_recoTauDecayModeFake_rho_13TeV"] = RecoTauDecayModeFakeRhoSystematic
 		self["CMS_recoTauDecayModeFake_a1_13TeV"] = RecoTauDecayModeFakeA1Systematic
-#		self["CMS_genTauDecayModeFake_pi_13TeV"] = GenTauDecayModeFakePiSystematic
-#		self["CMS_genTauDecayModeFake_rho_13TeV"] = GenTauDecayModeFakeRhoSystematic
-#		self["CMS_genTauDecayModeFake_a1_13TeV"] = GenTauDecayModeFakeA1Systematic
+		self["CMS_genTauDecayModeFake_dm0_13TeV"] = GenTauDecayModeFakeDM0Systematic
+		self["CMS_genTauDecayModeFake_dm1_13TeV"] = GenTauDecayModeFakeDM1Systematic
+		self["CMS_genTauDecayModeFake_dm2_13TeV"] = GenTauDecayModeFakeDM2Systematic
 		self["CMS_ZLShape_mt_1prong_13TeV"] = MuonFakeOneProngTauEnergyScaleSystematic
 		self["CMS_ZLShape_mt_1prong1pizero_13TeV"] = MuonFakeOneProngPiZerosTauEnergyScaleSystematic
 		self["CMS_ZLShape_et_1prong_13TeV"] = ElectronFakeOneProngTauEnergyScaleSystematic
@@ -1010,6 +1010,93 @@ class RecoTauDecayModeFakeA1Systematic(SystematicShiftBase):
 								"((1.0)+"+
 								 "((decayMode_2==10)*(genMatchedTau2DecayMode==10)*(0.96-1.0))+"+
 								 "((decayMode_2==10)*(genMatchedTau2DecayMode>10)*(genMatchedTau2DecayMode<15)*(1.23-1.0)))"
+						)
+				)
+		
+		return plot_config
+
+
+class GenTauDecayModeFakeDM0Systematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(GenTauDecayModeFakeDM0Systematic, self).get_config(shift=shift)
+		
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				plot_config["weights"][index] = ("({weight})*({syst})").format(
+						weight=weight,
+						syst=(
+								"((1.0)+"+
+								 "((genMatchedTau1DecayMode==0)*(decayMode_1==0)*(1.03-1.0))+"+
+								 "((genMatchedTau1DecayMode==0)*(decayMode_1==1)*(0.82-1.0)))*"+
+								"((1.0)+"+
+								 "((genMatchedTau2DecayMode==0)*(decayMode_2==0)*(1.03-1.0))+"+
+								 "((genMatchedTau2DecayMode==0)*(decayMode_2==1)*(0.82-1.0)))"
+						) if shift > 0.0 else (
+								"((1.0)+"+
+								 "((genMatchedTau1DecayMode==0)*(decayMode_1==0)*(0.97-1.0))+"+
+								 "((genMatchedTau1DecayMode==0)*(decayMode_1==1)*(1.17-1.0)))*"+
+								"((1.0)+"+
+								 "((genMatchedTau2DecayMode==0)*(decayMode_2==0)*(0.97-1.0))+"+
+								 "((genMatchedTau2DecayMode==0)*(decayMode_2==1)*(1.17-1.0)))"
+						)
+				)
+		
+		return plot_config
+
+
+class GenTauDecayModeFakeDM1Systematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(GenTauDecayModeFakeDM1Systematic, self).get_config(shift=shift)
+		
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				plot_config["weights"][index] = ("({weight})*({syst})").format(
+						weight=weight,
+						syst=(
+								"((1.0)+"+
+								 "((genMatchedTau1DecayMode==1)*(decayMode_1==0)*(0.70-1.0))+"+
+								 "((genMatchedTau1DecayMode==1)*(decayMode_1==1)*(1.06-1.0)))*"+
+								"((1.0)+"+
+								 "((genMatchedTau2DecayMode==1)*(decayMode_2==0)*(0.70-1.0))+"+
+								 "((genMatchedTau2DecayMode==1)*(decayMode_2==1)*(1.06-1.0)))"
+						) if shift > 0.0 else (
+								"((1.0)+"+
+								 "((genMatchedTau1DecayMode==1)*(decayMode_1==0)*(1.18-1.0))+"+
+								 "((genMatchedTau1DecayMode==1)*(decayMode_1==1)*(0.97-1.0)))*"+
+								"((1.0)+"+
+								 "((genMatchedTau2DecayMode==1)*(decayMode_2==0)*(1.18-1.0))+"+
+								 "((genMatchedTau2DecayMode==1)*(decayMode_2==1)*(0.97-1.0)))"
+						)
+				)
+		
+		return plot_config
+
+
+class GenTauDecayModeFakeDM2Systematic(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(GenTauDecayModeFakeDM2Systematic, self).get_config(shift=shift)
+		
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				plot_config["weights"][index] = ("({weight})*({syst})").format(
+						weight=weight,
+						syst=(
+								"((1.0)+"+
+								 "((genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(decayMode_1==0)*(0.19-1.0))+"+
+								 "((genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(decayMode_1==1)*(1.05-1.0)))*"+
+								"((1.0)+"+
+								 "((genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(decayMode_2==0)*(0.19-1.0))+"+
+								 "((genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(decayMode_2==1)*(1.05-1.0)))"
+						) if shift > 0.0 else (
+								"((1.0)+"+
+								 "((genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(decayMode_1==0)*(1.85-1.0))+"+
+								 "((genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(decayMode_1==1)*(0.95-1.0)))*"+
+								"((1.0)+"+
+								 "((genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(decayMode_2==0)*(1.85-1.0))+"+
+								 "((genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(decayMode_2==1)*(0.95-1.0)))"
 						)
 				)
 		
