@@ -334,7 +334,21 @@ class Samples(samples.SamplesBase):
 				     "((decayMode_2==1)*(genMatchedTau2DecayMode==1)*(0.97-1.0))+"+
 				     "((decayMode_2==1)*(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(1.07-1.0))+"+
 				     "((decayMode_2==10)*(genMatchedTau2DecayMode==10)*(0.95-1.0))+"+
-				     "((decayMode_2==10)*(genMatchedTau2DecayMode>10)*(genMatchedTau2DecayMode<15)*(1.27-1.0)))")
+				     "((decayMode_2==10)*(genMatchedTau2DecayMode>10)*(genMatchedTau2DecayMode<15)*(1.27-1.0)))*"+
+				    "((1.0)+"+
+			         "((genMatchedTau1DecayMode==0)*(decayMode_1==0)*(1.05-1.0))+"+
+				     "((genMatchedTau1DecayMode==0)*(decayMode_1==1)*(0.67-1.0))+"+
+				     "((genMatchedTau1DecayMode==1)*(decayMode_1==0)*(0.83-1.0))+"+
+				     "((genMatchedTau1DecayMode==1)*(decayMode_1==1)*(1.03-1.0))+"+
+				     "((genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(decayMode_1==0)*(1.20-1.0))+"+
+				     "((genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(decayMode_1==1)*(0.99-1.0)))*"+
+				    "((1.0)+"+
+			         "((genMatchedTau2DecayMode==0)*(decayMode_2==0)*(1.05-1.0))+"+
+				     "((genMatchedTau2DecayMode==0)*(decayMode_2==1)*(0.67-1.0))+"+
+				     "((genMatchedTau2DecayMode==1)*(decayMode_2==0)*(0.83-1.0))+"+
+				     "((genMatchedTau2DecayMode==1)*(decayMode_2==1)*(1.03-1.0))+"+
+				     "((genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(decayMode_2==0)*(1.20-1.0))+"+
+				     "((genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(decayMode_2==1)*(0.99-1.0)))")
 		
 		else: return "(1.0)"
 	
