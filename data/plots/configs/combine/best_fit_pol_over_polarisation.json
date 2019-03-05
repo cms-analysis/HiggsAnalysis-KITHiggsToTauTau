@@ -4,7 +4,7 @@
     ],  
     "filename": "best_fit_pol_over_polarisation", 
     "files": [
-        "higgsCombine*.MaxLikelihoodFit*mH*.root"
+        "higgsCombine*.MultiDimFit*mH*.root"
     ], 
     "folders": [
         "limit"
@@ -32,21 +32,21 @@
         "m1s_noplot", 
         "p1s_noplot"
     ], 
-    "no_cache": true, 
+    "redo_cache": true, 
     "tree_draw_options": [
         "TGraph"
     ], 
     "weights": [
-        "(quantileExpected>0.4)*(quantileExpected<0.6)", 
-        "(quantileExpected>0.0)*(quantileExpected<0.4)", 
-        "(quantileExpected>0.6)*(quantileExpected<1.0)"
+        "quantileExpected<0.0", 
+        "(quantileExpected>0.0)*(quantileExpected<0.4)*(Entry$%3==1)", 
+        "(quantileExpected>0.0)*(quantileExpected<0.4)*(Entry$%3==2)"
     ], 
     "x_expressions": [
         "polarisation"
     ], 
     "x_label": "Polarisation (Asimov)", 
     "y_expressions": [
-        "limit"
+        "pol"
     ], 
     "y_label": "Best Fit #LT P_{#tau} #GT"
 }
