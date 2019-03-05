@@ -1,0 +1,2 @@
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_Embedding2017_ElTauFinalState.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_HiggsCP_Fall17_TT_VV.txt
