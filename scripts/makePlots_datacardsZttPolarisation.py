@@ -107,7 +107,9 @@ def create_input_root_files(datacards, args):
 					list_of_samples.append("wj")
 				asimov_nicks = []
 				if args.use_asimov_dataset:
-					asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
+					asimov_nicks = copy.deepcopy(list_of_samples)
+					if (not (args.modify_asimov_polarisation is None)):
+						asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
 					if "data" in asimov_nicks:
 						asimov_nicks.remove("data")
 				
@@ -188,8 +190,24 @@ def create_input_root_files(datacards, args):
 							exclude_cuts=(["m_vis"] if x_expression == "m_vis" else []),
 							no_ewk_samples = args.no_ewk_samples,
 							no_ewkz_as_dy = True,
-							asimov_nicks = asimov_nicks
+							asimov_nicks = asimov_nicks,
+							forced_gen_polarisation=args.modify_unpolarisation_value
 					)
+					if args.use_asimov_dataset and (not (args.modify_asimov_polarisation is None)) and ("AddHistograms" in config["analysis_modules"]):
+						for index1, (add_nicks, add_scale_factors, add_result_nicks) in enumerate(zip(config["add_nicks"], config.get("add_scale_factors", [None]*len(config["add_nicks"])), config["add_result_nicks"])):
+							if (add_nicks == " ".join(asimov_nicks)) and add_result_nicks.startswith("data"):
+								if add_scale_factors is None:
+									add_scale_factors = [1.0] * len(asimov_nicks)
+								else:
+									add_scale_factors = map(float, add_scale_factors.split())
+								for index2, (add_nick, add_scale_factor) in enumerate(zip(asimov_nicks, add_scale_factors)):
+									if add_nick.startswith("zttpospol"):
+										add_scale_factor *= (1.0+args.modify_asimov_polarisation)/2.0
+									elif add_nick.startswith("zttnegpol"):
+										add_scale_factor *= (1.0-args.modify_asimov_polarisation)/2.0
+									add_scale_factors[index2] = add_scale_factor
+								add_scale_factors = " ".join(map(str, add_scale_factors))
+							config.setdefault("add_scale_factors", [None]*len(config["add_nicks"]))[index1] = add_scale_factors
 					
 					systematics_settings = systematics_factory.get(shape_systematic)(config)
 					# TODO: evaluate shift from datacards_per_channel_category.cb
@@ -234,7 +252,12 @@ def create_input_root_files(datacards, args):
 					tmp_output_files.append(tmp_output_file)
 					config["output_dir"] = os.path.dirname(tmp_output_file)
 					config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
-
+					"""
+					config["log_level"] = "info" # debug
+					config["log_files"] = [os.path.join(config["output_dir"], config["filename"]+".log")]
+					config["log_stream"] = "stdout" # NONE
+					"""
+					
 					config["plot_modules"] = ["ExportRoot"]
 					config["file_mode"] = "UPDATE"
 
@@ -247,21 +270,23 @@ def create_input_root_files(datacards, args):
 					DST=output_file,
 					SRC=" ".join(tmp_output_files)
 			))
+
+	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
 	
+	if args.n_plots[0] != 0:
+		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+	
+	"""
 	tmp_output_files = list(set([os.path.join(config["output_dir"], config["filename"]+".root") for config in plot_configs[:args.n_plots[0]]]))
 	for output_file in tmp_output_files:
 		if os.path.exists(output_file):
 			os.remove(output_file)
 			log.debug("Removed file \""+output_file+"\" before it is recreated again.")
 	output_files = list(set(output_files))
-
-	higgsplot.HiggsPlotter(list_of_config_dicts=plot_configs, list_of_args_strings=[args.args], n_processes=args.n_processes, n_plots=args.n_plots[0], batch=args.batch)
-	
-	if args.n_plots[0] != 0:
-		tools.parallelize(_call_command, hadd_commands, n_processes=args.n_processes)
+	"""
 
 	debug_plot_configs = []
-	for output_file in (output_files):
+	for output_file in output_files:
 		debug_plot_configs.extend(plotconfigs.PlotConfigs().all_histograms(output_file, plot_config_template={"markers":["E"], "colors":["#FF0000"]}))
 	if args.www:
 		for debug_plot_config in debug_plot_configs:
@@ -328,6 +353,10 @@ if __name__ == "__main__":
 	                    help="Specify luminosi ty values in fb^(-1) for a projection. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", action="store_true", default=False,
 	                    help="Use s+b expectation as observation instead of real data. [Default: %(default)s]")
+	parser.add_argument("--modify-asimov-polarisation", type=float, default=None,
+	                    help="Set polarisation value of Asimov dataset. [Default: %(default)s]")
+	parser.add_argument("--modify-unpolarisation-value", type=float, default=None,
+	                    help="Set polarisation value of for unpolarisation step when creating an asimov dataset. [Default: %(default)s]")
 	parser.add_argument("--check-linearity", type=float, nargs="+", default=[],
 	                    help="Specify the polarisation values for which to check the linearity of the discriminator. [Default: %(default)s]")
 	parser.add_argument("--no-ewk-samples", default=False, action="store_true",

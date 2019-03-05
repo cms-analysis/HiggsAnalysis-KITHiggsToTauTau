@@ -31,6 +31,8 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 				help="Nick names of the histogram for the positive ZTT polarisation at reconstruction level.")
 		self.normalize_polarisation_options.add_argument("--ztt-neg-pol-reco-nicks", type=str, nargs="+",
 				help="Nick names of the histogram for the negative ZTT polarisation at reconstruction level.")
+		self.normalize_polarisation_options.add_argument("--ztt-forced-gen-polarisations", type=str, nargs="+", default=[None],
+				help="Enforce a certain generator polarisation for the unpolarisation step.")
 		self.normalize_polarisation_options.add_argument("--ztt-pos-pol-reco-result-nicks", type=str, nargs="+", default=[None],
 				help="Nick names of the resulting scaled histogram for the positive ZTT polarisation at reconstruction level. [Default: replace inputs in-place.]")
 		self.normalize_polarisation_options.add_argument("--ztt-neg-pol-reco-result-nicks", type=str, nargs="+", default=[None],
@@ -38,14 +40,19 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 	
 	def prepare_args(self, parser, plotData):
 		super(NormalizeForPolarisation, self).prepare_args(parser, plotData)
-		self.prepare_list_args(plotData, ["ztt_pos_pol_gen_nicks", "ztt_neg_pol_gen_nicks", "ztt_pos_pol_reco_nicks", "ztt_neg_pol_reco_nicks", "ztt_pos_pol_reco_result_nicks", "ztt_neg_pol_reco_result_nicks"])
+		self.prepare_list_args(plotData, ["ztt_pos_pol_gen_nicks", "ztt_neg_pol_gen_nicks", "ztt_pos_pol_reco_nicks", "ztt_neg_pol_reco_nicks", "ztt_forced_gen_polarisations", "ztt_pos_pol_reco_result_nicks", "ztt_neg_pol_reco_result_nicks"])
 		
-		for index, (ztt_pos_pol_reco_nick, ztt_neg_pol_reco_nick, ztt_pos_pol_reco_result_nick, ztt_neg_pol_reco_result_nick) in enumerate(zip(*[plotData.plotdict[key] for key in ["ztt_pos_pol_reco_nicks", "ztt_neg_pol_reco_nicks", "ztt_pos_pol_reco_result_nicks", "ztt_neg_pol_reco_result_nicks"]])):
+		for index, (ztt_pos_pol_reco_nick, ztt_neg_pol_reco_nick, ztt_forced_gen_polarisation, ztt_pos_pol_reco_result_nick, ztt_neg_pol_reco_result_nick) in enumerate(zip(*[plotData.plotdict[key] for key in ["ztt_pos_pol_reco_nicks", "ztt_neg_pol_reco_nicks", "ztt_forced_gen_polarisations", "ztt_pos_pol_reco_result_nicks", "ztt_neg_pol_reco_result_nicks"]])):
 			
 			if ztt_pos_pol_reco_result_nick is None:
 				plotData.plotdict["ztt_pos_pol_reco_result_nicks"][index] = ztt_pos_pol_reco_nick
 			else:
 				plotData.plotdict["nicks"].insert(plotData.plotdict["nicks"].index(ztt_pos_pol_reco_nick)+1, ztt_pos_pol_reco_result_nick)
+			
+			if (ztt_forced_gen_polarisation is None) or (ztt_forced_gen_polarisation=="None"):
+				plotData.plotdict["ztt_forced_gen_polarisations"][index] = None
+			else:
+				plotData.plotdict["ztt_forced_gen_polarisations"][index] = float(ztt_forced_gen_polarisation)
 			
 			if ztt_neg_pol_reco_result_nick is None:
 				plotData.plotdict["ztt_neg_pol_reco_result_nicks"][index] = ztt_neg_pol_reco_nick
@@ -55,7 +62,7 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 	def run(self, plotData=None):
 		super(NormalizeForPolarisation, self).run(plotData)
 		
-		for ztt_pos_pol_gen_nick, ztt_neg_pol_gen_nick, ztt_pos_pol_reco_nick, ztt_neg_pol_reco_nick, ztt_pos_pol_reco_result_nick, ztt_neg_pol_reco_result_nick in zip(*[plotData.plotdict[key] for key in ["ztt_pos_pol_gen_nicks", "ztt_neg_pol_gen_nicks", "ztt_pos_pol_reco_nicks", "ztt_neg_pol_reco_nicks", "ztt_pos_pol_reco_result_nicks", "ztt_neg_pol_reco_result_nicks"]]):
+		for ztt_pos_pol_gen_nick, ztt_neg_pol_gen_nick, ztt_pos_pol_reco_nick, ztt_neg_pol_reco_nick, ztt_forced_gen_polarisation, ztt_pos_pol_reco_result_nick, ztt_neg_pol_reco_result_nick in zip(*[plotData.plotdict[key] for key in ["ztt_pos_pol_gen_nicks", "ztt_neg_pol_gen_nicks", "ztt_pos_pol_reco_nicks", "ztt_neg_pol_reco_nicks", "ztt_forced_gen_polarisations", "ztt_pos_pol_reco_result_nicks", "ztt_neg_pol_reco_result_nicks"]]):
 			
 			if ztt_pos_pol_reco_result_nick != ztt_pos_pol_reco_nick:
 				new_name = "zttpospol_"+hashlib.md5(ztt_pos_pol_gen_nick+ztt_pos_pol_reco_nick+ztt_pos_pol_reco_result_nick).hexdigest()
@@ -72,7 +79,7 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 			pos_gen_norm = tools.PoissonYield(plotData.plotdict["root_objects"][ztt_pos_pol_gen_nick])()
 			neg_gen_norm = tools.PoissonYield(plotData.plotdict["root_objects"][ztt_neg_pol_gen_nick])()
 			
-			scale_factors = polarisationsignalscaling.PolarisationScaleFactors(pos_reco_norm, neg_reco_norm, pos_gen_norm, neg_gen_norm)
+			scale_factors = polarisationsignalscaling.PolarisationScaleFactors(pos_reco_norm, neg_reco_norm, pos_gen_norm, neg_gen_norm, forced_gen_polarisation=ztt_forced_gen_polarisation)
 			log.debug("Gen.  level polarisation = {polarisation}".format(polarisation=scale_factors.get_gen_polarisation()))
 			log.debug("Reco. level polarisation = {polarisation}".format(polarisation=scale_factors.get_reco_polarisation()))
 			

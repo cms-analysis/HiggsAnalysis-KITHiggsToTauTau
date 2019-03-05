@@ -636,6 +636,8 @@ class Samples(samples.SamplesBase):
 			config.setdefault("ztt_pos_pol_gen_nicks", []).extend(["gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
 			config.setdefault("ztt_pos_pol_reco_nicks", []).extend(["ztt"+name+nick_suffix, "gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 			config.setdefault("ztt_pos_pol_reco_result_nicks", []).extend(["zttpospol"+nick_suffix, "gen_zttpospol"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			if len(config.get("ztt_forced_gen_polarisations", [])) < len(config.get("ztt_pos_pol_reco_result_nicks", [])):
+				config.setdefault("ztt_forced_gen_polarisations", []).extend([kwargs.get("forced_gen_polarisation", None)] * 2)
 		
 		if polarisation_gen_ztt_plots:
 			Samples._add_plot(config, "gen", "HIST", "F", "zttpospol", nick_suffix)
@@ -669,6 +671,8 @@ class Samples(samples.SamplesBase):
 			config.setdefault("ztt_neg_pol_gen_nicks", []).extend(["gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix] * 2),
 			config.setdefault("ztt_neg_pol_reco_nicks", []).extend(["ztt"+name+nick_suffix, "gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
 			config.setdefault("ztt_neg_pol_reco_result_nicks", []).extend(["zttnegpol"+nick_suffix, "gen_zttnegpol"+("" if polarisation_gen_ztt_plots else "_noplot")+nick_suffix])
+			if len(config.get("ztt_forced_gen_polarisations", [])) < len(config.get("ztt_pos_pol_reco_result_nicks", [])):
+				config.setdefault("ztt_forced_gen_polarisations", []).extend([kwargs.get("forced_gen_polarisation", None)] * 2)
 		
 		if polarisation_gen_ztt_plots:
 			Samples._add_plot(config, "gen", "HIST", "F", "zttnegpol", nick_suffix)
