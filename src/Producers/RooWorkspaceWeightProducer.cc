@@ -68,7 +68,6 @@ void RooWorkspaceWeightProducer::Init(setting_type const& settings, metadata_typ
 void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type & product,
 	                     setting_type const& settings, metadata_type const& metadata) const
 {
-
 	for(auto weightNames:m_weightNames)
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
@@ -511,17 +510,8 @@ void EmbeddingWeightProducer::Produce( event_type const& event, product_type & p
 	for(auto weightNames:m_weightNames)
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
-		// KGenParticle* genTau = product.m_flavourOrderedGenTaus[weightNames.first];
-
 		for(size_t index = 0; index < weightNames.second.size(); index++)
 		{
-			// if(weightNames.second.at(index).find("triggerWeight") == std::string::npos)
-			// 	continue;
-			// if(m_functors.at(weightNames.first).size() != 2)
-			// {
-			// 	LOG(WARNING) << "TauTauTriggerWeightProducer: two object names are required in json config file. Trigger weight will be set to 1.0!";
-			// 	break;
-			// }
 			std::vector<double> args;
 			std::vector<std::string> arguments;
 			boost::split(arguments,  m_functorArgs.at(weightNames.first).at(index) , boost::is_any_of(","));
