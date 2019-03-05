@@ -108,7 +108,7 @@ def create_input_root_files(datacards, args):
 				asimov_nicks = []
 				if args.use_asimov_dataset:
 					asimov_nicks = copy.deepcopy(list_of_samples)
-					if (not (args.modify_asimov_polarisation is None)):
+					if args.modify_asimov_polarisation is None:
 						asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
 					if "data" in asimov_nicks:
 						asimov_nicks.remove("data")
