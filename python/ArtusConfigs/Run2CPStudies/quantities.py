@@ -84,12 +84,12 @@ class Quantities(Run2Quantities):
 			self.quantities.update(['nDiTauPairCandidates', 'nLooseElectrons', 'nAllDiTauPairCandidates', 'nLooseMuons'])
 			self.quantities.update(self.fourVectorQuantities())
 			self.quantities.update(self.syncQuantities(nickname))
-			if re.search("(Summer17|Fall17|Run2017)", nickname):
+			if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
 					self.quantities.update(self.singleTauQuantities())
 
 			if channel == "ET":
-				if re.search("(Summer17|Fall17|Run2017)", nickname):
+				if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update([
 						"trg_singleelectron_27",
 						"trg_singleelectron_32",
@@ -103,13 +103,29 @@ class Quantities(Run2Quantities):
 							"HLT_Ele35_WPTight_Gsf",
 							"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
 						])
+					if  re.search("Embedding2017", nickname):
+						self.quantities.update([
+							"triggerWeight_doublemu_1",
+							"idweight_doublemu_1",
+							"idweight_doublemu_2",
+							"isoweight_1",
+							"idweight_1",
+							"triggerWeight_trg27_trg32_trg35_embed_1",
+							"triggerWeight_trg_EleTau_Ele24Leg_embed_1",
+							"triggerWeight_tauLeg_2",
+							"triggerWeight_trg27_trg32_trg35_data_1",
+							"triggerWeight_trg_EleTau_Ele24Leg_data_1"
+						])
+						self.quantities.update([
+							"tautriggerefficiencyData"
+						])
 					else:
 						self.quantities.update([
 							#"HLT_Ele32_WPTight_Gsf",
 							"HLT_Ele35_WPTight_Gsf",
 							"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
 						])
-				elif research("Embedding2016", nickname):
+				elif re.search("Embedding2016", nickname):
 					self.quantities.update([
 						"triggerWeight_doublemu_1",
 						"isoweight_1",
@@ -118,11 +134,11 @@ class Quantities(Run2Quantities):
 					])
 
 			elif channel == "MT":
-				if re.search("(Summer17|Fall17|Run2017)", nickname):
+				if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update(["HLT_IsoMu24","HLT_IsoMu27","HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"])
 					self.quantities.update(["trg_singlemuon_24", "trg_singlemuon_27", "trg_crossmuon_mu20tau27"])
 					#self.quantities.update(["matched_HLT_IsoMu24","matched_HLT_IsoMu27","matched_HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"])
-				elif research("Embeddin2016", nickname):
+				if re.search("Embedding2016", nickname):
 					self.quantities.update([
 						"trg_singlemuon",
 						"triggerWeight_doublemu_1",
@@ -133,6 +149,17 @@ class Quantities(Run2Quantities):
 						"triggerWeight_muTauCross_2",
 						"MuTau_TauLeg_EmbeddedEfficiencyWeight_2",
 						"MuTau_TauLeg_DataEfficiencyWeight_2"
+					])
+				if re.search("Embedding2017", nickname):
+					self.quantities.update([
+						"triggerWeight_doublemu_1",
+						"idweight_doublemu_1",
+						"idweight_doublemu_2",
+						"isoweight_1",
+						"idweight_1",
+						"triggerWeight_mu_1",
+						"triggerWeight_mutaucross_1",
+						"triggerWeight_mutaucross_2"
 					])
 			elif channel == "TT":
 				if re.search("(Summer17|Fall17|Run2017)", nickname):
@@ -271,7 +298,7 @@ class Quantities(Run2Quantities):
 					else:
 						self.quantities.update(self.svfitSyncQuantities())
 						self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
-						if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
+						if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) == None:
 							#self.quantities.update(self.splitJecUncertaintyQuantities())
 							self.quantities.update(self.recoPolarisationQuantitiesSvfit())
 							self.quantities.update(self.recoPolarisationQuantities())

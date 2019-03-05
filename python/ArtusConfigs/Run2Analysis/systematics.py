@@ -113,7 +113,7 @@ class Systematics_Config(dict):
 			#I dont remember why I did this, it looks wrong if re.search("JetEnergyCorrectionSplitUncertainty", nickname):
 			if systematic_uncertainty == "eleEsUp":
 
-				if re.search("Spring16|Summer16|Embedding2016|Fall17", nickname):
+				if re.search("Spring16|Summer16|Embedding(2016|2017)|Fall17", nickname):
 					self["ElectronEnergyCorrectionShiftEB"] = 1.01
 					self["ElectronEnergyCorrectionShiftEE"] = 1.025
 					self["SvfitCacheFileFolder"] = "eleEsUp"
@@ -121,9 +121,9 @@ class Systematics_Config(dict):
 					self["ElectronEnergyCorrectionShiftEB"] = 1.0
 					self["ElectronEnergyCorrectionShiftEE"] = 1.0
 					self["SvfitCacheFileFolder"] = "nominal"
-			
+
 			elif systematic_uncertainty == "eleEsDown":
-				if re.search("Spring16|Summer16|Embedding2016|Fall17", nickname):
+				if re.search("Spring16|Summer16|Embedding(2016|2017)|Fall17", nickname):
 					self["ElectronEnergyCorrectionShiftEB"] =  0.99
 					self["ElectronEnergyCorrectionShiftEE"] = 0.975
 					self["SvfitCacheFileFolder"] = "eleEsDown"
@@ -361,7 +361,7 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionOneProngShift"] = 0.012
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionOneProngShift"] = 0.012
-				elif re.search("Fall17", nickname):
+				elif re.search("Fall17|Embedding2017", nickname):
 					self["TauEnergyCorrectionOneProngShift"] = 0.008
 				else:
 					self["TauEnergyCorrectionOneProngShift"] = 0.0
@@ -378,7 +378,7 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionOneProngShift"] = -0.012
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionOneProngShift"] = -0.012
-				elif re.search("Fall17", nickname):
+				elif re.search("Fall17|Embedding2017", nickname):
 					self["TauEnergyCorrectionOneProngShift"] = -0.008
 				else:
 					self["TauEnergyCorrectionOneProngShift"] = 0.0
@@ -395,11 +395,11 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.03
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.012
-				elif re.search("Fall17", nickname):
+				elif re.search("Fall17|Embedding2017", nickname):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.008
 				else:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.0
-				
+
 				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosUp"
 				else:
@@ -412,11 +412,11 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = -0.012
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = -0.012
-				elif re.search("Fall17", nickname):
+				elif re.search("Fall17|Embedding2017", nickname):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = -0.008
 				else:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.0
-				
+
 
 				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosDown"
@@ -430,7 +430,7 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionThreeProngShift"] = 0.012
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionThreeProngShift"] = 0.012
-				elif re.search("Fall17", nickname):
+				elif re.search("Fall17|Embedding2017", nickname):
 					self["TauEnergyCorrectionThreeProngShift"] = 0.009
 				else:
 					self["TauEnergyCorrectionThreeProngShift"] = 0.0
@@ -448,7 +448,7 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionThreeProngShift"] = -0.012
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionThreeProngShift"] = -0.012
-				elif re.search("Fall17", nickname):
+				elif re.search("Fall17|Embedding2017", nickname):
 					self["TauEnergyCorrectionThreeProngShift"] = -0.009
 				else:
 					self["TauEnergyCorrectionThreeProngShift"] = 0.0
@@ -459,12 +459,12 @@ class Systematics_Config(dict):
 					self["SvfitCacheFileFolder"] = "nominal"
 
 			elif systematic_uncertainty == "tauEsThreeProngPiZerosUp":
-				if re.search("Fall17", nickname):
+				if re.search("Fall17|Embedding2017", nickname):
 					self["TauEnergyCorrectionThreeProngPiZerosShift"] = 0.01
 				else:
 					self["TauEnergyCorrectionThreeProngPiZerosShift"] = 0.0
 			elif systematic_uncertainty == "tauEsThreeProngPiZerosDown":
-				if re.search("Fall17", nickname):
+				if re.search("Fall17|Embedding2017", nickname):
 					self["TauEnergyCorrectionThreeProngPiZerosShift"] = -0.01
 				else:
 					self["TauEnergyCorrectionThreeProngPiZerosShift"] = 0.0
@@ -483,6 +483,11 @@ class Systematics_Config(dict):
 				else:
 					self["TauJetFakeEnergyCorrection"] = 0.0
 					self["SvfitCacheFileFolder"] = "nominal"
+
+			elif systematic_uncertainty == "EmbeddingTTBarContaminationUp":
+				self["SvfitCacheFileFolder"] = "EmbeddingTTBarContaminationUp"
+			elif systematic_uncertainty == "EmbeddingTTBarContaminationDown":
+				self["SvfitCacheFileFolder"] = "EmbeddingTTBarContaminationDown"
 
 			else:
 				log.critical("COULD NOT FIND THE SYSTEMATIC %s" %systematic_uncertainty)

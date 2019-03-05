@@ -63,15 +63,15 @@ class mt_ArtusConfig(dict):
 				"producer:DiJetQuantitiesProducer",
 
 				]
-		
-		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17|Embedding2016)", nickname):
-			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples 
+
+		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17|Embedding(2016|2017))", nickname):
+			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			if re.search("(Run2017|Summer17|Fall17)", nickname):
+			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
 			else:
 				self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]
@@ -79,7 +79,7 @@ class mt_ArtusConfig(dict):
 			#if re.search("(Spring16|Summer16|Run2016|Embedding2016)",nickname):
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe TODO in next skim
 
-			if re.search("Run2016|Run2017|Embedding2016", nickname):
+			if re.search("(Run2016|Run2017|Embedding(2016|2017))", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
 				self["Processors"] += ["producer:SimpleFitProducer"]
 
@@ -96,11 +96,11 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
-				if re.search("Embedding2016", nickname):
+				if re.search("Embedding(2016|2017)", nickname):
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+					#self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 					self["Processors"] += ["producer:EmbeddingWeightProducer"]
-					self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
+					#self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 					self["Processors"] += ["producer:TauCorrectionsProducer"]
 
 			else:
@@ -418,7 +418,7 @@ class mt_ArtusConfig(dict):
 			self["MuonTriggerFilterNames"] = ["HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"]
 
 
-		elif re.search("Run2017|Summer17|Fall17", nickname):
+		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["HltPaths"] = [
 				"HLT_IsoMu24",
 				"HLT_IsoMu27",
@@ -450,10 +450,16 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
 				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
 			]
-			self["TauTriggerFilterNames"] = [
-				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
-				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
-			]
+			if isEmbedded:
+				self["TauTriggerFilterNames"] = [
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltL1sMu18erTau24erIorMu20erTau24er"
+				]
+			else:
+				self["TauTriggerFilterNames"] = [
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded",
+				]
+
 
 			self["CheckLepton1TriggerMatch"] = [
 				"trg_singlemuon_24",
@@ -481,75 +487,109 @@ class mt_ArtusConfig(dict):
 
 		self["EventWeight"] = "eventWeight"
 
-		if re.search("(Run2017|Summer17|Fall17)", nickname):
-			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
-			self["RooWorkspaceWeightNames"] = [
-				#"0:crossTriggerMCEfficiencyWeight",
-				#"0:crossTriggerDataEfficiencyWeight",
-				#"0:singleTriggerMCEfficiencyWeight",
-				#"0:singleTriggerDataEfficiencyWeight",
-				#"0:singleTriggerMCEfficiencyWeightKIT",
-				#"0:singleTriggerDataEfficiencyWeightKIT",
-
-				"0:idIsoWeight",
-				#"0:idWeight",
-				"0:trackWeight"
+		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
+			if isEmbedded:
+				self["SaveEmbeddingWeightAsOptionalOnly"] = "true"
+				self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_5.root"
+				self["EmbeddingWeightWorkspaceWeightNames"] = [
+					"0:triggerWeight_doublemu",
+					"0:idweight_doublemu",
+					"1:idweight_doublemu",
+					"0:isoweight",
+					"0:idweight",
+					"0:triggerWeight_mu",
+					"0:triggerWeight_mutaucross",
+					"1:triggerWeight_mutaucross"
 				]
-			self["RooWorkspaceObjectNames"] = [
-				#"0:m_trg_MuTau_Mu20Leg_desy_mc",
-				#"0:m_trg_MuTau_Mu20Leg_desy_data",
-				#"0:m_trg_SingleMu_Mu24ORMu27_desy_mc",
-				#"0:m_trg_SingleMu_Mu24ORMu27_desy_data",
-				#"0:m_trg24or27_mc",
-				#"0:m_trg24or27_data",
-
-				"0:m_idiso_binned_ratio",
-				#"0:m_id_ratio",
-				"0:m_trk_ratio"
+				self["EmbeddingWeightWorkspaceObjectNames"] = [
+					"0:m_sel_trg_ratio",
+					"0:m_sel_idEmb_ratio",
+					"1:m_sel_idEmb_ratio",
+					"0:m_iso_binned_embed_kit_ratio",
+					"0:m_id_embed_kit_ratio",
+					"0:m_trg24_27_embed_kit_ratio",
+					"0:m_trg_MuTau_Mu20Leg_kit_ratio_embed",
+					"1:mt_emb_LooseChargedIsoPFTau27_kit_ratio"
 				]
-			self["RooWorkspaceObjectArguments"] = [
-				#"0:m_pt,m_eta",
-				#"0:m_pt,m_eta",
-				#"0:m_pt,m_eta",
-				#"0:m_pt,m_eta",
-				#"0:m_pt,m_eta",
-				#"0:m_pt,m_eta",
-
-				"0:m_pt,m_eta",
-				#"0:m_pt,m_eta",
-				"0:m_eta"
+				self["EmbeddingWeightWorkspaceObjectArguments"] = [
+					"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+					"0:gt_pt,gt_eta",
+					"1:gt_pt,gt_eta",
+					"0:m_pt,m_eta,m_iso",
+					"0:m_pt,m_eta",
+					"0:m_pt,m_eta",
+					"0:m_pt",
+					"1:t_pt"
 				]
-			if re.search("HToTauTau", nickname):
-				self["RooWorkspaceWeightNames"] += ["0:quarkmassWeight", "0:quarkmassUpWeight", "0:quarkmassDownWeight"]
-				self["RooWorkspaceObjectNames"] += ["0:ggH_quarkmass_corr", "0:ggH_quarkmass_corr_up", "0:ggH_quarkmass_corr_down"]
-				self["RooWorkspaceObjectArguments"] += ["0:HpT", "0:HpT", "0:HpT"] #gen Higgs pt
-			if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
-				self["RooWorkspaceWeightNames"] += ["0:zPtReweightWeight"]
-				self["RooWorkspaceObjectNames"] += ["0:zpt_weight_nom"]
-				self["RooWorkspaceObjectArguments"] += ["0:z_gen_pt"]
+			else:
+				self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
+				self["RooWorkspaceWeightNames"] = [
+					#"0:crossTriggerMCEfficiencyWeight",
+					#"0:crossTriggerDataEfficiencyWeight",
+					#"0:singleTriggerMCEfficiencyWeight",
+					#"0:singleTriggerDataEfficiencyWeight",
+					#"0:singleTriggerMCEfficiencyWeightKIT",
+					#"0:singleTriggerDataEfficiencyWeightKIT",
 
-			self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
-			self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
-				"0:m_triggerEffSingle_mc",
-				"0:m_triggerEffCross_mc",
-				"0:m_triggerEffSingle_data",
-				"0:m_triggerEffCross_data"
-			]
-			self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
-				"0:m_trg_binned_mc",
-				"0:m_trg20_mc",
-				"0:m_trg_binned_data",
-				"0:m_trg20_data"
+					"0:idIsoWeight",
+					#"0:idWeight",
+					"0:trackWeight"
+					]
+				self["RooWorkspaceObjectNames"] = [
+					#"0:m_trg_MuTau_Mu20Leg_desy_mc",
+					#"0:m_trg_MuTau_Mu20Leg_desy_data",
+					#"0:m_trg_SingleMu_Mu24ORMu27_desy_mc",
+					#"0:m_trg_SingleMu_Mu24ORMu27_desy_data",
+					#"0:m_trg24or27_mc",
+					#"0:m_trg24or27_data",
 
-			]
-			self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
-				"0:m_pt,m_eta,m_iso",
-				"0:m_pt,m_eta",
-				"0:m_pt,m_eta,m_iso",
-				"0:m_pt,m_eta"
-			]
+					"0:m_idiso_binned_ratio",
+					#"0:m_id_ratio",
+					"0:m_trk_ratio"
+					]
+				self["RooWorkspaceObjectArguments"] = [
+					#"0:m_pt,m_eta",
+					#"0:m_pt,m_eta",
+					#"0:m_pt,m_eta",
+					#"0:m_pt,m_eta",
+					#"0:m_pt,m_eta",
+					#"0:m_pt,m_eta",
 
-		else:
+					"0:m_pt,m_eta",
+					#"0:m_pt,m_eta",
+					"0:m_eta"
+					]
+				if re.search("HToTauTau", nickname):
+					self["RooWorkspaceWeightNames"] += ["0:quarkmassWeight", "0:quarkmassUpWeight", "0:quarkmassDownWeight"]
+					self["RooWorkspaceObjectNames"] += ["0:ggH_quarkmass_corr", "0:ggH_quarkmass_corr_up", "0:ggH_quarkmass_corr_down"]
+					self["RooWorkspaceObjectArguments"] += ["0:HpT", "0:HpT", "0:HpT"] #gen Higgs pt
+				if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
+					self["RooWorkspaceWeightNames"] += ["0:zPtReweightWeight"]
+					self["RooWorkspaceObjectNames"] += ["0:zpt_weight_nom"]
+					self["RooWorkspaceObjectArguments"] += ["0:z_gen_pt"]
+
+				self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
+				self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
+					"0:m_triggerEffSingle_mc",
+					"0:m_triggerEffCross_mc",
+					"0:m_triggerEffSingle_data",
+					"0:m_triggerEffCross_data"
+				]
+				self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
+					"0:m_trg_binned_mc",
+					"0:m_trg20_mc",
+					"0:m_trg_binned_data",
+					"0:m_trg20_data"
+
+				]
+				self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
+					"0:m_pt,m_eta,m_iso",
+					"0:m_pt,m_eta",
+					"0:m_pt,m_eta,m_iso",
+					"0:m_pt,m_eta"
+				]
+
+		elif re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
 			self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
 			if isEmbedded:
 				self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root"
@@ -635,14 +675,14 @@ class mt_ArtusConfig(dict):
 			"ttbar_fracs:ttbar_mt_fracs"
 		]
 
-		if re.search("Run2016|Spring16|Summer16", nickname):
+		if re.search("Run2016|Spring16|Summer16|Embedding2016", nickname):
 			#settings for jetstotaufakesproducer
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/mt/fakeFactors_20180831_tight.root"
 			self["FakeFactorMethod"] = "cp2016"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
 
 
-		elif re.search("Run2017|Summer17|Fall17", nickname):
+		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2017_2/mt/fakeFactors.root" #TODO
 			self["FakeFactorMethod"] = "cp2017"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"

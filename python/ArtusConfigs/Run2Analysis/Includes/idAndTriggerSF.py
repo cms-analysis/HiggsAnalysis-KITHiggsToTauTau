@@ -21,7 +21,7 @@ class IdAndTriggerSF(dict):
 					self["IdentificationEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"]
 					self["IdentificationEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"]
 
-				elif re.search("Run2017|Summer17|Fall17", nickname):
+				elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 					self["TriggerEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele32orEle35.root"]
 					self["TriggerEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_Ele32orEle35.root"]
 
@@ -47,7 +47,7 @@ class IdAndTriggerSF(dict):
 					self["IdentificationEfficiencyMode"] = "multiply_weights"
 
 				#TODO CHANGE TO HALES NEWEST COMMIT
-				elif re.search("Run2017|Summer17|Fall17", nickname):
+				elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 					self["TriggerEfficiencyData"] = [
 							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele35WPTight_IsoLt0.10_eff_RerecoFall17.root",
 							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_EleTau_Ele24.root"

@@ -11,9 +11,9 @@ class JEC(dict):
 	def __init__(self, nickname):
 		if re.search("(Summer17)",nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = ""
-		elif re.search("(Fall17|Run2017)", nickname): #this is recomended in https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2017#%20Jet/MET%20uncertainty%20treatment
+		elif re.search("(Fall17|Run2017|Embedding2017)", nickname): #this is recomended in https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2017#%20Jet/MET%20uncertainty%20treatment
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/Fall17_17Nov2017F_V6_DATA_UncertaintySources_AK4PFchs.txt"
-			if re.search("(Run2017)", nickname):
+			if re.search("(Run2017|Embedding2017)", nickname):
 				self["JetEnergyCorrectionParameters"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_dataRun2_v10_L1FastJet_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_dataRun2_v10_L2Relative_AK4PFchs.txt", "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_dataRun2_v10_L3Absolute_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_dataRun2_v10_L2L3Residual_AK4PFchs.txt"]
 
 			elif re.search("(Fall17)", nickname):

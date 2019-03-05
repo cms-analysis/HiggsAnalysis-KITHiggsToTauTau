@@ -308,6 +308,7 @@ if __name__ == "__main__":
 		"ZL" : "zl",
 		"ZLL" : "zll",
 		"ZTT" : "ztt",
+		"EmbedZTT" : "ztt_emb"
 		}
 
 		# Also the categories have different names.
@@ -551,6 +552,8 @@ if __name__ == "__main__":
 
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(re.sub('125', '', process)) for process in list_of_samples]
+				if shape_systematic = "CMS_ttbar_embeded_13TeV":
+					list_of_samples += ["vvt", "ttt"]
 
 
 				# This is needed because wj and qcd are interdependent when using the new background estimation method

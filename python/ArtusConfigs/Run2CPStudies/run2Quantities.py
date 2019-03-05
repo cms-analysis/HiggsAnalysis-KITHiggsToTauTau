@@ -726,7 +726,7 @@ class Run2Quantities():
 			"leadingJetGenMatch",
 			"trailingJetGenMatch"
 		]
-		if re.search("(Run2017|Summer17|Fall17)", nickname):
+		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 			sync_quantities_list += [
 					"byIsolationMVArun2017v1DBoldDMwLTraw2017_1",
 					"byVVLooseIsolationMVArun2017v1DBoldDMwLT2017_1",

@@ -511,7 +511,7 @@ void EmbeddingWeightProducer::Produce( event_type const& event, product_type & p
 	for(auto weightNames:m_weightNames)
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
-		KGenParticle* genTau = product.m_flavourOrderedGenTaus[weightNames.first];
+		// KGenParticle* genTau = product.m_flavourOrderedGenTaus[weightNames.first];
 
 		for(size_t index = 0; index < weightNames.second.size(); index++)
 		{
@@ -522,59 +522,63 @@ void EmbeddingWeightProducer::Produce( event_type const& event, product_type & p
 			// 	LOG(WARNING) << "TauTauTriggerWeightProducer: two object names are required in json config file. Trigger weight will be set to 1.0!";
 			// 	break;
 			// }
-			auto args = std::vector<double>{};
+			std::vector<double> args;
 			std::vector<std::string> arguments;
 			boost::split(arguments,  m_functorArgs.at(weightNames.first).at(index) , boost::is_any_of(","));
 			for(auto arg:arguments)
 			{
-				if(arg=="m_pt" || arg=="e_pt")
+				if((arg=="m_pt") || (arg=="e_pt") || (arg=="t_pt"))
 				{
 					args.push_back(lepton->p4.Pt());
 				}
-				else if(arg=="m_eta")
+				else if((arg=="m_eta") || (arg=="t_eta"))
 				{
 					args.push_back(lepton->p4.Eta());
 				}
 				else if(arg=="e_eta")
 				{
-					KElectron* electron = static_cast<KElectron*>(lepton);
-					args.push_back(electron->superclusterPosition.Eta());
-				}
-				if(arg=="t_pt")
-				{
-					args.push_back(lepton->p4.Pt());
-				}
-				if(arg=="t_eta")
-				{
 					args.push_back(lepton->p4.Eta());
 				}
-				if(arg=="t_dm")
+				else if((arg=="m_iso") || (arg=="e_iso"))
+				{
+					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
+				}
+				else if(arg=="t_dm")
 				{
 					KTau* tau = static_cast<KTau*>(lepton);
 					args.push_back(tau->decayMode);
 				}
+				else if(arg=="gt_pt")
+				{
+					KGenTau genTau = event.m_genTaus->at(weightNames.first);
+					args.push_back(genTau.p4.Pt());
+					//LOG(INFO) << "weightNames.first" << weightNames.first;
+					//LOG(INFO) << "genTau.p4.Pt(): "<< genTau.p4.Pt();
+				}
+				else if(arg=="gt_eta")
+				{
+					KGenTau genTau = event.m_genTaus->at(weightNames.first);
+					args.push_back(genTau.p4.Eta());
+					// LOG(INFO)<<"genTau.p4.Eta(): "<< genTau.p4.Eta();
+				}
 				else if(arg=="gt1_pt")
 				{
 					KGenTau leadingTau = event.m_genTaus->at(0);
-					// std::cout << "leadingTau " << leadingTau.p4.Pt() << "\n";
 					args.push_back(leadingTau.p4.Pt());
 				}
 				else if(arg=="gt1_eta")
 				{
 					KGenTau leadingTau = event.m_genTaus->at(0);
-					// std::cout << "leadingTau " << leadingTau.p4.Eta() << "\n";
 					args.push_back(leadingTau.p4.Eta());
 				}
 				else if(arg=="gt2_pt")
 				{
 					KGenTau trailingTau = event.m_genTaus->at(1);
-					// std::cout << "trailingTau " << trailingTau.p4.Pt() << "\n";
 					args.push_back(trailingTau.p4.Pt());
 				}
 				else if(arg=="gt2_eta")
 				{
 					KGenTau trailingTau = event.m_genTaus->at(1);
-					// std::cout << "trailingTau " << trailingTau.p4.Eta() << "\n";
 					args.push_back(trailingTau.p4.Eta());
 				}
 			}
@@ -615,8 +619,8 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 	for(auto weightNames:m_weightNames)
 	{
 		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
-		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
-		
+		// KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
+
 		for(size_t index = 0; index < weightNames.second.size(); index++)
 		{
 			if(weightNames.second.at(index).find("triggerWeight") == std::string::npos && weightNames.second.at(index).find("_triggerEff") == std::string::npos)

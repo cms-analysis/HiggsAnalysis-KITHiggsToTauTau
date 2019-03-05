@@ -41,7 +41,7 @@ class MinimalPlotlevelFilter():
 			]
 
 			self.minPlotLevelDict["PlotlevelFilterExpression"] = "(nDiMuonVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
-			if re.search("(Fall17|Summer17|Run2017)", nickname):
+			if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname):
 				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "trg_singlemuon_24", "trg_singlemuon_27", "trg_crossmuon_mu20tau27"]
 				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((trg_singlemuon_24 > 0.5 )||(trg_singlemuon_27 > 0.5)||(trg_crossmuon_mu20tau27 > 0.5))"
 			else:
@@ -65,9 +65,12 @@ class MinimalPlotlevelFilter():
 				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = ["lep1IsoOverPt", "againstMuonLoose3_2"]
 				self.minPlotLevelDict["PlotlevelFilterExpression"] = "(lep1IsoOverPt < 0.1)*(againstMuonLoose3_2 > 0.5)"
 
-			if re.search("(Fall17|Summer17|Run2017)", nickname):
+			if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname):
 				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "trg_singleelectron_27", "trg_singleelectron_32", "trg_singleelectron_32_fallback","trg_singleelectron_35", "trg_crosselectron_ele24tau30"]
-				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((trg_singleelectron_35 > 0.5)||(trg_crosselectron_ele24tau30 > 0.5) || (trg_singleelectron_27 > 0.5) || (trg_singleelectron_32 > 0.5) || (trg_singleelectron_32_fallback > 0.5))"
+				if re.search("(Embedding2017)", nickname):
+					self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+				else:
+					self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((trg_singleelectron_35 > 0.5)||(trg_crosselectron_ele24tau30 > 0.5) || (trg_singleelectron_27 > 0.5) || (trg_singleelectron_32 > 0.5) || (trg_singleelectron_32_fallback > 0.5))"
 			else:
 				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["againstElectronTightMVA6_2", "againstMuonLoose3_2", "byVLooseIsolationMVArun2v1DBoldDMwLT_2"]
 				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(againstElectronTightMVA6_2 > 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*(againstMuonLoose3_2 > 0.5)"

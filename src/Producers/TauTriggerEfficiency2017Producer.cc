@@ -2,6 +2,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTriggerEfficiency2017Producer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "TauTriggerSFs2017/TauTriggerSFs2017/interface/TauTriggerSFs2017.h"
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 std::string TauTriggerEfficiency2017Producer::GetProducerId() const
 {
@@ -13,6 +14,17 @@ void TauTriggerEfficiency2017Producer::Init(setting_type const& settings, metada
 	ProducerBase<HttTypes>::Init(settings, metadata);
         //TauSFs = new TauTriggerSFs2017("$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root","tight");
 	TauSFs = new TauTriggerSFs2017(settings.GetTauTrigger2017Input(), settings.GetTauTrigger2017InputOLD(), settings.GetTauTrigger2017WorkingPoint()); // TODO: , "MVA" not yet updated for c++ code
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tautriggerefficiencyData", [](event_type const& event, product_type const& product)
+	{
+		return product.m_tautriggerefficienciesData.at(0); //only used in Embedding2017 e tau final state
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tautriggerefficiencyMC", [](event_type const& event, product_type const& product)
+	{
+		return product.m_tautriggerefficienciesData.at(0); //only used in Embedding2017 e tau final state
+	});
+
 	}
 
 void TauTriggerEfficiency2017Producer::Produce(event_type const& event, product_type& product,

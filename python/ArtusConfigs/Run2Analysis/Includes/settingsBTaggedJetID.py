@@ -23,8 +23,8 @@ class BTaggedJet_ID(dict):
 				"loose:0.460"
 			]
 			self["BTaggedJetAbsEtaCut"] = 2.4
-		
-		if re.search("(Fall17|Run2017)", nickname):
+
+		if re.search("(Fall17|Run2017|Embedding2017)", nickname):
 			self["BTagger"] = "deepcsv"
 			#self["BTaggedJetCombinedSecondaryVertexName"] = "pfDeepCSVDiscriminatorsJetTagsBvsAll"
 
@@ -43,7 +43,7 @@ class BTaggedJet_ID(dict):
 				"medium:0.4941",
 				"loose:0.1522"
 			]
-			
+
 
 			self["BTaggedJetAbsEtaCut"] = 2.5
 		else:

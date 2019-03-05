@@ -75,31 +75,32 @@ class SystematicsFactory(dict):
 		self["WSFUncert_et_boosted_13TeV"] = self["CMS_WSFUncert_et_boosted_13TeV"]
 		self["WSFUncert_mt_vbf_13TeV"] = self["CMS_WSFUncert_mt_vbf_13TeV"]
 		self["WSFUncert_et_vbf_13TeV"] = self["CMS_WSFUncert_et_vbf_13TeV"]
-		
+		self["CMS_ttbar_embeded_13TeV"] = EmbeddingTTBarContaminationSystematic
+
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
-		
+
 		for channel in ["em", "et"]:
 			self["CMS_scale_e_"+channel+"_13TeV"] = EleEsSystematic
-		
+
 		for channel in ["em", "mt"]:
 			self["CMS_scale_m_"+channel+"_13TeV"] = MuonEsSystematic
-		
+
 		for channel in ["em", "et", "mt", "tt"]:
 			self["CMS_scale_met_"+channel+"_13TeV"] = MetResponseSystematic
-		
+
 		for channel in ["et"]:
 			self["CMS_scale_probetau_"+channel+"_13TeV"] = ProbeTauEsSystematic
-		
+
 		for channel in ["et"]:
 			self["CMS_scale_probeele_"+channel+"_13TeV"] = ProbeEleEsSystematic
-		
+
 		for channel in ["et"]:
 			self["CMS_scale_tagele_"+channel+"_13TeV"] = TagEleEsSystematic
-		
+
 		for channel in ["et"]:
 			self["CMS_scale_massRes_"+channel+"_13TeV"] = MassResSystematic
-		
+
 		for channel in ["et"]:
 			self["CMS_scale_massResv2_"+channel+"_13TeV"] = MassResSystematicv2
 
@@ -1029,110 +1030,130 @@ class RecoTauDecayModeFakeA1Systematic(SystematicShiftBase):
 								 "((decayMode_2==10)*(genMatchedTau2DecayMode>10)*(genMatchedTau2DecayMode<15)*(1.23-1.0)))"
 						)
 				)
-		
+
 		return plot_config
 
 
 class ElectronFakeOneProngTauEnergyScaleSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(ElectronFakeOneProngTauEnergyScaleSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEleFakeEsOneProngUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEleFakeEsOneProngDown")
-		
+
 		return plot_config
 
 
 class ElectronFakeOneProngPiZerosTauEnergyScaleSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(ElectronFakeOneProngPiZerosTauEnergyScaleSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEleFakeEsOneProngPiZerosUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEleFakeEsOneProngPiZerosDown")
-		
+
 		return plot_config
 
 
 class MuonFakeOneProngTauEnergyScaleSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(MuonFakeOneProngTauEnergyScaleSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "tauMuFakeEsOneProngUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "tauMuFakeEsOneProngDown")
-		
+
 		return plot_config
 
 
 class MuonFakeOneProngPiZerosTauEnergyScaleSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(MuonFakeOneProngPiZerosTauEnergyScaleSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "tauMuFakeEsOneProngPiZerosUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "tauMuFakeEsOneProngPiZerosDown")
-		
+
 		return plot_config
 
 
 class TauESOneProngSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(TauESOneProngSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEsOneProngUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEsOneProngDown")
-		
+
 		return plot_config
 
 
 class TauESOneProngPiZerosSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(TauESOneProngPiZerosSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEsOneProngPiZerosUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEsOneProngPiZerosDown")
-		
+
 		return plot_config
 
 
 class TauESThreeProngSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(TauESThreeProngSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEsThreeProngUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEsThreeProngDown")
-		
+
+		return plot_config
+
+class EmbeddingTTBarContaminationSystematic(SystematicShiftBase):
+
+	def get_config(self, shift=0.0):
+		plot_config = super(EmbeddingTTBarContaminationSystematic, self).get_config(shift=shift)
+
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if (shift != 0.0):
+				if not "AddHistograms" in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("AddHistograms")
+				config.setdefault("add_nicks", []).append("emb_ztt vvt ttt")
+				config.setdefault("add_result_nicks", []).append("emb_ztt")
+				if shift > 0.0:
+					config.setdefault("add_scale_factors", []).append("1.0 0.1 0.1")
+					plot_config["folders"][index] = folder.replace("nominal", "EmbeddingTTBarContaminationUp")
+				else:
+					config.setdefault("add_scale_factors", []).append("1.0 -0.1 -0.1")
+					plot_config["folders"][index] = folder.replace("nominal", "EmbeddingTTBarContaminationDown")
+
 		return plot_config
