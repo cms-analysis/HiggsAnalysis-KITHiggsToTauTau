@@ -334,7 +334,7 @@ class Systematics_Config(dict):
 				else:
 					self["TauEnergyCorrectionShift"] = 1.0
 
-				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
+				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding(2016|2017)", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsUp"
 				else:
 					self["SvfitCacheFileFolder"] = "nominal"
@@ -348,7 +348,7 @@ class Systematics_Config(dict):
 				else:
 					self["TauEnergyCorrectionShift"] = 1.0
 
-				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
+				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding(2016|2017)", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsDown"
 				
 				else:
@@ -366,7 +366,7 @@ class Systematics_Config(dict):
 				else:
 					self["TauEnergyCorrectionOneProngShift"] = 0.0
 
-				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
+				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding(2016|2017)", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
 				else:
 					self["SvfitCacheFileFolder"] = "nominal"
@@ -383,7 +383,7 @@ class Systematics_Config(dict):
 				else:
 					self["TauEnergyCorrectionOneProngShift"] = 0.0
 
-				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
+				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding(2016|2017)", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"
 				else:
 					self["SvfitCacheFileFolder"] = "nominal"
@@ -400,7 +400,7 @@ class Systematics_Config(dict):
 				else:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.0
 
-				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
+				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding(2016|2017)", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosUp"
 				else:
 					self["SvfitCacheFileFolder"] = "nominal"
@@ -418,7 +418,7 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.0
 
 
-				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
+				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding(2016|2017)", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsOneProngPiZerosDown"
 				else:
 					self["SvfitCacheFileFolder"] = "nominal"
@@ -436,7 +436,7 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionThreeProngShift"] = 0.0
 
 
-				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
+				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding(2016|2017)", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsThreeProngUp"
 				else:
 					self["SvfitCacheFileFolder"] = "nominal"
@@ -453,7 +453,7 @@ class Systematics_Config(dict):
 				else:
 					self["TauEnergyCorrectionThreeProngShift"] = 0.0
 
-				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding2016", nickname):
+				if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets|Spring16|Summer16|Embedding(2016|2017)", nickname):
 					self["SvfitCacheFileFolder"] = "tauEsThreeProngDown"
 				else:
 					self["SvfitCacheFileFolder"] = "nominal"
@@ -483,12 +483,6 @@ class Systematics_Config(dict):
 				else:
 					self["TauJetFakeEnergyCorrection"] = 0.0
 					self["SvfitCacheFileFolder"] = "nominal"
-
-			elif systematic_uncertainty == "EmbeddingTTBarContaminationUp":
-				self["SvfitCacheFileFolder"] = "EmbeddingTTBarContaminationUp"
-			elif systematic_uncertainty == "EmbeddingTTBarContaminationDown":
-				self["SvfitCacheFileFolder"] = "EmbeddingTTBarContaminationDown"
-
 			else:
 				log.critical("COULD NOT FIND THE SYSTEMATIC %s" %systematic_uncertainty)
 				sys.exit(1)

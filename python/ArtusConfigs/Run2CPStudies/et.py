@@ -112,11 +112,13 @@ class et_ArtusConfig(dict):
 					#self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 					if re.search("Embedding2017", nickname):
 						self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
+						self["Processors"] += ["producer:ElectronCorrectionsProducer"]
 
 			else: #(Spring16|Summer16|Summer17|Fall17)
 				self["Processors"] += [
 					"producer:GenMatchedTauCPProducer",
 					"producer:TauCorrectionsProducer",
+					"producer:ElectronCorrectionsProducer",
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer"
 				]

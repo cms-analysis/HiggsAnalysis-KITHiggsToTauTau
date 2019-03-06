@@ -82,7 +82,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			float tauEnergyCorrectionThreeProngPiZerosShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProngPiZerosShift();
 
 
-			if (tau->decayMode == 0 && tauEnergyCorrectionOneProng != 1.0)
+			if (tau->decayMode == 0)// && tauEnergyCorrectionOneProng != 1.0)
 			{
 				if (tauEnergyCorrectionOneProngShift != 0.0)
 				{
@@ -92,7 +92,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				LOG(DEBUG) << "tauEnergyCorrectionOneProng:    " << tauEnergyCorrectionOneProng << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionOneProng;
 			}
-			else if ((tau->decayMode == 1 || tau->decayMode == 2) && tauEnergyCorrectionOneProngPiZeros != 1.0)
+			else if ((tau->decayMode == 1 || tau->decayMode == 2))// && tauEnergyCorrectionOneProngPiZeros != 1.0)
 			{
 				if (tauEnergyCorrectionOneProngPiZerosShift != 0.0)
 				{
@@ -102,7 +102,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				LOG(DEBUG) << "tauEnergyCorrectionOneProngPiZeros:    " << tauEnergyCorrectionOneProngPiZeros << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionOneProngPiZeros;
 			}
-			else if (tau->decayMode == 10 && tauEnergyCorrectionThreeProng != 1.0)
+			else if (tau->decayMode == 10)// && tauEnergyCorrectionThreeProng != 1.0)
 			{
 				if (tauEnergyCorrectionThreeProngShift != 0.0)
 				{
@@ -113,14 +113,14 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				LOG(DEBUG) << "tauEnergyCorrectionThreeProng:    " << tauEnergyCorrectionThreeProng << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionThreeProng;
 			}
-			else if(tauEnergyCorrection == TauEnergyCorrection::SMHTT2017 && tau->decayMode >= 11 && tauEnergyCorrectionThreeProngPiZeros != 1.0)
+			else if(tauEnergyCorrection == TauEnergyCorrection::SMHTT2017 && tau->decayMode >= 11)// && tauEnergyCorrectionThreeProngPiZeros != 1.0)
 			{
 				if (tauEnergyCorrectionOneProngShift != 0.0)
 				{
 					tauEnergyCorrectionThreeProngPiZeros += tauEnergyCorrectionThreeProngPiZerosShift;
 					//TODO cached svfit cache, has to rerun				
 				}
-				std::cout << "tau decay mode 11 and 2017" << std::endl;
+				LOG(DEBUG) << "tau decay mode 11 and 2017";
 				tau->p4 = tau->p4 * tauEnergyCorrectionThreeProngPiZeros;
 			}
 		}

@@ -1151,9 +1151,7 @@ class EmbeddingTTBarContaminationSystematic(SystematicShiftBase):
 				config.setdefault("add_result_nicks", []).append("ztt_emb")
 				if shift > 0.0:
 					config.setdefault("add_scale_factors", []).append("1.0 0.1 0.1")
-					plot_config["folders"][index] = folder.replace("nominal", "EmbeddingTTBarContaminationUp")
 				else:
 					config.setdefault("add_scale_factors", []).append("1.0 -0.1 -0.1")
-					plot_config["folders"][index] = folder.replace("nominal", "EmbeddingTTBarContaminationDown")
 
 		return plot_config
