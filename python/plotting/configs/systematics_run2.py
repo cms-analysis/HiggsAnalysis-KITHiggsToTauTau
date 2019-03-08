@@ -77,6 +77,19 @@ class SystematicsFactory(dict):
 		self["WSFUncert_et_vbf_13TeV"] = self["CMS_WSFUncert_et_vbf_13TeV"]
 		self["CMS_ttbar_embeded_13TeV"] = EmbeddingTTBarContaminationSystematic
 
+		self["CMS_FiniteQuarkMass_13TeV"] = CMS_FiniteQuarkMass_13TeV
+
+		self["CMS_scale_j_eta0to5_corr_13TeV"] = CMS_scale_j_eta0to5_corr_13TeV
+		self["CMS_scale_j_eta0to3_corr_13TeV"] = CMS_scale_j_eta0to3_corr_13TeV
+		self["CMS_scale_j_eta3to5_corr_13TeV"] = CMS_scale_j_eta3to5_corr_13TeV
+
+		self["CMS_scale_j_eta0to5_uncorr_13TeV"] = CMS_scale_j_eta0to5_uncorr_13TeV
+		self["CMS_scale_j_eta0to3_uncorr_13TeV"] = CMS_scale_j_eta0to3_uncorr_13TeV
+		self["CMS_scale_j_eta3to5_uncorr_13TeV"] = CMS_scale_j_eta3to5_uncorr_13TeV
+
+		self["CMS_scale_j_RelativeBal_13TeV"] = CMS_scale_j_RelativeBal_13TeV
+		self["CMS_scale_j_RelativeSample_13TeV"] = CMS_scale_j_RelativeSample_13TeV
+		
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
 
@@ -103,7 +116,7 @@ class SystematicsFactory(dict):
 
 		for channel in ["et"]:
 			self["CMS_scale_massResv2_"+channel+"_13TeV"] = MassResSystematicv2
-
+		"""
 		jecUncertNames = [
 			"AbsoluteFlavMap",
 			"AbsoluteMPFBias",
@@ -141,45 +154,44 @@ class SystematicsFactory(dict):
 		
 		for jecUncert in jecUncertNames:
 			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic if jecUncert != "Total" else JecUncSystematic 
-		
+		"""
 		fakeFactorUncertNames = [
-		    "qcd_syst", #et,mt,tt
-
-		    "qcd_dm0_njet0_stat", #et,mt,tt
-
-		    "qcd_dm0_njet1_stat", #et,mt,tt
-
-		    "qcd_dm1_njet0_stat", #et,mt,tt
-
-		    "qcd_dm1_njet1_stat", #et,mt,tt
-
-		    "w_syst",  #et,mt,tt
-
-		    "tt_syst", #et,mt,tt
-
-		    "realtau" #et,mt,tt (not in twiki, but in dannys way)
 		]
 
-		if channel in ["mt", "et"]:
+		for channel in ["mt", "et"]:
 			fakeFactorUncertNames += [
-				"w_dm0_njet0_stat", #et,mt
 
-				"w_dm0_njet1_stat", #et,mt
+			        "qcd_dm0_njet0_"+channel+"_stat", #et,mt
 
-				"w_dm1_njet0_stat", #et,mt
+			        "qcd_dm0_njet1_"+channel+"_stat", #et,mt
 
-				"w_dm1_njet1_stat", #et,mt
+			        "qcd_dm1_njet0_"+channel+"_stat", #et,mt
 
-				"tt_dm0_njet0_stat", #et,mt
+			        "qcd_dm1_njet1_"+channel+"_stat", #et,mt
 
-				"tt_dm0_njet1_stat", #et,mt
+				"w_dm0_njet0_"+channel+"_stat", #et,mt
 
-				"tt_dm1_njet0_stat", #et,mt
+				"w_dm0_njet1_"+channel+"_stat", #et,mt
 
-				"tt_dm1_njet1_stat"  #et,mt
+				"w_dm1_njet0_"+channel+"_stat", #et,mt
+
+				"w_dm1_njet1_"+channel+"_stat", #et,mt
+
+				"tt_dm0_njet0_"+channel+"_stat", #et,mt
+
+				"tt_dm0_njet1_"+channel+"_stat", #et,mt
+
+				"tt_dm1_njet0_"+channel+"_stat", #et,mt
+
+				"tt_dm1_njet1_"+channel+"_stat",  #et,mt
+
+				"sub_syst_" + channel
 			]
+			fakeFactorUncertNames += ["w_syst"]
+			
+			fakeFactorUncertNames += ["qcd_"+channel+"_syst", "ff_sub_syst_"+channel]
 		#only in next to next artus run, i forgot to add them in cpquantities
-		elif channel in ["tt"]:
+		for channel in ["tt"]:
 			fakeFactorUncertNames += [
 				"w_frac_syst",
 				"tt_frac_syst"
@@ -344,20 +356,78 @@ class FakeFactorUncSystematic(SystematicShiftBase):
 	def __init__(self, plot_config, fakeFactorUncertainty):
 		super(FakeFactorUncSystematic, self).__init__(plot_config)
 		self.plot_config = plot_config
-		self.fakeFactorUncertainty = fakeFactorUncertainty	
-	
+		self.fakeFactorUncertainty = fakeFactorUncertainty
+
+		"""
+		"qcd_dm0_njet0_"+channel+"_stat", #et,mt
+
+		"qcd_dm0_njet1_"+channel+"_stat", #et,mt
+
+	        "qcd_dm1_njet0_"+channel+"_stat", #et,mt
+
+	        "qcd_dm1_njet1_"+channel+"_stat", #et,mt
+
+		"w_dm0_njet0_"+channel+"_stat", #et,mt
+
+		"w_dm0_njet1_"+channel+"_stat", #et,mt
+
+		"w_dm1_njet0_"+channel+"_stat", #et,mt
+
+		"w_dm1_njet1_"+channel+"_stat", #et,mt
+
+		"tt_dm0_njet0_"+channel+"_stat", #et,mt
+
+		"tt_dm0_njet1_"+channel+"_stat", #et,mt
+
+		"tt_dm1_njet0_"+channel+"_stat", #et,mt
+
+		"tt_dm1_njet1_"+channel+"_stat",  #et,mt
+
+		"sub_syst_" + channel
+
+		"w_syst"
+			
+		"qcd_"+channel+"_syst", "ff_sub_syst_"+channel
+		"""
+
+
+		self.fakefactordict = {}
+		for channel in ["mt", "et"]:
+			self.fakefactordict["ff_qcd_dm0_njet0_"+channel+"_stat"] = "fakefactorWeight_qcd_dm0_njet0_stat_"
+			self.fakefactordict["ff_qcd_dm0_njet1_"+channel+"_stat"] = "fakefactorWeight_qcd_dm0_njet1_stat_"
+			self.fakefactordict["ff_qcd_dm1_njet0_"+channel+"_stat"] = "fakefactorWeight_qcd_dm1_njet0_stat_"
+			self.fakefactordict["ff_qcd_dm1_njet1_"+channel+"_stat"] = "fakefactorWeight_qcd_dm1_njet1_stat_"
+
+			self.fakefactordict["ff_w_dm0_njet0_"+channel+"_stat"]   = "fakefactorWeight_w_dm0_njet0_stat_"
+			self.fakefactordict["ff_w_dm0_njet1_"+channel+"_stat"]   = "fakefactorWeight_w_dm0_njet1_stat_"
+			self.fakefactordict["ff_w_dm1_njet0_"+channel+"_stat"]   = "fakefactorWeight_w_dm1_njet0_stat_"
+			self.fakefactordict["ff_w_dm1_njet1_"+channel+"_stat"]   = "fakefactorWeight_w_dm1_njet1_stat_"
+
+			self.fakefactordict["ff_tt_dm0_njet0_"+channel+"_stat"]  = "fakefactorWeight_tt_dm0_njet0_stat_"
+			self.fakefactordict["ff_tt_dm0_njet1_"+channel+"_stat"]  = "fakefactorWeight_tt_dm0_njet1_stat_"
+			self.fakefactordict["ff_tt_dm1_njet0_"+channel+"_stat"]  = "fakefactorWeight_tt_dm1_njet0_stat_"
+			self.fakefactordict["ff_tt_dm1_njet1_"+channel+"_stat"]  = "fakefactorWeight_tt_dm1_njet1_stat_"
+
+			self.fakefactordict["ff_qcd_"+channel+"_syst"] = "fakefactorWeight_qcd_syst_"
+
+		self.fakefactordict["ff_w_syst"] = "fakefactorWeight_w_syst_"
+		
 	def get_config(self, shift=0.0):
 		plot_config = super(FakeFactorUncSystematic, self).get_config(shift=shift)
 		
-		for index, weight in enumerate(plot_config.get("weight", [])):
-			if (shift != 0.0) and (not "data" in plot_config["nicks"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
-				if shift > 0.0 or shift < 0.0:
-					shift_string = "Up" if shift > 0.0 else "Down"
-					plot_config["weights"][index] = weight.replace("fakefactorWeight_comb", "fakefactorWeight_"+self.fakeFactorUncertainty+shift_string)
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			
+			if "ff_sub_syst" in self.fakeFactorUncertainty:
+				if shift > 0.0:
+					plot_config["add_scale_factors"] = ["1 -1.1"]
+				elif shift < 0.0:
+					plot_config["add_scale_factors"] = ["1 -0.9"]
+			else:
+				if (shift != 0.0) and (not "data" in plot_config["nicks"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+					if shift > 0.0 or shift < 0.0:
+						shift_string = "up" if shift > 0.0 else "down"
+						plot_config["weights"][index] = weight.replace("fakefactorWeight_comb_inclusive_2", self.fakefactordict[self.fakeFactorUncertainty] + shift_string + "_inclusive_2")
 		return plot_config
-
-
-
 
 class JecUncSystematic(SystematicShiftBase):
 	
@@ -375,6 +445,163 @@ class JecUncSystematic(SystematicShiftBase):
 					plot_config["folders"][index] = folder.replace("nominal", "jecUncUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "jecUncDown")
+		
+		return plot_config
+
+
+class CMS_scale_j_eta0to5_corr_13TeV(SystematicShiftBase):
+	
+	def __init__(self, plot_config):
+		super(CMS_scale_j_eta0to5_corr_13TeV, self).__init__(plot_config)
+		self.plot_config = plot_config
+		#self.jecUncertainty = jecUncertainty	
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(CMS_scale_j_eta0to5_corr_13TeV, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "eta0to5CorrelatedUp")
+				else:
+					plot_config["folders"][index] = folder.replace("nominal", "eta0to5CorrelatedDown")
+		
+		return plot_config
+
+class CMS_scale_j_eta0to3_corr_13TeV(SystematicShiftBase):
+	
+	def __init__(self, plot_config):
+		super(CMS_scale_j_eta0to3_corr_13TeV, self).__init__(plot_config)
+		self.plot_config = plot_config
+		#self.jecUncertainty = jecUncertainty	
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(CMS_scale_j_eta0to3_corr_13TeV, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "eta0to3CorrelatedUp")
+				else:
+					plot_config["folders"][index] = folder.replace("nominal", "eta0to3CorrelatedDown")
+		
+		return plot_config
+
+
+class CMS_scale_j_eta3to5_corr_13TeV(SystematicShiftBase):
+	
+	def __init__(self, plot_config):
+		super(CMS_scale_j_eta3to5_corr_13TeV, self).__init__(plot_config)
+		self.plot_config = plot_config
+		#self.jecUncertainty = jecUncertainty	
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(CMS_scale_j_eta3to5_corr_13TeV, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "eta3to5CorrelatedUp")
+				else:
+					plot_config["folders"][index] = folder.replace("nominal", "eta3to5CorrelatedDown")
+		
+		return plot_config
+
+
+
+class CMS_scale_j_eta0to5_uncorr_13TeV(SystematicShiftBase):
+	
+	def __init__(self, plot_config):
+		super(CMS_scale_j_eta0to5_uncorr_13TeV, self).__init__(plot_config)
+		self.plot_config = plot_config
+		#self.jecUncertainty = jecUncertainty	
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(CMS_scale_j_eta0to5_uncorr_13TeV, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "eta0to5UncorrelatedUp")
+				else:
+					plot_config["folders"][index] = folder.replace("nominal", "eta0to5UncorrelatedDown")
+		
+		return plot_config
+
+class CMS_scale_j_eta0to3_uncorr_13TeV(SystematicShiftBase):
+	
+	def __init__(self, plot_config):
+		super(CMS_scale_j_eta0to3_uncorr_13TeV, self).__init__(plot_config)
+		self.plot_config = plot_config
+		#self.jecUncertainty = jecUncertainty	
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(CMS_scale_j_eta0to3_uncorr_13TeV, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "eta0to3UncorrelatedUp")
+				else:
+					plot_config["folders"][index] = folder.replace("nominal", "eta0to3UncorrelatedDown")
+		
+		return plot_config
+
+
+class CMS_scale_j_eta3to5_uncorr_13TeV(SystematicShiftBase):
+	
+	def __init__(self, plot_config):
+		super(CMS_scale_j_eta3to5_uncorr_13TeV, self).__init__(plot_config)
+		self.plot_config = plot_config
+		#self.jecUncertainty = jecUncertainty	
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(CMS_scale_j_eta3to5_uncorr_13TeV, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "eta3to5UncorrelatedUp")
+				else:
+					plot_config["folders"][index] = folder.replace("nominal", "eta3to5UncorrelatedDown")
+		
+		return plot_config
+
+class CMS_scale_j_RelativeBal_13TeV(SystematicShiftBase):
+	
+	def __init__(self, plot_config):
+		super(CMS_scale_j_RelativeBal_13TeV, self).__init__(plot_config)
+		self.plot_config = plot_config
+		#self.jecUncertainty = jecUncertainty	
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(CMS_scale_j_RelativeBal_13TeV, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "relativeBalUp")
+				else:
+					plot_config["folders"][index] = folder.replace("nominal", "relativeBalDown")
+		
+		return plot_config
+
+class CMS_scale_j_RelativeSample_13TeV(SystematicShiftBase):
+	
+	def __init__(self, plot_config):
+		super(CMS_scale_j_RelativeSample_13TeV, self).__init__(plot_config)
+		self.plot_config = plot_config
+		#self.jecUncertainty = jecUncertainty	
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(CMS_scale_j_RelativeSample_13TeV, self).get_config(shift=shift)
+		
+		for index, folder in enumerate(plot_config.get("folders", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				if shift > 0.0:
+					plot_config["folders"][index] = folder.replace("nominal", "relativeSampleUp")
+				else:
+					plot_config["folders"][index] = folder.replace("nominal", "relativeSampleDown")
 		
 		return plot_config
 
@@ -1154,4 +1381,18 @@ class EmbeddingTTBarContaminationSystematic(SystematicShiftBase):
 				else:
 					config.setdefault("add_scale_factors", []).append("1.0 -0.1 -0.1")
 
+		return plot_config
+
+class CMS_FiniteQuarkMass_13TeV(SystematicShiftBase):
+	
+	def get_config(self, shift=0.0):
+		plot_config = super(CMS_FiniteQuarkMass_13TeV, self).get_config(shift=shift)
+		
+		for index, weight in enumerate(plot_config.get("weights", [])):
+			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+				if shift < 0.0:
+					plot_config["weights"][index] = weight.replace("quarkmassWeight","(quarkmassWeight*0.999)")
+				else:
+					plot_config["weights"][index] = weight.replace("quarkmassWeight","(1.0)")
+		
 		return plot_config
