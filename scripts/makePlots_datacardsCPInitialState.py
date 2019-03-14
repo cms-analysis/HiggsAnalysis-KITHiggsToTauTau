@@ -717,11 +717,11 @@ if __name__ == "__main__":
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
 							"""
 							if "tightmjj" in category:
-								#config["y_expressions"] = ["etasep_CP1"]
-								#config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_etasep_CP2"]]
+								config["y_expressions"] = ["etasep_CP1"]
+								config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_etasep_CP1"]]
 
-								config["y_expressions"] = ["jdphi_CP1"]
-								config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
+								config["z_expressions"] = ["jdphi_CP1"]
+								config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
 							elif "loosemjj" in category:
 								config["y_expressions"] = ["jdphi"]
 								config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
@@ -735,11 +735,11 @@ if __name__ == "__main__":
 							config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_H_pt"]]
 							"""
 							if "tightmjj" in category:
-								#config["y_expressions"] = ["etasep_CP2"]
-								#config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_etasep_CP2"]]
+								config["y_expressions"] = ["etasep_CP2"]
+								config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_etasep_CP2"]]
 
-								config["y_expressions"] = ["jdphi_CP2"]
-								config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
+								config["z_expressions"] = ["jdphi_CP2"]
+								config["z_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
 							elif "loosemjj" in category:
 								config["y_expressions"] = ["jdphi"]
 								config["y_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+"_jdphi"]]
@@ -1622,8 +1622,8 @@ if __name__ == "__main__":
 
 				print("Category to be plotted: ", plot_category)
 				a = plot_category
-				if plot_category == "5" or plot_category == "6": 
-					a = "4"
+				#if plot_category == "5" or plot_category == "6":  #hack if no binning in etasep is used
+				#	a = "4"
 				plot_config["canvas_width"] = 2100
 				plot_config["canvas_height"] = 1000
 				plot_config["x_label"] = "#Delta#phi_{jj}" #if "jdphi" == args.quantity else "D_{CP}^{*}"
