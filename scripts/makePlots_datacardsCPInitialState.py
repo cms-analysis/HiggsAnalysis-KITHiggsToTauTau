@@ -174,6 +174,8 @@ if __name__ == "__main__":
 	                    help="Manualy set the binning. Default is taken from configuration files.")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
+	parser.add_argument("--emb", default=False, action="store_true",
+	                    help="Use Embedded Samples instead of DY MC. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -235,7 +237,14 @@ if __name__ == "__main__":
 	print channelstring
 	# get "official" configuration
 	init_directory = os.path.join(args.output_dir, "output/{OUTPUT_SUFFIX}/".format(OUTPUT_SUFFIX=args.output_suffix)) 
-	command = "MorphingSMCP2016 --real_data=false --do_embedding=false  --era={ERA} --channels={CHANNELS} --postfix -2D --ttbar_fit=false {INIT}".format(
+	if args.emb:
+		command = "MorphingSMCP2016 --real_data=false --era={ERA} --channels={CHANNELS} --postfix -2D --ttbar_fit=false {INIT}".format(
+			ERA=args.era,
+			CHANNELS = channelstring,
+			INIT="--only_init="+os.path.join(init_directory, "init")
+		)
+	else:
+		command = "MorphingSMCP2016 --real_data=false --do_embedding=false  --era={ERA} --channels={CHANNELS} --postfix -2D --ttbar_fit=false {INIT}".format(
 		ERA=args.era,
 		CHANNELS = channelstring,
 		INIT="--only_init="+os.path.join(init_directory, "init")
@@ -540,13 +549,16 @@ if __name__ == "__main__":
 			higgs_masses = [mass for mass in datacards_per_channel_category.cb.mass_set() if mass != "*"]
 
 			#merged_output_files.append(output_file)
-			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12"]).iteritems():	
+			#from IPython import embed;embed()
+			for shape_systematic, list_of_samples in datacards_per_channel_category.get_samples_per_shape_systematic(lnN_syst=["CMS_ggH_STXSVBF2j", "CMS_ggH_STXSmig01", "CMS_ggH_STXSmig12", "CMS_eff_b_13TeV"]).iteritems():	
 
 				nominal = (shape_systematic == "nominal")
 				list_of_samples = [datacards.configs.process2sample(process) for process in list_of_samples]
 				#print "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 				#print shape_systematic
 
+				if shape_systematic == "CMS_ttbar_embeded_13TeV":
+					list_of_samples += ["vvt", "ttt"]
 
 				# This is needed because wj and qcd are interdependent when using the new background estimation method
 				# NB: CH takes care to only use the templates for processes that you specified. This means that any
@@ -850,7 +862,19 @@ if __name__ == "__main__":
 	if "t2w" in args.steps:
 		print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 		print channelstring
-		datacards_module._call_command([
+		if args.emb: 
+			datacards_module._call_command([
+				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --era={ERA} --channels={CHANNELS} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --real_data=false --ttbar_fit=false --input_folder_mt {OUTPUT_SUFFIX}/mt/ --input_folder_et {OUTPUT_SUFFIX}/et/".format(
+				OUTPUT_SUFFIX=args.output_suffix,
+				ERA=args.era,
+				CHANNELS = channelstring,
+				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
+				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else ""
+				),
+				args.output_dir
+			])
+		else:
+			datacards_module._call_command([
 				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --do_embedding=false  --era={ERA} --channels={CHANNELS} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --real_data=false --ttbar_fit=false --input_folder_mt {OUTPUT_SUFFIX}/mt/ --input_folder_et {OUTPUT_SUFFIX}/et/".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				ERA=args.era,
@@ -859,7 +883,7 @@ if __name__ == "__main__":
 				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else ""
 				),
 				args.output_dir
-		])
+			])
 		log.info("\nDatacards have been written to \"%s\"." % os.path.join(os.path.join(args.output_dir)))
 	print "--------------------------------------------------------------------------------------------------------------------------------------"	
 	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/cmb/125/"
@@ -942,7 +966,8 @@ if __name__ == "__main__":
 		"ZTT" : "ztt",
 		"ggHps_htt125"	: "gghmadgraphps",
 		"ggHmm_htt125"	: "gghmadgraphmm",
-		"ggHsm_htt125"	: "gghmadgraphsm",														
+		"ggHsm_htt125"	: "gghmadgraphsm",
+		"EmbedZTT" : "ztt_emb"
 		}
 	
 	# Create workspaces from the datacards 

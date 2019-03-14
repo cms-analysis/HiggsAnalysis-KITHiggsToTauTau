@@ -183,7 +183,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catHtt13TeV_"+channel+"_0jet_low"] = self.expressions_dict["catHtt13TeV_"+channel+"_0jet_inclusive"]+("*({pt_var}<={pt_cut})".format(pt_var=pt_var, pt_cut=pt_cut))
 
 			# Standard Model experimental
-			btag_veto_string = "(1)"#FIXME *(nbtag == 0)
+			btag_veto_string = "(nbtag == 0)"
 			mjj_CP_string = "(mjj>300)"
 
 			mjjtight_CP_string = "(mjj>=500)"

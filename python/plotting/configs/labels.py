@@ -67,7 +67,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["zh"] = "ZH"
 			self.labels_dict["hww"] = "H #rightarrow WW"
 			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
-			self.labels_dict["ff"] = "jetFakes"
+			self.labels_dict["ff"] = "misid. #tau"#"jetFakes"
 			self.labels_dict["jetFakes"] = "jetFakes"
 
 			self.labels_dict["qqhsm125"] = "VBF 0^{#plus#plus}"

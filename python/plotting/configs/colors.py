@@ -279,6 +279,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["ztt_gen_dm_ten"+nick_suffix] = "#FFFFCC"
 				self.colors_dict["ztt_gen_dm_eleven"+nick_suffix] = "#FFFF88"
 				self.colors_dict["ztt_emb"+nick_suffix] = self.colors_dict["ztt"]
+				self.colors_dict["embedztt"+nick_suffix] = self.colors_dict["ztt"]
 				self.colors_dict["zttpospol"+nick_suffix] = "#000000 #FFEEBB"
 				self.colors_dict["zttnegpol"+nick_suffix] = "#000000 #FFCC66"
 				self.colors_dict["zttposcp"+nick_suffix] = "#000000 #FFEEBB"

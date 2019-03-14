@@ -396,21 +396,21 @@ class Samples(samples.SamplesBase):
 		if embedding:
 			if channel == "et":
 				if not 'eventWeight' in mc_sample_weight:
-					return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[1]])
-				return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight<1.0)",self.embedding_weight[1]])
+					return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight)*(eventWeight<1.0)"])
+				return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight<1.0)"])
 			elif channel == "mt":
 				if not 'eventWeight' in mc_sample_weight:
 					#return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel, cut_type), "identificationWeight_1*(triggerWeight_singleMu_1<2.0)*triggerWeight_doublemu_1*(generatorWeight)*(generatorWeight<=1.0)",self.embedding_weight[0]]) #triggerWeight_singleMu_1 is applied in cut_strings.py
-					return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[0]])
-				return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight<1.0)",self.embedding_weight[0]])
+					return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight)*(eventWeight<1.0)"])
+				return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight<1.0)"])
 			elif channel == "tt":
 				if not 'eventWeight' in mc_sample_weight:
-					return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[3]])
-				return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight<1.0)",self.embedding_weight[3]])
+					return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight)*(eventWeight<1.0)"])
+				return make_multiplication([mc_sample_weight, weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight<1.0)"])
 			elif channel == "em" or channel == "ttbar":
 				if not 'eventWeight' in mc_sample_weight:
-					return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight)*(eventWeight<1.0)",self.embedding_weight[2]])
-				return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight<1.0)",self.embedding_weight[2]])
+					return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight)*(eventWeight<1.0)"])
+				return make_multiplication([mc_sample_weight, self.embedding_stitchingweight(channel, cut_type), "(eventWeight<1.0)"])
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif mc_sample_weight != "(1.0)":
@@ -559,7 +559,7 @@ class Samples(samples.SamplesBase):
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="ztt"
 			)
-			if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
+			if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False) or self.embedding):
 				add_input(
 						input_file=self.files_ewkz_zll(channel),
 						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.decay_mode_reweight(channel, cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),

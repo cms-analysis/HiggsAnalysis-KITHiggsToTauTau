@@ -1372,14 +1372,14 @@ class EmbeddingTTBarContaminationSystematic(SystematicShiftBase):
 
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0):
-				if not "AddHistograms" in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("AddHistograms")
-				config.setdefault("add_nicks", []).append("ztt_emb vvt ttt")
-				config.setdefault("add_result_nicks", []).append("ztt_emb")
+				if not "AddHistograms" in plot_config.get("analysis_modules", []):
+					plot_config.setdefault("analysis_modules", []).append("AddHistograms")
+				plot_config.setdefault("add_nicks", []).append("ztt_emb vvt ttt")
+				plot_config.setdefault("add_result_nicks", []).append("ztt_emb")
 				if shift > 0.0:
-					config.setdefault("add_scale_factors", []).append("1.0 0.1 0.1")
+					plot_config.setdefault("add_scale_factors", []).append("1.0 0.1 0.1")
 				else:
-					config.setdefault("add_scale_factors", []).append("1.0 -0.1 -0.1")
+					plot_config.setdefault("add_scale_factors", []).append("1.0 -0.1 -0.1")
 
 		return plot_config
 
