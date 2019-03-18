@@ -207,8 +207,9 @@ class Quantities(Run2Quantities):
 					self.quantities.update(self.genQuantities(LFV = False)) #TODO for 2017 also , Z = True
 					#self.quantities.update(self.splitJecUncertaintyQuantities())  #no lhe in 2017 skim
 					self.quantities.update(self.genMatchedCPQuantities())
-					self.quantities.update(self.recoPolarisationQuantitiesSvfit())
-					self.quantities.update(self.recoPolarisationQuantities())
+
+				self.quantities.update(self.recoPolarisationQuantitiesSvfit())
+				self.quantities.update(self.recoPolarisationQuantities())
 
 				if channel == "MM":
 					self.quantities.update(self.singleTauQuantities())
@@ -298,10 +299,10 @@ class Quantities(Run2Quantities):
 					else:
 						self.quantities.update(self.svfitSyncQuantities())
 						self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
-						if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) == None:
+						#if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) == None:
 							#self.quantities.update(self.splitJecUncertaintyQuantities())
-							self.quantities.update(self.recoPolarisationQuantitiesSvfit())
-							self.quantities.update(self.recoPolarisationQuantities())
+						self.quantities.update(self.recoPolarisationQuantitiesSvfit())
+						self.quantities.update(self.recoPolarisationQuantities())
 
 						if channel == "ET": self.quantities.update(set(['nVetoElectrons']))
 						if channel in ["MT"]: self.quantities.add('nVetoMuons')

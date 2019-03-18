@@ -73,7 +73,8 @@ class et_ArtusConfig(dict):
 				"producer:RecoTauCPProducer",
 				"producer:PolarisationQuantitiesSvfitProducer",
 				#"producer:PolarisationQuantitiesSvfitM91Producer",
-				"producer:PolarisationQuantitiesSimpleFitProducer"
+				"producer:PolarisationQuantitiesSimpleFitProducer",
+				"producer:GenMatchedPolarisationQuantitiesProducer"
 			]
 			#if re.search("(Spring16|Summer16|Run2016|Embedding2016)",nickname):
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe, TODO in next skim they will be

@@ -350,7 +350,7 @@ PolarisationQuantitiesSvfitProducer::PolarisationQuantitiesSvfitProducer() :
 {
 }
 
-std::string PolarisationQuantitiesSvfitM91Producer::GetProducerId() const
+std::string PolarisationQuantitiesSvfitProducer::GetProducerId() const
 {
 	return "PolarisationQuantitiesSvfitProducer";
 }
@@ -371,7 +371,7 @@ PolarisationQuantitiesSvfitM91Producer::PolarisationQuantitiesSvfitM91Producer()
 {
 }
 
-std::string PolarisationQuantitiesSvfitProducer::GetProducerId() const
+std::string PolarisationQuantitiesSvfitM91Producer::GetProducerId() const
 {
 	return "PolarisationQuantitiesSvfitM91Producer";
 }
