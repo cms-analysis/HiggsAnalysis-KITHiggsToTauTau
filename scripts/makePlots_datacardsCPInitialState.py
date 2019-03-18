@@ -1430,29 +1430,29 @@ if __name__ == "__main__":
 				"et_6" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82]	
 			}
 			texts_y = {
-				"mt_1" : [0.87],
-				"et_1" : [0.87],
-				"em_1" : [0.87],
-				"mt_2" : [0.87],
-				"et_2" : [0.87],
-				"em_2" : [0.87],
-				"tt_2" : [0.87],
-				"mt_3" : [0.87],
-				"et_3" : [0.87],
-				"em_3" : [0.87],
-				"tt_3" : [0.87],
-				"mt_4" : [0.87],
-				"et_4" : [0.87],
-				"em_4" : [0.87],
-				"tt_4" : [0.87],
-				"mt_5" : [0.87],
-				"et_5" : [0.87],
-				"em_5" : [0.87],
-				"tt_5" : [0.87],
-				"mt_6" : [0.87],
-				"et_6" : [0.87],
-				"em_6" : [0.87],
-				"tt_6" : [0.87]
+				"mt_1" : [0.8],
+				"et_1" : [0.8],
+				"em_1" : [0.8],
+				"mt_2" : [0.8],
+				"et_2" : [0.8],
+				"em_2" : [0.8],
+				"tt_2" : [0.8],
+				"mt_3" : [0.8],
+				"et_3" : [0.8],
+				"em_3" : [0.8],
+				"tt_3" : [0.8],
+				"mt_4" : [0.8],
+				"et_4" : [0.8],
+				"em_4" : [0.8],
+				"tt_4" : [0.8],
+				"mt_5" : [0.8],
+				"et_5" : [0.8],
+				"em_5" : [0.8],
+				"tt_5" : [0.8],
+				"mt_6" : [0.8],
+				"et_6" : [0.8],
+				"em_6" : [0.8],
+				"tt_6" : [0.8]
 			}
 
 			vertical_lines_x = {
@@ -1671,7 +1671,7 @@ if __name__ == "__main__":
 					plot_config["texts"] = texts[plot_channel+"_"+a] #  + sub_texts[plot_channel+"_"+plot_category]
 					plot_config["texts_x"] = texts_x[plot_channel+"_"+a] #  + sub_texts_x[plot_channel+"_"+plot_category]
 					plot_config["texts_y"] = texts_y[plot_channel+"_"+a] #  +  list((0.65 for i in range(len(sub_texts[plot_channel+"_"+plot_category]))))
-					plot_config["texts_size"] = [0.025] if "2" in plot_category and plot_channel in ["mt", "et", "em"] else [0.0225]
+					plot_config["texts_size"] = [0.035] if "2" in plot_category and plot_channel in ["mt", "et", "em"] else [0.035]
 					if plot_category in ["5","6"]:
 						if "CP1" in args.quantity or "CP2" in args.quantity: 
 							plot_config["x_ticks"] = x_ticks[plot_channel+"_"+plot_category]
