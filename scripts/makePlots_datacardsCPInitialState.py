@@ -158,7 +158,7 @@ if __name__ == "__main__":
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("--steps", nargs="+",
 	                    default=["inputs", "t2w", "likelihoodscan"],
-	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots"],
+	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots_setup", "prefitpostfitplots_makeplots"],
 	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
@@ -914,13 +914,14 @@ if __name__ == "__main__":
 			#official_cb = b_
 		#official_cb.PrintObs().PrintProcs().PrintSysts()
 		
+		
 
-		if "prefitpostfitplots" in args.steps:
-			tmp_datacard = ch.CombineHarvester()	
-			tmp_datacard.QuickParseDatacard(official_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt', False)
+		tmp_datacard = ch.CombineHarvester()	
+		tmp_datacard.QuickParseDatacard(official_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt', False)
 			#from IPython import embed; embed()
-			if int(official_datacard.split("_")[-2]) < 10 and not "ttbar" in official_datacard: #this statement avoids the creation of workspaces for single CR only.					
-				datacards_cbs[official_datacard] = tmp_datacard.cp()
+		if int(official_datacard.split("_")[-2]) < 10 and not "ttbar" in official_datacard: #this statement avoids the creation of workspaces for single CR only.					
+			datacards_cbs[official_datacard] = tmp_datacard.cp()
+			if "prefitpostfitplots_setup" in args.steps:		
 				datacards_module._call_command([ 
 						"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i {DATACARD} -o {OUTPUT} --parallel {N_PROCESSES}".format(
 						DATACARD=official_datacard,
@@ -1092,16 +1093,36 @@ if __name__ == "__main__":
 				datacards_poi_ranges[datacard] = [-1., 1.]	
 							
 		# fit diagnostics	
-	if "prefitpostfitplots" in args.steps:
+	if "prefitpostfitplots_makeplots" in args.steps:
 		# https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsWG/HiggsPAGPreapprovalChecks
 		# TODO: Somehow I need provide an interface to the old prefitpost fit functions.
 		# TODO: I need a function that takes the created workspaces and datacards and wraps them up in the form of datacards_cbs and  
 		log.info("\n -------------------------------------- Prefit Postfit plots ---------------------------------")	
-		print datacards_cbs
+		pprint.pprint( datacards_cbs)
+		pprint.pprint( datacards_workspaces_alpha)
+		#this is done in CPInitialstatePrefitPostfitPlots.sh
+		#for key in datacards_cbs:
+		#datacards.combine(datacards_cbs, datacards_workspaces_alpha, datacards_poi_ranges, args.n_processes, "-M FitDiagnostics "+datacards.stable_options+" -n " , higgs_mass="125")
 
-		 
-		datacards.combine(datacards_cbs, datacards_workspaces_alpha, datacards_poi_ranges, args.n_processes, "-M FitDiagnostics "+datacards.stable_options+" -n \"\"", higgs_mass="125")	
-		datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_alpha, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
+		#datacards_postfit_shapes = datacards.postfit_shapes_fromworkspace(datacards_cbs, datacards_workspaces_alpha, False, args.n_processes, "--sampling" + (" --print" if args.n_processes <= 1 else ""), higgs_mass="125")
+		#from IPython import embed; embed()
+
+		datacards_cbs[official_datacard] = tmp_datacard.cp()		
+
+		datacards_postfit_shapes = {
+			'fit_b': {'/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_1_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha1_fit_b.root',
+  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_2_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha2_fit_b.root',
+  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_3_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha3_fit_b.root',
+  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_4_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha4_fit_b.root',
+  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_5_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha5_fit_b.root',
+  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_6_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha6_fit_b.root'},
+ 			'fit_s': {'/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_1_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha1_fit_s.root',
+  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_2_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha2_fit_s.root',
+  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_3_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha3_fit_s.root',
+  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_4_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha4_fit_s.root',
+  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_5_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha5_fit_s.root',
+  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_6_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha6_fit_s.root'}}
+		
 		
 		# divide plots by bin width and change the label correspondingly
 		if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
@@ -1564,29 +1585,29 @@ if __name__ == "__main__":
 				"et_6" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82]	
 			}
 			texts_y = {
-				"mt_1" : [0.87],
-				"et_1" : [0.87],
-				"em_1" : [0.87],
-				"mt_2" : [0.87],
-				"et_2" : [0.87],
-				"em_2" : [0.87],
-				"tt_2" : [0.87],
-				"mt_3" : [0.87],
-				"et_3" : [0.87],
-				"em_3" : [0.87],
-				"tt_3" : [0.87],
-				"mt_4" : [0.87],
-				"et_4" : [0.87],
-				"em_4" : [0.87],
-				"tt_4" : [0.87],
-				"mt_5" : [0.87],
-				"et_5" : [0.87],
-				"em_5" : [0.87],
-				"tt_5" : [0.87],
-				"mt_6" : [0.87],
-				"et_6" : [0.87],
-				"em_6" : [0.87],
-				"tt_6" : [0.87]
+				"mt_1" : [0.8],
+				"et_1" : [0.8],
+				"em_1" : [0.8],
+				"mt_2" : [0.8],
+				"et_2" : [0.8],
+				"em_2" : [0.8],
+				"tt_2" : [0.8],
+				"mt_3" : [0.8],
+				"et_3" : [0.8],
+				"em_3" : [0.8],
+				"tt_3" : [0.8],
+				"mt_4" : [0.8],
+				"et_4" : [0.8],
+				"em_4" : [0.8],
+				"tt_4" : [0.8],
+				"mt_5" : [0.8],
+				"et_5" : [0.8],
+				"em_5" : [0.8],
+				"tt_5" : [0.8],
+				"mt_6" : [0.8],
+				"et_6" : [0.8],
+				"em_6" : [0.8],
+				"tt_6" : [0.8]
 			}
 
 			vertical_lines_x = {
@@ -1651,10 +1672,10 @@ if __name__ == "__main__":
 					plot_config["texts_x"] = texts_x[plot_channel+"_"+a] #  + sub_texts_x[plot_channel+"_"+plot_category]
 					plot_config["texts_y"] = texts_y[plot_channel+"_"+a] #  +  list((0.65 for i in range(len(sub_texts[plot_channel+"_"+plot_category]))))
 					plot_config["texts_size"] = [0.025] if "2" in plot_category and plot_channel in ["mt", "et", "em"] else [0.0225]
-					#if plot_category in ["5","6"]:
-					#	if "CP1" in args.quantity or "CP2" in args.quantity: 
-					#		plot_config["x_ticks"] = x_ticks[plot_channel+"_"+plot_category]
-					#		plot_config["n_divisions"] = [12,0,0]
+					if plot_category in ["5","6"]:
+						if "CP1" in args.quantity or "CP2" in args.quantity: 
+							plot_config["x_ticks"] = x_ticks[plot_channel+"_"+plot_category]
+							plot_config["n_divisions"] = [12,0,0]
 					plot_config["x_labels_vertical"] = True
 					plot_config["x_title_offset"] = 1.6
 					plot_config["bottom_pad_margin"] = 0.5
@@ -1663,11 +1684,11 @@ if __name__ == "__main__":
 					plot_config["analysis_modules"].append("AddLine")
 					plot_config["x_lines"] = vertical_lines_x[plot_channel+"_"+a]
 					plot_config["y_lines"] = [" ".join(map(str,plot_config["y_lims"]))]*len(plot_config["x_lines"])
-					#if plot_category in ["5","6"] and ("CP1" in args.quantity or "CP2" in args.quantity):
-					#	plot_config["colors"] += ["kRed", "kBlue"]*(len(plot_config["x_lines"])/2)
-					#	plot_config["y_lines"] = [" ".join(map(str,[0.15*ylim for ylim in plot_config["y_lims"]])), " ".join(map(str,plot_config["y_lims"]))]*(len(plot_config["x_lines"])/2)
-					#else:
-					plot_config["colors"] += ["kBlue"]*(len(plot_config["x_lines"]))
+					if plot_category in ["5","6"] and ("CP1" in args.quantity or "CP2" in args.quantity):
+						plot_config["colors"] += ["kRed", "kBlue"]*(len(plot_config["x_lines"])/2)
+						plot_config["y_lines"] = [" ".join(map(str,[0.15*ylim for ylim in plot_config["y_lims"]])), " ".join(map(str,plot_config["y_lims"]))]*(len(plot_config["x_lines"])/2)
+					else:
+						plot_config["colors"] += ["kBlue"]*(len(plot_config["x_lines"]))
 					for i in range(len(plot_config["x_lines"])):
 						#plot_config["labels"].append("line_"+str(i))
 						plot_config["markers"].append("L")
