@@ -26,6 +26,15 @@ if __name__ == "__main__":
 	parser.add_argument("--categories", action="append", nargs="+",
 	                    default=[["a1", "rho", "oneprong"], ["a1", "rho", "oneprong"], ["rho", "combined_a1_a1", "combined_a1_oneprong", "combined_oneprong_oneprong"], ["combined_oneprong_oneprong"]],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
+	parser.add_argument("--alpha-s-weights", nargs="+",
+	                    default=["NNPDF30_lo_as_0118_LHgrid__Member_0"],
+	                    help="LHE weights for alpha_s uncertainty evaluation. [Default: %(default)s]")
+	parser.add_argument("--pdf-weights", nargs="+",
+	                    default=["NNPDF30_lo_as_0130_LHgrid__Member_0", "NNPDF30_lo_as_0130_LHgrid__Member_1", "NNPDF30_lo_as_0130_LHgrid__Member_2", "NNPDF30_lo_as_0130_LHgrid__Member_3", "NNPDF30_lo_as_0130_LHgrid__Member_4", "NNPDF30_lo_as_0130_LHgrid__Member_5", "NNPDF30_lo_as_0130_LHgrid__Member_6", "NNPDF30_lo_as_0130_LHgrid__Member_7", "NNPDF30_lo_as_0130_LHgrid__Member_8", "NNPDF30_lo_as_0130_LHgrid__Member_9", "NNPDF30_lo_as_0130_LHgrid__Member_10", "NNPDF30_lo_as_0130_LHgrid__Member_11", "NNPDF30_lo_as_0130_LHgrid__Member_12", "NNPDF30_lo_as_0130_LHgrid__Member_13", "NNPDF30_lo_as_0130_LHgrid__Member_14", "NNPDF30_lo_as_0130_LHgrid__Member_15", "NNPDF30_lo_as_0130_LHgrid__Member_16", "NNPDF30_lo_as_0130_LHgrid__Member_17", "NNPDF30_lo_as_0130_LHgrid__Member_18", "NNPDF30_lo_as_0130_LHgrid__Member_19", "NNPDF30_lo_as_0130_LHgrid__Member_20", "NNPDF30_lo_as_0130_LHgrid__Member_21", "NNPDF30_lo_as_0130_LHgrid__Member_22", "NNPDF30_lo_as_0130_LHgrid__Member_23", "NNPDF30_lo_as_0130_LHgrid__Member_24", "NNPDF30_lo_as_0130_LHgrid__Member_25", "NNPDF30_lo_as_0130_LHgrid__Member_26", "NNPDF30_lo_as_0130_LHgrid__Member_27", "NNPDF30_lo_as_0130_LHgrid__Member_28", "NNPDF30_lo_as_0130_LHgrid__Member_29", "NNPDF30_lo_as_0130_LHgrid__Member_30", "NNPDF30_lo_as_0130_LHgrid__Member_31", "NNPDF30_lo_as_0130_LHgrid__Member_32", "NNPDF30_lo_as_0130_LHgrid__Member_33", "NNPDF30_lo_as_0130_LHgrid__Member_34", "NNPDF30_lo_as_0130_LHgrid__Member_35", "NNPDF30_lo_as_0130_LHgrid__Member_36", "NNPDF30_lo_as_0130_LHgrid__Member_37", "NNPDF30_lo_as_0130_LHgrid__Member_38", "NNPDF30_lo_as_0130_LHgrid__Member_39", "NNPDF30_lo_as_0130_LHgrid__Member_40", "NNPDF30_lo_as_0130_LHgrid__Member_41", "NNPDF30_lo_as_0130_LHgrid__Member_42", "NNPDF30_lo_as_0130_LHgrid__Member_43", "NNPDF30_lo_as_0130_LHgrid__Member_44", "NNPDF30_lo_as_0130_LHgrid__Member_45", "NNPDF30_lo_as_0130_LHgrid__Member_46", "NNPDF30_lo_as_0130_LHgrid__Member_47", "NNPDF30_lo_as_0130_LHgrid__Member_48", "NNPDF30_lo_as_0130_LHgrid__Member_49", "NNPDF30_lo_as_0130_LHgrid__Member_50", "NNPDF30_lo_as_0130_LHgrid__Member_51", "NNPDF30_lo_as_0130_LHgrid__Member_52", "NNPDF30_lo_as_0130_LHgrid__Member_53", "NNPDF30_lo_as_0130_LHgrid__Member_54", "NNPDF30_lo_as_0130_LHgrid__Member_55", "NNPDF30_lo_as_0130_LHgrid__Member_56", "NNPDF30_lo_as_0130_LHgrid__Member_57", "NNPDF30_lo_as_0130_LHgrid__Member_58", "NNPDF30_lo_as_0130_LHgrid__Member_59", "NNPDF30_lo_as_0130_LHgrid__Member_60", "NNPDF30_lo_as_0130_LHgrid__Member_61", "NNPDF30_lo_as_0130_LHgrid__Member_62", "NNPDF30_lo_as_0130_LHgrid__Member_63", "NNPDF30_lo_as_0130_LHgrid__Member_64", "NNPDF30_lo_as_0130_LHgrid__Member_65", "NNPDF30_lo_as_0130_LHgrid__Member_66", "NNPDF30_lo_as_0130_LHgrid__Member_67", "NNPDF30_lo_as_0130_LHgrid__Member_68", "NNPDF30_lo_as_0130_LHgrid__Member_69", "NNPDF30_lo_as_0130_LHgrid__Member_70", "NNPDF30_lo_as_0130_LHgrid__Member_71", "NNPDF30_lo_as_0130_LHgrid__Member_72", "NNPDF30_lo_as_0130_LHgrid__Member_73", "NNPDF30_lo_as_0130_LHgrid__Member_74", "NNPDF30_lo_as_0130_LHgrid__Member_75", "NNPDF30_lo_as_0130_LHgrid__Member_76", "NNPDF30_lo_as_0130_LHgrid__Member_77", "NNPDF30_lo_as_0130_LHgrid__Member_78", "NNPDF30_lo_as_0130_LHgrid__Member_79", "NNPDF30_lo_as_0130_LHgrid__Member_80", "NNPDF30_lo_as_0130_LHgrid__Member_81", "NNPDF30_lo_as_0130_LHgrid__Member_82", "NNPDF30_lo_as_0130_LHgrid__Member_83", "NNPDF30_lo_as_0130_LHgrid__Member_84", "NNPDF30_lo_as_0130_LHgrid__Member_85", "NNPDF30_lo_as_0130_LHgrid__Member_86", "NNPDF30_lo_as_0130_LHgrid__Member_87", "NNPDF30_lo_as_0130_LHgrid__Member_88", "NNPDF30_lo_as_0130_LHgrid__Member_89", "NNPDF30_lo_as_0130_LHgrid__Member_90", "NNPDF30_lo_as_0130_LHgrid__Member_91", "NNPDF30_lo_as_0130_LHgrid__Member_92", "NNPDF30_lo_as_0130_LHgrid__Member_93", "NNPDF30_lo_as_0130_LHgrid__Member_94", "NNPDF30_lo_as_0130_LHgrid__Member_95", "NNPDF30_lo_as_0130_LHgrid__Member_96", "NNPDF30_lo_as_0130_LHgrid__Member_97", "NNPDF30_lo_as_0130_LHgrid__Member_98", "NNPDF30_lo_as_0130_LHgrid__Member_99", "NNPDF30_lo_as_0130_LHgrid__Member_100"],
+	                    help="LHE weights for PDF uncertainty evaluation. [Default: %(default)s]")
+	parser.add_argument("--qcd-scale-weights", nargs="+",
+	                    default=["Central_scale_variation__mur_0_5_muf_0_5", "Central_scale_variation__mur_0_5_muf_1", "Central_scale_variation__mur_1_muf_0_5", "Central_scale_variation__mur_1_muf_1", "Central_scale_variation__mur_1_muf_2", "Central_scale_variation__mur_2_muf_1", "Central_scale_variation__mur_2_muf_2"],
+	                    help="LHE weights for QCD scale (muR and muF) uncertainty evaluation. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="",
@@ -58,23 +67,46 @@ if __name__ == "__main__":
 	}
 	
 	plot_configs = []
+	sample = "ztt"
 	for channel, categories in zip(args.channel, args.categories):
 		for category in categories:
 			channel_category = channel+"_"+category
 			
 			for quark_type in ["up", "down"]:
-			
-				config = sample_settings.get_config(
-						samples=[getattr(samples.Samples, sample) for sample in ["ztt"]],
-						no_ewkz_as_dy=True,
-						channel=channel,
-						category="catZttPol13TeV_"+channel_category,
-						weight=weights[quark_type],
-						cut_type="low_mvis_smhtt2016",
-						lumi = args.lumi * 1000,
-						exclude_cuts=[],
-						estimationMethod="new",
-				)
+				config = {}
+				for index_weight, theo_unc_weight in enumerate(["1.0"] + args.alpha_s_weights + args.pdf_weights + args.qcd_scale_weights):
+					weight_config = sample_settings.get_config(
+							samples=[getattr(samples.Samples, sample)],
+							no_ewkz_as_dy=True,
+							channel=channel,
+							category="catZttPol13TeV_"+channel_category,
+							weight="({quark_type_weight}*{theo_unc_weight})".format(quark_type_weight=weights[quark_type], theo_unc_weight=theo_unc_weight),
+							cut_type="low_mvis_smhtt2016",
+							lumi = args.lumi * 1000,
+							exclude_cuts=[],
+							estimationMethod="new",
+							nick_suffix = "" if index_weight == 0 else (theo_unc_weight+"_noplot")
+					)
+					config = samples.Samples.merge_configs(config, weight_config)
+				
+				if "UncertaintiesAlphaS" not in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("UncertaintiesAlphaS")
+				config.setdefault("uncertainties_alpha_s_reference_nicks", []).append(sample)
+				config.setdefault("uncertainties_alpha_s_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.alpha_s_weights]))
+				config.setdefault("uncertainties_alpha_s_result_nicks", []).append(sample+"_alpha_s")
+				
+				if "UncertaintiesPdf" not in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("UncertaintiesPdf")
+				config.setdefault("uncertainties_pdf_reference_nicks", []).append(sample)
+				config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.pdf_weights]))
+				config.setdefault("uncertainties_pdf_result_nicks", []).append(sample+"_pdf")
+				config.setdefault("nicks_blacklist", []).append("_correlation")
+				
+				if "UncertaintiesScale" not in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("UncertaintiesScale")
+				config.setdefault("uncertainties_scale_reference_nicks", []).append(sample)
+				config.setdefault("uncertainties_scale_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.qcd_scale_weights]))
+				config.setdefault("uncertainties_scale_result_nicks", []).append(sample+"_qcd_scale")
 				
 				for key in ["stacks", "legend_markers"]:
 					if key in config:
@@ -86,7 +118,7 @@ if __name__ == "__main__":
 				config["x_bins"] = ["150,50,200"]
 				
 				config["plot_modules"] = ["ExportRoot"]
-				config["labels"] = [os.path.join(channel_category, quark_type)] * len(config["labels"])
+				config["labels"] = [os.path.join(channel_category, quark_type, unc_type) for unc_type in ["nominal", "alpha_s_up", "alpha_s_down", "pdf_up", "pdf_down", "qcd_scale_up", "qcd_scale_down"]]
 				config["output_dir"] = os.path.join(args.output_dir, channel, category, quark_type)
 				config["filename"] = "energy_distribution"
 				
