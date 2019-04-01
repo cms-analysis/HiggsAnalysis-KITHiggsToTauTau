@@ -623,19 +623,19 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 			boost::split(arguments,  m_functorArgs.at(weightNames.first).at(index) , boost::is_any_of(","));
 			for(auto arg:arguments)
 			{
-				if(arg=="m_pt" || arg=="t_pt" || "e_pt")
+				if(arg=="m_pt" || arg=="t_pt" || arg == "e_pt")
 				{
 					args.push_back(lepton->p4.Pt());
 				}
-				if(arg=="m_eta" || arg=="t_eta" || "e_eta")
+				if(arg=="m_eta" || arg=="t_eta" || arg == "e_eta")
 				{
 					args.push_back(lepton->p4.Eta());
 				}
-				if(arg=="m_phi" || arg=="t_phi" || "e_phi")
+				if(arg=="m_phi" || arg=="t_phi" || arg =="e_phi")
 				{
 					args.push_back(lepton->p4.Phi());
 				}
-				if(arg=="m_iso"|| "e_iso")
+				if(arg=="m_iso"|| arg == "e_iso")
 				{
 					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
 				}
