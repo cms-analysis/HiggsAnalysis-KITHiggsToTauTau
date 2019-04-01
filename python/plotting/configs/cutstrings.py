@@ -102,9 +102,9 @@ class CutStringsDict:
 			cuts["dilepton_veto"] = "(dilepton_veto < 0.5)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			if "2017" in cut_type:
-				cuts["trigger"] = "(((trg_singleelectron_35>0.5)*(pt_1>36))||((trg_crosselectron_ele24tau30>0.5)*(pt_1>25)*(pt_2>35))||((trg_singleelectron_27>0.5)*(pt_1>28))||((trg_singleelectron_32>0.5)*(pt_1>33))|| ((trg_singleelectron_32_fallback>0.5)*(pt_1>33)))"
+				cuts["trigger"] = "(((trg_singleelectron_35>0.5)*(pt_1>36))||((trg_crosselectron_ele24tau30>0.5)*(pt_1>25)*(pt_1<28)*(abs(eta_2)<2.1)*(pt_2>35))||((trg_singleelectron_27>0.5)*(pt_1>28))||((trg_singleelectron_32>0.5)*(pt_1>33))||((trg_singleelectron_32_fallback>0.5)*(pt_1>33)))"
 				cuts["iso_1"] = "(iso_1 < 0.15)"
-				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))" #TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))" #only for MC; TODO add byTightIsolationMVArun2v1DBoldDMwLT_2, 0.87 = tauid sf tight
 				cuts["mt"] = "(mt_1<50.0)"
 			else:
 				cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "mssm2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "2016" in cut_type else "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
@@ -210,7 +210,6 @@ class CutStringsDict:
 
 	@staticmethod
 	def cpggh2017(channel, cut_type):
-		print cut_type
 		cuts = CutStringsDict.baseline(channel, cut_type)
 		cuts["bveto"] = "(nbtag == 0)"
 		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
@@ -226,21 +225,26 @@ class CutStringsDict:
 			# used to remove overlap with H->WW->emu analysis
 			cuts["diLepMetMt"] = "(diLepMetMt < 60.0)"
 		elif channel == "mt":
-			# cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))||((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
+			cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))||((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
 			cuts["pt_1"] = "(pt_1 > 21.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			if "emb" in cut_type:
+				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||(trg_crossmuon_mu20tau27>0.5)||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*((trg_crossmuon_mu20tau27>0.5)||(trg_singlemuon_27>0.5)||(trg_singlemuon_24>0.5))))"
 				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
+				# cuts["trigger"] = "(((trg_singlemuon_24>0.5)||(trg_singlemuon_27>0.5))||(trg_crossmuon_mu20tau27>0.5))*triggerWeight_mu_1*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2"
+				# cuts["trigger"] = "((((trg_singlemuon_24>0.5))||((trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
 				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
+				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_2))"
 				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
 				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
-				# cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*1.00 + (gen_match_2 != 5))"
 		elif channel == "et":
 			if "emb" in cut_type:
-				cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1*(pt_1>28.0) + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*(pt_1 < 28.0)*(pt_2 > 35.0)) )"
+				cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1*(pt_1>28.0) + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1)) )"
+				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1*(pt_1>28.0) + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*(pt_1 < 28.0)) )"
 				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * ((((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36)))*triggerWeight_trg27_trg32_trg35_data_1 + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))) )"
 				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))) || ((trg_singleelectron_35>0.5))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1 + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1) )"
 				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
@@ -249,16 +253,62 @@ class CutStringsDict:
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.1)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			if "emb" in cut_type:
 				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
-				# cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*1.00 + (gen_match_2 != 5))"
 		elif channel == "tt": #TODO
 			cuts["pt_1"] = "(pt_1 > 50.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
 			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
 			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 		#cuts["generatorweight"] = "(1/generatorWeight)" #TODO
-		print "hallo"
+		return cuts
+
+
+	@staticmethod
+	def cptautau2017(channel, cut_type):
+		cuts = CutStringsDict.baseline(channel, cut_type)
+		cuts["bveto"] = "(nbtag == 0)"
+		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
+		elif channel == "mt":
+			cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))||((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
+			cuts["pt_1"] = "(pt_1 > 21.0)"
+			cuts["pt_2"] = "(pt_2 > 20.0)"
+			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
+			cuts["mt"] = "(mt_1<50.0)"
+			cuts["iso_1"] = "(iso_1 < 0.15)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
+			if "emb" in cut_type:
+				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||(trg_crossmuon_mu20tau27>0.5)||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*((trg_crossmuon_mu20tau27>0.5)||(trg_singlemuon_27>0.5)||(trg_singlemuon_24>0.5))))"
+				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
+				# cuts["trigger"] = "(((trg_singlemuon_24>0.5)||(trg_singlemuon_27>0.5))||(trg_crossmuon_mu20tau27>0.5))*triggerWeight_mu_1*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2"
+				# cuts["trigger"] = "((((trg_singlemuon_24>0.5))||((trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
+				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
+				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_2))"
+				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
+		elif channel == "et":
+			if "emb" in cut_type:
+				cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1*(pt_1>28.0) + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1)) )"
+				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1*(pt_1>28.0) + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*(pt_1 < 28.0)) )"
+				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * ((((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36)))*triggerWeight_trg27_trg32_trg35_data_1 + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))) )"
+				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))) || ((trg_singleelectron_35>0.5))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1 + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1) )"
+				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
+			cuts["pt_1"] = "(pt_1 > 25.0)"
+			cuts["pt_2"] = "(pt_2 > 23.0)"
+			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
+			cuts["mt"] = "(mt_1<50.0)"
+			cuts["iso_1"] = "(iso_1 < 0.15)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
+			if "emb" in cut_type:
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
+		elif channel == "tt": #TODO
+			cuts["pt_1"] = "(pt_1 > 50.0)"
+			cuts["pt_2"] = "(pt_2 > 40.0)"
+			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 		return cuts
 
 
