@@ -86,6 +86,7 @@ if __name__ == "__main__":
 						estimationMethod="new",
 						polarisation_bias_correction=polarisation_bias_correction,
 						polarisation_gen_ztt_plots=True,
+						#forced_gen_polarisation=-0.2208,
 						nick_suffix="_noplot",
 						no_plot=True
 				)
@@ -147,6 +148,7 @@ if __name__ == "__main__":
 						exclude_cuts=[],
 						estimationMethod="new",
 						polarisation_bias_correction=polarisation_bias_correction,
+						#forced_gen_polarisation=-0.2208,
 						asimov_nicks=asimov_nicks
 				)
 				
