@@ -534,7 +534,7 @@ class Samples(samples.SamplesBase):
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-		
+		self.embedding = False if nick_suffix != "_emb" else self.embedding
 
 		cut_type_emb = cut_type + "emb" if self.embedding else cut_type
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
