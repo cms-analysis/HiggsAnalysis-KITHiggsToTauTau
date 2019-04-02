@@ -270,7 +270,7 @@ class CutStringsDict:
 		cuts = CutStringsDict.baseline(channel, cut_type)
 		cuts["bveto"] = "(nbtag == 0)"
 		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
-		elif channel == "mt":
+		if channel == "mt":
 			cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))||((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
 			cuts["pt_1"] = "(pt_1 > 21.0)"
 			cuts["pt_2"] = "(pt_2 > 20.0)"
