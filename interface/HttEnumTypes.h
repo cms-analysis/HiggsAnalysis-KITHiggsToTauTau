@@ -64,6 +64,7 @@ public:
 		CORRELATE_TRIGGERS = 1,
 		CROSS_TRIGGERS = 2,
 		MULTIPLY_TAU2017_WEIGTHS = 3,
+		NO_OVERLAP_TRIGGERS = 4,
 	};
 	static DataMcScaleFactorProducerMode ToDataMcScaleFactorProducerMode(std::string const& dataMcScaleFactorProducerMode)
 	{
@@ -71,6 +72,7 @@ public:
 		else if (dataMcScaleFactorProducerMode == "correlate_triggers") return DataMcScaleFactorProducerMode::CORRELATE_TRIGGERS;
 		else if (dataMcScaleFactorProducerMode == "cross_triggers") return DataMcScaleFactorProducerMode::CROSS_TRIGGERS;
 		else if (dataMcScaleFactorProducerMode == "multiply_tau2017_weights") return DataMcScaleFactorProducerMode::MULTIPLY_TAU2017_WEIGTHS;
+		else if (dataMcScaleFactorProducerMode == "no_overlap_triggers") return DataMcScaleFactorProducerMode::NO_OVERLAP_TRIGGERS;
 		else return DataMcScaleFactorProducerMode::NONE;
 	}
 	

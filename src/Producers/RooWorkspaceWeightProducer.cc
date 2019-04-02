@@ -640,7 +640,7 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
 				}
 			}
-			if(m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS) //For 2017 cross triggers
+			if(m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS || m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::MULTIPLY_WEIGHTS) //For 2017 cross triggers
 			{
 				if (lepton->flavour() == KLeptonFlavour::MUON)
 				{
@@ -691,6 +691,16 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 					}
 				}
 			}
+			else if(m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::NO_OVERLAP_TRIGGERS) //For 2017 cross triggers without overlap
+			{
+				if((weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly))
+				{
+					product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+				}
+				else{
+					product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+				}
+			}
 		}
 	}
 	//std::cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << std::endl;
@@ -712,5 +722,19 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 		LOG(DEBUG) << "weight: " << leptonTauTrigWeight << std::endl;
 		LOG(DEBUG) << "-------------------------------------------------------------------------------------------------------------------------" << std::endl;
 		product.m_weights[std::string("totalTriggerWeight")] = leptonTauTrigWeight;
+	}
+	else if(m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::NO_OVERLAP_TRIGGERS) //For 2017 cross triggers without overlap
+	{
+		assert((product.m_tautriggerefficienciesMC.size() == 1) &&
+		(product.m_tautriggerefficienciesData.size() == 1));
+		product.m_weights["triggerWeight_etaucross_2"] = ((product.m_tautriggerefficienciesMC[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData[0]/product.m_tautriggerefficienciesMC[0]);
+		// if((product.m_weights.find("e_triggerEffSingle_data_1") != product.m_weights.end()) && (product.m_weights.find("e_triggerEffSingle_mc_1") != product.m_weights.end()))
+		// {
+		// 	product.m_weights["triggerWeight_singleE"] = ((product.m_weights["e_triggerEffSingle_mc_1"] == 0.0) ? 1.0 : product.m_weights["e_triggerEffSingle_data_1"]/product.m_weights["e_triggerEffSingle_mc_1"]);
+		// }
+		// if((product.m_weights.find("e_triggerEffCross_data_1") != product.m_weights.end()) && (product.m_weights.find("e_triggerEffCross_mc_1") != product.m_weights.end()))
+		// {
+		// 	product.m_weights["triggerWeight_etaucross_1"] = ((product.m_weights["e_triggerEffCross_mc_1"] == 0.0) ? 1.0 : product.m_weights["e_triggerEffCross_data_1"]/product.m_weights["e_triggerEffCross_mc_1"]);
+		// }
 	}
 }

@@ -335,6 +335,9 @@ class et_ArtusConfig(dict):
 		TauPolarisationMva_config = sTPMVA.TauPolarisationMva()
 		self.update(TauPolarisationMva_config)
 
+		self.update(IdAndTriggerSF(nickname, channel="ET", dcach=False))
+
+
 		self["TauPolarisationTmvaWeights"] = [
 			"/afs/cern.ch/user/m/mfackeld/public/weights_tmva/training.weights.xml",
 			"/afs/cern.ch/user/m/mfackeld/public/weights_sklearn/training_et.weights.xml"
@@ -548,24 +551,39 @@ class et_ArtusConfig(dict):
 					self["RooWorkspaceObjectArguments"] += ["0:z_gen_pt"]
 
 				self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
-				self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
-					"0:e_triggerEffSingle_mc",
-					"0:e_triggerEffCross_mc",
-					"0:e_triggerEffSingle_data",
-					"0:e_triggerEffCross_data"
-				]
-				self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
-					"0:e_trg_binned_mc",
-					"0:e_trg24_fromDoubleE_mc",
-					"0:e_trg_binned_data",
-					"0:e_trg24_fromDoubleE_data"
-				]
-				self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
-					"0:e_pt,e_eta,e_iso",
-					"0:e_pt,e_eta",
-					"0:e_pt,e_eta,e_iso",
-					"0:e_pt,e_eta"
-				]
+				if self["TriggerEfficiencyMode"] == "cross_triggers":
+					self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
+						"0:e_triggerEffSingle_mc",
+						"0:e_triggerEffCross_mc",
+						"0:e_triggerEffSingle_data",
+						"0:e_triggerEffCross_data"
+					]
+					self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
+						"0:e_trg_binned_mc",
+						"0:e_trg24_fromDoubleE_mc",
+						"0:e_trg_binned_data",
+						"0:e_trg24_fromDoubleE_data"
+					]
+					self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
+						"0:e_pt,e_eta,e_iso",
+						"0:e_pt,e_eta",
+						"0:e_pt,e_eta,e_iso",
+						"0:e_pt,e_eta"
+					]
+				elif self["TriggerEfficiencyMode"] == "no_overlap_triggers":
+					self["SaveLeptonTauTrigger2017WeightAsOptionalOnly"] = "true"
+					self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
+						"0:triggerWeight_singleE",
+						"0:triggerWeight_etaucross",
+					]
+					self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
+						"0:e_trg_27_32_35_ratio",
+						"0:e_trg_EleTau_Ele24Leg_desy_ratio",
+					]
+					self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
+						"0:e_pt,e_eta",
+						"0:e_pt,e_eta",
+					]
 
 		elif re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
 			self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root" if isEmbedded else "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
@@ -618,7 +636,6 @@ class et_ArtusConfig(dict):
 			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"]
 			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"]
 
-		self.update(IdAndTriggerSF(nickname, channel="ET", dcach=False))
 
 
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname): #same as for 2016?

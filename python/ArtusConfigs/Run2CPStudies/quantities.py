@@ -123,7 +123,10 @@ class Quantities(Run2Quantities):
 						self.quantities.update([
 							#"HLT_Ele32_WPTight_Gsf",
 							"HLT_Ele35_WPTight_Gsf",
-							"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
+							"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1",
+							"triggerWeight_singleE_1",
+							"triggerWeight_etaucross_1",
+							"triggerWeight_etaucross_2",
 						])
 				elif re.search("Embedding2016", nickname):
 					self.quantities.update([
