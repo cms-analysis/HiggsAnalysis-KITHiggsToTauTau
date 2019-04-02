@@ -1108,21 +1108,34 @@ if __name__ == "__main__":
 		#from IPython import embed; embed()
 
 		datacards_cbs[official_datacard] = tmp_datacard.cp()		
-
-		datacards_postfit_shapes = {
-			'fit_b': {'/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_1_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha1_fit_b.root',
-  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_2_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha2_fit_b.root',
-  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_3_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha3_fit_b.root',
-  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_4_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha4_fit_b.root',
-  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_5_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha5_fit_b.root',
-  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_6_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha6_fit_b.root'},
- 			'fit_s': {'/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_1_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha1_fit_s.root',
-  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_2_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha2_fit_s.root',
-  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_3_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha3_fit_s.root',
-  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_4_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha4_fit_s.root',
-  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_5_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha5_fit_s.root',
-  '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/htt_mt_2017_6_13TeV.txt': '/.automount/home/home__home2/institut_3b/degens/higgsanalysis/new/CMSSW_8_1_0/src/CombineHarvester/HTTSMCP2016/output/CP1_etasep2bins_embedding/cmb/125/postFitShapesFromWorkspace.alpha6_fit_s.root'}}
 		
+		datacards_postfit_shapes_fit_b = {}
+		datacards_postfit_shapes_fit_s = {}
+		for channel in channel_list:
+			datacards_postfit_shapes_fit_b[datacards_path+'htt_'+channel+'_2017_1_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha1_fit_b.root'
+			datacards_postfit_shapes_fit_b[datacards_path+'htt_'+channel+'_2017_2_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha2_fit_b.root'
+			datacards_postfit_shapes_fit_b[datacards_path+'htt_'+channel+'_2017_3_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha3_fit_b.root'
+			datacards_postfit_shapes_fit_b[datacards_path+'htt_'+channel+'_2017_4_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha4_fit_b.root'
+			datacards_postfit_shapes_fit_b[datacards_path+'htt_'+channel+'_2017_5_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha5_fit_b.root'
+			datacards_postfit_shapes_fit_b[datacards_path+'htt_'+channel+'_2017_6_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha6_fit_b.root'
+ 			
+
+
+			datacards_postfit_shapes_fit_s[datacards_path+'htt_'+channel+'_2017_1_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha1_fit_s.root'
+			datacards_postfit_shapes_fit_s[datacards_path+'htt_'+channel+'_2017_2_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha2_fit_s.root'
+			datacards_postfit_shapes_fit_s[datacards_path+'htt_'+channel+'_2017_3_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha3_fit_s.root'
+			datacards_postfit_shapes_fit_s[datacards_path+'htt_'+channel+'_2017_4_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha4_fit_s.root'
+			datacards_postfit_shapes_fit_s[datacards_path+'htt_'+channel+'_2017_5_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha5_fit_s.root'
+			datacards_postfit_shapes_fit_s[datacards_path+'htt_'+channel+'_2017_6_13TeV.txt'] = datacards_path+'htt_'+channel+'_2017_postFitShapesFromWorkspace.alpha6_fit_s.root'
+		
+
+		datacards_postfit_shapes={
+			"fit_b" : datacards_postfit_shapes_fit_b,
+			"fit_s" : datacards_postfit_shapes_fit_s
+			} 
+		#pprint.pprint( datacards_postfit_shapes)
+		#exit(0)
+
 		
 		# divide plots by bin width and change the label correspondingly
 		if args.quantity == "m_sv" and not(do_not_normalize_by_bin_width):
@@ -1376,8 +1389,12 @@ if __name__ == "__main__":
 
 			x_ticks = {
 				"mt_5" : [0.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0, 34.0, 37.0, 40.0, 43.0, 46.0, 49.0, 52.0, 55.0, 58.0, 61.0, 64.0, 67.0, 70.0, 73.0, 76.0, 79.0, 82.0, 85.0, 88.0, 91.0, 94.0, 97.0, 100.0, 103.0, 106.0, 109.0, 112.0, 115.0, 118.0, 121.0, 124.0, 127.0, 130.0, 133.0, 136.0, 139.0, 142.0, 144.0],
-				"mt_6" : [0.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0, 34.0, 37.0, 40.0, 43.0, 46.0, 49.0, 52.0, 55.0, 58.0, 61.0, 64.0, 67.0, 70.0, 73.0, 76.0, 79.0, 82.0, 85.0, 88.0, 91.0, 94.0, 97.0, 100.0, 103.0, 106.0, 109.0, 112.0, 115.0, 118.0, 121.0, 124.0, 127.0, 130.0, 133.0, 136.0, 139.0, 142.0, 144.0]
+				"mt_6" : [0.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0, 34.0, 37.0, 40.0, 43.0, 46.0, 49.0, 52.0, 55.0, 58.0, 61.0, 64.0, 67.0, 70.0, 73.0, 76.0, 79.0, 82.0, 85.0, 88.0, 91.0, 94.0, 97.0, 100.0, 103.0, 106.0, 109.0, 112.0, 115.0, 118.0, 121.0, 124.0, 127.0, 130.0, 133.0, 136.0, 139.0, 142.0, 144.0],
+				"et_5" : [0.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0, 34.0, 37.0, 40.0, 43.0, 46.0, 49.0, 52.0, 55.0, 58.0, 61.0, 64.0, 67.0, 70.0, 73.0, 76.0, 79.0, 82.0, 85.0, 88.0, 91.0, 94.0, 97.0, 100.0, 103.0, 106.0, 109.0, 112.0, 115.0, 118.0, 121.0, 124.0, 127.0, 130.0, 133.0, 136.0, 139.0, 142.0, 144.0],
+				"et_6" : [0.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0, 34.0, 37.0, 40.0, 43.0, 46.0, 49.0, 52.0, 55.0, 58.0, 61.0, 64.0, 67.0, 70.0, 73.0, 76.0, 79.0, 82.0, 85.0, 88.0, 91.0, 94.0, 97.0, 100.0, 103.0, 106.0, 109.0, 112.0, 115.0, 118.0, 121.0, 124.0, 127.0, 130.0, 133.0, 136.0, 139.0, 142.0, 144.0]
 			}
+			
+			
 
 			#"-3.15--2.63","-2.63--2.1","-2.1--1.58","-1.58--1.05","-1.05--0.53","-0.53-0", "0-0.53","0.53-1.05", "1.05-1.58", "1.58-2.1", "2.1-2.63", "2.63-3.15"
 
