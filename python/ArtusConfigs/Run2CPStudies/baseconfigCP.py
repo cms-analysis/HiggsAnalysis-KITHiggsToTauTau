@@ -30,7 +30,7 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 		#self["LumiWhitelist"] = [194]
 		#self["EventWhitelist"] = [38756]
 
-		if re.search("(Fall15MiniAODv2|Run2015)", nickname) or re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
+		if re.search("(Fall15MiniAODv2|Run2015)", nickname) or re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
 			self["RefitVertices"] = ""
 			self["RefitBSVertices"] = ""
 		else:

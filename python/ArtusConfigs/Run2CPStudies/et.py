@@ -65,7 +65,7 @@ class et_ArtusConfig(dict):
 				"producer:EventWeightProducer"
 			]
 
-		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17|Embedding(2016|2017))", nickname):
+		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17|Embedding(2016|2017))", nickname) or re.search("adow", nickname):
 			#'#producer:TauPolarisationTmvaReader', '#producer:MVATestMethodsProducer'
 			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples
 			self["Processors"] += [
@@ -376,7 +376,7 @@ class et_ArtusConfig(dict):
 		# elif re.search("Embedding2017", nickname):
 		# 	self["NoHltFiltering"] = True
 
-		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
+		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname) or re.search("adow", nickname):
 			#from https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2017#Trigger_Information
 			self["HltPaths"] = [
 					"HLT_Ele27_WPTight_Gsf",
@@ -461,7 +461,7 @@ class et_ArtusConfig(dict):
 
 		self["EventWeight"] =  "eventWeight"
 
-		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
+		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
 			if isEmbedded:
 				self["SaveEmbeddingWeightAsOptionalOnly"] = "true"
 				self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_5.root"
@@ -623,7 +623,7 @@ class et_ArtusConfig(dict):
 			self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Electron_IdIso0p1_fall15.root"]
 			self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso0p1_fall15.root"]
 
-		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
+		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname) or re.search("adow", nickname):
 			self["TriggerEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele32orEle35.root"]
 			self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Electron_Ele32orEle35.root"]
 
@@ -667,7 +667,7 @@ class et_ArtusConfig(dict):
 			self["FakeFactorMethod"] = "cp2016"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
 
-		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
+		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname) or re.search("adow", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2017_2/et/fakeFactors.root" #TODO
 			self["FakeFactorMethod"] = "cp2017"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
