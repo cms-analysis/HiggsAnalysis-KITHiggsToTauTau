@@ -81,6 +81,7 @@ git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGrap
 # MELA/JHU
 git clone git@github.com:cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
 cd ZZMatrixElement
+git checkout -b v2.1.1
 #mkdir MELA/data/slc7_amd64_gcc530
 #cp MELA/data/slc6_amd64_gcc530/download.url MELA/data/slc7_amd64_gcc530/
 ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
@@ -94,7 +95,8 @@ git checkout v0.2.2
 cd $CMSSW_BASE/src/
 
 # 2017 tau trigger efficiencies
-git clone git@github.com:truggles/TauTriggerSFs2017.git TauTriggerSFs2017/TauTriggerSFs2017
+mkdir TauAnalysisTools
+git clone -b final_2017_MCv2 git@github.com:cms-tau-pog/TauTriggerSFs $CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs
 
 # EmuQCD Method
 git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
