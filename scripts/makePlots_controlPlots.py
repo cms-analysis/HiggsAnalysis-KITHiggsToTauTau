@@ -196,6 +196,8 @@ if __name__ == "__main__":
 	                    help="Produce the plots for the SM HTT analysis. [Default: %(default)s]")
 	parser.add_argument("--cpggh", default=False, action="store_true",
 			    help="Produce plots for the Higgs CP ggH analysis. [Default: %(default)s]")
+	parser.add_argument("--cptautau", default=False, action="store_true",
+				help="Produce plots for the Higgs CP tau tau final state analysis. [Default: %(default)s]")
 	parser.add_argument("--cp", default=False, action="store_true",
 	                    help="Produce the plots for the CP analysis. [Default: %(default)s]")  #TODO instead of 3 different boolean flag, change to option with 3 possible values
 	parser.add_argument("--cprho", default=False, action="store_true",
@@ -372,6 +374,8 @@ if __name__ == "__main__":
 			global_cut_type = "smhtt"
 		if args.cpggh:
 			global_cut_type = "cpggh"
+		if args.cptautau:
+			global_cut_type = "cptautau"
 		global_cut_type += "2017"
 
 	if args.channel_comparison:
