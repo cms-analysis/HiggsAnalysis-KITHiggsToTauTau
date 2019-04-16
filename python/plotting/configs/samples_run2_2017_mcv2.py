@@ -497,7 +497,6 @@ class Samples(samples.Samples):
 	################higgs files###########################
 	def files_qqh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
-		print "this is VBF"
 		if cp is None or  cp =="cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time. added v2 to this, if mc_campaign changes change this as well
 			return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)  
