@@ -640,7 +640,7 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
 				}
 			}
-			if(m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS || m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::MULTIPLY_WEIGHTS) //For 2017 cross triggers
+			if(m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS) //For 2017 cross triggers
 			{
 				if (lepton->flavour() == KLeptonFlavour::MUON)
 				{
@@ -725,9 +725,19 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 	}
 	else if(m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::NO_OVERLAP_TRIGGERS) //For 2017 cross triggers without overlap
 	{
-		assert((product.m_tautriggerefficienciesMC.size() == 1) &&
-		(product.m_tautriggerefficienciesData.size() == 1));
-		product.m_weights["triggerWeight_etaucross_2"] = ((product.m_tautriggerefficienciesMC[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData[0]/product.m_tautriggerefficienciesMC[0]);
+		KLepton* lepton = product.m_flavourOrderedLeptons[0];
+		if (lepton->flavour() == KLeptonFlavour::MUON)
+		{
+			assert((product.m_tautriggerefficienciesMC.size() == 1) &&
+			(product.m_tautriggerefficienciesData.size() == 1));
+			product.m_optionalWeights["triggerWeight_mutaucross_2"] = ((product.m_tautriggerefficienciesMC[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData[0]/product.m_tautriggerefficienciesMC[0]);
+		}
+		else if (lepton->flavour() == KLeptonFlavour::ELECTRON)
+		{
+			assert((product.m_tautriggerefficienciesMC.size() == 1) &&
+			(product.m_tautriggerefficienciesData.size() == 1));
+			product.m_optionalWeights["triggerWeight_etaucross_2"] = ((product.m_tautriggerefficienciesMC[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData[0]/product.m_tautriggerefficienciesMC[0]);
+		}
 		// if((product.m_weights.find("e_triggerEffSingle_data_1") != product.m_weights.end()) && (product.m_weights.find("e_triggerEffSingle_mc_1") != product.m_weights.end()))
 		// {
 		// 	product.m_weights["triggerWeight_singleE"] = ((product.m_weights["e_triggerEffSingle_mc_1"] == 0.0) ? 1.0 : product.m_weights["e_triggerEffSingle_data_1"]/product.m_weights["e_triggerEffSingle_mc_1"]);

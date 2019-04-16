@@ -307,6 +307,8 @@ class mt_ArtusConfig(dict):
 
 		TauPolarisationMva_config = sTPMVA.TauPolarisationMva()
 		self.update(TauPolarisationMva_config)
+		
+		self.update(IdAndTriggerSF(nickname, channel="MT", dcach=False))
 
 		self["TauPolarisationTmvaWeights"] = [
 			"/afs/cern.ch/user/m/mfackeld/public/weights_tmva/training.weights.xml",
@@ -568,26 +570,42 @@ class mt_ArtusConfig(dict):
 					self["RooWorkspaceObjectNames"] += ["0:zpt_weight_nom"]
 					self["RooWorkspaceObjectArguments"] += ["0:z_gen_pt"]
 
-				self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
-				self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
-					"0:m_triggerEffSingle_mc",
-					"0:m_triggerEffCross_mc",
-					"0:m_triggerEffSingle_data",
-					"0:m_triggerEffCross_data"
-				]
-				self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
-					"0:m_trg_binned_mc",
-					"0:m_trg20_mc",
-					"0:m_trg_binned_data",
-					"0:m_trg20_data"
+				if self["TriggerEfficiencyMode"] == "cross_triggers":
+					self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
+					self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
+						"0:m_triggerEffSingle_mc",
+						"0:m_triggerEffCross_mc",
+						"0:m_triggerEffSingle_data",
+						"0:m_triggerEffCross_data"
+					]
+					self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
+						"0:m_trg_binned_mc",
+						"0:m_trg20_mc",
+						"0:m_trg_binned_data",
+						"0:m_trg20_data"
 
-				]
-				self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
-					"0:m_pt,m_eta,m_iso",
-					"0:m_pt,m_eta",
-					"0:m_pt,m_eta,m_iso",
-					"0:m_pt,m_eta"
-				]
+					]
+					self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
+						"0:m_pt,m_eta,m_iso",
+						"0:m_pt,m_eta",
+						"0:m_pt,m_eta,m_iso",
+						"0:m_pt,m_eta"
+					]
+				elif self["TriggerEfficiencyMode"] == "no_overlap_triggers":
+					self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v3.root"
+					self["SaveLeptonTauTrigger2017WeightAsOptionalOnly"] = "true"
+					self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
+						"0:triggerWeight_mutaucross",
+						"0:triggerWeight_mu",
+					]
+					self["LeptonTauTrigger2017WeightWorkspaceObjectNames"] = [
+						"0:m_trg20_ratio",
+						"0:m_trg24_27_kit_ratio",
+					]
+					self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
+						"0:m_pt,m_eta",
+						"0:m_pt,m_eta",
+					]
 
 		elif re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
 			self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
@@ -648,7 +666,6 @@ class mt_ArtusConfig(dict):
 					"1:t_pt,t_eta"
 				]
 
-		self.update(IdAndTriggerSF(nickname, channel="MT", dcach=False))
 		if re.search("Run2017|Summer17|Fall17", nickname):
 			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 		else:

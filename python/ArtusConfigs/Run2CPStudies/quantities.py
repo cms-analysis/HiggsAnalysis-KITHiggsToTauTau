@@ -164,6 +164,12 @@ class Quantities(Run2Quantities):
 						"triggerWeight_mutaucross_1",
 						"triggerWeight_mutaucross_2"
 					])
+				else:
+					self.quantities.update([
+						"triggerWeight_mu_1",
+						"triggerWeight_mutaucross_1",
+						"triggerWeight_mutaucross_2",
+					])
 			elif channel == "TT":
 				if re.search("(Summer17|Fall17|Run2017)", nickname):
 					self.quantities.update([

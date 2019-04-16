@@ -550,8 +550,8 @@ class et_ArtusConfig(dict):
 					self["RooWorkspaceObjectNames"] += ["0:zpt_weight_nom"]
 					self["RooWorkspaceObjectArguments"] += ["0:z_gen_pt"]
 
-				self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
 				if self["TriggerEfficiencyMode"] == "cross_triggers":
+					self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
 					self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
 						"0:e_triggerEffSingle_mc",
 						"0:e_triggerEffCross_mc",
@@ -571,6 +571,7 @@ class et_ArtusConfig(dict):
 						"0:e_pt,e_eta"
 					]
 				elif self["TriggerEfficiencyMode"] == "no_overlap_triggers":
+					self["LeptonTauTrigger2017WeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v3.root"
 					self["SaveLeptonTauTrigger2017WeightAsOptionalOnly"] = "true"
 					self["LeptonTauTrigger2017WeightWorkspaceWeightNames"] = [
 						"0:triggerWeight_singleE",
