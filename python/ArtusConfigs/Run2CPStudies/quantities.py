@@ -1157,7 +1157,7 @@ class Quantities(Run2Quantities):
 			"polarisationCombinedOmegaSimpleFit",
 			#"polarisationCombinedOmegaHHKinFit",
 
-			"polarisationCombinedOmegaBarGenMatched",
+			#"polarisationCombinedOmegaBarGenMatched",
 			"polarisationCombinedOmegaBarSimpleFit",
 			#"polarisationCombinedOmegaBarHHKinFit",
 

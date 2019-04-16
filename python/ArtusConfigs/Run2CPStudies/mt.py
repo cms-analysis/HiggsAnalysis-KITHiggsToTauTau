@@ -110,6 +110,8 @@ class mt_ArtusConfig(dict):
 						]
 				self["Processors"] += ["producer:TauCorrectionsProducer"]
 				self["Processors"] += ["producer:MetCorrector"]
+				self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
