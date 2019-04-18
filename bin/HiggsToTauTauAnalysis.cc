@@ -21,8 +21,8 @@
 	It can be run with the config file data/exampleConfig.json
 */
 
-int main(int argc, char** argv) {
 
+int main(int argc, char** argv) {	
 	// parse the command line and load the
 	ArtusConfig myConfig(argc, argv);
 
