@@ -90,7 +90,7 @@ cd $CMSSW_BASE/src/
 # Jet2Tau Fakes as described here https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauJet2TauFakes
 git clone git@github.com:CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
-git checkout v0.2.2
+git checkout -b v0.2.2
 
 cd $CMSSW_BASE/src/
 
