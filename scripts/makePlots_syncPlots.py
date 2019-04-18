@@ -57,6 +57,8 @@ if __name__ == "__main__":
 	                    help="weights. [Default: %(default)s]")
 	parser.add_argument("-k", "--keep-eventmatching-output", action="store_true", default=False,
 						help="Keep eventmatching.root. [Default: %(default)s]")
+	parser.add_argument("-s", "--skip-eventmatching", action="store_true", default=False,
+						help="Skip rerunning eventmatching.py. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -81,8 +83,9 @@ if __name__ == "__main__":
 					folder2=args.folder_2,
 					output=event_matching_output
 				)
-				log.info(command)
-				logger.subprocessCall(command, shell=True)
+				if not args.skip_eventmatching:
+					log.info(command)
+					logger.subprocessCall(command, shell=True)
 			
 			plot_config["files"] = [event_matching_output]
 			plot_config["folders"] = ["common1", "common2", "only1", "only2"]
