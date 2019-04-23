@@ -616,8 +616,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		//Distance of Point of closest approach (PCA) from the primary vertex (PV) in units of sigma_PV
 		product.m_pca1DiffInSigma = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP1);
 		product.m_pca2DiffInSigma = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP2);
-		std::cout << product.m_pca1DiffInSigma << std::endl;
-		std::cout << product.m_pca2DiffInSigma << std::endl;
 
 		// calculate cosPsi
 		if (recoParticle1->charge() == +1){
