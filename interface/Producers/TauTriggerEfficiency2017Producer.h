@@ -4,7 +4,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "TFile.h"
 #include "TGraphAsymmErrors.h"
-#include "TauTriggerSFs2017/TauTriggerSFs2017/interface/TauTriggerSFs2017.h"
+#include "TauAnalysisTools/TauTriggerSFs/interface/TauTriggerSFs2017.h"
 
 /**
    \brief TauTrigger2017EfficiencyProducer

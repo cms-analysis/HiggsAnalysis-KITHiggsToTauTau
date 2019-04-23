@@ -15,7 +15,7 @@ class JECUncertaintySplit(dict):
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 0.0
 		else:
 			self["AbsJetEnergyCorrectionSplitUncertaintyShift"] = 1.0
-		if re.search("(Run2017|Fall17)", nickname):
+		if re.search("(Run2017|Fall17)", nickname) or re.search("adow", nickname):
 			self["JetsCorrectedInKappa"] = False #TODO in next skim they will be corrected
 		else:
 			self["JetsCorrectedInKappa"] = False

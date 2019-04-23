@@ -22,6 +22,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["zmm"] = "Z #rightarrow #mu#mu"
 			self.labels_dict["zee"] = "Z #rightarrow ee"
 			self.labels_dict["ztt"] = "Z #rightarrow #tau#tau"
+			self.labels_dict["embedztt"] = "Z #rightarrow #tau#tau (emb)"
 			self.labels_dict["ztt_dm_zero"] = "Z #rightarrow #tau#tau, 1h^{#pm}"
 			self.labels_dict["ztt_dm_one"] = "Z #rightarrow #tau#tau, 1h^{#pm} #geq1#pi^{0}"
 			self.labels_dict["ztt_dm_ten"] = "Z #rightarrow #tau#tau, 3h^{#pm}"
@@ -387,6 +388,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["mt_jdphi"] = "#Delta#phi_{jj}"
 			self.labels_dict["mt_jdphi_CP1"] = "#Delta#phi_{jj}^{CP1}"
 			self.labels_dict["mt_jdphi_CP2"] = "#Delta#phi_{jj}^{CP2}"
+			self.labels_dict["mt_etasep_CP1"] = "#eta_{sep}^{CP1}"
+			self.labels_dict["mt_etasep_CP2"] = "#eta_{sep}^{CP2}"
 			self.labels_dict["mt_jeta_1"] = "Leading Jet #eta"
 			self.labels_dict["mt_jeta_2"] = "Trailing Jet #eta"
 			self.labels_dict["mt_jphi_1"] = "Leading Jet #phi"
@@ -470,6 +473,9 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["et_jdphi"] = "#Delta#phi_{jj}"
 			self.labels_dict["et_jdphi_CP1"] = "#Delta#phi_{jj}^{CP1}"
 			self.labels_dict["et_jdphi_CP2"] = "#Delta#phi_{jj}^{CP2}"
+			self.labels_dict["et_etasep_CP1"] = "#eta_{sep}^{CP1}"
+			self.labels_dict["et_etasep_CP2"] = "#eta_{sep}^{CP2}"
+
 			self.labels_dict["et_jeta_1"] = "Leading Jet #eta"
 			self.labels_dict["et_jeta_2"] = "Trailing Jet #eta"
 			self.labels_dict["et_jphi_1"] = "Leading Jet #phi"
@@ -821,6 +827,12 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict["cpeven{mass:d}".format(mass=higgs_mass)] = self.labels_dict["cpeven"]
 				self.labels_dict["cpmix_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["cpmix_alt"]
 				self.labels_dict["cpodd_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["cpodd_alt"]
+
+				self.labels_dict["wh_htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["wh"]
+				self.labels_dict["zh_htt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["zh"]
+				self.labels_dict["qqh_htt{mass:d}".format(mass=higgs_mass)] = "VBF"
+
+				#self.labels_dict["ggHsm_htt{mass:d}".format(mass=higgs_mass)] = ""
 
 				for scale in [10, 25, 100, 250]:
 					self.labels_dict["htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["htt"]+" (#times {scale:d})".format(scale=scale)

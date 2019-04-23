@@ -61,8 +61,8 @@ class IdAndTriggerSF(dict):
 					self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
 					self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MCFall2017_Electron_IdIso_IsoLt0.10_eff_RerecoFall17.root"]
 
-					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017_New.root"
-					self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
+					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2017.root"
+					# self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
 					self["TauTrigger2017WorkingPoint"] = "tight"
 
 					self["TriggerEfficiencyMode"] = "cross_triggers"
@@ -111,8 +111,8 @@ class IdAndTriggerSF(dict):
 								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Muon_IsoMu27_IsoLt0.15_eff_RerecoFall17.root",
 								"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_MCFall2017_Muon_MuTau_IsoMu20.root",
 					]
-					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017_New.root"
-					self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
+					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2017.root"
+					# self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
 					self["TauTrigger2017WorkingPoint"] = "tight"
 
 
@@ -129,8 +129,8 @@ class IdAndTriggerSF(dict):
 
 			if channel == "TT":
 				if re.search("Run2017|Summer17|Fall17", nickname):
-					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017_New.root"
-					self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
+					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2017.root"
+					# self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
 					self["TauTrigger2017WorkingPoint"] = "tight" #TODO might change for 2017
 					self["TriggerEfficiencyMode"] = "multiply_tau2017_weights"
 					self["IdentificationEfficiencyMode"] = "multiply_weights"

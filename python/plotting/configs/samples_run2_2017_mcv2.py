@@ -313,7 +313,6 @@ class Samples(samples.Samples):
 		return artus_files
 
 	def files_zzto4l(self, channel):
-		print "hi"
 		artus_files = self.artus_file_names({ "process" : "ZZTo4L", "data" : False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 2)
 		return artus_files
 
@@ -497,7 +496,6 @@ class Samples(samples.Samples):
 	################higgs files###########################
 	def files_qqh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
-		print "this is VBF"
 		if cp is None or  cp =="cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time. added v2 to this, if mc_campaign changes change this as well
 			return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)  
@@ -594,7 +592,6 @@ class Samples(samples.Samples):
 			weight_ff = weight + "*(" + ff_weight_1 + "+" + ff_weight_2 + ")"
 		elif channel in ["mt","et"]:
 			weight_ff = weight + "*(" + ff_weight_2 + ")"
-		print weight
 
 		weight_tau_id="(zPtReweightWeight)*(gen_match_2 < 6)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if self.embedding else "(zPtReweightWeight)*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
 
@@ -672,36 +669,6 @@ class Samples(samples.Samples):
 					weight=mc_weight+"*"+weight_ff+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
 					nick="noplot_ff_realtaus_subtract"
 			)
-
-
-			"""
-			add_input(
-					input_file=self.files_data(channel),
-					scale_factor=1.0,
-					weight=weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight",
-					nick="noplot_ff_norm"
-			)
-
-			add_input(
-					input_file=self.files_ztt(channel, embedding=self.embedding),
-					weight=self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
-					nick="noplot_dy_ff_norm"
-			)
-			add_input(
-					input_file=self.files_ttj(channel),
-					weight=weight+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*topPtReweightWeight*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
-					nick="noplot_tt_ff_norm"
-			)
-			add_input(
-					input_file=self.files_vv(channel),
-					weight=weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb"+"*"+self.vv_stitchingweight(),
-					nick="noplot_vv_ff_norm"
-			)
-			add_input(
-					input_file=self.files_diboson(channel),
-					weight=weight+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
-					nick="noplot_vv_ff_norm"
-			)"""
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
 

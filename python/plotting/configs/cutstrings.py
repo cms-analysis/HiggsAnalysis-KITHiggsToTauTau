@@ -275,7 +275,7 @@ class CutStringsDict:
 			cuts["pt_1"] = "(pt_1 > 21.0)"
 			cuts["pt_2"] = "(pt_2 > 20.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
-			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
@@ -289,6 +289,8 @@ class CutStringsDict:
 				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
 				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
 		elif channel == "et":
+			cuts["trigger"] = "( ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_singleE_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1))*triggerWeight_etaucross_1*triggerWeight_etaucross_2 ))"
+			# cuts["trigger"] = "( ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1)) ))"
 			if "emb" in cut_type:
 				cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1*(pt_1>28.0) + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1)) )"
 				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1*(pt_1>28.0) + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*(pt_1 < 28.0)) )"
@@ -298,7 +300,7 @@ class CutStringsDict:
 			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 23.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
-			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
@@ -802,6 +804,8 @@ class CutStringsDict:
 			cuts = CutStringsDict.cpggh2016(channel, cut_type)
 		elif "cpggh2017" in cut_type:
 			cuts = CutStringsDict.cpggh2017(channel, cut_type)
+		elif "cptautau2017" in cut_type:
+			cuts = CutStringsDict.cptautau2017(channel, cut_type)
 		elif cut_type=="mssm":
 			cuts = CutStringsDict.baseline(channel, cut_type)
 		elif cut_type=="mssm2016":

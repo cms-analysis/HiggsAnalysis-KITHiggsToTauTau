@@ -57,6 +57,8 @@ if __name__ == "__main__":
 	                    help="weights. [Default: %(default)s]")
 	parser.add_argument("-k", "--keep-eventmatching-output", action="store_true", default=False,
 						help="Keep eventmatching.root. [Default: %(default)s]")
+	parser.add_argument("-s", "--skip-eventmatching", action="store_true", default=False,
+						help="Skip rerunning eventmatching.py. [Default: %(default)s]")
 	
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -81,14 +83,15 @@ if __name__ == "__main__":
 					folder2=args.folder_2,
 					output=event_matching_output
 				)
-				log.info(command)
-				logger.subprocessCall(command, shell=True)
+				if not args.skip_eventmatching:
+					log.info(command)
+					logger.subprocessCall(command, shell=True)
 			
 			plot_config["files"] = [event_matching_output]
 			plot_config["folders"] = ["common1", "common2", "only1", "only2"]
 			plot_config["nicks"] = ["common1", "common2", "only1", "only2"]
-			plot_config["x_expressions"] = [quantity_1, quantity_2]
-			plot_config["weights"] = ["("+quantity_1+"> -990)", "("+quantity_2+"> -990)"]
+			plot_config["x_expressions"] = [quantity]
+			plot_config["weights"] = ["("+quantity+"> -990)"]
 			
 			plot_config.setdefault("analysis_modules", []).append("Ratio")
 			plot_config["ratio_numerator_nicks"] = plot_config["nicks"][0]
@@ -107,8 +110,8 @@ if __name__ == "__main__":
 			plot_config["files"] = [args.input_1, args.input_2]
 			plot_config["folders"] = [args.folder_1, args.folder_2]
 			plot_config["nicks"] = ["events1", "events2"]
-			plot_config["x_expressions"] = [quantity_1, quantity_2]
-			plot_config["weights"] = ["("+quantity_1+"> -990)", "("+quantity_2+"> -990)"]
+			plot_config["x_expressions"] = [quantity, quantity]
+			plot_config["weights"] = ["("+quantity+"> -990)", "("+quantity+"> -990)"]
 			
 			plot_config.setdefault("analysis_modules", []).append("Ratio")
 			plot_config["ratio_numerator_nicks"] = plot_config["nicks"][0]
@@ -123,6 +126,7 @@ if __name__ == "__main__":
 			plot_config["markers"] = ["P", "HIST", "P"]
 			plot_config["y_subplot_lims"] = [0.95, 1.05]
 		
+		plot_config["no_cache"] = True
 		plot_config["output_dir"] = os.path.expandvars(args.output_dir)
 		plot_configs.append(plot_config)
 			
