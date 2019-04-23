@@ -127,35 +127,35 @@ public:
 	std::map<KLepton*, float> m_polarisationOmegasSimpleFit;
 	//std::map<KLepton*, float> m_polarisationOmegasHHKinFit;
 	std::map<KGenTau*, float> m_polarisationOmegasGen;
-	
+
 	std::map<KLepton*, float> m_polarisationOmegaBarsGenMatched;
 	std::map<KLepton*, float> m_polarisationOmegaBarsSvfit;
 	std::map<KLepton*, float> m_polarisationOmegaBarsSvfitM91;
 	std::map<KLepton*, float> m_polarisationOmegaBarsSimpleFit;
 	//std::map<KLepton*, float> m_polarisationOmegaBarsHHKinFit;
 	std::map<KGenTau*, float> m_polarisationOmegaBarsGen;
-	
+
 	std::map<KLepton*, float> m_polarisationOmegaVisiblesGenMatched;
 	std::map<KLepton*, float> m_polarisationOmegaVisiblesSvfit;
 	std::map<KLepton*, float> m_polarisationOmegaVisiblesSvfitM91;
 	std::map<KLepton*, float> m_polarisationOmegaVisiblesSimpleFit;
 	//std::map<KLepton*, float> m_polarisationOmegaVisiblesHHKinFit;
 	std::map<KGenTau*, float> m_polarisationOmegaVisiblesGen;
-	
+
 	float m_polarisationCombinedOmegaGenMatched = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaSvfit = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaSvfitM91 = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaSimpleFit = DefaultValues::UndefinedFloat;
 	//float m_polarisationCombinedOmegaHHKinFit = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaGen = DefaultValues::UndefinedFloat;
-	
+
 	float m_polarisationCombinedOmegaBarGenMatched = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaBarSvfit = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaBarSvfitM91 = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaBarSimpleFit = DefaultValues::UndefinedFloat;
 	//float m_polarisationCombinedOmegaBarHHKinFit = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaBarGen = DefaultValues::UndefinedFloat;
-	
+
 	float m_polarisationCombinedOmegaVisibleGenMatched = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaVisibleSvfit = DefaultValues::UndefinedFloat;
 	float m_polarisationCombinedOmegaVisibleSvfitM91 = DefaultValues::UndefinedFloat;
@@ -232,7 +232,7 @@ public:
 	KMET* m_pfmetUncorr = 0;
 	KMET* m_mvametUncorr = 0;
 
-	
+
 
 	// filled by the MetCorrectors
 	std::vector<float> m_mvametCorrections;
@@ -328,16 +328,20 @@ public:
 
 
 	// filled by RecoTauCPProducer
-		
+
 	TVector3 m_recoIP1; // IPvec wrt original PV
 	TVector3 m_recoIP2; // IPvec wrt original PV
 	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
 	TVector3 m_recoIP2_refitPV; // IPvec wrt refitted PV
 	TVector3 m_track1FromBS; // distance between track1 and BS center
 	TVector3 m_track2FromBS; // distance between track2 and BS center
+
+	double m_pca1DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach from the primary vertex (PV) in units of sigma_PV
+	double m_pca2DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach from the primary vertex (PV) in units of sigma_PV
+
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
-	
+
 	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
@@ -391,6 +395,8 @@ public:
 	double m_reco_negyTauL = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar_rho = DefaultValues::UndefinedDouble;
+
+
 
 	// azimuthal angles of the tau decay planes
 	// ip method
@@ -518,73 +524,73 @@ public:
 	float m_melaProbCPMixGGH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorD0MinusGGH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorDCPGGH = DefaultValues::UndefinedFloat;
-	
+
 	float m_melaProbCPEvenVBF = DefaultValues::UndefinedFloat;
 	float m_melaProbCPOddVBF = DefaultValues::UndefinedFloat;
 	float m_melaProbCPMixVBF = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorD0MinusVBF = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorDCPVBF = DefaultValues::UndefinedFloat;
-	
+
 	//filled by LFVJetCorrection2016Producer
 	float lfvjetcorr;
-	
+
 	/*
 	float m_melaProbCPEvenWlepH = DefaultValues::UndefinedFloat;
 	float m_melaProbCPOddWlepH = DefaultValues::UndefinedFloat;
 	float m_melaProbCPMixWlepH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorD0MinusWlepH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorDCPWlepH = DefaultValues::UndefinedFloat;
-	
+
 	float m_melaProbCPEvenWhadH = DefaultValues::UndefinedFloat;
 	float m_melaProbCPOddWhadH = DefaultValues::UndefinedFloat;
 	float m_melaProbCPMixWhadH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorD0MinusWhadH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorDCPWhadH = DefaultValues::UndefinedFloat;
-	
+
 	float m_melaProbCPEvenZlepH = DefaultValues::UndefinedFloat;
 	float m_melaProbCPOddZlepH = DefaultValues::UndefinedFloat;
 	float m_melaProbCPMixZlepH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorD0MinusZlepH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorDCPZlepH = DefaultValues::UndefinedFloat;
-	
+
 	float m_melaProbCPEvenZhadH = DefaultValues::UndefinedFloat;
 	float m_melaProbCPOddZhadH = DefaultValues::UndefinedFloat;
 	float m_melaProbCPMixZhadH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorD0MinusZhadH = DefaultValues::UndefinedFloat;
 	float m_melaDiscriminatorDCPZhadH = DefaultValues::UndefinedFloat;
 	*/
-	
+
 	float m_melaM125ProbCPEvenGGH = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPOddGGH = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPMixGGH = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorD0MinusGGH = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorDCPGGH = DefaultValues::UndefinedFloat;
-	
+
 	float m_melaM125ProbCPEvenVBF = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPOddVBF = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPMixVBF = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorD0MinusVBF = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorDCPVBF = DefaultValues::UndefinedFloat;
-	
+
 	/*
 	float m_melaM125ProbCPEvenWlepH = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPOddWlepH = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPMixWlepH = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorD0MinusWlepH = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorDCPWlepH = DefaultValues::UndefinedFloat;
-	
+
 	float m_melaM125ProbCPEvenWhadH = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPOddWhadH = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPMixWhadH = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorD0MinusWhadH = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorDCPWhadH = DefaultValues::UndefinedFloat;
-	
+
 	float m_melaM125ProbCPEvenZlepH = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPOddZlepH = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPMixZlepH = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorD0MinusZlepH = DefaultValues::UndefinedFloat;
 	float m_melaM125DiscriminatorDCPZlepH = DefaultValues::UndefinedFloat;
-	
+
 	float m_melaM125ProbCPEvenZhadH = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPOddZhadH = DefaultValues::UndefinedFloat;
 	float m_melaM125ProbCPMixZhadH = DefaultValues::UndefinedFloat;

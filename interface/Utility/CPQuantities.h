@@ -7,6 +7,7 @@
 #include "Artus/Utility/interface/ArtusLogging.h"
 
 #include "TVector3.h"
+#include "TMatrix.h"
 
 
 /**
@@ -37,6 +38,7 @@ public:
 	double CalculateZs(double zPlus, double zMinus);
 	double CalculateD0sArea(double d0_1, double d0_2);
 	double CalculateD0sDist(double d0_1, double d0_2);
+	double CalculatePCADifferece(SMatrixSym3D cov, TVector3 DeltaPCA);
 	double PhiTransform(double phi);
 	TVector3 CalculateShortestDistance(KGenParticle* genParticle, RMPoint* pv);
 	TVector3 CalculateShortestDistance(KLepton* recoParticle, RMPoint pv);

@@ -18,7 +18,7 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	m_isData = settings.GetInputIsData();
 
 	// add possible quantities for the lambda ntuples consumers
-	
+
 	// thePV coordinates and parameters
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVx", [](event_type const& event, product_type const& product)
 	{
@@ -299,6 +299,7 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
 	});
 
+
 	// IP vectors wrt refitted PV
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1mag", [](event_type const& event, product_type const& product)
 	{
@@ -331,6 +332,14 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2z", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca1DiffInSigma;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca2DiffInSigma;
 	});
 
 	// distance between track and theBS
@@ -604,6 +613,12 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, event.m_beamSpot->position);
 		product.m_track2FromBS = cpq.CalculateShortestDistance(recoParticle2, event.m_beamSpot->position);
 
+		//Distance of Point of closest approach (PCA) from the primary vertex (PV) in units of sigma_PV
+		product.m_pca1DiffInSigma = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP1);
+		product.m_pca2DiffInSigma = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP2);
+		std::cout << product.m_pca1DiffInSigma << std::endl;
+		std::cout << product.m_pca2DiffInSigma << std::endl;
+
 		// calculate cosPsi
 		if (recoParticle1->charge() == +1){
 			product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1_refitPV);
@@ -632,11 +647,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			IPPlus  = product.m_recoIP2_refitPV;
 			IPMinus = product.m_recoIP1_refitPV;
 		}
-		
+
 		// calculate phi*cp, by taking the IP vectors as an argument
 		// FIXME keep it and remove the previous call, or the other way around
 		// product.m_recoPhiStarCPrPV2 = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlus, IPMinus, "reco");
-			
+
 
 		// ---------
 		// comb-method
@@ -670,11 +685,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ){
 			KTau* recoTau1 = static_cast<KTau*>(recoParticle1);
 			KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
-			
+
 			// tau1->rho, tau2->a
 			if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
 				product.m_recoPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_recoIP2_refitPV, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-				
+
 				// azimuthal angles of the tau decay planes
 				product.m_recoPhiPlus_combmeth = cpq.GetRecoPhiPlus_combmeth();
 				product.m_recoPhiMinus_combmeth = cpq.GetRecoPhiMinus_combmeth();
@@ -722,7 +737,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 					} // recoTau2->charge() < 0
 				}
 			} // tau1->a, tau2->rho
-			
+
 		}  // if tt ch.
 
 

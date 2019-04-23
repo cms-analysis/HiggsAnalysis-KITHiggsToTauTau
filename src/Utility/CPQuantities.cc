@@ -1,6 +1,10 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 
+#include "TMatrix.h"
+#include "Math/SVector.h"
+
+
 // this version uses tau 4-momenta to calculate decay planes (useful for GenTauCPProducer)
 double CPQuantities::CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2)
 {
@@ -11,6 +15,27 @@ double CPQuantities::CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1
 	return this->CalculatePhiStarCPSame(k1, k2, chargPart1, chargPart2, "gen");
 }
 
+
+double CPQuantities::CalculatePCADifferece(SMatrixSym3D cov_PV, TVector3 IP)
+{
+	int i;
+	SMatrixSym3D Sigma_inv = cov_PV.Inverse(i);
+	double det;
+	Sigma_inv.Det2(det);
+	double det_Sigma_inv = det;
+	double K = det_Sigma_inv*cov_PV(0,0)/(Sigma_inv(1,1)*Sigma_inv(2,2)-Sigma_inv(2,1)*Sigma_inv(2,1));
+	//for testing purposes: every one of them should be equal to 1, for a given positive definite matrix (cov_PV)
+	//cout << det_Sigma_inv*Sigma(0,0)/(Sigma_inv(1,1)*Sigma_inv(2,2)-Sigma_inv(2,1)*Sigma_inv(2,1)) << endl;
+	//cout << det_Sigma_inv*Sigma(1,1)/(Sigma_inv(0,0)*Sigma_inv(2,2)-Sigma_inv(2,0)*Sigma_inv(2,0)) << endl;
+	//cout << det_Sigma_inv*Sigma(2,2)/(Sigma_inv(0,0)*Sigma_inv(1,1)-Sigma_inv(1,0)*Sigma_inv(1,0)) << endl;
+
+	TVector3 n = IP.Unit();
+	const int dim=3;
+	ROOT::Math::SVector<double, dim> Sn(n.x(),n.y(),n.z());
+	double alpha = TMath::Sqrt(K/(ROOT::Math::Dot(Sn,Sigma_inv*Sn)));
+	double t_mag = IP.Mag();
+	return alpha/t_mag;
+}
 
 // this version uses track and vertex information to calculate the decay planes (useful for RecoTauCPProducer)
 double CPQuantities::CalculatePhiStarCP(KVertex* pv, KTrack track1, KTrack track2,  RMFLV chargPart1, RMFLV chargPart2)
@@ -31,7 +56,7 @@ double CPQuantities::CalculatePhiStarCP(KVertex* pv, KTrack track1, KTrack track
 	return this->CalculatePhiStarCPSame(k1, k2, chargPart1, chargPart2, "reco");
 
 }
-
+//Mate Funktion hier, Argumente, wo aufgerufen :Thomas
 //this function calculates Phi* and Phi*CP using the rho decay planes
 double CPQuantities::CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM)
 {
@@ -123,14 +148,14 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	//Not normalized n1, n2
 	RMFLV::BetaVector n1 = k1 - ((k1.Dot(p1)) / (p1.Dot(p1))) * p1;
 	RMFLV::BetaVector n2 = k2 - ((k2.Dot(p2)) / (p2.Dot(p2))) * p2;
-	
+
 	// FIXME: need to remove this block
 	//if(level=="reco")
 	//{
 	//	this->SetRecoIP1(n1.R());
 	//	this->SetRecoIP2(n2.R());
 	//}
-	
+
 	//Normalized n1, n2
 	n1 = n1.Unit();
 	n2 = n2.Unit();
@@ -211,7 +236,7 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 	RMFLV n1_mu, n2_mu;
 	n1_mu.SetPxPyPzE(n1.X(), n1.Y(), n1.Z(), 0);
 	n2_mu.SetPxPyPzE(n2.X(), n2.Y(), n2.Z(), 0);
-	
+
 	n1_mu = M * n1_mu;
 	n2_mu = M * n2_mu;
 	chargPart1 = M * chargPart1;
@@ -232,7 +257,7 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 
 	// normalized momentum vector of the reference
 	RMFLV::BetaVector p1n = p1.Unit();
-	
+
 	// save phi* and O*CP
 	if(level=="reco")
 	{
@@ -256,7 +281,7 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 		phiStarCP = 2*ROOT::Math::Pi()-acos(n2t.Dot(n1t));
 	}
 	return phiStarCP;
-	
+
 }
 
 
@@ -508,7 +533,7 @@ double CPQuantities::CalculateD0sArea(double d0_1, double d0_2)
 		ds = -1000;
 	}
 	else
-	{		
+	{
 		if (a >= 0)
 		{
 			ds = 0.5 * ((1.0/400.0) - (((1.0/20.0) - a) * (1.0/20.0 - a)));
@@ -530,13 +555,13 @@ double CPQuantities::CalculateD0sDist(double d0_1, double d0_2)
 	//negative a defines the surface below the diagonal line
 	double a = std::abs(d0_1) - std::abs(d0_2);
 	double ds = 0.0;
-	
+
 	if (d0_1 < -900 || d0_2 < -900 )
 	{
 		ds = -1000;
 	}
 	else
-	{	
+	{
 		if (a >= 0)
 		{
 			ds = a/(std::sqrt(2.0));
@@ -570,7 +595,7 @@ TVector3 CPQuantities::CalculateShortestDistance(KGenParticle* genParticle, RMPo
 	else k.SetXYZ(-999, -999, -999);
 
 	p.SetXYZ(genParticle->p4.Px(), genParticle->p4.Py(), genParticle->p4.Pz());
-	
+
 	if ( p.Mag() != 0 && k.x() != -999 && (k.x()!=0 && k.y()!=0 && k.z()!=0) ) {
 		IP = k - (p.Dot(k) / p.Mag2()) * p;
 	}
@@ -604,7 +629,7 @@ TVector3 CPQuantities::CalculateShortestDistance(KLepton* recoParticle, RMPoint 
 // needed to observe the DY distribution modulation
 // this function is useable for both gen and reco level
 double CPQuantities::CalculateCosPsi(RMFLV momentum, TVector3 ipvec){
-	
+
 	TVector3 ez, p, n;
 	ez.SetXYZ(0,0,1);
 	p.SetXYZ(momentum.Px(), momentum.Py(), momentum.Pz());
@@ -627,7 +652,7 @@ double CPQuantities::CalculateCosPsi(RMFLV momentum, TVector3 ipvec){
 // were estimated by Gaussian fit, and therefore they are hardcoded in here
 // FIXME: Need to find a better solution!
 std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KVertex* pv, TVector3* ipvec){
-	
+
 	std::vector<double> IPerrors {-999,-999,-999};
 	double sdxy=0;
 	double sdz=0;
@@ -691,28 +716,28 @@ std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KVertex* pv
 	double FzPz = -kz*pz/pow(p,2)+2*a*pow(pz,2)/pow(p,2)-a;
 
 	// error on dxy
-	sdxy = sqrt( 
+	sdxy = sqrt(
 		(1/pow(pt,2)) *
-		( 
-			pow(kx*px+ky*py, 2) 
+		(
+			pow(kx*px+ky*py, 2)
 			* ( pow(py*spx, 2) + pow(px*spy, 2) )
-			+ pow(py,2) * ( pow(srx,2) + Vxx ) 
-			+ pow(px,2) * ( pow(sry,2) + Vyy ) 
+			+ pow(py,2) * ( pow(srx,2) + Vxx )
+			+ pow(px,2) * ( pow(sry,2) + Vyy )
 			- 2*px*py*Vxy
 		)
 	);
-	
+
 
 	// error on dz
 	sdz = sqrt(
-		(1/pow(pt,4)) 
-		* ( 
+		(1/pow(pt,4))
+		* (
 			pow(px,2) * pow(pz,2) * ( pow(srx,2) + Vxx )
-			+ 
-			pow(py,2) * pow(pz,2) * ( pow(sry,2) + Vyy ) 
+			+
+			pow(py,2) * pow(pz,2) * ( pow(sry,2) + Vyy )
 		)
 		+ ( pow(srz,2) + Vzz )
-		+ (1/pow(pt,8)) 
+		+ (1/pow(pt,8))
 		* (
 			pow(2*px*pz * (kx*px+ky*py) - kx*pz*pow(pt,2), 2) * pow(spx,2)
 			+
@@ -721,8 +746,8 @@ std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KVertex* pv
 		+ (1/pow(pt,2)) * pow(kx*px+ky*py, 2) * pow(spz,2)
 		+ (2/pow(pt,4)) * ( px*py*pow(pz,2)*Vxy - px*pz*pow(pt,2)*Vxz - py*pz*pow(pt,2)*Vyz )
 	);
-	
-	
+
+
 	// error on IPvec mag
 	sip = sqrt(
 			pow(s,2)
@@ -787,5 +812,3 @@ std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KVertex* pv
 	return IPerrors;
 
 }
-
-
