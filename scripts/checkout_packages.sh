@@ -157,6 +157,7 @@ fi
 git clone git@github.com:grid-control/grid-control.git -b testing
 cd grid-control
 git reset --hard 3f93692
+git checkout bb9b2a9
 cd $CMSSW_BASE/src/
 
 # source ini script, needs to be done in every new shell
