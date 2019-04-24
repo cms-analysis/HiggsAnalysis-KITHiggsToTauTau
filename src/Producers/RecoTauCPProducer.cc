@@ -588,6 +588,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 	product.m_d0s_dist = cpq.CalculateD0sDist((product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble), (product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble));
 
+	//Distance of Point of closest approach (PCA) from the primary vertex (PV) in units of sigma_PV
+	product.m_pca1DiffInSigma = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP1);
+	product.m_pca2DiffInSigma = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP2);
+	
 	// ---------
 	// ip-method
 	// ---------
@@ -612,10 +616,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		// distance between track and BS center
 		product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, event.m_beamSpot->position);
 		product.m_track2FromBS = cpq.CalculateShortestDistance(recoParticle2, event.m_beamSpot->position);
-
-		//Distance of Point of closest approach (PCA) from the primary vertex (PV) in units of sigma_PV
-		product.m_pca1DiffInSigma = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP1);
-		product.m_pca2DiffInSigma = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP2);
 
 		// calculate cosPsi
 		if (recoParticle1->charge() == +1){
