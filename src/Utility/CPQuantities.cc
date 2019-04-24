@@ -28,7 +28,6 @@ double CPQuantities::CalculatePCADifferece(SMatrixSym3D cov_PV, TVector3 IP)
 	//cout << det_Sigma_inv*Sigma(0,0)/(Sigma_inv(1,1)*Sigma_inv(2,2)-Sigma_inv(2,1)*Sigma_inv(2,1)) << endl;
 	//cout << det_Sigma_inv*Sigma(1,1)/(Sigma_inv(0,0)*Sigma_inv(2,2)-Sigma_inv(2,0)*Sigma_inv(2,0)) << endl;
 	//cout << det_Sigma_inv*Sigma(2,2)/(Sigma_inv(0,0)*Sigma_inv(1,1)-Sigma_inv(1,0)*Sigma_inv(1,0)) << endl;
-
 	TVector3 n = IP.Unit();
 	const int dim=3;
 	ROOT::Math::SVector<double, dim> Sn(n.x(),n.y(),n.z());
