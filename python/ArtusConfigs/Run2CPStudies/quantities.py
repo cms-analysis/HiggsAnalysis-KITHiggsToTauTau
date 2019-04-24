@@ -962,6 +962,8 @@ class Quantities(Run2Quantities):
 			"IP_refitPV_2z",
 			"thePVdistanceToPCA1",
 			"thePVdistanceToPCA2",
+			"thePCA1projToPVellipsoid",
+			"thePCA2projToPVellipsoid",
 
 			"trackFromBS_1mag",
 			"trackFromBS_1x",

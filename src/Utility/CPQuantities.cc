@@ -32,8 +32,7 @@ double CPQuantities::CalculatePCADifferece(SMatrixSym3D cov_PV, TVector3 IP)
 	const int dim=3;
 	ROOT::Math::SVector<double, dim> Sn(n.x(),n.y(),n.z());
 	double alpha = TMath::Sqrt(K/(ROOT::Math::Dot(Sn,Sigma_inv*Sn)));
-	double t_mag = IP.Mag();
-	return alpha/t_mag;
+	return alpha;
 }
 
 // this version uses track and vertex information to calculate the decay planes (useful for RecoTauCPProducer)
@@ -55,7 +54,7 @@ double CPQuantities::CalculatePhiStarCP(KVertex* pv, KTrack track1, KTrack track
 	return this->CalculatePhiStarCPSame(k1, k2, chargPart1, chargPart2, "reco");
 
 }
-//Mate Funktion hier, Argumente, wo aufgerufen :Thomas
+
 //this function calculates Phi* and Phi*CP using the rho decay planes
 double CPQuantities::CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM)
 {

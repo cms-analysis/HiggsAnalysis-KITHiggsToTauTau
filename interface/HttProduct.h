@@ -336,8 +336,10 @@ public:
 	TVector3 m_track1FromBS; // distance between track1 and BS center
 	TVector3 m_track2FromBS; // distance between track2 and BS center
 
-	double m_pca1DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach from the primary vertex (PV) in units of sigma_PV
-	double m_pca2DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach from the primary vertex (PV) in units of sigma_PV
+	double m_pca1DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach(PCA) from the primary vertex (PV) in units of sigma
+	double m_pca2DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach(PCA) from the primary vertex (PV) in units of sigma
+	double m_pca1proj = DefaultValues::UndefinedDouble; //Projection of Point of closest approach(PCA) to the primary vertex (PV) 1 sigma ellipsoid
+	double m_pca2proj = DefaultValues::UndefinedDouble; //Projection of Point of closest approach(PCA) to the primary vertex (PV) 1 sigma ellipsoid
 
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;

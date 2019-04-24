@@ -341,6 +341,14 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_pca2DiffInSigma;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA1projToPVellipsoid", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca1proj;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA2projToPVellipsoid", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca2proj;
+	});
 
 	// distance between track and theBS
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_1mag", [](event_type const& event, product_type const& product)
@@ -602,9 +610,12 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, &(event.m_vertexSummary->pv), &product.m_recoIP1);
 	product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, &(event.m_vertexSummary->pv), &product.m_recoIP2);
 
+	//Projection of Point of closest approach (PCA) to the primary vertex (PV) uncertainty ellipsoid
+	product.m_pca1proj = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP1);
+	product.m_pca2proj = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP2);
 	//Distance of Point of closest approach (PCA) from the primary vertex (PV) in units of sigma_PV
-	product.m_pca1DiffInSigma = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP1);
-	product.m_pca2DiffInSigma = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP2);
+	product.m_pca1DiffInSigma = product.m_recoIP1.Mag()/product.m_pca1proj;
+	product.m_pca2DiffInSigma = product.m_recoIP2.Mag()/product.m_pca2proj;
 
 	// distance between track and BS center
 	product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, event.m_beamSpot->position);
