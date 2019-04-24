@@ -41,7 +41,7 @@ class MinimalPlotlevelFilter():
 			]
 
 			self.minPlotLevelDict["PlotlevelFilterExpression"] = "(nDiMuonVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
-			if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname):
+			if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname) or re.search("adow", nickname):
 				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "trg_singlemuon_24", "trg_singlemuon_27", "trg_crossmuon_mu20tau27"]
 				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((trg_singlemuon_24 > 0.5 )||(trg_singlemuon_27 > 0.5)||(trg_crossmuon_mu20tau27 > 0.5))"
 			else:
