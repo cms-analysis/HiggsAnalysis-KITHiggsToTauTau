@@ -31,6 +31,8 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 				help="Nick names of the histogram for the positive ZTT polarisation at reconstruction level.")
 		self.normalize_polarisation_options.add_argument("--ztt-neg-pol-reco-nicks", type=str, nargs="+",
 				help="Nick names of the histogram for the negative ZTT polarisation at reconstruction level.")
+		self.normalize_polarisation_options.add_argument("--ztt-remove-bias-instead-unpolarisation", default=False, action="store_true",
+				help="Remove all polarisation effects except for the generator level polarisation. [Default: %(default)s]")
 		self.normalize_polarisation_options.add_argument("--ztt-forced-gen-polarisations", type=str, nargs="+", default=[None],
 				help="Enforce a certain generator polarisation for the unpolarisation step.")
 		self.normalize_polarisation_options.add_argument("--ztt-pos-pol-reco-result-nicks", type=str, nargs="+", default=[None],
@@ -44,15 +46,15 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 		
 		for index, (ztt_pos_pol_reco_nick, ztt_neg_pol_reco_nick, ztt_forced_gen_polarisation, ztt_pos_pol_reco_result_nick, ztt_neg_pol_reco_result_nick) in enumerate(zip(*[plotData.plotdict[key] for key in ["ztt_pos_pol_reco_nicks", "ztt_neg_pol_reco_nicks", "ztt_forced_gen_polarisations", "ztt_pos_pol_reco_result_nicks", "ztt_neg_pol_reco_result_nicks"]])):
 			
-			if ztt_pos_pol_reco_result_nick is None:
-				plotData.plotdict["ztt_pos_pol_reco_result_nicks"][index] = ztt_pos_pol_reco_nick
-			else:
-				plotData.plotdict["nicks"].insert(plotData.plotdict["nicks"].index(ztt_pos_pol_reco_nick)+1, ztt_pos_pol_reco_result_nick)
-			
 			if (ztt_forced_gen_polarisation is None) or (ztt_forced_gen_polarisation=="None"):
 				plotData.plotdict["ztt_forced_gen_polarisations"][index] = None
 			else:
 				plotData.plotdict["ztt_forced_gen_polarisations"][index] = float(ztt_forced_gen_polarisation)
+			
+			if ztt_pos_pol_reco_result_nick is None:
+				plotData.plotdict["ztt_pos_pol_reco_result_nicks"][index] = ztt_pos_pol_reco_nick
+			else:
+				plotData.plotdict["nicks"].insert(plotData.plotdict["nicks"].index(ztt_pos_pol_reco_nick)+1, ztt_pos_pol_reco_result_nick)
 			
 			if ztt_neg_pol_reco_result_nick is None:
 				plotData.plotdict["ztt_neg_pol_reco_result_nicks"][index] = ztt_neg_pol_reco_nick
@@ -83,11 +85,11 @@ class NormalizeForPolarisation(analysisbase.AnalysisBase):
 			log.debug("Gen.  level polarisation = {polarisation}".format(polarisation=scale_factors.get_gen_polarisation()))
 			log.debug("Reco. level polarisation = {polarisation}".format(polarisation=scale_factors.get_reco_polarisation()))
 			
-			pos_reco_scale_factor = scale_factors.get_scale_factor_pospol()
+			pos_reco_scale_factor = scale_factors.get_bias_removal_factor_pospol() if plotData.plotdict["ztt_remove_bias_instead_unpolarisation"] else scale_factors.get_scale_factor_pospol()
 			plotData.plotdict["root_objects"][ztt_pos_pol_reco_result_nick].Scale(pos_reco_scale_factor.nominal_value)
 			log.debug("Scaled histogram \"{nick}\" by a factor of {factor}".format(nick=ztt_pos_pol_reco_result_nick, factor=pos_reco_scale_factor))
 			
-			neg_reco_scale_factor = scale_factors.get_scale_factor_negpol()
+			neg_reco_scale_factor = scale_factors.get_bias_removal_factor_neg_pol() if plotData.plotdict["ztt_remove_bias_instead_unpolarisation"] else scale_factors.get_scale_factor_negpol()
 			plotData.plotdict["root_objects"][ztt_neg_pol_reco_result_nick].Scale(neg_reco_scale_factor.nominal_value)
 			log.debug("Scaled histogram \"{nick}\" by a factor of {factor}".format(nick=ztt_neg_pol_reco_result_nick, factor=neg_reco_scale_factor))
 			

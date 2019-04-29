@@ -33,6 +33,8 @@ if __name__ == "__main__":
 	                    help="Categories. [Default: %(default)s]")
 	parser.add_argument("--lumi", type=float, default=samples.default_lumi/1000.0,
 	                    help="Luminosity for the given data in fb^(-1). [Default: %(default)s]")
+	parser.add_argument("--remove-bias-instead-unpolarisation", default=False, action="store_true",
+	                    help="Remove all polarisation effects except for the generator level polarisation. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -87,6 +89,7 @@ if __name__ == "__main__":
 						polarisation_bias_correction=polarisation_bias_correction,
 						polarisation_gen_ztt_plots=True,
 						#forced_gen_polarisation=-0.2208,
+						remove_bias_instead_unpolarisation=args.remove_bias_instead_unpolarisation,
 						nick_suffix="_noplot",
 						no_plot=True
 				)
@@ -122,7 +125,7 @@ if __name__ == "__main__":
 
 				config_unpolarisation["directories"] = [args.input_dir]
 				config_unpolarisation["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
-				config_unpolarisation["filename"] = "tauSpinnerPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_correction"
+				config_unpolarisation["filename"] = "tauSpinnerPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_"+("removal" if args.remove_bias_instead_unpolarisation else "correction")
 				if args.www:
 					config_unpolarisation["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
 
@@ -149,6 +152,7 @@ if __name__ == "__main__":
 						estimationMethod="new",
 						polarisation_bias_correction=polarisation_bias_correction,
 						#forced_gen_polarisation=-0.2208,
+						remove_bias_instead_unpolarisation=args.remove_bias_instead_unpolarisation,
 						asimov_nicks=asimov_nicks
 				)
 				
@@ -167,7 +171,7 @@ if __name__ == "__main__":
 
 				config_integral["directories"] = [args.input_dir]
 				config_integral["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
-				config_integral["filename"] = "recoPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_correction"
+				config_integral["filename"] = "recoPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_"+("removal" if args.remove_bias_instead_unpolarisation else "correction")
 				if args.www:
 					config_integral["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
 
