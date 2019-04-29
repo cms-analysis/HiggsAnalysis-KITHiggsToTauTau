@@ -21,10 +21,10 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
 	parser.add_argument("-c", "--channel", action = "append",
-	                    default=["mt", "et", "tt", "em"],
+	                    default=["mt", "et", "tt", "em", "gen"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
 	parser.add_argument("--categories", action="append", nargs="+",
-	                    default=[["a1", "rho", "oneprong"], ["a1", "rho", "oneprong"], ["rho", "combined_a1_a1", "combined_a1_oneprong", "combined_oneprong_oneprong"], ["combined_oneprong_oneprong"]],
+	                    default=[["a1", "rho", "oneprong"], ["a1", "rho", "oneprong"], ["rho", "combined_a1_a1", "combined_a1_oneprong", "combined_oneprong_oneprong"], ["combined_oneprong_oneprong"], ["inclusive"]],
 	                    help="Categories per channel. This agument needs to be set as often as --channels. [Default: %(default)s]")
 	parser.add_argument("--alpha-s-weights", nargs="+",
 	                    default=["NNPDF30_lo_as_0118_LHgrid__Member_0"],
@@ -46,6 +46,8 @@ if __name__ == "__main__":
 	parser.add_argument("-o", "--output-dir",
 	                    default="$CMSSW_BASE/src/TauPolSoftware/CalibrationCurve/data",
 	                    help="Output directory. [Default: %(default)s]")
+	parser.add_argument("--www", nargs="?", default=None, const="calibration_curve_inputs",
+	                    help="Publish plots. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -57,6 +59,10 @@ if __name__ == "__main__":
 		args.categories = args.categories[len(parser.get_default("categories")):]
 	args.categories = (args.categories * len(args.channel))[:len(args.channel)]
 	
+	args.alpha_s_weights = [weight for weight in args.alpha_s_weights if weight != ""]
+	args.pdf_weights = [weight for weight in args.pdf_weights if weight != ""]
+	args.qcd_scale_weights = [weight for weight in args.qcd_scale_weights if weight != ""]
+	
 	args.output_dir = os.path.expandvars(args.output_dir)
 	
 	sample_settings = samples.Samples()
@@ -67,7 +73,6 @@ if __name__ == "__main__":
 	}
 	
 	plot_configs = []
-	sample = "ztt"
 	for channel, categories in zip(args.channel, args.categories):
 		for category in categories:
 			channel_category = channel+"_"+category
@@ -76,7 +81,7 @@ if __name__ == "__main__":
 				config = {}
 				for index_weight, theo_unc_weight in enumerate(["1.0"] + args.alpha_s_weights + args.pdf_weights + args.qcd_scale_weights):
 					weight_config = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample)],
+							samples=[getattr(samples.Samples, sample) for sample in ["ztt"]], #pospol", "zttnegpol"]],
 							no_ewkz_as_dy=True,
 							channel=channel,
 							category="catZttPol13TeV_"+channel_category,
@@ -85,28 +90,43 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=[],
 							estimationMethod="new",
-							nick_suffix = "" if index_weight == 0 else (theo_unc_weight+"_noplot")
+							polarisation_bias_correction=False, #True,
+							polarisation_gen_ztt_plots=False,
+							#forced_gen_polarisation=-0.2208,
+							remove_bias_instead_unpolarisation=False, #True,
+							nick_suffix = "" if index_weight == 0 else (theo_unc_weight+"_noplot") #("" if index_weight == 0 else theo_unc_weight)+"_noplot"
 					)
-					config = samples.Samples.merge_configs(config, weight_config)
+					config = samples.Samples.merge_configs(config, weight_config, additional_keys=[
+							"ztt_pos_pol_gen_nicks", "ztt_pos_pol_reco_nicks", "ztt_pos_pol_reco_result_nicks",
+							"ztt_neg_pol_gen_nicks", "ztt_neg_pol_reco_nicks", "ztt_neg_pol_reco_result_nicks",
+							"ztt_forced_gen_polarisations"
+					])
+				
+				"""
+				if "AddHistograms" not in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("AddHistograms")
+				config.setdefault("add_nicks", []).extend(["zttpospol{theo_unc_weight}_noplot zttnegpol{theo_unc_weight}_noplot".format(theo_unc_weight=theo_unc_weight) for theo_unc_weight in [""]+args.alpha_s_weights+args.pdf_weights+args.qcd_scale_weights])
+				config.setdefault("add_result_nicks", []).extend(["ztt"+theo_unc_weight+("" if index_weight == 0 else "_noplot") for index_weight, theo_unc_weight in enumerate([""]+args.alpha_s_weights+args.pdf_weights+args.qcd_scale_weights)])
+				"""
 				
 				if "UncertaintiesAlphaS" not in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("UncertaintiesAlphaS")
-				config.setdefault("uncertainties_alpha_s_reference_nicks", []).append(sample)
-				config.setdefault("uncertainties_alpha_s_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.alpha_s_weights]))
-				config.setdefault("uncertainties_alpha_s_result_nicks", []).append(sample+"_alpha_s")
+				config.setdefault("uncertainties_alpha_s_reference_nicks", []).append("ztt")
+				config.setdefault("uncertainties_alpha_s_shifts_nicks", []).append(" ".join(["ztt"+theo_unc_weight+"_noplot" for theo_unc_weight in args.alpha_s_weights]))
+				config.setdefault("uncertainties_alpha_s_result_nicks", []).append("ztt"+"_alpha_s")
 				
 				if "UncertaintiesPdf" not in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("UncertaintiesPdf")
-				config.setdefault("uncertainties_pdf_reference_nicks", []).append(sample)
-				config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.pdf_weights]))
-				config.setdefault("uncertainties_pdf_result_nicks", []).append(sample+"_pdf")
+				config.setdefault("uncertainties_pdf_reference_nicks", []).append("ztt")
+				config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join(["ztt"+theo_unc_weight+"_noplot" for theo_unc_weight in args.pdf_weights]))
+				config.setdefault("uncertainties_pdf_result_nicks", []).append("ztt"+"_pdf")
 				config.setdefault("nicks_blacklist", []).append("_correlation")
 				
 				if "UncertaintiesScale" not in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("UncertaintiesScale")
-				config.setdefault("uncertainties_scale_reference_nicks", []).append(sample)
-				config.setdefault("uncertainties_scale_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.qcd_scale_weights]))
-				config.setdefault("uncertainties_scale_result_nicks", []).append(sample+"_qcd_scale")
+				config.setdefault("uncertainties_scale_reference_nicks", []).append("ztt")
+				config.setdefault("uncertainties_scale_shifts_nicks", []).append(" ".join(["ztt"+theo_unc_weight+"_noplot" for theo_unc_weight in args.qcd_scale_weights]))
+				config.setdefault("uncertainties_scale_result_nicks", []).append("ztt"+"_qcd_scale")
 				
 				for key in ["stacks", "legend_markers"]:
 					if key in config:
@@ -114,13 +134,16 @@ if __name__ == "__main__":
 				
 				config["directories"] = [args.input_dir]
 				
-				config["x_expressions"] = ["genBosonLV.mass()"]
-				config["x_bins"] = ["150,50,200"]
+				config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "genbosonmass") for nick in config["nicks"]]
+				config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else ["150,50,200"]) for nick in config["nicks"]]
 				
 				config["plot_modules"] = ["ExportRoot"]
 				config["labels"] = [os.path.join(channel_category, quark_type, unc_type) for unc_type in ["nominal", "alpha_s_up", "alpha_s_down", "pdf_up", "pdf_down", "qcd_scale_up", "qcd_scale_down"]]
 				config["output_dir"] = os.path.join(args.output_dir, channel, category, quark_type)
 				config["filename"] = "energy_distribution"
+				
+				if not args.www is None:
+					config["www"] = os.path.join(args.www, channel, category, quark_type)
 				
 				plot_configs.append(config)
 	
