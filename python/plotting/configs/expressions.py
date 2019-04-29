@@ -45,7 +45,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZtt13TeV_"+channel+"_2bjet"] = "(njets==2)*(nbtag>=2)"
 
 		# Z->tautau polarisation categories
-		for channel in ["mt", "et", "tt", "em"]:
+		for channel in ["mt", "et", "tt", "em", "gen"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["testZttPol13TeV_"+channel+"_inclusive"] = "m_vis"
 

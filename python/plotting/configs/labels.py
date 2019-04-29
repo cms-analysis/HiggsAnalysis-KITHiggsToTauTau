@@ -157,6 +157,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_tt_combined_rho_rho"] = "#rho#rho"
 			self.labels_dict["channel_tt_combined_rho_oneprong"] = "#rho#pi+#pi#rho"
 			self.labels_dict["channel_tt_combined_oneprong_oneprong"] = "#pi#pi"
+			
+			self.labels_dict["channel_gen_inclusive"] = "Inclusive Simulation"
 
 			self.labels_dict["cat_oneprong"] = "#pi^{#pm} / l^{#pm}"
 			self.labels_dict["cat_rho"] = "#rho^{#pm} #rightarrow #pi^{#pm} #pi^{0}"
