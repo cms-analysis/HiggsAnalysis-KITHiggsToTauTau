@@ -493,7 +493,6 @@ if __name__ == "__main__":
 						category = "_" + category if category else "",
 						quantity = quantity
 				)
-				print binnings_key
 				if binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict and "--x-bins" not in args.args:
 					binnings_key = channel + "_" + quantity
 				if binnings_key not in binnings_settings.binnings_dict:

@@ -540,8 +540,9 @@ class Samples(samples.SamplesBase):
 		if channel in ["gen"]:
 			add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
-					weight="((isZTT*numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight}))".format(
-							stitching_weight=self.ztt_stitchingweight()
+					weight="((isZTT*numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})*({weight}))".format(
+							stitching_weight=self.ztt_stitchingweight(),
+							weight=weight
 					),
 					nick="ztt"
 		)
@@ -622,7 +623,7 @@ class Samples(samples.SamplesBase):
 			add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
 					folder="gen/ntuple",
-					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})".format(
+					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})*(genbosonmass>50)".format(
 							polarisation_weight=polarisation_weight,
 							stitching_weight=self.ztt_stitchingweight()
 					),
@@ -657,7 +658,7 @@ class Samples(samples.SamplesBase):
 			add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
 					folder="gen/ntuple",
-					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})".format(
+					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})*(genbosonmass>50)".format(
 							polarisation_weight=polarisation_weight,
 							stitching_weight=self.ztt_stitchingweight()
 					),
