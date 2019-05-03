@@ -37,10 +37,10 @@ class Electron_ID(dict):
 
 		elif re.search("(Run2017|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
 
-			self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV2Values" #TODO check if this is the one used in analysis
-			self["ElectronMvaIDCutEB1"] = 0.9897
-			self["ElectronMvaIDCutEB2"] = 0.9819
-			self["ElectronMvaIDCutEE"] = 0.9625
+			# self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV2Values" #TODO check if this is the one used in analysis
+			# self["ElectronMvaIDCutEB1"] = 0.9897
+			# self["ElectronMvaIDCutEB2"] = 0.9819
+			# self["ElectronMvaIDCutEE"] = 0.9625
 			self["ElectronIDType"] = "mvabased2015andlater"
 			#rho corrections
 			#https://github.com/cms-sw/cmssw/blob/master/RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_94X.txt
@@ -48,9 +48,9 @@ class Electron_ID(dict):
 			###################TODO#####################
 			#IC uses old values from here https://github.com/cms-sw/cmssw/blob/CMSSW_9_4_X/RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_92X.txt but are not changing it because of scalefactors derived with old EA
 			#New EA values are here: #https://github.com/cms-sw/cmssw/blob/master/RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_94X.txt
-			#self["ElectronEtaBinnedEAValues"] = [0.1440, 0.1562, 0.1032, 0.0859, 0.1116, 0.1321, 0.1654]
+			self["ElectronEtaBinnedEAValues"] = [0.1440, 0.1562, 0.1032, 0.0859, 0.1116, 0.1321, 0.1654] # values for ID V2
 			############################################
-			self["ElectronEtaBinnedEAValues"] = [0.1566, 0.1626, 0.1073, 0.0854, 0.1051, 0.1204, 0.1524]
+			# self["ElectronEtaBinnedEAValues"] = [0.1566, 0.1626, 0.1073, 0.0854, 0.1051, 0.1204, 0.1524] # values for ID V1
 			self["ElectronEtaBinsForEA"] = [0.0, 1.0, 1.479, 2.0, 2.2, 2.3, 2.4, 5.0]
 
 
@@ -67,7 +67,7 @@ class Electron_ID(dict):
 				if wp==80:
 					self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp80"
 				if wp==90:
-					self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp90"
+					self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp90" # default
 			"""
 			if iso:
 				self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV1Values"
@@ -115,7 +115,16 @@ class Electron_ID(dict):
 				"egmGsfElectronIDs:mvaEleID-Fall17-noIso-V1-wp90",
 				"egmGsfElectronIDs:mvaEleID-Fall17-noIso-V1-wp80",
 				"egmGsfElectronIDs:mvaEleID-Fall17-noIso-V1-wpLoose",
-				"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"
+				"electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values",
+
+				"egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-veto",
+				"egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-loose",
+				"egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-medium",
+				"egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-tight",
+				"egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wp80",
+				"egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wp90",
+				"egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp80",
+				"egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp90",
 			]
 
 		else:
@@ -158,10 +167,10 @@ class Electron_ID(dict):
 			self["LooseElectronIDType"] = "mvabased2015andlater"
 
 		elif re.search("(Run2017|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
-			self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"
-			self["LooseElectronMvaIDCutEB1"] =  0.9718
-			self["LooseElectronMvaIDCutEB2"] =  0.9459
-			self["LooseElectronMvaIDCutEE"] =  0.8979
+			# self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"
+			# self["LooseElectronMvaIDCutEB1"] =  0.9718
+			# self["LooseElectronMvaIDCutEB2"] =  0.9459
+			# self["LooseElectronMvaIDCutEE"] =  0.8979
 			self["LooseElectronIDType"] = "mvabased2015andlater"
 
 
@@ -170,9 +179,9 @@ class Electron_ID(dict):
 			#always use the wp90
 
 			if iso:
-				self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wp90"
+				self["LooseElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wp90"
 			else:
-				self["ElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp90"
+				self["LooseElectronIDName"] = "egmGsfElectronIDs:mvaEleID-Fall17-noIso-V2-wp90"
 			"""
 
 			if iso:
@@ -223,7 +232,7 @@ class Electron_ID(dict):
 			self["VetoElectronIDName"] = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"
 		elif re.search("(Run2017|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
 			self["VetoElectronIDType"] = "cutbased2015andlater"
-			self["VetoElectronIDName"] = "egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-veto"
+			self["VetoElectronIDName"] = "egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-veto"
 		else:
 			self["VetoElectronIDType"] = "cutbased2016noisocutsveto"
 			self["VetoElectronIDName"] =  "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto"
