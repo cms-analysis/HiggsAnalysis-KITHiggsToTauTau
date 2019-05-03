@@ -65,7 +65,7 @@ class IdAndTriggerSF(dict):
 					# self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
 					self["TauTrigger2017WorkingPoint"] = "tight"
 
-					self["TriggerEfficiencyMode"] = "cross_triggers"
+					self["TriggerEfficiencyMode"] = "no_overlap_triggers"
 					self["IdentificationEfficiencyMode"] = "multiply_weights"
 
 				else:
@@ -122,7 +122,7 @@ class IdAndTriggerSF(dict):
 					self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Muon_IdIso_IsoLt0p15_2017B_eff.root"]
 					self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MCFall2017_Muon_IdIso_IsoLt0p15_2017B_eff.root"]
 
-					self["TriggerEfficiencyMode"] = "cross_triggers"
+					self["TriggerEfficiencyMode"] = "no_overlap_triggers"
 
 				elif re.search("Spring16", nickname):
 					self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"]
