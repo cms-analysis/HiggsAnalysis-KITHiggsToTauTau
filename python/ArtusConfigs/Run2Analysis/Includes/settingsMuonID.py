@@ -63,7 +63,7 @@ class Muon_ID(dict):
 
 	def vetoMuon_ID(self, nickname):
 		
-		self["VetoMuonID"] = "veto"
+		self["VetoMuonID"] = "loose"
 
 		self["VetoMuonIsoType"] = "user"
 		self["VetoMuonIso"] = "none"

@@ -448,20 +448,26 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu27_v",
 				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v"
 			]
-			self["MuonTriggerFilterNames"] = [
-				"HLT_IsoMu24_v:hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07",
-				"HLT_IsoMu27_v:hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07",
-				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
-				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
-			]
+
 			if isEmbedded:
 				self["TauTriggerFilterNames"] = [
 					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltL1sMu18erTau24erIorMu20erTau24er"
+				]
+				self["MuonTriggerFilterNames"] = [
+					"HLT_IsoMu24_v:hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07",
+					"HLT_IsoMu27_v:hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
 				]
 			else:
 				self["TauTriggerFilterNames"] = [
 					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
 					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded",
+				]
+				self["MuonTriggerFilterNames"] = [
+					"HLT_IsoMu24_v:hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07",
+					"HLT_IsoMu27_v:hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
 				]
 
 
