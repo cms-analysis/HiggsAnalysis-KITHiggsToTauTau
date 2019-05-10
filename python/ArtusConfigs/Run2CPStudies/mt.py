@@ -309,7 +309,7 @@ class mt_ArtusConfig(dict):
 
 		TauPolarisationMva_config = sTPMVA.TauPolarisationMva()
 		self.update(TauPolarisationMva_config)
-		
+
 		self.update(IdAndTriggerSF(nickname, channel="MT", dcach=False))
 
 		self["TauPolarisationTmvaWeights"] = [
