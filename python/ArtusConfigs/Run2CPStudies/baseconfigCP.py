@@ -29,13 +29,14 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 		#self["RunWhitelist"] = [1]
 		#self["LumiWhitelist"] = [194]
 		#self["EventWhitelist"] = [38756]
-
-		if re.search("(Fall15MiniAODv2|Run2015)", nickname) or re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
+		
+		if re.search("(Fall15MiniAODv2|Run2015)", nickname):
 			self["RefitVertices"] = ""
 			self["RefitBSVertices"] = ""
 		else:
 			self["RefitVertices"] = "AdvancedRefittedVerticesNoBS"
 			self["RefitBSVertices"] = "AdvancedRefittedVerticesBS"
+
 		if re.search("HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLLM(10to50|50|150)|LFV", nickname) and re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 			self["LheParticles"] = "LHEafter"
 		else:

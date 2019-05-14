@@ -237,22 +237,28 @@ void RefitVertexSelector::Produce(event_type const& event, product_type& product
 		// find the vertex among the refitted vertices
 		unsigned int index = 0;
 		for (std::vector<KRefitVertex>::iterator vertex = event.m_refitVertices->begin(); vertex != event.m_refitVertices->end(); ++vertex){
-			if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
+			size_t selectionHash = 0;
+			boost::hash_combine(selectionHash, vertex->leptonSelectionHash1);
+			boost::hash_combine(selectionHash, vertex->leptonSelectionHash2);
+			if ( std::find(hashes.begin(), hashes.end(), selectionHash) != hashes.end() ){
 				product.m_refitPV = &(*vertex);
 				break;
 			}
 			++index;
 		} // loop over refitted vertices collection
-	
+
 		// find the vertex among the refitted vertices calculated w/ beamspot constraint
 		for (std::vector<KRefitVertex>::iterator vertex = event.m_refitBSVertices->begin(); vertex != event.m_refitBSVertices->end(); ++vertex){
-			if ( std::find(hashes.begin(), hashes.end(), vertex->leptonSelectionHash) != hashes.end() ){
+			size_t selectionHash = 0;
+			boost::hash_combine(selectionHash, vertex->leptonSelectionHash1);
+			boost::hash_combine(selectionHash, vertex->leptonSelectionHash2);
+			if ( std::find(hashes.begin(), hashes.end(), selectionHash) != hashes.end() ){
 				product.m_refitPVBS = &(*vertex);
 				break;
 			}
 		} // loop over refitted vertices collection
-	
-	
+
+
 		// get IP and corresponding error calculated with the IPTools methods
 		if (product.m_refitPV && (index < event.m_refitVertices->size())){
 			// lepton1
