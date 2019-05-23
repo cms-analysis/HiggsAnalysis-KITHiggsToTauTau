@@ -5,6 +5,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import hashlib
+import math
 
 import ROOT
 
@@ -55,10 +56,10 @@ class Unpolarisation(analysisbase.AnalysisBase):
 		
 		for index, (nominal_pos_pol_nick, shift_up_pos_pol_nicks, shift_down_pos_pol_nicks, nominal_neg_pol_nick, shift_up_neg_pol_nicks, shift_down_neg_pol_nicks, forced_gen_polarisation, scale_factor_pos_pol_nick, scale_factor_neg_pol_nick, polarisation_before_nick, polarisation_after_nick) in enumerate(zip(*[plotData.plotdict[key] for key in ["unpolarisation_nominal_pos_pol_nicks", "unpolarisation_shift_up_pos_pol_nicks", "unpolarisation_shift_down_pos_pol_nicks", "unpolarisation_nominal_neg_pol_nicks", "unpolarisation_shift_up_neg_pol_nicks", "unpolarisation_shift_down_neg_pol_nicks", "unpolarisation_forced_gen_polarisations", "unpolarisation_scale_factor_pos_pol_nicks", "unpolarisation_scale_factor_neg_pol_nicks", "unpolarisation_polarisation_before_nicks", "unpolarisation_polarisation_after_nicks"]])):
 			
-#			plotData.plotdict["unpolarisation_shift_up_pos_pol_nicks"][index] = shift_up_pos_pol_nicks.split()
-#			plotData.plotdict["unpolarisation_shift_down_pos_pol_nicks"][index] = shift_down_pos_pol_nicks.split()
-#			plotData.plotdict["unpolarisation_shift_up_pos_neg_nicks"][index] = shift_up_neg_pol_nicks.split()
-#			plotData.plotdict["unpolarisation_shift_down_pos_neg_nicks"][index] = shift_down_neg_pol_nicks.split()
+			plotData.plotdict["unpolarisation_shift_up_pos_pol_nicks"][index] = shift_up_pos_pol_nicks.split()
+			plotData.plotdict["unpolarisation_shift_down_pos_pol_nicks"][index] = shift_down_pos_pol_nicks.split()
+			plotData.plotdict["unpolarisation_shift_up_neg_pol_nicks"][index] = shift_up_neg_pol_nicks.split()
+			plotData.plotdict["unpolarisation_shift_down_neg_pol_nicks"][index] = shift_down_neg_pol_nicks.split()
 			
 			if (forced_gen_polarisation is None) or (forced_gen_polarisation=="None"):
 				plotData.plotdict["unpolarisation_forced_gen_polarisations"][index] = None
@@ -83,12 +84,12 @@ class Unpolarisation(analysisbase.AnalysisBase):
 		for index, (nominal_pos_pol_nick, shift_up_pos_pol_nicks, shift_down_pos_pol_nicks, nominal_neg_pol_nick, shift_up_neg_pol_nicks, shift_down_neg_pol_nicks, forced_gen_polarisation, scale_factor_pos_pol_nick, scale_factor_neg_pol_nick, polarisation_before_nick, polarisation_after_nick) in enumerate(zip(*[plotData.plotdict[key] for key in ["unpolarisation_nominal_pos_pol_nicks", "unpolarisation_shift_up_pos_pol_nicks", "unpolarisation_shift_down_pos_pol_nicks", "unpolarisation_nominal_neg_pol_nicks", "unpolarisation_shift_up_neg_pol_nicks", "unpolarisation_shift_down_neg_pol_nicks", "unpolarisation_forced_gen_polarisations", "unpolarisation_scale_factor_pos_pol_nicks", "unpolarisation_scale_factor_neg_pol_nicks", "unpolarisation_polarisation_before_nicks", "unpolarisation_polarisation_after_nicks"]])):
 			
 			nominal_pos_pol_hist = plotData.plotdict["root_objects"][nominal_pos_pol_nick]
-#			shift_up_pos_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_up_pos_pol_nicks]
-#			shift_down_pos_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_down_pos_pol_nicks]
+			shift_up_pos_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_up_pos_pol_nicks]
+			shift_down_pos_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_down_pos_pol_nicks]
 			
 			nominal_neg_pol_hist = plotData.plotdict["root_objects"][nominal_neg_pol_nick]
-#			shift_up_neg_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_up_neg_pol_nicks]
-#			shift_down_neg_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_down_neg_pol_nicks]
+			shift_up_neg_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_up_neg_pol_nicks]
+			shift_down_neg_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_down_neg_pol_nicks]
 			
 			name = hashlib.md5("_".join(map(str, [nominal_pos_pol_nick, shift_up_pos_pol_nicks, shift_down_pos_pol_nicks, nominal_neg_pol_nick, shift_up_neg_pol_nicks, shift_down_neg_pol_nicks, forced_gen_polarisation, scale_factor_pos_pol_nick, scale_factor_neg_pol_nick]))).hexdigest()
 			
@@ -108,37 +109,66 @@ class Unpolarisation(analysisbase.AnalysisBase):
 					for z_bin in xrange(1, nominal_pos_pol_hist.GetNbinsZ()+1):
 						global_bin = nominal_pos_pol_hist.GetBin(x_bin, y_bin, z_bin)
 						
-						n_nominal_pos_pol = uncertainties.ufloat(
+						n_pos_pol = uncertainties.ufloat(
 								nominal_pos_pol_hist.GetBinContent(global_bin),
 								nominal_pos_pol_hist.GetBinError(global_bin)
 						)
-						n_nominal_neg_pol = uncertainties.ufloat(
+						
+						unc_up = pow(n_pos_pol.std_dev, 2)
+						for shift_hist in shift_up_pos_pol_hists:
+							n_shift = uncertainties.ufloat(shift_hist.GetBinContent(global_bin), shift_hist.GetBinError(global_bin))
+							unc_up += pow(n_shift-n_pos_pol, 2).nominal_value
+						unc_up = math.sqrt(unc_up)
+						
+						unc_down = pow(n_pos_pol.std_dev, 2)
+						for shift_hist in shift_down_pos_pol_hists:
+							n_shift = uncertainties.ufloat(shift_hist.GetBinContent(global_bin), shift_hist.GetBinError(global_bin))
+							unc_down += pow(n_shift-n_pos_pol, 2).nominal_value
+						unc_down = math.sqrt(unc_down)
+						
+						n_pos_pol.std_dev = max(unc_up, unc_down)
+						
+						n_neg_pol = uncertainties.ufloat(
 								nominal_neg_pol_hist.GetBinContent(global_bin),
 								nominal_neg_pol_hist.GetBinError(global_bin)
 						)
 						
-						nominal_scale_factors = polarisationsignalscaling.PolarisationScaleFactors(
-								n_nominal_pos_pol, n_nominal_neg_pol,
-								n_nominal_pos_pol, n_nominal_neg_pol,
+						unc_up = pow(n_neg_pol.std_dev, 2)
+						for shift_hist in shift_up_neg_pol_hists:
+							n_shift = uncertainties.ufloat(shift_hist.GetBinContent(global_bin), shift_hist.GetBinError(global_bin))
+							unc_up += pow(n_shift-n_neg_pol, 2).nominal_value
+						unc_up = math.sqrt(unc_up)
+						
+						unc_down = pow(n_neg_pol.std_dev, 2)
+						for shift_hist in shift_down_neg_pol_hists:
+							n_shift = uncertainties.ufloat(shift_hist.GetBinContent(global_bin), shift_hist.GetBinError(global_bin))
+							unc_down += pow(n_shift-n_neg_pol, 2).nominal_value
+						unc_down = math.sqrt(unc_down)
+						
+						n_neg_pol.std_dev = max(unc_up, unc_down)
+						
+						scale_factors = polarisationsignalscaling.PolarisationScaleFactors(
+								n_pos_pol, n_neg_pol,
+								n_pos_pol, n_neg_pol,
 								forced_gen_polarisation=forced_gen_polarisation
 						)
 						
-						nominal_scale_factor_pos_pol = nominal_scale_factors.get_bias_removal_factor_pospol() if remove_bias_instead_unpolarisation else nominal_scale_factors.get_scale_factor_pospol()
-						scale_factor_pos_pol_hist.SetBinContent(global_bin, nominal_scale_factor_pos_pol.nominal_value)
-						scale_factor_pos_pol_hist.SetBinError(global_bin, nominal_scale_factor_pos_pol.std_dev)
+						scale_factor_pos_pol = scale_factors.get_bias_removal_factor_pospol() if remove_bias_instead_unpolarisation else scale_factors.get_scale_factor_pospol()
+						scale_factor_pos_pol_hist.SetBinContent(global_bin, scale_factor_pos_pol.nominal_value)
+						scale_factor_pos_pol_hist.SetBinError(global_bin, scale_factor_pos_pol.std_dev)
 						
-						nominal_scale_factor_neg_pol = nominal_scale_factors.get_bias_removal_factor_negpol() if remove_bias_instead_unpolarisation else nominal_scale_factors.get_scale_factor_negpol()
-						scale_factor_neg_pol_hist.SetBinContent(global_bin, nominal_scale_factor_neg_pol.nominal_value)
-						scale_factor_neg_pol_hist.SetBinError(global_bin, nominal_scale_factor_neg_pol.std_dev)
+						scale_factor_neg_pol = scale_factors.get_bias_removal_factor_negpol() if remove_bias_instead_unpolarisation else scale_factors.get_scale_factor_negpol()
+						scale_factor_neg_pol_hist.SetBinContent(global_bin, scale_factor_neg_pol.nominal_value)
+						scale_factor_neg_pol_hist.SetBinError(global_bin, scale_factor_neg_pol.std_dev)
 						
-						polarisation_before = nominal_scale_factors.get_gen_polarisation()
+						polarisation_before = scale_factors.get_gen_polarisation()
 						polarisation_before_hist.SetBinContent(global_bin, polarisation_before.nominal_value)
 						polarisation_before_hist.SetBinError(global_bin, polarisation_before.std_dev)
 						
-						# Caution: nominal_scale_factors object is modified!
-						nominal_scale_factors.n_gen_pospol *= nominal_scale_factor_pos_pol
-						nominal_scale_factors.n_gen_negpol *= nominal_scale_factor_neg_pol
-						polarisation_after = nominal_scale_factors.get_gen_polarisation()
+						# Caution: scale_factors object is modified!
+						scale_factors.n_gen_pospol *= scale_factor_pos_pol
+						scale_factors.n_gen_negpol *= scale_factor_neg_pol
+						polarisation_after = scale_factors.get_gen_polarisation()
 						polarisation_after_hist.SetBinContent(global_bin, polarisation_after.nominal_value)
 						polarisation_after_hist.SetBinError(global_bin, polarisation_after.std_dev)
 						

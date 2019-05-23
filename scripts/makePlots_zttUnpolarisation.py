@@ -102,35 +102,52 @@ if __name__ == "__main__":
 							"ztt_neg_pol_gen_nicks", "ztt_neg_pol_reco_nicks", "ztt_neg_pol_reco_result_nicks",
 							"ztt_forced_gen_polarisations"
 					])
-					
-				"""
-				if "AddHistograms" not in config.get("analysis_modules", []):
-					config.setdefault("analysis_modules", []).append("AddHistograms")
-				config.setdefault("add_nicks", []).extend(["zttpospol{theo_unc_weight}_noplot zttnegpol{theo_unc_weight}_noplot".format(theo_unc_weight=theo_unc_weight) for theo_unc_weight in [""]+args.alpha_s_weights+args.pdf_weights+args.qcd_scale_weights])
-				config.setdefault("add_result_nicks", []).extend(["ztt"+theo_unc_weight+("" if index_weight == 0 else "_noplot") for index_weight, theo_unc_weight in enumerate([""]+args.alpha_s_weights+args.pdf_weights+args.qcd_scale_weights)])
-				"""
 				
-				if len(args.alpha_s_weights) > 0:
-					if "UncertaintiesAlphaS" not in config.get("analysis_modules", []):
-						config.setdefault("analysis_modules", []).append("UncertaintiesAlphaS")
-					config.setdefault("uncertainties_alpha_s_reference_nicks", []).append("ztt")
-					config.setdefault("uncertainties_alpha_s_shifts_nicks", []).append(" ".join(["ztt"+theo_unc_weight+"_noplot" for theo_unc_weight in args.alpha_s_weights]))
-					config.setdefault("uncertainties_alpha_s_result_nicks", []).append("ztt"+"_alpha_s")
+				for sample in ["zttpospol", "zttnegpol"]:
+					"""
+					if "AddHistograms" not in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("AddHistograms")
+					config.setdefault("add_nicks", []).extend(["zttpospol{theo_unc_weight}_noplot zttnegpol{theo_unc_weight}_noplot".format(theo_unc_weight=theo_unc_weight) for theo_unc_weight in [""]+args.alpha_s_weights+args.pdf_weights+args.qcd_scale_weights])
+					config.setdefault("add_result_nicks", []).extend([sample+theo_unc_weight+("" if index_weight == 0 else "_noplot") for index_weight, theo_unc_weight in enumerate([""]+args.alpha_s_weights+args.pdf_weights+args.qcd_scale_weights)])
+					"""
 					
-				if len(args.pdf_weights) > 0:
-					if "UncertaintiesPdf" not in config.get("analysis_modules", []):
-						config.setdefault("analysis_modules", []).append("UncertaintiesPdf")
-					config.setdefault("uncertainties_pdf_reference_nicks", []).append("ztt")
-					config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join(["ztt"+theo_unc_weight+"_noplot" for theo_unc_weight in args.pdf_weights]))
-					config.setdefault("uncertainties_pdf_result_nicks", []).append("ztt"+"_pdf")
-					config.setdefault("nicks_blacklist", []).append("_correlation")
-					
-				if len(args.qcd_scale_weights) > 0:
-					if "UncertaintiesScale" not in config.get("analysis_modules", []):
-						config.setdefault("analysis_modules", []).append("UncertaintiesScale")
-					config.setdefault("uncertainties_scale_reference_nicks", []).append("ztt")
-					config.setdefault("uncertainties_scale_shifts_nicks", []).append(" ".join(["ztt"+theo_unc_weight+"_noplot" for theo_unc_weight in args.qcd_scale_weights]))
-					config.setdefault("uncertainties_scale_result_nicks", []).append("ztt"+"_qcd_scale")
+					if len(args.alpha_s_weights) > 0:
+						if "UncertaintiesAlphaS" not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UncertaintiesAlphaS")
+						config.setdefault("uncertainties_alpha_s_reference_nicks", []).append(sample)
+						config.setdefault("uncertainties_alpha_s_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.alpha_s_weights]))
+						config.setdefault("uncertainties_alpha_s_result_nicks", []).append(sample+"_alpha_s")
+						
+					if len(args.pdf_weights) > 0:
+						if "UncertaintiesPdf" not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UncertaintiesPdf")
+						config.setdefault("uncertainties_pdf_reference_nicks", []).append(sample)
+						config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.pdf_weights]))
+						config.setdefault("uncertainties_pdf_result_nicks", []).append(sample+"_pdf")
+						config.setdefault("nicks_blacklist", []).append("_correlation")
+						
+					if len(args.qcd_scale_weights) > 0:
+						if "UncertaintiesScale" not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("UncertaintiesScale")
+						config.setdefault("uncertainties_scale_reference_nicks", []).append(sample)
+						config.setdefault("uncertainties_scale_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.qcd_scale_weights]))
+						config.setdefault("uncertainties_scale_result_nicks", []).append(sample+"_qcd_scale")
+				
+				if "Unpolarisation" not in config.get("analysis_modules", []):
+					config.setdefault("analysis_modules", []).append("Unpolarisation")
+				config.setdefault("unpolarisation_nominal_pos_pol_nicks", []).append("zttpospol")
+				config.setdefault("unpolarisation_shift_up_pos_pol_nicks", []).append(" ".join(["zttpospol_"+unc+"_up" for unc in ["alpha_s", "pdf", "qcd_scale"]]))
+				config.setdefault("unpolarisation_shift_down_pos_pol_nicks", []).append(" ".join(["zttpospol_"+unc+"_down" for unc in ["alpha_s", "pdf", "qcd_scale"]]))
+				config.setdefault("unpolarisation_nominal_neg_pol_nicks", []).append("zttnegpol")
+				config.setdefault("unpolarisation_shift_up_neg_pol_nicks", []).append(" ".join(["zttnegpol_"+unc+"_up" for unc in ["alpha_s", "pdf", "qcd_scale"]]))
+				config.setdefault("unpolarisation_shift_down_neg_pol_nicks", []).append(" ".join(["zttnegpol_"+unc+"_down" for unc in ["alpha_s", "pdf", "qcd_scale"]]))
+				config.setdefault("unpolarisation_scale_factor_pos_pol_nicks", []).append("unpol_pos")
+				config.setdefault("unpolarisation_scale_factor_neg_pol_nicks", []).append("unpol_neg")
+				config.setdefault("unpolarisation_polarisation_before_nicks", []).append("unpol_before")
+				config.setdefault("unpolarisation_polarisation_after_nicks", []).append("unpol_after")
+				
+				config.setdefault("subplot_nicks", []).append("unpol")
+				config.setdefault("nicks_blacklist", []).extend(["_up", "_down"])
 				
 				for key in ["stacks", "legend_markers"]:
 					if key in config:
