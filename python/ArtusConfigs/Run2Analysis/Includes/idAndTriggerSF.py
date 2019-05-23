@@ -47,7 +47,7 @@ class IdAndTriggerSF(dict):
 					self["IdentificationEfficiencyMode"] = "multiply_weights"
 
 				#TODO CHANGE TO HALES NEWEST COMMIT
-				elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
+				elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname) or re.search("adow", nickname):
 					self["TriggerEfficiencyData"] = [
 							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_Ele35WPTight_IsoLt0.10_eff_RerecoFall17.root",
 							"0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2017_Electron_EleTau_Ele24.root"
@@ -65,7 +65,7 @@ class IdAndTriggerSF(dict):
 					# self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
 					self["TauTrigger2017WorkingPoint"] = "tight"
 
-					self["TriggerEfficiencyMode"] = "cross_triggers"
+					self["TriggerEfficiencyMode"] = "no_overlap_triggers"
 					self["IdentificationEfficiencyMode"] = "multiply_weights"
 
 				else:
@@ -96,7 +96,7 @@ class IdAndTriggerSF(dict):
 					self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2015_Muon_IdIso0p1_fall15.root"]
 					self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Muon_IdIso0p1_fall15.root"]
 
-				elif re.search("Run2017|Summer17|Fall17", nickname):
+				elif re.search("Run2017|Summer17|Fall17", nickname) or re.search("adow", nickname):
 					# triggerEfficiency_Run2017_Muon_IsoMu24orIsoMu27.root
 					# triggerEfficiency_MCFall2017_Muon_IsoMu24orIsoMu27.root
 					# triggerEfficiency_Run2017_Muon_IsoMu27.root
@@ -122,7 +122,7 @@ class IdAndTriggerSF(dict):
 					self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Muon_IdIso_IsoLt0p15_2017B_eff.root"]
 					self["IdentificationEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MCFall2017_Muon_IdIso_IsoLt0p15_2017B_eff.root"]
 
-					self["TriggerEfficiencyMode"] = "cross_triggers"
+					self["TriggerEfficiencyMode"] = "no_overlap_triggers"
 
 				elif re.search("Spring16", nickname):
 					self["TriggerEfficiencyMc"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_dummy.root"]

@@ -268,20 +268,21 @@ class CutStringsDict:
 	@staticmethod
 	def cptautau2017(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
-		cuts["bveto"] = "(nbtag == 0)"
+		# cuts["bveto"] = "(nbtag == 0)"
 		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
 		if channel == "mt":
-			cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))||((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
+			# cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))||((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
+			cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
 			cuts["pt_1"] = "(pt_1 > 21.0)"
-			cuts["pt_2"] = "(pt_2 > 20.0)"
+			cuts["pt_2"] = "(pt_2 > 23.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
-			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
 			if "emb" in cut_type:
 				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||(trg_crossmuon_mu20tau27>0.5)||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*((trg_crossmuon_mu20tau27>0.5)||(trg_singlemuon_27>0.5)||(trg_singlemuon_24>0.5))))"
-				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
+				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
 				# cuts["trigger"] = "(((trg_singlemuon_24>0.5)||(trg_singlemuon_27>0.5))||(trg_crossmuon_mu20tau27>0.5))*triggerWeight_mu_1*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2"
 				# cuts["trigger"] = "((((trg_singlemuon_24>0.5))||((trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
 				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
