@@ -6,6 +6,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
 
+#include <fstream>
 
 std::string RecoTauCPProducer::GetProducerId() const
 {
@@ -300,6 +301,41 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	});
 
 
+	// IP vectors wrt thePV with helical approach
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_1mag", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_recoIP1_helical).x() != -999) ? ( sqrt( (product.m_recoIP1_helical).x()*(product.m_recoIP1_helical).x() + (product.m_recoIP1_helical).y()*(product.m_recoIP1_helical).y() + (product.m_recoIP1_helical).z()*(product.m_recoIP1_helical).z() ) ) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_1x", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP1_helical != nullptr) ? (product.m_recoIP1_helical).x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_1y", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP1_helical != nullptr) ? (product.m_recoIP1_helical).y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_1z", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP1_helical != nullptr) ? (product.m_recoIP1_helical).z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_2mag", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_recoIP2_helical).x() != -999) ? ( sqrt( (product.m_recoIP2_helical).x()*(product.m_recoIP2_helical).x() + (product.m_recoIP2_helical).y()*(product.m_recoIP2_helical).y() + (product.m_recoIP2_helical).z()*(product.m_recoIP2_helical).z() ) ) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_2x", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP2_helical != nullptr) ? (product.m_recoIP2_helical).x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_2y", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP2_helical != nullptr) ? (product.m_recoIP2_helical).y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_2z", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP2_helical != nullptr) ? (product.m_recoIP2_helical).z() : DefaultValues::UndefinedFloat);
+	});
+
+
 	// IP vectors wrt refitted PV
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1mag", [](event_type const& event, product_type const& product)
 	{
@@ -484,6 +520,40 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return product.m_deltaGenRecoIP2;
 	});
 
+	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP_helical(thePV)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP1_helical", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaEtaGenRecoIP1_helical;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP2_helical", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaEtaGenRecoIP2_helical;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP1_helical", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaPhiGenRecoIP1_helical;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP2_helical", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaPhiGenRecoIP2_helical;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP1_helical", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRGenRecoIP1_helical;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP2_helical", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRGenRecoIP2_helical;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP1_helical", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIP1_helical;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP2_helical", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIP2_helical;
+	});
+
 	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP(refitPV)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP1_refitPV", [](event_type const& event, product_type const& product)
 	{
@@ -616,6 +686,18 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	//Distance of Point of closest approach (PCA) from the primary vertex (PV) in units of sigma_PV
 	product.m_pca1DiffInSigma = product.m_recoIP1.Mag()/product.m_pca1proj;
 	product.m_pca2DiffInSigma = product.m_recoIP2.Mag()/product.m_pca2proj;
+
+	std::ifstream is("pca1_hel.res");
+	bool first = !is.good();
+	//Impact parameters via helical approach in cm:
+	product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position);
+	product.m_recoIP2_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,event.m_vertexSummary->pv.position);
+	if (first)
+	{
+		std::ofstream f4("pca1_gen.res");
+		for (double x=0; x<=1;x+=0.001) f4 << product.m_genIP1.x()*x+event.m_vertexSummary->pv.position.x() <<" "<< product.m_genIP1.y()*x+event.m_vertexSummary->pv.position.y() << " " << product.m_genIP1.z()*x+event.m_vertexSummary->pv.position.z() << std::endl;;
+		f4.close();
+	}
 
 	// distance between track and BS center
 	product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, event.m_beamSpot->position);
@@ -750,36 +832,54 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			} // tau1->a, tau2->rho
 
 		}  // if tt ch.
-
-
-		if (!m_isData){
-			// calculate deltaR, deltaEta, deltaPhi and delta between recoIPvec and genIPvec
-			if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
-				// wrt thePV
-				product.m_deltaEtaGenRecoIP1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
-				product.m_deltaPhiGenRecoIP1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
-				product.m_deltaRGenRecoIP1   = product.m_recoIP1.DeltaR(product.m_genIP1);
-				product.m_deltaGenRecoIP1    = product.m_recoIP1.Angle(product.m_genIP1);
-
-				// wrt refitted PV
-				product.m_deltaEtaGenRecoIP1_refitPV = product.m_recoIP1_refitPV.Eta() - product.m_genIP1.Eta();
-				product.m_deltaPhiGenRecoIP1_refitPV = product.m_recoIP1_refitPV.DeltaPhi(product.m_genIP1);
-				product.m_deltaRGenRecoIP1_refitPV   = product.m_recoIP1_refitPV.DeltaR(product.m_genIP1);
-				product.m_deltaGenRecoIP1_refitPV    = product.m_recoIP1_refitPV.Angle(product.m_genIP1);
-			} // if genIP1 exists
-
-			if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
-				// wrt refitted PV
-				product.m_deltaEtaGenRecoIP2 = product.m_recoIP2_refitPV.Eta() - product.m_genIP2.Eta();
-				product.m_deltaPhiGenRecoIP2 = product.m_recoIP2_refitPV.DeltaPhi(product.m_genIP2);
-				product.m_deltaRGenRecoIP2   = product.m_recoIP2_refitPV.DeltaR(product.m_genIP2);
-				product.m_deltaGenRecoIP2    = product.m_recoIP2_refitPV.Angle(product.m_genIP2);
-			} // if genIP2 exists
-
-		} // if MC sample
-
-
 	} // if the refitPV exists
+
+	if (!m_isData){
+		// calculate deltaR, deltaEta, deltaPhi and delta between recoIPvec and genIPvec
+		if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
+			// wrt thePV
+			product.m_deltaEtaGenRecoIP1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
+			product.m_deltaPhiGenRecoIP1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
+			product.m_deltaRGenRecoIP1   = product.m_recoIP1.DeltaR(product.m_genIP1);
+			product.m_deltaGenRecoIP1    = product.m_recoIP1.Angle(product.m_genIP1);
+
+			//with the helical approach
+			/*
+			std::cout << std::endl << "generator:" << std::endl << "[";
+			for (int i=0;i<3;i++) std::cout << product.m_genIP1(i) << " ";
+			std::cout << "]"<< std::endl << "helical:" << std::endl << "[";
+			for (int i=0;i<3;i++) std::cout << product.m_recoIP1_helical(i) << " ";
+			std::cout << "]"<< std::endl;
+			std::cout << "PV:" << std::endl << "[" << event.m_vertexSummary->pv.position.x() << " " << event.m_vertexSummary->pv.position.y() << " "<< event.m_vertexSummary->pv.position.z() << " " ;
+			std::cout << "]"<< std::endl;
+			*/
+			product.m_deltaEtaGenRecoIP1_helical = product.m_recoIP1_helical.Eta() - product.m_genIP1.Eta();
+			product.m_deltaPhiGenRecoIP1_helical = product.m_recoIP1_helical.DeltaPhi(product.m_genIP1);
+			product.m_deltaRGenRecoIP1_helical   = product.m_recoIP1_helical.DeltaR(product.m_genIP1);
+			product.m_deltaGenRecoIP1_helical    = product.m_recoIP1_helical.Angle(product.m_genIP1);
+
+			// wrt refitted PV
+			product.m_deltaEtaGenRecoIP1_refitPV = product.m_recoIP1_refitPV.Eta() - product.m_genIP1.Eta();
+			product.m_deltaPhiGenRecoIP1_refitPV = product.m_recoIP1_refitPV.DeltaPhi(product.m_genIP1);
+			product.m_deltaRGenRecoIP1_refitPV   = product.m_recoIP1_refitPV.DeltaR(product.m_genIP1);
+			product.m_deltaGenRecoIP1_refitPV    = product.m_recoIP1_refitPV.Angle(product.m_genIP1);
+		} // if genIP1 exists
+
+		if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
+			//with the helical approach
+			product.m_deltaEtaGenRecoIP2_helical = product.m_recoIP2_helical.Eta() - product.m_genIP2.Eta();
+			product.m_deltaPhiGenRecoIP2_helical = product.m_recoIP2_helical.DeltaPhi(product.m_genIP2);
+			product.m_deltaRGenRecoIP2_helical   = product.m_recoIP2_helical.DeltaR(product.m_genIP2);
+			product.m_deltaGenRecoIP2_helical    = product.m_recoIP2_helical.Angle(product.m_genIP2);
+
+			// wrt refitted PV
+			product.m_deltaEtaGenRecoIP2 = product.m_recoIP2_refitPV.Eta() - product.m_genIP2.Eta();
+			product.m_deltaPhiGenRecoIP2 = product.m_recoIP2_refitPV.DeltaPhi(product.m_genIP2);
+			product.m_deltaRGenRecoIP2   = product.m_recoIP2_refitPV.DeltaR(product.m_genIP2);
+			product.m_deltaGenRecoIP2    = product.m_recoIP2_refitPV.Angle(product.m_genIP2);
+		} // if genIP2 exists
+
+	} // if MC sample
 
 
 }
