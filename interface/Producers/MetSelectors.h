@@ -30,7 +30,7 @@ public:
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
 		ProducerBase<HttTypes>::Init(settings, metadata);
-		
+
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metSumEt", [](event_type const& event, product_type const& product)
 		{
@@ -89,7 +89,7 @@ public:
 		{
 			return product.m_pfmet.significance.At(1, 1);
 		});
-	
+
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetSumEt", [](event_type const& event, product_type const& product)
 		{
 			return product.m_mvamet.sumEt;
@@ -120,14 +120,14 @@ public:
 		});
 	}
 
-	virtual void Produce(event_type const& event, product_type & product, 
+	virtual void Produce(event_type const& event, product_type & product,
 	                     setting_type const& settings, metadata_type const& metadata) const override
 	{
 		if ((m_metsMember != nullptr) && ((event.*m_metsMember) != nullptr))
 		{
 			assert(product.m_ptOrderedLeptons.size() > 0);
-			
-			// create hashes from lepton selection. Any number of leptons is possible 
+
+			// create hashes from lepton selection. Any number of leptons is possible
 			std::vector<KLepton*> leptons = product.m_ptOrderedLeptons;
 			std::vector<size_t> hashes;
 			if (leptons.size() == 2 && (leptons[0]->p4.Pt() < leptons[1]->p4.Pt()))
@@ -163,7 +163,7 @@ public:
 				hashes.push_back(hash);
 			}
 
-			
+
 			bool foundMvaMet = false;
 			for (typename std::vector<TMet>::iterator met = (event.*m_metsMember)->begin(); met != (event.*m_metsMember)->end(); ++met)
 			{
@@ -172,14 +172,14 @@ public:
 					product.m_mvametUncorr = &(*met);
 					foundMvaMet = true;
 					break;
-				} 
+				}
 			}
-			
+
 			// Make sure we found a corresponding MVAMET, this is to ensure we do not fall back to the PFMet
 			assert(foundMvaMet && (product.m_mvametUncorr != nullptr));
 			// If this assertion fails, one might have to consider running the MetSelector before this producer
 			// in order to have the (PF) MET as a fallback solution
-			
+
 			// Copy the MET object, for possible future corrections
 			product.m_mvamet = *(product.m_mvametUncorr);
 			if (settings.GetChooseMvaMet())
@@ -191,7 +191,7 @@ public:
 		else if ((m_metMember != nullptr) && ((event.*m_metMember) != nullptr))
 		{
 			product.m_pfmetUncorr = (event.*m_metMember);
-			
+
 			// Copy the MET object, for possible future corrections
 			product.m_pfmet = *(product.m_pfmetUncorr);
 			if (!settings.GetChooseMvaMet())
@@ -206,7 +206,7 @@ public:
 			       ((m_metMember != nullptr) && ((event.*m_metMember) != nullptr)));
 		}
 	}
-	
+
 
 protected:
 	TMet* event_type::*m_metMember;
@@ -232,7 +232,7 @@ public:
 class MetSelectorPuppi: public MetSelectorBase<KMET>
 {
 public:
-	virtual void Produce(event_type const& event, product_type & product, 
+	virtual void Produce(event_type const& event, product_type & product,
 	                     setting_type const& settings, metadata_type const& metadata) const override;
 	MetSelectorPuppi();
 	virtual std::string GetProducerId() const override;

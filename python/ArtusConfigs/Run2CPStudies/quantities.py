@@ -440,6 +440,8 @@ class Quantities(Run2Quantities):
 			"genIP2z",
 			"genCosPsiPlus",
 			"genCosPsiMinus",
+			"genCosPsiPlus",
+			"genCosPsiMinus",
 			"genPhiStarCP_rho",
 			"genPhiCP_rho",
 			"genPhiStar_rho",
@@ -1023,6 +1025,8 @@ class Quantities(Run2Quantities):
 			"recoPhiStarCPrPV",
 			"recoPhiStarCPComb",
 			"recoPhiStarCPCombMerged",
+			"recoPhiStarCPComb_norefit",
+			"recoPhiStarCPCombMerged_norefit",
 
 			"recoPhiPlus_ipmeth",
 			"recoPhiMinus_ipmeth",
