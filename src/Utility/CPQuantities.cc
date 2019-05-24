@@ -195,7 +195,7 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 		}
 		f0.close();
 		std::ofstream f1("pv.res");
-		delta = 1/N;
+		delta = 1./N;
 		for (double x=0; x<=1;x+=delta) f1 << PV_v(0)*x <<" "<< PV_v(1)*x << " " << PV_v(2)*x << std::endl;;
 		f1.close();
 		std::ofstream f2("r.res");

@@ -704,17 +704,17 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_pca1DiffInSigma = product.m_recoIP1.Mag()/product.m_pca1proj;
 	product.m_pca2DiffInSigma = product.m_recoIP2.Mag()/product.m_pca2proj;
 
-	std::ifstream is("pca1_hel.res");
-	bool first = !is.good();
+	//std::ifstream is("pca1_hel.res");
+	//bool first = !is.good();
 	//Impact parameters via helical approach in cm:
 	product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position);
 	product.m_recoIP2_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,event.m_vertexSummary->pv.position);
-	if (first)
+	/*if (first)
 	{
 		std::ofstream f4("pca1_gen.res");
 		for (double x=0; x<=1;x+=0.001) f4 << product.m_genIP1.x()*x+event.m_vertexSummary->pv.position.x() <<" "<< product.m_genIP1.y()*x+event.m_vertexSummary->pv.position.y() << " " << product.m_genIP1.z()*x+event.m_vertexSummary->pv.position.z() << std::endl;;
 		f4.close();
-	}
+	}*/
 
 	// distance between track and BS center
 	product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, event.m_beamSpot->position);
