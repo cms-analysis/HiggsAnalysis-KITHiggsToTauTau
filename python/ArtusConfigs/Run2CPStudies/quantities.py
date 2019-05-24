@@ -1319,7 +1319,8 @@ class Quantities(Run2Quantities):
 			"topPtReweightWeightRun2",
 			"zPtReweightWeight",
 			"eleTauFakeRateWeight",
-			"muTauFakeRateWeight"
+			"muTauFakeRateWeight",
+			"metFilterWeight",
 		]
 
 	@staticmethod

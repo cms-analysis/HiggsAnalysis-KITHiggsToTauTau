@@ -240,6 +240,10 @@ public:
 	KMET m_met;
 	KMET m_pfmet;
 	KMET m_mvamet;
+	KMET m_puppimet;
+
+	// filled by MetFilterProducer
+	bool m_metFilterFlag = true;
 
 	// filled by the TauTauRestFrameProducer
 	HttEnumTypes::TauTauRestFrameReco m_tauTauRestFrameReco = HttEnumTypes::TauTauRestFrameReco::NONE;

@@ -105,6 +105,22 @@ class Baseconfig(dict):
 			"!Flag_cloneGlobalMuonTaggerMAOD"
 			]
 
+		if re.search("Run2017|Fall17", nickname):
+			self["MetFilter"] = [  # suggested for MC and Data
+				"Flag_goodVertices",
+				"Flag_globalSuperTightHalo2016Filter",
+				"Flag_HBHENoiseFilter",
+				"Flag_HBHENoiseIsoFilter",
+				"Flag_EcalDeadCellTriggerPrimitiveFilter",
+				"Flag_BadPFMuonFilter",
+				# "Flag_BadChargedCandidateFilter",   # not recommended, under review
+				# "Flag_ecalBadCalibFilter",  # outdated; DO NOT USE (listed for completeness, updated version is the one below)
+				# "ecalBadCalibReducedMINIAODFilter" TODO (still work in progress): https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2#How_to_run_ecal_BadCalibReducedM
+			]
+			if re.search("Run2017", nickname):
+				self["MetFilter"] += [
+					"Flag_eeBadScFilter",
+				]
 
 		if re.search("Summer17", nickname):
 			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_RunBtoF_80bins_MC_Moriond17_PU25ns_V1_69p2MinBiasXS.root" 

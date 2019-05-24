@@ -62,6 +62,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PrefiringWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/CPInitialStateQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GroupedJetUncertaintyShiftProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetFilterProducer.h"
 
 // filters
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Filters/LooseObjectsCountFilters.h"
@@ -133,6 +134,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MetCorrector();
 	else if(id == MvaMetCorrector().GetProducerId())
 		return new MvaMetCorrector();
+	else if(id == MetFilterProducer().GetProducerId())
+		return new MetFilterProducer();
 	else if(id == TTHTauPairProducer().GetProducerId())
 		return new TTHTauPairProducer();
 	else if(id == DecayChannelProducer().GetProducerId())

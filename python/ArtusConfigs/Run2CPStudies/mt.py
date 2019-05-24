@@ -73,6 +73,8 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
 				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
+				if re.search("(Run2017|Summer17|Fall17)", nickname) or re.search("adow", nickname):
+					self["Processors"] += ["producer:MetFilterProducer"]
 			else:
 				self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
@@ -294,7 +296,7 @@ class mt_ArtusConfig(dict):
 
 		Svfit_config = sSvfit.Svfit(nickname)
 		self.update(Svfit_config)
-		if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8",nickname):
+		if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8",nickname): # synchronization sample
 			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False, sync=True)
 		else:
 			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False, sync=False)

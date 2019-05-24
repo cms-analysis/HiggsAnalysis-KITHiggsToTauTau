@@ -724,7 +724,8 @@ class Run2Quantities():
 			"npartons",
 			"genbosonmass",
 			"leadingJetGenMatch",
-			"trailingJetGenMatch"
+			"trailingJetGenMatch",
+			"metfilter_flag",
 		]
 		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 			sync_quantities_list += [

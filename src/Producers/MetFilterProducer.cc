@@ -1,7 +1,6 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/MetFilterProducer.h"
 
 
-
 MetFilterProducer::~MetFilterProducer()
 {
 }
@@ -14,6 +13,11 @@ std::string MetFilterProducer::GetProducerId() const
 void MetFilterProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metfilter_flag", [](event_type const& event, product_type const& product)
+	{
+		return product.m_metFilterFlag;
+	});
 
 	std::vector<std::string> tmpMetFilters = settings.GetMetFilter();
 	for(auto filter: tmpMetFilters)
@@ -35,7 +39,7 @@ void MetFilterProducer::Init(setting_type const& settings, metadata_type& metada
 void MetFilterProducer::Produce(event_type const& event, product_type& product,
                                     setting_type const& settings, metadata_type const& metadata) const
 {
-	bool validEvent = true;
+	bool metFilterFlag = true;
 	for (auto metfilter : m_metFilters)
 	{
 		//std::cout<< metfilter << std::endl;
@@ -47,8 +51,16 @@ void MetFilterProducer::Produce(event_type const& event, product_type& product,
 			result = !result;
 		}
 		product.m_optionalWeights[metfilter] = result; //add option to look at each metfilter seperatly
-		validEvent = validEvent && result;
+		metFilterFlag = metFilterFlag && result;
+		if(product.m_optionalWeights[metfilter] != 1.0){
+			LOG(DEBUG) << "event.m_triggerObjectMetadata->metFilterPos(metfilter): " << event.m_triggerObjectMetadata->metFilterPos(metfilter);
+			LOG(DEBUG) << "product.m_optionalWeights[metfilter]: " << product.m_optionalWeights[metfilter];
+			LOG(DEBUG) << "metFilterFlag: " << metFilterFlag;
+		}
 	}
-	product.m_optionalWeights["metFilterWeight"] = validEvent;
+	product.m_optionalWeights["metFilterWeight"] = metFilterFlag;
+	product.m_metFilterFlag = metFilterFlag;
+	LOG(DEBUG) << "product.m_optionalWeights[\"metFilterWeight\"]: " << product.m_optionalWeights["metFilterWeight"];
+	LOG(DEBUG) << "product.m_metFilterFlag: " << product.m_metFilterFlag;
 }
 
