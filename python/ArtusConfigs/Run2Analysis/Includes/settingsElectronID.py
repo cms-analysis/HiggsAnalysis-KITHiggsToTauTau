@@ -41,7 +41,8 @@ class Electron_ID(dict):
 			# self["ElectronMvaIDCutEB1"] = 0.9897
 			# self["ElectronMvaIDCutEB2"] = 0.9819
 			# self["ElectronMvaIDCutEE"] = 0.9625
-			self["ElectronIDType"] = "mvabased2015andlater"
+			# self["ElectronIDType"] = "mvabased2015andlater"
+			self["ElectronIDType"] = "cutbased2015andlater"
 			#rho corrections
 			#https://github.com/cms-sw/cmssw/blob/master/RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_94X.txt
 
@@ -171,7 +172,8 @@ class Electron_ID(dict):
 			# self["LooseElectronMvaIDCutEB1"] =  0.9718
 			# self["LooseElectronMvaIDCutEB2"] =  0.9459
 			# self["LooseElectronMvaIDCutEE"] =  0.8979
-			self["LooseElectronIDType"] = "mvabased2015andlater"
+			# self["LooseElectronIDType"] = "mvabased2015andlater"
+			self["LooseElectronIDType"] = "cutbased2015andlater"
 
 
 
