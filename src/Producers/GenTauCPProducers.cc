@@ -139,7 +139,7 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	{
 		return product.m_genTauTree2DecayMode;
 	});
-	
+
 	// MC-truth IP vectors
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1mag", [](event_type const& event, product_type const& product)
 	{
@@ -276,7 +276,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 				product.m_genPV = &event.m_genParticles->at(i).vertex;
 			}
 		}
-	
+
 		// initialization of TVector3 objects
 		product.m_genIP1.SetXYZ(-999,-999,-999);
 		product.m_genIP2.SetXYZ(-999,-999,-999);
@@ -342,7 +342,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			product.m_genChargedProngEnergies.first = cpq.CalculateChargedProngEnergy(genTauDecayTree1->m_genParticle->p4, chargedPart1->p4);
 			product.m_genChargedProngEnergies.second = cpq.CalculateChargedProngEnergy(genTauDecayTree2->m_genParticle->p4, chargedPart2->p4);
 
-			
+
 			// objects to save LVs of charged and neutral pions from rho decays
 			RMFLV PionP, Pi0P;
 			RMFLV PionM, Pi0M;
@@ -366,7 +366,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 						if(std::abs(genTauDecayTree1OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdGamma)
 							rhoP_decay_photons.push_back(genTauDecayTree1OneProngs.at(i)->m_genParticle->p4);
 					} // loop over genTau1 prongs
-					
+
 					Pi0P = rhoP_decay_photons.at(0) + rhoP_decay_photons.at(1);
 					product.m_gen_posyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionP, Pi0P);
 				}
@@ -383,7 +383,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 						if(std::abs(genTauDecayTree2OneProngs.at(i)->m_genParticle->pdgId) == DefaultValues::pdgIdGamma)
 							rhoM_decay_photons.push_back(genTauDecayTree2OneProngs.at(i)->m_genParticle->p4);
 					} // loop over genTau1 prongs
-					
+
 					Pi0M = rhoM_decay_photons.at(0) + rhoM_decay_photons.at(1);
 					product.m_gen_negyTauL = cpq.CalculateSpinAnalysingDiscriminant_rho(PionM, Pi0M);
 				}
@@ -392,7 +392,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			////////////////
 			// rho method //
 			////////////////
-			
+
 			if (genTau1->genDecayMode() == 1 && genTau2->genDecayMode() == 1){
 				if (PionP.X()!=-999 && PionM.X()!=-999 && Pi0P.X()!=-999 && Pi0M.X()!=-999){
 
@@ -413,7 +413,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 			product.m_genPhiCP = cpq.CalculatePhiCP(product.m_genBosonLV, genTauDecayTree1->m_genParticle->p4, genTauDecayTree2->m_genParticle->p4, chargedPart1->p4, chargedPart2->p4);
 			product.m_genPhi = cpq.GetGenPhi();
 			product.m_genOCP = cpq.GetGenOCP();
-	
+
 			if (product.m_genPV != nullptr){
 				// calculate IP vectors of tau daughters
 				product.m_genIP1 = cpq.CalculateShortestDistance(chargedPart1, product.m_genPV);
@@ -435,7 +435,7 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 				/////////////////////
 				// IP + rho method //
 				/////////////////////
-				
+
 				// the tau1 decays into a rho
 				if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()!=1)
 					product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, chargedPart2->p4, PionP, Pi0P, (int)chargedPart2->charge());
@@ -526,7 +526,7 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings, metadata_type& 
 	{
 		return product.m_genD02;
 	});
-	
+
 	// charge of leptons
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "genQ_1", [](event_type const& event, product_type const& product)
 	{
@@ -536,7 +536,7 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings, metadata_type& 
 	{
 		return product.m_flavourOrderedGenLeptons.at(1) ? static_cast<int>(product.m_flavourOrderedGenLeptons.at(1)->charge()) : DefaultValues::UndefinedDouble;
 	});
-	
+
 
 }
 
@@ -601,7 +601,7 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 				int decaymode = gentau->genDecayMode();
 				product.m_genTau1DecayMode = decaymode;
 				product.m_genTauTree1DecayMode = (int)gentautree->m_decayMode;
-			
+
 				std::vector<GenParticleDecayTree*> prongs = gentautree->m_finalStates;
 				product.m_genTau1ProngsSize = prongs.size();
 
@@ -641,10 +641,12 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 					gentautree = genTauDecayTree2;
 					gentau = genTau2;
 				}
-				int decaymode = gentau->genDecayMode();
+				int decaymode = -999;
+				if( gentau != nullptr ){
+					decaymode = gentau->genDecayMode();
+				}
 				product.m_genTau2DecayMode = decaymode;
 				product.m_genTauTree2DecayMode = (int)gentautree->m_decayMode;
-			
 				std::vector<GenParticleDecayTree*> prongs = gentautree->m_finalStates;
 				product.m_genTau2ProngsSize = prongs.size();
 
@@ -673,7 +675,7 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 
 				} // if hadronic decay mode
 			}  // if genParticle2 is a tau
-			
+
 			// ==================
 			// === rho method ===
 			// ==================
@@ -696,26 +698,26 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 				}
 			}
 			///////////////////////////// rho method
-			
+
 			// =================
 			// === ip method ===
 			// =================
 			product.m_genSV1 = &genParticle1->vertex;
 			product.m_genSV2 = &genParticle2->vertex;
-	
+
 			if (product.m_genPV != nullptr){
 
-				product.m_genD01 = (1 / genParticle1->p4.Pt()) 
+				product.m_genD01 = (1 / genParticle1->p4.Pt())
 									* ( -( (product.m_genSV1)->x() - (product.m_genPV)->x() )*genParticle1->p4.Py()
 									+ ( (product.m_genSV1)->y() - (product.m_genPV)->y() )*genParticle1->p4.Px() );
-				product.m_genD02 = (1 / genParticle2->p4.Pt()) 
+				product.m_genD02 = (1 / genParticle2->p4.Pt())
 									* ( -( (product.m_genSV2)->x() - (product.m_genPV)->x() )*genParticle2->p4.Py()
 									+ ( (product.m_genSV2)->y() - (product.m_genPV)->y() )*genParticle2->p4.Px() );
 
 
 				product.m_genIP1 = cpq.CalculateShortestDistance(genParticle1, product.m_genPV);
 				product.m_genIP2 = cpq.CalculateShortestDistance(genParticle2, product.m_genPV);
-				
+
 				// calculate phi*cp
 				if (genParticle1->charge() > 0){
 					IPPlus = product.m_genIP1;
@@ -734,7 +736,7 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 
 				product.m_genPhiStarCP = cpq.CalculatePhiStarCP(chargedPart1->p4, chargedPart2->p4, IPPlus, IPMinus, "gen");
 				///////////////////////////// ip method
-				
+
 
 				// ===================
 				// === comb method ===

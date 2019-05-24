@@ -138,6 +138,15 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_recoPhiStarCPCombMerged;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPComb_norefit", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPComb_norefit;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombMerged_norefit", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPCombMerged_norefit;
+	});
+
 
 	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPVbs", [](event_type const& event, product_type const& product)
 	//{
@@ -429,6 +438,14 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_cosPsiMinus;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiPlus", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiPlus_norefit;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiMinus", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiMinus_norefit;
+	});
 
 	// errors on dxy, dz and IP wrt thePV
 	// using propagation of errors
@@ -671,7 +688,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// ---------
 	// phi*CP wrt thePV
 	// FIXME is it still needed?
-	// product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(&(event.m_vertexSummary->pv), trackP, trackM, momentumP, momentumM);
+	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(&(event.m_vertexSummary->pv), trackP, trackM, momentumP, momentumM);
 
 	// calculation of the IP vectors and relative errors
 	// IP wrt thePV
@@ -703,8 +720,95 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, event.m_beamSpot->position);
 	product.m_track2FromBS = cpq.CalculateShortestDistance(recoParticle2, event.m_beamSpot->position);
 
-	if (product.m_refitPV != nullptr){
+	// FIXME: This is very ugly and mostly for testing
+	// calculate phi*CP without a refitted primary vertex
+	if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET ){
 
+		KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
+		product.m_recoPhiStarCPComb_norefit = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+
+		// merged variable
+		if (recoTau2->charge() > 0) {
+			if (product.m_reco_posyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
+			else {
+				if (product.m_recoPhiStarCPComb > ROOT::Math::Pi())
+					product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
+				else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb + ROOT::Math::Pi();
+			}
+		} // recoTau2->charge > 0
+		else {
+			if (product.m_reco_negyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
+			else {
+				if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
+					product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
+				else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
+			}
+		} // recoTau2->charge() < 0
+	}  // if et or mt ch.
+
+	if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ){
+		KTau* recoTau1 = static_cast<KTau*>(recoParticle1);
+		KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
+
+		// tau1->rho, tau2->a
+		if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
+			product.m_recoPhiStarCPComb_norefit = cpq.CalculatePhiStarCPComb(product.m_recoIP2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+
+			// azimuthal angles of the tau decay planes
+			product.m_recoPhiPlus_combmeth = cpq.GetRecoPhiPlus_combmeth();
+			product.m_recoPhiMinus_combmeth = cpq.GetRecoPhiMinus_combmeth();
+			product.m_recoPhiStarPlus_combmeth = cpq.GetRecoPhiStarPlus_combmeth();
+			product.m_recoPhiStarMinus_combmeth = cpq.GetRecoPhiStarMinus_combmeth();
+
+			// merged variable
+			if (recoTau1->charge() > 0) {
+				if (product.m_reco_posyTauL > 0) product.m_recoPhiStarCPCombMerged = product.m_recoPhiStarCPComb;
+				else {
+					if (product.m_recoPhiStarCPComb > ROOT::Math::Pi())
+						product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
+					else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
+				}
+			} // recoTau1->charge > 0
+			else {
+				if (product.m_reco_negyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
+				else {
+					if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
+						product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
+					else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
+				} // recoTau1->charge() < 0
+			}
+		} // tau1->rho, tau2->a
+
+		// tau1->a, tau2->rho
+		if (recoTau1->decayMode != 1 && recoTau2->decayMode ==1){
+			product.m_recoPhiStarCPComb_norefit = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+
+			// merged variable
+			if (recoTau2->charge() > 0) {
+				if (product.m_reco_posyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
+				else {
+					if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
+						product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
+					else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
+				}
+			} // recoTau2->charge > 0
+			else {
+				if (product.m_reco_negyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
+				else {
+					if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
+						product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
+					else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
+				} // recoTau2->charge() < 0
+			}
+		} // tau1->a, tau2->rho
+
+	}  // if tt ch.
+
+	// Calculate the psi+- without a refitted vertex
+	product.m_cosPsiPlus_norefit  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1);
+	product.m_cosPsiMinus_norefit = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP2);
+
+	if (product.m_refitPV != nullptr){
 
 		// IP wrt refitPV
 		product.m_recoIP1_refitPV = cpq.CalculateShortestDistance(recoParticle1, product.m_refitPV->position);
@@ -753,6 +857,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		// In the tt ch., we want to use the combined method when only one of the two taus decays to rho.
 		// If both taus decay to rho, then the rho method is preferred.
 		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET ){
+
 			KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
 			product.m_recoPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
 
@@ -880,6 +985,5 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		} // if genIP2 exists
 
 	} // if MC sample
-
 
 }

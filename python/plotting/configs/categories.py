@@ -185,7 +185,7 @@ class CategoriesDict(object):
 						"_melaDiscriminatorD0MinusGGH":"4,0,1",
 						}
 					}
-				}		
+				}
 		self.categoriesDict["{analysis}{channel}Vbf4D_mela_GGH{discriminator}"] = {
 				"channel":[
 					"mm_",
@@ -275,7 +275,7 @@ class CategoriesDict(object):
 					"mm_": {
 						#"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
 						"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
-						
+
 						},
 					"mt_": {
 						#"_mjj":" ".join([str(float(f)) for f in [300, 500, 8500]]),
@@ -336,7 +336,7 @@ class CategoriesDict(object):
 					"mm_": {
 						"_mjj":"300.0 700.0 1100.0 1500.0 2500.0"
 						#"_jdeta":" ".join([str(float(f)) for f in [0, 2, 3.5, 4.5,8]]),
-						
+
 						},
 					"mt_": {
 						"_mjj":" ".join([str(float(f)) for f in [300, 500, 700, 8500]]),
@@ -364,11 +364,11 @@ class CategoriesDict(object):
 						}
 					}
 				}
-	
+
 		"""
 		Categories used in CP Final State studies.
 		"""
-		
+
 		self.categoriesDict["{analysis}{channel}CP_IPmethod{discriminator}"] = {
 				"channel":[
 					"mt_",
@@ -690,11 +690,11 @@ class CategoriesDict(object):
 						}
 					}
 				}
-		
+
 		self.calculateBinnings()
 		self.calculateExpressions()
 		self.calculateDataCards()
-	
+
 	def calculateBinnings(self):
 		self.binnings = {}
 		for name, info in self.categoriesDict.iteritems():
@@ -728,9 +728,9 @@ class CategoriesDict(object):
 				self.expressions[name.format(analysis=ana, channel=channel, discriminator="")]=expression
 		#self.pp.pprint(self.expressions)
 
-	
+
 	def combine(self, strings_to_combine):
-		return "(" + "*".join(strings_to_combine) + ")"	
+		return "(" + "*".join(strings_to_combine) + ")"
 
 	def getExpressionsDict(self):
 		return self.expressions
@@ -754,7 +754,4 @@ class CategoriesDict(object):
 
 	def invert(self, expression):
 		tmp_expression = "(" + expression + ")"
-		return "(" + tmp_expression + "==0)" 
-
-
-		
+		return "(" + tmp_expression + "==0)"

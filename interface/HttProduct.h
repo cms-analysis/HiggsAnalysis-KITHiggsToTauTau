@@ -345,6 +345,8 @@ public:
 
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlus_norefit  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinus_norefit = DefaultValues::UndefinedDouble;
 
 	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
@@ -397,6 +399,8 @@ public:
 	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPComb  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombMerged  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPComb_norefit  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMerged_norefit  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCP_rho_merged  = DefaultValues::UndefinedDouble;

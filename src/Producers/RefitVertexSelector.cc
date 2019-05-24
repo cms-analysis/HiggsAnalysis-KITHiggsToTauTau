@@ -62,7 +62,7 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	{
 		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->covariance.At(1,2) : DefaultValues::UndefinedFloat);
 	});
-	
+
 	// refitted (w/ BS constraint) PV coordinates and parameters
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVBSx", [](event_type const& event, product_type const& product)
 	{
@@ -196,22 +196,22 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	{
 		return product.m_err2DnewPV2 ? product.m_err2DnewPV2 : DefaultValues::UndefinedFloat;
 	});
-	
+
 }
 
 
 void RefitVertexSelector::Produce(event_type const& event, product_type& product,
                                   setting_type const& settings, metadata_type const& metadata) const
 {
-	
+
 	assert(product.m_flavourOrderedLeptons.size() > 0);
 
 	// create hashes from lepton selection
 	std::vector<KLepton*> leptons = product.m_flavourOrderedLeptons;
 	std::vector<size_t> hashes;
-
+	LOG(INFO) << "\n";
 	if (leptons.size() == 2 && event.m_refitVertices && event.m_refitBSVertices){
-		
+
 		size_t hash = 0;
 
 		// get reference point of the track
@@ -283,4 +283,3 @@ void RefitVertexSelector::Produce(event_type const& event, product_type& product
 	} // if leptons.size==2
 
 }
-
