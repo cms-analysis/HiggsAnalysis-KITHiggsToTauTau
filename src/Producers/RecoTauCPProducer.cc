@@ -732,8 +732,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			if (product.m_reco_posyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
 			else {
 				if (product.m_recoPhiStarCPComb > ROOT::Math::Pi())
-					product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
-				else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb + ROOT::Math::Pi();
+					product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
+				else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
 			}
 		} // recoTau2->charge > 0
 		else {
