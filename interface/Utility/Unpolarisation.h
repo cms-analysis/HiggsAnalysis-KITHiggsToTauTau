@@ -4,6 +4,7 @@
 
 #include <TFile.h>
 #include <TH1.h>
+#include <TSpline.h>
 
 
 class Unpolarisation
@@ -21,17 +22,13 @@ public:
 		TFile* rootFile = nullptr;
 		
 		rootFile = TFile::Open(scaleFactorsFilenameUpQuarks.c_str());
-		m_scaleFactorsPositivePolarisationUpQuarks = static_cast<TH1*>(rootFile->Get(scaleFactorsPositivePolarisationUpQuarks.c_str()));
-		m_scaleFactorsNegativePolarisationUpQuarks = static_cast<TH1*>(rootFile->Get(scaleFactorsNegativePolarisationUpQuarks.c_str()));
-		m_scaleFactorsPositivePolarisationUpQuarks->SetDirectory(nullptr);
-		m_scaleFactorsNegativePolarisationUpQuarks->SetDirectory(nullptr);
+		m_scaleFactorsPositivePolarisationUpQuarks = new TSpline3(static_cast<TH1*>(rootFile->Get(scaleFactorsPositivePolarisationUpQuarks.c_str())));
+		m_scaleFactorsNegativePolarisationUpQuarks = new TSpline3(static_cast<TH1*>(rootFile->Get(scaleFactorsNegativePolarisationUpQuarks.c_str())));
 		rootFile->Close();
 		
 		rootFile = TFile::Open(scaleFactorsFilenameDownQuarks.c_str());
-		m_scaleFactorsPositivePolarisationDownQuarks = static_cast<TH1*>(rootFile->Get(scaleFactorsPositivePolarisationDownQuarks.c_str()));
-		m_scaleFactorsNegativePolarisationDownQuarks = static_cast<TH1*>(rootFile->Get(scaleFactorsNegativePolarisationDownQuarks.c_str()));
-		m_scaleFactorsPositivePolarisationDownQuarks->SetDirectory(nullptr);
-		m_scaleFactorsNegativePolarisationDownQuarks->SetDirectory(nullptr);
+		m_scaleFactorsPositivePolarisationDownQuarks = new TSpline3(static_cast<TH1*>(rootFile->Get(scaleFactorsPositivePolarisationDownQuarks.c_str())));
+		m_scaleFactorsNegativePolarisationDownQuarks = new TSpline3(static_cast<TH1*>(rootFile->Get(scaleFactorsNegativePolarisationDownQuarks.c_str())));
 		rootFile->Close();
 		
 		delete rootFile;
@@ -47,36 +44,36 @@ public:
 	
 	double ScaleFactor(double energy, bool positivePolarisation, bool upQuarks)
 	{
-		TH1* histogram = nullptr;
+		TSpline3* scaleFactors = nullptr;
 		if (positivePolarisation)
 		{
 			if (upQuarks)
 			{
-				histogram = m_scaleFactorsPositivePolarisationUpQuarks;
+				scaleFactors = m_scaleFactorsPositivePolarisationUpQuarks;
 			}
 			else
 			{
-				histogram = m_scaleFactorsPositivePolarisationDownQuarks;
+				scaleFactors = m_scaleFactorsPositivePolarisationDownQuarks;
 			}
 		}
 		else
 		{
 			if (upQuarks)
 			{
-				histogram = m_scaleFactorsNegativePolarisationUpQuarks;
+				scaleFactors = m_scaleFactorsNegativePolarisationUpQuarks;
 			}
 			else
 			{
-				histogram = m_scaleFactorsNegativePolarisationDownQuarks;
+				scaleFactors = m_scaleFactorsNegativePolarisationDownQuarks;
 			}
 		}
-		return histogram->GetBinContent(histogram->FindBin(energy));
+		return scaleFactors->Eval(energy);
 	}
 
 private:
-	TH1* m_scaleFactorsPositivePolarisationUpQuarks = nullptr;
-	TH1* m_scaleFactorsNegativePolarisationUpQuarks = nullptr;
-	TH1* m_scaleFactorsPositivePolarisationDownQuarks = nullptr;
-	TH1* m_scaleFactorsNegativePolarisationDownQuarks = nullptr;
+	TSpline3* m_scaleFactorsPositivePolarisationUpQuarks = nullptr;
+	TSpline3* m_scaleFactorsNegativePolarisationUpQuarks = nullptr;
+	TSpline3* m_scaleFactorsPositivePolarisationDownQuarks = nullptr;
+	TSpline3* m_scaleFactorsNegativePolarisationDownQuarks = nullptr;
 };
 
