@@ -27,16 +27,16 @@ class Unpolarisation(analysisbase.AnalysisBase):
 		self.normalize_polarisation_options = parser.add_argument_group("{} options".format(self.name()))
 		self.normalize_polarisation_options.add_argument("--unpolarisation-nominal-pos-pol-nicks", type=str, nargs="+",
 				help="Nick names of the nominal histogram(s) for positive helicity.")
-		self.normalize_polarisation_options.add_argument("--unpolarisation-shift-up-pos-pol-nicks", type=str, nargs="+",
-				help="Nick names of the shift-up histogram(s) for positive helicity.")
-		self.normalize_polarisation_options.add_argument("--unpolarisation-shift-down-pos-pol-nicks", type=str, nargs="+",
-				help="Nick names of the shift-down histogram(s) for positive helicity.")
+		self.normalize_polarisation_options.add_argument("--unpolarisation-shift-up-pos-pol-nicks", type=str, nargs="+", default=[None],
+				help="Nick names of the shift-up histogram(s) for positive helicity. [Default: %(default)s]")
+		self.normalize_polarisation_options.add_argument("--unpolarisation-shift-down-pos-pol-nicks", type=str, nargs="+", default=[None],
+				help="Nick names of the shift-down histogram(s) for positive helicity. [Default: %(default)s]")
 		self.normalize_polarisation_options.add_argument("--unpolarisation-nominal-neg-pol-nicks", type=str, nargs="+",
 				help="Nick names of the nominal histogram(s) for negative helicity.")
-		self.normalize_polarisation_options.add_argument("--unpolarisation-shift-up-neg-pol-nicks", type=str, nargs="+",
-				help="Nick names of the shift-up histogram(s) for negative helicity.")
-		self.normalize_polarisation_options.add_argument("--unpolarisation-shift-down-neg-pol-nicks", type=str, nargs="+",
-				help="Nick names of the shift-down histogram(s) for negative helicity.")
+		self.normalize_polarisation_options.add_argument("--unpolarisation-shift-up-neg-pol-nicks", type=str, nargs="+", default=[None],
+				help="Nick names of the shift-up histogram(s) for negative helicity. [Default: %(default)s]")
+		self.normalize_polarisation_options.add_argument("--unpolarisation-shift-down-neg-pol-nicks", type=str, nargs="+", default=[None],
+				help="Nick names of the shift-down histogram(s) for negative helicity. [Default: %(default)s]")
 		self.normalize_polarisation_options.add_argument("--unpolarisation-remove-bias-instead-unpolarisation", default=False, action="store_true",
 				help="Remove all polarisation effects except for the generator level polarisation. [Default: %(default)s]")
 		self.normalize_polarisation_options.add_argument("--unpolarisation-forced-gen-polarisations", type=str, nargs="+", default=[None],
@@ -56,10 +56,10 @@ class Unpolarisation(analysisbase.AnalysisBase):
 		
 		for index, (nominal_pos_pol_nick, shift_up_pos_pol_nicks, shift_down_pos_pol_nicks, nominal_neg_pol_nick, shift_up_neg_pol_nicks, shift_down_neg_pol_nicks, forced_gen_polarisation, scale_factor_pos_pol_nick, scale_factor_neg_pol_nick, polarisation_before_nick, polarisation_after_nick) in enumerate(zip(*[plotData.plotdict[key] for key in ["unpolarisation_nominal_pos_pol_nicks", "unpolarisation_shift_up_pos_pol_nicks", "unpolarisation_shift_down_pos_pol_nicks", "unpolarisation_nominal_neg_pol_nicks", "unpolarisation_shift_up_neg_pol_nicks", "unpolarisation_shift_down_neg_pol_nicks", "unpolarisation_forced_gen_polarisations", "unpolarisation_scale_factor_pos_pol_nicks", "unpolarisation_scale_factor_neg_pol_nicks", "unpolarisation_polarisation_before_nicks", "unpolarisation_polarisation_after_nicks"]])):
 			
-			plotData.plotdict["unpolarisation_shift_up_pos_pol_nicks"][index] = shift_up_pos_pol_nicks.split()
-			plotData.plotdict["unpolarisation_shift_down_pos_pol_nicks"][index] = shift_down_pos_pol_nicks.split()
-			plotData.plotdict["unpolarisation_shift_up_neg_pol_nicks"][index] = shift_up_neg_pol_nicks.split()
-			plotData.plotdict["unpolarisation_shift_down_neg_pol_nicks"][index] = shift_down_neg_pol_nicks.split()
+			plotData.plotdict["unpolarisation_shift_up_pos_pol_nicks"][index] = shift_up_pos_pol_nicks.split() if shift_up_pos_pol_nicks else [shift_up_pos_pol_nicks]
+			plotData.plotdict["unpolarisation_shift_down_pos_pol_nicks"][index] = shift_down_pos_pol_nicks.split() if shift_down_pos_pol_nicks else [shift_up_pos_pol_nicks]
+			plotData.plotdict["unpolarisation_shift_up_neg_pol_nicks"][index] = shift_up_neg_pol_nicks.split() if shift_up_neg_pol_nicks else [shift_up_pos_pol_nicks]
+			plotData.plotdict["unpolarisation_shift_down_neg_pol_nicks"][index] = shift_down_neg_pol_nicks.split() if shift_down_neg_pol_nicks else [shift_up_pos_pol_nicks]
 			
 			if (forced_gen_polarisation is None) or (forced_gen_polarisation=="None"):
 				plotData.plotdict["unpolarisation_forced_gen_polarisations"][index] = None
@@ -84,12 +84,12 @@ class Unpolarisation(analysisbase.AnalysisBase):
 		for index, (nominal_pos_pol_nick, shift_up_pos_pol_nicks, shift_down_pos_pol_nicks, nominal_neg_pol_nick, shift_up_neg_pol_nicks, shift_down_neg_pol_nicks, forced_gen_polarisation, scale_factor_pos_pol_nick, scale_factor_neg_pol_nick, polarisation_before_nick, polarisation_after_nick) in enumerate(zip(*[plotData.plotdict[key] for key in ["unpolarisation_nominal_pos_pol_nicks", "unpolarisation_shift_up_pos_pol_nicks", "unpolarisation_shift_down_pos_pol_nicks", "unpolarisation_nominal_neg_pol_nicks", "unpolarisation_shift_up_neg_pol_nicks", "unpolarisation_shift_down_neg_pol_nicks", "unpolarisation_forced_gen_polarisations", "unpolarisation_scale_factor_pos_pol_nicks", "unpolarisation_scale_factor_neg_pol_nicks", "unpolarisation_polarisation_before_nicks", "unpolarisation_polarisation_after_nicks"]])):
 			
 			nominal_pos_pol_hist = plotData.plotdict["root_objects"][nominal_pos_pol_nick]
-			shift_up_pos_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_up_pos_pol_nicks]
-			shift_down_pos_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_down_pos_pol_nicks]
+			shift_up_pos_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_up_pos_pol_nicks if not nick is None]
+			shift_down_pos_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_down_pos_pol_nicks if not nick is None]
 			
 			nominal_neg_pol_hist = plotData.plotdict["root_objects"][nominal_neg_pol_nick]
-			shift_up_neg_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_up_neg_pol_nicks]
-			shift_down_neg_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_down_neg_pol_nicks]
+			shift_up_neg_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_up_neg_pol_nicks if not nick is None]
+			shift_down_neg_pol_hists = [plotData.plotdict["root_objects"][nick] for nick in shift_down_neg_pol_nicks if not nick is None]
 			
 			name = hashlib.md5("_".join(map(str, [nominal_pos_pol_nick, shift_up_pos_pol_nicks, shift_down_pos_pol_nicks, nominal_neg_pol_nick, shift_up_neg_pol_nicks, shift_down_neg_pol_nicks, forced_gen_polarisation, scale_factor_pos_pol_nick, scale_factor_neg_pol_nick]))).hexdigest()
 			

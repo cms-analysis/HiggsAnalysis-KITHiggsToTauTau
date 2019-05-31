@@ -111,12 +111,14 @@ if __name__ == "__main__":
 					config.setdefault("add_result_nicks", []).extend([sample+theo_unc_weight+("" if index_weight == 0 else "_noplot") for index_weight, theo_unc_weight in enumerate([""]+args.alpha_s_weights+args.pdf_weights+args.qcd_scale_weights)])
 					"""
 					
+					final_uncertainties = []
 					if len(args.alpha_s_weights) > 0:
 						if "UncertaintiesAlphaS" not in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UncertaintiesAlphaS")
 						config.setdefault("uncertainties_alpha_s_reference_nicks", []).append(sample)
 						config.setdefault("uncertainties_alpha_s_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.alpha_s_weights]))
 						config.setdefault("uncertainties_alpha_s_result_nicks", []).append(sample+"_alpha_s")
+						final_uncertainties.append("alpha_s")
 						
 					if len(args.pdf_weights) > 0:
 						if "UncertaintiesPdf" not in config.get("analysis_modules", []):
@@ -125,6 +127,7 @@ if __name__ == "__main__":
 						config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.pdf_weights]))
 						config.setdefault("uncertainties_pdf_result_nicks", []).append(sample+"_pdf")
 						config.setdefault("nicks_blacklist", []).append("_correlation")
+						final_uncertainties.append("pdf")
 						
 					if len(args.qcd_scale_weights) > 0:
 						if "UncertaintiesScale" not in config.get("analysis_modules", []):
@@ -132,15 +135,24 @@ if __name__ == "__main__":
 						config.setdefault("uncertainties_scale_reference_nicks", []).append(sample)
 						config.setdefault("uncertainties_scale_shifts_nicks", []).append(" ".join([sample+theo_unc_weight+"_noplot" for theo_unc_weight in args.qcd_scale_weights]))
 						config.setdefault("uncertainties_scale_result_nicks", []).append(sample+"_qcd_scale")
+						final_uncertainties.append("qcd_scale")
 				
 				if "Unpolarisation" not in config.get("analysis_modules", []):
 					config.setdefault("analysis_modules", []).append("Unpolarisation")
 				config.setdefault("unpolarisation_nominal_pos_pol_nicks", []).append("zttpospol")
-				config.setdefault("unpolarisation_shift_up_pos_pol_nicks", []).append(" ".join(["zttpospol_"+unc+"_up" for unc in ["alpha_s", "pdf", "qcd_scale"]]))
-				config.setdefault("unpolarisation_shift_down_pos_pol_nicks", []).append(" ".join(["zttpospol_"+unc+"_down" for unc in ["alpha_s", "pdf", "qcd_scale"]]))
 				config.setdefault("unpolarisation_nominal_neg_pol_nicks", []).append("zttnegpol")
-				config.setdefault("unpolarisation_shift_up_neg_pol_nicks", []).append(" ".join(["zttnegpol_"+unc+"_up" for unc in ["alpha_s", "pdf", "qcd_scale"]]))
-				config.setdefault("unpolarisation_shift_down_neg_pol_nicks", []).append(" ".join(["zttnegpol_"+unc+"_down" for unc in ["alpha_s", "pdf", "qcd_scale"]]))
+				
+				if len(final_uncertainties) > 0:
+					config.setdefault("unpolarisation_shift_up_pos_pol_nicks", []).append(" ".join(["zttpospol_"+unc+"_up" for unc in final_uncertainties]))
+					config.setdefault("unpolarisation_shift_down_pos_pol_nicks", []).append(" ".join(["zttpospol_"+unc+"_down" for unc in final_uncertainties]))
+					config.setdefault("unpolarisation_shift_up_neg_pol_nicks", []).append(" ".join(["zttnegpol_"+unc+"_up" for unc in final_uncertainties]))
+					config.setdefault("unpolarisation_shift_down_neg_pol_nicks", []).append(" ".join(["zttnegpol_"+unc+"_down" for unc in final_uncertainties]))
+				else:
+					config.setdefault("unpolarisation_shift_up_pos_pol_nicks", []).append(None)
+					config.setdefault("unpolarisation_shift_down_pos_pol_nicks", []).append(None)
+					config.setdefault("unpolarisation_shift_up_neg_pol_nicks", []).append(None)
+					config.setdefault("unpolarisation_shift_down_neg_pol_nicks", []).append(None)
+				
 				config.setdefault("unpolarisation_scale_factor_pos_pol_nicks", []).append("unpol_pos")
 				config.setdefault("unpolarisation_scale_factor_neg_pol_nicks", []).append("unpol_neg")
 				config.setdefault("unpolarisation_polarisation_before_nicks", []).append("unpol_before")
