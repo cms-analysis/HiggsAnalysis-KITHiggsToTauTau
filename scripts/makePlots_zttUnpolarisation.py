@@ -168,7 +168,9 @@ if __name__ == "__main__":
 				config["directories"] = [args.input_dir]
 				
 				config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else "genbosonmass") for nick in config["nicks"]]
-				config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else ["290,10,300"]) for nick in config["nicks"]]
+				
+				binning = " ".join(map(str, range(10, 40, 2)+range(40, 80, 4)+range(80, 120, 1)+range(120, 180, 5)+[180, 200, 300, 10000]))
+				config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else [binning]) for nick in config["nicks"]]
 				
 				config["labels"] = [os.path.join(channel_category, unc_type) for unc_type in ["nominal", "alpha_s_up", "alpha_s_down", "pdf_up", "pdf_down", "qcd_scale_up", "qcd_scale_down"]]
 				config["output_dir"] = os.path.join(args.output_dir, channel, category)
