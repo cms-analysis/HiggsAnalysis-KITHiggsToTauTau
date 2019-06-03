@@ -66,6 +66,8 @@ class SamplesBase(object):
 				"x_bins",
 				"y_bins",
 				"z_bins",
+				"proxy",
+				"proxy_prefixes",
 				"histogram_to_scale_nicks",
 				"integral_histogram_nicks",
 				"scale_by_inverse_integrals",
@@ -118,7 +120,7 @@ class SamplesBase(object):
 		return "*".join(cuts_list)
 	
 	@staticmethod
-	def _add_input(config, input_file, folder, scale_factor, weight, nick, nick_suffix=""):
+	def _add_input(config, input_file, folder, scale_factor, weight, nick, nick_suffix="", proxy_prefix=""):
 		"""
 		Method used to fill the config for a sample with the
 		1. input .root-file
@@ -132,6 +134,9 @@ class SamplesBase(object):
 		config.setdefault("scale_factors", []).append(scale_factor)
 		config.setdefault("weights", []).append(weight)
 		config.setdefault("nicks", []).append(nick+nick_suffix)
+		config.setdefault("tree_draw_options", []).append("proxy" if len(proxy_prefix)>0 else "")
+		config.setdefault("proxy_prefixes", []).append(proxy_prefix)
+		
 		return config
 	
 	@staticmethod
