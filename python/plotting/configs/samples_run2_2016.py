@@ -4,13 +4,16 @@ import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
-import pprint
 import copy
+from functools import wraps, partial
+import os
+import pprint
 import sys
+
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples as samples
 from Kappa.Skimming.registerDatasetHelper import get_nick_list
 from Artus.Utility.tools import make_multiplication, split_multiplication, clean_multiplication
-from functools import wraps, partial
+
 energy = 13
 default_lumi =  35.87*1000.0
 
@@ -527,7 +530,7 @@ class Samples(samples.SamplesBase):
 								
 		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7)
 
-	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
+	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, proxy_prefix="", **kwargs):
 
 		cut_type_emb = cut_type + "emb" if self.embedding else cut_type
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
@@ -536,7 +539,7 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("ZTT", 1.0)
 
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix, proxy_prefix=proxy_prefix)
 		if channel in ["gen"]:
 			add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
@@ -614,11 +617,19 @@ class Samples(samples.SamplesBase):
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
+		differential_unpolarisation = kwargs.get("differential_unpolarisation", True)
 		
 		name = "pospol"+("_noplot" if polarisation_bias_correction else "")
 		polarisation_weight = "tauSpinnerPolarisation>=0.0"
-		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", **kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix)	
+		proxy_prefix = ""
+		if differential_unpolarisation:
+			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+".ScaleFactor(genbosonmass, tauSpinnerPolarisation>0, lheZfromUUbar+lheZfromCCbar)"
+			polarisation_weight = "(%s)*(%s)" % (polarisation_weight, unpolarisation_weight)
+			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Unpolarisation.h>\nUnpolarisation unpol_ztt"+name+nick_suffix+"(\"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_up\", \"unpol_neg_up\", \"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_down\", \"unpol_neg_down\");")
+		
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", proxy_prefix=proxy_prefix, **kwargs)
+		
+		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix, proxy_prefix=proxy_prefix)
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
@@ -649,11 +660,18 @@ class Samples(samples.SamplesBase):
 	def zttnegpol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
+		differential_unpolarisation = kwargs.get("differential_unpolarisation", True)
 		
 		name = "negpol"+("_noplot" if polarisation_bias_correction else "")
 		polarisation_weight = "tauSpinnerPolarisation<0.0"
-		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", **kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix)	
+		proxy_prefix = ""
+		if differential_unpolarisation:
+			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+".ScaleFactor(genbosonmass, tauSpinnerPolarisation>0, lheZfromUUbar+lheZfromCCbar)"
+			polarisation_weight = "(%s)*(%s)" % (polarisation_weight, unpolarisation_weight)
+			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Unpolarisation.h>\nUnpolarisation unpol_ztt"+name+nick_suffix+"(\"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_up\", \"unpol_neg_up\", \"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_down\", \"unpol_neg_down\");")
+		
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", proxy_prefix=proxy_prefix, **kwargs)
+		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix, proxy_prefix=proxy_prefix)
 
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			add_input(
