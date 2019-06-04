@@ -66,7 +66,7 @@ class SamplesBase(object):
 				"x_bins",
 				"y_bins",
 				"z_bins",
-				"proxy",
+				"tree_draw_options",
 				"proxy_prefixes",
 				"histogram_to_scale_nicks",
 				"integral_histogram_nicks",
