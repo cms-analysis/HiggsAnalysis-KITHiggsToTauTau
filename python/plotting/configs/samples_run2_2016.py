@@ -617,7 +617,7 @@ class Samples(samples.SamplesBase):
 	def zttpospol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
-		differential_unpolarisation = kwargs.get("differential_unpolarisation", True)
+		differential_unpolarisation = kwargs.get("differential_unpolarisation", False)
 		
 		name = "pospol"+("_noplot" if polarisation_bias_correction else "")
 		polarisation_weight = "tauSpinnerPolarisation>=0.0"
@@ -660,7 +660,7 @@ class Samples(samples.SamplesBase):
 	def zttnegpol(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		polarisation_bias_correction = kwargs.get("polarisation_bias_correction", False)
 		polarisation_gen_ztt_plots = kwargs.get("polarisation_gen_ztt_plots", False)
-		differential_unpolarisation = kwargs.get("differential_unpolarisation", True)
+		differential_unpolarisation = kwargs.get("differential_unpolarisation", False)
 		
 		name = "negpol"+("_noplot" if polarisation_bias_correction else "")
 		polarisation_weight = "tauSpinnerPolarisation<0.0"
