@@ -177,7 +177,17 @@ class Quantities(Run2Quantities):
 						"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
 						"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"
 					])
-				elif re.search("Embedding2016", nickname):
+				if re.search("Embedding2017", nickname):
+					self.quantities.update([
+						"triggerWeight_doublemu_1",
+						"idweight_doublemu_1",
+						"idweight_doublemu_2",
+						"isoweight_1",
+						"idweight_1",
+						"triggerWeight_tau_1",
+						"triggerWeight_tau_2",
+					])
+				if re.search("Embedding2016", nickname):
 					self.quantities.update([
 						"triggerWeight_doublemu_1",
 						"triggerWeight_tau_1",

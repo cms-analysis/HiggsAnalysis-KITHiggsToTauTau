@@ -86,7 +86,7 @@ class MinimalPlotlevelFilter():
 		]
 		self.minPlotLevelDict["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
 
-		if re.search("(Fall17|Summer17|Run2017)", nickname):
+		if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname):
 			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2"]
 			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5) *(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
 		else:
