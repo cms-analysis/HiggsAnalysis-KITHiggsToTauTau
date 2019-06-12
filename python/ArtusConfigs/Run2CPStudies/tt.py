@@ -69,9 +69,11 @@ class tt_ArtusConfig(dict):
 			if re.search("Summer17|Fall17|Run2017|Embedding2017", nickname) == None:
 				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 				self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
+			
 
 			if re.search("Run2016|Run2017|Embedding2017", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
+				# self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 
 				self["Processors"] += ["producer:SimpleFitProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
@@ -131,7 +133,7 @@ class tt_ArtusConfig(dict):
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
-					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
+					elif re.search("(HTo.*TauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						if re.search("Summer17|Fall17", nickname) == None:
 							self["Processors"] += [
 								"producer:TopPtReweightingProducer"
@@ -186,7 +188,7 @@ class tt_ArtusConfig(dict):
 					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
-				elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
+				elif re.search("(HTo.*TauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
@@ -194,7 +196,9 @@ class tt_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
 
-				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
+
+
+				elif re.search("^((?!(DY.?JetsToLL|HTo.*TauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]

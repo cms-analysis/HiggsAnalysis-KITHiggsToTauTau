@@ -57,7 +57,7 @@ class Quantities(Run2Quantities):
 				self.quantities.update(self.genCPQuantities())
 				self.quantities.update(self.genQuantities(LFV = True))
 
-			elif re.search("HToTauTau|H2JetsToTauTau|Higgs|JJHiggs",nickname):
+			elif re.search("HTo.*TauTau|H2JetsToTauTau|Higgs|JJHiggs",nickname):
 				self.quantities.update(self.genQuantities())
 				if re.search("(Summer17|Fall17)", nickname) == None:
 					self.quantities.update(self.genHiggsQuantities())
@@ -225,7 +225,7 @@ class Quantities(Run2Quantities):
 				if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 					self.quantities.update(self.genQuantities(LFV = False)) #TODO for 2017 also , Z = True
 					#self.quantities.update(self.splitJecUncertaintyQuantities())  #no lhe in 2017 skim
-					self.quantities.update(self.genMatchedCPQuantities())
+				self.quantities.update(self.genMatchedCPQuantities())
 
 				self.quantities.update(self.recoPolarisationQuantitiesSvfit())
 				self.quantities.update(self.recoPolarisationQuantities())
@@ -251,11 +251,12 @@ class Quantities(Run2Quantities):
 
 			# ************ datasets(groups, samples) common across all except mm channels are all the rest
 			else:
-				if not channel == "MM" and re.search('(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
+				if not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
+					self.quantities.update(self.genMatchedCPQuantities())
+
 					if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 						#self.quantities.update(self.splitJecUncertaintyQuantities())
 						self.quantities.update(self.genHiggsQuantities()) #no lhe in 2017 skim
-						self.quantities.update(self.genMatchedCPQuantities())
 					if re.search("amcatnlo",nickname):
 						self.quantities.update(["lhenpNLO", "quarkmassWeight","quarkmassUpWeight","quarkmassDownWeight"])
 					self.quantities.update(self.genQuantities(LFV = False))
@@ -280,7 +281,7 @@ class Quantities(Run2Quantities):
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					#self.quantities.update(self.splitJecUncertaintyQuantities())
 
-				elif not channel == "MM" and re.search('(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)', nickname):
+				elif not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs).*(?=Fall15)', nickname):
 					self.quantities.update(set(['melaProbCPOddVBF', 'melaDiscriminatorDCPGGH', 'melaM125ProbCPEvenGGH', 'melaProbCPMixVBF', 'melaM125ProbCPMixVBF', 'melaM125DiscriminatorDCPVBF', 'melaDiscriminatorD0MinusGGH', 'melaDiscriminatorD0MinusVBF', 'melaProbCPEvenGGH', 'melaM125ProbCPEvenVBF', 'melaM125ProbCPMixGGH', 'melaProbCPOddGGH', 'melaDiscriminatorDCPVBF', 'melaM125ProbCPOddGGH', 'melaM125DiscriminatorDCPGGH', 'melaProbCPMixGGH', 'melaProbCPEvenVBF', 'melaM125DiscriminatorD0MinusGGH', 'melaM125ProbCPOddVBF', 'melaM125DiscriminatorD0MinusVBF']))
 					self.quantities.update(self.recoCPQuantitiesHiggs())
 					self.quantities.update(self.genHiggsQuantities())
@@ -302,7 +303,7 @@ class Quantities(Run2Quantities):
 					if channel == "ET": self.quantities.add('nVetoElectrons')
 					if channel in ["MT"]: self.quantities.add('nVetoMuons')
 
-				elif not channel == "MM" and re.search('^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15', nickname):
+				elif not channel == "MM" and re.search('^((?!(DY.?JetsToLL|HTo.*TauTau|H2JetsToTauTau|Higgs)).)*Fall15', nickname):
 					self.quantities.update(self.recoPolarisationQuantities())
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					if channel == "ET": self.quantities.add('nVetoElectrons')
