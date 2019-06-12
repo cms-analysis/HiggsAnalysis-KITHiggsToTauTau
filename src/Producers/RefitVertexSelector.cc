@@ -209,7 +209,6 @@ void RefitVertexSelector::Produce(event_type const& event, product_type& product
 	// create hashes from lepton selection
 	std::vector<KLepton*> leptons = product.m_flavourOrderedLeptons;
 	std::vector<size_t> hashes;
-	LOG(INFO) << "\n";
 	if (leptons.size() == 2 && event.m_refitVertices && event.m_refitBSVertices){
 
 		size_t hash = 0;
