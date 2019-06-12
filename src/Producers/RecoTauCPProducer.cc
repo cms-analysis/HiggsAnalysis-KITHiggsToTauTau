@@ -97,10 +97,10 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	});
 
 	// CP-related quantities
-	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP", [](event_type const& event, product_type const& product)
-	//{
-	//	return product.m_recoPhiStarCP;
-	//});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCP;
+	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP_rho", [](event_type const& event, product_type const& product)
 	{

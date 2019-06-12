@@ -1025,7 +1025,7 @@ class Quantities(Run2Quantities):
 			"deltaGenRecoIP1_refitPV",
 			"deltaGenRecoIP2_refitPV",
 
-			#"recoPhiStarCP",
+			"recoPhiStarCP",
 			#"recoPhiStarCPrPV2",
 			#"recoPhiStarCPrPV_rho",
 			#"recoPhiStarCPrPVbs",
