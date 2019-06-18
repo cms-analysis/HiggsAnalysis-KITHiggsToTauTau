@@ -35,7 +35,7 @@ class Electron_ID(dict):
 			]
 			#self["ElectronIDType"] = "mvabased2017andlater"
 
-		elif re.search("(Run2017|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
+		elif re.search("(Run2017|Fall17|Embedding2017)", nickname):
 
 			# self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV2Values" #TODO check if this is the one used in analysis
 			# self["ElectronMvaIDCutEB1"] = 0.9897
@@ -167,7 +167,7 @@ class Electron_ID(dict):
 			self["LooseElectronMvaIDCutEE"] = 0.358969
 			self["LooseElectronIDType"] = "mvabased2015andlater"
 
-		elif re.search("(Run2017|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
+		elif re.search("(Run2017|Fall17|Embedding2017)", nickname):
 			# self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"
 			# self["LooseElectronMvaIDCutEB1"] =  0.9718
 			# self["LooseElectronMvaIDCutEB2"] =  0.9459
@@ -232,7 +232,7 @@ class Electron_ID(dict):
 		if re.search("(Run2015|Fall15MiniAODv2)", nickname):
 			self["VetoElectronIDType"] = "cutbased2015noisoandipcutsveto"
 			self["VetoElectronIDName"] = "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"
-		elif re.search("(Run2017|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
+		elif re.search("(Run2017|Fall17|Embedding2017)", nickname):
 			self["VetoElectronIDType"] = "cutbased2015andlater"
 			self["VetoElectronIDName"] = "egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-veto"
 		else:

@@ -24,7 +24,7 @@ class BTaggedJet_ID(dict):
 			]
 			self["BTaggedJetAbsEtaCut"] = 2.4
 
-		if re.search("(Fall17|Run2017|Embedding2017)", nickname) or re.search("adow", nickname):
+		if re.search("(Fall17|Run2017|Embedding2017)", nickname):
 			self["BTagger"] = "deepcsv"
 			#self["BTaggedJetCombinedSecondaryVertexName"] = "pfDeepCSVDiscriminatorsJetTagsBvsAll"
 
@@ -58,7 +58,7 @@ class BTaggedJet_ID(dict):
 		
 		if re.search("(Fall15|Spring16)", nickname):
 			self["ApplyBTagSF"] = False
-		elif re.search("(Summer17|Embedding)", nickname) or re.search("adow", nickname):
+		elif re.search("(Summer17|Embedding)", nickname):
 			self["ApplyBTagSF"] = False
 		else:
 			self["ApplyBTagSF"] = True

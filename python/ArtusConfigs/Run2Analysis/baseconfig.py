@@ -127,12 +127,12 @@ class Baseconfig(dict):
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv" 
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root" 
 
-		elif re.search("Fall17", nickname) or re.search("adow", nickname):
+		elif re.search("Fall17", nickname):
 			self["JetPrefireProbabilityFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/prefiring/L1prefiring_jetpt_2017BtoF.root"
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/DeepCSV_94XSF_V4_B_F.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/btagging_efficiency_2017/tagging_efficiencies_march2018_btageff-all_samp-inc-DeepCSV_medium.root" #TODO cant find this
 
-			if re.search("Fall17", nickname) or re.search("adow", nickname): 
+			if re.search("Fall17", nickname): 
 				pileupweightfile = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/SKIM_NOV2018_Fall17_CP/" + nickname +".root"
 				if os.path.isfile(os.path.expandvars(pileupweightfile)):
 					self["PileupWeightFile"] = pileupweightfile
@@ -248,7 +248,7 @@ class Baseconfig(dict):
 
 
 
-		elif re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) or re.search("adow", nickname): #FIXME No files for 2017 yet
+		elif re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname): #FIXME No files for 2017 yet
 			self["MetCorrectionMethod"] = "meanResolution"
 			self["MetRecoilCorrectorFile"] ="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/Type1_PFMET_2017.root"
 			self["MvaMetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root" #not there
@@ -287,7 +287,7 @@ class Baseconfig(dict):
 			self["SimpleEleTauFakeRateWeightTight"] = [1.402, 1.90]
 
 # https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf
-		elif re.search("(Summer17|Fall17)", nickname) or re.search("adow", nickname):
+		elif re.search("(Summer17|Fall17)", nickname):
 			self["SimpleMuTauFakeRateWeightLoose"]	= [1.06, 1.02, 1.10, 1.03, 1.94]
 			self["SimpleMuTauFakeRateWeightTight"] = [1.17, 1.29, 1.14, 0.93, 1.61]
 			self["SimpleEleTauFakeRateWeightVLoose"] = [1.09, 1.19]

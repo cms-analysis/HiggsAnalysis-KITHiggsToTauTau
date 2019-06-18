@@ -73,7 +73,7 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
-				if re.search("(Run2017|Summer17|Fall17)", nickname) or re.search("adow", nickname):
+				if re.search("(Run2017|Summer17|Fall17)", nickname):
 					self["Processors"] += ["producer:MetFilterProducer"]
 			else:
 				self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]

@@ -22,7 +22,7 @@ class TauES(dict):
 				self["TauEnergyCorrectionOneProngPiZeros"] = 1.011
 			self["TauEnergyCorrectionThreeProng"] = 1.006
 
-		elif re.search("(Summer17|Fall17|Embedding2017)",nickname) or re.search("adow", nickname):
+		elif re.search("(Summer17|Fall17|Embedding2017)",nickname):
 			#https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf old
 			#newest look at tautwiki
 			self["TauEnergyCorrection"] = "smhtt2017"
