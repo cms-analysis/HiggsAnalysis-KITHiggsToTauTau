@@ -64,14 +64,14 @@ class mt_ArtusConfig(dict):
 
 				]
 
-		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17|Embedding(2016|2017))", nickname) or re.search("adow", nickname):
+		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17|Embedding(2016|2017))", nickname):
 			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
-			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
+			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
 				if re.search("(Run2017|Summer17|Fall17)", nickname) or re.search("adow", nickname):
 					self["Processors"] += ["producer:MetFilterProducer"]
@@ -114,7 +114,7 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:MetCorrector"]
 				self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-				if re.search("Summer17|Fall17", nickname) or re.search("adow", nickname):
+				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
 					#"producer:TriggerWeightProducer"
@@ -143,7 +143,7 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:MELAProducer"]
 					#self["Processors"] += ["producer:MELAM125Producer"]
 
-					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname) or re.search("adow", nickname):
+					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += ["producer:JetToTauFakesProducer"]
 						#if re.search("Summer17|Fall17", nickname) == None:
 
@@ -156,7 +156,7 @@ class mt_ArtusConfig(dict):
 
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
-					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname) or re.search("adow", nickname):
+					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += [
 							"producer:TopPtReweightingProducer" #FIXME only ttbar?
 						]
@@ -424,7 +424,7 @@ class mt_ArtusConfig(dict):
 			self["MuonTriggerFilterNames"] = ["HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"]
 
 
-		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname) or re.search("adow", nickname):
+		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["HltPaths"] = [
 				"HLT_IsoMu24",
 				"HLT_IsoMu27",
@@ -499,7 +499,7 @@ class mt_ArtusConfig(dict):
 
 		self["EventWeight"] = "eventWeight"
 
-		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) or re.search("adow", nickname):
+		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 			if isEmbedded:
 				self["SaveEmbeddingWeightAsOptionalOnly"] = "true"
 				self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_5.root"
@@ -571,7 +571,7 @@ class mt_ArtusConfig(dict):
 					#"0:m_pt,m_eta",
 					"0:m_eta"
 					]
-				if re.search("HToTauTau", nickname) or re.search("adow", nickname):
+				if re.search("HToTauTau", nickname):
 					self["RooWorkspaceWeightNames"] += ["0:quarkmassWeight", "0:quarkmassUpWeight", "0:quarkmassDownWeight"]
 					self["RooWorkspaceObjectNames"] += ["0:ggH_quarkmass_corr", "0:ggH_quarkmass_corr_up", "0:ggH_quarkmass_corr_down"]
 					self["RooWorkspaceObjectArguments"] += ["0:HpT", "0:HpT", "0:HpT"] #gen Higgs pt
@@ -676,7 +676,7 @@ class mt_ArtusConfig(dict):
 					"1:t_pt,t_eta"
 				]
 
-		if re.search("Run2017|Summer17|Fall17", nickname) or re.search("adow", nickname):
+		if re.search("Run2017|Summer17|Fall17", nickname):
 			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 		else:
 			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
@@ -709,7 +709,7 @@ class mt_ArtusConfig(dict):
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
 
 
-		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname) or re.search("adow", nickname):
+		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2017_2/mt/fakeFactors.root" #TODO
 			self["FakeFactorMethod"] = "cp2017"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
