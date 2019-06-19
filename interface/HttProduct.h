@@ -342,10 +342,16 @@ public:
 
 	double m_pca1DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach(PCA) from the primary vertex (PV) in units of sigma
 	double m_pca2DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach(PCA) from the primary vertex (PV) in units of sigma
+	double m_pca1DiffInSigma_refitPV;
+	double m_pca2DiffInSigma_refitPV;
 	double m_pca1proj = DefaultValues::UndefinedDouble; //Projection of Point of closest approach(PCA) to the primary vertex (PV) 1 sigma ellipsoid
 	double m_pca2proj = DefaultValues::UndefinedDouble; //Projection of Point of closest approach(PCA) to the primary vertex (PV) 1 sigma ellipsoid
+	double m_pca1proj_refitPV;
+	double m_pca2proj_refitPV;
 	TVector3 m_recoIP1_helical;
 	TVector3 m_recoIP2_helical;
+	TVector3 m_recoIP1_helical_refitPV;
+	TVector3 m_recoIP2_helical_refitPV;
 
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
@@ -387,6 +393,15 @@ public:
 	double m_deltaRGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+
+	double m_deltaEtaGenRecoIP1_helical_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIP2_helical_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP1_helical_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP2_helical_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP1_helical_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP2_helical_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP1_helical_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP2_helical_refitPV  = DefaultValues::UndefinedDouble;
 
 
 

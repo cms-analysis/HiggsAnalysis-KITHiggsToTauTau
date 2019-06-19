@@ -211,7 +211,7 @@ class Quantities(Run2Quantities):
 							self.quantities.update(set(['nVetoElectrons', 'jetCorrectionWeight']))
 
 			elif re.search('(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
-				self.quantities.update(self.recoCPQuantities(melaQuantities=True))
+				self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 				if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 					self.quantities.update(self.genQuantities(LFV = False)) #TODO for 2017 also , Z = True
 					#self.quantities.update(self.splitJecUncertaintyQuantities())  #no lhe in 2017 skim
@@ -241,16 +241,16 @@ class Quantities(Run2Quantities):
 
 			# ************ datasets(groups, samples) common across all except mm channels are all the rest
 			else:
-				if not channel == "MM" and re.search('(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
+				if not channel == "MM" and re.search('(H.*ToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
 					if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 						#self.quantities.update(self.splitJecUncertaintyQuantities())
 						self.quantities.update(self.genHiggsQuantities()) #no lhe in 2017 skim
-						self.quantities.update(self.genMatchedCPQuantities())
+					self.quantities.update(self.genMatchedCPQuantities())
 					if re.search("amcatnlo",nickname):
 						self.quantities.update(["lhenpNLO", "quarkmassWeight","quarkmassUpWeight","quarkmassDownWeight"])
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.svfitSyncQuantities())
-					self.quantities.update(self.recoCPQuantities(melaQuantities=True))
+					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					# if channel in ["TT", "MT", "ET"]:
 					# 	self.quantities.update(set(['#tauPolarisationTMVA', '#tauPolarisationSKLEARN']))
@@ -299,7 +299,7 @@ class Quantities(Run2Quantities):
 					if channel in ["MT"]: self.quantities.add('nVetoMuons')
 
 				else: # data, 2016/2017 wjets, ttbar, diboson
-					self.quantities.update(self.recoCPQuantities(melaQuantities=True))
+					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 
 					if channel == "MM":
 						self.quantities.update(self.singleTauQuantities())
@@ -842,7 +842,7 @@ class Quantities(Run2Quantities):
 		return l
 
 	@classmethod
-	def recoCPQuantities(klass, melaQuantities=True):
+	def recoCPQuantities(klass, melaQuantities=False):
 		s = [
 			"thePVx",
 			"thePVy",
@@ -953,14 +953,10 @@ class Quantities(Run2Quantities):
 			"IP_2x",
 			"IP_2y",
 			"IP_2z",
-			"IP_helical_1mag",
-			"IP_helical_1x",
-			"IP_helical_1y",
-			"IP_helical_1z",
-			"IP_helical_2mag",
-			"IP_helical_2x",
-			"IP_helical_2y",
-			"IP_helical_2z",
+			"thePVdistanceToPCA1",
+			"thePVdistanceToPCA2",
+			"thePCA1projToPVellipsoid",
+			"thePCA2projToPVellipsoid",
 
 			"IP_refitPV_1mag",
 			"IP_refitPV_1x",
@@ -970,10 +966,28 @@ class Quantities(Run2Quantities):
 			"IP_refitPV_2x",
 			"IP_refitPV_2y",
 			"IP_refitPV_2z",
-			"thePVdistanceToPCA1",
-			"thePVdistanceToPCA2",
-			"thePCA1projToPVellipsoid",
-			"thePCA2projToPVellipsoid",
+			"thePVdistanceToPCA1_refitPV",
+			"thePVdistanceToPCA2_refitPV",
+			"thePCA1projToPVellipsoid_refitPV",
+			"thePCA2projToPVellipsoid_refitPV",
+
+			"IP_helical_1mag",
+			"IP_helical_1x",
+			"IP_helical_1y",
+			"IP_helical_1z",
+			"IP_helical_2mag",
+			"IP_helical_2x",
+			"IP_helical_2y",
+			"IP_helical_2z",
+
+			"IP_helical_refitPV_1mag",
+			"IP_helical_refitPV_1x",
+			"IP_helical_refitPV_1y",
+			"IP_helical_refitPV_1z",
+			"IP_helical_refitPV_2mag",
+			"IP_helical_refitPV_2x",
+			"IP_helical_refitPV_2y",
+			"IP_helical_refitPV_2z",
 
 			"trackFromBS_1mag",
 			"trackFromBS_1x",
@@ -1004,6 +1018,15 @@ class Quantities(Run2Quantities):
 			"deltaRGenRecoIP2_helical",
 			"deltaGenRecoIP1_helical",
 			"deltaGenRecoIP2_helical",
+
+			"deltaEtaGenRecoIP1_helical_refitPV",
+			"deltaEtaGenRecoIP2_helical_refitPV",
+			"deltaPhiGenRecoIP1_helical_refitPV",
+			"deltaPhiGenRecoIP2_helical_refitPV",
+			"deltaRGenRecoIP1_helical_refitPV",
+			"deltaRGenRecoIP2_helical_refitPV",
+			"deltaGenRecoIP1_helical_refitPV",
+			"deltaGenRecoIP2_helical_refitPV",
 
 			"deltaEtaGenRecoIP1_refitPV",
 			"deltaEtaGenRecoIP2_refitPV",
@@ -1071,7 +1094,7 @@ class Quantities(Run2Quantities):
 			"d0s_area",
 			"d0s_dist"
 			]
-		if melaQuantities: s += klass.melaQuantities(m125=False)
+		# if melaQuantities: s += klass.melaQuantities(m125=False)
 		return s
 
 	@staticmethod

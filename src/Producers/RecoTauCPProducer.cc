@@ -308,6 +308,72 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca1DiffInSigma;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca2DiffInSigma;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA1projToPVellipsoid", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca1proj;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA2projToPVellipsoid", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca2proj;
+	});
+
+	// IP vectors wrt refitted PV
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1mag", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_recoIP1_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP1_refitPV).x()*(product.m_recoIP1_refitPV).x() + (product.m_recoIP1_refitPV).y()*(product.m_recoIP1_refitPV).y() + (product.m_recoIP1_refitPV).z()*(product.m_recoIP1_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1x", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1y", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1z", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2mag", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_recoIP2_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP2_refitPV).x()*(product.m_recoIP2_refitPV).x() + (product.m_recoIP2_refitPV).y()*(product.m_recoIP2_refitPV).y() + (product.m_recoIP2_refitPV).z()*(product.m_recoIP2_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2x", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).x() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2y", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2z", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).z() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA1_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca1DiffInSigma_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA2_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca2DiffInSigma_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA1projToPVellipsoid_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca1proj_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA2projToPVellipsoid_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca2proj_refitPV;
+	});
 
 
 	// IP vectors wrt thePV with helical approach
@@ -344,55 +410,38 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return ((&product.m_recoIP2_helical != nullptr) ? (product.m_recoIP2_helical).z() : DefaultValues::UndefinedFloat);
 	});
 
-
-	// IP vectors wrt refitted PV
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1mag", [](event_type const& event, product_type const& product)
+	// IP vectors wrt the refitted PV with helical approach
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_1mag", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_recoIP1_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP1_refitPV).x()*(product.m_recoIP1_refitPV).x() + (product.m_recoIP1_refitPV).y()*(product.m_recoIP1_refitPV).y() + (product.m_recoIP1_refitPV).z()*(product.m_recoIP1_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIP1_helical_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP1_helical_refitPV).x()*(product.m_recoIP1_helical_refitPV).x() + (product.m_recoIP1_helical_refitPV).y()*(product.m_recoIP1_helical_refitPV).y() + (product.m_recoIP1_helical_refitPV).z()*(product.m_recoIP1_helical_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_1x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1_helical_refitPV != nullptr) ? (product.m_recoIP1_helical_refitPV).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1y", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_1y", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).y() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1_helical_refitPV != nullptr) ? (product.m_recoIP1_helical_refitPV).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_1z", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP1_helical_refitPV != nullptr) ? (product.m_recoIP1_helical_refitPV).z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2mag", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_2mag", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_recoIP2_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP2_refitPV).x()*(product.m_recoIP2_refitPV).x() + (product.m_recoIP2_refitPV).y()*(product.m_recoIP2_refitPV).y() + (product.m_recoIP2_refitPV).z()*(product.m_recoIP2_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIP2_helical_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP2_helical_refitPV).x()*(product.m_recoIP2_helical_refitPV).x() + (product.m_recoIP2_helical_refitPV).y()*(product.m_recoIP2_helical_refitPV).y() + (product.m_recoIP2_helical_refitPV).z()*(product.m_recoIP2_helical_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_2x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2_helical_refitPV != nullptr) ? (product.m_recoIP2_helical_refitPV).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2y", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_2y", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).y() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIP2_helical_refitPV != nullptr) ? (product.m_recoIP2_helical_refitPV).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_2z", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).z() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA1", [](event_type const& event, product_type const& product)
-	{
-		return product.m_pca1DiffInSigma;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA2", [](event_type const& event, product_type const& product)
-	{
-		return product.m_pca2DiffInSigma;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA1projToPVellipsoid", [](event_type const& event, product_type const& product)
-	{
-		return product.m_pca1proj;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA2projToPVellipsoid", [](event_type const& event, product_type const& product)
-	{
-		return product.m_pca2proj;
+		return ((&product.m_recoIP2_helical_refitPV != nullptr) ? (product.m_recoIP2_helical_refitPV).z() : DefaultValues::UndefinedFloat);
 	});
 
 	// distance between track and theBS
@@ -571,6 +620,40 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return product.m_deltaGenRecoIP2_helical;
 	});
 
+	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP_helical(refitPV)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP1_helical_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaEtaGenRecoIP1_helical_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP2_helical_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaEtaGenRecoIP2_helical_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP1_helical_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaPhiGenRecoIP1_helical_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP2_helical_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaPhiGenRecoIP2_helical_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP1_helical_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRGenRecoIP1_helical_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP2_helical_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRGenRecoIP2_helical_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP1_helical_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIP1_helical_refitPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP2_helical_refitPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIP2_helical_refitPV;
+	});
+
 	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP(refitPV)
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP1_refitPV", [](event_type const& event, product_type const& product)
 	{
@@ -704,17 +787,47 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_pca1DiffInSigma = product.m_recoIP1.Mag()/product.m_pca1proj;
 	product.m_pca2DiffInSigma = product.m_recoIP2.Mag()/product.m_pca2proj;
 
-	//std::ifstream is("pca1_hel.res");
-	//bool first = !is.good();
+	/*
+	Saving Data
+	std::ifstream is("pca1_hel.res");
+	bool first = !is.good();
+	bool print = false;
+	*/
+	double scalar_product = 0.0; //to study whether the tangent and the radial part are orthogonal
 	//Impact parameters via helical approach in cm:
-	product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position);
-	product.m_recoIP2_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,event.m_vertexSummary->pv.position);
-	/*if (first)
+	product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position, false, &scalar_product);
+	/*
+	std::ofstream sc1("sc_p1.res",std::fstream::app);
+	sc1 << scalar_product << std::endl;
+	sc1.close();
+	*/
+
+	product.m_recoIP2_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,event.m_vertexSummary->pv.position, false, &scalar_product);
+	/*
+	std::ofstream sc2("sc_p2.res",std::fstream::app);
+	sc2 << scalar_product << std::endl;
+	sc2.close();
+	*/
+	//if(product.m_recoIP1_helical.DeltaPhi(product.m_genIP1)>2.0)
+	/*
+	if (product.m_recoIP1_helical.Angle(product.m_recoIP1)>1.5 && product.m_pca1DiffInSigma>2.0)
 	{
-		std::ofstream f4("pca1_gen.res");
-		for (double x=0; x<=1;x+=0.001) f4 << product.m_genIP1.x()*x+event.m_vertexSummary->pv.position.x() <<" "<< product.m_genIP1.y()*x+event.m_vertexSummary->pv.position.y() << " " << product.m_genIP1.z()*x+event.m_vertexSummary->pv.position.z() << std::endl;;
-		f4.close();
-	}*/
+		product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position, true, &scalar_product);
+		if (first)
+		{
+			print = true;
+			std::ofstream f4("pca1_gen.res");
+			for (double x=0; x<=1;x+=0.001) f4 << product.m_genIP1.x()*0.01*x+product.m_genPV->x()*0.01 <<" "<< product.m_genIP1.y()*0.01*x+product.m_genPV->y()*0.01 << " " << product.m_genIP1.z()*0.01*x+product.m_genPV->z()*0.01 << std::endl;;
+			f4.close();
+			std::ofstream f5("pca1_tan.res");
+			for (double x=0; x<=1;x+=0.001) f5 << product.m_recoIP1.x()*0.01*x+event.m_vertexSummary->pv.position.x()*0.01 <<" "<< product.m_recoIP1.y()*0.01*x+event.m_vertexSummary->pv.position.y()*0.01 << " " << product.m_recoIP1.z()*0.01*x+event.m_vertexSummary->pv.position.z()*0.01 << std::endl;;
+			f5.close();
+			std::ofstream f6("pv_gen.res");
+			for (double x=0; x<=1;x+=0.001) f6 << x*product.m_genPV->x()*0.01 <<" "<< x*product.m_genPV->y()*0.01 << " " << x*product.m_genPV->z()*0.01 << std::endl;;
+			f6.close();
+		}
+	}
+	*/
 
 	// distance between track and BS center
 	product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, event.m_beamSpot->position);
@@ -816,6 +929,20 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_errorIP1vec_refitPV = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &product.m_recoIP1_refitPV);
 		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &product.m_recoIP2_refitPV);
 
+		//Projection of Point of closest approach (PCA) to the primary vertex (PV) uncertainty ellipsoid
+		product.m_pca1proj_refitPV = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP1_refitPV);
+		product.m_pca2proj_refitPV = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP2_refitPV);
+		//Distance of Point of closest approach (PCA) from the primary vertex (PV) in units of sigma_PV
+		product.m_pca1DiffInSigma_refitPV = product.m_recoIP1_refitPV.Mag()/product.m_pca1proj_refitPV;
+		product.m_pca2DiffInSigma_refitPV = product.m_recoIP2_refitPV.Mag()/product.m_pca2proj_refitPV;
+
+		//Impact parameters via helical approach in cm:
+		product.m_recoIP1_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,product.m_refitPV->position, false, &scalar_product);
+		// std::ofstream sc1_refit("sc_p1_refit.res",std::fstream::app);
+		// sc1_refit << scalar_product << std::endl;
+		product.m_recoIP2_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,product.m_refitPV->position, false, &scalar_product);
+		// std::ofstream sc2_refit("sc_p2_refit.res",std::fstream::app);
+		// sc2_refit << scalar_product << std::endl;
 		// calculate cosPsi
 		if (recoParticle1->charge() == +1){
 			product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1_refitPV);
@@ -937,53 +1064,71 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			} // tau1->a, tau2->rho
 
 		}  // if tt ch.
+
+		if (!m_isData){
+			// calculate deltaR, deltaEta, deltaPhi and delta between recoIPvec and genIPvec
+			if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
+				// wrt thePV
+				product.m_deltaEtaGenRecoIP1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIP1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
+				product.m_deltaRGenRecoIP1   = product.m_recoIP1.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIP1    = product.m_recoIP1.Angle(product.m_genIP1);
+
+				//with the helical approach
+				/*
+				//Writing Results
+				if (print)
+				{
+					std::cout << std::endl << "generator:" << std::endl << "[";
+					for (int i=0;i<3;i++) std::cout << product.m_genIP1(i) << " ";
+					std::cout << "]"<< std::endl << "helical:" << std::endl << "[";
+					for (int i=0;i<3;i++) std::cout << product.m_recoIP1_helical(i) << " ";
+					std::cout << "]"<< std::endl << "tangential:" << std::endl << "[";
+					for (int i=0;i<3;i++) std::cout << product.m_recoIP1(i) << " ";
+					std::cout << "]"<< std::endl;
+					std::cout << "PV:" << std::endl << "[" << event.m_vertexSummary->pv.position.x() << " " << event.m_vertexSummary->pv.position.y() << " "<< event.m_vertexSummary->pv.position.z() << " " ;
+					std::cout << "]"<< std::endl;
+					std::cout << "PV_refit:" << std::endl << "[" << product.m_refitPV->position.x() << " " << product.m_refitPV->position.y() << " "<< product.m_refitPV->position.z() << " " ;
+					std::cout << "]"<< std::endl;
+				}
+				*/
+
+				product.m_deltaEtaGenRecoIP1_helical = product.m_recoIP1_helical.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIP1_helical = product.m_recoIP1_helical.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
+				product.m_deltaRGenRecoIP1_helical   = product.m_recoIP1_helical.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIP1_helical    = product.m_recoIP1_helical.Angle(product.m_genIP1);//product.m_recoIP1);//
+
+				// wrt refitted PV
+				product.m_deltaEtaGenRecoIP1_refitPV = product.m_recoIP1_refitPV.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIP1_refitPV = product.m_recoIP1_refitPV.DeltaPhi(product.m_genIP1);//product.m_recoIP1_refitPV);//
+				product.m_deltaRGenRecoIP1_refitPV   = product.m_recoIP1_refitPV.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIP1_refitPV    = product.m_recoIP1_refitPV.Angle(product.m_genIP1);//product.m_recoIP1_refitPV);//
+
+				product.m_deltaEtaGenRecoIP1_helical_refitPV = product.m_recoIP1_helical_refitPV.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIP1_helical_refitPV = product.m_recoIP1_helical_refitPV.DeltaPhi(product.m_genIP1);
+				product.m_deltaRGenRecoIP1_helical_refitPV   = product.m_recoIP1_helical_refitPV.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIP1_helical_refitPV    = product.m_recoIP1_helical_refitPV.Angle(product.m_genIP1);
+			} // if genIP1 exists
+
+			if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
+				//with the helical approach
+				product.m_deltaEtaGenRecoIP2_helical = product.m_recoIP2_helical.Eta() - product.m_genIP2.Eta();
+				product.m_deltaPhiGenRecoIP2_helical = product.m_recoIP2_helical.DeltaPhi(product.m_genIP2);
+				product.m_deltaRGenRecoIP2_helical   = product.m_recoIP2_helical.DeltaR(product.m_genIP2);
+				product.m_deltaGenRecoIP2_helical    = product.m_recoIP2_helical.Angle(product.m_genIP2);
+
+				// wrt refitted PV
+				product.m_deltaEtaGenRecoIP2 = product.m_recoIP2_refitPV.Eta() - product.m_genIP2.Eta();
+				product.m_deltaPhiGenRecoIP2 = product.m_recoIP2_refitPV.DeltaPhi(product.m_genIP2);
+				product.m_deltaRGenRecoIP2   = product.m_recoIP2_refitPV.DeltaR(product.m_genIP2);
+				product.m_deltaGenRecoIP2    = product.m_recoIP2_refitPV.Angle(product.m_genIP2);
+
+				product.m_deltaEtaGenRecoIP2_helical_refitPV = product.m_recoIP2_helical_refitPV.Eta() - product.m_genIP2.Eta();
+				product.m_deltaPhiGenRecoIP2_helical_refitPV = product.m_recoIP2_helical_refitPV.DeltaPhi(product.m_genIP2);
+				product.m_deltaRGenRecoIP2_helical_refitPV   = product.m_recoIP2_helical_refitPV.DeltaR(product.m_genIP2);
+				product.m_deltaGenRecoIP2_helical_refitPV    = product.m_recoIP2_helical_refitPV.Angle(product.m_genIP2);
+			} // if genIP2 exists
+
+		} // if MC sample
 	} // if the refitPV exists
-
-	if (!m_isData){
-		// calculate deltaR, deltaEta, deltaPhi and delta between recoIPvec and genIPvec
-		if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
-			// wrt thePV
-			product.m_deltaEtaGenRecoIP1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
-			product.m_deltaPhiGenRecoIP1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
-			product.m_deltaRGenRecoIP1   = product.m_recoIP1.DeltaR(product.m_genIP1);
-			product.m_deltaGenRecoIP1    = product.m_recoIP1.Angle(product.m_genIP1);
-
-			//with the helical approach
-			/*
-			std::cout << std::endl << "generator:" << std::endl << "[";
-			for (int i=0;i<3;i++) std::cout << product.m_genIP1(i) << " ";
-			std::cout << "]"<< std::endl << "helical:" << std::endl << "[";
-			for (int i=0;i<3;i++) std::cout << product.m_recoIP1_helical(i) << " ";
-			std::cout << "]"<< std::endl;
-			std::cout << "PV:" << std::endl << "[" << event.m_vertexSummary->pv.position.x() << " " << event.m_vertexSummary->pv.position.y() << " "<< event.m_vertexSummary->pv.position.z() << " " ;
-			std::cout << "]"<< std::endl;
-			*/
-			product.m_deltaEtaGenRecoIP1_helical = product.m_recoIP1_helical.Eta() - product.m_genIP1.Eta();
-			product.m_deltaPhiGenRecoIP1_helical = product.m_recoIP1_helical.DeltaPhi(product.m_genIP1);
-			product.m_deltaRGenRecoIP1_helical   = product.m_recoIP1_helical.DeltaR(product.m_genIP1);
-			product.m_deltaGenRecoIP1_helical    = product.m_recoIP1_helical.Angle(product.m_genIP1);
-
-			// wrt refitted PV
-			product.m_deltaEtaGenRecoIP1_refitPV = product.m_recoIP1_refitPV.Eta() - product.m_genIP1.Eta();
-			product.m_deltaPhiGenRecoIP1_refitPV = product.m_recoIP1_refitPV.DeltaPhi(product.m_genIP1);
-			product.m_deltaRGenRecoIP1_refitPV   = product.m_recoIP1_refitPV.DeltaR(product.m_genIP1);
-			product.m_deltaGenRecoIP1_refitPV    = product.m_recoIP1_refitPV.Angle(product.m_genIP1);
-		} // if genIP1 exists
-
-		if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
-			//with the helical approach
-			product.m_deltaEtaGenRecoIP2_helical = product.m_recoIP2_helical.Eta() - product.m_genIP2.Eta();
-			product.m_deltaPhiGenRecoIP2_helical = product.m_recoIP2_helical.DeltaPhi(product.m_genIP2);
-			product.m_deltaRGenRecoIP2_helical   = product.m_recoIP2_helical.DeltaR(product.m_genIP2);
-			product.m_deltaGenRecoIP2_helical    = product.m_recoIP2_helical.Angle(product.m_genIP2);
-
-			// wrt refitted PV
-			product.m_deltaEtaGenRecoIP2 = product.m_recoIP2_refitPV.Eta() - product.m_genIP2.Eta();
-			product.m_deltaPhiGenRecoIP2 = product.m_recoIP2_refitPV.DeltaPhi(product.m_genIP2);
-			product.m_deltaRGenRecoIP2   = product.m_recoIP2_refitPV.DeltaR(product.m_genIP2);
-			product.m_deltaGenRecoIP2    = product.m_recoIP2_refitPV.Angle(product.m_genIP2);
-		} // if genIP2 exists
-
-	} // if MC sample
-
 }

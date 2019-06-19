@@ -4,6 +4,12 @@
 #include "TMatrix.h"
 #include "Math/SVector.h"
 #include "TFitter.h"
+//#include "TF1.h"
+//#include "TCanvas.h"
+#include "Math/Functor.h"
+#include "Math/BrentMinimizer1D.h"
+#include "Math/Minimizer.h"
+#include "Math/Factory.h"
 
 #include <fstream>
 
@@ -42,15 +48,38 @@ double CPQuantities::CalculatePCADifferece(SMatrixSym3D cov_PV, TVector3 IP)
 double B_SI = 0.0;
 TVector3 Ref(0.,0.,0.);
 TVector3 PV_v(0.,0.,0.);
+const double c = 2.99792458*1e8; //speed of light in m/s
+
+short sign(double x)
+{
+	return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
+}
+
+double get_phi1(double phi, short charge) //returns phi1
+{
+	/*
+	if (charge>0)
+	{
+		TVector3 v(-TMath::Sin(phi),TMath::Cos(phi),0);
+		return -v.Phi();
+	}
+	else
+	{
+		TVector3 v(TMath::Sin(phi),-TMath::Cos(phi),0);
+		return -v.Phi();
+	}
+	return 0;*/
+	return -1*TMath::ACos(-1*charge*TMath::Sin(phi))*sign(TMath::Cos(phi)*charge);
+}
 
 double f_x1(double x, double qOp, double l, double p)
 {
 	double t = TMath::Pi()/2-l;
 	double pars[4];
-	pars[1] = TMath::Sin(t)/(B_SI*qOp); //Radius
-	pars[3] = TMath::Pi()/2+p; //phi1
-	pars[0] = Ref.x()-pars[1]*TMath::Cos(pars[3]);
-	pars[2] = qOp*B_SI; //Omega
+	pars[1] = TMath::Sin(t)/(B_SI*std::abs(qOp)); //Radius
+	pars[3] = get_phi1(p,sign(qOp)); //phi1
+	pars[0] = Ref.x()-pars[1]*TMath::Cos(pars[3]); //Ox
+	pars[2] = std::abs(qOp)*B_SI*c; //Omega
 	return pars[0]+pars[1]*TMath::Cos(pars[2]*x+pars[3]);
 }
 
@@ -58,17 +87,17 @@ double f_x2(double x, double qOp, double l, double p)
 {
 	double t = TMath::Pi()/2-l;
 	double pars[4];
-	pars[1] = TMath::Sin(t)/(B_SI*qOp); //Radius
-	pars[3] = TMath::Pi()/2+p; //phi1
-	pars[0] = Ref.y()-pars[1]*TMath::Sin(pars[3]);
-	pars[2] = qOp*B_SI; //Omega
-	return pars[0]+pars[1]*TMath::Sin(pars[2]*x+pars[3]);
+	pars[1] = TMath::Sin(t)/(B_SI*std::abs(qOp)); //Radius
+	pars[3] = get_phi1(p,sign(qOp)); //phi1
+	pars[0] = Ref.y()+pars[1]*TMath::Sin(pars[3]);
+	pars[2] = std::abs(qOp)*B_SI*c; //Omega
+	return pars[0]-pars[1]*TMath::Sin(pars[2]*x+pars[3]);
 }
 
 double f_x3(double x, double l)
 {
-	double t = TMath::Pi()/2-l;
-	double pars[] = {Ref.z(),TMath::Cos(t)};
+	// double t = TMath::Pi()/2-l;
+	double pars[] = {Ref.z(),c*TMath::Sin(l)};//c*TMath::Cos(t)};
 	return pars[0]+pars[1]*x;
 }
 
@@ -84,69 +113,159 @@ void minuitFunction(int& nDim, double* gout, double& result, double par[], int f
 	result = tot(x,qOp,l,p);
 }
 
-TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h_param,	ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV)
+double qOp_Brent;
+double l_Brent;
+double p_Brent;
+
+double BrentFunc(double x)
+{
+	return tot(x,qOp_Brent,l_Brent,p_Brent);
+}
+
+double minuit2fcn(const double *xx )
+{
+	long double x = xx[0];
+	return tot(x,qOp_Brent,l_Brent,p_Brent);
+}
+
+TVector3 tangent_at_x(double x, double qOp, double l, double p)
+{
+	double t = TMath::Pi()/2-l;
+	double pars[4];
+	pars[1] = TMath::Sin(t)/(B_SI*std::abs(qOp)); //Radius
+	pars[3] = get_phi1(p,sign(qOp)); //phi1
+	pars[0] = Ref.x()-pars[1]*TMath::Cos(pars[3]); //Ox
+	pars[2] = std::abs(qOp)*B_SI*c; //Omega
+	double X = -pars[1]*pars[2]*TMath::Sin(pars[2]*x+pars[3]);
+
+	double pars2[4];
+	pars2[1] = TMath::Sin(t)/(B_SI*std::abs(qOp)); //Radius
+	pars2[3] = get_phi1(p,sign(qOp));//phi1
+	pars2[0] = Ref.y()+pars2[1]*TMath::Sin(pars2[3]);
+	pars2[2] = std::abs(qOp)*B_SI*c; //Omega
+	double Y = -pars2[1]*pars2[2]*TMath::Cos(pars2[2]*x+pars2[3]);
+
+	double pars3[] = {Ref.z(),c*TMath::Sin(l)};
+	double Z = pars3[1];
+	TVector3 sol(X,Y,Z);
+	return sol;
+}
+
+TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h_param,	ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, bool write, double* return_scalar_product)
 {
 	//everything in SI
-	const double c = 2.99792458*1e8; //speed of light in m/s
 	const double eQ = 1.60217662*1e-19; //elementary charge in C
 	B_SI = B*1e3/(c*1e-8); //in Tesla
 	double q_SI = charge * eQ; //in Coulomb
-	double p_SI = abs(1/h_param[0]); //in GeV
+	double p_SI = std::abs(1/h_param[0]); //in GeV
 	p_SI *= 1e9*eQ/(c); //conversion from GeV to kg*m/s
 	double qOverP = q_SI/p_SI;
 	double lambda = h_param[1]; //lambda in rad
 	double phi = h_param[2]; //phi in rad
-	double dxy = (h_param[3]);
-	double dsz = (h_param[4]);
-	double theta = TMath::Pi()/2-lambda;
+	// double dxy = (h_param[3]);
+	// double dsz = (h_param[4]);
+	// double theta = TMath::Pi()/2-lambda;
 	Ref.SetXYZ(ref.x(),ref.y(),ref.z());
 	Ref*=0.01; //conversion from cm to m
 
 	PV_v.SetXYZ(PrV.x(),PrV.y(),PrV.z());
 	PV_v*=0.01; //conversion from cm to m
 
-	double Radius = TMath::Sin(theta)/(B_SI*qOverP);
-	double Omega = qOverP*B_SI;
-	Omega = (Omega<0 ? -Omega : Omega);
+	// double Radius = TMath::Sin(theta)/(B_SI*qOverP);
+	double Omega = qOverP*B_SI*c;
+	Omega = (Omega<0 ? -Omega : Omega); //std::abs
 	double T = 2*TMath::Pi()/Omega;
-	double Phi_1 = TMath::Pi()/2+phi;
+	// double Phi_1 = TMath::Pi()/2+phi;
 /*
 	Double_t Ox = Ref.x()-Radius*TMath::Cos(Phi_1);
-	Double_t Oy = Ref.y()-Radius*TMath::Sin(Phi_1);
+	Double_t Oy = Ref.y()+Radius*TMath::Sin(Phi_1);
 	Double_t Oz = Ref.z();
+	TVector3 Oprime(Ox,Oy,Oz);
 */
-	Double_t v_z = TMath::Cos(theta);
+	// Double_t v_z = TMath::Cos(theta);
 
 	//for (int i=0;i<3;i++) PV_comp[i] = PV_v[i];//.x(),PV_v.y(),PV_v.z()};
 	double xmin = -T/2;
-	double xmax = T/2;
-
-	double sigma_qOverP = pow(cov(0,0),0.5)*eQ/(1e9*eQ/(c*c));
+	double xmax = -xmin;
+	/*
+	double sigma_qOverP = pow(cov(0,0),0.5)*eQ/(1e9*eQ/(c));
 	double sigma_lambda = pow(cov(1,1),0.5); //=sigma_theta, since they're linear
 	double sigma_Phi = pow(cov(2,2),0.5); //=sigma_phi_1, for the same reason
-
+	*/
+	double x_best = 0.0;
 	//minimizing the distance between the helix and the primary vertex PV
+	/*
+	//1. Minimizer: Minuit
+	ROOT::Math::Minimizer* min = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Combined");
+	ROOT::Math::Functor f(&minuit2fcn,1);
+	min->SetFunction(f);
+	min->SetVariable(0,"x",1e-8, 1e-12);
+	min->SetTolerance(1e-12);
+	min->Minimize();
+
+	const double *xs = min->X();
+	x_best=xs[0];
+	*/
+	/*
+	//2. Minimizer: Minuit
 	TFitter* minimizer = new TFitter(1);
 	//Disabling printouts:
 	{
 		double p1 = -1;
 		minimizer->ExecuteCommand("SET PRINTOUT",&p1,1);
 	}
+
 	minimizer->SetFCN(minuitFunction);
-	minimizer->SetParameter(0,"x",-0.01,1e-7,xmin,xmax);
+	minimizer->SetParameter(0,"x",xmax*0.01,1e-16,xmin,xmax);
 	minimizer->SetParameter(1,"qOp",qOverP,sigma_qOverP,0,0);
 	minimizer->SetParameter(2,"lambda",lambda,sigma_lambda,0,0);
 	minimizer->SetParameter(3,"phi",phi,sigma_Phi,0,0);
 	for (int i=1;i<=3;i++) minimizer->FixParameter(i);
 	minimizer->ExecuteCommand("SIMPLEX",0,0);
 	minimizer->ExecuteCommand("MIGRAD",0,0);
-	double x_best = minimizer->GetParameter(0);
-	//std::cout << x_best << std::endl;
-	/*
+	x_best = minimizer->GetParameter(0);
+	//if (x_best==xmin || x_best==xmax) std::cout << "x_best!!" << std::endl;
 	std::cout << "Result: x+-sx (x_best) between +-" << xmax << std::endl;
-	std::cout << x_best << "+-" << minimizer->GetParError(0)<< std::endl;
-	std::cout << "delta = " << pow(tot(x_best,qOverP,lambda,phi),0.5) << std::endl;
-	std::cout << "x = [" << f_x1(x_best,qOverP,lambda,phi)<<" , "<< f_x2(x_best,qOverP,lambda,phi) << " , " << f_x3(x_best,lambda) <<" ]" <<std::endl;
+	double x_best_err = minimizer -> GetParError(0);
+	std::cout << x_best << "+-" << x_best_err << std::endl;
+	//std::cout << "delta = " << pow(tot(x_best,qOverP,lambda,phi),0.5) << std::endl;
+	//std::cout << "x = [" << f_x1(x_best,qOverP,lambda,phi)<<" , "<< f_x2(x_best,qOverP,lambda,phi) << " , " << f_x3(x_best,lambda) <<" ]" <<std::endl;
+	*/
+	//3. Minimizer: Brent
+	qOp_Brent = qOverP;
+	l_Brent = lambda;
+	p_Brent = phi;
+	ROOT::Math::Functor1D func(&BrentFunc);
+	ROOT::Math::BrentMinimizer1D bm;
+	bm.SetFunction(func,xmin,xmax);
+	bm.Minimize(20,1.E-18,1.E-18);
+	double x_best_Brent = bm.XMinimum();
+	x_best = x_best_Brent;
+	/*
+	//4. Minimizer: ROOT Fit + plots
+	TF1 x1("x1","[0]+[1]*sin([2]*x+[3])",xmin,xmax);
+	x1.SetParameters(Ox,Radius,Omega,Phi_1);
+
+	TF1 x2("x2","[0]+[1]*cos([2]*x+[3])",xmin,xmax);
+	x2.SetParameters(Oy,Radius,Omega,Phi_1);
+
+	TF1 x3("x3","[0]+[1]*x",xmin,xmax);
+	x3.SetParameters(Oz,v_z);
+
+	TF1 f("f","([0]+[1]*sin([2]*x+[3])-[4])**2+([5]+[1]*cos([2]*x+[3])-[6])**2+([7]+[8]*x-[9])**2",xmin,xmax);
+	f.SetParameters(Ox,Radius,Omega,Phi_1,PV_v(0),Oy,PV_v(1),Oz,v_z,PV_v(2));
+	double x_best2 = f.GetMinimumX(xmin,xmax);
+	std::cout << "x_best2 = " << x_best2 << std::endl;
+	std::cout << "x2 = [" << f_x1(x_best2,qOverP,lambda,phi)<<" , "<< f_x2(x_best2,qOverP,lambda,phi) << " , " << f_x3(x_best2,lambda) <<" ]" <<std::endl;
+
+
+	auto canvas = new TCanvas();
+	f.DrawClone();
+	canvas->SaveAs("p.png");*/
+	//5. Minimizer: Taylor expand delta^2 in small Omega*t-s -- work in progress
+	/*
+	TVector3 Delta = PV_v - Oprime;
+	
 	*/
 
 	/*
@@ -156,11 +275,6 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	std::cout << "dsz=" << h_param[4] << std::endl;
 	*/
 
-	//Calculate propagated uncertainties:
-	/*
-	double sigma_Radius = Radius*pow(pow(sigma_lambda/TMath::Tan(theta),2)+pow(sigma_qOverP/qOverP,2),0.5);
-	double sigma_Omega = B_SI * sigma_qOverP;
-	*/
 	/*
 	std::cout << "qOverP : " << qOverP << "+-" << sigma_qOverP << std::endl;
 	std::cout << "Lambda : " << lambda << "+-" << sigma_lambda << std::endl;
@@ -168,49 +282,56 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	std::cout << "Radius : " << Radius << "+-" << sigma_Radius << std::endl;
 	std::cout << "Omega : " << Omega << "+-" << sigma_Omega << std::endl;
 	*/
-	/*
-	double result_IP_length = pow(tot(x_best,qOverP,lambda,phi),0.5);
-	double result_tangent_v1 = -Radius*Omega*TMath::Sin(Omega*x_best+Phi_1);
-	double result_tangent_v2 = Radius*Omega*TMath::Cos(Omega*x_best+Phi_1);
-	double result_tangent_v3 = v_z;
-	double result_sigma_IP_length = minimizer->GetParError(0)/(2*result_IP_length);//s_{x^2}/(2x) - Gaussian error propagation
-	double result_sigma_tangent_v1 = pow(pow(result_tangent_v1*sigma_Radius/Radius,2)+pow(result_tangent_v1*sigma_Omega/Omega+sigma_Omega*result_tangent_v2*Omega,2)+pow(result_tangent_v2*sigma_Phi,2),0.5);
-	double result_sigma_tangent_v2 = pow(pow(result_tangent_v2*sigma_Radius/Radius,2)+pow(result_tangent_v2*sigma_Omega/Omega+sigma_Omega*result_tangent_v1*Omega,2)+pow(result_tangent_v1*sigma_Phi,2),0.5);
-	double result_sigma_tangent_v3 = TMath::Sin(theta)*sigma_lambda;
-	*/
+
 	TVector3 res(f_x1(x_best,qOverP,lambda,phi)-PV_v.x(),f_x2(x_best,qOverP,lambda,phi)-PV_v.y(),f_x3(x_best,lambda)-PV_v.z());
+	TVector3 tangent_at_x_best = tangent_at_x(x_best,qOverP,lambda,phi);
 	//double res[] = {result_IP_length,result_tangent_v1,result_tangent_v2,result_tangent_v3,result_sigma_IP_length,result_sigma_tangent_v1,result_sigma_tangent_v2,result_sigma_tangent_v3};
 	//std::cout << "results:" << std::endl;
 	//for (int i=0;i<8;i++) std::cout<<res[i]<< std::endl;
-	/*
+	*return_scalar_product = tangent_at_x_best.DeltaPhi(tangent_at_x(0,qOverP,lambda,phi));//tangent_at_x_best.Angle(tangent_at_x(0,qOverP,lambda,phi));//Omega*x_best_Brent;
+
 	std::ifstream is("pca1_hel.res");
-	if (!is.good())
+	if (!is.good() && write)
 	{
+		std::cout << "phi: " << phi << std::endl;
+		std::cout << "Ref: ";
+		for (int i=0;i<3;i++) std::cout << Ref(i) << " ";
+		std::cout << "charge: " << charge << std::endl;
+		std::cout << "phi_1: " << get_phi1(phi,charge) << std::endl;
+		std::cout << "x_best" << x_best << std::endl;
+
+		//std::cout << "delta = " << pow(tot(x_best_Brent,qOverP,lambda,phi),0.5) << std::endl;
+		std::cout << "x = [" << f_x1(x_best,qOverP,lambda,phi)<<" , "<< f_x2(x_best,qOverP,lambda,phi) << " , " << f_x3(x_best,lambda) <<" ]" <<std::endl;
+
 		std::ofstream f0("helix.res");
-		int N = 1000;
-		double delta=(xmax-xmin)/N;
-		for (double y=xmin; y<=xmax;y+=delta)
+		int N = 100;
+		double delta=(xmax-xmin)/(1*N); //1->30000
+		for (double y=xmin/1; y<=xmax/1;y+=delta)
 		{
 			f0 << f_x1(y,qOverP,lambda,phi) <<" "<< f_x2(y,qOverP,lambda,phi) << " " << f_x3(y,lambda) << std::endl;
 		}
 		f0.close();
-		std::ofstream f1("pv.res");
+		N=1000;
 		delta = 1./N;
-		for (double x=0; x<=1;x+=delta) f1 << PV_v(0)*x <<" "<< PV_v(1)*x << " " << PV_v(2)*x << std::endl;;
+		std::ofstream f1("pv.res");
+		for (double x=0; x<=1;x+=delta) f1 << PV_v(0)*x <<" "<< PV_v(1)*x << " " << PV_v(2)*x << std::endl;
 		f1.close();
 		std::ofstream f2("r.res");
-		for (double x=0; x<=1;x+=delta) f2 << Ref.x()*x <<" "<< Ref.y()*x << " " << Ref.z()*x << std::endl;;
+		for (double x=0; x<=1;x+=delta) f2 << Ref.x()*x <<" "<< Ref.y()*x << " " << Ref.z()*x << std::endl;
 		f2.close();
 
 		std::ofstream f5("p_b.res");
-		f5 << f_x1(x_best,qOverP,lambda,phi) <<" "<< f_x2(x_best,qOverP,lambda,phi) << " " << f_x3(x_best,lambda) << std::endl;;
+		f5 << f_x1(x_best,qOverP,lambda,phi) <<" "<< f_x2(x_best,qOverP,lambda,phi) << " " << f_x3(x_best,lambda) << std::endl;
 		f5.close();
 
 		std::ofstream f3("pca1_hel.res");
-		for (double x=0; x<=1;x+=delta) f3 << (-f_x1(x_best,qOverP,lambda,phi)+PV_v(0))*x+f_x1(x_best,qOverP,lambda,phi) <<" "<< (-f_x2(x_best,qOverP,lambda,phi)+PV_v(1))*x+f_x2(x_best,qOverP,lambda,phi) << " " << (-f_x3(x_best,lambda)+PV_v(2))*x+f_x3(x_best,lambda) << std::endl;;
+		for (double x=0; x<=1;x+=delta) f3 << (-f_x1(x_best,qOverP,lambda,phi)+PV_v(0))*x+f_x1(x_best,qOverP,lambda,phi) <<" "<< (-f_x2(x_best,qOverP,lambda,phi)+PV_v(1))*x+f_x2(x_best,qOverP,lambda,phi) << " " << (-f_x3(x_best,lambda)+PV_v(2))*x+f_x3(x_best,lambda) << std::endl;
 		f3.close();
+
+		std::ofstream f6("pca1_hel_tan.res");
+		for (double x=0; x<=1;x+=delta) f6 << tangent_at_x_best.x()*x+f_x1(x_best,qOverP,lambda,phi) <<" "<< tangent_at_x_best.y()*x+f_x2(x_best,qOverP,lambda,phi) << " " << tangent_at_x_best.z()*x+f_x3(x_best,lambda) << std::endl;
+		f6.close();
 	}
-	*/
 
 	return res*100.; //conversion back to cm
 }
