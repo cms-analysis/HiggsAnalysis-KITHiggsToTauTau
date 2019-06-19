@@ -251,7 +251,7 @@ class Quantities(Run2Quantities):
 
 			# ************ datasets(groups, samples) common across all except mm channels are all the rest
 			else:
-				if not channel == "MM" and re.search('(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
+				if not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
 					self.quantities.update(self.genMatchedCPQuantities())
 
 					if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
