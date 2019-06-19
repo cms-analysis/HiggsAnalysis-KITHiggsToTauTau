@@ -97,10 +97,10 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	});
 
 	// CP-related quantities
-	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP", [](event_type const& event, product_type const& product)
-	//{
-	//	return product.m_recoPhiStarCP;
-	//});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCP;
+	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP_rho", [](event_type const& event, product_type const& product)
 	{
@@ -844,9 +844,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		if (recoTau2->charge() > 0) {
 			if (product.m_reco_posyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
 			else {
-				if (product.m_recoPhiStarCPComb > ROOT::Math::Pi())
-					product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
-				else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb + ROOT::Math::Pi();
+				if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
+					product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
+				else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
 			}
 		} // recoTau2->charge > 0
 		else {
@@ -867,17 +867,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
 			product.m_recoPhiStarCPComb_norefit = cpq.CalculatePhiStarCPComb(product.m_recoIP2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
 
-			// azimuthal angles of the tau decay planes
-			product.m_recoPhiPlus_combmeth = cpq.GetRecoPhiPlus_combmeth();
-			product.m_recoPhiMinus_combmeth = cpq.GetRecoPhiMinus_combmeth();
-			product.m_recoPhiStarPlus_combmeth = cpq.GetRecoPhiStarPlus_combmeth();
-			product.m_recoPhiStarMinus_combmeth = cpq.GetRecoPhiStarMinus_combmeth();
-
 			// merged variable
 			if (recoTau1->charge() > 0) {
 				if (product.m_reco_posyTauL > 0) product.m_recoPhiStarCPCombMerged = product.m_recoPhiStarCPComb;
 				else {
-					if (product.m_recoPhiStarCPComb > ROOT::Math::Pi())
+					if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
 						product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
 					else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
 				}
