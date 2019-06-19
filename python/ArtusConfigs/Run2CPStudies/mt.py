@@ -90,10 +90,10 @@ class mt_ArtusConfig(dict):
 				#self["Processors"] += ["producer:SvfitM91Producer"]
 				#self["Processors"] += ["producer:SvfitM125Producer"]
 
-				#self["Processors"] += ["producer:MELAProducer"]
+				self["Processors"] += ["producer:MELAProducer"]
 				#self["Processors"] += ["producer:MELAM125Producer"]
 
-				#self["Processors"] += ["producer:JetToTauFakesProducer"] #Jordy, grid vermeiden, nicht commiten;TODO check if only needed in data
+				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
 				if re.search("Run2016", nickname):
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]

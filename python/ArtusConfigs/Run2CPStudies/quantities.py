@@ -211,7 +211,7 @@ class Quantities(Run2Quantities):
 					#self.quantities.update(self.splitJecUncertaintyQuantities())
 
 					if not channel == "TT":
-						self.quantities.update(self.recoCPQuantities(melaQuantities=False))
+						self.quantities.update(self.recoCPQuantities(melaQuantities=True))
 
 						if channel == "EM":
 							self.quantities.update(set([ 'jetCorrectionWeight']))
@@ -251,7 +251,7 @@ class Quantities(Run2Quantities):
 
 			# ************ datasets(groups, samples) common across all except mm channels are all the rest
 			else:
-				if not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
+				if not channel == "MM" and re.search('(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
 					self.quantities.update(self.genMatchedCPQuantities())
 
 					if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
@@ -261,7 +261,7 @@ class Quantities(Run2Quantities):
 						self.quantities.update(["lhenpNLO", "quarkmassWeight","quarkmassUpWeight","quarkmassDownWeight"])
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.svfitSyncQuantities())
-					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
+					self.quantities.update(self.recoCPQuantities(melaQuantities=True))
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					# if channel in ["TT", "MT", "ET"]:
 					# 	self.quantities.update(set(['#tauPolarisationTMVA', '#tauPolarisationSKLEARN']))
@@ -310,7 +310,7 @@ class Quantities(Run2Quantities):
 					if channel in ["MT"]: self.quantities.add('nVetoMuons')
 
 				else: # data, 2016/2017 wjets, ttbar, diboson
-					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
+					self.quantities.update(self.recoCPQuantities(melaQuantities=True))
 
 					if channel == "MM":
 						self.quantities.update(self.singleTauQuantities())
@@ -853,7 +853,7 @@ class Quantities(Run2Quantities):
 		return l
 
 	@classmethod
-	def recoCPQuantities(klass, melaQuantities=False):
+	def recoCPQuantities(klass, melaQuantities=True):
 		s = [
 			"thePVx",
 			"thePVy",
@@ -1105,7 +1105,7 @@ class Quantities(Run2Quantities):
 			"d0s_area",
 			"d0s_dist"
 			]
-		# if melaQuantities: s += klass.melaQuantities(m125=False)
+		if melaQuantities: s += klass.melaQuantities(m125=False)
 		return s
 
 	@staticmethod
