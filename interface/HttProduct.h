@@ -353,6 +353,35 @@ public:
 	TVector3 m_recoIP1_helical_refitPV;
 	TVector3 m_recoIP2_helical_refitPV;
 
+	double m_recoIP1_helicalCovxx = DefaultValues::UndefinedDouble;
+	double m_recoIP1_helicalCovxy = DefaultValues::UndefinedDouble;
+	double m_recoIP1_helicalCovxz = DefaultValues::UndefinedDouble;
+	double m_recoIP1_helicalCovyy = DefaultValues::UndefinedDouble;
+	double m_recoIP1_helicalCovyz = DefaultValues::UndefinedDouble;
+	double m_recoIP1_helicalCovzz = DefaultValues::UndefinedDouble;
+
+	double m_recoIP2_helicalCovxx = DefaultValues::UndefinedDouble;
+	double m_recoIP2_helicalCovxy = DefaultValues::UndefinedDouble;
+	double m_recoIP2_helicalCovxz = DefaultValues::UndefinedDouble;
+	double m_recoIP2_helicalCovyy = DefaultValues::UndefinedDouble;
+	double m_recoIP2_helicalCovyz = DefaultValues::UndefinedDouble;
+	double m_recoIP2_helicalCovzz = DefaultValues::UndefinedDouble;
+
+	double m_recoIP1_helical_refitPVCovxx = DefaultValues::UndefinedDouble;
+	double m_recoIP1_helical_refitPVCovxy = DefaultValues::UndefinedDouble;
+	double m_recoIP1_helical_refitPVCovxz = DefaultValues::UndefinedDouble;
+	double m_recoIP1_helical_refitPVCovyy = DefaultValues::UndefinedDouble;
+	double m_recoIP1_helical_refitPVCovyz = DefaultValues::UndefinedDouble;
+	double m_recoIP1_helical_refitPVCovzz = DefaultValues::UndefinedDouble;
+
+	double m_recoIP2_helical_refitPVCovxx = DefaultValues::UndefinedDouble;
+	double m_recoIP2_helical_refitPVCovxy = DefaultValues::UndefinedDouble;
+	double m_recoIP2_helical_refitPVCovxz = DefaultValues::UndefinedDouble;
+	double m_recoIP2_helical_refitPVCovyy = DefaultValues::UndefinedDouble;
+	double m_recoIP2_helical_refitPVCovyz = DefaultValues::UndefinedDouble;
+	double m_recoIP2_helical_refitPVCovzz = DefaultValues::UndefinedDouble;
+
+
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
 	double m_cosPsiPlus_norefit  = DefaultValues::UndefinedDouble;
