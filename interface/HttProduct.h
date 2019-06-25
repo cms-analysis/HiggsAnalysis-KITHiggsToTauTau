@@ -449,6 +449,10 @@ public:
 	double m_recoPhiStarCPCombMerged  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPComb_norefit  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombMerged_norefit  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCP_helical  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPrPV_helical  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPComb_helical  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMerged_helical  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCP_rho_merged  = DefaultValues::UndefinedDouble;

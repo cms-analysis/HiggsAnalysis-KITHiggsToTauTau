@@ -1086,6 +1086,11 @@ class Quantities(Run2Quantities):
 			"recoPhiStarCPComb_norefit",
 			"recoPhiStarCPCombMerged_norefit",
 
+			"recoPhiStarCP_helical",
+			"recoPhiStarCPrPV_helical",
+			"recoPhiStarCPComb_helical",
+			"recoPhiStarCPCombMerged_helical",
+
 			"recoPhiPlus_ipmeth",
 			"recoPhiMinus_ipmeth",
 			"recoPhiStarPlus_ipmeth",
