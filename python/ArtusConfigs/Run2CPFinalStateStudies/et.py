@@ -39,7 +39,7 @@ class et_ArtusConfig(etbaseconfig.et_ArtusConfig):
 
 	def build_config(self, nickname, *args, **kwargs):
 
-		super(mt_ArtusConfig, self).build_config(nickname, *args, **kwargs)
+		super(et_ArtusConfig, self).build_config(nickname, *args, **kwargs)
 
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/et/fakeFactors.root"
