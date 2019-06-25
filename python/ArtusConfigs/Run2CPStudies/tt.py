@@ -72,13 +72,13 @@ class tt_ArtusConfig(dict):
 			self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] # is this producer necessary?
+			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 
 			if re.search("Summer17|Fall17|Run2017|Embedding2017", nickname):
 				self["Processors"] += ["producer:NewValidTTPairCandidatesProducer"]
-				self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
+				self["Processors"] += ["producer:MetFilterProducer"]
 			else:
 				self["Processors"] += ["producer:ValidTTPairCandidatesProducer"]
-				self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 
 			if re.search("Run2016|Run2017|Embedding2016|Embedding2017", nickname):
 				# self["Processors"] += ["producer:MVATestMethodsProducer"]
@@ -114,7 +114,7 @@ class tt_ArtusConfig(dict):
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
-					self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"]
+					# self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"] # not neede for tt
 					# self["Processors"] += ["producer:TriggerWeightProducer"]
 					# self["Processors"] += ["producer:IdentificationWeightProducer"]
 				else:
