@@ -100,6 +100,7 @@ class globalProccesors(dict):
 				"producer:ValidGenTausProducer",
 				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenTauDecayProducer",
+				"producer:GenTauCPProducer",
 				"producer:RecoElectronGenParticleMatchingProducer",
 				"producer:RecoElectronGenTauMatchingProducer",
 				"producer:RecoMuonGenParticleMatchingProducer",
