@@ -979,12 +979,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_recoIP2_helicalCovyz = IP2HelixCov(1,2);
 	product.m_recoIP2_helicalCovzz = IP2HelixCov(2,2);
 
-	//conversion from TVector3 to SVector
-	ROOT::Math::SVector<float, 3> IP1_(product.m_recoIP1_helical(0), product.m_recoIP1_helical(1), product.m_recoIP1_helical(2));
-	//IP1_ /= sqrt( (product.m_recoIP1_helical).x()*(product.m_recoIP1_helical).x() + (product.m_recoIP1_helical).y()*(product.m_recoIP1_helical).y() + (product.m_recoIP1_helical).z()*(product.m_recoIP1_helical).z() );
-	IP1_ /= sqrt((ROOT::Math::Dot(IP1_, IP1_)));
+
+	ROOT::Math::SVector<float, 3> IP1_(product.m_recoIP1_helical(0), product.m_recoIP1_helical(1), product.m_recoIP1_helical(2)); // Conversion from TVector3 to SVector
+	IP1_ /= sqrt((ROOT::Math::Dot(IP1_, IP1_))); // Normalize
 	ROOT::Math::SVector<float, 3> IP2_(product.m_recoIP2_helical(0), product.m_recoIP2_helical(1), product.m_recoIP2_helical(2));
-	//IP2_ /= sqrt( (product.m_recoIP2_helical).x()*(product.m_recoIP2_helical).x() + (product.m_recoIP2_helical).y()*(product.m_recoIP2_helical).y() + (product.m_recoIP2_helical).z()*(product.m_recoIP2_helical).z() );
 	IP2_ /= sqrt((ROOT::Math::Dot(IP2_, IP2_)));
 
 	product.m_IP1MagPerSig = sqrt( (product.m_recoIP1_helical).x()*(product.m_recoIP1_helical).x() + (product.m_recoIP1_helical).y()*(product.m_recoIP1_helical).y() + (product.m_recoIP1_helical).z()*(product.m_recoIP1_helical).z() ) / sqrt( ROOT::Math::Dot(IP1_, IP1HelixCov * IP1_ ) );
@@ -1129,12 +1127,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_recoIP2_helical_refitPVCovyz = IP2HelixRefitPVCov(1,2);
 		product.m_recoIP2_helical_refitPVCovzz = IP2HelixRefitPVCov(2,2);
 
-		//conversion from TVector3 to SVector
-		ROOT::Math::SVector<float, 3> IP1rPV_(product.m_recoIP1_helical_refitPV(0), product.m_recoIP2_helical_refitPV(1), product.m_recoIP1_helical_refitPV(2));
-		//IP1rPV_ /= sqrt( (product.m_recoIP1_helical_refitPV).x()*(product.m_recoIP1_helical_refitPV).x() + (product.m_recoIP1_helical_refitPV).y()*(product.m_recoIP1_helical_refitPV).y() + (product.m_recoIP1_helical_refitPV).z()*(product.m_recoIP1_helical_refitPV).z() );
-		IP1rPV_ /= sqrt(ROOT::Math::Dot(IP1rPV_, IP1rPV_));
+		ROOT::Math::SVector<float, 3> IP1rPV_(product.m_recoIP1_helical_refitPV(0), product.m_recoIP2_helical_refitPV(1), product.m_recoIP1_helical_refitPV(2));// Conversion from TVector3 to SVector
+		IP1rPV_ /= sqrt(ROOT::Math::Dot(IP1rPV_, IP1rPV_));// Normalize
 		ROOT::Math::SVector<float, 3> IP2rPV_(product.m_recoIP2_helical_refitPV(0), product.m_recoIP2_helical_refitPV(1), product.m_recoIP2_helical_refitPV(2));
-		//IP2rPV_ /= sqrt( (product.m_recoIP2_helical_refitPV).x()*(product.m_recoIP2_helical_refitPV).x() + (product.m_recoIP2_helical_refitPV).y()*(product.m_recoIP2_helical_refitPV).y() + (product.m_recoIP2_helical_refitPV).z()*(product.m_recoIP2_helical_refitPV).z() );
 		IP2rPV_ /= sqrt(ROOT::Math::Dot(IP2rPV_, IP2rPV_));
 		product.m_IP1MagPerSigrPV = sqrt( (product.m_recoIP1_helical_refitPV).x()*(product.m_recoIP1_helical_refitPV).x() + (product.m_recoIP1_helical_refitPV).y()*(product.m_recoIP1_helical_refitPV).y() + (product.m_recoIP1_helical_refitPV).z()*(product.m_recoIP1_helical_refitPV).z() ) / sqrt( ROOT::Math::Dot(IP1rPV_, IP1HelixRefitPVCov * IP1rPV_) );
 		product.m_IP2MagPerSigrPV = sqrt( (product.m_recoIP1_helical_refitPV).x()*(product.m_recoIP1_helical_refitPV).x() + (product.m_recoIP1_helical_refitPV).y()*(product.m_recoIP1_helical_refitPV).y() + (product.m_recoIP1_helical_refitPV).z()*(product.m_recoIP1_helical_refitPV).z() ) / sqrt( ROOT::Math::Dot(IP2rPV_, IP2HelixRefitPVCov * IP2rPV_) );
