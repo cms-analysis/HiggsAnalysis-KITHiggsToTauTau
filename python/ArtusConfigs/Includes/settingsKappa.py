@@ -51,7 +51,7 @@ class Kappa(dict):
 		else:
 			self["PuppiMet"] = ""
 
-		if re.search("Run2017|Summer17|Fall17", nickname):
+		if re.search("Run2017|Summer17|Fall17|Summer16|Run2016", nickname):
 			self["MvaMets"] = ""
 		else:
 			self["MvaMets"] = "MVAMET"
