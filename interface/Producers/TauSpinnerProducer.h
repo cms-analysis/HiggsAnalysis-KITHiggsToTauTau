@@ -35,25 +35,17 @@ public:
 
 private:
 	virtual TauSpinner::SimpleParticle GetSimpleParticle(RMFLV const& particleLV, int particlePdgId) const;
+	
+	virtual GenParticleDecayTree* GetTau(GenParticleDecayTree* currentParticle) const;
 	virtual std::vector<TauSpinner::SimpleParticle> GetFinalStates(
 			GenParticleDecayTree& currentParticle,
-			std::vector<TauSpinner::SimpleParticle>& resultVector,
-			std::vector<int> const& validPdgIds={
-					//DefaultValues::pdgIdGamma,
-					DefaultValues::pdgIdPiZero,
-					DefaultValues::pdgIdPiPlus,
-					DefaultValues::pdgIdKPlus,
-					DefaultValues::pdgIdKLong,
-					DefaultValues::pdgIdKShort,
-					DefaultValues::pdgIdElectron,
-					DefaultValues::pdgIdNuE,
-					DefaultValues::pdgIdMuon,
-					DefaultValues::pdgIdNuMu,
-					DefaultValues::pdgIdNuTau
-			}
+			std::vector<TauSpinner::SimpleParticle>& resultVector
 	) const;
 	
 	std::string GetLabelForWeightsMap(float mixingAngleOverPiHalf) const;
+	
+	std::map<int, std::vector<int> > m_validPdgIdsAndStatusCodes;
+	std::map<std::string, std::vector<int> > m_validPdgIdsAndStatusCodesByString;
 	
 	std::vector<float> mixingAnglesOverPiHalf;
 	

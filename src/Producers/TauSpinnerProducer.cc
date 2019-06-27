@@ -82,6 +82,8 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 		return product.m_tauSpinnerEPi_2;
 	});
 	
+	m_validPdgIdsAndStatusCodes = Utility::ParseMapTypes<int, int>(Utility::ParseVectorToMap(settings.GetTauSpinnerValidPdgIdsAndStatusCodes()), m_validPdgIdsAndStatusCodesByString);
+	
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
 	     ++mixingAngleOverPiHalfIt)
@@ -93,7 +95,6 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfLabel, 0.0);
 		});
 	}
-	
 	
 	if (settings.GetTauSpinnerMixingAnglesOverPiHalfSample() >= 0.0)
 	{
@@ -129,24 +130,21 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 	product.m_tauSpinnerValidOutputs = false;
 	if (product.m_genBosonTree.m_daughters.size() > 1)
 	{
-
-		GenParticleDecayTree selectedTau1 = product.m_genBosonTree.m_daughters[0];
-		GenParticleDecayTree selectedTau2 = product.m_genBosonTree.m_daughters[1];
+		GenParticleDecayTree* selectedTau1 = GetTau(&(product.m_genBosonTree.m_daughters[0]));
+		GenParticleDecayTree* selectedTau2 = GetTau(&(product.m_genBosonTree.m_daughters[1]));
 	
 		//TauSpinner considers only Taus and Tau-Neutrinos as daughters of a Boson (Higgs, W etc.)
 		// otherwise the weights are set to 1
-		//LOG(ERROR) << "std::abs(selectedTau1.m_genParticle->pdgId) = " << std::abs(selectedTau1.m_genParticle->pdgId);
-		//LOG(ERROR) << "std::abs(selectedTau2.m_genParticle->pdgId) = " << std::abs(selectedTau2.m_genParticle->pdgId);
-		//LOG(ERROR) << "DefaultValues::pdgIdTau = " << DefaultValues::pdgIdTau;
-		if ((std::abs(selectedTau1.m_genParticle->pdgId) == DefaultValues::pdgIdTau) && (std::abs(selectedTau2.m_genParticle->pdgId) == DefaultValues::pdgIdTau))
+		if (selectedTau1 && (std::abs(selectedTau1->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+		    selectedTau2 && (std::abs(selectedTau2->m_genParticle->pdgId) == DefaultValues::pdgIdTau))
 		{
 			TauSpinner::SimpleParticle boson = GetSimpleParticle(product.m_genBosonLV, settings.GetBosonPdgIds()[0]);
-			TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1.m_genParticle->p4, selectedTau1.m_genParticle->pdgId);
-			TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2.m_genParticle->p4, selectedTau2.m_genParticle->pdgId);
+			TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1->m_genParticle->p4, selectedTau1->m_genParticle->pdgId);
+			TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2->m_genParticle->p4, selectedTau2->m_genParticle->pdgId);
 			std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
-			GetFinalStates(selectedTau1, tauFinalStates1);
+			GetFinalStates(*selectedTau1, tauFinalStates1);
 			std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
-			GetFinalStates(selectedTau2, tauFinalStates2);
+			GetFinalStates(*selectedTau2, tauFinalStates2);
 			
 			// debug information
 			if (tauFinalStates1.size() == 2)
@@ -295,22 +293,47 @@ TauSpinner::SimpleParticle TauSpinnerProducer::GetSimpleParticle(RMFLV const& pa
 	return particle;
 }
 
+GenParticleDecayTree* TauSpinnerProducer::GetTau(GenParticleDecayTree* currentParticle) const
+{
+	if ((std::abs(currentParticle->m_genParticle->pdgId) == DefaultValues::pdgIdTau) &&
+	    (Utility::Contains(SafeMap::GetWithDefault(m_validPdgIdsAndStatusCodes, std::abs(currentParticle->m_genParticle->pdgId), {-1}), currentParticle->m_genParticle->status()) ||
+	     Utility::Contains(SafeMap::GetWithDefault(m_validPdgIdsAndStatusCodes, std::abs(currentParticle->m_genParticle->pdgId), {-1}), -1)))
+	{
+		return currentParticle;
+	}
+	else
+	{
+		GenParticleDecayTree* result = nullptr;
+		for (unsigned int daughterIndex = 0; daughterIndex < currentParticle->m_daughters.size(); ++daughterIndex)
+		{
+			result = GetTau(&(currentParticle->m_daughters[daughterIndex]));
+			if (result) return result;
+		}
+		return result;
+	}
+}
+
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
 std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
 		GenParticleDecayTree& currentParticle,
-		std::vector<TauSpinner::SimpleParticle>& resultVector,
-		std::vector<int> const& validPdgIds) const
+		std::vector<TauSpinner::SimpleParticle>& resultVector) const
 {
 	// this if-condition has to define what particles go into TauSpinner
 	int pdgId = currentParticle.m_genParticle->pdgId;
-	if (Utility::Contains(validPdgIds, std::abs(pdgId)))
+	const int status = currentParticle.m_genParticle->status();
+	if ((std::abs(pdgId) != DefaultValues::pdgIdTau) &&
+	    Utility::Contains(m_validPdgIdsAndStatusCodes, std::abs(pdgId)) &&
+	    (Utility::Contains(m_validPdgIdsAndStatusCodes.at(std::abs(pdgId)), status) ||
+	     Utility::Contains(m_validPdgIdsAndStatusCodes.at(std::abs(pdgId)), -1)))
 	{
 		// decend to last stage with given particles
 		std::vector<TauSpinner::SimpleParticle> nextStageResultVector;
+		
 		for (unsigned int daughterIndex = 0; daughterIndex < currentParticle.m_daughters.size(); ++daughterIndex)
 		{
-			GetFinalStates(currentParticle.m_daughters[daughterIndex], nextStageResultVector, validPdgIds);
+			GetFinalStates(currentParticle.m_daughters[daughterIndex], nextStageResultVector);
 		}
+		
 		if (nextStageResultVector.empty())
 		{
 			resultVector.push_back(GetSimpleParticle(currentParticle.m_genParticle->p4, pdgId));
@@ -324,7 +347,7 @@ std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
 	{
 		for (unsigned int daughterIndex = 0; daughterIndex < currentParticle.m_daughters.size(); ++daughterIndex)
 		{
-			GetFinalStates(currentParticle.m_daughters[daughterIndex], resultVector, validPdgIds);
+			GetFinalStates(currentParticle.m_daughters[daughterIndex], resultVector);
 		}
 	}
 	return resultVector;
