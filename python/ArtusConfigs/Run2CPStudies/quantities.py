@@ -1028,6 +1028,11 @@ class Quantities(Run2Quantities):
 			"recoIP2_helical_refitPVCovyz",
 			"recoIP2_helical_refitPVCovzz",
 
+                        "IP1MagPerSig",
+                        "IP2MagPerSig",
+                        "IP1MagPerSigrPV",
+                        "IP2MagPerSigrPV",
+
 			"trackFromBS_1mag",
 			"trackFromBS_1x",
 			"trackFromBS_1y",

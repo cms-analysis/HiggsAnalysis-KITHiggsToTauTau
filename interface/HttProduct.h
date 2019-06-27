@@ -342,6 +342,10 @@ public:
 
 	double m_pca1DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach(PCA) from the primary vertex (PV) in units of sigma
 	double m_pca2DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach(PCA) from the primary vertex (PV) in units of sigma
+	double m_IP1MagPerSig = DefaultValues::UndefinedDouble;
+	double m_IP2MagPerSig = DefaultValues::UndefinedDouble;
+	double m_IP1MagPerSigrPV = DefaultValues::UndefinedDouble;
+	double m_IP2MagPerSigrPV = DefaultValues::UndefinedDouble;
 	double m_pca1DiffInSigma_refitPV;
 	double m_pca2DiffInSigma_refitPV;
 	double m_pca1proj = DefaultValues::UndefinedDouble; //Projection of Point of closest approach(PCA) to the primary vertex (PV) 1 sigma ellipsoid
