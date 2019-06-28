@@ -153,7 +153,7 @@ TVector3 tangent_at_x(double x, double qOp, double l, double p)
 	return sol;
 }
 
-TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h_param,	ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, bool write, double* return_scalar_product, KLepton* recoParticle)
+TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h_param,	ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, bool write, double* return_scalar_product, KLepton* recoParticle, double* xBest)
 {
 	//everything in SI
 	const double eQ = 1.60217662*1e-19; //elementary charge in C
@@ -313,6 +313,7 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	std::cout << "Omega : " << Omega << "+-" << sigma_Omega << std::endl;
 	*/
 
+	*xBest = x_best;
 	TVector3 res(f_x1(x_best,qOverP,lambda,phi)-PV_v.x(),f_x2(x_best,qOverP,lambda,phi)-PV_v.y(),f_x3(x_best,lambda)-PV_v.z());
 	TVector3 tangent_at_x_best = tangent_at_x(x_best,qOverP,lambda,phi);
 	//double res[] = {result_IP_length,result_tangent_v1,result_tangent_v2,result_tangent_v3,result_sigma_IP_length,result_sigma_tangent_v1,result_sigma_tangent_v2,result_sigma_tangent_v3};
@@ -364,6 +365,101 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	}
 	*/
 	return res*100.; //conversion back to cm
+}
+
+ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> CPQuantities::CalculatePCACovariance(double B, short charge, std::vector<float> h_param,	ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, SMatrixSym3D SigmaPrV, double xBest)
+{
+	//everything in SI
+	const double eQ = 1.60217662*1e-19; //elementary charge in C
+	B_SI = B*1e3/(c*1e-8); //in Tesla
+	double q_SI = charge * eQ; //in Coulomb
+	double p_SI = std::abs(1/h_param[0]); //in GeV
+	p_SI *= 1e9*eQ/(c); //conversion from GeV to kg*m/s
+	double qOverP = q_SI/p_SI;
+	double lambda = h_param[1]; //lambda in rad
+	double phi = h_param[2]; //phi in rad
+	double Phi_1 = TMath::Pi()/2+phi;
+	double theta = TMath::Pi()/2-lambda;
+	Ref.SetXYZ(ref.x(),ref.y(),ref.z());
+	Ref*=0.01; //conversion from cm to m
+
+	PV_v.SetXYZ(PrV.x(),PrV.y(),PrV.z());
+	PV_v*=0.01; //conversion from cm to m
+
+	double Radius = TMath::Sin(theta)/(B_SI*qOverP);
+	double Omega = qOverP*B_SI*c;
+	Omega = (Omega<0 ? -Omega : Omega);
+
+	// Construct the Covariance Matrices relevant for the Impact parameter
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepSym<float, 3>> Sigma_O; //TODO Put in actual covariance matrix
+	Sigma_O(0, 0) = 0; Sigma_O(0, 1) = 0;  Sigma_O(0, 2) = 0;
+	Sigma_O(1, 0) = 0; Sigma_O(1, 1) = 0; Sigma_O(1, 2) = 0;
+	Sigma_O(2, 0) = 0; Sigma_O(2, 1) = 0; Sigma_O(2, 2) = 0;
+
+	for(int i=0; i<5; i++){
+		cov(0, i) *= c * 1e-9;
+		cov(i, 0) *= c * 1e-9;
+	} //convert to SI units, ignore the dxy and dsz components
+	ROOT::Math::SMatrix<float,4,5, ROOT::Math::MatRepStd< float, 4, 5 >> JacobiHelixpar;
+	/* dRadius/dqOverP */
+	JacobiHelixpar(0, 0) =   TMath::Sin(TMath::Pi()/2 - lambda) / B_SI / pow(qOverP/eQ, 2);
+	/* dRadius/dlambda */
+	JacobiHelixpar(0, 1) = - TMath::Cos(TMath::Pi()/2 - lambda) / B_SI / qOverP*eQ;
+	/* dRadius/dphi = dr/ddxy = dr/dsz = 0 */
+	/* domega/dqOverP */
+	JacobiHelixpar(1, 0) = 1 / B_SI;
+	/* domega/dlamba = domega/dphi = domega/dxy = domega/dsz = 0 */
+	/* uncertainty on phi1 does not change the uncertainty on x, there it does not need to be considered */
+	/* dvz/dlambda */
+	JacobiHelixpar(3, 1) = TMath::Sin(TMath::Pi() - lambda);
+	/* dvz/dqOverP = dvz/dphi = dvz/dxy = dvz/dsz = 0 */
+
+	ROOT::Math::SMatrix<float,4,4, ROOT::Math::MatRepStd< float, 4, 4 >> Sigma_par_ = JacobiHelixpar * cov * ROOT::Math::Transpose(JacobiHelixpar);
+
+	ROOT::Math::SMatrix<float,7,7, ROOT::Math::MatRepSym< float, 7 >> Sigma_par;
+	Sigma_par(0, 0) = Sigma_O(0, 0);
+	Sigma_par(1, 0) = Sigma_O(1, 0); Sigma_par(1, 1) = Sigma_O(1, 1);
+	Sigma_par(2, 0) = Sigma_O(2, 0); Sigma_par(2, 1) = Sigma_O(1, 2); Sigma_par(2, 2) = Sigma_O(2, 2);
+	for(int i = 3; i < 7; i++)
+		for(int j = 3; j <= i; j++)
+			Sigma_par(i, j) = Sigma_par_(i-3, j-3);
+
+	ROOT::Math::SMatrix<float,3,7, ROOT::Math::MatRepStd< float, 3, 7 >> Jacobifx;
+	//       dO'_1              dO'_1              dO'_1
+	/* df1 */ Jacobifx(0, 0) = 1; Jacobifx(0, 1) = 0; Jacobifx(0, 2) = 0;
+	/* df2 */ Jacobifx(1, 0) = 0; Jacobifx(1, 1) = 1; Jacobifx(1, 2) = 0;
+	/* df3 */ Jacobifx(2, 0) = 0; Jacobifx(2, 1) = 0; Jacobifx(2, 2) = 1;
+	//       dr                                                   dOmega
+	/* df1 */ Jacobifx(0, 3) =  TMath::Cos(Omega * xBest + Phi_1); Jacobifx(0, 4) = -Radius * TMath::Sin(Omega * xBest + Phi_1) * xBest;
+	/* df2 */ Jacobifx(1, 3) = -TMath::Sin(Omega * xBest + Phi_1); Jacobifx(1, 4) = -Radius * TMath::Cos(Omega * xBest + Phi_1) * xBest;
+	/* df3 */ Jacobifx(2, 3) =  0;                                 Jacobifx(2, 4) = 0;
+	//       dphi1                                                         dvz
+	/* df1 */ Jacobifx(0, 5) = 0/*-Radius * TMath::Sin(Omega * xBest + Phi_1)*/; Jacobifx(0, 6) = 0;
+	/* df2 */ Jacobifx(1, 5) = 0/*-Radius * TMath::Cos(Omega * xBest + Phi_1)*/; Jacobifx(1, 6) = 0;
+	/* df3 */ Jacobifx(2, 5) = 0;                                           Jacobifx(2, 6) = xBest;
+
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> Sigma_fx = Jacobifx * Sigma_par * ROOT::Math::Transpose(Jacobifx);
+	ROOT::Math::SMatrix<float,6,6, ROOT::Math::MatRepStd< float, 6, 6 >> Cov_fxPV;
+	for(int i = 0; i < 6; i++){
+		for(int j = 0; j < 6; j++){
+			switch( ((i < 3) * (j < 3))? 1:0 | ((i >= 3) * (j>=3))? 2:0 ){
+				case 0: break;
+				case 1: Cov_fxPV(i,j) = Sigma_fx(i, j); break;
+				case 2: Cov_fxPV(i,j) = SigmaPrV(i-3, j-3)*1e-4; break; // conversion from cm^2 to m^2
+			}
+		}
+	}
+
+	ROOT::Math::SMatrix<float,3,6, ROOT::Math::MatRepStd< float, 3, 6 >> JacobiIP;
+	JacobiIP(0, 0) = 1;
+	JacobiIP(1, 1) = 1;
+	JacobiIP(2, 2) = 1;
+	JacobiIP(0, 3) = -1;
+	JacobiIP(1, 4) = -1;
+	JacobiIP(2, 5) = -1;
+
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> CovIP = JacobiIP * Cov_fxPV * Transpose(JacobiIP);
+	return CovIP * 1e4; //conversion to cm^2
 }
 
 // this version uses track and vertex information to calculate the decay planes (useful for RecoTauCPProducer)

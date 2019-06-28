@@ -105,7 +105,7 @@ class Baseconfig(dict):
 			"!Flag_cloneGlobalMuonTaggerMAOD"
 			]
 
-		if re.search("Run2017|Fall17", nickname):
+		if re.search("Run2017|Fall17|Embedding2017", nickname):
 			self["MetFilter"] = [  # suggested for MC and Data
 				"Flag_goodVertices",
 				"Flag_globalSuperTightHalo2016Filter",
@@ -117,7 +117,7 @@ class Baseconfig(dict):
 				# "Flag_ecalBadCalibFilter",  # outdated; DO NOT USE (listed for completeness, updated version is the one below)
 				# "ecalBadCalibReducedMINIAODFilter" TODO (still work in progress): https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2#How_to_run_ecal_BadCalibReducedM
 			]
-			if re.search("Run2017", nickname):
+			if re.search("Run2017|Embedding2017", nickname):
 				self["MetFilter"] += [
 					"Flag_eeBadScFilter",
 				]

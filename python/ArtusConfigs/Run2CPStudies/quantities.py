@@ -229,6 +229,7 @@ class Quantities(Run2Quantities):
 
 				self.quantities.update(self.recoPolarisationQuantitiesSvfit())
 				self.quantities.update(self.recoPolarisationQuantities())
+				self.quantities.update(self.genPolarisationQuantities())
 
 				if channel == "MM":
 					self.quantities.update(self.singleTauQuantities())
@@ -251,7 +252,7 @@ class Quantities(Run2Quantities):
 
 			# ************ datasets(groups, samples) common across all except mm channels are all the rest
 			else:
-				if not channel == "MM" and re.search('(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
+				if not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
 					self.quantities.update(self.genMatchedCPQuantities())
 
 					if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
@@ -277,6 +278,7 @@ class Quantities(Run2Quantities):
 				elif not channel == "MM" and re.search('Embedding2016', nickname):
 					self.quantities.add('tauSpinnerPolarisation')
 					self.quantities.update(self.recoPolarisationQuantities())
+					self.quantities.update(self.genPolarisationQuantities())
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					#self.quantities.update(self.splitJecUncertaintyQuantities())
@@ -297,6 +299,7 @@ class Quantities(Run2Quantities):
 				elif not channel == "MM" and re.search('(DY.?JetsToLL).*(?=Fall15)', nickname):
 					self.quantities.add('tauSpinnerPolarisation')
 					self.quantities.update(self.recoPolarisationQuantities())
+					self.quantities.update(self.genPolarisationQuantities())
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.genMatchedCPQuantities())
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
@@ -305,6 +308,7 @@ class Quantities(Run2Quantities):
 
 				elif not channel == "MM" and re.search('^((?!(DY.?JetsToLL|HTo.*TauTau|H2JetsToTauTau|Higgs)).)*Fall15', nickname):
 					self.quantities.update(self.recoPolarisationQuantities())
+					self.quantities.update(self.genPolarisationQuantities())
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					if channel == "ET": self.quantities.add('nVetoElectrons')
 					if channel in ["MT"]: self.quantities.add('nVetoMuons')
@@ -1000,6 +1004,35 @@ class Quantities(Run2Quantities):
 			"IP_helical_refitPV_2y",
 			"IP_helical_refitPV_2z",
 
+			"recoIP1_helicalCovxx",
+			"recoIP1_helicalCovxy",
+			"recoIP1_helicalCovxz",
+			"recoIP1_helicalCovyy",
+			"recoIP1_helicalCovyz",
+			"recoIP2_helicalCovxy",
+			"recoIP2_helicalCovxz",
+			"recoIP2_helicalCovyy",
+			"recoIP2_helicalCovyz",
+			"recoIP2_helicalCovzz",
+
+			"recoIP1_helical_refitPVCovxx",
+			"recoIP1_helical_refitPVCovxy",
+			"recoIP1_helical_refitPVCovxz",
+			"recoIP1_helical_refitPVCovyy",
+			"recoIP1_helical_refitPVCovyz",
+			"recoIP1_helical_refitPVCovzz",
+			"recoIP2_helical_refitPVCovxx",
+			"recoIP2_helical_refitPVCovxy",
+			"recoIP2_helical_refitPVCovxz",
+			"recoIP2_helical_refitPVCovyy",
+			"recoIP2_helical_refitPVCovyz",
+			"recoIP2_helical_refitPVCovzz",
+
+                        "IP1MagPerSig",
+                        "IP2MagPerSig",
+                        "IP1MagPerSigrPV",
+                        "IP2MagPerSigrPV",
+
 			"trackFromBS_1mag",
 			"trackFromBS_1x",
 			"trackFromBS_1y",
@@ -1061,6 +1094,11 @@ class Quantities(Run2Quantities):
 			"recoPhiStarCPCombMerged",
 			"recoPhiStarCPComb_norefit",
 			"recoPhiStarCPCombMerged_norefit",
+
+			"recoPhiStarCP_helical",
+			"recoPhiStarCPrPV_helical",
+			"recoPhiStarCPComb_helical",
+			"recoPhiStarCPCombMerged_helical",
 
 			"recoPhiPlus_ipmeth",
 			"recoPhiMinus_ipmeth",
@@ -1133,22 +1171,22 @@ class Quantities(Run2Quantities):
 			"lep1SumChargedHadronsLV",
 			"lep1SumNeutralHadronsLV",
 
-			"genMatchedTau1LV",
-			"genMatchedTau1Found",
-			"genMatchedTau1VisibleLV",
-			"genMatchedTau1DecayMode",
-			"genMatchedTau1NProngs",
-			"genMatchedTau1NPi0s",
+			# "genMatchedTau1LV",
+			# "genMatchedTau1Found",
+			# "genMatchedTau1VisibleLV",
+			# "genMatchedTau1DecayMode",
+			# "genMatchedTau1NProngs",
+			# "genMatchedTau1NPi0s",
 
 			"lep2SumChargedHadronsLV",
 			"lep2SumNeutralHadronsLV",
 
-			"genMatchedTau2LV",
-			"genMatchedTau2Found",
-			"genMatchedTau2VisibleLV",
-			"genMatchedTau2DecayMode",
-			"genMatchedTau2NProngs",
-			"genMatchedTau2NPi0s",
+			# "genMatchedTau2LV",
+			# "genMatchedTau2Found",
+			# "genMatchedTau2VisibleLV",
+			# "genMatchedTau2DecayMode",
+			# "genMatchedTau2NProngs",
+			# "genMatchedTau2NPi0s",
 
 			"leadingTauLV",
 			"trailingTauLV",
@@ -1191,28 +1229,28 @@ class Quantities(Run2Quantities):
 			#"tauPolarisationDiscriminatorHHKinFit",
 			#"tauPolarisationDiscriminatorSimpleFit",
 
-			"polarisationOmegaGenMatched_1",
-			"polarisationOmegaGenMatched_2",
+			# "polarisationOmegaGenMatched_1",
+			# "polarisationOmegaGenMatched_2",
 			"polarisationOmegaSimpleFit_1",
 			"polarisationOmegaSimpleFit_2",
 			#"polarisationOmegaHHKinFit_1",
 			#"polarisationOmegaHHKinFit_2",
 
-			"polarisationOmegaBarGenMatched_1",
-			"polarisationOmegaBarGenMatched_2",
+			# "polarisationOmegaBarGenMatched_1",
+			# "polarisationOmegaBarGenMatched_2",
 			"polarisationOmegaBarSimpleFit_1",
 			"polarisationOmegaBarSimpleFit_2",
 			#"polarisationOmegaBarHHKinFit_1",
 			#"polarisationOmegaBarHHKinFit_2",
 
-			"polarisationOmegaVisibleGenMatched_1",
-			"polarisationOmegaVisibleGenMatched_2",
+			# "polarisationOmegaVisibleGenMatched_1",
+			# "polarisationOmegaVisibleGenMatched_2",
 			"polarisationOmegaVisibleSimpleFit_1",
 			"polarisationOmegaVisibleSimpleFit_2",
 			#"polarisationOmegaVisibleHHKinFit_1",
 			#"polarisationOmegaVisibleHHKinFit_2",
 
-			"polarisationCombinedOmegaGenMatched",
+			# "polarisationCombinedOmegaGenMatched",
 			"polarisationCombinedOmegaSimpleFit",
 			#"polarisationCombinedOmegaHHKinFit",
 
@@ -1220,9 +1258,35 @@ class Quantities(Run2Quantities):
 			"polarisationCombinedOmegaBarSimpleFit",
 			#"polarisationCombinedOmegaBarHHKinFit",
 
-			"polarisationCombinedOmegaVisibleGenMatched",
+			# "polarisationCombinedOmegaVisibleGenMatched",
 			"polarisationCombinedOmegaVisibleSimpleFit",
 			#"polarisationCombinedOmegaVisibleHHKinFit"
+		]
+
+	@staticmethod
+	def genPolarisationQuantities():
+		return [		
+			"genMatchedTau1LV",
+			"genMatchedTau1Found",
+			"genMatchedTau1VisibleLV",
+			"genMatchedTau1DecayMode",
+			"genMatchedTau1NProngs",
+			"genMatchedTau1NPi0s",
+			"genMatchedTau2LV",
+			"genMatchedTau2Found",
+			"genMatchedTau2VisibleLV",
+			"genMatchedTau2DecayMode",
+			"genMatchedTau2NProngs",
+			"genMatchedTau2NPi0s",
+			"polarisationOmegaGenMatched_1",
+			"polarisationOmegaGenMatched_2",
+			"polarisationOmegaBarGenMatched_1",
+			"polarisationOmegaBarGenMatched_2",
+			"polarisationOmegaVisibleGenMatched_1",
+			"polarisationOmegaVisibleGenMatched_2",
+			"polarisationCombinedOmegaGenMatched",
+			#"polarisationCombinedOmegaBarGenMatched",
+			"polarisationCombinedOmegaVisibleGenMatched",
 		]
 
 	@staticmethod

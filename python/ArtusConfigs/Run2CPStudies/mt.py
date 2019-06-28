@@ -71,13 +71,15 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+
+			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
+
 			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
-				if re.search("(Run2017|Summer17|Fall17)", nickname):
-					self["Processors"] += ["producer:MetFilterProducer"]
+				self["Processors"] += ["producer:MetFilterProducer"]
 			else:
 				self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]
-			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
+
 			#if re.search("(Spring16|Summer16|Run2016|Embedding2016)",nickname):
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe TODO in next skim
 
@@ -100,10 +102,10 @@ class mt_ArtusConfig(dict):
 
 				if re.search("Embedding(2016|2017)", nickname):
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-					#self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 					self["Processors"] += ["producer:EmbeddingWeightProducer"]
-					#self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 					self["Processors"] += ["producer:TauCorrectionsProducer"]
+					#self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+					#self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 
 			else:
 				self["Processors"] += [
@@ -147,7 +149,6 @@ class mt_ArtusConfig(dict):
 						self["Processors"] += ["producer:JetToTauFakesProducer"]
 						#if re.search("Summer17|Fall17", nickname) == None:
 
-
 						self["Processors"] += ["producer:SimpleFitProducer"]
 						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -175,6 +176,7 @@ class mt_ArtusConfig(dict):
 						self["Processors"] += [	"producer:TopPtReweightingProducer"]  #FIXME only ttbar?
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"] #FIXME Needed?
+
 						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
@@ -212,7 +214,6 @@ class mt_ArtusConfig(dict):
 				]
 
 				if re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
-
 					self["Processors"] += ["producer:ZPtReweightProducer"]
 					#self["Processors"] += ["producer:SimpleFitProducer"]
 					self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -225,8 +226,6 @@ class mt_ArtusConfig(dict):
 
 					self["Processors"] += ["producer:MELAProducer"]
 					self["Processors"] += ["producer:MELAM125Producer"]
-
-
 
 				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
@@ -301,7 +300,6 @@ class mt_ArtusConfig(dict):
 		else:
 			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False, sync=False)
 		self.update(mplf.minPlotLevelDict)
-
 
 		MVATestMethods_config = sMVATM.MVATestMethods()
 		self.update(MVATestMethods_config)
@@ -708,12 +706,10 @@ class mt_ArtusConfig(dict):
 			self["FakeFactorMethod"] = "cp2016"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
 
-
 		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2017_2/mt/fakeFactors.root" #TODO
 			self["FakeFactorMethod"] = "cp2017"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
-
 
 		self["Consumers"] = [
 			"KappaLambdaNtupleConsumer",
