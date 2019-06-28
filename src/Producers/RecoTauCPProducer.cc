@@ -788,21 +788,21 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_pca2DiffInSigma = product.m_recoIP2.Mag()/product.m_pca2proj;
 
 	/*
-	Saving Data
+	//Saving Data
 	std::ifstream is("pca1_hel.res");
 	bool first = !is.good();
 	bool print = false;
 	*/
 	double scalar_product = 0.0; //to study whether the tangent and the radial part are orthogonal
 	//Impact parameters via helical approach in cm:
-	product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position, false, &scalar_product);
+	product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position, false, &scalar_product,recoParticle1);
 	/*
 	std::ofstream sc1("sc_p1.res",std::fstream::app);
 	sc1 << scalar_product << std::endl;
 	sc1.close();
 	*/
 
-	product.m_recoIP2_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,event.m_vertexSummary->pv.position, false, &scalar_product);
+	product.m_recoIP2_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,event.m_vertexSummary->pv.position, false, &scalar_product,recoParticle2);
 	/*
 	std::ofstream sc2("sc_p2.res",std::fstream::app);
 	sc2 << scalar_product << std::endl;
@@ -812,7 +812,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	/*
 	if (product.m_recoIP1_helical.Angle(product.m_recoIP1)>1.5 && product.m_pca1DiffInSigma>2.0)
 	{
-		product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position, true, &scalar_product);
+		product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position, true, &scalar_product,recoParticle1);
 		if (first)
 		{
 			print = true;
@@ -931,10 +931,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_pca2DiffInSigma_refitPV = product.m_recoIP2_refitPV.Mag()/product.m_pca2proj_refitPV;
 
 		//Impact parameters via helical approach in cm:
-		product.m_recoIP1_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,product.m_refitPV->position, false, &scalar_product);
+		product.m_recoIP1_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,product.m_refitPV->position, false, &scalar_product,recoParticle1);
 		// std::ofstream sc1_refit("sc_p1_refit.res",std::fstream::app);
 		// sc1_refit << scalar_product << std::endl;
-		product.m_recoIP2_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,product.m_refitPV->position, false, &scalar_product);
+		product.m_recoIP2_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,product.m_refitPV->position, false, &scalar_product,recoParticle2);
 		// std::ofstream sc2_refit("sc_p2_refit.res",std::fstream::app);
 		// sc2_refit << scalar_product << std::endl;
 		// calculate cosPsi

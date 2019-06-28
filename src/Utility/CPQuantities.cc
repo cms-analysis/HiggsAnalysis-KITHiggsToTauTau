@@ -28,12 +28,12 @@ double CPQuantities::CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1
 
 double CPQuantities::CalculatePCADifferece(SMatrixSym3D cov_PV, TVector3 IP)
 {
-	int i;
+	/*int i;
 	SMatrixSym3D Sigma_inv = cov_PV.Inverse(i);
 	double det;
 	Sigma_inv.Det2(det);
-	double det_Sigma_inv = det;
-	double K = det_Sigma_inv*cov_PV(0,0)/(Sigma_inv(1,1)*Sigma_inv(2,2)-Sigma_inv(2,1)*Sigma_inv(2,1));
+	double det_Sigma_inv = det;*/
+	//double K = det_Sigma_inv*cov_PV(0,0)/(Sigma_inv(1,1)*Sigma_inv(2,2)-Sigma_inv(2,1)*Sigma_inv(2,1));
 	//for testing purposes: every one of them should be equal to 1, for a given positive definite matrix (cov_PV)
 	//cout << det_Sigma_inv*Sigma(0,0)/(Sigma_inv(1,1)*Sigma_inv(2,2)-Sigma_inv(2,1)*Sigma_inv(2,1)) << endl;
 	//cout << det_Sigma_inv*Sigma(1,1)/(Sigma_inv(0,0)*Sigma_inv(2,2)-Sigma_inv(2,0)*Sigma_inv(2,0)) << endl;
@@ -41,7 +41,8 @@ double CPQuantities::CalculatePCADifferece(SMatrixSym3D cov_PV, TVector3 IP)
 	TVector3 n = IP.Unit();
 	const int dim=3;
 	ROOT::Math::SVector<double, dim> Sn(n.x(),n.y(),n.z());
-	double alpha = TMath::Sqrt(K/(ROOT::Math::Dot(Sn,Sigma_inv*Sn)));
+	//double alpha = TMath::Sqrt(K/(ROOT::Math::Dot(Sn,Sigma_inv*Sn)));
+	double alpha = TMath::Sqrt((ROOT::Math::Dot(Sn,cov_PV*Sn)));
 	return alpha;
 }
 
@@ -49,6 +50,7 @@ double B_SI = 0.0;
 TVector3 Ref(0.,0.,0.);
 TVector3 PV_v(0.,0.,0.);
 const double c = 2.99792458*1e8; //speed of light in m/s
+double v_z_SI = 0.0;
 
 short sign(double x)
 {
@@ -97,12 +99,12 @@ double f_x2(double x, double qOp, double l, double p)
 double f_x3(double x, double l)
 {
 	// double t = TMath::Pi()/2-l;
-	double pars[] = {Ref.z(),c*TMath::Sin(l)};//c*TMath::Cos(t)};
+	double pars[] = {Ref.z(),v_z_SI};//c*TMath::Sin(l)};//c*TMath::Cos(t)};
 	return pars[0]+pars[1]*x;
 }
 
 double tot(double x, double qOp, double l, double p) {
-	return pow(f_x1(x,qOp,l,p)-PV_v[0],2)+pow(f_x2(x,qOp,l,p)-PV_v[1],2)+pow(f_x3(x,l)-PV_v[2],2);
+	return pow(pow(f_x1(x,qOp,l,p)-PV_v[0],2)+pow(f_x2(x,qOp,l,p)-PV_v[1],2)+pow(f_x3(x,l)-PV_v[2],2),0.5);
 }
 
 void minuitFunction(int& nDim, double* gout, double& result, double par[], int flg) {
@@ -145,13 +147,13 @@ TVector3 tangent_at_x(double x, double qOp, double l, double p)
 	pars2[2] = std::abs(qOp)*B_SI*c; //Omega
 	double Y = -pars2[1]*pars2[2]*TMath::Cos(pars2[2]*x+pars2[3]);
 
-	double pars3[] = {Ref.z(),c*TMath::Sin(l)};
+	double pars3[] = {Ref.z(),v_z_SI};//c*TMath::Sin(l)};
 	double Z = pars3[1];
 	TVector3 sol(X,Y,Z);
 	return sol;
 }
 
-TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h_param,	ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, bool write, double* return_scalar_product)
+TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h_param,	ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, bool write, double* return_scalar_product, KLepton* recoParticle)
 {
 	//everything in SI
 	const double eQ = 1.60217662*1e-19; //elementary charge in C
@@ -160,33 +162,39 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	double p_SI = std::abs(1/h_param[0]); //in GeV
 	p_SI *= 1e9*eQ/(c); //conversion from GeV to kg*m/s
 	double qOverP = q_SI/p_SI;
+	v_z_SI = ((recoParticle->p4.Pz())/(recoParticle->p4.E()))*c;
+	//std::cout << v_z_SI << std::endl;
 	double lambda = h_param[1]; //lambda in rad
 	double phi = h_param[2]; //phi in rad
 	// double dxy = (h_param[3]);
 	// double dsz = (h_param[4]);
-	// double theta = TMath::Pi()/2-lambda;
+	double theta = TMath::Pi()/2-lambda;
 	Ref.SetXYZ(ref.x(),ref.y(),ref.z());
 	Ref*=0.01; //conversion from cm to m
 
 	PV_v.SetXYZ(PrV.x(),PrV.y(),PrV.z());
 	PV_v*=0.01; //conversion from cm to m
 
-	// double Radius = TMath::Sin(theta)/(B_SI*qOverP);
+	double Radius = TMath::Sin(theta)/(B_SI*qOverP);
 	double Omega = qOverP*B_SI*c;
 	Omega = (Omega<0 ? -Omega : Omega); //std::abs
-	double T = 2*TMath::Pi()/Omega;
-	// double Phi_1 = TMath::Pi()/2+phi;
-/*
+	//double T = 2*TMath::Pi()/Omega;
+	double Phi_1 = get_phi1(phi,charge);
+
 	Double_t Ox = Ref.x()-Radius*TMath::Cos(Phi_1);
 	Double_t Oy = Ref.y()+Radius*TMath::Sin(Phi_1);
 	Double_t Oz = Ref.z();
 	TVector3 Oprime(Ox,Oy,Oz);
-*/
-	// Double_t v_z = TMath::Cos(theta);
+
+	qOp_Brent = qOverP;
+	l_Brent = lambda;
+	p_Brent = phi;
+
+	// Double_t v_z = c*TMath::Cos(theta);
 
 	//for (int i=0;i<3;i++) PV_comp[i] = PV_v[i];//.x(),PV_v.y(),PV_v.z()};
-	double xmin = -T/2;
-	double xmax = -xmin;
+	//double xmin = -T/2;
+	//double xmax = -xmin;
 	/*
 	double sigma_qOverP = pow(cov(0,0),0.5)*eQ/(1e9*eQ/(c));
 	double sigma_lambda = pow(cov(1,1),0.5); //=sigma_theta, since they're linear
@@ -194,17 +202,22 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	*/
 	double x_best = 0.0;
 	//minimizing the distance between the helix and the primary vertex PV
-	/*
+
+
 	//1. Minimizer: Minuit
 	ROOT::Math::Minimizer* min = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Combined");
 	ROOT::Math::Functor f(&minuit2fcn,1);
 	min->SetFunction(f);
-	min->SetVariable(0,"x",1e-8, 1e-12);
-	min->SetTolerance(1e-12);
+	min->SetVariable(0,"x",1e-14, 1e-16);
+	min->SetTolerance(1e-15);
 	min->Minimize();
 
 	const double *xs = min->X();
 	x_best=xs[0];
+	/*
+	std::ofstream sc2("x_bests.res",std::fstream::app);
+	sc2 << x_best*Omega << std::endl;
+	sc2.close();
 	*/
 	/*
 	//2. Minimizer: Minuit
@@ -214,7 +227,6 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 		double p1 = -1;
 		minimizer->ExecuteCommand("SET PRINTOUT",&p1,1);
 	}
-
 	minimizer->SetFCN(minuitFunction);
 	minimizer->SetParameter(0,"x",xmax*0.01,1e-16,xmin,xmax);
 	minimizer->SetParameter(1,"qOp",qOverP,sigma_qOverP,0,0);
@@ -232,15 +244,14 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	//std::cout << "x = [" << f_x1(x_best,qOverP,lambda,phi)<<" , "<< f_x2(x_best,qOverP,lambda,phi) << " , " << f_x3(x_best,lambda) <<" ]" <<std::endl;
 	*/
 	//3. Minimizer: Brent
-	qOp_Brent = qOverP;
-	l_Brent = lambda;
-	p_Brent = phi;
+	/*
 	ROOT::Math::Functor1D func(&BrentFunc);
 	ROOT::Math::BrentMinimizer1D bm;
 	bm.SetFunction(func,xmin,xmax);
 	bm.Minimize(20,1.E-18,1.E-18);
 	double x_best_Brent = bm.XMinimum();
 	x_best = x_best_Brent;
+	*/
 	/*
 	//4. Minimizer: ROOT Fit + plots
 	TF1 x1("x1","[0]+[1]*sin([2]*x+[3])",xmin,xmax);
@@ -262,11 +273,30 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	auto canvas = new TCanvas();
 	f.DrawClone();
 	canvas->SaveAs("p.png");*/
-	//5. Minimizer: Taylor expand delta^2 in small Omega*t-s -- work in progress
+
+	//5. Minimizer: Taylor expand delta^2 in small Omega*t
 	/*
-	TVector3 Delta = PV_v - Oprime;
-	
+	std::cout << "x_bests:" << std::endl;
+	std::cout <<"Brent:" << x_best << std::endl;
+	TVector3 Delta = PV_v - Ref;
+	double v_3 = c*TMath::Sin(lambda)/Omega;
+	double A_q = -2*(-Delta(0)*0.5*Radius*TMath::Sin(Phi_1)+Delta(1)*Radius*0.5*TMath::Cos(Phi_1));
+	double B_q = -2*(-Delta(0)*Radius*TMath::Cos(Phi_1)+Delta(1)*Radius*TMath::Sin(Phi_1))+2*(Radius*Radius+v_3*v_3);
+	double C_q = -2*(-Delta(0)*Radius*TMath::Sin(Phi_1)-Delta(1)*Radius*TMath::Cos(Phi_1)+Delta(2)*v_3);
+	double Disk = B_q*B_q-4*A_q*C_q;
+	if (Disk<0) std::cout << "Disk. Error!" << std::endl;
+	else
+	{
+		double t1 = (-B_q+pow(Disk,0.5))/(2*A_q*Omega);
+		double t2 = (-B_q-pow(Disk,0.5))/(2*A_q*Omega);
+		double delta1 = pow(tot(t1,qOverP,lambda,phi),0.5);
+		double delta2 = pow(tot(t2,qOverP,lambda,phi),0.5);
+		x_best = (delta1>delta2 ? t2 : t1);
+		std::cout <<"Anal:" << x_best << std::endl;
+	}
 	*/
+
+
 
 	/*
 	std::cout << "phi (rad)=" << phi << std::endl;
@@ -289,7 +319,7 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	//std::cout << "results:" << std::endl;
 	//for (int i=0;i<8;i++) std::cout<<res[i]<< std::endl;
 	*return_scalar_product = tangent_at_x_best.DeltaPhi(tangent_at_x(0,qOverP,lambda,phi));//tangent_at_x_best.Angle(tangent_at_x(0,qOverP,lambda,phi));//Omega*x_best_Brent;
-
+	/*
 	std::ifstream is("pca1_hel.res");
 	if (!is.good() && write)
 	{
@@ -332,7 +362,7 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 		for (double x=0; x<=1;x+=delta) f6 << tangent_at_x_best.x()*x+f_x1(x_best,qOverP,lambda,phi) <<" "<< tangent_at_x_best.y()*x+f_x2(x_best,qOverP,lambda,phi) << " " << tangent_at_x_best.z()*x+f_x3(x_best,lambda) << std::endl;
 		f6.close();
 	}
-
+	*/
 	return res*100.; //conversion back to cm
 }
 
