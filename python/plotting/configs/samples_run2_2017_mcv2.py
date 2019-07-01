@@ -585,8 +585,8 @@ class Samples(samples.Samples):
 
 		if channel == "tt":
 			exclude_cuts_ff += ["iso_1", "iso_2"]
-			ff_weight_1 = "((" + fake_factor_name_1 + ")*(byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1>0.5)*(byVlooseIsolationMVArun2017v2DBoldDMwLT2017_1<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2>0.5))"   #factor 1/2 for tt already aplied in producer
-			ff_weight_2 = "((" + fake_factor_name_2 + ")*(byVLooseIsolationMVArun2017v2DBoldDMwLT201_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1>0.5))"
+			ff_weight_1 = "((" + fake_factor_name_1 + ")*(byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1>0.5)*(byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2>0.5))"   #factor 1/2 for tt already aplied in producer
+			ff_weight_2 = "((" + fake_factor_name_2 + ")*(byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1>0.5))"
 
 		if channel =="tt":
 			weight_ff = weight + "*(" + ff_weight_1 + "+" + ff_weight_2 + ")"
