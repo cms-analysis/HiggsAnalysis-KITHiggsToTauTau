@@ -40,37 +40,20 @@ class TauSpinner(dict):
 		
 		self["TauSpinnerSettingsNonSMN"] = "0"
 		
-		if re.search("(DY.?JetsToLL)", nickname):
-			self["TauSpinnerValidPdgIdsAndStatusCodes"] = [
-				# "15:23", # Tau
-				"15:2", # Tau
-				# "22:1": # Gamma,
-				"111:2", # PiZero,
-				"211:1", # PiPlus,
-				"321:1", # KPlus,
-				"130:1", # KLong,
-				"310:1", # KShort,
-				"11:1", # Electron,
-				"12:1", # NuE,
-				"13:1", # Muon,
-				"14:1", # NuMu,
-				"16:1", # NuTau
-			]
-		else:
-			self["TauSpinnerValidPdgIdsAndStatusCodes"] = [
-				"15:-1", # Tau
-				# "22:-1": # Gamma,
-				"111:-1", # PiZero,
-				"211:-1", # PiPlus,
-				"321:-1", # KPlus,
-				"130:-1", # KLong,
-				"310:-1", # KShort,
-				"11:-1", # Electron,
-				"12:-1", # NuE,
-				"13:-1", # Muon,
-				"14:-1", # NuMu,
-				"16:-1", # NuTau
-			]
+		self["TauSpinnerValidPdgIdsAndStatusCodes"] = [
+			# "15:23", # Tau
+			"15:2", # Tau
+			# "22:1", # Gamma,
+			"111:2", # PiZero,
+			"211:1", # PiPlus,
+			"321:1", # KPlus,
+			"130:1", # KLong,
+			"310:1", # KShort,
+			"11:1", # Electron,
+			"12:1", # NuE,
+			"13:1", # Muon,
+			"14:1", # NuMu,
+			"16:1", # NuTau
 		
 		if re.search("(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalf"] = [
