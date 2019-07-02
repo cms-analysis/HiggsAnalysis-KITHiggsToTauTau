@@ -190,6 +190,8 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_lep1SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict[channel+"_lep2SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"
 				self.labels_dict["catZttPol13TeV_"+channel+"_index"] = ""
+				
+				self.labels_dict[channel+"_genbosonmass"] = "Generated di-#tau mass / GeV"
 
 				for reco_fit in ["GenMatched", "Svfit", "SvfitM91", "SimpleFit", "HHKinFit"]:
 					suffix = ""
