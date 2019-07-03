@@ -1272,9 +1272,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 					} else {
 						if (product.m_recoPhiStarCPComb > ROOT::Math::Pi()){
 							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
-							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
+							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical - ROOT::Math::Pi();
 						} else {
-							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb_helical + ROOT::Math::Pi();
+							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb + ROOT::Math::Pi();
 							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical + ROOT::Math::Pi();
 						}
 					} // recoTau1->charge() < 0
