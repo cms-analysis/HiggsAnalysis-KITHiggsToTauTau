@@ -1117,24 +1117,20 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &product.m_recoIP2_refitPV);
 
 		//Projection of Point of closest approach (PCA) to the primary vertex (PV) uncertainty ellipsoid
-		product.m_pca1proj_refitPV = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP1_refitPV);
-		product.m_pca2proj_refitPV = cpq.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP2_refitPV);
+		product.m_pca1proj_refitPV = cpq.CalculatePCADifferece(product.m_refitPV->covariance,product.m_recoIP1_refitPV);
+		product.m_pca2proj_refitPV = cpq.CalculatePCADifferece(product.m_refitPV->covariance,product.m_recoIP2_refitPV);
 		//Distance of Point of closest approach (PCA) from the primary vertex (PV) in units of sigma_PV
 		product.m_pca1DiffInSigma_refitPV = product.m_recoIP1_refitPV.Mag()/product.m_pca1proj_refitPV;
 		product.m_pca2DiffInSigma_refitPV = product.m_recoIP2_refitPV.Mag()/product.m_pca2proj_refitPV;
 
 		//Impact parameters via helical approach in cm:
-		xBest1 = 0;// This should not be necessary..
-		xBest2 = 0;
+		xBest1 = -999;
+		xBest2 = -999;
 		product.m_recoIP1_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,product.m_refitPV->position, false, &scalar_product,recoParticle1, &xBest1);
-		// std::ofstream sc1_refit("sc_p1_refit.res",std::fstream::app);
-		// sc1_refit << scalar_product << std::endl;
 		product.m_recoIP2_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,product.m_refitPV->position, false, &scalar_product,recoParticle2, &xBest2);
-		// std::ofstream sc2_refit("sc_p2_refit.res",std::fstream::app);
-		// sc2_refit << scalar_product << std::endl;
 
-		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP1HelixRefitPVCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position, event.m_vertexSummary->pv.covariance, xBest1);
-		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP2HelixRefitPVCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,event.m_vertexSummary->pv.position, event.m_vertexSummary->pv.covariance, xBest2);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP1HelixRefitPVCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,product.m_refitPV->position, product.m_refitPV->covariance, xBest1);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP2HelixRefitPVCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,product.m_refitPV->position, product.m_refitPV->covariance, xBest2);
 
 		product.m_recoIP1_helical_refitPVCovxx = IP1HelixRefitPVCov(0,0);
 		product.m_recoIP1_helical_refitPVCovxy = IP1HelixRefitPVCov(0,1);
