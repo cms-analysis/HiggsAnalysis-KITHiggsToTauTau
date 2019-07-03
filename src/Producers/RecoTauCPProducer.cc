@@ -1083,6 +1083,31 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}
 	product.m_recoPhiStarCP_helical = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlus_helical, IPMinus_helical, "reco");
 
+	if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
+		//with the tangential approach
+		product.m_deltaEtaGenRecoIP1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
+		product.m_deltaPhiGenRecoIP1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
+		product.m_deltaRGenRecoIP1   = product.m_recoIP1.DeltaR(product.m_genIP1);
+		product.m_deltaGenRecoIP1    = product.m_recoIP1.Angle(product.m_genIP1);
+
+		//with the helical approach
+		product.m_deltaEtaGenRecoIP1_helical = product.m_recoIP1_helical.Eta() - product.m_genIP1.Eta();
+		product.m_deltaPhiGenRecoIP1_helical = product.m_recoIP1_helical.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
+		product.m_deltaRGenRecoIP1_helical   = product.m_recoIP1_helical.DeltaR(product.m_genIP1);
+		product.m_deltaGenRecoIP1_helical    = product.m_recoIP1_helical.Angle(product.m_genIP1);//product.m_recoIP1);//
+	} // if genIP1 exists
+	if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
+		product.m_deltaEtaGenRecoIP2 = product.m_recoIP2.Eta() - product.m_genIP2.Eta();
+		product.m_deltaPhiGenRecoIP2 = product.m_recoIP2.DeltaPhi(product.m_genIP2);
+		product.m_deltaRGenRecoIP2   = product.m_recoIP2.DeltaR(product.m_genIP2);
+		product.m_deltaGenRecoIP2    = product.m_recoIP2.Angle(product.m_genIP2);
+
+		product.m_deltaEtaGenRecoIP2_helical = product.m_recoIP2_helical.Eta() - product.m_genIP2.Eta();
+		product.m_deltaPhiGenRecoIP2_helical = product.m_recoIP2_helical.DeltaPhi(product.m_genIP2);
+		product.m_deltaRGenRecoIP2_helical   = product.m_recoIP2_helical.DeltaR(product.m_genIP2);
+		product.m_deltaGenRecoIP2_helical    = product.m_recoIP2_helical.Angle(product.m_genIP2);
+	} // if genIP2 exists
+
 	if (product.m_refitPV != nullptr){
 
 		// IP wrt refitPV
@@ -1344,17 +1369,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			} // if genIP1 exists
 
 			if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
-				//with the helical approach
-				product.m_deltaEtaGenRecoIP2_helical = product.m_recoIP2_helical.Eta() - product.m_genIP2.Eta();
-				product.m_deltaPhiGenRecoIP2_helical = product.m_recoIP2_helical.DeltaPhi(product.m_genIP2);
-				product.m_deltaRGenRecoIP2_helical   = product.m_recoIP2_helical.DeltaR(product.m_genIP2);
-				product.m_deltaGenRecoIP2_helical    = product.m_recoIP2_helical.Angle(product.m_genIP2);
-
 				// wrt refitted PV
-				product.m_deltaEtaGenRecoIP2 = product.m_recoIP2_refitPV.Eta() - product.m_genIP2.Eta();
-				product.m_deltaPhiGenRecoIP2 = product.m_recoIP2_refitPV.DeltaPhi(product.m_genIP2);
-				product.m_deltaRGenRecoIP2   = product.m_recoIP2_refitPV.DeltaR(product.m_genIP2);
-				product.m_deltaGenRecoIP2    = product.m_recoIP2_refitPV.Angle(product.m_genIP2);
+				product.m_deltaEtaGenRecoIP2_refitPV = product.m_recoIP2_refitPV.Eta() - product.m_genIP2.Eta();
+				product.m_deltaPhiGenRecoIP2_refitPV = product.m_recoIP2_refitPV.DeltaPhi(product.m_genIP2);
+				product.m_deltaRGenRecoIP2_refitPV   = product.m_recoIP2_refitPV.DeltaR(product.m_genIP2);
+				product.m_deltaGenRecoIP2_refitPV    = product.m_recoIP2_refitPV.Angle(product.m_genIP2);
 
 				product.m_deltaEtaGenRecoIP2_helical_refitPV = product.m_recoIP2_helical_refitPV.Eta() - product.m_genIP2.Eta();
 				product.m_deltaPhiGenRecoIP2_helical_refitPV = product.m_recoIP2_helical_refitPV.DeltaPhi(product.m_genIP2);
