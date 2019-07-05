@@ -239,6 +239,7 @@ class tt_ArtusConfig(dict):
 						 "nAllDiTauPairCandidates"
 					]
 		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+			quantities_dict["Quantities"] += quantities_dict.lheWeightsDYQuantities()
 			quantities_dict["Quantities"] += [
 				"tauSpinnerValidOutputs",
 				"tauSpinnerPolarisation",

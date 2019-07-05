@@ -9,6 +9,7 @@ import re
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.baseconfig as smbaseconfig
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsTauSpinner as sTauSpinner
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.settingsMadGraphReweighting as sMGReweighting
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsLheWeights as sLheWeights
 
 
 class Baseconfig_cp(smbaseconfig.Baseconfig):
@@ -42,3 +43,7 @@ class Baseconfig_cp(smbaseconfig.Baseconfig):
 			self["LheParticles"] = ""
 
 		self["GenCollectionToPrint"] = "GEN"
+		
+		LheWeights_config = sLheWeights.LheWeights(nickname)
+		self.update(LheWeights_config)
+
