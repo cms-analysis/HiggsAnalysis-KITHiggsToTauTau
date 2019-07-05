@@ -54,6 +54,7 @@ class TauSpinner(dict):
 			"13:1", # Muon,
 			"14:1", # NuMu,
 			"16:1", # NuTau
+		]
 		
 		if re.search("(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalf"] = [
