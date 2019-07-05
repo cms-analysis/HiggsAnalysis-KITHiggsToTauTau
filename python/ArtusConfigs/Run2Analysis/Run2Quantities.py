@@ -726,14 +726,14 @@ class quantities(dict):
 			"svfitM91Tau2LV",
 			"svfitM91Tau2ERatio",
 		
-			"svfitM125Available",
-			"svfitM125LV",
-			"svfitM125Tau1Available",
-			"svfitM125Tau1LV",
-			"svfitM125Tau1ERatio",
-			"svfitM125Tau2Available",
-			"svfitM125Tau2LV",
-			"svfitM125Tau2ERatio"
+#			"svfitM125Available",
+#			"svfitM125LV",
+#			"svfitM125Tau1Available",
+#			"svfitM125Tau1LV",
+#			"svfitM125Tau1ERatio",
+#			"svfitM125Tau2Available",
+#			"svfitM125Tau2LV",
+#			"svfitM125Tau2ERatio"
 		]
 
 	def syncQuantities(self):

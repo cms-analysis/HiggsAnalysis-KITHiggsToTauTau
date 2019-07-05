@@ -386,10 +386,10 @@ class et_ArtusConfig(dict):
 				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 				self["Processors"] += ["producer:SvfitProducer"]
 				self["Processors"] += ["producer:SvfitM91Producer"]
-				self["Processors"] += ["producer:SvfitM125Producer"]
+#				self["Processors"] += ["producer:SvfitM125Producer"]
 
 				self["Processors"] += ["producer:MELAProducer"]
-				self["Processors"] += ["producer:MELAM125Producer"]
+#				self["Processors"] += ["producer:MELAM125Producer"]
 
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 				if re.search("Embedding2016", nickname):
@@ -417,10 +417,10 @@ class et_ArtusConfig(dict):
 					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
-					self["Processors"] += ["producer:SvfitM125Producer"]
+#					self["Processors"] += ["producer:SvfitM125Producer"]
 
 					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+#					self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						self["Processors"] += ["producer:JetToTauFakesProducer"]
@@ -486,18 +486,18 @@ class et_ArtusConfig(dict):
 				elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
-					self["Processors"] += ["producer:SvfitM125Producer"]
+#					self["Processors"] += ["producer:SvfitM125Producer"]
 
 					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+#					self["Processors"] += ["producer:MELAM125Producer"]
 
 				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
-					self["Processors"] += ["producer:SvfitM125Producer"]
+#					self["Processors"] += ["producer:SvfitM125Producer"]
 
 					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+#					self["Processors"] += ["producer:MELAM125Producer"]
 
 		self["Processors"] += ["producer:EventWeightProducer"]
 		self["Processors"] = list(set(self["Processors"]))

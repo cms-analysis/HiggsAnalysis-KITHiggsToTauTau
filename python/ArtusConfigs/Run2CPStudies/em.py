@@ -398,10 +398,10 @@ class em_ArtusConfig(dict):
 				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 				self["Processors"] += ["producer:SvfitProducer"]
 				self["Processors"] += ["producer:SvfitM91Producer"]
-				self["Processors"] += ["producer:SvfitM125Producer"]
+#				self["Processors"] += ["producer:SvfitM125Producer"]
 
 				self["Processors"] += ["producer:MELAProducer"]
-				self["Processors"] += ["producer:MELAM125Producer"]
+#				self["Processors"] += ["producer:MELAM125Producer"]
 
 
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
@@ -425,10 +425,10 @@ class em_ArtusConfig(dict):
 					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
-					self["Processors"] += ["producer:SvfitM125Producer"]
+#					self["Processors"] += ["producer:SvfitM125Producer"]
 
 					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+#					self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
 						self["Processors"] += ["producer:ZPtReweightProducer"]			
@@ -497,18 +497,18 @@ class em_ArtusConfig(dict):
 				elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
-					self["Processors"] += ["producer:SvfitM125Producer"]
+#					self["Processors"] += ["producer:SvfitM125Producer"]
 
 					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+#					self["Processors"] += ["producer:MELAM125Producer"]
 
 				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
-					self["Processors"] += ["producer:SvfitM125Producer"]
+#					self["Processors"] += ["producer:SvfitM125Producer"]
 
 					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+#					self["Processors"] += ["producer:MELAM125Producer"]
 
 		self["Processors"] += ["producer:EventWeightProducer"]
 		self["Processors"] = list(set(self["Processors"]))
