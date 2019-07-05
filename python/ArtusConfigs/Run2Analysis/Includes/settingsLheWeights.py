@@ -11,7 +11,7 @@ class LheWeights(dict):
 	def __init__(self, nickname):
 		self["LheWeights_documentation"] = "https://lhapdf.hepforge.org/pdfsets.html"
 		
-		if re.search("DY.*RunIISummer16.*madgraph", nickname):
+		if re.search("(DY.?JetsToLLM(10to50|50|150))", nickname):
 			self["PdfLheWeights"] = [
 				"NNPDF30_lo_as_0130_LHgrid__Member_0",
 				"NNPDF30_lo_as_0130_LHgrid__Member_1",
