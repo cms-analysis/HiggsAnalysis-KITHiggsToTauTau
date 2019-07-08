@@ -13,6 +13,7 @@ import Artus.HarryPlotter.utility.roottools as roottools
 
 class CPHypotheses(analysisbase.AnalysisBase):
 	"""Construct any CP hypothesis from three different hypotheses."""
+	# https://indico.cern.ch/event/608147/contributions/2830241/attachments/1577687/2492186/presentation_tmuller.pdf
 
 	def modify_argument_parser(self, parser, args):
 		super(CPHypotheses, self).modify_argument_parser(parser, args)
