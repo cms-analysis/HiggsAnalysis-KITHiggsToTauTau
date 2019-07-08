@@ -74,6 +74,8 @@ class tt_ArtusConfig(dict):
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] # is this producer necessary?
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 
+			self["Processors"] += ["producer:JetToTauFakesProducer"]
+
 			if re.search("Summer17|Fall17|Run2017|Embedding2017", nickname):
 				self["Processors"] += ["producer:NewValidTTPairCandidatesProducer"]
 				self["Processors"] += ["producer:MetFilterProducer"]
@@ -374,22 +376,23 @@ class tt_ArtusConfig(dict):
 			#settings for jetstotaufakesproducer
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/tt/fakeFactors_tt_inclusive.root"
 			self["FakeFactorMethod"] = "cp2016"
-			self["FakeFactorRooWorkspaceFunction"] = [
-				"w_fracs_1:w_tt_fracs_1",
-				"qcd_fracs_1:qcd_tt_fracs_1",
-				"ttbar_fracs_1:ttbar_tt_fracs_1",
-				"dy_fracs_1:dy_tt_fracs_1",
-				"w_fracs_2:w_tt_fracs_2",
-				"qcd_fracs_2:qcd_tt_fracs_2",
-				"ttbar_fracs_2:ttbar_tt_fracs_2",
-				"dy_fracs_2:dy_tt_fracs_2"
-			]
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
 
 		elif re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/tt/fakeFactors.root"
 			self["FakeFactorMethod"] = "cp2017"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
+
+		self["FakeFactorRooWorkspaceFunction"] = [ # valid for both 2016 and 2017
+			"w_fracs_1:w_tt_fracs_1",
+			"qcd_fracs_1:qcd_tt_fracs_1",
+			"ttbar_fracs_1:ttbar_tt_fracs_1",
+			"dy_fracs_1:dy_tt_fracs_1",
+			"w_fracs_2:w_tt_fracs_2",
+			"qcd_fracs_2:qcd_tt_fracs_2",
+			"ttbar_fracs_2:ttbar_tt_fracs_2",
+			"dy_fracs_2:dy_tt_fracs_2"
+		]
 
 		self["TauTauRestFrameReco"] = "collinear_approximation"
 		self["TriggerObjectLowerPtCut"] = 28.0
