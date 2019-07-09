@@ -46,8 +46,6 @@ class tt_ArtusConfig(dict):
 				"producer:ValidElectronsProducer",
 				"producer:TauTriggerMatchingProducer",
 				"filter:MinTausCountFilter",
-				"producer:ValidElectronsProducer",
-				"producer:ValidMuonsProducer",
 				#"producer:ValidTTPairCandidatesProducer",
 				"filter:ValidDiTauPairCandidatesFilter",
 				"producer:HttValidLooseElectronsProducer",
