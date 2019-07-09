@@ -282,11 +282,11 @@ class CutStringsDict:
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
 			if "emb" in cut_type:
 				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||(trg_crossmuon_mu20tau27>0.5)||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*((trg_crossmuon_mu20tau27>0.5)||(trg_singlemuon_27>0.5)||(trg_singlemuon_24>0.5))))"
-				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
+				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
 				# cuts["trigger"] = "(((trg_singlemuon_24>0.5)||(trg_singlemuon_27>0.5))||(trg_crossmuon_mu20tau27>0.5))*triggerWeight_mu_1*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2"
 				# cuts["trigger"] = "((((trg_singlemuon_24>0.5))||((trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
 				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
-				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_2))"
+				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_2))"
 				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
 				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
 		elif channel == "et":
@@ -308,10 +308,24 @@ class CutStringsDict:
 			if "emb" in cut_type:
 				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
 		elif channel == "tt": #TODO
+			cuts["trigger"] = "((trg_doubletau_35_tightiso_tightid > 0.5) || (trg_doubletau_40_mediso_tightid > 0.5) || (trg_doubletau_40_tightiso > 0.5))"
+			# cuts["trigger"] = "(1.0)"
+			# if not "emb" in cut_type:
+			# 	cuts["trigger"] = "((HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg > 0.5) || (HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg > 0.5) || (HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg > 0.5))"
+			if "emb" in cut_type:
+				cuts["trigger"] += "*(triggerWeight_tau_1*triggerWeight_tau_2)"
+				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
 			cuts["pt_1"] = "(pt_1 > 50.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
-			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
-			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
+			# cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+			# cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+			cuts["iso_1"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*((gen_match_1 == 5)*0.89 + (gen_match_1 != 5))"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
+			if "emb" in cut_type:
+				cuts["iso_1"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*((gen_match_1 == 5)*0.97 + (gen_match_1 != 5))"
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
 		return cuts
 
 

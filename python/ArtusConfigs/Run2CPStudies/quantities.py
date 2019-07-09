@@ -171,19 +171,22 @@ class Quantities(Run2Quantities):
 						"triggerWeight_mutaucross_2",
 					])
 			elif channel == "TT":
-				if re.search("(Summer17|Fall17|Run2017)", nickname):
+				if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update([
 						"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
 						"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
 						"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"
+					])
+					self.quantities.update([
+						"trg_doubletau_35_tightiso_tightid",
+						"trg_doubletau_40_mediso_tightid",
+						"trg_doubletau_40_tightiso"
 					])
 				if re.search("Embedding2017", nickname):
 					self.quantities.update([
 						"triggerWeight_doublemu_1",
 						"idweight_doublemu_1",
 						"idweight_doublemu_2",
-						"isoweight_1",
-						"idweight_1",
 						"triggerWeight_tau_1",
 						"triggerWeight_tau_2",
 					])

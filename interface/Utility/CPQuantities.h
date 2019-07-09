@@ -39,7 +39,7 @@ public:
 	double CalculateD0sArea(double d0_1, double d0_2);
 	double CalculateD0sDist(double d0_1, double d0_2);
 	double CalculatePCADifferece(SMatrixSym3D cov, TVector3 DeltaPCA);
-	TVector3 CalculatePCA(double B, short charge, std::vector<float> h_param, ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, bool write, double* return_scalar_product, double* xBest);
+	TVector3 CalculatePCA(double B, short charge, std::vector<float> h_param,	ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, bool write, double* return_scalar_product, KLepton* recoParticle, double* xBest);
 	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> CalculatePCACovariance(double B, short charge, std::vector<float> h_param, ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, SMatrixSym3D SigmaPrV, double xBest);
 	double PhiTransform(double phi);
 	TVector3 CalculateShortestDistance(KGenParticle* genParticle, RMPoint* pv);

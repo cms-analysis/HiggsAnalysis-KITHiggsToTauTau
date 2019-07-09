@@ -431,9 +431,9 @@ class mt_ArtusConfig(dict):
 			self["MuonLowerPtCuts"] = ["21.0"]
 			self["TauLowerPtCuts"] = ["20.0"]
 			self["HLTBranchNames"] = [
-			      "trg_singlemuon_24:HLT_IsoMu24_v",
-			      "trg_singlemuon_27:HLT_IsoMu27_v",
-			      "trg_crossmuon_mu20tau27:HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v"
+				"trg_singlemuon_24:HLT_IsoMu24_v",
+				"trg_singlemuon_27:HLT_IsoMu27_v",
+				"trg_crossmuon_mu20tau27:HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v"
 			]
 
 			self["DiTauPairLepton1LowerPtCuts"] = [

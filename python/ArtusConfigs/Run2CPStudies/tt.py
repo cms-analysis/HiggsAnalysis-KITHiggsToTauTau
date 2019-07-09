@@ -74,6 +74,8 @@ class tt_ArtusConfig(dict):
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] # is this producer necessary?
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 
+			self["Processors"] += ["producer:JetToTauFakesProducer"]
+
 			if re.search("Summer17|Fall17|Run2017|Embedding2017", nickname):
 				self["Processors"] += ["producer:NewValidTTPairCandidatesProducer"]
 				self["Processors"] += ["producer:MetFilterProducer"]
@@ -374,22 +376,23 @@ class tt_ArtusConfig(dict):
 			#settings for jetstotaufakesproducer
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/jdegens/higgs-kit/ff/2016/tt/fakeFactors_tt_inclusive.root"
 			self["FakeFactorMethod"] = "cp2016"
-			self["FakeFactorRooWorkspaceFunction"] = [
-				"w_fracs_1:w_tt_fracs_1",
-				"qcd_fracs_1:qcd_tt_fracs_1",
-				"ttbar_fracs_1:ttbar_tt_fracs_1",
-				"dy_fracs_1:dy_tt_fracs_1",
-				"w_fracs_2:w_tt_fracs_2",
-				"qcd_fracs_2:qcd_tt_fracs_2",
-				"ttbar_fracs_2:ttbar_tt_fracs_2",
-				"dy_fracs_2:dy_tt_fracs_2"
-			]
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_new_2016.root"
 
 		elif re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/tt/fakeFactors.root"
 			self["FakeFactorMethod"] = "cp2017"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
+
+		self["FakeFactorRooWorkspaceFunction"] = [ # valid for both 2016 and 2017
+			"w_fracs_1:w_tt_fracs_1",
+			"qcd_fracs_1:qcd_tt_fracs_1",
+			"ttbar_fracs_1:ttbar_tt_fracs_1",
+			"dy_fracs_1:dy_tt_fracs_1",
+			"w_fracs_2:w_tt_fracs_2",
+			"qcd_fracs_2:qcd_tt_fracs_2",
+			"ttbar_fracs_2:ttbar_tt_fracs_2",
+			"dy_fracs_2:dy_tt_fracs_2"
+		]
 
 		self["TauTauRestFrameReco"] = "collinear_approximation"
 		self["TriggerObjectLowerPtCut"] = 28.0
@@ -462,6 +465,55 @@ class tt_ArtusConfig(dict):
 					"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v:hltDoublePFTau40TrackPt1MediumChargedIsolationAndTightOOSCPhotonsDz02Reg",
 					"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg_v:hltDoublePFTau40TrackPt1TightChargedIsolationDz02Reg"
 				]
+
+			self["HLTBranchNames"] = [
+				"trg_doubletau_35_tightiso_tightid:HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+				"trg_doubletau_40_mediso_tightid:HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+				"trg_doubletau_40_tightiso:HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg"
+			]
+
+			self["CheckL1MatchForDiTauPairLepton1"] = True
+			self["CheckL1MatchForDiTauPairLepton2"] = True
+
+			self["DiTauPairLepton1LowerPtCuts"] = [
+				# "HLT_DoubleMediumChargedIsoPFTau35_Trk1_eta2p1_Reg_v:40.0",
+				"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg_v:40.0",
+				"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v:45.0",
+				"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg_v:45.0",
+				]
+
+			self["DiTauPairLepton2LowerPtCuts"] = [
+				# "HLT_DoubleMediumChargedIsoPFTau35_Trk1_eta2p1_Reg_v:40.0",
+				"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg_v:40.0",
+				"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v:45.0",
+				"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg_v:45.0",
+				]
+
+			self["CheckLepton1TriggerMatch"] = [
+				"trg_singlemuon_24",
+				"trg_singlemuon_27",
+				"trg_crossmuon_mu20tau27",
+				"trg_crossele_ele24tau30",
+				"trg_doubletau_35_tightiso_tightid",
+				"trg_doubletau_40_mediso_tightid",
+				"trg_doubletau_40_tightiso",
+				"trg_muonelectron_mu12ele23",
+				"trg_muonelectron_mu23ele12",
+				"trg_muonelectron_mu8ele23"
+				]
+
+			self["CheckLepton2TriggerMatch"] = [
+				"trg_singletau_trailing",
+				"trg_crossmuon_mu20tau27",
+				"trg_crossele_ele24tau30",
+				"trg_doubletau_35_tightiso_tightid",
+				"trg_doubletau_40_mediso_tightid",
+				"trg_doubletau_40_tightiso",
+				"trg_muonelectron_mu12ele23",
+				"trg_muonelectron_mu23ele12",
+				"trg_muonelectron_mu8ele23"
+				]
+
 		quantities_set = Quantities()
 		quantities_set.build_quantities(nickname, channel = self["Channel"])
 		self["Quantities"] = list(quantities_set.quantities)
