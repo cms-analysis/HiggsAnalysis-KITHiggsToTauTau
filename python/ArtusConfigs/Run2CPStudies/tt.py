@@ -71,7 +71,6 @@ class tt_ArtusConfig(dict):
 
 			self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 
-			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] # is this producer necessary?
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 
 			self["Processors"] += ["producer:JetToTauFakesProducer"]
@@ -81,6 +80,7 @@ class tt_ArtusConfig(dict):
 				self["Processors"] += ["producer:MetFilterProducer"]
 			else:
 				self["Processors"] += ["producer:ValidTTPairCandidatesProducer"]
+				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 
 			if re.search("Run2016|Run2017|Embedding2016|Embedding2017", nickname):
 				# self["Processors"] += ["producer:MVATestMethodsProducer"]
