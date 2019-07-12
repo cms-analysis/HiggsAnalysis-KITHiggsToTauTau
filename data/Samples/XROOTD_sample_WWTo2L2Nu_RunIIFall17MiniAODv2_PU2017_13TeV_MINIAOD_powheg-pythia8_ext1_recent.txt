@@ -1,1 +1,0 @@
-XROOTD_sample_WWTo2L2Nu_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8_ext1_2018-10-08.txt
