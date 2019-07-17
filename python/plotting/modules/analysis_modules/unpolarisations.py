@@ -147,30 +147,41 @@ class Unpolarisation(analysisbase.AnalysisBase):
 						
 						n_neg_pol.std_dev = max(unc_up, unc_down)
 						
-						scale_factors = polarisationsignalscaling.PolarisationScaleFactors(
-								n_pos_pol, n_neg_pol,
-								n_pos_pol, n_neg_pol,
-								forced_gen_polarisation=forced_gen_polarisation
-						)
+						if (n_pos_pol * n_neg_pol).nominal_value != 0.0:
+							scale_factors = polarisationsignalscaling.PolarisationScaleFactors(
+									n_pos_pol, n_neg_pol,
+									n_pos_pol, n_neg_pol,
+									forced_gen_polarisation=forced_gen_polarisation
+							)
+							
+							scale_factor_pos_pol = scale_factors.get_bias_removal_factor_pospol() if remove_bias_instead_unpolarisation else scale_factors.get_scale_factor_pospol()
+							scale_factor_pos_pol_hist.SetBinContent(global_bin, scale_factor_pos_pol.nominal_value)
+							scale_factor_pos_pol_hist.SetBinError(global_bin, scale_factor_pos_pol.std_dev)
+							
+							scale_factor_neg_pol = scale_factors.get_bias_removal_factor_negpol() if remove_bias_instead_unpolarisation else scale_factors.get_scale_factor_negpol()
+							scale_factor_neg_pol_hist.SetBinContent(global_bin, scale_factor_neg_pol.nominal_value)
+							scale_factor_neg_pol_hist.SetBinError(global_bin, scale_factor_neg_pol.std_dev)
+							
+							polarisation_before = scale_factors.get_gen_polarisation()
+							polarisation_before_hist.SetBinContent(global_bin, polarisation_before.nominal_value)
+							polarisation_before_hist.SetBinError(global_bin, polarisation_before.std_dev)
+							
+							# Caution: scale_factors object is modified!
+							scale_factors.n_gen_pospol *= scale_factor_pos_pol
+							scale_factors.n_gen_negpol *= scale_factor_neg_pol
+							polarisation_after = scale_factors.get_gen_polarisation()
+							polarisation_after_hist.SetBinContent(global_bin, polarisation_after.nominal_value)
+							polarisation_after_hist.SetBinError(global_bin, polarisation_after.std_dev)
 						
-						scale_factor_pos_pol = scale_factors.get_bias_removal_factor_pospol() if remove_bias_instead_unpolarisation else scale_factors.get_scale_factor_pospol()
-						scale_factor_pos_pol_hist.SetBinContent(global_bin, scale_factor_pos_pol.nominal_value)
-						scale_factor_pos_pol_hist.SetBinError(global_bin, scale_factor_pos_pol.std_dev)
-						
-						scale_factor_neg_pol = scale_factors.get_bias_removal_factor_negpol() if remove_bias_instead_unpolarisation else scale_factors.get_scale_factor_negpol()
-						scale_factor_neg_pol_hist.SetBinContent(global_bin, scale_factor_neg_pol.nominal_value)
-						scale_factor_neg_pol_hist.SetBinError(global_bin, scale_factor_neg_pol.std_dev)
-						
-						polarisation_before = scale_factors.get_gen_polarisation()
-						polarisation_before_hist.SetBinContent(global_bin, polarisation_before.nominal_value)
-						polarisation_before_hist.SetBinError(global_bin, polarisation_before.std_dev)
-						
-						# Caution: scale_factors object is modified!
-						scale_factors.n_gen_pospol *= scale_factor_pos_pol
-						scale_factors.n_gen_negpol *= scale_factor_neg_pol
-						polarisation_after = scale_factors.get_gen_polarisation()
-						polarisation_after_hist.SetBinContent(global_bin, polarisation_after.nominal_value)
-						polarisation_after_hist.SetBinError(global_bin, polarisation_after.std_dev)
+						else:
+							scale_factor_pos_pol_hist.SetBinContent(global_bin, 0.0)
+							scale_factor_pos_pol_hist.SetBinError(global_bin, 0.0)
+							scale_factor_neg_pol_hist.SetBinContent(global_bin, 0.0)
+							scale_factor_neg_pol_hist.SetBinError(global_bin, 0.0)
+							polarisation_before_hist.SetBinContent(global_bin, 0.0)
+							polarisation_before_hist.SetBinError(global_bin, 0.0)
+							polarisation_after_hist.SetBinContent(global_bin, 0.0)
+							polarisation_after_hist.SetBinError(global_bin, 0.0)
 						
 			plotData.plotdict["root_objects"][scale_factor_pos_pol_nick] = scale_factor_pos_pol_hist
 			plotData.plotdict["root_objects"][scale_factor_neg_pol_nick] = scale_factor_neg_pol_hist
