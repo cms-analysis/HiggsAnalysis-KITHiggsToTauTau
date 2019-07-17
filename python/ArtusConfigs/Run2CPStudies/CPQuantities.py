@@ -525,7 +525,9 @@ class quantities(run2_quantities.quantities):
 			"lheZtoET",
 			"lheZtoMT",
 			"LHE_p_1",
-			"LHE_p_2"
+			"LHE_p_2",
+			"LHE_SPINUP_pos_lepton",
+			"LHE_SPINUP_neg_lepton"
 		]
 
 	def recoCPQuantities(self, *args, **kwargs):
