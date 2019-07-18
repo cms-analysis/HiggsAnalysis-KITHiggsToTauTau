@@ -1,6 +1,7 @@
 
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/KappaAnalysis/interface/KappaTypes.h"
+#include "Artus/Utility/interface/UnitConverter.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
