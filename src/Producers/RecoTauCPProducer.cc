@@ -963,50 +963,15 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_pca1DiffInSigma = product.m_recoIP1.Mag()/product.m_pca1proj;
 	product.m_pca2DiffInSigma = product.m_recoIP2.Mag()/product.m_pca2proj;
 
-	/*
-	//Saving Data
-	std::ifstream is("pca1_hel.res");
-	bool first = !is.good();
-	bool print = false;
-	*/
 	double scalar_product = 0.0; //to study whether the tangent and the radial part are orthogonal
 	double xBest1 = 0.0;
 	double xBest2 = 0.0;
 	//Impact parameters via helical approach in cm:
-	product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position, false, &scalar_product,recoParticle1 , &xBest1);
-	/*
-	std::ofstream sc1("sc_p1.res",std::fstream::app);
-	sc1 << scalar_product << std::endl;
-	sc1.close();
-	*/
-	product.m_recoIP2_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,event.m_vertexSummary->pv.position, false, &scalar_product,recoParticle2, &xBest2);
-	/*
-	std::ofstream sc2("sc_p2.res",std::fstream::app);
-	sc2 << scalar_product << std::endl;
-	sc2.close();
-	*/
-	//if(product.m_recoIP1_helical.DeltaPhi(product.m_genIP1)>2.0)
-	/*
-	if (product.m_recoIP1_helical.Angle(product.m_recoIP1)>1.5 && product.m_pca1DiffInSigma>2.0)
-	{
-		product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position, true, &scalar_product,recoParticle1);
-		if (first)
-		{
-			print = true;
-			std::ofstream f4("pca1_gen.res");
-			for (double x=0; x<=1;x+=0.001) f4 << product.m_genIP1.x()*0.01*x+product.m_genPV->x()*0.01 <<" "<< product.m_genIP1.y()*0.01*x+product.m_genPV->y()*0.01 << " " << product.m_genIP1.z()*0.01*x+product.m_genPV->z()*0.01 << std::endl;;
-			f4.close();
-			std::ofstream f5("pca1_tan.res");
-			for (double x=0; x<=1;x+=0.001) f5 << product.m_recoIP1.x()*0.01*x+event.m_vertexSummary->pv.position.x()*0.01 <<" "<< product.m_recoIP1.y()*0.01*x+event.m_vertexSummary->pv.position.y()*0.01 << " " << product.m_recoIP1.z()*0.01*x+event.m_vertexSummary->pv.position.z()*0.01 << std::endl;;
-			f5.close();
-			std::ofstream f6("pv_gen.res");
-			for (double x=0; x<=1;x+=0.001) f6 << x*product.m_genPV->x()*0.01 <<" "<< x*product.m_genPV->y()*0.01 << " " << x*product.m_genPV->z()*0.01 << std::endl;;
-			f6.close();
-		}
-	}
-	*/
-	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP1HelixCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,event.m_vertexSummary->pv.position, event.m_vertexSummary->pv.covariance, xBest1);
-	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP2HelixCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,event.m_vertexSummary->pv.position, event.m_vertexSummary->pv.covariance, xBest2);
+	product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,event.m_vertexSummary->pv.position, false, &scalar_product,recoParticle1 , &xBest1);
+	product.m_recoIP2_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,event.m_vertexSummary->pv.position, false, &scalar_product,recoParticle2, &xBest2);
+
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP1HelixCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,event.m_vertexSummary->pv.position, event.m_vertexSummary->pv.covariance, xBest1);
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP2HelixCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,event.m_vertexSummary->pv.position, event.m_vertexSummary->pv.covariance, xBest2);
 
 	product.m_recoIP1_helicalCovxx = IP1HelixCov(0,0);
 	product.m_recoIP1_helicalCovxy = IP1HelixCov(0,1);
@@ -1225,24 +1190,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 				product.m_deltaGenRecoIP1    = product.m_recoIP1.Angle(product.m_genIP1);
 
 				//with the helical approach
-				/*
-				//Writing Results
-				if (print)
-				{
-					std::cout << std::endl << "generator:" << std::endl << "[";
-					for (int i=0;i<3;i++) std::cout << product.m_genIP1(i) << " ";
-					std::cout << "]"<< std::endl << "helical:" << std::endl << "[";
-					for (int i=0;i<3;i++) std::cout << product.m_recoIP1_helical(i) << " ";
-					std::cout << "]"<< std::endl << "tangential:" << std::endl << "[";
-					for (int i=0;i<3;i++) std::cout << product.m_recoIP1(i) << " ";
-					std::cout << "]"<< std::endl;
-					std::cout << "PV:" << std::endl << "[" << event.m_vertexSummary->pv.position.x() << " " << event.m_vertexSummary->pv.position.y() << " "<< event.m_vertexSummary->pv.position.z() << " " ;
-					std::cout << "]"<< std::endl;
-					std::cout << "PV_refit:" << std::endl << "[" << product.m_refitPV->position.x() << " " << product.m_refitPV->position.y() << " "<< product.m_refitPV->position.z() << " " ;
-					std::cout << "]"<< std::endl;
-				}
-				*/
-
 				product.m_deltaEtaGenRecoIP1_helical = product.m_recoIP1_helical.Eta() - product.m_genIP1.Eta();
 				product.m_deltaPhiGenRecoIP1_helical = product.m_recoIP1_helical.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
 				product.m_deltaRGenRecoIP1_helical   = product.m_recoIP1_helical.DeltaR(product.m_genIP1);
