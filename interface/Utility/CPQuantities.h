@@ -46,6 +46,8 @@ public:
 	TVector3 CalculateShortestDistance(KLepton* recoParticle, RMPoint pv);
 	double CalculateCosPsi(RMFLV recoPart, TVector3 ipvec);
 	std::vector<double> CalculateIPErrors(KLepton* lepton, KVertex* pv, TVector3* ipvec);
+	double MergePhiStarCPCombSemiLeptonic(double phiStarCP, KTau* recoTau2, double reco_posyTauL, double reco_negyTauL);
+	double MergePhiStarCPCombFullyHadronic(double phiStarCP, KTau* recoTau1, KTau* recoTau2, double reco_posyTauL, double reco_negyTauL);
 	inline double GetGenPhiStar()
 	{
 		return genPhiStar;

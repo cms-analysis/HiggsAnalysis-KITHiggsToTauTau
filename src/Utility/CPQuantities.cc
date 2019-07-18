@@ -782,7 +782,94 @@ double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMF
 	return phiStarCP;
 }
 
+// Two functions to merge the combined Phi*CP variable for the channels in which
+// the dacayChannel is tautau -> a rho
+// It also stores the values for the phi angles of the decayplanes since this saves checking the decayMode twice
 
+// if et or mt ch.
+double CPQuantities::MergePhiStarCPCombSemiLeptonic(double phiStarCP, KTau* recoTau2, double reco_posyTauL, double reco_negyTauL){
+	double phiStarCPMerged = -999;
+	// merged variable
+	if (recoTau2->charge() > 0) {
+		if (reco_posyTauL > 0) phiStarCPMerged = phiStarCP;
+		else {
+			if (phiStarCP > ROOT::Math::Pi())
+				phiStarCPMerged = phiStarCP - ROOT::Math::Pi();
+			else phiStarCPMerged = phiStarCP + ROOT::Math::Pi();
+		}
+	} else {
+		if (reco_negyTauL > 0)
+			phiStarCPMerged = phiStarCP;
+		else {
+			if (phiStarCP > ROOT::Math::Pi())
+				phiStarCPMerged = phiStarCP - ROOT::Math::Pi();
+			else phiStarCPMerged = phiStarCP + ROOT::Math::Pi();
+		}
+	}
+
+	return phiStarCPMerged;
+}
+
+
+
+double CPQuantities::MergePhiStarCPCombFullyHadronic(double phiStarCP, KTau* recoTau1, KTau* recoTau2, double reco_posyTauL, double reco_negyTauL){
+	double phiStarCPMerged = -999;
+	// tau1->rho, tau2->a
+	if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
+
+		// FIXME:	Currently not saved because they are not used
+		//		Should they be deleted?
+		// azimuthal angles of the tau decay planes
+		// *recoPhiPlus_combmeth = CPQuantities::GetRecoPhiPlus_combmeth();
+		// *recoPhiMinus_combmeth = CPQuantities::GetRecoPhiMinus_combmeth();
+		// *recoPhiStarPlus_combmeth = CPQuantities::GetRecoPhiStarPlus_combmeth();
+		// *recoPhiStarMinus_combmeth = CPQuantities::GetRecoPhiStarMinus_combmeth();
+
+		// merged variable
+		if (recoTau1->charge() > 0) {
+			if (reco_posyTauL > 0) phiStarCPMerged = phiStarCP;
+			else {
+				if (phiStarCP > ROOT::Math::Pi())
+					phiStarCPMerged = phiStarCP - ROOT::Math::Pi();
+				else phiStarCPMerged = phiStarCP + ROOT::Math::Pi();
+			}
+		} // recoTau1->charge > 0
+		else {
+			if (reco_negyTauL > 0)
+				phiStarCPMerged = phiStarCP;
+			else {
+				if (phiStarCP > ROOT::Math::Pi())
+					phiStarCPMerged = phiStarCP - ROOT::Math::Pi();
+				else phiStarCPMerged = phiStarCP + ROOT::Math::Pi();
+			} // recoTau1->charge() < 0
+		}
+	} // tau1->rho, tau2->a
+
+	// tau1->a, tau2->rho
+	if (recoTau1->decayMode != 1 && recoTau2->decayMode ==1){
+		// merged variable
+		if (recoTau2->charge() > 0) {
+			if (reco_posyTauL > 0)
+				phiStarCPMerged = phiStarCP;
+			else {
+				if (phiStarCP > ROOT::Math::Pi())
+					phiStarCPMerged = phiStarCP - ROOT::Math::Pi();
+				else phiStarCPMerged = phiStarCP + ROOT::Math::Pi();
+			}
+		} // recoTau2->charge > 0
+		else {
+			if (reco_negyTauL > 0)
+				phiStarCPMerged = phiStarCP;
+			else {
+				if (phiStarCP > ROOT::Math::Pi())
+					phiStarCPMerged = phiStarCP - ROOT::Math::Pi();
+				else phiStarCPMerged = phiStarCP + ROOT::Math::Pi();
+			} // recoTau2->charge() < 0
+		}
+	} // tau1->a, tau2->rho
+
+	return phiStarCPMerged;
+}
 
 // calculation of the hadron Energies in the approximate diTau restframe
 double CPQuantities::CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad)

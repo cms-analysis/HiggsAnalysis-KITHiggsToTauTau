@@ -1041,24 +1041,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 		KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
 		product.m_recoPhiStarCPComb_norefit = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+		product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPComb, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 
-		// merged variable
-		if (recoTau2->charge() > 0) {
-			if (product.m_reco_posyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
-			else {
-				if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
-					product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
-				else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
-			}
-		} // recoTau2->charge > 0
-		else {
-			if (product.m_reco_negyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
-			else {
-				if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
-					product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
-				else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
-			}
-		} // recoTau2->charge() < 0
 	}  // if et or mt ch.
 
 	if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ){
@@ -1068,47 +1052,13 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		// tau1->rho, tau2->a
 		if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
 			product.m_recoPhiStarCPComb_norefit = cpq.CalculatePhiStarCPComb(product.m_recoIP2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-
-			// merged variable
-			if (recoTau1->charge() > 0) {
-				if (product.m_reco_posyTauL > 0) product.m_recoPhiStarCPCombMerged = product.m_recoPhiStarCPComb;
-				else {
-					if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
-						product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
-					else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
-				}
-			} // recoTau1->charge > 0
-			else {
-				if (product.m_reco_negyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
-				else {
-					if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
-						product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
-					else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
-				} // recoTau1->charge() < 0
-			}
+				product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 		} // tau1->rho, tau2->a
 
 		// tau1->a, tau2->rho
 		if (recoTau1->decayMode != 1 && recoTau2->decayMode ==1){
 			product.m_recoPhiStarCPComb_norefit = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-
-			// merged variable
-			if (recoTau2->charge() > 0) {
-				if (product.m_reco_posyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
-				else {
-					if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
-						product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
-					else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
-				}
-			} // recoTau2->charge > 0
-			else {
-				if (product.m_reco_negyTauL > 0) product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit;
-				else {
-					if (product.m_recoPhiStarCPComb_norefit > ROOT::Math::Pi())
-						product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit - ROOT::Math::Pi();
-					else product.m_recoPhiStarCPCombMerged_norefit = product.m_recoPhiStarCPComb_norefit + ROOT::Math::Pi();
-				} // recoTau2->charge() < 0
-			}
+				product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 		} // tau1->a, tau2->rho
 
 	}  // if tt ch.
@@ -1242,124 +1192,26 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		// The combined method is possible if one tau_h->rho is present in the channel (i.e. et, mt, tt).
 		// In the tt ch., we want to use the combined method when only one of the two taus decays to rho.
 		// If both taus decay to rho, then the rho method is preferred.
+
 		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET ){
-
 			KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
-			product.m_recoPhiStarCPComb         = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-			product.m_recoPhiStarCPComb_helical = cpq.CalculatePhiStarCPComb(product.m_recoIP1_helical_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
 
-			// merged variable
-			if (recoTau2->charge() > 0) {
-				if (product.m_reco_posyTauL > 0){
-					product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb;
-					product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical;
-				} else {
-					if (product.m_recoPhiStarCPComb > ROOT::Math::Pi()){
-						product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
-						product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical - ROOT::Math::Pi();
-					} else {
-						product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb + ROOT::Math::Pi();
-						product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical + ROOT::Math::Pi();
-					}
-				}
-			} // recoTau2->charge > 0
-			else {
-				if (product.m_reco_negyTauL > 0){
-					product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb;
-					product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical;
-				} else {
-					if (product.m_recoPhiStarCPComb > ROOT::Math::Pi()){
-						product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
-						product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical - ROOT::Math::Pi();
-					} else {
-						product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb + ROOT::Math::Pi();
-						product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical + ROOT::Math::Pi();
-					}
-				}
-			} // recoTau2->charge() < 0
-		}  // if et or mt ch.
-
+			product.m_recoPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+			product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPComb, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+		}
 		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ){
 			KTau* recoTau1 = static_cast<KTau*>(recoParticle1);
 			KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
-
 			// tau1->rho, tau2->a
 			if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
-				product.m_recoPhiStarCPComb         = cpq.CalculatePhiStarCPComb(product.m_recoIP2_refitPV, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-				product.m_recoPhiStarCPComb_helical = cpq.CalculatePhiStarCPComb(product.m_recoIP2_helical_refitPV, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-
-				// azimuthal angles of the tau decay planes
-				product.m_recoPhiPlus_combmeth = cpq.GetRecoPhiPlus_combmeth();
-				product.m_recoPhiMinus_combmeth = cpq.GetRecoPhiMinus_combmeth();
-				product.m_recoPhiStarPlus_combmeth = cpq.GetRecoPhiStarPlus_combmeth();
-				product.m_recoPhiStarMinus_combmeth = cpq.GetRecoPhiStarMinus_combmeth();
-
-				// merged variable
-				if (recoTau1->charge() > 0) {
-					if (product.m_reco_posyTauL > 0){
-						product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb;
-						product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical;
-					} else {
-						if (product.m_recoPhiStarCPComb > ROOT::Math::Pi()){
-							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
-							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical - ROOT::Math::Pi();
-						} else {
-							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb + ROOT::Math::Pi();
-							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical + ROOT::Math::Pi();
-						}
-					}
-				} // recoTau1->charge > 0
-				else {
-					if (product.m_reco_negyTauL > 0){
-						product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb;
-						product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical;
-					} else {
-						if (product.m_recoPhiStarCPComb > ROOT::Math::Pi()){
-							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
-							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical - ROOT::Math::Pi();
-						} else {
-							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb + ROOT::Math::Pi();
-							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical + ROOT::Math::Pi();
-						}
-					} // recoTau1->charge() < 0
-				}
-			} // tau1->rho, tau2->a
-
+				product.m_recoPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_recoIP2_refitPV, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+				product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			}
 			// tau1->a, tau2->rho
 			if (recoTau1->decayMode != 1 && recoTau2->decayMode ==1){
-				product.m_recoPhiStarCPComb         = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-				product.m_recoPhiStarCPComb_helical = cpq.CalculatePhiStarCPComb(product.m_recoIP1_helical_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-
-				// merged variable
-				if (recoTau2->charge() > 0) {
-					if (product.m_reco_posyTauL > 0){
-						product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb;
-						product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical;
-					} else {
-						if (product.m_recoPhiStarCPComb > ROOT::Math::Pi()){
-							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
-							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical - ROOT::Math::Pi();
-						} else {
-							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb + ROOT::Math::Pi();
-							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical + ROOT::Math::Pi();
-						}
-					}
-				} // recoTau2->charge > 0
-				else {
-					if (product.m_reco_negyTauL > 0){
-						product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb;
-						product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical;
-					} else {
-						if (product.m_recoPhiStarCPComb > ROOT::Math::Pi()){
-							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb - ROOT::Math::Pi();
-							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical - ROOT::Math::Pi();
-						} else {
-							product.m_recoPhiStarCPCombMerged         = product.m_recoPhiStarCPComb + ROOT::Math::Pi();
-							product.m_recoPhiStarCPCombMerged_helical = product.m_recoPhiStarCPComb_helical + ROOT::Math::Pi();
-						}
-					} // recoTau2->charge() < 0
-				}
-			} // tau1->a, tau2->rho
+				product.m_recoPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+				product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			}
 
 		}  // if tt ch.
 
