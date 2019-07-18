@@ -8,7 +8,7 @@ import re
 import copy
 import os
 
-from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.quantities import Quantities
+from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPFinalStateStudies.quantities import Quantities
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering import ProcessorsOrdered
 
 # Use mt CP Initial State config as baseline
@@ -30,3 +30,8 @@ class mt_ArtusConfig(mtbaseconfig.mt_ArtusConfig):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/mt/fakeFactors.root"
 			self["FakeFactorMethod"] = "cp2017"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
+
+		quantities_set = Quantities()
+		quantities_set.build_quantities(nickname, channel = self["Channel"])
+		quantities_set.quantities.update(self["Quantities"])
+		self["Quantities"] = list(quantities_set.quantities)
