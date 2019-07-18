@@ -38,6 +38,19 @@ class Quantities(Run2CPQuantities.Quantities):
 		s = klass.recoCPQuantities(melaQuantities)
 
 		s += [
+			"recoPhiStarCPrPVBS",
+			"recoPhiStarCPCombBS",
+			"recoPhiStarCPCombMergedBS",
+
+			"recoPhiStarCPComb_norefit_helical",
+			"recoPhiStarCPCombMerged_norefit_helical",
+
+			"RefHelix_1",
+			"RefHelix_2",
+
+			"PHelix_1",
+			"PHelix_2",
+
 			"helixQOverP_1",
 			"helixLambda_1",
 			"helixPhi_1",

@@ -337,6 +337,8 @@ public:
 	TVector3 m_recoIP2; // IPvec wrt original PV
 	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
 	TVector3 m_recoIP2_refitPV; // IPvec wrt refitted PV
+	TVector3 m_recoIP1_refitPVBS; // IPvec wrt refitted PV and BS constraint
+	TVector3 m_recoIP2_refitPVBS; // IPvec wrt refitted PV and BS constraint
 	TVector3 m_track1FromBS; // distance between track1 and BS center
 	TVector3 m_track2FromBS; // distance between track2 and BS center
 
@@ -385,6 +387,10 @@ public:
 	double m_recoIP2_helical_refitPVCovyz = DefaultValues::UndefinedDouble;
 	double m_recoIP2_helical_refitPVCovzz = DefaultValues::UndefinedDouble;
 
+	RMPoint m_RefHelix_1;
+	RMPoint m_RefHelix_2;
+	RMPoint m_PHelix_1;
+	RMPoint m_PHelix_2;
 
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
@@ -397,6 +403,8 @@ public:
 	std::vector<double> m_errorIP1vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
+	std::vector<double> m_errorIP1vec_refitPVBS {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vec_refitPVBS {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	// comparison genIP-recoIP
 
 	// wrt original PV
@@ -448,11 +456,15 @@ public:
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPrPVbs  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPrPVBS  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPComb  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombMerged  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombBS  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMergedBS  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPComb_norefit  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombMerged_norefit  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPComb_norefit_helical  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMerged_norefit_helical  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCP_helical  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV_helical  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPComb_helical  = DefaultValues::UndefinedDouble;
