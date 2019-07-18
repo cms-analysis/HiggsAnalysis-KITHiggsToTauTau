@@ -620,12 +620,12 @@ class Samples(samples.SamplesBase):
 		differential_unpolarisation = kwargs.get("differential_unpolarisation", False)
 		
 		name = "pospol"+("_noplot" if polarisation_bias_correction else "")
-		polarisation_weight = "tauSpinnerPolarisation>=0.0"
+		polarisation_weight = "LHE_SPINUP_neg_lepton>=0.0"
 		proxy_prefix = ""
 		if differential_unpolarisation:
-			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+".ScaleFactor(genbosonmass, tauSpinnerPolarisation>0, lheZfromUUbar+lheZfromCCbar)"
+			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+"_HASH_NAME.ScaleFactor(genbosonmass, LHE_SPINUP_neg_lepton>0, lheZfromUUbar+lheZfromCCbar)"
 			polarisation_weight = "(%s)*(%s)" % (polarisation_weight, unpolarisation_weight)
-			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Unpolarisation.h>\nUnpolarisation unpol_ztt"+name+nick_suffix+"(\"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_up\", \"unpol_neg_up\", \"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_down\", \"unpol_neg_down\");")
+			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Unpolarisation.h>\nUnpolarisation unpol_ztt"+name+nick_suffix+"_HASH_NAME(\"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_up\", \"unpol_neg_up\", \"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_down\", \"unpol_neg_down\");")
 		
 		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", proxy_prefix=proxy_prefix, **kwargs)
 		
@@ -663,12 +663,12 @@ class Samples(samples.SamplesBase):
 		differential_unpolarisation = kwargs.get("differential_unpolarisation", False)
 		
 		name = "negpol"+("_noplot" if polarisation_bias_correction else "")
-		polarisation_weight = "tauSpinnerPolarisation<0.0"
+		polarisation_weight = "LHE_SPINUP_neg_lepton<0.0"
 		proxy_prefix = ""
 		if differential_unpolarisation:
-			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+".ScaleFactor(genbosonmass, tauSpinnerPolarisation>0, lheZfromUUbar+lheZfromCCbar)"
+			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+"_HASH_NAME.ScaleFactor(genbosonmass, LHE_SPINUP_neg_lepton>0, lheZfromUUbar+lheZfromCCbar)"
 			polarisation_weight = "(%s)*(%s)" % (polarisation_weight, unpolarisation_weight)
-			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Unpolarisation.h>\nUnpolarisation unpol_ztt"+name+nick_suffix+"(\"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_up\", \"unpol_neg_up\", \"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_down\", \"unpol_neg_down\");")
+			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Unpolarisation.h>\nUnpolarisation unpol_ztt"+name+nick_suffix+"_HASH_NAME(\"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_up\", \"unpol_neg_up\", \"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_down\", \"unpol_neg_down\");")
 		
 		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", proxy_prefix=proxy_prefix, **kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix, proxy_prefix=proxy_prefix)

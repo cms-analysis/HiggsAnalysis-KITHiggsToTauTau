@@ -97,7 +97,7 @@ if __name__ == "__main__":
 				if "stacks" in config_unpolarisation:
 					config_unpolarisation.pop("stacks")
 				
-				config_unpolarisation["x_expressions"] = "tauSpinnerPolarisation"
+				config_unpolarisation["x_expressions"] = "LHE_SPINUP_neg_lepton" # "((lheZfromDDbar+lheZfromSSbar+lheZfromBBbar)*(-1))+((lheZfromUUbar+lheZfromCCbar)*(+1))"
 				config_unpolarisation["x_bins"] = "2,-2,2"
 				config_unpolarisation["x_label"] = ""
 				config_unpolarisation["x_ticks"] = [-1.0, 1.0]
@@ -125,7 +125,7 @@ if __name__ == "__main__":
 
 				config_unpolarisation["directories"] = [args.input_dir]
 				config_unpolarisation["output_dir"] = os.path.expandvars(os.path.join(args.output_dir, channel, category))
-				config_unpolarisation["filename"] = "tauSpinnerPolarisation_"+("after" if polarisation_bias_correction else "before")+"_bias_"+("removal" if args.remove_bias_instead_unpolarisation else "correction")
+				config_unpolarisation["filename"] = "LHE_SPINUP_neg_lepton_"+("after" if polarisation_bias_correction else "before")+"_bias_"+("removal" if args.remove_bias_instead_unpolarisation else "correction")
 				if args.www:
 					config_unpolarisation["www"] = os.path.expandvars(os.path.join(args.www, channel, category))
 

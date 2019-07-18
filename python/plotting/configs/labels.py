@@ -185,6 +185,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict[channel+"_tauPolarisationMva"] = "BDT Discriminator"
 				self.labels_dict[channel+"_tauPolarisationDiscriminator"] = "Polarisation Discriminator"
 				self.labels_dict[channel+"_tauSpinnerPolarisation"] = "Generated Helicity State"
+				self.labels_dict[channel+"_LHE_SPINUP_neg_lepton"] = "Generated Helicity State"
 				self.labels_dict[channel+"_lep1SumChargedHadronsLV.Pt()"] = "E_{#pi^{#pm}} / GeV"
 				self.labels_dict[channel+"_lep2SumChargedHadronsLV.Pt()"] = "E_{#pi^{#pm}} / GeV"
 				self.labels_dict[channel+"_lep1SumNeutralHadronsLV.Pt()"] = "E_{#pi^{0}} / GeV"

@@ -29,6 +29,7 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[channel+"_diLepDeltaR"] = "20,0,10"
 			self.binnings_dict[channel+"_diLepJet1DeltaR"] = "20,0,10"
 			self.binnings_dict[channel+"_tauSpinnerPolarisation"] = "2,-2.0,2.0"
+			self.binnings_dict[channel+"_LHE_SPINUP_neg_lepton"] = "2,-2.0,2.0"
 			
 			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry"] = "20,-1.00001,1.00001"
 			self.binnings_dict[channel+"_rhoNeutralChargedAsymmetry_1"] = "20,-1.00001,1.00001"
