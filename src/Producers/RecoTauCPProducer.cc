@@ -25,21 +25,6 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return event.m_vertexSummary->pv.position;
 	});
 
-	// nominalPV coordinates and parameters
-	/*
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVx", [](event_type const& event, product_type const& product)
-	{
-		return event.m_vertexSummary->pv.position.x();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVy", [](event_type const& event, product_type const& product)
-	{
-		return event.m_vertexSummary->pv.position.y();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVz", [](event_type const& event, product_type const& product)
-	{
-		return event.m_vertexSummary->pv.position.z();
-	});
-	*/
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVchi2", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.chi2;
@@ -82,20 +67,6 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return event.m_beamSpot->position;
 	});
-	/*
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSx", [](event_type const& event, product_type const& product)
-	{
-		return event.m_beamSpot->position.x();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSy", [](event_type const& event, product_type const& product)
-	{
-		return event.m_beamSpot->position.y();
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSz", [](event_type const& event, product_type const& product)
-	{
-		return event.m_beamSpot->position.z();
-	});
-	*/
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSsigmax", [](event_type const& event, product_type const& product)
 	{
 		return event.m_beamSpot->beamWidthX;
@@ -372,40 +343,6 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return (((product.m_recoIP2).x() != -999) ? RMPoint( (product.m_recoIP2).x(), (product.m_recoIP2).y(), (product.m_recoIP2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-/*	   // Components
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_1mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_recoIP1).x() != -999) ? ( sqrt( (product.m_recoIP1).x()*(product.m_recoIP1).x() + (product.m_recoIP1).y()*(product.m_recoIP1).y() + (product.m_recoIP1).z()*(product.m_recoIP1).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_1x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIP1 != nullptr) ? (product.m_recoIP1).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_1y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIP1 != nullptr) ? (product.m_recoIP1).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_1z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIP1 != nullptr) ? (product.m_recoIP1).z() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_2mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_recoIP2).x() != -999) ? ( sqrt( (product.m_recoIP2).x()*(product.m_recoIP2).x() + (product.m_recoIP2).y()*(product.m_recoIP2).y() + (product.m_recoIP2).z()*(product.m_recoIP2).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_2x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_2y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_2z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
-	});
-	*/
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificance_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_pca1DiffInSigma;
@@ -432,41 +369,6 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return ((&product.m_recoIPrPV_2) != nullptr) ? RMPoint( (product.m_recoIPrPV_2).x(), (product.m_recoIPrPV_2).y(), (product.m_recoIPrPV_2).z() ) : DefaultValues::UndefinedRMPoint;
 	});
-	// Components
-	/*
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_1mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_recoIPrPV_1).x() != -999) ? ( sqrt( (product.m_recoIPrPV_1).x()*(product.m_recoIPrPV_1).x() + (product.m_recoIPrPV_1).y()*(product.m_recoIPrPV_1).y() + (product.m_recoIPrPV_1).z()*(product.m_recoIPrPV_1).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_1x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPV_1 != nullptr) ? (product.m_recoIPrPV_1).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_1y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPV_1 != nullptr) ? (product.m_recoIPrPV_1).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_1z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPV_1 != nullptr) ? (product.m_recoIPrPV_1).z() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_2mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_recoIPrPV_2).x() != -999) ? ( sqrt( (product.m_recoIPrPV_2).x()*(product.m_recoIPrPV_2).x() + (product.m_recoIPrPV_2).y()*(product.m_recoIPrPV_2).y() + (product.m_recoIPrPV_2).z()*(product.m_recoIPrPV_2).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_2x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPV_2 != nullptr) ? (product.m_recoIPrPV_2).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_2y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPV_2 != nullptr) ? (product.m_recoIPrPV_2).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_2z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPV_2 != nullptr) ? (product.m_recoIPrPV_2).z() : DefaultValues::UndefinedFloat);
-	});
-	*/
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificancerPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_pca1DiffInSigmarPV;
@@ -503,42 +405,6 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return (((product.m_recoIPrPVBS_2).x() != -999) ? RMPoint( (product.m_recoIPrPVBS_2).x(), (product.m_recoIPrPVBS_2).y(), (product.m_recoIPrPVBS_2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	   //Components
-	/*
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_1mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_recoIPrPVBS_1).x() != -999) ? ( sqrt( (product.m_recoIPrPVBS_1).x()*(product.m_recoIPrPVBS_1).x() + (product.m_recoIPrPVBS_1).y()*(product.m_recoIPrPVBS_1).y() + (product.m_recoIPrPVBS_1).z()*(product.m_recoIPrPVBS_1).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_1x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPVBS_1 != nullptr) ? (product.m_recoIPrPVBS_1).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_1y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPVBS_1 != nullptr) ? (product.m_recoIPrPVBS_1).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_1z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPVBS_1 != nullptr) ? (product.m_recoIPrPVBS_1).z() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_2mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_recoIPrPVBS_2).x() != -999) ? ( sqrt( (product.m_recoIPrPVBS_2).x()*(product.m_recoIPrPVBS_2).x() + (product.m_recoIPrPVBS_2).y()*(product.m_recoIPrPVBS_2).y() + (product.m_recoIPrPVBS_2).z()*(product.m_recoIPrPVBS_2).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_2x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPVBS_2 != nullptr) ? (product.m_recoIPrPVBS_2).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_2y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPVBS_2 != nullptr) ? (product.m_recoIPrPVBS_2).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_2z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPrPVBS_2 != nullptr) ? (product.m_recoIPrPVBS_2).z() : DefaultValues::UndefinedFloat);
-	});
-	*/
-
 	// IP vectors wrt nominalPV with helical approach
 	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPHel_1", [](event_type const& event, product_type const& product)
 	{
@@ -548,41 +414,6 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return (((product.m_recoIPHel_2).x() != -999) ? RMPoint( (product.m_recoIPHel_2).x(), (product.m_recoIPHel_2).y(), (product.m_recoIPHel_2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	   // components
-	/*
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_1mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_recoIPHel_1).x() != -999) ? ( sqrt( (product.m_recoIPHel_1).x()*(product.m_recoIPHel_1).x() + (product.m_recoIPHel_1).y()*(product.m_recoIPHel_1).y() + (product.m_recoIPHel_1).z()*(product.m_recoIPHel_1).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_1x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHel_1 != nullptr) ? (product.m_recoIPHel_1).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_1y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHel_1 != nullptr) ? (product.m_recoIPHel_1).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_1z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHel_1 != nullptr) ? (product.m_recoIPHel_1).z() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_2mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_recoIPHel_2).x() != -999) ? ( sqrt( (product.m_recoIPHel_2).x()*(product.m_recoIPHel_2).x() + (product.m_recoIPHel_2).y()*(product.m_recoIPHel_2).y() + (product.m_recoIPHel_2).z()*(product.m_recoIPHel_2).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_2x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHel_2 != nullptr) ? (product.m_recoIPHel_2).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_2y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHel_2 != nullptr) ? (product.m_recoIPHel_2).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_2z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHel_2 != nullptr) ? (product.m_recoIPHel_2).z() : DefaultValues::UndefinedFloat);
-	});
-	*/
 
 	//The elements of the covariance matrix from the IP with helical approach
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHel_1", [](event_type const& event, product_type const& product)
@@ -661,40 +492,6 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return (((product.m_recoIPHelrPVBS_2).x() != -999) ? RMPoint( (product.m_recoIPHelrPVBS_2).x(), (product.m_recoIPHelrPVBS_2).y(), (product.m_recoIPHelrPVBS_2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
 	// Components
-	/*
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_1mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_recoIPHelrPV_1).x() != -999) ? ( sqrt( (product.m_recoIPHelrPV_1).x()*(product.m_recoIPHelrPV_1).x() + (product.m_recoIPHelrPV_1).y()*(product.m_recoIPHelrPV_1).y() + (product.m_recoIPHelrPV_1).z()*(product.m_recoIPHelrPV_1).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_1x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHelrPV_1 != nullptr) ? (product.m_recoIPHelrPV_1).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_1y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHelrPV_1 != nullptr) ? (product.m_recoIPHelrPV_1).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_1z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHelrPV_1 != nullptr) ? (product.m_recoIPHelrPV_1).z() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_2mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_recoIPHelrPV_2).x() != -999) ? ( sqrt( (product.m_recoIPHelrPV_2).x()*(product.m_recoIPHelrPV_2).x() + (product.m_recoIPHelrPV_2).y()*(product.m_recoIPHelrPV_2).y() + (product.m_recoIPHelrPV_2).z()*(product.m_recoIPHelrPV_2).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_2x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHelrPV_2 != nullptr) ? (product.m_recoIPHelrPV_2).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_2y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHelrPV_2 != nullptr) ? (product.m_recoIPHelrPV_2).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_2z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_recoIPHelrPV_2 != nullptr) ? (product.m_recoIPHelrPV_2).z() : DefaultValues::UndefinedFloat);
-	});
-	*/
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPV_1", [](event_type const& event, product_type const& product)
 	{
 		return ((&product.m_IPSignificanceHelrPV_1!= nullptr) ? product.m_IPSignificanceHelrPV_1 : DefaultValues::UndefinedFloat);
@@ -771,39 +568,6 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "trackFromBS_2", [](event_type const& event, product_type const& product)
 	{
 		return (((product.m_track2FromBS).x() != -999) ? RMPoint(product.m_track2FromBS.x(), product.m_track2FromBS.y(), product.m_track2FromBS.z()) : DefaultValues::UndefinedRMPoint);
-	});
-	/*
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_1mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_track1FromBS).x() != -999) ? ( sqrt( (product.m_track1FromBS).x()*(product.m_track1FromBS).x() + (product.m_track1FromBS).y()*(product.m_track1FromBS).y() + (product.m_track1FromBS).z()*(product.m_track1FromBS).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_1x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_track1FromBS != nullptr) ? (product.m_track1FromBS).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_1y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_track1FromBS != nullptr) ? (product.m_track1FromBS).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_1z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_track1FromBS != nullptr) ? (product.m_track1FromBS).z() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_2mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_track2FromBS).x() != -999) ? ( sqrt( (product.m_track2FromBS).x()*(product.m_track2FromBS).x() + (product.m_track2FromBS).y()*(product.m_track2FromBS).y() + (product.m_track2FromBS).z()*(product.m_track2FromBS).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_2x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_track2FromBS != nullptr) ? (product.m_track2FromBS).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_2y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_track2FromBS != nullptr) ? (product.m_track2FromBS).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_2z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_track2FromBS != nullptr) ? (product.m_track2FromBS).z() : DefaultValues::UndefinedFloat);
 	});
 
 	// cosPsi
