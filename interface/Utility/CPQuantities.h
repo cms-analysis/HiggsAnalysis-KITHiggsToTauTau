@@ -24,15 +24,15 @@ public:
 	double CalculatePhiStarCP(KVertex* pv, KTrack track1, KTrack track2, RMFLV chargPart1, RMFLV chargPart2);
 	double CalculatePhiStarCP(KRefitVertex* pv, KTrack track1, KTrack track2, RMFLV chargPart1, RMFLV chargPart2);
 	double CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2, std::string level);
-	double CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM);
+	double CalculatePhiStarCPRho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM);
 	double CalculatePhiStarCPComb(TVector3 ipvec, RMFLV daughter, RMFLV pion, RMFLV pizero, int daughterCharge);
 	double CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad);
 	double CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
 	double CalculatePhiCPLab(RMFLV chargPart1, TVector3 ipvec1, TVector3 ipvec2);
 	double CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng);
 	double CalculateChargedProngEnergyApprox(RMFLV tau, RMFLV chargedProng);
-	double CalculateSpinAnalysingDiscriminant_rho(RMFLV tau1, RMFLV tau2, RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M);
-	double CalculateSpinAnalysingDiscriminant_rho(RMFLV chargedPion, RMFLV pi0);
+	double CalculateSpinAnalysingDiscriminantRho(RMFLV tau1, RMFLV tau2, RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M);
+	double CalculateSpinAnalysingDiscriminantRho(RMFLV chargedPion, RMFLV pi0);
 	double CalculateTrackReferenceError(KTrack track);
 	double CalculateZPlusMinus(RMFLV higgs, RMFLV chargedPart);
 	double CalculateZs(double zPlus, double zMinus);
@@ -81,20 +81,20 @@ public:
 		return recoIP2;
 	}
 	// get functions for azimuthal angle of tau decay planes - ip method
-	inline double GetRecoPhiPlus_ipmeth(){ return recoPhiPlus_ipmeth; }
-	inline double GetRecoPhiMinus_ipmeth(){ return recoPhiMinus_ipmeth; }
-	inline double GetRecoPhiStarPlus_ipmeth(){ return recoPhiStarPlus_ipmeth; }
-	inline double GetRecoPhiStarMinus_ipmeth(){ return recoPhiStarMinus_ipmeth; }
+	inline double GetRecoPhiPlusIPMeth(){ return recoPhiPlusIPMeth; }
+	inline double GetRecoPhiMinusIPMeth(){ return recoPhiMinusIPMeth; }
+	inline double GetRecoPhiStarPlusIPMeth(){ return recoPhiStarPlusIPMeth; }
+	inline double GetRecoPhiStarMinusIPMeth(){ return recoPhiStarMinusIPMeth; }
 	// get functions for azimuthal angle of tau decay planes - comb method
-	inline double GetRecoPhiPlus_combmeth(){ return recoPhiPlus_combmeth; }
-	inline double GetRecoPhiMinus_combmeth(){ return recoPhiMinus_combmeth; }
-	inline double GetRecoPhiStarPlus_combmeth(){ return recoPhiStarPlus_combmeth; }
-	inline double GetRecoPhiStarMinus_combmeth(){ return recoPhiStarMinus_combmeth; }
+	inline double GetRecoPhiPlusCombMeth(){ return recoPhiPlusCombMeth; }
+	inline double GetRecoPhiMinusCombMeth(){ return recoPhiMinusCombMeth; }
+	inline double GetRecoPhiStarPlusCombMeth(){ return recoPhiStarPlusCombMeth; }
+	inline double GetRecoPhiStarMinusCombMeth(){ return recoPhiStarMinusCombMeth; }
 	// get functions for azimuthal angle of tau decay planes - rho method
-	inline double GetRecoPhiPlus_rhometh(){ return recoPhiPlus_rhometh; }
-	inline double GetRecoPhiMinus_rhometh(){ return recoPhiMinus_rhometh; }
-	inline double GetRecoPhiStarPlus_rhometh(){ return recoPhiStarPlus_rhometh; }
-	inline double GetRecoPhiStarMinus_rhometh(){ return recoPhiStarMinus_rhometh; }
+	inline double GetRecoPhiPlusRhoMeth(){ return recoPhiPlusRhoMeth; }
+	inline double GetRecoPhiMinusRhoMeth(){ return recoPhiMinusRhoMeth; }
+	inline double GetRecoPhiStarPlusRhoMeth(){ return recoPhiStarPlusRhoMeth; }
+	inline double GetRecoPhiStarMinusRhoMeth(){ return recoPhiStarMinusRhoMeth; }
 private:
 	double genPhiStar;
 	double genOStarCP;
@@ -104,18 +104,18 @@ private:
 	double recoOStarCP;
 	double recoIP1;
 	double recoIP2;
-	double recoPhiPlus_ipmeth;
-	double recoPhiMinus_ipmeth;
-	double recoPhiStarPlus_ipmeth;
-	double recoPhiStarMinus_ipmeth;
-	double recoPhiPlus_combmeth;
-	double recoPhiMinus_combmeth;
-	double recoPhiStarPlus_combmeth;
-	double recoPhiStarMinus_combmeth;
-	double recoPhiPlus_rhometh;
-	double recoPhiMinus_rhometh;
-	double recoPhiStarPlus_rhometh;
-	double recoPhiStarMinus_rhometh;
+	double recoPhiPlusIPMeth;
+	double recoPhiMinusIPMeth;
+	double recoPhiStarPlusIPMeth;
+	double recoPhiStarMinusIPMeth;
+	double recoPhiPlusCombMeth;
+	double recoPhiMinusCombMeth;
+	double recoPhiStarPlusCombMeth;
+	double recoPhiStarMinusCombMeth;
+	double recoPhiPlusRhoMeth;
+	double recoPhiMinusRhoMeth;
+	double recoPhiStarPlusRhoMeth;
+	double recoPhiStarMinusRhoMeth;
 	//level: "gen", "reco"
 	double CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level);
 	inline void SetGenPhiStar(double genphistar)
@@ -151,18 +151,18 @@ private:
 		recoIP2 = recoip2;
 	}
 	// set functions for azimuthal angle of tau decay planes - ip method
-	inline void SetRecoPhiPlus_ipmeth(double recophiplus_ipmeth){ recoPhiPlus_ipmeth = recophiplus_ipmeth; }
-	inline void SetRecoPhiMinus_ipmeth(double recophiminus_ipmeth){ recoPhiMinus_ipmeth = recophiminus_ipmeth; }
-	inline void SetRecoPhiStarPlus_ipmeth(double recophistarplus_ipmeth){ recoPhiStarPlus_ipmeth = recophistarplus_ipmeth; }
-	inline void SetRecoPhiStarMinus_ipmeth(double recophistarminus_ipmeth){ recoPhiStarMinus_ipmeth = recophistarminus_ipmeth; }
+	inline void SetRecoPhiPlusIPMeth(double recophiplusIPMeth){ recoPhiPlusIPMeth = recophiplusIPMeth; }
+	inline void SetRecoPhiMinusIPMeth(double recophiminusIPMeth){ recoPhiMinusIPMeth = recophiminusIPMeth; }
+	inline void SetRecoPhiStarPlusIPMeth(double recophistarplusIPMeth){ recoPhiStarPlusIPMeth = recophistarplusIPMeth; }
+	inline void SetRecoPhiStarMinusIPMeth(double recophistarminusIPMeth){ recoPhiStarMinusIPMeth = recophistarminusIPMeth; }
 	// set functions for azimuthal angle of tau decay planes - comb method
-	inline void SetRecoPhiPlus_combmeth(double recophcomblus_combmeth){ recoPhiPlus_combmeth = recophcomblus_combmeth; }
-	inline void SetRecoPhiMinus_combmeth(double recophiminus_combmeth){ recoPhiMinus_combmeth = recophiminus_combmeth; }
-	inline void SetRecoPhiStarPlus_combmeth(double recophistarplus_combmeth){ recoPhiStarPlus_combmeth = recophistarplus_combmeth; }
-	inline void SetRecoPhiStarMinus_combmeth(double recophistarminus_combmeth){ recoPhiStarMinus_combmeth = recophistarminus_combmeth; }
+	inline void SetRecoPhiPlusCombMeth(double recophcomblusCombMeth){ recoPhiPlusCombMeth = recophcomblusCombMeth; }
+	inline void SetRecoPhiMinusCombMeth(double recophiminusCombMeth){ recoPhiMinusCombMeth = recophiminusCombMeth; }
+	inline void SetRecoPhiStarPlusCombMeth(double recophistarplusCombMeth){ recoPhiStarPlusCombMeth = recophistarplusCombMeth; }
+	inline void SetRecoPhiStarMinusCombMeth(double recophistarminusCombMeth){ recoPhiStarMinusCombMeth = recophistarminusCombMeth; }
 	// set functions for azimuthal angle of tau decay planes - rho method
-	inline void SetRecoPhiPlus_rhometh(double recophrholus_rhometh){ recoPhiPlus_rhometh = recophrholus_rhometh; }
-	inline void SetRecoPhiMinus_rhometh(double recophiminus_rhometh){ recoPhiMinus_rhometh = recophiminus_rhometh; }
-	inline void SetRecoPhiStarPlus_rhometh(double recophistarplus_rhometh){ recoPhiStarPlus_rhometh = recophistarplus_rhometh; }
-	inline void SetRecoPhiStarMinus_rhometh(double recophistarminus_rhometh){ recoPhiStarMinus_rhometh = recophistarminus_rhometh; }
+	inline void SetRecoPhiPlusRhoMeth(double recophrholusRhoMeth){ recoPhiPlusRhoMeth = recophrholusRhoMeth; }
+	inline void SetRecoPhiMinusRhoMeth(double recophiminusRhoMeth){ recoPhiMinusRhoMeth = recophiminusRhoMeth; }
+	inline void SetRecoPhiStarPlusRhoMeth(double recophistarplusRhoMeth){ recoPhiStarPlusRhoMeth = recophistarplusRhoMeth; }
+	inline void SetRecoPhiStarMinusRhoMeth(double recophistarminusRhoMeth){ recoPhiStarMinusRhoMeth = recophistarminusRhoMeth; }
 };

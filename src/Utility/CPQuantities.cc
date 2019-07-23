@@ -483,11 +483,11 @@ double CPQuantities::CalculatePhiStarCP(KVertex* pv, KTrack track1, KTrack track
 }
 
 //this function calculates Phi* and Phi*CP using the rho decay planes
-double CPQuantities::CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM)
+double CPQuantities::CalculatePhiStarCPRho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM)
 {
 	// save azimuthal angles of the decay planes in the lab frame
-	this->SetRecoPhiPlus_rhometh(piZeroP.Phi());
-	this->SetRecoPhiMinus_rhometh(piZeroM.Phi());
+	this->SetRecoPhiPlusRhoMeth(piZeroP.Phi());
+	this->SetRecoPhiMinusRhoMeth(piZeroM.Phi());
 
 	// Part1: Boost into the ZMF frame of the two charged pions
 	RMFLV ProngImp = chargedPiP + chargedPiM;
@@ -514,8 +514,8 @@ double CPQuantities::CalculatePhiStarCP_rho(RMFLV chargedPiP, RMFLV chargedPiM, 
 	qStarZeroPt = qStarZeroPt.Unit();
 	qStarZeroMt = qStarZeroMt.Unit();
 	// save azimuthal angles of the decay planes in the ZMF
-	this->SetRecoPhiStarPlus_rhometh(qStarZeroPt.Phi());
-	this->SetRecoPhiStarMinus_rhometh(qStarZeroMt.Phi());
+	this->SetRecoPhiStarPlusRhoMeth(qStarZeroPt.Phi());
+	this->SetRecoPhiStarMinusRhoMeth(qStarZeroMt.Phi());
 
 	//Part4: Calculate phiStarCP
 
@@ -586,8 +586,8 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	n2 = n2.Unit();
 	// save azimuthal angles of the decay planes in the lab frame
 	if(level=="reco"){
-		this->SetRecoPhiPlus_ipmeth(n1.Phi());
-		this->SetRecoPhiMinus_ipmeth(n2.Phi());
+		this->SetRecoPhiPlusIPMeth(n1.Phi());
+		this->SetRecoPhiMinusIPMeth(n2.Phi());
 	}
 
 	//Step 3: Boosting 4-vectors (n1,0), (n2,0), p1, p2 with M
@@ -613,8 +613,8 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	RMFLV::BetaVector p1n = p1.Unit();
 	// save azimuthal angles of the decay planes in the ZMF
 	if(level=="reco"){
-		this->SetRecoPhiStarPlus_ipmeth(n1t.Phi());
-		this->SetRecoPhiStarMinus_ipmeth(n2t.Phi());
+		this->SetRecoPhiStarPlusIPMeth(n1t.Phi());
+		this->SetRecoPhiStarMinusIPMeth(n2t.Phi());
 	}
 
 	if(level=="reco")
@@ -719,11 +719,11 @@ double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMF
 
 	// save azimuthal angles of the decay planes in the lab frame
 	if (charge>0){
-		this->SetRecoPhiPlus_combmeth(ipvec.Phi());
-		this->SetRecoPhiMinus_combmeth(pizero.Phi());
+		this->SetRecoPhiPlusCombMeth(ipvec.Phi());
+		this->SetRecoPhiMinusCombMeth(pizero.Phi());
 	} else {
-		this->SetRecoPhiPlus_combmeth(pizero.Phi());
-		this->SetRecoPhiMinus_combmeth(ipvec.Phi());
+		this->SetRecoPhiPlusCombMeth(pizero.Phi());
+		this->SetRecoPhiMinusCombMeth(ipvec.Phi());
 	}
 
 	// create boost to the api-ZMF
@@ -754,11 +754,11 @@ double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMF
 	RMFLV::BetaVector q0t = q0 - ( q0.Dot(q) / q.Dot(q) ) * q;
 	// save azimuthal angles of the decay planes in the ZMF
 	if (charge>0){
-		this->SetRecoPhiStarPlus_combmeth(nt.Phi());
-		this->SetRecoPhiStarMinus_combmeth(q0t.Phi());
+		this->SetRecoPhiStarPlusCombMeth(nt.Phi());
+		this->SetRecoPhiStarMinusCombMeth(q0t.Phi());
 	} else {
-		this->SetRecoPhiStarPlus_combmeth(q0t.Phi());
-		this->SetRecoPhiStarMinus_combmeth(nt.Phi());
+		this->SetRecoPhiStarPlusCombMeth(q0t.Phi());
+		this->SetRecoPhiStarMinusCombMeth(nt.Phi());
 	}
 
 	// normalized vectors
@@ -820,10 +820,10 @@ double CPQuantities::MergePhiStarCPCombFullyHadronic(double phiStarCP, KTau* rec
 		// FIXME:	Currently not saved because they are not used
 		//		Should they be deleted?
 		// azimuthal angles of the tau decay planes
-		// *recoPhiPlus_combmeth = CPQuantities::GetRecoPhiPlus_combmeth();
-		// *recoPhiMinus_combmeth = CPQuantities::GetRecoPhiMinus_combmeth();
-		// *recoPhiStarPlus_combmeth = CPQuantities::GetRecoPhiStarPlus_combmeth();
-		// *recoPhiStarMinus_combmeth = CPQuantities::GetRecoPhiStarMinus_combmeth();
+		// *recoPhiPlusCombMeth = CPQuantities::GetRecoPhiPlusCombMeth();
+		// *recoPhiMinusCombMeth = CPQuantities::GetRecoPhiMinusCombMeth();
+		// *recoPhiStarPlusCombMeth = CPQuantities::GetRecoPhiStarPlusCombMeth();
+		// *recoPhiStarMinusCombMeth = CPQuantities::GetRecoPhiStarMinusCombMeth();
 
 		// merged variable
 		if (recoTau1->charge() > 0) {
@@ -973,7 +973,7 @@ double CPQuantities::CalculateChargedProngEnergy(RMFLV tau, RMFLV chargedProng)
 
 // calculation of the spin analysing discriminant (y^{tau}) using the rest frame of the taus (only gen level)
 // FIXME it is not called in RecoTauCPProducer. Could it be removed?
-double CPQuantities::CalculateSpinAnalysingDiscriminant_rho(RMFLV tau1, RMFLV tau2, RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M)
+double CPQuantities::CalculateSpinAnalysingDiscriminantRho(RMFLV tau1, RMFLV tau2, RMFLV pionP, RMFLV pionM, RMFLV pi0P, RMFLV pi0M)
 {
 	// Step 1: Extract all pion energies in the tau restframe
 	double pionP_energy = CalculateChargedProngEnergy(tau1, pionP);
@@ -989,7 +989,7 @@ double CPQuantities::CalculateSpinAnalysingDiscriminant_rho(RMFLV tau1, RMFLV ta
 }
 
 // calculation of the spin analysing discriminant (y^{tau}_L) using the laboratory system of the rhos
-double CPQuantities::CalculateSpinAnalysingDiscriminant_rho(RMFLV chargedPion, RMFLV pi0)
+double CPQuantities::CalculateSpinAnalysingDiscriminantRho(RMFLV chargedPion, RMFLV pi0)
 {
 	return (chargedPion.E() - pi0.E()) / (chargedPion.E() + pi0.E());
 }

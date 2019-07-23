@@ -20,58 +20,69 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	m_isData = settings.GetInputIsData();
 
 	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "nominalPV", [](event_type const& event, product_type const& product)
+	{
+		return event.m_vertexSummary->pv.position;
+	});
 
-	// thePV coordinates and parameters
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVx", [](event_type const& event, product_type const& product)
+	// nominalPV coordinates and parameters
+	/*
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVx", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.position.x();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVy", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.position.y();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVz", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.position.z();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVchi2", [](event_type const& event, product_type const& product)
+	*/
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVchi2", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.chi2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVnDOF", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVnDOF", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.nDOF;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVnTracks", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVnTracks", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.nTracks;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmaxx", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVsigmaxx", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.covariance.At(0,0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmayy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVsigmayy", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.covariance.At(1,1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmazz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVsigmazz", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.covariance.At(2,2);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmaxy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVsigmaxy", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.covariance.At(0,1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmaxz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVsigmaxz", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.covariance.At(0,2);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVsigmayz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nominalPVsigmayz", [](event_type const& event, product_type const& product)
 	{
 		return event.m_vertexSummary->pv.covariance.At(1,2);
 	});
 
 	// BS coordinates and parameters
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "theBS", [](event_type const& event, product_type const& product)
+	{
+		return event.m_beamSpot->position;
+	});
+	/*
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSx", [](event_type const& event, product_type const& product)
 	{
 		return event.m_beamSpot->position.x();
@@ -84,6 +95,7 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return event.m_beamSpot->position.z();
 	});
+	*/
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSsigmax", [](event_type const& event, product_type const& product)
 	{
 		return event.m_beamSpot->beamWidthX;
@@ -102,15 +114,21 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_recoPhiStarCP;
 	});
-
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP_rho", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPHel", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarCP_rho;
+		return product.m_recoPhiStarCPHel;
 	});
-
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP_rho_merged", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPHelrPV", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarCP_rho_merged;
+		return product.m_recoPhiStarCPHelrPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPRho", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPRho;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPRhoMerged", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPRhoMerged;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "reco_posyTauL", [](event_type const& event, product_type const& product)
@@ -123,14 +141,6 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return product.m_reco_negyTauL;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPV", [](event_type const& event, product_type const& product)
-	{
-		return product.m_recoPhiStarCPrPV;
-	});
-	//LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPV2", [](event_type const& event, product_type const& product)
-	//{
-	//	return product.m_recoPhiStarCPrPV2;
-	//});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPComb", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStarCPComb;
@@ -139,45 +149,47 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_recoPhiStarCPCombMerged;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombHel", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPCombHel;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombMergedHel", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPCombMergedHel;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombBS", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPCombBS;
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombMergedBS", [](event_type const& event, product_type const& product)
 	{
 		return product.m_recoPhiStarCPCombMergedBS;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPComb_norefit", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPV", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarCPComb_norefit;
+		return product.m_recoPhiStarCPrPV;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombMerged_norefit", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombrPV", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarCPCombMerged_norefit;
+		return product.m_recoPhiStarCPCombrPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombMergedrPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPCombMergedrPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombMergedrPVBS", [](event_type const& event, product_type const& product)
+	{
+		return product.m_recoPhiStarCPCombMergedrPVBS;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPComb_norefit_helical", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombHel", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarCPComb_norefit_helical;
+		return product.m_recoPhiStarCPCombHelrPV;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombMerged_norefit_helical", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombMergedHelrPV", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarCPCombMerged_norefit_helical;
-	});
-
-
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCP_helical", [](event_type const& event, product_type const& product)
-	{
-		return product.m_recoPhiStarCP_helical;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPV_helical", [](event_type const& event, product_type const& product)
-	{
-		return product.m_recoPhiStarCPrPV_helical;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPComb_helical", [](event_type const& event, product_type const& product)
-	{
-		return product.m_recoPhiStarCPComb_helical;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPCombMerged_helical", [](event_type const& event, product_type const& product)
-	{
-		return product.m_recoPhiStarCPCombMerged_helical;
+		return product.m_recoPhiStarCPCombMergedHelrPV;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPrPVBS", [](event_type const& event, product_type const& product)
@@ -190,62 +202,62 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return product.m_recoPhiStar;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStar_rho", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarRho", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStar_rho;
+		return product.m_recoPhiStarRho;
 	});
 
 	// azimuthal angles of the tau decay planes
 	// ip method
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiPlus_ipmeth", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiPlusIPMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiPlus_ipmeth;
+		return product.m_recoPhiPlusIPMeth;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiMinus_ipmeth", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiMinusIPMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiMinus_ipmeth;
+		return product.m_recoPhiMinusIPMeth;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarPlus_ipmeth", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarPlusIPMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarPlus_ipmeth;
+		return product.m_recoPhiStarPlusIPMeth;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarMinus_ipmeth", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarMinusIPMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarMinus_ipmeth;
+		return product.m_recoPhiStarMinusIPMeth;
 	});
 	// comb method
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiPlus_combmeth", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiPlusCombMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiPlus_combmeth;
+		return product.m_recoPhiPlusCombMeth;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiMinus_combmeth", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiMinusCombMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiMinus_combmeth;
+		return product.m_recoPhiMinusCombMeth;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarPlus_combmeth", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarPlusCombMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarPlus_combmeth;
+		return product.m_recoPhiStarPlusCombMeth;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarMinus_combmeth", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarMinusCombMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarMinus_combmeth;
+		return product.m_recoPhiStarMinusCombMeth;
 	});
 	// rho method
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiPlus_rhometh", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiPlusRhoMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiPlus_rhometh;
+		return product.m_recoPhiPlusRhoMeth;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiMinus_rhometh", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiMinusRhoMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiMinus_rhometh;
+		return product.m_recoPhiMinusRhoMeth;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarPlus_rhometh", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarPlusRhoMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarPlus_rhometh;
+		return product.m_recoPhiStarPlusRhoMeth;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarMinus_rhometh", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarMinusRhoMeth", [](event_type const& event, product_type const& product)
 	{
-		return product.m_recoPhiStarMinus_rhometh;
+		return product.m_recoPhiStarMinusRhoMeth;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoChargedHadron1HiggsFrameEnergy", [](event_type const& event, product_type const& product)
@@ -302,35 +314,35 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 
 
 	// impact parameters d0=dxy and dz
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0_refitPV_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0rPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0_refitPVBS_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0rPVBS_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dZ_refitPV_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dZrPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dZ_refitPVBS_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dZrPVBS_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(0)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0_refitPV_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0rPV_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0_refitPVBS_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0rPVBS_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dZ_refitPV_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dZrPV_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPV) : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dZ_refitPVBS_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dZrPVBS_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_refitPVBS ? product.m_flavourOrderedLeptons.at(1)->track.getDz(product.m_refitPVBS) : DefaultValues::UndefinedDouble;
 	});
@@ -351,7 +363,16 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 		return product.m_recoTrackRefError2;
 	});
 
-	// IP vectors wrt thePV
+	// IP vectors wrt nominalPV
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IP_1", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_recoIP1).x() != -999) ? RMPoint( (product.m_recoIP1).x(), (product.m_recoIP1).y(), (product.m_recoIP1).z() ) : DefaultValues::UndefinedRMPoint);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IP_2", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_recoIP2).x() != -999) ? RMPoint( (product.m_recoIP2).x(), (product.m_recoIP2).y(), (product.m_recoIP2).z() ) : DefaultValues::UndefinedRMPoint);
+	});
+/*	   // Components
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_1mag", [](event_type const& event, product_type const& product)
 	{
 		return (((product.m_recoIP1).x() != -999) ? ( sqrt( (product.m_recoIP1).x()*(product.m_recoIP1).x() + (product.m_recoIP1).y()*(product.m_recoIP1).y() + (product.m_recoIP1).z()*(product.m_recoIP1).z() ) ) : DefaultValues::UndefinedFloat);
@@ -384,11 +405,12 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return ((&product.m_recoIP2 != nullptr) ? (product.m_recoIP2).z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA1", [](event_type const& event, product_type const& product)
+	*/
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificance_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_pca1DiffInSigma;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificance_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_pca2DiffInSigma;
 	});
@@ -402,272 +424,355 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	});
 
 	// IP vectors wrt refitted PV
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1mag", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPrPV_1", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_recoIP1_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP1_refitPV).x()*(product.m_recoIP1_refitPV).x() + (product.m_recoIP1_refitPV).y()*(product.m_recoIP1_refitPV).y() + (product.m_recoIP1_refitPV).z()*(product.m_recoIP1_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPrPV_1) != nullptr) ? RMPoint( (product.m_recoIPrPV_1).x(), (product.m_recoIPrPV_1).y(), (product.m_recoIPrPV_1).z() ) : DefaultValues::UndefinedRMPoint;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPrPV_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPrPV_2) != nullptr) ? RMPoint( (product.m_recoIPrPV_2).x(), (product.m_recoIPrPV_2).y(), (product.m_recoIPrPV_2).z() ) : DefaultValues::UndefinedRMPoint;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1y", [](event_type const& event, product_type const& product)
+	// Components
+	/*
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_1mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).y() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPrPV_1).x() != -999) ? ( sqrt( (product.m_recoIPrPV_1).x()*(product.m_recoIPrPV_1).x() + (product.m_recoIPrPV_1).y()*(product.m_recoIPrPV_1).y() + (product.m_recoIPrPV_1).z()*(product.m_recoIPrPV_1).z() ) ) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_1z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_1x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_refitPV != nullptr) ? (product.m_recoIP1_refitPV).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPrPV_1 != nullptr) ? (product.m_recoIPrPV_1).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2mag", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_1y", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_recoIP2_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP2_refitPV).x()*(product.m_recoIP2_refitPV).x() + (product.m_recoIP2_refitPV).y()*(product.m_recoIP2_refitPV).y() + (product.m_recoIP2_refitPV).z()*(product.m_recoIP2_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPrPV_1 != nullptr) ? (product.m_recoIPrPV_1).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_1z", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPrPV_1 != nullptr) ? (product.m_recoIPrPV_1).z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2y", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_2mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).y() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPrPV_2).x() != -999) ? ( sqrt( (product.m_recoIPrPV_2).x()*(product.m_recoIPrPV_2).x() + (product.m_recoIPrPV_2).y()*(product.m_recoIPrPV_2).y() + (product.m_recoIPrPV_2).z()*(product.m_recoIPrPV_2).z() ) ) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPV_2z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_2x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_refitPV != nullptr) ? (product.m_recoIP2_refitPV).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPrPV_2 != nullptr) ? (product.m_recoIPrPV_2).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA1_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_2y", [](event_type const& event, product_type const& product)
 	{
-		return product.m_pca1DiffInSigma_refitPV;
+		return ((&product.m_recoIPrPV_2 != nullptr) ? (product.m_recoIPrPV_2).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePVdistanceToPCA2_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPV_2z", [](event_type const& event, product_type const& product)
 	{
-		return product.m_pca2DiffInSigma_refitPV;
+		return ((&product.m_recoIPrPV_2 != nullptr) ? (product.m_recoIPrPV_2).z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA1projToPVellipsoid_refitPV", [](event_type const& event, product_type const& product)
+	*/
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificancerPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_pca1proj_refitPV;
+		return product.m_pca1DiffInSigmarPV;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA2projToPVellipsoid_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificancerPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_pca2proj_refitPV;
+		return product.m_pca2DiffInSigmarPV;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificancerPVBS_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca1DiffInSigmarPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificancerPVBS_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca2DiffInSigmarPV;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA1projToPVellipsoidrPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca1projrPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "thePCA2projToPVellipsoidrPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_pca2projrPV;
 	});
 
 	// IP vectors wrt refitted PV with BS constraint
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPVBS_1mag", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPrPVBS_1", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_recoIP1_refitPVBS).x() != -999) ? ( sqrt( (product.m_recoIP1_refitPVBS).x()*(product.m_recoIP1_refitPVBS).x() + (product.m_recoIP1_refitPVBS).y()*(product.m_recoIP1_refitPVBS).y() + (product.m_recoIP1_refitPVBS).z()*(product.m_recoIP1_refitPVBS).z() ) ) : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPrPVBS_1).x() != -999) ? RMPoint( (product.m_recoIPrPVBS_1).x(), (product.m_recoIPrPVBS_1).y(), (product.m_recoIPrPVBS_1).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPVBS_1x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPrPVBS_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_refitPVBS != nullptr) ? (product.m_recoIP1_refitPVBS).x() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPrPVBS_2).x() != -999) ? RMPoint( (product.m_recoIPrPVBS_2).x(), (product.m_recoIPrPVBS_2).y(), (product.m_recoIPrPVBS_2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPVBS_1y", [](event_type const& event, product_type const& product)
+	   //Components
+	/*
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_1mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_refitPVBS != nullptr) ? (product.m_recoIP1_refitPVBS).y() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPrPVBS_1).x() != -999) ? ( sqrt( (product.m_recoIPrPVBS_1).x()*(product.m_recoIPrPVBS_1).x() + (product.m_recoIPrPVBS_1).y()*(product.m_recoIPrPVBS_1).y() + (product.m_recoIPrPVBS_1).z()*(product.m_recoIPrPVBS_1).z() ) ) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPVBS_1z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_1x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_refitPVBS != nullptr) ? (product.m_recoIP1_refitPVBS).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPrPVBS_1 != nullptr) ? (product.m_recoIPrPVBS_1).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPVBS_2mag", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_1y", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_recoIP2_refitPVBS).x() != -999) ? ( sqrt( (product.m_recoIP2_refitPVBS).x()*(product.m_recoIP2_refitPVBS).x() + (product.m_recoIP2_refitPVBS).y()*(product.m_recoIP2_refitPVBS).y() + (product.m_recoIP2_refitPVBS).z()*(product.m_recoIP2_refitPVBS).z() ) ) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPrPVBS_1 != nullptr) ? (product.m_recoIPrPVBS_1).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPVBS_2x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_1z", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_refitPVBS != nullptr) ? (product.m_recoIP2_refitPVBS).x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPrPVBS_1 != nullptr) ? (product.m_recoIPrPVBS_1).z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPVBS_2y", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_2mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_refitPVBS != nullptr) ? (product.m_recoIP2_refitPVBS).y() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPrPVBS_2).x() != -999) ? ( sqrt( (product.m_recoIPrPVBS_2).x()*(product.m_recoIPrPVBS_2).x() + (product.m_recoIPrPVBS_2).y()*(product.m_recoIPrPVBS_2).y() + (product.m_recoIPrPVBS_2).z()*(product.m_recoIPrPVBS_2).z() ) ) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_refitPVBS_2z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_2x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_refitPVBS != nullptr) ? (product.m_recoIP2_refitPVBS).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPrPVBS_2 != nullptr) ? (product.m_recoIPrPVBS_2).x() : DefaultValues::UndefinedFloat);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_2y", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIPrPVBS_2 != nullptr) ? (product.m_recoIPrPVBS_2).y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPrPVBS_2z", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIPrPVBS_2 != nullptr) ? (product.m_recoIPrPVBS_2).z() : DefaultValues::UndefinedFloat);
+	});
+	*/
 
-	// IP vectors wrt thePV with helical approach
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_1mag", [](event_type const& event, product_type const& product)
+	// IP vectors wrt nominalPV with helical approach
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPHel_1", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_recoIP1_helical).x() != -999) ? ( sqrt( (product.m_recoIP1_helical).x()*(product.m_recoIP1_helical).x() + (product.m_recoIP1_helical).y()*(product.m_recoIP1_helical).y() + (product.m_recoIP1_helical).z()*(product.m_recoIP1_helical).z() ) ) : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPHel_1).x() != -999) ? RMPoint( (product.m_recoIPHel_1).x(), (product.m_recoIPHel_1).y(), (product.m_recoIPHel_1).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_1x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPHel_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical != nullptr) ? (product.m_recoIP1_helical).x() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPHel_2).x() != -999) ? RMPoint( (product.m_recoIPHel_2).x(), (product.m_recoIPHel_2).y(), (product.m_recoIPHel_2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_1y", [](event_type const& event, product_type const& product)
+	   // components
+	/*
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_1mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical != nullptr) ? (product.m_recoIP1_helical).y() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPHel_1).x() != -999) ? ( sqrt( (product.m_recoIPHel_1).x()*(product.m_recoIPHel_1).x() + (product.m_recoIPHel_1).y()*(product.m_recoIPHel_1).y() + (product.m_recoIPHel_1).z()*(product.m_recoIPHel_1).z() ) ) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_1z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_1x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical != nullptr) ? (product.m_recoIP1_helical).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHel_1 != nullptr) ? (product.m_recoIPHel_1).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_2mag", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_1y", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_recoIP2_helical).x() != -999) ? ( sqrt( (product.m_recoIP2_helical).x()*(product.m_recoIP2_helical).x() + (product.m_recoIP2_helical).y()*(product.m_recoIP2_helical).y() + (product.m_recoIP2_helical).z()*(product.m_recoIP2_helical).z() ) ) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHel_1 != nullptr) ? (product.m_recoIPHel_1).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_2x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_1z", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical != nullptr) ? (product.m_recoIP2_helical).x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHel_1 != nullptr) ? (product.m_recoIPHel_1).z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_2y", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_2mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical != nullptr) ? (product.m_recoIP2_helical).y() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPHel_2).x() != -999) ? ( sqrt( (product.m_recoIPHel_2).x()*(product.m_recoIPHel_2).x() + (product.m_recoIPHel_2).y()*(product.m_recoIPHel_2).y() + (product.m_recoIPHel_2).z()*(product.m_recoIPHel_2).z() ) ) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_2z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_2x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical != nullptr) ? (product.m_recoIP2_helical).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHel_2 != nullptr) ? (product.m_recoIPHel_2).x() : DefaultValues::UndefinedFloat);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_2y", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIPHel_2 != nullptr) ? (product.m_recoIPHel_2).y() : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHel_2z", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIPHel_2 != nullptr) ? (product.m_recoIPHel_2).z() : DefaultValues::UndefinedFloat);
+	});
+	*/
 
 	//The elements of the covariance matrix from the IP with helical approach
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP1MagPerSig", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHel_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_IP1MagPerSig!= nullptr) ? product.m_IP1MagPerSig : DefaultValues::UndefinedFloat);
+		return ((&product.m_IPSignificanceHel_1!= nullptr) ? product.m_IPSignificanceHel_1 : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP2MagPerSig", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHel_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_IP2MagPerSig!= nullptr) ? product.m_IP2MagPerSig : DefaultValues::UndefinedFloat);
+		return ((&product.m_IPSignificanceHel_2!= nullptr) ? product.m_IPSignificanceHel_2 : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helicalCovxx", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovxx_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helicalCovxx != nullptr) ? (product.m_recoIP1_helicalCovxx) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovxx_1 != nullptr) ? (product.m_recoIPHelCovxx_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helicalCovxy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovxy_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helicalCovxy != nullptr) ? (product.m_recoIP1_helicalCovxy) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovxy_1 != nullptr) ? (product.m_recoIPHelCovxy_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helicalCovxz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovxz_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helicalCovxz != nullptr) ? (product.m_recoIP1_helicalCovxz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovxz_1 != nullptr) ? (product.m_recoIPHelCovxz_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helicalCovyy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovyy_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helicalCovyy != nullptr) ? (product.m_recoIP1_helicalCovyy) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovyy_1 != nullptr) ? (product.m_recoIPHelCovyy_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helicalCovyz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovyz_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helicalCovyz != nullptr) ? (product.m_recoIP1_helicalCovyz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovyz_1 != nullptr) ? (product.m_recoIPHelCovyz_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helicalCovzz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovzz_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helicalCovzz != nullptr) ? (product.m_recoIP1_helicalCovzz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovzz_1 != nullptr) ? (product.m_recoIPHelCovzz_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helicalCovxx", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovxx_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helicalCovxx != nullptr) ? (product.m_recoIP2_helicalCovxx) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovxx_2 != nullptr) ? (product.m_recoIPHelCovxx_2) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helicalCovxy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovxy_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helicalCovxy != nullptr) ? (product.m_recoIP2_helicalCovxy) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovxy_2 != nullptr) ? (product.m_recoIPHelCovxy_2) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helicalCovxz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovxz_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helicalCovxz != nullptr) ? (product.m_recoIP2_helicalCovxz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovxz_2 != nullptr) ? (product.m_recoIPHelCovxz_2) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helicalCovyy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovyy_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helicalCovyy != nullptr) ? (product.m_recoIP2_helicalCovyy) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovyy_2 != nullptr) ? (product.m_recoIPHelCovyy_2) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helicalCovyz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovyz_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helicalCovyz != nullptr) ? (product.m_recoIP2_helicalCovyz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovyz_2 != nullptr) ? (product.m_recoIPHelCovyz_2) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helicalCovzz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovzz_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helicalCovzz != nullptr) ? (product.m_recoIP2_helicalCovzz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelCovzz_2 != nullptr) ? (product.m_recoIPHelCovzz_2) : DefaultValues::UndefinedFloat);
 	});
 
 	// IP vectors wrt the refitted PV with helical approach
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_1mag", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPHelrPV_1", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_recoIP1_helical_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP1_helical_refitPV).x()*(product.m_recoIP1_helical_refitPV).x() + (product.m_recoIP1_helical_refitPV).y()*(product.m_recoIP1_helical_refitPV).y() + (product.m_recoIP1_helical_refitPV).z()*(product.m_recoIP1_helical_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPHelrPV_1).x() != -999) ? RMPoint( (product.m_recoIPHelrPV_1).x(), (product.m_recoIPHelrPV_1).y(), (product.m_recoIPHelrPV_1).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_1x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPHelrPV_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical_refitPV != nullptr) ? (product.m_recoIP1_helical_refitPV).x() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPHelrPV_2).x() != -999) ? RMPoint( (product.m_recoIPHelrPV_2).x(), (product.m_recoIPHelrPV_2).y(), (product.m_recoIPHelrPV_2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_1y", [](event_type const& event, product_type const& product)
+
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPHelrPVBS_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical_refitPV != nullptr) ? (product.m_recoIP1_helical_refitPV).y() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPHelrPVBS_1).x() != -999) ? RMPoint( (product.m_recoIPHelrPVBS_1).x(), (product.m_recoIPHelrPVBS_1).y(), (product.m_recoIPHelrPVBS_1).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_1z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPHelrPVBS_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical_refitPV != nullptr) ? (product.m_recoIP1_helical_refitPV).z() : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPHelrPVBS_2).x() != -999) ? RMPoint( (product.m_recoIPHelrPVBS_2).x(), (product.m_recoIPHelrPVBS_2).y(), (product.m_recoIPHelrPVBS_2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_2mag", [](event_type const& event, product_type const& product)
+	// Components
+	/*
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_1mag", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_recoIP2_helical_refitPV).x() != -999) ? ( sqrt( (product.m_recoIP2_helical_refitPV).x()*(product.m_recoIP2_helical_refitPV).x() + (product.m_recoIP2_helical_refitPV).y()*(product.m_recoIP2_helical_refitPV).y() + (product.m_recoIP2_helical_refitPV).z()*(product.m_recoIP2_helical_refitPV).z() ) ) : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPHelrPV_1).x() != -999) ? ( sqrt( (product.m_recoIPHelrPV_1).x()*(product.m_recoIPHelrPV_1).x() + (product.m_recoIPHelrPV_1).y()*(product.m_recoIPHelrPV_1).y() + (product.m_recoIPHelrPV_1).z()*(product.m_recoIPHelrPV_1).z() ) ) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_2x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_1x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical_refitPV != nullptr) ? (product.m_recoIP2_helical_refitPV).x() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPV_1 != nullptr) ? (product.m_recoIPHelrPV_1).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_2y", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_1y", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical_refitPV != nullptr) ? (product.m_recoIP2_helical_refitPV).y() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPV_1 != nullptr) ? (product.m_recoIPHelrPV_1).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP_helical_refitPV_2z", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_1z", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical_refitPV != nullptr) ? (product.m_recoIP2_helical_refitPV).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPV_1 != nullptr) ? (product.m_recoIPHelrPV_1).z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP1MagPerSigrPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_2mag", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_IP1MagPerSigrPV!= nullptr) ? product.m_IP1MagPerSigrPV : DefaultValues::UndefinedFloat);
+		return (((product.m_recoIPHelrPV_2).x() != -999) ? ( sqrt( (product.m_recoIPHelrPV_2).x()*(product.m_recoIPHelrPV_2).x() + (product.m_recoIPHelrPV_2).y()*(product.m_recoIPHelrPV_2).y() + (product.m_recoIPHelrPV_2).z()*(product.m_recoIPHelrPV_2).z() ) ) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IP2MagPerSigrPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_2x", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_IP2MagPerSigrPV!= nullptr) ? product.m_IP2MagPerSigrPV : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPV_2 != nullptr) ? (product.m_recoIPHelrPV_2).x() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helical_refitPVCovxx", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_2y", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical_refitPVCovxx != nullptr) ? (product.m_recoIP1_helical_refitPVCovxx) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPV_2 != nullptr) ? (product.m_recoIPHelrPV_2).y() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helical_refitPVCovxy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPHelrPV_2z", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical_refitPVCovxy != nullptr) ? (product.m_recoIP1_helical_refitPVCovxy) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPV_2 != nullptr) ? (product.m_recoIPHelrPV_2).z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helical_refitPVCovxz", [](event_type const& event, product_type const& product)
+	*/
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPV_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical_refitPVCovxz != nullptr) ? (product.m_recoIP1_helical_refitPVCovxz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_IPSignificanceHelrPV_1!= nullptr) ? product.m_IPSignificanceHelrPV_1 : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helical_refitPVCovyy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPV_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical_refitPVCovyy != nullptr) ? (product.m_recoIP1_helical_refitPVCovyy) : DefaultValues::UndefinedFloat);
+		return ((&product.m_IPSignificanceHelrPV_2!= nullptr) ? product.m_IPSignificanceHelrPV_2 : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helical_refitPVCovyz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovxx_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical_refitPVCovyz != nullptr) ? (product.m_recoIP1_helical_refitPVCovyz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPVCovxx_1 != nullptr) ? (product.m_recoIPHelrPVCovxx_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP1_helical_refitPVCovzz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovxy_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP1_helical_refitPVCovzz != nullptr) ? (product.m_recoIP1_helical_refitPVCovzz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPVCovxy_1 != nullptr) ? (product.m_recoIPHelrPVCovxy_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helical_refitPVCovxx", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovxz_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical_refitPVCovxx != nullptr) ? (product.m_recoIP2_helical_refitPVCovxx) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPVCovxz_1 != nullptr) ? (product.m_recoIPHelrPVCovxz_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helical_refitPVCovxy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovyy_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical_refitPVCovxy != nullptr) ? (product.m_recoIP2_helical_refitPVCovxy) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPVCovyy_1 != nullptr) ? (product.m_recoIPHelrPVCovyy_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helical_refitPVCovxz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovyz_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical_refitPVCovxz != nullptr) ? (product.m_recoIP2_helical_refitPVCovxz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPVCovyz_1 != nullptr) ? (product.m_recoIPHelrPVCovyz_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helical_refitPVCovyy", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovzz_1", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical_refitPVCovyy != nullptr) ? (product.m_recoIP2_helical_refitPVCovyy) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPVCovzz_1 != nullptr) ? (product.m_recoIPHelrPVCovzz_1) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helical_refitPVCovyz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovxx_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical_refitPVCovyz != nullptr) ? (product.m_recoIP2_helical_refitPVCovyz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPVCovxx_2 != nullptr) ? (product.m_recoIPHelrPVCovxx_2) : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIP2_helical_refitPVCovzz", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovxy_2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_recoIP2_helical_refitPVCovzz != nullptr) ? (product.m_recoIP2_helical_refitPVCovzz) : DefaultValues::UndefinedFloat);
+		return ((&product.m_recoIPHelrPVCovxy_2 != nullptr) ? (product.m_recoIPHelrPVCovxy_2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovxz_2", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIPHelrPVCovxz_2 != nullptr) ? (product.m_recoIPHelrPVCovxz_2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovyy_2", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIPHelrPVCovyy_2 != nullptr) ? (product.m_recoIPHelrPVCovyy_2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovyz_2", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIPHelrPVCovyz_2 != nullptr) ? (product.m_recoIPHelrPVCovyz_2) : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovzz_2", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_recoIPHelrPVCovzz_2 != nullptr) ? (product.m_recoIPHelrPVCovzz_2) : DefaultValues::UndefinedFloat);
+	});
+
+
+	// IP with helical approach, refitPV and BS
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPVBS_1", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_IPSignificanceHelrPVBS_1!= nullptr) ? product.m_IPSignificanceHelrPVBS_1 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPVBS_2", [](event_type const& event, product_type const& product)
+	{
+		return ((&product.m_IPSignificanceHelrPVBS_2!= nullptr) ? product.m_IPSignificanceHelrPVBS_2 : DefaultValues::UndefinedFloat);
 	});
 
 	// distance between track and theBS
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "trackFromBS_1", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_track1FromBS).x() != -999) ? RMPoint(product.m_track1FromBS.x(), product.m_track1FromBS.y(), product.m_track1FromBS.z()) : DefaultValues::UndefinedRMPoint);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "trackFromBS_2", [](event_type const& event, product_type const& product)
+	{
+		return (((product.m_track2FromBS).x() != -999) ? RMPoint(product.m_track2FromBS.x(), product.m_track2FromBS.y(), product.m_track2FromBS.z()) : DefaultValues::UndefinedRMPoint);
+	});
+	/*
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trackFromBS_1mag", [](event_type const& event, product_type const& product)
 	{
 		return (((product.m_track1FromBS).x() != -999) ? ( sqrt( (product.m_track1FromBS).x()*(product.m_track1FromBS).x() + (product.m_track1FromBS).y()*(product.m_track1FromBS).y() + (product.m_track1FromBS).z()*(product.m_track1FromBS).z() ) ) : DefaultValues::UndefinedFloat);
@@ -712,14 +817,14 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiPlus", [](event_type const& event, product_type const& product)
 	{
-		return product.m_cosPsiPlus_norefit;
+		return product.m_cosPsiPlus;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiMinus", [](event_type const& event, product_type const& product)
 	{
-		return product.m_cosPsiMinus_norefit;
+		return product.m_cosPsiMinus;
 	});
 
-	// errors on dxy, dz and IP wrt thePV
+	// errors on dxy, dz and IP wrt nominalPV
 	// using propagation of errors
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errD0_1_newErr", [](event_type const& event, product_type const& product)
 	{
@@ -749,166 +854,166 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 
 	// errors on dxy, dz and IP wrt refitted PV
 	// using propagation of errors
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errD0_refitPV_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errD0rPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP1vec_refitPV.at(0);
+		return product.m_errorIP1vecrPV.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errDZ_refitPV_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errDZrPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP1vec_refitPV.at(1);
+		return product.m_errorIP1vecrPV.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errIP_refitPV_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errIPrPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP1vec_refitPV.at(2);
+		return product.m_errorIP1vecrPV.at(2);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errD0_refitPV_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errD0rPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP2vec_refitPV.at(0);
+		return product.m_errorIP2vecrPV.at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errDZ_refitPV_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errDZrPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP2vec_refitPV.at(1);
+		return product.m_errorIP2vecrPV.at(1);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errIP_refitPV_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "errIPrPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_errorIP2vec_refitPV.at(2);
-	});
-
-
-	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP(thePV)
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP1", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaEtaGenRecoIP1;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP2", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaEtaGenRecoIP2;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP1", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaPhiGenRecoIP1;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP2", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaPhiGenRecoIP2;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP1", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaRGenRecoIP1;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP2", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaRGenRecoIP2;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP1", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaGenRecoIP1;
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP2", [](event_type const& event, product_type const& product)
-	{
-		return product.m_deltaGenRecoIP2;
+		return product.m_errorIP2vecrPV.at(2);
 	});
 
-	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP_helical(thePV)
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP1_helical", [](event_type const& event, product_type const& product)
+
+	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP(nominalPV)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaEtaGenRecoIP1_helical;
+		return product.m_deltaEtaGenRecoIP_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP2_helical", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaEtaGenRecoIP2_helical;
+		return product.m_deltaEtaGenRecoIP_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP1_helical", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaPhiGenRecoIP1_helical;
+		return product.m_deltaPhiGenRecoIP_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP2_helical", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaPhiGenRecoIP2_helical;
+		return product.m_deltaPhiGenRecoIP_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP1_helical", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaRGenRecoIP1_helical;
+		return product.m_deltaRGenRecoIP_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP2_helical", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaRGenRecoIP2_helical;
+		return product.m_deltaRGenRecoIP_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP1_helical", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaGenRecoIP1_helical;
+		return product.m_deltaGenRecoIP_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP2_helical", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaGenRecoIP2_helical;
+		return product.m_deltaGenRecoIP_2;
 	});
 
-	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP_helical(refitPV)
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP1_helical_refitPV", [](event_type const& event, product_type const& product)
+	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIPHel(nominalPV)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIPHel_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaEtaGenRecoIP1_helical_refitPV;
+		return product.m_deltaEtaGenRecoIPHel_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP2_helical_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIPHel_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaEtaGenRecoIP2_helical_refitPV;
+		return product.m_deltaEtaGenRecoIPHel_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP1_helical_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIPHel_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaPhiGenRecoIP1_helical_refitPV;
+		return product.m_deltaPhiGenRecoIPHel_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP2_helical_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIPHel_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaPhiGenRecoIP2_helical_refitPV;
+		return product.m_deltaPhiGenRecoIPHel_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP1_helical_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIPHel_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaRGenRecoIP1_helical_refitPV;
+		return product.m_deltaRGenRecoIPHel_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP2_helical_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIPHel_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaRGenRecoIP2_helical_refitPV;
+		return product.m_deltaRGenRecoIPHel_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP1_helical_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIPHel_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaGenRecoIP1_helical_refitPV;
+		return product.m_deltaGenRecoIPHel_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP2_helical_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIPHel_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaGenRecoIP2_helical_refitPV;
+		return product.m_deltaGenRecoIPHel_2;
+	});
+
+	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIPHel(refitPV)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIPHelrPV_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaEtaGenRecoIPHelrPV_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIPHelrPV_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaEtaGenRecoIPHelrPV_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIPHelrPV_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaPhiGenRecoIPHelrPV_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIPHelrPV_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaPhiGenRecoIPHelrPV_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIPHelrPV_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRGenRecoIPHelrPV_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIPHelrPV_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaRGenRecoIPHelrPV_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIPHelrPV_1", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIPHelrPV_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIPHelrPV_2", [](event_type const& event, product_type const& product)
+	{
+		return product.m_deltaGenRecoIPHelrPV_2;
 	});
 
 	// deltaEta, deltaPhi, deltaR and angle delta between genIP and recoIP(refitPV)
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP1_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIPrPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaEtaGenRecoIP1_refitPV;
+		return product.m_deltaEtaGenRecoIPrPV_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIP2_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaGenRecoIPrPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaEtaGenRecoIP2_refitPV;
+		return product.m_deltaEtaGenRecoIPrPV_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP1_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIPrPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaPhiGenRecoIP1_refitPV;
+		return product.m_deltaPhiGenRecoIPrPV_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIP2_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiGenRecoIPrPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaPhiGenRecoIP2_refitPV;
+		return product.m_deltaPhiGenRecoIPrPV_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP1_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIPrPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaRGenRecoIP1_refitPV;
+		return product.m_deltaRGenRecoIPrPV_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIP2_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRGenRecoIPrPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaRGenRecoIP2_refitPV;
+		return product.m_deltaRGenRecoIPrPV_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP1_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIPrPV_1", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaGenRecoIP1_refitPV;
+		return product.m_deltaGenRecoIPrPV_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIP2_refitPV", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaGenRecoIPrPV_2", [](event_type const& event, product_type const& product)
 	{
-		return product.m_deltaGenRecoIP2_refitPV;
+		return product.m_deltaGenRecoIPrPV_2;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0s_area", [](event_type const& event, product_type const& product)
@@ -950,12 +1055,12 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// initialization of TVector3 objects
 	product.m_recoIP1.SetXYZ(-999,-999,-999);
 	product.m_recoIP2.SetXYZ(-999,-999,-999);
-	product.m_recoIP1_refitPV.SetXYZ(-999,-999,-999);
-	product.m_recoIP2_refitPV.SetXYZ(-999,-999,-999);
+	product.m_recoIPrPV_1.SetXYZ(-999,-999,-999);
+	product.m_recoIPrPV_2.SetXYZ(-999,-999,-999);
 	TVector3 IPPlus;
 	TVector3 IPMinus;
-	TVector3 IPPlus_helical;
-	TVector3 IPMinus_helical;
+	TVector3 IPPlusHel;
+	TVector3 IPMinusHel;
 	IPPlus.SetXYZ(-999,-999,-999);
 	IPMinus.SetXYZ(-999,-999,-999);
 
@@ -981,28 +1086,28 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	RMFLV piZeroM = ((chargedPart2->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(chargedPart2)->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
 
 
-	double phiStarCP_rho = cpq.CalculatePhiStarCP_rho(momentumP, momentumM, piZeroP, piZeroM);
-	double posyL_rho = cpq.CalculateSpinAnalysingDiscriminant_rho(momentumP, piZeroP);
-	double negyL_rho = cpq.CalculateSpinAnalysingDiscriminant_rho(momentumM, piZeroM);
+	double phiStarCPRho = cpq.CalculatePhiStarCPRho(momentumP, momentumM, piZeroP, piZeroM);
+	double posyLRho = cpq.CalculateSpinAnalysingDiscriminantRho(momentumP, piZeroP);
+	double negyLRho = cpq.CalculateSpinAnalysingDiscriminantRho(momentumM, piZeroM);
 	// azimuthal angles of the tau decay planes
-	product.m_recoPhiPlus_rhometh = cpq.GetRecoPhiPlus_rhometh();
-	product.m_recoPhiMinus_rhometh = cpq.GetRecoPhiMinus_rhometh();
-	product.m_recoPhiStarPlus_rhometh = cpq.GetRecoPhiStarPlus_rhometh();
-	product.m_recoPhiStarMinus_rhometh = cpq.GetRecoPhiStarMinus_rhometh();
+	product.m_recoPhiPlusRhoMeth = cpq.GetRecoPhiPlusRhoMeth();
+	product.m_recoPhiMinusRhoMeth = cpq.GetRecoPhiMinusRhoMeth();
+	product.m_recoPhiStarPlusRhoMeth = cpq.GetRecoPhiStarPlusRhoMeth();
+	product.m_recoPhiStarMinusRhoMeth = cpq.GetRecoPhiStarMinusRhoMeth();
 
-	product.m_recoPhiStarCP_rho = phiStarCP_rho;
-	product.m_reco_posyTauL = posyL_rho;
-	product.m_reco_negyTauL = negyL_rho;
+	product.m_recoPhiStarCPRho = phiStarCPRho;
+	product.m_reco_posyTauL = posyLRho;
+	product.m_reco_negyTauL = negyLRho;
 
 	//fill additional variable to produce a merged phiStarCP plot with increased statistics
-	if (posyL_rho*negyL_rho > 0) {
-		product.m_recoPhiStarCP_rho_merged = phiStarCP_rho;
+	if (posyLRho*negyLRho > 0) {
+		product.m_recoPhiStarCPRhoMerged = phiStarCPRho;
 	}
 	else {
-		if (phiStarCP_rho > ROOT::Math::Pi()) {
-		 product.m_recoPhiStarCP_rho_merged = phiStarCP_rho - ROOT::Math::Pi();
+		if (phiStarCPRho > ROOT::Math::Pi()) {
+		 product.m_recoPhiStarCPRhoMerged = phiStarCPRho - ROOT::Math::Pi();
 		}
-		else product.m_recoPhiStarCP_rho_merged = phiStarCP_rho + ROOT::Math::Pi();
+		else product.m_recoPhiStarCPRhoMerged = phiStarCPRho + ROOT::Math::Pi();
 	}
 
 
@@ -1013,12 +1118,12 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// ---------
 	// ip-method
 	// ---------
-	// phi*CP wrt thePV
+	// phi*CP wrt nominalPV
 	// FIXME is it still needed?
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(&(event.m_vertexSummary->pv), trackP, trackM, momentumP, momentumM);
 
 	// calculation of the IP vectors and relative errors
-	// IP wrt thePV
+	// IP wrt nominalPV
 	product.m_recoIP1 = cpq.CalculateShortestDistance(recoParticle1, event.m_vertexSummary->pv.position);
 	product.m_recoIP2 = cpq.CalculateShortestDistance(recoParticle2, event.m_vertexSummary->pv.position);
 	product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, &(event.m_vertexSummary->pv), &product.m_recoIP1);
@@ -1035,34 +1140,34 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	double xBest1 = 0.0;
 	double xBest2 = 0.0;
 	//Impact parameters via helical approach in cm:
-	product.m_recoIP1_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,event.m_vertexSummary->pv.position, false, &scalar_product,recoParticle1 , &xBest1);
-	product.m_recoIP2_helical = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,event.m_vertexSummary->pv.position, false, &scalar_product,recoParticle2, &xBest2);
+	product.m_recoIPHel_1 = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,event.m_vertexSummary->pv.position, false, &scalar_product,recoParticle1 , &xBest1);
+	product.m_recoIPHel_2 = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,event.m_vertexSummary->pv.position, false, &scalar_product,recoParticle2, &xBest2);
 
-	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP1HelixCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,event.m_vertexSummary->pv.position, event.m_vertexSummary->pv.covariance, xBest1);
-	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP2HelixCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,event.m_vertexSummary->pv.position, event.m_vertexSummary->pv.covariance, xBest2);
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCov_1 = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,event.m_vertexSummary->pv.position, event.m_vertexSummary->pv.covariance, xBest1);
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCov_2 = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,event.m_vertexSummary->pv.position, event.m_vertexSummary->pv.covariance, xBest2);
 
-	product.m_recoIP1_helicalCovxx = IP1HelixCov(0,0);
-	product.m_recoIP1_helicalCovxy = IP1HelixCov(0,1);
-	product.m_recoIP1_helicalCovxz = IP1HelixCov(0,2);
-	product.m_recoIP1_helicalCovyy = IP1HelixCov(1,1);
-	product.m_recoIP1_helicalCovyz = IP1HelixCov(1,2);
-	product.m_recoIP1_helicalCovzz = IP1HelixCov(2,2);
+	product.m_recoIPHelCovxx_1 = IPHelCov_1(0,0);
+	product.m_recoIPHelCovxy_1 = IPHelCov_1(0,1);
+	product.m_recoIPHelCovxz_1 = IPHelCov_1(0,2);
+	product.m_recoIPHelCovyy_1 = IPHelCov_1(1,1);
+	product.m_recoIPHelCovyz_1 = IPHelCov_1(1,2);
+	product.m_recoIPHelCovzz_1 = IPHelCov_1(2,2);
 
-	product.m_recoIP2_helicalCovxx = IP2HelixCov(0,0);
-	product.m_recoIP2_helicalCovxy = IP2HelixCov(0,1);
-	product.m_recoIP2_helicalCovxz = IP2HelixCov(0,2);
-	product.m_recoIP2_helicalCovyy = IP2HelixCov(1,1);
-	product.m_recoIP2_helicalCovyz = IP2HelixCov(1,2);
-	product.m_recoIP2_helicalCovzz = IP2HelixCov(2,2);
+	product.m_recoIPHelCovxx_2 = IPHelCov_2(0,0);
+	product.m_recoIPHelCovxy_2 = IPHelCov_2(0,1);
+	product.m_recoIPHelCovxz_2 = IPHelCov_2(0,2);
+	product.m_recoIPHelCovyy_2 = IPHelCov_2(1,1);
+	product.m_recoIPHelCovyz_2 = IPHelCov_2(1,2);
+	product.m_recoIPHelCovzz_2 = IPHelCov_2(2,2);
 
 
-	ROOT::Math::SVector<float, 3> IP1_(product.m_recoIP1_helical(0), product.m_recoIP1_helical(1), product.m_recoIP1_helical(2)); // Conversion from TVector3 to SVector
+	ROOT::Math::SVector<float, 3> IP1_(product.m_recoIPHel_1(0), product.m_recoIPHel_1(1), product.m_recoIPHel_1(2)); // Conversion from TVector3 to SVector
 	IP1_ /= sqrt((ROOT::Math::Dot(IP1_, IP1_))); // Normalize
-	ROOT::Math::SVector<float, 3> IP2_(product.m_recoIP2_helical(0), product.m_recoIP2_helical(1), product.m_recoIP2_helical(2));
+	ROOT::Math::SVector<float, 3> IP2_(product.m_recoIPHel_2(0), product.m_recoIPHel_2(1), product.m_recoIPHel_2(2));
 	IP2_ /= sqrt((ROOT::Math::Dot(IP2_, IP2_)));
 
-	product.m_IP1MagPerSig = sqrt( (product.m_recoIP1_helical).x()*(product.m_recoIP1_helical).x() + (product.m_recoIP1_helical).y()*(product.m_recoIP1_helical).y() + (product.m_recoIP1_helical).z()*(product.m_recoIP1_helical).z() ) / sqrt( ROOT::Math::Dot(IP1_, IP1HelixCov * IP1_ ) );
-	product.m_IP2MagPerSig = sqrt( (product.m_recoIP2_helical).x()*(product.m_recoIP2_helical).x() + (product.m_recoIP2_helical).y()*(product.m_recoIP2_helical).y() + (product.m_recoIP2_helical).z()*(product.m_recoIP2_helical).z() ) / sqrt( ROOT::Math::Dot(IP2_, IP2HelixCov * IP2_ ) );
+	product.m_IPSignificanceHel_1 = sqrt( (product.m_recoIPHel_1).x()*(product.m_recoIPHel_1).x() + (product.m_recoIPHel_1).y()*(product.m_recoIPHel_1).y() + (product.m_recoIPHel_1).z()*(product.m_recoIPHel_1).z() ) / sqrt( ROOT::Math::Dot(IP1_, IPHelCov_1 * IP1_ ) );
+	product.m_IPSignificanceHel_2 = sqrt( (product.m_recoIPHel_2).x()*(product.m_recoIPHel_2).x() + (product.m_recoIPHel_2).y()*(product.m_recoIPHel_2).y() + (product.m_recoIPHel_2).z()*(product.m_recoIPHel_2).z() ) / sqrt( ROOT::Math::Dot(IP2_, IPHelCov_2 * IP2_ ) );
 
 	// Testing: Calculate some interesting values
 	double qOverP_1     = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[0];
@@ -1121,11 +1226,11 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET ){
 
 		KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
-		product.m_recoPhiStarCPComb_norefit       = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-		product.m_recoPhiStarCPCombMerged_norefit = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPComb_norefit, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+		product.m_recoPhiStarCPComb       = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+		product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPComb, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 
-		product.m_recoPhiStarCPComb_norefit_helical       = cpq.CalculatePhiStarCPComb(product.m_recoIP1_helical, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-		product.m_recoPhiStarCPCombMerged_norefit_helical = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPComb_norefit_helical, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+		product.m_recoPhiStarCPCombHel       = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+		product.m_recoPhiStarCPCombMergedHel = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombHel, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 
 	}  // if et or mt ch.
 
@@ -1135,122 +1240,124 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 		// tau1->rho, tau2->a
 		if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
-			product.m_recoPhiStarCPComb_norefit       = cpq.CalculatePhiStarCPComb(product.m_recoIP2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-			product.m_recoPhiStarCPCombMerged_norefit = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb_norefit, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			product.m_recoPhiStarCPComb       = cpq.CalculatePhiStarCPComb(product.m_recoIP2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+			product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 
-			product.m_recoPhiStarCPComb_norefit_helical       = cpq.CalculatePhiStarCPComb(product.m_recoIP2_helical, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-			product.m_recoPhiStarCPCombMerged_norefit_helical = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb_norefit_helical, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			product.m_recoPhiStarCPCombHel       = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+			product.m_recoPhiStarCPCombMergedHel = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHel, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 		} // tau1->rho, tau2->a
 
 		// tau1->a, tau2->rho
 		if (recoTau1->decayMode != 1 && recoTau2->decayMode ==1){
-			product.m_recoPhiStarCPComb_norefit       = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-			product.m_recoPhiStarCPCombMerged_norefit = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb_norefit, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			product.m_recoPhiStarCPComb       = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+			product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 
-			product.m_recoPhiStarCPComb_norefit_helical       = cpq.CalculatePhiStarCPComb(product.m_recoIP1_helical, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-			product.m_recoPhiStarCPCombMerged_norefit_helical = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb_norefit_helical, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			product.m_recoPhiStarCPCombHel       = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+			product.m_recoPhiStarCPCombMergedHel = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHel, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 		} // tau1->a, tau2->rho
 
 	}  // if tt ch.
 
 	// Calculate the psi+- without a refitted vertex
-	product.m_cosPsiPlus_norefit  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1);
-	product.m_cosPsiMinus_norefit = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP2);
+	product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1);
+	product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP2);
 
 	// Calculate the phi*cp by taking the ipvectors from the helical approach as arguments
 	if (recoParticle1->getHash() == chargedPart1->getHash()){
-		IPPlus_helical  = product.m_recoIP1_helical;
-		IPMinus_helical = product.m_recoIP2_helical;
+		IPPlusHel  = product.m_recoIPHel_1;
+		IPMinusHel = product.m_recoIPHel_2;
 	} else {
-		IPPlus_helical  = product.m_recoIP2_helical;
-		IPMinus_helical = product.m_recoIP1_helical;
+		IPPlusHel  = product.m_recoIPHel_2;
+		IPMinusHel = product.m_recoIPHel_1;
 	}
-	product.m_recoPhiStarCP_helical = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlus_helical, IPMinus_helical, "reco");
+	product.m_recoPhiStarCPHel = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlusHel, IPMinusHel, "reco");
 
 	if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
 		//with the tangential approach
-		product.m_deltaEtaGenRecoIP1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
-		product.m_deltaPhiGenRecoIP1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
-		product.m_deltaRGenRecoIP1   = product.m_recoIP1.DeltaR(product.m_genIP1);
-		product.m_deltaGenRecoIP1    = product.m_recoIP1.Angle(product.m_genIP1);
+		product.m_deltaEtaGenRecoIP_1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
+		product.m_deltaPhiGenRecoIP_1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
+		product.m_deltaRGenRecoIP_1   = product.m_recoIP1.DeltaR(product.m_genIP1);
+		product.m_deltaGenRecoIP_1    = product.m_recoIP1.Angle(product.m_genIP1);
 
 		//with the helical approach
-		product.m_deltaEtaGenRecoIP1_helical = product.m_recoIP1_helical.Eta() - product.m_genIP1.Eta();
-		product.m_deltaPhiGenRecoIP1_helical = product.m_recoIP1_helical.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
-		product.m_deltaRGenRecoIP1_helical   = product.m_recoIP1_helical.DeltaR(product.m_genIP1);
-		product.m_deltaGenRecoIP1_helical    = product.m_recoIP1_helical.Angle(product.m_genIP1);//product.m_recoIP1);//
+		product.m_deltaEtaGenRecoIPHel_1 = product.m_recoIPHel_1.Eta() - product.m_genIP1.Eta();
+		product.m_deltaPhiGenRecoIPHel_1 = product.m_recoIPHel_1.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
+		product.m_deltaRGenRecoIPHel_1   = product.m_recoIPHel_1.DeltaR(product.m_genIP1);
+		product.m_deltaGenRecoIPHel_1    = product.m_recoIPHel_1.Angle(product.m_genIP1);//product.m_recoIP1);//
 	} // if genIP1 exists
 	if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
-		product.m_deltaEtaGenRecoIP2 = product.m_recoIP2.Eta() - product.m_genIP2.Eta();
-		product.m_deltaPhiGenRecoIP2 = product.m_recoIP2.DeltaPhi(product.m_genIP2);
-		product.m_deltaRGenRecoIP2   = product.m_recoIP2.DeltaR(product.m_genIP2);
-		product.m_deltaGenRecoIP2    = product.m_recoIP2.Angle(product.m_genIP2);
+		product.m_deltaEtaGenRecoIP_2 = product.m_recoIP2.Eta() - product.m_genIP2.Eta();
+		product.m_deltaPhiGenRecoIP_2 = product.m_recoIP2.DeltaPhi(product.m_genIP2);
+		product.m_deltaRGenRecoIP_2   = product.m_recoIP2.DeltaR(product.m_genIP2);
+		product.m_deltaGenRecoIP_2    = product.m_recoIP2.Angle(product.m_genIP2);
 
-		product.m_deltaEtaGenRecoIP2_helical = product.m_recoIP2_helical.Eta() - product.m_genIP2.Eta();
-		product.m_deltaPhiGenRecoIP2_helical = product.m_recoIP2_helical.DeltaPhi(product.m_genIP2);
-		product.m_deltaRGenRecoIP2_helical   = product.m_recoIP2_helical.DeltaR(product.m_genIP2);
-		product.m_deltaGenRecoIP2_helical    = product.m_recoIP2_helical.Angle(product.m_genIP2);
+		product.m_deltaEtaGenRecoIPHel_2 = product.m_recoIPHel_2.Eta() - product.m_genIP2.Eta();
+		product.m_deltaPhiGenRecoIPHel_2 = product.m_recoIPHel_2.DeltaPhi(product.m_genIP2);
+		product.m_deltaRGenRecoIPHel_2   = product.m_recoIPHel_2.DeltaR(product.m_genIP2);
+		product.m_deltaGenRecoIPHel_2    = product.m_recoIPHel_2.Angle(product.m_genIP2);
 	} // if genIP2 exists
 
 	if (product.m_refitPV != nullptr){
 
 		// IP wrt refitPV
-		product.m_recoIP1_refitPV = cpq.CalculateShortestDistance(recoParticle1, product.m_refitPV->position);
-		product.m_recoIP2_refitPV = cpq.CalculateShortestDistance(recoParticle2, product.m_refitPV->position);
-		product.m_errorIP1vec_refitPV = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &product.m_recoIP1_refitPV);
-		product.m_errorIP2vec_refitPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &product.m_recoIP2_refitPV);
+		product.m_recoIPrPV_1 = cpq.CalculateShortestDistance(recoParticle1, product.m_refitPV->position);
+		product.m_recoIPrPV_2 = cpq.CalculateShortestDistance(recoParticle2, product.m_refitPV->position);
+		product.m_errorIP1vecrPV = cpq.CalculateIPErrors(recoParticle1, product.m_refitPV, &product.m_recoIPrPV_1);
+		product.m_errorIP2vecrPV = cpq.CalculateIPErrors(recoParticle2, product.m_refitPV, &product.m_recoIPrPV_2);
 
-		product.m_recoIP1_refitPVBS = cpq.CalculateShortestDistance(recoParticle1, product.m_refitPVBS->position);
-		product.m_recoIP2_refitPVBS = cpq.CalculateShortestDistance(recoParticle2, product.m_refitPVBS->position);
-		product.m_errorIP1vec_refitPVBS = cpq.CalculateIPErrors(recoParticle1, product.m_refitPVBS, &product.m_recoIP1_refitPV);
-		product.m_errorIP2vec_refitPVBS = cpq.CalculateIPErrors(recoParticle2, product.m_refitPVBS, &product.m_recoIP2_refitPV);
+		product.m_recoIPrPVBS_1 = cpq.CalculateShortestDistance(recoParticle1, product.m_refitPVBS->position);
+		product.m_recoIPrPVBS_2 = cpq.CalculateShortestDistance(recoParticle2, product.m_refitPVBS->position);
+		product.m_errorIP1vecrPVBS = cpq.CalculateIPErrors(recoParticle1, product.m_refitPVBS, &product.m_recoIPrPV_1);
+		product.m_errorIP2vecrPVBS = cpq.CalculateIPErrors(recoParticle2, product.m_refitPVBS, &product.m_recoIPrPV_2);
 
 		//Projection of Point of closest approach (PCA) to the primary vertex (PV) uncertainty ellipsoid
-		product.m_pca1proj_refitPV = cpq.CalculatePCADifferece(product.m_refitPV->covariance,product.m_recoIP1_refitPV);
-		product.m_pca2proj_refitPV = cpq.CalculatePCADifferece(product.m_refitPV->covariance,product.m_recoIP2_refitPV);
+		product.m_pca1projrPV = cpq.CalculatePCADifferece(product.m_refitPV->covariance,product.m_recoIPrPV_1);
+		product.m_pca2projrPV = cpq.CalculatePCADifferece(product.m_refitPV->covariance,product.m_recoIPrPV_2);
 		//Distance of Point of closest approach (PCA) from the primary vertex (PV) in units of sigma_PV
-		product.m_pca1DiffInSigma_refitPV = product.m_recoIP1_refitPV.Mag()/product.m_pca1proj_refitPV;
-		product.m_pca2DiffInSigma_refitPV = product.m_recoIP2_refitPV.Mag()/product.m_pca2proj_refitPV;
+		product.m_pca1DiffInSigmarPV = product.m_recoIPrPV_1.Mag()/product.m_pca1projrPV;
+		product.m_pca2DiffInSigmarPV = product.m_recoIPrPV_2.Mag()/product.m_pca2projrPV;
 
 		//Impact parameters via helical approach in cm:
 		xBest1 = -999;
 		xBest2 = -999;
-		// product.m_recoIP1_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,product.m_refitPV->position, false, &scalar_product,recoParticle1, &xBest1);
-		// product.m_recoIP2_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,product.m_refitPV->position, false, &scalar_product,recoParticle2, &xBest2);
-		 product.m_recoIP1_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,product.m_refitPV->position, false, &scalar_product,recoParticle1, &xBest1);
-		product.m_recoIP2_helical_refitPV = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,product.m_refitPV->position, false, &scalar_product,recoParticle2, &xBest2);
+		// product.m_recoIPHelrPV_1 = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_flavourOrderedLeptons.at(0)->track.ref,product.m_refitPV->position, false, &scalar_product,recoParticle1, &xBest1);
+		// product.m_recoIPHelrPV_2 = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_flavourOrderedLeptons.at(1)->track.ref,product.m_refitPV->position, false, &scalar_product,recoParticle2, &xBest2);
+		 product.m_recoIPHelrPV_1 = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,product.m_refitPV->position, false, &scalar_product,recoParticle1, &xBest1);
+		product.m_recoIPHelrPV_2 = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,product.m_refitPV->position, false, &scalar_product,recoParticle2, &xBest2);
 
-		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP1HelixRefitPVCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,product.m_refitPV->position, product.m_refitPV->covariance, xBest1);
-		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IP2HelixRefitPVCov = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,product.m_refitPV->position, product.m_refitPV->covariance, xBest2);
+		 product.m_recoIPHelrPVBS_1 = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,product.m_refitPVBS->position, false, &scalar_product,recoParticle1, &xBest1);
+		product.m_recoIPHelrPVBS_2 = cpq.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,product.m_refitPVBS->position, false, &scalar_product,recoParticle2, &xBest2);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVCov_1 = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.magneticField,product.m_flavourOrderedLeptons.at(0)->track.charge,product.m_flavourOrderedLeptons.at(0)->track.helixParameters(),product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_RefHelix_1,product.m_refitPV->position, product.m_refitPV->covariance, xBest1);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVCov_2 = cpq.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.magneticField,product.m_flavourOrderedLeptons.at(1)->track.charge,product.m_flavourOrderedLeptons.at(1)->track.helixParameters(),product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_RefHelix_2,product.m_refitPV->position, product.m_refitPV->covariance, xBest2);
 
-		product.m_recoIP1_helical_refitPVCovxx = IP1HelixRefitPVCov(0,0);
-		product.m_recoIP1_helical_refitPVCovxy = IP1HelixRefitPVCov(0,1);
-		product.m_recoIP1_helical_refitPVCovxz = IP1HelixRefitPVCov(0,2);
-		product.m_recoIP1_helical_refitPVCovyy = IP1HelixRefitPVCov(1,1);
-		product.m_recoIP1_helical_refitPVCovyz = IP1HelixRefitPVCov(1,2);
-		product.m_recoIP1_helical_refitPVCovzz = IP1HelixRefitPVCov(2,2);
+		product.m_recoIPHelrPVCovxx_1 = IPHelrPVCov_1(0,0);
+		product.m_recoIPHelrPVCovxy_1 = IPHelrPVCov_1(0,1);
+		product.m_recoIPHelrPVCovxz_1 = IPHelrPVCov_1(0,2);
+		product.m_recoIPHelrPVCovyy_1 = IPHelrPVCov_1(1,1);
+		product.m_recoIPHelrPVCovyz_1 = IPHelrPVCov_1(1,2);
+		product.m_recoIPHelrPVCovzz_1 = IPHelrPVCov_1(2,2);
 
-		product.m_recoIP2_helical_refitPVCovxx = IP2HelixRefitPVCov(0,0);
-		product.m_recoIP2_helical_refitPVCovxy = IP2HelixRefitPVCov(0,1);
-		product.m_recoIP2_helical_refitPVCovxz = IP2HelixRefitPVCov(0,2);
-		product.m_recoIP2_helical_refitPVCovyy = IP2HelixRefitPVCov(1,1);
-		product.m_recoIP2_helical_refitPVCovyz = IP2HelixRefitPVCov(1,2);
-		product.m_recoIP2_helical_refitPVCovzz = IP2HelixRefitPVCov(2,2);
+		product.m_recoIPHelrPVCovxx_2 = IPHelrPVCov_2(0,0);
+		product.m_recoIPHelrPVCovxy_2 = IPHelrPVCov_2(0,1);
+		product.m_recoIPHelrPVCovxz_2 = IPHelrPVCov_2(0,2);
+		product.m_recoIPHelrPVCovyy_2 = IPHelrPVCov_2(1,1);
+		product.m_recoIPHelrPVCovyz_2 = IPHelrPVCov_2(1,2);
+		product.m_recoIPHelrPVCovzz_2 = IPHelrPVCov_2(2,2);
 
-		ROOT::Math::SVector<float, 3> IP1rPV_(product.m_recoIP1_helical_refitPV(0), product.m_recoIP2_helical_refitPV(1), product.m_recoIP1_helical_refitPV(2));// Conversion from TVector3 to SVector
-		IP1rPV_ /= sqrt(ROOT::Math::Dot(IP1rPV_, IP1rPV_));// Normalize
-		ROOT::Math::SVector<float, 3> IP2rPV_(product.m_recoIP2_helical_refitPV(0), product.m_recoIP2_helical_refitPV(1), product.m_recoIP2_helical_refitPV(2));
-		IP2rPV_ /= sqrt(ROOT::Math::Dot(IP2rPV_, IP2rPV_));
-		product.m_IP1MagPerSigrPV = sqrt( (product.m_recoIP1_helical_refitPV).x()*(product.m_recoIP1_helical_refitPV).x() + (product.m_recoIP1_helical_refitPV).y()*(product.m_recoIP1_helical_refitPV).y() + (product.m_recoIP1_helical_refitPV).z()*(product.m_recoIP1_helical_refitPV).z() ) / sqrt( ROOT::Math::Dot(IP1rPV_, IP1HelixRefitPVCov * IP1rPV_) );
-		product.m_IP2MagPerSigrPV = sqrt( (product.m_recoIP1_helical_refitPV).x()*(product.m_recoIP1_helical_refitPV).x() + (product.m_recoIP1_helical_refitPV).y()*(product.m_recoIP1_helical_refitPV).y() + (product.m_recoIP1_helical_refitPV).z()*(product.m_recoIP1_helical_refitPV).z() ) / sqrt( ROOT::Math::Dot(IP2rPV_, IP2HelixRefitPVCov * IP2rPV_) );
+		ROOT::Math::SVector<float, 3> IPrPV_1_(product.m_recoIPHelrPV_1(0), product.m_recoIPHelrPV_2(1), product.m_recoIPHelrPV_1(2));// Conversion from TVector3 to SVector
+		IPrPV_1_ /= sqrt(ROOT::Math::Dot(IPrPV_1_, IPrPV_1_));// Normalize
+		ROOT::Math::SVector<float, 3> IPrPV_2_(product.m_recoIPHelrPV_2(0), product.m_recoIPHelrPV_2(1), product.m_recoIPHelrPV_2(2));
+		IPrPV_2_ /= sqrt(ROOT::Math::Dot(IPrPV_2_, IPrPV_2_));
+		product.m_IPSignificanceHelrPV_1 = sqrt( (product.m_recoIPHelrPV_1).x()*(product.m_recoIPHelrPV_1).x() + (product.m_recoIPHelrPV_1).y()*(product.m_recoIPHelrPV_1).y() + (product.m_recoIPHelrPV_1).z()*(product.m_recoIPHelrPV_1).z() ) / sqrt( ROOT::Math::Dot(IPrPV_1_, IPHelrPVCov_1 * IPrPV_1_) );
+		product.m_IPSignificanceHelrPV_2 = sqrt( (product.m_recoIPHelrPV_1).x()*(product.m_recoIPHelrPV_1).x() + (product.m_recoIPHelrPV_1).y()*(product.m_recoIPHelrPV_1).y() + (product.m_recoIPHelrPV_1).z()*(product.m_recoIPHelrPV_1).z() ) / sqrt( ROOT::Math::Dot(IPrPV_2_, IPHelrPVCov_2 * IPrPV_2_) );
 
 		// calculate cosPsi
 		if (recoParticle1->charge() == +1){
-			product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1_refitPV);
-			product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP2_refitPV);
+			product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPrPV_1);
+			product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPrPV_2);
 		} else {
-			product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP2_refitPV);
-			product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1_refitPV);
+			product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPrPV_2);
+			product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPrPV_1);
 		}
 
 		// calculate phi*cp using the refitted PV
@@ -1260,29 +1367,29 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_recoPhiStarCPrPVBS = cpq.CalculatePhiStarCP(product.m_refitPVBS, trackP, trackM, momentumP, momentumM);
 
 		// azimuthal angles of the tau decay planes
-		product.m_recoPhiPlus_ipmeth = cpq.GetRecoPhiPlus_ipmeth();
-		product.m_recoPhiMinus_ipmeth = cpq.GetRecoPhiMinus_ipmeth();
-		product.m_recoPhiStarPlus_ipmeth = cpq.GetRecoPhiStarPlus_ipmeth();
-		product.m_recoPhiStarMinus_ipmeth = cpq.GetRecoPhiStarMinus_ipmeth();
+		product.m_recoPhiPlusIPMeth = cpq.GetRecoPhiPlusIPMeth();
+		product.m_recoPhiMinusIPMeth = cpq.GetRecoPhiMinusIPMeth();
+		product.m_recoPhiStarPlusIPMeth = cpq.GetRecoPhiStarPlusIPMeth();
+		product.m_recoPhiStarMinusIPMeth = cpq.GetRecoPhiStarMinusIPMeth();
 
 		// calcalute phi*cp by passing ipvectors as arguments
 		// get the IP vectors corresponding to charge+ and charge- particles
 		if (recoParticle1->getHash() == chargedPart1->getHash()){
-			IPPlus  = product.m_recoIP1_refitPV;
-			IPMinus = product.m_recoIP2_refitPV;
-			IPPlus_helical  = product.m_recoIP1_helical_refitPV;
-			IPMinus_helical = product.m_recoIP2_helical_refitPV;
+			IPPlus  = product.m_recoIPrPV_1;
+			IPMinus = product.m_recoIPrPV_2;
+			IPPlusHel  = product.m_recoIPHelrPV_1;
+			IPMinusHel = product.m_recoIPHelrPV_2;
 		} else {
-			IPPlus  = product.m_recoIP2_refitPV;
-			IPMinus = product.m_recoIP1_refitPV;
-			IPPlus_helical  =  product.m_recoIP2_helical_refitPV;
-			IPMinus_helical =  product.m_recoIP1_helical_refitPV;
+			IPPlus  = product.m_recoIPrPV_2;
+			IPMinus = product.m_recoIPrPV_1;
+			IPPlusHel  =  product.m_recoIPHelrPV_2;
+			IPMinusHel =  product.m_recoIPHelrPV_1;
 		}
 
 		// calculate phi*cp, by taking the IP vectors as an argument
 		// FIXME keep it and remove the previous call, or the other way around
 		// product.m_recoPhiStarCPrPV2 = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlus, IPMinus, "reco");
-		product.m_recoPhiStarCPrPV_helical = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlus_helical, IPMinus_helical, "reco");
+		product.m_recoPhiStarCPHelrPV = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlusHel, IPMinusHel, "reco");
 
 
 		// ---------
@@ -1291,39 +1398,37 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET ){
 			KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
 
-			product.m_recoPhiStarCPComb       = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-			product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPComb, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			product.m_recoPhiStarCPCombrPV       = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+			product.m_recoPhiStarCPCombrPVBS       = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+			product.m_recoPhiStarCPCombHelrPV       = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+			product.m_recoPhiStarCPCombMergedrPV = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombrPV, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 
-			product.m_recoPhiStarCPCombBS       = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPVBS, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-			product.m_recoPhiStarCPCombMergedBS = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombBS, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			product.m_recoPhiStarCPCombMergedrPVBS = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombrPVBS, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 
-			product.m_recoPhiStarCPComb_helical       = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPVBS, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-			product.m_recoPhiStarCPCombMerged_helical = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPComb_helical, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			product.m_recoPhiStarCPCombMergedHelrPV = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombHelrPV, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 		}
 		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ){
 			KTau* recoTau1 = static_cast<KTau*>(recoParticle1);
 			KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
 			// tau1->rho, tau2->a
 			if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
-				product.m_recoPhiStarCPComb       = cpq.CalculatePhiStarCPComb(product.m_recoIP2_refitPV, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-				product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-
-				product.m_recoPhiStarCPCombBS       = cpq.CalculatePhiStarCPComb(product.m_recoIP2_refitPVBS, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-				product.m_recoPhiStarCPCombMergedBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-
-				product.m_recoPhiStarCPComb_helical       = cpq.CalculatePhiStarCPComb(product.m_recoIP2_refitPV, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-				product.m_recoPhiStarCPCombMerged_helical = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb_helical, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+				product.m_recoPhiStarCPCombrPV    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+				product.m_recoPhiStarCPCombrPVBS  = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+				product.m_recoPhiStarCPCombHelrPV = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+				product.m_recoPhiStarCPCombMergedrPV    = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+				product.m_recoPhiStarCPCombMergedrPVBS  = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+				product.m_recoPhiStarCPCombMergedHelrPV = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHelrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 			}
 			// tau1->a, tau2->rho
 			if (recoTau1->decayMode != 1 && recoTau2->decayMode ==1){
-				product.m_recoPhiStarCPComb       = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-				product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+				product.m_recoPhiStarCPCombrPV       = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+				product.m_recoPhiStarCPCombMergedrPV = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 
-				product.m_recoPhiStarCPCombBS       = cpq.CalculatePhiStarCPComb(product.m_recoIP1_refitPVBS, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-				product.m_recoPhiStarCPCombMergedBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+				product.m_recoPhiStarCPCombrPVBS       = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+				product.m_recoPhiStarCPCombMergedrPVBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 
-				product.m_recoPhiStarCPComb_helical       = cpq.CalculatePhiStarCPComb(product.m_recoIP1_helical_refitPV, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-				product.m_recoPhiStarCPCombMerged_helical = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb_helical, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+				product.m_recoPhiStarCPCombHelrPV       = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+				product.m_recoPhiStarCPCombMergedHelrPV = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHelrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 			}
 
 		}  // if tt ch.
@@ -1331,41 +1436,41 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		if (!m_isData){
 			// calculate deltaR, deltaEta, deltaPhi and delta between recoIPvec and genIPvec
 			if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
-				// wrt thePV
-				product.m_deltaEtaGenRecoIP1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
-				product.m_deltaPhiGenRecoIP1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
-				product.m_deltaRGenRecoIP1   = product.m_recoIP1.DeltaR(product.m_genIP1);
-				product.m_deltaGenRecoIP1    = product.m_recoIP1.Angle(product.m_genIP1);
+				// wrt nominalPV
+				product.m_deltaEtaGenRecoIP_1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIP_1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
+				product.m_deltaRGenRecoIP_1   = product.m_recoIP1.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIP_1    = product.m_recoIP1.Angle(product.m_genIP1);
 
 				//with the helical approach
-				product.m_deltaEtaGenRecoIP1_helical = product.m_recoIP1_helical.Eta() - product.m_genIP1.Eta();
-				product.m_deltaPhiGenRecoIP1_helical = product.m_recoIP1_helical.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
-				product.m_deltaRGenRecoIP1_helical   = product.m_recoIP1_helical.DeltaR(product.m_genIP1);
-				product.m_deltaGenRecoIP1_helical    = product.m_recoIP1_helical.Angle(product.m_genIP1);//product.m_recoIP1);//
+				product.m_deltaEtaGenRecoIPHel_1 = product.m_recoIPHel_1.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIPHel_1 = product.m_recoIPHel_1.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
+				product.m_deltaRGenRecoIPHel_1   = product.m_recoIPHel_1.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIPHel_1    = product.m_recoIPHel_1.Angle(product.m_genIP1);//product.m_recoIP1);//
 
 				// wrt refitted PV
-				product.m_deltaEtaGenRecoIP1_refitPV = product.m_recoIP1_refitPV.Eta() - product.m_genIP1.Eta();
-				product.m_deltaPhiGenRecoIP1_refitPV = product.m_recoIP1_refitPV.DeltaPhi(product.m_genIP1);//product.m_recoIP1_refitPV);//
-				product.m_deltaRGenRecoIP1_refitPV   = product.m_recoIP1_refitPV.DeltaR(product.m_genIP1);
-				product.m_deltaGenRecoIP1_refitPV    = product.m_recoIP1_refitPV.Angle(product.m_genIP1);//product.m_recoIP1_refitPV);//
+				product.m_deltaEtaGenRecoIPrPV_1 = product.m_recoIPrPV_1.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIPrPV_1 = product.m_recoIPrPV_1.DeltaPhi(product.m_genIP1);//product.m_recoIPrPV_1);//
+				product.m_deltaRGenRecoIPrPV_1   = product.m_recoIPrPV_1.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIPrPV_1    = product.m_recoIPrPV_1.Angle(product.m_genIP1);//product.m_recoIPrPV_1);//
 
-				product.m_deltaEtaGenRecoIP1_helical_refitPV = product.m_recoIP1_helical_refitPV.Eta() - product.m_genIP1.Eta();
-				product.m_deltaPhiGenRecoIP1_helical_refitPV = product.m_recoIP1_helical_refitPV.DeltaPhi(product.m_genIP1);
-				product.m_deltaRGenRecoIP1_helical_refitPV   = product.m_recoIP1_helical_refitPV.DeltaR(product.m_genIP1);
-				product.m_deltaGenRecoIP1_helical_refitPV    = product.m_recoIP1_helical_refitPV.Angle(product.m_genIP1);
+				product.m_deltaEtaGenRecoIPHelrPV_1 = product.m_recoIPHelrPV_1.Eta() - product.m_genIP1.Eta();
+				product.m_deltaPhiGenRecoIPHelrPV_1 = product.m_recoIPHelrPV_1.DeltaPhi(product.m_genIP1);
+				product.m_deltaRGenRecoIPHelrPV_1   = product.m_recoIPHelrPV_1.DeltaR(product.m_genIP1);
+				product.m_deltaGenRecoIPHelrPV_1    = product.m_recoIPHelrPV_1.Angle(product.m_genIP1);
 			} // if genIP1 exists
 
 			if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
 				// wrt refitted PV
-				product.m_deltaEtaGenRecoIP2_refitPV = product.m_recoIP2_refitPV.Eta() - product.m_genIP2.Eta();
-				product.m_deltaPhiGenRecoIP2_refitPV = product.m_recoIP2_refitPV.DeltaPhi(product.m_genIP2);
-				product.m_deltaRGenRecoIP2_refitPV   = product.m_recoIP2_refitPV.DeltaR(product.m_genIP2);
-				product.m_deltaGenRecoIP2_refitPV    = product.m_recoIP2_refitPV.Angle(product.m_genIP2);
+				product.m_deltaEtaGenRecoIPrPV_2 = product.m_recoIPrPV_2.Eta() - product.m_genIP2.Eta();
+				product.m_deltaPhiGenRecoIPrPV_2 = product.m_recoIPrPV_2.DeltaPhi(product.m_genIP2);
+				product.m_deltaRGenRecoIPrPV_2   = product.m_recoIPrPV_2.DeltaR(product.m_genIP2);
+				product.m_deltaGenRecoIPrPV_2    = product.m_recoIPrPV_2.Angle(product.m_genIP2);
 
-				product.m_deltaEtaGenRecoIP2_helical_refitPV = product.m_recoIP2_helical_refitPV.Eta() - product.m_genIP2.Eta();
-				product.m_deltaPhiGenRecoIP2_helical_refitPV = product.m_recoIP2_helical_refitPV.DeltaPhi(product.m_genIP2);
-				product.m_deltaRGenRecoIP2_helical_refitPV   = product.m_recoIP2_helical_refitPV.DeltaR(product.m_genIP2);
-				product.m_deltaGenRecoIP2_helical_refitPV    = product.m_recoIP2_helical_refitPV.Angle(product.m_genIP2);
+				product.m_deltaEtaGenRecoIPHelrPV_2 = product.m_recoIPHelrPV_2.Eta() - product.m_genIP2.Eta();
+				product.m_deltaPhiGenRecoIPHelrPV_2 = product.m_recoIPHelrPV_2.DeltaPhi(product.m_genIP2);
+				product.m_deltaRGenRecoIPHelrPV_2   = product.m_recoIPHelrPV_2.DeltaR(product.m_genIP2);
+				product.m_deltaGenRecoIPHelrPV_2    = product.m_recoIPHelrPV_2.Angle(product.m_genIP2);
 			} // if genIP2 exists
 
 		} // if MC sample

@@ -18,6 +18,11 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	// add possible quantities for the lambda ntuples consumers
 
 	// refitted PV coordinates and parameters
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "refitPV", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->position : DefaultValues::UndefinedRMPoint);
+	});
+	/*
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVx", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->position.x() : DefaultValues::UndefinedFloat);
@@ -30,6 +35,7 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	{
 		return ((product.m_refitPV != nullptr) ? (product.m_refitPV)->position.z() : DefaultValues::UndefinedFloat);
 	});
+	*/
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVchi2OverNdof", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_refitPV != nullptr) ? (product.m_refitPV->chi2 / product.m_refitPV->nDOF) : DefaultValues::UndefinedFloat);
@@ -64,6 +70,11 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	});
 
 	// refitted (w/ BS constraint) PV coordinates and parameters
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "refitPVBS", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->position : DefaultValues::UndefinedRMPoint);
+	});
+	/*
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVBSx", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->position.x() : DefaultValues::UndefinedFloat);
@@ -76,6 +87,7 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	{
 		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS)->position.z() : DefaultValues::UndefinedFloat);
 	});
+	*/
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refitPVBSchi2OverNdof", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_refitPVBS != nullptr) ? (product.m_refitPVBS->chi2 / product.m_refitPVBS->nDOF) : DefaultValues::UndefinedFloat);
@@ -111,10 +123,15 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 
 	// track ref point coordinates
 	// lepton1
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refP1x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "refP1", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_refP1 != nullptr) ? (product.m_refP1)->x() : DefaultValues::UndefinedFloat);
+		return ((product.m_refP1 != nullptr) ? (*product.m_refP1) : DefaultValues::UndefinedRMPoint);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "refP2", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_refP2 != nullptr) ? (*product.m_refP2) : DefaultValues::UndefinedRMPoint);
+	});
+	/*
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "refP1y", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_refP1 != nullptr) ? (product.m_refP1)->y() : DefaultValues::UndefinedFloat);
@@ -136,9 +153,19 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	{
 		return ((product.m_refP2 != nullptr) ? (product.m_refP2)->z() : DefaultValues::UndefinedFloat);
 	});
+	*/
 
 	// track momentum coordinates
 	// lepton1
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "track1p4", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_track1p4 != nullptr) ? (*product.m_track1p4) : DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "track2p4", [](event_type const& event, product_type const& product)
+	{
+		return ((product.m_track2p4 != nullptr) ? (*product.m_track2p4) : DefaultValues::UndefinedRMFLV);
+	});
+	/*
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "track1p4x", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_track1p4 != nullptr) ? (product.m_track1p4)->x() : DefaultValues::UndefinedFloat);
@@ -151,23 +178,25 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	{
 		return ((product.m_track1p4 != nullptr) ? (product.m_track1p4)->z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d3D_refitPV_1", [](event_type const& event, product_type const& product)
+	*/
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d3DrPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_d3DnewPV1 ? product.m_d3DnewPV1 : DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "err3D_refitPV_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "err3DrPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_err3DnewPV1 ? product.m_err3DnewPV1 : DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d2D_refitPV_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d2DrPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_d2DnewPV1 ? product.m_d2DnewPV1 : DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "err2D_refitPV_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "err2DrPV_1", [](event_type const& event, product_type const& product)
 	{
 		return product.m_err2DnewPV1 ? product.m_err2DnewPV1 : DefaultValues::UndefinedFloat;
 	});
 	// lepton2
+	/*
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "track2p4x", [](event_type const& event, product_type const& product)
 	{
 		return ((product.m_track2p4 != nullptr) ? (product.m_track2p4)->x() : DefaultValues::UndefinedFloat);
@@ -180,19 +209,20 @@ void RefitVertexSelector::Init(setting_type const& settings, metadata_type& meta
 	{
 		return ((product.m_track2p4 != nullptr) ? (product.m_track2p4)->z() : DefaultValues::UndefinedFloat);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d3D_refitPV_2", [](event_type const& event, product_type const& product)
+	*/
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d3DrPV_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_d3DnewPV2 ? product.m_d3DnewPV2 : DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "err3D_refitPV_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "err3DrPV_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_err3DnewPV2 ? product.m_err3DnewPV2 : DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d2D_refitPV_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d2DrPV_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_d2DnewPV2 ? product.m_d2DnewPV2 : DefaultValues::UndefinedFloat;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "err2D_refitPV_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "err2DrPV_2", [](event_type const& event, product_type const& product)
 	{
 		return product.m_err2DnewPV2 ? product.m_err2DnewPV2 : DefaultValues::UndefinedFloat;
 	});

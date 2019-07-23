@@ -301,10 +301,10 @@ public:
 	double m_genPhiCPLab  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCPComb = DefaultValues::UndefinedDouble;
 
-	double m_genPhiCP_rho  = DefaultValues::UndefinedDouble;
-	double m_genPhiStarCP_rho  = DefaultValues::UndefinedDouble;
-	double m_genPhi_rho  = DefaultValues::UndefinedDouble;
-	double m_genPhiStar_rho  = DefaultValues::UndefinedDouble;
+	double m_genPhiCPRho  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCPRho  = DefaultValues::UndefinedDouble;
+	double m_genPhiRho  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarRho  = DefaultValues::UndefinedDouble;
 	double m_gen_yTau  = DefaultValues::UndefinedDouble;
 	double m_gen_posyTauL  = DefaultValues::UndefinedDouble;
 	double m_gen_negyTauL  = DefaultValues::UndefinedDouble;
@@ -335,62 +335,70 @@ public:
 
 	TVector3 m_recoIP1; // IPvec wrt original PV
 	TVector3 m_recoIP2; // IPvec wrt original PV
-	TVector3 m_recoIP1_refitPV; // IPvec wrt refitted PV
-	TVector3 m_recoIP2_refitPV; // IPvec wrt refitted PV
-	TVector3 m_recoIP1_refitPVBS; // IPvec wrt refitted PV and BS constraint
-	TVector3 m_recoIP2_refitPVBS; // IPvec wrt refitted PV and BS constraint
+	TVector3 m_recoIPrPV_1; // IPvec wrt refitted PV
+	TVector3 m_recoIPrPV_2; // IPvec wrt refitted PV
+	TVector3 m_recoIPrPVBS_1; // IPvec wrt refitted PV and BS constraint
+	TVector3 m_recoIPrPVBS_2; // IPvec wrt refitted PV and BS constraint
 	TVector3 m_track1FromBS; // distance between track1 and BS center
 	TVector3 m_track2FromBS; // distance between track2 and BS center
+	TVector3 m_recoIPHel_1;
+	TVector3 m_recoIPHel_2;
+	TVector3 m_recoIPHelrPV_1;
+	TVector3 m_recoIPHelrPV_2;
+	TVector3 m_recoIPHelrPVBS_1;
+	TVector3 m_recoIPHelrPVBS_2;
 
 	double m_pca1DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach(PCA) from the primary vertex (PV) in units of sigma
 	double m_pca2DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach(PCA) from the primary vertex (PV) in units of sigma
-	double m_IP1MagPerSig = DefaultValues::UndefinedDouble;
-	double m_IP2MagPerSig = DefaultValues::UndefinedDouble;
-	double m_IP1MagPerSigrPV = DefaultValues::UndefinedDouble;
-	double m_IP2MagPerSigrPV = DefaultValues::UndefinedDouble;
-	double m_pca1DiffInSigma_refitPV;
-	double m_pca2DiffInSigma_refitPV;
+	double m_IPSignificanceHel_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHel_2 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPV_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPV_2 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPVBS_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPVBS_2 = DefaultValues::UndefinedDouble;
+	double m_pca1DiffInSigmarPV;
+	double m_pca2DiffInSigmarPV;
 	double m_pca1proj = DefaultValues::UndefinedDouble; //Projection of Point of closest approach(PCA) to the primary vertex (PV) 1 sigma ellipsoid
 	double m_pca2proj = DefaultValues::UndefinedDouble; //Projection of Point of closest approach(PCA) to the primary vertex (PV) 1 sigma ellipsoid
-	double m_pca1proj_refitPV;
-	double m_pca2proj_refitPV;
-	TVector3 m_recoIP1_helical;
-	TVector3 m_recoIP2_helical;
-	TVector3 m_recoIP1_helical_refitPV;
-	TVector3 m_recoIP2_helical_refitPV;
+	double m_pca1projrPV;
+	double m_pca2projrPV;
 
-	double m_recoIP1_helicalCovxx = DefaultValues::UndefinedDouble;
-	double m_recoIP1_helicalCovxy = DefaultValues::UndefinedDouble;
-	double m_recoIP1_helicalCovxz = DefaultValues::UndefinedDouble;
-	double m_recoIP1_helicalCovyy = DefaultValues::UndefinedDouble;
-	double m_recoIP1_helicalCovyz = DefaultValues::UndefinedDouble;
-	double m_recoIP1_helicalCovzz = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovxx_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovxy_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovxz_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovyy_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovyz_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovzz_1 = DefaultValues::UndefinedDouble;
 
-	double m_recoIP2_helicalCovxx = DefaultValues::UndefinedDouble;
-	double m_recoIP2_helicalCovxy = DefaultValues::UndefinedDouble;
-	double m_recoIP2_helicalCovxz = DefaultValues::UndefinedDouble;
-	double m_recoIP2_helicalCovyy = DefaultValues::UndefinedDouble;
-	double m_recoIP2_helicalCovyz = DefaultValues::UndefinedDouble;
-	double m_recoIP2_helicalCovzz = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovxx_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovxy_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovxz_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovyy_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovyz_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelCovzz_2 = DefaultValues::UndefinedDouble;
 
-	double m_recoIP1_helical_refitPVCovxx = DefaultValues::UndefinedDouble;
-	double m_recoIP1_helical_refitPVCovxy = DefaultValues::UndefinedDouble;
-	double m_recoIP1_helical_refitPVCovxz = DefaultValues::UndefinedDouble;
-	double m_recoIP1_helical_refitPVCovyy = DefaultValues::UndefinedDouble;
-	double m_recoIP1_helical_refitPVCovyz = DefaultValues::UndefinedDouble;
-	double m_recoIP1_helical_refitPVCovzz = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovxx_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovxy_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovxz_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovyy_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovyz_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovzz_1 = DefaultValues::UndefinedDouble;
 
-	double m_recoIP2_helical_refitPVCovxx = DefaultValues::UndefinedDouble;
-	double m_recoIP2_helical_refitPVCovxy = DefaultValues::UndefinedDouble;
-	double m_recoIP2_helical_refitPVCovxz = DefaultValues::UndefinedDouble;
-	double m_recoIP2_helical_refitPVCovyy = DefaultValues::UndefinedDouble;
-	double m_recoIP2_helical_refitPVCovyz = DefaultValues::UndefinedDouble;
-	double m_recoIP2_helical_refitPVCovzz = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovxx_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovxy_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovxz_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovyy_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovyz_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVCovzz_2 = DefaultValues::UndefinedDouble;
 
 	RMPoint m_RefHelix_1;
 	RMPoint m_RefHelix_2;
 	RMPoint m_PHelix_1;
 	RMPoint m_PHelix_2;
+	RMPoint m_RefTrack_1;
+	RMPoint m_RefTrack_2;
+	RMPoint m_PTrack_1;
+	RMPoint m_PTrack_2;
 
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
@@ -400,49 +408,49 @@ public:
 	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
-	std::vector<double> m_errorIP1vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP2vec_refitPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vecrPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vecrPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 
-	std::vector<double> m_errorIP1vec_refitPVBS {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-	std::vector<double> m_errorIP2vec_refitPVBS {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP1vecrPVBS {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
+	std::vector<double> m_errorIP2vecrPVBS {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	// comparison genIP-recoIP
 
 	// wrt original PV
-	double m_deltaEtaGenRecoIP1  = DefaultValues::UndefinedDouble;
-	double m_deltaEtaGenRecoIP2  = DefaultValues::UndefinedDouble;
-	double m_deltaPhiGenRecoIP1  = DefaultValues::UndefinedDouble;
-	double m_deltaPhiGenRecoIP2  = DefaultValues::UndefinedDouble;
-	double m_deltaRGenRecoIP1  = DefaultValues::UndefinedDouble;
-	double m_deltaRGenRecoIP2  = DefaultValues::UndefinedDouble;
-	double m_deltaGenRecoIP1  = DefaultValues::UndefinedDouble;
-	double m_deltaGenRecoIP2  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIP_1  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIP_2  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP_1  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIP_2  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP_1  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIP_2  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP_1  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIP_2  = DefaultValues::UndefinedDouble;
 	// wrt original PV with helical approximation
-	double m_deltaEtaGenRecoIP1_helical  = DefaultValues::UndefinedDouble;
-	double m_deltaEtaGenRecoIP2_helical  = DefaultValues::UndefinedDouble;
-	double m_deltaPhiGenRecoIP1_helical  = DefaultValues::UndefinedDouble;
-	double m_deltaPhiGenRecoIP2_helical  = DefaultValues::UndefinedDouble;
-	double m_deltaRGenRecoIP1_helical  = DefaultValues::UndefinedDouble;
-	double m_deltaRGenRecoIP2_helical  = DefaultValues::UndefinedDouble;
-	double m_deltaGenRecoIP1_helical  = DefaultValues::UndefinedDouble;
-	double m_deltaGenRecoIP2_helical  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIPHel_1  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIPHel_2  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIPHel_1  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIPHel_2  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIPHel_1  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIPHel_2  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIPHel_1  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIPHel_2  = DefaultValues::UndefinedDouble;
 	// wrt refitPV
-	double m_deltaEtaGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaEtaGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaPhiGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaPhiGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaRGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaRGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaGenRecoIP1_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaGenRecoIP2_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIPrPV_1  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIPrPV_2  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIPrPV_1  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIPrPV_2  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIPrPV_1  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIPrPV_2  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIPrPV_1  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIPrPV_2  = DefaultValues::UndefinedDouble;
 
-	double m_deltaEtaGenRecoIP1_helical_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaEtaGenRecoIP2_helical_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaPhiGenRecoIP1_helical_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaPhiGenRecoIP2_helical_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaRGenRecoIP1_helical_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaRGenRecoIP2_helical_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaGenRecoIP1_helical_refitPV  = DefaultValues::UndefinedDouble;
-	double m_deltaGenRecoIP2_helical_refitPV  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIPHelrPV_1  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIPHelrPV_2  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIPHelrPV_1  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIPHelrPV_2  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIPHelrPV_1  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIPHelrPV_2  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIPHelrPV_1  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIPHelrPV_2  = DefaultValues::UndefinedDouble;
 
 
 
@@ -461,43 +469,45 @@ public:
 	double m_recoPhiStarCPCombMerged  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombBS  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombMergedBS  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPComb_norefit  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPCombMerged_norefit  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPComb_norefit_helical  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPCombMerged_norefit_helical  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCP_helical  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPrPV_helical  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPComb_helical  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPCombMerged_helical  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombrPVBS  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMergedrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMergedrPVBS  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombHel  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMergedHel  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombHelrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMergedHelrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPHel  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPHelrPV  = DefaultValues::UndefinedDouble;
 
-	double m_recoPhiStarCP_rho  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCP_rho_merged  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPrPV_rho  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPrPVbs_rho  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPRho  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPRhoMerged = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPRhorPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPRhoBSrPV  = DefaultValues::UndefinedDouble;
 
 	double m_reco_posyTauL = DefaultValues::UndefinedDouble;
 	double m_reco_negyTauL = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
-	double m_recoPhiStar_rho = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarRho = DefaultValues::UndefinedDouble;
 
 
 
 	// azimuthal angles of the tau decay planes
 	// ip method
-	double m_recoPhiPlus_ipmeth = DefaultValues::UndefinedDouble;
-	double m_recoPhiMinus_ipmeth = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarPlus_ipmeth = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarMinus_ipmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiPlusIPMeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinusIPMeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlusIPMeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinusIPMeth = DefaultValues::UndefinedDouble;
 	// comb method
-	double m_recoPhiPlus_combmeth = DefaultValues::UndefinedDouble;
-	double m_recoPhiMinus_combmeth = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarPlus_combmeth = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarMinus_combmeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiPlusCombMeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinusCombMeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlusCombMeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinusCombMeth = DefaultValues::UndefinedDouble;
 	// rho method
-	double m_recoPhiPlus_rhometh = DefaultValues::UndefinedDouble;
-	double m_recoPhiMinus_rhometh = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarPlus_rhometh = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarMinus_rhometh = DefaultValues::UndefinedDouble;
+	double m_recoPhiPlusRhoMeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiMinusRhoMeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarPlusRhoMeth = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarMinusRhoMeth = DefaultValues::UndefinedDouble;
 
 	double m_recoChargedPiPlus_rho_pt = DefaultValues::UndefinedDouble;
 	double m_recoChargedPiMinus_pt = DefaultValues::UndefinedDouble;

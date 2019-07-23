@@ -42,9 +42,6 @@ class Quantities(Run2CPQuantities.Quantities):
 			"recoPhiStarCPCombBS",
 			"recoPhiStarCPCombMergedBS",
 
-			"recoPhiStarCPComb_norefit_helical",
-			"recoPhiStarCPCombMerged_norefit_helical",
-
 			"RefHelix_1",
 			"RefHelix_2",
 
@@ -62,5 +59,17 @@ class Quantities(Run2CPQuantities.Quantities):
 			"helixPhi_2",
 			"helixDxy_2",
 			"helixDsz_2",
+
+			"IPHel_1",
+			"IPHel_2",
+			"IPrPV_1",
+			"IPrPV_2",
+			"IPrPVBS_1",
+			"IPrPVBS_2",
+			"IPHelrPV_1",
+			"IPHelrPV_2",
+			#"IPHelrPVBS_1",
+			#"IPHelrPVBS_2",
+
 			]
 		return s
