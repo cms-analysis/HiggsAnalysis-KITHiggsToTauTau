@@ -219,31 +219,7 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	sc2 << x_best*Omega << std::endl;
 	sc2.close();
 	*/
-	/*
-	//2. Minimizer: Minuit
-	TFitter* minimizer = new TFitter(1);
-	//Disabling printouts:
-	{
-		double p1 = -1;
-		minimizer->ExecuteCommand("SET PRINTOUT",&p1,1);
-	}
-	minimizer->SetFCN(minuitFunction);
-	minimizer->SetParameter(0,"x",xmax*0.01,1e-16,xmin,xmax);
-	minimizer->SetParameter(1,"qOp",qOverP,sigma_qOverP,0,0);
-	minimizer->SetParameter(2,"lambda",lambda,sigma_lambda,0,0);
-	minimizer->SetParameter(3,"phi",phi,sigma_Phi,0,0);
-	for (int i=1;i<=3;i++) minimizer->FixParameter(i);
-	minimizer->ExecuteCommand("SIMPLEX",0,0);
-	minimizer->ExecuteCommand("MIGRAD",0,0);
-	x_best = minimizer->GetParameter(0);
-	//if (x_best==xmin || x_best==xmax) std::cout << "x_best!!" << std::endl;
-	std::cout << "Result: x+-sx (x_best) between +-" << xmax << std::endl;
-	double x_best_err = minimizer -> GetParError(0);
-	std::cout << x_best << "+-" << x_best_err << std::endl;
-	//std::cout << "delta = " << pow(tot(x_best,qOverP,lambda,phi),0.5) << std::endl;
-	//std::cout << "x = [" << f_x1(x_best,qOverP,lambda,phi)<<" , "<< f_x2(x_best,qOverP,lambda,phi) << " , " << f_x3(x_best,lambda) <<" ]" <<std::endl;
-	*/
-	//3. Minimizer: Brent
+	//2. Minimizer: Brent
 	/*
 	ROOT::Math::Functor1D func(&BrentFunc);
 	ROOT::Math::BrentMinimizer1D bm;
@@ -252,29 +228,8 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	double x_best_Brent = bm.XMinimum();
 	x_best = x_best_Brent;
 	*/
-	/*
-	//4. Minimizer: ROOT Fit + plots
-	TF1 x1("x1","[0]+[1]*sin([2]*x+[3])",xmin,xmax);
-	x1.SetParameters(Ox,Radius,Omega,Phi_1);
 
-	TF1 x2("x2","[0]+[1]*cos([2]*x+[3])",xmin,xmax);
-	x2.SetParameters(Oy,Radius,Omega,Phi_1);
-
-	TF1 x3("x3","[0]+[1]*x",xmin,xmax);
-	x3.SetParameters(Oz,v_z);
-
-	TF1 f("f","([0]+[1]*sin([2]*x+[3])-[4])**2+([5]+[1]*cos([2]*x+[3])-[6])**2+([7]+[8]*x-[9])**2",xmin,xmax);
-	f.SetParameters(Ox,Radius,Omega,Phi_1,PV_v(0),Oy,PV_v(1),Oz,v_z,PV_v(2));
-	double x_best2 = f.GetMinimumX(xmin,xmax);
-	std::cout << "x_best2 = " << x_best2 << std::endl;
-	std::cout << "x2 = [" << f_x1(x_best2,qOverP,lambda,phi)<<" , "<< f_x2(x_best2,qOverP,lambda,phi) << " , " << f_x3(x_best2,lambda) <<" ]" <<std::endl;
-
-
-	auto canvas = new TCanvas();
-	f.DrawClone();
-	canvas->SaveAs("p.png");*/
-
-	//5. Minimizer: Taylor expand delta^2 in small Omega*t
+	//3. Minimizer: Taylor expand delta^2 in small Omega*t
 	/*
 	std::cout << "x_bests:" << std::endl;
 	std::cout <<"Brent:" << x_best << std::endl;
@@ -296,29 +251,9 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	}
 	*/
 
-
-
-	/*
-	std::cout << "phi (rad)=" << phi << std::endl;
-	std::cout << "lambda (rad)=" << lambda << std::endl;
-	std::cout << "dxy=" << h_param[3] << std::endl;
-	std::cout << "dsz=" << h_param[4] << std::endl;
-	*/
-
-	/*
-	std::cout << "qOverP : " << qOverP << "+-" << sigma_qOverP << std::endl;
-	std::cout << "Lambda : " << lambda << "+-" << sigma_lambda << std::endl;
-	std::cout << "Phi : " << phi << "+-" << sigma_Phi << std::endl;
-	std::cout << "Radius : " << Radius << "+-" << sigma_Radius << std::endl;
-	std::cout << "Omega : " << Omega << "+-" << sigma_Omega << std::endl;
-	*/
-
 	*xBest = x_best;
 	TVector3 res(f_x1(x_best,qOverP,lambda,phi)-PV_v.x(),f_x2(x_best,qOverP,lambda,phi)-PV_v.y(),f_x3(x_best,lambda)-PV_v.z());
 	TVector3 tangent_at_x_best = tangent_at_x(x_best,qOverP,lambda,phi);
-	//double res[] = {result_IP_length,result_tangent_v1,result_tangent_v2,result_tangent_v3,result_sigma_IP_length,result_sigma_tangent_v1,result_sigma_tangent_v2,result_sigma_tangent_v3};
-	//std::cout << "results:" << std::endl;
-	//for (int i=0;i<8;i++) std::cout<<res[i]<< std::endl;
 	*return_scalar_product = tangent_at_x_best.DeltaPhi(tangent_at_x(0,qOverP,lambda,phi));//tangent_at_x_best.Angle(tangent_at_x(0,qOverP,lambda,phi));//Omega*x_best_Brent;
 	/*
 	std::ifstream is("pca1_hel.res");
