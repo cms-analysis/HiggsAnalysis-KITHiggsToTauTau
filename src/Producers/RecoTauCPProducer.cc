@@ -843,6 +843,63 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	RMFLV momentumP = ((chargedPart1->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(chargedPart1)->chargedHadronCandidates.at(0).p4 : chargedPart1->p4);
 	RMFLV momentumM = ((chargedPart2->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(chargedPart2)->chargedHadronCandidates.at(0).p4 : chargedPart2->p4);
 
+	// Calculate the PCA relative to the center of the detector
+	double qOverP_1     = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[0];
+	double lambda_1     = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[1];
+	double phi_1        = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[2];
+	double dxy_1        = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[3];
+	double dsz_1        = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[4];
+	double mass_1       = recoParticle1->p4.mass();
+	double B_1          = product.m_flavourOrderedLeptons.at(0)->track.magneticField;
+	int    sgnQ_1       = qOverP_1/TMath::Abs(qOverP_1);
+	double omegaHelix_1 = B_1 * UnitConverter::eQ * sqrt( pow(UnitConverter::c, 2) * pow(mass_1, 2) / ( pow(UnitConverter::c, 2) * pow(mass_1, 2) + pow(sgnQ_1/qOverP_1,2) ) ) / mass_1;
+	double Omega_1      = qOverP_1*B_1*UnitConverter::c;
+	product.m_Radius_1  = TMath::Sin(TMath::Pi()/2 - lambda_1) / ( B_1 * 1e3/(UnitConverter::c*1e-8) ) / std::abs(qOverP_1 * 1e9 / UnitConverter::c);
+
+	double qOverP_2     = (product.m_flavourOrderedLeptons.at(1)->track.helixParameters())[0];
+	double lambda_2     = (product.m_flavourOrderedLeptons.at(1)->track.helixParameters())[1];
+	double phi_2        = (product.m_flavourOrderedLeptons.at(1)->track.helixParameters())[2];
+	double dxy_2        = (product.m_flavourOrderedLeptons.at(1)->track.helixParameters())[3];
+	double dsz_2        = (product.m_flavourOrderedLeptons.at(1)->track.helixParameters())[4];
+	double mass_2       = recoParticle2->p4.mass();
+	double B_2          = product.m_flavourOrderedLeptons.at(1)->track.magneticField;
+	int    sgnQ_2       = qOverP_2/TMath::Abs(qOverP_2);
+	double omegaHelix_2 = B_2 * UnitConverter::eQ * sqrt( pow(UnitConverter::c, 2) * pow(mass_2, 2) / ( pow(UnitConverter::c, 2) * pow(mass_2, 2) + pow(sgnQ_2/qOverP_2,2) ) ) / mass_2;
+	double Omega_2      = qOverP_2*B_2*UnitConverter::c;
+	product.m_Radius_2  = TMath::Sin(TMath::Pi()/2 - lambda_2) / ( B_2 * 1e3/(UnitConverter::c*1e-8) ) / std::abs(qOverP_2 * 1e9 / UnitConverter::c);
+
+	//TVector3 PHelix_1;
+	product.m_PHelix_1.SetXYZ(TMath::Cos(lambda_1) * TMath::Cos(phi_1) * sgnQ_1 / qOverP_1,
+			TMath::Cos(lambda_1) * TMath::Sin(phi_1) * sgnQ_1 / qOverP_1,
+			TMath::Sin(lambda_1) * sgnQ_1 / qOverP_1);
+
+	//TVector3 PHelix_2;
+	product.m_PHelix_2.SetXYZ(TMath::Cos(lambda_2) * TMath::Cos(phi_2) * sgnQ_2 / qOverP_2,
+			TMath::Cos(lambda_2) * TMath::Sin(phi_2) * sgnQ_2 / qOverP_2,
+			TMath::Sin(lambda_2) * sgnQ_2 / qOverP_2);
+
+	//TVector3 RefHelix_1;
+	// product.m_RefHelix_1.SetXYZ(-dsz_1 * TMath::Cos(phi_1) * TMath::Sin(lambda_1) - dxy_1 * TMath::Sin(phi_1),
+	//		 dxy_1 * TMath::Cos(phi_1) - dsz_1 * TMath::Sin(lambda_1) * TMath::Sin(phi_1),
+	//		 dsz_1 * TMath::Cos(lambda_1) );
+
+	product.m_RefHelix_1.SetXYZ(- dxy_1 * TMath::Sin(phi_1),
+					dxy_1 * TMath::Cos(phi_1),
+					dsz_1 / TMath::Cos(lambda_1));
+
+	//TVector3 RefHelix_2;
+	// product.m_RefHelix_2.SetXYZ(-dsz_2 * TMath::Cos(phi_2) * TMath::Sin(lambda_2) - dxy_2 * TMath::Sin(phi_2),
+	//		 dxy_2 * TMath::Cos(phi_2) - dsz_2 * TMath::Sin(lambda_2) * TMath::Sin(phi_2),
+	//		 dsz_2 * TMath::Cos(lambda_2) );
+
+	product.m_RefHelix_2.SetXYZ(- dxy_2 * TMath::Sin(phi_2),
+					dxy_2 * TMath::Cos(phi_2),
+					dsz_2 / TMath::Cos(lambda_2));
+
+	// distance between track and BS center
+	product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, event.m_beamSpot->position);
+	product.m_track2FromBS = cpq.CalculateShortestDistance(recoParticle2, event.m_beamSpot->position);
+
 	// ----------
 	// rho-method
 	// ----------
@@ -883,7 +940,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// ip-method
 	// ---------
 	// phi*CP wrt nominalPV
-	// FIXME is it still needed?
 	product.m_recoPhiStarCP = cpq.CalculatePhiStarCP(&(event.m_vertexSummary->pv), trackP, trackM, momentumP, momentumM);
 
 	// calculation of the IP vectors and relative errors
@@ -932,53 +988,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 	product.m_IPSignificanceHel_1 = sqrt( (product.m_recoIPHel_1).x()*(product.m_recoIPHel_1).x() + (product.m_recoIPHel_1).y()*(product.m_recoIPHel_1).y() + (product.m_recoIPHel_1).z()*(product.m_recoIPHel_1).z() ) / sqrt( ROOT::Math::Dot(IP1_, IPHelCov_1 * IP1_ ) );
 	product.m_IPSignificanceHel_2 = sqrt( (product.m_recoIPHel_2).x()*(product.m_recoIPHel_2).x() + (product.m_recoIPHel_2).y()*(product.m_recoIPHel_2).y() + (product.m_recoIPHel_2).z()*(product.m_recoIPHel_2).z() ) / sqrt( ROOT::Math::Dot(IP2_, IPHelCov_2 * IP2_ ) );
-
-	// Testing: Calculate some interesting values
-	double qOverP_1     = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[0];
-	double lambda_1     = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[1];
-	double phi_1        = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[2];
-	double dxy_1        = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[3];
-	double dsz_1        = (product.m_flavourOrderedLeptons.at(0)->track.helixParameters())[4];
-	double mass_1       = recoParticle1->p4.mass();
-	double B_1          = product.m_flavourOrderedLeptons.at(0)->track.magneticField;
-	int    sgnQ_1       = qOverP_1/TMath::Abs(qOverP_1);
-	double omegaHelix_1 = B_1 * UnitConverter::eQ * sqrt( pow(UnitConverter::c, 2) * pow(mass_1, 2) / ( pow(UnitConverter::c, 2) * pow(mass_1, 2) + pow(sgnQ_1/qOverP_1,2) ) ) / mass_1;
-	double Omega_1      = qOverP_1*B_1*UnitConverter::c;
-
-	double qOverP_2     = (product.m_flavourOrderedLeptons.at(1)->track.helixParameters())[0];
-	double lambda_2     = (product.m_flavourOrderedLeptons.at(1)->track.helixParameters())[1];
-	double phi_2        = (product.m_flavourOrderedLeptons.at(1)->track.helixParameters())[2];
-	double dxy_2        = (product.m_flavourOrderedLeptons.at(1)->track.helixParameters())[3];
-	double dsz_2        = (product.m_flavourOrderedLeptons.at(1)->track.helixParameters())[4];
-	double mass_2       = recoParticle2->p4.mass();
-	double B_2          = product.m_flavourOrderedLeptons.at(1)->track.magneticField;
-	int    sgnQ_2       = qOverP_2/TMath::Abs(qOverP_2);
-	double omegaHelix_2 = B_2 * UnitConverter::eQ * sqrt( pow(UnitConverter::c, 2) * pow(mass_2, 2) / ( pow(UnitConverter::c, 2) * pow(mass_2, 2) + pow(sgnQ_2/qOverP_2,2) ) ) / mass_2;
-	double Omega_2      = qOverP_2*B_2*UnitConverter::c;
-
-	//TVector3 PHelix_1;
-	product.m_PHelix_1.SetXYZ(TMath::Cos(lambda_1) * TMath::Cos(phi_1) * sgnQ_1 / qOverP_1,
-			TMath::Cos(lambda_1) * TMath::Sin(phi_1) * sgnQ_1 / qOverP_1,
-			TMath::Sin(lambda_1) * sgnQ_1 / qOverP_1);
-
-	//TVector3 PHelix_2;
-	product.m_PHelix_2.SetXYZ(TMath::Cos(lambda_2) * TMath::Cos(phi_2) * sgnQ_2 / qOverP_2,
-			TMath::Cos(lambda_2) * TMath::Sin(phi_2) * sgnQ_2 / qOverP_2,
-			TMath::Sin(lambda_2) * sgnQ_2 / qOverP_2);
-
-	//TVector3 RefHelix_1;
-	product.m_RefHelix_1.SetXYZ(-dsz_1 * TMath::Cos(phi_1) * TMath::Sin(lambda_1) - dxy_1 * TMath::Sin(phi_1),
-			 dxy_1 * TMath::Cos(phi_1) - dsz_1 * TMath::Sin(lambda_1) * TMath::Sin(phi_1),
-			 dsz_1 * TMath::Cos(lambda_1) );
-
-	//TVector3 RefHelix_2;
-	product.m_RefHelix_2.SetXYZ(-dsz_2 * TMath::Cos(phi_2) * TMath::Sin(lambda_2) - dxy_2 * TMath::Sin(phi_2),
-			 dxy_2 * TMath::Cos(phi_2) - dsz_2 * TMath::Sin(lambda_2) * TMath::Sin(phi_2),
-			 dsz_2 * TMath::Cos(lambda_2) );
-
-	// distance between track and BS center
-	product.m_track1FromBS = cpq.CalculateShortestDistance(recoParticle1, event.m_beamSpot->position);
-	product.m_track2FromBS = cpq.CalculateShortestDistance(recoParticle2, event.m_beamSpot->position);
 
 
 	// ---------
@@ -1036,30 +1045,32 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}
 	product.m_recoPhiStarCPHel = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlusHel, IPMinusHel, "reco");
 
-	if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
-		//with the tangential approach
-		product.m_deltaEtaGenRecoIP_1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
-		product.m_deltaPhiGenRecoIP_1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
-		product.m_deltaRGenRecoIP_1   = product.m_recoIP1.DeltaR(product.m_genIP1);
-		product.m_deltaGenRecoIP_1    = product.m_recoIP1.Angle(product.m_genIP1);
+	if (!m_isData){
+		if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
+			//with the tangential approach
+			product.m_deltaEtaGenRecoIP_1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
+			product.m_deltaPhiGenRecoIP_1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
+			product.m_deltaRGenRecoIP_1   = product.m_recoIP1.DeltaR(product.m_genIP1);
+			product.m_deltaGenRecoIP_1    = product.m_recoIP1.Angle(product.m_genIP1);
 
-		//with the helical approach
-		product.m_deltaEtaGenRecoIPHel_1 = product.m_recoIPHel_1.Eta() - product.m_genIP1.Eta();
-		product.m_deltaPhiGenRecoIPHel_1 = product.m_recoIPHel_1.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
-		product.m_deltaRGenRecoIPHel_1   = product.m_recoIPHel_1.DeltaR(product.m_genIP1);
-		product.m_deltaGenRecoIPHel_1    = product.m_recoIPHel_1.Angle(product.m_genIP1);//product.m_recoIP1);//
-	} // if genIP1 exists
-	if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
-		product.m_deltaEtaGenRecoIP_2 = product.m_recoIP2.Eta() - product.m_genIP2.Eta();
-		product.m_deltaPhiGenRecoIP_2 = product.m_recoIP2.DeltaPhi(product.m_genIP2);
-		product.m_deltaRGenRecoIP_2   = product.m_recoIP2.DeltaR(product.m_genIP2);
-		product.m_deltaGenRecoIP_2    = product.m_recoIP2.Angle(product.m_genIP2);
+			//with the helical approach
+			product.m_deltaEtaGenRecoIPHel_1 = product.m_recoIPHel_1.Eta() - product.m_genIP1.Eta();
+			product.m_deltaPhiGenRecoIPHel_1 = product.m_recoIPHel_1.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
+			product.m_deltaRGenRecoIPHel_1   = product.m_recoIPHel_1.DeltaR(product.m_genIP1);
+			product.m_deltaGenRecoIPHel_1    = product.m_recoIPHel_1.Angle(product.m_genIP1);//product.m_recoIP1);//
+		} // if genIP1 exists
+		if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
+			product.m_deltaEtaGenRecoIP_2 = product.m_recoIP2.Eta() - product.m_genIP2.Eta();
+			product.m_deltaPhiGenRecoIP_2 = product.m_recoIP2.DeltaPhi(product.m_genIP2);
+			product.m_deltaRGenRecoIP_2   = product.m_recoIP2.DeltaR(product.m_genIP2);
+			product.m_deltaGenRecoIP_2    = product.m_recoIP2.Angle(product.m_genIP2);
 
-		product.m_deltaEtaGenRecoIPHel_2 = product.m_recoIPHel_2.Eta() - product.m_genIP2.Eta();
-		product.m_deltaPhiGenRecoIPHel_2 = product.m_recoIPHel_2.DeltaPhi(product.m_genIP2);
-		product.m_deltaRGenRecoIPHel_2   = product.m_recoIPHel_2.DeltaR(product.m_genIP2);
-		product.m_deltaGenRecoIPHel_2    = product.m_recoIPHel_2.Angle(product.m_genIP2);
-	} // if genIP2 exists
+			product.m_deltaEtaGenRecoIPHel_2 = product.m_recoIPHel_2.Eta() - product.m_genIP2.Eta();
+			product.m_deltaPhiGenRecoIPHel_2 = product.m_recoIPHel_2.DeltaPhi(product.m_genIP2);
+			product.m_deltaRGenRecoIPHel_2   = product.m_recoIPHel_2.DeltaR(product.m_genIP2);
+			product.m_deltaGenRecoIPHel_2    = product.m_recoIPHel_2.Angle(product.m_genIP2);
+		} // if genIP2 exists
+	} // if this is not data
 
 	if (product.m_refitPV != nullptr){
 
@@ -1202,18 +1213,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		if (!m_isData){
 			// calculate deltaR, deltaEta, deltaPhi and delta between recoIPvec and genIPvec
 			if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
-				// wrt nominalPV
-				product.m_deltaEtaGenRecoIP_1 = product.m_recoIP1.Eta() - product.m_genIP1.Eta();
-				product.m_deltaPhiGenRecoIP_1 = product.m_recoIP1.DeltaPhi(product.m_genIP1);
-				product.m_deltaRGenRecoIP_1   = product.m_recoIP1.DeltaR(product.m_genIP1);
-				product.m_deltaGenRecoIP_1    = product.m_recoIP1.Angle(product.m_genIP1);
-
-				//with the helical approach
-				product.m_deltaEtaGenRecoIPHel_1 = product.m_recoIPHel_1.Eta() - product.m_genIP1.Eta();
-				product.m_deltaPhiGenRecoIPHel_1 = product.m_recoIPHel_1.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
-				product.m_deltaRGenRecoIPHel_1   = product.m_recoIPHel_1.DeltaR(product.m_genIP1);
-				product.m_deltaGenRecoIPHel_1    = product.m_recoIPHel_1.Angle(product.m_genIP1);//product.m_recoIP1);//
-
 				// wrt refitted PV
 				product.m_deltaEtaGenRecoIPrPV_1 = product.m_recoIPrPV_1.Eta() - product.m_genIP1.Eta();
 				product.m_deltaPhiGenRecoIPrPV_1 = product.m_recoIPrPV_1.DeltaPhi(product.m_genIP1);//product.m_recoIPrPV_1);//
