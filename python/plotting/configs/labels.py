@@ -31,8 +31,10 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ztt_gen_dm_ten"] = "Z #rightarrow #tau#tau, gen. 3h^{#pm}"
 			self.labels_dict["ztt_gen_dm_eleven"] = "Z #rightarrow #tau#tau, gen. 3h^{#pm} #geq1#pi^{0}"
 			self.labels_dict["ztt_emb"] = "Z #rightarrow #tau#tau (emb)"
-			self.labels_dict["zttpospol"] = "Z #rightarrow #tau_{R}^{#minus}#tau_{L}^{#plus}" # "u#bar{u} #rightarrow Z #rightarrow #tau#tau"
-			self.labels_dict["zttnegpol"] = "Z #rightarrow #tau_{L}^{#minus}#tau_{R}^{#plus}" # "d#bar{d} #rightarrow Z #rightarrow #tau#tau"
+			self.labels_dict["zttpospol"] = "Z #rightarrow #tau_{R}^{#minus}#tau_{L}^{#plus}"
+			self.labels_dict["zttnegpol"] = "Z #rightarrow #tau_{L}^{#minus}#tau_{R}^{#plus}"
+			self.labels_dict["uuztt"] = "u#bar{u}/c#bar{c} #rightarrow Z #rightarrow #tau#tau"
+			self.labels_dict["ddztt"] = "d#bar{d}/s#bar{s}/b#bar{b} #rightarrow Z #rightarrow #tau#tau"
 			self.labels_dict["uuzttpospol"] = "u#bar{u}/c#bar{c} #rightarrow Z #rightarrow #tau_{R}^{#minus}#tau_{L}^{#plus}"
 			self.labels_dict["uuzttnegpol"] = "u#bar{u}/c#bar{c} #rightarrow Z #rightarrow #tau_{L}^{#minus}#tau_{R}^{#plus}"
 			self.labels_dict["ddzttpospol"] = "d#bar{d}/s#bar{s}/b#bar{b} #rightarrow Z #rightarrow #tau_{R}^{#minus}#tau_{L}^{#plus}"
@@ -163,13 +165,21 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["channel_tt_combined_oneprong_oneprong"] = "#pi#pi"
 			
 			self.labels_dict["channel_gen_inclusive"] = "Inclusive Simulation"
+			self.labels_dict["channel_gen_pospol"] = self.labels_dict["zttpospol"]
+			self.labels_dict["channel_gen_negpol"] = self.labels_dict["zttnegpol"]
+			self.labels_dict["channel_gen_upquark"] = self.labels_dict["uuztt"]
+			self.labels_dict["channel_gen_downquark"] = self.labels_dict["ddztt"]
+			self.labels_dict["channel_gen_pospol_upquark"] = self.labels_dict["uuzttpospol"]
+			self.labels_dict["channel_gen_pospol_downquark"] = self.labels_dict["ddzttpospol"]
+			self.labels_dict["channel_gen_negpol_upquark"] = self.labels_dict["uuzttnegpol"]
+			self.labels_dict["channel_gen_negpol_downquark"] = self.labels_dict["ddzttnegpol"]
 
 			self.labels_dict["cat_oneprong"] = "#pi^{#pm} / l^{#pm}"
 			self.labels_dict["cat_rho"] = "#rho^{#pm} #rightarrow #pi^{#pm} #pi^{0}"
 			self.labels_dict["cat_a1"] = "a_{1}^{#pm} #rightarrow #pi^{#pm} #pi^{#pm} #pi^{#mp}"
 
 			# Z->tautau polarisation labels
-			for channel in ["ee", "em", "et", "mm", "mt", "tt"]:
+			for channel in ["ee", "em", "et", "mm", "mt", "tt", "gen"]:
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry_1"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
 				self.labels_dict[channel+"_rhoNeutralChargedAsymmetry_2"] = "(E_{#pi^{#pm}} - E_{#pi^{0}}) / (E_{#pi^{#pm}} + E_{#pi^{0}})"
