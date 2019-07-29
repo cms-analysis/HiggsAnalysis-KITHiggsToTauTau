@@ -620,7 +620,7 @@ class Samples(samples.SamplesBase):
 		differential_unpolarisation = kwargs.get("differential_unpolarisation", False)
 		
 		name = "pospol"+("_noplot" if polarisation_bias_correction else "")
-		polarisation_weight = "LHE_SPINUP_neg_lepton>=0.0"
+		polarisation_weight = "(LHE_SPINUP_neg_lepton>0.0)*(LHE_SPINUP_neg_lepton<2.0)"
 		proxy_prefix = ""
 		if differential_unpolarisation:
 			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+"_HASH_NAME.ScaleFactor(genbosonmass, LHE_SPINUP_neg_lepton>0, lheZfromUUbar+lheZfromCCbar)"
@@ -663,7 +663,7 @@ class Samples(samples.SamplesBase):
 		differential_unpolarisation = kwargs.get("differential_unpolarisation", False)
 		
 		name = "negpol"+("_noplot" if polarisation_bias_correction else "")
-		polarisation_weight = "LHE_SPINUP_neg_lepton<0.0"
+		polarisation_weight = "(LHE_SPINUP_neg_lepton<0.0)*(LHE_SPINUP_neg_lepton>-2.0)"
 		proxy_prefix = ""
 		if differential_unpolarisation:
 			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+"_HASH_NAME.ScaleFactor(genbosonmass, LHE_SPINUP_neg_lepton>0, lheZfromUUbar+lheZfromCCbar)"
