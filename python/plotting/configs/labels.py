@@ -40,7 +40,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["tttautau"] = "t#bar{t} #rightarrow #tau#tau"
 			self.labels_dict["ttjt"] = "t#bar{t} + jets (tau)"
 			self.labels_dict["ttjl"] = "t#bar{t} + jets (lep)"
-			self.labels_dict["ttt"] = "t#bar{t}"# (tau)"
+			self.labels_dict["ttt"] = "t#bar{t} (#tau #rightarrow #tau)"# (tau)"
+			self.labels_dict["ttj"] = "t#bar{t} (jet/pu #rightarrow #tau)"
 			self.labels_dict["zmt"] = "Z #rightarrow #mu#tau (LFV)"
 			self.labels_dict["zet"] = "Z #rightarrow e#tau (LFV)"
 			self.labels_dict["zem"] = "Z #rightarrow e#mu (LFV)"
@@ -51,9 +52,9 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["wjt"] = "W + jets (tau)"
 			self.labels_dict["wjl"] = "W + jets (lep)"
 			self.labels_dict["vv"] = "Di-boson"
-			self.labels_dict["vvt"] = "Di-boson"#(tau)"
-			self.labels_dict["vvl"] = "Di-boson (lep)"
-			self.labels_dict["vvj"] = "Di-boson (jet)"
+			self.labels_dict["vvt"] = "Di-boson (#tau #rightarrow #tau)"#(tau)"
+			self.labels_dict["vvl"] = "Di-boson (l #rightarrow #tau)"#(lep)"
+			self.labels_dict["vvj"] = "Di-boson (jet/pu #rightarrow #tau)"# (jet)"
 			self.labels_dict["ewk"] = "Electroweak"
 			self.labels_dict["qcd"] = "QCD"
 			self.labels_dict["qcd_prefit"] = "QCD"
@@ -70,6 +71,10 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
 			self.labels_dict["ff"] = "jet #rightarrow #tau_{h}"
 			self.labels_dict["jetFakes"] = "jetFakes"
+			self.labels_dict["ff_qcd_frac"] = "QCD frac."
+			self.labels_dict["ff_w_frac"] = "W frac."
+			self.labels_dict["ff_ttbar_frac"] = "t#bar{t} frac."
+			self.labels_dict["ff_real_tau_frac"] = "real #tau frac."
 
 			self.labels_dict["qqhsm125"] = "VBF 0^{#plus#plus}"
 			self.labels_dict["qqhps125"] = "VBF 0^{#minus#plus}"
@@ -1497,7 +1502,7 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["susycpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd_alt"]+" (\\times {scale:d})".format(scale=scale)
 
 		self.labels_dict["data_obs"] = "Observed"
-		self.labels_dict["ttj"] = self.labels_dict["tt"]
+		# self.labels_dict["ttj"] = self.labels_dict["tt"]
 		self.labels_dict["ttbar"] = self.labels_dict["tt"]
 		self.labels_dict["wjets"]  = self.labels_dict["wj"]
 		self.labels_dict["w"]  = self.labels_dict["wj"]
