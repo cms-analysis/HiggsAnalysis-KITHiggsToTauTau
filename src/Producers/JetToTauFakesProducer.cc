@@ -34,6 +34,11 @@ void JetToTauFakesProducer::Init(setting_type const& settings, metadata_type& me
 		//for mt/et/tt cp 2017:
 		ff_function_variables = "pt,njets,nbjets";
 	}
+	else if (fakefactormethod == "cpfinalstate2017")
+	{
+		//for mt/et/tt cp 2017:
+		ff_function_variables = "njets,m_vis";
+	}
 
 	TDirectory *savedir(gDirectory);
 	TFile *savefile(gFile);
@@ -87,7 +92,8 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 		inputs[1] = static_cast<KTau*>(product.m_flavourOrderedLeptons[1])->decayMode;
 
 		// Number of Jets
-		inputs[2] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
+		if (fakefactormethod == "cpfinalstate2017") inputs[2] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 20.0);
+		else inputs[2] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
 
 		// Visible mass
 		inputs[3] = product.m_diLeptonSystem.mass();
@@ -125,48 +131,98 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 			args.push_back(inputs[2]); //njets
 			args.push_back(0.); //nbjets
 		}
+		else if (fakefactormethod == "cpfinalstate2017")
+		{
+			args.push_back(inputs[2]); //njets
+			args.push_back(inputs[3]); //m_vis
+		}
 
-		double qcd_frac=0.5, w_frac=0.5, tt_frac=0.;
+		double qcd_frac=0.5, w_frac=0.5, tt_frac=0., dy_frac=0.;
 
 		for(auto fns_fraction : fns_fractions)
 		{
+			// LOG(INFO) << "fns_fraction.first = " << fns_fraction.first;
 			//qcd_frac
 			if(fns_fraction.first == "qcd_fracs")
 			{
 				qcd_frac = fns_fraction.second->eval(args.data());
+				// LOG(INFO) << "if(fns_fraction.first == \"qcd_fracs\") = " << qcd_frac;
 			}
 			//wj_frac
 			else if(fns_fraction.first == "w_fracs")
 			{
 				w_frac = fns_fraction.second->eval(args.data());
+				// LOG(INFO) << "if(fns_fraction.first == \"w_frac\") = " << w_frac;
 			}
 			//tt_frac
 			else if(fns_fraction.first == "ttbar_fracs")
 			{
 				tt_frac = fns_fraction.second->eval(args.data());
+				// LOG(INFO) << "if(fns_fraction.first == \"tt_frac\") = " << tt_frac;
+			}
+			else if(fns_fraction.first == "dy_fracs") // only used for cptautau2017
+			{
+				dy_frac = fns_fraction.second->eval(args.data());
+				// LOG(INFO) << "if(fns_fraction.first == \"dy_frac\") = " << dy_frac;
 			}
 			else
 			{
 				LOG(WARNING) << "DID not find: \t \"" << fns_fraction.first << "\" LOOK INSIDE SETTINGS FAKEFACTOR OR JETTOTAUFAKESPRODUCER";
 			}
 		}
+		if (fakefactormethod == "cpfinalstate2017")
+		{
+			real_frac = dy_frac;
 
-		real_frac = 1 - qcd_frac - w_frac - tt_frac; //fraction real taus
+			double sum_of_bkg_fracs = qcd_frac + w_frac + tt_frac;
 
-		inputs[6] = qcd_frac;
-		inputs[7] = w_frac;
-		inputs[8] = tt_frac;
-		/*
-		std::cout << "pt tau:           " << inputs[0] << std::endl;
-		std::cout << "decaymode tau:    " << inputs[1] << std::endl;
-		std::cout << "njets:            " << inputs[2] << std::endl;
-		std::cout << "mvis:             " << inputs[3] << std::endl;
-		std::cout << "mt_1:             " << inputs[4] << std::endl;
-		std::cout << "iso lepton:       " << inputs[5] << std::endl;
-		std::cout << "qcd frac:         " << inputs[6] << std::endl;
-		std::cout << "w frac:           " << inputs[7] << std::endl;
-		std::cout << "tt frac:          " << inputs[8] << std::endl;
-		*/
+			qcd_frac = qcd_frac/(sum_of_bkg_fracs);
+			w_frac = w_frac/(sum_of_bkg_fracs);
+			tt_frac = tt_frac/(sum_of_bkg_fracs);
+
+			inputs[5] = qcd_frac;
+			inputs[6] = w_frac;
+			inputs[7] = tt_frac;
+
+			// LOG(INFO) << "******************************* JetToTauFakesProducer *******************************";
+			// LOG(INFO) << "1 - qcd_frac - w_frac - tt_frac = " << 1 - qcd_frac - w_frac - tt_frac;
+			// LOG(INFO) << "qcd_frac + w_frac + tt_frac = " << qcd_frac + w_frac + tt_frac;
+			// LOG(INFO) << "qcd_frac = " << qcd_frac;
+			// LOG(INFO) << "w_frac = " << w_frac;
+			// LOG(INFO) << "tt_frac = " << tt_frac;
+			// LOG(INFO) << "real_frac = " << real_frac;
+			// LOG(INFO) << "dy_frac = " << dy_frac;
+			// LOG(INFO) << "*************************************************************************************";
+		}
+		else
+		{
+			real_frac = 1 - qcd_frac - w_frac - tt_frac; //fraction real taus NOTE: qcd_frac + w_frac + tt_frac is already normalized to 1, so real_frac is 0 NEEDS TO BE FIXXED
+
+			inputs[6] = qcd_frac;
+			inputs[7] = w_frac;
+			inputs[8] = tt_frac;
+
+			// LOG(INFO) << "******************************* JetToTauFakesProducer *******************************";
+			// LOG(INFO) << "real_frac = 1 - qcd_frac - w_frac - tt_frac = " << real_frac;
+			// LOG(INFO) << "qcd_frac + w_frac + tt_frac + dy_frac = " << qcd_frac + w_frac + tt_frac;
+			// LOG(INFO) << "qcd_frac = " << qcd_frac;
+			// LOG(INFO) << "w_frac = " << w_frac;
+			// LOG(INFO) << "tt_frac = " << tt_frac;
+			// LOG(INFO) << "*************************************************************************************";
+
+			/*
+			std::cout << "pt tau:           " << inputs[0] << std::endl;
+			std::cout << "decaymode tau:    " << inputs[1] << std::endl;
+			std::cout << "njets:            " << inputs[2] << std::endl;
+			std::cout << "mvis:             " << inputs[3] << std::endl;
+			std::cout << "mt_1:             " << inputs[4] << std::endl;
+			std::cout << "iso lepton:       " << inputs[5] << std::endl;
+			std::cout << "qcd frac:         " << inputs[6] << std::endl;
+			std::cout << "w frac:           " << inputs[7] << std::endl;
+			std::cout << "tt frac:          " << inputs[8] << std::endl;
+			*/
+		}
+
 		for(auto  ff_comb: m_ffComb)
 		{
 			// Retrieve nominal fake factors
@@ -235,7 +291,8 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 		inputs2[2] = static_cast<KTau*>(product.m_flavourOrderedLeptons[1])->decayMode;
 
 		// Number of Jets
-		inputs1[3] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
+		if (fakefactormethod == "cpfinalstate2017") inputs1[3] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 20.0);
+		else inputs1[3] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
 		inputs2[3] = inputs1[3];
 
 		// Visible mass
@@ -281,60 +338,68 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 		else if (fakefactormethod == "cp2017")
 		{
 			args1.push_back(inputs1[0]); //pt tau 1
-			args1.push_back(inputs1[2]); //njets
+			args1.push_back(inputs1[3]); //njets
 			args1.push_back(0.); //nbjets
 			args2.push_back(inputs2[0]); //pt tau 1
-			args2.push_back(inputs2[2]); //njets
+			args2.push_back(inputs2[3]); //njets
 			args2.push_back(0.); //nbjets
+		}
+		else if (fakefactormethod == "cpfinalstate2017")
+		{
+			args1.push_back(inputs1[3]); //njets
+			args1.push_back(inputs1[4]); //m_vis
+			args2.push_back(inputs2[3]); //njets
+			args2.push_back(inputs2[4]); //m_vis
 		}
 
 		double qcd_frac_1 = 1.0, w_frac_1 = 0.0, tt_frac_1 = 0.0, dy_frac_1 = 0.0, qcd_frac_2 = 1.0, w_frac_2 = 0.0, tt_frac_2 = 0.0, dy_frac_2 = 0.0;
 
-		for(auto fns_fraction: fns_fractions)
+		for(auto fns_fraction : fns_fractions)
 		{
+			// LOG(INFO) << "fns_fraction.first = " << fns_fraction.first;
 			//qcd_frac
 			if(fns_fraction.first == "qcd_fracs_1")
 			{
 				qcd_frac_1 = fns_fraction.second->eval(args1.data());
-				//std::cout << "qcd 1:    " << qcd_frac_1 << std::endl;
+				// std::cout << "qcd 1:    " << qcd_frac_1 << std::endl;
 			}
 			else if(fns_fraction.first == "qcd_fracs_2")
 			{
 				qcd_frac_2 = fns_fraction.second->eval(args2.data());
-				//std::cout << "qcd 2:    " << qcd_frac_2 << std::endl;
+				// std::cout << "qcd 2:    " << qcd_frac_2 << std::endl;
 			}
 			//wj_frac
 			else if(fns_fraction.first == "w_fracs_1")
 			{
 				w_frac_1 = fns_fraction.second->eval(args1.data());
-				//std::cout << "w frac 1:    " << w_frac_1 << std::endl;
+				// std::cout << "w frac 1:    " << w_frac_1 << std::endl;
 			}
 			else if(fns_fraction.first == "w_fracs_2")
 			{
 				w_frac_2 = fns_fraction.second->eval(args2.data());
-				//std::cout << "w frac 2:    " << w_frac_2 << std::endl;
+				// std::cout << "w frac 2:    " << w_frac_2 << std::endl;
 			}
 			//tt_frac
 			else if(fns_fraction.first == "ttbar_fracs_1")
 			{
 				tt_frac_1 = fns_fraction.second->eval(args1.data());
-				//std::cout << "tt frac 1:    " << tt_frac_1 << std::endl;
+				// std::cout << "tt frac 1:    " << tt_frac_1 << std::endl;
 			}
 			else if(fns_fraction.first == "ttbar_fracs_2")
 			{
 				tt_frac_2 = fns_fraction.second->eval(args2.data());
-				//std::cout << "tt frac 2:    " << tt_frac_2 << std::endl;
+				// std::cout << "tt frac 2:    " << tt_frac_2 << std::endl;
 			}
 			//dy_fracs
 			else if(fns_fraction.first == "dy_fracs_1")
 			{
 				dy_frac_1 = fns_fraction.second->eval(args1.data());
-				//std::cout << "dy frac 1:    " << dy_frac_1 << std::endl;
+				// std::cout << "dy frac 1:    " << dy_frac_1 << std::endl;
 			}
 			else if(fns_fraction.first == "dy_fracs_2")
 			{
 				dy_frac_2 = fns_fraction.second->eval(args2.data());
-				//std::cout << "dy frac 2:    " << dy_frac_2 << std::endl;
+				// std::cout << "dy frac 2:    " << dy_frac_2 << std::endl;
 			}
 			else
 			{
@@ -342,20 +407,56 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 			}
 		}
 
-		real_frac_1 = 1 - qcd_frac_1 - w_frac_1 - tt_frac_1 - dy_frac_1;
-		real_frac_2 = 1 - qcd_frac_2 - w_frac_2 - tt_frac_2 - dy_frac_2;
+		if (fakefactormethod == "cpfinalstate2017")
+		{
+			real_frac_1 = dy_frac_1;
+			real_frac_2 = dy_frac_2;
 
-		inputs1[5] = qcd_frac_1;
-		inputs1[6] = w_frac_1 + dy_frac_1;
-		inputs1[7] = tt_frac_1;
+			double sum_of_bkg_fracs_1 = qcd_frac_1 + w_frac_1 + tt_frac_1;
 
-		//inputs1[8] = dy_frac_1; //TODO THIS IS WHAT DANNY DOES, NOT LIKE THIS IN TWIKI
+			qcd_frac_1 = qcd_frac_1/(sum_of_bkg_fracs_1);
+			w_frac_1 = w_frac_1/(sum_of_bkg_fracs_1);
+			tt_frac_1 = tt_frac_1/(sum_of_bkg_fracs_1);
 
-		inputs2[5] = qcd_frac_2;
-		inputs2[6] = w_frac_2 + dy_frac_2;
-		inputs2[7] = tt_frac_2;
+			double sum_of_bkg_fracs_2 = qcd_frac_2 + w_frac_2 + tt_frac_2;
 
-		//inputs2[8] = dy_frac_2; //TODO THIS IS WHAT DANNY DOES, NOT LIKE THIS IN TWIKI
+			qcd_frac_2 = qcd_frac_2/(sum_of_bkg_fracs_2);
+			w_frac_2 = w_frac_2/(sum_of_bkg_fracs_2);
+			tt_frac_2 = tt_frac_2/(sum_of_bkg_fracs_2);
+
+			inputs1[5] = qcd_frac_1;
+			inputs1[6] = w_frac_1;
+			inputs1[7] = tt_frac_1;
+
+			inputs2[5] = qcd_frac_2;
+			inputs2[6] = w_frac_2;
+			inputs2[7] = tt_frac_2;
+			// LOG(INFO) << "******************************* JetToTauFakesProducer *******************************";
+			// LOG(INFO) << "1 - qcd_frac_1 - w_frac_1 - tt_frac_1 - dy_frac_1 = " << 1 - (qcd_frac_1 + w_frac_1 + tt_frac_1);
+			// LOG(INFO) << "real_frac_1 = " << real_frac_1;
+			// LOG(INFO) << "dy_frac_1 = " << dy_frac_1;
+			// LOG(INFO) << "qcd_frac_1 + w_frac_1 + tt_frac_1 = " << qcd_frac_1 + w_frac_1 + tt_frac_1;
+			// LOG(INFO) << "qcd_frac_1 = " << qcd_frac_1;
+			// LOG(INFO) << "w_frac_1 = " << w_frac_1;
+			// LOG(INFO) << "tt_frac_1 = " << tt_frac_1;
+			// LOG(INFO) << "*************************************************************************************";
+		}
+		else
+		{
+			real_frac_1 = 1 - qcd_frac_1 - w_frac_1 - tt_frac_1 - dy_frac_1;
+			real_frac_2 = 1 - qcd_frac_2 - w_frac_2 - tt_frac_2 - dy_frac_2;
+			inputs1[5] = qcd_frac_1;
+			inputs1[6] = w_frac_1 + dy_frac_1;
+			inputs1[7] = tt_frac_1;
+
+			//inputs1[8] = dy_frac_1; //TODO THIS IS WHAT DANNY DOES, NOT LIKE THIS IN TWIKI
+
+			inputs2[5] = qcd_frac_2;
+			inputs2[6] = w_frac_2 + dy_frac_2;
+			inputs2[7] = tt_frac_2;
+
+			//inputs2[8] = dy_frac_2; //TODO THIS IS WHAT DANNY DOES, NOT LIKE THIS IN TWIKI
+		}
 
 		for(auto  ff_comb : m_ffComb)
 		{
