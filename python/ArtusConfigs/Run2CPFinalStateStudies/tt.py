@@ -43,8 +43,20 @@ class tt_ArtusConfig(ttbaseconfig.tt_ArtusConfig):
 
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/tt/fakeFactors.root"
-			self["FakeFactorMethod"] = "cp2017"
-			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
+			self["FakeFactorMethod"] = "cpfinalstate2017"
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_mvis_cpfinalstate2017.root"
+			# self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
+
+			self["FakeFactorRooWorkspaceFunction"] = [
+				"w_fracs_1:w_fracs_tt1",
+				"qcd_fracs_1:qcd_fracs_tt1",
+				"ttbar_fracs_1:ttbar_fracs_tt1",
+				"dy_fracs_1:real_taus_fracs_tt1",
+				"w_fracs_2:w_fracs_tt2",
+				"qcd_fracs_2:qcd_fracs_tt2",
+				"ttbar_fracs_2:ttbar_fracs_tt2",
+				"dy_fracs_2:real_taus_fracs_tt2"
+			]
 
 		quantities_set = Quantities()
 		quantities_set.build_quantities(nickname, channel = self["Channel"])

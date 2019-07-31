@@ -43,5 +43,20 @@ class et_ArtusConfig(etbaseconfig.et_ArtusConfig):
 
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/et/fakeFactors.root"
-			self["FakeFactorMethod"] = "cp2017"
-			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
+			self["FakeFactorMethod"] = "cpfinalstate2017"
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_mvis_cpfinalstate2017.root"
+			# self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
+
+			self["FakeFactorRooWorkspaceFunction"] = [
+				"w_fracs:w_fracs_et",
+				"qcd_fracs:qcd_fracs_et",
+				"ttbar_fracs:ttbar_fracs_et",
+				"dy_fracs:real_taus_fracs_et",
+			]
+
+		self["TauUpperAbsEtaCuts"] = ["2.1"] # tau trigger SFs only allow abs(eta) up to 2.1
+
+		quantities_set = Quantities()
+		quantities_set.build_quantities(nickname, channel = self["Channel"])
+		quantities_set.quantities.update(self["Quantities"])
+		self["Quantities"] = list(quantities_set.quantities)

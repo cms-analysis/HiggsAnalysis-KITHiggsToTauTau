@@ -724,6 +724,8 @@ class mt_ArtusConfig(dict):
 			"#PrintGenParticleDecayTreeConsumer"
 		]
 
+		self["TauUpperAbsEtaCuts"] = ["2.1"] # tau trigger SFs only allow abs(eta) up to 2.1
+
 		quantities_set = Quantities()
 		quantities_set.build_quantities(nickname, channel = self["Channel"])
 		self["Quantities"] = list(quantities_set.quantities)

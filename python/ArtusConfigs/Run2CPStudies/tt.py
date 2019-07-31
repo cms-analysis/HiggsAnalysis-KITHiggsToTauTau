@@ -156,7 +156,7 @@ class tt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
 						if re.search("Summer17|Fall17", nickname) == None:
-							self["Processors"] += [	"producer:TopPtReweightingProducer"]
+							self["Processors"] += ["producer:TopPtReweightingProducer"]
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"]
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
