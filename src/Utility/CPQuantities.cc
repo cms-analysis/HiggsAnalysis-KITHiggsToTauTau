@@ -28,20 +28,9 @@ double CPQuantities::CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1
 
 double CPQuantities::CalculatePCADifferece(SMatrixSym3D cov_PV, TVector3 IP)
 {
-	/*int i;
-	SMatrixSym3D Sigma_inv = cov_PV.Inverse(i);
-	double det;
-	Sigma_inv.Det2(det);
-	double det_Sigma_inv = det;*/
-	//double K = det_Sigma_inv*cov_PV(0,0)/(Sigma_inv(1,1)*Sigma_inv(2,2)-Sigma_inv(2,1)*Sigma_inv(2,1));
-	//for testing purposes: every one of them should be equal to 1, for a given positive definite matrix (cov_PV)
-	//cout << det_Sigma_inv*Sigma(0,0)/(Sigma_inv(1,1)*Sigma_inv(2,2)-Sigma_inv(2,1)*Sigma_inv(2,1)) << endl;
-	//cout << det_Sigma_inv*Sigma(1,1)/(Sigma_inv(0,0)*Sigma_inv(2,2)-Sigma_inv(2,0)*Sigma_inv(2,0)) << endl;
-	//cout << det_Sigma_inv*Sigma(2,2)/(Sigma_inv(0,0)*Sigma_inv(1,1)-Sigma_inv(1,0)*Sigma_inv(1,0)) << endl;
 	TVector3 n = IP.Unit();
 	const int dim=3;
 	ROOT::Math::SVector<double, dim> Sn(n.x(),n.y(),n.z());
-	//double alpha = TMath::Sqrt(K/(ROOT::Math::Dot(Sn,Sigma_inv*Sn)));
 	double alpha = TMath::Sqrt((ROOT::Math::Dot(Sn,cov_PV*Sn)));
 	return alpha;
 }
@@ -78,7 +67,7 @@ double f_x1(double x, double qOp, double l, double p)
 {
 	double t = TMath::Pi()/2-l;
 	double pars[4];
-	pars[1] = TMath::Sin(t)/(B_SI*std::abs(qOp)); //Radius
+	pars[1] = TMath::Sin(t)/(B_SI*qOp); //Radius
 	pars[3] = get_phi1(p,sign(qOp)); //phi1
 	pars[0] = Ref.x()-pars[1]*TMath::Cos(pars[3]); //Ox
 	pars[2] = std::abs(qOp)*B_SI*c; //Omega
@@ -89,9 +78,9 @@ double f_x2(double x, double qOp, double l, double p)
 {
 	double t = TMath::Pi()/2-l;
 	double pars[4];
-	pars[1] = TMath::Sin(t)/(B_SI*std::abs(qOp)); //Radius
+	pars[1] = TMath::Sin(t)/(B_SI*qOp); //Radius
 	pars[3] = get_phi1(p,sign(qOp)); //phi1
-	pars[0] = Ref.y()+pars[1]*TMath::Sin(pars[3]);
+	pars[0] = Ref.y()+pars[1]*TMath::Sin(pars[3]); //Oy
 	pars[2] = std::abs(qOp)*B_SI*c; //Omega
 	return pars[0]-pars[1]*TMath::Sin(pars[2]*x+pars[3]);
 }
@@ -134,14 +123,14 @@ TVector3 tangent_at_x(double x, double qOp, double l, double p)
 {
 	double t = TMath::Pi()/2-l;
 	double pars[4];
-	pars[1] = TMath::Sin(t)/(B_SI*std::abs(qOp)); //Radius
+	pars[1] = TMath::Sin(t)/(B_SI*qOp); //Radius
 	pars[3] = get_phi1(p,sign(qOp)); //phi1
 	pars[0] = Ref.x()-pars[1]*TMath::Cos(pars[3]); //Ox
 	pars[2] = std::abs(qOp)*B_SI*c; //Omega
 	double X = -pars[1]*pars[2]*TMath::Sin(pars[2]*x+pars[3]);
 
 	double pars2[4];
-	pars2[1] = TMath::Sin(t)/(B_SI*std::abs(qOp)); //Radius
+	pars2[1] = TMath::Sin(t)/(B_SI*qOp); //Radius
 	pars2[3] = get_phi1(p,sign(qOp));//phi1
 	pars2[0] = Ref.y()+pars2[1]*TMath::Sin(pars2[3]);
 	pars2[2] = std::abs(qOp)*B_SI*c; //Omega
