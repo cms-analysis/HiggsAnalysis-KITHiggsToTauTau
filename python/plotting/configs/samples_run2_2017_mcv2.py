@@ -56,30 +56,34 @@ class Samples(samples.Samples):
 		#return "("+mediummass+ " + " + lowmass+")"+normalization
 		return "("+lowmass+mediummass+")"+normalization
 
-	def wj_stitchingweight(self):
-		return "(((npartons == 0 || npartons >= 5)*(1.37088105e-03)) + ((npartons == 1)*(1.54354730e-04)) + ((npartons == 2)*(3.62872916e-04)) + ((npartons == 3)*(5.61528581e-05)) + ((npartons == 4)*(5.36308423e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+	def wj_stitchingweight(self, use_ext_sample=True):
+		# return "(((npartons == 0 || npartons >= 5)*(1.37088105e-03)) + ((npartons == 1)*(1.54354730e-04)) + ((npartons == 2)*(3.62872916e-04)) + ((npartons == 3)*(5.61528581e-05)) + ((npartons == 4)*(5.36308423e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+		if use_ext_sample:
+			return "(((npartons == 0 || npartons >= 5)*(8.602609716e-04)) + ((npartons == 1)*(1.446850624e-04)) + ((npartons == 2)*(3.219452396e-04)) + ((npartons == 3)*(5.482001534e-05)) + ((npartons == 4)*(5.241373841e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+		else:
+			return "(((npartons == 0 || npartons >= 5)*(2.28776768e-03)) + ((npartons == 1)*(1.61649265e-04)) + ((npartons == 2)*(4.20029057e-04)) + ((npartons == 3)*(5.70900669e-05)) + ((npartons == 4)*(5.44851148e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 
 	#no stitching weights since no extensions
 	def ewkz_zll_stitchingweight(self):
-		return "(1)"
+		return "(1.0)"
 
 	def ewkz_znn_stitchingweight(self):
-		return "(1)"
+		return "(1.0)"
 
 	def ewkwm_stitchingweight(self):
-		return "(1)"
+		return "(1.0)"
 
 	def ewkwp_stitchingweight(self):
-		return "(1)"
+		return "(1.0)"
 	
 	def wgamma_stitchingweight(self):
-		return "(1)"
+		return "(1.0)"
 	
 	def vv_stitchingweight(self):
-		return "(1)"
+		return "(1.0)"
 
 	def ttbar_stitchingweight(self):
-		return "(1)"
+		return "(1.0)"
 
 	def wwtolnuqq_stitchingweight(self):
 		return "(5.32574493e-8)/(numberGeneratedEventsWeight)" # (5.32574493e-8) = 1/(8782525+9994191)
@@ -283,12 +287,14 @@ class Samples(samples.Samples):
 			return self.artus_file_names({"process" : "TTTo.*", "data": False, "campaign" : self.mc_campaign}, 3)
 
 
-
 	########### W+NJETS FILES ################
-	def files_wj(self, channel):
-		artus_files = self.artus_file_names({"process" : "W.*JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8",  "analysis_2017" : "skim_mcv2_CP"}, 5)
-		return artus_files
-
+	def files_wj(self, channel, use_ext_sample=True):
+		if use_ext_sample:
+			artus_files = self.artus_file_names({"process" : "W.*JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8"}, 6)
+			return artus_files
+		else:
+			artus_files = self.artus_file_names({"process" : "W.*JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8", "extension" : ""}, 5)
+			return artus_files
 
 
 	############ DIBOSON FILES ###############
@@ -315,7 +321,6 @@ class Samples(samples.Samples):
 	def files_zzto4l(self, channel):
 		artus_files = self.artus_file_names({ "process" : "ZZTo4L", "data" : False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 2)
 		return artus_files
-
 
 	def files_singletop(self, channel):
 		artus_files = self.artus_file_names({ "process" : "(STtWantitop5finclusiveDecaysTuneCP5|STtWtop5finclusiveDecaysTuneCP5)",
