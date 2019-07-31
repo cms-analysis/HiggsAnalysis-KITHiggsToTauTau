@@ -19,7 +19,6 @@ void JetToTauFakesProducer::Init(setting_type const& settings, metadata_type& me
 
 	std::string ffFile = settings.GetFakeFaktorFile();
 
-
 	std::string ffFractionsWorkSpaceFile = settings.GetFakeFactorFractionsRooWorkspaceFile();
 	fakefactormethod = settings.GetFakeFactorMethod(); //TODO change this to enumtype
 
