@@ -893,7 +893,16 @@ class BinningsDict(binnings.BinningsDict):
 		for channel in ["em", "et", "mt"]:
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_LFVJet_m_vis"] = auto_rebin_binning
 			self.binnings_dict["binningHttMSSM13TeV_"+channel+"_LFVZeroJet_m_vis"] = auto_rebin_binning
-				
+
+		# FFfractions Binnings
+		for channel in ["et", "mt", "tt"]:
+			if channel == "tt":
+				self.binnings_dict["binningFFfractions13TeV_"+ channel + "_m_vis"] = "0 50 80 110 150 200 250 300 1000"
+			else:
+				self.binnings_dict["binningFFfractions13TeV_"+ channel + "_m_vis"] = "0 20 50 80 110 150 200 250 300 1000"
+			self.binnings_dict["binningFFfractions13TeV_"+ channel + "_decayMode_2"] = "0 1 2 10 11"
+			self.binnings_dict["binningFFfractions13TeV_"+ channel + "_pt_2"] = "0 20 30 40 50 60 70 80 100 300"
+
 				#==========================CategoriesDictUpdates=========================================================
 		
 		import Artus.Utility.jsonTools as jsonTools

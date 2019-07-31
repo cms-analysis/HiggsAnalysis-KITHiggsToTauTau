@@ -543,6 +543,12 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["catHttMSSM13TeV_et_LFVJet"] = "(njetspt30>=1)*(nbtag == 0)*((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<30)"
 		self.expressions_dict["catHttMSSM13TeV_mt_LFVJet"] = "(njetspt30>=1)*(nbtag == 0)*((((lep1LV.Px() + lep2LV.Px())**2 + (lep1LV.Py() + lep2LV.Py())**2)**0.5)<50)"
 		
+		# FF fractions categories
+		for channel in ["et","mt","tt"]:
+			self.expressions_dict["catFFfractions13TeV_" + channel + "_inclusive_jet"] = "1.0"
+			self.expressions_dict["catFFfractions13TeV_" + channel + "_0_jet"] = "njets==0"
+			self.expressions_dict["catFFfractions13TeV_" + channel + "_1_jet"] = "njets==1"
+			self.expressions_dict["catFFfractions13TeV_" + channel + "_2_jet"] = "njets>1"
 		
 		self.expressions_dict["cat_OneProng"] = "(decayMode_2 == 0)"
 		self.expressions_dict["catOneProng"] = self.expressions_dict["cat_OneProng"]

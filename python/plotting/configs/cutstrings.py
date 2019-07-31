@@ -699,6 +699,23 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
+	def invertedTauIsolationFF(channel, cuts, cut_type):
+		if channel in ["mt", "et"]:
+			# cuts = CutStringsDict.cptautau2017(channel, cut_type)
+			cuts["iso_2"] = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5))"
+		elif channel in ["tt"]:
+			if "invertedTauIsolationFF_1" in cut_type:
+				# cuts = CutStringsDict.cptautau2017(channel, cut_type)
+				cuts["iso_1"] = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1<0.5))"
+			elif "invertedTauIsolationFF_2" in cut_type:
+				# cuts = CutStringsDict.cptautau2017(channel, cut_type)
+				cuts["iso_2"] = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5))"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		return cuts
+
+	@staticmethod
 	def baseline_low_mvis(channel, cut_type):
 		if channel== "gen":
 			cuts = {}
@@ -917,4 +934,9 @@ class CutStringsDict:
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
 			sys.exit(1)
+		
+		# ------------------------- ADDITIONAL/ALTERED CUTS -------------------------
+		# functions here only change specific cuts of the cuts dict passed to them.
+		if "invertedTauIsolationFF" in cut_type:
+			cuts = CutStringsDict.invertedTauIsolationFF(channel, cuts, cut_type)
 		return cuts
