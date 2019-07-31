@@ -59,10 +59,12 @@ class MinimalPlotlevelFilter():
 		else:
 			if not eTauFakeRate:
 				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = [
+					"metfilter_flag",
 					"extraelec_veto",
 					"extramuon_veto",
 					"nDiElectronVetoPairsOS"]
 				self.minPlotLevelDict["PlotlevelFilterExpression"] = "(nDiElectronVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
+				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(metfilter_flag > 0.5)"
 			else:
 				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = ["lep1IsoOverPt", "againstMuonLoose3_2"]
 				self.minPlotLevelDict["PlotlevelFilterExpression"] = "(lep1IsoOverPt < 0.1)*(againstMuonLoose3_2 > 0.5)"
@@ -83,12 +85,14 @@ class MinimalPlotlevelFilter():
 			self.minPlotLevelDict["PlotlevelFilterExpression"] = "(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
 		else:
 			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = [
+				"metfilter_flag",
 				"againstElectronVLooseMVA6_2",
 				"extraelec_veto",
 				"againstMuonLoose3_2",
 				"extramuon_veto"
 			]
 			self.minPlotLevelDict["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
+			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(metfilter_flag > 0.5)"
 
 			if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname):
 				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "trg_doubletau_35_tightiso_tightid", "trg_doubletau_40_mediso_tightid", "trg_doubletau_40_tightiso"]
