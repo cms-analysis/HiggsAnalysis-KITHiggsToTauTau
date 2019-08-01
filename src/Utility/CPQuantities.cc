@@ -1,5 +1,6 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
+#include "Artus/Utility/interface/UnitConverter.h"
 
 #include "TMatrix.h"
 #include "Math/SVector.h"
@@ -189,6 +190,17 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	double sigma_lambda = pow(cov(1,1),0.5); //=sigma_theta, since they're linear
 	double sigma_Phi = pow(cov(2,2),0.5); //=sigma_phi_1, for the same reason
 	*/
+
+
+	// Save all calculated variables used in the fit:
+	this->SetHelixRadius(Radius);
+	this->SetRecoMagneticField(B_SI);
+	this->SetRecoP_SI(p_SI);
+	this->SetRecoV_z_SI(v_z_SI);
+	this->SetRecoOmega(Omega);
+	this->SetRecoPhi1(Phi_1);
+	this->SetRecoOprime(RMPoint(Ox, Oy, Oz));
+
 	double x_best = 0.0;
 	//minimizing the distance between the helix and the primary vertex PV
 

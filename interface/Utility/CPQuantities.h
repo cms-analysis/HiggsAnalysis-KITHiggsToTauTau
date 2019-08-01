@@ -95,6 +95,14 @@ public:
 	inline double GetRecoPhiMinusRhoMeth(){ return recoPhiMinusRhoMeth; }
 	inline double GetRecoPhiStarPlusRhoMeth(){ return recoPhiStarPlusRhoMeth; }
 	inline double GetRecoPhiStarMinusRhoMeth(){ return recoPhiStarMinusRhoMeth; }
+	// set functions for variables used in the helical approach
+	inline double GetHelixRadius(){ return helixRadius; }
+	inline double GetRecoMagneticField(){ return recoMagneticField;}
+	inline double GetRecoP_SI(){ return recoP_SI;}
+	inline double GetRecov_z_SI(){ return recoV_z_SI; }
+	inline double GetRecoOmega(){ return recoOmega; }
+	inline double GetRecoPhi1(){ return recoPhi1; }
+	inline RMPoint GetRecoOprime(){ return recoOprime; }
 private:
 	double genPhiStar;
 	double genOStarCP;
@@ -116,6 +124,13 @@ private:
 	double recoPhiMinusRhoMeth;
 	double recoPhiStarPlusRhoMeth;
 	double recoPhiStarMinusRhoMeth;
+	double helixRadius;
+	double recoMagneticField;
+	double recoP_SI;
+	double recoV_z_SI;
+	double recoOmega;
+	double recoPhi1;
+	RMPoint recoOprime;
 	//level: "gen", "reco"
 	double CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level);
 	inline void SetGenPhiStar(double genphistar)
@@ -165,4 +180,13 @@ private:
 	inline void SetRecoPhiMinusRhoMeth(double recophiminusRhoMeth){ recoPhiMinusRhoMeth = recophiminusRhoMeth; }
 	inline void SetRecoPhiStarPlusRhoMeth(double recophistarplusRhoMeth){ recoPhiStarPlusRhoMeth = recophistarplusRhoMeth; }
 	inline void SetRecoPhiStarMinusRhoMeth(double recophistarminusRhoMeth){ recoPhiStarMinusRhoMeth = recophistarminusRhoMeth; }
+	// set functions for variables used in the helical approach
+	inline void SetHelixRadius(double radius){ helixRadius = radius; }
+	inline void SetRecoMagneticField(double magneticField){ recoMagneticField = magneticField;}
+	inline void SetRecoP_SI(double p_SI){ recoP_SI = p_SI;}
+	inline void SetRecoV_z_SI(double v_z_SI){ recoV_z_SI = v_z_SI; }
+	inline void SetRecoOmega(double Omega){ recoOmega = recoOmega; }
+	inline void SetRecoPhi1(double Phi_1){ recoPhi1 = Phi_1; }
+	inline void SetRecoOprime(RMPoint Oprime){ recoOprime = Oprime; }
 };
+

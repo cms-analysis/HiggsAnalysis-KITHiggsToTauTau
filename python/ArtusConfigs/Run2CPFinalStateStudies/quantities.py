@@ -45,9 +45,6 @@ class Quantities(Run2CPQuantities.Quantities):
 			"RefHelix_1",
 			"RefHelix_2",
 
-			"PHelix_1",
-			"PHelix_2",
-
 			"helixQOverP_1",
 			"helixLambda_1",
 			"helixPhi_1",
@@ -70,6 +67,33 @@ class Quantities(Run2CPQuantities.Quantities):
 			"IPHelrPV_2",
 			#"IPHelrPVBS_1",
 			#"IPHelrPVBS_2",
+
+
+			"helixRadius",
+			"recoMagneticField",
+			"recoP_SI",
+			"recoV_z_SI",
+			"recoOmega",
+			"recoPhi1",
+			"recoOprime",
+
+			"deltaEtaGenRecoIPrPVBS_1",
+			"deltaEtaGenRecoIPrPVBS_2",
+			"deltaPhiGenRecoIPrPVBS_1",
+			"deltaPhiGenRecoIPrPVBS_2",
+			"deltaRGenRecoIPrPVBS_1",
+			"deltaRGenRecoIPrPVBS_2",
+			"deltaGenRecoIPrPVBS_1",
+			"deltaGenRecoIPrPVBS_2",
+
+			"deltaEtaGenRecoIPHelrPVBS_1",
+			"deltaEtaGenRecoIPHelrPVBS_2",
+			"deltaPhiGenRecoIPHelrPVBS_1",
+			"deltaPhiGenRecoIPHelrPVBS_2",
+			"deltaRGenRecoIPHelrPVBS_1",
+			"deltaRGenRecoIPHelrPVBS_2",
+			"deltaGenRecoIPHelrPVBS_1",
+			"deltaGenRecoIPHelrPVBS_2",
 
 			]
 		return s

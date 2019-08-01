@@ -1055,16 +1055,17 @@ class Quantities(Run2Quantities):
 			"recoPhiStarCPRho",
 			"recoPhiStarCPRhoMerged",
 			"recoPhiStarCPrPV",
+			"recoPhiStarCPHel",
+			"recoPhiStarCPHelrPV",
 
 			"recoPhiStarCPComb",
 			"recoPhiStarCPCombMerged",
 			"recoPhiStarCPCombrPV",
 			"recoPhiStarCPCombMergedrPV",
-
-			"recoPhiStarCPHel",
-			"recoPhiStarCPHelrPV",
 			"recoPhiStarCPCombHel",
 			"recoPhiStarCPCombMergedHel",
+			"recoPhiStarCPCombHelrPV",
+			"recoPhiStarCPCombMergedHelrPV",
 
 			"recoPhiPlusIPMeth",
 			"recoPhiMinusIPMeth",
@@ -1231,7 +1232,7 @@ class Quantities(Run2Quantities):
 
 	@staticmethod
 	def genPolarisationQuantities():
-		return [		
+		return [
 			"genMatchedTau1LV",
 			"genMatchedTau1Found",
 			"genMatchedTau1VisibleLV",

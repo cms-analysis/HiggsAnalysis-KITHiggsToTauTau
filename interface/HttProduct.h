@@ -400,6 +400,18 @@ public:
 	RMPoint m_PTrack_1;
 	RMPoint m_PTrack_2;
 
+	double m_Radius_1 = DefaultValues::UndefinedDouble;
+	double m_Radius_2 = DefaultValues::UndefinedDouble;
+
+	double m_Radius   = DefaultValues::UndefinedDouble;
+	double m_HelixRadius = DefaultValues::UndefinedDouble;
+	double m_recoMagneticField = DefaultValues::UndefinedDouble;
+	double m_recoP_SI = DefaultValues::UndefinedDouble;
+	double m_recoV_z_SI = DefaultValues::UndefinedDouble;
+	double m_recoOmega = DefaultValues::UndefinedDouble;
+	double m_recoPhi1 = DefaultValues::UndefinedDouble;
+	RMPoint m_recoOprime = DefaultValues::UndefinedRMPoint;
+
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
 	double m_cosPsiPlus_norefit  = DefaultValues::UndefinedDouble;
@@ -442,7 +454,7 @@ public:
 	double m_deltaRGenRecoIPrPV_2  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIPrPV_1  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIPrPV_2  = DefaultValues::UndefinedDouble;
-
+	// Helical Approach wrt refitPV
 	double m_deltaEtaGenRecoIPHelrPV_1  = DefaultValues::UndefinedDouble;
 	double m_deltaEtaGenRecoIPHelrPV_2  = DefaultValues::UndefinedDouble;
 	double m_deltaPhiGenRecoIPHelrPV_1  = DefaultValues::UndefinedDouble;
@@ -451,12 +463,26 @@ public:
 	double m_deltaRGenRecoIPHelrPV_2  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIPHelrPV_1  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIPHelrPV_2  = DefaultValues::UndefinedDouble;
+	// wrt refitPV and beamspot constraint
+	double m_deltaEtaGenRecoIPrPVBS_1  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIPrPVBS_2  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIPrPVBS_1  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIPrPVBS_2  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIPrPVBS_1  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIPrPVBS_2  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIPrPVBS_1  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIPrPVBS_2  = DefaultValues::UndefinedDouble;
 
-
-
+	double m_deltaEtaGenRecoIPHelrPVBS_1  = DefaultValues::UndefinedDouble;
+	double m_deltaEtaGenRecoIPHelrPVBS_2  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIPHelrPVBS_1  = DefaultValues::UndefinedDouble;
+	double m_deltaPhiGenRecoIPHelrPVBS_2  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIPHelrPVBS_1  = DefaultValues::UndefinedDouble;
+	double m_deltaRGenRecoIPHelrPVBS_2  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIPHelrPVBS_1  = DefaultValues::UndefinedDouble;
+	double m_deltaGenRecoIPHelrPVBS_2  = DefaultValues::UndefinedDouble;
 
 	// comparison between recoIP(original PV) and recoIP(refitPV)
-
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
 
@@ -477,6 +503,8 @@ public:
 	double m_recoPhiStarCPCombMergedHel  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombHelrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombMergedHelrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombHelrPVBS  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMergedHelrPVBS  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPHel  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPHelrPV  = DefaultValues::UndefinedDouble;
 
