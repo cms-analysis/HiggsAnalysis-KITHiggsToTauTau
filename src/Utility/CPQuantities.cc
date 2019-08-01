@@ -303,7 +303,7 @@ TVector3 CPQuantities::CalculatePCA(double B, short charge, std::vector<float> h
 	return res*100.; //conversion back to cm
 }
 
-ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> CPQuantities::CalculatePCACovariance(double B, short charge, std::vector<float> h_param,	ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, SMatrixSym3D SigmaPrV, double xBest)
+ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> CPQuantities::CalculatePCACovariance(double B, short charge, std::vector<float> h_param,	ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> cov, RMPoint ref, RMPoint PrV, SMatrixSym3D SigmaPrV, double xBest, KLepton* recoParticle)
 {
 	//everything in SI
 	const double eQ = 1.60217662*1e-19; //elementary charge in C
