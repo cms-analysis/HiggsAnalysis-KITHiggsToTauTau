@@ -92,8 +92,7 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 		inputs[1] = static_cast<KTau*>(product.m_flavourOrderedLeptons[1])->decayMode;
 
 		// Number of Jets
-		if (fakefactormethod == "cpfinalstate2017") inputs[2] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 20.0);
-		else inputs[2] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
+		inputs[2] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
 
 		// Visible mass
 		inputs[3] = product.m_diLeptonSystem.mass();
@@ -291,8 +290,7 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 		inputs2[2] = static_cast<KTau*>(product.m_flavourOrderedLeptons[1])->decayMode;
 
 		// Number of Jets
-		if (fakefactormethod == "cpfinalstate2017") inputs1[3] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 20.0);
-		else inputs1[3] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
+		inputs1[3] = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
 		inputs2[3] = inputs1[3];
 
 		// Visible mass
