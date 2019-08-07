@@ -78,7 +78,7 @@ class CutStringsDict:
 			if "2017" in cut_type:
 				cuts["trigger"] = "((trg_singlemuon_24>0.5)||(trg_singlemuon_27>0.5)||(trg_crossmuon_mu20tau27>0.5))"
 				cuts["iso_1"] = "(iso_1 < 0.15)"
-				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))" 
+				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
 				cuts["pt_1"] = "(pt_1 > 25.0)"
 				cuts["pt_2"] = "(pt_2 > 30.0)"
 				cuts["mt"] = "(mt_1<50.0)"
@@ -94,7 +94,7 @@ class CutStringsDict:
 				cuts["pt_2"] = "(pt_2 > 30.0)"
 			elif "smhtt2017" in cut_type or "cp2017" in cut_type or "cpggh2017" in cut_type:  #TODO pt_1 set to 37 might change, pt_2 at 25 might change
 				cuts["pt_1"] = "(pt_1 > 25.0)"
-				cuts["pt_2"] = "(pt_2 > 25.0)"  
+				cuts["pt_2"] = "(pt_2 > 25.0)"
 			cuts["mt"] = "(mt_1<50.0)" if "2016" in cut_type else "(mt_1<40.0)"
 			cuts["anti_e_tau_discriminators"] = "(againstElectronTightMVA6_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(againstMuonLoose3_2 > 0.5)"
@@ -129,7 +129,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def mssm2016(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
@@ -468,7 +468,7 @@ class CutStringsDict:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
-	
+
 	@staticmethod
 	def antimuloosepass(channel, cut_type):
 		if channel == "mt":
@@ -667,7 +667,7 @@ class CutStringsDict:
 		cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ","").replace("SameSignRegion",""))
 		cuts["ss"] = "((q_1*q_2)>0.0)"
 		return cuts
-	
+
 	@staticmethod
 	def highMtControlRegionWJ(channel, cut_type):
 		if channel in ["mt", "et"]:
@@ -934,7 +934,7 @@ class CutStringsDict:
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
 			sys.exit(1)
-		
+
 		# ------------------------- ADDITIONAL/ALTERED CUTS -------------------------
 		# functions here only change specific cuts of the cuts dict passed to them.
 		if "invertedTauIsolationFF" in cut_type:

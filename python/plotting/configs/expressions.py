@@ -545,10 +545,10 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		
 		# FF fractions categories
 		for channel in ["et","mt","tt"]:
-			self.expressions_dict["catFFfractions13TeV_" + channel + "_inclusive_jet"] = "1.0"
-			self.expressions_dict["catFFfractions13TeV_" + channel + "_0_jet"] = "njets==0"
-			self.expressions_dict["catFFfractions13TeV_" + channel + "_1_jet"] = "njets==1"
-			self.expressions_dict["catFFfractions13TeV_" + channel + "_2_jet"] = "njets>1"
+			self.expressions_dict["catFFfractions13TeV_" + channel + "_inclusive_jet"] = "(1.0)"
+			self.expressions_dict["catFFfractions13TeV_" + channel + "_0_jet"] = "(njets==0)"
+			self.expressions_dict["catFFfractions13TeV_" + channel + "_1_jet"] = "(njets==1)"
+			self.expressions_dict["catFFfractions13TeV_" + channel + "_2_jet"] = "(njets>1)"
 		
 		self.expressions_dict["cat_OneProng"] = "(decayMode_2 == 0)"
 		self.expressions_dict["catOneProng"] = self.expressions_dict["cat_OneProng"]
