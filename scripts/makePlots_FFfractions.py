@@ -11,7 +11,12 @@ import os
 import sys
 import re
 
+import ROOT
 import Artus.Utility.jsonTools as jsonTools
+import Artus.Utility.tools as tools
+import Artus.HarryPlotter.utility.roottools as roottools
+import Artus.HarryPlotter.plotbase as plotbase
+import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.expressions as expressions
 import HiggsAnalysis.KITHiggsToTauTau.plotting.higgsplot as higgsplot
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.binnings as binnings
 import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2015 as samples
@@ -69,13 +74,14 @@ if __name__ == "__main__":
                         help="multiplies current lumi. 2 would mean double lumi you have right now [Default: %(default)s]")
 	parser.add_argument("-c", "--channels", nargs="*",
 	                    default=["et" , "mt" , "tt1" , "tt2"],
-	                    help="Channels. [Default: %(default)s]")
+	                    help="Channels. tt channel has to be run twice, once per tau inverting the isolation of tau 1 in tt1 and tau 2 in tt2. [Default: %(default)s]")
 	parser.add_argument("--categories", nargs="+", default=[None],
 	                    help="Categories. [Default: %(default)s]")
+	parser.add_argument("--category-quantities", nargs="+", default=["njets"],
+	                    help="Variables used in categories. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantities", nargs="+",
 	                    default=["m_vis", "decayMode_2", "pt_2"],
-						help="Quantities. Up to 3 quantities can be binned in a single histogram. Further quantities have to be incorporated via categories. [Default: %(default)s]")
-	                    # default=["njets", "m_sv", "mt_1", "mt_2", "m_vis", "m_1", "m_2"],
+	                    help="Quantities. Up to 3 quantities can be binned in a single histogram. Further quantities have to be incorporated via categories. In the 'tt1' channel the quantity of the other tau will be taken instead (tt1 : pt_2 --> pt_1) [Default: %(default)s]")
 	                    # default=["integral",
 	                    #          "pt_1", "eta_1", "phi_1", "m_1", "iso_1", "mt_1",
 	                    #          "pt_2", "eta_2", "phi_2", "m_2", "iso_2", "mt_2",
@@ -156,7 +162,7 @@ if __name__ == "__main__":
 	parser.add_argument("-f", "--n-plots", type=int,
 	                    help="Number of plots. [Default: all]")
 	parser.add_argument("-o", "--output-dir",
-	                    default="$CMSSW_BASE/src/plots/control_plots/",
+	                    default="$CMSSW_BASE/src/plots/FF_fractions/",
 	                    help="Output directory. [Default: %(default)s]")
 	parser.add_argument("--www", nargs="?", default=None, const="control_plots",
 	                    help="Publish plots. [Default: %(default)s]")
@@ -311,6 +317,8 @@ if __name__ == "__main__":
 		args.weights = (args.weights * len(args.quantities))[:len(args.quantities)]
 
 	cut_type = global_cut_type
+	FFfractions_names = [] # NOTE: set during creation of ratios
+	quantities = []
 
 	# Configs construction for HP
 	for category in args.categories:
@@ -321,12 +329,19 @@ if __name__ == "__main__":
 
 			ff_channel = channel
 			if args.invertiso:
+				quantities = copy.deepcopy(args.quantities)
+				print(channel, quantities)
+				for index, quantity in enumerate(quantities):
+					quantities[index] = quantity.replace("_2","_1") if channel == "tt1" else quantity
+
 				if channel == "tt1":
 					cut_type = global_cut_type + "invertedTauIsolationFF_1"
 				else:
 					cut_type = global_cut_type + "invertedTauIsolationFF_2"
+
 				if channel == "tt1" or channel == "tt2":
 					channel = "tt"
+
 				cut_type += "_" + category
 
 			if args.mssm:
@@ -345,7 +360,7 @@ if __name__ == "__main__":
 			category_string = None
 			if category != None:
 				category_string = (global_category_string + "_{channel}_{category}").format(channel = channel, category = category)
-			print category_string
+			# print category_string
 
 			# json_config = {}
 			# json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity + ".json") for channel_dir in [channel, "default"]]
@@ -392,7 +407,8 @@ if __name__ == "__main__":
 				if last_loop:
 					config = channel_config
 
-			for index_quantity, [quantity, axis] in enumerate(zip(args.quantities, ["x", "y", "z"])):
+			print(channel, quantities)
+			for index_quantity, [quantity, axis] in enumerate(zip(quantities, ["x", "y", "z"])):
 
 				json_config = {}
 				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity + ".json") for channel_dir in [channel, "default"]]
@@ -407,7 +423,7 @@ if __name__ == "__main__":
 				axis_expression = json_config.pop(axis + "_expressions", [quantity])
 				config[axis + "_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else axis_expression) for nick in config["nicks"]]
 				config["category"] = category
-				print(axis + "_expressions", config[axis + "_expressions"])
+				# print(axis + "_expressions", config[axis + "_expressions"])
 
 				binning_string = "binningHtt13TeV"
 				if args.mssm:
@@ -425,7 +441,7 @@ if __name__ == "__main__":
 						category = "_" + category if (category and not args.invertiso) else "",
 						quantity = quantity
 				)
-				print binnings_key
+				# print binnings_key
 				if binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict and ("--" + axis + "-bins") not in args.args:
 					binnings_key = channel + "_" + quantity
 				if binnings_key not in binnings_settings.binnings_dict:
@@ -438,7 +454,7 @@ if __name__ == "__main__":
 					config[axis + "_bins"] = [" ".join(x_binning.group(2))]
 
 				config[axis + "_label"] = json_config.pop(axis + "_label", channel + "_" + quantity)
-				print(axis + "_label", config[axis + "_label"])
+				# print(axis + "_label", config[axis + "_label"])
 
 				if args.channel_comparison:
 					config["labels"] = ["channel_" + channel for channel in args.channels]
@@ -511,12 +527,6 @@ if __name__ == "__main__":
 					if not args.run1:
 						config["year"] = args.era
 
-			config["output_dir"] = os.path.expandvars(os.path.join(
-					args.output_dir,
-					# channel if not args.channel_comparison else "",
-					# "" if category is None else category
-			))
-
 			samples_used = []
 			samples_used_noplot = []
 			nps = "noplot_" if args.make_root_files else ""
@@ -544,12 +554,17 @@ if __name__ == "__main__":
 				config.setdefault("nicks_correct_negative_bins", []).extend([nps + "qcd"])
 
 			if args.ratio_subplot:
-				if not args.make_root_files:
-					if channel == "tt":
-						if "invertedTauIsolationFF_1" in cut_type:
-							channel = "tt1"
-						else:
-							channel = "tt2"
+				if channel == "tt":
+					if "invertedTauIsolationFF_1" in cut_type:
+						channel = "tt1"
+					else:
+						channel = "tt2"
+				# if not args.make_root_files:
+				# 	if channel == "tt":
+				# 		if "invertedTauIsolationFF_1" in cut_type:
+				# 			channel = "tt1"
+				# 		else:
+				# 			channel = "tt2"
 				samples_used = [nick for nick in bkg_samples if nick in config["nicks"]] + ["qcd"]
 				samples_used_noplot = [nps + nick for nick in bkg_samples if nick in config["nicks"]] + [nps + "qcd"]
 				if "Ratio" not in config.get("analysis_modules", []):
@@ -593,8 +608,14 @@ if __name__ == "__main__":
 
 				# for index, nick in enumerate(config["nicks"]):
 				# 	print nick
-				# 	config.setdefault("line_widths", []).extend([2] if nick=="data" else [1])
-				
+				# 	config.setdefault("line_widths", []).extend([2] if nick=="data" else [1])	
+
+			config["output_dir"] = os.path.expandvars(os.path.join(
+					args.output_dir,
+					channel if not args.channel_comparison else "",
+					"" if category is None else category
+			))
+
 			if not args.www is None and not args.make_root_files:
 				config["www"] = os.path.join(
 						args.www,
@@ -602,17 +623,92 @@ if __name__ == "__main__":
 						"" if category is None else category
 				)
 
+			if args.make_root_files:
+				config["plot_modules"] = ["ExportRoot"]
+				config["nicks_instead_labels"] = True
+				config["file_mode"] = "RECREATE"
+
 			config.update(json_config)
 
-				# if (not args.channel_comparison) or last_loop:
-				# 	plot_configs.append(config)
-			print("last loop over quantities - appending plot config")
+			# if (not args.channel_comparison) or last_loop:
+			# 	plot_configs.append(config)
+			# print("last loop over quantities - appending plot config")
 			plot_configs.append(config)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint
 		pprint.pprint(plot_configs)
-	higgsplot.HiggsPlotter(
+	plot_results = higgsplot.HiggsPlotter(
 			list_of_config_dicts=plot_configs, list_of_args_strings=[args.args],
 			n_processes=args.n_processes, n_plots=args.n_plots, batch=args.batch
 	)
+
+	# print(plot_results.output_filenames)
+	if args.make_root_files:
+		output_filename = os.path.expandvars(os.path.join(args.output_dir,"FF_fractions.root"))
+		tools.hadd(output_filename, tools.flattenList(plot_results.output_filenames), hadd_args="-f")
+		w = ROOT.RooWorkspace("w", "w") # create an empty RooWorkSpace with name "w" and title "w"
+		import_function = getattr(w, 'import')
+		
+		rootfile = ROOT.TFile.Open(output_filename, "read")
+		histos = []
+		realvars = []
+		datahists = []
+		histfuncs = []
+		formularvars = []
+		rootfile.cd()
+
+		expressions_dict = expressions.ExpressionsDict().expressions_dict
+		category_quantities = args.category_quantities
+
+		first_histo = rootfile.GetListOfKeys().At(0).ReadObj()
+
+		plot_quantity_limits = [roottools.RootTools.get_binning(first_histo, i) for i in range(first_histo.GetDimension()) ]
+		plot_quantity_limits = [[plot_quantity_limits[i][0],plot_quantity_limits[i][-1]] for i in range(len(plot_quantity_limits))]
+
+		for index, quantity in enumerate(quantities):
+			quantity = quantity.replace("_2","").replace("_1","")
+			quantities[index] = quantity
+			import_function(ROOT.RooRealVar(quantity, quantity, plot_quantity_limits[index][0], -float('Inf'), float('Inf')))
+			import_function(ROOT.RooFormulaVar(quantity + "_range", "".join(["TMath::Range(",str(plot_quantity_limits[index][0]),",",str(plot_quantity_limits[index][1]),",@0)"]), ROOT.RooArgList(w.var(quantity))))
+
+		for index, quantity in enumerate(category_quantities):
+			import_function(ROOT.RooRealVar(quantity, quantity, 0., -float('Inf'), float('Inf')))
+			# import_function(ROOT.RooFormulaVar(quantity + "_range", "TMath::Range(" + args.category_quantities_bin_ranges[index].split()[0] + "," + args.category_quantities_bin_ranges[index].split()[1] + ",@0)", ROOT.RooArgList(w.var(quantity))))
+
+		elements = roottools.RootTools.walk_root_directory(rootfile)
+		for index, (key, path) in enumerate(elements):
+			histos.append(key.ReadObj())
+			histos[index].SetName(key.GetName())
+			realvars.append([])
+			formularvars.append([])
+			for index_q, quantity in enumerate(quantities):
+				realvars[index].append(ROOT.RooRealVar(key.GetName() + "_" +  quantity + "_var", key.GetName() + "_" +  quantity + "_var_title", plot_quantity_limits[index_q][0], plot_quantity_limits[index_q][1]))
+				formularvars[index].append(ROOT.RooFormulaVar(key.GetName() + "_" +  quantity + "_range", "TMath::Range(" + str(plot_quantity_limits[index_q][0]) + "," + str(plot_quantity_limits[index_q][1]) + ",@0)", ROOT.RooArgList(w.function(quantity))))
+			datahists.append(ROOT.RooDataHist(key.GetName() + "_dh", key.GetName() + "_dh_title", ROOT.RooArgList(*realvars[index]), ROOT.RooFit.Import(histos[index])))
+			histfuncs.append(ROOT.RooHistFunc(key.GetName() + "_hf", key.GetName() + "_hf_title", ROOT.RooArgList(*formularvars[index]), ROOT.RooArgList(*realvars[index]), datahists[index]))
+
+			if "inclusive" not in key.GetName():
+				import_function(histos[index])
+				import_function(histfuncs[index])
+
+		for channel in args.channels:
+			for process in FFfractions_names:
+				rootformular_string = ""
+				rooarglist = [w.var(i) for i in category_quantities]
+				for category in args.categories:
+					if "inclusive" not  in category:
+						rooarglist_string = "_".join([process,"fracs",channel,category,"hf"])
+						rooarglist.append(w.function(rooarglist_string))
+						c_tmp = channel if "tt" not in channel else "tt"
+						category_string = expressions_dict["_".join([global_category_string,c_tmp,category])]
+						rootformular_string += category_string + "*" + rooarglist_string + "+"
+				import_function(ROOT.RooFormulaVar("_".join([process,"fracs",channel]), rootformular_string[:-1], ROOT.RooArgList(*rooarglist)))
+
+		w.Print()
+		w.writeToFile(os.path.expandvars(os.path.join(args.output_dir,
+		"FF_fractions_workspace.root"
+		))) # save workspace
+		import_function = None # crashes otherwise
+		w = None # crashes otherwise
+		rootfile.Close()
