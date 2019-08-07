@@ -268,15 +268,15 @@ class CutStringsDict:
 	@staticmethod
 	def cptautau2017(channel, cut_type):
 		cuts = CutStringsDict.baseline(channel, cut_type)
-		# cuts["bveto"] = "(nbtag == 0)"
+		cuts["bveto"] = "(nbtag == 0)"
 		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
 		if channel == "mt":
 			# cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))||((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
 			cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
 			cuts["pt_1"] = "(pt_1 > 21.0)"
-			cuts["pt_2"] = "(pt_2 > 23.0)"
+			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
-			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
@@ -299,7 +299,7 @@ class CutStringsDict:
 				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))) || ((trg_singleelectron_35>0.5))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1 + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1) )"
 				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
 			cuts["pt_1"] = "(pt_1 > 25.0)"
-			cuts["pt_2"] = "(pt_2 > 23.0)"
+			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["mt"] = "(mt_1<50.0)"
@@ -308,10 +308,10 @@ class CutStringsDict:
 			if "emb" in cut_type:
 				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
 		elif channel == "tt": #TODO
-			cuts["trigger"] = "((trg_doubletau_35_tightiso_tightid > 0.5) || (trg_doubletau_40_mediso_tightid > 0.5) || (trg_doubletau_40_tightiso > 0.5))"
+			# cuts["trigger"] = "((trg_doubletau_35_tightiso_tightid > 0.5) || (trg_doubletau_40_mediso_tightid > 0.5) || (trg_doubletau_40_tightiso > 0.5))"
 			# cuts["trigger"] = "(1.0)"
 			# if not "emb" in cut_type:
-			# 	cuts["trigger"] = "((HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg > 0.5) || (HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg > 0.5) || (HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg > 0.5))"
+			cuts["trigger"] = "( ((HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 40) * (pt_2 > 40)) || ((HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45)) || ((HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45) ) )"
 			if "emb" in cut_type:
 				cuts["trigger"] += "*(triggerWeight_tau_1*triggerWeight_tau_2)"
 				cuts["trigger"] += "*(triggerWeight_doublemu_1)"

@@ -900,8 +900,10 @@ class BinningsDict(binnings.BinningsDict):
 				self.binnings_dict["binningFFfractions13TeV_"+ channel + "_m_vis"] = "0 50 80 110 150 200 250 300 1000"
 			else:
 				self.binnings_dict["binningFFfractions13TeV_"+ channel + "_m_vis"] = "0 20 50 80 110 150 200 250 300 1000"
-			self.binnings_dict["binningFFfractions13TeV_"+ channel + "_decayMode_2"] = "0 1 2 10 11"
-			self.binnings_dict["binningFFfractions13TeV_"+ channel + "_pt_2"] = "0 20 30 40 50 60 70 80 100 300"
+			self.binnings_dict["binningFFfractions13TeV_"+ channel + "_decayMode_1"] = "0 1 2 10 11"
+			self.binnings_dict["binningFFfractions13TeV_"+ channel + "_decayMode_2"] = self.binnings_dict["binningFFfractions13TeV_"+ channel + "_decayMode_1"]
+			self.binnings_dict["binningFFfractions13TeV_"+ channel + "_pt_1"] = "0 20 30 40 50 60 70 80 100 300"
+			self.binnings_dict["binningFFfractions13TeV_"+ channel + "_pt_2"] = self.binnings_dict["binningFFfractions13TeV_"+ channel + "_pt_1"]
 
 				#==========================CategoriesDictUpdates=========================================================
 		
