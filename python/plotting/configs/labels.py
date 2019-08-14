@@ -1490,6 +1490,7 @@ class LabelsDict(labels.LabelsDict):
 				self.labels_dict["httcpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["httcpodd"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["susycpodd{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susycpodd"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				self.labels_dict["susycpodd_alt{mass:d}".format(mass=higgs_mass)] = self.labels_dict["susycpodd_alt"].replace("H", "H({mass:d})".format(mass=higgs_mass))
+				self.labels_dict["bbh{mass:d}".format(mass=higgs_mass)] = self.labels_dict["bbh"].replace("H", "H({mass:d})".format(mass=higgs_mass))
 				for scale in [10, 25, 100, 250]:
 					self.labels_dict["htt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["htt"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["ggh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["ggh"]+" (\\times {scale:d})".format(scale=scale)
@@ -1500,14 +1501,15 @@ class LabelsDict(labels.LabelsDict):
 					self.labels_dict["httcpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["httcpodd"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susycpodd{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd"]+" (\\times {scale:d})".format(scale=scale)
 					self.labels_dict["susycpodd_alt{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["susycpodd_alt"]+" (\\times {scale:d})".format(scale=scale)
+					self.labels_dict["bbh{mass:d}_{scale:d}".format(mass=higgs_mass, scale=scale)] = self.labels_dict["bbh"]+" (\\times {scale:d})".format(scale=scale)
 
 		self.labels_dict["data_obs"] = "Observed"
-		# self.labels_dict["ttj"] = self.labels_dict["tt"]
+		self.labels_dict["ttj"] = "t#bar{t} (jet #rightarrow #tau_{h})"
 		self.labels_dict["ttbar"] = self.labels_dict["tt"]
 		self.labels_dict["wjets"]  = self.labels_dict["wj"]
 		self.labels_dict["w"]  = self.labels_dict["wj"]
 		self.labels_dict["dibosons"]  = self.labels_dict["vv"]
-		self.labels_dict["fakes"] = self.labels_dict["qcd"]
+		self.labels_dict["fakes"] = "jet#rightarrow#tau_{h}"
 		self.labels_dict["qcdwj"] = self.labels_dict["qcd"]
 		self.labels_dict["totalsig"] = self.labels_dict["htt"]
 
