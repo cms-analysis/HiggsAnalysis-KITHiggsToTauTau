@@ -1,10 +1,8 @@
-
 # -*- coding: utf-8 -*-
 
 import logging
 import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
-
 
 import pprint
 import copy
@@ -15,20 +13,17 @@ from Kappa.Skimming.registerDatasetHelper import get_nick_list
 
 from functools import wraps, partial
 
-
 from Artus.Utility.tools import make_multiplication, split_multiplication, clean_multiplication
 energy = 13
 default_lumi =  41.53*1000.0
 #41.37
 
 class partialmethod(partial):
-    def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        return partial(self.func, instance,
-                       *(self.args or ()), **(self.keywords or {}))
-
-
+	def __get__(self, instance, owner):
+		if instance is None:
+			return self
+		return partial(self.func, instance,
+						*(self.args or ()), **(self.keywords or {}))
 
 class Samples(samples.Samples):
 	# constants for all plots
@@ -105,7 +100,7 @@ class Samples(samples.Samples):
 			else:
 				log.warning("you want to add stitching weight but did define a wrongly configured cp state, returning 1")
 				return "(1)"
-		else:	
+		else:
 			if cp == None:
 				log.warning("you want to add stitching weight but did not define cp state, returning 1")
 				return "(1)"
@@ -195,7 +190,6 @@ class Samples(samples.Samples):
 		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 		return config
 
-
 	def files_ztt(self, channel, embedding=False):
 		#artus_files = self.artus_file_names({"process" : "(DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7) #8 mit norm DY3 jets und DY4jets		TOO many not used samples in samples run 2 so i did it the fast and dirty way
 		if embedding:
@@ -259,7 +253,7 @@ class Samples(samples.Samples):
 			scale_factor *= self.postfit_scales.get("EWKZ", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)	
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 		if channel in ["mt", "et", "em", "tt", "mm", "ee", "ttbar"]:
 			add_input(
 					input_file=self.files_ewkz_zll(channel),
@@ -275,7 +269,7 @@ class Samples(samples.Samples):
 			log.error("Sample config (EWKZ) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
 			Samples._add_bin_corrections(config, "ewkz", nick_suffix)
-		
+
 		if not kwargs.get("no_plot", False):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ewkz"), nick_suffix)
 		return config
@@ -286,7 +280,6 @@ class Samples(samples.Samples):
 		else:
 			return self.artus_file_names({"process" : "TTTo.*", "data": False, "campaign" : self.mc_campaign}, 3)
 
-
 	########### W+NJETS FILES ################
 	def files_wj(self, channel, use_ext_sample=True):
 		if use_ext_sample:
@@ -295,7 +288,6 @@ class Samples(samples.Samples):
 		else:
 			artus_files = self.artus_file_names({"process" : "W.*JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8", "extension" : ""}, 5)
 			return artus_files
-
 
 	############ DIBOSON FILES ###############
 	def files_wwtolnuqq(self, channel):
@@ -326,7 +318,7 @@ class Samples(samples.Samples):
 		artus_files = self.artus_file_names({ "process" : "(STtWantitop5finclusiveDecaysTuneCP5|STtWtop5finclusiveDecaysTuneCP5)",
 							"data" : False, "campaign" : self.mc_campaign}, 2)
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4finclusiveDecaysTuneCP5|STt-channeltop4finclusiveDecaysTuneCP5)",
-		                      "data" : False, "campaign" : self.mc_campaign}, 2)
+							  "data" : False, "campaign" : self.mc_campaign}, 2)
 		return artus_files
 
 	def files_diboson(self, channel):
@@ -553,7 +545,7 @@ class Samples(samples.Samples):
 	def qcd_prefit(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-		
+
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = 1.0
@@ -561,10 +553,10 @@ class Samples(samples.Samples):
 			scale_factor *= self.postfit_scales.get("QCD", 1.0)
 
 		data_weight, mc_weight = self.projection(kwargs)
-		
+
 		cut_type_B = cut_type + "SameSignRegion"
 		exclude_cuts_B = copy.deepcopy(exclude_cuts)+["os"]
-		
+
 		shape_weight = data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 		if channel in ["et", "mt"]:	
@@ -692,7 +684,7 @@ class Samples(samples.Samples):
 			# 		weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 			# 		nick="noplot_vv_qcd_control"
 			# )
-		 	# add_input(
+			# add_input(
 			# 		input_file=self.files_diboson(channel),
 			# 		weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 			# 		nick="noplot_vv_qcd_control"
@@ -741,12 +733,12 @@ class Samples(samples.Samples):
 		B := SS Control region / ss+low_mt
 		C := High mt SS region / ss+high_mt
 		D := High mt OS region / ss+low_mt
-		As this method is entangled with the wj function some nicks will be defined there and taken from there. 
+		As this method is entangled with the wj function some nicks will be defined there and taken from there.
 		See the analysis modules for details.
-		"""		
+		"""
 		if exclude_cuts is None:
 			exclude_cuts = []
-		
+
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = 1.0
@@ -755,21 +747,20 @@ class Samples(samples.Samples):
 
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
-		
-		# Same-sign region cut type		
+
+		# Same-sign region cut type
 		cut_type_A = cut_type
 		cut_type_B = cut_type + "SameSignRegion"
 		cut_type_C = cut_type + "highMtSSControlRegionWJ"
 		cut_type_D = cut_type + "highMtControlRegionWJ"
-		
+
 		exclude_cuts_A = exclude_cuts
 		exclude_cuts_B = copy.deepcopy(exclude_cuts)+["os"]	
 		exclude_cuts_D = copy.deepcopy(exclude_cuts)+["mt"]
 		exclude_cuts_C = copy.deepcopy(exclude_cuts_D)+["os"]
 		exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)+["mt"]
 		exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts_inclusive)+["os"]
-		
-		
+
 		if channel in ["et", "mt", "em", "tt", "mm", "ee", "ttbar"]:
 			# background estimation in et/mt
 			if ("new" in estimationMethod or "simeqn" in estimationMethod) and channel in  ["et", "mt"]:
@@ -780,7 +771,7 @@ class Samples(samples.Samples):
 					scale_factor=1.0,
 					weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B),
 					nick="qcd"
-				)				
+				)
 				# qcd data yield nick (for subtraction)
 				add_input(
 						input_file=self.files_data(channel),
@@ -793,13 +784,13 @@ class Samples(samples.Samples):
 						scale_factor=1.0,
 						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
 						nick=("noplot_" if not controlregions else "") + "qcd_ss_lowmt",
-				)	
+				)
 				add_input(
 						input_file=self.files_data(channel),
 						scale_factor=1.0,
 						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
 						nick=("noplot_" if not controlregions else "") + "qcd_os_highmt",
-				)													
+				)
 				# background subtraction nicks in region B
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
@@ -822,7 +813,7 @@ class Samples(samples.Samples):
 						input_file=self.files_zll(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick=("noplot_" if not controlregions else "") + "zll_ss_qcd",
-				)									
+				)
 				if not (kwargs.get("no_ewk_samples", False)):
 					add_input(
 							input_file=self.files_ewkz_zll(channel),
@@ -900,8 +891,8 @@ class Samples(samples.Samples):
 						scale_factor=1.0,
 						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
 						nick=("noplot_" if not controlregions else "") + "qcd_ss_highmt"
-				)										
-			 	if "new" in estimationMethod:					
+				)
+				if "new" in estimationMethod:
 					if kwargs.get("useRelaxedIsolationForQCD", False):
 						cut_type_A = cut_type_A + "relaxedETauMuTauWJ"
 					elif category != None:
@@ -934,7 +925,7 @@ class Samples(samples.Samples):
 					if not "EstimateWjetsAndQCD" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCD")
 						config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
-					
+
 					if controlregions:
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
 						config.setdefault("qcd_yield_nicks", []).append("data_qcd_yield"+nick_suffix)
@@ -963,7 +954,7 @@ class Samples(samples.Samples):
 						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
 						if kwargs.get("wj_sf_shift", 0.0) != 0.0:
 							config.setdefault("wjets_scale_factor_shifts", []).append(kwargs["wj_sf_shift"])
-				if "simeqn" in estimationMethod:						
+				if "simeqn" in estimationMethod:
 					if kwargs.get("ss_os_factor", 0.0) != 0.0:
 						ss_os_factor = kwargs["ss_os_factor"]
 					else:
@@ -979,15 +970,15 @@ class Samples(samples.Samples):
 						
 					if not "EstimateWjetsAndQCDSimEquationMethod" in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("EstimateWjetsAndQCDSimEquationMethod")
-					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)					
-					config.setdefault("use_inclusive_wjets_mc", []).append(use_inclusive_wjets_mc)					
-					
-					if controlregions:											
+					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
+					config.setdefault("use_inclusive_wjets_mc", []).append(use_inclusive_wjets_mc)
+
+					if controlregions:
 						config.setdefault("B_subtract_nicks", []).append(" ".join([nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd".split()]))
 						config.setdefault("qcd_os_highmt_nicks", []).append("qcd_os_highmt"+nick_suffix)
 						config.setdefault("qcd_ss_highmt_nicks", []).append("qcd_ss_highmt"+nick_suffix)
 						config.setdefault("qcd_ss_lowmt_nicks", []).append("qcd_ss_lowmt"+nick_suffix)
-						config.setdefault("qcd_ss_data_nicks", []).append("data_qcd_yield"+nick_suffix)					
+						config.setdefault("qcd_ss_data_nicks", []).append("data_qcd_yield"+nick_suffix)
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)	
 						for nick in ["ztt_ss_qcd", "zll_ss_qcd", "ttj_ss_qcd", "vv_ss_qcd", "qcd_ss_highmt", "qcd_ss_lowmt"]:
 							if not kwargs.get("mssm", False):
@@ -996,7 +987,7 @@ class Samples(samples.Samples):
 						for nick in ["data_qcd_yield"]:
 							if not kwargs.get("mssm", False):
 								Samples._add_bin_corrections(config, nick, nick_suffix)
-							Samples._add_plot(config, "data", "E", "ELP", nick, nick_suffix)							
+							Samples._add_plot(config, "data", "E", "ELP", nick, nick_suffix)
 					else:
 						config.setdefault("qcd_shape_nicks", []).append("qcd"+nick_suffix)
 						config.setdefault("qcd_ss_data_nicks", []).append("noplot_data_qcd_yield"+nick_suffix)
@@ -1004,7 +995,7 @@ class Samples(samples.Samples):
 						config.setdefault("qcd_os_highmt_nicks", []).append("noplot_qcd_os_highmt"+nick_suffix)
 						config.setdefault("qcd_ss_highmt_nicks", []).append("noplot_qcd_ss_highmt"+nick_suffix)
 						config.setdefault("B_subtract_nicks", []).append(" ".join(["noplot_"+nick+nick_suffix for nick in "ztt_ss_qcd zll_ss_qcd ttj_ss_qcd vv_ss_qcd ".split()]))
-			elif ("new" in estimationMethod or "simeqn" in estimationMethod) and channel not in  ["et", "mt"]:				
+			elif ("new" in estimationMethod or "simeqn" in estimationMethod) and channel not in  ["et", "mt"]:
 				if channel == "em" or channel == "ttbar":
 					# in the em channel QCD is estimated from SS events in data
 					# in the SM analysis a constant QCD OSSS factor is measured in anti-isolated lepton events.
@@ -1015,7 +1006,7 @@ class Samples(samples.Samples):
 						ss_os_factor = 2.22
 						if category != None:
 							ss_os_factor = 2.27 if "ZeroJet2D" in category else 2.26 if "Boosted2D" in category else 2.84 if "Vbf2D" in category else 2.22
-					
+
 					# determine the weight to be used
 					em_qcd_event_weight = "emuQcdWeightNom" # if not any(CP_category in category for CP_category in ["ZeroJetCP", "BoostedCP", "dijet2D_lowboost", "dijet2D_boosted"]) else "emuQcdOsssWeight"
 					for estimation_type in ["shape", "yield"]:
@@ -1028,18 +1019,18 @@ class Samples(samples.Samples):
 							if estimation_type == "shape" and ("Vbf2D" in category):
 								qcd_weight += "*(iso_1<0.5)*(iso_2>0.2)*(iso_2<0.5)"
 								qcd_exclude_cuts += ["iso_1", "iso_2"]
-						data_sample_weight = make_multiplication([data_weight, 
-											  qcd_weight,
-											  "eventWeight",
-											  self._cut_string(channel, exclude_cuts=qcd_exclude_cuts, cut_type=cut_type_B),
-											  "((q_1*q_2)>0.0)",
-											  em_qcd_event_weight])
-						mc_sample_weight = make_multiplication([  mc_weight,
-											  qcd_weight,
-											  "eventWeight",
-											  self._cut_string(channel, exclude_cuts=qcd_exclude_cuts, cut_type=cut_type_B),
-											  "((q_1*q_2)>0.0)",
-											  em_qcd_event_weight])
+						data_sample_weight = make_multiplication([data_weight,
+												qcd_weight,
+												"eventWeight",
+												self._cut_string(channel, exclude_cuts=qcd_exclude_cuts, cut_type=cut_type_B),
+												"((q_1*q_2)>0.0)",
+												em_qcd_event_weight])
+						mc_sample_weight = make_multiplication([mc_weight,
+												qcd_weight,
+												"eventWeight",
+												self._cut_string(channel, exclude_cuts=qcd_exclude_cuts, cut_type=cut_type_B),
+												"((q_1*q_2)>0.0)",
+												em_qcd_event_weight])
 						add_input(
 								input_file=self.files_wj(channel),
 								weight=mc_sample_weight+"*"+self.wj_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
@@ -1334,7 +1325,7 @@ class Samples(samples.Samples):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.wj_stitchingweight()+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="noplot_wj_ss"
 				)
-						
+
 				if channel in ["mt", "et"]:
 
 					add_input(
@@ -1600,7 +1591,7 @@ class Samples(samples.Samples):
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.0 + (0.0 if not "os" in exclude_cuts else 1.0))
 				else:
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(1.06 + (0.0 if not "os" in exclude_cuts else 1.0))
-												
+
 		else:
 			log.error("Sample config (QCD) currently not implemented for channel \"%s\"!" % channel)
 
@@ -2401,7 +2392,6 @@ class Samples(samples.Samples):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 
 		#Samples._add_plot(config, "bkg", "HIST", "F", "jetFakes", "jetFakes")
-		#TODO, ff_weight is always 1 in current artus output, set it manually to 1/3 for testing
 		#return config
 		#if sum of shapes for wj qcd and ttbar sum up to 1,
 		if channel in ["mt","et", "tt"]:
@@ -2487,6 +2477,3 @@ class Samples(samples.Samples):
 
 		Samples._add_plot(config, "bkg", "HIST", "F", "ff", nick_suffix)
 		return config
-
-	
-
