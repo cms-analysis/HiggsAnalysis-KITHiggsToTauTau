@@ -76,10 +76,10 @@ class et_ArtusConfig(dict):
 				"producer:PolarisationQuantitiesSimpleFitProducer",
 				"producer:GenMatchedPolarisationQuantitiesProducer"
 			]
-			if re.search("(Spring16|Summer16|Run2016|Embedding2016)",nickname):
-				self["Processors"] += ["producer:TaggedJetCorrectionsProducer"] #already applied in kappa for 2017 i believe, TODO in next skim they will be
 
+			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"] #TaggedJetUncertaintyShiftProducer is old
+
 			if not re.search("(LFV).*(?=(Spring16|Summer16))", nickname): self["Processors"] += ["producer:MELAProducer"]
 
 			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
@@ -88,7 +88,6 @@ class et_ArtusConfig(dict):
 			else:
 				self["Processors"] += ["producer:ValidETPairCandidatesProducer"]
 				#self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
-				#self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
 
