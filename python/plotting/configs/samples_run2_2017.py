@@ -100,7 +100,7 @@ class Samples(samples.Samples):
 		rereco_files = self.artus_file_names(query_rereco, expect_n_results_rereco)
 		promptreco_files = self.artus_file_names(query_promptreco, expect_n_results_promptreco)
 		reminiaod_files = self.artus_file_names(query_reminiaod, expect_n_results_reminiaod)
-		return rereco_files 
+		return rereco_files
 		#return reminiaod_files
 
 	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -176,14 +176,14 @@ class Samples(samples.Samples):
 		print "this is VBF"
 		if cp is None or  cp =="cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time. added v2 to this, if mc_campaign changes change this as well
-			return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "v2", "generator" : "powheg-pythia8"}, 1)  
+			return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign + "v2", "generator" : "powheg-pythia8"}, 1)
 
-		#TODO add the 2017 samples cp samples if they are ready		
+		#TODO add the 2017 samples cp samples if they are ready
 		"""
 		elif "jhu" in cp: #TODO add the 2017 samples
-			
+
 			if "sm" in cp:
-				return "VBFHiggs0PMM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6//*.root"		
+				return "VBFHiggs0PMM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6//*.root"
 			if "ps" in cp:
 				return "VBFHiggs0MM125_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgenv6/*.root"
 			if "mm" in cp:
