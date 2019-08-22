@@ -356,12 +356,24 @@ public:
 	double m_IPSignificanceHelrPV_2 = DefaultValues::UndefinedDouble;
 	double m_IPSignificanceHelrPVBS_1 = DefaultValues::UndefinedDouble;
 	double m_IPSignificanceHelrPVBS_2 = DefaultValues::UndefinedDouble;
-	double m_pca1DiffInSigmarPV;
-	double m_pca2DiffInSigmarPV;
+	double m_pca1DiffInSigmarPV = DefaultValues::UndefinedDouble;
+	double m_pca2DiffInSigmarPV = DefaultValues::UndefinedDouble;
+	double m_pca1DiffInSigmarPVBS = DefaultValues::UndefinedDouble;
+	double m_pca2DiffInSigmarPVBS = DefaultValues::UndefinedDouble;
 	double m_pca1proj = DefaultValues::UndefinedDouble; //Projection of Point of closest approach(PCA) to the primary vertex (PV) 1 sigma ellipsoid
 	double m_pca2proj = DefaultValues::UndefinedDouble; //Projection of Point of closest approach(PCA) to the primary vertex (PV) 1 sigma ellipsoid
-	double m_pca1projrPV;
-	double m_pca2projrPV;
+	double m_pca1projrPV = DefaultValues::UndefinedDouble;
+	double m_pca2projrPV = DefaultValues::UndefinedDouble;
+	double m_pca1projrPVBS = DefaultValues::UndefinedDouble;
+	double m_pca2projrPVBS = DefaultValues::UndefinedDouble;
+
+	double m_errorIPHel_1 = DefaultValues::UndefinedDouble;
+	double m_errorIPHel_2 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPV_1 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPV_2 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPVBS_1 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPVBS_2 = DefaultValues::UndefinedDouble;
+
 
 	double m_recoIPHelCovxx_1 = DefaultValues::UndefinedDouble;
 	double m_recoIPHelCovxy_1 = DefaultValues::UndefinedDouble;
@@ -390,6 +402,20 @@ public:
 	double m_recoIPHelrPVCovyy_2 = DefaultValues::UndefinedDouble;
 	double m_recoIPHelrPVCovyz_2 = DefaultValues::UndefinedDouble;
 	double m_recoIPHelrPVCovzz_2 = DefaultValues::UndefinedDouble;
+
+	double m_recoIPHelrPVBSCovxx_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVBSCovxy_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVBSCovxz_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVBSCovyy_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVBSCovyz_1 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVBSCovzz_1 = DefaultValues::UndefinedDouble;
+
+	double m_recoIPHelrPVBSCovxx_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVBSCovxy_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVBSCovxz_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVBSCovyy_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVBSCovyz_2 = DefaultValues::UndefinedDouble;
+	double m_recoIPHelrPVBSCovzz_2 = DefaultValues::UndefinedDouble;
 
 	RMPoint m_RefHelix_1;
 	RMPoint m_RefHelix_2;
@@ -488,30 +514,27 @@ public:
 
 	// CP-sensitive observable
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPHel  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPV  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPrPV2  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPHelrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPrPVBS  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPHelrPVBS  = DefaultValues::UndefinedDouble;
+
 	double m_recoPhiStarCPComb  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombMerged  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPCombBS  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPCombMergedBS  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPCombrPV  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPCombrPVBS  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPCombMergedrPV  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPCombMergedrPVBS  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombHel  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombMergedHel  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMergedrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombHelrPV  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombMergedHelrPV  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombrPVBS  = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPCombMergedrPVBS  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombHelrPVBS  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPCombMergedHelrPVBS  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPHel  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPHelrPV  = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCPRho  = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPRhoMerged = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPRhorPV  = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPRhoBSrPV  = DefaultValues::UndefinedDouble;
 
 	double m_reco_posyTauL = DefaultValues::UndefinedDouble;
 	double m_reco_negyTauL = DefaultValues::UndefinedDouble;

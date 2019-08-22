@@ -38,9 +38,37 @@ class Quantities(Run2CPQuantities.Quantities):
 		s = klass.recoCPQuantities(melaQuantities)
 
 		s += [
+			"sigmaIP_1",
+			"sigmaIP_2",
+			"sigmaIPrPV_1",
+			"sigmaIPrPV_2",
+			"sigmaIPrPVBS_1",
+			"sigmaIPrPVBS_2",
+			"sigmaIPHel_1",
+			"sigmaIPHel_2",
+			"sigmaIPHelrPV_1",
+			"sigmaIPHelrPV_2",
+			"sigmaIPHelrPVBS_1",
+			"sigmaIPHelrPVBS_2",
+
+			"recoPhiStarCP",
+			"recoPhiStarCPHel",
+			"recoPhiStarCPrPV",
+			"recoPhiStarCPHelrPV",
 			"recoPhiStarCPrPVBS",
-			"recoPhiStarCPCombBS",
-			"recoPhiStarCPCombMergedBS",
+			"recoPhiStarCPHelrPVBS",
+
+			"recoPhiStarCPCombrPV",
+			"recoPhiStarCPCombrPVBS",
+			"recoPhiStarCPCombHel",
+			"recoPhiStarCPCombHelrPV",
+			"recoPhiStarCPCombHelrPVBS",
+
+			"recoPhiStarCPCombMergedrPV",
+			"recoPhiStarCPCombMergedrPVBS",
+			"recoPhiStarCPCombMergedHel",
+			"recoPhiStarCPCombMergedHelrPV",
+			"recoPhiStarCPCombMergedHelrPVBS",
 
 			"RefHelix_1",
 			"RefHelix_2",
@@ -65,8 +93,8 @@ class Quantities(Run2CPQuantities.Quantities):
 			"IPrPVBS_2",
 			"IPHelrPV_1",
 			"IPHelrPV_2",
-			#"IPHelrPVBS_1",
-			#"IPHelrPVBS_2",
+			"IPHelrPVBS_1",
+			"IPHelrPVBS_2",
 
 
 			"helixRadius",
