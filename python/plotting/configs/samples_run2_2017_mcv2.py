@@ -383,6 +383,61 @@ class Samples(samples.Samples):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvt"), nick_suffix)
 		return config
 
+	def vvl(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("Dibosons", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		if channel in ["mt", "et", "tt"]:
+			add_input(
+					input_file=self.files_wwtolnuqq(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight(),
+					nick="vvl"
+			)
+			add_input(
+					input_file=self.files_wwto4q(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					nick="vvl"
+			)
+			add_input(
+					input_file=self.files_wzto1l3nu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					nick="vvl"
+			)
+			add_input(
+					input_file=self.files_wzto3lnu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					nick="vvl"
+			)
+			add_input(
+					input_file=self.files_zzto2l2nu(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					nick="vvl"
+			)
+			add_input(
+					input_file=self.files_zzto4l(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight(),
+					nick="vvl"
+			)
+			add_input(
+					input_file=self.files_singletop(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					nick="vvl"
+			)
+		else:
+			log.error("Sample config (VVL) currently not implemented for channel \"%s\"!" % channel)
+		if not kwargs.get("mssm", False):
+			Samples._add_bin_corrections(config, "vvl", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvl"), nick_suffix)
+		return config
+
 	def vvj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
