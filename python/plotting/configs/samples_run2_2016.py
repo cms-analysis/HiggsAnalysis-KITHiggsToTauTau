@@ -56,14 +56,30 @@ class Samples(samples.SamplesBase):
 			else:
 				return "(gen_match_2 == 5)"
 		elif channel == "tt":
-			return "(gen_match_1 == 5 && gen_match_2 == 5)"
+			return "((gen_match_1 == 5) * (gen_match_2 == 5))"
 		else:
-			log.fatal("No TTT/TTJ selection implemented for channel \"%s\"!" % channel)
+			log.fatal("No TTT selection implemented for channel \"%s\"!" % channel)
+			sys.exit(1)
+
+	@staticmethod
+	def ttl_genmatch(channel, kwargs):
+		if channel in ["mt", "et"]:
+			return "(gen_match_2 < 5)"
+		elif channel == "tt":
+			return "(((gen_match_1 < 5) * (gen_match_2 < 6)) || ((gen_match_1 < 6) * (gen_match_2 < 5)))"
+		else:
+			log.fatal("No TTL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
 
 	@staticmethod
 	def ttj_genmatch(channel, kwargs):
-		return "(!("+Samples.ttt_genmatch(channel,kwargs)+"))"
+		if channel in ["mt", "et"]:
+			return "(gen_match_2 == 6)"
+		elif channel == "tt":
+			return "((gen_match_1 == 6) || (gen_match_2 == 6))"
+		else:
+			log.fatal("No TTJ selection implemented for channel \"%s\"!" % channel)
+			sys.exit(1)
 
 	# In order to specify the channels in gen-level info, one also needs the category as a parameter of the matching function!
 		#(In the so-called "gen" channel, the categories are considered as tt,mt,et... channels for now,
@@ -109,7 +125,8 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			return "(gen_match_2 < 5)"
 		elif channel == "tt":
-			return "(gen_match_1 < 6 && gen_match_2 < 6 && (!(gen_match_1 == 5 && gen_match_2 == 5)))"
+			# return "(gen_match_1 < 6 && gen_match_2 < 6 && (!(gen_match_1 == 5 && gen_match_2 == 5)))"
+			return "(((gen_match_1 < 5) * (gen_match_2 < 6)) || ((gen_match_1 < 6) * (gen_match_2 < 5)))"
 		else:
 			log.fatal("No ZL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -119,7 +136,7 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et"]:
 			return "(gen_match_2 == 6)"
 		elif channel == "tt":
-			return "(gen_match_2 == 6 || gen_match_1 == 6)"
+			return "((gen_match_2 == 6) || (gen_match_1 == 6))"
 		else:
 			log.fatal("No ZJ selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -1469,7 +1486,6 @@ class Samples(samples.SamplesBase):
 		exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)+["mt"]
 		exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts_inclusive)+["os"]
 
-
 		if channel in ["mt", "et"]:
 			if kwargs.get("useRelaxedIsolationForW", False):
 				cut_type_A = cut_type_A + "relaxedETauMuTauWJ"
@@ -2188,7 +2204,7 @@ class Samples(samples.SamplesBase):
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="noplot_vv_qcd_control"
 			)
-		 	add_input(
+			add_input(
 					input_file=self.files_diboson(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="noplot_vv_qcd_control"
@@ -2354,7 +2370,7 @@ class Samples(samples.SamplesBase):
 						weight=data_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
 						nick=("noplot_" if not controlregions else "") + "qcd_ss_highmt"
 				)
-			 	if "new" in estimationMethod:
+				if "new" in estimationMethod:
 					if kwargs.get("useRelaxedIsolationForQCD", False):
 						cut_type_A = cut_type_A + "relaxedETauMuTauWJ"
 					elif category != None:
@@ -3656,7 +3672,7 @@ class Samples(samples.SamplesBase):
 		elif channel in ["mt", "et"]:
 			return "(gen_match_2<6)"
 		if channel=="tt":
-			return "(gen_match_1<6)*(gen_match_2<6)"
+			return "((gen_match_1<6)||(gen_match_2<6))"
 
 	#TODO add fakefactor nojetweight
 	def ewk(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
