@@ -30,7 +30,7 @@ if __name__ == "__main__":
 	                    help="Input directory.")
 	parser.add_argument("-s", "--samples", nargs="+",
 	                    # default=["ztt", "zll", "ttj", "vv", "wj", "qcd", "data"],
-						default = ["wj", "zl", "zj", "ttt", "ttj", "vvt", "vvj", "ztt_emb", "data"],
+						default = ["wj", "zl", "zj", "ttt", "ttjj", "ttl", "vvt", "vvj", "vvl", "ztt_emb", "data"],
 	                    help="Samples. [Default: %(default)s]")
 	parser.add_argument("--use-asimov-dataset", default=None, const="", nargs="?",
 						help="Use expectation as observation instead of real data. Specify the nickts of samples (separated by whitespaces) to be used as expectation. [Default: all samples plotted appart from data]")
@@ -571,7 +571,7 @@ if __name__ == "__main__":
 					config.setdefault("analysis_modules", []).append("Ratio")
 
 				if args.combine_fractions:
-					FFfractions = ["noplot_qcd", "noplot_wj noplot_zj noplot_vvj", "noplot_ttj", "noplot_ttt noplot_vvt noplot_ztt_emb"] if args.make_root_files else ["qcd", "wj zj vvj", "ttj", "ttt vvt ztt_emb"]
+					FFfractions = ["noplot_qcd", "noplot_wj noplot_zj noplot_vvj", "noplot_ttjj", "noplot_ttt noplot_vvt noplot_ztt_emb noplot_zl noplot_ttl noplot_vvl"] if args.make_root_files else ["qcd", "wj zj vvj", "ttjj", "ttt vvt ztt_emb zl ttl vvl"]
 					FFfractions_names = ["qcd", "w", "ttbar", "real_taus"]
 					FFfractions_colors = ["qcd", "wj", "ttj", "ztt"]
 					FFfractions_labels = ["ff_qcd_frac", "ff_w_frac", "ff_ttbar_frac", "ff_real_tau_frac"]
@@ -645,12 +645,12 @@ if __name__ == "__main__":
 
 	# print(plot_results.output_filenames)
 	if args.make_root_files:
-		output_filename = os.path.expandvars(os.path.join(args.output_dir,"FF_fractions.root"))
-		tools.hadd(output_filename, tools.flattenList(plot_results.output_filenames), hadd_args="-f")
+		output_root_filename = os.path.expandvars(os.path.join(args.output_dir,"FF_fractions.root"))
+		tools.hadd(output_root_filename, tools.flattenList(plot_results.output_filenames), hadd_args="-f")
 		w = ROOT.RooWorkspace("w", "w") # create an empty RooWorkSpace with name "w" and title "w"
 		import_function = getattr(w, 'import')
 		
-		rootfile = ROOT.TFile.Open(output_filename, "read")
+		rootfile = ROOT.TFile.Open(output_root_filename, "read")
 		histos = []
 		realvars = []
 		datahists = []
@@ -706,9 +706,13 @@ if __name__ == "__main__":
 				import_function(ROOT.RooFormulaVar("_".join([process,"fracs",channel]), rootformular_string[:-1], ROOT.RooArgList(*rooarglist)))
 
 		w.Print()
-		w.writeToFile(os.path.expandvars(os.path.join(args.output_dir,
-		"FF_fractions_workspace.root"
-		))) # save workspace
+		output_workspace_filename = os.path.expandvars(os.path.join(args.output_dir,
+		"FF_fractions_workspace_" + "_".join(quantity.replace("_2","").replace("_1","") for quantity in (args.quantities+args.category_quantities)) + ".root"))
+		w.writeToFile(output_workspace_filename) # save workspace
+		if os.path.isfile(output_root_filename):
+			print("Created Root file " + output_root_filename)
+		if os.path.isfile(output_workspace_filename):
+			print("Created Rooworkspace " + output_workspace_filename)
 		import_function = None # crashes otherwise
 		w = None # crashes otherwise
 		rootfile.Close()
