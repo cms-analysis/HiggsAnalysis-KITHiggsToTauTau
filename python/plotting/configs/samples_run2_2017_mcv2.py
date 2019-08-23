@@ -574,7 +574,7 @@ class Samples(samples.Samples):
 		generator = kwargs.get("generator", "madgraph")
 		if generator == "madgraph":
 			if "sm" in cp:
-				return "GluGluToHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root GluGluToHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root" #FIXME change to total sm		
+				return "GluGluToHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root GluGluToHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root" #FIXME change to total sm
 			if "ps" in cp:
 				return "GluGluToPseudoscalarHToTauTauM125_dwinterb_RunIIFall17MiniAODv2_GluGluToPseudoscalarHToTauTau_13TeV_USER_amcatnlo-pythia8/*.root GluGluToPseudoscalarHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
 			if "mm" in cp:
@@ -583,7 +583,7 @@ class Samples(samples.Samples):
 		elif generator == "jhu":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			if "sm" in cp:
-				return "JJHiggs0PMToTauTauPseudoscalarDecayM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_JHUgen-pythia8/*.root" #FIXME change to total sm		
+				return "JJHiggs0PMToTauTauPseudoscalarDecayM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_JHUgen-pythia8/*.root" #FIXME change to total sm
 			if "ps" in cp:
 				return "JJHiggs0MToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_JHUgen-pythia8/*.root"
 			if "mm" in cp:
