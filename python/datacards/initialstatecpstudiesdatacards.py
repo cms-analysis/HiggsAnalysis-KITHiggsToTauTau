@@ -17,7 +17,7 @@ class InitialStateCPStudiesDatacards(smhttdatacards.SMHttDatacards):
 		cp_signal_processes = {
 			"ggh" : ["ggHsm", "ggHps", "ggHmm"],
 			"vbf" : ["qqHsm", "qqHps", "qqHmm"],
-			"final" : [], # TODO
+			"final" : ["ggHsm", "ggHps", "ggHmm", "qqHsm", "qqHps", "qqHmm"], # NOTE: use all signals?
 		}
 		
 		super(InitialStateCPStudiesDatacards, self).__init__(
@@ -39,8 +39,8 @@ class InitialStateCPStudiesDatacards(smhttdatacards.SMHttDatacards):
 						return True
 					elif (cp_study == "vbf") and (obj.process() == "qqH"):
 						return True
-					elif cp_study == "final":
-						return False # TODO
+					elif cp_study == "final" and (obj.process() == "ggH" or obj.process() == "qqH"):
+						return True # NOTE: use all signals?
 					else:
 						return False
 				else:
@@ -51,4 +51,3 @@ class InitialStateCPStudiesDatacards(smhttdatacards.SMHttDatacards):
 		
 		self.cb.FilterProcs(remove_redundant_signal)
 		self.cb.FilterSysts(remove_redundant_signal)
-
