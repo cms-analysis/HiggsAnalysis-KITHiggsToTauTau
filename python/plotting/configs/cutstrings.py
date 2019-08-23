@@ -285,8 +285,9 @@ class CutStringsDict:
 				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
 				# cuts["trigger"] = "(((trg_singlemuon_24>0.5)||(trg_singlemuon_27>0.5))||(trg_crossmuon_mu20tau27>0.5))*triggerWeight_mu_1*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2"
 				# cuts["trigger"] = "((((trg_singlemuon_24>0.5))||((trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
-				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
-				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_2))"
+				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
+				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_2))"
+				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
 				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
 				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
 		elif channel == "et":
