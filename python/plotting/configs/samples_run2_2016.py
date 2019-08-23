@@ -15,15 +15,14 @@ energy = 13
 default_lumi =  35.87*1000.0
 
 class partialmethod(partial):
-    def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        return partial(self.func, instance,
-                       *(self.args or ()), **(self.keywords or {}))
+	def __get__(self, instance, owner):
+		if instance is None:
+			return self
+		return partial(self.func, instance,
+					   *(self.args or ()), **(self.keywords or {}))
 
 
 class Samples(samples.SamplesBase):
-
 
 	# constants for all plots
 	data_format = "MINIAOD"
@@ -324,7 +323,6 @@ class Samples(samples.SamplesBase):
 			log.warning("you want to add stitching weight but did define a wrongly configured cp state, returning 1")
 			return "(1)"
 
-
 	# reweighting of l->tau fakes in ZL as done in SM HTT 2016
 	def zl_shape_weight(self, channel, cut_type):
 		if "smhtt2016" in cut_type:# or "cpggh2016" in cut_type:
@@ -358,19 +356,19 @@ class Samples(samples.SamplesBase):
 			return "(1.0)"
 		if ("2016" in cut_type) and ("low_mvis" in cut_type) and not (self.embedding):
 			return ("((1.0)+"+
-			         "((decayMode_1==0)*(genMatchedTau1DecayMode==0)*(1.14-1.0))+"+
-				     "((decayMode_1==0)*(genMatchedTau1DecayMode==1)*(0.66-1.0))+"+
-				     "((decayMode_1==1)*(genMatchedTau1DecayMode==1)*(0.97-1.0))+"+
-				     "((decayMode_1==1)*(genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(1.07-1.0))+"+
-				     "((decayMode_1==10)*(genMatchedTau1DecayMode==10)*(0.95-1.0))+"+
-				     "((decayMode_1==10)*(genMatchedTau1DecayMode>10)*(genMatchedTau1DecayMode<15)*(1.27-1.0)))*"+
-				    "((1.0)+"+
-			         "((decayMode_2==0)*(genMatchedTau2DecayMode==0)*(1.14-1.0))+"+
-				     "((decayMode_2==0)*(genMatchedTau2DecayMode==1)*(0.66-1.0))+"+
-				     "((decayMode_2==1)*(genMatchedTau2DecayMode==1)*(0.97-1.0))+"+
-				     "((decayMode_2==1)*(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(1.07-1.0))+"+
-				     "((decayMode_2==10)*(genMatchedTau2DecayMode==10)*(0.95-1.0))+"+
-				     "((decayMode_2==10)*(genMatchedTau2DecayMode>10)*(genMatchedTau2DecayMode<15)*(1.27-1.0)))")
+					 "((decayMode_1==0)*(genMatchedTau1DecayMode==0)*(1.14-1.0))+"+
+					 "((decayMode_1==0)*(genMatchedTau1DecayMode==1)*(0.66-1.0))+"+
+					 "((decayMode_1==1)*(genMatchedTau1DecayMode==1)*(0.97-1.0))+"+
+					 "((decayMode_1==1)*(genMatchedTau1DecayMode>1)*(genMatchedTau1DecayMode<5)*(1.07-1.0))+"+
+					 "((decayMode_1==10)*(genMatchedTau1DecayMode==10)*(0.95-1.0))+"+
+					 "((decayMode_1==10)*(genMatchedTau1DecayMode>10)*(genMatchedTau1DecayMode<15)*(1.27-1.0)))*"+
+					"((1.0)+"+
+					 "((decayMode_2==0)*(genMatchedTau2DecayMode==0)*(1.14-1.0))+"+
+					 "((decayMode_2==0)*(genMatchedTau2DecayMode==1)*(0.66-1.0))+"+
+					 "((decayMode_2==1)*(genMatchedTau2DecayMode==1)*(0.97-1.0))+"+
+					 "((decayMode_2==1)*(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(1.07-1.0))+"+
+					 "((decayMode_2==10)*(genMatchedTau2DecayMode==10)*(0.95-1.0))+"+
+					 "((decayMode_2==10)*(genMatchedTau2DecayMode>10)*(genMatchedTau2DecayMode<15)*(1.27-1.0)))")
 		else: return "(1.0)"
 
 	# lumi-weighted average to account for EM cross trigger with DZ filter used only in data for periods G-H
@@ -867,9 +865,6 @@ class Samples(samples.SamplesBase):
 	def files_lfv(self, channel):
 		return self.artus_file_names({"process" : "LFV*", "data": False, "croote" : self.mc_campaign}, 10)
 
-
-
-
 	def zmt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -957,10 +952,6 @@ class Samples(samples.SamplesBase):
 
 		return config
 
-
-
-
-
 	def zetm(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -989,8 +980,6 @@ class Samples(samples.SamplesBase):
 
 		return config
 
-
-
 	def zmte(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
@@ -1018,9 +1007,6 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zmte"), nick_suffix)
 
 		return config
-
-
-
 
 	def ttjj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
@@ -1099,22 +1085,22 @@ class Samples(samples.SamplesBase):
 
 	def files_diboson(self, channel):
 		artus_files = self.artus_file_names({ "process" :
-		                                      "(WWTo1L1Nu2Q|"
-		                                    + "WZTo1L1Nu2Q|"
-		                                    + "WZTo1L3Nu|"
-		                                    + "WZTo2L2Q|"
-		                                    + "ZZTo2L2Q"
-		                                    +  ")",
-		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 5)
+			"(WWTo1L1Nu2Q|"
+			+ "WZTo1L1Nu2Q|"
+			+ "WZTo1L3Nu|"
+			+ "WZTo2L2Q|"
+			+ "ZZTo2L2Q"
+			+  ")",
+			"data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 5)
 
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "ZZTo4L", "extension" : "ext1",
-		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 1)
+			"data" : False, "campaign" : self.mc_campaign, "generator" : "amcatnlo-pythia8"}, 1)
 
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "WZJToLLLNu",
-		                      "data" : False, "campaign" : self.mc_campaign, "generator" : "pythia8"}, 1)
+			"data" : False, "campaign" : self.mc_campaign, "generator" : "pythia8"}, 1)
 
 		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4finclusiveDecays|STt-channeltop4finclusiveDecays|STtWantitop5finclusiveDecays|STtWtop5finclusiveDecays)",
-		                      "data" : False, "campaign" : self.mc_campaign}, 4)
+			"data" : False, "campaign" : self.mc_campaign}, 4)
 		return artus_files
 
 	def files_vv(self, channel):
@@ -1446,8 +1432,6 @@ class Samples(samples.SamplesBase):
 				Samples._add_bin_corrections(config, "wj", nick_suffix)
 			Samples._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
-
-
 
 	def wj(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, estimationMethod="classic", controlregions=False,**kwargs):
 		"""
@@ -2095,7 +2079,6 @@ class Samples(samples.SamplesBase):
 				Samples._add_bin_corrections(config, "wj", nick_suffix)
 			Samples._add_plot(config, "bkg", "HIST", "F", "wj", nick_suffix)
 		return config
-
 
 	def qcd_prefit(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", estimationMethod="classic", controlregions=False,**kwargs):
 		if exclude_cuts is None:
@@ -2946,25 +2929,25 @@ class Samples(samples.SamplesBase):
 
 		# gluon fusion (SM/MSSM)
 		config = self.ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-		                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
+			normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
 		if mssm and  normalise_to_sm_xsec:
 			config = self.ggh(config, channel, category, weight, nick_suffix+"_sm_noplot", higgs_masses,
-			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=False, **kwargs)
+				normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, mssm=False, **kwargs)
 
 		# vector boson fusion (SM)
 		if (not mssm) or normalise_to_sm_xsec:
 			config = self.qqh(config, channel, category, weight, nick_suffix+("_sm" if mssm else "")+"_noplot", higgs_masses+([] if mssm else additional_higgs_masses_for_shape),
-			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+				normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 
 		# Higgs strahlung (SM)
 		if (not mssm) or normalise_to_sm_xsec:
 			config = self.vh(config, channel, category, weight, nick_suffix+("_sm" if mssm else "")+"_noplot", higgs_masses+([] if mssm else additional_higgs_masses_for_shape),
-			                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+				normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 
 		# production in association with b-quarks (MSSM)
 		if mssm:
 			config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-			                  normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
+				normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, no_plot=True, **kwargs)
 
 		def final_nick(tmp_sample, tmp_mass, add_nick_suffix=True):
 			return tmp_sample+str(kwargs.get("cp", ""))+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
@@ -3018,10 +3001,10 @@ class Samples(samples.SamplesBase):
 		# lumi multiplied by a factor of 1.9 to correctly normalize samples to SM samples
 		# susy ggh
 		config = self.susy_ggh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-		                  normalise_signal_to_one_pb, lumi=lumi*1.9, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
+			normalise_signal_to_one_pb, lumi=lumi*1.9, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
 		# bbh
 		config = self.bbh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses+additional_higgs_masses_for_shape,
-		                  normalise_signal_to_one_pb, lumi=lumi*1.9, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
+			normalise_signal_to_one_pb, lumi=lumi*1.9, exclude_cuts=exclude_cuts, no_plot=True, mssm=mssm, **kwargs)
 
 		def final_nick(tmp_sample, tmp_mass, add_nick_suffix=True):
 			return tmp_sample+str(kwargs.get("cp", ""))+str(tmp_mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")+(nick_suffix if add_nick_suffix else "")
@@ -3130,24 +3113,24 @@ class Samples(samples.SamplesBase):
 		if cp is None or cp == "cpeven":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
 			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
-		
+
 		elif "jhu" in cp:
 			if "sm" in cp:
-				return "GluGluH2JetsToTauTauM125CPmixingsmJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"		
+				return "GluGluH2JetsToTauTauM125CPmixingsmJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
 			if "ps" in cp:
 				return "GluGluH2JetsToTauTauM125CPmixingpseudoscalarJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
 			if "mm" in cp:
 				return "GluGluH2JetsToTauTauM125CPmixingmaxmixJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
 		elif cp in ["sm", "mm", "ps"]:
 			return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
-	
+
 	def files_susy_ggh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "SUSYGluGluToHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
 	def susy_ggh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-		
+
 		scale_factor = lumi
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("susy_ggh", 1.0)
@@ -3251,7 +3234,7 @@ class Samples(samples.SamplesBase):
 
 	def gghjhusm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", generator="jhu", stacks="gghjhusm", **kwargs)
-		return config	
+		return config
 
 	def gghmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		config = self.ggh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", generator="madgraphfall15", domatrixweight=True, stacks="gghmm", **kwargs) #TODO OLD NOT TESTED
@@ -3387,9 +3370,9 @@ class Samples(samples.SamplesBase):
 		no_plot_kwargs = copy.deepcopy(kwargs)
 		no_plot_kwargs["no_plot"] = True
 		config = self.wh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, **no_plot_kwargs)
+			normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, **no_plot_kwargs)
 		config = self.zh(config, channel, category, weight, nick_suffix+"_noplot", higgs_masses,
-		                 normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, **no_plot_kwargs)
+			normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, **no_plot_kwargs)
 		for mass in higgs_masses:
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
