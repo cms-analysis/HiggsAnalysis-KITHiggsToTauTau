@@ -371,7 +371,7 @@ class Samples(samples.Samples):
 			)
 			add_input(
 					input_file=self.files_singletop(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					nick="vvt"
 			)
 		else:
