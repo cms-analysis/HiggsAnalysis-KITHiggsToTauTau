@@ -1701,7 +1701,6 @@ class Samples(samples.Samples):
 		exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)+["mt"]
 		exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts_inclusive)+["os"]
 
-
 		if channel in ["mt", "et"]:
 			if kwargs.get("useRelaxedIsolationForW", False):
 				cut_type_A = cut_type_A + "relaxedETauMuTauWJ"
@@ -2428,102 +2427,112 @@ class Samples(samples.Samples):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		exclude_cuts_ff = []
-		if channel in ["mt","et"]:
+
+		sub_channels = [channel] # needed for splitting of taus in tt, does nothing in all other channels
+
+		if channel in ["mt", "et"]:
 			exclude_cuts_ff += ["iso_2"]
-			ff_weight_2 = "((" + fake_factor_name_2 + ")*(byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5))"
+			ff_weight_2 = "(" + fake_factor_name_2 + ")"
+			ff_iso_weight_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5))"
 
 		if channel == "tt":
 			exclude_cuts_ff += ["iso_1", "iso_2"]
-			ff_weight_1 = "((" + fake_factor_name_1 + ")*(byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1>0.5)*(byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2>0.5))"   #factor 1/2 for tt already aplied in producer
-			ff_weight_2 = "((" + fake_factor_name_2 + ")*(byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1>0.5))"
+			ff_weight_1 = "(" + fake_factor_name_1 + ")" #factor 1/2 for tt already aplied in producer
+			ff_iso_weight_1 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2>0.5))"
+			ff_weight_2 = "(" + fake_factor_name_2 + ")"
+			ff_iso_weight_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1>0.5))"
+			sub_channels = ["tt_1", "tt_2"]
 
 		if channel =="tt":
-			weight_ff = weight + "*(" + ff_weight_1 + "+" + ff_weight_2 + ")"
-		elif channel in ["mt","et"]:
+			weight_ff = weight + "*(" + ff_weight_1 + "+" + ff_weight_2 + ")" # not used, overwritten in the subchannel loop
+		elif channel in ["mt", "et"]:
 			weight_ff = weight + "*(" + ff_weight_2 + ")"
 
-		weight_tau_id="(zPtReweightWeight)*(gen_match_2 < 6)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if self.embedding else "(zPtReweightWeight)*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
+		weight_tau_id_EMB = "(gen_match_2 < 6)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
+		weight_tau_id_MC = "(zPtReweightWeight)*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
 
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 
-		#Samples._add_plot(config, "bkg", "HIST", "F", "jetFakes", "jetFakes")
-		#return config
-		#if sum of shapes for wj qcd and ttbar sum up to 1,
-		if channel in ["mt","et", "tt"]:
-			#full data jetfakes"
-			add_input(
-				input_file=self.files_data(channel),
-				scale_factor=1.0,
-				weight=data_weight+"*"+weight_ff+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
-				nick="noplot_jetFakes_raw"
-			)
-
-			add_input(
-				input_file=self.files_ztt(channel, embedding=self.embedding),
-				weight=mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb)+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*"+weight_tau_id,
-				scale_factor = 1.0 if self.embedding else lumi,
-				nick="noplot_ff_realtaus_subtract"
-			)
-			"""
-			add_input(
-				input_file=self.files_zll(channel),
-				weight=self.get_weights_zll(channel=channel,cut_type=cut_type,weight=weight_ff)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)",
-				nick="noplot_ff_realtaus_subtract"
-			)"""
-
-			add_input(
-				input_file=self.files_zll(channel),
-				weight=mc_weight+"*"+weight_ff+"*eventWeight*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts= exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*(gen_match_2 < 6)"+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))*(zPtReweightWeight)",
-				nick="noplot_ff_realtaus_subtract"
+		if channel in ["mt", "et", "tt"]:
+			for sub_channel in sub_channels:
+				weight_ff = weight + "*(" + ff_weight_1 + ")" if sub_channel == "tt_1" else weight + "*(" + ff_weight_2 + ")"
+				weight_ff_iso = ff_iso_weight_1 if sub_channel == "tt_1" else ff_iso_weight_2
+				# full data jetfakes
+				add_input(
+					input_file=self.files_data(channel),
+					scale_factor=1.0,
+					weight=data_weight+"*"+weight_ff+"*"+weight_ff_iso+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+					nick="noplot_jetFakes_raw" + sub_channel.replace(channel,"")
 				)
 
-			add_input(
-				input_file=self.files_ttj(channel),
-				weight=mc_weight+"*"+weight_ff+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
-				nick="noplot_ff_realtaus_subtract"
-			)
-			add_input(
+				add_input(
+					input_file=self.files_ztt(channel, embedding=self.embedding),
+					weight=mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff+"*"+weight_ff_iso,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb)+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*"+weight_tau_id_EMB,
+					scale_factor = 1.0 if self.embedding else lumi,
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+				)
+				"""
+				add_input(
+					input_file=self.files_zll(channel),
+					weight=self.get_weights_zll(channel=channel,cut_type=cut_type,weight=weight_ff)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)",
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+				)"""
+
+				add_input(
+					input_file=self.files_zll(channel),
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+self.zll_stitchingweight()+"*"+Samples.zll_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts= exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+weight_tau_id_MC,
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+					)
+				add_input(
+					input_file=self.files_ttj(channel),
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+				)
+				add_input(
 					input_file=self.files_wwtolnuqq(channel),
-					weight=mc_weight+"*"+weight_ff+"*"+weight+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight()+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
-					nick="noplot_ff_realtaus_subtract"
-			)
-			add_input(
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight()+"*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+				)
+				add_input(
 					input_file=self.files_wwto4q(channel),
-					weight=mc_weight+"*"+weight_ff+"*"+weight+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
-					nick="noplot_ff_realtaus_subtract"
-			)
-			add_input(
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+				)
+				add_input(
 					input_file=self.files_wzto1l3nu(channel),
-					weight=mc_weight+"*"+weight_ff+"*"+weight+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
-					nick="noplot_ff_realtaus_subtract"
-			)
-			add_input(
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+				)
+				add_input(
 					input_file=self.files_wzto3lnu(channel),
-					weight=mc_weight+"*"+weight_ff+"*"+weight+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
-					nick="noplot_ff_realtaus_subtract"
-			)
-			add_input(
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+				)
+				add_input(
 					input_file=self.files_zzto2l2nu(channel),
-					weight=mc_weight+"*"+weight_ff+"*"+weight+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
-					nick="noplot_ff_realtaus_subtract"
-			)
-			add_input(
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+				)
+				add_input(
 					input_file=self.files_zzto4l(channel),
-					weight=mc_weight+"*"+weight_ff+"*"+weight+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight()+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
-					nick="noplot_ff_realtaus_subtract"
-			)
-			add_input(
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight()+"*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+				)
+				add_input(
 					input_file=self.files_singletop(channel),
-					weight=mc_weight+"*"+weight_ff+"*"+weight+"*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*eventWeight*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
-					nick="noplot_ff_realtaus_subtract"
-			)
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*(gen_match_2 < 6)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))",
+					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+				)
 			if not "AddHistograms" in config.get("analysis_modules", []):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
 
 
-			config.setdefault("add_nicks", []).append("noplot_jetFakes_raw noplot_ff_realtaus_subtract") #TODO
-
-			config.setdefault("add_scale_factors", []).append("1. -1.")#TODO ff_weight is always 1 in current artus output, set it manually to 1/3 for testing should be 1
+			if channel == "tt":
+				config.setdefault("add_nicks", []).append("noplot_jetFakes_raw_1 noplot_jetFakes_raw_2 noplot_ff_realtaus_subtract_1 noplot_ff_realtaus_subtract_2")
+				config.setdefault("add_scale_factors", []).append("1. 1. -1. -1.")
+			elif channel in ["mt","et"]:
+				config.setdefault("add_nicks", []).append("noplot_jetFakes_raw noplot_ff_realtaus_subtract")
+				config.setdefault("add_scale_factors", []).append("1. -1.")
 
 			config.setdefault("add_result_nicks", []).append("ff")
 
