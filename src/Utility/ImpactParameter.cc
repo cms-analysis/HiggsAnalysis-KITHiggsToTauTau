@@ -1,5 +1,5 @@
 
-#include "Artus/Utility/interface/UnitConverter.h"
+// #include "Artus/Utility/interface/UnitConverter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/ImpactParameter.h"
 
 #include "TMatrix.h"
@@ -25,6 +25,9 @@ double Lambda = -999;
 double Phi = -999;
 double V_z = -999;
 
+const double eQ = 1.60217662e-19; // elementary charge
+const double c = 2.99792458*1e8; // speed of light in m/s
+
 short Sign(double x){
 	return (x > 0) ? 1 : ((x < 0) ? -1 : 0);
 }
@@ -43,7 +46,7 @@ double PointOnHelix_x(double x, double qOp, double l, double p){
 	pars[3] = getPhi_1(p,Sign(qOp)); //phi1
 	pars[0] = ReferencePoint.x()-pars[1]*TMath::Cos(pars[3]); //Ox
 	//pars[0] = ReferencePoint.x()-Radius*TMath::Cos(Phi_1); //Ox
-	pars[2] = std::abs(qOp)*MagneticField*UnitConverter::c; //Omega
+	pars[2] = std::abs(qOp)*MagneticField*c; //Omega
 	return pars[0]+pars[1]*TMath::Cos(pars[2]*x+pars[3]);
 }
 
@@ -52,12 +55,12 @@ double PointOnHelix_y(double x, double qOp, double l, double p){
 	pars[1] = getRadius(qOp, l, MagneticField); //TMath::Sin(t)/(MagneticField*qOp); //Radius
 	pars[3] = getPhi_1(p,Sign(qOp)); //phi1
 	pars[0] = ReferencePoint.y()+pars[1]*TMath::Sin(pars[3]); //Oy
-	pars[2] = std::abs(qOp)*MagneticField*UnitConverter::c; //Omega
+	pars[2] = std::abs(qOp)*MagneticField*c; //Omega
 	return pars[0]-pars[1]*TMath::Sin(pars[2]*x+pars[3]);
 }
 
 double PointOnHelix_z(double x, double l){
-	double pars[] = {ReferencePoint.z(),V_z};//UnitConverter::c*TMath::Sin(l)};//UnitConverter::c*TMath::Cos(t)};
+	double pars[] = {ReferencePoint.z(),V_z};//c*TMath::Sin(l)};//c*TMath::Cos(t)};
 	return pars[0]+pars[1]*x;
 }
 
@@ -76,17 +79,17 @@ TVector3 TangentAtX(double x, double qOp, double l, double p){
 	pars[1] = getRadius(qOp, l, MagneticField); // Radius
 	pars[3] = getPhi_1(p,Sign(qOp)); //phi1
 	pars[0] = ReferencePoint.x()-pars[1]*TMath::Cos(pars[3]); //Ox
-	pars[2] = std::abs(qOp)*MagneticField*UnitConverter::c; //Omega
+	pars[2] = std::abs(qOp)*MagneticField*c; //Omega
 	double X = -pars[1]*pars[2]*TMath::Sin(pars[2]*x+pars[3]);
 
 	double pars2[4];
 	pars2[1] = getRadius(qOp, l, MagneticField); // Radius
 	pars2[3] = getPhi_1(p,Sign(qOp));//phi1
 	pars2[0] = ReferencePoint.y()+pars2[1]*TMath::Sin(pars2[3]);
-	pars2[2] = std::abs(qOp)*MagneticField*UnitConverter::c; //Omega
+	pars2[2] = std::abs(qOp)*MagneticField*c; //Omega
 	double Y = -pars2[1]*pars2[2]*TMath::Cos(pars2[2]*x+pars2[3]);
 
-	double pars3[] = {ReferencePoint.z(),V_z};//UnitConverter::c*TMath::Sin(l)};
+	double pars3[] = {ReferencePoint.z(),V_z};//c*TMath::Sin(l)};
 	double Z = pars3[1];
 	TVector3 sol(X,Y,Z);
 	return sol;
@@ -96,11 +99,11 @@ TVector3 TangentAtX(double x, double qOp, double l, double p){
 TVector3 ImpactParameter::CalculatePCA(double B, std::vector<float> h_param, RMPoint ref, RMPoint PrV, RMFLV p4){
 	//everything in SI
 	short charge = Sign(h_param[0]);
-	double qOverP = h_param[0] * UnitConverter::c * 1e-9;
+	double qOverP = h_param[0] * c * 1e-9;
 	double lambda = h_param[1]; //lambda in rad
 	double phi = h_param[2]; //phi in rad
-	MagneticField = B * 1e3 / UnitConverter::c*1e8; //in Tesla
-	V_z = p4.Pz()/p4.E() * UnitConverter::c;
+	MagneticField = B * 1e3 / c*1e8; //in Tesla
+	V_z = p4.Pz()/p4.E() * c;
 	ReferencePoint.SetXYZ(ref.x(),ref.y(),ref.z());
 	ReferencePoint*=0.01; //conversion from cm to m
 
@@ -108,7 +111,7 @@ TVector3 ImpactParameter::CalculatePCA(double B, std::vector<float> h_param, RMP
 	PrimaryVertex*=0.01; //conversion from cm to m
 
 	// The helix is scanned from -T/2 to T/2, thus the sign of Omega is irrelevant
-	double Omega = std::abs(qOverP*MagneticField*UnitConverter::c);
+	double Omega = std::abs(qOverP*MagneticField*c);
 	double Phi_1 = getPhi_1(phi,charge);
 	double Radius = getRadius(qOverP, lambda, MagneticField);
 
@@ -122,7 +125,7 @@ TVector3 ImpactParameter::CalculatePCA(double B, std::vector<float> h_param, RMP
 	Phi = phi;
 	// Save all calculated variables used in the fit:
 	this->SetHelixRadius(getRadius(qOverP, lambda, MagneticField));
-	this->SetRecoMagneticField( B * 1e3 / (UnitConverter::c*1e-8) );
+	this->SetRecoMagneticField( B * 1e3 / (c*1e-8) );
 	this->SetRecoV_z_SI(V_z);
 	this->SetRecoOmega(Omega);
 	this->SetRecoPhi1(Phi_1);
@@ -168,8 +171,8 @@ ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> ImpactParam
 
 	for(int i=0; i<5; i++){
 		//qoverP
-		helixCovariance(0, i) *= UnitConverter::c * 1e-9;
-		helixCovariance(i, 0) *= UnitConverter::c * 1e-9;
+		helixCovariance(0, i) *= c * 1e-9;
+		helixCovariance(i, 0) *= c * 1e-9;
 		// dxy
 		helixCovariance(3, i) *= 0.01;
 		helixCovariance(i, 3) *= 0.01;
@@ -214,9 +217,9 @@ ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> ImpactParam
 	///
 	ROOT::Math::SMatrix<float,4,5, ROOT::Math::MatRepStd< float, 4, 5 >> jacobiHelixpar;
 	/* dRadius/dqOverP */
-	jacobiHelixpar(0, 0) =   TMath::Sin(TMath::PiOver2() - Lambda) / MagneticField / pow(QOverP/UnitConverter::eQ, 2);
+	jacobiHelixpar(0, 0) =   TMath::Sin(TMath::PiOver2() - Lambda) / MagneticField / pow(QOverP/eQ, 2);
 	/* dRadius/dlambda */
-	jacobiHelixpar(0, 1) = - TMath::Cos(TMath::PiOver2() - Lambda) / MagneticField / QOverP*UnitConverter::eQ;
+	jacobiHelixpar(0, 1) = - TMath::Cos(TMath::PiOver2() - Lambda) / MagneticField / QOverP*eQ;
 	/* dRadius/dphi = dr/ddxy = dr/dsz = 0 */
 	/* domega/dqOverP */
 	jacobiHelixpar(1, 0) = 1 / MagneticField;
