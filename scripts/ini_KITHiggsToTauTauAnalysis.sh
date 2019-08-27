@@ -13,8 +13,14 @@ export KITHIGGSTOTAUTAUPATH=$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau
 export PATH=${CMSSW_BASE}/src/grid-control/:${CMSSW_BASE}/src/grid-control/scripts/:${PATH}
 
 #setup TauSpinner
+scram tool remove tauspinner
 cp $KITHIGGSTOTAUTAUPATH/data/tauspinner.xml $CMSSW_BASE/config/toolbox/$SCRAM_ARCH/tools/selected/tauspinner.xml
 scram setup tauspinner
+
+# better symlinks to libs
+cd $CMSSW_BASE/external/$SCRAM_ARCH/lib
+symlinks -cr . > /dev/null
+cd -
 
 
 
