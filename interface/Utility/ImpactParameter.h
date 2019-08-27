@@ -1,13 +1,21 @@
 
 #pragma once
 
-#include <utility>
-
-#include "Kappa/DataFormats/interface/Kappa.h"
-//#include "Artus/Utility/interface/ArtusLogging.h"
-
+#include <TMath.h>
 #include "TVector3.h"
 #include "TMatrix.h"
+
+#include <Math/PtEtaPhiM4D.h>
+#include <Math/LorentzVector.h>
+#include <Math/Point3D.h>
+#include <Math/MatrixRepresentationsStatic.h>
+#include <Math/SMatrix.h>
+
+typedef ROOT::Math::PtEtaPhiM4D<float> RMFLV_Store;
+typedef ROOT::Math::SMatrix<double, 3, 3, ROOT::Math::MatRepSym<double, 3> > SMatrixSym3D;
+
+typedef ROOT::Math::LorentzVector<RMFLV_Store> RMFLV;
+typedef ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<float> > RMPoint;
 
 /*
 	A class to collect all approaches for calculating the Impact Parameter
@@ -24,10 +32,10 @@ public:
 	double CalculatePCADifferece(SMatrixSym3D cov, TVector3 DeltaPCA);
 	TVector3 CalculatePCA(double B, std::vector<float> h_param, RMPoint ref, RMPoint PrV, RMFLV p4);
 	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> CalculatePCACovariance(ROOT::Math::SMatrix<float,5,5, ROOT::Math::MatRepSym<float,5>> helixCov, SMatrixSym3D SigmaPrV);
-	TVector3 CalculateShortestDistance(KGenParticle* genParticle, RMPoint* pv);
+	//TVector3 CalculateShortestDistance(KGenParticle* genParticle, RMPoint* pv);
 	TVector3 CalculateShortestDistance(RMFLV p4, RMPoint vertex, RMPoint* pv);
 	TVector3 CalculateShortestDistance(RMFLV p4, RMPoint ref, RMPoint pv);
-	std::vector<double> CalculateIPErrors(RMFLV p4, RMPoint ref, KVertex* pv, TVector3* ipvec);
+	//std::vector<double> CalculateIPErrors(RMFLV p4, RMPoint ref, KVertex* pv, TVector3* ipvec);
 
 	// set functions for variables used in the helical approach
 	inline double GetHelixRadius(){ return helixRadius; }
