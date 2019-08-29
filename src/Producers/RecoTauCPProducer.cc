@@ -968,6 +968,14 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_recoIP2.SetXYZ(-999,-999,-999);
 	product.m_recoIPrPV_1.SetXYZ(-999,-999,-999);
 	product.m_recoIPrPV_2.SetXYZ(-999,-999,-999);
+	product.m_recoIPrPVBS_1.SetXYZ(-999,-999,-999);
+	product.m_recoIPrPVBS_2.SetXYZ(-999,-999,-999);
+	product.m_recoIPHel_1.SetXYZ(-999,-999,-999);
+	product.m_recoIPHel_2.SetXYZ(-999,-999,-999);
+	product.m_recoIPHelrPV_1.SetXYZ(-999,-999,-999);
+	product.m_recoIPHelrPV_2.SetXYZ(-999,-999,-999);
+	product.m_recoIPHelrPVBS_1.SetXYZ(-999,-999,-999);
+	product.m_recoIPHelrPVBS_2.SetXYZ(-999,-999,-999);
 	//FIXME These Vectors are only needed for the helical approach
 	TVector3 IPPlus;
 	TVector3 IPMinus;
