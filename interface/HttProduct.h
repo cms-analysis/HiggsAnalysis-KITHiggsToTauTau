@@ -440,8 +440,16 @@ public:
 
 	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
-	double m_cosPsiPlus_norefit  = DefaultValues::UndefinedDouble;
-	double m_cosPsiMinus_norefit = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlusrPV  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinusrPV = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlusrPVBS  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinusrPVBS = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlusHel  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinusHel = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlusHelrPV  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinusHelrPV = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlusHelrPVBS  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinusHelrPVBS = DefaultValues::UndefinedDouble;
 
 	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};

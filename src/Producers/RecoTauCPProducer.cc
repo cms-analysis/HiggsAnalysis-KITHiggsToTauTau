@@ -656,13 +656,45 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_cosPsiMinus;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiPlus", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiPlusrPV", [](event_type const& event, product_type const& product)
 	{
-		return product.m_cosPsiPlus;
+		return product.m_cosPsiPlusrPV;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiMinus", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiMinusrPV", [](event_type const& event, product_type const& product)
 	{
-		return product.m_cosPsiMinus;
+		return product.m_cosPsiMinusrPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiPlusrPVBS", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiPlusrPVBS;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiMinusrPVBS", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiMinusrPVBS;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiPlusHel", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiPlusHel;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiMinusHel", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiMinusHel;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiPlusHelrPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiPlusHelrPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiMinusHelrPV", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiMinusHelrPV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiPlusHelrPVBS", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiPlusHelrPVBS;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cosPsiMinusHelrPVBS", [](event_type const& event, product_type const& product)
+	{
+		return product.m_cosPsiMinusHelrPVBS;
 	});
 
 	// errors on dxy, dz and IP wrt nominalPV
@@ -1221,8 +1253,17 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	}  // if tt ch.
 
 	// Calculate the psi+- without a refitted vertex
-	product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1);
-	product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP2);
+	if (recoParticle1->charge() == +1){
+		product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP1);
+		product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP2);
+		product.m_cosPsiPlusHel  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPHel_1);
+		product.m_cosPsiMinusHel = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPHel_2);
+	} else {
+		product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIP2);
+		product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIP1);
+		product.m_cosPsiPlusHel  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPHel_2);
+		product.m_cosPsiMinusHel = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPHel_1);
+	}
 
 	if (!m_isData){
 		if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
@@ -1345,12 +1386,27 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 		// calculate cosPsi
 		if (recoParticle1->charge() == +1){
-			product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPrPV_1);
-			product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPrPV_2);
+			product.m_cosPsiPlusrPV  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPrPV_1);
+			product.m_cosPsiMinusrPV = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPrPV_2);
+			product.m_cosPsiPlusHelrPV  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPHelrPV_1);
+			product.m_cosPsiMinusHelrPV = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPHelrPV_2);
+
+			product.m_cosPsiPlusrPVBS  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPrPVBS_1);
+			product.m_cosPsiMinusrPVBS = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPrPVBS_2);
+			product.m_cosPsiPlusHelrPVBS  = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPHelrPVBS_1);
+			product.m_cosPsiMinusHelrPVBS = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPHelrPVBS_2);
 		} else {
-			product.m_cosPsiPlus  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPrPV_2);
-			product.m_cosPsiMinus = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPrPV_1);
+			product.m_cosPsiPlusrPV  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPrPV_2);
+			product.m_cosPsiMinusrPV = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPrPV_1);
+			product.m_cosPsiPlusHelrPV  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPrPV_2);
+			product.m_cosPsiMinusHelrPV = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPrPV_1);
+
+			product.m_cosPsiPlusrPVBS  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPrPVBS_2);
+			product.m_cosPsiMinusrPVBS = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPrPVBS_1);
+			product.m_cosPsiPlusHelrPVBS  = cpq.CalculateCosPsi(recoParticle2->p4, product.m_recoIPHelrPVBS_2);
+			product.m_cosPsiMinusHelrPVBS = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPHelrPVBS_1);
 		}
+
 
 		// calculate phi*cp using the refitted PV
 		// FIXME two functions are called, need to remove one of the two
@@ -1404,9 +1460,9 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
 			// tau1->rho, tau2->a
 			if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
-				product.m_recoPhiStarCPCombrPV    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-				product.m_recoPhiStarCPCombrPVBS  = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-				product.m_recoPhiStarCPCombHelrPV = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+				product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+				product.m_recoPhiStarCPCombrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+				product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
 				product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
 
 				product.m_recoPhiStarCPCombMergedrPV      = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
