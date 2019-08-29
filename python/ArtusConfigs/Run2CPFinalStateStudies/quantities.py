@@ -22,6 +22,7 @@ class Quantities(Run2CPQuantities.Quantities):
 
 		print "build_quantities"
 		self.quantities.update(self.recoCPFinalStateQuantities())
+		self.quantities.update(self.genPolarisationQuantities())
 		if channel == "GEN":
 			pass
 		else:
@@ -122,6 +123,17 @@ class Quantities(Run2CPQuantities.Quantities):
 			"deltaRGenRecoIPHelrPVBS_2",
 			"deltaGenRecoIPHelrPVBS_1",
 			"deltaGenRecoIPHelrPVBS_2",
+
+			"cosPsiPlusrPV",
+			"cosPsiMinusrPV",
+			"cosPsiPlusrPVBS",
+			"cosPsiMinusrPVBS",
+			"cosPsiPlusHel",
+			"cosPsiMinusHel",
+			"cosPsiPlusHelrPV",
+			"cosPsiMinusHelrPV",
+			"cosPsiPlusHelrPVBS",
+			"cosPsiMinusHelrPVBS",
 
 			]
 		return s
