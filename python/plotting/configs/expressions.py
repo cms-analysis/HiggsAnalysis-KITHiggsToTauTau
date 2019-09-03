@@ -322,6 +322,25 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["catHtt13TeV_ttbar_ttbar_cr"] = self.expressions_dict["catHtt13TeV_ttbar_TTbarCR"]
 		self.expressions_dict["catHtt13TeV_em_ttbar"] = self.expressions_dict["catHtt13TeV_ttbar_TTbarCR"]
 
+		# CP final state category
+		#self.expressions_dict["catcptautau2017_"+"mt"+"_CPCombMerged"] = "(decayMode_2 == 1)"
+		for channel in ["em", "et", "mt", "tt"]:
+			if channel=="tt":
+				self.expressions_dict["catcptautau2017_"+channel+"_CPRho"] = self.combine(["(decayMode_2 == 1)*(decayMode_1 == 1)" if channel=="tt" else "(1.0)"])
+			if channel != "em":
+				self.expressions_dict["catcptautau2017_"+channel+"_CPComb"] = self.combine(["((decayMode_2 == 1)*(decayMode_1 == 0) + (decayMode_2 == 0)*(decayMode_1 == 1))" if channel=="tt" else "(decayMode_2 == 1)"])
+				#  For the sake of unqiue names in the categories:
+				#  The tangential approach is called nominal (referring to the nominal PV)
+				#  The helical approach is called Helical if the nominal PV is used or otherwise it is referred to as hel
+				#  If the refitted PV is used, it is spelled out, unless the BS is also used then it is called rPVBS
+				#  These categories are used to find a cut on the significance, one would make a log(likelihood) plot to see
+				#  how well one can differentiate for different mixing angles and then chose the best category for the final analysis
+				for significanceCut in ["1", "2", "3", "4", "5", "6", "7", "8"]:
+					for categorySuffix in ["nominal", "refitPV", "rPVBS", "Helical", "HelrefitPV", "HelrPVBS"]:
+						self.expressions_dict["catcptautau2017_"+channel+"_CPComb_highsignificance" + significanceCut + "_" + categorySuffix] = self.combine(["(IPSignificance_1 > "+significanceCut+")", "((decayMode_2 == 1)*(decayMode_1 == 0) + (decayMode_2 == 0)*(decayMode_1 == 1))" if channel=="tt" else "(decayMode_2 == 1)"])
+						self.expressions_dict["catcptautau2017_"+channel+"_CPComb_lowsignificance" + significanceCut + "_" + categorySuffix] = self.combine(["(IPSignificance_1 <= "+significanceCut+")", "((decayMode_2 == 1)*(decayMode_1 == 0) + (decayMode_2 == 0)*(decayMode_1 == 1))" if channel=="tt" else "(decayMode_2 == 1)"])
+						#self.expressions_dict["catcptautau2017_"+channel+"_CPComb_lowsignificance" + significanceCut + "_" + categorySuffix] = self.combine(["(IPSignificance_1 <="+significanceCut+")", "(decayMode_2 == 1)", "(decayMode_1 == 0)" if channel=="tt" else "(1.0)"])
+
 		# CP initial state category
 		for channel in ["em", "et", "mt", "tt"]:
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"] = self.combine([boosted_higgsCP_string, mjj_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string, "(1.0)" if channel != "em" else pZeta_CP_string ])
