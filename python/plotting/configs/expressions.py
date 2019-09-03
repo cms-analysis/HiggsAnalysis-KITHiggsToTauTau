@@ -140,9 +140,9 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		# In the so-called "gen" channel, the categories are considered as tt,mt,et... for now,
 		# it will be adapted later considering the decay products of tau's
 		for channel in ["gen"]:
-			self.expressions_dict["catZttPol13TeV_"+channel+"_tt"] = "genTauTauDecayMode==1"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_mt"] = "genTauTauDecayMode==2"
-			self.expressions_dict["catZttPol13TeV_"+channel+"_et"] = "genTauTauDecayMode==3"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_tt"] = "genTauTaudecayMode==1"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_mt"] = "genTauTaudecayMode==2"
+			self.expressions_dict["catZttPol13TeV_"+channel+"_et"] = "genTauTaudecayMode==3"
 
 		# Z->ee(tau) electron tau fake rate categories
 		for channel in ["et"]:

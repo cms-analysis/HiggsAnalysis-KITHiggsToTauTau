@@ -97,7 +97,6 @@ class Quantities(Run2CPQuantities.Quantities):
 			"IPHelrPVBS_1",
 			"IPHelrPVBS_2",
 
-
 			"helixRadius",
 			"recoMagneticField",
 			"recoP_SI",
