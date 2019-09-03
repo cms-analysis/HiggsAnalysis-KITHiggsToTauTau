@@ -23,5 +23,5 @@ public:
 						 setting_type const& settings, metadata_type const& metadata) const override;
 
 private:
-        TauTriggerSFs2017* TauSFs;
+	std::vector<std::shared_ptr<TauTriggerSFs2017> > TauSFs;
 };

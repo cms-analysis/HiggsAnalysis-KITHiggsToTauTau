@@ -611,8 +611,8 @@ public:
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeMuonTauMatchedPairs;
 	std::vector<std::pair<bool, bool> > m_triggerTagProbeElectronTauMatchedPairs;
 
-	std::vector<double> m_tautriggerefficienciesMC;
-	std::vector<double> m_tautriggerefficienciesData;
+	std::map<HttEnumTypes::TauIDWP, std::vector<double> > m_tautriggerefficienciesMC;
+	std::map<HttEnumTypes::TauIDWP, std::vector<double> > m_tautriggerefficienciesData;
 
 	// filled by MVAInputQuantitiesProducer
 // 	int tsValue = 0;

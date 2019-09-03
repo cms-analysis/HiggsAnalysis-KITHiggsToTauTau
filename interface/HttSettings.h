@@ -391,7 +391,8 @@ public:
 	// settings for 2017 TauTriggerEffiency2017Producer
 	IMPL_SETTING_DEFAULT(std::string, TauTrigger2017Input, "");
 	IMPL_SETTING_DEFAULT(std::string, TauTrigger2017InputOLD, "");
-	IMPL_SETTING_DEFAULT(std::string, TauTrigger2017WorkingPoint, "");
+	IMPL_SETTING(std::string, TauTrigger2017WorkingPoint);
+	IMPL_SETTING_STRINGLIST(TauTrigger2017WorkingPoints);
 
 	// settings for EmbeddingWeightProducer
 	IMPL_SETTING_DEFAULT(bool, SaveEmbeddingWeightAsOptionalOnly, false);
