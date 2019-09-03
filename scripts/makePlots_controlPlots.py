@@ -375,6 +375,7 @@ if __name__ == "__main__":
 		if args.cpggh:
 			global_cut_type = "cpggh"
 		if args.cptautau:
+			global_category_string = "catcptautau2017"
 			global_cut_type = "cptautau"
 		global_cut_type += "2017"
 

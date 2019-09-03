@@ -3139,19 +3139,25 @@ class Samples(samples.SamplesBase):
 
 	def files_ggh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
-		if cp is None or cp == "cpeven":
-			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
-			return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
+		state = kwargs.get("state", None);
+		if state == "initialState":
+			if cp is None or cp == "cpeven":
+				#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
+				return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 
-		elif "jhu" in cp:
-			if "sm" in cp:
-				return "GluGluH2JetsToTauTauM125CPmixingsmJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
-			if "ps" in cp:
-				return "GluGluH2JetsToTauTauM125CPmixingpseudoscalarJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
-			if "mm" in cp:
-				return "GluGluH2JetsToTauTauM125CPmixingmaxmixJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
-		elif cp in ["sm", "mm", "ps"]:
-			return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+			elif "jhu" in cp:
+				if "sm" in cp:
+					return "GluGluH2JetsToTauTauM125CPmixingsmJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
+				if "ps" in cp:
+					return "GluGluH2JetsToTauTauM125CPmixingpseudoscalarJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
+				if "mm" in cp:
+					return "GluGluH2JetsToTauTauM125CPmixingmaxmixJHU_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_JHUgen/*.root"
+			elif cp in ["sm", "mm", "ps"]:
+				return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+		elif state == "finalState":
+			return "GluGluHToPseudoscalarTauTauM125_adow_RunIIFall17MiniAODv2_GluGluToHToTauTauNoSpin_13TeV_USER_powheg-pythia8/*.root"
+			# return "GluGluHTo*TauTauM125*/*.root"
+
 
 	def files_susy_ggh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "SUSYGluGluToHToTauTauM"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
@@ -3207,7 +3213,7 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 
 		matrix_weight = "(1.0)*"
-		if kwargs.get("domatrixweight", False):
+		if kwargs.get("domatrixweight", False) and (kwargs.get("state", None) == "initialState"):
 			if (kwargs.get("cp", None) == "sm"):
 				matrix_weight = "(madGraphWeightSample>-899)*"
 			elif(kwargs.get("cp", None) == "mm"):
@@ -3217,12 +3223,13 @@ class Samples(samples.SamplesBase):
 
 		# tauSpinner weight for CP study in the final state
 		tauSpinner_weight = "(1.0)"
-		#if (kwargs.get("cp", None) == "cpeven"):
-		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
-		#if (kwargs.get("cp", None) == "cpmix"):
-		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
-		#if (kwargs.get("cp", None) == "cpodd"):
-		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
+		if kwargs.get("domatrixweight", False) and (kwargs.get("state", None) == "finalState"):
+			if (kwargs.get("cp", None) == "sm"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
+			if (kwargs.get("cp", None) == "mm"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
+			if (kwargs.get("cp", None) == "ps"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
 		ggh_stitching_weight = "(1)"
 		if kwargs.get("generator",None) =="madgraph":
 			ggh_stitching_weight = self.ggh_stitchingweight(cp=kwargs.get("cp",None), channel=channel)
@@ -3232,7 +3239,7 @@ class Samples(samples.SamplesBase):
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
 
 				add_input(
-						input_file=self.files_ggh(channel, mass, cp=kwargs.get("cp", None), generator=kwargs.get("generator", None)) if not mssm else self.files_susy_ggh(channel, mass),
+						input_file=self.files_ggh(channel, mass, cp=kwargs.get("cp", None), generator=kwargs.get("generator", None), state=kwargs.get("state", None)) if not mssm else self.files_susy_ggh(channel, mass),
 						scale_factor=lumi*kwargs.get("scale_signal", 1.0),
 						weight=tauSpinner_weight+"*"+matrix_weight+mc_weight+"*"+ggh_stitching_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="ggh"+str(kwargs.get("generator", ""))+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")
@@ -3258,39 +3265,39 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def gghsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", generator="madgraphfall15", domatrixweight=True, stacks="gghsm", **kwargs) #TODO OLD NOT TESTED
+		config = self.ggh(config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState",  generator="madgraphfall15", domatrixweight=True, stacks="gghsm", **kwargs) #TODO OLD NOT TESTED
 		return config
 
 	def gghjhusm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", generator="jhu", stacks="gghjhusm", **kwargs)
+		config = self.ggh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState",  generator="jhu", stacks="gghjhusm", **kwargs)
 		return config
 
 	def gghmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", generator="madgraphfall15", domatrixweight=True, stacks="gghmm", **kwargs) #TODO OLD NOT TESTED
+		config = self.ggh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState",  generator="madgraphfall15", domatrixweight=True, stacks="gghmm", **kwargs) #TODO OLD NOT TESTED
 		return config
 
 	def gghjhumm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", generator="jhu", stacks="gghjhumm", **kwargs)
+		config = self.ggh(config, channel, category, weight, "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState",  generator="jhu", stacks="gghjhumm", **kwargs)
 		return config
 
 	def gghps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", generator="madgraphfall15", domatrixweight=True, stacks="gghps", **kwargs) #TODO OLD NOT TESTED
+		config = self.ggh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState",  generator="madgraphfall15", domatrixweight=True, stacks="gghps", **kwargs) #TODO OLD NOT TESTED
 		return config
 
 	def gghjhups(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", generator="jhu", stacks="gghjhups", **kwargs)
+		config = self.ggh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState",  generator="jhu", stacks="gghjhups", **kwargs)
 		return config
 
 	def gghmadgraphsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", generator="madgraph", stacks="gghicsm", **kwargs)
+		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState",  generator="madgraph", stacks="gghicsm", **kwargs)
 		return config
 
 	def gghmadgraphmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", generator="madgraph", stacks="gghicmm", **kwargs)
+		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState",  generator="madgraph", stacks="gghicmm", **kwargs)
 		return config
 
 	def gghmadgraphps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", generator="madgraph", stacks="gghicps", **kwargs)
+		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState",  generator="madgraph", stacks="gghicps", **kwargs)
 		return config
 
 
