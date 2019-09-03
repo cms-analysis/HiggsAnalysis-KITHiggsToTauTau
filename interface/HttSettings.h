@@ -247,6 +247,7 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(TauDiscriminatorMvaIsolation, {});
 	IMPL_SETTING_FLOATLIST_DEFAULT(TauDiscriminatorAntiElectronMvaCuts, {});
 	IMPL_SETTING_INTLIST_DEFAULT(TauDiscriminatorAntiElectronMvaCutsLeptonIndices, {});
+	IMPL_SETTING(std::string, TauIDType);
 
 	IMPL_SETTING_DEFAULT(float, TauLowerZImpactCut, std::numeric_limits<float>::max());
 	IMPL_SETTING_DEFAULT(float, TauUpperZImpactCut, std::numeric_limits<float>::max());
