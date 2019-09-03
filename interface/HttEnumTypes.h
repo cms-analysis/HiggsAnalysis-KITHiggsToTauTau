@@ -95,6 +95,27 @@ public:
 		TAU_JET_FAKE_ES = 13
 	};
 
+	enum class TauIDWP : int
+	{
+		NONE = -1,
+		VLOOSE = 0,
+		LOOSE = 1,
+		MEDIUM = 2,
+		TIGHT = 3,
+		VTIGHT = 4,
+		VVTIGHT = 5
+	};
+	static TauIDWP ToTauIDWP(std::string const& tauIDWP)
+	{
+		if (tauIDWP == "vloose") return TauIDWP::VLOOSE;
+		else if (tauIDWP == "loose") return TauIDWP::LOOSE;
+		else if (tauIDWP == "medium") return TauIDWP::MEDIUM;
+		else if (tauIDWP == "tight") return TauIDWP::TIGHT;
+		else if (tauIDWP == "vtight") return TauIDWP::VTIGHT;
+		else if (tauIDWP == "vvtight") return TauIDWP::VVTIGHT;
+		else return TauIDWP::NONE;
+	}
+
 	enum class SvfitCacheMissBehaviour : int
 	{
 		assert = 0,
