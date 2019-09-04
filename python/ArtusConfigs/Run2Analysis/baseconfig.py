@@ -246,17 +246,12 @@ class Baseconfig(dict):
 			self["MvaMetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root"
 			self["ZptReweightProducerWeights"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root"
 
-
-
-		elif re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname): #FIXME No files for 2017 yet
+		elif re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname): #FIXME No files for 2017 MvaMET yet
 			self["MetCorrectionMethod"] = "meanResolution"
 			self["MetRecoilCorrectorFile"] ="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/Type1_PFMET_2017.root"
 			self["MvaMetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root" #not there
 			self["ZptReweightProducerWeights"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2017.root" #TODO
 
-
-
-		
 		self["MetShiftCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
 		self["MvaMetShiftCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
 
@@ -273,23 +268,3 @@ class Baseconfig(dict):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"]
 		elif re.search("Run2017|Embedding2017", nickname):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"]
-
-		if re.search("(Fall15MiniAODv2)", nickname):
-			self["SimpleMuTauFakeRateWeightLoose"] = [1.0, 1.0, 1.0, 1.0, 1.0]
-			self["SimpleMuTauFakeRateWeightTight"] = [1.0, 1.0, 1.0, 1.0, 1.0]
-			self["SimpleEleTauFakeRateWeightVLoose"] = [1.02, 1.11]
-			self["SimpleEleTauFakeRateWeightTight"] = [1.80, 1.30]
-
-		elif re.search("(Spring16|Summer16)", nickname):
-			self["SimpleMuTauFakeRateWeightLoose"]	= [1.22, 1.12, 1.26, 1.22, 2.39]
-			self["SimpleMuTauFakeRateWeightTight"] = [1.47, 1.55, 1.33, 1.72, 2.50]
-			self["SimpleEleTauFakeRateWeightVLoose"] = [1.213, 1.375]
-			self["SimpleEleTauFakeRateWeightTight"] = [1.402, 1.90]
-
-# https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf
-		elif re.search("(Summer17|Fall17)", nickname):
-			self["SimpleMuTauFakeRateWeightLoose"]	= [1.06, 1.02, 1.10, 1.03, 1.94]
-			self["SimpleMuTauFakeRateWeightTight"] = [1.17, 1.29, 1.14, 0.93, 1.61]
-			self["SimpleEleTauFakeRateWeightVLoose"] = [1.09, 1.19]
-			self["SimpleEleTauFakeRateWeightTight"] = [1.80, 1.53] #also available are other wp
-
