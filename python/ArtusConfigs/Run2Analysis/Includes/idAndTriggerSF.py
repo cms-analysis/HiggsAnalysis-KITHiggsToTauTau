@@ -35,6 +35,16 @@ class IdAndTriggerSF(dict):
 					self["IdentificationEfficiencyData"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2016_Electron_IdIso_IsoLt0p1_eff.root"]
 					self["IdentificationEfficiencyMc"] = ["0:root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/ohlushch/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_MC_Electron_IdIso_IsoLt0p1_eff.root"]
 		else:
+			if channel in ["ET", "MT", "TT"]:
+				self["TauTrigger2017WorkingPoints"] = [
+					"vloose",
+					"loose",
+					"medium",
+					"tight",
+					"vtight",
+					"vvtight",
+				]
+
 			if channel == "ET":
 				if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 					self["TriggerEfficiencyData"] = [ "0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/triggerWeights/triggerEfficiency_Run2015_Electron_Ele23_fall15.root" ]
@@ -63,7 +73,7 @@ class IdAndTriggerSF(dict):
 
 					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2017.root"
 					# self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
-					self["TauTrigger2017WorkingPoint"] = "tight"
+					# self["TauTrigger2017WorkingPoint"] = "tight"
 
 					self["TriggerEfficiencyMode"] = "no_overlap_triggers"
 					self["IdentificationEfficiencyMode"] = "multiply_weights"
@@ -115,8 +125,6 @@ class IdAndTriggerSF(dict):
 					# self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
 					self["TauTrigger2017WorkingPoint"] = "tight"
 
-
-
 					# identificationEfficiency_Run2017_Muon_IdIso_IsoLt0p15_2017B_eff.root
 					# identificationEfficiency_MCFall2017_Muon_IdIso_IsoLt0p15_2017B_eff.root
 					self["IdentificationEfficiencyData"] = ["0:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/identificationWeights/identificationEfficiency_Run2017_Muon_IdIso_IsoLt0p15_2017B_eff.root"]
@@ -132,7 +140,8 @@ class IdAndTriggerSF(dict):
 					self["TauTrigger2017Input"] = "$CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2017.root"
 					# self["TauTrigger2017InputOLD"] = "$CMSSW_BASE/src/TauTriggerSFs2017/TauTriggerSFs2017/data/tauTriggerEfficiencies2017.root"
 					self["TauTrigger2017WorkingPoint"] = "tight" #TODO might change for 2017
-					self["TriggerEfficiencyMode"] = "multiply_tau2017_weights"
+					self["TriggerEfficiencyMode"] = "no_overlap_triggers"
+					# self["TriggerEfficiencyMode"] = "multiply_tau2017_weights"
 					self["IdentificationEfficiencyMode"] = "multiply_weights"
 
 
