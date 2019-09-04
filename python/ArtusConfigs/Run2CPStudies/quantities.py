@@ -117,7 +117,7 @@ class Quantities(Run2Quantities):
 							"triggerWeight_trg_EleTau_Ele24Leg_data_1"
 						])
 						self.quantities.update([
-							"tautriggerefficiencyData"
+							"tautriggerefficiencyData_2"
 						])
 					else:
 						self.quantities.update([
@@ -127,6 +127,8 @@ class Quantities(Run2Quantities):
 							"triggerWeight_singleE_1",
 							"triggerWeight_etaucross_1",
 							"triggerWeight_etaucross_2",
+							"triggerWeight_etaucross_tight_2",
+							"triggerWeight_etaucross_vloose_2",
 						])
 				elif re.search("Embedding2016", nickname):
 					self.quantities.update([
@@ -162,13 +164,15 @@ class Quantities(Run2Quantities):
 						"idweight_1",
 						"triggerWeight_mu_1",
 						"triggerWeight_mutaucross_1",
-						"triggerWeight_mutaucross_2"
+						"triggerWeight_mutaucross_2",
 					])
 				else:
 					self.quantities.update([
 						"triggerWeight_mu_1",
 						"triggerWeight_mutaucross_1",
 						"triggerWeight_mutaucross_2",
+						"triggerWeight_mutaucross_tight_2",
+						"triggerWeight_mutaucross_vloose_2",
 					])
 			elif channel == "TT":
 				if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
@@ -190,6 +194,15 @@ class Quantities(Run2Quantities):
 						"triggerWeight_tau_1",
 						"triggerWeight_tau_2",
 					])
+				else:
+					self.quantities.update([
+						"triggerWeight_tautaucross_1",
+						"triggerWeight_tautaucross_2",
+						"triggerWeight_tautaucross_tight_1",
+						"triggerWeight_tautaucross_vloose_1",
+						"triggerWeight_tautaucross_tight_2",
+						"triggerWeight_tautaucross_vloose_2",
+					])
 				if re.search("Embedding2016", nickname):
 					self.quantities.update([
 						"triggerWeight_doublemu_1",
@@ -199,6 +212,9 @@ class Quantities(Run2Quantities):
 
 			if not channel == "EM":
 				self.quantities.update(self.fakefactorQuantities())
+
+				if re.search("(Summer17|Fall17)", nickname):
+					self.quantities.update(self.tauTriggerEfficiencies2017Quantities())
 
 			# *********** datasets(groups, samples) common across all channels including mm
 			if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
@@ -1668,3 +1684,33 @@ class Quantities(Run2Quantities):
 		    "fakefactorWeight_tt_dm1_njet1_stat_up_btag_loosemt",
 		    "fakefactorWeight_tt_dm1_njet1_stat_down_btag_loosemt",
 		"""
+
+	@staticmethod
+	def tauTriggerEfficiencies2017Quantities():
+		return [
+			"tautriggerefficiencyData_1_vloose",
+			"tautriggerefficiencyData_1_loose",
+			"tautriggerefficiencyData_1_medium",
+			"tautriggerefficiencyData_1_tight",
+			"tautriggerefficiencyData_1_vtight",
+			"tautriggerefficiencyData_1_vvtight",
+			"tautriggerefficiencyData_2_vloose",
+			"tautriggerefficiencyData_2_loose",
+			"tautriggerefficiencyData_2_medium",
+			"tautriggerefficiencyData_2_tight",
+			"tautriggerefficiencyData_2_vtight",
+			"tautriggerefficiencyData_2_vvtight",
+
+			"tautriggerefficiencyMC_1_vloose",
+			"tautriggerefficiencyMC_1_loose",
+			"tautriggerefficiencyMC_1_medium",
+			"tautriggerefficiencyMC_1_tight",
+			"tautriggerefficiencyMC_1_vtight",
+			"tautriggerefficiencyMC_1_vvtight",
+			"tautriggerefficiencyMC_2_vloose",
+			"tautriggerefficiencyMC_2_loose",
+			"tautriggerefficiencyMC_2_medium",
+			"tautriggerefficiencyMC_2_tight",
+			"tautriggerefficiencyMC_2_vtight",
+			"tautriggerefficiencyMC_2_vvtight",
+			]
