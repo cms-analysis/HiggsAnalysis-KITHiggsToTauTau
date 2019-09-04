@@ -250,7 +250,7 @@ if __name__ == "__main__":
 			INIT="--only_init="+os.path.join(init_directory, "init")
 		)
 	else:
-		command = "MorphingSMCPDecays18 --real_data=false --do_embedding=false  --era={ERA} --channels={CHANNELS} --postfix -2D --ttbar_fit=false {INIT}".format(
+		command = "MorphingSMCPDecays18 --real_data=false --era={ERA} --channels={CHANNELS} --doDecays true --do_mva false --do_jetfakes true --do_embedding false --postfix -2D --ttbar_fit=false {INIT}".format(
 		ERA=args.era,
 		CHANNELS = channelstring,
 		INIT="--only_init="+os.path.join(init_directory, "init")
@@ -298,15 +298,15 @@ if __name__ == "__main__":
 	datacards.configs._mapping_process2sample = {
 		"data_obs" : "data",
 		"EWKZ" : "ewkz",
-		"ggH_htt" : "ggh",
-		"ggHps_htt"	: "gghmadgraphps",
-		"ggHmm_htt"	: "gghmadgraphmm",
-		"ggHsm_htt"	: "gghmadgraphsm",
+		"ggH_ph_htt" : "ggh",
+		"ggH_ps_htt"	: "gghmadgraphps",
+		"ggH_mm_htt"	: "gghmadgraphmm",
+		"ggH_sm_htt"	: "gghmadgraphsm",
 	  	"ggH_hww" : "hww_gg",
 		"QCD" : "qcd",
-		"qqHmm_htt"	: "qqhjhumm",
-		"qqHps_htt"	: "qqhjhups",
-		"qqHsm_htt"	: "qqhjhusm",
+		"qqH_mm_htt"	: "qqhjhumm",
+		"qqH_ps_htt"	: "qqhjhups",
+		"qqH_sm_htt"	: "qqhjhusm",
 		"qqH_hww" : "hww_qq",
 		"TT" : "ttj",
 		"TTT" : "ttt",
@@ -324,7 +324,7 @@ if __name__ == "__main__":
 		"jetFakes" : "ff",
 		"WH_htt125" : "wh",
 		"ZH_htt125" : "zh",
-		"qqH_htt125": "qqh",
+		"qqHsm_htt125": "qqh",
 		"EmbedZTT" : "ztt_emb"
 		}
 
@@ -606,14 +606,11 @@ if __name__ == "__main__":
 					if "Boosted" in category and "CP1" in args.quantity:
 						category_suffix = "_CP1"
 
-
 					if "dijet" in category and "CP2" in args.quantity:
 						category_suffix = "_CP2"
 
 					if "Boosted" in category and "CP2" in args.quantity:
 						category_suffix = "_CP2"
-
-					
 
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
@@ -629,12 +626,12 @@ if __name__ == "__main__":
 							no_ewkz_as_dy = args.no_ewkz_as_dy,
 							fakefactor_method = True
 					)
-					#print shape_systematic
+					print shape_systematic
 					if "CMS_scale_gg_13TeV" in shape_systematic:
 						systematics_settings = systematics_factory.get(shape_systematic)(config, category)
 					elif "CMS_scale_j_" in shape_systematic:
-						systematics_settings = systematics_factory.get(shape_systematic)(config)
-						
+						systematics_settings = systematics_factory.get(shape_systematic)(config, shape_systematic)
+
 					elif shape_systematic.startswith("ff_"):
 						systematics_settings = systematics_factory.get(shape_systematic)(config, shape_systematic)
 					else:
