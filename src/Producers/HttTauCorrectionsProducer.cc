@@ -81,7 +81,6 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			float tauEnergyCorrectionThreeProngShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProngShift();
 			float tauEnergyCorrectionThreeProngPiZerosShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProngPiZerosShift();
 
-
 			if (tau->decayMode == 0)// && tauEnergyCorrectionOneProng != 1.0)
 			{
 				if (tauEnergyCorrectionOneProngShift != 0.0)
@@ -91,37 +90,52 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				}
 				LOG(DEBUG) << "tauEnergyCorrectionOneProng:    " << tauEnergyCorrectionOneProng << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionOneProng;
+				product.m_weights["tauTrackReconstructionEfficiencyWeight"] = static_cast<HttSettings const&>(settings).GetTauTrackReconstructionEfficiencyWeightOneProng();
 			}
 			else if ((tau->decayMode == 1 || tau->decayMode == 2))// && tauEnergyCorrectionOneProngPiZeros != 1.0)
 			{
 				if (tauEnergyCorrectionOneProngPiZerosShift != 0.0)
 				{
 					tauEnergyCorrectionOneProngPiZeros += tauEnergyCorrectionOneProngPiZerosShift;
-					//TODO cached svfit cache, has to rerun				
+					//TODO cached svfit cache, has to rerun
 				}
 				LOG(DEBUG) << "tauEnergyCorrectionOneProngPiZeros:    " << tauEnergyCorrectionOneProngPiZeros << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionOneProngPiZeros;
+				product.m_weights["tauTrackReconstructionEfficiencyWeight"] = static_cast<HttSettings const&>(settings).GetTauTrackReconstructionEfficiencyWeightOneProngPiZeros();
 			}
 			else if (tau->decayMode == 10)// && tauEnergyCorrectionThreeProng != 1.0)
 			{
 				if (tauEnergyCorrectionThreeProngShift != 0.0)
 				{
 					tauEnergyCorrectionThreeProng += tauEnergyCorrectionThreeProngShift;
-					//TODO cached svfit cache, has to rerun				
+					//TODO cached svfit cache, has to rerun
 				}
 
 				LOG(DEBUG) << "tauEnergyCorrectionThreeProng:    " << tauEnergyCorrectionThreeProng << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionThreeProng;
+				product.m_weights["tauTrackReconstructionEfficiencyWeight"] = static_cast<HttSettings const&>(settings).GetTauTrackReconstructionEfficiencyWeightThreeProng();
 			}
 			else if(tauEnergyCorrection == TauEnergyCorrection::SMHTT2017 && tau->decayMode >= 11)// && tauEnergyCorrectionThreeProngPiZeros != 1.0)
 			{
 				if (tauEnergyCorrectionOneProngShift != 0.0)
 				{
 					tauEnergyCorrectionThreeProngPiZeros += tauEnergyCorrectionThreeProngPiZerosShift;
-					//TODO cached svfit cache, has to rerun				
+					//TODO cached svfit cache, has to rerun
 				}
 				LOG(DEBUG) << "tau decay mode 11 and 2017";
 				tau->p4 = tau->p4 * tauEnergyCorrectionThreeProngPiZeros;
+			}
+
+			if(tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				LOG(DEBUG) << "byTightIsolationMVArun2017v2DBoldDMwLT2017: " << tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata);
+				product.m_weights["tauIDEfficiencyWeight"] = static_cast<HttSettings const&>(settings).GetTauIDEfficiencyWeightTight();
+			}
+			else if(tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byVLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				LOG(DEBUG) << "byVLooseIsolationMVArun2017v2DBoldDMwLT2017: " << tau->getDiscriminator("byVLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata);
+				LOG(DEBUG) << "byTightIsolationMVArun2017v2DBoldDMwLT2017: " << tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata);
+				product.m_weights["tauIDEfficiencyWeight"] = static_cast<HttSettings const&>(settings).GetTauIDEfficiencyWeightVLoose();
 			}
 		}
 		else if ((genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)) // correct mu->tau fake energy scale
@@ -419,4 +433,3 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		tau->p4 = tau->p4 * r;
 	}
 }
-
