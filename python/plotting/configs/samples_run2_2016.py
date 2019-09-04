@@ -48,7 +48,7 @@ class Samples(samples.SamplesBase):
 		return " ".join(found_file_names) # convert it to a HP-readable format
 
 	@staticmethod
-	def ttt_genmatch(channel, kwargs):
+	def ttt_genmatch(channel, **kwargs):
 		if channel in ["mt", "et"]:
 			if kwargs.get("mssm", False):
 				return "(gen_match_2 < 6)"
@@ -61,24 +61,38 @@ class Samples(samples.SamplesBase):
 			sys.exit(1)
 
 	@staticmethod
-	def ttl_genmatch(channel, kwargs):
-		if channel in ["mt", "et"]:
-			return "(gen_match_2 < 5)"
-		elif channel == "tt":
-			return "(((gen_match_1 < 5) * (gen_match_2 < 6)) || ((gen_match_1 < 6) * (gen_match_2 < 5)))"
+	def ttl_genmatch(channel, fakefactor_method=False, **kwargs):
+		if fakefactor_method:
+			if channel in ["mt", "et"]:
+				return "(gen_match_2 < 5)"
+			elif channel == "tt":
+				return "(gen_match_1 < 6 && gen_match_2 < 6 && !(gen_match_1 == 5 && gen_match_2 == 5))"
+				# return "(((gen_match_1 < 5) * (gen_match_2 < 6)) || ((gen_match_1 < 6) * (gen_match_2 < 5)))"
+			else:
+				log.fatal("No TTL selection implemented for channel \"%s\"!" % channel)
+				sys.exit(1)
 		else:
-			log.fatal("No TTL selection implemented for channel \"%s\"!" % channel)
+			log.fatal("TTL included in TTJ! Use TTJ instead or switch fakefactor_method to true.")
 			sys.exit(1)
 
 	@staticmethod
-	def ttj_genmatch(channel, kwargs):
-		if channel in ["mt", "et"]:
-			return "(gen_match_2 == 6)"
-		elif channel == "tt":
-			return "((gen_match_1 == 6) || (gen_match_2 == 6))"
+	def ttj_genmatch(channel, fakefactor_method=False, **kwargs):
+		if fakefactor_method:
+			if channel in ["mt", "et"]:
+				return "(gen_match_2 == 6)"
+			elif channel == "tt":
+				return "((gen_match_1 == 6) || (gen_match_2 == 6))"
+			else:
+				log.fatal("No TTJ selection implemented for channel \"%s\"!" % channel)
+				sys.exit(1)
 		else:
-			log.fatal("No TTJ selection implemented for channel \"%s\"!" % channel)
-			sys.exit(1)
+			if channel in ["mt", "et"]:
+				return "!(gen_match_2 == 5)"
+			elif channel == "tt":
+				return " !(gen_match_1 == 5 && gen_match_2 == 5)"
+			else:
+				log.fatal("No TTJ selection implemented for channel \"%s\"!" % channel)
+				sys.exit(1)
 
 	# In order to specify the channels in gen-level info, one also needs the category as a parameter of the matching function!
 		#(In the so-called "gen" channel, the categories are considered as tt,mt,et... channels for now,
@@ -104,28 +118,31 @@ class Samples(samples.SamplesBase):
 			sys.exit(1)
 
 	@staticmethod
-	def ztt_genmatch(channel):
-		if channel in ["mt", "et"]:
-			return "(gen_match_2 == 5)"
-		elif channel == "em" or channel == "ttbar":
-			return "(gen_match_1 > 2 && gen_match_2 > 3)"
-		elif channel == "mm":
-			return "(gen_match_1 > 3 && gen_match_2 > 3)"
-		elif channel == "ee":
-			return "(gen_match_1 > 3 && gen_match_2 > 3)"
-		elif channel == "tt":
-			return "(gen_match_1 == 5 && gen_match_2 == 5)"
+	def ztt_genmatch(channel, embedding=False):
+		if embedding:
+			return "(1.0)"
 		else:
-			log.fatal("No ZTT selection implemented for channel \"%s\"!" % channel)
-			sys.exit(1)
+			if channel in ["mt", "et"]:
+				return "(gen_match_2 == 5)"
+			elif channel == "em" or channel == "ttbar":
+				return "(gen_match_1 > 2 && gen_match_2 > 3)"
+			elif channel == "mm":
+				return "(gen_match_1 > 3 && gen_match_2 > 3)"
+			elif channel == "ee":
+				return "(gen_match_1 > 3 && gen_match_2 > 3)"
+			elif channel == "tt":
+				return "(gen_match_1 == 5 && gen_match_2 == 5)"
+			else:
+				log.fatal("No ZTT selection implemented for channel \"%s\"!" % channel)
+				sys.exit(1)
 
 	@staticmethod
 	def zl_genmatch(channel):
 		if channel in ["mt", "et"]:
 			return "(gen_match_2 < 5)"
 		elif channel == "tt":
-			# return "(gen_match_1 < 6 && gen_match_2 < 6 && (!(gen_match_1 == 5 && gen_match_2 == 5)))"
-			return "(((gen_match_1 < 5) * (gen_match_2 < 6)) || ((gen_match_1 < 6) * (gen_match_2 < 5)))"
+			return "(gen_match_1 < 6 && gen_match_2 < 6 && (!(gen_match_1 == 5 && gen_match_2 == 5)))"
+			# return "(((gen_match_1 < 5) * (gen_match_2 < 6)) || ((gen_match_1 < 6) * (gen_match_2 < 5)))"
 		else:
 			log.fatal("No ZL selection implemented for channel \"%s\"!" % channel)
 			sys.exit(1)
@@ -574,7 +591,7 @@ class Samples(samples.SamplesBase):
 		elif channel in ["mt", "et", "tt", "em", "mm", "ee", "ttbar"]:
 			add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
-					weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight, embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_emb)+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*"+zmm_cr_factor+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type_emb),
+					weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight, embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_emb)+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*"+zmm_cr_factor+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type_emb),
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="ztt"
 			)
@@ -853,7 +870,7 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 		add_input(
 				input_file=self.files_ttj(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+				weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttt_genmatch(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 				nick="ttt"
 		)
 		if channel not in ["et", "mt", "tt"]:
@@ -1024,7 +1041,7 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 		add_input(
 				input_file=self.files_ttj(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+				weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+Samples.ttj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 				nick="ttjj"
 		)
 		if channel not in ["et", "mt", "tt"]:
@@ -1271,12 +1288,12 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_vv(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="vvt"
 			)
 			add_input(
 					input_file=self.files_diboson(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="vvt"
 			)
 		else:
@@ -1301,12 +1318,12 @@ class Samples(samples.SamplesBase):
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_vv(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.vv_stitchingweight()+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="vvj"
 			)
 			add_input(
 					input_file=self.files_diboson(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="vvj"
 			)
 		else:
@@ -3566,7 +3583,6 @@ class Samples(samples.SamplesBase):
 			exclude_cuts_ff += ["iso_2"]
 			ff_weight_2 = "((" + fake_factor_name_2 + ")*(byVLooseIsolationMVArun2v1DBoldDMwLT_2>0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2<0.5))"
 
-
 		if channel == "tt":
 			exclude_cuts_ff += ["iso_1", "iso_2"]
 			ff_weight_1 = "((" + fake_factor_name_1 + ")*(byVLooseIsolationMVArun2v1DBoldDMwLT_1>0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_1<0.5)*(byTightIsolationMVArun2v1DBoldDMwLT_2>0.5))"   #factor 1/2 for tt already aplied in producer
@@ -3691,7 +3707,7 @@ class Samples(samples.SamplesBase):
 		elif channel in ["mt", "et"]:
 			return "(gen_match_2<6)"
 		if channel=="tt":
-			return "((gen_match_1<6)||(gen_match_2<6))"
+			return "((gen_match_1<6) || (gen_match_2<6))"
 
 	#TODO add fakefactor nojetweight
 	def ewk(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
