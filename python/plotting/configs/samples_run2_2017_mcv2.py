@@ -342,37 +342,37 @@ class Samples(samples.Samples):
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_wwtolnuqq(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight(),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight(),
 					nick="vvt"
 			)
 			add_input(
 					input_file=self.files_wwto4q(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
 					nick="vvt"
 			)
 			add_input(
 					input_file=self.files_wzto1l3nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
 					nick="vvt"
 			)
 			add_input(
 					input_file=self.files_wzto3lnu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
 					nick="vvt"
 			)
 			add_input(
 					input_file=self.files_zzto2l2nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
 					nick="vvt"
 			)
 			add_input(
 					input_file=self.files_zzto4l(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight(),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight(),
 					nick="vvt"
 			)
 			add_input(
 					input_file=self.files_singletop(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					nick="vvt"
 			)
 		else:
@@ -397,37 +397,37 @@ class Samples(samples.Samples):
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_wwtolnuqq(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight(),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight(),
 					nick="vvl"
 			)
 			add_input(
 					input_file=self.files_wwto4q(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
 					nick="vvl"
 			)
 			add_input(
 					input_file=self.files_wzto1l3nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
 					nick="vvl"
 			)
 			add_input(
 					input_file=self.files_wzto3lnu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
 					nick="vvl"
 			)
 			add_input(
 					input_file=self.files_zzto2l2nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
 					nick="vvl"
 			)
 			add_input(
 					input_file=self.files_zzto4l(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight(),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight(),
 					nick="vvl"
 			)
 			add_input(
 					input_file=self.files_singletop(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					nick="vvl"
 			)
 		else:
@@ -452,37 +452,37 @@ class Samples(samples.Samples):
 		if channel in ["mt", "et", "tt"]:
 			add_input(
 					input_file=self.files_wwtolnuqq(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
 					nick="vvj"
 			)
 			add_input(
 					input_file=self.files_wwto4q(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
 					nick="vvj"
 			)
 			add_input(
 					input_file=self.files_wzto1l3nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
 					nick="vvj"
 			)
 			add_input(
 					input_file=self.files_wzto3lnu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
 					nick="vvj"
 			)
 			add_input(
 					input_file=self.files_zzto2l2nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
 					nick="vvj"
 			)
 			add_input(
 					input_file=self.files_zzto4l(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
 					nick="vvj"
 			)
 			add_input(
 					input_file=self.files_singletop(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,kwargs)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
 					nick="vvj"
 			)
 		else:
@@ -652,7 +652,7 @@ class Samples(samples.Samples):
 				)
 			add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
-					weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="noplot_ztt_mc_qcd_control"
 			)
@@ -850,7 +850,7 @@ class Samples(samples.Samples):
 				# background subtraction nicks in region B
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick=("noplot_" if not controlregions else "") + "ztt_ss_qcd"
 				)
@@ -1121,7 +1121,7 @@ class Samples(samples.Samples):
 						)
 						add_input(
 								input_file=self.files_ztt(channel, embedding=self.embedding),
-								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight,embedding=self.embedding)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+								weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight,embedding=self.embedding)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 								scale_factor = 1.0 if self.embedding else lumi,
 								nick="noplot_ztt_"+estimation_type
 						)
@@ -1266,7 +1266,7 @@ class Samples(samples.Samples):
 						)
 						add_input(
 								input_file=self.files_ztt(channel, embedding=self.embedding),
-								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key],embedding=self.embedding)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+								weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key],embedding=self.embedding)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 								scale_factor = 1.0 if self.embedding else lumi,
 								nick="noplot_ztt_"+key
 						)
@@ -1392,7 +1392,7 @@ class Samples(samples.Samples):
 					)
 					add_input(
 							input_file=self.files_ztt(channel, embedding=self.embedding),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+							weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 							scale_factor = 1.0 if self.embedding else lumi,
 							nick="noplot_ztt_ss_mc_wj_control"
 					)
@@ -1536,7 +1536,7 @@ class Samples(samples.Samples):
 				)
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick="noplot_ztt_mc_qcd_control"
 				)
@@ -1764,7 +1764,7 @@ class Samples(samples.Samples):
 				# Type C subtract nicks - nick type xx_ss_highmt
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick=("noplot_" if not controlregions else "") + "ztt_ss_highmt"
 				)
@@ -1884,7 +1884,7 @@ class Samples(samples.Samples):
 				# wjets os highmt subtract nicks
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick=("noplot_" if not controlregions else "") + "ztt_os_highmt"
 				)
@@ -2264,7 +2264,7 @@ class Samples(samples.Samples):
 				)
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + "_emb" if  self.embedding else "",weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D + "_emb" if  self.embedding else "")+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel, cut_type_D + "_emb" if  self.embedding else "")+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type + "_emb" if  self.embedding else ""),
+						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + "_emb" if  self.embedding else "",weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D + "_emb" if  self.embedding else "")+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel, cut_type_D + "_emb" if  self.embedding else "")+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type + "_emb" if  self.embedding else ""),
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick="noplot_ztt_mc_wj_control"
 				)
