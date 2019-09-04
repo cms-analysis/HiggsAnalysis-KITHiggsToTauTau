@@ -114,7 +114,7 @@ class tt_ArtusConfig(dict):
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
-					# self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"] # not neede for tt
+					self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"]
 					# self["Processors"] += ["producer:TriggerWeightProducer"]
 					# self["Processors"] += ["producer:IdentificationWeightProducer"]
 				else:

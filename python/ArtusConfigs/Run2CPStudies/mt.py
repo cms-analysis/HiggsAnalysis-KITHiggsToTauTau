@@ -61,7 +61,6 @@ class mt_ArtusConfig(dict):
 				"producer:TauTauRestFrameSelector",
 				"producer:DiLeptonQuantitiesProducer",
 				"producer:DiJetQuantitiesProducer",
-
 				]
 
 		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17|Embedding(2016|2017))", nickname):
@@ -352,7 +351,7 @@ class mt_ArtusConfig(dict):
 
 		self["MuonUpperAbsEtaCuts"] = ["2.1"]
 		self["TauLowerPtCuts"] = ["20.0"]
-		self["TauUpperAbsEtaCuts"] = ["2.3"]
+		self["TauUpperAbsEtaCuts"] = ["2.1"] # tau trigger SFs only allow abs(eta) up to 2.1
 		self["TriggerObjectLowerPtCut"] = -1.0
 		self["DiTauPairMinDeltaRCut"] = 0.5
 		self["DiTauPairIsTauIsoMVA"] = True
@@ -441,31 +440,31 @@ class mt_ArtusConfig(dict):
 			]
 			self["DiTauPairLepton2LowerPtCuts"] = ["HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:32.0"]
 
-			self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
-				"HLT_IsoMu24_v",
-				"HLT_IsoMu27_v",
-				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v"
-			]
+			# self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
+			# 	"HLT_IsoMu24_v",
+			# 	"HLT_IsoMu27_v",
+			# 	"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v"
+			# ]
 
 			if isEmbedded:
 				self["TauTriggerFilterNames"] = [
-					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltL1sMu18erTau24erIorMu20erTau24er"
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltL1sMu18erTau24erIorMu20erTau24er"
 				]
 				self["MuonTriggerFilterNames"] = [
 					"HLT_IsoMu24_v:hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07",
 					"HLT_IsoMu27_v:hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07",
-					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
 				]
 			else:
 				self["TauTriggerFilterNames"] = [
-					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
-					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded",
 				]
 				self["MuonTriggerFilterNames"] = [
 					"HLT_IsoMu24_v:hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07",
 					"HLT_IsoMu27_v:hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07",
-					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
-					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
 				]
 
 
@@ -530,7 +529,7 @@ class mt_ArtusConfig(dict):
 					"1:t_pt"
 				]
 			else:
-				self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
+				self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v3.root"
 				self["RooWorkspaceWeightNames"] = [
 					#"0:crossTriggerMCEfficiencyWeight",
 					#"0:crossTriggerDataEfficiencyWeight",
@@ -539,9 +538,11 @@ class mt_ArtusConfig(dict):
 					#"0:singleTriggerMCEfficiencyWeightKIT",
 					#"0:singleTriggerDataEfficiencyWeightKIT",
 
-					"0:idIsoWeight",
-					#"0:idWeight",
-					"0:trackWeight"
+					# "0:idIsoWeight",
+					# "0:idWeight",
+					# "0:trackWeight"
+					"0:idWeight",
+					"0:isoWeight",
 					]
 				self["RooWorkspaceObjectNames"] = [
 					#"0:m_trg_MuTau_Mu20Leg_desy_mc",
@@ -551,9 +552,11 @@ class mt_ArtusConfig(dict):
 					#"0:m_trg24or27_mc",
 					#"0:m_trg24or27_data",
 
-					"0:m_idiso_binned_ratio",
-					#"0:m_id_ratio",
-					"0:m_trk_ratio"
+					# "0:m_idiso_binned_ratio",
+					# "0:m_id_ratio",
+					# "0:m_trk_ratio"
+					"0:m_id_kit_ratio",
+					"0:m_iso_kit_ratio",
 					]
 				self["RooWorkspaceObjectArguments"] = [
 					#"0:m_pt,m_eta",
@@ -563,9 +566,11 @@ class mt_ArtusConfig(dict):
 					#"0:m_pt,m_eta",
 					#"0:m_pt,m_eta",
 
+					# "0:m_pt,m_eta",
+					# "0:m_pt,m_eta",
+					# "0:m_eta"
 					"0:m_pt,m_eta",
-					#"0:m_pt,m_eta",
-					"0:m_eta"
+					"0:m_pt,m_eta",
 					]
 				if re.search("HToTauTau", nickname):
 					self["RooWorkspaceWeightNames"] += ["0:quarkmassWeight", "0:quarkmassUpWeight", "0:quarkmassDownWeight"]
@@ -721,8 +726,6 @@ class mt_ArtusConfig(dict):
 			"#PrintEventsConsumer",
 			"#PrintGenParticleDecayTreeConsumer"
 		]
-
-		self["TauUpperAbsEtaCuts"] = ["2.1"] # tau trigger SFs only allow abs(eta) up to 2.1
 
 		quantities_set = Quantities()
 		quantities_set.build_quantities(nickname, channel = self["Channel"])

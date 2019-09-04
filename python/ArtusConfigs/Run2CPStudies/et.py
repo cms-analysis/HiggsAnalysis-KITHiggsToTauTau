@@ -394,7 +394,8 @@ class et_ArtusConfig(dict):
 				]
 			if isEmbedded:
 				self["ElectronTriggerFilterNames"] += [
-					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltL1sBigORLooseIsoEGXXerIsoTauYYerdRMin0p3",
+					# "HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltL1sBigORLooseIsoEGXXerIsoTauYYerdRMin0p3",
+					"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1_v:hltEle24erWPTightGsfTrackIsoFilterForTau"
 				]
 			else:
 				self["ElectronTriggerFilterNames"] += [
@@ -503,7 +504,7 @@ class et_ArtusConfig(dict):
 				]
 			else:
 				#self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_1.root"
-				self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v2.root"
+				self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_2017_v3.root"
 				self["RooWorkspaceWeightNames"] = [
 					#"0:crossTriggerMCEfficiencyWeight",
 					#"0:crossTriggerDataEfficiencyWeight",
@@ -523,8 +524,8 @@ class et_ArtusConfig(dict):
 					#"0:e_trg_SingleEle_Ele32OREle35_desy_data",
 					#"0:e_trg32or35_mc",
 					#"0:e_trg32or35_data",
-					"0:e_id_ratio",
-					"0:e_iso_binned_ratio",
+					"0:e_id90_kit_ratio",
+					"0:e_iso_kit_ratio",
 					"0:e_trk_ratio"
 				]
 				#for embedding use e_id_embed_ratio and e_iso_binned_embed_ratio
