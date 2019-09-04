@@ -140,15 +140,15 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 		       (efficienciesData[0].size() == 2) &&
 		       (efficienciesMc.size() == 1) &&
 		       (efficienciesMc[0].size() == 2) &&
-		       (product.m_tautriggerefficienciesMC.size() == 1) &&
-		       (product.m_tautriggerefficienciesData.size() == 1));
+		       (product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT).size() == 2) &&
+		       (product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT).size() == 2));
 
 		//TODO here the thing is changed
 		LOG(DEBUG) << " DATA: eff single lepton trigg:" << efficienciesData[0][0] << " eff cross trigger lepton:  " <<  efficienciesData[0][1] << std::endl;
 		LOG(DEBUG) << " MC: eff single lepton trigg:" << efficienciesMc[0][0] << " eff cross trigger lepton:  " <<  efficienciesMc[0][1] << std::endl;
 		LOG(DEBUG) << "--------------------------------------------------------------------------------------------------------------------------" << std::endl;
-		double efficiencyData = efficienciesData[0][0]*(1.0-product.m_tautriggerefficienciesData[0]) + efficienciesData[0][1]*product.m_tautriggerefficienciesData[0];
-		double efficiencyMc = efficienciesMc[0][0]*(1.0-product.m_tautriggerefficienciesMC[0])  + efficienciesMc[0][1]*product.m_tautriggerefficienciesMC[0];
+		double efficiencyData = efficienciesData[0][0]*(1.0-product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[1]) + efficienciesData[0][1]*product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[1];
+		double efficiencyMc = efficienciesMc[0][0]*(1.0-product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1])  + efficienciesMc[0][1]*product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1];
 		double weight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
 		LOG(DEBUG) << "weight: " << weight << std::endl;
 		LOG(DEBUG) << "-------------------------------------------------------------------------------------------------------------------------" << std::endl;
@@ -156,10 +156,10 @@ void DataMcScaleFactorProducerBase::Produce(event_type const& event, product_typ
 	}
 	else if (m_scaleFactorMode == HttEnumTypes::DataMcScaleFactorProducerMode::MULTIPLY_TAU2017_WEIGTHS)
 	{
-		assert((product.m_tautriggerefficienciesMC.size() == 2) &&
-		       (product.m_tautriggerefficienciesData.size() == 2));
-		double efficiencyData =product.m_tautriggerefficienciesData[0] * product.m_tautriggerefficienciesData[1];
-		double efficiencyMc = product.m_tautriggerefficienciesMC[0] * product.m_tautriggerefficienciesMC[1];
+		assert((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT).size() == 2) &&
+		       (product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT).size() == 2));
+		double efficiencyData =product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[0] * product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[1];
+		double efficiencyMc = product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[0] * product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1];
 		double weight = ((efficiencyMc == 0.0) ? 1.0 : (efficiencyData / efficiencyMc));
 		product.m_weights[std::string(m_weightName + "_1")] = weight;
 	}
