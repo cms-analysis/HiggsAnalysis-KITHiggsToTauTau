@@ -255,6 +255,8 @@ if __name__ == "__main__":
 	                    help="Use relaxed isolation for QCD shape estimation in MT and ET channels. [Default: %(default)s]")
 	parser.add_argument("--calculate-QCD-os-ss-scalefactor", default=False, action="store_true",
 	                    help="Calculate os to ss extrapolation factor of QCD estimation in MT and ET channels. [Default: %(default)s]")
+	parser.add_argument("--use-proxy-fakefactors", default=False, action="store_true",
+	                    help="Use proxy to calculate fake factors. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -469,7 +471,8 @@ if __name__ == "__main__":
 						useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,
 						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
 						nick_suffix = (channel+str(index_channel) if args.channel_comparison else ""),
-						asimov_nicks = asimov_nicks
+						asimov_nicks = asimov_nicks,
+						proxy_fakefactors = args.use_proxy_fakefactors
 				)
 				if (args.channel_comparison):
 					channel_config = samples.Samples.merge_configs(channel_config, config)
