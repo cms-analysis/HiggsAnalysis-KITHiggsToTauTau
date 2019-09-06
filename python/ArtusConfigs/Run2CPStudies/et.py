@@ -465,7 +465,7 @@ class et_ArtusConfig(dict):
 		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 			if isEmbedded:
 				self["SaveEmbeddingWeightAsOptionalOnly"] = "true"
-				self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_5.root"
+				self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_6.root"
 				self["EmbeddingWeightWorkspaceWeightNames"] = [
 					"0:triggerWeight_doublemu",
 					"0:idweight_doublemu",
