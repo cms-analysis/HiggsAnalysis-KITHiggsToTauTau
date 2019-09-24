@@ -5,7 +5,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/ImpactParameter.h"
+#include "HiggsCPinTauDecays/ImpactParameter/interface/ImpactParameter.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
 
 #include <fstream>

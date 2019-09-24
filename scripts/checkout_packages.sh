@@ -160,6 +160,15 @@ git reset --hard 3f93692
 git checkout bb9b2a9
 cd $CMSSW_BASE/src/
 
+# HiggsCPinTauDecays
+# Not all modules are needed here since the TauRefit is only used during skimming
+git clone git@github.com:CMS-HTT/HiggsCPinTauDecays.git
+cd HiggsCPinTauDecays
+echo ImpactParameter/ >> .git/info/sparse-checkout
+git config core.sparsecheckout true
+git read-tree -mu HEAD
+cd ..
+
 # source ini script, needs to be done in every new shell
 source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
