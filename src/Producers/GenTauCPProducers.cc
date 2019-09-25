@@ -15,19 +15,11 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	// add possible quantities for the lambda ntuples consumers
 
 	// MC-truth PV coordinates
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPVx", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "genPV", [](event_type const& event, product_type const& product)
 	{
-		return ((product.m_genPV != nullptr) ? (product.m_genPV)->x() : DefaultValues::UndefinedFloat);
+		return ((product.m_genPV != nullptr) ? *product.m_genPV : DefaultValues::UndefinedRMPoint);
+		return event.m_vertexSummary->pv.position;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPVy", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genPV != nullptr) ? (product.m_genPV)->y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPVz", [](event_type const& event, product_type const& product)
-	{
-		return ((product.m_genPV != nullptr) ? (product.m_genPV)->z() : DefaultValues::UndefinedFloat);
-	});
-
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiStarCP", [](event_type const& event, product_type const& product)
 	{
 		return product.m_genPhiStarCP;
@@ -141,37 +133,13 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	});
 
 	// MC-truth IP vectors
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1mag", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "genIP1", [](event_type const& event, product_type const& product)
 	{
-		return (((product.m_genIP1).x() != -999) ? ( sqrt( (product.m_genIP1).x()*(product.m_genIP1).x() + (product.m_genIP1).y()*(product.m_genIP1).y() + (product.m_genIP1).z()*(product.m_genIP1).z() ) ) : DefaultValues::UndefinedFloat);
+		return ((&product.m_genIP1 != nullptr) ? RMPoint( (product.m_genIP1).x(), (product.m_genIP1).y(), (product.m_genIP1).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1x", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "genIP2", [](event_type const& event, product_type const& product)
 	{
-		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP1z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP1 != nullptr) ? (product.m_genIP1).z() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP2mag", [](event_type const& event, product_type const& product)
-	{
-		return (((product.m_genIP2).x() != -999) ? ( sqrt( (product.m_genIP2).x()*(product.m_genIP2).x() + (product.m_genIP2).y()*(product.m_genIP2).y() + (product.m_genIP2).z()*(product.m_genIP2).z() ) ) : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP2x", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).x() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP2y", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).y() : DefaultValues::UndefinedFloat);
-	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genIP2z", [](event_type const& event, product_type const& product)
-	{
-		return ((&product.m_genIP2 != nullptr) ? (product.m_genIP2).z() : DefaultValues::UndefinedFloat);
+		return ((&product.m_genIP2 != nullptr) ? RMPoint( (product.m_genIP2).x(), (product.m_genIP2).y(), (product.m_genIP2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
 
 	// cosPsi
