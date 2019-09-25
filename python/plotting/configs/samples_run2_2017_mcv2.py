@@ -573,13 +573,17 @@ class Samples(samples.Samples):
 	def files_ggh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
 		generator = kwargs.get("generator", "madgraph")
-		if generator == "madgraph":
-			if "sm" in cp:
-				return "GluGluToHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root GluGluToHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root" #FIXME change to total sm
-			if "ps" in cp:
-				return "GluGluToPseudoscalarHToTauTauM125_dwinterb_RunIIFall17MiniAODv2_GluGluToPseudoscalarHToTauTau_13TeV_USER_amcatnlo-pythia8/*.root GluGluToPseudoscalarHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
-			if "mm" in cp:
-				return "GluGluToMaxmixHToTauTauM125_dwinterb_RunIIFall17MiniAODv2_GluGluToMaxmixHToTauTau_13TeV_USER_amcatnlo-pythia8/*.root GluGluToMaxmixHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+		state = kwargs.get("state", None);
+		if state == "initialState":
+			if generator == "madgraph":
+				if "sm" in cp:
+					return "GluGluToHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root GluGluToHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root" #FIXME change to total sm
+				if "ps" in cp:
+					return "GluGluToPseudoscalarHToTauTauM125_dwinterb_RunIIFall17MiniAODv2_GluGluToPseudoscalarHToTauTau_13TeV_USER_amcatnlo-pythia8/*.root GluGluToPseudoscalarHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+				if "mm" in cp:
+					return "GluGluToMaxmixHToTauTauM125_dwinterb_RunIIFall17MiniAODv2_GluGluToMaxmixHToTauTau_13TeV_USER_amcatnlo-pythia8/*.root GluGluToMaxmixHToTauTauPlusTwoJetsM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
+		elif state == "finalState":
+			return "GluGluHToPseudoscalarTauTauM125_adow_RunIIFall17MiniAODv2_GluGluToHToTauTauNoSpin_13TeV_USER_powheg-pythia8/*.root"
 
 		elif generator == "jhu":
 			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time.
