@@ -11,7 +11,7 @@ from pprint import pprint
 class CutStringsDict:
 
 	@staticmethod
-	def baseline(channel, cut_type):
+	def baseline(channel, cut_type, **kwargs):
 		cuts = {}
 		if channel == "gen":
 			cuts ={}
@@ -131,8 +131,8 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def mssm2016(channel, cut_type):
-		cuts = CutStringsDict.baseline(channel, cut_type)
+	def mssm2016(channel, cut_type, **kwargs):
+		cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		if channel == "mt":
 			iso_2_cut = ""
 			if cut_type == "mssm2016fflooseiso":
@@ -164,8 +164,8 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def cpggh2016(channel, cut_type):
-		cuts = CutStringsDict.baseline(channel, cut_type)
+	def cpggh2016(channel, cut_type, **kwargs):
+		cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		if channel == "mm":
 			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 25.0)"
@@ -209,8 +209,8 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def cpggh2017(channel, cut_type):
-		cuts = CutStringsDict.baseline(channel, cut_type)
+	def cpggh2017(channel, cut_type, **kwargs):
+		cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		cuts["bveto"] = "(nbtag == 0)"
 		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
 		if channel == "mm":  #TODO
@@ -259,42 +259,52 @@ class CutStringsDict:
 		elif channel == "tt": #TODO
 			cuts["pt_1"] = "(pt_1 > 50.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
-			cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
-			cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
+			cuts["iso_1"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 		#cuts["generatorweight"] = "(1/generatorWeight)" #TODO
 		return cuts
 
 
 	@staticmethod
-	def cptautau2017(channel, cut_type):
-		cuts = CutStringsDict.baseline(channel, cut_type)
+	def cptautau2017(channel, cut_type, **kwargs):
+		data = kwargs.get("data", False)
+		embedding = kwargs.get("embedding", False)
+		cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		cuts["bveto"] = "(nbtag == 0)"
 		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
+
 		if channel == "mt":
 			# cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))||((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
-			cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
+			if data :
+				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))) + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
+			else:
+				# tauidtriggersf_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_vloose/tautriggerefficiencyMC_2_vloose + (byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_loose/tautriggerefficiencyMC_2_loose + (byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_medium/tautriggerefficiencyMC_2_medium + (byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byVTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_tight/tautriggerefficiencyMC_2_tight + (byVTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_vtight/tautriggerefficiencyMC_2_vtight + (byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*tautriggerefficiencyData_2_vvtight/tautriggerefficiencyMC_2_vvtight)"
+				tauidtriggersf_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_vloose/((tautriggerefficiencyMC_2_vloose > 0)*tautriggerefficiencyMC_2_vloose + (tautriggerefficiencyMC_2_vloose == 0)*1.0) + (byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_loose/((tautriggerefficiencyMC_2_loose > 0)*tautriggerefficiencyMC_2_loose + (tautriggerefficiencyMC_2_loose == 0)*1.0) + (byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_medium/((tautriggerefficiencyMC_2_medium > 0)*tautriggerefficiencyMC_2_medium + (tautriggerefficiencyMC_2_medium == 0)*1.0) + (byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byVTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_tight/((tautriggerefficiencyMC_2_tight > 0)*tautriggerefficiencyMC_2_tight + (tautriggerefficiencyMC_2_tight == 0)*1.0) + (byVTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_vtight/((tautriggerefficiencyMC_2_vtight > 0)*tautriggerefficiencyMC_2_vtight + (tautriggerefficiencyMC_2_vtight == 0)*1.0) + (byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*tautriggerefficiencyData_2_vvtight/((tautriggerefficiencyMC_2_vvtight > 0)*tautriggerefficiencyMC_2_vvtight + (tautriggerefficiencyMC_2_vvtight == 0)*1.0))"
+				#"((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*((tautriggerefficiencyMC_2_vloose > 0)*tautriggerefficiencyData_2_vloose/tautriggerefficiencyMC_2_vloose + (tautriggerefficiencyMC_2_vloose <= 0)) + (byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*((tautriggerefficiencyMC_2_loose > 0)*tautriggerefficiencyData_2_loose/tautriggerefficiencyMC_2_loose + (tautriggerefficiencyMC_2_loose <= 0)) + (byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*((tautriggerefficiencyMC_2_medium > 0)*tautriggerefficiencyData_2_medium/tautriggerefficiencyMC_2_medium + (tautriggerefficiencyMC_2_medium <= 0)) + (byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byVTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*((tautriggerefficiencyMC_2_tight > 0)*tautriggerefficiencyData_2_tight/tautriggerefficiencyMC_2_tight + (tautriggerefficiencyMC_2_tight <= 0)) + (byVTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*((tautriggerefficiencyMC_2_vtight > 0)*tautriggerefficiencyData_2_vtight/tautriggerefficiencyMC_2_vtight + (byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(tautriggerefficiencyMC_2_vvtight > 0)*tautriggerefficiencyData_2_vvtight/tautriggerefficiencyMC_2_vvtight + (tautriggerefficiencyMC_2_vtight <= 0)))"
+				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*" + tauidtriggersf_2 + "))"
 			cuts["pt_1"] = "(pt_1 > 21.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
 			if "emb" in cut_type:
 				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||(trg_crossmuon_mu20tau27>0.5)||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*((trg_crossmuon_mu20tau27>0.5)||(trg_singlemuon_27>0.5)||(trg_singlemuon_24>0.5))))"
 				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
 				# cuts["trigger"] = "(((trg_singlemuon_24>0.5)||(trg_singlemuon_27>0.5))||(trg_crossmuon_mu20tau27>0.5))*triggerWeight_mu_1*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2"
 				# cuts["trigger"] = "((((trg_singlemuon_24>0.5))||((trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
 				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_1*triggerWeight_mutaucross_2))"
-				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_mutaucross_2))"
-				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_mu_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
 				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
-				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
+
 		elif channel == "et":
-			cuts["trigger"] = "( ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_singleE_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1))*triggerWeight_etaucross_1*triggerWeight_etaucross_2 ))"
-			# cuts["trigger"] = "( ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1)) ))"
+			if data :
+				cuts["trigger"] = "( ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1)) ))"
+			else:
+				tauidtriggersf_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_vloose/((tautriggerefficiencyMC_2_vloose > 0)*tautriggerefficiencyMC_2_vloose + (tautriggerefficiencyMC_2_vloose == 0)*1.0) + (byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_loose/((tautriggerefficiencyMC_2_loose > 0)*tautriggerefficiencyMC_2_loose + (tautriggerefficiencyMC_2_loose == 0)*1.0) + (byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_medium/((tautriggerefficiencyMC_2_medium > 0)*tautriggerefficiencyMC_2_medium + (tautriggerefficiencyMC_2_medium == 0)*1.0) + (byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byVTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_tight/((tautriggerefficiencyMC_2_tight > 0)*tautriggerefficiencyMC_2_tight + (tautriggerefficiencyMC_2_tight == 0)*1.0) + (byVTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_vtight/((tautriggerefficiencyMC_2_vtight > 0)*tautriggerefficiencyMC_2_vtight + (tautriggerefficiencyMC_2_vtight == 0)*1.0) + (byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*tautriggerefficiencyData_2_vvtight/((tautriggerefficiencyMC_2_vvtight > 0)*tautriggerefficiencyMC_2_vvtight + (tautriggerefficiencyMC_2_vvtight == 0)*1.0))"
+				cuts["trigger"] = "( ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_singleE_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1))*triggerWeight_etaucross_1*" + tauidtriggersf_2 + " ))"
 			if "emb" in cut_type:
-				cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1*(pt_1>28.0) + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1)) )"
+				cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1*(pt_1>28.0) + tautriggerefficiencyData_2*triggerWeight_trg_EleTau_Ele24Leg_data_1*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1)) )"
 				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1*(pt_1>28.0) + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*(pt_1 < 28.0)) )"
 				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * ((((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36)))*triggerWeight_trg27_trg32_trg35_data_1 + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1*((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0))) )"
 				# cuts["trigger"] = "( (abs(eta_1) <= 1.479) * ( (((trg_singleelectron_27>0.5)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))) || ((trg_singleelectron_35>0.5))) * triggerWeight_trg27_trg32_trg35_embed_1 + ((trg_crosselectron_ele24tau30>0.5))*triggerWeight_tauLeg_2*triggerWeight_trg_EleTau_Ele24Leg_embed_1 ) + (abs(eta_1) > 1.479) * (triggerWeight_trg27_trg32_trg35_data_1 + tautriggerefficiencyData*triggerWeight_trg_EleTau_Ele24Leg_data_1) )"
@@ -305,44 +315,38 @@ class CutStringsDict:
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
-			if "emb" in cut_type:
-				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
-		elif channel == "tt": #TODO
-			# cuts["trigger"] = "((trg_doubletau_35_tightiso_tightid > 0.5) || (trg_doubletau_40_mediso_tightid > 0.5) || (trg_doubletau_40_tightiso > 0.5))"
-			# cuts["trigger"] = "(1.0)"
-			# if not "emb" in cut_type:
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+
+		elif channel == "tt":
 			cuts["trigger"] = "( ((HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 40) * (pt_2 > 40)) || ((HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45)) || ((HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45) ) )"
-			if "emb" in cut_type:
-				cuts["trigger"] += "*(triggerWeight_tau_1*triggerWeight_tau_2)"
-				cuts["trigger"] += "*(triggerWeight_doublemu_1)"
+			if not data and not ("emb" in cut_type):
+				tauidtriggersf_1 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byLooseIsolationMVArun2017v2DBoldDMwLT2017_1 < 0.5)*tautriggerefficiencyData_1_vloose/((tautriggerefficiencyMC_1_vloose > 0)*tautriggerefficiencyMC_1_vloose + (tautriggerefficiencyMC_1_vloose == 0)*1.0) + (byLooseIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byMediumIsolationMVArun2017v2DBoldDMwLT2017_1 < 0.5)*tautriggerefficiencyData_1_loose/((tautriggerefficiencyMC_1_loose > 0)*tautriggerefficiencyMC_1_loose + (tautriggerefficiencyMC_1_loose == 0)*1.0) + (byMediumIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1 < 0.5)*tautriggerefficiencyData_1_medium/((tautriggerefficiencyMC_1_medium > 0)*tautriggerefficiencyMC_1_medium + (tautriggerefficiencyMC_1_medium == 0)*1.0) + (byTightIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byVTightIsolationMVArun2017v2DBoldDMwLT2017_1 < 0.5)*tautriggerefficiencyData_1_tight/((tautriggerefficiencyMC_1_tight > 0)*tautriggerefficiencyMC_1_tight + (tautriggerefficiencyMC_1_tight == 0)*1.0) + (byVTightIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byVVTightIsolationMVArun2017v2DBoldDMwLT2017_1 < 0.5)*tautriggerefficiencyData_1_vtight/((tautriggerefficiencyMC_1_vtight > 0)*tautriggerefficiencyMC_1_vtight + (tautriggerefficiencyMC_1_vtight == 0)*1.0) + (byVVTightIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*tautriggerefficiencyData_1_vvtight/((tautriggerefficiencyMC_1_vvtight > 0)*tautriggerefficiencyMC_1_vvtight + (tautriggerefficiencyMC_1_vvtight == 0)*1.0))"
+				tauidtriggersf_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_vloose/((tautriggerefficiencyMC_2_vloose > 0)*tautriggerefficiencyMC_2_vloose + (tautriggerefficiencyMC_2_vloose == 0)*1.0) + (byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_loose/((tautriggerefficiencyMC_2_loose > 0)*tautriggerefficiencyMC_2_loose + (tautriggerefficiencyMC_2_loose == 0)*1.0) + (byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_medium/((tautriggerefficiencyMC_2_medium > 0)*tautriggerefficiencyMC_2_medium + (tautriggerefficiencyMC_2_medium == 0)*1.0) + (byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byVTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_tight/((tautriggerefficiencyMC_2_tight > 0)*tautriggerefficiencyMC_2_tight + (tautriggerefficiencyMC_2_tight == 0)*1.0) + (byVTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*(byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2 < 0.5)*tautriggerefficiencyData_2_vtight/((tautriggerefficiencyMC_2_vtight > 0)*tautriggerefficiencyMC_2_vtight + (tautriggerefficiencyMC_2_vtight == 0)*1.0) + (byVVTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*tautriggerefficiencyData_2_vvtight/((tautriggerefficiencyMC_2_vvtight > 0)*tautriggerefficiencyMC_2_vvtight + (tautriggerefficiencyMC_2_vvtight == 0)*1.0))"
+				cuts["trigger"] += "*" + tauidtriggersf_1 + "*" + tauidtriggersf_2
+			elif "emb" in cut_type:
+				cuts["trigger"] += "*triggerWeight_tau_1*triggerWeight_tau_2"
+				cuts["trigger"] += "*triggerWeight_doublemu_1"
 			cuts["pt_1"] = "(pt_1 > 50.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
-			# cuts["iso_1"] = "(byTightIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))"
-			# cuts["iso_2"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
-			cuts["iso_1"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*((gen_match_1 == 5)*0.89 + (gen_match_1 != 5))"
-			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"
-			if "emb" in cut_type:
-				cuts["iso_1"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*((gen_match_1 == 5)*0.97 + (gen_match_1 != 5))"
-				cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))"
+			cuts["iso_1"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)"
+			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+
 		return cuts
 
-
 	@staticmethod
-	def lfv(channel, cut_type):
-		cuts = CutStringsDict.baseline(channel, cut_type)
+	def lfv(channel, cut_type, **kwargs):
+		cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		#cuts["nbtag"] = "nbtag==0"
 		#cuts["mt"] = ""
 
 		return cuts
 
-
 	@staticmethod
-	def antievloosepass(channel, cut_type):
+	def antievloosepass(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.85 + (gen_match_2 != 5))"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVLooseMVA6_2 > 0.5)"
@@ -352,9 +356,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antievloosefail(channel, cut_type):
+	def antievloosefail(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.85 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVLooseMVA6_2 < 0.5)"
@@ -364,9 +368,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antieloosepass(channel, cut_type):
+	def antieloosepass(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronLooseMVA6_2 > 0.5)"
@@ -376,9 +380,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antieloosefail(channel, cut_type):
+	def antieloosefail(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronLooseMVA6_2 < 0.5)"
@@ -388,9 +392,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antiemediumpass(channel, cut_type):
+	def antiemediumpass(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronMediumMVA6_2 > 0.5)"
@@ -400,9 +404,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antiemediumfail(channel, cut_type):
+	def antiemediumfail(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.89 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronMediumMVA6_2 < 0.5)"
@@ -412,9 +416,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antietightpass(channel, cut_type):
+	def antietightpass(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronTightMVA6_2 > 0.5)"
@@ -424,9 +428,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antietightfail(channel, cut_type):
+	def antietightfail(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.87 + (gen_match_2 != 5))"  if "2017" in cut_type  else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronTightMVA6_2 < 0.5)"
@@ -436,9 +440,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antievtightpass(channel, cut_type):
+	def antievtightpass(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.85 + (gen_match_2 != 5))"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVTightMVA6_2 > 0.5)"
@@ -448,9 +452,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antievtightfail(channel, cut_type):
+	def antievtightfail(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((gen_match_2 == 5)*0.85 + (gen_match_2 != 5))"  if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 			cuts["discriminator"] = "(againstElectronVTightMVA6_2 < 0.5)"
@@ -460,9 +464,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antieinclusive(channel, cut_type):
+	def antieinclusive(channel, cut_type, **kwargs):
 		if channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["mt"] = "(mt_1 < 30.0)"
 			cuts["iso_2"] = "(byTightIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)" if "2017" in cut_type else  "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 		else:
@@ -471,9 +475,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antimuloosepass(channel, cut_type):
+	def antimuloosepass(channel, cut_type, **kwargs):
 		if channel == "mt":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pzeta"] = "(pZetaMissVis > -20.0)"
 			cuts["discriminator"] = "(againstMuonLoose3_2 > 0.5)"
 		else:
@@ -482,9 +486,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antimuloosefail(channel, cut_type):
+	def antimuloosefail(channel, cut_type, **kwargs):
 		if channel == "mt":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			#cuts["pzeta"] = "(pZetaMissVis > -20.0)"
 			cuts["discriminator"] = "(againstMuonLoose3_2 < 0.5)"
 		else:
@@ -493,9 +497,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antimutightpass(channel, cut_type):
+	def antimutightpass(channel, cut_type, **kwargs):
 		if channel == "mt":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			#cuts["pzeta"] = "(pZetaMissVis > -20.0)"
 			cuts["discriminator"] = "(againstMuonTight3_2 > 0.5)"
 		else:
@@ -504,9 +508,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antimutightfail(channel, cut_type):
+	def antimutightfail(channel, cut_type, **kwargs):
 		if channel == "mt":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			#cuts["pzeta"] = "(pZetaMissVis > -20.0)"
 			cuts["discriminator"] = "(againstMuonTight3_2 < 0.5)"
 		else:
@@ -515,9 +519,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def tauidloosepass(channel, cut_type):
+	def tauidloosepass(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
 			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
@@ -527,9 +531,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def tauidloosefail(channel, cut_type):
+	def tauidloosefail(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
 			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byLooseIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
@@ -539,9 +543,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def tauidmediumpass(channel, cut_type):
+	def tauidmediumpass(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
 			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
@@ -551,9 +555,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def tauidmediumfail(channel, cut_type):
+	def tauidmediumfail(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
 			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
@@ -563,9 +567,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def tauidtightpass(channel, cut_type):
+	def tauidtightpass(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
 			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
@@ -575,9 +579,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def tauidtightfail(channel, cut_type):
+	def tauidtightfail(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
 			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
@@ -587,9 +591,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def tauidvtightpass(channel, cut_type):
+	def tauidvtightpass(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
 			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
@@ -599,9 +603,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def tauidvtightfail(channel, cut_type):
+	def tauidvtightfail(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pzeta"] = "(pZetaMissVis > -25.0)"
 			cuts["bveto"] = "(nbtag == 0)"
 			cuts["discriminator"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5)"
@@ -611,9 +615,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def tauescuts(channel, cut_type):
+	def tauescuts(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			if "2016" in cut_type:
 				cuts["mt"] = "(mt_1<30.0)"
 				cuts["iso_2"] = "(byVTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
@@ -630,13 +634,13 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def relaxedETauMuTauWJ(channel, cut_type):
+	def relaxedETauMuTauWJ(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("relaxedETauMuTauWJ",""))
+			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("relaxedETauMuTauWJ",""), **kwargs)
 			cuts["iso_1"] = "(iso_1 < 0.3)"
 			cuts["iso_2"] = "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))" if "smhtt2016" in cut_type else "(byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.97 + (gen_match_2 != 5))" if "2016" in cut_type else "(byLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
 		elif channel in ["em", "ttbar"]:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["iso_1"] = "(iso_1 < 0.3)"
 			cuts["iso_2"] = "(iso_2 < 0.3)"
 		else:
@@ -645,18 +649,18 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def antiIsolationRegionQCD(channel, cut_type):
+	def antiIsolationRegionQCD(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("relaxedETauMuTauWJ",""))
+			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("relaxedETauMuTauWJ",""), **kwargs)
 			cuts["iso_1"] = " ".join("(iso_1 < 0.3)*(iso_1>0.1)" if channel == "mt" else "(iso_1 < 0.3)*(iso_1>0.15)")
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
 		return cuts
 
-	def antiIsolationSSRegionQCD(channel, cut_type):
+	def antiIsolationSSRegionQCD(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.antiIsolationRegionQCD(channel, cut_type)
+			cuts = CutStringsDict.antiIsolationRegionQCD(channel, cut_type, **kwargs)
 			cuts["ss"] = "((q_1*q_2)>0.0)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -664,15 +668,15 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def SameSignRegion(channel, cut_type):
-		cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ","").replace("SameSignRegion",""))
+	def SameSignRegion(channel, cut_type, **kwargs):
+		cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ","").replace("SameSignRegion",""), **kwargs)
 		cuts["ss"] = "((q_1*q_2)>0.0)"
 		return cuts
 
 	@staticmethod
-	def highMtControlRegionWJ(channel, cut_type):
+	def highMtControlRegionWJ(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ","").replace("SameSignRegion",""))
+			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("highMtControlRegionWJ","").replace("highMtSSControlRegionWJ","").replace("SameSignRegion",""), **kwargs)
 			cuts["mt"] = "(mt_1>70.0)" if ("mssm" in cut_type or "cpggh" in cut_type or "2016" not in cut_type) else "(mt_1>80.0)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -680,9 +684,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def highMtSSControlRegionWJ(channel, cut_type):
+	def highMtSSControlRegionWJ(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict.highMtControlRegionWJ(channel, cut_type)
+			cuts = CutStringsDict.highMtControlRegionWJ(channel, cut_type, **kwargs)
 			cuts["ss"] = "((q_1*q_2)>0.0)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -690,9 +694,9 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def invertedLeptonIsolation(channel, cut_type):
+	def invertedLeptonIsolation(channel, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("invertedLeptonIsolation",""))
+			cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("invertedLeptonIsolation",""), **kwargs)
 			cuts["iso_1"] = "((iso_1)>0.1)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -700,16 +704,13 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def invertedTauIsolationFF(channel, cuts, cut_type):
+	def invertedTauIsolationFF(channel, cuts, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			# cuts = CutStringsDict.cptautau2017(channel, cut_type)
 			cuts["iso_2"] = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5))"
 		elif channel in ["tt"]:
 			if "invertedTauIsolationFF_1" in cut_type:
-				# cuts = CutStringsDict.cptautau2017(channel, cut_type)
 				cuts["iso_1"] = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1<0.5))"
 			elif "invertedTauIsolationFF_2" in cut_type:
-				# cuts = CutStringsDict.cptautau2017(channel, cut_type)
 				cuts["iso_2"] = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5))"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
@@ -717,36 +718,47 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def baseline_low_mvis(channel, cut_type):
+	def highMtControlRegionWJFF(channel, cuts, cut_type, **kwargs):
+		if channel in ["mt", "et"]:
+			print("inside highMtControlRegionWJ")
+			cuts["mt"] = "(mt_1>70.0)" if ("mssm" in cut_type or "cpggh" in cut_type or "2016" not in cut_type) else "(mt_1>80.0)"
+		else:
+			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
+			sys.exit(1)
+		print(cuts)
+		return cuts
+
+	@staticmethod
+	def baseline_low_mvis(channel, cut_type, **kwargs):
 		if channel== "gen":
 			cuts = {}
 		else:
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["m_vis"] = "((m_vis > 40.0) * (m_vis < 85.0))"
 
 		return cuts
 
 	# cp final state cuts
 	@staticmethod
-	def cp2016(channel, cut_type):
+	def cp2016(channel, cut_type, **kwargs):
 		if channel == "mt":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pt_1"] = "(pt_1 > 20.0)"
 			cuts["pt_2"] = "(pt_2 > 20.0)"
 		elif channel == "et":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pt_1"] = "(pt_1 > 26.0)"
 			cuts["pt_2"] = "(pt_2 > 20.0)"
 		elif channel == "tt":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pt_1"] = "(pt_1 > 40.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
 		elif channel == "mm":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pt_1"] = "(pt_1 > 10.0)"
 			cuts["pt_2"] = "(pt_2 > 10.0)"
 		elif channel == "em" or channel == "ttbar":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 			cuts["pt_1"] = "(pt_1 > 13.0)"
 			cuts["pt_2"] = "(pt_2 > 10.0)"
 		else:
@@ -754,24 +766,24 @@ class CutStringsDict:
 			sys.exit(1)
 		return cuts
 
-	def cprho2016(channel, cut_type):
+	def cprho2016(channel, cut_type, **kwargs):
 		if channel == "tt":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
+			cuts = CutStringsDict.cp2016(channel, cut_type, **kwargs)
 			cuts["rhodecay"] = "(decayMode_1 == 1)*(decayMode_2 == 1)"
 
-	def cpcomb2016(channel, cut_type):
+	def cpcomb2016(channel, cut_type, **kwargs):
 		if channel == "mt":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
+			cuts = CutStringsDict.cp2016(channel, cut_type, **kwargs)
 			cuts["rhodecay"] = "(decayMode_2 == 1)"
 		if channel == "et":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
+			cuts = CutStringsDict.cp2016(channel, cut_type, **kwargs)
 			cuts["rhodecay"] = "(decayMode_2 == 1)"
 		if channel == "tt":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
+			cuts = CutStringsDict.cp2016(channel, cut_type, **kwargs)
 			cuts["rhodecay"] = "((decayMode_1 == 1)*(decayMode_2 != 1))+((decayMode_1 != 1)*(decayMode_2 == 1))"
 
 	@staticmethod
-	def ztt2015cs(channel, cut_type):
+	def ztt2015cs(channel, cut_type, **kwargs):
 		cuts = {}
 		cuts["blind"] = "{blind}"
 		cuts["os"] = "((q_1*q_2)<0.0)"
@@ -823,121 +835,125 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
-	def _get_cutdict(channel, cut_type):
+	def _get_cutdict(channel, cut_type, **kwargs):
 		cuts = {}
 		if cut_type=="baseline":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		elif cut_type=="baseline2016":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		elif cut_type=="baseline2017":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		elif cut_type=="smhtt2016":
-			cuts = CutStringsDict.baseline(channel, cut_type)
-		elif "cpggh2016" in cut_type:
-			cuts = CutStringsDict.cpggh2016(channel, cut_type)
-		elif "cpggh2017" in cut_type:
-			cuts = CutStringsDict.cpggh2017(channel, cut_type)
-		elif "cptautau2017" in cut_type:
-			cuts = CutStringsDict.cptautau2017(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
+		elif cut_type == "cpggh2016" or cut_type == "cpggh2016_emb":
+			cuts = CutStringsDict.cpggh2016(channel, cut_type, **kwargs)
+		elif cut_type == "cpggh2017" or cut_type == "cpggh2017_emb":
+			cuts = CutStringsDict.cpggh2017(channel, cut_type, **kwargs)
+		elif cut_type == "cptautau2017" or cut_type == "cptautau2017_emb":
+			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
 		elif cut_type=="mssm":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		elif cut_type=="mssm2016":
-			cuts = CutStringsDict.baseline(channel, cut_type)
+			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		elif cut_type=="mssm2016full":
-			cuts = CutStringsDict.mssm2016(channel, cut_type)
+			cuts = CutStringsDict.mssm2016(channel, cut_type, **kwargs)
 		elif cut_type=="mssm2016tight":
-			cuts = CutStringsDict.mssm2016(channel, cut_type)
+			cuts = CutStringsDict.mssm2016(channel, cut_type, **kwargs)
 		elif cut_type=="mssm2016loosemt":
-			cuts = CutStringsDict.mssm2016(channel, cut_type)
+			cuts = CutStringsDict.mssm2016(channel, cut_type, **kwargs)
 		elif cut_type=="mssm2016looseiso":
-			cuts = CutStringsDict.mssm2016(channel, cut_type)
+			cuts = CutStringsDict.mssm2016(channel, cut_type, **kwargs)
 		elif cut_type=="mssm2016fffull":
-			cuts = CutStringsDict.mssm2016(channel, cut_type)
+			cuts = CutStringsDict.mssm2016(channel, cut_type, **kwargs)
 		elif cut_type=="mssm2016fflooseiso":
-			cuts = CutStringsDict.mssm2016(channel, cut_type)
+			cuts = CutStringsDict.mssm2016(channel, cut_type, **kwargs)
 
 		elif cut_type=="antievloosepass2016" or cut_type=="antievloosepass2017":
-			cuts = CutStringsDict.antievloosepass(channel, cut_type)
+			cuts = CutStringsDict.antievloosepass(channel, cut_type, **kwargs)
 		elif cut_type=="antievloosefail2016" or cut_type=="antievloosefail2017":
-			cuts = CutStringsDict.antievloosefail(channel, cut_type)
+			cuts = CutStringsDict.antievloosefail(channel, cut_type, **kwargs)
 		elif cut_type=="antieloosepass2016" or cut_type=="antieloosepass2017":
-			cuts = CutStringsDict.antieloosepass(channel, cut_type)
+			cuts = CutStringsDict.antieloosepass(channel, cut_type, **kwargs)
 		elif cut_type=="antieloosefail2016" or cut_type=="antieloosefail2017":
-			cuts = CutStringsDict.antieloosefail(channel, cut_type)
+			cuts = CutStringsDict.antieloosefail(channel, cut_type, **kwargs)
 		elif cut_type=="antiemediumpass2016" or cut_type=="antiemediumpass2017":
-			cuts = CutStringsDict.antiemediumpass(channel, cut_type)
+			cuts = CutStringsDict.antiemediumpass(channel, cut_type, **kwargs)
 		elif cut_type=="antiemediumfail2016" or cut_type=="antiemediumfail2017":
-			cuts = CutStringsDict.antiemediumfail(channel, cut_type)
+			cuts = CutStringsDict.antiemediumfail(channel, cut_type, **kwargs)
 		elif cut_type=="antietightpass2016" or cut_type=="antietightpass2017":
-			cuts = CutStringsDict.antietightpass(channel, cut_type)
+			cuts = CutStringsDict.antietightpass(channel, cut_type, **kwargs)
 		elif cut_type=="antietightfail2016" or cut_type=="antietightfail2017":
-			cuts = CutStringsDict.antietightfail(channel, cut_type)
+			cuts = CutStringsDict.antietightfail(channel, cut_type, **kwargs)
 		elif cut_type=="antievtightpass2016" or cut_type=="antievtightpass2017":
-			cuts = CutStringsDict.antievtightpass(channel, cut_type)
+			cuts = CutStringsDict.antievtightpass(channel, cut_type, **kwargs)
 		elif cut_type=="antievtightfail2016" or cut_type=="antievtightfail2017":
-			cuts = CutStringsDict.antievtightfail(channel, cut_type)
+			cuts = CutStringsDict.antievtightfail(channel, cut_type, **kwargs)
 		elif cut_type=="antieinclusive2017":
-			cuts = CutStringsDict.antieinclusive(channel, cut_type)
+			cuts = CutStringsDict.antieinclusive(channel, cut_type, **kwargs)
 
 		elif cut_type=="antimuloosepass":
-			cuts = CutStringsDict.antimuloosepass(channel, cut_type)
+			cuts = CutStringsDict.antimuloosepass(channel, cut_type, **kwargs)
 		elif cut_type=="antimuloosefail":
-			cuts = CutStringsDict.antimuloosefail(channel, cut_type)
+			cuts = CutStringsDict.antimuloosefail(channel, cut_type, **kwargs)
 		elif cut_type=="antimutightpass":
-			cuts = CutStringsDict.antimutightpass(channel, cut_type)
+			cuts = CutStringsDict.antimutightpass(channel, cut_type, **kwargs)
 		elif cut_type=="antimutightfail":
-			cuts = CutStringsDict.antimutightfail(channel, cut_type)
+			cuts = CutStringsDict.antimutightfail(channel, cut_type, **kwargs)
 
 		elif cut_type=="tauidloosepass":
-			cuts = CutStringsDict.tauidloosepass(channel, cut_type)
+			cuts = CutStringsDict.tauidloosepass(channel, cut_type, **kwargs)
 		elif cut_type=="tauidloosefail":
-			cuts = CutStringsDict.tauidloosefail(channel, cut_type)
+			cuts = CutStringsDict.tauidloosefail(channel, cut_type, **kwargs)
 		elif cut_type=="tauidmediumpass":
-			cuts = CutStringsDict.tauidmediumpass(channel, cut_type)
+			cuts = CutStringsDict.tauidmediumpass(channel, cut_type, **kwargs)
 		elif cut_type=="tauidmediumfail":
-			cuts = CutStringsDict.tauidmediumfail(channel, cut_type)
+			cuts = CutStringsDict.tauidmediumfail(channel, cut_type, **kwargs)
 		elif cut_type=="tauidtightpass":
-			cuts = CutStringsDict.tauidtightpass(channel, cut_type)
+			cuts = CutStringsDict.tauidtightpass(channel, cut_type, **kwargs)
 		elif cut_type=="tauidtightfail":
-			cuts = CutStringsDict.tauidtightfail(channel, cut_type)
+			cuts = CutStringsDict.tauidtightfail(channel, cut_type, **kwargs)
 		elif cut_type=="tauidvtightpass":
-			cuts = CutStringsDict.tauidvtightpass(channel, cut_type)
+			cuts = CutStringsDict.tauidvtightpass(channel, cut_type, **kwargs)
 		elif cut_type=="tauidvtightfail":
-			cuts = CutStringsDict.tauidvtightfail(channel, cut_type)
+			cuts = CutStringsDict.tauidvtightfail(channel, cut_type, **kwargs)
 
 		elif cut_type=="tauescuts":
-			cuts = CutStringsDict.tauescuts(channel, cut_type)
+			cuts = CutStringsDict.tauescuts(channel, cut_type, **kwargs)
 		elif cut_type=="tauescuts2016":
-			cuts = CutStringsDict.tauescuts(channel, cut_type)
+			cuts = CutStringsDict.tauescuts(channel, cut_type, **kwargs)
 		elif "relaxedETauMuTauWJ" in cut_type:
-			cuts = CutStringsDict.relaxedETauMuTauWJ(channel, cut_type)
+			cuts = CutStringsDict.relaxedETauMuTauWJ(channel, cut_type, **kwargs)
 		elif "highMtControlRegionWJ" in cut_type:
-			cuts = CutStringsDict.highMtControlRegionWJ(channel, cut_type)
+			cuts = CutStringsDict.highMtControlRegionWJ(channel, cut_type, **kwargs)
 		elif "highMtSSControlRegionWJ" in cut_type:
-			cuts = CutStringsDict.highMtSSControlRegionWJ(channel, cut_type)
+			cuts = CutStringsDict.highMtSSControlRegionWJ(channel, cut_type, **kwargs)
 		elif "SameSignRegion" in cut_type:
-			cuts = CutStringsDict.SameSignRegion(channel, cut_type)
+			cuts = CutStringsDict.SameSignRegion(channel, cut_type, **kwargs)
 		elif "invertedLeptonIsolation" in cut_type:
-			cuts = CutStringsDict.invertedLeptonIsolation(channel, cut_type)
+			cuts = CutStringsDict.invertedLeptonIsolation(channel, cut_type, **kwargs)
 
 		elif "low_mvis_smhtt" in cut_type:
-			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type)
+			cuts = CutStringsDict.baseline_low_mvis(channel, cut_type, **kwargs)
 
 		elif cut_type=="cp2016":
-			cuts = CutStringsDict.cp2016(channel, cut_type)
+			cuts = CutStringsDict.cp2016(channel, cut_type, **kwargs)
 
 		elif cut_type=="ztt2015cs":
-			cuts = CutStringsDict.ztt2015cs(channel, cut_type)
+			cuts = CutStringsDict.ztt2015cs(channel, cut_type, **kwargs)
 
 		elif cut_type=="lfv":
-			cuts = CutStringsDict.lfv(channel, cut_type)
+			cuts = CutStringsDict.lfv(channel, cut_type, **kwargs)
 
-		else:
-			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
-			sys.exit(1)
+		# else:
+		# 	log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
+		# 	sys.exit(1)
 
 		# ------------------------- ADDITIONAL/ALTERED CUTS -------------------------
 		# functions here only change specific cuts of the cuts dict passed to them.
+		if "cptautau2017" in cut_type:
+			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
 		if "invertedTauIsolationFF" in cut_type:
-			cuts = CutStringsDict.invertedTauIsolationFF(channel, cuts, cut_type)
+			cuts = CutStringsDict.invertedTauIsolationFF(channel, cuts, cut_type, **kwargs)
+		if "highMtControlRegionWJ" in cut_type:
+			cuts = CutStringsDict.highMtControlRegionWJFF(channel, cuts, cut_type, **kwargs)
 		return cuts
