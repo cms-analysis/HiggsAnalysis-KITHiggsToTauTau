@@ -126,7 +126,7 @@ if __name__ == "__main__":
 			plot_config["markers"] = ["P", "HIST", "P"]
 			plot_config["y_subplot_lims"] = [0.95, 1.05]
 		
-		plot_config["no_cache"] = True
+		plot_config["redo_cache"] = True
 		plot_config["output_dir"] = os.path.expandvars(args.output_dir)
 		plot_configs.append(plot_config)
 			
