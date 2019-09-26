@@ -928,6 +928,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ggh"] = "$\\mathrm{ggH}$"
 			self.labels_dict["susy_ggh"] = "$\\mathrm{SUSY ggH}$"
 			self.labels_dict["susy"] = "$\\mathrm{SUSY}$"
+			self.labels_dict["bbh"] = "$\\mathrm{bbH}$"
 			self.labels_dict["qqh"] = "$\\mathrm{qqH}$"
 			self.labels_dict["vh"] = "$\\mathrm{VH}$"
 			self.labels_dict["wh"] = "$\\mathrm{WH}$"
