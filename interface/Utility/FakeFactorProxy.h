@@ -64,7 +64,7 @@ public:
 
 		// std::cout << "Opening RooWorkSpace\n";
 		TFile f(rooworkspace_file.c_str());
-		m_workspace = (RooWorkspace*)f.Get("w");;
+		m_workspace = (RooWorkspace*)f.Get("w");
 		f.Close();
 
 		for(auto ff_function: ff_functions)
@@ -86,13 +86,16 @@ public:
 		// std::cout << "FakeFactorProxy\n";
 	}
 
-	~FakeFactorProxy(){};
+	~FakeFactorProxy()
+	{
+		// delete m_workspace;
+	};
 
 	double GetScaleFactor(int index, float pt_1, float pt_2, float iso_1, int decayMode_1, int decayMode_2, float m_vis, float mt_1, int njetspt30)
 	{
 		std::vector<double> scaleFactor;
 
-		if(m_decayChannel == "et" or m_decayChannel == "mt")
+		if((m_decayChannel == "et") || (m_decayChannel == "mt"))
 		{
 			//Getting the fractions for the fakefactor
 			std::vector<double> inputs(9);
@@ -124,6 +127,11 @@ public:
 				args.push_back(njetspt30); //njets
 				args.push_back(pt_2); //pt tau
 			}
+			else if (m_ff_function_variables == "njets,pt")
+			{
+				args.push_back(njetspt30); //njets
+				args.push_back(pt_2); //pt tau
+			}
 
 			for(auto fns_fraction : fns_fractions)
 			{
@@ -152,24 +160,30 @@ public:
 					// LOG(WARNING) << "DID not find: \t \"" << fns_fraction.first << "\" LOOK INSIDE SETTINGS FAKEFACTOR OR JETTOTAUFAKESPRODUCER";
 				}
 			}
+			// std::cout << "qcd_frac: " << qcd_frac << '\n';
+			// std::cout << "w_frac: " << w_frac << '\n';
+			// std::cout << "tt_frac: " << tt_frac << '\n';
 			real_frac = dy_frac;
 
-			double sum_of_bkg_fracs = qcd_frac + w_frac + tt_frac;
+			double sum_of_bkg_fracs = (qcd_frac + w_frac + tt_frac > 0) ? qcd_frac + w_frac + tt_frac : 1.0;
+			if (sum_of_bkg_fracs == 0) std::cout << "sum_of_bkg_fracs: " << sum_of_bkg_fracs << '\n';
 
 			qcd_frac = qcd_frac/(sum_of_bkg_fracs);
 			w_frac = w_frac/(sum_of_bkg_fracs);
 			tt_frac = tt_frac/(sum_of_bkg_fracs);
 
-			inputs[5] = qcd_frac;
-			inputs[6] = w_frac;
-			inputs[7] = tt_frac;
+			inputs[6] = qcd_frac;
+			inputs[7] = w_frac;
+			inputs[8] = tt_frac;
 
-			for(auto  ff_comb: m_ffComb)
+			for(auto ff_comb: m_ffComb)
 			{
 				// Retrieve nominal fake factors
 				// To see the way to call each factor/systematic visit:
 				// https://github.com/CMS-HTT/Jet2TauFakes/blob/master/test/producePublicFakeFactors.py#L735-L766
-				scaleFactor.push_back(ff_comb.second->value(inputs));
+				double fakefactor = ff_comb.second->value(inputs);
+				// std::cout << "ff_comb.second->value(inputs): " << fakefactor << '\n';
+				scaleFactor.push_back(fakefactor);
 			}
 		}
 		else if(m_decayChannel == "tt")
@@ -210,6 +224,14 @@ public:
 				args1.push_back(inputs1[0]); //pt tau
 
 				args2.push_back(inputs2[2]); //decayMode
+				args2.push_back(inputs2[3]); //njets
+				args2.push_back(inputs2[0]); //pt tau
+			}
+			else if (m_ff_function_variables == "njets,pt")
+			{
+				args1.push_back(inputs1[3]); //njets
+				args1.push_back(inputs1[0]); //pt tau
+
 				args2.push_back(inputs2[3]); //njets
 				args2.push_back(inputs2[0]); //pt tau
 			}

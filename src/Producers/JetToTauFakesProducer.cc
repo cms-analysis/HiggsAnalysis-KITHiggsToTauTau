@@ -179,9 +179,9 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 			w_frac = w_frac/(sum_of_bkg_fracs);
 			tt_frac = tt_frac/(sum_of_bkg_fracs);
 
-			inputs[5] = qcd_frac;
-			inputs[6] = w_frac;
-			inputs[7] = tt_frac;
+			inputs[6] = qcd_frac;
+			inputs[7] = w_frac;
+			inputs[8] = tt_frac;
 
 			// LOG(INFO) << "******************************* JetToTauFakesProducer *******************************";
 			// LOG(INFO) << "1 - qcd_frac - w_frac - tt_frac = " << 1 - qcd_frac - w_frac - tt_frac;
