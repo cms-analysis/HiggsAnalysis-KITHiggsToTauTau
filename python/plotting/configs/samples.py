@@ -100,19 +100,19 @@ class SamplesBase(object):
 		
 		return merged_config
 
-	def _cut_string(self, channel, exclude_cuts=None, cut_type="baseline"):
+	def _cut_string(self, channel, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
 		for self_exclude_cut in self.exclude_cuts:
 			if not self_exclude_cut in exclude_cuts:
 				exclude_cuts += self.exclude_cuts
-		return self.cut_string(channel, exclude_cuts, cut_type)
+		return self.cut_string(channel, exclude_cuts, cut_type, **kwargs)
 
 	@staticmethod
-	def cut_string(channel, exclude_cuts=None, cut_type="baseline"):
+	def cut_string(channel, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
-		cuts = cutstrings.CutStringsDict._get_cutdict(channel, cut_type)
+		cuts = cutstrings.CutStringsDict._get_cutdict(channel, cut_type, **kwargs)
 		cuts_list = [cut for (name, cut) in cuts.iteritems() if not name in exclude_cuts]
 		if len(cuts_list) == 0:
 			cuts_list.append("1.0")
@@ -159,4 +159,3 @@ class SamplesBase(object):
 		config.setdefault("colors", []).append(color_label_key)
 		config.setdefault("labels", []).append(color_label_key)
 		return config
-
