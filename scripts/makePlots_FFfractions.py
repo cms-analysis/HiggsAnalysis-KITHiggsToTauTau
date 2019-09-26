@@ -64,7 +64,7 @@ if __name__ == "__main__":
 						help="integration background nicks [Default:%(default)s]")
 	parser.add_argument("--full-integral", action="store_true",
 						help="calculate full integral of all histograms and write to file")
-	parser.add_argument("-ff", "--fakefactor-method", default=False, action="store_true",
+	parser.add_argument("-ff", "--fakefactor-method", default=True, action="store_true",
 			help="Optional background estimation using the Fake-Factor method. [Default: %(default)s]")
 	parser.add_argument("--scale-mc-only", default="1.0",
                         help="scales only MC events. [Default: %(default)s]")
@@ -80,7 +80,10 @@ if __name__ == "__main__":
 	parser.add_argument("--category-quantities", nargs="+", default=["njets"],
 	                    help="Variables used in categories. [Default: %(default)s]")
 	parser.add_argument("-x", "--quantities", nargs="+",
-	                    default=["m_vis", "decayMode_2", "pt_2"],
+						# default=["m_2"], #, "pt_2"],
+	                    # default=["decayMode_2", "pt_2"],
+						default=["pt_2"],
+						# default=["m_vis", "decayMode_2", "pt_2"],
 	                    help="Quantities. Up to 3 quantities can be binned in a single histogram. Further quantities have to be incorporated via categories. In the 'tt1' channel the quantity of the other tau will be taken instead (tt1 : pt_2 --> pt_1) [Default: %(default)s]")
 	                    # default=["integral",
 	                    #          "pt_1", "eta_1", "phi_1", "m_1", "iso_1", "mt_1",
@@ -400,7 +403,7 @@ if __name__ == "__main__":
 					useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,
 					useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
 					nick_suffix = (channel+str(index_channel) if args.channel_comparison else ""),
-					asimov_nicks = asimov_nicks
+					asimov_nicks = asimov_nicks,
 			)
 			if (args.channel_comparison):
 				channel_config = samples.Samples.merge_configs(channel_config, config)
