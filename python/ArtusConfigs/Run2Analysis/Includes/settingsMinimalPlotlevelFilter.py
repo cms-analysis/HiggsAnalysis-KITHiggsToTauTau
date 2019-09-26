@@ -44,8 +44,10 @@ class MinimalPlotlevelFilter():
 			self.minPlotLevelDict["PlotlevelFilterExpression"] = "(nDiMuonVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(metfilter_flag > 0.5)"
 			if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname):
-				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "trg_singlemuon_24", "trg_singlemuon_27", "trg_crossmuon_mu20tau27"]
-				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((trg_singlemuon_24 > 0.5 )||(trg_singlemuon_27 > 0.5)||(trg_crossmuon_mu20tau27 > 0.5))"
+				# self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "trg_singlemuon_24", "trg_singlemuon_27", "trg_crossmuon_mu20tau27"]
+				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += [ "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2"]
+				# self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((trg_singlemuon_24 > 0.5 )||(trg_singlemuon_27 > 0.5)||(trg_crossmuon_mu20tau27 > 0.5))"
+				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
 			else:
 				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["againstElectronVLooseMVA6_2", "againstMuonTight3_2", "byVLooseIsolationMVArun2v1DBoldDMwLT_2"]
 				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(againstElectronVLooseMVA6_2 > 0.5)*(againstMuonTight3_2 > 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
@@ -95,8 +97,10 @@ class MinimalPlotlevelFilter():
 			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(metfilter_flag > 0.5)"
 
 			if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname):
-				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "trg_doubletau_35_tightiso_tightid", "trg_doubletau_40_mediso_tightid", "trg_doubletau_40_tightiso"]
-				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((trg_doubletau_35_tightiso_tightid > 0.5) || (trg_doubletau_40_mediso_tightid > 0.5) || (trg_doubletau_40_tightiso > 0.5))"
+				# self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "trg_doubletau_35_tightiso_tightid", "trg_doubletau_40_mediso_tightid", "trg_doubletau_40_tightiso"]
+				# self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((trg_doubletau_35_tightiso_tightid > 0.5) || (trg_doubletau_40_mediso_tightid > 0.5) || (trg_doubletau_40_tightiso > 0.5))"
+				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2"]
+				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
 			else:
 				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byVLooseIsolationMVArun2v1DBoldDMwLT_1","byVLooseIsolationMVArun2v1DBoldDMwLT_2"]
 				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
