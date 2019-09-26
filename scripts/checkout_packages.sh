@@ -154,10 +154,9 @@ else
 fi
 
 # Grid-Control
-git clone git@github.com:grid-control/grid-control.git -b testing
+git clone git@github.com:KIT-CMS/grid-control.git -b master
 cd grid-control
-git reset --hard 3f93692
-git checkout bb9b2a9
+git reset --hard 6434e71
 cd $CMSSW_BASE/src/
 
 # HiggsCPinTauDecays
@@ -174,4 +173,3 @@ source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
 # compile everything
 scramv1 b -j `grep -c ^processor /proc/cpuinfo`
-
