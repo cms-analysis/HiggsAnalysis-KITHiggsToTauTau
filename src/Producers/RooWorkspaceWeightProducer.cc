@@ -730,15 +730,35 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 			assert((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT).size() == 2) &&
 			(product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT).size() == 2));
 
-			product.m_optionalWeights["triggerWeight_mutaucross_tight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT).at(1) == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT).at(1)/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT).at(1));
-			product.m_optionalWeights["triggerWeight_mutaucross_vloose_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VLOOSE).at(1) == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VLOOSE).at(1)/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VLOOSE).at(1));
+			product.m_optionalWeights["triggerWeight_mutaucross_vloose_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VLOOSE)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VLOOSE)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VLOOSE)[1]);
+			product.m_optionalWeights["triggerWeight_mutaucross_loose_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::LOOSE)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::LOOSE)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::LOOSE)[1]);
+			product.m_optionalWeights["triggerWeight_mutaucross_medium_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::MEDIUM)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::MEDIUM)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::MEDIUM)[1]);
+			product.m_optionalWeights["triggerWeight_mutaucross_tight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1]);
+			product.m_optionalWeights["triggerWeight_mutaucross_vtight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VTIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VTIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VTIGHT)[1]);
+			product.m_optionalWeights["triggerWeight_mutaucross_vvtight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VVTIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VVTIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VVTIGHT)[1]);
 
 			KTau* tau = static_cast<KTau*>(product.m_flavourOrderedLeptons[1]);
-			if(tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			if(tau->getDiscriminator("byVVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_mutaucross_2"] = product.m_optionalWeights["triggerWeight_mutaucross_vvtight_2"];
+			}
+			else if(tau->getDiscriminator("byVVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_mutaucross_2"] = product.m_optionalWeights["triggerWeight_mutaucross_vtight_2"];
+			}
+			else if(tau->getDiscriminator("byVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
 			{
 				product.m_optionalWeights["triggerWeight_mutaucross_2"] = product.m_optionalWeights["triggerWeight_mutaucross_tight_2"];
 			}
-			else if(tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byVLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			else if(tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byMediumIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_mutaucross_2"] = product.m_optionalWeights["triggerWeight_mutaucross_medium_2"];
+			}
+			else if(tau->getDiscriminator("byMediumIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_mutaucross_2"] = product.m_optionalWeights["triggerWeight_mutaucross_loose_2"];
+			}
+			else if(tau->getDiscriminator("byLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byVLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
 			{
 				product.m_optionalWeights["triggerWeight_mutaucross_2"] = product.m_optionalWeights["triggerWeight_mutaucross_vloose_2"];
 			}
@@ -748,15 +768,35 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 			assert((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT).size() == 2) &&
 			(product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT).size() == 2));
 
-			product.m_optionalWeights["triggerWeight_etaucross_tight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1]);
 			product.m_optionalWeights["triggerWeight_etaucross_vloose_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VLOOSE)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VLOOSE)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VLOOSE)[1]);
+			product.m_optionalWeights["triggerWeight_etaucross_loose_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::LOOSE)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::LOOSE)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::LOOSE)[1]);
+			product.m_optionalWeights["triggerWeight_etaucross_medium_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::MEDIUM)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::MEDIUM)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::MEDIUM)[1]);
+			product.m_optionalWeights["triggerWeight_etaucross_tight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1]);
+			product.m_optionalWeights["triggerWeight_etaucross_vtight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VTIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VTIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VTIGHT)[1]);
+			product.m_optionalWeights["triggerWeight_etaucross_vvtight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VVTIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VVTIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VVTIGHT)[1]);
 
 			KTau* tau = static_cast<KTau*>(product.m_flavourOrderedLeptons[1]);
-			if(tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			if(tau->getDiscriminator("byVVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_etaucross_2"] = product.m_optionalWeights["triggerWeight_etaucross_vvtight_2"];
+			}
+			else if(tau->getDiscriminator("byVVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_etaucross_2"] = product.m_optionalWeights["triggerWeight_etaucross_vtight_2"];
+			}
+			else if(tau->getDiscriminator("byVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
 			{
 				product.m_optionalWeights["triggerWeight_etaucross_2"] = product.m_optionalWeights["triggerWeight_etaucross_tight_2"];
 			}
-			else if(tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byVLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			else if(tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byMediumIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_etaucross_2"] = product.m_optionalWeights["triggerWeight_etaucross_medium_2"];
+			}
+			else if(tau->getDiscriminator("byMediumIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_etaucross_2"] = product.m_optionalWeights["triggerWeight_etaucross_loose_2"];
+			}
+			else if(tau->getDiscriminator("byLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau->getDiscriminator("byVLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
 			{
 				product.m_optionalWeights["triggerWeight_etaucross_2"] = product.m_optionalWeights["triggerWeight_etaucross_vloose_2"];
 			}
@@ -766,29 +806,69 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 			assert((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT).size() == 2) &&
 			(product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT).size() == 2));
 
-			product.m_optionalWeights["triggerWeight_tautaucross_tight_1"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[0]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[0]);
 			product.m_optionalWeights["triggerWeight_tautaucross_vloose_1"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VLOOSE)[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VLOOSE)[0]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VLOOSE)[0]);
+			product.m_optionalWeights["triggerWeight_tautaucross_loose_1"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::LOOSE)[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::LOOSE)[0]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::LOOSE)[0]);
+			product.m_optionalWeights["triggerWeight_tautaucross_medium_1"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::MEDIUM)[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::MEDIUM)[0]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::MEDIUM)[0]);
+			product.m_optionalWeights["triggerWeight_tautaucross_tight_1"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[0]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[0]);
+			product.m_optionalWeights["triggerWeight_tautaucross_vtight_1"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VTIGHT)[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VTIGHT)[0]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VTIGHT)[0]);
+			product.m_optionalWeights["triggerWeight_tautaucross_vvtight_1"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VVTIGHT)[0] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VVTIGHT)[0]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VVTIGHT)[0]);
 
-			product.m_optionalWeights["triggerWeight_tautaucross_tight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1]);
 			product.m_optionalWeights["triggerWeight_tautaucross_vloose_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VLOOSE)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VLOOSE)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VLOOSE)[1]);
+			product.m_optionalWeights["triggerWeight_tautaucross_loose_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::LOOSE)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::LOOSE)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::LOOSE)[1]);
+			product.m_optionalWeights["triggerWeight_tautaucross_medium_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::MEDIUM)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::MEDIUM)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::MEDIUM)[1]);
+			product.m_optionalWeights["triggerWeight_tautaucross_tight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT)[1]);
+			product.m_optionalWeights["triggerWeight_tautaucross_vtight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VTIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VTIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VTIGHT)[1]);
+			product.m_optionalWeights["triggerWeight_tautaucross_vvtight_2"] = ((product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VVTIGHT)[1] == 0.0) ? 1.0 : product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::VVTIGHT)[1]/product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::VVTIGHT)[1]);
 
 			KTau* tau1 = static_cast<KTau*>(product.m_flavourOrderedLeptons[0]);
 			KTau* tau2 = static_cast<KTau*>(product.m_flavourOrderedLeptons[1]);
 
-			if(tau1->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			if(tau1->getDiscriminator("byVVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_tautaucross_1"] = product.m_optionalWeights["triggerWeight_tautaucross_vvtight_1"];
+			}
+			else if(tau1->getDiscriminator("byVVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau1->getDiscriminator("byVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_tautaucross_1"] = product.m_optionalWeights["triggerWeight_tautaucross_vtight_1"];
+			}
+			else if(tau1->getDiscriminator("byVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau1->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
 			{
 				product.m_optionalWeights["triggerWeight_tautaucross_1"] = product.m_optionalWeights["triggerWeight_tautaucross_tight_1"];
 			}
-			else if(tau1->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau1->getDiscriminator("byVLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			else if(tau1->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau1->getDiscriminator("byMediumIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_tautaucross_1"] = product.m_optionalWeights["triggerWeight_tautaucross_medium_1"];
+			}
+			else if(tau1->getDiscriminator("byMediumIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau1->getDiscriminator("byLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_tautaucross_1"] = product.m_optionalWeights["triggerWeight_tautaucross_loose_1"];
+			}
+			else if(tau1->getDiscriminator("byLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau1->getDiscriminator("byVLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
 			{
 				product.m_optionalWeights["triggerWeight_tautaucross_1"] = product.m_optionalWeights["triggerWeight_tautaucross_vloose_1"];
 			}
 
-			if(tau2->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			if(tau2->getDiscriminator("byVVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_tautaucross_2"] = product.m_optionalWeights["triggerWeight_tautaucross_vvtight_2"];
+			}
+			else if(tau2->getDiscriminator("byVVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau2->getDiscriminator("byVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_tautaucross_2"] = product.m_optionalWeights["triggerWeight_tautaucross_vtight_2"];
+			}
+			else if(tau2->getDiscriminator("byVTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau2->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
 			{
 				product.m_optionalWeights["triggerWeight_tautaucross_2"] = product.m_optionalWeights["triggerWeight_tautaucross_tight_2"];
 			}
-			else if(tau2->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau2->getDiscriminator("byVLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			else if(tau2->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau2->getDiscriminator("byMediumIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_tautaucross_2"] = product.m_optionalWeights["triggerWeight_tautaucross_medium_2"];
+			}
+			else if(tau2->getDiscriminator("byMediumIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau2->getDiscriminator("byLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
+			{
+				product.m_optionalWeights["triggerWeight_tautaucross_2"] = product.m_optionalWeights["triggerWeight_tautaucross_loose_2"];
+			}
+			else if(tau2->getDiscriminator("byLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) < 0.5 && tau2->getDiscriminator("byVLooseIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)
 			{
 				product.m_optionalWeights["triggerWeight_tautaucross_2"] = product.m_optionalWeights["triggerWeight_tautaucross_vloose_2"];
 			}

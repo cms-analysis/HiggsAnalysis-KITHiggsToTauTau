@@ -1,7 +1,7 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTauTriggerScaleFactorProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
- #include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
+#include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
 
 std::string TauTauTriggerScaleFactorProducer::GetProducerId() const
 {
