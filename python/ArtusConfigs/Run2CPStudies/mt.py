@@ -317,8 +317,8 @@ class mt_ArtusConfig(dict):
 		self["MinNMuons"] = 1
 		self["MinNTaus"] = 1
 		self["HltPaths_comment"] = "The first path must be the single lepton trigger. A corresponding Pt cut is implemented in the Run2DecayChannelProducer."
-		self["NoHltFiltering"] = False
-		self["DiTauPairNoHLT"] = False
+		# self["NoHltFiltering"] = False # used in HltFilter
+		# self["DiTauPairNoHLT"] = False # used in ValidDiTauPairCandidatesProducers
 
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["HltPaths"] = ["HLT_IsoMu18"]
@@ -351,8 +351,8 @@ class mt_ArtusConfig(dict):
 
 		self["MuonUpperAbsEtaCuts"] = ["2.1"]
 		self["TauLowerPtCuts"] = ["20.0"]
-		self["TauUpperAbsEtaCuts"] = ["2.1"] # tau trigger SFs only allow abs(eta) up to 2.1
-		self["TriggerObjectLowerPtCut"] = -1.0
+		self["TauUpperAbsEtaCuts"] = ["2.3"] # tau trigger SFs only allow abs(eta) up to 2.1
+		# self["TriggerObjectLowerPtCut"] = -1.0
 		self["DiTauPairMinDeltaRCut"] = 0.5
 		self["DiTauPairIsTauIsoMVA"] = True
 
@@ -380,8 +380,7 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoTkMu24_v:25.0"
 			]
 
-
-		self["DiTauPairHLTLast"] = False
+		# self["DiTauPairHLTLast"] = False
 		if re.search("Spring16", nickname): self["DiTauPairHLTLast"] = True
 
 		if re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
@@ -414,10 +413,8 @@ class mt_ArtusConfig(dict):
 				#"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
 			]
 
-
 		elif re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["MuonTriggerFilterNames"] = ["HLT_IsoMu18_v:hltL3crIsoL1sMu16L1f0L2f10QL3f18QL3trkIsoFiltered0p09"]
-
 
 		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["HltPaths"] = [
@@ -438,7 +435,12 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu27_v:28.0",
 				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:21.0"
 			]
-			self["DiTauPairLepton2LowerPtCuts"] = ["HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:32.0"]
+			self["DiTauPairLepton2LowerPtCuts"] = [
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:32.0"
+			]
+			self["DiTauPairLepton2UpperEtaCuts"] = [
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:2.1",
+			]
 
 			# self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
 			# 	"HLT_IsoMu24_v",
@@ -455,6 +457,7 @@ class mt_ArtusConfig(dict):
 					"HLT_IsoMu27_v:hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07",
 					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
 				]
+				self["RequireFiredHlt"] = False
 			else:
 				self["TauTriggerFilterNames"] = [
 					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
@@ -467,30 +470,14 @@ class mt_ArtusConfig(dict):
 					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
 				]
 
-
 			self["CheckLepton1TriggerMatch"] = [
 				"trg_singlemuon_24",
 				"trg_singlemuon_27",
 				"trg_crossmuon_mu20tau27",
-				"trg_crossele_ele24tau30",
-				"trg_doubletau_35_tightiso_tightid",
-				"trg_doubletau_40_mediso_tightid",
-				"trg_doubletau_40_tightiso",
-				"trg_muonelectron_mu12ele23",
-				"trg_muonelectron_mu23ele12",
-				"trg_muonelectron_mu8ele23"
-			  ]
+			]
 			self["CheckLepton2TriggerMatch"] = [
-				"trg_singletau_trailing",
 				"trg_crossmuon_mu20tau27",
-				"trg_crossele_ele24tau30",
-				"trg_doubletau_35_tightiso_tightid",
-				"trg_doubletau_40_mediso_tightid",
-				"trg_doubletau_40_tightiso",
-				"trg_muonelectron_mu12ele23",
-				"trg_muonelectron_mu23ele12",
-				"trg_muonelectron_mu8ele23"
-				]
+			]
 
 		self["EventWeight"] = "eventWeight"
 
@@ -594,7 +581,6 @@ class mt_ArtusConfig(dict):
 						"0:m_trg20_mc",
 						"0:m_trg_binned_data",
 						"0:m_trg20_data"
-
 					]
 					self["LeptonTauTrigger2017WeightWorkspaceObjectArguments"] = [
 						"0:m_pt,m_eta,m_iso",
@@ -683,10 +669,10 @@ class mt_ArtusConfig(dict):
 			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
 		self["TauTauRestFrameReco"] =  "collinear_approximation"
 		self["InvalidateNonMatchingElectrons"] =  False
-		self["InvalidateNonMatchingMuons"] =  True
-		self["InvalidateNonMatchingTaus"] =  True
+		self["InvalidateNonMatchingMuons"] =  False
+		self["InvalidateNonMatchingTaus"] =  False
 		self["InvalidateNonMatchingJets"] =  False
-		self["UseUWGenMatching"] =  "true"
+		self["UseUWGenMatching"] =  True
 		self["DirectIso"] =  True
 		self["OSChargeLeptons"] = True
 		self["SvfitKappaParameter"] = 4.0
@@ -715,6 +701,7 @@ class mt_ArtusConfig(dict):
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
 
 		self["Consumers"] = [
+			"#PrintHltConsumer",
 			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
 			"SvfitCacheConsumer",
