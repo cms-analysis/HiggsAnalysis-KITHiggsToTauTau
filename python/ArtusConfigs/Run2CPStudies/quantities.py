@@ -127,8 +127,12 @@ class Quantities(Run2Quantities):
 							"triggerWeight_singleE_1",
 							"triggerWeight_etaucross_1",
 							"triggerWeight_etaucross_2",
-							"triggerWeight_etaucross_tight_2",
 							"triggerWeight_etaucross_vloose_2",
+							"triggerWeight_etaucross_loose_2",
+							"triggerWeight_etaucross_medium_2",
+							"triggerWeight_etaucross_tight_2",
+							"triggerWeight_etaucross_vtight_2",
+							"triggerWeight_etaucross_vvtight_2",
 						])
 				elif re.search("Embedding2016", nickname):
 					self.quantities.update([
@@ -171,8 +175,12 @@ class Quantities(Run2Quantities):
 						"triggerWeight_mu_1",
 						"triggerWeight_mutaucross_1",
 						"triggerWeight_mutaucross_2",
-						"triggerWeight_mutaucross_tight_2",
 						"triggerWeight_mutaucross_vloose_2",
+						"triggerWeight_mutaucross_loose_2",
+						"triggerWeight_mutaucross_medium_2",
+						"triggerWeight_mutaucross_tight_2",
+						"triggerWeight_mutaucross_vtight_2",
+						"triggerWeight_mutaucross_vvtight_2",
 					])
 			elif channel == "TT":
 				if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
@@ -198,10 +206,18 @@ class Quantities(Run2Quantities):
 					self.quantities.update([
 						"triggerWeight_tautaucross_1",
 						"triggerWeight_tautaucross_2",
-						"triggerWeight_tautaucross_tight_1",
 						"triggerWeight_tautaucross_vloose_1",
-						"triggerWeight_tautaucross_tight_2",
+						"triggerWeight_tautaucross_loose_1",
+						"triggerWeight_tautaucross_medium_1",
+						"triggerWeight_tautaucross_tight_1",
+						"triggerWeight_tautaucross_vtight_1",
+						"triggerWeight_tautaucross_vvtight_1",
 						"triggerWeight_tautaucross_vloose_2",
+						"triggerWeight_tautaucross_loose_2",
+						"triggerWeight_tautaucross_medium_2",
+						"triggerWeight_tautaucross_tight_2",
+						"triggerWeight_tautaucross_vtight_2",
+						"triggerWeight_tautaucross_vvtight_2",
 					])
 				if re.search("Embedding2016", nickname):
 					self.quantities.update([
@@ -213,8 +229,8 @@ class Quantities(Run2Quantities):
 			if not channel == "EM":
 				self.quantities.update(self.fakefactorQuantities())
 
-				if re.search("(Summer17|Fall17)", nickname):
-					self.quantities.update(self.tauTriggerEfficiencies2017Quantities())
+				# if re.search("(Summer17|Fall17)", nickname):
+				# 	self.quantities.update(self.tauTriggerEfficiencies2017Quantities())
 
 			# *********** datasets(groups, samples) common across all channels including mm
 			if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
