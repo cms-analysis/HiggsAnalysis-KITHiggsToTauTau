@@ -261,7 +261,7 @@ class mm_ArtusConfig(dict):
 			"nAllDiTauPairCandidates"
 		]
 
-		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+		if re.search("(DY.?JetsTo(LL|TauTau)).*(?=(Spring16|Summer16))", nickname):
 			quantities_dict["Quantities"] += quantities_dict.genMatchedCPQuantities()
 			quantities_dict["Quantities"] += quantities_dict.recoCPQuantities()
 			quantities_dict["Quantities"] += quantities_dict.melaQuantities()
@@ -281,7 +281,7 @@ class mm_ArtusConfig(dict):
 			self["MuonEnergyCorrection"] = "rochcorr2016"
 			self["MuonRochesterCorrectionsFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/rochcorr2016"
 
-		if re.search("(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))",nickname):
+		if re.search("(DY.?JetsTo(LL|TauTau)|EWKZ2Jets).*(?=(Spring16|Summer16))",nickname):
 			self["Processors"] = [
 				"producer:HltProducer",
 				"filter:HltFilter",
@@ -322,7 +322,7 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 				
-		elif re.search("^((?!(DY.?JetsToLL|EWKZ2Jets)).)*Fall15", nickname):
+		elif re.search("^((?!(DY.?JetsTo(LL|TauTau)|EWKZ2Jets)).)*Fall15", nickname):
 			self["Processors"] = [
 				"producer:HltProducer",
 				"filter:HltFilter",
@@ -361,7 +361,7 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:IdentificationWeightProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 				
-		elif re.search("(DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
+		elif re.search("(DY.?JetsTo(LL|TauTau)|EWKZ2Jets).*(?=Fall15)", nickname):
 			self["Processors"] = [
 				"producer:HltProducer",
 				"filter:HltFilter",

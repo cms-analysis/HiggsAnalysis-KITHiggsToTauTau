@@ -49,7 +49,7 @@ class gen_ArtusConfig(dict):
 			"event",
 		]
 		
-		if re.search("DY.?JetsToLL", nickname):
+		if re.search("DY.?JetsTo(LL|TauTau)", nickname):
 			# quantities_dict["Quantities"] += quantities_dict.lheWeightsDYQuantities()
 			quantities_dict["Quantities"] += quantities_dict.genQuantities()
 			quantities_dict["Quantities"] += quantities_dict.genCPQuantities()
@@ -114,7 +114,7 @@ class gen_ArtusConfig(dict):
 				"#producer:ValidBTaggedJetsProducer",
 				"producer:DiJetQuantitiesProducer"
 			]
-		elif re.search("DY.?JetsToLL", nickname):
+		elif re.search("DY.?JetsTo(LL|TauTau)", nickname):
 			self["Processors"] = [
 				"producer:GenPolarisationQuantitiesProducer",
 			]

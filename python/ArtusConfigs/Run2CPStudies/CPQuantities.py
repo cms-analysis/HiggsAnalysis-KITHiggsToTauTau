@@ -24,7 +24,7 @@ class quantities(run2_quantities.quantities):
 		if re.search("Run2015", nickname):
 			self["Quantities"] += self.recoPolarisationQuantities()
 
-		elif re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
+		elif re.search("(DY.?JetsTo(LL|TauTau)).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 			self["Quantities"] += self.svfitSyncQuantities()
 
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
@@ -51,10 +51,10 @@ class quantities(run2_quantities.quantities):
 			self["Quantities"] += self.recoCPQuantities()
 			self["Quantities"] += self.melaQuantities()
 
-		elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
+		elif re.search("^((?!(DY.?JetsTo(LL|TauTau)|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 			self["Quantities"] += self.recoPolarisationQuantities()
 
-		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
+		elif re.search("(DY.?JetsTo(LL|TauTau)).*(?=Fall15)", nickname):
 			self["Quantities"] += self.genQuantities()
 			self["Quantities"] += self.genMatchedCPQuantities()
 			self["Quantities"] += self.recoPolarisationQuantities()

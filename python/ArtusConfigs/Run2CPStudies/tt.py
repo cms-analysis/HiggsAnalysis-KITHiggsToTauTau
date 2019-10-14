@@ -238,18 +238,18 @@ class tt_ArtusConfig(dict):
 						"nDiTauPairCandidates",
 						 "nAllDiTauPairCandidates"
 					]
-		if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+		if re.search("(DY.?JetsTo(LL|TauTau)).*(?=(Spring16|Summer16))", nickname):
 			# quantities_dict["Quantities"] += quantities_dict.lheWeightsDYQuantities()
 			quantities_dict["Quantities"] += [
 				"tauSpinnerValidOutputs",
 				"tauSpinnerPolarisation",
 			]
-		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
+		elif re.search("(DY.?JetsTo(LL|TauTau)).*(?=Fall15)", nickname):
 			quantities_dict["Quantities"] += [
 				"tauSpinnerValidOutputs",
 				"tauSpinnerPolarisation",
 			]
-		elif re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
+		elif re.search("(DY.?JetsTo(LL|TauTau)).*(?=Fall15)", nickname):
 			quantities_dict["Quantities"] += quantities_dict.genMatchedCPQuantities()
 		elif re.search("Embedding2016", nickname):
 			quantities_dict["Quantities"] += [
@@ -350,7 +350,7 @@ class tt_ArtusConfig(dict):
 			
 
 
-					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
+					if re.search("(DY.?JetsTo(LL|TauTau)).*(?=(Spring16|Summer16))", nickname):
 						self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO also needed for mc to -
 						self["Processors"] += ["producer:ZPtReweightProducer"]			
 
@@ -407,7 +407,7 @@ class tt_ArtusConfig(dict):
 					"producer:EleTauFakeRateWeightProducer"
 				]
 
-				if re.search("(DY.?JetsToLL).*(?=Fall15)", nickname):
+				if re.search("(DY.?JetsTo(LL|TauTau)).*(?=Fall15)", nickname):
 
 					self["Processors"] += ["producer:ZPtReweightProducer"]			
 					#self["Processors"] += ["producer:SimpleFitProducer"]
@@ -424,7 +424,7 @@ class tt_ArtusConfig(dict):
 
 
 
-				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
+				elif re.search("^((?!(DY.?JetsTo(LL|TauTau)|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 #					self["Processors"] += ["producer:SvfitM125Producer"]
