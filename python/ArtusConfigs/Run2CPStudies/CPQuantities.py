@@ -953,20 +953,18 @@ class quantities(run2_quantities.quantities):
 			"madGraphWeight100",
 			"madGraphWeightSample",
 			"madGraphWeightInvSample",
-			"metFilterWeight"
-			"""
-			"Flag_HBHENoiseFilter",
-			"Flag_HBHENoiseIsoFilter",
-			"Flag_EcalDeadCellTriggerPrimitiveFilter",
-			"Flag_goodVertices",
-			"Flag_globalTightHalo2016Filter",
-			"Flag_BadPFMuonFilter",
-			"Flag_BadChargedCandidateFilter",
-			"Flag_duplicateMuons",
-			"Flag_badMuons",
-			"Flag_badGlobalMuonTaggerMAOD",
-			"Flag_cloneGlobalMuonTaggerMAOD
-			"""
+			"metFilterWeight",
+#			"Flag_HBHENoiseFilter",
+#			"Flag_HBHENoiseIsoFilter",
+#			"Flag_EcalDeadCellTriggerPrimitiveFilter",
+#			"Flag_goodVertices",
+#			"Flag_globalTightHalo2016Filter",
+#			"Flag_BadPFMuonFilter",
+#			"Flag_BadChargedCandidateFilter",
+#			"Flag_duplicateMuons",
+#			"Flag_badMuons",
+#			"Flag_badGlobalMuonTaggerMAOD",
+#			"Flag_cloneGlobalMuonTaggerMAOD,
 			]
 
 	def melaQuantities(self, *args, **kwargs):
