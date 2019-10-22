@@ -1,0 +1,1 @@
+XROOTD_sample_VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017newpmx_13TeV_MINIAOD_powheg-pythia8_2019-10-22.txt
