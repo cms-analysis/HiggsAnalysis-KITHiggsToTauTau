@@ -552,10 +552,13 @@ class Samples(samples.Samples):
 	################higgs files###########################
 	def files_qqh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
-		if cp is None or  cp =="cpeven":
-			#CAUTION: If necessary the mc-generator nick might need to be updated from time to time. added v2 to this, if mc_campaign changes change this as well
-			return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
-
+		state = kwargs.get("state", None)
+		if state == "initialState":
+			if cp is None or  cp =="cpeven":
+				#CAUTION: If necessary the mc-generator nick might need to be updated from time to time. added v2 to this, if mc_campaign changes change this as well
+				return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
+		elif state == "finalState":
+			return "VBFHToMaxmixTauTauM125_adow_RunIIFall17MiniAODv2_VBFHToTauTauNoSpin_13TeV_USER_powheg-pythia8/*.root"
 		#TODO add the 2017 samples cp samples if they are ready
 		"""
 		elif "jhu" in cp: #TODO add the 2017 samples
@@ -2423,7 +2426,7 @@ class Samples(samples.Samples):
 
 
 
-	def ff(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fake_factor_name_1="fakefactorWeight_comb_inclusive_1", fake_factor_name_2="fakefactorWeight_comb_inclusive_2",fakefactor_method=True, **kwargs):
+	def ff(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fake_factor_name_1="fakefactorWeight_comb_inclusive_1", fake_factor_name_2="fakefactorWeight_comb_inclusive_2", fakefactor_method=True, **kwargs):
 
 		data_weight, mc_weight = self.projection(kwargs)
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
@@ -2448,7 +2451,8 @@ class Samples(samples.Samples):
 
 		if channel in ["mt", "et"]:
 			exclude_cuts_ff += ["iso_2"]
-			ff_weight_2 = "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
+			# ff_weight_2 = "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
+			ff_weight_2 = "(1.0)" if "iso_2" in exclude_cuts else "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
 			ff_iso_weight_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5))"
 
 		if channel == "tt":

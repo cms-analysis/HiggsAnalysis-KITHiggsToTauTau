@@ -3274,39 +3274,39 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def gghsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState",  generator="madgraphfall15", domatrixweight=True, stacks="gghsm", **kwargs) #TODO OLD NOT TESTED
+		config = self.ggh(config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState", generator="madgraphfall15", domatrixweight=True, stacks="gghsm") #TODO OLD NOT TESTED
 		return config
 
 	def gghjhusm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState",  generator="jhu", stacks="gghjhusm", **kwargs)
+		config = self.ggh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState", generator="jhu", stacks="gghjhusm")
 		return config
 
 	def gghmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState",  generator="madgraphfall15", domatrixweight=True, stacks="gghmm", **kwargs) #TODO OLD NOT TESTED
+		config = self.ggh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState", generator="madgraphfall15", domatrixweight=True, stacks="gghmm") #TODO OLD NOT TESTED
 		return config
 
 	def gghjhumm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState",  generator="jhu", stacks="gghjhumm", **kwargs)
+		config = self.ggh(config, channel, category, weight, "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState", generator="jhu", stacks="gghjhumm")
 		return config
 
 	def gghps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState",  generator="madgraphfall15", domatrixweight=True, stacks="gghps", **kwargs) #TODO OLD NOT TESTED
+		config = self.ggh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState", generator="madgraphfall15", domatrixweight=True, stacks="gghps") #TODO OLD NOT TESTED
 		return config
 
 	def gghjhups(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState",  generator="jhu", stacks="gghjhups", **kwargs)
+		config = self.ggh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState", generator="jhu", stacks="gghjhups")
 		return config
 
 	def gghmadgraphsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState",  generator="madgraph", stacks="gghicsm", **kwargs)
+		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState", generator="madgraph", stacks="gghicsm")
 		return config
 
 	def gghmadgraphmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState",  generator="madgraph", stacks="gghicmm", **kwargs)
+		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState", generator="madgraph", stacks="gghicmm")
 		return config
 
 	def gghmadgraphps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState",  generator="madgraph", stacks="gghicps", **kwargs)
+		config = self.ggh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState", generator="madgraph", stacks="gghicps")
 		return config
 
 
@@ -3328,7 +3328,8 @@ class Samples(samples.SamplesBase):
 			elif cp in ["sm", "mm", "ps"]:
 				return "VBFHToTauTauM125_RunIISpring16MiniAODv2reHLT_PUSpring16RAWAODSIM_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
 		elif state == "finalState":
-			return "VBFHToMaxmixTauTauM125_adow_RunIIFall17MiniAODv2_VBFHToTauTauNoSpin_13TeV_USER_powheg-pythia8/*.root"
+			log.error("No VBF finalState samples skimmed so far.")
+			return None
 
 	def qqh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		if exclude_cuts is None:
@@ -3338,24 +3339,27 @@ class Samples(samples.SamplesBase):
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("qqH", 1.0)
 
+		cp = kwargs.get("cp", None)
+		state = kwargs.get("state", None)
 		data_weight, mc_weight = self.projection(kwargs)
 		matrix_weight = "(1.0)*"
-		if kwargs.get("state", None) == "initialState":
-			if (kwargs.get("cp", None) == "sm"):
+
+		if state == "initialState":
+			if (cp == "sm"):
 				matrix_weight = "(madGraphWeight000/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
-			elif(kwargs.get("cp", None) == "mm"):
+			elif(cp == "mm"):
 				matrix_weight = "(madGraphWeight050/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
-			elif(kwargs.get("cp", None) == "ps"):
+			elif(cp == "ps"):
 				matrix_weight = "(madGraphWeight100/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
 
 		# tauSpinner weight for CP study in the final state
 		tauSpinner_weight = "(1.0)"
-		if kwargs.get("state", None) == "finalState":
-			if (kwargs.get("cp", None) == "sm"):
+		if state == "finalState":
+			if (cp == "sm"):
 				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
-			if (kwargs.get("cp", None) == "mm"):
+			if (cp == "mm"):
 				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
-			if (kwargs.get("cp", None) == "ps"):
+			if (cp == "ps"):
 				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
 
 		data_weight, mc_weight = self.projection(kwargs)
@@ -3364,7 +3368,7 @@ class Samples(samples.SamplesBase):
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
 				add_input(
-						input_file=self.files_qqh(channel, mass, cp=kwargs.get("cp", None)),
+						input_file=self.files_qqh(channel, mass, cp=cp, state=state),
 						scale_factor=lumi*kwargs.get("scale_signal", 1.0),
 						weight=tauSpinner_weight+"*"+matrix_weight+mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="qqh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")
@@ -3390,27 +3394,27 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def qqhsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh( config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState", stacks="qqhsm", **kwargs)
+		config = self.qqh( config, channel, category, weight, "sm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState", stacks="qqhsm")
 		return config
 
 	def qqhmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState", stacks="qqhmm", **kwargs)
+		config = self.qqh(config, channel, category, weight, "mm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState", stacks="qqhmm")
 		return config
 
 	def qqhps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState", stacks="qqhps", **kwargs)
+		config = self.qqh(config, channel, category, weight, "ps"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState", stacks="qqhps")
 		return config
 
 	def qqhjhusm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhusm", state="finalState", stacks="qqhjhusm", **kwargs)
+		config = self.qqh( config, channel, category, weight, "jhusm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhusm", state="finalState", stacks="qqhjhusm")
 		return config
 
 	def qqhjhumm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh(config, channel, category, weight, "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhumm", state="finalState", stacks="qqhjhumm", **kwargs)
+		config = self.qqh(config, channel, category, weight, "jhumm"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhumm", state="finalState", stacks="qqhjhumm")
 		return config
 
 	def qqhjhups(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
-		config = self.qqh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhups", state="finalState", stacks="qqhjhups", **kwargs)
+		config = self.qqh(config, channel, category, weight, "jhups"+nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="jhups", state="finalState", stacks="qqhjhups")
 		return config
 
 	def vh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, **kwargs):
