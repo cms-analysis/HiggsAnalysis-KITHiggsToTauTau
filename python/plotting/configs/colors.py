@@ -211,9 +211,9 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["zttnegcp"+nick_suffix] = "#000000 #FFCC66"
 			self.colors_dict["tt"+nick_suffix] = "#9999CC #9999CC" #"#000000 #9999CC"
 			self.colors_dict["ttj"+nick_suffix] = self.colors_dict["tt"] # NOTE: ttj == tt
-			self.colors_dict["ttt"+nick_suffix] = "#8888C4 #8888C4" # self.colors_dict["tt"]
+			self.colors_dict["ttt"+nick_suffix] = self.colors_dict["tt"] #"#8888C4 #8888C4" # "#000040 #000040" 
 			self.colors_dict["ttjj"+nick_suffix] = "#AAAAD5 #AAAAD5" # self.colors_dict["tt"]
-			self.colors_dict["ttl"+nick_suffix] = "#BBBBDD #BBBBDD" # self.colors_dict["tt"]
+			self.colors_dict["ttl"+nick_suffix] = "#DE5A6A #DE5A6A" #"#BBBBDD #BBBBDD" # self.colors_dict["tt"]
 			self.colors_dict["ttjt"+nick_suffix] = self.colors_dict["kit_blau_1"]
 			self.colors_dict["ttjl"+nick_suffix] = self.colors_dict["kit_blau_2"]
 			self.colors_dict["ttbar"+nick_suffix] = self.colors_dict["tt"]
