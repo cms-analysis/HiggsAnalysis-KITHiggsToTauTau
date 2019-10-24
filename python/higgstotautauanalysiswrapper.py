@@ -54,8 +54,10 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 	def _initArgumentParser(self, userArgParsers=None):
 		super(HiggsToTauTauAnalysisWrapper, self)._initArgumentParser(userArgParsers)
 		self.configOptionsGroup.add_argument("--study", default="CP",
-		                                help="Study to be run by artus, option CP, MSSM(TODO). [Default: %(default)s]")
-		
+		                                help="Study to be run by artus, options: CP, CPFinalState, MSSM(TODO). [Default: %(default)s]")
+		self.configOptionsGroup.add_argument("--sync", default=False, action="store_true",
+		                                help="Produce sync ntuples (removes some MinimalPlotlevelFilters). [Default: %(default)s]")
+
 
 	def modify_replacing_dict(self):
 		self.replacingDict["areafiles"] += " -data/Samples auxiliaries/mva_weights ZZMatrixElement/MELA"
@@ -154,32 +156,32 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 
 				pipeline_config = {}
 				syst_python_config = systematicsfile.Systematics_Config(nickname)
-				
+
 				for selected_channel in self.channels_systematics.keys(): #loop over the keys, which are the channels
 					if selected_channel == "mt":
 						channel_python_config = mt.mt_ArtusConfig()
-						channel_python_config.build_config(nickname)
-				
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
+
 					elif selected_channel == "et":
 						channel_python_config = et.et_ArtusConfig()
-						channel_python_config.build_config(nickname)
-					
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
+
 					elif selected_channel == "em":
 						channel_python_config = em.em_ArtusConfig()
-						channel_python_config.build_config(nickname)
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
 
 					elif selected_channel == "tt":
 						channel_python_config = tt.tt_ArtusConfig()
-						channel_python_config.build_config(nickname)
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
 
 					elif selected_channel == "mm":
 						channel_python_config = mm.mm_ArtusConfig()
-						channel_python_config.build_config(nickname)
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
 
-					elif selected_channel == "gen":	
+					elif selected_channel == "gen":
 						channel_python_config = gen.gen_ArtusConfig()
-						channel_python_config.build_config(nickname)
-					else:	
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
+					else:
 						log.error("COULD NOT FIND CHANNEL")
 
 					channel_python_config["Quantities"] = sorted(channel_python_config["Quantities"])
@@ -213,12 +215,12 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 								pipeline_config[selected_channel+"_"+systematic_shift] = copy.deepcopy(syst_python_config)
 								pipeline_config[selected_channel+"_"+systematic_shift].update(channel_python_config)
 
-	
+
 					elif selected_channel == "gen":
 						pipeline_config["gen"] = channel_python_config
-				
 
-				self._config["Pipelines"] = pipeline_config	
+
+				self._config["Pipelines"] = pipeline_config
 				log.debug("Pipelines:")
 				log.debug(self._config["Pipelines"].keys())
 

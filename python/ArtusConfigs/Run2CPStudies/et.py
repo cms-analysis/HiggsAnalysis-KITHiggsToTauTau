@@ -320,7 +320,7 @@ class et_ArtusConfig(dict):
 		Svfit_config = sSvfit.Svfit(nickname)
 		self.update(Svfit_config)
 
-		if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8",nickname):
+		if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017(|newpmx)_13TeV_MINIAOD_powheg-pythia8",nickname) or kwargs.get("sync", False): # synchronization sample
 			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="ET", eTauFakeRate=False, sync=True)
 		else:
 			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="ET", eTauFakeRate=False, sync=False)
