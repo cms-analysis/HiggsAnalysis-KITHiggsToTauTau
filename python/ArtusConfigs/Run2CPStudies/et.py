@@ -265,7 +265,7 @@ class et_ArtusConfig(dict):
 		ordered_processors = processorOrderingkey.order_processors(self["Processors"])
 		self["Processors"] = copy.deepcopy(ordered_processors)
 
-	def build_config(self, nickname): #Maybe change this the arguments to process/year and DATA/MC
+	def build_config(self, nickname, *args, **kwargs): #Maybe change this the arguments to process/year and DATA/MC
 		"""
 		"include" : [
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",
@@ -451,7 +451,7 @@ class et_ArtusConfig(dict):
 
 
 		self["TauID"] =  "TauIDRecommendation13TeV"
-		self["TauUseOldDMs"] =  True
+		self["TauUseOldDMs"] =  False
 
 		self["ElectronUpperAbsEtaCuts"] = ["2.1"]
 		self["TauLowerPtCuts"] = ["20.0"]
