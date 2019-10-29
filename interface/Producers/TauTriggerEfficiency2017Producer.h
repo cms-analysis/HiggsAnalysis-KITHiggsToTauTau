@@ -4,13 +4,14 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 #include "TFile.h"
 #include "TGraphAsymmErrors.h"
-#include "TauAnalysisTools/TauTriggerSFs/interface/TauTriggerSFs2017.h"
 
 /**
    \brief TauTrigger2017EfficiencyProducer
    Config tags:
    - Fill me with something meaningful
 */
+
+class TauTriggerSFs2017;
 
 class TauTriggerEfficiency2017Producer: public ProducerBase<HttTypes> {
 public:

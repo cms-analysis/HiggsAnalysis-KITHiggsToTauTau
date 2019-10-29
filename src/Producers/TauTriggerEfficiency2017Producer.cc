@@ -29,7 +29,13 @@ void TauTriggerEfficiency2017Producer::Init(setting_type const& settings, metada
 	}
 	for(std::string TauTrigger2017WorkingPoint:settings.GetTauTrigger2017WorkingPoints())
 	{
-		std::shared_ptr<TauTriggerSFs2017> TauTriggerSF(new TauTriggerSFs2017(settings.GetTauTrigger2017Input(), decay_channel, "2017", TauTrigger2017WorkingPoint, settings.GetTauIDType()));
+	        std::string tauIDType = settings.GetTauIDType();
+		if(tauIDType!="MVAv2")
+		{
+		  std::cout<<"WARNING: tauIDType = "<<tauIDType<<" is not supported by TauTriggerSF. Using MVAv2 instead."<<std::endl;
+		  tauIDType = "MVAv2";
+		}
+		std::shared_ptr<TauTriggerSFs2017> TauTriggerSF(new TauTriggerSFs2017(settings.GetTauTrigger2017Input(), decay_channel, "2017", TauTrigger2017WorkingPoint, tauIDType));
 		TauSFs.push_back(TauTriggerSF);
 		HttEnumTypes::TauIDWP tauidwp = HttEnumTypes::ToTauIDWP(TauTrigger2017WorkingPoint);
 		for(unsigned int tauindex = 0; tauindex < 2; tauindex++)
@@ -78,8 +84,13 @@ void TauTriggerEfficiency2017Producer::Produce(event_type const& event, product_
 			tautriggerefficienciesData.push_back(1.0);
 
 			KTau* tau = static_cast<KTau*>(product.m_flavourOrderedLeptons[1]);
-			tautriggerefficienciesMC.push_back(TauSFs.at(i)->getTriggerEfficiencyMC(tau->p4.Pt(),tau->p4.Eta(),tau->p4.Phi(),tau->decayMode));
-			tautriggerefficienciesData.push_back(TauSFs.at(i)->getTriggerEfficiencyData(tau->p4.Pt(),tau->p4.Eta(),tau->p4.Phi(),tau->decayMode));
+			int decayMode = tau->decayMode;
+			if(decayMode==11||decayMode==5||decayMode==6){
+			  std::cout<<"WARNING: decayMode = "<<decayMode<<" is not supported by TauTriggerSF. Using 10 instead."<<std::endl;
+			  decayMode=10;
+			}
+			tautriggerefficienciesMC.push_back(TauSFs.at(i)->getTriggerEfficiencyMC(tau->p4.Pt(),tau->p4.Eta(),tau->p4.Phi(),decayMode));
+			tautriggerefficienciesData.push_back(TauSFs.at(i)->getTriggerEfficiencyData(tau->p4.Pt(),tau->p4.Eta(),tau->p4.Phi(),decayMode));
 
 			LOG(DEBUG) << "Lepton 1 Pt: " << tau->p4.Pt() << " Eta: " <<  tau->p4.Eta() << std::endl;
 			LOG(DEBUG) << "MC: " << tautriggerefficienciesMC[0] << " DATA: " << tautriggerefficienciesData[0] << std::endl;
@@ -88,11 +99,21 @@ void TauTriggerEfficiency2017Producer::Produce(event_type const& event, product_
 		{
 			KTau* tau0 = static_cast<KTau*>(product.m_flavourOrderedLeptons[0]);
 			KTau* tau1 = static_cast<KTau*>(product.m_flavourOrderedLeptons[1]);
-			tautriggerefficienciesMC.push_back(TauSFs.at(i)->getTriggerEfficiencyMC(tau0->p4.Pt(),tau0->p4.Eta(),tau0->p4.Phi(),tau0->decayMode));
-			tautriggerefficienciesMC.push_back(TauSFs.at(i)->getTriggerEfficiencyMC(tau1->p4.Pt(),tau1->p4.Eta(),tau1->p4.Phi(),tau1->decayMode));
+			int decayMode0 = tau0->decayMode;
+			if(decayMode0==11||decayMode0==5||decayMode0==6){
+			  std::cout<<"WARNING: decayMode = "<<decayMode0<<" is not supported by TauTriggerSF. Using 10 instead."<<std::endl;
+			  decayMode0=10;
+                        }
+			int decayMode1 = tau1->decayMode;
+			if(decayMode1==11||decayMode1==5||decayMode1==6){
+			  std::cout<<"WARNING: decayMode = "<<decayMode1<<" is not supported by TauTriggerSF. Using 10 instead."<<std::endl;
+                          decayMode1=10;
+                        }
+			tautriggerefficienciesMC.push_back(TauSFs.at(i)->getTriggerEfficiencyMC(tau0->p4.Pt(),tau0->p4.Eta(),tau0->p4.Phi(),decayMode0));
+			tautriggerefficienciesMC.push_back(TauSFs.at(i)->getTriggerEfficiencyMC(tau1->p4.Pt(),tau1->p4.Eta(),tau1->p4.Phi(),decayMode1));
 
-			tautriggerefficienciesData.push_back(TauSFs.at(i)->getTriggerEfficiencyData(tau0->p4.Pt(),tau0->p4.Eta(),tau0->p4.Phi(),tau0->decayMode));
-			tautriggerefficienciesData.push_back(TauSFs.at(i)->getTriggerEfficiencyData(tau1->p4.Pt(),tau1->p4.Eta(),tau1->p4.Phi(),tau1->decayMode));
+			tautriggerefficienciesData.push_back(TauSFs.at(i)->getTriggerEfficiencyData(tau0->p4.Pt(),tau0->p4.Eta(),tau0->p4.Phi(),decayMode0));
+			tautriggerefficienciesData.push_back(TauSFs.at(i)->getTriggerEfficiencyData(tau1->p4.Pt(),tau1->p4.Eta(),tau1->p4.Phi(),decayMode1));
 		}
 		product.m_tautriggerefficienciesMC[Utility::ToEnum<HttEnumTypes::TauIDWP>(i)] = tautriggerefficienciesMC;
 		product.m_tautriggerefficienciesData[Utility::ToEnum<HttEnumTypes::TauIDWP>(i)] = tautriggerefficienciesData;
