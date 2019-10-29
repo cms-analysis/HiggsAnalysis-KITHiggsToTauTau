@@ -657,24 +657,25 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("byVTightIsolationMVArun2017v2DBnewDMwLT2017");
 	tauDiscriminators.push_back("byVVTightIsolationMVArun2017v2DBnewDMwLT2017");
 
-		// 2017v1 training used in skim on 2018-02-13 - should NOT be used after full skim
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1raw");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVLoose");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VLoose");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Loose");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Medium");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Tight");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VTight");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
-		// 2016 training for skims of 2016 samples before April 2018 - should NOT be used after full skim
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1raw");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Loose");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Medium");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Tight");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VTight");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
+	// 2017v1 training used in skim on 2018-02-13 - should NOT be used after full skim
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1raw");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Loose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Medium");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Tight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
+
+	// 2016 training for skims of 2016 samples before April 2018 - should NOT be used after full skim
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1raw");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Loose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Medium");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Tight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
 
 	// dR0p32017v2
 	tauDiscriminators.push_back("byIsolationMVArun2017v2DBoldDMdR0p3wLTraw2017");
@@ -701,6 +702,35 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("byTightIsolationMVArun2v1DBnewDMwLT2016");
 	tauDiscriminators.push_back("byVTightIsolationMVArun2v1DBnewDMwLT2016");
 	tauDiscriminators.push_back("byVVTightIsolationMVArun2v1DBnewDMwLT2016");
+
+	// deepTauIDs (with 102X)
+	//VSjet
+	tauDiscriminators.push_back("byDeepTau2017v2p1VSjetraw");
+	tauDiscriminators.push_back("byVVVLooseDeepTau2017v2p1VSjet");
+	tauDiscriminators.push_back("byVVLooseDeepTau2017v2p1VSjet");
+	tauDiscriminators.push_back("byVLooseDeepTau2017v2p1VSjet");
+	tauDiscriminators.push_back("byLooseDeepTau2017v2p1VSjet");
+	tauDiscriminators.push_back("byMediumDeepTau2017v2p1VSjet");
+	tauDiscriminators.push_back("byTightDeepTau2017v2p1VSjet");
+	tauDiscriminators.push_back("byVTightDeepTau2017v2p1VSjet");
+	tauDiscriminators.push_back("byVVTightDeepTau2017v2p1VSjet");
+	//VSe
+	tauDiscriminators.push_back("byDeepTau2017v2p1VSeraw");
+	tauDiscriminators.push_back("byVVVLooseDeepTau2017v2p1VSe");
+	tauDiscriminators.push_back("byVVLooseDeepTau2017v2p1VSe");
+	tauDiscriminators.push_back("byVLooseDeepTau2017v2p1VSe");
+	tauDiscriminators.push_back("byLooseDeepTau2017v2p1VSe");
+	tauDiscriminators.push_back("byMediumDeepTau2017v2p1VSe");
+	tauDiscriminators.push_back("byTightDeepTau2017v2p1VSe");
+	tauDiscriminators.push_back("byVTightDeepTau2017v2p1VSe");
+	tauDiscriminators.push_back("byVVTightDeepTau2017v2p1VSe");
+	//VSmu
+	tauDiscriminators.push_back("byDeepTau2017v2p1VSmuraw");
+	tauDiscriminators.push_back("byVLooseDeepTau2017v2p1VSmu");
+	tauDiscriminators.push_back("byLooseDeepTau2017v2p1VSmu");
+	tauDiscriminators.push_back("byMediumDeepTau2017v2p1VSmu");
+	tauDiscriminators.push_back("byTightDeepTau2017v2p1VSmu");
+
 	// -------
 	tauDiscriminators.push_back("chargedIsoPtSum");
 	tauDiscriminators.push_back("decayModeFinding");
@@ -721,8 +751,6 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("leadingTrackChi2");
 	tauDiscriminators.push_back("eRatio");
 	
-	
-
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
 		for (std::string tauDiscriminator : tauDiscriminators)
@@ -749,6 +777,20 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 			if (lepton->flavour() == KLeptonFlavour::TAU)
 			{
 				return static_cast<KTau*>(lepton)->decayMode;
+			}
+			else
+			{
+				return DefaultValues::UndefinedInt;
+			}
+		});
+		
+		std::string decayModeMVAQuantity = "decayModeMVA_" + std::to_string(leptonIndex+1);
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, decayModeMVAQuantity, [leptonIndex](event_type const& event, product_type const& product)
+		{
+			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
+			if (lepton->flavour() == KLeptonFlavour::TAU)
+			{
+			        return (int)static_cast<KTau*>(lepton)->getDiscriminator("MVADM2017v1", event.m_tauMetadata);
 			}
 			else
 			{
