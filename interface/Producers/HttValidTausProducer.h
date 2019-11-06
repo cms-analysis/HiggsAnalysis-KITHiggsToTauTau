@@ -35,16 +35,16 @@ protected:
 		MvaIsolationCutsByIndex = Utility::ParseMapTypes<size_t, float>(Utility::ParseVectorToMap(specSettings.GetTauDiscriminatorMvaIsolation()), MvaIsolationCutsByName);
 
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(static_cast<spec_metadata_type&>(metadata), "leadingTauIso", [this](spec_event_type const& event, spec_product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(static_cast<spec_metadata_type&>(metadata), "leadingTauIso", [this](spec_event_type const& event, spec_product_type const& product, spec_setting_type const& settings, spec_metadata_type const& metadata) {
 			return product.m_validTaus.size() >=1 ? SafeMap::GetWithDefault(product.m_tauIsolation, product.m_validTaus[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(static_cast<spec_metadata_type&>(metadata), "leadingTauIsoOverPt", [this](spec_event_type const& event, spec_product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(static_cast<spec_metadata_type&>(metadata), "leadingTauIsoOverPt", [this](spec_event_type const& event, spec_product_type const& product, spec_setting_type const& settings, spec_metadata_type const& metadata) {
 			return product.m_validTaus.size() >=1 ? SafeMap::GetWithDefault(product.m_tauIsolationOverPt, product.m_validTaus[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(static_cast<spec_metadata_type&>(metadata), "trailingTauIso", [this](spec_event_type const& event, spec_product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(static_cast<spec_metadata_type&>(metadata), "trailingTauIso", [this](spec_event_type const& event, spec_product_type const& product, spec_setting_type const& settings, spec_metadata_type const& metadata) {
 			return product.m_validTaus.size() >=2 ? SafeMap::GetWithDefault(product.m_tauIsolation, product.m_validTaus[1], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(static_cast<spec_metadata_type&>(metadata), "trailingTauIsoOverPt", [this](spec_event_type const& event, spec_product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(static_cast<spec_metadata_type&>(metadata), "trailingTauIsoOverPt", [this](spec_event_type const& event, spec_product_type const& product, spec_setting_type const& settings, spec_metadata_type const& metadata) {
 			return product.m_validTaus.size() >=2 ? SafeMap::GetWithDefault(product.m_tauIsolationOverPt, product.m_validTaus[1], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 		});
 	}

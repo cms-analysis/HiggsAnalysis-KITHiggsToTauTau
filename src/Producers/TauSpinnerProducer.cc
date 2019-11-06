@@ -47,37 +47,37 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 	                               settings.GetTauSpinnerSettingsNonSMN(),
 	                               settings.GetTauSpinnerSettingsCmsEnergy());
 	
-	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "tauSpinnerValidOutputs", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "tauSpinnerValidOutputs", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tauSpinnerValidOutputs;
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerPolarisation", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerPolarisation", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tauSpinnerPolarisation;
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerPdgIdTau_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerPdgIdTau_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tauSpinnerPdgIdTau_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerPdgIdTau_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerPdgIdTau_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tauSpinnerPdgIdTau_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerETau_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerETau_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tauSpinnerETau_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerETau_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerETau_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tauSpinnerETau_2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerEPi_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerEPi_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tauSpinnerEPi_1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerEPi_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddDoubleQuantity(metadata, "tauSpinnerEPi_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tauSpinnerEPi_2;
 	});
@@ -90,7 +90,7 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 	{
 		float mixingAngleOverPiHalf = *mixingAngleOverPiHalfIt;
 		std::string mixingAngleOverPiHalfLabel = GetLabelForWeightsMap(mixingAngleOverPiHalf);
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, mixingAngleOverPiHalfLabel, [mixingAngleOverPiHalfLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, mixingAngleOverPiHalfLabel, [mixingAngleOverPiHalfLabel](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfLabel, 0.0);
 		});
@@ -104,11 +104,11 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 		assert(Utility::Contains(settings.GetTauSpinnerMixingAnglesOverPiHalf(), mixingAngleOverPiHalfSample));
 		
 		std::string mixingAngleOverPiHalfSampleLabel = GetLabelForWeightsMap(mixingAngleOverPiHalfSample);
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerWeightSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerWeightSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfSampleLabel, 0.0);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerWeightInvSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tauSpinnerWeightInvSample", [mixingAngleOverPiHalfSampleLabel](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			double weight = SafeMap::GetWithDefault(product.m_optionalWeights, mixingAngleOverPiHalfSampleLabel, 0.0);
 			//return std::min(((weight > 0.0) ? (1.0 / weight) : 0.0), 10.0);   // no physics reason for this

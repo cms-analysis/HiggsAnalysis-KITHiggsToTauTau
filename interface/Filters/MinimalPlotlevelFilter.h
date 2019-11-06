@@ -23,8 +23,8 @@
 class MinimalPlotlevelFilter : public FilterBase<HttTypes> 
 {
 public:
-	typedef std::function<float(event_type const&, product_type const&)> float_extractor_lambda;
-	
+	typedef std::function<float(event_type const&, product_type const&, setting_type const&, metadata_type const&)> float_extractor_lambda;
+
 	virtual std::string GetFilterId() const override;
 	
 	void Init(setting_type const& settings, metadata_type& metadata) override;
@@ -38,9 +38,9 @@ public:
 			s.erase(i, n);
 		}
 	}
-	
-	bool EvaluateSubExpression(std::string& expression, event_type const& event, product_type const& product, setting_type const& settings) const;
-	
+
+	bool EvaluateSubExpression(std::string& expression, event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) const;
+
 	virtual bool DoesEventPass(event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) const override;
 
 private:

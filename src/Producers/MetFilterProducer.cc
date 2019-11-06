@@ -14,7 +14,7 @@ void MetFilterProducer::Init(setting_type const& settings, metadata_type& metada
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metfilter_flag", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metfilter_flag", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_metFilterFlag;
 	});

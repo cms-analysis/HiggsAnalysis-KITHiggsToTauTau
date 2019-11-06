@@ -21,7 +21,7 @@ void MVATestMethodsProducer::Init(setting_type const& settings, metadata_type& m
 		{
 			std::string bdt_out_name = settings.GetMVATestMethodsNames()[NFoldIndex];
 // 			LOG(DEBUG) << "fill singlefold training " << bdt_out_name << std::endl;
-			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, bdt_out_name, [bdt_out_name, output_index](event_type const& event, product_type const& product)
+			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, bdt_out_name, [bdt_out_name, output_index](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 			{
 				return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index] : DefaultValues::UndefinedFloat);
 			});
@@ -32,7 +32,7 @@ void MVATestMethodsProducer::Init(setting_type const& settings, metadata_type& m
 			for (int TrainingIndex = 1; TrainingIndex <= settings.GetMVATestMethodsNFolds()[NFoldIndex]; ++TrainingIndex)
 			{
 				std::string bdt_out_name = "T" + boost::lexical_cast<std::string>(TrainingIndex) + settings.GetMVATestMethodsNames()[NFoldIndex];
-				LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, bdt_out_name, [bdt_out_name, output_index](event_type const& event, product_type const& product)
+				LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, bdt_out_name, [bdt_out_name, output_index](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 				{
 					LOG(DEBUG) << "fill NFold training " << bdt_out_name << " with training index " << output_index;
 					return ((product.m_MVATestMethodsDiscriminators.size() > 0 ) ? product.m_MVATestMethodsDiscriminators[output_index] : DefaultValues::UndefinedFloat);
@@ -45,7 +45,7 @@ void MVATestMethodsProducer::Init(setting_type const& settings, metadata_type& m
 			LOG(WARNING) << settings.GetMVATestMethodsWeights().size() << settings.GetMVACustomWeights().size();
 			if(settings.GetMVATestMethodsWeights().size() == settings.GetMVACustomWeights().size())
 			{
-				LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, bdt_out_name, [bdt_out_name, output_index, settings, NFoldIndex](event_type const& event, product_type const& product)
+				LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, bdt_out_name, [bdt_out_name, output_index, settings, NFoldIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 				{
 					int ts_value = (event.m_eventInfo->nEvent)%100;
 					for (int finalIndex = 1; finalIndex <= settings.GetMVATestMethodsNFolds()[NFoldIndex]; ++finalIndex)
@@ -62,7 +62,7 @@ void MVATestMethodsProducer::Init(setting_type const& settings, metadata_type& m
 			}
 			else
 			{
-				LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, bdt_out_name, [bdt_out_name, output_index, settings, NFoldIndex](event_type const& event, product_type const& product)
+				LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, bdt_out_name, [bdt_out_name, output_index, settings, NFoldIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 				{
 					int ts_value = (event.m_eventInfo->nEvent)%100, width = 100/settings.GetMVATestMethodsNFolds()[NFoldIndex];
 					for (int finalIndex = 1; finalIndex <= settings.GetMVATestMethodsNFolds()[NFoldIndex]; ++finalIndex)

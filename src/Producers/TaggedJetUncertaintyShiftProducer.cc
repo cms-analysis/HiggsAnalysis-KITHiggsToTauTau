@@ -111,7 +111,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 		}
 
 		// add quantities to event
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "njetspt30_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product) -> int
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "njetspt30_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) -> int
 		{
 			int nJetsPt30 = DefaultValues::UndefinedInt;
 			if ((product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyUp).end())
@@ -120,7 +120,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			}
 			return nJetsPt30;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "njetspt30_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product) -> int
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "njetspt30_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) -> int
 		{
 			int nJetsPt30 = DefaultValues::UndefinedInt;
 			if ((product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyDown).end())
@@ -130,7 +130,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			return nJetsPt30;
 		});
 
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mjj_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product) -> float
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mjj_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) -> float
 		{
 			if ((product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyUp).end())
 			{
@@ -139,7 +139,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			}
 			return DefaultValues::UndefinedFloat;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mjj_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product) -> float
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mjj_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) -> float
 		{
 			if ((product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyDown).end())
 			{
@@ -149,7 +149,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			return DefaultValues::UndefinedFloat;
 		});
 
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdeta_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdeta_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			if ((product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyUp).end())
 			{
@@ -158,7 +158,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			}
 			return DefaultValues::UndefinedFloat;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdeta_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdeta_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			if ((product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyDown).end())
 			{
@@ -168,7 +168,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			return DefaultValues::UndefinedFloat;
 		});
 
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product) -> float
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) -> float
 		{
 			if ((product.m_correctedJetsBySplitUncertaintyUp).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyUp).end())
 			{
@@ -177,7 +177,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			}
 			return DefaultValues::UndefinedFloat;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product) -> float
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jdphi_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) -> float
 		{
 			if ((product.m_correctedJetsBySplitUncertaintyDown).find(individualUncertainty) != (product.m_correctedJetsBySplitUncertaintyDown).end())
 			{
@@ -187,7 +187,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			return DefaultValues::UndefinedFloat;
 		});
 
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nbtag_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product) -> int
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nbtag_"+uncertainty+"Up", [individualUncertainty](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) -> int
 		{
 			int nbtag = DefaultValues::UndefinedInt;
 			if ((product.m_correctedBTaggedJetsBySplitUncertaintyUp).find(individualUncertainty) != (product.m_correctedBTaggedJetsBySplitUncertaintyUp).end())
@@ -196,7 +196,7 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			}
 			return nbtag;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nbtag_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product) -> int
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nbtag_"+uncertainty+"Down", [individualUncertainty](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) -> int
 		{
 			int nbtag = DefaultValues::UndefinedInt;
 			if ((product.m_correctedBTaggedJetsBySplitUncertaintyDown).find(individualUncertainty) != (product.m_correctedBTaggedJetsBySplitUncertaintyDown).end())

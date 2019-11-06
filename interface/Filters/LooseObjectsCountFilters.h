@@ -12,8 +12,8 @@
 class LooseElectronsCountFilter: public CutRangeFilterBase<HttTypes> {
 public:
 
-	typedef typename std::function<double(event_type const&, product_type const&)> double_extractor_lambda;
-	
+	typedef typename std::function<double(event_type const&, product_type const&, setting_type const&, metadata_type const&)> double_extractor_lambda;
+
 	virtual std::string GetFilterId() const override {
 		return "LooseElectronsCountFilter";
 	}
@@ -28,8 +28,8 @@ public:
 class LooseMuonsCountFilter: public CutRangeFilterBase<HttTypes> {
 public:
 
-	typedef typename std::function<double(event_type const&, product_type const&)> double_extractor_lambda;
-	
+	typedef typename std::function<double(event_type const&, product_type const&, setting_type const&, metadata_type const&)> double_extractor_lambda;
+
 	virtual std::string GetFilterId() const override {
 		return "LooseMuonsCountFilter";
 	}

@@ -36,30 +36,30 @@ void TauTriggerEfficiency2017Producer::Init(setting_type const& settings, metada
 		{
 			std::string tautriggerefficiencyData = std::string("tautriggerefficiencyData_") + std::to_string(tauindex+1) + std::string("_") + TauTrigger2017WorkingPoint;
 			std::string tautriggerefficiencyMC = std::string("tautriggerefficiencyMC_") + std::to_string(tauindex+1) + std::string("_") + TauTrigger2017WorkingPoint;
-			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, tautriggerefficiencyData, [tauindex, tauidwp](event_type const& event, product_type const& product)
+			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, tautriggerefficiencyData, [tauindex, tauidwp](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 			{
 				return product.m_tautriggerefficienciesData.at(tauidwp).at(tauindex);
 			});
 
-			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, tautriggerefficiencyMC, [tauindex, tauidwp](event_type const& event, product_type const& product)
+			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, tautriggerefficiencyMC, [tauindex, tauidwp](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 			{
 				return product.m_tautriggerefficienciesMC.at(tauidwp).at(tauindex);
 			});
 		}
 	}
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tautriggerefficiencyData_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tautriggerefficiencyData_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT).at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tautriggerefficiencyMC_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tautriggerefficiencyMC_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT).at(0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tautriggerefficiencyData_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tautriggerefficiencyData_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tautriggerefficienciesData.at(HttEnumTypes::TauIDWP::TIGHT).at(1); //only used in Embedding2017 e tau final state
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tautriggerefficiencyMC_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "tautriggerefficiencyMC_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_tautriggerefficienciesMC.at(HttEnumTypes::TauIDWP::TIGHT).at(1); //only used in Embedding2017 e tau final state
 	});

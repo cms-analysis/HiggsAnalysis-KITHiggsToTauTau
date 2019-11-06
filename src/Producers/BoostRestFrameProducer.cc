@@ -19,32 +19,32 @@ void BoostRestFrameProducer::Init(setting_type const& settings, metadata_type& m
 	{
 		std::string leptonIndexString = std::to_string(leptonIndex+1);
 		
-		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "lep"+leptonIndexString+"LVBoostToDiLeptonSystem", [leptonIndex](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "lep"+leptonIndexString+"LVBoostToDiLeptonSystem", [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return SafeMap::GetWithDefault(product.m_leptonsBoostToDiLeptonSystem, product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedRMFLV);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "lep"+leptonIndexString+"LVBoostToDiTauSystem", [leptonIndex](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "lep"+leptonIndexString+"LVBoostToDiTauSystem", [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return SafeMap::GetWithDefault(product.m_leptonsBoostToDiTauSystem, product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedRMFLV);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "tau"+leptonIndexString+"LVBoostToDiTauSystem", [leptonIndex](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "tau"+leptonIndexString+"LVBoostToDiTauSystem", [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
 			RMFLV* tau = (Utility::Contains(product.m_hhKinFitTaus, lepton) ? const_cast<RMFLV*>(&SafeMap::Get(product.m_hhKinFitTaus, lepton)) : nullptr);
 			return (tau ? SafeMap::GetWithDefault(product.m_tausBoostToDiTauSystem, tau, DefaultValues::UndefinedRMFLV) : DefaultValues::UndefinedRMFLV);
 		});
 		
-		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau"+leptonIndexString+"VisibleLVBoostToGenDiLeptonSystem", [leptonIndex](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau"+leptonIndexString+"VisibleLVBoostToGenDiLeptonSystem", [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<KGenTau*>(nullptr));
 			return (genTau ? SafeMap::GetWithDefault(product.m_genVisTausBoostToGenDiLeptonSystem, genTau, DefaultValues::UndefinedRMFLV) : DefaultValues::UndefinedRMFLV);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau"+leptonIndexString+"LVBoostToGenDiLeptonSystem", [leptonIndex](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau"+leptonIndexString+"LVBoostToGenDiLeptonSystem", [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<KGenTau*>(nullptr));
 			return (genTau ? SafeMap::GetWithDefault(product.m_genTausBoostToGenDiLeptonSystem, genTau, DefaultValues::UndefinedRMFLV) : DefaultValues::UndefinedRMFLV);
 		});
-		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau"+leptonIndexString+"LVBoostToGenDiTauSystem", [leptonIndex](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau"+leptonIndexString+"LVBoostToGenDiTauSystem", [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<KGenTau*>(nullptr));
 			return (genTau ? SafeMap::GetWithDefault(product.m_genTausBoostToGenDiTauSystem, genTau, DefaultValues::UndefinedRMFLV) : DefaultValues::UndefinedRMFLV);

@@ -20,7 +20,7 @@ void ScaleVariationProducer::Init(setting_type const& settings, metadata_type& m
 	for (std::vector<std::string>::const_iterator lheWeight = settings.GetPdfLheWeights().begin(); lheWeight != settings.GetPdfLheWeights().end(); ++lheWeight)
 	{
 		std::string lheWeightStr = *lheWeight;
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, lheWeightStr, 1.0);
 		});
@@ -29,7 +29,7 @@ void ScaleVariationProducer::Init(setting_type const& settings, metadata_type& m
 	for (std::vector<std::string>::const_iterator lheWeight = settings.GetAlphaSLheWeights().begin(); lheWeight != settings.GetAlphaSLheWeights().end(); ++lheWeight)
 	{
 		std::string lheWeightStr = *lheWeight;
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, lheWeightStr, 1.0);
 		});
@@ -38,7 +38,7 @@ void ScaleVariationProducer::Init(setting_type const& settings, metadata_type& m
 	for (std::vector<std::string>::const_iterator lheWeight = settings.GetScaleLheWeights().begin(); lheWeight != settings.GetScaleLheWeights().end(); ++lheWeight)
 	{
 		std::string lheWeightStr = *lheWeight;
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, lheWeightStr, [lheWeightStr](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return SafeMap::GetWithDefault(product.m_optionalWeights, lheWeightStr, 1.0);
 		});
