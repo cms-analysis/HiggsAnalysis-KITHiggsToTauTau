@@ -76,7 +76,7 @@ class Quantities(Run2Quantities):
 				if re.search("amcatnlo",nickname):
 					self.quantities.update(["lhenpNLO"])
 
-			elif re.search("Embedding2016", nickname):
+			if re.search("Embedding(2016|2017)", nickname):
 				self.quantities.update(["tauSpinnerPolarisation"])
 
 		else:
@@ -84,6 +84,7 @@ class Quantities(Run2Quantities):
 			self.quantities.update(['nDiTauPairCandidates', 'nLooseElectrons', 'nAllDiTauPairCandidates', 'nLooseMuons'])
 			self.quantities.update(self.fourVectorQuantities())
 			self.quantities.update(self.syncQuantities(nickname))
+			self.quantities.update(self.CPSyncQuantities(nickname))
 			if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
 					self.quantities.update(self.singleTauQuantities())
