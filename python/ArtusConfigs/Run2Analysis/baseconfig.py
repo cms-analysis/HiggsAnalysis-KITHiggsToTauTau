@@ -129,7 +129,7 @@ class Baseconfig(dict):
 
 		elif re.search("Fall17", nickname):
 			self["JetPrefireProbabilityFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/prefiring/L1prefiring_jetpt_2017BtoF.root"
-			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/DeepCSV_94XSF_V4_B_F.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/DeepCSV_94XSF_WP_V4_B_F.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/btagging_efficiency_2017/tagging_efficiencies_march2018_btageff-all_samp-inc-DeepCSV_medium.root" #TODO cant find this
 
 			if re.search("Fall17", nickname): 
