@@ -415,13 +415,13 @@ if __name__ == "__main__":
 
 				json_config = {}
 				json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity + ".json") for channel_dir in [channel, "default"]]
-				
+
 				for json_filename in json_filenames:
 					json_filename = os.path.expandvars(json_filename)
 					if os.path.exists(json_filename):
 						json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
 						break
-				
+
 				quantity = json_config.pop(axis + "_expressions", [quantity])[0]
 				axis_expression = json_config.pop(axis + "_expressions", [quantity])
 				config[axis + "_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else axis_expression) for nick in config["nicks"]]
@@ -611,7 +611,7 @@ if __name__ == "__main__":
 
 				# for index, nick in enumerate(config["nicks"]):
 				# 	print nick
-				# 	config.setdefault("line_widths", []).extend([2] if nick=="data" else [1])	
+				# 	config.setdefault("line_widths", []).extend([2] if nick=="data" else [1])
 
 			config["output_dir"] = os.path.expandvars(os.path.join(
 					args.output_dir,
@@ -652,7 +652,7 @@ if __name__ == "__main__":
 		tools.hadd(output_root_filename, tools.flattenList(plot_results.output_filenames), hadd_args="-f")
 		w = ROOT.RooWorkspace("w", "w") # create an empty RooWorkSpace with name "w" and title "w"
 		import_function = getattr(w, 'import')
-		
+
 		rootfile = ROOT.TFile.Open(output_root_filename, "read")
 		histos = []
 		realvars = []

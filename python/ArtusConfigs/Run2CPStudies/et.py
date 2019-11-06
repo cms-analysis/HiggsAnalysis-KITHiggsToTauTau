@@ -125,7 +125,7 @@ class et_ArtusConfig(dict):
 					"producer:SimpleMuTauFakeRateWeightProducer"
 				]
 				self["Processors"] += [
-						"producer:MetCorrector" 
+						"producer:MetCorrector"
 					]
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
@@ -134,7 +134,7 @@ class et_ArtusConfig(dict):
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]  #changes from file to file
 				else:
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]  #changes from file to file
-					
+
 
 				if re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
 					#"filter:MinimalPlotlevelFilter", '#producer:SvfitProducer', '#producer:SvfitM91Producer', '#producer:SvfitM125Producer'
@@ -144,7 +144,7 @@ class et_ArtusConfig(dict):
 					]
 				else:
 					#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
-					#if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8",nickname) == None: 
+					#if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8",nickname) == None:
 					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 					self["Processors"] += [
 						"producer:SvfitProducer"
@@ -163,7 +163,7 @@ class et_ArtusConfig(dict):
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 							self["Processors"] +=["producer:ZPtReweightProducer"] #done via rooworkspace in 2017
 						#if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16))", nickname):
-						
+
 
 					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
@@ -326,7 +326,7 @@ class et_ArtusConfig(dict):
 		else:
 			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="ET", eTauFakeRate=False, sync=False)
 		self.update(mplf.minPlotLevelDict)
-		
+
 		MVATestMethods_config = sMVATM.MVATestMethods()
 		self.update(MVATestMethods_config)
 

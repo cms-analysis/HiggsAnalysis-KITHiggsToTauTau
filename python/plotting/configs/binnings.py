@@ -21,7 +21,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["zmumu_selection_for_embedding_ZMass"] = "19,50,240"
 		self.binnings_dict["zmumu_selection_for_embedding_integral"] = "1,0,1"
 		auto_rebin_binning = " ".join([str(float(f)) for f in range(0,251,10)])
-		
+
 		for channel in ["tt", "mt", "et", "em", "mm", "ee", "gen"]:
 			self.binnings_dict[channel+"_integral"] = "1,0.0,1.0"
 			self.binnings_dict[channel+"_min_ll_jet_eta"] = "16,-8,8"

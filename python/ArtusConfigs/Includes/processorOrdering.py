@@ -70,7 +70,7 @@ class ProcessorsOrdered(dict):
 			self["filter:MinElectronsCountFilter"] = 25
 
 			self["producer:RecoElectronGenParticleMatchingProducer"] = 27 #if you grep this, it is already in globalprocessors
-			
+
 			self["producer:ValidMuonsProducer"] = 31
 			self["filter:ValidMuonsFilter"] = 32
 			self["producer:MuonTriggerMatchingProducer"] = 33
@@ -86,7 +86,7 @@ class ProcessorsOrdered(dict):
 			self["filter:ValidDiTauPairCandidatesFilter"] = 60
 			self["producer:HttValidLooseElectronsProducer"] = 70
 			self["producer:HttValidLooseMuonsProducer"] = 80
-		
+
 		if kwargs.get("channel", None) == "ET":
 			self["producer:ElectronCorrectionsProducer"] = 21  # not in cp json
 			self["producer:ValidElectronsProducer"] = 22
@@ -109,10 +109,10 @@ class ProcessorsOrdered(dict):
 			self["producer:HttValidVetoElectronsProducer"] = 70
 			self["producer:HttValidLooseElectronsProducer"] = 80
 			self["producer:HttValidLooseMuonsProducer"] = 90
-			
+
 
 		self["producer:Run2DecayChannelProducer"] = 100
-			
+
 		self["producer:DiVetoMuonVetoProducer"] = 110
 		self["producer:DiVetoElectronVetoProducer"] = 111
 
@@ -126,22 +126,22 @@ class ProcessorsOrdered(dict):
 
 		self["producer:TaggedJetUncertaintyShiftProducer"] = 150
 
-		self["producer:MetCorrector"] = 160 
-		self["producer:MvaMetCorrector"] = 161 
+		self["producer:MetCorrector"] = 160
+		self["producer:MvaMetCorrector"] = 161
 
 		self["producer:TauTauRestFrameSelector"] = 170
 
-		self["producer:DiLeptonQuantitiesProducer"] = 180	
-		
+		self["producer:DiLeptonQuantitiesProducer"] = 180
+
 		self["producer:DiJetQuantitiesProducer"] = 190
 
 		self["producer:SimpleEleTauFakeRateWeightProducer"] = 200
-		
+
 		self["producer:SimpleMuTauFakeRateWeightProducer"] = 210
-			
+
 		self["producer:ZPtReweightProducer"] = 220
 		self["producer:TopPtReweightingProducer"] = 221
-			
+
 		self["filter:MinimalPlotlevelFilter"] = 230
 
 		self["producer:MVATestMethodsProducer"] = 240
@@ -186,10 +186,10 @@ class ProcessorsOrdered(dict):
 		self["producer:JetToTauFakesProducer"] = 800
 		self["producer:CPInitialStateQuantitiesProducer"] = 850
 		self["producer:PrefiringWeightProducer"] = 900
-			
+
 		#left a lot of numbers since "producer:EventWeightProducer" is always the last one
 		self["producer:LFVJetCorrection2016Producer"] = 1900
-		self["producer:EventWeightProducer"] = 2000 
+		self["producer:EventWeightProducer"] = 2000
 
 	def order_processors(self, processorlist, *args, **kwargs):
 		processornumber = 1000
@@ -197,9 +197,9 @@ class ProcessorsOrdered(dict):
 			try:
 				processorlist.sort(key =lambda val: self[val])
 				break
-				
+
 			except KeyError, e:
-				log.warning("keyerror while sorting processors, missing processor='%s'" %str(e.args[0])) 
+				log.warning("keyerror while sorting processors, missing processor='%s'" %str(e.args[0]))
 				log.warning("appending it at the bottom with number '%s', is this intended?" %str(processornumber))
 				self[e.args[0]] = processornumber
 				processornumber += 1
@@ -207,6 +207,6 @@ class ProcessorsOrdered(dict):
 					log.error("missing more then 5 keys in ordering dict, check HiggsAnalysis/KITHiggsToTauTau/python/ArtusConfigs/processorOrdering.py")
 					break
 			else:
-				log.error("error in sorting processors, HiggsAnalysis/KITHiggsToTauTau/python/ArtusConfigs/processorOrdering.py")				
+				log.error("error in sorting processors, HiggsAnalysis/KITHiggsToTauTau/python/ArtusConfigs/processorOrdering.py")
 				break
 		return processorlist

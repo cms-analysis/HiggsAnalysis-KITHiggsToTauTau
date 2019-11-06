@@ -17,7 +17,7 @@ public:
 	virtual std::string GetFilterId() const override {
 		return "LooseElectronsCountFilter";
 	}
-	
+
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 };
 
@@ -33,7 +33,6 @@ public:
 	virtual std::string GetFilterId() const override {
 		return "LooseMuonsCountFilter";
 	}
-	
+
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 };
-

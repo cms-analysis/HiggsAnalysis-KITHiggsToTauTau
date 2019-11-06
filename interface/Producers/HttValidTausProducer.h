@@ -28,9 +28,9 @@ public:
 protected:
 
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override {
-	
+
 		ValidTausProducer::Init(settings, metadata);
-		
+
 		HttSettings const& specSettings = static_cast<HttSettings const&>(settings);
 		MvaIsolationCutsByIndex = Utility::ParseMapTypes<size_t, float>(Utility::ParseVectorToMap(specSettings.GetTauDiscriminatorMvaIsolation()), MvaIsolationCutsByName);
 
@@ -48,7 +48,7 @@ protected:
 			return product.m_validTaus.size() >=2 ? SafeMap::GetWithDefault(product.m_tauIsolationOverPt, product.m_validTaus[1], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 		});
 	}
-	
+
 	// Htautau specific additional definitions
 	virtual bool AdditionalCriteria(KTau* tau, event_type const& event,
 	                                product_type& product, setting_type const& settings, metadata_type const& metadata) const  override;
@@ -64,4 +64,3 @@ private:
 	std::map<std::string, std::vector<float> > MvaIsolationCutsByName;
 
 };
-

@@ -14,7 +14,7 @@ class Kappa(dict):
 			self["GenTaus"] = ""
 			self["GenTauJets"] = ""
 			self["GenMet"] = ""
-		
+
 		else:
 			self["GenParticles"] = "genParticles"
 			self["GenTaus"] = "genTaus"
@@ -74,4 +74,3 @@ class Kappa(dict):
 		self["BeamSpot"] = "offlineBeamSpot"
 		self["TriggerInfos"] = "triggerObjectMetadata"
 		self["TriggerObjects"] = "triggerObjects"
-

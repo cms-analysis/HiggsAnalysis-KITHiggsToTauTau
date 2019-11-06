@@ -150,7 +150,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvacov11", metadata.m_commonFloatQuantities["mvaMetCov11"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pzetavis", metadata.m_commonFloatQuantities["pZetaVis"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pzetamiss", metadata.m_commonFloatQuantities["pZetaMiss"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "jlv_1", metadata.m_commonRMFLVQuantities["leadingJetLV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_1", metadata.m_commonFloatQuantities["leadingJetPt"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_1", metadata.m_commonFloatQuantities["leadingJetEta"]);
@@ -168,25 +168,25 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_3", metadata.m_commonFloatQuantities["thirdJetEta"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_3", metadata.m_commonFloatQuantities["thirdJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jm_3", metadata.m_commonFloatQuantities["thirdJetMass"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "jlv_4", metadata.m_commonRMFLVQuantities["fourthJetLV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_4", metadata.m_commonFloatQuantities["fourthJetPt"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_4", metadata.m_commonFloatQuantities["fourthJetEta"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_4", metadata.m_commonFloatQuantities["fourthJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jm_4", metadata.m_commonFloatQuantities["fourthJetMass"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "jlv_5", metadata.m_commonRMFLVQuantities["fifthJetLV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_5", metadata.m_commonFloatQuantities["fifthJetPt"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_5", metadata.m_commonFloatQuantities["fifthJetEta"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_5", metadata.m_commonFloatQuantities["fifthJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jm_5", metadata.m_commonFloatQuantities["fifthJetMass"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "jlv_6", metadata.m_commonRMFLVQuantities["sixthJetLV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_6", metadata.m_commonFloatQuantities["sixthJetPt"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_6", metadata.m_commonFloatQuantities["sixthJetEta"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_6", metadata.m_commonFloatQuantities["sixthJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jm_6", metadata.m_commonFloatQuantities["sixthJetMass"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jmva_1", metadata.m_commonFloatQuantities["leadingJetPuID"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcsv_1", metadata.m_commonFloatQuantities["leadingJetCSV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bpt_1", metadata.m_commonFloatQuantities["bJetPt"]);
@@ -194,7 +194,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bphi_1", metadata.m_commonFloatQuantities["bJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bmva_1", metadata.m_commonFloatQuantities["leadingBJetPuID"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bcsv_1", metadata.m_commonFloatQuantities["leadingBJetCSV"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jmva_2", metadata.m_commonFloatQuantities["trailingJetPuID"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcsv_2", metadata.m_commonFloatQuantities["trailingJetCSV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bpt_2", metadata.m_commonFloatQuantities["bJet2Pt"]);
@@ -202,7 +202,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bphi_2", metadata.m_commonFloatQuantities["bJet2Phi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bmva_2", metadata.m_commonFloatQuantities["trailingBJetPuID"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bcsv_2", metadata.m_commonFloatQuantities["trailingBJetCSV"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcsv_3", metadata.m_commonFloatQuantities["thirdJetCSV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcsv_4", metadata.m_commonFloatQuantities["fourthJetCSV"]);
 

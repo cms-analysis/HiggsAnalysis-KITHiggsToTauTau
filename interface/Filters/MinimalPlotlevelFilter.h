@@ -20,15 +20,15 @@
  *
  */
 // template<class HttTypes>
-class MinimalPlotlevelFilter : public FilterBase<HttTypes> 
+class MinimalPlotlevelFilter : public FilterBase<HttTypes>
 {
 public:
 	typedef std::function<float(event_type const&, product_type const&, setting_type const&, metadata_type const&)> float_extractor_lambda;
 
 	virtual std::string GetFilterId() const override;
-	
+
 	void Init(setting_type const& settings, metadata_type& metadata) override;
-	
+
 	template<typename T>
 	void RemoveSubstrs(typename std::basic_string<T>& s,char p) const
 	{

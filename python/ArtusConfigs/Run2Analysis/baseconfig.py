@@ -62,7 +62,7 @@ class Baseconfig(dict):
 			self["BosonPdgIds"] = [0]
 
 		self["BosonStatuses"] = [11, 62]
-		
+
 		self["DeltaRMatchingRecoElectronGenParticle"] = 0.2
 		self["DeltaRMatchingRecoElectronGenTau"] = 0.2
 		self["DeltaRMatchingRecoMuonGenParticle"] = 0.2
@@ -123,23 +123,23 @@ class Baseconfig(dict):
 				]
 
 		if re.search("Summer17", nickname):
-			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_RunBtoF_80bins_MC_Moriond17_PU25ns_V1_69p2MinBiasXS.root" 
-			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv" 
-			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root" 
+			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_RunBtoF_80bins_MC_Moriond17_PU25ns_V1_69p2MinBiasXS.root"
+			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
+			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root"
 
 		elif re.search("Fall17", nickname):
 			self["JetPrefireProbabilityFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/prefiring/L1prefiring_jetpt_2017BtoF.root"
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/DeepCSV_94XSF_WP_V4_B_F.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/btagging_efficiency_2017/tagging_efficiencies_march2018_btageff-all_samp-inc-DeepCSV_medium.root" #TODO cant find this
 
-			if re.search("Fall17", nickname): 
+			if re.search("Fall17", nickname):
 				pileupweightfile = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/SKIM_NOV2018_Fall17_CP/" + nickname +".root"
 				if os.path.isfile(os.path.expandvars(pileupweightfile)):
 					self["PileupWeightFile"] = pileupweightfile
 				else:
 					log.warning("automatic finding doesnt work,This is the inclusive pilupweight used for Fall17 are you sure you want to use this one?") #TODO create a new one?
 					self["PileupWeightFile"] =  "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_13TeV_MC_94XFall17_99bins_69p2mbMinBiasXS.root"
-			#elif re.search("Fall17", nickname): 
+			#elif re.search("Fall17", nickname):
 				"""
 				log.warning("you are not using MiniAODv2, are you sure you want this")
 				elif re.search("(DYJetsToLLM50).*(?=Fall17).*(?<!(ext1))$", nickname):

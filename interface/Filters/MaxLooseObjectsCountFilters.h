@@ -17,7 +17,7 @@ public:
 	virtual std::string GetFilterId() const override {
 		return "MaxLooseElectronsCountFilter";
 	}
-	
+
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 };
 
