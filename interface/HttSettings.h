@@ -43,6 +43,7 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, MetCorrectionMethod, "quantileMapping");
 
 	IMPL_SETTING_DEFAULT(bool, ChooseMvaMet, true);
+	IMPL_SETTING_DEFAULT(std::string, ChooseMet, "pfMet");
 	IMPL_SETTING_DEFAULT(bool, UpdateMetWithCorrectedLeptons, false);
 	IMPL_SETTING_DEFAULT(int, MetSysType, 0);
 	IMPL_SETTING_DEFAULT(int, MetSysShift, 0);

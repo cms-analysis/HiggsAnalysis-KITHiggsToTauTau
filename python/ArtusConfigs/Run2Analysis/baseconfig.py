@@ -256,8 +256,10 @@ class Baseconfig(dict):
 		self["MvaMetShiftCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
 
 		if re.search("(Fall15MiniAODv2|Run2015D)", nickname):
+			self["ChooseMet"] = "mvaMet"
 			self["ChooseMvaMet"] = True
 		else:
+			self["ChooseMet"] = "pfMet" # Options are pfMet, puppiMet, mvaMet (not for 2015 onwards)
 			self["ChooseMvaMet"] = False
 
 		if re.search("Run2015B", nickname):

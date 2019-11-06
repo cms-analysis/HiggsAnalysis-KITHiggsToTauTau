@@ -118,7 +118,36 @@ public:
 		{
 			return product.m_mvamet.significance.At(1, 1);
 		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetSumEt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return product.m_puppimet.sumEt;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return product.m_puppimet.p4.Pt();
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetPhi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return product.m_puppimet.p4.Phi();
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetCov00", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return product.m_puppimet.significance.At(0, 0);
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetCov01", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return product.m_puppimet.significance.At(0, 1);
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetCov10", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return product.m_puppimet.significance.At(1, 0);
+		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetCov11", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return product.m_puppimet.significance.At(1, 1);
+		});
 	}
+
 
 	virtual void Produce(event_type const& event, product_type & product,
 	                     setting_type const& settings, metadata_type const& metadata) const override
@@ -182,7 +211,7 @@ public:
 
 			// Copy the MET object, for possible future corrections
 			product.m_mvamet = *(product.m_mvametUncorr);
-			if (settings.GetChooseMvaMet())
+			if (settings.GetChooseMet() == "mvaMet")
 			{
 				product.m_metUncorr = product.m_mvametUncorr;
 				product.m_met = product.m_mvamet;
@@ -190,14 +219,29 @@ public:
 		}
 		else if ((m_metMember != nullptr) && ((event.*m_metMember) != nullptr))
 		{
-			product.m_pfmetUncorr = (event.*m_metMember);
-
 			// Copy the MET object, for possible future corrections
-			product.m_pfmet = *(product.m_pfmetUncorr);
-			if (!settings.GetChooseMvaMet())
+			// LOG(DEBUG) << "MetSelector: " << this->GetProducerId();
+			if (this->GetProducerId() == "MetSelector")
+			{
+				product.m_pfmetUncorr = (event.*m_metMember);
+				product.m_pfmet = *(product.m_pfmetUncorr);
+			}
+			if (this->GetProducerId() == "MetSelectorPuppi")
+			{
+				product.m_puppiMetUncorr = (event.*m_metMember);
+				product.m_puppimet = *(product.m_puppiMetUncorr);
+			}
+
+			// LOG(DEBUG) << "MET: " << settings.GetChooseMet();
+			if (settings.GetChooseMet() == "pfMet")
 			{
 				product.m_metUncorr = product.m_pfmetUncorr;
 				product.m_met = product.m_pfmet;
+			}
+			else if (settings.GetChooseMet() == "puppiMet")
+			{
+				product.m_metUncorr = product.m_puppiMetUncorr;
+				product.m_met = product.m_puppimet;
 			}
 		}
 		else

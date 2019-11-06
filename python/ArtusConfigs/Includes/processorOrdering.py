@@ -21,6 +21,7 @@ class ProcessorsOrdered(dict):
 		#print examplelist => ["a", "d", "k", "e"]
 
 		self["producer:MetSelector"] = 10
+		self["producer:MetSelectorPuppi"] = 10.1
 		self["producer:MetFilterProducer"] = 11
 
 		if kwargs.get("channel", None) == "MT":

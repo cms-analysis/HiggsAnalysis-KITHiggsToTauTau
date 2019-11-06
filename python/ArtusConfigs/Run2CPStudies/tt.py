@@ -39,6 +39,7 @@ class tt_ArtusConfig(dict):
 				"producer:HltProducer",
 				#"filter:HltFilter",
 				"producer:MetSelector",
+				"producer:MetSelectorPuppi",
 				################## special for each channel in et mt tt em.
 				"producer:ValidTausProducer",
 				"filter:ValidTausFilter",
