@@ -44,9 +44,7 @@ class tt_ArtusConfig(ttbaseconfig.tt_ArtusConfig):
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/tt/fakeFactors.root"
 			self["FakeFactorMethod"] = "cpfinalstate2017"
-			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_mvis_cpfinalstate2017.root"
-			# self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/ff_fracs_pt_2017.root"
-
+			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/FF_fractions_workspace_m_vis_njets.root"
 			self["FakeFactorRooWorkspaceFunction"] = [
 				"w_fracs_1:w_fracs_tt1",
 				"qcd_fracs_1:qcd_fracs_tt1",
