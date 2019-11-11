@@ -97,6 +97,7 @@ cd $CMSSW_BASE/src/
 git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
 
 # needed for plotting and statistical inference
+# recommendations found here: https://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/#setting-up-the-environment-and-installation
 if [[ $ch_branch == "SM2016-dev" ]] && [[ $cmssw_version == "747" ]]; then
 	git clone git@github.com:thomas-mueller/CombineHarvester.git CombineHarvester -b SM2016-dev
 	cd CombineHarvester/HTTSM2016
@@ -121,20 +122,20 @@ elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "810" ]]; then
 	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
 	git fetch origin
-	git checkout v7.0.10
+	git checkout v7.0.13
 	cd -
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
 
 else
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester -b SMCP2016-dev
-    cd CombineHarvester/HTTSMCP2016
-    git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
-    cd -
-    git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
-    cd HiggsAnalysis/CombinedLimit
-    git fetch origin
-    git checkout v7.0.4
-    cd -
+	cd CombineHarvester/HTTSMCP2016
+	git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
+	cd -
+	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	cd HiggsAnalysis/CombinedLimit
+	git fetch origin
+	git checkout v7.0.4
+	cd -
 
 fi
 
