@@ -144,6 +144,9 @@ cd grid-control
 git reset --hard 3f93692
 cd $CMSSW_BASE/src/
 
+# custom TauSpinner
+source HiggsAnalysis/KITHiggsToTauTau/scripts/setup_tauspinner.sh
+
 # source ini script, needs to be done in every new shell
 source HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
