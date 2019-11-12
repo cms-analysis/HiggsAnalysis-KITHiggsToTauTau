@@ -113,6 +113,7 @@ git clone -b final_2017_MCv2 git@github.com:cms-tau-pog/TauTriggerSFs $CMSSW_BAS
 git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
 
 # needed for plotting and statistical inference
+# recommendations found here: https://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/#setting-up-the-environment-and-installation
 if [[ $ch_branch == "SM2016-dev" ]] && [[ $cmssw_version == "747" ]]; then
 	git clone git@github.com:thomas-mueller/CombineHarvester.git CombineHarvester -b SM2016-dev
 	cd CombineHarvester/HTTSM2016
@@ -137,18 +138,21 @@ elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "810" ]]; then
 	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
 	git fetch origin
-	git checkout v7.0.10
+	git checkout v7.0.13
 	cd -
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
 
 elif [[ $cmssw_version == "940" ]]; then
 	echo "No valid CombineHarvester for 940. Compilation won't work. Checking out state of 810"
-	# needed for plotting and statistical inference
-	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
+	if [[ $ch_branch == "HTTCPDecays18-dev" ]]; then
+		git clone git@github.com:albertdow/CombineHarvester CombineHarvester
+	else
+		git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
+	fi
 	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
 	git fetch origin
-	git checkout v7.0.4
+	git checkout v7.0.13
 	cd -
 
 elif [[ $cmssw_version == "10217" ]] && [[ $ch_branch == "HTTCPDecays18-dev" ]]; then
@@ -156,6 +160,8 @@ elif [[ $cmssw_version == "10217" ]] && [[ $ch_branch == "HTTCPDecays18-dev" ]];
 	git clone git@github.com:albertdow/CombineHarvester CombineHarvester
 	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
+	git fetch origin
+	git checkout v8.0.1
 	cd -
 
 else
