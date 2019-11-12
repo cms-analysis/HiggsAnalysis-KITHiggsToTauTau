@@ -161,12 +161,17 @@ class Samples(samples.SamplesBase):
 				return ["(njetspt30>1)", addition]
 			return [weight]
 
-	def ztt_stitchingweight(self):
-		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 150.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 150.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 150.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 150.0 && npartons == 4)*1.09698723e-5)+"
-		mediummass = "((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.09698723e-5)+"
-		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
-		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
-		return "("+highmass+mediummass+lowmass+")"+normalization
+	def ztt_stitchingweight(self, new_ztt=True):
+		if new_ztt:
+			# correction as a function of npartons (to match old samples)
+			return "(((npartons==0)*0.932899)+((npartons==1)*1.21927)+((npartons==2)*1.21221)+((npartons==3)*1.04653)+((npartons==4)*0.958182)+((npartons>4)*1.0))"
+#			return "(1.0)"
+		else:
+			highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 150.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 150.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 150.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 150.0 && npartons == 4)*1.09698723e-5)+"
+			mediummass = "((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.09698723e-5)+"
+			lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight)"
+			normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+			return "("+highmass+mediummass+lowmass+")"+normalization
 
 	def embedding_ttbarveto_weight(self,channel):
 		if self.embedding:
@@ -324,6 +329,7 @@ class Samples(samples.SamplesBase):
 				return "(((decayMode_1 == 0)*0.975) + ((decayMode_1 == 1 || decayMode_1 == 2)*0.975*1.051) + ((decayMode_1 == 10)*0.975*0.975*0.975))*(((decayMode_2 == 0)*0.975) + ((decayMode_2 == 1 || decayMode_2 == 2)*0.975*1.051) + ((decayMode_2 == 10)*0.975*0.975*0.975))"
 		
 		elif ("2016" in cut_type) and ("low_mvis" in cut_type):
+#			return "(1.0)"
 			return ("((1.0)+"+
 			         "((decayMode_1==0)*(genMatchedTau1DecayMode==0)*(1.14-1.0))+"+
 				     "((decayMode_1==0)*(genMatchedTau1DecayMode==1)*(0.66-1.0))+"+
@@ -414,7 +420,7 @@ class Samples(samples.SamplesBase):
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
 		elif mc_sample_weight != "(1.0)":
 			if doStitching:
-				return make_multiplication([self.ztt_stitchingweight(), mc_sample_weight])
+				return make_multiplication([self.ztt_stitchingweight(new_ztt=kwargs.get("new_ztt", True)), mc_sample_weight])
 			else:
 				return mc_sample_weight
 		else:
@@ -422,7 +428,7 @@ class Samples(samples.SamplesBase):
 				if channel == "gen":
 					return  mc_weight  # TODO this needs to be studied further!
 				else:
-					return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight()])
+					return make_multiplication([mc_weight, weight, "eventWeight", self.ztt_stitchingweight(new_ztt=kwargs.get("new_ztt", True))])
 			else:
 				if channel == "gen":
 					return  mc_weight  # TODO this needs to be studied further!
@@ -515,7 +521,7 @@ class Samples(samples.SamplesBase):
 	def files_dy_m50(self, channel):
 		return self.artus_file_names({"process" : "DYJetsToLLM50", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 2)
 
-	def files_ztt(self, channel, embedding=False):
+	def files_ztt(self, channel, embedding=False, new_ztt=True):
 		if embedding:
 			if channel=='mt':
 				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "MuTauFinalState","scenario": ".*v2" }, 7)
@@ -527,8 +533,11 @@ class Samples(samples.SamplesBase):
 				return self.artus_file_names({"process" : "Embedding2016.*" , "campaign" : "ElMuFinalState","scenario": "imputSep16DoubleMu_mirror_miniAODv2" }, 6)
 			else:
 				log.error("Embedding currently not implemented for channel \"%s\"!" % channel)
-								
-		return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7)
+		
+		elif new_ztt:
+			return self.artus_file_names({"process" : "(DYJetsToTauTauM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 1)
+		else:
+			return self.artus_file_names({"process" : "(DYJetsToLLM10to50|DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50|DY4JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7)
 
 	def ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, proxy_prefix="", **kwargs):
 
@@ -542,29 +551,29 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix, proxy_prefix=proxy_prefix)
 		if channel in ["gen"]:
 			add_input(
-					input_file=self.files_ztt(channel, embedding=self.embedding),
+					input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
 					weight="((isZTT*numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})*({weight}))".format(
-							stitching_weight=self.ztt_stitchingweight(),
+							stitching_weight=self.ztt_stitchingweight(new_ztt=kwargs.get("new_ztt", True)),
 							weight=weight
 					),
 					nick="ztt"
 		)
 		elif channel in ["mt", "et", "tt", "em", "mm", "ee", "ttbar"]:
 			add_input(
-					input_file=self.files_ztt(channel, embedding=self.embedding),
-					weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight, embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_emb)+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*"+zmm_cr_factor+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type_emb),
+					input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+					weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_emb)+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*"+zmm_cr_factor+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type_emb),
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="ztt"
 			)
 			if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 				add_input(
 						input_file=self.files_ewkz_zll(channel),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.decay_mode_reweight(channel, cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.decay_mode_reweight(channel, cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="ztt"
 				)
 				add_input(
 						input_file=self.files_ewkz_znn(channel),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.decay_mode_reweight(channel, cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.decay_mode_reweight(channel, cut_type)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="ztt"
 				)
 		else:
@@ -620,10 +629,11 @@ class Samples(samples.SamplesBase):
 		differential_unpolarisation = kwargs.get("differential_unpolarisation", False)
 		
 		name = "pospol"+("_noplot" if polarisation_bias_correction else "")
-		polarisation_weight = "(LHE_SPINUP_neg_lepton>0.0)*(LHE_SPINUP_neg_lepton<2.0)"
+		helicity_flag = "LHE_SPINUP_neg_lepton" if kwargs.get("new_ztt", True) else "tauSpinnerPolarisation"
+		polarisation_weight = "("+helicity_flag+">0.0)*("+helicity_flag+"<2.0)"
 		proxy_prefix = ""
 		if differential_unpolarisation:
-			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+"_HASH_NAME.ScaleFactor(genbosonmass, LHE_SPINUP_neg_lepton>0, lheZfromUUbar+lheZfromCCbar)"
+			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+"_HASH_NAME.ScaleFactor(genbosonmass, "+helicity_flag+">0, lheZfromUUbar+lheZfromCCbar)"
 			polarisation_weight = "(%s)*(%s)" % (polarisation_weight, unpolarisation_weight)
 			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Unpolarisation.h>\nUnpolarisation unpol_ztt"+name+nick_suffix+"_HASH_NAME(\"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_up\", \"unpol_neg_up\", \"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_down\", \"unpol_neg_down\");")
 		
@@ -632,11 +642,11 @@ class Samples(samples.SamplesBase):
 		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix, proxy_prefix=proxy_prefix)
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			add_input(
-					input_file=self.files_ztt(channel, embedding=self.embedding),
+					input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
 					folder="gen/ntuple",
-					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})*(genbosonmass>50)".format(
+					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})".format( # *(genbosonmass>=50)*(genbosonmass<=200)
 							polarisation_weight=polarisation_weight,
-							stitching_weight=self.ztt_stitchingweight()
+							stitching_weight=self.ztt_stitchingweight(new_ztt=kwargs.get("new_ztt", True))
 					),
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")
@@ -663,10 +673,11 @@ class Samples(samples.SamplesBase):
 		differential_unpolarisation = kwargs.get("differential_unpolarisation", False)
 		
 		name = "negpol"+("_noplot" if polarisation_bias_correction else "")
-		polarisation_weight = "(LHE_SPINUP_neg_lepton<0.0)*(LHE_SPINUP_neg_lepton>-2.0)"
+		helicity_flag = "LHE_SPINUP_neg_lepton" if kwargs.get("new_ztt", True) else "tauSpinnerPolarisation"
+		polarisation_weight = "("+helicity_flag+"<0.0)*("+helicity_flag+">-2.0)"
 		proxy_prefix = ""
 		if differential_unpolarisation:
-			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+"_HASH_NAME.ScaleFactor(genbosonmass, LHE_SPINUP_neg_lepton>0, lheZfromUUbar+lheZfromCCbar)"
+			unpolarisation_weight = "unpol_ztt"+name+nick_suffix+"_HASH_NAME.ScaleFactor(genbosonmass, "+helicity_flag+">0, lheZfromUUbar+lheZfromCCbar)"
 			polarisation_weight = "(%s)*(%s)" % (polarisation_weight, unpolarisation_weight)
 			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Unpolarisation.h>\nUnpolarisation unpol_ztt"+name+nick_suffix+"_HASH_NAME(\"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_up\", \"unpol_neg_up\", \"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_down\", \"unpol_neg_down\");")
 		
@@ -675,11 +686,11 @@ class Samples(samples.SamplesBase):
 
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
 			add_input(
-					input_file=self.files_ztt(channel, embedding=self.embedding),
+					input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
 					folder="gen/ntuple",
-					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})*(genbosonmass>50)".format(
+					weight="isZTT*({polarisation_weight})*(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)*({stitching_weight})".format( # *(genbosonmass>=50)*(genbosonmass<=200)
 							polarisation_weight=polarisation_weight,
-							stitching_weight=self.ztt_stitchingweight()
+							stitching_weight=self.ztt_stitchingweight(new_ztt=kwargs.get("new_ztt", True))
 					),
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="gen_ztt"+name+("" if polarisation_gen_ztt_plots else "_noplot")
@@ -1549,20 +1560,20 @@ class Samples(samples.SamplesBase):
 				
 				# Type C subtract nicks - nick type xx_ss_highmt
 				add_input(
-						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+						input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick=("noplot_" if not controlregions else "") + "ztt_ss_highmt"
 				)
 				if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 					add_input(
 							input_file=self.files_ewkz_zll(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 							nick=("noplot_" if not controlregions else "") + "ztt_ss_highmt"
 					)
 					add_input(
 							input_file=self.files_ewkz_znn(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 							nick=("noplot_" if not controlregions else "") + "ztt_ss_highmt"
 					)
 				add_input(
@@ -1634,20 +1645,20 @@ class Samples(samples.SamplesBase):
 				)					
 				# wjets os highmt subtract nicks
 				add_input(
-						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+						input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick=("noplot_" if not controlregions else "") + "ztt_os_highmt"
 				)
 				if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 					add_input(
 							input_file=self.files_ewkz_zll(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 							nick=("noplot_" if not controlregions else "") + "ztt_os_highmt"
 					)
 					add_input(
 							input_file=self.files_ewkz_znn(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 							nick=("noplot_" if not controlregions else "") + "ztt_os_highmt"
 					)
 				add_input(
@@ -1979,20 +1990,20 @@ class Samples(samples.SamplesBase):
 						nick="noplot_wj_data_control"
 				)
 				add_input(
-						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+						input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick="noplot_ztt_mc_wj_control"
 				)
 				if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 					add_input(
 							input_file=self.files_ewkz_zll(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 							nick="noplot_ztt_mc_wj_control"
 					)
 					add_input(
 							input_file=self.files_ewkz_znn(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 							nick="noplot_ztt_mc_wj_control"
 					)
 				add_input(
@@ -2152,20 +2163,20 @@ class Samples(samples.SamplesBase):
 						nick="noplot_wj_mc_qcd_control"
 				)			
 			add_input(
-					input_file=self.files_ztt(channel, embedding=self.embedding),
-					weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+					weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="noplot_ztt_mc_qcd_control"
 			)
 			if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 				add_input(
 						input_file=self.files_ewkz_zll(channel),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="noplot_ztt_mc_qcd_control"
 				)
 				add_input(
 						input_file=self.files_ewkz_znn(channel),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="noplot_ztt_mc_qcd_control"
 				)
 			add_input(
@@ -2308,20 +2319,20 @@ class Samples(samples.SamplesBase):
 				)													
 				# background subtraction nicks in region B
 				add_input(
-						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick=("noplot_" if not controlregions else "") + "ztt_ss_qcd"
 				)
 				if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 					add_input(
 							input_file=self.files_ewkz_zll(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 							nick=("noplot_" if not controlregions else "") + "ztt_ss_qcd",
 					)
 					add_input(
 							input_file=self.files_ewkz_znn(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 							nick=("noplot_" if not controlregions else "") + "ztt_ss_qcd",
 					)
 				add_input(
@@ -2544,20 +2555,20 @@ class Samples(samples.SamplesBase):
 								nick=("qcd" if estimation_type=="shape" else "noplot_qcd_"+estimation_type)
 						)
 						add_input(
-								input_file=self.files_ztt(channel, embedding=self.embedding),
-								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight,embedding=self.embedding)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+								input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight,embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 								scale_factor = 1.0 if self.embedding else lumi,
 								nick="noplot_ztt_"+estimation_type
 						)
 						if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 							add_input(
 									input_file=self.files_ewkz_zll(channel),
-									weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight, doStitching=False)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+									weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight, doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 									nick="noplot_ztt_"+estimation_type
 							)
 							add_input(
 									input_file=self.files_ewkz_znn(channel),
-									weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight, doStitching=False)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+									weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_sample_weight, doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 									nick="noplot_ztt_"+estimation_type
 							)
 						add_input(
@@ -2654,20 +2665,20 @@ class Samples(samples.SamplesBase):
 								nick="qcd" if key == "qcd_shape" else "noplot_data_"+key
 						)
 						add_input(
-								input_file=self.files_ztt(channel, embedding=self.embedding),
-								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key],embedding=self.embedding)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+								input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key],embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 								scale_factor = 1.0 if self.embedding else lumi,
 								nick="noplot_ztt_"+key
 						)
 						if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 							add_input(
 									input_file=self.files_ewkz_zll(channel),
-									weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key], doStitching=False)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
+									weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key], doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 									nick="noplot_ztt_"+key
 							)
 							add_input(
 									input_file=self.files_ewkz_znn(channel),
-									weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key], doStitching=False)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+									weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,mc_sample_weight=mc_selection_weights[key], doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 									nick="noplot_ztt_"+key
 							)
 						add_input(
@@ -2745,20 +2756,20 @@ class Samples(samples.SamplesBase):
 							nick="noplot_wj_ss_data_control"
 					)
 					add_input(
-							input_file=self.files_ztt(channel, embedding=self.embedding),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+							input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 							scale_factor = 1.0 if self.embedding else lumi,
 							nick="noplot_ztt_ss_mc_wj_control"
 					)
 					if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 						add_input(
 								input_file=self.files_ewkz_zll(channel),
-								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
+								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor,
 								nick="noplot_ztt_ss_mc_wj_control"
 						)
 						add_input(
 								input_file=self.files_ewkz_znn(channel),
-								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
+								weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor,
 								nick="noplot_ztt_ss_mc_wj_control"
 						)
 					add_input(
@@ -2854,20 +2865,20 @@ class Samples(samples.SamplesBase):
 						nick="noplot_data_qcd_control"
 				)
 				add_input(
-						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+						weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick="noplot_ztt_mc_qcd_control"
 				)
 				if not (kwargs.get("no_ewk_samples", False) or kwargs.get("no_ewkz_as_dy", False)):
 					add_input(
 							input_file=self.files_ewkz_zll(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_zll_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 							nick="noplot_ztt_mc_qcd_control"
 					)
 					add_input(
 							input_file=self.files_ewkz_znn(channel),
-							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+							weight=Samples.ztt_genmatch(channel)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,doStitching=False, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*"+self.ewkz_znn_stitchingweight()+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 							nick="noplot_ztt_mc_qcd_control"
 					)
 				add_input(
@@ -3572,8 +3583,8 @@ class Samples(samples.SamplesBase):
 			print weight_ff_reals
 			
 			add_input(
-				input_file=self.files_ztt(channel, embedding=self.embedding),
-				weight=Samples.ztt_genmatch(channel)+"*"+mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff_reals,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb)+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*zPtReweightWeight*(gen_match_2 < 6)",
+				input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+				weight=Samples.ztt_genmatch(channel)+"*"+mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff_reals,embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb)+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*zPtReweightWeight*(gen_match_2 < 6)",
 				scale_factor = 1.0 if self.embedding else lumi,
 				nick="noplot_ff_realtaus_subtract"
 			)
@@ -3615,8 +3626,8 @@ class Samples(samples.SamplesBase):
 			)
 
 			add_input(
-					input_file=self.files_ztt(channel, embedding=self.embedding),
-					weight=self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
+					input_file=self.files_ztt(channel, embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True)),
+					weight=self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding, new_ztt=kwargs.get("new_ztt", True))+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+["iso_2"], cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)*jetToTauFakeWeight_comb",
 					nick="noplot_dy_ff_norm"
 			)
 			add_input(

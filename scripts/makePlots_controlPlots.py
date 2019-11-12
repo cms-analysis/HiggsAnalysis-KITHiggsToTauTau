@@ -237,6 +237,8 @@ if __name__ == "__main__":
 	                    help="Publish plots. [Default: %(default)s]")
 	parser.add_argument("--emb", default=False, action="store_true",
 	                    help="Use embedded samples. [Default: %(default)s]")
+	parser.add_argument("--old-ztt", default=False, action="store_true",
+	                    help="Use old/official DY samples for ZTT. [Default: %(default)s]")
 	parser.add_argument("--ttbar-retuned", default=False, action="store_true",
 	                    help="Use retuned ttbar samples. [Default: %(default)s]")
 	parser.add_argument("--embedded-weights", default=['1.0','1.0','1.0','1.0'], nargs='*',
@@ -447,9 +449,12 @@ if __name__ == "__main__":
 						cut_type = global_cut_type,
 						no_ewk_samples = args.no_ewk_samples,
 						no_ewkz_as_dy = args.no_ewkz_as_dy,
+						new_ztt=(not args.old_ztt),
 						useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,
 						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
 						nick_suffix = (channel+str(index_channel) if args.channel_comparison else ""),
+						#polarisation_bias_correction=True,
+						#polarisation_gen_ztt_plots=False,
 						asimov_nicks = asimov_nicks
 				)
 				if (args.channel_comparison):
