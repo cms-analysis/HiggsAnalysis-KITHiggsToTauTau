@@ -70,7 +70,7 @@ git clone git@github.com:CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitStand
 git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # polarisation
-git clone git@github.com:TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
+git clone --recurse git@github.com:TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
 git clone git@github.com:TauPolSoftware/CalibrationCurve.git TauPolSoftware/CalibrationCurve
 
 # MadGraph
@@ -88,10 +88,9 @@ cd $CMSSW_BASE/src/
 git clone git@github.com:CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
 git checkout v0.2.2
-mkdir data
-git clone https://gitlab.cern.ch/cms-htt/Jet2TauFakesFiles.git data
-
 cd $CMSSW_BASE/src/
+git clone ssh://git@gitlab.cern.ch:7999/cms-htt/Jet2TauFakesFiles.git HTTutilities/Jet2TauFakes/data
+#git clone https://gitlab.cern.ch/cms-htt/Jet2TauFakesFiles HTTutilities/Jet2TauFakes/data
 
 # EmuQCD Method
 git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
