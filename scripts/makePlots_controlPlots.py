@@ -257,6 +257,8 @@ if __name__ == "__main__":
 	                    help="Calculate os to ss extrapolation factor of QCD estimation in MT and ET channels. [Default: %(default)s]")
 	parser.add_argument("--use-proxy-fakefactors", default=False, action="store_true",
 	                    help="Use proxy to calculate fake factors. [Default: %(default)s]")
+	parser.add_argument("--isomorphic-mapping", default=False, action="store_true",
+	                    help="Create a plot for isomorphic mapping. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -561,6 +563,22 @@ if __name__ == "__main__":
 					for analysis_module in args.analysis_modules:
 						if analysis_module not in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append(analysis_module)
+
+				if args.isomorphic_mapping:
+					bkg_samples_used = [nick for nick in bkg_samples if (nick in config["nicks"] or nick == "ff")]
+					if "IsomorphicMapping" not in config.get("analysis_modules", []):
+						config.setdefault("analysis_modules", []).append("IsomorphicMapping")
+					if "stacks" in config: config.pop("stacks")
+					if "colors" in config: config.pop("colors")
+					if "markers" in config: config.pop("markers")
+					if "labels" in config: config.pop("labels")
+					config.setdefault("isomap_mc_nicks", []).extend([" ".join(bkg_samples_used)])
+					config.setdefault("isomap_data_nicks", []).extend(["data"])
+					config.setdefault("isomap_result_nicks", []).extend(["isomap"])
+					config["nicks_blacklist"].extend(["ff", "zl", "ttt", "vvt", "ztt", "data"])
+					config.setdefault("colors", []).append("#000000")
+					config.setdefault("stacks", []).append("isomap")
+					config.setdefault("markers", []).append("LP")
 
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if (nick in config["nicks"] or nick == "ff")]
