@@ -59,7 +59,7 @@
 		"p1s_noplot",
 		"p2s_noplot"
 	],
-	"no_cache": true, 
+	"redo_cache": true, 
 	"tree_draw_options": [
 		"TGraph",
 		"TGraphErrors",

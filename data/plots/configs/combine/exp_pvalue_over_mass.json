@@ -30,7 +30,7 @@
 	"nicks": [
 		"exp"
 	],
-	"no_cache": true, 
+	"redo_cache": true, 
 	"tree_draw_options": [
 		"TGraph"
 	],

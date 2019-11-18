@@ -45,6 +45,8 @@ if __name__ == "__main__":
 	                    help="Run analysis module for alpha_s uncertainty evaluation. [Default: %(default)s]")
 	parser.add_argument("--evaluate-pdf-uncertainties", default=False, action="store_true",
 	                    help="Run analysis module for PDF uncertainty evaluation. [Default: %(default)s]")
+	parser.add_argument("--evaluate-pdf-uncertainty-correlations", default=False, action="store_true",
+	                    help="Run analysis module for PDF uncertainty correlation evaluation. [Default: %(default)s]")
 	parser.add_argument("--evaluate-scale-uncertainties", default=False, action="store_true",
 	                    help="Run analysis module for scale (muR and muF) uncertainty evaluation. [Default: %(default)s]")
 	parser.add_argument("-e", "--exclude-cuts", nargs="+", default=[],
@@ -84,6 +86,8 @@ if __name__ == "__main__":
 	                    help="Era of samples to be used. [Default: %(default)s]")
 	parser.add_argument("-a", "--args", default="--plot-modules PlotRootHtt",
 	                    help="Additional Arguments for HarryPlotter. [Default: %(default)s]")
+	parser.add_argument("--shape-effect-only", default=False, action="store_true",
+	                    help="Normalise shifted histograms to nominal histogram to study only shape effects. [Default: %(default)s]")
 	parser.add_argument("-r", "--ratio", default=False, action="store_true",
 	                    help="Add ratio subplot. [Default: %(default)s]")
 	parser.add_argument("-n", "--n-processes", type=int, default=1,
@@ -166,225 +170,255 @@ if __name__ == "__main__":
 			global_cut_type = "cpggh"
 		global_cut_type += "2016"
 
-	evaluate_uncertainties = args.evaluate_alpha_s_uncertainties or args.evaluate_pdf_uncertainties or args.evaluate_scale_uncertainties
+	evaluate_uncertainties = args.evaluate_alpha_s_uncertainties or args.evaluate_pdf_uncertainties or args.evaluate_pdf_uncertainty_correlations or args.evaluate_scale_uncertainties
 
 	# Configs construction for HP
 	for sample in args.samples:
 		for category in args.categories:
 			for index_quantity, quantity in enumerate(args.quantities):
+				for quark_type in ["inclusive"]: #["up", "down"]
+					quark_type_weight = None
+					if quark_type == "up":
+						quark_type_weight = "(lheZfromUUbar+lheZfromCCbar)"
+					elif quark_type == "down":
+						quark_type_weight = "(lheZfromDDbar+lheZfromSSbar+lheZfromBBbar)"
 
-				channels_background_methods = zip(args.channels, args.background_method)
-				channel_config = {}
-				for index_channel, (channel, background_method) in enumerate(channels_background_methods):
-					if args.mssm:
-						cut_type = "mssm2016full"
-						if args.era == "2016":
-							cut_type = "mssm2016"
-						elif "looseiso" in category:
-							cut_type = "mssm2016looseiso"
-						elif "loosemt" in category:
-							cut_type = "mssm2016loosemt"
-						elif "tight" in category:
-							cut_type = "mssm2016tight"
+					channels_background_methods = zip(args.channels, args.background_method)
+					channel_config = {}
+					for index_channel, (channel, background_method) in enumerate(channels_background_methods):
+						if args.mssm:
+							cut_type = "mssm2016full"
+							if args.era == "2016":
+								cut_type = "mssm2016"
+							elif "looseiso" in category:
+								cut_type = "mssm2016looseiso"
+							elif "loosemt" in category:
+								cut_type = "mssm2016loosemt"
+							elif "tight" in category:
+								cut_type = "mssm2016tight"
 
-					if args.etaufakerate:
-						# TODO: add the default global_cut_type
-						if "vloose_pass" in category:
-							global_cut_type = "etaufake2016_antievloosepass"
-						elif "vloose_fail" in category:
-							global_cut_type = "etaufake2016_antievloosefail"
-						elif "loose_pass" in category:
-							global_cut_type = "etaufake2016_antieloosepass"
-						elif "loose_fail" in category:
-							global_cut_type = "etaufake2016_antieloosefail"
-						elif "medium_pass" in category:
-							global_cut_type = "etaufake2016_antiemediumpass"
-						elif "medium_fail" in category:
-							global_cut_type = "etaufake2016_antiemediumfail"
-						elif "tight_pass" in category:
-							global_cut_type = "etaufake2016_antietightpass"
-						elif "tight_fail" in category:
-							global_cut_type = "etaufake2016_antietightfail"
-						elif "vtight_pass" in category:
-							global_cut_type = "etaufake2016_antievtightpass"
-						elif "vtight_fail" in category:
-							global_cut_type = "etaufake2016_antievtightfail"
+						if args.etaufakerate:
+							# TODO: add the default global_cut_type
+							if "vloose_pass" in category:
+								global_cut_type = "etaufake2016_antievloosepass"
+							elif "vloose_fail" in category:
+								global_cut_type = "etaufake2016_antievloosefail"
+							elif "loose_pass" in category:
+								global_cut_type = "etaufake2016_antieloosepass"
+							elif "loose_fail" in category:
+								global_cut_type = "etaufake2016_antieloosefail"
+							elif "medium_pass" in category:
+								global_cut_type = "etaufake2016_antiemediumpass"
+							elif "medium_fail" in category:
+								global_cut_type = "etaufake2016_antiemediumfail"
+							elif "tight_pass" in category:
+								global_cut_type = "etaufake2016_antietightpass"
+							elif "tight_fail" in category:
+								global_cut_type = "etaufake2016_antietightfail"
+							elif "vtight_pass" in category:
+								global_cut_type = "etaufake2016_antievtightpass"
+							elif "vtight_fail" in category:
+								global_cut_type = "etaufake2016_antievtightfail"
 
-					last_loop = index_channel == len(channels_background_methods) - 1
+						last_loop = index_channel == len(channels_background_methods) - 1
 
-					category_string = None
-					if category != None:
-						category_string = (global_category_string + "_{channel}_{category}").format(channel = channel, category = category)
+						category_string = None
+						if category != None:
+							category_string = (global_category_string + "_{channel}_{category}").format(channel = channel, category = category)
 
-					json_config = {}
-					json_filenames = [os.path.join(args.json_dir, "13TeV", channel_dir, quantity + ".json") for channel_dir in [channel, "default"]]
-					for json_filename in json_filenames:
-						json_filename = os.path.expandvars(json_filename)
-						if os.path.exists(json_filename):
-							json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
-							break
+						json_config = {}
+						json_filenames = [os.path.join(args.json_dir, "13TeV", channel_dir, quantity + ".json") for channel_dir in [channel, "default"]]
+						for json_filename in json_filenames:
+							json_filename = os.path.expandvars(json_filename)
+							if os.path.exists(json_filename):
+								json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
+								break
 
-					quantity = json_config.pop("x_expressions", [quantity])[0]
-					
-					config = {}
-					for index_weight, weight in enumerate(["1.0"]+args.weights):
-						weight_config = sample_settings.get_config(
-								samples = [getattr(samples.Samples, sample)],
+						quantity = json_config.pop("x_expressions", [quantity])[0]
+						
+						config = {}
+						for index_weight, weight in enumerate(["1.0"]+args.weights):
+							weight_config = sample_settings.get_config(
+									samples = [getattr(samples.Samples, sample)],
+									channel = channel,
+									category = category_string,
+									higgs_masses = args.higgs_masses,
+									normalise_signal_to_one_pb = False,
+									weight = "(({})*({})*({}))".format(
+											json_config.get("weights", ["1.0"])[0],
+											(weight+"*"+quark_type_weight) if quark_type_weight else weight,
+											"genbosonmass>50" if (channel=="gen") and (category=="inclusive") else "1.0"
+									),
+									lumi  =  args.lumi * 1000,
+									exclude_cuts = args.exclude_cuts + json_config.get("exclude_cuts", []),
+									blind_expression = channel + "_" + quantity,
+									estimationMethod = background_method,
+									mssm = args.mssm,
+									controlregions = args.controlregions,
+									cut_type = global_cut_type,
+									no_ewk_samples = args.no_ewk_samples,
+									no_ewkz_as_dy = args.no_ewkz_as_dy,
+									nick_suffix = "" if index_weight == 0 else (weight + ("_noplot" if evaluate_uncertainties else ""))
+									#polarisation_bias_correction=True,
+									#polarisation_gen_ztt_plots=False,
+							)
+							config = samples.Samples.merge_configs(config, weight_config)
+						
+						if "weights" in json_config:
+							json_config.pop("weights")
+						if "exclude_cuts" in json_config:
+							json_config.pop("exclude_cuts")
+						
+						x_expression = json_config.pop("x_expressions", [quantity])
+						config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
+						config["category"] = category
+
+						# Introduced due to missing samples in 2017 MCv1, can be removed when 2017 MCv2 samples are out, and samples_rnu2_2017.py script is updated correspondingly.
+						if args.era == "2017":
+							sub_conf_index = 0
+							while (sub_conf_index < len(config["files"])):
+								if config["files"][sub_conf_index] is None:
+									config["files"].pop(sub_conf_index)
+									config["x_expressions"].pop(sub_conf_index)
+									config["scale_factors"].pop(sub_conf_index)
+									config["folders"].pop(sub_conf_index)
+									config["weights"].pop(sub_conf_index)
+									config["nicks"].pop(sub_conf_index)
+								else:
+									sub_conf_index +=1
+
+						binning_string = "binningHtt13TeV"
+						if args.mssm:
+							binning_string = "binningHttMSSM13TeV"
+						elif args.mva:
+							binning_string = "binningMVAStudies"
+						elif args.polarisation:
+							binning_string = "binningZttPol13TeV"
+
+						binnings_key = "{binning_string}{channel}{category}_{quantity}".format(
+								binning_string = binning_string + "_" if binning_string else "",
 								channel = channel,
-								category = category_string,
-								higgs_masses = args.higgs_masses,
-								normalise_signal_to_one_pb = False,
-								weight = "((%s)*(%s))" % (json_config.get("weights", ["1.0"])[0], weight),
-								lumi  =  args.lumi * 1000,
-								exclude_cuts = args.exclude_cuts + json_config.get("exclude_cuts", []),
-								blind_expression = channel + "_" + quantity,
-								estimationMethod = background_method,
-								mssm = args.mssm,
-								controlregions = args.controlregions,
-								cut_type = global_cut_type,
-								no_ewk_samples = args.no_ewk_samples,
-								no_ewkz_as_dy = args.no_ewkz_as_dy,
-								nick_suffix = "" if index_weight == 0 else (weight + ("_noplot" if evaluate_uncertainties else ""))
-								#polarisation_bias_correction=True,
-								#polarisation_gen_ztt_plots=False,
+								category = "_" + category if category else "",
+								quantity = quantity
 						)
-						config = samples.Samples.merge_configs(config, weight_config)
-					
-					if "weights" in json_config:
-						json_config.pop("weights")
-					if "exclude_cuts" in json_config:
-						json_config.pop("exclude_cuts")
-					
-					x_expression = json_config.pop("x_expressions", [quantity])
-					config["x_expressions"] = [("0" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_expression) for nick in config["nicks"]]
-					config["category"] = category
+						if binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict and "--x-bins" not in args.args:
+							binnings_key = channel + "_" + quantity
+						if binnings_key not in binnings_settings.binnings_dict:
+							binnings_key = None
+						
+						if binnings_key is not None and "--x-bins" not in args.args:
+							x_bins = json_config.pop("x_bins", [binnings_key])
+							config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_bins) for nick in config["nicks"]]
+						elif "--x-bins" in args.args:
+							x_binning = re.search("(--x-bins)[\s=\"\']*(?P<x_bins>\S*)[\"\']?\S", args.args)
+							config["x_bins"] = [" ".join(x_binning.group(2))]
+						
+						if "stacks" in config:
+							config.pop("stacks")
+						
+						n_shifted_plots = 2 if evaluate_uncertainties else len(args.weights)
+						config["markers"] = ["COLZ"] if args.evaluate_pdf_uncertainty_correlations else (["E"]+(["LINE"] * n_shifted_plots))
+						config["legend_markers"] = ["ELP"]+(["L"] * n_shifted_plots)
+						config["colors"] = ["kBlue kWhite kRed"] if args.evaluate_pdf_uncertainty_correlations else [str(color+1) for color in range(n_shifted_plots+1)]
+						
+						config["x_label"] = json_config.pop("x_label", channel + "_" + quantity)
+						if args.evaluate_pdf_uncertainty_correlations:
+							config["y_label"] = config["x_label"]
+						config["labels"] = [""] if args.evaluate_pdf_uncertainty_correlations else (["nominal"]+ (["shift up", "shift down"] if evaluate_uncertainties else args.weights))
 
-					# Introduced due to missing samples in 2017 MCv1, can be removed when 2017 MCv2 samples are out, and samples_rnu2_2017.py script is updated correspondingly.
-					if args.era == "2017":
-						sub_conf_index = 0
-						while (sub_conf_index < len(config["files"])):
-							if config["files"][sub_conf_index] is None:
-								config["files"].pop(sub_conf_index)
-								config["x_expressions"].pop(sub_conf_index)
-								config["scale_factors"].pop(sub_conf_index)
-								config["folders"].pop(sub_conf_index)
-								config["weights"].pop(sub_conf_index)
-								config["nicks"].pop(sub_conf_index)
-							else:
-								sub_conf_index +=1
+						if args.polarisation:
+							config["title"] = "channel_" + channel + ("" if category is None else ("_"+category))
+						else:
+							config["title"] = "channel_" + channel
 
-					binning_string = "binningHtt13TeV"
-					if args.mssm:
-						binning_string = "binningHttMSSM13TeV"
-					elif args.mva:
-						binning_string = "binningMVAStudies"
-					elif args.polarisation:
-						binning_string = "binningZttPol13TeV"
+						config["directories"] = [args.input_dir]
+						
+						if args.evaluate_alpha_s_uncertainties:
+							if "UncertaintiesAlphaS" not in config.get("analysis_modules", []):
+								config.setdefault("analysis_modules", []).append("UncertaintiesAlphaS")
+							config.setdefault("uncertainties_alpha_s_reference_nicks", []).append(sample)
+							config.setdefault("uncertainties_alpha_s_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
+							config.setdefault("uncertainties_alpha_s_result_nicks", []).append(sample)
+						
+						if args.evaluate_pdf_uncertainties or args.evaluate_pdf_uncertainty_correlations:
+							if "UncertaintiesPdf" not in config.get("analysis_modules", []):
+								config.setdefault("analysis_modules", []).append("UncertaintiesPdf")
+							config.setdefault("uncertainties_pdf_reference_nicks", []).append(sample)
+							config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
+							config.setdefault("uncertainties_pdf_result_nicks", []).append(sample)
+							config.setdefault("nicks_"+("black" if args.evaluate_pdf_uncertainties else "white")+"list", []).append("_correlation")
+						
+						if args.evaluate_scale_uncertainties:
+							if "UncertaintiesScale" not in config.get("analysis_modules", []):
+								config.setdefault("analysis_modules", []).append("UncertaintiesScale")
+							config.setdefault("uncertainties_scale_reference_nicks", []).append(sample)
+							config.setdefault("uncertainties_scale_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
+							config.setdefault("uncertainties_scale_result_nicks", []).append(sample)
+						
+						if args.shape_effect_only:
+							if "NormalizeHistogram" not in config.get("analysis_modules", []):
+								config.setdefault("analysis_modules", []).append("NormalizeHistogram")
+							config.setdefault("histograms_to_normalize", []).extend([sample+weight for weight in (["_up", "_down"] if evaluate_uncertainties else args.weights)])
+							config.setdefault("normalization_base_histo", []).extend([sample] * n_shifted_plots)
+						
+						for analysis_module in args.analysis_modules:
+							if analysis_module not in config.get("analysis_modules", []):
+								config.setdefault("analysis_modules", []).append(analysis_module)
+						
+						if args.ratio and not args.evaluate_pdf_uncertainty_correlations:
+							if "Ratio" not in config.get("analysis_modules", []):
+								config.setdefault("analysis_modules", []).append("Ratio")
+							config.setdefault("ratio_numerator_nicks", []).extend([sample+weight for weight in (["_up", "_down"] if evaluate_uncertainties else args.weights)])
+							config.setdefault("ratio_denominator_nicks", []).extend([sample] * n_shifted_plots)
+							config.setdefault("ratio_result_nicks", []).extend(["ratio"+weight for weight in (["_up", "_down"] if evaluate_uncertainties else args.weights)])
+							config.setdefault("colors", []).extend([str(color+1) for color in range(1, n_shifted_plots+1)])
+							config.setdefault("markers", []).extend(["LINE"] * n_shifted_plots)
+							config.setdefault("legend_markers", []).extend(["L"] * n_shifted_plots)
+							config.setdefault("labels", []).extend([""] * n_shifted_plots)
 
-					binnings_key = "{binning_string}{channel}{category}_{quantity}".format(
-							binning_string = binning_string + "_" if binning_string else "",
-							channel = channel,
-							category = "_" + category if category else "",
-							quantity = quantity
-					)
-					if binnings_key not in binnings_settings.binnings_dict and channel + "_" + quantity in binnings_settings.binnings_dict and "--x-bins" not in args.args:
-						binnings_key = channel + "_" + quantity
-					if binnings_key not in binnings_settings.binnings_dict:
-						binnings_key = None
-					
-					if binnings_key is not None and "--x-bins" not in args.args:
-						x_bins = json_config.pop("x_bins", [binnings_key])
-						config["x_bins"] = [("1,-1,1" if (("gen_zttpospol" in nick) or ("gen_zttnegpol" in nick)) else x_bins) for nick in config["nicks"]]
-					elif "--x-bins" in args.args:
-						x_binning = re.search("(--x-bins)[\s=\"\']*(?P<x_bins>\S*)[\"\']?\S", args.args)
-						config["x_bins"] = [" ".join(x_binning.group(2))]
-					
-					if "stacks" in config:
-						config.pop("stacks")
-					
-					n_shifted_plots = 2 if evaluate_uncertainties else len(args.weights)
-					config["markers"] = ["E"]+(["LINE"] * n_shifted_plots)
-					config["legend_markers"] = ["ELP"]+(["L"] * n_shifted_plots)
-					config["colors"] = [str(color+1) for color in range(n_shifted_plots+1)]
-					
-					config["x_label"] = json_config.pop("x_label", channel + "_" + quantity)
-					config["labels"] = ["nominal"]+ (["shift up", "shift down"] if evaluate_uncertainties else args.weights)
+						if log.isEnabledFor(logging.DEBUG) and "PrintInfos" not in config.get("analysis_modules", []):
+							config.setdefault("analysis_modules", []).append("PrintInfos")
 
-					if args.polarisation:
-						config["title"] = "channel_" + channel + ("" if category is None else ("_"+category))
-					else:
-						config["title"] = "channel_" + channel
+						if ("--y-log" not in args.args) and (not args.evaluate_pdf_uncertainty_correlations):
+							config["y_lims"] = [0.0]
+						
+						if args.evaluate_pdf_uncertainty_correlations:
+							config["z_lims"] = [-1, 1]
+							config["z_label"] = "Correlation Coefficient"
+						
+						if args.cms:
+							config["cms"] = True
+							config["extra_text"] = "Preliminary"
+							config["legend"] = [0.7, 0.4, 0.95, 0.83] if args.ratio else [0.7, 0.5, 0.9, 0.85]
+						config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.4]
+						config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio else [0.23, 0.73, 0.9, 0.89]
+						config["legend_cols"] = 3
+						
+						if args.lumi is not None:
+							config["lumis"] = [float("%.1f" % args.lumi)]
+						config["energies"] = [13]
+						config["year"] = args.era
 
-					config["directories"] = [args.input_dir]
-					
-					if args.evaluate_alpha_s_uncertainties:
-						if "UncertaintiesAlphaS" not in config.get("analysis_modules", []):
-							config.setdefault("analysis_modules", []).append("UncertaintiesAlphaS")
-						config.setdefault("uncertainties_alpha_s_reference_nicks", []).append(sample)
-						config.setdefault("uncertainties_alpha_s_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
-						config.setdefault("uncertainties_alpha_s_result_nicks", []).append(sample)
-					
-					if args.evaluate_pdf_uncertainties:
-						if "UncertaintiesPdf" not in config.get("analysis_modules", []):
-							config.setdefault("analysis_modules", []).append("UncertaintiesPdf")
-						config.setdefault("uncertainties_pdf_reference_nicks", []).append(sample)
-						config.setdefault("uncertainties_pdf_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
-						config.setdefault("uncertainties_pdf_result_nicks", []).append(sample)
-					
-					if args.evaluate_scale_uncertainties:
-						if "UncertaintiesScale" not in config.get("analysis_modules", []):
-							config.setdefault("analysis_modules", []).append("UncertaintiesScale")
-						config.setdefault("uncertainties_scale_reference_nicks", []).append(sample)
-						config.setdefault("uncertainties_scale_shifts_nicks", []).append(" ".join([sample+weight+"_noplot" for weight in args.weights]))
-						config.setdefault("uncertainties_scale_result_nicks", []).append(sample)
-					
-					if args.ratio:
-						if "Ratio" not in config.get("analysis_modules", []):
-							config.setdefault("analysis_modules", []).append("Ratio")
-						config.setdefault("ratio_numerator_nicks", []).extend([sample+weight for weight in (["_up", "_down"] if evaluate_uncertainties else args.weights)])
-						config.setdefault("ratio_denominator_nicks", []).extend([sample] * n_shifted_plots)
-						config.setdefault("ratio_result_nicks", []).extend(["ratio"+weight for weight in (["_up", "_down"] if evaluate_uncertainties else args.weights)])
-						config.setdefault("colors", []).extend([str(color+1) for color in range(1, n_shifted_plots+1)])
-						config.setdefault("markers", []).extend(["LINE"] * n_shifted_plots)
-						config.setdefault("legend_markers", []).extend(["L"] * n_shifted_plots)
-						config.setdefault("labels", []).extend([""] * n_shifted_plots)
-
-					if log.isEnabledFor(logging.DEBUG) and "PrintInfos" not in config.get("analysis_modules", []):
-						config.setdefault("analysis_modules", []).append("PrintInfos")
-
-					if "--y-log" not in args.args:
-						config["y_lims"] = [0.0]
-					if args.cms:
-						config["cms"] = True
-						config["extra_text"] = "Preliminary"
-						config["legend"] = [0.7, 0.4, 0.95, 0.83] if args.ratio else [0.7, 0.5, 0.9, 0.85]
-					config["y_rel_lims"] = [0.5, 10.0] if "--y-log" in args.args else [0.0, 1.4]
-					config["legend"] = [0.23, 0.63, 0.9, 0.83] if args.ratio else [0.23, 0.73, 0.9, 0.89]
-					config["legend_cols"] = 3
-					
-					if args.lumi is not None:
-						config["lumis"] = [float("%.1f" % args.lumi)]
-					config["energies"] = [13]
-					config["year"] = args.era
-
-					config["output_dir"] = os.path.expandvars(os.path.join(
-							args.output_dir,
-							channel,
-							"" if category is None else category,
-							sample
-					))
-
-					if not args.www is None:
-						config["www"] = os.path.join(
-								args.www,
+						config["output_dir"] = os.path.expandvars(os.path.join(
+								args.output_dir,
 								channel,
 								"" if category is None else category,
+								"" if quark_type_weight is None else quark_type,
 								sample
-						)
+						))
 
-					config.update(json_config)
+						if not args.www is None:
+							config["www"] = os.path.join(
+									args.www,
+									channel,
+									"" if category is None else category,
+									"" if quark_type_weight is None else quark_type,
+									sample
+							)
 
-					plot_configs.append(config)
+						config.update(json_config)
+
+						plot_configs.append(config)
 
 	if log.isEnabledFor(logging.DEBUG):
 		import pprint

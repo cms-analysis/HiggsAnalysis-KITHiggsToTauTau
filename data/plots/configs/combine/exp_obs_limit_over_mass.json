@@ -65,7 +65,7 @@
 		"p2s_noplot",
 		"obs"
 	],
-	"no_cache": true, 
+	"redo_cache": true, 
 	"tree_draw_options": [
 		"TGraph",
 		"TGraphErrors",

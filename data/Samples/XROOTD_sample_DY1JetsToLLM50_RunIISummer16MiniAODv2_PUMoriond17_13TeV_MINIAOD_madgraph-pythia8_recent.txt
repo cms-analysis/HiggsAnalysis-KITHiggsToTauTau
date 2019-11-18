@@ -1,1 +1,1 @@
-XROOTD_sample_DY1JetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_2017-11-16.txt
+XROOTD_sample_DY1JetsToLLM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_2019-07-08.txt

@@ -69,7 +69,7 @@ class TauES(dict):
 				self["TauTrackReconstructionEfficiencyWeightOneProngPiZeros"] = 0.975*1.051
 				self["TauTrackReconstructionEfficiencyWeightThreeProng"] = 0.975*0.975*0.975
 
-		if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
+		if re.search("(DY.?JetsTo(LL|TauTau)|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
 			self["TauElectronFakeEnergyCorrectionOneProng"] = 1.0
 			self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.095
 			self["TauElectronFakeEnergyCorrectionThreeProng"] = 1.0

@@ -48,7 +48,7 @@
         "m1s_stat_noplot", 
         "p1s_stat_noplot"
     ], 
-    "no_cache": true, 
+    "redo_cache": true, 
     "tree_draw_options": [
         "TGraph"
     ], 
