@@ -61,7 +61,7 @@
 		"p1s_noplot",
 		"p2s_noplot"
 	],
-	"redo_cache": true, 
+	"no_cache": true, 
 	"stat_error_nicks" : [
 		"2s",
 		"1s",

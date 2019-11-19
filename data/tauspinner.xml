@@ -1,13 +1,9 @@
-<!-- http://tauolapp.web.cern.ch/tauolapp/ -->
-
-<!-- <tool name="tauspinner" version="1.1.5"> -->
-<tool name="tauspinner" version="1.1.6b">
+<tool name="tauspinner" version="1.1.5">
   <lib name="TauolaCxxInterface"/>
   <lib name="TauolaFortran"/>
   <lib name="TauolaTauSpinner"/>
   <client>
-    <!-- <environment name="TAUSPINNER_BASE" default="$CMSSW_RELEASE_BASE/../../../external/tauolapp/1.1.5-mlhled2"/> -->
-    <environment name="TAUSPINNER_BASE" default="$CMSSW_BASE/src/TauSpinner/TAUOLA"/>
+    <environment name="TAUSPINNER_BASE" default="$CMSSW_RELEASE_BASE/../../../external/tauolapp/1.1.5-mlhled2"/>
     <environment name="LIBDIR" default="$TAUSPINNER_BASE/lib"/>
     <environment name="INCLUDE" default="$TAUSPINNER_BASE/include"/>
   </client>

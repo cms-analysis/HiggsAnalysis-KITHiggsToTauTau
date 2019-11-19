@@ -68,7 +68,7 @@
 		"central",
 		"1s_yelow"
 	],
-	"redo_cache": true, 
+	"no_cache": true, 
 	"split_graph_components": [
 		"yehigh",
 		"yelow"

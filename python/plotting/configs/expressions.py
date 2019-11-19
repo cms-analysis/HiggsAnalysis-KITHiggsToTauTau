@@ -45,18 +45,9 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			self.expressions_dict["catZtt13TeV_"+channel+"_2bjet"] = "(njets==2)*(nbtag>=2)"
 
 		# Z->tautau polarisation categories
-		for channel in ["mt", "et", "tt", "em", "gen"]:
+		for channel in ["mt", "et", "tt", "em"]:
 			self.expressions_dict["catZttPol13TeV_"+channel+"_inclusive"] = "(1.0)"
 			self.expressions_dict["testZttPol13TeV_"+channel+"_inclusive"] = "m_vis"
-		
-		self.expressions_dict["catZttPol13TeV_gen_upquark"] = "(lheZfromUUbar+lheZfromCCbar)"
-		self.expressions_dict["catZttPol13TeV_gen_downquark"] = "(lheZfromDDbar+lheZfromSSbar+lheZfromBBbar)"
-		self.expressions_dict["catZttPol13TeV_gen_pospol"] = "((LHE_SPINUP_neg_lepton>0.0)*(LHE_SPINUP_neg_lepton<2.0))"
-		self.expressions_dict["catZttPol13TeV_gen_negpol"] = "((LHE_SPINUP_neg_lepton<0.0)*(LHE_SPINUP_neg_lepton>-2.0))"
-		self.expressions_dict["catZttPol13TeV_gen_pospol_upquark"] = "((LHE_SPINUP_neg_lepton>0.0)*(LHE_SPINUP_neg_lepton<2.0)*(lheZfromUUbar+lheZfromCCbar))"
-		self.expressions_dict["catZttPol13TeV_gen_negpol_upquark"] = "((LHE_SPINUP_neg_lepton<0.0)*(LHE_SPINUP_neg_lepton>-2.0)*(lheZfromUUbar+lheZfromCCbar))"
-		self.expressions_dict["catZttPol13TeV_gen_pospol_downquark"] = "((LHE_SPINUP_neg_lepton>0.0)*(LHE_SPINUP_neg_lepton<2.0)*(lheZfromDDbar+lheZfromSSbar+lheZfromBBbar))"
-		self.expressions_dict["catZttPol13TeV_gen_negpol_downquark"] = "((LHE_SPINUP_neg_lepton<0.0)*(LHE_SPINUP_neg_lepton>-2.0)*(lheZfromDDbar+lheZfromSSbar+lheZfromBBbar))"
 
 		for channel in ["em"]:
 			for category in ["a1", "a1_1", "a1_2", "rho", "rho_1", "rho_2"]:

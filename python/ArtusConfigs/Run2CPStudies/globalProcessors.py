@@ -9,7 +9,7 @@ import re
 
 class globalProccesors(dict):
 	def __init__(self, nickname):
-		if re.search("(DY.?JetsTo(LL|TauTau)M(10to50|50|150))", nickname):
+		if re.search("(DY.?JetsToLLM(10to50|50|150))", nickname):
 			self["Processors"] = [
 				"#producer:PrintGenParticleDecayTreeProducer",
 				"#filter:RunLumiEventFilter",

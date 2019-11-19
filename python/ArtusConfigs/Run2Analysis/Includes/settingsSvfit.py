@@ -26,7 +26,7 @@ class Svfit(dict):
 
 		self["SvfitM91CacheFile"] = self.__getsvfitM91CacheFile__(nickname)
 
-		#self["SvfitM125CacheFile"] = self.__getsvfitM125CacheFile__(nickname)
+		self["SvfitM125CacheFile"] = self.__getsvfitM125CacheFile__(nickname)
 
 
 	def __getsvfitCacheFile__(self, nickname):

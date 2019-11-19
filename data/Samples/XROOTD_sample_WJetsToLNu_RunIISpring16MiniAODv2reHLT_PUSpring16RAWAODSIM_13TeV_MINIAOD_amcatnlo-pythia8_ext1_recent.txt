@@ -1,0 +1,1 @@
+XROOTD_sample_WJetsToLNu_RunIISpring16MiniAODv2reHLT_PUSpring16RAWAODSIM_13TeV_MINIAOD_amcatnlo-pythia8_ext1_2016-10-13.txt

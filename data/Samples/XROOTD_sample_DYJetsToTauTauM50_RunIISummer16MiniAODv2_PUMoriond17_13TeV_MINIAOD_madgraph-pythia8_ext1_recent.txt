@@ -1,1 +1,0 @@
-XROOTD_sample_DYJetsToTauTauM50_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1_2019-10-21.txt

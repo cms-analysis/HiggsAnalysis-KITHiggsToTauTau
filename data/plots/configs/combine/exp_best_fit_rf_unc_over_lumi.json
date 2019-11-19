@@ -51,7 +51,7 @@
 		"m1s_noplot",
 		"p1s_noplot"
 	],
-	"redo_cache": true, 
+	"no_cache": true, 
 	"stat_error_nicks" : [
 		"1s",
 		"central"

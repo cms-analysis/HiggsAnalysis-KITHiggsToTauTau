@@ -30,7 +30,7 @@
 		"combined",
 		"sm"
 	],
-	"redo_cache": true, 
+	"no_cache": true, 
 	"weights": [
 		"(deltaNLL+lumi/1000)*(quantileExpected>=0.0)*(quantileExpected<1.0)"
 	],

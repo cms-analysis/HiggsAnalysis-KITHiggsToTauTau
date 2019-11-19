@@ -25,7 +25,7 @@
 		"exp",
 		"obs"
 	],
-	"redo_cache": true, 
+	"no_cache": true, 
 	"tree_draw_options": [
 		"TGraph"
 	],

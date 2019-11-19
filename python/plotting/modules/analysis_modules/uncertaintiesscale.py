@@ -67,7 +67,7 @@ class UncertaintiesScale(analysisbase.AnalysisBase):
 			uncertainty = 0.0
 			if reference_integral != 0.0:
 				uncertainty = (max(shift_integrals) - min(shift_integrals)) / (2.0 * reference_integral)
-			log.info("QCD scale uncertainty on nick \"{nick}\" is {unc}.".format(
+			log.info("Scale uncertainty on nick \"{nick}\" is {unc}.".format(
 					nick=reference_nick,
 					unc=uncertainty
 			))
