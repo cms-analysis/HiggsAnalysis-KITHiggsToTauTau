@@ -27,7 +27,7 @@ elif [[ $cmssw_version = "942" ]]; then
 	eval `scramv1 runtime -sh`
 
 elif [[ $cmssw_version = "10217" ]]; then
-	export SCRAM_ARCH=slc7_amd64_gcc700
+	# export SCRAM_ARCH=slc7_amd64_gcc700
 	export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 	source $VO_CMS_SW_DIR/cmsset_default.sh
 	scramv1 project CMSSW CMSSW_10_2_17
@@ -59,7 +59,7 @@ git cms-addpkg CondFormats/JetMETObjects
 
 # From Kappa, only the DataFormats are needed
 # Mind that for certain skims, you need exactly the Kappa git tag that has been used for the production
-git clone git@github.com:KappaAnalysis/Kappa.git -b dictchanges_CMSSW94X
+git clone git@github.com:KappaAnalysis/Kappa.git -b dictchanges_CMSSW102X
 cd Kappa
 echo docs/ >> .git/info/sparse-checkout
 echo DataFormats/ >> .git/info/sparse-checkout
@@ -68,10 +68,10 @@ git config core.sparsecheckout true
 git read-tree -mu HEAD
 cd ..
 
-git clone git@github.com:artus-analysis/Artus.git -b dictchanges_CMSSW94X
+git clone git@github.com:artus-analysis/Artus.git -b dictchanges_CMSSW102
 
 # checkout KITHiggsToTauTau CMSSW analysis package
-git clone --recursive git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b dictchanges_CMSSW94
+git clone --recursive git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b dictchanges_CMSSW102
 
 # Di-tau system reconstruction
 git clone git@github.com:SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit -b release_2018Mar20
