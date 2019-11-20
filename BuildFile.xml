@@ -3,7 +3,7 @@
 <use name="Kappa/DataFormats" />
 <use name="root" />
 <use name="rootEG" />
-<use name="tauspinner" />
+<use name="tauolapp" />
 <use name="rootmath" />
 <use name="roofit"/>
 <use name="boost" />
