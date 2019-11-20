@@ -179,7 +179,7 @@ fi
 # Grid-Control
 git clone git@github.com:KIT-CMS/grid-control.git -b master
 cd grid-control
-git reset --hard a0c1c01
+git reset --hard 1173bd3
 
 cd $CMSSW_BASE/src/
 
