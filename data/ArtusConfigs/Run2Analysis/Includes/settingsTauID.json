@@ -5,7 +5,7 @@
 	"TauDiscriminatorIsolationName" : {
 		"nick" : {
 			"default" : "byIsolationMVArun2v1DBoldDMwLTraw",
-			"(Run2017|Fall17)" :  "byIsolationMVArun2017v2DBoldDMwLTraw2017"
+			"(Run2017|Fall17|Embedding2017)" :  "byDeepTau2017v2p1VSjetraw"
 			}
 	},
 
