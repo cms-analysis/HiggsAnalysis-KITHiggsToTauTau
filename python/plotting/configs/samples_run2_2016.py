@@ -585,6 +585,10 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "ztt"), nick_suffix)
 
 		return config
+	
+	def ztt_official(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, proxy_prefix="", **kwargs):
+		kwargs["new_ztt"] = False
+		return self.ztt(config, channel, category, weight, "_official"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, fakefactor_method=fakefactor_method, proxy_prefix=proxy_prefix, **kwargs)
 
 	def emb_ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		self.embedding = True
@@ -710,6 +714,14 @@ class Samples(samples.SamplesBase):
 			Samples._add_plot(config, "gen", "HIST", "F", "zttnegpol", nick_suffix)
 		
 		return config
+	
+	def zttpospol_official(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		kwargs["new_ztt"] = False
+		return self.zttpospol(config, channel, category, weight, "_official"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, **kwargs)
+	
+	def zttnegpol_official(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
+		kwargs["new_ztt"] = False
+		return self.zttnegpol(config, channel, category, weight, "_official"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, **kwargs)
 
 	def zttposcp(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		cp_weight = "( ((q_2>0)*(cosPsiPlus<(sqrt(2)/2))) + ((q_2<0)*(cosPsiMinus<(sqrt(2)/2))) )"
