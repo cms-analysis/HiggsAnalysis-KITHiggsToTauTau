@@ -77,6 +77,21 @@ git clone --recursive git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau
 git clone git@github.com:SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit -b release_2018Mar20
 git clone git@github.com:SVfit/SVfitTF.git TauAnalysis/SVfitTF
 git clone git@github.com:CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
+cd TauAnalysis/SVfitStandalone
+cat <<EOF >> svFitStandalone.patch
+--- a/src/SVfitStandaloneQuantities.cc
++++ b/src/SVfitStandaloneQuantities.cc
+@@ -11,6 +11,7 @@
+ #include <TMatrixDSym.h>
+ #include <TMatrixDSymEigen.h>
+ #include <TVectorD.h>
++#include <numeric>
+
+ namespace svFitStandalone
+ {
+EOF
+patch ./src/SVfitStandaloneQuantities.cc svFitStandalone.patch
+cd $CMSSW_BASE/src/
 git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
 
 # polarisation
