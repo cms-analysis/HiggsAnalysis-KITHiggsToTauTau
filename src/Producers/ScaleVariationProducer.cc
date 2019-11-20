@@ -5,7 +5,7 @@
 #include "Artus/Utility/interface/Utility.h"
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
-#include <algorithm>
+#include <numeric>
 
 
 std::string ScaleVariationProducer::GetProducerId() const
