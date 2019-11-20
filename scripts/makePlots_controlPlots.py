@@ -426,37 +426,47 @@ if __name__ == "__main__":
 				quantity = json_config.pop("x_expressions", [quantity])[0]
 				weight = args.weights[index_channel if args.channel_comparison else index_quantity]
 
-				config = sample_settings.get_config(
-						samples = list_of_samples,
-						channel = channel,
-						category = category_string,
-						higgs_masses = args.higgs_masses,
-						normalise_signal_to_one_pb = False,
-						ztt_from_mc = args.ztt_from_mc,
-						weight = "((%s)*(%s))" % (json_config.pop("weights", ["1.0"])[0], weight),
-						lumi  =  args.lumi * 1000,
-						exclude_cuts = args.exclude_cuts + json_config.pop("exclude_cuts", []),
-						blind_expression = channel + "_" + quantity,
-						fakefactor_method = args.fakefactor_method,
-						stack_signal = args.stack_signal,
-						scale_signal = args.scale_signal,
-						project_to_lumi = args.project_to_lumi,
-						cut_mc_only = args.cut_mc_only,
-						scale_mc_only = args.scale_mc_only,
-						estimationMethod = background_method,
-						mssm = args.mssm,
-						controlregions = args.controlregions,
-						cut_type = global_cut_type,
-						no_ewk_samples = args.no_ewk_samples,
-						no_ewkz_as_dy = args.no_ewkz_as_dy,
-						new_ztt=(not args.old_ztt),
-						useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,
-						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
-						nick_suffix = (channel+str(index_channel) if args.channel_comparison else ""),
-						#polarisation_bias_correction=True,
-						#polarisation_gen_ztt_plots=False,
-						asimov_nicks = asimov_nicks
-				)
+				sample_get_config_kwargs = {
+						"samples" : list_of_samples,
+						"channel" : channel,
+						"category" : category_string,
+						"higgs_masses" : args.higgs_masses,
+						"normalise_signal_to_one_pb" : False,
+						"ztt_from_mc" : args.ztt_from_mc,
+						"weight" : "((%s)*(%s))" % (json_config.pop("weights", ["1.0"])[0], weight),
+						"lumi " :  args.lumi * 1000,
+						"exclude_cuts" : args.exclude_cuts + json_config.pop("exclude_cuts", []),
+						"blind_expression" : channel + "_" + quantity,
+						"fakefactor_method" : args.fakefactor_method,
+						"stack_signal" : args.stack_signal,
+						"scale_signal" : args.scale_signal,
+						"project_to_lumi" : args.project_to_lumi,
+						"cut_mc_only" : args.cut_mc_only,
+						"scale_mc_only" : args.scale_mc_only,
+						"estimationMethod" : background_method,
+						"mssm" : args.mssm,
+						"controlregions" : args.controlregions,
+						"cut_type" : global_cut_type,
+						"no_ewk_samples" : args.no_ewk_samples,
+						"no_ewkz_as_dy" : args.no_ewkz_as_dy,
+						"new_ztt" : (not args.old_ztt),
+						"useRelaxedIsolationForW" : args.use_relaxed_isolation_for_W,
+						"useRelaxedIsolationForQCD" : args.use_relaxed_isolation_for_QCD,
+						"nick_suffix" : (channel+str(index_channel) if args.channel_comparison else ""),
+						#"polarisation_bias_correction" : True,
+						#"polarisation_gen_ztt_plots" : False,
+						"asimov_nicks" : [sample+("" if sample in args.samples else "noplot") for sample in asimov_nicks],
+				}
+				config = sample_settings.get_config(**sample_get_config_kwargs)
+				additional_asimov_samples = list(set(asimov_nicks)-set(args.samples))
+				if len(additional_asimov_samples) > 0:
+					asimov_sample_get_config_kwargs = copy.deepcopy(sample_get_config_kwargs)
+					asimov_sample_get_config_kwargs["samples"] = [getattr(samples.Samples, sample) for sample in additional_asimov_samples]
+					asimov_sample_get_config_kwargs["nick_suffix"] =  (channel+str(index_channel) if args.channel_comparison else "")+"noplot"
+					asimov_sample_get_config_kwargs["no_plot"] = True
+					additional_asimov_config = sample_settings.get_config(**asimov_sample_get_config_kwargs)
+					config = samples.Samples.merge_configs(config, additional_asimov_config)
+				
 				if (args.channel_comparison):
 					channel_config = samples.Samples.merge_configs(channel_config, config)
 					if last_loop:
@@ -554,6 +564,12 @@ if __name__ == "__main__":
 					config.setdefault("legend_markers", []).extend(["ELP"] * 2)
 					config.setdefault("labels", []).extend([""] * 2)
 					config.setdefault("stacks", []).extend(["unc", "ratio"])
+					if len(asimov_nicks) > 0:
+						config["colors"].append(config["colors"].pop(-3))
+						config["markers"].append(config["markers"].pop(-3))
+						config["legend_markers"].append(config["legend_markers"].pop(-3))
+						config["labels"].append(config["labels"].pop(-3))
+						config["stacks"].append(config["stacks"].pop(-3))
 
 				if not args.add_analysis_modules_before_ratio:
 					for analysis_module in args.analysis_modules:
