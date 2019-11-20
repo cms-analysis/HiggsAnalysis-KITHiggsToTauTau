@@ -15,7 +15,7 @@
 <use name="heppdt"/>
 <use name="clhep"/>
 <use name="hepmc"/>
-<use name="tauspinner"/>
+<use name="tauolapp"/>
 <flags EDM_PLUGIN="1"/>
 <!-- dependencies of TauSpinner -->
 
