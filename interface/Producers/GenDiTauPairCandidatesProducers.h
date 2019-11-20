@@ -34,7 +34,7 @@ public:
 		ProducerBase<HttTypes>::Init(settings, metadata);
 		
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nGenDiTauPairCandidates", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nGenDiTauPairCandidates", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return static_cast<int>(product.m_genDiTauPairCandidates.size());
 		});

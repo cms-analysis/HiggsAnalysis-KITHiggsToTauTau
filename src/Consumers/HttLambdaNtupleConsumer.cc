@@ -16,86 +16,86 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	// add possible quantities for the lambda ntuples consumers
 
 	// settings for synch ntuples
-	LambdaNtupleConsumer<HttTypes>::AddUInt64Quantity(metadata, "evt", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddUInt64Quantity(metadata, "evt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return event.m_eventInfo->nEvent;
 	});
 
 	bool bInpData = settings.GetInputIsData();
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "npu", [bInpData](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "npu", [bInpData](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		if (bInpData)
 			return DefaultValues::UndefinedFloat;
 		return static_cast<KGenEventInfo*>(event.m_eventInfo)->nPUMean;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puweight", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puweight", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("puWeight"), 1.0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_binned", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_binned", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdOsssWeight"), 1.0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_rateup_binned", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_rateup_binned", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdOsssRateUpWeight"), 1.0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_ratedown_binned", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_ratedown_binned", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdOsssRateDownWeight"), 1.0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_shapeup_binned", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_shapeup_binned", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdOsssShapeUpWeight"), 1.0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_shapedown_binned", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_osss_shapedown_binned", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdOsssShapeDownWeight"), 1.0);
-	});	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_extrap_up", [](event_type const& event, product_type const& product)
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_extrap_up", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdExtrapDownWeight"), 1.0);
-	});	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_extrap_up", [](event_type const& event, product_type const& product)
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "em_qcd_extrap_up", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("emuQcdExtrapDownWeight"), 1.0);
-	});			
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trigweight_1", [](event_type const& event, product_type const& product)
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trigweight_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("triggerWeight_1"), 1.0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trigweight_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "trigweight_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("triggerWeight_2"), 1.0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "idisoweight_1", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "idisoweight_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("identificationWeight_1"), 1.0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "idisoweight_2", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "idisoweight_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, std::string("identificationWeight_2"), 1.0);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "weight", [settings](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "weight", [settings](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return SafeMap::GetWithDefault(product.m_weights, settings.GetEventWeight(), 1.0);
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiLeptonVetoPairsOS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiLeptonVetoPairsOS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_nDiElectronVetoPairsOS + product.m_nDiMuonVetoPairsOS;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiLeptonVetoPairsSS", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiLeptonVetoPairsSS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_nDiElectronVetoPairsSS + product.m_nDiMuonVetoPairsSS;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "dilepton_veto", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "dilepton_veto", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return ((product.m_nDiElectronVetoPairsOS + product.m_nDiMuonVetoPairsOS) >= 1) ? 1 : 0;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mt_tot", [metadata](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mt_tot", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return sqrt(pow(SafeMap::Get(metadata.m_commonFloatQuantities,std::string("mt_tt"))(event,product),2)+pow(SafeMap::Get(metadata.m_commonFloatQuantities,std::string("lep1MetMt"))(event,product),2)+pow(SafeMap::Get(metadata.m_commonFloatQuantities,std::string("lep2MetMt"))(event,product),2));
+		return sqrt(pow(SafeMap::Get(metadata.m_commonFloatQuantities,std::string("mt_tt"))(event,product,settings,metadata),2)+pow(SafeMap::Get(metadata.m_commonFloatQuantities,std::string("lep1MetMt"))(event,product,settings,metadata),2)+pow(SafeMap::Get(metadata.m_commonFloatQuantities,std::string("lep2MetMt"))(event,product,settings,metadata),2));
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "m_vis", metadata.m_commonFloatQuantities["diLepMass"]);
@@ -150,7 +150,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvacov11", metadata.m_commonFloatQuantities["mvaMetCov11"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pzetavis", metadata.m_commonFloatQuantities["pZetaVis"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pzetamiss", metadata.m_commonFloatQuantities["pZetaMiss"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "jlv_1", metadata.m_commonRMFLVQuantities["leadingJetLV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_1", metadata.m_commonFloatQuantities["leadingJetPt"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_1", metadata.m_commonFloatQuantities["leadingJetEta"]);
@@ -168,25 +168,25 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_3", metadata.m_commonFloatQuantities["thirdJetEta"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_3", metadata.m_commonFloatQuantities["thirdJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jm_3", metadata.m_commonFloatQuantities["thirdJetMass"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "jlv_4", metadata.m_commonRMFLVQuantities["fourthJetLV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_4", metadata.m_commonFloatQuantities["fourthJetPt"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_4", metadata.m_commonFloatQuantities["fourthJetEta"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_4", metadata.m_commonFloatQuantities["fourthJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jm_4", metadata.m_commonFloatQuantities["fourthJetMass"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "jlv_5", metadata.m_commonRMFLVQuantities["fifthJetLV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_5", metadata.m_commonFloatQuantities["fifthJetPt"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_5", metadata.m_commonFloatQuantities["fifthJetEta"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_5", metadata.m_commonFloatQuantities["fifthJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jm_5", metadata.m_commonFloatQuantities["fifthJetMass"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "jlv_6", metadata.m_commonRMFLVQuantities["sixthJetLV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jpt_6", metadata.m_commonFloatQuantities["sixthJetPt"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jeta_6", metadata.m_commonFloatQuantities["sixthJetEta"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jphi_6", metadata.m_commonFloatQuantities["sixthJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jm_6", metadata.m_commonFloatQuantities["sixthJetMass"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jmva_1", metadata.m_commonFloatQuantities["leadingJetPuID"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcsv_1", metadata.m_commonFloatQuantities["leadingJetCSV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bpt_1", metadata.m_commonFloatQuantities["bJetPt"]);
@@ -194,7 +194,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bphi_1", metadata.m_commonFloatQuantities["bJetPhi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bmva_1", metadata.m_commonFloatQuantities["leadingBJetPuID"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bcsv_1", metadata.m_commonFloatQuantities["leadingBJetCSV"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jmva_2", metadata.m_commonFloatQuantities["trailingJetPuID"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcsv_2", metadata.m_commonFloatQuantities["trailingJetCSV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bpt_2", metadata.m_commonFloatQuantities["bJet2Pt"]);
@@ -202,7 +202,7 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bphi_2", metadata.m_commonFloatQuantities["bJet2Phi"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bmva_2", metadata.m_commonFloatQuantities["trailingBJetPuID"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "bcsv_2", metadata.m_commonFloatQuantities["trailingBJetCSV"]);
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcsv_3", metadata.m_commonFloatQuantities["thirdJetCSV"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcsv_4", metadata.m_commonFloatQuantities["fourthJetCSV"]);
 
@@ -229,14 +229,134 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mt_sv", metadata.m_commonFloatQuantities["svfitTransverseMass"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "met_sv", metadata.m_commonFloatQuantities["svfitMet"]);
 
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "npartons", [](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pvx", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("refitPVBS"))(event,product,settings,metadata)).X();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pvy", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("refitPVBS"))(event,product,settings,metadata)).Y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pvz", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("refitPVBS"))(event,product,settings,metadata)).Z();
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "chpt_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep1SumChargedHadronsLV"))(event,product,settings,metadata)).Pt();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "chphi_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep1SumChargedHadronsLV"))(event,product,settings,metadata)).Phi();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cheta_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep1SumChargedHadronsLV"))(event,product,settings,metadata)).Eta();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "chm_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep1SumChargedHadronsLV"))(event,product,settings,metadata)).M();
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "chpt_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep2SumChargedHadronsLV"))(event,product,settings,metadata)).Pt();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "chphi_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep2SumChargedHadronsLV"))(event,product,settings,metadata)).Phi();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "cheta_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep2SumChargedHadronsLV"))(event,product,settings,metadata)).Eta();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "chm_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep2SumChargedHadronsLV"))(event,product,settings,metadata)).M();
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "npt_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep1SumNeutralHadronsLV"))(event,product,settings,metadata)).Pt();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nphi_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep1SumNeutralHadronsLV"))(event,product,settings,metadata)).Phi();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "neta_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep1SumNeutralHadronsLV"))(event,product,settings,metadata)).Eta();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nm_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep1SumNeutralHadronsLV"))(event,product,settings,metadata)).M();
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "npt_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep2SumNeutralHadronsLV"))(event,product,settings,metadata)).Pt();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nphi_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep2SumNeutralHadronsLV"))(event,product,settings,metadata)).Phi();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "neta_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep2SumNeutralHadronsLV"))(event,product,settings,metadata)).Eta();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "nm_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMFLVQuantities, std::string("lep2SumNeutralHadronsLV"))(event,product,settings,metadata)).M();
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "ipx_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("IPHelrPVBS_1"))(event,product,settings,metadata)).X();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "ipy_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("IPHelrPVBS_1"))(event,product,settings,metadata)).Y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "ipz_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("IPHelrPVBS_1"))(event,product,settings,metadata)).Z();
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "ipx_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("IPHelrPVBS_2"))(event,product,settings,metadata)).X();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "ipy_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("IPHelrPVBS_2"))(event,product,settings,metadata)).Y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "ipz_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("IPHelrPVBS_2"))(event,product,settings,metadata)).Z();
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svx_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("refitPVBS"))(event,product,settings,metadata)).X();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svy_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("refitPVBS"))(event,product,settings,metadata)).Y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svz_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("refitPVBS"))(event,product,settings,metadata)).Z();
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "npartons", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return event.m_genEventInfo ? event.m_genEventInfo->lheNOutPartons : DefaultValues::UndefinedInt;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "NUP", metadata.m_commonIntQuantities["npartons"]);
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genbosonmass", [metadata](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genbosonmass", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return Utility::Contains(metadata.m_commonFloatQuantities, std::string("genBosonMass")) ? SafeMap::Get(metadata.m_commonFloatQuantities, std::string("genBosonMass"))(event, product) : DefaultValues::UndefinedFloat;
+		return Utility::Contains(metadata.m_commonFloatQuantities, std::string("genBosonMass")) ? SafeMap::Get(metadata.m_commonFloatQuantities, std::string("genBosonMass"))(event, product, settings, metadata) : DefaultValues::UndefinedFloat;
 	});
 
 	// need to be called at last

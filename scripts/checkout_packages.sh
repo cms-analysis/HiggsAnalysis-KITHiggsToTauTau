@@ -3,10 +3,10 @@
 
 ssh -vT git@github.com
 
-echo -n "Enter the CMMSW release you want to use (747, 810 [default]) and press [ENTER] (747 is for SL6, 810 is for SL7): "
+echo -n "Enter the CMMSW release you want to use (747, 810 [default], 942, 10217) and press [ENTER] (747 is for SL6, 810, 942 and 10217 is for SL7): "
 read cmssw_version
 
-echo -n "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev [default], classicsvfit) and press [ENTER] : "
+echo -n "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev [default], classicsvfit, HTTCPDecays18-dev) and press [ENTER] : "
 read ch_branch
 
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
@@ -17,23 +17,31 @@ if [[ $cmssw_version = "747" ]]; then
 	export SCRAM_ARCH=slc6_amd64_gcc491
 	scramv1 project CMSSW CMSSW_7_4_7; cd CMSSW_7_4_7/src # slc6 # Combine requires this version
 	eval `scramv1 runtime -sh`
-
 	export BRANCH="CMSSW_747"
+
 elif [[ $cmssw_version = "942" ]]; then
-        export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
-        source $VO_CMS_SW_DIR/cmsset_default.sh
+	export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
+	source $VO_CMS_SW_DIR/cmsset_default.sh
+	scramv1 project CMSSW CMSSW_9_4_2
+	cd CMSSW_9_4_2/src
+	eval `scramv1 runtime -sh`
 
-        scramv1 project CMSSW CMSSW_9_4_2
-        cd CMSSW_9_4_2/src
-        eval `scramv1 runtime -sh`
+elif [[ $cmssw_version = "10217" ]]; then
+	export SCRAM_ARCH=slc7_amd64_gcc700
+	export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
+	source $VO_CMS_SW_DIR/cmsset_default.sh
+	scramv1 project CMSSW CMSSW_10_2_17
+	cd CMSSW_10_2_17/src
+	eval `scramv1 runtime -sh`
+
 else
-        # set up CMSSW release area
-        export SCRAM_ARCH=slc6_amd64_gcc530
-        scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
-        eval `scramv1 runtime -sh`
+	# set up CMSSW release area
+	export SCRAM_ARCH=slc6_amd64_gcc530
+	scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
+	eval `scramv1 runtime -sh`
 	export BRANCH="master"
-fi
 
+fi
 
 while getopts :b:g:e:n: option
 do
@@ -82,9 +90,12 @@ git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGrap
 git clone git@github.com:cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
 cd ZZMatrixElement
 git checkout -b v2.1.1
-#mkdir MELA/data/slc7_amd64_gcc530
-#cp MELA/data/slc6_amd64_gcc530/download.url MELA/data/slc7_amd64_gcc530/
+if [ ! -d "MELA/data/$SCRAM_ARCH" ]; then
+	mkdir MELA/data/$SCRAM_ARCH
+	cp MELA/data/slc6_amd64_gcc530/download.url MELA/data/$SCRAM_ARCH/
+fi
 ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
+
 cd $CMSSW_BASE/src/
 
 # Jet2Tau Fakes as described here https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauJet2TauFakes
@@ -102,6 +113,7 @@ git clone -b final_2017_MCv2 git@github.com:cms-tau-pog/TauTriggerSFs $CMSSW_BAS
 git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
 
 # needed for plotting and statistical inference
+# recommendations found here: https://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/#setting-up-the-environment-and-installation
 if [[ $ch_branch == "SM2016-dev" ]] && [[ $cmssw_version == "747" ]]; then
 	git clone git@github.com:thomas-mueller/CombineHarvester.git CombineHarvester -b SM2016-dev
 	cd CombineHarvester/HTTSM2016
@@ -121,42 +133,54 @@ elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "747" ]]; then
 	cd HiggsAnalysis/CombinedLimit
 	git checkout 3cb65246555d094734a81e20181e399714d22c7e
 	cd -
-	
+
 elif [[ $ch_branch == "master" ]]  && [[ $cmssw_version == "810" ]]; then
 	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
 	git fetch origin
-	git checkout v7.0.10
+	git checkout v7.0.13
 	cd -
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
 
-
 elif [[ $cmssw_version == "940" ]]; then
-        echo "No valid CombineHarvester for 940. Compilation won't work. Checking out state of 810"
-        # needed for plotting and statistical inference
-        git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
-        git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	echo "No valid CombineHarvester for 940. Compilation won't work. Checking out state of 810"
+	if [[ $ch_branch == "HTTCPDecays18-dev" ]]; then
+		git clone git@github.com:albertdow/CombineHarvester CombineHarvester
+	else
+		git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester
+	fi
+	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
-        git fetch origin
-        git checkout v7.0.4
-        cd -
+	git fetch origin
+	git checkout v7.0.13
+	cd -
+
+elif [[ $cmssw_version == "10217" ]] && [[ $ch_branch == "HTTCPDecays18-dev" ]]; then
+	# needed for plotting and statistical inference
+	git clone git@github.com:albertdow/CombineHarvester CombineHarvester
+	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	cd HiggsAnalysis/CombinedLimit
+	git fetch origin
+	git checkout v8.0.1
+	cd -
+
 else
 	git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester -b SMCP2016-dev
-    cd CombineHarvester/HTTSMCP2016
-    git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
-    cd -
-    git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
-    cd HiggsAnalysis/CombinedLimit
-    git fetch origin
-    git checkout v7.0.4
-    cd -
-
+	cd CombineHarvester/HTTSMCP2016
+	git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
+	cd -
+	git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+	cd HiggsAnalysis/CombinedLimit
+	git fetch origin
+	git checkout v7.0.4
+	cd -
 fi
 
 # Grid-Control
 git clone git@github.com:KIT-CMS/grid-control.git -b master
 cd grid-control
-git reset --hard 6434e71
+git reset --hard a0c1c01
+
 cd $CMSSW_BASE/src/
 
 # HiggsCPinTauDecays

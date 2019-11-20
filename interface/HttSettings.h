@@ -43,6 +43,7 @@ public:
 	IMPL_SETTING_DEFAULT(std::string, MetCorrectionMethod, "quantileMapping");
 
 	IMPL_SETTING_DEFAULT(bool, ChooseMvaMet, true);
+	IMPL_SETTING_DEFAULT(std::string, ChooseMet, "pfMet");
 	IMPL_SETTING_DEFAULT(bool, UpdateMetWithCorrectedLeptons, false);
 	IMPL_SETTING_DEFAULT(int, MetSysType, 0);
 	IMPL_SETTING_DEFAULT(int, MetSysShift, 0);
@@ -317,7 +318,7 @@ public:
 	IMPL_SETTING(int, TauSpinnerSettingsIpol);
 	IMPL_SETTING(int, TauSpinnerSettingsNonSM2);
 	IMPL_SETTING(int, TauSpinnerSettingsNonSMN);
-	
+
 	IMPL_SETTING_STRINGLIST(TauSpinnerValidPdgIdsAndStatusCodes);
 	IMPL_SETTING_FLOATLIST_DEFAULT(TauSpinnerMixingAnglesOverPiHalf, {});
 	IMPL_SETTING_DEFAULT(float, TauSpinnerMixingAnglesOverPiHalfSample, -1.0);
@@ -459,12 +460,12 @@ public:
 	IMPL_SETTING(std::string, MadGraph2p6ProcessDirectory);
 	IMPL_SETTING_STRINGLIST(MadGraph2p5ProcessDirectories);
 	IMPL_SETTING(bool, MadGraphSortingHeavyBQuark);
-	
+
 	IMPL_SETTING(std::string, MELAHiggsProductionMode);
-	
+
 	// settting for TopPtReweightingProducer
 	IMPL_SETTING(std::string, TopPtReweightingStrategy)
-	
+
 	// settting for TaggedJetUncertaintyShiftProducer
 	IMPL_SETTING_DEFAULT(bool, JetEnergyCorrectionSplitUncertainty, false);
 	IMPL_SETTING_DEFAULT(float, AbsJetEnergyCorrectionSplitUncertaintyShift, 0.0f);

@@ -15,19 +15,19 @@ void TauTauRestFrameSelector::Init(setting_type const& settings, metadata_type& 
 	tauTauRestFrameReco = HttEnumTypes::ToTauTauRestFrameReco(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetTauTauRestFrameReco())));
 	
 	// add possible quantities for the lambda ntuples consumers
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauPt", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diTauSystem.Pt();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauEta", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauEta", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diTauSystem.Eta();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauPhi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diTauSystem.Phi();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauMass", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauMass", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diTauSystem.mass();
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauSystemReconstructed", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diTauSystemReconstructed", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return (product.m_diTauSystemReconstructed ? 1.0 : 0.0);
 	});
 }

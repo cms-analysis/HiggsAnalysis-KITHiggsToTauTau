@@ -14,7 +14,7 @@ class Kappa(dict):
 			self["GenTaus"] = ""
 			self["GenTauJets"] = ""
 			self["GenMet"] = ""
-		
+
 		else:
 			self["GenParticles"] = "genParticles"
 			self["GenTaus"] = "genTaus"
@@ -49,7 +49,7 @@ class Kappa(dict):
 		if re.search("(16Dec2015v1|Fall15|Spring16|Run2015)", nickname):
 			self["PuppiMet"] = "metPuppi"
 		else:
-			self["PuppiMet"] = ""
+			self["PuppiMet"] = "metPuppi"
 
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["MvaMets"] = ""
@@ -74,4 +74,3 @@ class Kappa(dict):
 		self["BeamSpot"] = "offlineBeamSpot"
 		self["TriggerInfos"] = "triggerObjectMetadata"
 		self["TriggerObjects"] = "triggerObjects"
-

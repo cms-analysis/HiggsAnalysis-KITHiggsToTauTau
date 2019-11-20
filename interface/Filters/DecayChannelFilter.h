@@ -17,7 +17,7 @@ public:
 	virtual std::string GetFilterId() const override {
             return "DecayChannelFilter";
     }
-    
+
     virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 	virtual bool DoesEventPass(event_type const& event, product_type const& product,
@@ -28,5 +28,3 @@ private:
 	HttEnumTypes::DecayChannel m_decayChannel;
 
 };
-
-

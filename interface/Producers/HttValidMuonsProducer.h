@@ -82,25 +82,25 @@ public:
 		muonIsoTypeUserMode = ToMuonIsoTypeUserMode(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.*GetMuonIsoTypeUserMode)())));
 
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "leadingMuonIso", [this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "leadingMuonIso", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 			return product.m_validMuons.size() >= 1 ? SafeMap::GetWithDefault(product.m_muonIsolation, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "leadingMuonIsoOverPt", [this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "leadingMuonIsoOverPt", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 			return product.m_validMuons.size() >= 1 ? SafeMap::GetWithDefault(product.m_muonIsolationOverPt, product.m_validMuons[0], DefaultValues::UndefinedDouble) : DefaultValues::UndefinedDouble;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "id_m_loose_1", [this](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "id_m_loose_1", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return product.m_validMuons.size() >= 1 ? product.m_validMuons[0]->idLoose() : DefaultValues::UndefinedFloat;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "id_m_medium_1", [this](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "id_m_medium_1", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return product.m_validMuons.size() >= 1 ? product.m_validMuons[0]->idMedium() : DefaultValues::UndefinedFloat;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "id_m_tight_1", [this](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "id_m_tight_1", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return product.m_validMuons.size() >= 1 ? product.m_validMuons[0]->idTight() : DefaultValues::UndefinedFloat;
 		});
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "id_m_highpt_1", [this](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "id_m_highpt_1", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return product.m_validMuons.size() >= 1 ? product.m_validMuons[0]->idHighPt() : DefaultValues::UndefinedFloat;
 		});
@@ -155,7 +155,7 @@ public:
 		HttValidMuonsProducer::Init(settings, metadata);
 	
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nLooseMuons", [this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nLooseMuons", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 			return product.m_validLooseMuons.size();
 		});
 	}
@@ -207,7 +207,7 @@ public:
 	
 		HttValidMuonsProducer::Init(settings, metadata);
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nVetoMuons", [this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nVetoMuons", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 			return product.m_validVetoMuons.size();
 		});
 	}

@@ -8,7 +8,7 @@ void LooseElectronsCountFilter::Init(setting_type const& settings, metadata_type
 	CutRangeFilterBase<HttTypes>::Init(settings, metadata);
 	
 	this->m_cuts.push_back(std::pair<double_extractor_lambda, CutRange>(
-			[](event_type const& event, product_type const& product) {
+			[](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 				return (static_cast<HttProduct const&>(product)).m_validLooseElectrons.size();
 			},
 			CutRange::EqualsCut(double(settings.GetNLooseElectrons()))
@@ -19,7 +19,7 @@ void LooseMuonsCountFilter::Init(setting_type const& settings, metadata_type& me
 	CutRangeFilterBase<HttTypes>::Init(settings, metadata);
 	
 	this->m_cuts.push_back(std::pair<double_extractor_lambda, CutRange>(
-			[](event_type const& event, product_type const& product) {
+			[](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 				return (static_cast<HttProduct const&>(product)).m_validLooseMuons.size();
 			},
 			CutRange::EqualsCut(double(settings.GetNLooseMuons()))

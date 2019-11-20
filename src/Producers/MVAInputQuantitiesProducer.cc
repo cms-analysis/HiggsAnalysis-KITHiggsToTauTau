@@ -7,104 +7,104 @@
 void MVAInputQuantitiesProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
-	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "TrainingSelectionValue", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "TrainingSelectionValue", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return (event.m_eventInfo->nEvent)%100;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pVecSum", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pVecSum", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_pVecSum;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pScalSum", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pScalSum", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_pScalSum;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "min_ll_jet_eta", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "min_ll_jet_eta", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_MinLLJetEta;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "abs_min_ll_jet_eta", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "abs_min_ll_jet_eta", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return std::abs(product.m_MinLLJetEta);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1_centrality", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep1_centrality", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_Lep1Centrality;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2_centrality", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "lep2_centrality", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_Lep2Centrality;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "product_lep_centrality", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "product_lep_centrality", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return KappaProduct::GetNJetsAbovePtThreshold(product.m_validJets, 30.0) >=1 ? (product.m_Lep1Centrality*product.m_Lep2Centrality) : -1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLep_centrality", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLep_centrality", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return std::abs(product.m_DiLepCentrality);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLep_diJet_deltaR", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLep_diJet_deltaR", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return std::abs(product.m_DiLepDiJetDeltaR);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepBoost", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepBoost", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return std::abs(product.m_diLepBoost);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepJet1DeltaR", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepJet1DeltaR", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return std::abs(product.m_diLepJet1DeltaR);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepDeltaR", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diLepDeltaR", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return std::abs(product.m_diLepDeltaR);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dmjj", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dmjj", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diJetDeltaMass;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diJetSymEta_1", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diJetSymEta_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_validJets.size() >= 1 ? (std::abs(product.m_validJets[0]->p4.Eta())) : -1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diJetSymEta_2", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diJetSymEta_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diJetSymDeltaEta;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diJetDeltaR", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diJetDeltaR", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diJetDeltaR;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diJetAbsDeltaPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diJetAbsDeltaPhi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diJetSystemAvailable ? std::abs(ROOT::Math::VectorUtil::DeltaPhi(product.m_validJets[0]->p4, product.m_validJets[1]->p4)) : -1;
 	});
 	//csv score ordered variables
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetDeltam", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetDeltam", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diCJetDeltaMass;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetSymEta_1", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetSymEta_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diCJetSymEta1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetSymEta_2", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetSymEta_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diCJetSymDeltaEta;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetDeltaR", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetDeltaR", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diCJetDeltaR;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetAbsDeltaPhi", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetAbsDeltaPhi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diCJetAbsDeltaPhi;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jccsv_1", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jccsv_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_jccsv1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jccsv_2", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jccsv_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_jccsv2;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jccsv_3", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jccsv_3", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_jccsv3;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jccsv_4", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jccsv_4", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_jccsv4;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcpt_1", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcpt_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_csv1JetPt;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcpt_2", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcpt_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_csv2JetPt;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcm_1", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcm_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_csv1JetMass;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcm_2", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jcm_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_csv2JetMass;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetm", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diCJetm", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diCJetMass;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pVecSumCSVJets", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pVecSumCSVJets", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_pVecSumCSVJets;
 	});
 }

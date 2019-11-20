@@ -44,28 +44,28 @@ void PolarisationQuantitiesProducerBase::Init(setting_type const& settings, meta
 	{
 		std::string namePostfix = m_name+"_" + std::to_string(leptonIndex+1);
 		
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmega"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmega"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 			return SafeMap::GetWithDefault((product.*m_polarisationOmegasMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedFloat);
 		});
 		
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaBar"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaBar"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 			return SafeMap::GetWithDefault((product.*m_polarisationOmegaBarsMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedFloat);
 		});
 		
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaVisible"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaVisible"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 			return SafeMap::GetWithDefault((product.*m_polarisationOmegaVisiblesMember), product.m_flavourOrderedLeptons.at(leptonIndex), DefaultValues::UndefinedFloat);
 		});
 	}
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmega"+m_name, [this](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmega"+m_name, [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return (product.*m_polarisationCombinedOmegaMember);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaBar"+m_name, [this](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaBar"+m_name, [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return (product.*m_polarisationCombinedOmegaBarMember);
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaVisible"+m_name, [this](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaVisible"+m_name, [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return (product.*m_polarisationCombinedOmegaVisibleMember);
 	});
 }
@@ -435,7 +435,7 @@ void GenPolarisationQuantitiesProducer::Init(setting_type const& settings, metad
 	{
 		std::string namePostfix = "Gen_" + std::to_string(leptonIndex+1);
 		
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmega"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmega"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 			if ((product.m_genLeptonsFromBosonDecay.size() > leptonIndex) &&
 			    (std::abs(product.m_genLeptonsFromBosonDecay.at(leptonIndex)->pdgId) == DefaultValues::pdgIdTau))
 			{
@@ -448,7 +448,7 @@ void GenPolarisationQuantitiesProducer::Init(setting_type const& settings, metad
 			}
 		});
 		
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaBar"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaBar"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 			if ((product.m_genLeptonsFromBosonDecay.size() > leptonIndex) &&
 			    (std::abs(product.m_genLeptonsFromBosonDecay.at(leptonIndex)->pdgId) == DefaultValues::pdgIdTau))
 			{
@@ -461,7 +461,7 @@ void GenPolarisationQuantitiesProducer::Init(setting_type const& settings, metad
 			}
 		});
 		
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaVisible"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product) {
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationOmegaVisible"+namePostfix, [leptonIndex, this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 			if ((product.m_genLeptonsFromBosonDecay.size() > leptonIndex) &&
 			    (std::abs(product.m_genLeptonsFromBosonDecay.at(leptonIndex)->pdgId) == DefaultValues::pdgIdTau))
 			{
@@ -475,15 +475,15 @@ void GenPolarisationQuantitiesProducer::Init(setting_type const& settings, metad
 		});
 	}
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaGen", [this](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaGen", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_polarisationCombinedOmegaGen;
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaBarGen", [this](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaBarGen", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_polarisationCombinedOmegaBarGen;
 	});
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaVisibleGen", [this](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "polarisationCombinedOmegaVisibleGen", [this](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_polarisationCombinedOmegaVisibleGen;
 	});
 }

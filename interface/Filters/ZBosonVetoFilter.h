@@ -17,32 +17,31 @@
  */
 class ZBosonVetoFilter: public FilterBase<HttTypes> {
 public:
-	
+
 	virtual std::string GetFilterId() const override {
 			return "ZBosonVetoFilter";
 	}
 
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
-	
+
 	virtual bool DoesEventPass(event_type const& event, product_type const& product,
 				   setting_type const& settings, metadata_type const& metadata) const override;
 
 private:
-	
+
 	enum class ZBosonVetoType : int
 	{
 		NONE  = -1,
 		HF = 0,
 		LF = 1
 	};
-	
+
 	static ZBosonVetoType ToZBosonVetoType(std::string const& vetoType)
 	{
 		if (vetoType == "heavyflavor") return ZBosonVetoType::HF;
 		else if (vetoType == "lightflavor") return ZBosonVetoType::LF;
 		else return ZBosonVetoType::NONE;
 	}
-	
+
 	ZBosonVetoType vetoType;
 };
-

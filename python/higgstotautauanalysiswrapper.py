@@ -29,7 +29,7 @@ import Artus.Utility.jsonTools as jsonTools
 class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 
 	def __init__(self, executable="HiggsToTauTauAnalysis",  userArgParsers=None):
-		
+
 		super(HiggsToTauTauAnalysisWrapper, self).__init__(executable, userArgParsers)
 
 		if not self._args.use_json:
@@ -45,7 +45,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			log.debug(self._args.channels)
 			log.debug("Systematics are:")
 			log.debug(self._args.systematics)
-			
+
 			self.channels_systematics = {}
 			self.create_channels_systematics()
 			self.expandConfig_python()
@@ -63,7 +63,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		self.replacingDict["areafiles"] += " -data/Samples auxiliaries/mva_weights ZZMatrixElement/MELA"
 
 	def create_channels_systematics(self):
-		
+
 		for tmp_channels, tmp_systematics in zip(self._args.channels, self._args.systematics):
 			for channel in tmp_channels:
 				self.channels_systematics.setdefault(channel, []).extend(tmp_systematics)
@@ -71,7 +71,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		for channel, systematics in self.channels_systematics.iteritems():
 			self.channels_systematics[channel] = list(set(systematics))  #creates dictionary with key channels and value which systematics needs to be run for this channel
 		return self.channels_systematics
-		
+
 
 	def remove_pipeline_copies(self):
 		pipelines = self._config.get("Pipelines", {}).keys()
@@ -146,7 +146,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 
 		elif kwargs.get("study", "MSSM"):
 			log.error("NOT DONE YET!")
-		
+
 
 
 	def create_pipelines(self, nickname, *args, **kwargs):
@@ -197,9 +197,9 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 						pipeline_python_config["Quantities"] = args.new_quantities
 					if len(args.new_processors)>0:
 						pipeline_python_config["Processors"] = args.add_processors
-				
+
 					"""
-					if selected_channel != "gen":	
+					if selected_channel != "gen":
 						for systematic_shift in self.channels_systematics[selected_channel]: #loop over the values, the systematics per key
 							if systematic_shift != "nominal":
 								for shiftdirection in ["Up", "Down"]:
@@ -232,7 +232,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			# merge pipeline config and baseline config
 			self._config.update(pipelineBaseDict)
 			self._config.update(globalProcessorsDict)
-			
+
 
 
 	def expandConfig_python(self, *args, **kwargs):
@@ -266,9 +266,9 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			self.setOutputFilename(self._args.output_file)
 
 		# treat pipeline configs
-		"""		
+		"""
 		pipelineJsonDict = {}
-		
+
 		if self._args.pipeline_configs and len(self._args.pipeline_configs) > 0:
 			pipelineJsonDict = []
 			print self._args.pipeline_configs
@@ -281,7 +281,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 
 		nickname = self.determineNickname(self._args.nick)
 		self.create_pipelines(nickname)
-	
+
 		self._config = jsonTools.JsonDict(self._config)
 
 		# treat includes, nicks and comments
@@ -347,27 +347,25 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		#symlinkBaseDir = os.path.expandvars("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusOutputs")
 		#if not os.path.exists(symlinkBaseDir):
 		#	os.makedirs(symlinkBaseDir)
-		
+
 		#if not self.projectPath is None:
 		#	symlinkDir = os.path.join(symlinkBaseDir, "recent")
 		#	if os.path.islink(symlinkDir):
 		#		os.remove(symlinkDir)
 		#	os.symlink(self.projectPath, symlinkDir)
-		
+
 		exitCode = super(HiggsToTauTauAnalysisWrapper, self).run()
-		
-		
+
+
 		#if not self.projectPath is None:
 		#	symlinkDir = os.path.join(symlinkBaseDir, os.path.basename(self.projectPath))
 		#	os.symlink(self.projectPath, symlinkDir)
-		
+
 		return exitCode
 
 	def sendToBatchSystem(self):
 		self.createEpilogArguments
 		exitCode = super(HiggsToTauTauAnalysisWrapper, self).sendToBatchSystem()
-			
+
 
 		return exitCode
-
-		

@@ -7,7 +7,7 @@ void LFVJetCorrection2016Producer::Init(setting_type const& settings, metadata_t
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);		
 	
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jetCorrectionWeight", [](event_type const& event, product_type const& product) {
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "jetCorrectionWeight", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.lfvjetcorr;
 	});
 ;

@@ -494,6 +494,46 @@ class Run2Quantities():
 		return l
 
 	@staticmethod
+	def CPSyncQuantities(nickname):
+		cpsync_quantities_list = [
+			"pvx",
+			"pvy",
+			"pvz",
+			"chpt_1",
+			"chphi_1",
+			"cheta_1",
+			"chm_1",
+			"chpt_2",
+			"chphi_2",
+			"cheta_2",
+			"chm_2",
+			"npt_1",
+			"nphi_1",
+			"neta_1",
+			"nm_1",
+			"npt_2",
+			"nphi_2",
+			"neta_2",
+			"nm_2",
+			"ipx_1",
+			"ipy_1",
+			"ipz_1",
+			"ipx_2",
+			"ipy_2",
+			"ipz_2",
+			"svx_1",
+			"svy_1",
+			"svz_1",
+			# "svx_2",
+			# "svy_2",
+			# "svz_2",
+			# "tauspinnerH",
+			# "tauspinnerA",
+			# "tauspinnerMaxMix",
+		]
+		return cpsync_quantities_list
+
+	@staticmethod
 	def syncQuantities(nickname):
 		sync_quantities_list = [
 			"nickname",
@@ -534,6 +574,7 @@ class Run2Quantities():
 			#"passid_1",
 			#"passiso_1",
 			"mt_1",
+
 			"pt_2",
 			"phi_2",
 			"eta_2",
@@ -548,6 +589,7 @@ class Run2Quantities():
 			"mt_2",
 			"met",
 			"metphi",
+
 			#"l1met",
 			#"l1metphi",
 			#"l1metcorr",
@@ -559,6 +601,7 @@ class Run2Quantities():
 			"mvametphi",
 			"pzetavis",
 			"pzetamiss",
+
 			"pZetaMissVis",
 			"metcov00",
 			"metcov01",
@@ -714,6 +757,8 @@ class Run2Quantities():
 			"id_e_cut_medium_1",
 			"id_e_cut_tight_1",
 			"pt_tt",
+			"mt_tot",
+			"mt_sv",
 			"dilepton_veto",
 			"extraelec_veto",
 			"extramuon_veto",
@@ -726,6 +771,34 @@ class Run2Quantities():
 			"leadingJetGenMatch",
 			"trailingJetGenMatch",
 			"metfilter_flag",
+			"flagFilter",
+			# "trg_singleelectron",
+			# "trg_singlemuon",
+			# "trg_singletau",
+			# "trg_muonelectron",
+			# "trg_mutaucross",
+			# "trg_doubletau",
+			# "deepTauVsJetRaw_1",
+			# "deepTauVsEleRaw_1",
+			# "deepTauVsMuRaw_1",
+			# "deepTauVsJetRaw_2",
+			# "deepTauVsEleRaw_2",
+			# "deepTauVsMuRaw_2",
+			# "m_fast",
+			# "mt_fast",
+			# "pfmt_1",
+			# "puppimt_1",
+			# "pfpzetamiss",
+			# "puppipzetamiss",
+			# "puppimet",
+			# "puppimetphi",
+			"puppiMetSumEt",
+			"puppiMetPt",
+			"puppiMetPhi",
+			"puppiMetCov00",
+			"puppiMetCov01",
+			"puppiMetCov10",
+			"puppiMetCov11",
 		]
 		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 			sync_quantities_list += [

@@ -61,11 +61,11 @@ public:
 		m_hltFiredBranchNames = Utility::ParseVectorToMap(settings.GetHLTBranchNames());
 
 		// add possible quantities for the lambda ntuples consumers
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiTauPairCandidates", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "nDiTauPairCandidates", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return static_cast<int>(product.m_validDiTauPairCandidates.size());
 		});
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata,"nAllDiTauPairCandidates", [](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata,"nAllDiTauPairCandidates", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return static_cast<int>(product.m_validDiTauPairCandidates.size()+product.m_invalidDiTauPairCandidates.size());
 		});
@@ -92,7 +92,7 @@ public:
 			std::map<std::string, std::vector<float>> lepton2UpperEtaCutsByHltName = m_lepton2UpperEtaCutsByHltName;
 			bool lepton1CheckL1Match = settings.GetCheckL1MatchForDiTauPairLepton1();
 			bool lepton2CheckL1Match = settings.GetCheckL1MatchForDiTauPairLepton2();
-			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, hltNames.first, [lepton1CheckL1Match, lepton2CheckL1Match, lepton1CheckTriggerMatchByHltName, lepton2CheckTriggerMatchByHltName, hltNames, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName, lepton1UpperEtaCutsByHltName, lepton2UpperEtaCutsByHltName](event_type const& event, product_type const& product)
+			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, hltNames.first, [lepton1CheckL1Match, lepton2CheckL1Match, lepton1CheckTriggerMatchByHltName, lepton2CheckTriggerMatchByHltName, hltNames, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName, lepton1UpperEtaCutsByHltName, lepton2UpperEtaCutsByHltName](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 			{
 				bool diTauPairFiredTrigger = false;
 				LOG(DEBUG) << "Beginning of lambda function for " << hltNames.first + "hehehyehe";

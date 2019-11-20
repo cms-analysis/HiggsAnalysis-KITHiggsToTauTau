@@ -17,7 +17,7 @@ void AcceptanceEfficiencyConsumer::Init(setting_type const& settings, metadata_t
 	PtVis1_hist = new TH1D("PtVis1_hist", "PtVis1_hist", 50,0.,200.);
 	PtVis2_hist = new TH1D("PtVis2_hist", "PtVis2_hist", 50,0.,200.);
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "accEfficiency",[](event_type const& event, product_type const& product)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "accEfficiency",[](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return event.m_genEventInfo->weight;
 	});

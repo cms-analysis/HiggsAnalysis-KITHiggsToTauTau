@@ -54,7 +54,7 @@ void MinimalPlotlevelFilter::Init(setting_type const& settings, metadata_type& m
 // 		if(m_ExpressionNames.size() < settings.GetPlotlevelFilterExpressionQuantities().size())
 }
 
-bool MinimalPlotlevelFilter::EvaluateSubExpression(std::string& expression, event_type const& event, product_type const& product, setting_type const& settings) const
+bool MinimalPlotlevelFilter::EvaluateSubExpression(std::string& expression, event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) const
 {
 	bool OrIn = boost::algorithm::contains(expression, "||");
 	bool back = false;
@@ -73,7 +73,7 @@ bool MinimalPlotlevelFilter::EvaluateSubExpression(std::string& expression, even
 				if(sexp == "")
 					continue;
 				LOG_N_TIMES(1,DEBUG) << "subexpression is " << sexp << " use || operation";
-				back = back || EvaluateSubExpression(sexp, event, product, settings);
+				back = back || EvaluateSubExpression(sexp, event, product, settings, metadata);
 			}
 		return back;
 	}
@@ -105,7 +105,7 @@ bool MinimalPlotlevelFilter::EvaluateSubExpression(std::string& expression, even
 			LOG(FATAL) << "expression " << expression << " was evaluated to " << true;
 			return true;
 		}
-		double variable = (m_ExpressionQuantities[position])(event, product);
+		double variable = (m_ExpressionQuantities[position])(event, product, settings, metadata);
 		float static_value = boost::lexical_cast<float>(substrings[2]);
 		LOG_N_TIMES(1,DEBUG) << expression << " variable: " << m_ExpressionNames[position] << " = " << variable;
 		std::string relation = substrings[1];
@@ -148,8 +148,7 @@ bool MinimalPlotlevelFilter::DoesEventPass(event_type const& event, product_type
 		{
 			std::string sexp = (m_SubExpressions)[it];
 			LOG_N_TIMES(1,DEBUG) << "\tevaluate subexpression " << sexp;
-			back = back && EvaluateSubExpression(sexp, event, product, settings);
+			back = back && EvaluateSubExpression(sexp, event, product, settings, metadata);
 		}
 	return back;
 }
-
