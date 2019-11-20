@@ -785,7 +785,7 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 		});
 		
 		std::string decayModeMVAQuantity = "decayModeMVA_" + std::to_string(leptonIndex+1);
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, decayModeMVAQuantity, [leptonIndex](event_type const& event, product_type const& product)
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, decayModeMVAQuantity, [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
 			if (lepton->flavour() == KLeptonFlavour::TAU)
