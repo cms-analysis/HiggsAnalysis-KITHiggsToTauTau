@@ -77,6 +77,8 @@ class Quantities(Run2Quantities):
 					self.quantities.update(["lhenpNLO"])
 
 			if re.search("Embedding(2016|2017)", nickname):
+				self.quantities.update(self.genQuantities())
+				self.quantities.update(self.genCPQuantities())
 				self.quantities.update(["tauSpinnerPolarisation"])
 
 		else:
