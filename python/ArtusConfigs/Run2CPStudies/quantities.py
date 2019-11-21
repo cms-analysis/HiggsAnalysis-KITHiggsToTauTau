@@ -247,7 +247,7 @@ class Quantities(Run2Quantities):
 					#self.quantities.update(self.splitJecUncertaintyQuantities())
 
 					if not channel == "TT":
-						self.quantities.update(self.recoCPQuantities(melaQuantities=True))
+						self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 
 						if channel == "EM":
 							self.quantities.update(set([ 'jetCorrectionWeight']))
@@ -298,7 +298,7 @@ class Quantities(Run2Quantities):
 						self.quantities.update(["lhenpNLO", "quarkmassWeight","quarkmassUpWeight","quarkmassDownWeight"])
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.svfitSyncQuantities())
-					self.quantities.update(self.recoCPQuantities(melaQuantities=True))
+					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					# if channel in ["TT", "MT", "ET"]:
 					# 	self.quantities.update(set(['#tauPolarisationTMVA', '#tauPolarisationSKLEARN']))
@@ -320,7 +320,7 @@ class Quantities(Run2Quantities):
 					#self.quantities.update(self.splitJecUncertaintyQuantities())
 
 				elif not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs).*(?=Fall15)', nickname):
-					self.quantities.update(set(['melaProbCPOddVBF', 'melaDiscriminatorDCPGGH', 'melaM125ProbCPEvenGGH', 'melaProbCPMixVBF', 'melaM125ProbCPMixVBF', 'melaM125DiscriminatorDCPVBF', 'melaDiscriminatorD0MinusGGH', 'melaDiscriminatorD0MinusVBF', 'melaProbCPEvenGGH', 'melaM125ProbCPEvenVBF', 'melaM125ProbCPMixGGH', 'melaProbCPOddGGH', 'melaDiscriminatorDCPVBF', 'melaM125ProbCPOddGGH', 'melaM125DiscriminatorDCPGGH', 'melaProbCPMixGGH', 'melaProbCPEvenVBF', 'melaM125DiscriminatorD0MinusGGH', 'melaM125ProbCPOddVBF', 'melaM125DiscriminatorD0MinusVBF']))
+					# self.quantities.update(set(['melaProbCPOddVBF', 'melaDiscriminatorDCPGGH', 'melaM125ProbCPEvenGGH', 'melaProbCPMixVBF', 'melaM125ProbCPMixVBF', 'melaM125DiscriminatorDCPVBF', 'melaDiscriminatorD0MinusGGH', 'melaDiscriminatorD0MinusVBF', 'melaProbCPEvenGGH', 'melaM125ProbCPEvenVBF', 'melaM125ProbCPMixGGH', 'melaProbCPOddGGH', 'melaDiscriminatorDCPVBF', 'melaM125ProbCPOddGGH', 'melaM125DiscriminatorDCPGGH', 'melaProbCPMixGGH', 'melaProbCPEvenVBF', 'melaM125DiscriminatorD0MinusGGH', 'melaM125ProbCPOddVBF', 'melaM125DiscriminatorD0MinusVBF']))
 					self.quantities.update(self.recoCPQuantitiesHiggs())
 					self.quantities.update(self.genHiggsQuantities())
 					self.quantities.update(self.genQuantities(LFV = False))
@@ -350,7 +350,7 @@ class Quantities(Run2Quantities):
 					if channel in ["MT"]: self.quantities.add('nVetoMuons')
 
 				else: # data, 2016/2017 wjets, ttbar, diboson
-					self.quantities.update(self.recoCPQuantities(melaQuantities=True))
+					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 
 					if channel == "MM":
 						self.quantities.update(self.singleTauQuantities())

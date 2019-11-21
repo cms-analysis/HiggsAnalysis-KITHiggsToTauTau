@@ -21,7 +21,7 @@ class Quantities(Run2CPQuantities.Quantities):
 		#super(Quantities, self).build_quantities(nickname, channel)
 
 		print "build_quantities"
-		self.quantities.update(self.recoCPFinalStateQuantities())
+		self.quantities.update(self.recoCPFinalStateQuantities(melaQuantities=False))
 		if channel == "GEN":
 			pass
 		else:
@@ -32,7 +32,7 @@ class Quantities(Run2CPQuantities.Quantities):
 			else:
 				if not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
 					self.quantities.update(self.genPolarisationQuantities())
-					self.quantities.update(self.recoCPQuantities(melaQuantities=True))
+					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 
 	@classmethod
 	def recoCPFinalStateQuantities(klass, melaQuantities=True):

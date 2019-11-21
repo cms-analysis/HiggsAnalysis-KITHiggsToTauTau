@@ -92,8 +92,8 @@ class tt_ArtusConfig(dict):
 				self["Processors"] += ["producer:SvfitM91Producer"]
 				self["Processors"] += ["producer:SvfitM125Producer"]
 
-				self["Processors"] += ["producer:MELAProducer"]
-				self["Processors"] += ["producer:MELAM125Producer"]
+				# self["Processors"] += ["producer:MELAProducer"]
+				# self["Processors"] += ["producer:MELAM125Producer"]
 
 				if re.search("Embedding2017", nickname):
 					self["Processors"] += ["producer:EmbeddingWeightProducer"]
@@ -133,8 +133,8 @@ class tt_ArtusConfig(dict):
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
 
-					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+					# self["Processors"] += ["producer:MELAProducer"]
+					# self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						if re.search("Summer17|Fall17", nickname) == None:
@@ -203,16 +203,16 @@ class tt_ArtusConfig(dict):
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
 
-					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+					# self["Processors"] += ["producer:MELAProducer"]
+					# self["Processors"] += ["producer:MELAM125Producer"]
 
 				elif re.search("^((?!(DY.?JetsToLL|HTo.*TauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
 
-					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+					# self["Processors"] += ["producer:MELAProducer"]
+					# self["Processors"] += ["producer:MELAM125Producer"]
 
 		self["Processors"] += ["producer:EventWeightProducer"]
 

@@ -81,7 +81,8 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"] #TaggedJetUncertaintyShiftProducer is old
 
-			if not re.search("(LFV).*(?=(Spring16|Summer16))", nickname): self["Processors"] += ["producer:MELAProducer"]
+			# if not re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
+			# 	self["Processors"] += ["producer:MELAProducer"]
 
 			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 				self["Processors"] += ["producer:NewValidETPairCandidatesProducer"]
@@ -226,8 +227,8 @@ class et_ArtusConfig(dict):
 						"producer:SvfitProducer",
 						"producer:SvfitM91Producer",
 						"producer:SvfitM125Producer",
-						"producer:MELAProducer",
-						"producer:MELAM125Producer"
+						# "producer:MELAProducer",
+						# "producer:MELAM125Producer"
 					]
 
 				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
@@ -247,8 +248,8 @@ class et_ArtusConfig(dict):
 				"producer:SvfitProducer",
 				"producer:SvfitM91Producer",
 				"producer:SvfitM125Producer",
-				"producer:MELAProducer",
-				"producer:MELAM125Producer",
+				# "producer:MELAProducer",
+				# "producer:MELAM125Producer",
 				"producer:SimpleFitProducer",
 				"producer:RooWorkspaceWeightProducer",
 				"producer:RefitVertexSelector",

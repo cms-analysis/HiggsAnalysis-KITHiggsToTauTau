@@ -90,7 +90,7 @@ class mt_ArtusConfig(dict):
 				#self["Processors"] += ["producer:SvfitM91Producer"]
 				#self["Processors"] += ["producer:SvfitM125Producer"]
 
-				self["Processors"] += ["producer:MELAProducer"]
+				# self["Processors"] += ["producer:MELAProducer"]
 				#self["Processors"] += ["producer:MELAM125Producer"]
 
 				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
@@ -140,7 +140,7 @@ class mt_ArtusConfig(dict):
 					#self["Processors"] += ["producer:SvfitM91Producer"]
 					#self["Processors"] += ["producer:SvfitM125Producer"]
 
-					self["Processors"] += ["producer:MELAProducer"]
+					# self["Processors"] += ["producer:MELAProducer"]
 					#self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
@@ -222,16 +222,16 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
 
-					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+					# self["Processors"] += ["producer:MELAProducer"]
+					# self["Processors"] += ["producer:MELAM125Producer"]
 
 				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
 
-					self["Processors"] += ["producer:MELAProducer"]
-					self["Processors"] += ["producer:MELAM125Producer"]
+					# self["Processors"] += ["producer:MELAProducer"]
+					# self["Processors"] += ["producer:MELAM125Producer"]
 
 		self["Processors"] += ["producer:EventWeightProducer"]
 		self["Processors"] = list(set(self["Processors"]))
