@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import re
 import copy
+import os
 
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.quantities import Quantities
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering import ProcessorsOrdered
@@ -15,23 +16,59 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.setting
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauES as sTES
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJEC as sJEC
 
+import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
 
 class gen_ArtusConfig(dict):
 
 	def __init__(self):
 		pass
 
+	def addProcessors(self, nickname):
+		self["Processors"] = []
+		if re.search("Summer17|Fall17|Embedding2017", nickname):
+			self["Processors"] += [
+				"producer:HltProducer",
+				"producer:GenParticleProducer",
+				"producer:GenBosonFromGenParticlesProducer",
+				"producer:GenBosonDiLeptonDecayModeProducer",
+				# "producer:GenBosonProductionProducer",
+				"producer:GenDiLeptonDecayModeProducer",
+				"producer:GenTauDecayProducer",
+				"producer:GenTauCPProducer",
+				]
+
+		if re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
+			self["Processors"] += [
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"#producer:ValidBTaggedJetsProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:CPInitialStateQuantitiesProducer"
+			]
+
+		self["Processors"] = list(set(self["Processors"]))
+		processorOrderingkey = ProcessorsOrdered(channel = self["Channel"])
+		ordered_processors = processorOrderingkey.order_processors(self["Processors"])
+		self["Processors"] = copy.deepcopy(ordered_processors)
+
 	def build_config(self, nickname, *args, **kwargs):
 
-		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
+		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
+
+		# define frequently used conditions
+		isEmbedded = datasetsHelper.isEmbedded(nickname)
+		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
+
+		JEC_config = sJEC.JEC(nickname)  #Is already in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)
-		
+
 		JetID_config = sJID.Jet_ID(nickname)
 		self.update(JetID_config)
 
 		BTaggedJet_config = sBTJID.BTaggedJet_ID(nickname)
 		self.update(BTaggedJet_config)
 
+		self["Channel"] = "GEN"
 		self["EventWeight"] = "eventWeight"
 
 		self["Consumers"] = [
@@ -41,7 +78,8 @@ class gen_ArtusConfig(dict):
 			"#PrintEventsConsumer",
 			"#PrintGenParticleDecayTreeConsumer"
 			]
-		if re.search("Summer17|Fall17", nickname):
+
+		if re.search("Summer17|Fall17|Embedding2017", nickname):
 			self["HltPaths"] = [
 					#Electrontriggers
 					"HLT_Ele32_WPTight_Gsf",
@@ -71,25 +109,13 @@ class gen_ArtusConfig(dict):
 					"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v",
 					"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg_v"
 				]
-			
-		quantities_set = Quantities()
-		quantities_set.build_quantities(nickname, channel = "GEN")
-		self["Quantities"] = list(quantities_set.quantities)
-		if re.search("Summer17|Fall17", nickname):
-			self["Processors"] = [
-				"producer:HltProducer"
-				]
-		else:
-			self["Processors"] = []
 
 		if re.search("HToTauTau|H2JetsToTauTau|Higgs",nickname):
-			self["Processors"] += [
-				"producer:TaggedJetCorrectionsProducer",
-				"producer:ValidTaggedJetsProducer",
-				"#producer:ValidBTaggedJetsProducer",
-				"producer:DiJetQuantitiesProducer",
-				"producer:CPInitialStateQuantitiesProducer"
-			]
 			if re.search("amcatnlo",nickname):
 				self["DoLhenpNLO"] = True	#NEEDED for stitching
 
+		quantities_set = Quantities()
+		quantities_set.build_quantities(nickname, channel = self["Channel"])
+		self["Quantities"] = list(quantities_set.quantities)
+
+		self.addProcessors(nickname)

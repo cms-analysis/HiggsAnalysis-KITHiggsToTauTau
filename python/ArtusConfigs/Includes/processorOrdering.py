@@ -24,6 +24,18 @@ class ProcessorsOrdered(dict):
 		self["producer:MetSelectorPuppi"] = 10.1
 		self["producer:MetFilterProducer"] = 11
 
+		if kwargs.get("channel", None) == "GEN":
+
+			self["producer:GenParticleProducer"] = 21
+			self["producer:GenBosonFromGenParticlesProducer"] = 22
+			self["producer:GenBosonProductionProducer"] = 23
+			self["producer:GenBosonDiLeptonDecayModeProducer"] = 24
+			self["producer:GenDiLeptonDecayModeProducer"] = 25
+			self["producer:GenTauDecayProducer"] = 26
+			self["producer:GenTauCPProducer"] = 27
+
+			self["TauSpinnerProducer"] = 31
+
 		if kwargs.get("channel", None) == "MT":
 			self["producer:ValidMuonsProducer"] = 21
 			self["filter:ValidMuonsFilter"] = 22

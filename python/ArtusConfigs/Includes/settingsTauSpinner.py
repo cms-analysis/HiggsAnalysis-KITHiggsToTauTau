@@ -27,7 +27,7 @@ class TauSpinner(dict):
 			"3" : "Replacing spin effects of Z/gammaStar with the Higgs-like spin-0 state spin correlations",
 			"4" : "Validation"
 		}
-		if re.search("(DY.?JetsToLL)", nickname):
+		if re.search("(DY.?JetsToLL)|Embedding(2016|2017)", nickname):
 			self["TauSpinnerSettingsIpol"] = "2"
 		else:
 			self["TauSpinnerSettingsIpol"] = "1"

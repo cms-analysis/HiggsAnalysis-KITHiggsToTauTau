@@ -110,7 +110,7 @@ class globalProccesors(dict):
 				"producer:MatchedLeptonsProducer",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:GeneratorWeightProducer",
-
+				"producer:TauSpinnerProducer",
 			]
 
 		elif re.search("EmbeddingMC", nickname):
