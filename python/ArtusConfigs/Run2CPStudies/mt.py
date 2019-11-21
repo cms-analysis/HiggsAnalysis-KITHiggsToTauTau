@@ -343,12 +343,7 @@ class mt_ArtusConfig(dict):
 		# 	self["NoHltFiltering"] = True
 		# 	self["DiTauPairNoHLT"] = True
 
-<<<<<<< HEAD
-		self["TauID"] = "TauIDRecommendation13TeV"
-		self["TauUseOldDMs"] = False
 
-=======
->>>>>>> dictchanges_CMSSW94
 		self["MuonLowerPtCuts"] = ["20.0"]
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["MuonLowerPtCuts"] = ["19.0"]

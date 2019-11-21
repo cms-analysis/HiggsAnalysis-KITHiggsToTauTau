@@ -298,11 +298,7 @@ class tt_ArtusConfig(dict):
 
 		self["Channel"] = "TT"
 		self["MinNTaus"] = 2
-<<<<<<< HEAD
-		self["TauID"] = "TauIDRecommendation13TeV"
-		self["TauUseOldDMs"] = False
-=======
->>>>>>> dictchanges_CMSSW94
+
 		self["TauLowerPtCuts"] = ["40.0"]  #in json with default
 		self["TauUpperAbsEtaCuts"] = ["2.1"] #in json with default
 		self["DiTauPairMinDeltaRCut"] = 0.5
