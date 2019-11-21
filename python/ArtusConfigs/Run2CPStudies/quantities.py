@@ -17,7 +17,6 @@ class Quantities(Run2Quantities):
 		# self.quantities = set()
 
 	def build_quantities(self, nickname, channel):
-		print "build_quantities"
 
 		if channel == "GEN":
 			self.quantities.update(self.weightQuantities(tauSpinner=False, minimalWeight=True, madGraphWeight=False))

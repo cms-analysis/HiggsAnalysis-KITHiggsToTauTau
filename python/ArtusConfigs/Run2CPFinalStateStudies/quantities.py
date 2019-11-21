@@ -20,7 +20,6 @@ class Quantities(Run2CPQuantities.Quantities):
 
 		#super(Quantities, self).build_quantities(nickname, channel)
 
-		print "build_quantities"
 		self.quantities.update(self.recoCPFinalStateQuantities(melaQuantities=False))
 		if channel == "GEN":
 			pass

@@ -50,7 +50,7 @@ class JECUncertaintySplit(dict):
 			"SinglePionHCAL:1.",
 			"TimePtEta:0"
 		]
-		print len(self["JetEnergyCorrectionCorrelationMap"])
+		# print len(self["JetEnergyCorrectionCorrelationMap"])
 
 	def group_eta0to5(self):
 		self["JetEnergyCorrectionSplitUncertainty"] = True
@@ -62,12 +62,12 @@ class JECUncertaintySplit(dict):
 			"FlavorQCD",
 			"Fragmentation",
 			"PileUpDataMC",
-			"PileUpPtRef",		
+			"PileUpPtRef",
 			"RelativeFSR",
-			"RelativeStatFSR",							
+			"RelativeStatFSR",
 			"SinglePionECAL",
-			"SinglePionHCAL",						
-			"TimePtEta"					
+			"SinglePionHCAL",
+			"TimePtEta"
 		]
 
 	def group_eta0to3(self):
@@ -78,16 +78,16 @@ class JECUncertaintySplit(dict):
 			"PileUpPtEC2",
 			"RelativeJEREC1",
 			"RelativeJEREC2",
-			"RelativePtBB",		
+			"RelativePtBB",
 			"RelativePtEC1",
 			"RelativePtEC2",
-			"RelativeStatEC"							
+			"RelativeStatEC"
 		]
 	def group_eta3to5(self):
 		self["JetEnergyCorrectionSplitUncertainty"] = True
 		self["JetEnergyCorrectionSplitUncertaintyParameterNames"] = [
 			"PileUpPtHF",
-			"RelativeJERHF",			
+			"RelativeJERHF",
 			"RelativePtHF",
 			"RelativeStatHF",
 		]
@@ -98,7 +98,7 @@ class JECUncertaintySplit(dict):
 			"RelativeBal"
 		]
 
-		
+
 	def group_relativesample(self):
 		self["JetEnergyCorrectionSplitUncertainty"] = True
 		self["JetEnergyCorrectionSplitUncertaintyParameterNames"] = [
@@ -139,9 +139,9 @@ class JECUncertaintySplit(dict):
 			"TimePtEta",
 			"Total"
 		]
-		
-		# WARNING: Do not forget to add new jet Energy Correction Groupings as Quantities to Run2Quantities.py! 
-		# WARNING: Do not forget to add new jet Energy Correction uncertainty names in HttEnumTypes.h! 
+
+		# WARNING: Do not forget to add new jet Energy Correction Groupings as Quantities to Run2Quantities.py!
+		# WARNING: Do not forget to add new jet Energy Correction uncertainty names in HttEnumTypes.h!
 		self["JetEnergyCorrectionSplitUncertaintyGroupings"] = {
 			"Eta0To5" :  [
 				"AbsoluteFlavMap",
@@ -151,12 +151,12 @@ class JECUncertaintySplit(dict):
 				"FlavorQCD",
 				"Fragmentation",
 				"PileUpDataMC",
-				"PileUpPtRef",		
+				"PileUpPtRef",
 				"RelativeFSR",
-				"RelativeStatFSR",							
+				"RelativeStatFSR",
 				"SinglePionECAL",
-				"SinglePionHCAL",						
-				"TimePtEta"					
+				"SinglePionHCAL",
+				"TimePtEta"
 			],
 			"Eta0To3" : [
 				"PileUpPtBB",
@@ -164,14 +164,14 @@ class JECUncertaintySplit(dict):
 				"PileUpPtEC2",
 				"RelativeJEREC1",
 				"RelativeJEREC2",
-				"RelativePtBB",		
+				"RelativePtBB",
 				"RelativePtEC1",
 				"RelativePtEC2",
-				"RelativeStatEC"							
+				"RelativeStatEC"
 			],
 			"Eta3To5" : [
 				"PileUpPtHF",
-				"RelativeJERHF",			
+				"RelativeJERHF",
 				"RelativePtHF",
 				"RelativeStatHF",
 			],

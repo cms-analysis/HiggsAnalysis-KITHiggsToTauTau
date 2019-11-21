@@ -86,7 +86,7 @@ void TauTriggerEfficiency2017Producer::Produce(event_type const& event, product_
 			KTau* tau = static_cast<KTau*>(product.m_flavourOrderedLeptons[1]);
 			int decayMode = tau->decayMode;
 			if(decayMode==11||decayMode==5||decayMode==6){
-			  std::cout<<"WARNING: decayMode = "<<decayMode<<" is not supported by TauTriggerSF. Using 10 instead."<<std::endl;
+			  LOG(WARNING) << "WARNING: decayMode = "<<decayMode<<" is not supported by TauTriggerSF. Using 10 instead.";
 			  decayMode=10;
 			}
 			tautriggerefficienciesMC.push_back(TauSFs.at(i)->getTriggerEfficiencyMC(tau->p4.Pt(),tau->p4.Eta(),tau->p4.Phi(),decayMode));
@@ -101,12 +101,12 @@ void TauTriggerEfficiency2017Producer::Produce(event_type const& event, product_
 			KTau* tau1 = static_cast<KTau*>(product.m_flavourOrderedLeptons[1]);
 			int decayMode0 = tau0->decayMode;
 			if(decayMode0==11||decayMode0==5||decayMode0==6){
-			  std::cout<<"WARNING: decayMode = "<<decayMode0<<" is not supported by TauTriggerSF. Using 10 instead."<<std::endl;
+			  LOG(WARNING) << "WARNING: decayMode = "<<decayMode0<<" is not supported by TauTriggerSF. Using 10 instead.";
 			  decayMode0=10;
                         }
 			int decayMode1 = tau1->decayMode;
 			if(decayMode1==11||decayMode1==5||decayMode1==6){
-			  std::cout<<"WARNING: decayMode = "<<decayMode1<<" is not supported by TauTriggerSF. Using 10 instead."<<std::endl;
+			  LOG(WARNING) << "WARNING: decayMode = "<<decayMode1<<" is not supported by TauTriggerSF. Using 10 instead.";
                           decayMode1=10;
                         }
 			tautriggerefficienciesMC.push_back(TauSFs.at(i)->getTriggerEfficiencyMC(tau0->p4.Pt(),tau0->p4.Eta(),tau0->p4.Phi(),decayMode0));
