@@ -451,9 +451,6 @@ class et_ArtusConfig(dict):
 				self["GlobalWeight"] = 0.991
 
 
-		self["TauID"] =  "TauIDRecommendation13TeV"
-		self["TauUseOldDMs"] =  True
-
 		self["ElectronUpperAbsEtaCuts"] = ["2.1"]
 		self["TauLowerPtCuts"] = ["20.0"]
 		self["TauUpperAbsEtaCuts"] = ["2.3"]

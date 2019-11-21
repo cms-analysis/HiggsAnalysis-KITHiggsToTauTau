@@ -20,3 +20,7 @@ class Tau_ID(dict):
 
 		self["TauElectronLowerDeltaRCut"] = -1.0
 		self["TauMuonLowerDeltaRCut"] = -1.0
+
+		self["TauID"] = "TauIDRecommendation13TeV"
+		self["TauAllowedDMs"] = [0,1,2,10,11] # exclude DM 5 and 6
+		self["TauUseOldDMs"] = False

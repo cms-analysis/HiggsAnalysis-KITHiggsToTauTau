@@ -343,9 +343,6 @@ class mt_ArtusConfig(dict):
 		# 	self["NoHltFiltering"] = True
 		# 	self["DiTauPairNoHLT"] = True
 
-		self["TauID"] = "TauIDRecommendation13TeV"
-		self["TauUseOldDMs"] = True
-
 		self["MuonLowerPtCuts"] = ["20.0"]
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["MuonLowerPtCuts"] = ["19.0"]
