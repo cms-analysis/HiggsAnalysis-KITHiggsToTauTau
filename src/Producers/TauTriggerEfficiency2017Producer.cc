@@ -32,7 +32,7 @@ void TauTriggerEfficiency2017Producer::Init(setting_type const& settings, metada
 	        std::string tauIDType = settings.GetTauIDType();
 		if(tauIDType!="MVAv2")
 		{
-		  std::cout<<"WARNING: tauIDType = "<<tauIDType<<" is not supported by TauTriggerSF. Using MVAv2 instead."<<std::endl;
+			LOG(WARNING) << "tauIDType = "<<tauIDType<<" is not supported by TauTriggerSF. Using MVAv2 instead.";
 		  tauIDType = "MVAv2";
 		}
 		std::shared_ptr<TauTriggerSFs2017> TauTriggerSF(new TauTriggerSFs2017(settings.GetTauTrigger2017Input(), decay_channel, "2017", TauTrigger2017WorkingPoint, tauIDType));
