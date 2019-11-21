@@ -48,7 +48,7 @@ class Baseconfig(dict):
 		else:
 			self["InputIsData"] = "false"
 
-		if re.search("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|MC)|LFV", nickname):
+		if re.search("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|2017|MC)|LFV", nickname):
 			self["BosonPdgIds"] = [23]
 		elif re.search("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z|JJ)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 			self["BosonPdgIds"] = [25]
