@@ -72,14 +72,14 @@ class Baseconfig(dict):
 		self["RecoElectronMatchingGenParticlePdgIds"] = [ 11, 13 ]
 		self["RecoMuonMatchingGenParticlePdgIds"] = [ 11, 13 ]
 		self["RecoTauMatchingGenParticlePdgIds"] = [ 11, 13 ]
-		self["RecoElectronMatchingGenParticleMatchAllElectrons"] = "true"
-		self["RecoMuonMatchingGenParticleMatchAllMuons"] = "true"
-		self["RecoTauMatchingGenParticleMatchAllTaus"] = "true"
-		self["MatchAllElectronsGenTau"] = "true"
-		self["MatchAllMuonsGenTau"] = "true"
-		self["MatchAllTausGenTau"] = "true"
-		self["MatchGenTauDecayMode"] = "true"
-		self["UpdateMetWithCorrectedLeptons"] = "true"
+		self["RecoElectronMatchingGenParticleMatchAllElectrons"] = True
+		self["RecoMuonMatchingGenParticleMatchAllMuons"] = True
+		self["RecoTauMatchingGenParticleMatchAllTaus"] = True
+		self["MatchAllElectronsGenTau"] = True
+		self["MatchAllMuonsGenTau"] = True
+		self["MatchAllTausGenTau"] = True
+		self["MatchGenTauDecayMode"] = True
+		self["UpdateMetWithCorrectedLeptons"] = True
 		self["TopPtReweightingStrategy"] = "Run2"
 		"""
 		if re.search("(Run2016|Summer16|Spring16)", nickname):
