@@ -81,6 +81,9 @@ def create_input_root_files(datacards, args):
 			"ZTT_GEN_DM_TEN" : "ztt_gen_dm_ten",
 			"ZTT_GEN_DM_ELEVEN" : "ztt_gen_dm_eleven",
 	}
+	if args.old_ztt:
+		datacards.configs._mapping_process2sample["ZTTPOSPOL"] = "zttpospol_official"
+		datacards.configs._mapping_process2sample["ZTTNEGPOL"] = "zttnegpol_official"
 
 	for index, (channel, categories) in enumerate(zip(args.channel, args.categories)):
 
@@ -109,9 +112,9 @@ def create_input_root_files(datacards, args):
 				if args.use_asimov_dataset:
 					asimov_nicks = copy.deepcopy(list_of_samples)
 					if args.modify_asimov_polarisation is None:
-						asimov_nicks = [nick.replace("zttpospol", "zttpospol_noplot").replace("zttnegpol", "zttnegpol_noplot") for nick in list_of_samples]
-					if "data" in asimov_nicks:
-						asimov_nicks.remove("data")
+						asimov_nicks = [sample for sample in list_of_samples if (not sample.startswith("ztt")) and (sample != "data")]
+					if any([sample.startswith("ztt") for sample in list_of_samples]):
+						asimov_nicks.append("ztt" + ("_official" if args.old_ztt_asimov else ""))
 				
 				for shift_up in ([True] if nominal else [True, False]):
 					systematic = "nominal" if nominal else (shape_systematic + ("Up" if shift_up else "Down"))
@@ -177,22 +180,33 @@ def create_input_root_files(datacards, args):
 					x_expression = expression_settings.expressions_dict.get(x_expression, x_expression)
 
 					# prepare plotting configs for retrieving the input histograms
-					config = sample_settings.get_config(
-							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
-							channel=channel,
-							category="catZttPol13TeV_"+category,
-							weight=args.weight,
-							lumi = args.lumi * 1000,
-							higgs_masses=higgs_masses,
-							estimationMethod="new",
-							polarisation_bias_correction=True,
-							cut_type="low_mvis_smhtt2016",
-							exclude_cuts=(["m_vis"] if x_expression == "m_vis" else []),
-							no_ewk_samples = args.no_ewk_samples,
-							no_ewkz_as_dy = True,
-							asimov_nicks = asimov_nicks,
-							forced_gen_polarisation=args.modify_unpolarisation_value
-					)
+					sample_get_config_kwargs = {
+							"samples" : [getattr(samples.Samples, sample) for sample in list_of_samples],
+							"channel" : channel,
+							"category" : "catZttPol13TeV_"+category,
+							"weight" : args.weight,
+							"lumi" : args.lumi * 1000,
+							"higgs_masses" : higgs_masses,
+							"estimationMethod" : "new",
+							"polarisation_bias_correction" : True,
+							"cut_type" : "low_mvis_smhtt2016",
+							"exclude_cuts" : (["m_vis"] if x_expression == "m_vis" else []),
+							"no_ewk_samples" : args.no_ewk_samples,
+							"no_ewkz_as_dy" : True,
+							"asimov_nicks" : [sample+("" if sample in list_of_samples else "noplot") for sample in asimov_nicks],
+							"forced_gen_polarisation" : args.modify_unpolarisation_value,
+					}
+					config = sample_settings.get_config(**sample_get_config_kwargs)
+					
+					additional_asimov_samples = list(set(asimov_nicks)-set(list_of_samples))
+					if len(additional_asimov_samples) > 0:
+						asimov_sample_get_config_kwargs = copy.deepcopy(sample_get_config_kwargs)
+						asimov_sample_get_config_kwargs["samples"] = [getattr(samples.Samples, sample.replace("_noplot", "")) for sample in additional_asimov_samples]
+						asimov_sample_get_config_kwargs["nick_suffix"] = "noplot"
+						asimov_sample_get_config_kwargs["no_plot"] = True
+						additional_asimov_config = sample_settings.get_config(**asimov_sample_get_config_kwargs)
+						config = samples.Samples.merge_configs(config, additional_asimov_config)
+					
 					if args.use_asimov_dataset and (not (args.modify_asimov_polarisation is None)) and ("AddHistograms" in config["analysis_modules"]):
 						for index1, (add_nicks, add_scale_factors, add_result_nicks) in enumerate(zip(config["add_nicks"], config.get("add_scale_factors", [None]*len(config["add_nicks"])), config["add_result_nicks"])):
 							if (add_nicks == " ".join(asimov_nicks)) and add_result_nicks.startswith("data"):
@@ -302,6 +316,10 @@ if __name__ == "__main__":
 
 	parser.add_argument("-i", "--input-dir", required=True,
 	                    help="Input directory.")
+	parser.add_argument("--old-ztt", default=False, action="store_true",
+	                    help="Use old/official DY samples for ZTT templates. [Default: %(default)s]")
+	parser.add_argument("--old-ztt-asimov", default=False, action="store_true",
+	                    help="Use old/official DY samples for ZTT in asimov sample. [Default: %(default)s]")
 	parser.add_argument("-c", "--channel", action = "append",
 	                    default=["mt", "et", "tt", "em"],
 	                    help="Channel. This agument can be set multiple times. [Default: %(default)s]")
