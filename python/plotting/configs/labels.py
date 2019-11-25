@@ -22,6 +22,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["zmm"] = "Z #rightarrow #mu#mu"
 			self.labels_dict["zee"] = "Z #rightarrow ee"
 			self.labels_dict["ztt"] = "Z #rightarrow #tau#tau"
+			self.labels_dict["ztt_official"] = "Z #rightarrow #tau#tau"
 			self.labels_dict["ztt_dm_zero"] = "Z #rightarrow #tau#tau, 1h^{#pm}"
 			self.labels_dict["ztt_dm_one"] = "Z #rightarrow #tau#tau, 1h^{#pm} #geq1#pi^{0}"
 			self.labels_dict["ztt_dm_ten"] = "Z #rightarrow #tau#tau, 3h^{#pm}"
@@ -33,6 +34,8 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ztt_emb"] = "Z #rightarrow #tau#tau (emb)"
 			self.labels_dict["zttpospol"] = "Z #rightarrow #tau_{R}^{#minus}#tau_{L}^{#plus}"
 			self.labels_dict["zttnegpol"] = "Z #rightarrow #tau_{L}^{#minus}#tau_{R}^{#plus}"
+			self.labels_dict["zttpospol_official"] = self.labels_dict["zttpospol"]
+			self.labels_dict["zttnegpol_official"] = self.labels_dict["zttnegpol"]
 			self.labels_dict["uuztt"] = "u#bar{u}/c#bar{c} #rightarrow Z #rightarrow #tau#tau"
 			self.labels_dict["ddztt"] = "d#bar{d}/s#bar{s}/b#bar{b} #rightarrow Z #rightarrow #tau#tau"
 			self.labels_dict["uuzttpospol"] = "u#bar{u}/c#bar{c} #rightarrow Z #rightarrow #tau_{R}^{#minus}#tau_{L}^{#plus}"

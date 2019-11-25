@@ -588,6 +588,7 @@ class Samples(samples.SamplesBase):
 	
 	def ztt_official(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, proxy_prefix="", **kwargs):
 		kwargs["new_ztt"] = False
+		kwargs["color_label_key"] = "ztt_official"
 		return self.ztt(config, channel, category, weight, "_official"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, fakefactor_method=fakefactor_method, proxy_prefix=proxy_prefix, **kwargs)
 
 	def emb_ztt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -641,7 +642,9 @@ class Samples(samples.SamplesBase):
 			polarisation_weight = "(%s)*(%s)" % (polarisation_weight, unpolarisation_weight)
 			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Unpolarisation.h>\nUnpolarisation unpol_ztt"+name+nick_suffix+"_HASH_NAME(\"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_up\", \"unpol_neg_up\", \"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_down\", \"unpol_neg_down\");")
 		
-		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttpospol", label="zttpospol", proxy_prefix=proxy_prefix, **kwargs)
+		if not "color_label_key" in kwargs:
+			kwargs["color_label_key"] = "zttpospol"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, proxy_prefix=proxy_prefix, **kwargs)
 		
 		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix, proxy_prefix=proxy_prefix)
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
@@ -685,7 +688,9 @@ class Samples(samples.SamplesBase):
 			polarisation_weight = "(%s)*(%s)" % (polarisation_weight, unpolarisation_weight)
 			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Unpolarisation.h>\nUnpolarisation unpol_ztt"+name+nick_suffix+"_HASH_NAME(\"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_up\", \"unpol_neg_up\", \"$CMSSW_BASE/src/TauPolSoftware/TauDecaysInterface/data/unpol_scale_factors.root\", \"unpol_pos_down\", \"unpol_neg_down\");")
 		
-		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, color_label_key="zttnegpol", label="zttnegpol", proxy_prefix=proxy_prefix, **kwargs)
+		if not "color_label_key" in kwargs:
+			kwargs["color_label_key"] = "zttnegpol"
+		config = self.ztt(config, channel, category, "(%s)*(%s)" % (polarisation_weight, weight), name+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, proxy_prefix=proxy_prefix, **kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, scale_factor=1.0, nick_suffix=nick_suffix, proxy_prefix=proxy_prefix)
 
 		if polarisation_bias_correction or polarisation_gen_ztt_plots:
@@ -717,10 +722,12 @@ class Samples(samples.SamplesBase):
 	
 	def zttpospol_official(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		kwargs["new_ztt"] = False
+		kwargs["color_label_key"] = "zttpospol_official"
 		return self.zttpospol(config, channel, category, weight, "_official"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, **kwargs)
 	
 	def zttnegpol_official(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):
 		kwargs["new_ztt"] = False
+		kwargs["color_label_key"] = "zttnegpol_official"
 		return self.zttnegpol(config, channel, category, weight, "_official"+nick_suffix, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, **kwargs)
 
 	def zttposcp(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", **kwargs):

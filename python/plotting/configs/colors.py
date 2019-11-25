@@ -264,6 +264,7 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["zl"+nick_suffix]  = "#000000 #4496C8"
 				self.colors_dict["zj"+nick_suffix]  = "#000000 #64DE6A"
 				self.colors_dict["ztt"+nick_suffix] = "#000000 #FFCC66"
+				self.colors_dict["ztt_official"+nick_suffix] = self.colors_dict["ztt"+nick_suffix]
 				self.colors_dict["zmt"+nick_suffix] = "#000000 #CE66FF"
 				self.colors_dict["zet"+nick_suffix] = "#000000 #CE66FF"
 				self.colors_dict["zem"+nick_suffix] = "#000000 #CE66FF"
@@ -280,6 +281,8 @@ class ColorsDict(colors.ColorsDict):
 				self.colors_dict["ztt_emb"+nick_suffix] = "#000000 #191406"# #FFD03E"
 				self.colors_dict["zttpospol"+nick_suffix] = "#000000 #FFEEBB"
 				self.colors_dict["zttnegpol"+nick_suffix] = "#000000 #FFCC66"
+				self.colors_dict["zttpospol_official"+nick_suffix] = self.colors_dict["zttpospol"+nick_suffix]
+				self.colors_dict["zttnegpol_official"+nick_suffix] = self.colors_dict["zttnegpol"+nick_suffix]
 				self.colors_dict["zttposcp"+nick_suffix] = "#000000 #FFEEBB"
 				self.colors_dict["zttnegcp"+nick_suffix] = "#000000 #FFCC66"
 				self.colors_dict["tt"+nick_suffix] = "#000000 #9999CC"
