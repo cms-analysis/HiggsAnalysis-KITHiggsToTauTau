@@ -14,6 +14,7 @@ class Tau_ID(dict):
 		if re.search("(Run2017|Fall17|Embedding2017)", nickname):
 			self["TauDiscriminatorIsolationName"] = "byDeepTau2017v2p1VSjetraw"
 			self["TauIDType"] = "deepTau"
+			self["TauDiscriminators"] = {"byVVVLooseDeepTau2017v2p1VSjet", "byVVVLooseDeepTau2017v2p1VSe", "byVLooseDeepTau2017v2p1VSmu"}
 		else:
 			self["TauDiscriminatorIsolationName"] = "byIsolationMVArun2v1DBoldDMwLTraw"
 			self["TauIDType"] = ""
