@@ -74,7 +74,7 @@ git clone git@github.com:artus-analysis/Artus.git -b dictchanges_CMSSW102
 git clone --recursive git@github.com:cms-analysis/HiggsAnalysis-KITHiggsToTauTau HiggsAnalysis/KITHiggsToTauTau -b dictchanges_CMSSW102
 
 # Di-tau system reconstruction
-git clone git@github.com:SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit -b release_2018Mar20
+git clone git@github.com:SVfit/ClassicSVfit.git TauAnalysis/ClassicSVfit -b fastMTT_19_02_2019
 git clone git@github.com:SVfit/SVfitTF.git TauAnalysis/SVfitTF
 git clone git@github.com:CMSAachen3B/SVfit_standalone.git TauAnalysis/SVfitStandalone -b HIG-16-006
 cd TauAnalysis/SVfitStandalone
