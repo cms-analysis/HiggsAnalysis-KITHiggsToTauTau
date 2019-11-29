@@ -962,7 +962,105 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_deltaGenRecoIPrPVBS_2;
 	});
+	// deltaEta, deltaPhi, deltaR and angle delta between the IP from Tangential and Helical Approach
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaTanHelIP_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaEtaTanHelIP_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaTanHelIP_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaEtaTanHelIP_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiTanHelIP_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaPhiTanHelIP_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiTanHelIP_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaPhiTanHelIP_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRTanHelIP_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaRTanHelIP_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRTanHelIP_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaRTanHelIP_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaTanHelIP_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaTanHelIP_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaTanHelIP_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaTanHelIP_2;
+	});
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaTanHelIPrPV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaEtaTanHelIPrPV_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaTanHelIPrPV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaEtaTanHelIPrPV_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiTanHelIPrPV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaPhiTanHelIPrPV_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiTanHelIPrPV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaPhiTanHelIPrPV_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRTanHelIPrPV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaRTanHelIPrPV_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRTanHelIPrPV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaRTanHelIPrPV_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaTanHelIPrPV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaTanHelIPrPV_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaTanHelIPrPV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaTanHelIPrPV_2;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaTanHelIPrPVBS_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaEtaTanHelIPrPVBS_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaEtaTanHelIPrPVBS_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaEtaTanHelIPrPVBS_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiTanHelIPrPVBS_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaPhiTanHelIPrPVBS_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaPhiTanHelIPrPVBS_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaPhiTanHelIPrPVBS_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRTanHelIPrPVBS_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaRTanHelIPrPVBS_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaRTanHelIPrPVBS_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaRTanHelIPrPVBS_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaTanHelIPrPVBS_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaTanHelIPrPVBS_1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "deltaTanHelIPrPVBS_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_deltaTanHelIPrPVBS_2;
+	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "d0s_dist", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
@@ -1264,6 +1362,16 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_cosPsiMinusHel = cpq.CalculateCosPsi(recoParticle1->p4, product.m_recoIPHel_1);
 	}
 
+	product.m_deltaEtaTanHelIP_1 = product.m_recoIP1.Eta() - product.m_recoIPHel_1.Eta();
+	product.m_deltaPhiTanHelIP_1 = product.m_recoIP1.DeltaPhi(product.m_recoIPHel_1);
+	product.m_deltaRTanHelIP_1 = product.m_recoIP1.DeltaR(product.m_recoIPHel_1);
+	product.m_deltaTanHelIP_1 = product.m_recoIP1.Angle(product.m_recoIPHel_1);
+
+	product.m_deltaEtaTanHelIP_2 = product.m_recoIP2.Eta() - product.m_recoIPHel_2.Eta();
+	product.m_deltaPhiTanHelIP_2 = product.m_recoIP2.DeltaPhi(product.m_recoIPHel_2);
+	product.m_deltaRTanHelIP_2 = product.m_recoIP2.DeltaR(product.m_recoIPHel_2);
+	product.m_deltaTanHelIP_2 = product.m_recoIP2.Angle(product.m_recoIPHel_2);
+
 	if (!m_isData){
 		if(&product.m_genIP1 != nullptr && product.m_genIP1.x() != -999){
 			//with the tangential approach
@@ -1481,6 +1589,26 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			}
 
 		}  // if tt ch.
+
+		product.m_deltaEtaTanHelIPrPV_1 = product.m_recoIPrPV_1.Eta() - product.m_recoIPHelrPV_1.Eta();
+		product.m_deltaPhiTanHelIPrPV_1 = product.m_recoIPrPV_1.DeltaPhi(product.m_recoIPHelrPV_1);
+		product.m_deltaRTanHelIPrPV_1 = product.m_recoIPrPV_1.DeltaR(product.m_recoIPHelrPV_1);
+		product.m_deltaTanHelIPrPV_1 = product.m_recoIPrPV_1.Angle(product.m_recoIPHelrPV_1);
+
+		product.m_deltaEtaTanHelIPrPV_2 = product.m_recoIPrPV_2.Eta() - product.m_recoIPHelrPV_2.Eta();
+		product.m_deltaPhiTanHelIPrPV_2 = product.m_recoIPrPV_2.DeltaPhi(product.m_recoIPHelrPV_2);
+		product.m_deltaRTanHelIPrPV_2 = product.m_recoIPrPV_2.DeltaR(product.m_recoIPHelrPV_2);
+		product.m_deltaTanHelIPrPV_2 = product.m_recoIPrPV_2.Angle(product.m_recoIPHelrPV_2);
+
+		product.m_deltaEtaTanHelIPrPVBS_1 = product.m_recoIPrPVBS_1.Eta() - product.m_recoIPHelrPVBS_1.Eta();
+		product.m_deltaPhiTanHelIPrPVBS_1 = product.m_recoIPrPVBS_1.DeltaPhi(product.m_recoIPHelrPVBS_1);
+		product.m_deltaRTanHelIPrPVBS_1 = product.m_recoIPrPVBS_1.DeltaR(product.m_recoIPHelrPVBS_1);
+		product.m_deltaTanHelIPrPVBS_1 = product.m_recoIPrPVBS_1.Angle(product.m_recoIPHelrPVBS_1);
+
+		product.m_deltaEtaTanHelIPrPVBS_2 = product.m_recoIPrPVBS_2.Eta() - product.m_recoIPHelrPVBS_2.Eta();
+		product.m_deltaPhiTanHelIPrPVBS_2 = product.m_recoIPrPVBS_2.DeltaPhi(product.m_recoIPHelrPVBS_2);
+		product.m_deltaRTanHelIPrPVBS_2 = product.m_recoIPrPVBS_2.DeltaR(product.m_recoIPHelrPVBS_2);
+		product.m_deltaTanHelIPrPVBS_2 = product.m_recoIPrPVBS_2.Angle(product.m_recoIPHelrPVBS_2);
 
 		if (!m_isData){
 			// calculate deltaR, deltaEta, deltaPhi and delta between recoIPvec and genIPvec
