@@ -516,6 +516,36 @@ public:
 	double m_deltaGenRecoIPHelrPVBS_1  = DefaultValues::UndefinedDouble;
 	double m_deltaGenRecoIPHelrPVBS_2  = DefaultValues::UndefinedDouble;
 
+	// Comparison of the tangentail and helical approach
+	double m_deltaEtaTanHelIP_1 = DefaultValues::UndefinedDouble;
+	double m_deltaEtaTanHelIP_2 = DefaultValues::UndefinedDouble;
+	double m_deltaPhiTanHelIP_1 = DefaultValues::UndefinedDouble;
+	double m_deltaPhiTanHelIP_2 = DefaultValues::UndefinedDouble;
+	double m_deltaRTanHelIP_1 = DefaultValues::UndefinedDouble;
+	double m_deltaRTanHelIP_2 = DefaultValues::UndefinedDouble;
+	double m_deltaTanHelIP_1 = DefaultValues::UndefinedDouble;
+	double m_deltaTanHelIP_2 = DefaultValues::UndefinedDouble;
+
+	double m_deltaEtaTanHelIPrPV_1 = DefaultValues::UndefinedDouble;
+	double m_deltaEtaTanHelIPrPV_2 = DefaultValues::UndefinedDouble;
+	double m_deltaPhiTanHelIPrPV_1 = DefaultValues::UndefinedDouble;
+	double m_deltaPhiTanHelIPrPV_2 = DefaultValues::UndefinedDouble;
+	double m_deltaRTanHelIPrPV_1 = DefaultValues::UndefinedDouble;
+	double m_deltaRTanHelIPrPV_2 = DefaultValues::UndefinedDouble;
+	double m_deltaTanHelIPrPV_1 = DefaultValues::UndefinedDouble;
+	double m_deltaTanHelIPrPV_2 = DefaultValues::UndefinedDouble;
+
+	double m_deltaEtaTanHelIPrPVBS_1 = DefaultValues::UndefinedDouble;
+	double m_deltaEtaTanHelIPrPVBS_2 = DefaultValues::UndefinedDouble;
+	double m_deltaPhiTanHelIPrPVBS_1 = DefaultValues::UndefinedDouble;
+	double m_deltaPhiTanHelIPrPVBS_2 = DefaultValues::UndefinedDouble;
+	double m_deltaRTanHelIPrPVBS_1 = DefaultValues::UndefinedDouble;
+	double m_deltaRTanHelIPrPVBS_2 = DefaultValues::UndefinedDouble;
+	double m_deltaTanHelIPrPVBS_1 = DefaultValues::UndefinedDouble;
+	double m_deltaTanHelIPrPVBS_2 = DefaultValues::UndefinedDouble;
+
+
+
 	// comparison between recoIP(original PV) and recoIP(refitPV)
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
