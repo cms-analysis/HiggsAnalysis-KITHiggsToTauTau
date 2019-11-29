@@ -45,7 +45,7 @@ class BTaggedJet_ID(dict):
 			]
 
 
-			self["BTaggedJetAbsEtaCut"] = 2.5
+			self["BTaggedJetAbsEtaCut"] = 2.4
 		else:
 			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8484
 			self["BTaggerWorkingPoints"] = [
