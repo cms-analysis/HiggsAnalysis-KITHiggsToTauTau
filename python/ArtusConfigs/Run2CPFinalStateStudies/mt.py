@@ -22,6 +22,11 @@ class mt_ArtusConfig(mtbaseconfig.mt_ArtusConfig):
 	def __init__(self):
 		pass
 
+	def addProcessors(self, nickname, *args, **kwargs):
+		super(mt_ArtusConfig, self).addProcessors(nickname, *args, **kwargs)
+		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
+			self["Processors"] += ["producer:IsomorphicMappingProducer"]
+
 	def build_config(self, nickname, *args, **kwargs):
 
 		super(mt_ArtusConfig, self).build_config(nickname, *args, **kwargs)
@@ -43,3 +48,5 @@ class mt_ArtusConfig(mtbaseconfig.mt_ArtusConfig):
 		quantities_set.build_quantities(nickname, channel = self["Channel"])
 		quantities_set.quantities.update(self["Quantities"])
 		self["Quantities"] = list(quantities_set.quantities)
+
+		self.addProcessors(nickname)
