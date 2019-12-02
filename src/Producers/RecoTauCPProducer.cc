@@ -1254,11 +1254,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_pca2DiffInSigma = product.m_recoIP2.Mag()/product.m_pca2proj;
 
 	//Impact parameters via helical approach in cm:
-
-	product.m_recoIPHel_1 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField, product.m_flavourOrderedLeptons.at(0)->track.helixParameters(), product.m_flavourOrderedLeptons.at(0)->track.ref, event.m_vertexSummary->pv.position, recoParticle1->p4);
+	product.m_recoIPHel_1 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField, product.m_flavourOrderedLeptons.at(0)->track.helixParameters(), product.m_flavourOrderedLeptons.at(0)->track.ref, event.m_vertexSummary->pv.position);
 	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCov_1 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, event.m_vertexSummary->pv.covariance);
 
-	product.m_recoIPHel_2 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField, product.m_flavourOrderedLeptons.at(1)->track.helixParameters(), product.m_flavourOrderedLeptons.at(1)->track.ref, event.m_vertexSummary->pv.position, recoParticle2->p4);
+	product.m_recoIPHel_2 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField, product.m_flavourOrderedLeptons.at(1)->track.helixParameters(), product.m_flavourOrderedLeptons.at(1)->track.ref, event.m_vertexSummary->pv.position);
 	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCov_2 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, event.m_vertexSummary->pv.covariance);
 
 	product.m_HelixRadius = ip.GetHelixRadius();
@@ -1426,11 +1425,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_pca1DiffInSigmarPVBS = sqrt( product.m_recoIPrPVBS_1 * product.m_recoIPrPVBS_1 )/product.m_pca1projrPVBS;
 		product.m_pca2DiffInSigmarPVBS = sqrt( product.m_recoIPrPVBS_2 * product.m_recoIPrPVBS_2 )/product.m_pca2projrPVBS;
 		//Impact parameters via helical approach in cm:
-
-		product.m_recoIPHelrPV_1 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField, product.m_flavourOrderedLeptons.at(0)->track.helixParameters(), product.m_flavourOrderedLeptons.at(0)->track.ref, product.m_refitPV->position, recoParticle1->p4);
+		product.m_recoIPHelrPV_1 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField, product.m_flavourOrderedLeptons.at(0)->track.helixParameters(), product.m_flavourOrderedLeptons.at(0)->track.ref, product.m_refitPV->position);
 		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVCov_1 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_refitPV->covariance);
 
-		product.m_recoIPHelrPV_2 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField, product.m_flavourOrderedLeptons.at(1)->track.helixParameters(), product.m_flavourOrderedLeptons.at(1)->track.ref, product.m_refitPV->position, recoParticle2->p4);
+		product.m_recoIPHelrPV_2 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField, product.m_flavourOrderedLeptons.at(1)->track.helixParameters(), product.m_flavourOrderedLeptons.at(1)->track.ref, product.m_refitPV->position);
 		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVCov_2 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_refitPV->covariance);
 
 		product.m_recoIPHelrPVCovxx_1 = IPHelrPVCov_1(0,0);
@@ -1460,11 +1458,12 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_IPSignificanceHelrPV_1 = product.m_recoIPHelrPV_1.Mag() / product.m_errorIPHelrPV_1;
 		product.m_IPSignificanceHelrPV_2 = product.m_recoIPHelrPV_2.Mag() / product.m_errorIPHelrPV_2;
 
-		product.m_recoIPHelrPVBS_1 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField, product.m_flavourOrderedLeptons.at(0)->track.helixParameters(), product.m_flavourOrderedLeptons.at(0)->track.ref, product.m_refitPVBS->position, recoParticle1->p4);
+		product.m_recoIPHelrPVBS_1 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField, product.m_flavourOrderedLeptons.at(0)->track.helixParameters(), product.m_flavourOrderedLeptons.at(0)->track.ref, product.m_refitPVBS->position);
 		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVBSCov_1 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_refitPVBS->covariance);
 
-		product.m_recoIPHelrPVBS_2 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField, product.m_flavourOrderedLeptons.at(1)->track.helixParameters(), product.m_flavourOrderedLeptons.at(1)->track.ref, product.m_refitPVBS->position, recoParticle2->p4);
+		product.m_recoIPHelrPVBS_2 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField, product.m_flavourOrderedLeptons.at(1)->track.helixParameters(), product.m_flavourOrderedLeptons.at(1)->track.ref, product.m_refitPVBS->position);
 		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVBSCov_2 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_refitPVBS->covariance);
+
 		product.m_recoIPHelrPVBSCovxx_1 = IPHelrPVBSCov_1(0,0);
 		product.m_recoIPHelrPVBSCovxy_1 = IPHelrPVBSCov_1(0,1);
 		product.m_recoIPHelrPVBSCovxz_1 = IPHelrPVBSCov_1(0,2);
