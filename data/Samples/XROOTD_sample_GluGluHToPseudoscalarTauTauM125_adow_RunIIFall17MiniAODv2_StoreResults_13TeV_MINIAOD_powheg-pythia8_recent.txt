@@ -1,0 +1,1 @@
+XROOTD_sample_GluGluHToPseudoscalarTauTauM125_adow_RunIIFall17MiniAODv2_StoreResults_13TeV_MINIAOD_powheg-pythia8_2019-11-27.txt
