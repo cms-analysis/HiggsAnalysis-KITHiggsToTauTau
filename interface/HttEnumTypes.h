@@ -98,16 +98,20 @@ public:
 	enum class TauIDWP : int
 	{
 		NONE = -1,
-		VLOOSE = 0,
-		LOOSE = 1,
-		MEDIUM = 2,
-		TIGHT = 3,
-		VTIGHT = 4,
-		VVTIGHT = 5
+		VVVLOOSE = 0,
+		VVLOOSE = 1,
+		VLOOSE = 2,
+		LOOSE = 3,
+		MEDIUM = 4,
+		TIGHT = 5,
+		VTIGHT = 6,
+		VVTIGHT = 7
 	};
 	static TauIDWP ToTauIDWP(std::string const& tauIDWP)
 	{
-		if (tauIDWP == "vloose") return TauIDWP::VLOOSE;
+		if (tauIDWP == "vvvloose") return TauIDWP::VVVLOOSE;
+		else if (tauIDWP == "vvloose") return TauIDWP::VVLOOSE;
+		else if (tauIDWP == "vloose") return TauIDWP::VLOOSE;
 		else if (tauIDWP == "loose") return TauIDWP::LOOSE;
 		else if (tauIDWP == "medium") return TauIDWP::MEDIUM;
 		else if (tauIDWP == "tight") return TauIDWP::TIGHT;
@@ -115,6 +119,22 @@ public:
 		else if (tauIDWP == "vvtight") return TauIDWP::VVTIGHT;
 		else return TauIDWP::NONE;
 	}
+
+	enum class MetType : int
+	{
+		NONE = -1,
+		PFMET = 0,
+		MVAMET = 1,
+		PUPPIMET = 2,
+	};
+	static MetType ToMetType(std::string const& metType)
+	{
+		if (metType == "pfmet") return MetType::PFMET;
+		else if (metType == "mvamet") return MetType::MVAMET;
+		else if (metType == "puppimet") return MetType::PUPPIMET;
+		else return MetType::NONE;
+	}
+
 
 	enum class SvfitCacheMissBehaviour : int
 	{
