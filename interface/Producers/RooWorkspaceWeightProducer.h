@@ -124,3 +124,15 @@ public:
 	virtual void Produce(event_type const& event, product_type & product,
 						 setting_type const& settings, metadata_type const& metadata) const override;
 };
+
+class LegacyWeightProducer: public RooWorkspaceWeightProducer {
+public:
+       LegacyWeightProducer();
+
+       virtual std::string GetProducerId() const override {
+               return "LegacyWeightProducer";
+       }
+
+       virtual void Produce(event_type const& event, product_type & product,
+                                                setting_type const& settings, metadata_type const& metadata) const override;
+};
