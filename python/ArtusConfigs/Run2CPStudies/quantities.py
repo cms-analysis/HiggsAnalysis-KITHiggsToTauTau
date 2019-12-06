@@ -16,7 +16,7 @@ class Quantities(Run2Quantities):
 		# quantities = {"Quantities" : set()}
 		# self.quantities = set()
 
-	def build_quantities(self, nickname, channel):
+	def build_quantities(self, nickname, channel, legacy=True):
 
 		if channel == "GEN":
 			self.quantities.update(self.weightQuantities(tauSpinner=False, minimalWeight=True, madGraphWeight=False))
@@ -86,6 +86,7 @@ class Quantities(Run2Quantities):
 			self.quantities.update(self.fourVectorQuantities())
 			self.quantities.update(self.syncQuantities(nickname))
 			self.quantities.update(self.CPSyncQuantities(nickname))
+			self.quantities.update(self.RooWorkSpaceWeightQuantities(nickname, channel, legacy))
 			if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
 					self.quantities.update(self.singleTauQuantities())
@@ -229,7 +230,7 @@ class Quantities(Run2Quantities):
 					])
 
 			if not channel == "EM":
-				self.quantities.update(self.fakefactorQuantities())
+				self.quantities.update(self.fakefactorQuantities(legacy))
 
 				# if re.search("(Summer17|Fall17)", nickname):
 				# 	self.quantities.update(self.tauTriggerEfficiencies2017Quantities())

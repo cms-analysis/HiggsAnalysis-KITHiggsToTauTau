@@ -16,7 +16,7 @@ class Quantities(Run2CPQuantities.Quantities):
 		# quantities = {"Quantities" : set()}
 		# self.quantities = set()
 
-	def build_quantities(self, nickname, channel):
+	def build_quantities(self, nickname, channel, legacy):
 
 		#super(Quantities, self).build_quantities(nickname, channel)
 

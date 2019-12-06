@@ -34,7 +34,7 @@ class mt_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def addProcessors(self, nickname):
+	def addProcessors(self, nickname, legacy):
 		self["Processors"] = [
 				"producer:HltProducer",
 				#"filter:HltFilter",
@@ -75,6 +75,11 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 
+			if legacy:
+				self["Processors"] += ["producer:LegacyJetToTauFakesProducer"]
+			else:
+				self["Processors"] += ["producer:JetToTauFakesProducer"]
+
 			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
 				self["Processors"] += ["producer:MetFilterProducer"]
@@ -93,17 +98,19 @@ class mt_ArtusConfig(dict):
 				# self["Processors"] += ["producer:MELAProducer"]
 				#self["Processors"] += ["producer:MELAM125Producer"]
 
-				self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
 				if re.search("Run2016", nickname):
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 				if re.search("Embedding(2016|2017)", nickname):
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
-					self["Processors"] += ["producer:EmbeddingWeightProducer"]
 					self["Processors"] += ["producer:TauCorrectionsProducer"]
-					#self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
-					#self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
+					if legacy:
+						self["Processors"] += ["producer:LegacyWeightProducer"]
+					else:
+						self["Processors"] += ["producer:EmbeddingWeightProducer"]
+						#self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+						#self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 
 			else:
 				self["Processors"] += [
@@ -116,12 +123,15 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
-					self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
 					#"producer:TriggerWeightProducer"
-					self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"] #is a rooworkspace
+					if legacy:
+						self["Processors"] += ["producer:LegacyWeightProducer"]
+					else:
+						self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
+						self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"] #is a rooworkspace
+						self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 
 					#self["Processors"] += ["producer:IdentificationWeightProducer"]
-					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 				else:
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 					self["Processors"] += ["producer:MuTauTriggerWeightProducer"] #is a rooworkspace file
@@ -144,7 +154,7 @@ class mt_ArtusConfig(dict):
 					#self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
-						self["Processors"] += ["producer:JetToTauFakesProducer"]
+
 						#if re.search("Summer17|Fall17", nickname) == None:
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
@@ -169,7 +179,6 @@ class mt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
-						self["Processors"] += ["producer:JetToTauFakesProducer"] #TODO check if only needed in data
 						#if re.search("Summer17|Fall17", nickname) == None:
 						self["Processors"] += [	"producer:TopPtReweightingProducer"]  #FIXME only ttbar?
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
@@ -241,29 +250,10 @@ class mt_ArtusConfig(dict):
 		self["Processors"] = copy.deepcopy(ordered_processors)
 
 	def build_config(self, nickname, *args, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
-		"""
-		"include" : [
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsVetoMuonID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJECUncertaintySplit.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_mt.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"
-		],
-		"""
-
 		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
 
 		# define frequently used conditions
+		isLegacy = kwargs.get("legacy", False)
 		isEmbedded = datasetsHelper.isEmbedded(nickname)
 		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
 
@@ -294,9 +284,9 @@ class mt_ArtusConfig(dict):
 		Svfit_config = sSvfit.Svfit(nickname)
 		self.update(Svfit_config)
 		if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017(|newpmx)_13TeV_MINIAOD_powheg-pythia8",nickname) or kwargs.get("sync", False): # synchronization sample
-			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False, sync=True)
+			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False, sync=True, legacy=isLegacy)
 		else:
-			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False, sync=False)
+			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="MT", eTauFakeRate=False, sync=False, legacy=isLegacy)
 		self.update(mplf.minPlotLevelDict)
 
 		MVATestMethods_config = sMVATM.MVATestMethods()
@@ -714,7 +704,7 @@ class mt_ArtusConfig(dict):
 		]
 
 		quantities_set = Quantities()
-		quantities_set.build_quantities(nickname, channel = self["Channel"])
+		quantities_set.build_quantities(nickname, channel = self["Channel"], legacy=isLegacy)
 		self["Quantities"] = list(quantities_set.quantities)
 
-		self.addProcessors(nickname)
+		self.addProcessors(nickname, isLegacy)
