@@ -572,18 +572,29 @@ void EmbeddingWeightProducer::Produce( event_type const& event, product_type & p
 					args.push_back(trailingTau.p4.Eta());
 				}
 			}
-			if((weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly))
-			{
-				product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+			if(settings.GetLegacy()){
+				if(m_saveTriggerWeightAsOptionalOnly)
+				{
+					product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+				}
+				else{
+					product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+				}
 			}
 			else{
-				product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
-			}
-			if((product.m_weights.find("MuTau_TauLeg_EmbeddedEfficiencyWeight_2") != product.m_weights.end()) && (product.m_weights.find("MuTau_TauLeg_DataEfficiencyWeight_2") != product.m_weights.end()))
-			{
-				product.m_weights["triggerWeight_muTauCross_2"] = product.m_weights["MuTau_TauLeg_DataEfficiencyWeight_2"]/product.m_weights["MuTau_TauLeg_EmbeddedEfficiencyWeight_2"];
-				product.m_weights["MuTau_TauLeg_EmbeddedEfficiencyWeight_2"] = 1.0;
-				product.m_weights["MuTau_TauLeg_DataEfficiencyWeight_2"] = 1.0;
+				if((weightNames.second.at(index).find("triggerWeight") != std::string::npos && m_saveTriggerWeightAsOptionalOnly))
+				{
+					product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+				}
+				else{
+					product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+				}
+				if((product.m_weights.find("MuTau_TauLeg_EmbeddedEfficiencyWeight_2") != product.m_weights.end()) && (product.m_weights.find("MuTau_TauLeg_DataEfficiencyWeight_2") != product.m_weights.end()))
+				{
+					product.m_weights["triggerWeight_muTauCross_2"] = product.m_weights["MuTau_TauLeg_DataEfficiencyWeight_2"]/product.m_weights["MuTau_TauLeg_EmbeddedEfficiencyWeight_2"];
+					product.m_weights["MuTau_TauLeg_EmbeddedEfficiencyWeight_2"] = 1.0;
+					product.m_weights["MuTau_TauLeg_DataEfficiencyWeight_2"] = 1.0;
+				}
 			}
 		}
 	}
@@ -874,4 +885,110 @@ void LeptonTauTrigger2017WeightProducer::Produce( event_type const& event, produ
 			}
 		}
 	}
+}
+
+// ==========================================================================================
+
+LegacyWeightProducer::LegacyWeightProducer() :
+		RooWorkspaceWeightProducer(&setting_type::GetSaveLegacyWeightAsOptionalOnly,
+								   &setting_type::GetLegacyWeightWorkspace,
+								   &setting_type::GetLegacyWeightWorkspaceWeightNames,
+								   &setting_type::GetLegacyWeightWorkspaceObjectNames,
+								   &setting_type::GetLegacyWeightWorkspaceObjectArguments)
+{
+}
+
+void LegacyWeightProducer::Produce( event_type const& event, product_type & product,
+						   setting_type const& settings, metadata_type const& metadata) const
+{
+	for(auto weightNames:m_weightNames)
+	{
+		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
+		for(size_t index = 0; index < weightNames.second.size(); index++)
+		{
+			std::vector<double> args;
+			std::vector<std::string> arguments;
+			boost::split(arguments,  m_functorArgs.at(weightNames.first).at(index) , boost::is_any_of(","));
+			for(auto arg:arguments)
+			{
+				if((arg=="m_pt") || (arg=="e_pt") || (arg=="t_pt"))
+				{
+					args.push_back(lepton->p4.Pt());
+				}
+				else if((arg=="m_eta") || (arg=="e_eta") || (arg=="t_eta"))
+				{
+					args.push_back(lepton->p4.Eta());
+				}
+				else if((arg=="m_iso") || (arg=="e_iso"))
+				{
+					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
+				}
+				else if(arg=="t_dm")
+				{
+					KTau* tau = static_cast<KTau*>(lepton);
+					args.push_back(tau->decayMode);
+				}
+				else if(arg=="gt_pt")
+				{
+					KGenTau genTau = event.m_genTaus->at(weightNames.first);
+					args.push_back(genTau.p4.Pt());
+				}
+				else if(arg=="gt_eta")
+				{
+					KGenTau genTau = event.m_genTaus->at(weightNames.first);
+					args.push_back(genTau.p4.Eta());
+				}
+				else if(arg=="gt1_pt")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					args.push_back(leadingTau.p4.Pt());
+				}
+				else if(arg=="gt1_eta")
+				{
+					KGenTau leadingTau = event.m_genTaus->at(0);
+					args.push_back(leadingTau.p4.Eta());
+				}
+				else if(arg=="gt2_pt")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					args.push_back(trailingTau.p4.Pt());
+				}
+				else if(arg=="gt2_eta")
+				{
+					KGenTau trailingTau = event.m_genTaus->at(1);
+					args.push_back(trailingTau.p4.Eta());
+				}
+			}
+			bool legacy = settings.GetLegacy();
+			if(legacy){
+				if((weightNames.second.at(index).find("triggerEfficiency") != std::string::npos) && m_saveTriggerWeightAsOptionalOnly)
+				{
+					product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+				}
+				else{
+					product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+				}
+			}
+			else{
+				LOG(WARNING) << "Using LegacyWeightProducer without Legacy setting! settings.GetLegacy(): " << legacy;
+			}
+		}
+	}
+	double leptonTrigEffSingle_mcemb = product.m_optionalWeights["triggerEfficiency_singletrigger_MCEmb_1"];
+	double leptonTrigEffSingle_data = product.m_optionalWeights["triggerEfficiency_singletrigger_data_1"];
+	double leptonTrigEffCross_mcemb = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_1"];
+	double leptonTrigEffCross_data = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_1"];
+	double tauTrigEffCross_mcemb = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_2"];
+	double tauTrigEffCross_data = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_2"];
+
+	double efficiencyMCEmb = leptonTrigEffSingle_mcemb*(1.0-tauTrigEffCross_mcemb)  + leptonTrigEffCross_mcemb*tauTrigEffCross_mcemb;
+	double efficiencyData = leptonTrigEffSingle_data*(1.0-tauTrigEffCross_data) + leptonTrigEffCross_data*tauTrigEffCross_data;
+
+	// Trigger weights for "HttEnumTypes::DataMcScaleFactorProducerMode::NO_OVERLAP_TRIGGERS"
+	product.m_optionalWeights["triggerWeight_single_1"] = ((leptonTrigEffSingle_mcemb == 0.0) ? 1.0 : leptonTrigEffSingle_data/leptonTrigEffSingle_mcemb);
+	product.m_optionalWeights["triggerWeight_cross_1"] = ((leptonTrigEffCross_mcemb == 0.0) ? 1.0 : leptonTrigEffCross_data/leptonTrigEffCross_mcemb);
+	product.m_optionalWeights["triggerWeight_cross_2"] = ((tauTrigEffCross_mcemb == 0.0) ? 1.0 : tauTrigEffCross_data/tauTrigEffCross_mcemb);
+
+	// Trigger weights for "HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS"
+	product.m_optionalWeights["triggerWeight_comb"] = ((efficiencyMCEmb == 0.0) ? 1.0 : (efficiencyData / efficiencyMCEmb));
 }
