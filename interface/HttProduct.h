@@ -237,6 +237,7 @@ public:
 	// filled by the MetCorrectors
 	std::vector<float> m_mvametCorrections;
 	std::vector<float> m_pfmetCorrections;
+	std::vector<float> m_puppimetCorrections;
 	KMET m_met;
 	KMET m_pfmet;
 	KMET m_mvamet;

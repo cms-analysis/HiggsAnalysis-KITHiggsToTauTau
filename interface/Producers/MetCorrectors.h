@@ -7,8 +7,11 @@
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RecoilCorrector.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MEtSys.h"
+// #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RecoilCorrector.h"
+// #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MEtSys.h"
+
+#include "HTT-utilities/RecoilCorrections/interface/RecoilCorrector.h"
+#include "HTT-utilities/RecoilCorrections/interface/MEtSys.h"
 
 #include <boost/regex.hpp>
 
@@ -65,7 +68,7 @@ public:
 			}
 			else
 			{
-				m_sysType = MEtSys::SysType::NoType;
+				// m_sysType = MEtSys::SysType::NoType;
 				LOG(FATAL) << "Invalid HttSettings::MetSysType option";
 			}
 			
@@ -286,24 +289,24 @@ public:
 		{
 			product.m_met.p4 += product.m_MET_shift.p4;
 		}
-		
+
 		// Apply the correction to the MET object, if required (done for all the samples)
 		if (m_doMetSys)
 		{
 			float correctedMetShiftX, correctedMetShiftY;
-			
+
 			m_metShiftCorrector->ApplyMEtSys(
 				(product.*m_metMemberCorrected).p4.Px(), (product.*m_metMemberCorrected).p4.Py(),
 				genPx, genPy,
 				visPx, visPy,
 				nJets30,
-				m_processType,
+				// m_processType,
 				m_sysType,
 				m_sysShift,
 				correctedMetShiftX,
 				correctedMetShiftY
 			);
-			
+
 			(product.*m_metMemberCorrected).p4.SetPxPyPzE(
 				correctedMetShiftX,
 				correctedMetShiftY,
@@ -355,6 +358,17 @@ class MvaMetCorrector: public MetCorrectorBase<KMET>
 {
 public:
 	MvaMetCorrector();
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
+	virtual std::string GetProducerId() const override;
+};
+
+/**
+   \brief Corrector for PUPPIMET
+*/
+class PuppiMetCorrector: public MetCorrectorBase<KMET>
+{
+public:
+	PuppiMetCorrector();
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 	virtual std::string GetProducerId() const override;
 };
