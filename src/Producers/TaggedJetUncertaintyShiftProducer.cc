@@ -367,6 +367,8 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 						//todo
 						else if (m_bTagSFMethod == KappaEnumTypes::BTagScaleFactorMethod::OTHER) {}
 					}
+					//check again non-btag related jet selection criteria as promote/demote scaling ignores them
+					validBJet = validBJet && (std::abs(tjet.p4.eta()) <= settings.GetBTaggedJetAbsEtaCut());
 
 					if (validBJet) shiftedBTaggedJets.push_back(tjet);
 				}
