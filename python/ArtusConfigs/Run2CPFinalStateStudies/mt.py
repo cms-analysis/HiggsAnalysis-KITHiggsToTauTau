@@ -35,7 +35,7 @@ class mt_ArtusConfig(mtbaseconfig.mt_ArtusConfig):
 
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			if isLegacy:
-				self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/fakefactors_ws_2017.root"
+				self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fakefactors_ws_2017.root"
 				self["FakeFactorRooWorkspaceFunction"] = [
 					"ff_mt_medium_dmbins:pt,dm,njets,m_pt,os,met,mt,m_iso,pass_single,mvis",
 					"ff_mt_medium_mvadmbins:pt,mvadm,ipsig,njets,m_pt,os,met,mt,m_iso,pass_single,mvis",
