@@ -18,16 +18,15 @@
 /**
    \brief JetToTauFakesProducer
    Config tags:
-   
+
     Run this producer after the Run2DecayModeProducer
 
 */
 
 class JetToTauFakesProducer : public ProducerBase<HttTypes> {
 public:
-
 	virtual ~JetToTauFakesProducer();
-	
+
 	virtual std::string GetProducerId() const override;
 
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;

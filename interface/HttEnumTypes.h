@@ -39,7 +39,7 @@ public:
 		else if (decayChannelString == "ttm") return DecayChannel::TTH_TTM;
 		return DecayChannel::NONE;
 	}
-	
+
 	enum class TauTauRestFrameReco : int
 	{
 		NONE  = -1,
@@ -56,7 +56,7 @@ public:
 		else if (tauTauRestFrameReco == "svfit") return TauTauRestFrameReco::SVFIT;
 		else return TauTauRestFrameReco::NONE;
 	}
-	
+
 	enum class DataMcScaleFactorProducerMode : int
 	{
 		NONE  = -1,
@@ -75,7 +75,7 @@ public:
 		else if (dataMcScaleFactorProducerMode == "no_overlap_triggers") return DataMcScaleFactorProducerMode::NO_OVERLAP_TRIGGERS;
 		else return DataMcScaleFactorProducerMode::NONE;
 	}
-	
+
 	enum class SystematicShift : int
 	{
 		NONE = -1,
@@ -186,7 +186,7 @@ public:
 		Eta0To5,
 		Eta0To3,
 		Eta3To5,
-		ClosureCPGroupings, // uncertainities grouped for the Higgs CP analysis added in quadrature to be compared to 'Total' for closure test 
+		ClosureCPGroupings, // uncertainities grouped for the Higgs CP analysis added in quadrature to be compared to 'Total' for closure test
 		Closure // individual uncertainties added in quadrature. to be compared to 'Total' for closure test
 	};
 
@@ -228,7 +228,7 @@ public:
 		else if (jetEnergyCorrectionUncertainty == "Closure") return JetEnergyUncertaintyShiftName::Closure;
 		else return JetEnergyUncertaintyShiftName::NONE;
 	}
-	
+
 	static std::string FromJetEnergyUncertaintyShiftName(JetEnergyUncertaintyShiftName const& jetEnergyCorrectionUncertainty)
 	{
 		if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::AbsoluteFlavMap) return "AbsoluteFlavMap";
@@ -248,7 +248,7 @@ public:
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeJEREC1) return "RelativeJEREC1";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeJEREC2) return "RelativeJEREC2";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeJERHF) return "RelativeJERHF";
-		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtBB) return "RelativePtBB"; 
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtBB) return "RelativePtBB";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtEC1) return "RelativePtEC1";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtEC2) return "RelativePtEC2";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtHF) return "RelativePtHF";
@@ -265,7 +265,7 @@ public:
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::ClosureCPGroupings) return "ClosureCPGroupings";
 		else if (jetEnergyCorrectionUncertainty ==  JetEnergyUncertaintyShiftName::Closure) return "Closure";
 		else return "";
-	}	
+	}
 
 	static KMETUncertainty::Type ToMETUncertaintyType(std::string const& metUncertainty)
 	{

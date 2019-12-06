@@ -65,7 +65,7 @@ class MinimalPlotlevelFilter():
 	def et(self, nickname, eTauFakeRate=False, sync=False):
 		#self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = ["againstMuonLoose3_2"]
 		if sync:
-			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = [ 
+			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = [
 			"byVVVLooseDeepTau2017v2p1VSjet_2",
 			"byVVVLooseDeepTau2017v2p1VSe_2",
 			"byVLooseDeepTau2017v2p1VSmu_2"
