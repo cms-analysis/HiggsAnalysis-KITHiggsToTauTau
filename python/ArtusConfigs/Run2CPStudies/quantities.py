@@ -16,7 +16,7 @@ class Quantities(Run2Quantities):
 		# quantities = {"Quantities" : set()}
 		# self.quantities = set()
 
-	def build_quantities(self, nickname, channel):
+	def build_quantities(self, nickname, channel, legacy=True):
 
 		if channel == "GEN":
 			self.quantities.update(self.weightQuantities(tauSpinner=False, minimalWeight=True, madGraphWeight=False))
@@ -86,6 +86,7 @@ class Quantities(Run2Quantities):
 			self.quantities.update(self.fourVectorQuantities())
 			self.quantities.update(self.syncQuantities(nickname))
 			self.quantities.update(self.CPSyncQuantities(nickname))
+			self.quantities.update(self.RooWorkSpaceWeightQuantities(nickname, channel, legacy))
 			if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
 					self.quantities.update(self.singleTauQuantities())
@@ -104,37 +105,6 @@ class Quantities(Run2Quantities):
 							#"HLT_Ele32_WPTight_Gsf",
 							"HLT_Ele35_WPTight_Gsf",
 							"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1"
-						])
-					if  re.search("Embedding2017", nickname):
-						self.quantities.update([
-							"triggerWeight_doublemu_1",
-							"idweight_doublemu_1",
-							"idweight_doublemu_2",
-							"isoweight_1",
-							"idweight_1",
-							"triggerWeight_trg27_trg32_trg35_embed_1",
-							"triggerWeight_trg_EleTau_Ele24Leg_embed_1",
-							"triggerWeight_tauLeg_2",
-							"triggerWeight_trg27_trg32_trg35_data_1",
-							"triggerWeight_trg_EleTau_Ele24Leg_data_1"
-						])
-						self.quantities.update([
-							"tautriggerefficiencyData_2"
-						])
-					else:
-						self.quantities.update([
-							#"HLT_Ele32_WPTight_Gsf",
-							"HLT_Ele35_WPTight_Gsf",
-							"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1",
-							"triggerWeight_singleE_1",
-							"triggerWeight_etaucross_1",
-							"triggerWeight_etaucross_2",
-							"triggerWeight_etaucross_vloose_2",
-							"triggerWeight_etaucross_loose_2",
-							"triggerWeight_etaucross_medium_2",
-							"triggerWeight_etaucross_tight_2",
-							"triggerWeight_etaucross_vtight_2",
-							"triggerWeight_etaucross_vvtight_2",
 						])
 				elif re.search("Embedding2016", nickname):
 					self.quantities.update([
@@ -161,29 +131,6 @@ class Quantities(Run2Quantities):
 						"MuTau_TauLeg_EmbeddedEfficiencyWeight_2",
 						"MuTau_TauLeg_DataEfficiencyWeight_2"
 					])
-				if re.search("Embedding2017", nickname):
-					self.quantities.update([
-						"triggerWeight_doublemu_1",
-						"idweight_doublemu_1",
-						"idweight_doublemu_2",
-						"isoweight_1",
-						"idweight_1",
-						"triggerWeight_mu_1",
-						"triggerWeight_mutaucross_1",
-						"triggerWeight_mutaucross_2",
-					])
-				else:
-					self.quantities.update([
-						"triggerWeight_mu_1",
-						"triggerWeight_mutaucross_1",
-						"triggerWeight_mutaucross_2",
-						"triggerWeight_mutaucross_vloose_2",
-						"triggerWeight_mutaucross_loose_2",
-						"triggerWeight_mutaucross_medium_2",
-						"triggerWeight_mutaucross_tight_2",
-						"triggerWeight_mutaucross_vtight_2",
-						"triggerWeight_mutaucross_vvtight_2",
-					])
 			elif channel == "TT":
 				if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update([
@@ -196,31 +143,6 @@ class Quantities(Run2Quantities):
 						"trg_doubletau_40_mediso_tightid",
 						"trg_doubletau_40_tightiso"
 					])
-				if re.search("Embedding2017", nickname):
-					self.quantities.update([
-						"triggerWeight_doublemu_1",
-						"idweight_doublemu_1",
-						"idweight_doublemu_2",
-						"triggerWeight_tau_1",
-						"triggerWeight_tau_2",
-					])
-				else:
-					self.quantities.update([
-						"triggerWeight_tautaucross_1",
-						"triggerWeight_tautaucross_2",
-						"triggerWeight_tautaucross_vloose_1",
-						"triggerWeight_tautaucross_loose_1",
-						"triggerWeight_tautaucross_medium_1",
-						"triggerWeight_tautaucross_tight_1",
-						"triggerWeight_tautaucross_vtight_1",
-						"triggerWeight_tautaucross_vvtight_1",
-						"triggerWeight_tautaucross_vloose_2",
-						"triggerWeight_tautaucross_loose_2",
-						"triggerWeight_tautaucross_medium_2",
-						"triggerWeight_tautaucross_tight_2",
-						"triggerWeight_tautaucross_vtight_2",
-						"triggerWeight_tautaucross_vvtight_2",
-					])
 				if re.search("Embedding2016", nickname):
 					self.quantities.update([
 						"triggerWeight_doublemu_1",
@@ -229,7 +151,7 @@ class Quantities(Run2Quantities):
 					])
 
 			if not channel == "EM":
-				self.quantities.update(self.fakefactorQuantities())
+				self.quantities.update(self.fakefactorQuantities(legacy))
 
 				# if re.search("(Summer17|Fall17)", nickname):
 				# 	self.quantities.update(self.tauTriggerEfficiencies2017Quantities())
@@ -1462,99 +1384,122 @@ class Quantities(Run2Quantities):
 		return s
 
 	@staticmethod
-	def fakefactorQuantities():
-		return [
-		    "fakefactorWeight_comb_inclusive_1",
-		    "fakefactorWeight_qcd_syst_up_inclusive_1",
-		    "fakefactorWeight_qcd_syst_down_inclusive_1",
-		    "fakefactorWeight_qcd_dm0_njet0_stat_up_inclusive_1",
-		    "fakefactorWeight_qcd_dm0_njet0_stat_down_inclusive_1",
-		    "fakefactorWeight_qcd_dm0_njet1_stat_up_inclusive_1",
-		    "fakefactorWeight_qcd_dm0_njet1_stat_down_inclusive_1",
-		    "fakefactorWeight_qcd_dm1_njet0_stat_up_inclusive_1",
-		    "fakefactorWeight_qcd_dm1_njet0_stat_down_inclusive_1",
-		    "fakefactorWeight_qcd_dm1_njet1_stat_up_inclusive_1",
-		    "fakefactorWeight_qcd_dm1_njet1_stat_down_inclusive_1",
-		    "fakefactorWeight_w_syst_up_inclusive_1",
-		    "fakefactorWeight_w_syst_down_inclusive_1",
-		    "fakefactorWeight_w_dm0_njet0_stat_up_inclusive_1",
-		    "fakefactorWeight_w_dm0_njet0_stat_down_inclusive_1",
-		    "fakefactorWeight_w_dm0_njet1_stat_up_inclusive_1",
-		    "fakefactorWeight_w_dm0_njet1_stat_down_inclusive_1",
-		    "fakefactorWeight_w_dm1_njet0_stat_up_inclusive_1",
-		    "fakefactorWeight_w_dm1_njet0_stat_down_inclusive_1",
-		    "fakefactorWeight_w_dm1_njet1_stat_up_inclusive_1",
-		    "fakefactorWeight_w_dm1_njet1_stat_down_inclusive_1",
-		    "fakefactorWeight_tt_syst_up_inclusive_1",
-		    "fakefactorWeight_tt_syst_down_inclusive_1",
-		    "fakefactorWeight_tt_dm0_njet0_stat_up_inclusive_1",
-		    "fakefactorWeight_tt_dm0_njet0_stat_down_inclusive_1",
-		    "fakefactorWeight_tt_dm0_njet1_stat_up_inclusive_1",
-		    "fakefactorWeight_tt_dm0_njet1_stat_down_inclusive_1",
-		    "fakefactorWeight_tt_dm1_njet0_stat_up_inclusive_1",
-		    "fakefactorWeight_tt_dm1_njet0_stat_down_inclusive_1",
-		    "fakefactorWeight_tt_dm1_njet1_stat_up_inclusive_1",
-		    "fakefactorWeight_tt_dm1_njet1_stat_down_inclusive_1",
+	def fakefactorQuantities(legacy=True):
+		if legacy:
+			return [
+				"ffWeight_medium_dmbins_1",
+				"ffWeight_medium_mvadmbins_1",
+				"ffWeight_medium_mvadmbins_nosig_1",
+				"ffWeight_tight_dmbins_1",
+				"ffWeight_tight_mvadmbins_1",
+				"ffWeight_tight_mvadmbins_nosig_1",
+				"ffWeight_vtight_dmbins_1",
+				"ffWeight_vtight_mvadmbins_1",
+				"ffWeight_vtight_mvadmbins_nosig_1",
+
+				"ffWeight_medium_dmbins_2",
+				"ffWeight_medium_mvadmbins_2",
+				"ffWeight_medium_mvadmbins_nosig_2",
+				"ffWeight_tight_dmbins_2",
+				"ffWeight_tight_mvadmbins_2",
+				"ffWeight_tight_mvadmbins_nosig_2",
+				"ffWeight_vtight_dmbins_2",
+				"ffWeight_vtight_mvadmbins_2",
+				"ffWeight_vtight_mvadmbins_nosig_2",
+			]
+		else:
+			return [
+				"fakefactorWeight_comb_inclusive_1",
+				"fakefactorWeight_qcd_syst_up_inclusive_1",
+				"fakefactorWeight_qcd_syst_down_inclusive_1",
+				"fakefactorWeight_qcd_dm0_njet0_stat_up_inclusive_1",
+				"fakefactorWeight_qcd_dm0_njet0_stat_down_inclusive_1",
+				"fakefactorWeight_qcd_dm0_njet1_stat_up_inclusive_1",
+				"fakefactorWeight_qcd_dm0_njet1_stat_down_inclusive_1",
+				"fakefactorWeight_qcd_dm1_njet0_stat_up_inclusive_1",
+				"fakefactorWeight_qcd_dm1_njet0_stat_down_inclusive_1",
+				"fakefactorWeight_qcd_dm1_njet1_stat_up_inclusive_1",
+				"fakefactorWeight_qcd_dm1_njet1_stat_down_inclusive_1",
+				"fakefactorWeight_w_syst_up_inclusive_1",
+				"fakefactorWeight_w_syst_down_inclusive_1",
+				"fakefactorWeight_w_dm0_njet0_stat_up_inclusive_1",
+				"fakefactorWeight_w_dm0_njet0_stat_down_inclusive_1",
+				"fakefactorWeight_w_dm0_njet1_stat_up_inclusive_1",
+				"fakefactorWeight_w_dm0_njet1_stat_down_inclusive_1",
+				"fakefactorWeight_w_dm1_njet0_stat_up_inclusive_1",
+				"fakefactorWeight_w_dm1_njet0_stat_down_inclusive_1",
+				"fakefactorWeight_w_dm1_njet1_stat_up_inclusive_1",
+				"fakefactorWeight_w_dm1_njet1_stat_down_inclusive_1",
+				"fakefactorWeight_tt_syst_up_inclusive_1",
+				"fakefactorWeight_tt_syst_down_inclusive_1",
+				"fakefactorWeight_tt_dm0_njet0_stat_up_inclusive_1",
+				"fakefactorWeight_tt_dm0_njet0_stat_down_inclusive_1",
+				"fakefactorWeight_tt_dm0_njet1_stat_up_inclusive_1",
+				"fakefactorWeight_tt_dm0_njet1_stat_down_inclusive_1",
+				"fakefactorWeight_tt_dm1_njet0_stat_up_inclusive_1",
+				"fakefactorWeight_tt_dm1_njet0_stat_down_inclusive_1",
+				"fakefactorWeight_tt_dm1_njet1_stat_up_inclusive_1",
+				"fakefactorWeight_tt_dm1_njet1_stat_down_inclusive_1",
 
 
 
-		    "fakefactorWeight_realtau_up_inclusive_1",
-		    "fakefactorWeight_realtau_down_inclusive_1",
+				"fakefactorWeight_realtau_up_inclusive_1",
+				"fakefactorWeight_realtau_down_inclusive_1",
 
-		    "fakefactorWeight_comb_inclusive_2",
-		    "fakefactorWeight_qcd_syst_up_inclusive_2",
-		    "fakefactorWeight_qcd_syst_down_inclusive_2",
-		    "fakefactorWeight_qcd_dm0_njet0_stat_up_inclusive_2",
-		    "fakefactorWeight_qcd_dm0_njet0_stat_down_inclusive_2",
-		    "fakefactorWeight_qcd_dm0_njet1_stat_up_inclusive_2",
-		    "fakefactorWeight_qcd_dm0_njet1_stat_down_inclusive_2",
-		    "fakefactorWeight_qcd_dm1_njet0_stat_up_inclusive_2",
-		    "fakefactorWeight_qcd_dm1_njet0_stat_down_inclusive_2",
-		    "fakefactorWeight_qcd_dm1_njet1_stat_up_inclusive_2",
-		    "fakefactorWeight_qcd_dm1_njet1_stat_down_inclusive_2",
-		    "fakefactorWeight_w_syst_up_inclusive_2",
-		    "fakefactorWeight_w_syst_down_inclusive_2",
-		    "fakefactorWeight_w_dm0_njet0_stat_up_inclusive_2",
-		    "fakefactorWeight_w_dm0_njet0_stat_down_inclusive_2",
-		    "fakefactorWeight_w_dm0_njet1_stat_up_inclusive_2",
-		    "fakefactorWeight_w_dm0_njet1_stat_down_inclusive_2",
-		    "fakefactorWeight_w_dm1_njet0_stat_up_inclusive_2",
-		    "fakefactorWeight_w_dm1_njet0_stat_down_inclusive_2",
-		    "fakefactorWeight_w_dm1_njet1_stat_up_inclusive_2",
-		    "fakefactorWeight_w_dm1_njet1_stat_down_inclusive_2",
-		    "fakefactorWeight_tt_syst_up_inclusive_2",
-		    "fakefactorWeight_tt_syst_down_inclusive_2",
-		    "fakefactorWeight_tt_dm0_njet0_stat_up_inclusive_2",
-		    "fakefactorWeight_tt_dm0_njet0_stat_down_inclusive_2",
-		    "fakefactorWeight_tt_dm0_njet1_stat_up_inclusive_2",
-		    "fakefactorWeight_tt_dm0_njet1_stat_down_inclusive_2",
-		    "fakefactorWeight_tt_dm1_njet0_stat_up_inclusive_2",
-		    "fakefactorWeight_tt_dm1_njet0_stat_down_inclusive_2",
-		    "fakefactorWeight_tt_dm1_njet1_stat_up_inclusive_2",
-		    "fakefactorWeight_tt_dm1_njet1_stat_down_inclusive_2",
+				"fakefactorWeight_comb_inclusive_2",
+				"fakefactorWeight_qcd_syst_up_inclusive_2",
+				"fakefactorWeight_qcd_syst_down_inclusive_2",
+				"fakefactorWeight_qcd_dm0_njet0_stat_up_inclusive_2",
+				"fakefactorWeight_qcd_dm0_njet0_stat_down_inclusive_2",
+				"fakefactorWeight_qcd_dm0_njet1_stat_up_inclusive_2",
+				"fakefactorWeight_qcd_dm0_njet1_stat_down_inclusive_2",
+				"fakefactorWeight_qcd_dm1_njet0_stat_up_inclusive_2",
+				"fakefactorWeight_qcd_dm1_njet0_stat_down_inclusive_2",
+				"fakefactorWeight_qcd_dm1_njet1_stat_up_inclusive_2",
+				"fakefactorWeight_qcd_dm1_njet1_stat_down_inclusive_2",
+				"fakefactorWeight_w_syst_up_inclusive_2",
+				"fakefactorWeight_w_syst_down_inclusive_2",
+				"fakefactorWeight_w_dm0_njet0_stat_up_inclusive_2",
+				"fakefactorWeight_w_dm0_njet0_stat_down_inclusive_2",
+				"fakefactorWeight_w_dm0_njet1_stat_up_inclusive_2",
+				"fakefactorWeight_w_dm0_njet1_stat_down_inclusive_2",
+				"fakefactorWeight_w_dm1_njet0_stat_up_inclusive_2",
+				"fakefactorWeight_w_dm1_njet0_stat_down_inclusive_2",
+				"fakefactorWeight_w_dm1_njet1_stat_up_inclusive_2",
+				"fakefactorWeight_w_dm1_njet1_stat_down_inclusive_2",
+				"fakefactorWeight_tt_syst_up_inclusive_2",
+				"fakefactorWeight_tt_syst_down_inclusive_2",
+				"fakefactorWeight_tt_dm0_njet0_stat_up_inclusive_2",
+				"fakefactorWeight_tt_dm0_njet0_stat_down_inclusive_2",
+				"fakefactorWeight_tt_dm0_njet1_stat_up_inclusive_2",
+				"fakefactorWeight_tt_dm0_njet1_stat_down_inclusive_2",
+				"fakefactorWeight_tt_dm1_njet0_stat_up_inclusive_2",
+				"fakefactorWeight_tt_dm1_njet0_stat_down_inclusive_2",
+				"fakefactorWeight_tt_dm1_njet1_stat_up_inclusive_2",
+				"fakefactorWeight_tt_dm1_njet1_stat_down_inclusive_2",
 
-		    #"fakefactorWeight_dy_frac_syst_up_inclusive_1",
-		    #"fakefactorWeight_dy_frac_syst_down_inclusive_1",
-		    #"fakefactorWeight_dy_frac_syst_up_inclusive_2",
-		    #"fakefactorWeight_dy_frac_syst_down_inclusive_2",
+				#"fakefactorWeight_dy_frac_syst_up_inclusive_1",
+				#"fakefactorWeight_dy_frac_syst_down_inclusive_1",
+				#"fakefactorWeight_dy_frac_syst_up_inclusive_2",
+				#"fakefactorWeight_dy_frac_syst_down_inclusive_2",
 
-		    "fakefactorWeight_realtau_up_inclusive_1",
-		    "fakefactorWeight_realtau_down_inclusive_1",
+				"fakefactorWeight_realtau_up_inclusive_1",
+				"fakefactorWeight_realtau_down_inclusive_1",
 
-		    "fakefactorWeight_realtau_up_inclusive_2",
-		    "fakefactorWeight_realtau_down_inclusive_2",
+				"fakefactorWeight_realtau_up_inclusive_2",
+				"fakefactorWeight_realtau_down_inclusive_2",
 
-		    "fakefactorWeight_w_frac_syst_up_inclusive_1",
-		    "fakefactorWeight_tt_frac_syst_up_inclusive_1",
+				"fakefactorWeight_w_frac_syst_up_inclusive_1",
+				"fakefactorWeight_tt_frac_syst_up_inclusive_1",
 
-		    "fakefactorWeight_w_frac_syst_up_inclusive_2",
-		    "fakefactorWeight_tt_frac_syst_up_inclusive_2",
+				"fakefactorWeight_w_frac_syst_up_inclusive_2",
+				"fakefactorWeight_tt_frac_syst_up_inclusive_2",
 
-		    "fakefactorWeight_w_frac_syst_down_inclusive_1",
-		    "fakefactorWeight_tt_frac_syst_down_inclusive_1",
+				"fakefactorWeight_w_frac_syst_down_inclusive_1",
+				"fakefactorWeight_tt_frac_syst_down_inclusive_1",
 
-		    "fakefactorWeight_w_frac_syst_down_inclusive_2",
-		    "fakefactorWeight_tt_frac_syst_down_inclusive_2"
+				"fakefactorWeight_w_frac_syst_down_inclusive_2",
+				"fakefactorWeight_tt_frac_syst_down_inclusive_2"
 
 
 		  ]
@@ -1716,3 +1661,109 @@ class Quantities(Run2Quantities):
 			"tautriggerefficiencyMC_2_vtight",
 			"tautriggerefficiencyMC_2_vvtight",
 			]
+
+	@staticmethod
+	def RooWorkSpaceWeightQuantities(nickname, channel, legacy):
+		if legacy:
+			if channel == "ET":
+				if re.search("Embedding2017", nickname):
+					return [
+					]
+				else:
+					return [
+					]
+			elif channel == "MT":
+				return [
+					"triggerWeight_single_1",
+					"triggerWeight_cross_1",
+					"triggerWeight_cross_2",
+					"triggerWeight_comb",
+				]
+			elif channel == "TT":
+				if re.search("Embedding2017", nickname):
+					return [
+					]
+				else:
+					return [
+					]
+		else:
+			if channel == "ET":
+				if re.search("Embedding2017", nickname):
+					return [
+						"triggerWeight_doublemu_1",
+						"idweight_doublemu_1",
+						"idweight_doublemu_2",
+						"isoweight_1",
+						"idweight_1",
+						"triggerWeight_trg27_trg32_trg35_embed_1",
+						"triggerWeight_trg_EleTau_Ele24Leg_embed_1",
+						"triggerWeight_tauLeg_2",
+						"triggerWeight_trg27_trg32_trg35_data_1",
+						"triggerWeight_trg_EleTau_Ele24Leg_data_1",
+						"tautriggerefficiencyData_2",
+					]
+				else:
+					return [
+						#"HLT_Ele32_WPTight_Gsf",
+						"HLT_Ele35_WPTight_Gsf",
+						"HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1",
+						"triggerWeight_singleE_1",
+						"triggerWeight_etaucross_1",
+						"triggerWeight_etaucross_2",
+						"triggerWeight_etaucross_vloose_2",
+						"triggerWeight_etaucross_loose_2",
+						"triggerWeight_etaucross_medium_2",
+						"triggerWeight_etaucross_tight_2",
+						"triggerWeight_etaucross_vtight_2",
+						"triggerWeight_etaucross_vvtight_2",
+					]
+			elif channel == "MT":
+				if re.search("Embedding2017", nickname):
+					return [
+						"triggerWeight_doublemu_1",
+						"idweight_doublemu_1",
+						"idweight_doublemu_2",
+						"isoweight_1",
+						"idweight_1",
+						"triggerWeight_mu_1",
+						"triggerWeight_mutaucross_1",
+						"triggerWeight_mutaucross_2",
+					]
+				else:
+					return [
+						"triggerWeight_mu_1",
+						"triggerWeight_mutaucross_1",
+						"triggerWeight_mutaucross_2",
+						"triggerWeight_mutaucross_vloose_2",
+						"triggerWeight_mutaucross_loose_2",
+						"triggerWeight_mutaucross_medium_2",
+						"triggerWeight_mutaucross_tight_2",
+						"triggerWeight_mutaucross_vtight_2",
+						"triggerWeight_mutaucross_vvtight_2",
+					]
+			elif channel == "TT":
+				if re.search("Embedding2017", nickname):
+					return [
+						"triggerWeight_doublemu_1",
+						"idweight_doublemu_1",
+						"idweight_doublemu_2",
+						"triggerWeight_tau_1",
+						"triggerWeight_tau_2",
+					]
+				else:
+					return [
+						"triggerWeight_tautaucross_1",
+						"triggerWeight_tautaucross_2",
+						"triggerWeight_tautaucross_vloose_1",
+						"triggerWeight_tautaucross_loose_1",
+						"triggerWeight_tautaucross_medium_1",
+						"triggerWeight_tautaucross_tight_1",
+						"triggerWeight_tautaucross_vtight_1",
+						"triggerWeight_tautaucross_vvtight_1",
+						"triggerWeight_tautaucross_vloose_2",
+						"triggerWeight_tautaucross_loose_2",
+						"triggerWeight_tautaucross_medium_2",
+						"triggerWeight_tautaucross_tight_2",
+						"triggerWeight_tautaucross_vtight_2",
+						"triggerWeight_tautaucross_vvtight_2",
+					]

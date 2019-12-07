@@ -7,15 +7,18 @@
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RecoilCorrector.h"
-#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MEtSys.h"
+// #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RecoilCorrector.h"
+// #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MEtSys.h"
+
+#include "HTT-utilities/RecoilCorrections/interface/RecoilCorrector.h"
+#include "HTT-utilities/RecoilCorrections/interface/MEtSys.h"
 
 #include <boost/regex.hpp>
 
 
 /**
    \brief Corrects the MET created by the MET producer
-   
+
    Run this producer after the Valid(Tagged)JetsProducer, since it relies on the number of
    jets in the event.
 */
@@ -27,7 +30,7 @@ class MetCorrectorBase: public ProducerBase<HttTypes>
 public:
 
 	enum CorrectionMethod { NONE=0, QUANTILE_MAPPING=1, MEAN_RESOLUTION=2};
-	
+
 	MetCorrectorBase(TMet* product_type::*metMemberUncorrected,
 			 TMet product_type::*metMemberCorrected,
 			 std::vector<float> product_type::*metCorrections,
@@ -48,9 +51,9 @@ public:
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
 		ProducerBase<HttTypes>::Init(settings, metadata);
-		
+
 		m_recoilCorrector = new RecoilCorrector((settings.*GetRecoilCorrectorFile)());
-		
+
 		if ((settings.GetMetSysType() != 0) || (settings.GetMetSysShift() != 0))
 		{
 			m_metShiftCorrector = new MEtSys((settings.*GetMetShiftCorrectorFile)());
@@ -65,10 +68,10 @@ public:
 			}
 			else
 			{
-				m_sysType = MEtSys::SysType::NoType;
+				// m_sysType = MEtSys::SysType::NoType;
 				LOG(FATAL) << "Invalid HttSettings::MetSysType option";
 			}
-			
+
 			if (settings.GetMetSysShift() > 0)
 			{
 				m_sysShift = MEtSys::SysShift::Up;
@@ -93,7 +96,7 @@ public:
 			m_processType = MEtSys::ProcessType::EWK;
 		}
 		m_isWJets = boost::regex_search(settings.GetNickname(), boost::regex("W.?JetsToLNu", boost::regex::icase | boost::regex::extended));
-		
+
 		m_doMetSys = ((settings.GetMetSysType() != 0) || (settings.GetMetSysShift() != 0));
 
 		if(settings.GetMetCorrectionMethod() == "quantileMapping")
@@ -112,7 +115,7 @@ public:
 		}
 	}
 
-	virtual void Produce(event_type const& event, product_type & product, 
+	virtual void Produce(event_type const& event, product_type & product,
 	                     setting_type const& settings, metadata_type const& metadata) const override
 	{
 		assert(m_metMemberUncorrected != nullptr);
@@ -177,33 +180,33 @@ public:
 				metY -= eY;
 			}
 		}
-		
+
 		// Recoil corrections follow
 		int nJets30 = product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0);
 
-		// In selected W+Jets events one of the leptons is faked by hadronic jet and this 
+		// In selected W+Jets events one of the leptons is faked by hadronic jet and this
 		// jet should be counted as a part of hadronic recoil to the W boson
 		if(m_isWJets)
 		{
 			nJets30 += 1;
 		}
-		
+
 		float genPx = 0.;  // generator Z(W) px
 		float genPy = 0.;  // generator Z(W) py
 		float visPx = 0.;  // visible (generator) Z(W) px
 		float visPy = 0.;  // visible (generator) Z(W) py
-		
+
 		for (KGenParticles::const_iterator genParticle = event.m_genParticles->begin();
 		 genParticle != event.m_genParticles->end(); ++genParticle)
 		{
 			int pdgId = std::abs(genParticle->pdgId);
-			
+
 			if ( (pdgId >= DefaultValues::pdgIdElectron && pdgId <= DefaultValues::pdgIdNuTau && genParticle->fromHardProcessFinalState()) ||
 			     (genParticle->isDirectHardProcessTauDecayProduct()) )
 			{
 				genPx += genParticle->p4.Px();
 				genPy += genParticle->p4.Py();
-				
+
 				if ( !(pdgId == DefaultValues::pdgIdNuE || pdgId == DefaultValues::pdgIdNuMu || pdgId == DefaultValues::pdgIdNuTau) )
 				{
 					visPx += genParticle->p4.Px();
@@ -211,15 +214,15 @@ public:
 				}
 			}
 		}
-		
+
 		// Save the ingredients for the correction
 		(product.*m_metCorrections).push_back(genPx);
 		(product.*m_metCorrections).push_back(genPy);
 		(product.*m_metCorrections).push_back(visPx);
 		(product.*m_metCorrections).push_back(visPy);
-		
+
 		float correctedMetX, correctedMetY;
-		
+
 		if(m_correctionMethod == MetCorrectorBase::CorrectionMethod::QUANTILE_MAPPING)
 			m_recoilCorrector->Correct(
 				metX,
@@ -242,9 +245,9 @@ public:
 				nJets30,
 				correctedMetX,
 				correctedMetY);
-		
+
 		(product.*m_metMemberCorrected) = *(product.*m_metMemberUncorrected);
-		
+
 		// Apply the recoil correction to the MET object (only for DY, W and Higgs samples)
 		if (m_processType == MEtSys::ProcessType::BOSON)
 		{
@@ -286,24 +289,24 @@ public:
 		{
 			product.m_met.p4 += product.m_MET_shift.p4;
 		}
-		
+
 		// Apply the correction to the MET object, if required (done for all the samples)
 		if (m_doMetSys)
 		{
 			float correctedMetShiftX, correctedMetShiftY;
-			
+
 			m_metShiftCorrector->ApplyMEtSys(
 				(product.*m_metMemberCorrected).p4.Px(), (product.*m_metMemberCorrected).p4.Py(),
 				genPx, genPy,
 				visPx, visPy,
 				nJets30,
-				m_processType,
+				// m_processType,
 				m_sysType,
 				m_sysShift,
 				correctedMetShiftX,
 				correctedMetShiftY
 			);
-			
+
 			(product.*m_metMemberCorrected).p4.SetPxPyPzE(
 				correctedMetShiftX,
 				correctedMetShiftY,
@@ -355,6 +358,17 @@ class MvaMetCorrector: public MetCorrectorBase<KMET>
 {
 public:
 	MvaMetCorrector();
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
+	virtual std::string GetProducerId() const override;
+};
+
+/**
+   \brief Corrector for PUPPIMET
+*/
+class PuppiMetCorrector: public MetCorrectorBase<KMET>
+{
+public:
+	PuppiMetCorrector();
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 	virtual std::string GetProducerId() const override;
 };

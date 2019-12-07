@@ -53,10 +53,12 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 
 	def _initArgumentParser(self, userArgParsers=None):
 		super(HiggsToTauTauAnalysisWrapper, self)._initArgumentParser(userArgParsers)
-		self.configOptionsGroup.add_argument("--study", default="CP",
+		self.configOptionsGroup.add_argument("--study", default="CPFinalState",
 		                                help="Study to be run by artus, options: CP, CPFinalState, MSSM(TODO). [Default: %(default)s]")
 		self.configOptionsGroup.add_argument("--sync", default=False, action="store_true",
 		                                help="Produce sync ntuples (removes some MinimalPlotlevelFilters). [Default: %(default)s]")
+		self.configOptionsGroup.add_argument("--legacy", default=False, action="store_true",
+		                                help="Use Run II legacy settings. [Default: %(default)s]")
 
 
 	def modify_replacing_dict(self):
@@ -144,13 +146,17 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			# import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPFinalStateStudies.baseconfigCPFinalState as baseconfigcp
 			# import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPFinalStateStudies.globalProcessors as globalprocessors
 
+			if kwargs.get("legacy", False):
+				# TODO: add legacy specific configs here
+				pass
+
 		elif kwargs.get("study", "MSSM"):
 			log.error("NOT DONE YET!")
 
 
 
 	def create_pipelines(self, nickname, *args, **kwargs):
-		self.include_config_files(study=self._args.study)
+		self.include_config_files(study=self._args.study, legacy=self._args.legacy)
 		if nickname != "auto":
 			if self._args.channels and len(self._args.channels) > 0:
 
@@ -160,27 +166,27 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 				for selected_channel in self.channels_systematics.keys(): #loop over the keys, which are the channels
 					if selected_channel == "mt":
 						channel_python_config = mt.mt_ArtusConfig()
-						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync, legacy=self._args.legacy)
 
 					elif selected_channel == "et":
 						channel_python_config = et.et_ArtusConfig()
-						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync, legacy=self._args.legacy)
 
 					elif selected_channel == "em":
 						channel_python_config = em.em_ArtusConfig()
-						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync, legacy=self._args.legacy)
 
 					elif selected_channel == "tt":
 						channel_python_config = tt.tt_ArtusConfig()
-						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync, legacy=self._args.legacy)
 
 					elif selected_channel == "mm":
 						channel_python_config = mm.mm_ArtusConfig()
-						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync, legacy=self._args.legacy)
 
 					elif selected_channel == "gen":
 						channel_python_config = gen.gen_ArtusConfig()
-						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync)
+						channel_python_config.build_config(nickname, study=self._args.study, sync=self._args.sync, legacy=self._args.legacy)
 					else:
 						log.error("COULD NOT FIND CHANNEL")
 
@@ -226,7 +232,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 
 			# treat pipeline base configs
 
-			pipelineBaseDict = baseconfigcp.Baseconfig_cp(nickname)
+			pipelineBaseDict = baseconfigcp.Baseconfig_cp(nickname, self._args.legacy)
 			globalProcessorsDict = globalprocessors.globalProccesors(nickname)
 
 			# merge pipeline config and baseline config

@@ -440,8 +440,8 @@ class et_ArtusConfig(dict):
 
 			self["CheckLepton1TriggerMatch"] = [
 				"trg_singleelectron_27",
-      				"trg_singleelectron_32",
-      				"trg_singleelectron_32_fallback",
+				"trg_singleelectron_32",
+				"trg_singleelectron_32_fallback",
 				"trg_crossele_ele24tau30",
 				"trg_singleelectron_35"
 			  ]

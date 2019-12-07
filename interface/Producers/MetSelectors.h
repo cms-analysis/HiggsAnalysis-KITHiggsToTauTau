@@ -7,7 +7,9 @@
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/SafeMap.h"
 #include "boost/functional/hash.hpp"
-
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string.hpp>
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
 
 /**
@@ -30,6 +32,8 @@ public:
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override
 	{
 		ProducerBase<HttTypes>::Init(settings, metadata);
+
+		m_metType = HttEnumTypes::ToMetType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.GetChooseMet)())));
 
 		// add possible quantities for the lambda ntuples consumers
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metSumEt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
@@ -211,7 +215,7 @@ public:
 
 			// Copy the MET object, for possible future corrections
 			product.m_mvamet = *(product.m_mvametUncorr);
-			if (settings.GetChooseMet() == "mvaMet")
+			if (m_metType == HttEnumTypes::MetType::MVAMET)
 			{
 				product.m_metUncorr = product.m_mvametUncorr;
 				product.m_met = product.m_mvamet;
@@ -233,12 +237,12 @@ public:
 			}
 
 			// LOG(DEBUG) << "MET: " << settings.GetChooseMet();
-			if (settings.GetChooseMet() == "pfMet")
+			if (m_metType == HttEnumTypes::MetType::PFMET)
 			{
 				product.m_metUncorr = product.m_pfmetUncorr;
 				product.m_met = product.m_pfmet;
 			}
-			else if (settings.GetChooseMet() == "puppiMet")
+			else if (m_metType == HttEnumTypes::MetType::PUPPIMET)
 			{
 				product.m_metUncorr = product.m_puppiMetUncorr;
 				product.m_met = product.m_puppimet;
@@ -255,6 +259,7 @@ public:
 protected:
 	TMet* event_type::*m_metMember;
 	std::vector<TMet>* event_type::*m_metsMember;
+	HttEnumTypes::MetType m_metType = HttEnumTypes::MetType::NONE;
 };
 
 
