@@ -1,1 +1,1 @@
-XROOTD_sample_Embedding2017E_TauTauFinalState_inputDoubleMu94XminiAODv2_13TeV_USER_2019-05-15.txt
+XROOTD_sample_Embedding2017E_TauTauFinalState_inputDoubleMu94XminiAODv2_13TeV_USER_2019-11-27.txt
