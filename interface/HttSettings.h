@@ -262,6 +262,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, TauTrackMultiplicityCut, -1.0);
 
 	IMPL_SETTING_DEFAULT(float, SvfitMassShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, FastMttMassShift, 1.0);
 
 	IMPL_SETTING(int, NLooseElectrons);
 	IMPL_SETTING(int, NLooseMuons);

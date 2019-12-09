@@ -9,6 +9,7 @@
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttEnumTypes.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/FastMttTools.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiTauPair.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/DiGenTauPair.h"
 #include "TVector2.h"
@@ -199,6 +200,10 @@ public:
 	std::map<KLepton*, RMFLV> m_svfitTaus;
 	std::map<KLepton*, RMFLV> m_svfitM91Taus;
 	std::map<KLepton*, RMFLV> m_svfitM125Taus;
+
+	// filled by the FastMttProducer
+	mutable FastMttResults m_fastmttResults;
+	std::map<KLepton*, RMFLV> m_fastmttTaus;
 
 	// filled by the HHKinFitProducer
 	//std::map<KLepton*, RMFLV> m_hhKinFitTaus;
