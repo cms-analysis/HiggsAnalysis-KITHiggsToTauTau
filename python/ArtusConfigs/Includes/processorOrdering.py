@@ -140,6 +140,7 @@ class ProcessorsOrdered(dict):
 
 		self["producer:MetCorrector"] = 160
 		self["producer:MvaMetCorrector"] = 161
+		self["producer:PuppiMetCorrector"] = 162
 
 		self["producer:TauTauRestFrameSelector"] = 170
 
