@@ -129,6 +129,7 @@ class et_ArtusConfig(dict):
 				self["Processors"] += [
 						"producer:MetCorrector"
 					]
+				self["Processors"] += ["producer:PuppiMetCorrector"]
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer", "producer:TauTriggerEfficiency2017Producer"]

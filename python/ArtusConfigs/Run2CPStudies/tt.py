@@ -105,6 +105,7 @@ class tt_ArtusConfig(dict):
 			else:
 				self["Processors"] += ["producer:TauCorrectionsProducer"]
 				self["Processors"] += ["producer:MetCorrector"]
+				self["Processors"] += ["producer:PuppiMetCorrector"]
 				self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
