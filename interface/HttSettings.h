@@ -17,6 +17,8 @@
 class HttSettings: public KappaSettings {
 public:
 
+	IMPL_SETTING_DEFAULT(bool, Legacy, false);
+
 	/// names of (old) MVA MET collection in kappa tuple
 	IMPL_SETTING_DEFAULT(std::string, MvaMetTT, "");
 	IMPL_SETTING_DEFAULT(std::string, MvaMetMT, "");
@@ -395,6 +397,12 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(LeptonTauTrigger2017WeightWorkspaceObjectNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(LeptonTauTrigger2017WeightWorkspaceObjectArguments, {});
 
+	// settings for LegacyWeightProducer
+	IMPL_SETTING_DEFAULT(bool, SaveLegacyWeightAsOptionalOnly, false);
+	IMPL_SETTING_DEFAULT(std::string, LegacyWeightWorkspace, "");
+	IMPL_SETTING_STRINGLIST_DEFAULT(LegacyWeightWorkspaceWeightNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(LegacyWeightWorkspaceObjectNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(LegacyWeightWorkspaceObjectArguments, {});
 
 	// settings for 2017 TauTriggerEffiency2017Producer
 	IMPL_SETTING_DEFAULT(std::string, TauTrigger2017Input, "");

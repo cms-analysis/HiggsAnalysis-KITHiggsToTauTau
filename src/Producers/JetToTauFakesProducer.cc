@@ -525,3 +525,220 @@ void JetToTauFakesProducer::Produce(event_type const& event, product_type& produ
 		}
 	}
 }
+
+
+LegacyJetToTauFakesProducer::LegacyJetToTauFakesProducer()
+{
+}
+
+LegacyJetToTauFakesProducer::~LegacyJetToTauFakesProducer()
+{
+}
+
+void LegacyJetToTauFakesProducer::Init(setting_type const& settings, metadata_type& metadata)
+{
+	ProducerBase<HttTypes>::Init(settings, metadata);
+
+	std::string ffFile = settings.GetFakeFactorFractionsRooWorkspaceFile();
+	m_ff_functions = Utility::ParseMapTypes<std::string,std::string>(Utility::ParseVectorToMap((settings.GetFakeFactorRooWorkspaceFunction())));
+
+	TDirectory *savedir(gDirectory);
+	TFile *savefile(gFile);
+
+	#if ROOT_VERSION_CODE < ROOT_VERSION(6,0,0)
+	gROOT->ProcessLine("#include <map>");
+	#endif
+
+	TFile* ffTFile = TFile::Open(ffFile.c_str(), "READ");
+	m_workspace = (RooWorkspace*)ffTFile->Get("w");
+
+	ffTFile->Close();
+	delete ffTFile;
+
+	for(auto ff_function: m_ff_functions)
+	{
+		m_fns[ff_function.first.c_str()] = std::shared_ptr<RooFunctor>(
+			m_workspace->function(ff_function.first.c_str())->functor(m_workspace->argSet(ff_function.second[0].c_str())));
+		std::string ff_name = ff_function.first.c_str();
+	}
+
+	gDirectory = savedir;
+	gFile = savefile;
+}
+
+void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type& product,
+                                    setting_type const& settings, metadata_type const& metadata) const
+{
+	// Fill inputs
+	// to see input vector needs visit:
+	// https://github.com/CMS-HTT/Jet2TauFakes/blob/master/test/producePublicFakeFactors.py#L9-L15
+
+	bool m_isET = false, m_isMT = false, m_isTT = false;
+	if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET) m_isET = true;
+	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MT) m_isMT = true;
+	if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT) m_isTT = true;
+
+	if (m_isMT || m_isET)
+	{
+		for(auto ff_function: m_ff_functions)
+		{
+			// LOG(INFO) << "ff_function.first: " << ff_function.first;
+			// LOG(INFO) << "ff_function.second: " << ff_function.second[0];
+			auto args = std::vector<double>{};
+			std::vector<std::string> arguments;
+			boost::split(arguments, ff_function.second[0], boost::is_any_of(","));
+			for(auto arg:arguments)
+			{
+				// LOG(INFO) << "arg: " << arg;
+				if(arg=="pt")
+				{
+					args.push_back(product.m_flavourOrderedLeptons.at(1)->p4.Pt());
+				}
+				else if(arg=="m_pt" || arg=="e_pt")
+				{
+					args.push_back(product.m_flavourOrderedLeptons.at(0)->p4.Pt());
+				}
+				else if(arg=="mvadm")
+				{
+					args.push_back((int)static_cast<KTau*>(product.m_flavourOrderedLeptons.at(1))->getDiscriminator("MVADM2017v1", event.m_tauMetadata));
+				}
+				else if(arg=="dm")
+				{
+					args.push_back(static_cast<KTau*>(product.m_flavourOrderedLeptons.at(1))->decayMode);
+				}
+				else if(arg=="ipsig") // NOTE: IC FF do NOT contain refitted PV with BS constraint, therefore use refitted PV without BS
+				{
+					args.push_back(product.m_IPSignificanceHelrPV_2);
+				}
+				else if(arg=="njets")
+				{
+					args.push_back(product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0));
+				}
+				else if(arg=="os")
+				{
+					args.push_back(((product.m_flavourOrderedLeptons.at(0)->charge() * product.m_flavourOrderedLeptons.at(1)->charge()) < 0.0));
+				}
+				else if(arg=="met")
+				{
+					args.push_back(product.m_met.p4.Pt());
+				}
+				else if(arg=="mt")
+				{
+					args.push_back(Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4));
+				}
+				else if(arg=="m_iso" || arg=="e_iso")
+				{
+					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, product.m_flavourOrderedLeptons[0], std::numeric_limits<double>::max()));
+				}
+				else if(arg=="pass_single")
+				{
+					if(true) // year logic here
+					{
+						if(m_isMT)
+						{
+							args.push_back((metadata.m_commonBoolQuantities.at("trg_singlemuon_24") || metadata.m_commonBoolQuantities.at("trg_singlemuon_27")));
+						}
+						else if(m_isET)
+						{
+							args.push_back((metadata.m_commonBoolQuantities.at("trg_singleelectron_27") || metadata.m_commonBoolQuantities.at("trg_singleelectron_32") || metadata.m_commonBoolQuantities.at("trg_singleelectron_32_fallback") || metadata.m_commonBoolQuantities.at("trg_singleelectron_35")));
+						}
+					}
+				}
+				else if(arg=="mvis")
+				{
+					args.push_back(product.m_diLeptonSystem.mass());
+				}
+			}
+			std::string ff_name = ff_function.first.c_str();
+			// LOG(INFO) << "ff_name: " << ff_name;
+			ff_name.replace(ff_name.begin()+2,ff_name.begin()+5,"Weight");
+			// LOG(INFO) << "ff_name: " << ff_name;
+			// only "_2" weights are set in et/mt ("_1" weights are set to their default value 1.0)
+			product.m_optionalWeights[ff_name + "_2"] = m_fns.at(ff_function.first.c_str())->eval(args.data());
+		}
+	}
+	else if (m_isTT)
+	{
+		for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
+		{
+			for(auto ff_function: m_ff_functions)
+			{
+				bool antiiso_leadingtau = leptonIndex == 0 ? true : false;
+				// LOG(INFO) << "ff_function.first: " << ff_function.first;
+				// LOG(INFO) << "ff_function.second: " << ff_function.second[0];
+				auto args = std::vector<double>{};
+				std::vector<std::string> arguments;
+				boost::split(arguments, ff_function.second[0], boost::is_any_of(","));
+				for(auto arg:arguments)
+				{
+					// LOG(INFO) << "arg: " << arg;
+					if(arg=="pt")
+					{
+						if(antiiso_leadingtau)
+						{
+							args.push_back(product.m_flavourOrderedLeptons.at(0)->p4.Pt());
+						}
+						else
+						{
+							args.push_back(product.m_flavourOrderedLeptons.at(1)->p4.Pt());
+						}
+					}
+					else if(arg=="pt_2")
+					{
+						if(antiiso_leadingtau)
+						{
+							args.push_back(product.m_flavourOrderedLeptons.at(1)->p4.Pt());
+						}
+						else
+						{
+							args.push_back(product.m_flavourOrderedLeptons.at(0)->p4.Pt());
+						}
+					}
+					else if(arg=="mvadm")
+					{
+						if(antiiso_leadingtau)
+						{
+							args.push_back((int)static_cast<KTau*>(product.m_flavourOrderedLeptons.at(0))->getDiscriminator("MVADM2017v1", event.m_tauMetadata));
+						}
+						else
+						{
+							args.push_back((int)static_cast<KTau*>(product.m_flavourOrderedLeptons.at(1))->getDiscriminator("MVADM2017v1", event.m_tauMetadata));
+						}
+					}
+					else if(arg=="dm")
+					{
+						if(antiiso_leadingtau)
+						{
+							args.push_back(static_cast<KTau*>(product.m_flavourOrderedLeptons.at(0))->decayMode);
+						}
+						else
+						{
+							args.push_back(static_cast<KTau*>(product.m_flavourOrderedLeptons.at(1))->decayMode);
+						}
+					}
+					else if(arg=="ipsig") // NOTE: IC FF do NOT contain refitted PV with BS constraint, therefore use refitted PV without BS
+					{
+						args.push_back(product.m_IPSignificanceHelrPV_1);
+					}
+					else if(arg=="njets")
+					{
+						args.push_back(product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0));
+					}
+					else if(arg=="os")
+					{
+						args.push_back(((product.m_flavourOrderedLeptons.at(0)->charge() * product.m_flavourOrderedLeptons.at(1)->charge()) < 0.0));
+					}
+					else if(arg=="met")
+					{
+						args.push_back(product.m_met.p4.Pt());
+					}
+				}
+				std::string ff_name = ff_function.first.c_str();
+				// LOG(INFO) << "ff_name: " << ff_name;
+				ff_name.replace(ff_name.begin()+2,ff_name.begin()+5,"Weight");
+				// LOG(INFO) << "ff_name: " << ff_name;
+				product.m_optionalWeights[ff_name + "_" + std::to_string(leptonIndex+1)] = m_fns.at(ff_function.first.c_str())->eval(args.data());
+			}
+		}
+	}
+}

@@ -127,6 +127,9 @@ git clone -b final_2017_MCv2 git@github.com:cms-tau-pog/TauTriggerSFs $CMSSW_BAS
 # EmuQCD Method
 git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
 
+# MET Recoil Corrections for PF Met and Puppi Met
+git clone https://github.com/KIT-CMS/RecoilCorrections.git HTT-utilities/RecoilCorrections
+
 # needed for plotting and statistical inference
 # recommendations found here: https://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/#setting-up-the-environment-and-installation
 if [[ $ch_branch == "SM2016-dev" ]] && [[ $cmssw_version == "747" ]]; then

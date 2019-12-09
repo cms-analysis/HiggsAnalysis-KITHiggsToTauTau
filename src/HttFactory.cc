@@ -136,6 +136,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new MetCorrector();
 	else if(id == MvaMetCorrector().GetProducerId())
 		return new MvaMetCorrector();
+	else if(id == PuppiMetCorrector().GetProducerId())
+		return new PuppiMetCorrector();
 	else if(id == MetFilterProducer().GetProducerId())
 		return new MetFilterProducer();
 	else if(id == TTHTauPairProducer().GetProducerId())
@@ -258,6 +260,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new SimpleMuTauFakeRateWeightProducer();
 	else if(id == JetToTauFakesProducer().GetProducerId())
 		return new JetToTauFakesProducer();
+	else if(id == LegacyJetToTauFakesProducer().GetProducerId())
+		return new LegacyJetToTauFakesProducer();
 	else if(id == GenMatchedPolarisationQuantitiesProducer().GetProducerId())
 		return new GenMatchedPolarisationQuantitiesProducer();
 	else if(id == PolarisationQuantitiesSvfitProducer().GetProducerId())
@@ -294,6 +298,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new EmbeddingWeightProducer();
 	else if(id == LeptonTauTrigger2017WeightProducer().GetProducerId())
 		return new LeptonTauTrigger2017WeightProducer();
+	else if(id == LegacyWeightProducer().GetProducerId())
+		return new LegacyWeightProducer();
 	else if(id == TauTriggerEfficiency2017Producer().GetProducerId())
 		return new TauTriggerEfficiency2017Producer();
 	else if(id == EmbeddingGlobalQuantitiesProducer().GetProducerId())
@@ -409,4 +415,3 @@ ConsumerBaseUntemplated * HttFactory::createConsumer (std::string const& id)
 	else
 		return KappaFactory::createConsumer( id );
 }
-

@@ -95,7 +95,7 @@ public:
 			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, hltNames.first, [lepton1CheckL1Match, lepton2CheckL1Match, lepton1CheckTriggerMatchByHltName, lepton2CheckTriggerMatchByHltName, hltNames, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName, lepton1UpperEtaCutsByHltName, lepton2UpperEtaCutsByHltName](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 			{
 				bool diTauPairFiredTrigger = false;
-				LOG(DEBUG) << "Beginning of lambda function for " << hltNames.first + "hehehyehe";
+				LOG(DEBUG) << "Beginning of lambda function for " << hltNames.first;
 				bool checkLep1 = std::find(lepton1CheckTriggerMatchByHltName.begin(), lepton1CheckTriggerMatchByHltName.end(), hltNames.first) != lepton1CheckTriggerMatchByHltName.end();
 				bool checkLep2 = std::find(lepton2CheckTriggerMatchByHltName.begin(), lepton2CheckTriggerMatchByHltName.end(), hltNames.first) != lepton2CheckTriggerMatchByHltName.end();
 				for (auto hltName: hltNames.second)

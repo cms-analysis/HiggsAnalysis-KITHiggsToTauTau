@@ -17,15 +17,6 @@ class Baseconfig(dict):
 
 	def __init__(self, nickname):
 
-		"""
-		"include" : [
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsKappa.json", #DONE
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLheWeights.json", #DONE
-		"#$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json", #DONE
-		"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsSampleStitchingWeights.json" #DONE
-		"""
-
-
 		Kappa_config = sKappa.Kappa(nickname)
 		self.update(Kappa_config)
 
@@ -236,6 +227,13 @@ class Baseconfig(dict):
 		else:
 			self["MetCorrectionMethod"] = "meanResolution"
 
+		if re.search("(Fall15MiniAODv2|Run2015D)", nickname):
+			self["ChooseMet"] = "mvaMet"
+			self["ChooseMvaMet"] = True
+		else:
+			self["ChooseMet"] = "puppiMet" # Options are pfMet, puppiMet, mvaMet (latter not for 2015 onwards)
+			self["ChooseMvaMet"] = False
+
 		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
 			self["MetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilPFMEt_76X_MG5.root"
 			self["MvaMetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/recoilMvaMEt_76X_newTraining_MG5.root"
@@ -248,19 +246,16 @@ class Baseconfig(dict):
 
 		elif re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname): #FIXME No files for 2017 MvaMET yet
 			self["MetCorrectionMethod"] = "meanResolution"
-			self["MetRecoilCorrectorFile"] ="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/Type1_PFMET_2017.root"
+			# self["MetRecoilCorrectorFile"] ="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/Type1_PFMET_2017.root"
+			if self["ChooseMet"] == "pfMet":
+				self["MetRecoilCorrectorFile"] ="$CMSSW_BASE/src/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root"
+			elif self["ChooseMet"] == "puppiMet":
+				self["MetRecoilCorrectorFile"] ="$CMSSW_BASE/src/HTT-utilities/RecoilCorrections/data/Type1_PuppiMET_2017.root"
 			self["MvaMetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root" #not there
 			self["ZptReweightProducerWeights"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2017.root" #TODO
 
 		self["MetShiftCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
 		self["MvaMetShiftCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
-
-		if re.search("(Fall15MiniAODv2|Run2015D)", nickname):
-			self["ChooseMet"] = "mvaMet"
-			self["ChooseMvaMet"] = True
-		else:
-			self["ChooseMet"] = "pfMet" # Options are pfMet, puppiMet, mvaMet (not for 2015 onwards)
-			self["ChooseMvaMet"] = False
 
 		if re.search("Run2015B", nickname):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_50ns_JSON_v2.txt"]

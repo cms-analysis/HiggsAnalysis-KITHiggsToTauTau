@@ -39,7 +39,7 @@ public:
 		else if (decayChannelString == "ttm") return DecayChannel::TTH_TTM;
 		return DecayChannel::NONE;
 	}
-	
+
 	enum class TauTauRestFrameReco : int
 	{
 		NONE  = -1,
@@ -56,7 +56,7 @@ public:
 		else if (tauTauRestFrameReco == "svfit") return TauTauRestFrameReco::SVFIT;
 		else return TauTauRestFrameReco::NONE;
 	}
-	
+
 	enum class DataMcScaleFactorProducerMode : int
 	{
 		NONE  = -1,
@@ -75,7 +75,7 @@ public:
 		else if (dataMcScaleFactorProducerMode == "no_overlap_triggers") return DataMcScaleFactorProducerMode::NO_OVERLAP_TRIGGERS;
 		else return DataMcScaleFactorProducerMode::NONE;
 	}
-	
+
 	enum class SystematicShift : int
 	{
 		NONE = -1,
@@ -98,16 +98,20 @@ public:
 	enum class TauIDWP : int
 	{
 		NONE = -1,
-		VLOOSE = 0,
-		LOOSE = 1,
-		MEDIUM = 2,
-		TIGHT = 3,
-		VTIGHT = 4,
-		VVTIGHT = 5
+		VVVLOOSE = 0,
+		VVLOOSE = 1,
+		VLOOSE = 2,
+		LOOSE = 3,
+		MEDIUM = 4,
+		TIGHT = 5,
+		VTIGHT = 6,
+		VVTIGHT = 7
 	};
 	static TauIDWP ToTauIDWP(std::string const& tauIDWP)
 	{
-		if (tauIDWP == "vloose") return TauIDWP::VLOOSE;
+		if (tauIDWP == "vvvloose") return TauIDWP::VVVLOOSE;
+		else if (tauIDWP == "vvloose") return TauIDWP::VVLOOSE;
+		else if (tauIDWP == "vloose") return TauIDWP::VLOOSE;
 		else if (tauIDWP == "loose") return TauIDWP::LOOSE;
 		else if (tauIDWP == "medium") return TauIDWP::MEDIUM;
 		else if (tauIDWP == "tight") return TauIDWP::TIGHT;
@@ -115,6 +119,22 @@ public:
 		else if (tauIDWP == "vvtight") return TauIDWP::VVTIGHT;
 		else return TauIDWP::NONE;
 	}
+
+	enum class MetType : int
+	{
+		NONE = -1,
+		PFMET = 0,
+		MVAMET = 1,
+		PUPPIMET = 2,
+	};
+	static MetType ToMetType(std::string const& metType)
+	{
+		if (metType == "pfmet") return MetType::PFMET;
+		else if (metType == "mvamet") return MetType::MVAMET;
+		else if (metType == "puppimet") return MetType::PUPPIMET;
+		else return MetType::NONE;
+	}
+
 
 	enum class SvfitCacheMissBehaviour : int
 	{
@@ -166,7 +186,7 @@ public:
 		Eta0To5,
 		Eta0To3,
 		Eta3To5,
-		ClosureCPGroupings, // uncertainities grouped for the Higgs CP analysis added in quadrature to be compared to 'Total' for closure test 
+		ClosureCPGroupings, // uncertainities grouped for the Higgs CP analysis added in quadrature to be compared to 'Total' for closure test
 		Closure // individual uncertainties added in quadrature. to be compared to 'Total' for closure test
 	};
 
@@ -208,7 +228,7 @@ public:
 		else if (jetEnergyCorrectionUncertainty == "Closure") return JetEnergyUncertaintyShiftName::Closure;
 		else return JetEnergyUncertaintyShiftName::NONE;
 	}
-	
+
 	static std::string FromJetEnergyUncertaintyShiftName(JetEnergyUncertaintyShiftName const& jetEnergyCorrectionUncertainty)
 	{
 		if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::AbsoluteFlavMap) return "AbsoluteFlavMap";
@@ -228,7 +248,7 @@ public:
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeJEREC1) return "RelativeJEREC1";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeJEREC2) return "RelativeJEREC2";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativeJERHF) return "RelativeJERHF";
-		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtBB) return "RelativePtBB"; 
+		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtBB) return "RelativePtBB";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtEC1) return "RelativePtEC1";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtEC2) return "RelativePtEC2";
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::RelativePtHF) return "RelativePtHF";
@@ -245,7 +265,7 @@ public:
 		else if (jetEnergyCorrectionUncertainty == JetEnergyUncertaintyShiftName::ClosureCPGroupings) return "ClosureCPGroupings";
 		else if (jetEnergyCorrectionUncertainty ==  JetEnergyUncertaintyShiftName::Closure) return "Closure";
 		else return "";
-	}	
+	}
 
 	static KMETUncertainty::Type ToMETUncertaintyType(std::string const& metUncertainty)
 	{
