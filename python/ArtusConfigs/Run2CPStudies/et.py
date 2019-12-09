@@ -98,7 +98,8 @@ class et_ArtusConfig(dict):
 				self["Processors"] += [
 					"producer:SimpleFitProducer",
 					"filter:MinimalPlotlevelFilter",
-					"producer:SvfitProducer"
+					"producer:SvfitProducer",
+					"producer:FastMttProducer"
 					#"producer:SvfitM91Producer",
 					#"producer:SvfitM125Producer",
 					#"producer:MELAM125Producer"
@@ -148,7 +149,8 @@ class et_ArtusConfig(dict):
 					#if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8",nickname) == None:
 					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 					self["Processors"] += [
-						"producer:SvfitProducer"
+						"producer:SvfitProducer",
+						"producer:FastMttProducer"
 						#"producer:SvfitM91Producer",
 						#"producer:SvfitM125Producer",
 						#"producer:MELAM125Producer"
@@ -225,6 +227,7 @@ class et_ArtusConfig(dict):
 						'producer:GenMatchedTauCPProducer',
 						'producer:MadGraphReweightingProducer',
 						"producer:SvfitProducer",
+						"producer:FastMttProducer",
 						"producer:SvfitM91Producer",
 						"producer:SvfitM125Producer",
 						# "producer:MELAProducer",
@@ -246,6 +249,7 @@ class et_ArtusConfig(dict):
 				"producer:TaggedJetUncertaintyShiftProducer",
 				"producer:MetCorrector",
 				"producer:SvfitProducer",
+    			        "producer:FastMttProducer",
 				"producer:SvfitM91Producer",
 				"producer:SvfitM125Producer",
 				# "producer:MELAProducer",

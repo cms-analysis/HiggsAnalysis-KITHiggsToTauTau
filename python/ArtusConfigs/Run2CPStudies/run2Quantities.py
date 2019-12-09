@@ -916,3 +916,22 @@ class Run2Quantities():
 					"decayModeMVA_2",
 			]
 		return sync_quantities_list
+
+	@staticmethod
+	def fastmttQuantities():
+		list = [
+			"m_fast",
+			"pt_fast",
+			"eta_fast",
+			"phi_fast",
+
+			"fastmttAvailable",
+			"fastmttLV",
+			"fastmttTau1Available",
+			"fastmttTau1LV",
+			"fastmttTau1ERatio",
+			"fastmttTau2Available",
+			"fastmttTau2LV",
+			"fastmttTau2ERatio"
+		]
+		return list
