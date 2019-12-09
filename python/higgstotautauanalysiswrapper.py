@@ -57,8 +57,11 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		                                help="Study to be run by artus, options: CP, CPFinalState, MSSM(TODO). [Default: %(default)s]")
 		self.configOptionsGroup.add_argument("--sync", default=False, action="store_true",
 		                                help="Produce sync ntuples (removes some MinimalPlotlevelFilters). [Default: %(default)s]")
-		self.configOptionsGroup.add_argument("--legacy", default=False, action="store_true",
+		self.configLegacyOptionsGroup = self._parser.add_mutually_exclusive_group(required=False)
+		self.configLegacyOptionsGroup.add_argument("--legacy", dest='legacy', default=True, action="store_true",
 		                                help="Use Run II legacy settings. [Default: %(default)s]")
+		self.configLegacyOptionsGroup.add_argument("--no-legacy", dest='legacy', action="store_false",
+		                                help="Do not use Run II legacy settings. [Default: see --legacy]")
 
 
 	def modify_replacing_dict(self):
