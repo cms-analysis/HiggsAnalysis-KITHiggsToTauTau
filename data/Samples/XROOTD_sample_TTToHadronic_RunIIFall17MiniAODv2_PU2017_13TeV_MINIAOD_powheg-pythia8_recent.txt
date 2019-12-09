@@ -1,1 +1,1 @@
-XROOTD_sample_TTToHadronic_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8_2019-05-15.txt
+XROOTD_sample_TTToHadronic_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8_2019-11-27.txt
