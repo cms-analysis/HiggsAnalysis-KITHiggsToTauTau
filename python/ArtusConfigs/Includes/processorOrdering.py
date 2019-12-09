@@ -162,6 +162,8 @@ class ProcessorsOrdered(dict):
 		self["producer:SvfitM91Producer"] = 253
 		self["producer:SvfitM125Producer"] = 256
 
+		self["producer:FastMttProducer"] = 251
+
 		self["producer:MELAProducer"] = 260
 		self["producer:MELAM125Producer"] = 265
 

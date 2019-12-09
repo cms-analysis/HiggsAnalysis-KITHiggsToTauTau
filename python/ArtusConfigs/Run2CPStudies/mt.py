@@ -92,6 +92,7 @@ class mt_ArtusConfig(dict):
 
 				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 				self["Processors"] += ["producer:SvfitProducer"]
+				self["Processors"] += ["producer:FastMttProducer"]
 				#self["Processors"] += ["producer:SvfitM91Producer"]
 				#self["Processors"] += ["producer:SvfitM125Producer"]
 
@@ -148,6 +149,7 @@ class mt_ArtusConfig(dict):
 				else:
 					self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:FastMttProducer"]
 					#self["Processors"] += ["producer:SvfitM91Producer"]
 					#self["Processors"] += ["producer:SvfitM125Producer"]
 
@@ -229,6 +231,7 @@ class mt_ArtusConfig(dict):
 
 				elif re.search("(HToTauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:FastMttProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
 
@@ -237,6 +240,7 @@ class mt_ArtusConfig(dict):
 
 				elif re.search("^((?!(DY.?JetsToLL|HToTauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:FastMttProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
 

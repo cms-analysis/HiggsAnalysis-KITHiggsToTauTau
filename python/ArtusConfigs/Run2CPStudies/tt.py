@@ -89,6 +89,7 @@ class tt_ArtusConfig(dict):
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
 				self["Processors"] += ["producer:SvfitProducer"]
+				self["Processors"] += ["producer:FastMttProducer"]
 				self["Processors"] += ["producer:SvfitM91Producer"]
 				self["Processors"] += ["producer:SvfitM125Producer"]
 
@@ -130,6 +131,7 @@ class tt_ArtusConfig(dict):
 
 				else:
 					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:FastMttProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
 
@@ -200,6 +202,7 @@ class tt_ArtusConfig(dict):
 
 				elif re.search("(HTo.*TauTau|H2JetsToTauTau|Higgs).*(?=Fall15)",nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:FastMttProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
 
@@ -208,6 +211,7 @@ class tt_ArtusConfig(dict):
 
 				elif re.search("^((?!(DY.?JetsToLL|HTo.*TauTau|H2JetsToTauTau|Higgs)).)*Fall15", nickname):
 					self["Processors"] += ["producer:SvfitProducer"]
+					self["Processors"] += ["producer:FastMttProducer"]
 					self["Processors"] += ["producer:SvfitM91Producer"]
 					self["Processors"] += ["producer:SvfitM125Producer"]
 

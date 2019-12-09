@@ -229,6 +229,11 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mt_sv", metadata.m_commonFloatQuantities["svfitTransverseMass"]);
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "met_sv", metadata.m_commonFloatQuantities["svfitMet"]);
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pt_fast", metadata.m_commonFloatQuantities["fastmttPt"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "eta_fast", metadata.m_commonFloatQuantities["fastmttEta"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "phi_fast", metadata.m_commonFloatQuantities["fastmttPhi"]);
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "m_fast", metadata.m_commonFloatQuantities["fastmttMass"]);
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pvx", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("refitPVBS"))(event,product,settings,metadata)).X();

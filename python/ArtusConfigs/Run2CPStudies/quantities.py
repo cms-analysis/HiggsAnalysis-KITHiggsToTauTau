@@ -197,6 +197,7 @@ class Quantities(Run2Quantities):
 				else:
 
 					self.quantities.update(self.svfitSyncQuantities())
+					self.quantities.update(self.fastmttQuantities())
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 
 					self.quantities.add('tauSpinnerPolarisation')
@@ -221,6 +222,7 @@ class Quantities(Run2Quantities):
 						self.quantities.update(["lhenpNLO", "quarkmassWeight","quarkmassUpWeight","quarkmassDownWeight"])
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.svfitSyncQuantities())
+					self.quantities.update(self.fastmttQuantities())
 					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					# if channel in ["TT", "MT", "ET"]:
@@ -248,6 +250,7 @@ class Quantities(Run2Quantities):
 					self.quantities.update(self.genHiggsQuantities())
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.svfitSyncQuantities())
+					self.quantities.update(self.fastmttQuantities())
 					self.quantities.update(self.genMatchedCPQuantities())
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					# if channel in ["TT", "MT", "ET"]:
@@ -281,6 +284,7 @@ class Quantities(Run2Quantities):
 
 					else:
 						self.quantities.update(self.svfitSyncQuantities())
+						self.quantities.update(self.fastmttQuantities())
 						self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 						#if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) == None:
 							#self.quantities.update(self.splitJecUncertaintyQuantities())
