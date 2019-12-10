@@ -1670,12 +1670,12 @@ class Quantities(Run2Quantities):
 	def RooWorkSpaceWeightQuantities(nickname, channel, legacy):
 		if legacy:
 			if channel == "ET":
-				if re.search("Embedding2017", nickname):
-					return [
-					]
-				else:
-					return [
-					]
+				return [
+					"triggerWeight_single_1",
+					"triggerWeight_cross_1",
+					"triggerWeight_cross_2",
+					"triggerWeight_comb",
+				]
 			elif channel == "MT":
 				return [
 					"triggerWeight_single_1",
@@ -1684,12 +1684,11 @@ class Quantities(Run2Quantities):
 					"triggerWeight_comb",
 				]
 			elif channel == "TT":
-				if re.search("Embedding2017", nickname):
-					return [
-					]
-				else:
-					return [
-					]
+				return [
+					"triggerWeight_cross_1",
+					"triggerWeight_cross_2",
+					"triggerWeight_comb",
+				]
 		else:
 			if channel == "ET":
 				if re.search("Embedding2017", nickname):

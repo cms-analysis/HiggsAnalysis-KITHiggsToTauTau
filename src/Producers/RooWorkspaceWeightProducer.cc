@@ -978,21 +978,35 @@ void LegacyWeightProducer::Produce( event_type const& event, product_type & prod
 			}
 		}
 	}
-	double leptonTrigEffSingle_mcemb = product.m_optionalWeights["triggerEfficiency_singletrigger_MCEmb_1"];
-	double leptonTrigEffSingle_data = product.m_optionalWeights["triggerEfficiency_singletrigger_data_1"];
-	double leptonTrigEffCross_mcemb = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_1"];
-	double leptonTrigEffCross_data = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_1"];
-	double tauTrigEffCross_mcemb = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_2"];
-	double tauTrigEffCross_data = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_2"];
+	if ((settings.GetChannel() == "ET") || (settings.GetChannel() == "MT"))
+	{
+		double leptonTrigEffSingle_mcemb = product.m_optionalWeights["triggerEfficiency_singletrigger_MCEmb_1"];
+		double leptonTrigEffSingle_data = product.m_optionalWeights["triggerEfficiency_singletrigger_data_1"];
+		double leptonTrigEffCross_mcemb = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_1"];
+		double leptonTrigEffCross_data = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_1"];
+		double tauTrigEffCross_mcemb = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_2"];
+		double tauTrigEffCross_data = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_2"];
 
-	double efficiencyMCEmb = leptonTrigEffSingle_mcemb*(1.0-tauTrigEffCross_mcemb)  + leptonTrigEffCross_mcemb*tauTrigEffCross_mcemb;
-	double efficiencyData = leptonTrigEffSingle_data*(1.0-tauTrigEffCross_data) + leptonTrigEffCross_data*tauTrigEffCross_data;
+		double efficiencyMCEmb = leptonTrigEffSingle_mcemb*(1.0-tauTrigEffCross_mcemb)  + leptonTrigEffCross_mcemb*tauTrigEffCross_mcemb;
+		double efficiencyData = leptonTrigEffSingle_data*(1.0-tauTrigEffCross_data) + leptonTrigEffCross_data*tauTrigEffCross_data;
 
-	// Trigger weights for "HttEnumTypes::DataMcScaleFactorProducerMode::NO_OVERLAP_TRIGGERS"
-	product.m_optionalWeights["triggerWeight_single_1"] = ((leptonTrigEffSingle_mcemb == 0.0) ? 1.0 : leptonTrigEffSingle_data/leptonTrigEffSingle_mcemb);
-	product.m_optionalWeights["triggerWeight_cross_1"] = ((leptonTrigEffCross_mcemb == 0.0) ? 1.0 : leptonTrigEffCross_data/leptonTrigEffCross_mcemb);
-	product.m_optionalWeights["triggerWeight_cross_2"] = ((tauTrigEffCross_mcemb == 0.0) ? 1.0 : tauTrigEffCross_data/tauTrigEffCross_mcemb);
+		// Trigger weights for "HttEnumTypes::DataMcScaleFactorProducerMode::NO_OVERLAP_TRIGGERS"
+		product.m_optionalWeights["triggerWeight_single_1"] = ((leptonTrigEffSingle_mcemb == 0.0) ? 1.0 : leptonTrigEffSingle_data/leptonTrigEffSingle_mcemb);
+		product.m_optionalWeights["triggerWeight_cross_1"] = ((leptonTrigEffCross_mcemb == 0.0) ? 1.0 : leptonTrigEffCross_data/leptonTrigEffCross_mcemb);
+		product.m_optionalWeights["triggerWeight_cross_2"] = ((tauTrigEffCross_mcemb == 0.0) ? 1.0 : tauTrigEffCross_data/tauTrigEffCross_mcemb);
 
-	// Trigger weights for "HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS"
-	product.m_optionalWeights["triggerWeight_comb"] = ((efficiencyMCEmb == 0.0) ? 1.0 : (efficiencyData / efficiencyMCEmb));
+		// Trigger weights for "HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS"
+		product.m_optionalWeights["triggerWeight_comb"] = ((efficiencyMCEmb == 0.0) ? 1.0 : (efficiencyData / efficiencyMCEmb));
+	}
+	if (settings.GetChannel() == "TT")
+	{
+		double leadingtauTrigEffCross_mcemb = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_1"];
+		double leadingtauTrigEffCross_data = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_1"];
+		double trailingtauTrigEffCross_mcemb = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_2"];
+		double trailingtauTrigEffCross_data = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_2"];
+
+		product.m_optionalWeights["triggerWeight_cross_1"] = ((leadingtauTrigEffCross_mcemb == 0.0) ? 1.0 : leadingtauTrigEffCross_data/leadingtauTrigEffCross_mcemb);
+		product.m_optionalWeights["triggerWeight_cross_2"] = ((trailingtauTrigEffCross_mcemb == 0.0) ? 1.0 : trailingtauTrigEffCross_data/trailingtauTrigEffCross_mcemb);
+		product.m_optionalWeights["triggerWeight_comb"] = product.m_optionalWeights["triggerWeight_cross_1"]*product.m_optionalWeights["triggerWeight_cross_2"];
+	}
 }
