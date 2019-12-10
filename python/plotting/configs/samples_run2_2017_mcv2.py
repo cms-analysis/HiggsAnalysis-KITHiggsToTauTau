@@ -2445,7 +2445,7 @@ class Samples(samples.Samples):
 				proxy_fakefactor_weight_1 = "fakefactor_"+channel+"_HASH_NAME.GetScaleFactor(0, pt_1, pt_2, iso_1, decayMode_1, decayMode_2, m_vis, mt_1, njetspt30)"
 				proxy_fakefactor_weight_2 = "fakefactor_"+channel+"_HASH_NAME.GetScaleFactor(1, pt_1, pt_2, iso_1, decayMode_1, decayMode_2, m_vis, mt_1, njetspt30)"
 			# proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/FakeFactorProxy.h>\nFakeFactorProxy fakefactor_"+channel+"_HASH_NAME(\"$CMSSW_BASE/src/plots/FF_fractions/FF_fractions_workspace_decayMode_pt_njets.root\", \"decayMode,njets,pt\", \""+channel+"\");")
-			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/FakeFactorProxy.h>\nFakeFactorProxy fakefactor_"+channel+"_HASH_NAME(\"$CMSSW_BASE/src/plots/FF_fractions/FF_fractions_workspace_pt_njets.root\", \"njets,pt\", \""+channel+"\");")
+			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/FakeFactorProxy.h>\nFakeFactorProxy fakefactor_"+channel+"_HASH_NAME(\"$CMSSW_BASE/src/plots/FF_fractions/FF_fractions_workspace_m_vis_njetsexlude_os_exlude_blind.root\", \"njets,m_vis\", \""+channel+"\");")
 
 		sub_channels = [channel] # needed for splitting of taus in tt, does nothing in all other channels
 

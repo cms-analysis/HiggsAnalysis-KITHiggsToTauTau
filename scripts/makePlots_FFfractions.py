@@ -82,7 +82,7 @@ if __name__ == "__main__":
 	parser.add_argument("-x", "--quantities", nargs="+",
 						# default=["m_2"], #, "pt_2"],
 	                    # default=["decayMode_2", "pt_2"],
-						default=["pt_2"],
+						default=["m_vis"],
 						# default=["m_vis", "decayMode_2", "pt_2"],
 	                    help="Quantities. Up to 3 quantities can be binned in a single histogram. Further quantities have to be incorporated via categories. In the 'tt1' channel the quantity of the other tau will be taken instead (tt1 : pt_2 --> pt_1) [Default: %(default)s]")
 	                    # default=["integral",
@@ -367,13 +367,13 @@ if __name__ == "__main__":
 
 			# json_config = {}
 			# json_filenames = [os.path.join(args.json_dir, "8TeV" if args.run1 else "13TeV", channel_dir, quantity + ".json") for channel_dir in [channel, "default"]]
-			# 
+			#
 			# for json_filename in json_filenames:
 			# 	json_filename = os.path.expandvars(json_filename)
 			# 	if os.path.exists(json_filename):
 			# 		json_config = jsonTools.JsonDict(json_filename).doIncludes().doComments()
 			# 		break
-			# 
+			#
 			# quantity = json_config.pop(axis + "_expressions", [quantity])[0]
 			# weight = args.weights[index_channel if args.channel_comparison else index_quantity]
 
@@ -384,7 +384,7 @@ if __name__ == "__main__":
 					higgs_masses = args.higgs_masses,
 					normalise_signal_to_one_pb = False,
 					ztt_from_mc = args.ztt_from_mc,
-					weight = "(1.0)", # "((%s)*(%s))" % (json_config.pop("weights", ["1.0"])[0], weight),
+					weight = args.weights[0] if args.weights[0] else "(1.0)", #"(1.0)", # "((%s)*(%s))" % (json_config.pop("weights", ["1.0"])[0], weight),
 					lumi  =  args.lumi * 1000,
 					exclude_cuts = args.exclude_cuts, # + json_config.pop("exclude_cuts", []),
 					blind_expression = channel, # + "_" + quantity,
@@ -710,7 +710,9 @@ if __name__ == "__main__":
 
 		w.Print()
 		output_workspace_filename = os.path.expandvars(os.path.join(args.output_dir,
-		"FF_fractions_workspace_" + "_".join(quantity.replace("_2","").replace("_1","") for quantity in (args.quantities+args.category_quantities)) + ".root"))
+		"FF_fractions_workspace_" + "_".join(quantity.replace("_2","").replace("_1","") for quantity in (args.quantities+args.category_quantities))
+		+ "_".join("exlude_" + excluded_cut for excluded_cut in (args.exclude_cuts))
+		+ ".root"))
 		w.writeToFile(output_workspace_filename) # save workspace
 		if os.path.isfile(output_root_filename):
 			print("Created Root file " + output_root_filename)
