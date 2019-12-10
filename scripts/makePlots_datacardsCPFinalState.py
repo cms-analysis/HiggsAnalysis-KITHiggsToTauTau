@@ -157,8 +157,8 @@ if __name__ == "__main__":
 	                    help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("--steps", nargs="+",
-	                    default=["inputs", "t2w", "likelihoodscan"],
-	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots_setup", "prefitpostfitplots_makeplots"],
+	                    default=["inputs", "datacards", "t2w", "likelihoodscan"],
+	                    choices=["inputs", "datacards", "t2w", "likelihoodscan", "prefitpostfitplots_setup", "prefitpostfitplots_makeplots"],
 	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
@@ -244,17 +244,19 @@ if __name__ == "__main__":
 	# 		INIT="--only_init="+os.path.join(init_directory, "init")
 	# 	)
 	if args.emb:
-		command = "MorphingSMCPDecays18 --real_data=false --era={ERA} --channels={CHANNELS} --doDecays true --do_mva false --do_jetfakes true --do_embedding true --postfix -2D --ttbar_fit=false {INIT}".format(
+		command = "MorphingSMCPDecays18 --era={ERA} --channels={CHANNELS} --doDecays=true --do_mva=false --do_jetfakes=true --do_embedding=true --postfix=\"-2D\" --ttbar_fit=false {INIT} {SHAPE_UNCS}".format(
 			ERA=args.era,
 			CHANNELS = channelstring,
-			INIT="--only_init="+os.path.join(init_directory, "init")
+			INIT="--only_init="+os.path.join(init_directory, "init"),
+			SHAPE_UNCS="--no_shape_systs=1" if args.no_shape_uncs else "",
 		)
 	else:
-		command = "MorphingSMCPDecays18 --real_data=false --era={ERA} --channels={CHANNELS} --doDecays true --do_mva false --do_jetfakes true --do_embedding false --postfix -2D --ttbar_fit=false {INIT}".format(
-		ERA=args.era,
-		CHANNELS = channelstring,
-		INIT="--only_init="+os.path.join(init_directory, "init")
-	)
+		command = "MorphingSMCPDecays18 --era={ERA} --channels={CHANNELS} --doDecays=true --do_mva=false --do_jetfakes=true --do_embedding=false --postfix=\"-2D\" --ttbar_fit=false {INIT} {SHAPE_UNCS}".format(
+			ERA=args.era,
+			CHANNELS = channelstring,
+			INIT="--only_init="+os.path.join(init_directory, "init"),
+			SHAPE_UNCS="--no_shape_systs=1" if args.no_shape_uncs else "",
+		)
 	log.debug(command)
 	exit_code = logger.subprocessCall(shlex.split(command))
 	assert(exit_code == 0)
@@ -340,15 +342,8 @@ if __name__ == "__main__":
 
 	category_replacements["0jet"] = "ZeroJetCP"
 	category_replacements["boosted"] = "BoostedCP"
-	#category_replacements["dijet_lowboost"] = "dijet2D_lowboost"
-	#category_replacements["dijet_boosted"] = "dijet2D_boosted"
-
-	category_replacements["dijet_tightmjj_boosted"] =  "dijet_tightmjj_boosted"
-	category_replacements["dijet_loosemjj_boosted"] =  "dijet_loosemjj_boosted"
-
-	category_replacements["dijet_tightmjj_lowboost"] =  "dijet_tightmjj_lowboost"
-	category_replacements["dijet_loosemjj_lowboost"] =  "dijet_loosemjj_lowboost"
-
+	category_replacements["dijet_lowboost_mixed"] = "dijet_lowboost_mixed"
+	category_replacements["dijet_boosted_mixed"] = "dijet_boosted_mixed"
 
 	# initialise datacards
 	year_string = "/2017/" if args.era=="2017" else ""
@@ -373,14 +368,8 @@ if __name__ == "__main__":
 
 		category_replacements[chan+"_0jet"] = chan+"_ZeroJetCP"
 		category_replacements[chan+"_boosted"] = chan+"_BoostedCP"
-		#category_replacements["dijet_lowboost"] = "dijet2D_lowboost"
-		#category_replacements["dijet_boosted"] = "dijet2D_boosted"
-
-		category_replacements[chan+"_dijet_tightmjj_boosted"] =  chan+"_dijet_tightmjj_boosted"
-		category_replacements[chan+"_dijet_loosemjj_boosted"] =  chan+"_dijet_loosemjj_boosted"
-
-		category_replacements[chan+"_dijet_tightmjj_lowboost"] =  chan+"_dijet_tightmjj_lowboost"
-		category_replacements[chan+"_dijet_loosemjj_lowboost"] =  chan+"_dijet_loosemjj_lowboost"
+		category_replacements[chan+"_dijet_lowboost_mixed"] = chan+"_dijet_lowboost_mixed"
+		category_replacements[chan+"_dijet_boosted_mixed"] = chan+"_dijet_boosted_mixed"
 
 
 	if args.categories != parser.get_default("categories"):
@@ -425,62 +414,7 @@ if __name__ == "__main__":
 		"Total",
 		"Closure"
 	]
-	"""
-	# w+jets scale factor shifts for different categories
-	# same uncertainties as used for WHighMTtoLowMT_$BIN_13TeV
-	wj_sf_shifts = {
-		"mt_ZeroJet2D" : 0.10,
-		"mt_Boosted2D" : 0.05,
-		"mt_Vbf2D" : 0.10,
-		"et_ZeroJet2D" : 0.10,
-		"et_Boosted2D" : 0.05,
-		"et_Vbf2D" : 0.10
-	}
 
-	# correction factors from ZMM control region
-	zmm_cr_factors = {
-		"ZeroJet2D" : "(1.0395)",
-		"Boosted2D" : "(((ptvis<100)*1.0321) + ((ptvis>=100)*(ptvis<150)*1.023) + ((ptvis>=150)*(ptvis<200)*1.007) + ((ptvis>=200)*(ptvis<250)*1.016) + ((ptvis>=250)*(ptvis<300)*1.02) + ((ptvis>=300)*1.03))",
-		"Vbf2D" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.0605) + ((mjj>=700)*(mjj<1100)*1.017) + ((mjj>=1100)*(mjj<1500)*0.975) + ((mjj>=1500)*0.97))",
-		"Vbf2D_Up" : "(((mjj<300)*1.0) + ((mjj>=300)*(mjj<700)*1.121) + ((mjj>=700)*(mjj<1100)*1.034) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.94))",
-		"Vbf2D_Down" : "(1.0)"
-	}
-
-	# corrections factors from ZMM control regions as written on SM HTT Twiki
-	zmm_cr_0jet_global = "(1.0)"
-	zmm_cr_boosted_global = "(1.0)"
-	zmm_cr_vbf_global = "(1.02)"
-	zmm_cr_factors_official = {
-		"mt_ZeroJet2D" : zmm_cr_0jet_global,
-		"et_ZeroJet2D" : zmm_cr_0jet_global,
-		"em_ZeroJet2D" : "(1.02)",
-		"tt_ZeroJet2D" : zmm_cr_0jet_global,
-		"mt_Boosted2D" : zmm_cr_boosted_global,
-		"et_Boosted2D" : zmm_cr_boosted_global,
-		"em_Boosted2D" : zmm_cr_boosted_global,
-		"tt_Boosted2D" : zmm_cr_boosted_global,
-		"mt_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
-		"et_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
-		"em_Vbf2D" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.06) + ((mjj>=700)*(mjj<1100)*0.98) + ((mjj>=1100)*(mjj<1500)*0.95) + ((mjj>=1500)*0.95))",
-		"tt_Vbf2D" : "(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.02) + ((mjj>=500)*(mjj<800)*1.06) + ((mjj>=800)*1.04))",
-		"mt_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
-		"et_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
-		"em_Vbf2D_Up" : zmm_cr_vbf_global+"*(((mjj>=300)*(mjj<700)*1.12) + ((mjj>=700)*(mjj<1100)*0.96) + ((mjj>=1100)*(mjj<1500)*0.90) + ((mjj>=1500)*0.90))",
-		"tt_Vbf2D_Up" : "(((mjj<300)*1.00) + ((mjj>=300)*(mjj<500)*1.04) + ((mjj>=500)*(mjj<800)*1.12) + ((mjj>=800)*1.08))",
-		"mt_Vbf2D_Down" : zmm_cr_vbf_global,
-		"et_Vbf2D_Down" : zmm_cr_vbf_global,
-		"em_Vbf2D_Down" : zmm_cr_vbf_global,
-		"tt_Vbf2D_Down" : "(1.0)"
-	}
-
-	# ttbar nicks for which to apply different top pt reweighting
-	top_pt_reweight_nicks = [
-		"noplot_ttj_ss_lowmt", # mt & et channels: qcd yield subtract
-		"noplot_ttj_shape_ss_qcd_control", # mt & et channels: qcd shape subtract
-		"noplot_ttj_os_highmt", # mt & et channels: w+jets yield subtract
-		"noplot_ttj_ss_highmt" # mt & et channels: qcd high mt yield subtract
-	]
-	"""
 	do_not_normalize_by_bin_width = args.do_not_normalize_by_bin_width
 
 	#restriction to requested systematics
@@ -606,33 +540,29 @@ if __name__ == "__main__":
 					# prepare plotting configs for retrieving the input histograms
 
 					category_suffix =""
-					if "dijet" in category and "CP1" in args.quantity:
-						category_suffix = "_CP1"
 
-					if "Boosted" in category and "CP1" in args.quantity:
-						category_suffix = "_CP1"
+					if "dijet" in category and "recoPhiStarCPCombMergedHelrPVBS" in args.quantity:
+						category_suffix = "_CPCombMerged"
 
-					if "dijet" in category and "CP2" in args.quantity:
-						category_suffix = "_CP2"
-
-					if "Boosted" in category and "CP2" in args.quantity:
-						category_suffix = "_CP2"
+					if "boosted" in category and "recoPhiStarCPCombMergedHelrPVBS" in args.quantity:
+						category_suffix = "_CPCombMerged"
 
 					config = sample_settings.get_config(
 							samples=[getattr(samples.Samples, sample) for sample in list_of_samples],
 							channel=channel if category not in "em_ttbar" else "em",
-							category="catHtt13TeV_"+category+category_suffix,
+							category="catcptautau2017_"+category+category_suffix,
 							weight=args.weight,
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="cpggh2016" if args.era == "2016" else "cpggh2017" if args.era == "2017" else "baseline",
+							cut_type="cpggh2016" if args.era == "2016" else "cptautau2017" if args.era == "2017" else "baseline",
 							estimationMethod="simeqn",
 							#zmm_cr_factor=zmm_cr_factor,
 							no_ewkz_as_dy = args.no_ewkz_as_dy,
 							fakefactor_method = True,
 							state = "finalState",
-							proxy_fakefactors = True # doesn't work for 2D plots
+							asimov_nicks= ["ff", "zl", "vvt", "ttt", "ewkz", "gghsm125", "qqhsm125", ("ztt_emb" if args.emb else "ztt")] if args.use_asimov_dataset else [], # TODO: generalize
+							# proxy_fakefactors = True # doesn't work for 2D plots
 					)
 					print shape_systematic
 					if "CMS_scale_gg_13TeV" in shape_systematic:
@@ -725,7 +655,7 @@ if __name__ == "__main__":
 							config["x_bins"] = [binnings_settings.binnings_dict["binningHtt13TeV_"+category+("_m_vis" if channel == "mm" else "_m_sv")]]
 
 					# Unroll 2d distribution to 1d in order for combine to fit it
-					if ("dijet" in category or "BoostedCP" in category) and not ("wjets" in category or "qcd_cr" in category) and not (channel == "tt" and "ZeroJetCP" in category):
+					if ("dijet" in category) and not ("wjets" in category or "qcd_cr" in category) and not (channel == "tt" and "ZeroJetCP" in category):
 						if not "UnrollHistogram" in config.get("analysis_modules", []):
 							config.setdefault("analysis_modules", []).append("UnrollHistogram")
 						config["unroll_ordering"] = "xyz"
@@ -782,6 +712,16 @@ if __name__ == "__main__":
 						print category
 						print config["weights"]
 
+					config["analysis_modules"] = ["AddHistograms", "SumOfHistograms", "BinErrorsOfEmptyBins", "CorrectNegativeBinContents", "UnrollHistogram"]
+					print(config["analysis_modules"])
+					config["labels"].append(config["labels"].pop(config["stacks"].index("data")))
+					config["colors"].append(config["colors"].pop(config["stacks"].index("data")))
+					config["markers"].append(config["markers"].pop(config["stacks"].index("data")))
+					config["stacks"].append(config["stacks"].pop(config["stacks"].index("data")))
+					print(config["labels"])
+					print(config["colors"])
+					print(config["markers"])
+					print(config["stacks"])
 					plot_configs.append(config)
 			if "inputs" in args.steps:
 				hadd_commands.append("hadd -f {DST} {SRC}".format(
@@ -822,27 +762,27 @@ if __name__ == "__main__":
 	# call official script again with shapes that have just been created
 	# this steps creates the filled datacards in the output folder.
 
-	if "t2w" in args.steps:
+	if "datacards" in args.steps:
 		print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 		print channelstring
 		if args.emb:
 			datacards_module._call_command([
-				"MorphingSMCPDecays18 --output_folder {OUTPUT_SUFFIX} --era={ERA} --channels={CHANNELS} --doDecays true --do_mva false --do_jetfakes true --do_embedding true --postfix -2D {SHAPE_UNCS} {SCALE_SIG} --real_data=false --ttbar_fit=false --input_folder_mt {OUTPUT_SUFFIX}/mt/ --input_folder_et {OUTPUT_SUFFIX}/et/".format(
+				"MorphingSMCPDecays18 --output_folder={OUTPUT_SUFFIX} --era={ERA} --channels={CHANNELS} --doDecays=true --do_mva=false --do_jetfakes=true --do_embedding=true --postfix=\"-2D\" {SHAPE_UNCS} {SCALE_SIG} --ttbar_fit=false --input_folder_mt={OUTPUT_SUFFIX}/mt/ --input_folder_et={OUTPUT_SUFFIX}/et/".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				ERA=args.era,
 				CHANNELS = channelstring,
-				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
+				SHAPE_UNCS="--no_shape_systs=1" if args.no_shape_uncs else "",
 				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else ""
 				),
 				args.output_dir
 			])
 		else:
 			datacards_module._call_command([
-				"MorphingSMCP2016 --output_folder {OUTPUT_SUFFIX} --do_embedding=false  --era={ERA} --channels={CHANNELS} --postfix -2D  {SHAPE_UNCS} {SCALE_SIG} --real_data=false --ttbar_fit=false --input_folder_mt {OUTPUT_SUFFIX}/mt/ --input_folder_et {OUTPUT_SUFFIX}/et/".format(
+				"MorphingSMCPDecays18 --output_folder={OUTPUT_SUFFIX} --era={ERA} --channels={CHANNELS} --doDecays=true --do_mva=false --do_jetfakes=true --do_embedding=false --postfix=\"-2D\" {SHAPE_UNCS} {SCALE_SIG} --ttbar_fit=false --input_folder_mt={OUTPUT_SUFFIX}/mt/ --input_folder_et={OUTPUT_SUFFIX}/et/".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				ERA=args.era,
 				CHANNELS = channelstring,
-				SHAPE_UNCS="--no_shape_systs=true" if args.no_shape_uncs else "",
+				SHAPE_UNCS="--no_shape_systs=1" if args.no_shape_uncs else "",
 				SCALE_SIG="--scale_sig_procs=true" if args.scale_sig_IC else ""
 				),
 				args.output_dir
@@ -851,6 +791,8 @@ if __name__ == "__main__":
 	print "--------------------------------------------------------------------------------------------------------------------------------------"
 	datacards_path = args.output_dir+"/output/"+args.output_suffix+"/cmb/125/"
 	official_cb = ch.CombineHarvester()
+
+	# sys.exit(0)
 
 	datacards_cbs = {}
 	datacards_workspaces_alpha = {}
@@ -886,7 +828,7 @@ if __name__ == "__main__":
 			if "prefitpostfitplots_setup" in args.steps:
 				print "Starting step: prefitpostfitplots_setup"
 				datacards_module._call_command([
-						"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i {DATACARD} -o {OUTPUT} --parallel {N_PROCESSES}".format(
+						"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixtureDecays:CPMixtureDecays -i {DATACARD} -o {OUTPUT} --parallel {N_PROCESSES}".format(
 						DATACARD=official_datacard,
 						OUTPUT=os.path.splitext(official_datacard)[0]+"_cpmixture.root",
 						N_PROCESSES=args.n_processes
@@ -908,18 +850,18 @@ if __name__ == "__main__":
 		# "ggHps_htt"	: "gghmadgraphps",
 		# "ggHmm_htt"	: "gghmadgraphmm",
 		# "ggHsm_htt"	: "gghmadgraphsm",
-		"ggHps_htt"	: "gghps",
-		"ggHmm_htt"	: "gghmm",
-		"ggHsm_htt"	: "gghsm",
+		"ggH_ps_htt"	: "gghps",
+		"ggH_mm_htt"	: "gghmm",
+		"ggH_sm_htt"	: "gghsm",
 		"ggH_hww" : "hww_gg",
 		"QCD" : "qcd",
 		"qqH_htt" : "qqh",
 		# "qqHmm_htt"	: "qqhjhumm",
 		# "qqHps_htt"	: "qqhjhups",
 		# "qqHsm_htt"	: "qqhjhusm",
-		"qqHmm_htt"	: "qqhmm",
-		"qqHps_htt"	: "qqhps",
-		"qqHsm_htt"	: "qqhsm",
+		"qqH_mm_htt"	: "qqhmm",
+		"qqH_ps_htt"	: "qqhps",
+		"qqH_sm_htt"	: "qqhsm",
 		"qqH_hww" : "hww_qq",
 		"TT" : "ttj",
 		"TTT" : "ttt",
@@ -937,19 +879,19 @@ if __name__ == "__main__":
 		# "ggHps_htt125"	: "gghmadgraphps",
 		# "ggHmm_htt125"	: "gghmadgraphmm",
 		# "ggHsm_htt125"	: "gghmadgraphsm",
-		"ggHps_htt125"	: "gghps",
-		"ggHmm_htt125"	: "gghmm",
-		"ggHsm_htt125"	: "gghsm",
-		"qqHmm_htt125"	: "qqhmm",
-		"qqHps_htt125"	: "qqhps",
-		"qqHsm_htt125"	: "qqhsm",
+		"ggH_ps_htt125"	: "gghps",
+		"ggH_mm_htt125"	: "gghmm",
+		"ggH_sm_htt125"	: "gghsm",
+		"qqH_mm_htt125"	: "qqhmm",
+		"qqH_ps_htt125"	: "qqhps",
+		"qqH_sm_htt125"	: "qqhsm",
 		"EmbedZTT" : "ztt_emb"
 		}
 
 	# Create workspaces from the datacards
 	if "t2w" in args.steps:
 		datacards_module._call_command([
-				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixture:CPMixture -i output/{OUTPUT_SUFFIX}/{{cmb,{CHANNELS}}}/* -o ws.root --parallel {N_PROCESSES}".format(
+				"combineTool.py -M T2W -P CombineHarvester.CombinePdfs.CPMixtureDecays:CPMixtureDecays -i output/{OUTPUT_SUFFIX}/{{cmb,{CHANNELS}}}/* -o ws.root --parallel {N_PROCESSES}".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				CHANNELS=",".join(channel_list)+"_2017" if args.era == "2017" else "",
 				N_PROCESSES=args.n_processes
@@ -1452,6 +1394,136 @@ if __name__ == "__main__":
 				"et_5" : ["12 12", "24 24", "36 36", "48 48", "60 60","72 72","84 84","96 96","108 108","120 120"],
 				"et_6" : ["12 12", "24 24", "36 36", "48 48", "60 60","72 72","84 84","96 96","108 108","120 120"]
 			}
+		if "recoPhiStarCPCombMergedHelrPVBS" in args.quantity:
+			x_tick_labels = {
+				"mt_1" : ["0-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-105","105-110","110-400"] * 3,
+				"et_1" : ["0-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-105","105-110","110-400"] * 3,
+				"em_1" : ["0-50","50-55", "55-60","60-65","65-70","70-75","75-80","80-85","85-90","90-95","95-100","100-400"] * 3,
+				"mt_2" : ["0-100","100-150","150-200","200-250","250-300", ">300"] * 10,
+				"et_2" : ["0-100","100-150","150-200","200-250","250-300", ">300"] * 10,
+				"em_2" : ["0-80","80-90","90-100","100-110","110-120","120-130","130-140","140-150","150-160","160-300"] * 6,
+				"tt_2" : ["0-40","40-60","60-70","70-80","80-90","90-100","100-110","110-120","120-130","130-150","150-200","200-250"] * 4,
+				"mt_3" : ["-3.15--2.63","-2.63--2.1","-2.1--1.58","-1.58--1.05","-1.05--0.53","-0.53-0", "0-0.53","0.53-1.05", "1.05-1.58", "1.58-2.1", "2.1-2.63", "2.63-3.15"] * 6,
+				"et_3" : ["-3.15--2.63","-2.63--2.1","-2.1--1.58","-1.58--1.05","-1.05--0.53","-0.53-0", "0-0.53","0.53-1.05", "1.05-1.58", "1.58-2.1", "2.1-2.63", "2.63-3.15"] * 6,
+				"em_3" : ["-3.15--2.63","-2.63--2.1","-2.1--1.58","-1.58--1.05","-1.05--0.53","-0.53-0", "0-0.53","0.53-1.05", "1.05-1.58", "1.58-2.1", "2.1-2.63", "2.63-3.15"] * 6,
+				"tt_3" : ["-3.15--2.63","-2.63--2.1","-2.1--1.58","-1.58--1.05","-1.05--0.53","-0.53-0", "0-0.53","0.53-1.05", "1.05-1.58", "1.58-2.1", "2.1-2.63", "2.63-3.15"] * 6,
+				"mt_4" : ["-3.15--2.63","-2.63--2.1","-2.1--1.58","-1.58--1.05","-1.05--0.53","-0.53-0", "0-0.53","0.53-1.05", "1.05-1.58", "1.58-2.1", "2.1-2.63", "2.63-3.15"] * 6,
+				"et_4" : ["-3.15--2.63","-2.63--2.1","-2.1--1.58","-1.58--1.05","-1.05--0.53","-0.53-0", "0-0.53","0.53-1.05", "1.05-1.58", "1.58-2.1", "2.1-2.63", "2.63-3.15"] * 5,
+				"em_4" : ["-3.15--2.63","-2.63--2.1","-2.1--1.58","-1.58--1.05","-1.05--0.53","-0.53-0", "0-0.53","0.53-1.05", "1.05-1.58", "1.58-2.1", "2.1-2.63", "2.63-3.15"] * 6,
+				"tt_4" : ["-3.15--2.63","-2.63--2.1","-2.1--1.58","-1.58--1.05","-1.05--0.53","-0.53-0", "0-0.53","0.53-1.05", "1.05-1.58", "1.58-2.1", "2.1-2.63", "2.63-3.15"] * 6,
+
+				"mt_5" : ["-1.6","0","1.6","3.15"] * 12,
+				"et_5" : ["-1.6","0","1.6","3.15"] * 10,
+				"mt_6" : ["-1.6","0","1.6","3.15"] * 12,
+				"et_6" : ["-1.6","0","1.6","3.15"] * 10,
+			}
+
+			x_ticks = {
+				"mt_5" : [0.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0, 34.0, 37.0, 40.0, 43.0, 46.0, 49.0, 52.0, 55.0, 58.0, 61.0, 64.0, 67.0, 70.0, 73.0, 76.0, 79.0, 82.0, 85.0, 88.0, 91.0, 94.0, 97.0, 100.0, 103.0, 106.0, 109.0, 112.0, 115.0, 118.0, 121.0, 124.0, 127.0, 130.0, 133.0, 136.0, 139.0, 142.0, 144.0],
+				"mt_6" : [0.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0, 34.0, 37.0, 40.0, 43.0, 46.0, 49.0, 52.0, 55.0, 58.0, 61.0, 64.0, 67.0, 70.0, 73.0, 76.0, 79.0, 82.0, 85.0, 88.0, 91.0, 94.0, 97.0, 100.0, 103.0, 106.0, 109.0, 112.0, 115.0, 118.0, 121.0, 124.0, 127.0, 130.0, 133.0, 136.0, 139.0, 142.0, 144.0],
+				"et_5" : [0.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0, 34.0, 37.0, 40.0, 43.0, 46.0, 49.0, 52.0, 55.0, 58.0, 61.0, 64.0, 67.0, 70.0, 73.0, 76.0, 79.0, 82.0, 85.0, 88.0, 91.0, 94.0, 97.0, 100.0, 103.0, 106.0, 109.0, 112.0, 115.0, 118.0, 120],
+				"et_6" : [0.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0, 34.0, 37.0, 40.0, 43.0, 46.0, 49.0, 52.0, 55.0, 58.0, 61.0, 64.0, 67.0, 70.0, 73.0, 76.0, 79.0, 82.0, 85.0, 88.0, 91.0, 94.0, 97.0, 100.0, 103.0, 106.0, 109.0, 112.0, 115.0, 118.0, 120]
+			}
+
+
+
+			#"-3.15--2.63","-2.63--2.1","-2.1--1.58","-1.58--1.05","-1.05--0.53","-0.53-0", "0-0.53","0.53-1.05", "1.05-1.58", "1.58-2.1", "2.1-2.63", "2.63-3.15"
+
+
+			texts = {
+				"mt_1" : [""],
+				"et_1" : [""],
+				"em_1" : [""],
+				"mt_2" : [""],
+				"et_2" : [""],
+				"em_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 150 GeV", "150 < p_{T}^{#tau#tau} < 200 GeV", "200 < p_{T}^{#tau#tau} < 250 GeV", "250 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+				"tt_2" : ["0 < p_{T}^{#tau#tau} < 100 GeV", "100 < p_{T}^{#tau#tau} < 170 GeV", "170 < p_{T}^{#tau#tau} < 300 GeV", "p_{T}^{#tau#tau} > 300 GeV"],
+
+				"mt_3" : ["50 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","150 GeV < m_{#tau#tau} < 200 GeV"],
+				"et_3" : ["50 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV", "130 < m_{#tau#tau} < 150 GeV","150 GeV < m_{#tau#tau} < 200 GeV"],
+				"em_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
+				"tt_3" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
+
+				"mt_4" : ["50 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","150 GeV < m_{#tau#tau} < 200 GeV"],
+				"et_4" : ["50 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 150 GeV","150 GeV < m_{#tau#tau} < 200 GeV"],
+				"em_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","150 GeV < m_{#tau#tau} < 200 GeV"],
+				"tt_4" : ["0 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","m_{#tau#tau} > 150 GeV"],
+
+				"mt_5" : ["50 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","150 GeV < m_{#tau#tau} < 200 GeV"],
+				"et_5" : ["50 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 150 GeV","150 GeV < m_{#tau#tau} < 200 GeV"],
+
+				"mt_6" : ["50 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV","115 < m_{#tau#tau} < 130 GeV","130 < m_{#tau#tau} < 150 GeV","150 GeV < m_{#tau#tau} < 200 GeV"],
+				"et_6" : ["50 < m_{#tau#tau} < 80 GeV", "80 < m_{#tau#tau} < 100 GeV","100 < m_{#tau#tau} < 115 GeV", "115 < m_{#tau#tau} < 150 GeV","150 GeV < m_{#tau#tau} < 200 GeV"]
+			}
+			texts_x = {
+				"mt_1" : [0.14],
+				"et_1" : [0.14],
+				"em_1" : [0.2],
+				"mt_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+				"et_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+				"em_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+				"tt_2" : [0.17, 0.2975, 0.43, 0.56, 0.6925, 0.81],
+				"mt_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+				"et_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+				"em_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+				"tt_3" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+				"mt_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+				"et_4" : [0.18, 0.34, 0.5, 0.66, 0.81],
+				"em_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+				"tt_4" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+
+				"mt_5" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+				"et_5" : [0.18, 0.34, 0.5, 0.66, 0.81],
+				"mt_6" : [0.17, 0.30, 0.44, 0.56, 0.69, 0.82],
+				"et_6" : [0.18, 0.34, 0.5, 0.66, 0.81]
+			}
+			texts_y = {
+				"mt_1" : [0.8],
+				"et_1" : [0.8],
+				"em_1" : [0.8],
+				"mt_2" : [0.8],
+				"et_2" : [0.8],
+				"em_2" : [0.8],
+				"tt_2" : [0.8],
+				"mt_3" : [0.8],
+				"et_3" : [0.8],
+				"em_3" : [0.8],
+				"tt_3" : [0.8],
+				"mt_4" : [0.8],
+				"et_4" : [0.8],
+				"em_4" : [0.8],
+				"tt_4" : [0.8],
+				"mt_5" : [0.8],
+				"et_5" : [0.8],
+				"em_5" : [0.8],
+				"tt_5" : [0.8],
+				"mt_6" : [0.8],
+				"et_6" : [0.8],
+				"em_6" : [0.8],
+				"tt_6" : [0.8]
+			}
+
+			vertical_lines_x = {
+				"mt_1" : ["12 12", "24 24"],
+				"et_1" : ["12 12", "24 24"],
+				"em_1" : ["12 12", "24 24"],
+				"mt_2" : ["6 6", "12 12", "18 18", "24 24", "30 30", "36 36", "42 42", "48 48", "54 54"],
+				"et_2" : ["6 6", "12 12", "18 18", "24 24", "30 30", "36 36", "42 42", "48 48", "54 54"],
+				"em_2" : ["10 10", "20 20", "30 30", "40 40", "50 50"],
+				"tt_2" : ["12 12", "24 24", "36 36", "48 48", "60 60"],
+				"mt_3" : ["12 12", "24 24", "36 36", "48 48", "60 60"],
+				"et_3" : ["12 12", "24 24", "36 36", "48 48", "60 60"],
+				"em_3" : ["12 12", "24 24", "36 36", "48 48", "60 60"],
+				"tt_3" : ["12 12", "24 24", "36 36", "48 48", "60 60"],
+				"mt_4" : ["12 12", "24 24", "36 36", "48 48", "60 60"],
+				"et_4" : ["12 12", "24 24", "36 36", "48 48", "60 60"],
+				"em_4" : ["12 12", "24 24", "36 36", "48 48", "60 60"],
+				"tt_4" : ["12 12", "24 24", "36 36", "48 48", "60 60"],
+				"mt_5" : ["12 12", "24 24", "36 36", "48 48", "60 60","72 72","84 84","96 96","108 108","120 120","132 132","144 144"],
+				"mt_6" : ["12 12", "24 24", "36 36", "48 48", "60 60","72 72","84 84","96 96","108 108","120 120","132 132","144 144"],
+				"et_5" : ["12 12", "24 24", "36 36", "48 48", "60 60","72 72","84 84","96 96","108 108","120 120"],
+				"et_6" : ["12 12", "24 24", "36 36", "48 48", "60 60","72 72","84 84","96 96","108 108","120 120"]
+			}
 		else:
 			titles = {
 			"mt_1" : "#mu#tau_{h} - 0jet",
@@ -1649,12 +1721,16 @@ if __name__ == "__main__":
 				if not (plot_channel == "tt" or plot_category == "1" ):
 					plot_config["x_tick_labels"] = x_tick_labels[plot_channel+"_"+a]
 
-					plot_config["texts"] = texts[plot_channel+"_"+a] #  + sub_texts[plot_channel+"_"+plot_category]
-					plot_config["texts_x"] = texts_x[plot_channel+"_"+a] #  + sub_texts_x[plot_channel+"_"+plot_category]
-					plot_config["texts_y"] = texts_y[plot_channel+"_"+a] #  +  list((0.65 for i in range(len(sub_texts[plot_channel+"_"+plot_category]))))
-					plot_config["texts_size"] = [0.035] if "2" in plot_category and plot_channel in ["mt", "et", "em"] else [0.035]
+					# plot_config["texts"] = texts[plot_channel+"_"+a] #  + sub_texts[plot_channel+"_"+plot_category]
+					# plot_config["texts_x"] = texts_x[plot_channel+"_"+a] #  + sub_texts_x[plot_channel+"_"+plot_category]
+					# plot_config["texts_y"] = texts_y[plot_channel+"_"+a] #  +  list((0.65 for i in range(len(sub_texts[plot_channel+"_"+plot_category]))))
+					# plot_config["texts_size"] = [0.035] if "2" in plot_category and plot_channel in ["mt", "et", "em"] else [0.035]
 					if plot_category in ["5","6"]:
 						if "CP1" in args.quantity or "CP2" in args.quantity:
+							plot_config["x_ticks"] = x_ticks[plot_channel+"_"+plot_category]
+							plot_config["n_divisions"] = [12,0,0]
+					if plot_category in ["3","4"]:
+						if "recoPhiStarCPCombMergedHelrPVBS" in args.quantity:
 							plot_config["x_ticks"] = x_ticks[plot_channel+"_"+plot_category]
 							plot_config["n_divisions"] = [12,0,0]
 					plot_config["x_labels_vertical"] = True
@@ -1663,18 +1739,20 @@ if __name__ == "__main__":
 
 
 					plot_config["analysis_modules"].append("AddLine")
-					plot_config["x_lines"] = vertical_lines_x[plot_channel+"_"+a]
-					plot_config["y_lines"] = [" ".join(map(str,plot_config["y_lims"]))]*len(plot_config["x_lines"])
-					if plot_category in ["5","6"] and ("CP1" in args.quantity or "CP2" in args.quantity):
-						plot_config["colors"] += ["kRed", "kBlue"]*(len(plot_config["x_lines"])/2)
-						plot_config["y_lines"] = [" ".join(map(str,[0.15*ylim for ylim in plot_config["y_lims"]])), " ".join(map(str,plot_config["y_lims"]))]*(len(plot_config["x_lines"])/2)
-					else:
-						plot_config["colors"] += ["kBlue"]*(len(plot_config["x_lines"]))
-					for i in range(len(plot_config["x_lines"])):
-						#plot_config["labels"].append("line_"+str(i))
-						plot_config["markers"].append("L")
-						plot_config["stacks"].append("line_"+str(i))
-						plot_config["labels"].append("")
+					# plot_config["x_lines"] = vertical_lines_x[plot_channel+"_"+a]
+					# plot_config["y_lines"] = [" ".join(map(str,plot_config["y_lims"]))]*len(plot_config["x_lines"])
+					# if plot_category in ["5","6"] and ("CP1" in args.quantity or "CP2" in args.quantity):
+					# 	plot_config["colors"] += ["kRed", "kBlue"]*(len(plot_config["x_lines"])/2)
+					# 	plot_config["y_lines"] = [" ".join(map(str,[0.15*ylim for ylim in plot_config["y_lims"]])), " ".join(map(str,plot_config["y_lims"]))]*(len(plot_config["x_lines"])/2)
+					# else:
+					# 	plot_config["colors"] += ["kBlue"]*(len(plot_config["x_lines"]))
+
+					# for i in range(len(plot_config["x_lines"])):
+					# 	#plot_config["labels"].append("line_"+str(i))
+					# 	plot_config["markers"].append("L")
+					# 	plot_config["stacks"].append("line_"+str(i))
+					# 	plot_config["labels"].append("")
+
 					#plot_config["subplot_lines"] = vertical_lines[plot_channel+"_"+plot_category]
 
 				#from IPython import embed; embed()

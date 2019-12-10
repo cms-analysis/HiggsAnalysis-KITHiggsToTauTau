@@ -84,6 +84,13 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["gghps125"] = "GF 0^{#minus#plus}"
 			self.labels_dict["gghmm125"] = "GF CPmix"
 
+			self.labels_dict["qqh_sm_htt"] = self.labels_dict["qqhsm125"]
+			self.labels_dict["qqh_ps_htt"] = self.labels_dict["qqhps125"]
+			self.labels_dict["qqh_mm_htt"] = self.labels_dict["qqhmm125"]
+			self.labels_dict["ggh_sm_htt"] = self.labels_dict["gghsm125"]
+			self.labels_dict["ggh_ps_htt"] = self.labels_dict["gghps125"]
+			self.labels_dict["ggh_mm_htt"] = self.labels_dict["gghmm125"]
+
 			self.labels_dict["qqhjhusm125"] = "VBF 0^{#plus#plus}"
 			self.labels_dict["qqhjhups125"] = "VBF 0^{#minus#plus}"
 			self.labels_dict["qqhjhumm125"] = "VBF CPmix"

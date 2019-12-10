@@ -811,7 +811,6 @@ class BinningsDict(binnings.BinningsDict):
 			#Binnings for jdphi and evt H_pt in the dijet CP categories
 			for cat in ["dijet_tightmjj_lowboost", "dijet_tightmjj_boosted", "dijet_loosemjj_lowboost", "dijet_loosemjj_boosted"]:
 				self.binnings_dict["binningHtt13TeV_"+channel+"_"+cat+"_jdphi"] = "12,-3.2,3.2"
-				self.binnings_dict["binningHtt13TeV_"+channel+"_"+cat+"_recoPhiStarCPCombMergedHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
 				self.binnings_dict["binningHtt13TeV_"+channel+"_"+cat+"_H_pt"] = "0 150 10000"
 				self.binnings_dict["binningHtt13TeV_"+channel+"_"+cat+"_etasep_CP1"] = "0.3 1.2 10000"
 				self.binnings_dict["binningHtt13TeV_"+channel+"_"+cat+"_etasep_CP2"] = "0.3 1. 10000"
@@ -843,17 +842,19 @@ class BinningsDict(binnings.BinningsDict):
 				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_tightmjj_boosted_CP1"+"_m_sv"] = "50.0 80 100.0 115 150.0 200"#6
 
 
+			for cat in ["dijet_lowboost_mixed", "dijet_boosted_mixed"]:
+				self.binnings_dict["binningHtt13TeV_"+channel+"_"+cat+"_recoPhiStarCPCombMergedHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+				self.binnings_dict["binningHtt13TeV_"+channel+"_"+cat+"_H_pt"] = "0 150 10000"
+
 			if channel == "mt":
-				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_loosemjj_lowboost_recoPhiStarCPCombMergedHelrPVBS"+"_m_sv"] = "50.0 80 100.0 115 130 150.0 200"#3
-				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_loosemjj_boosted_recoPhiStarCPCombMergedHelrPVBS"+"_m_sv"] = "50.0 80 100.0 115 130 150.0 200"#4
-				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_tightmjj_lowboost_recoPhiStarCPCombMergedHelrPVBS"+"_m_sv"] = "50.0 80 100.0 115 130 150.0 200"#5
-				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_tightmjj_boosted_recoPhiStarCPCombMergedHelrPVBS"+"_m_sv"] = "50.0 80 100.0 115 130 150 200"#6
+				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_lowboost_mixed"+"_m_sv"] = "50.0 80 100.0 115 130 150.0 200"#3
+				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_boosted_mixed"+"_m_sv"] = "50.0 80 100.0 115 130 150.0 200"#4
 
 			if channel == "et":
-				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_loosemjj_lowboost_recoPhiStarCPCombMergedHelrPVBS"+"_m_sv"] = "50.0 80 100.0 115 130 150.0 200"#3
-				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_loosemjj_boosted_recoPhiStarCPCombMergedHelrPVBS"+"_m_sv"] = "50.0 80 100.0 115 150.0 200"#4
-				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_tightmjj_lowboost_recoPhiStarCPCombMergedHelrPVBS"+"_m_sv"] = "50.0 80 100.0 115 150.0 200"#5
-				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_tightmjj_boosted_recoPhiStarCPCombMergedHelrPVBS"+"_m_sv"] = "50.0 80 100.0 115 150.0 200"#6
+				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_loosemjj_lowboost_CPCombMerged"+"_m_sv"] = "50.0 80 100.0 115 130 150.0 200"#3
+				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_loosemjj_boosted_CPCombMerged"+"_m_sv"] = "50.0 80 100.0 115 150.0 200"#4
+				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_tightmjj_lowboost_CPCombMerged"+"_m_sv"] = "50.0 80 100.0 115 150.0 200"#5
+				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_tightmjj_boosted_CPCombMerged"+"_m_sv"] = "50.0 80 100.0 115 150.0 200"#6
 
 
 			self.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_m_sv"] = "0.0 250.0"
