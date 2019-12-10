@@ -252,8 +252,7 @@ class tt_ArtusConfig(dict):
 		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
 
 		# define frequently used conditions
-		#isLegacy = kwargs.get("legacy", False)
-		isLegacy = False
+		isLegacy = kwargs.get("legacy", False)
 		isEmbedded = datasetsHelper.isEmbedded(nickname)
 		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
 

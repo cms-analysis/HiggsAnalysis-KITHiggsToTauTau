@@ -45,9 +45,7 @@ class tt_ArtusConfig(ttbaseconfig.tt_ArtusConfig):
 	def build_config(self, nickname, *args, **kwargs):
 
 		super(tt_ArtusConfig, self).build_config(nickname, *args, **kwargs)
-
-		#isLegacy = kwargs.get("legacy", False)
-		isLegacy = False
+		isLegacy = kwargs.get("legacy", False)
 
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/tt/fakeFactors.root"
