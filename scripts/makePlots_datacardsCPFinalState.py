@@ -157,8 +157,8 @@ if __name__ == "__main__":
 	                    help="Choose the production modes. Option needed for initial state studies. [Default: %(default)s]")
 	parser.add_argument("--qcd-subtract-shapes", action="store_false", default=True, help="subtract shapes for QCD estimation [Default:%(default)s]")
 	parser.add_argument("--steps", nargs="+",
-	                    default=["inputs", "t2w", "likelihoodscan"],
-	                    choices=["inputs", "t2w", "likelihoodscan", "prefitpostfitplots_setup", "prefitpostfitplots_makeplots"],
+	                    default=["inputs", "datacards", "t2w", "likelihoodscan"],
+	                    choices=["inputs", "datacards", "t2w", "likelihoodscan", "prefitpostfitplots_setup", "prefitpostfitplots_makeplots"],
 	                    help="Steps to perform.[Default: %(default)s]\n 'inputs': Writes datacards and fills them using HP.\n 't2w': Create ws.root files form the datacards. 't2w': Perform likelihood scans for various physical models and plot them.")
 	parser.add_argument("--use-shape-only", action="store_true", default=False,
 	                    help="Use only shape to distinguish between cp hypotheses. [Default: %(default)s]")
