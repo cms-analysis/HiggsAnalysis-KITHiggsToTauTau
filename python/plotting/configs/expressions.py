@@ -322,9 +322,18 @@ class ExpressionsDict(expressions.ExpressionsDict):
 		self.expressions_dict["catHtt13TeV_ttbar_ttbar_cr"] = self.expressions_dict["catHtt13TeV_ttbar_TTbarCR"]
 		self.expressions_dict["catHtt13TeV_em_ttbar"] = self.expressions_dict["catHtt13TeV_ttbar_TTbarCR"]
 
+		for channel in ["em", "et", "mt", "tt"]:
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"] = self.combine([boosted_higgsCP_string, mjj_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string, "(1.0)" if channel != "em" else pZeta_CP_string ])
+			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"] = self.combine([self.invert(boosted_higgsCP_string), mjj_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string, "(1.0)" if channel != "em" else pZeta_CP_string ])
+			self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP"] = self.combine([jet0_string, "(1.0)" if channel=="tt" else btag_veto_string])
+			self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP"] = self.combine([self.invert(self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP"]), self.invert(self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"]), self.invert(self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"]), "(1.0)" if channel=="tt" else btag_veto_string])
+
 		# CP final state category
 		#self.expressions_dict["catcptautau2017_"+"mt"+"_CPCombMerged"] = "(decayMode_2 == 1)"
 		for channel in ["em", "et", "mt", "tt"]:
+
+			decayMode_string = "((decayMode_2 == 1)*(decayMode_1 == 0) + (decayMode_2 == 0)*(decayMode_1 == 1))" if channel=="tt" else "(decayMode_2 == 1)"
+
 			if channel=="tt":
 				self.expressions_dict["catcptautau2017_"+channel+"_CPRho"] = self.combine(["(decayMode_2 == 1)*(decayMode_1 == 1)" if channel=="tt" else "(1.0)"])
 			if channel != "em":
@@ -341,14 +350,15 @@ class ExpressionsDict(expressions.ExpressionsDict):
 						self.expressions_dict["catcptautau2017_"+channel+"_CPComb_lowsignificance" + significanceCut + "_" + categorySuffix] = self.combine(["(IPSignificance_1 <= "+significanceCut+")", "((decayMode_2 == 1)*(decayMode_1 == 0) + (decayMode_2 == 0)*(decayMode_1 == 1))" if channel=="tt" else "(decayMode_2 == 1)"])
 						#self.expressions_dict["catcptautau2017_"+channel+"_CPComb_lowsignificance" + significanceCut + "_" + categorySuffix] = self.combine(["(IPSignificance_1 <="+significanceCut+")", "(decayMode_2 == 1)", "(decayMode_1 == 0)" if channel=="tt" else "(1.0)"])
 
+			self.expressions_dict["catcptautau2017_"+channel+"_dijet_boosted_mixed_CPCombMerged"] = self.combine([boosted_higgsCP_string, jet2_string, "(1.0)" if channel != "em" else pZeta_CP_string, decayMode_string])
+			self.expressions_dict["catcptautau2017_"+channel+"_dijet_lowboost_mixed_CPCombMerged"] = self.combine([self.invert(boosted_higgsCP_string), jet2_string, "(1.0)" if channel != "em" else pZeta_CP_string, decayMode_string])
+
+			self.expressions_dict["catcptautau2017_"+channel+"_ZeroJetCP"] = self.combine([jet0_string, decayMode_string])
+			self.expressions_dict["catcptautau2017_"+channel+"_BoostedCP"] = self.combine([self.invert(self.expressions_dict["catcptautau2017_"+channel+"_ZeroJetCP"]), self.invert(self.expressions_dict["catcptautau2017_"+channel+"_dijet_boosted_mixed_CPCombMerged"]), self.invert(self.expressions_dict["catcptautau2017_"+channel+"_dijet_lowboost_mixed_CPCombMerged"]), decayMode_string])
+
 		# CP initial state category
 		for channel in ["em", "et", "mt", "tt"]:
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"] = self.combine([boosted_higgsCP_string, mjj_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string, "(1.0)" if channel != "em" else pZeta_CP_string ])
-			self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"] = self.combine([self.invert(boosted_higgsCP_string), mjj_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string, "(1.0)" if channel != "em" else pZeta_CP_string ])
-			self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP"] = self.combine([jet0_string, "(1.0)" if channel=="tt" else btag_veto_string])
-			self.expressions_dict["catHtt13TeV_"+channel+"_BoostedCP"] = self.combine([self.invert(self.expressions_dict["catHtt13TeV_"+channel+"_ZeroJetCP"]), self.invert(self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_boosted"]), self.invert(self.expressions_dict["catHtt13TeV_"+channel+"_dijet2D_lowboost"]), "(1.0)" if channel=="tt" else btag_veto_string])
 			#########################JORDY HERE YOU ARE ADDING NEW THINGS####################################
-
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_tightmjj_boosted"] = self.combine([boosted_higgsCP_string, mjjtight_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string, "(1.0)" if channel != "em" else pZeta_CP_string ])
 			self.expressions_dict["catHtt13TeV_"+channel+"_dijet_loosemjj_boosted"] = self.combine([boosted_higgsCP_string, mjjloose_CP_string, jet2_string, "(1.0)" if channel=="tt" else btag_veto_string, "(1.0)" if channel != "em" else pZeta_CP_string ])
 
@@ -617,5 +627,3 @@ class ExpressionsDict(expressions.ExpressionsDict):
 	def static_get_expression(expression):
 		exp_dict = ExpressionsDict()
 		return exp_dict.expressions_dict.get(expression)
-
-
