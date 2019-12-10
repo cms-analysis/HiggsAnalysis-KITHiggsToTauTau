@@ -98,14 +98,14 @@ public:
 	enum class TauIDWP : int
 	{
 		NONE = -1,
-		VVVLOOSE = 0,
-		VVLOOSE = 1,
-		VLOOSE = 2,
-		LOOSE = 3,
-		MEDIUM = 4,
-		TIGHT = 5,
-		VTIGHT = 6,
-		VVTIGHT = 7
+		VLOOSE = 0,
+		LOOSE = 1,
+		MEDIUM = 2,
+		TIGHT = 3,
+		VTIGHT = 4,
+		VVTIGHT = 5,
+		VVVLOOSE = 6,
+		VVLOOSE = 7,
 	};
 	static TauIDWP ToTauIDWP(std::string const& tauIDWP)
 	{
