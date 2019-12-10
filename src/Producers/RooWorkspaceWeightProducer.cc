@@ -919,6 +919,10 @@ void LegacyWeightProducer::Produce( event_type const& event, product_type & prod
 				{
 					args.push_back(lepton->p4.Eta());
 				}
+				else if((arg=="m_phi") || (arg=="e_phi") || (arg =="t_phi"))
+				{
+					args.push_back(lepton->p4.Phi());
+				}
 				else if((arg=="m_iso") || (arg=="e_iso"))
 				{
 					args.push_back(SafeMap::GetWithDefault(product.m_leptonIsolationOverPt, lepton, std::numeric_limits<double>::max()));
