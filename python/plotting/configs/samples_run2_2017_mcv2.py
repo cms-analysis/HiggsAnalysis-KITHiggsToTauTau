@@ -167,29 +167,29 @@ class Samples(samples.Samples):
 		return rereco_files
 		#return reminiaod_files
 
-	def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
-		if exclude_cuts is None:
-			exclude_cuts = []
-
-		scale_factor = 1.0
-		if not self.postfit_scales is None:
-			scale_factor *= self.postfit_scales.get("data_obs", 1.0)
-		data_weight = "(1.0)"
-		if kwargs.get("project_to_lumi", False):
-			data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
-
-		Samples._add_input(
-				config,
-				self.files_data(channel),
-				self.root_file_folder(channel),
-				1.0,
-				make_multiplication([data_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type, data=True)]),
-				"data",
-				nick_suffix=nick_suffix
-		)
-
-		Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
-		return config
+	# def data(self, config, channel, category, weight, nick_suffix, exclude_cuts=None, cut_type="baseline", **kwargs):
+	# 	if exclude_cuts is None:
+	# 		exclude_cuts = []
+	#
+	# 	scale_factor = 1.0
+	# 	if not self.postfit_scales is None:
+	# 		scale_factor *= self.postfit_scales.get("data_obs", 1.0)
+	# 	data_weight = "(1.0)"
+	# 	if kwargs.get("project_to_lumi", False):
+	# 		data_weight = "({projection})*".format(projection=kwargs["project_to_lumi"]) + data_weight
+	#
+	# 	Samples._add_input(
+	# 			config,
+	# 			self.files_data(channel),
+	# 			self.root_file_folder(channel),
+	# 			1.0,
+	# 			make_multiplication([data_weight, weight, "eventWeight", self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type, data=True)]),
+	# 			"data",
+	# 			nick_suffix=nick_suffix
+	# 	)
+	#
+	# 	Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
+	# 	return config
 
 	def files_ztt(self, channel, embedding=False):
 		#artus_files = self.artus_file_names({"process" : "(DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7) #8 mit norm DY3 jets und DY4jets		TOO many not used samples in samples run 2 so i did it the fast and dirty way
