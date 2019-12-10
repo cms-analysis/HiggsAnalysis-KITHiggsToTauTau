@@ -513,8 +513,8 @@ class mt_ArtusConfig(dict):
 						"0:m_pt,m_eta",
 						"0:m_pt,m_eta",
 						"0:m_pt,m_eta",
-						"1:t_pt,t_eta,t_dm",
-						"1:t_pt,t_eta,t_dm",
+						"1:t_pt,t_eta,t_phi,t_dm",
+						"1:t_pt,t_eta,t_phi,t_dm",
 						"0:gt_pt,gt_eta",
 						"1:gt_pt,gt_eta",
 						"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
@@ -551,8 +551,8 @@ class mt_ArtusConfig(dict):
 						"0:m_pt,m_eta",
 						"0:m_pt,m_eta",
 						"0:m_pt,m_eta",
-						"1:t_pt,t_eta,t_dm",
-						"1:t_pt,t_eta,t_dm",
+						"1:t_pt,t_eta,t_phi,t_dm",
+						"1:t_pt,t_eta,t_phi,t_dm",
 						"1:t_pt",
 					]
 			else:
