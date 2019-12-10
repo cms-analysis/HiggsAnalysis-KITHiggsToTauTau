@@ -37,14 +37,17 @@ class tt_ArtusConfig(ttbaseconfig.tt_ArtusConfig):
 	def __init__(self):
 		pass
 
-	def addProcessors(self, nickname, *args, **kwargs):
-		super(tt_ArtusConfig, self).addProcessors(nickname, *args, **kwargs)
+	def addProcessors(self, nickname, legacy):
+		super(tt_ArtusConfig, self).addProcessors(nickname, legacy)
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["Processors"] += ["producer:IsomorphicMappingProducer"]
 
 	def build_config(self, nickname, *args, **kwargs):
 
 		super(tt_ArtusConfig, self).build_config(nickname, *args, **kwargs)
+
+		#isLegacy = kwargs.get("legacy", False)
+		isLegacy = False
 
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/tt/fakeFactors.root"
@@ -63,8 +66,8 @@ class tt_ArtusConfig(ttbaseconfig.tt_ArtusConfig):
 			]
 
 		quantities_set = Quantities()
-		quantities_set.build_quantities(nickname, channel = self["Channel"])
+		quantities_set.build_quantities(nickname, channel = self["Channel"], legacy=isLegacy)
 		quantities_set.quantities.update(self["Quantities"])
 		self["Quantities"] = list(quantities_set.quantities)
 
-		self.addProcessors(nickname)
+		self.addProcessors(nickname, isLegacy)

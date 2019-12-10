@@ -34,7 +34,7 @@ class et_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def addProcessors(self, nickname):
+	def addProcessors(self, nickname, legacy):
 		self["Processors"] = [
 				"producer:HltProducer",
 				#"filter:HltFilter",
@@ -296,6 +296,8 @@ class et_ArtusConfig(dict):
 		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
 
 		# define frequently used conditions
+		#isLegacy = kwargs.get("legacy", False)
+		isLegacy = False
 		isEmbedded = datasetsHelper.isEmbedded(nickname)
 		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
 
@@ -708,7 +710,7 @@ class et_ArtusConfig(dict):
 		]
 
 		quantities_set = Quantities()
-		quantities_set.build_quantities(nickname, channel = self["Channel"])
+		quantities_set.build_quantities(nickname, channel = self["Channel"], legacy=isLegacy)
 		self["Quantities"] = list(quantities_set.quantities)
 
-		self.addProcessors(nickname)
+		self.addProcessors(nickname, isLegacy)
