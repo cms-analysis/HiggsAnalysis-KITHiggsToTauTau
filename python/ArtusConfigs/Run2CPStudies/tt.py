@@ -124,6 +124,8 @@ class tt_ArtusConfig(dict):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					if legacy:
 						self["Processors"] += ["producer:LegacyWeightProducer"]
+						if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
+							self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 					else:
 						self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
 						self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"]
@@ -324,7 +326,7 @@ class tt_ArtusConfig(dict):
 			if isLegacy:
 				if isEmbedded:
 					self["SaveLegacyWeightAsOptionalOnly"] = True
-					self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017.root"
+					self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017_IC.root"
 					self["LegacyWeightWorkspaceWeightNames"] = [
 						"0:triggerEfficiency_crosstrigger_MCEmb",
 						"0:triggerEfficiency_crosstrigger_data",
@@ -354,7 +356,7 @@ class tt_ArtusConfig(dict):
 					]
 				else:
 					self["SaveLegacyWeightAsOptionalOnly"] = True
-					self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017.root"
+					self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017_IC.root"
 					self["LegacyWeightWorkspaceWeightNames"] = [
 						"0:idweight",
 						"1:idweight",
@@ -379,6 +381,11 @@ class tt_ArtusConfig(dict):
 						"1:t_pt,t_eta,t_phi,t_dm",
 						"1:t_pt,t_eta,t_phi,t_dm",
 					]
+					if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
+						self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017.root"
+						self["RooWorkspaceWeightNames"] = ["0:zPtReweightWeight"]
+						self["RooWorkspaceObjectNames"] = ["0:zptmass_weight_nom"]
+						self["RooWorkspaceObjectArguments"] = ["0:z_gen_mass,z_gen_pt"]
 			else:
 				if isEmbedded:
 					self["SaveEmbeddingWeightAsOptionalOnly"] = "true"

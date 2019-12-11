@@ -107,6 +107,10 @@ void RooWorkspaceWeightProducer::Produce( event_type const& event, product_type 
 				{
 					args.push_back(product.m_genBosonLV.Pt());
 				}
+				else if(arg=="z_gen_mass")
+				{
+					args.push_back(product.m_genBosonLV.M());
+				}
 				else if(arg=="gt1_pt")
 				{
 					KGenTau leadingTau = event.m_genTaus->at(0);
