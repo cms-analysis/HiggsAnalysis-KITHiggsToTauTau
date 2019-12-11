@@ -20,7 +20,7 @@ class globalProccesors(dict):
 
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 				self["Processors"] += ["producer:LHEParticlesProducer"]
-			
+
 			self["Processors"] += [
 				"producer:GenDiLeptonDecayModeLFVProducer",
 				"producer:GenParticleProducer",
@@ -134,7 +134,7 @@ class globalProccesors(dict):
 				"producer:NumberGeneratedEventsWeightProducer"
 			]
 
-		elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs)",nickname):
+		elif re.search("(HTo.*TauTau|H2JetsToTauTau|Higgs|JJHiggs)",nickname):
 			self["Processors"] = [
 				"#producer:PrintGenParticleDecayTreeProducer",
 				"#filter:RunLumiEventFilter",
@@ -153,10 +153,10 @@ class globalProccesors(dict):
 				"producer:MatchedLeptonsProducer",
 				"producer:GenTauDecayProducer",
 				"producer:GenTauCPProducer"]
-			
+
 			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 				self["Processors"] += ["producer:GenHiggsCPProducer"]      #needs lhe info which is not stored for 2017
-			self["Processors"] += [				
+			self["Processors"] += [
 				"producer:TauSpinnerProducer",
 				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer",

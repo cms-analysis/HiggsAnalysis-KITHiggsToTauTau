@@ -41,8 +41,8 @@ class Baseconfig(dict):
 
 		if re.search("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|2017|MC)|LFV", nickname):
 			self["BosonPdgIds"] = [23]
-		elif re.search("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z|JJ)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
-			self["BosonPdgIds"] = [25]
+		elif re.search("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z|JJ|tt)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
+				self["BosonPdgIds"] = [25]
 		elif re.search("Pseudoscalar|Maxmix",nickname):
 			self["BosonPdgIds"] = [25]
 		elif re.search("W.?JetsToLN|EWKW", nickname):
