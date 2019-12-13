@@ -76,6 +76,8 @@ public:
 	std::vector<RMFLV*> m_flavourOrderedGenLeptonVisibleLVs; // same ordering as reco collection
 	std::vector<RMFLV*> m_chargeOrderedGenLeptonVisibleLVs; // same ordering as reco collection
 
+	std::vector<int> m_flavourOrderedGenMatch; // according to channel definition
+
 	// filled by HttTauEnergyCorrectionProducer
 	std::map<KTau*, double> m_tauEnergyScaleWeight;
 

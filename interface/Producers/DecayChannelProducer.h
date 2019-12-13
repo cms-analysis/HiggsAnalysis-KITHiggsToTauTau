@@ -22,6 +22,7 @@ protected:
 	HttEnumTypes::DecayChannel m_decayChannel;
 	
 	void FillGenLeptonCollections(product_type& product) const;
+	void DoGenMatching(event_type const& event, product_type& product, setting_type const& settings) const;
 };
 
 
