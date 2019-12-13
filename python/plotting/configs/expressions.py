@@ -337,7 +337,10 @@ class ExpressionsDict(expressions.ExpressionsDict):
 			if channel=="tt":
 				self.expressions_dict["catcptautau2017_"+channel+"_CPRho"] = self.combine(["(decayMode_2 == 1)*(decayMode_1 == 1)" if channel=="tt" else "(1.0)"])
 			if channel != "em":
+				self.expressions_dict["catcptautau2017_"+channel+"_IPCalib1"] = self.combine(["(decayMode_1 == 0)" if channel=="tt" else  "(1.0)"])
+				self.expressions_dict["catcptautau2017_"+channel+"_IPCalib2"] = self.combine(["(decayMode_2 == 0)"])
 				self.expressions_dict["catcptautau2017_"+channel+"_CPComb"] = self.combine(["((decayMode_2 == 1)*(decayMode_1 == 0) + (decayMode_2 == 0)*(decayMode_1 == 1))" if channel=="tt" else "(decayMode_2 == 1)"])
+				self.expressions_dict["catcptautau2017_"+channel+"_CPIP"] = self.combine(["(decayMode_2 == 0)*(decayMode_1 == 0)" if channel=="tt" else "(decayMode_2 == 0)"])
 				#  For the sake of unqiue names in the categories:
 				#  The tangential approach is called nominal (referring to the nominal PV)
 				#  The helical approach is called Helical if the nominal PV is used or otherwise it is referred to as hel
