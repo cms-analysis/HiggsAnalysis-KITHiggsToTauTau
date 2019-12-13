@@ -20,7 +20,7 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 
 	def modify_argument_parser(self, parser, args):
 		super(EstimateQcdTauHadTauHad, self).modify_argument_parser(parser, args)
-		
+
 		self.estimate_qcd_options = parser.add_argument_group("QCD estimation options")
 		self.estimate_qcd_options.add_argument("--qcd-data-shape-nicks", nargs="+", default=["qcd"],
 				help="Nicks for histogram to plot. [Default: %(default)s]")
@@ -38,17 +38,17 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 
 	def prepare_args(self, parser, plotData):
 		super(EstimateQcdTauHadTauHad, self).prepare_args(parser, plotData)
-		
+
 		self._plotdict_keys = ["qcd_data_shape_nicks", "qcd_data_signal_control_nicks", "qcd_data_relaxed_control_nicks", "qcd_data_subtract_nicks", "qcd_control_signal_subtract_nicks", "qcd_control_relaxed_subtract_nicks"]
 		self.prepare_list_args(plotData, self._plotdict_keys)
-		
+
 		plotData.plotdict["qcd_data_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_data_subtract_nicks"]]
 		plotData.plotdict["qcd_control_signal_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_signal_subtract_nicks"]]
 		plotData.plotdict["qcd_control_relaxed_subtract_nicks"] = [nicks.split() for nicks in plotData.plotdict["qcd_control_relaxed_subtract_nicks"]]
-	
+
 	def run(self, plotData=None):
 		super(EstimateQcdTauHadTauHad, self).run(plotData)
-		
+
 		# make sure that all necessary histograms are available
 		for nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
 			for nick in nicks:
@@ -57,12 +57,12 @@ class EstimateQcdTauHadTauHad(estimatebase.EstimateBase):
 				elif (not isinstance(nick, float) and not isinstance(nick, bool)):
 					for subnick in nick:
 						assert isinstance(plotData.plotdict["root_objects"].get(subnick), ROOT.TH1)
-		
+
 		for qcd_data_shape_nick, qcd_data_signal_control_nick, qcd_data_relaxed_control_nick, qcd_data_subtract_nicks, qcd_control_signal_subtract_nicks, qcd_control_relaxed_subtract_nicks in zip(*[plotData.plotdict[key] for key in self._plotdict_keys]):
-			
+
 			for nick in qcd_data_subtract_nicks:
 				plotData.plotdict["root_objects"][qcd_data_shape_nick].Add(plotData.plotdict["root_objects"][nick], -1.0)
-			
+
 			yield_control_signal = tools.PoissonYield(plotData.plotdict["root_objects"][qcd_data_signal_control_nick])()
 			for nick in qcd_control_signal_subtract_nicks:
 				yield_bgk_control = tools.PoissonYield(plotData.plotdict["root_objects"][nick])()
