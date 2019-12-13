@@ -657,24 +657,25 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("byVTightIsolationMVArun2017v2DBnewDMwLT2017");
 	tauDiscriminators.push_back("byVVTightIsolationMVArun2017v2DBnewDMwLT2017");
 
-		// 2017v1 training used in skim on 2018-02-13 - should NOT be used after full skim
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1raw");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVLoose");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VLoose");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Loose");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Medium");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Tight");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VTight");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
-		// 2016 training for skims of 2016 samples before April 2018 - should NOT be used after full skim
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1raw");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Loose");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Medium");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Tight");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VTight");
-		tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
+	// 2017v1 training used in skim on 2018-02-13 - should NOT be used after full skim
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1raw");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Loose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Medium");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1Tight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVArun2v1VVTight");
+
+	// 2016 training for skims of 2016 samples before April 2018 - should NOT be used after full skim
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1raw");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VLoose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Loose");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Medium");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1Tight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VTight");
+	tauDiscriminators.push_back("rerunDiscriminationByIsolationMVAOldDMrun2v1VVTight");
 
 	// dR0p32017v2
 	tauDiscriminators.push_back("byIsolationMVArun2017v2DBoldDMdR0p3wLTraw2017");
@@ -721,8 +722,6 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 	tauDiscriminators.push_back("leadingTrackChi2");
 	tauDiscriminators.push_back("eRatio");
 	
-	
-
 	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
 	{
 		for (std::string tauDiscriminator : tauDiscriminators)
@@ -757,29 +756,11 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 		});
 		
 		std::string genMatchQuantity = "gen_match_" + std::to_string(leptonIndex+1);
-		bool useUWGenMatching = settings.GetUseUWGenMatching();
-		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, genMatchQuantity, [leptonIndex, useUWGenMatching](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, genMatchQuantity, [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
-			if (useUWGenMatching)
-			{
-				KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
-				KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
-				return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton));
-			}
-			else
-			{
-				KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
-				if (genParticle)
-				{
-					return Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCode(genParticle));
-				}
-				else
-				{
-					return Utility::ToUnderlyingValue(KappaEnumTypes::GenMatchingCode::IS_FAKE);
-				}
-			}
+			return product.m_flavourOrderedGenMatch.at(leptonIndex);
 		});
-		
+
 		std::string hadGenMatchPtQuantity = "had_gen_match_pT_" + std::to_string(leptonIndex+1);
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, hadGenMatchPtQuantity, [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
@@ -945,6 +926,32 @@ void DecayChannelProducer::FillGenLeptonCollections(product_type& product) const
 	}
 }
 
+void DecayChannelProducer::DoGenMatching(event_type const& event, product_type& product, setting_type const& settings) const
+{
+	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
+	{
+		bool useUWGenMatching = settings.GetUseUWGenMatching();
+		if (useUWGenMatching)
+		{
+			KLepton* lepton = product.m_flavourOrderedLeptons.at(leptonIndex);
+			KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
+			product.m_flavourOrderedGenMatch.push_back(Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton)));
+		}
+		else
+		{
+			KGenParticle* genParticle = product.m_flavourOrderedGenLeptons.at(leptonIndex);
+			if (genParticle)
+			{
+				product.m_flavourOrderedGenMatch.push_back(Utility::ToUnderlyingValue(GeneratorInfo::GetGenMatchingCode(genParticle)));
+			}
+			else
+			{
+				product.m_flavourOrderedGenMatch.push_back(Utility::ToUnderlyingValue(KappaEnumTypes::GenMatchingCode::IS_FAKE));
+			}
+		}
+	}
+}
+
 
 void TTHDecayChannelProducer::Produce(event_type const& event, product_type& product,
 	                              setting_type const& settings, metadata_type const& metadata) const
@@ -1017,7 +1024,8 @@ void TTHDecayChannelProducer::Produce(event_type const& event, product_type& pro
 	          [](KLepton const* lepton1, KLepton const* lepton2) -> bool
 	          { return lepton1->charge() > lepton2->charge(); });
 	}
-	
+
+	DoGenMatching(event, product, settings);
 	FillGenLeptonCollections(product);
 }
 
@@ -1181,5 +1189,6 @@ void Run2DecayChannelProducer::Produce(event_type const& event, product_type& pr
 	{
 		product.m_extraElecVeto = (product.m_validLooseElectrons.size() > 0);
 	}
+	DoGenMatching(event, product, settings);
 	FillGenLeptonCollections(product);
 }
