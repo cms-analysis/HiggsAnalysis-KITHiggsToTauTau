@@ -203,19 +203,26 @@ class Samples(samples.Samples):
 			elif channel=='em':
 				return self.artus_file_names({"process" : "Embedding2017.*" , "campaign" : "ElMuFinalState" , "scenario" : ".*v2"}, 5)
 		else:
-			artus_files = "DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DYJetsToLLM10to50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root"
+			if self.legacy:
+				artus_files = "DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017newpmx_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DYJetsToLLM10to50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root"
+			else:
+				artus_files = "DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DYJetsToLLM10to50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root"
 			return artus_files
 
 	def files_zll(self, channel):
 		#artus_files = self.artus_file_names({"process" : "(DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7) #8 mit norm DY3 jets und DY4jets		TOO many not used samples in samples run 2 so i did it the fast and dirty way
-		artus_files = "DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DYJetsToLLM10to50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root"
+		if self.legacy:
+			artus_files = "DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017newpmx_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DYJetsToLLM10to50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root"
+		else:
+			artus_files = "DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY1JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY2JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DY3JetsToLLM50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root DYJetsToLLM10to50_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8/*.root DYJetsToLLM50_RunIIFall17MiniAODv2_PU2017RECOSIMstep_13TeV_MINIAOD_madgraph-pythia8_ext1/*.root"
 		return artus_files
 
 	def files_ewkwm(self, channel):
 		ewkw_query = { "data" : False,
 						"campaign" : self.mc_campaign,
 						"generator" : "madgraph-pythia8",
-						"process" : "EWKWMinus2Jets_WToLNuM50"}
+						"process" : "EWKWMinus2Jets_WToLNuM50",
+						"scenario" : "PU2017" + "_new_pmx" if self.legacy else ""}
 		artus_files = self.artus_file_names(ewkw_query, 1)
 		return artus_files
 
@@ -223,7 +230,8 @@ class Samples(samples.Samples):
 		ewkw_query = { "data" : False,
 						"campaign" : self.mc_campaign,
 						"generator" : "madgraph-pythia8",
-						"process" : "EWKWPlus2Jets_WToLNuM50"}
+						"process" : "EWKWPlus2Jets_WToLNuM50",
+						"scenario" : "PU2017" + "_new_pmx" if self.legacy else ""}
 		artus_files = self.artus_file_names(ewkw_query, 1)
 		return artus_files
 
@@ -231,7 +239,8 @@ class Samples(samples.Samples):
 		ewkz_query = { "data" : False,
 						"campaign" : self.mc_campaign,
 						"generator" : "madgraph-pythia8",
-						"process" : "EWKZ2Jets_ZToLL_M50"}
+						"process" : "EWKZ2Jets_ZToLL_M50",
+						"scenario" : "PU2017" + "_new_pmx" if self.legacy else ""}
 		artus_files = self.artus_file_names(ewkz_query, 1)
 		return artus_files
 
@@ -239,7 +248,8 @@ class Samples(samples.Samples):
 		ewkz_query = { "data" : False,
 						"campaign" : self.mc_campaign,
 						"generator" : "madgraph-pythia8",
-						"process" : "EWKZ2Jets"}
+						"process" : "EWKZ2Jets",
+						"scenario" : "PU2017" + "_new_pmx" if self.legacy else ""}
 		artus_files = self.artus_file_names(ewkz_query, 1)
 		return artus_files
 
@@ -284,10 +294,12 @@ class Samples(samples.Samples):
 	########### W+NJETS FILES ################
 	def files_wj(self, channel, use_ext_sample=True):
 		if use_ext_sample:
-			artus_files = self.artus_file_names({"process" : "W.*JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8"}, 6)
+			artus_files = self.artus_file_names({"process" : "W(|1|2|3)JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8"}, 5)
+			artus_files = artus_files + " " + self.artus_file_names({"process" : "W4JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8", "extension" : "", "scenario" : "PU2017" + "_new_pmx" if self.legacy else ""}, 1)
 			return artus_files
 		else:
-			artus_files = self.artus_file_names({"process" : "W.*JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8", "extension" : ""}, 5)
+			artus_files = self.artus_file_names({"process" : "W(|1|2|3)JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8", "extension" : ""}, 4)
+			artus_files = artus_files + " " + self.artus_file_names({"process" : "W4JetsToLNu", "data" : False, "campaign" : self.mc_campaign, "generator" : "madgraph-pythia8", "extension" : "", "scenario" : "PU2017" + "_new_pmx" if self.legacy else ""}, 1)
 			return artus_files
 
 	############ DIBOSON FILES ###############
@@ -315,11 +327,37 @@ class Samples(samples.Samples):
 		artus_files = self.artus_file_names({ "process" : "ZZTo4L", "data" : False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 2)
 		return artus_files
 
+	def files_ww(self, channel):
+		artus_files = self.artus_file_names({ "process" : "WW", "data" : False, "campaign" : self.mc_campaign, "generator" : "pythia8", "scenario" : "PU2017"}, 1)
+		return artus_files
+
+	def files_wz(self, channel):
+		artus_files = self.artus_file_names({ "process" : "WZ", "data" : False, "campaign" : self.mc_campaign, "generator" : "pythia8", "scenario" : "PU2017"}, 1)
+		return artus_files
+
+	def files_zz(self, channel):
+		artus_files = self.artus_file_names({ "process" : "ZZ", "data" : False, "campaign" : self.mc_campaign, "generator" : "pythia8", "scenario" : "PU2017_new_pmx"}, 1)
+		return artus_files
+
 	def files_singletop(self, channel):
-		artus_files = self.artus_file_names({ "process" : "(STtWantitop5finclusiveDecaysTuneCP5|STtWtop5finclusiveDecaysTuneCP5)",
-							"data" : False, "campaign" : self.mc_campaign}, 2)
-		artus_files = artus_files + " " + self.artus_file_names({ "process" : "(STt-channelantitop4finclusiveDecaysTuneCP5|STt-channeltop4finclusiveDecaysTuneCP5)",
-							  "data" : False, "campaign" : self.mc_campaign}, 2)
+		artus_files = self.artus_file_names({
+			"process" : "(STtWantitop5finclusiveDecaysTuneCP5|STtWtop5finclusiveDecaysTuneCP5)",
+			"data" : False,
+			"campaign" : self.mc_campaign,
+			"scenario" : "PU2017"},
+			2)
+		artus_files = artus_files + " " + self.artus_file_names({
+			"process" : "STt-channelantitop4finclusiveDecaysTuneCP5",
+			"data" : False,
+			"campaign" : self.mc_campaign,
+			"scenario" : "PU2017"},
+			1)
+		artus_files = artus_files + " " + self.artus_file_names({
+			"process" : "STt-channeltop4finclusiveDecaysTuneCP5",
+			"data" : False,
+			"campaign" : self.mc_campaign,
+			"scenario" : "PU2017" + "_new_pmx" if self.legacy else ""},
+			1)
 		return artus_files
 
 	def files_diboson(self, channel):
@@ -340,36 +378,53 @@ class Samples(samples.Samples):
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 		if channel in ["mt", "et", "tt"]:
-			add_input(
-					input_file=self.files_wwtolnuqq(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight(),
-					nick="vvt"
-			)
-			add_input(
-					input_file=self.files_wwto4q(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
-					nick="vvt"
-			)
-			add_input(
-					input_file=self.files_wzto1l3nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
-					nick="vvt"
-			)
-			add_input(
-					input_file=self.files_wzto3lnu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
-					nick="vvt"
-			)
-			add_input(
-					input_file=self.files_zzto2l2nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
-					nick="vvt"
-			)
-			add_input(
-					input_file=self.files_zzto4l(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight(),
-					nick="vvt"
-			)
+			if self.legacy:
+				add_input(
+						input_file=self.files_ww(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvt"
+				)
+				add_input(
+						input_file=self.files_wz(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvt"
+				)
+				add_input(
+						input_file=self.files_zz(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvt"
+				)
+			else:
+				add_input(
+						input_file=self.files_wwtolnuqq(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight(),
+						nick="vvt"
+				)
+				add_input(
+						input_file=self.files_wwto4q(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvt"
+				)
+				add_input(
+						input_file=self.files_wzto1l3nu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvt"
+				)
+				add_input(
+						input_file=self.files_wzto3lnu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvt"
+				)
+				add_input(
+						input_file=self.files_zzto2l2nu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvt"
+				)
+				add_input(
+						input_file=self.files_zzto4l(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight(),
+						nick="vvt"
+				)
 			add_input(
 					input_file=self.files_singletop(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttt_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -395,41 +450,58 @@ class Samples(samples.Samples):
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 		if channel in ["mt", "et", "tt"]:
-			add_input(
-					input_file=self.files_wwtolnuqq(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight(),
-					nick="vvl"
-			)
-			add_input(
-					input_file=self.files_wwto4q(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
-					nick="vvl"
-			)
-			add_input(
-					input_file=self.files_wzto1l3nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
-					nick="vvl"
-			)
-			add_input(
-					input_file=self.files_wzto3lnu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
-					nick="vvl"
-			)
-			add_input(
-					input_file=self.files_zzto2l2nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
-					nick="vvl"
-			)
-			add_input(
-					input_file=self.files_zzto4l(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight(),
-					nick="vvl"
-			)
-			add_input(
-					input_file=self.files_singletop(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
-					nick="vvl"
-			)
+			if self.legacy:
+				add_input(
+						input_file=self.files_ww(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvl"
+				)
+				add_input(
+						input_file=self.files_wz(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvl"
+				)
+				add_input(
+						input_file=self.files_zz(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvl"
+				)
+			else:
+				add_input(
+						input_file=self.files_wwtolnuqq(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.wwtolnuqq_stitchingweight(),
+						nick="vvl"
+				)
+				add_input(
+						input_file=self.files_wwto4q(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvl"
+				)
+				add_input(
+						input_file=self.files_wzto1l3nu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvl"
+				)
+				add_input(
+						input_file=self.files_wzto3lnu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvl"
+				)
+				add_input(
+						input_file=self.files_zzto2l2nu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method),
+						nick="vvl"
+				)
+				add_input(
+						input_file=self.files_zzto4l(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.zzto4l_stitchingweight(),
+						nick="vvl"
+				)
+				add_input(
+						input_file=self.files_singletop(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttl_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
+						nick="vvl"
+				)
 		else:
 			log.error("Sample config (VVL) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
@@ -450,36 +522,53 @@ class Samples(samples.Samples):
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 		if channel in ["mt", "et", "tt"]:
-			add_input(
-					input_file=self.files_wwtolnuqq(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-					nick="vvj"
-			)
-			add_input(
-					input_file=self.files_wwto4q(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="vvj"
-			)
-			add_input(
-					input_file=self.files_wzto1l3nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="vvj"
-			)
-			add_input(
-					input_file=self.files_wzto3lnu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="vvj"
-			)
-			add_input(
-					input_file=self.files_zzto2l2nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="vvj"
-			)
-			add_input(
-					input_file=self.files_zzto4l(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-					nick="vvj"
-			)
+			if self.legacy:
+				add_input(
+						input_file=self.files_ww(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vvj"
+				)
+				add_input(
+						input_file=self.files_wz(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vvj"
+				)
+				add_input(
+						input_file=self.files_zz(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vvj"
+				)
+			else:
+				add_input(
+						input_file=self.files_wwtolnuqq(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+						nick="vvj"
+				)
+				add_input(
+						input_file=self.files_wwto4q(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vvj"
+				)
+				add_input(
+						input_file=self.files_wzto1l3nu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vvj"
+				)
+				add_input(
+						input_file=self.files_wzto3lnu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vvj"
+				)
+				add_input(
+						input_file=self.files_zzto2l2nu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vvj"
+				)
+				add_input(
+						input_file=self.files_zzto4l(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+						nick="vvj"
+				)
 			add_input(
 					input_file=self.files_singletop(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.ttj_genmatch(channel,fakefactor_method=fakefactor_method)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -505,36 +594,53 @@ class Samples(samples.Samples):
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 		if channel in ["mt", "et", "tt"]:
-			add_input(
-					input_file=self.files_wwtolnuqq(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-					nick="vv"
-			)
-			add_input(
-					input_file=self.files_wwto4q(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="vv"
-			)
-			add_input(
-					input_file=self.files_wzto1l3nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="vv"
-			)
-			add_input(
-					input_file=self.files_wzto3lnu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="vv"
-			)
-			add_input(
-					input_file=self.files_zzto2l2nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="vv"
-			)
-			add_input(
-					input_file=self.files_zzto4l(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-					nick="vv"
-			)
+			if self.legacy:
+				add_input(
+						input_file=self.files_ww(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vv"
+				)
+				add_input(
+						input_file=self.files_wz(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vv"
+				)
+				add_input(
+						input_file=self.files_zz(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vv"
+				)
+			else:
+				add_input(
+						input_file=self.files_wwtolnuqq(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+						nick="vv"
+				)
+				add_input(
+						input_file=self.files_wwto4q(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vv"
+				)
+				add_input(
+						input_file=self.files_wzto1l3nu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vv"
+				)
+				add_input(
+						input_file=self.files_wzto3lnu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vv"
+				)
+				add_input(
+						input_file=self.files_zzto2l2nu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="vv"
+				)
+				add_input(
+						input_file=self.files_zzto4l(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+						nick="vv"
+				)
 			add_input(
 					input_file=self.files_singletop(channel),
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -707,40 +813,57 @@ class Samples(samples.Samples):
 					weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 					nick="noplot_ttj_qcd_control"
 			)
-			add_input(
-					input_file=self.files_wwtolnuqq(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-					nick="noplot_vv_qcd_control"
-			)
-			add_input(
-					input_file=self.files_wwto4q(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="noplot_vv_qcd_control"
-			)
-			add_input(
-					input_file=self.files_wzto1l3nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="noplot_vv_qcd_control"
-			)
-			add_input(
-					input_file=self.files_wzto3lnu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="noplot_vv_qcd_control"
-			)
-			add_input(
-					input_file=self.files_zzto2l2nu(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-					nick="noplot_vv_qcd_control"
-			)
-			add_input(
-					input_file=self.files_zzto4l(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-					nick="noplot_vv_qcd_control"
-			)
-			add_input(
-					input_file=self.files_singletop(channel),
-					weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
-					nick="noplot_vv_qcd_control"
+			if self.legacy:
+				add_input(
+						input_file=self.files_ww(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="noplot_vv_qcd_control"
+				)
+				add_input(
+						input_file=self.files_wz(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="noplot_vv_qcd_control"
+				)
+				add_input(
+						input_file=self.files_zz(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="noplot_vv_qcd_control"
+				)
+			else:
+				add_input(
+						input_file=self.files_wwtolnuqq(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+						nick="noplot_vv_qcd_control"
+				)
+				add_input(
+						input_file=self.files_wwto4q(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="noplot_vv_qcd_control"
+				)
+				add_input(
+						input_file=self.files_wzto1l3nu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="noplot_vv_qcd_control"
+				)
+				add_input(
+						input_file=self.files_wzto3lnu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="noplot_vv_qcd_control"
+				)
+				add_input(
+						input_file=self.files_zzto2l2nu(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+						nick="noplot_vv_qcd_control"
+				)
+				add_input(
+						input_file=self.files_zzto4l(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+						nick="noplot_vv_qcd_control"
+				)
+				add_input(
+						input_file=self.files_singletop(channel),
+						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
+						nick="noplot_vv_qcd_control"
 			)
 			# add_input(
 			# 		input_file=self.files_vv(channel),
@@ -904,36 +1027,53 @@ class Samples(samples.Samples):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick=("noplot_" if not controlregions else "") + "ttj_ss_qcd",
 				)
-				add_input(
-						input_file=self.files_wwtolnuqq(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
-				)
-				add_input(
-						input_file=self.files_wwto4q(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
-				)
-				add_input(
-						input_file=self.files_wzto1l3nu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
-				)
-				add_input(
-						input_file=self.files_wzto3lnu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
-				)
-				add_input(
-						input_file=self.files_zzto2l2nu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
-				)
-				add_input(
-						input_file=self.files_zzto4l(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
-				)
+				if self.legacy:
+					add_input(
+							input_file=self.files_ww(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
+					)
+					add_input(
+							input_file=self.files_wz(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
+					)
+					add_input(
+							input_file=self.files_zz(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
+					)
+				else:
+					add_input(
+							input_file=self.files_wwtolnuqq(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
+					)
+					add_input(
+							input_file=self.files_wwto4q(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
+					)
+					add_input(
+							input_file=self.files_wzto1l3nu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
+					)
+					add_input(
+							input_file=self.files_wzto3lnu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
+					)
+					add_input(
+							input_file=self.files_zzto2l2nu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
+					)
+					add_input(
+							input_file=self.files_zzto4l(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_qcd"
+					)
 				add_input(
 						input_file=self.files_singletop(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
@@ -1175,36 +1315,53 @@ class Samples(samples.Samples):
 								weight=mc_sample_weight+"*"+self.embedding_ttbarveto_weight(channel)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 								nick="noplot_ttj_"+estimation_type
 						)
-						add_input(
-								input_file=self.files_wwtolnuqq(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-								nick="noplot_vv_"+estimation_type
-						)
-						add_input(
-								input_file=self.files_wwto4q(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-								nick="noplot_vv_"+estimation_type
-						)
-						add_input(
-								input_file=self.files_wzto1l3nu(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-								nick="noplot_vv_"+estimation_type
-						)
-						add_input(
-								input_file=self.files_wzto3lnu(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-								nick="noplot_vv_"+estimation_type
-						)
-						add_input(
-								input_file=self.files_zzto2l2nu(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-								nick="noplot_vv_"+estimation_type
-						)
-						add_input(
-								input_file=self.files_zzto4l(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-								nick="noplot_vv_"+estimation_type
-						)
+						if self.legacy:
+							add_input(
+									input_file=self.files_ww(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+estimation_type
+							)
+							add_input(
+									input_file=self.files_wz(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+estimation_type
+							)
+							add_input(
+									input_file=self.files_zz(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+estimation_type
+							)
+						else:
+							add_input(
+									input_file=self.files_wwtolnuqq(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+									nick="noplot_vv_"+estimation_type
+							)
+							add_input(
+									input_file=self.files_wwto4q(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+estimation_type
+							)
+							add_input(
+									input_file=self.files_wzto1l3nu(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+estimation_type
+							)
+							add_input(
+									input_file=self.files_wzto3lnu(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+estimation_type
+							)
+							add_input(
+									input_file=self.files_zzto2l2nu(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+estimation_type
+							)
+							add_input(
+									input_file=self.files_zzto4l(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+									nick="noplot_vv_"+estimation_type
+							)
 						add_input(
 								input_file=self.files_singletop(channel),
 								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -1320,36 +1477,53 @@ class Samples(samples.Samples):
 								weight=mc_selection_weights[key]+"*"+self.embedding_ttbarveto_weight(channel)+"*topPtReweightWeight",
 								nick="noplot_ttj_"+key
 						)
-						add_input(
-								input_file=self.files_wwtolnuqq(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-								nick="noplot_vv_"+key
-						)
-						add_input(
-								input_file=self.files_wwto4q(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-								nick="noplot_vv_"+key
-						)
-						add_input(
-								input_file=self.files_wzto1l3nu(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-								nick="noplot_vv_"+key
-						)
-						add_input(
-								input_file=self.files_wzto3lnu(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-								nick="noplot_vv_"+key
-						)
-						add_input(
-								input_file=self.files_zzto2l2nu(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
-								nick="noplot_vv_"+key
-						)
-						add_input(
-								input_file=self.files_zzto4l(channel),
-								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-								nick="noplot_vv_"+key
-						)
+						if self.legacy:
+							add_input(
+									input_file=self.files_ww(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+key
+							)
+							add_input(
+									input_file=self.files_wz(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+key
+							)
+							add_input(
+									input_file=self.files_zz(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+key
+							)
+						else:
+							add_input(
+									input_file=self.files_wwtolnuqq(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+									nick="noplot_vv_"+key
+							)
+							add_input(
+									input_file=self.files_wwto4q(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+key
+							)
+							add_input(
+									input_file=self.files_wzto1l3nu(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+key
+							)
+							add_input(
+									input_file=self.files_wzto3lnu(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+key
+							)
+							add_input(
+									input_file=self.files_zzto2l2nu(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel),
+									nick="noplot_vv_"+key
+							)
+							add_input(
+									input_file=self.files_zzto4l(channel),
+									weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+									nick="noplot_vv_"+key
+							)
 						add_input(
 								input_file=self.files_singletop(channel),
 								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type),
@@ -1446,36 +1620,53 @@ class Samples(samples.Samples):
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*topPtReweightWeight",
 							nick="noplot_ttj_ss_wj_control"
 					)
-					add_input(
-							input_file=self.files_wwtolnuqq(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-							nick="noplot_vv_ss_wj_control"
-					)
-					add_input(
-							input_file=self.files_wwto4q(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
-							nick="noplot_vv_ss_wj_control"
-					)
-					add_input(
-							input_file=self.files_wzto1l3nu(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
-							nick="noplot_vv_ss_wj_control"
-					)
-					add_input(
-							input_file=self.files_wzto3lnu(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
-							nick="noplot_vv_ss_wj_control"
-					)
-					add_input(
-							input_file=self.files_zzto2l2nu(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
-							nick="noplot_vv_ss_wj_control"
-					)
-					add_input(
-							input_file=self.files_zzto4l(channel),
-							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-							nick="noplot_vv_ss_wj_control"
-					)
+					if self.legacy:
+						add_input(
+								input_file=self.files_ww(channel),
+								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+								nick="noplot_vv_ss_wj_control"
+						)
+						add_input(
+								input_file=self.files_wz(channel),
+								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+								nick="noplot_vv_ss_wj_control"
+						)
+						add_input(
+								input_file=self.files_zz(channel),
+								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+								nick="noplot_vv_ss_wj_control"
+						)
+					else:
+						add_input(
+								input_file=self.files_wwtolnuqq(channel),
+								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+								nick="noplot_vv_ss_wj_control"
+						)
+						add_input(
+								input_file=self.files_wwto4q(channel),
+								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+								nick="noplot_vv_ss_wj_control"
+						)
+						add_input(
+								input_file=self.files_wzto1l3nu(channel),
+								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+								nick="noplot_vv_ss_wj_control"
+						)
+						add_input(
+								input_file=self.files_wzto3lnu(channel),
+								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+								nick="noplot_vv_ss_wj_control"
+						)
+						add_input(
+								input_file=self.files_zzto2l2nu(channel),
+								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+								nick="noplot_vv_ss_wj_control"
+						)
+						add_input(
+								input_file=self.files_zzto4l(channel),
+								weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+								nick="noplot_vv_ss_wj_control"
+						)
 					add_input(
 							input_file=self.files_singletop(channel),
 							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
@@ -1590,36 +1781,53 @@ class Samples(samples.Samples):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B)+"*topPtReweightWeight"+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="noplot_ttj_qcd_control"
 				)
-				add_input(
-						input_file=self.files_wwtolnuqq(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-						nick="noplot_vv_qcd_control"
-				)
-				add_input(
-						input_file=self.files_wwto4q(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick="noplot_vv_qcd_control"
-				)
-				add_input(
-						input_file=self.files_wzto1l3nu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick="noplot_vv_qcd_control"
-				)
-				add_input(
-						input_file=self.files_wzto3lnu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick="noplot_vv_qcd_control"
-				)
-				add_input(
-						input_file=self.files_zzto2l2nu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick="noplot_vv_qcd_control"
-				)
-				add_input(
-						input_file=self.files_zzto4l(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-						nick="noplot_vv_qcd_control"
-				)
+				if self.legacy:
+					add_input(
+							input_file=self.files_ww(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_qcd_control"
+					)
+					add_input(
+							input_file=self.files_wz(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_qcd_control"
+					)
+					add_input(
+							input_file=self.files_zz(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_qcd_control"
+					)
+				else:
+					add_input(
+							input_file=self.files_wwtolnuqq(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+							nick="noplot_vv_qcd_control"
+					)
+					add_input(
+							input_file=self.files_wwto4q(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_qcd_control"
+					)
+					add_input(
+							input_file=self.files_wzto1l3nu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_qcd_control"
+					)
+					add_input(
+							input_file=self.files_wzto3lnu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_qcd_control"
+					)
+					add_input(
+							input_file=self.files_zzto2l2nu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_qcd_control"
+					)
+					add_input(
+							input_file=self.files_zzto4l(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+							nick="noplot_vv_qcd_control"
+					)
 				add_input(
 						input_file=self.files_singletop(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B),
@@ -1818,36 +2026,53 @@ class Samples(samples.Samples):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*topPtReweightWeight",
 						nick=("noplot_" if not controlregions else "") + "ttj_ss_highmt"
 				)
-				add_input(
-						input_file=self.files_wwtolnuqq(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
-				)
-				add_input(
-						input_file=self.files_wwto4q(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
-				)
-				add_input(
-						input_file=self.files_wzto1l3nu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
-				)
-				add_input(
-						input_file=self.files_wzto3lnu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
-				)
-				add_input(
-						input_file=self.files_zzto2l2nu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
-				)
-				add_input(
-						input_file=self.files_zzto4l(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-						nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
-				)
+				if self.legacy:
+					add_input(
+							input_file=self.files_ww(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
+					)
+					add_input(
+							input_file=self.files_wz(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
+					)
+					add_input(
+							input_file=self.files_zz(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
+					)
+				else:
+					add_input(
+							input_file=self.files_wwtolnuqq(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
+					)
+					add_input(
+							input_file=self.files_wwto4q(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
+					)
+					add_input(
+							input_file=self.files_wzto1l3nu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
+					)
+					add_input(
+							input_file=self.files_wzto3lnu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
+					)
+					add_input(
+							input_file=self.files_zzto2l2nu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
+					)
+					add_input(
+							input_file=self.files_zzto4l(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "vv_ss_highmt"
+					)
 				add_input(
 						input_file=self.files_singletop(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C),
@@ -1938,36 +2163,53 @@ class Samples(samples.Samples):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*topPtReweightWeight",
 						nick=("noplot_" if not controlregions else "") + "ttj_os_highmt"
 				)
-				add_input(
-						input_file=self.files_wwtolnuqq(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-						nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
-				)
-				add_input(
-						input_file=self.files_wwto4q(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
-				)
-				add_input(
-						input_file=self.files_wzto1l3nu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
-				)
-				add_input(
-						input_file=self.files_wzto3lnu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
-				)
-				add_input(
-						input_file=self.files_zzto2l2nu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
-				)
-				add_input(
-						input_file=self.files_zzto4l(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-						nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
-				)
+				if self.legacy:
+					add_input(
+							input_file=self.files_ww(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
+					)
+					add_input(
+							input_file=self.files_wz(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
+					)
+					add_input(
+							input_file=self.files_zz(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
+					)
+				else:
+					add_input(
+							input_file=self.files_wwtolnuqq(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
+					)
+					add_input(
+							input_file=self.files_wwto4q(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
+					)
+					add_input(
+							input_file=self.files_wzto1l3nu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
+					)
+					add_input(
+							input_file=self.files_wzto3lnu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
+					)
+					add_input(
+							input_file=self.files_zzto2l2nu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
+					)
+					add_input(
+							input_file=self.files_zzto4l(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+							nick=("noplot_" if not controlregions else "") + "vv_os_highmt"
+					)
 				add_input(
 						input_file=self.files_singletop(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D),
@@ -2318,36 +2560,53 @@ class Samples(samples.Samples):
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*topPtReweightWeight",
 						nick="noplot_ttj_wj_control"
 				)
-				add_input(
-						input_file=self.files_wwtolnuqq(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
-						nick="noplot_vv_wj_control"
-				)
-				add_input(
-						input_file=self.files_wwto4q(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick="noplot_vv_wj_control"
-				)
-				add_input(
-						input_file=self.files_wzto1l3nu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick="noplot_vv_wj_control"
-				)
-				add_input(
-						input_file=self.files_wzto3lnu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick="noplot_vv_wj_control"
-				)
-				add_input(
-						input_file=self.files_zzto2l2nu(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
-						nick="noplot_vv_wj_control"
-				)
-				add_input(
-						input_file=self.files_zzto4l(channel),
-						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
-						nick="noplot_vv_wj_control"
-				)
+				if self.legacy:
+					add_input(
+							input_file=self.files_ww(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_wj_control"
+					)
+					add_input(
+							input_file=self.files_wz(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_wj_control"
+					)
+					add_input(
+							input_file=self.files_zz(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_wj_control"
+					)
+				else:
+					add_input(
+							input_file=self.files_wwtolnuqq(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.wwtolnuqq_stitchingweight(),
+							nick="noplot_vv_wj_control"
+					)
+					add_input(
+							input_file=self.files_wwto4q(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_wj_control"
+					)
+					add_input(
+							input_file=self.files_wzto1l3nu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_wj_control"
+					)
+					add_input(
+							input_file=self.files_wzto3lnu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_wj_control"
+					)
+					add_input(
+							input_file=self.files_zzto2l2nu(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel),
+							nick="noplot_vv_wj_control"
+					)
+					add_input(
+							input_file=self.files_zzto4l(channel),
+							weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D)+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self.zzto4l_stitchingweight(),
+							nick="noplot_vv_wj_control"
+					)
 				add_input(
 						input_file=self.files_singletop(channel),
 						weight=mc_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D),
@@ -2512,36 +2771,53 @@ class Samples(samples.Samples):
 					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
 					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
 				)
-				add_input(
-					input_file=self.files_wwtolnuqq(channel),
-					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.wwtolnuqq_stitchingweight(),
-					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
-				)
-				add_input(
-					input_file=self.files_wwto4q(channel),
-					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
-					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
-				)
-				add_input(
-					input_file=self.files_wzto1l3nu(channel),
-					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
-					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
-				)
-				add_input(
-					input_file=self.files_wzto3lnu(channel),
-					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
-					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
-				)
-				add_input(
-					input_file=self.files_zzto2l2nu(channel),
-					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
-					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
-				)
-				add_input(
-					input_file=self.files_zzto4l(channel),
-					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.zzto4l_stitchingweight(),
-					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
-				)
+				if self.legacy:
+					add_input(
+							input_file=self.files_ww(channel),
+							weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+							nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+					)
+					add_input(
+							input_file=self.files_wz(channel),
+							weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+							nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+					)
+					add_input(
+							input_file=self.files_zz(channel),
+							weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+							nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+					)
+				else:
+					add_input(
+						input_file=self.files_wwtolnuqq(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.wwtolnuqq_stitchingweight(),
+						nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+					)
+					add_input(
+						input_file=self.files_wwto4q(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+						nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+					)
+					add_input(
+						input_file=self.files_wzto1l3nu(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+						nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+					)
+					add_input(
+						input_file=self.files_wzto3lnu(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+						nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+					)
+					add_input(
+						input_file=self.files_zzto2l2nu(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+						nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+					)
+					add_input(
+						input_file=self.files_zzto4l(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.zzto4l_stitchingweight(),
+						nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
+					)
 				add_input(
 					input_file=self.files_singletop(channel),
 					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),

@@ -387,13 +387,14 @@ class Samples(samples.SamplesBase):
 		else:
 			return "(1.0)"
 
-	def __init__(self,embedding=False,ttbar_retuned=False,embedding_weight="(1.0)"):
+	def __init__(self,embedding=False,ttbar_retuned=False,embedding_weight="(1.0)",legacy=True):
 		super(Samples, self).__init__()
 		self.exclude_cuts = ["blind"]
 		self.period = "run2"
 		self.embedding = embedding
 		self.ttbar_retuned = ttbar_retuned
 		self.embedding_weight = embedding_weight
+		self.legacy = legacy
 
 	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
 		config = super(Samples, self).get_config(samples, channel, category, nick_suffix=nick_suffix, postfit_scales=postfit_scales, **kwargs)

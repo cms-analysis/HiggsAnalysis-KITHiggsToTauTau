@@ -340,6 +340,55 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
+	def cptautau2017legacy(channel, cut_type, **kwargs):
+		data = kwargs.get("data", False)
+		embedding = kwargs.get("embedding", False)
+		cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
+		# cuts["bveto"] = "(nbtag == 0)"
+		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
+
+		if channel == "mt":
+			if data :
+				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))) + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
+			else:
+				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_single_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_cross_1*triggerWeight_cross_2))"
+			cuts["pt_1"] = "(pt_1 > 21.0)"
+			cuts["pt_2"] = "(pt_2 > 30.0)"
+			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
+			cuts["mt"] = "(mt_1<50.0)"
+			cuts["iso_1"] = "(iso_1 < 0.15)"
+			cuts["iso_2"] = "(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+
+		elif channel == "et":
+			if data :
+				cuts["trigger"] = "( ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1)) ))"
+			else:
+				cuts["trigger"] = "( ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_single_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1))*triggerWeight_cross_1*triggerWeight_cross_2))"
+			cuts["pt_1"] = "(pt_1 > 25.0)"
+			cuts["pt_2"] = "(pt_2 > 30.0)"
+			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
+			cuts["mt"] = "(mt_1<50.0)"
+			cuts["iso_1"] = "(iso_1 < 0.15)"
+			cuts["iso_2"] = "(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+
+		elif channel == "tt":
+			cuts["trigger"] = "( ((HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 40) * (pt_2 > 40)) || ((HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45)) || ((HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45) ) )"
+			if not data:
+				tauidtriggersf_1 = "triggerWeight_cross_1"
+				tauidtriggersf_2 = "triggerWeight_cross_2"
+				cuts["trigger"] += "*" + tauidtriggersf_1 + "*" + tauidtriggersf_2
+			cuts["pt_1"] = "(pt_1 > 50.0)"
+			cuts["pt_2"] = "(pt_2 > 40.0)"
+			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
+			cuts["iso_1"] = "(byMediumIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)"
+			cuts["iso_2"] = "(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+
+		return cuts
+
+	@staticmethod
 	def lfv(channel, cut_type, **kwargs):
 		cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		#cuts["nbtag"] = "nbtag==0"
@@ -855,6 +904,8 @@ class CutStringsDict:
 			cuts = CutStringsDict.cpggh2017(channel, cut_type, **kwargs)
 		elif cut_type == "cptautau2017" or cut_type == "cptautau2017_emb":
 			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
+		elif cut_type == "cptautau2017legacy" or cut_type == "cptautau2017legacy_emb":
+			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
 		elif cut_type=="mssm":
 			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		elif cut_type=="mssm2016":
@@ -954,8 +1005,10 @@ class CutStringsDict:
 
 		# ------------------------- ADDITIONAL/ALTERED CUTS -------------------------
 		# functions here only change specific cuts of the cuts dict passed to them.
-		if "cptautau2017" in cut_type:
+		if "cptautau2017" in cut_type and not "legacy":
 			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
+		elif "cptautau2017legacy" in cut_type:
+			cuts = CutStringsDict.cptautau2017legacy(channel, cut_type, **kwargs)
 		if "invertedTauIsolationFF" in cut_type:
 			cuts = CutStringsDict.invertedTauIsolationFF(channel, cuts, cut_type, **kwargs)
 		if "highMtControlRegionWJ" in cut_type:

@@ -259,6 +259,8 @@ if __name__ == "__main__":
 	                    help="Use proxy to calculate fake factors. [Default: %(default)s]")
 	parser.add_argument("--isomorphic-mapping", default=False, action="store_true",
 	                    help="Create a plot for isomorphic mapping. [Default: %(default)s]")
+	parser.add_argument("--legacy", default=False, action="store_true",
+	                    help="Use legacy Samples and Settings. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -309,7 +311,7 @@ if __name__ == "__main__":
 	elif args.run1:
 		sample_settings = samples.Samples()
 	else:
-		sample_settings = samples.Samples(embedding=args.emb,embedding_weight=args.embedded_weights,ttbar_retuned=args.ttbar_retuned)
+		sample_settings = samples.Samples(embedding=args.emb,embedding_weight=args.embedded_weights,ttbar_retuned=args.ttbar_retuned,legacy=args.legacy)
 	if args.mssm:
 		bkg_samples = [sample for sample in args.samples if sample not in ["data", "htt", "ggh", "bbh"]]
 		sig_samples_raw = [sample for sample in args.samples if sample in ["htt", "ggh", "bbh"]]
@@ -382,6 +384,8 @@ if __name__ == "__main__":
 			global_category_string = "catcptautau2017"
 			global_cut_type = "cptautau"
 		global_cut_type += "2017"
+	if args.legacy == True:
+		global_cut_type += "legacy"
 
 	if args.channel_comparison:
 		args.weights = (args.weights * len(args.channels))[:len(args.channels)]
