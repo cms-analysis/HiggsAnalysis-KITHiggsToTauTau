@@ -263,6 +263,8 @@ if __name__ == "__main__":
 	                    help="Create a plot for the calibrated IPs via isomorphic mapping. Currently it is written in a way that it can only handle 1 channel argument at a time. [Default: %(default)s]")
 	parser.add_argument("--only-prompt", default=False, action="store_true",
 	                    help="Use only the prompt decays for calibration. [Default: %(default)s]")
+	parser.add_argument("--use-cartesian", default=False, action="store_true",
+	                    help="Use only cartesian instead of spherical coordinates to calibrate IPs. [Default: %(default)s]")
 	parser.add_argument("--nicks-blacklist", default=False, action="store_true",
 	                    help="Blacklist all background and data. [Default: %(default)s]")
 	args = parser.parse_args()
@@ -600,19 +602,22 @@ if __name__ == "__main__":
 					config["nicks_blacklist"].extend([" ".join(bkg_samples_used).split()])
 					config["nicks_blacklist"].append("data")
 
-
 				if args.calibrate_ip:
 					ipVersion, calibIPQuantity = config["x_expressions"][0][0][2:-2].split('.')
 					config["x_label"] = args.channels[0] + "_calib_IP" + ipVersion + "_" + calibIPQuantity
 					if "proxy_prefixes" in config: config.pop("proxy_prefixes")
 					config["tree_draw_options"] = ["proxy"]
-					if args.only_prompt:
-						config["filename"] = "prompt_calibIP" + ipVersion + "_" + calibIPQuantity
-						config["proxy_prefixes"] = ["#include \"HiggsAnalysis/KITHiggsToTauTau/interface/Utility/IsomorphicMappingProxy.h\"\n#include <Math/Point3D.h>\ntypedef ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<float> > RMPoint;\nIsomorphicMappingProxy IsoMap_HASH_NAME(\"" + args.channels[0] + "\", \"" + ipVersion[:-2] + "\", \"" + args.era + "\", true);"]
-					else:
-						config["filename"] = "calibIP" + ipVersion + "_" + calibIPQuantity
-						config["proxy_prefixes"] = ["#include \"HiggsAnalysis/KITHiggsToTauTau/interface/Utility/IsomorphicMappingProxy.h\"\n#include <Math/Point3D.h>\ntypedef ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<float> > RMPoint;\nIsomorphicMappingProxy IsoMap_HASH_NAME(\"" + args.channels[0] + "\", \"" + ipVersion + "\", \"" + args.era + "\", false);"]
-					config["x_expressions"] = ["IsoMap_HASH_NAME.Get" + calibIPQuantity + "(RMPoint(IP" + ipVersion+ "->X(), IP" + ipVersion+ "->Y(),IP" + ipVersion+ "->Z()), gen_match_" + ipVersion[-1] + ")"]
+					useCartesian = "true" if args.use_cartesian else "false"
+					config["proxy_prefixes"] = []
+					isEmbedding = "true" if args.emb else "false"
+					useOnlyPrompt = "true" if args.only_prompt else "false"
+					config["filename"] = "prompt_calibIP" + ipVersion + "_" + calibIPQuantity if args.only_prompt else "calibIP" + ipVersion + "_" + calibIPQuantity
+					for nick in config["nicks"]:
+						if re.search("ztt", nick):
+							config["proxy_prefixes"].append("#include \"HiggsAnalysis/KITHiggsToTauTau/interface/Utility/IsomorphicMappingProxy.h\"\n#include <Math/Point3D.h>\ntypedef ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<float> > RMPoint;\nIsomorphicMappingProxy IsoMap_HASH_NAME(\"" + args.channels[0] + "\", \"" + ipVersion[:-2] + "\", \"" + args.era + "\", " + useOnlyPrompt + ", " + isEmbedding + ");")
+						else:
+							config["proxy_prefixes"].append("#include \"HiggsAnalysis/KITHiggsToTauTau/interface/Utility/IsomorphicMappingProxy.h\"\n#include <Math/Point3D.h>\ntypedef ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<float> > RMPoint;\nIsomorphicMappingProxy IsoMap_HASH_NAME(\"" + args.channels[0] + "\", \"" + ipVersion[:-2] + "\", \"" + args.era + "\", " + useOnlyPrompt + ", false);")
+					config["x_expressions"] = ["IsoMap_HASH_NAME.Get" + calibIPQuantity + "(RMPoint(IP" + ipVersion+ "->X(), IP" + ipVersion+ "->Y(),IP" + ipVersion+ "->Z()), gen_match_" + ipVersion[-1] + ", " + useCartesian + ")"]
 
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if (nick in config["nicks"] or nick == "ff")]
