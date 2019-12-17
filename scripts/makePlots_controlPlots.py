@@ -463,6 +463,8 @@ if __name__ == "__main__":
 						exclude_cuts = args.exclude_cuts + json_config.pop("exclude_cuts", []),
 						blind_expression = channel + "_" + quantity,
 						fakefactor_method = args.fakefactor_method,
+						fake_factor_name_1 = "ffWeight_medium_mvadmbins_1",
+						fake_factor_name_2 = "ffWeight_medium_mvadmbins_2",
 						stack_signal = args.stack_signal,
 						scale_signal = args.scale_signal,
 						project_to_lumi = args.project_to_lumi,

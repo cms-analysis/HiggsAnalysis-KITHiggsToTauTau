@@ -344,7 +344,7 @@ class CutStringsDict:
 		data = kwargs.get("data", False)
 		embedding = kwargs.get("embedding", False)
 		cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
-		# cuts["bveto"] = "(nbtag == 0)"
+		cuts["bveto"] = "(nbtag == 0)"
 		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
 
 		if channel == "mt":
@@ -355,10 +355,14 @@ class CutStringsDict:
 			cuts["pt_1"] = "(pt_1 > 21.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
-			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
+			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
-			cuts["iso_2"] = "(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+			cuts["anti_e_tau_discriminators"] = "(byVVVLooseDeepTau2017v2p1VSe_2 > 0.5)"
+			cuts["anti_mu_tau_discriminators"] = "(byTightDeepTau2017v2p1VSmu_2 > 0.5)"
+			cuts["iso_2"] = "(byMediumDeepTau2017v2p1VSjet_2 > 0.5)"
+			# cuts["decay_mode_reweight"] = "(0.99/0.97)*((decayModeMVA_2==0)*0.975 + (decayModeMVA_2==1)*0.975*1.051 + (decayModeMVA_2==10)*pow(0.975,3) + (decayModeMVA_2==11)*pow(0.975,3)*1.051)/(((decayMode_2==0)*0.975 + (decayMode_2==1)*0.975*1.051 + (decayMode_2==10)*pow(0.975,3))||(1.0))"
+			# cuts["decay_mode_reweight"] = "(0.99/0.97)*((decayMode_2==11)*pow(0.975,3)*1.051 + (decayMode_2!=11))"
 
 		elif channel == "et":
 			if data :
@@ -371,7 +375,7 @@ class CutStringsDict:
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
-			cuts["iso_2"] = "(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+			cuts["iso_2"] = "(byMediumDeepTau2017v2p1VSjet_2 > 0.5)"
 
 		elif channel == "tt":
 			cuts["trigger"] = "( ((HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 40) * (pt_2 > 40)) || ((HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45)) || ((HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45) ) )"
@@ -383,8 +387,8 @@ class CutStringsDict:
 			cuts["pt_2"] = "(pt_2 > 40.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
-			cuts["iso_1"] = "(byMediumIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)"
-			cuts["iso_2"] = "(byMediumIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)"
+			cuts["iso_1"] = "(byMediumDeepTau2017v2p1VSjet_1 > 0.5)"
+			cuts["iso_2"] = "(byMediumDeepTau2017v2p1VSjet_2 > 0.5)"
 
 		return cuts
 
