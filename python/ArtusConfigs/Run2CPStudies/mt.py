@@ -491,8 +491,8 @@ class mt_ArtusConfig(dict):
 						"0:triggerEfficiency_crosstrigger_data",
 						"1:triggerEfficiency_crosstrigger_MCEmb",
 						"1:triggerEfficiency_crosstrigger_data",
-						"0:embeddingSelection_idWeight"
-						"1:embeddingSelection_idWeight"
+						"0:embeddingSelection_idWeight",
+						"1:embeddingSelection_idWeight",
 						"0:embeddingSelection_triggerWeight"
 					]
 					self["LegacyWeightWorkspaceObjectNames"] = [

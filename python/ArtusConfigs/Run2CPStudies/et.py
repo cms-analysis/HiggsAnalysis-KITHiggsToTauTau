@@ -490,9 +490,9 @@ class et_ArtusConfig(dict):
 						"0:triggerEfficiency_crosstrigger_data",
 						"1:triggerEfficiency_crosstrigger_MCEmb",
 						"1:triggerEfficiency_crosstrigger_data",
-						"0:embeddingSelection_idWeight"
-						"1:embeddingSelection_idWeight"
-						"0:embeddingSelection_triggerWeight"
+						"0:embeddingSelection_idWeight",
+						"1:embeddingSelection_idWeight",
+						"0:embeddingSelection_triggerWeight",
 					]
 					self["LegacyWeightWorkspaceObjectNames"] = [
 						"0:e_trk_ratio",
@@ -508,7 +508,7 @@ class et_ArtusConfig(dict):
 						"0:m_sel_trg_ratio",
 					]
 					self["LegacyWeightWorkspaceObjectArguments"] = [
-						"0:e_pt.e_eta",
+						"0:e_pt,e_eta",
 						"0:e_pt,e_eta",
 						"0:e_pt,e_eta",
 						"0:e_pt,e_eta",
