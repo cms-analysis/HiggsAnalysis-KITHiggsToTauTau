@@ -124,6 +124,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				}
 				LOG(DEBUG) << "tau decay mode 11 and 2017";
 				tau->p4 = tau->p4 * tauEnergyCorrectionThreeProngPiZeros;
+				product.m_weights["tauTrackReconstructionEfficiencyWeight"] = static_cast<HttSettings const&>(settings).GetTauTrackReconstructionEfficiencyWeightThreeProngPiZeros();
 			}
 
 			if(tau->getDiscriminator("byTightIsolationMVArun2017v2DBoldDMwLT2017", event.m_tauMetadata) > 0.5)

@@ -226,6 +226,7 @@ public:
 	IMPL_SETTING_DEFAULT(float, TauTrackReconstructionEfficiencyWeightOneProng, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauTrackReconstructionEfficiencyWeightOneProngPiZeros, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauTrackReconstructionEfficiencyWeightThreeProng, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauTrackReconstructionEfficiencyWeightThreeProngPiZeros, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionOneProng, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionOneProngPiZeros, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionThreeProng, 1.0);

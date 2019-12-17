@@ -302,7 +302,7 @@ class tt_ArtusConfig(dict):
 		MVATestMethods_config = sMVATM.MVATestMethods()
 		self.update(MVATestMethods_config)
 
-		TauES_config = sTES.TauES(nickname)
+		TauES_config = sTES.TauES(nickname, legacy=isLegacy)
 		self.update(TauES_config)
 
 		TauPolarisationMva_config = sTPMVA.TauPolarisationMva()

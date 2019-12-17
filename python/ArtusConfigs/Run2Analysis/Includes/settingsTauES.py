@@ -8,7 +8,7 @@ import re
 
 
 class TauES(dict):
-	def __init__(self, nickname):
+	def __init__(self, nickname, legacy=True):
 	#HttTauCorrectionsProducer.cc in kithiggs
 	#tau.p4*shiftvalue     shiftvalue = 1. means no shift
 		if re.search("(Spring16|Summer16|Embedding2016)",nickname):
@@ -63,11 +63,18 @@ class TauES(dict):
 				self["TauTrackReconstructionEfficiencyWeightOneProng"] = 1.0
 				self["TauTrackReconstructionEfficiencyWeightOneProngPiZeros"] = 1.0
 				self["TauTrackReconstructionEfficiencyWeightThreeProng"] = 1.0
+				self["TauTrackReconstructionEfficiencyWeightThreeProngPiZeros"] = 1.0
 			if re.search("(Embedding2017)",nickname):
-				self["TauIDEfficiencyWeightTight"] = 0.97
+				if legacy:
+					self["TauIDEfficiencyWeightTight"] = 0.99
+				else:
+					self["TauIDEfficiencyWeightTight"] = 0.97
 				self["TauTrackReconstructionEfficiencyWeightOneProng"] =  0.975 # https://hypernews.cern.ch/HyperNews/CMS/get/AUX/2018/07/05/17:57:09-21650-janek_bechtel_emb_2018_07_05.pdf
 				self["TauTrackReconstructionEfficiencyWeightOneProngPiZeros"] = 0.975*1.051
 				self["TauTrackReconstructionEfficiencyWeightThreeProng"] = 0.975*0.975*0.975
+				self["TauTrackReconstructionEfficiencyWeightThreeProngPiZeros"] = 0.975*0.975*0.975*1.051
+
+
 
 		if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
 			self["TauElectronFakeEnergyCorrectionOneProng"] = 1.0
