@@ -946,16 +946,7 @@ class CutStringsDict:
 		elif cut_type=="lfv":
 			cuts = CutStringsDict.lfv(channel, cut_type, **kwargs)
 
-		# else:
-		# 	log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
-		# 	sys.exit(1)
-
-		# ------------------------- ADDITIONAL/ALTERED CUTS -------------------------
-		# functions here only change specific cuts of the cuts dict passed to them.
-		if "cptautau2017" in cut_type:
-			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
-		if "invertedTauIsolationFF" in cut_type:
-			cuts = CutStringsDict.invertedTauIsolationFF(channel, cuts, cut_type, **kwargs)
-		if "highMtControlRegionWJ" in cut_type:
-			cuts = CutStringsDict.highMtControlRegionWJFF(channel, cuts, cut_type, **kwargs)
+		else:
+			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
+			sys.exit(1)
 		return cuts
