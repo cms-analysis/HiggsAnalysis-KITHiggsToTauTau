@@ -564,7 +564,7 @@ class Samples(samples.SamplesBase):
 			exclude_cuts = []
 		self.embedding = False if nick_suffix != "_emb" else self.embedding
 
-		cut_type_emb = cut_type + "emb" if self.embedding else cut_type
+		cut_type_emb = cut_type + "_emb" if self.embedding else cut_type
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 
 		scale_factor = 1.0
@@ -3575,7 +3575,7 @@ class Samples(samples.SamplesBase):
 
 		data_weight, mc_weight = self.projection(kwargs)
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
-		cut_type_emb = cut_type + "emb" if self.embedding else cut_type
+		cut_type_emb = cut_type + "_emb" if self.embedding else cut_type
 
 		if exclude_cuts is None:
 			exclude_cuts = []
