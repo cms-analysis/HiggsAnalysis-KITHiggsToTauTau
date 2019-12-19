@@ -857,7 +857,7 @@ class Samples(samples.Samples):
 				# background subtraction nicks in region B
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + "_emb" if self.embedding else "",weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B + "_emb" if self.embedding else "")+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type + "_emb" if self.embedding else ""),
+						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + ("_emb" if self.embedding else ""),weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B, cut_type=cut_type_B + ("_emb" if self.embedding else ""))+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type + ("_emb" if self.embedding else "")),
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick=("noplot_" if not controlregions else "") + "ztt_ss_qcd"
 				)
@@ -1128,7 +1128,7 @@ class Samples(samples.Samples):
 						)
 						add_input(
 								input_file=self.files_ztt(channel, embedding=self.embedding),
-								weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + "_emb" if self.embedding else "",mc_sample_weight=mc_sample_weight,embedding=self.embedding)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type + "_emb" if self.embedding else ""),
+								weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + ("_emb" if self.embedding else ""),mc_sample_weight=mc_sample_weight,embedding=self.embedding)+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type + ("_emb" if self.embedding else "")),
 								scale_factor = 1.0 if self.embedding else lumi,
 								nick="noplot_ztt_"+estimation_type
 						)
@@ -1278,7 +1278,7 @@ class Samples(samples.Samples):
 						)
 						add_input(
 								input_file=self.files_ztt(channel, embedding=self.embedding),
-								weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + "_emb" if self.embedding else "",mc_sample_weight=emb_selection_weights[key] if self.embedding else mc_selection_weights[key],embedding=self.embedding)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+								weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + ("_emb" if self.embedding else ""),mc_sample_weight=emb_selection_weights[key] if self.embedding else mc_selection_weights[key],embedding=self.embedding)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 								scale_factor = 1.0 if self.embedding else lumi,
 								nick="noplot_ztt_"+key
 						)
@@ -1404,7 +1404,7 @@ class Samples(samples.Samples):
 					)
 					add_input(
 							input_file=self.files_ztt(channel, embedding=self.embedding),
-							weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + "_emb" if self.embedding else "",weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C + "_emb" if self.embedding else "")+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+							weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + ("_emb" if self.embedding else ""),weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C + ("_emb" if self.embedding else ""))+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 							scale_factor = 1.0 if self.embedding else lumi,
 							nick="noplot_ztt_ss_mc_wj_control"
 					)
@@ -1548,7 +1548,7 @@ class Samples(samples.Samples):
 				)
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + "_emb" if self.embedding else "",weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B + "_emb" if self.embedding else "")+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type + "_emb" if self.embedding else ""),
+						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type + ("_emb" if self.embedding else ""),weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_B , cut_type=cut_type_B + ("_emb" if self.embedding else ""))+"*zPtReweightWeight"+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type + ("_emb" if self.embedding else "")),
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick="noplot_ztt_mc_qcd_control"
 				)
@@ -1776,7 +1776,7 @@ class Samples(samples.Samples):
 				# Type C subtract nicks - nick type xx_ss_highmt
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_C, cut_type=cut_type_C + ("_emb" if self.embedding else ""))+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick=("noplot_" if not controlregions else "") + "ztt_ss_highmt"
 				)
@@ -1896,7 +1896,7 @@ class Samples(samples.Samples):
 				# wjets os highmt subtract nicks
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D)+"*zPtReweightWeight"+"*"+zmm_cr_factor,
+						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type,weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts_D, cut_type=cut_type_D + ("_emb" if self.embedding else ""))+"*zPtReweightWeight"+"*"+zmm_cr_factor,
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick=("noplot_" if not controlregions else "") + "ztt_os_highmt"
 				)
@@ -2276,7 +2276,7 @@ class Samples(samples.Samples):
 				)
 				add_input(
 						input_file=self.files_ztt(channel, embedding=self.embedding),
-						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_D + "_emb" if  self.embedding else "",weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D + "_emb" if  self.embedding else "")+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel, cut_type_D + "_emb" if  self.embedding else "")+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type + "_emb" if  self.embedding else ""),
+						weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_D + ("_emb" if self.embedding else ""),weight=weight,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_D + ("_emb" if self.embedding else ""))+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel, cut_type_D + ("_emb" if self.embedding else ""))+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type + ("_emb" if self.embedding else "")),
 						scale_factor = 1.0 if self.embedding else lumi,
 						nick="noplot_ztt_mc_wj_control"
 				)
