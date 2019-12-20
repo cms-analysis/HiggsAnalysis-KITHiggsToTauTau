@@ -35,7 +35,10 @@ class Samples(samples.Samples):
 	def ztt_stitchingweight(self):
 		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25469132e-3) + (((genbosonmass >= 150.0) && (npartons == 1))*1.17290378e-3) + (((genbosonmass >= 150.0) && (npartons == 2))*1.17845742e-3) + (((genbosonmass >= 150.0) && (npartons == 3))*1.18139540e-3)+((genbosonmass >= 150.0 && npartons == 4)*1.15891212e-3)"
 
-		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.36539901e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.11088685e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.30871136e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.45336607e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.36539901e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
+		if self.legacy:
+			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.21386672e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.70966124e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.21803680e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.41876778e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.21386672e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
+		else:
+			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.36539901e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.11088685e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.30871136e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.45336607e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.36539901e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
 
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight) +"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
@@ -45,7 +48,10 @@ class Samples(samples.Samples):
 	# DYJetsToLLM_150 sample currently only contains Z->tautau decays  5.94801691-05
 
 	def zll_stitchingweight(self):
-		mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.36539901e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.11088685e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.30871136e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.45336607e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.36539901e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
+		if self.legacy:
+			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.21386672e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.70966124e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.21803680e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.41876778e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.21386672e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
+		else:
+			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.36539901e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.11088685e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.30871136e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.45336607e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.36539901e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
 
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight) +"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
@@ -54,10 +60,13 @@ class Samples(samples.Samples):
 
 	def wj_stitchingweight(self, use_ext_sample=True):
 		# return "(((npartons == 0 || npartons >= 5)*(1.37088105e-03)) + ((npartons == 1)*(1.54354730e-04)) + ((npartons == 2)*(3.62872916e-04)) + ((npartons == 3)*(5.61528581e-05)) + ((npartons == 4)*(5.36308423e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
-		if use_ext_sample:
-			return "(((npartons == 0 || npartons >= 5)*(8.602609716e-04)) + ((npartons == 1)*(1.446850624e-04)) + ((npartons == 2)*(3.219452396e-04)) + ((npartons == 3)*(5.482001534e-05)) + ((npartons == 4)*(5.241373841e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+		if self.legacy:
+			return "(((npartons == 0 || npartons >= 5)*(1.37088105e-03)) + ((npartons == 1)*(1.52257926e-04)) + ((npartons == 2)*(3.62872916e-04)) + ((npartons == 3)*(5.61528581e-05)) + ((npartons == 4)*(5.46975115e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		else:
-			return "(((npartons == 0 || npartons >= 5)*(2.28776768e-03)) + ((npartons == 1)*(1.61649265e-04)) + ((npartons == 2)*(4.20029057e-04)) + ((npartons == 3)*(5.70900669e-05)) + ((npartons == 4)*(5.44851148e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+			if use_ext_sample:
+				return "(((npartons == 0 || npartons >= 5)*(8.602609716e-04)) + ((npartons == 1)*(1.446850624e-04)) + ((npartons == 2)*(3.219452396e-04)) + ((npartons == 3)*(5.482001534e-05)) + ((npartons == 4)*(5.241373841e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+			else:
+				return "(((npartons == 0 || npartons >= 5)*(2.28776768e-03)) + ((npartons == 1)*(1.61649265e-04)) + ((npartons == 2)*(4.20029057e-04)) + ((npartons == 3)*(5.70900669e-05)) + ((npartons == 4)*(5.44851148e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 
 	#no stitching weights since no extensions
 	def ewkz_zll_stitchingweight(self):
