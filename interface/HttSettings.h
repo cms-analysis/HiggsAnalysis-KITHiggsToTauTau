@@ -411,6 +411,11 @@ public:
 	IMPL_SETTING(std::string, TauTrigger2017WorkingPoint);
 	IMPL_SETTING_STRINGLIST(TauTrigger2017WorkingPoints);
 
+	// settings for DeepTauTriggerScaleFactorProducer
+	IMPL_SETTING_DEFAULT(std::string, DeepTauTriggerInput, "");
+	IMPL_SETTING(std::string, DeepTauIDWorkingPoint);
+	IMPL_SETTING_STRINGLIST(DeepTauIDWorkingPoints);
+
 	// settings for EmbeddingWeightProducer
 	IMPL_SETTING_DEFAULT(bool, SaveEmbeddingWeightAsOptionalOnly, false);
 	IMPL_SETTING_DEFAULT(std::string, EmbeddingWeightWorkspace, "");

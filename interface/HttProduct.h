@@ -684,6 +684,8 @@ public:
 
 	std::map<HttEnumTypes::TauIDWP, std::vector<double> > m_tautriggerefficienciesMC;
 	std::map<HttEnumTypes::TauIDWP, std::vector<double> > m_tautriggerefficienciesData;
+	std::map<HttEnumTypes::DeepTauIDWP, std::vector<double> > m_deeptautriggerefficienciesMC;
+	std::map<HttEnumTypes::DeepTauIDWP, std::vector<double> > m_deeptautriggerefficienciesData;
 
 	// filled by MVAInputQuantitiesProducer
 // 	int tsValue = 0;

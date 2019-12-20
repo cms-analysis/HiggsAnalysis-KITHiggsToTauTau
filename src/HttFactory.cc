@@ -61,6 +61,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TaggedJetUncertaintyShiftProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/LFVJetCorrection2016Producer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/TauTriggerEfficiency2017Producer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/DeepTauTriggerScaleFactorProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/PrefiringWeightProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/CPInitialStateQuantitiesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GroupedJetUncertaintyShiftProducer.h"
@@ -302,6 +303,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new LegacyWeightProducer();
 	else if(id == TauTriggerEfficiency2017Producer().GetProducerId())
 		return new TauTriggerEfficiency2017Producer();
+	else if(id == DeepTauTriggerScaleFactorProducer().GetProducerId())
+		return new DeepTauTriggerScaleFactorProducer();
 	else if(id == EmbeddingGlobalQuantitiesProducer().GetProducerId())
 		return new EmbeddingGlobalQuantitiesProducer();
 	//else if(id == BoostRestFrameProducer().GetProducerId())
