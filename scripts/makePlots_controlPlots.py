@@ -267,6 +267,10 @@ if __name__ == "__main__":
 	                    help="Use only cartesian instead of spherical coordinates to calibrate IPs. [Default: %(default)s]")
 	parser.add_argument("--nicks-blacklist", default=False, action="store_true",
 	                    help="Blacklist all background and data. [Default: %(default)s]")
+	parser.add_argument("--high-mt-control-wj", default=False, action="store_true",
+	                    help="Add a high mt cut to the global cut type. [Default: %(default)s]")
+	parser.add_argument("--control-dy", default=False, action="store_true",
+	                    help="Add a low mt cut and a m_sv cut around the z peak to the global cut type. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -390,6 +394,10 @@ if __name__ == "__main__":
 			global_category_string = "catcptautau2017"
 			global_cut_type = "cptautau"
 		global_cut_type += "2017"
+	if args.high_mt_control_wj:
+		global_cut_type += "highMtControlRegionWJ"
+	if args.control_dy:
+		global_cut_type += "lowMtZPeakControlRegionDY"
 
 	if args.channel_comparison:
 		args.weights = (args.weights * len(args.channels))[:len(args.channels)]

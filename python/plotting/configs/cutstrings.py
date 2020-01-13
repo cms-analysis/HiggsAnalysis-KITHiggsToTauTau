@@ -731,6 +731,13 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
+	def lowMtZPeakControlRegionDY(channel, cut_type, **kwargs):
+		cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("lowMtZPeakControlRegionDY",""), **kwargs)
+		cuts["m_sv"] = "(m_sv > 80.0) * (m_sv < 100.0)"
+		return cuts
+
+
+	@staticmethod
 	def baseline_low_mvis(channel, cut_type, **kwargs):
 		if channel== "gen":
 			cuts = {}
@@ -918,6 +925,9 @@ class CutStringsDict:
 			cuts = CutStringsDict.tauidvtightpass(channel, cut_type, **kwargs)
 		elif cut_type=="tauidvtightfail":
 			cuts = CutStringsDict.tauidvtightfail(channel, cut_type, **kwargs)
+
+		elif "lowMtZPeakControlRegionDY" in cut_type:
+			cuts = CutStringsDict.lowMtZPeakControlRegionDY(channel, cut_type, **kwargs)
 
 		elif cut_type=="tauescuts":
 			cuts = CutStringsDict.tauescuts(channel, cut_type, **kwargs)
