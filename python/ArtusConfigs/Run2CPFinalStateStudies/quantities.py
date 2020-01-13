@@ -162,16 +162,26 @@ class Quantities(Run2CPQuantities.Quantities):
 			"cosPsiPlusHelrPVBS",
 			"cosPsiMinusHelrPVBS",
 
-			"calibIPHelrPV_1",
-			"calibIPHelrPV_2",
+			"isMinRefitPV",
+			"isMinRefitPVBS",
+
+			"isomapIPHelrPV_1",
+			"isomapIPHelrPV_2",
+			"isomapIPHelrPVBS_1",
+			"isomapIPHelrPVBS_2",
+			"isomapPhiStarCPHelrPV",
+			"isomapPhiStarCPHelrPVBS",
+			"isomapPhiStarCPCombHelrPV",
+			"isomapPhiStarCPCombMergedHelrPV",
+			"isomapPhiStarCPCombHelrPVBS",
+			"isomapPhiStarCPCombMergedHelrPVBS",
+
 			"calibIPHelrPVBS_1",
 			"calibIPHelrPVBS_2",
-			"calibPhiStarCPHelrPV",
 			"calibPhiStarCPHelrPVBS",
-			"calibPhiStarCPCombHelrPV",
-			"calibPhiStarCPCombMergedHelrPV",
 			"calibPhiStarCPCombHelrPVBS",
 			"calibPhiStarCPCombMergedHelrPVBS",
+
 
 			]
 		return s

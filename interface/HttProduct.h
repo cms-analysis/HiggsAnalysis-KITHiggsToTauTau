@@ -618,37 +618,25 @@ public:
 	double m_recoTrackRefError2 = DefaultValues::UndefinedDouble;
 
 	// filed by IsomorphicMapping
-	TVector3 m_calibIP_1; // IPvec wrt original PV
-	TVector3 m_calibIP_2; // IPvec wrt original PV
-	TVector3 m_calibIPrPV_1; // IPvec wrt refitted PV
-	TVector3 m_calibIPrPV_2; // IPvec wrt refitted PV
-	TVector3 m_calibIPrPVBS_1; // IPvec wrt refitted PV and BS constraint
-	TVector3 m_calibIPrPVBS_2; // IPvec wrt refitted PV and BS constraint
-	TVector3 m_calibIPHel_1; // IPvec wrt original PV
-	TVector3 m_calibIPHel_2; // IPvec wrt original PV
-	TVector3 m_calibIPHelrPV_1; // IPvec wrt refitted PV
-	TVector3 m_calibIPHelrPV_2; // IPvec wrt refitted PV
+	TVector3 m_isomapIPHelrPV_1; // IPvec wrt refitted PV
+	TVector3 m_isomapIPHelrPV_2; // IPvec wrt refitted PV
+	TVector3 m_isomapIPHelrPVBS_1; // IPvec wrt refitted PV and BS constraint
+	TVector3 m_isomapIPHelrPVBS_2; // IPvec wrt refitted PV and BS constraint
+
+	double m_isomapPhiStarCPHelrPV             = DefaultValues::UndefinedDouble;
+	double m_isomapPhiStarCPHelrPVBS           = DefaultValues::UndefinedDouble;
+	double m_isomapPhiStarCPCombHelrPV         = DefaultValues::UndefinedDouble;
+	double m_isomapPhiStarCPCombMergedHelrPV   = DefaultValues::UndefinedDouble;
+	double m_isomapPhiStarCPCombHelrPVBS       = DefaultValues::UndefinedDouble;
+	double m_isomapPhiStarCPCombMergedHelrPVBS = DefaultValues::UndefinedDouble;
+	// filed by QuantileMapping
 	TVector3 m_calibIPHelrPVBS_1; // IPvec wrt refitted PV and BS constraint
 	TVector3 m_calibIPHelrPVBS_2; // IPvec wrt refitted PV and BS constraint
 
-	double m_calibPhiStarCP                   = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPHel                = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPrPV                = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPHelrPV             = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPrPVBS              = DefaultValues::UndefinedDouble;
 	double m_calibPhiStarCPHelrPVBS           = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPComb               = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPCombMerged         = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPCombrPV            = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPCombMergedrPV      = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPCombrPVBS          = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPCombMergedrPVBS    = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPCombHel            = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPCombMergedHel      = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPCombHelrPV         = DefaultValues::UndefinedDouble;
-	double m_calibPhiStarCPCombMergedHelrPV   = DefaultValues::UndefinedDouble;
 	double m_calibPhiStarCPCombHelrPVBS       = DefaultValues::UndefinedDouble;
 	double m_calibPhiStarCPCombMergedHelrPVBS = DefaultValues::UndefinedDouble;
+
 
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;

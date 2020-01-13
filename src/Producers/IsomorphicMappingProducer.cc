@@ -162,50 +162,50 @@ void IsomorphicMappingProducer::Init(setting_type const& settings, metadata_type
 	gDirectory = savedir;
 	gFile = savefile;
 
-	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "calibIPHelrPV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "isomapIPHelrPV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return (((product.m_calibIPHelrPV_1).x() != -999) ? RMPoint( (product.m_calibIPHelrPV_1).x(), (product.m_calibIPHelrPV_1).y(), (product.m_calibIPHelrPV_1).z() ) : DefaultValues::UndefinedRMPoint);
+		return (((product.m_isomapIPHelrPV_1).x() != -999) ? RMPoint( (product.m_isomapIPHelrPV_1).x(), (product.m_isomapIPHelrPV_1).y(), (product.m_isomapIPHelrPV_1).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "calibIPHelrPV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "isomapIPHelrPV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return (((product.m_calibIPHelrPV_2).x() != -999) ? RMPoint( (product.m_calibIPHelrPV_2).x(), (product.m_calibIPHelrPV_2).y(), (product.m_calibIPHelrPV_2).z() ) : DefaultValues::UndefinedRMPoint);
+		return (((product.m_isomapIPHelrPV_2).x() != -999) ? RMPoint( (product.m_isomapIPHelrPV_2).x(), (product.m_isomapIPHelrPV_2).y(), (product.m_isomapIPHelrPV_2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "calibIPHelrPVBS_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "isomapIPHelrPVBS_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return (((product.m_calibIPHelrPVBS_1).x() != -999) ? RMPoint( (product.m_calibIPHelrPVBS_1).x(), (product.m_calibIPHelrPVBS_1).y(), (product.m_calibIPHelrPVBS_1).z() ) : DefaultValues::UndefinedRMPoint);
+		return (((product.m_isomapIPHelrPVBS_1).x() != -999) ? RMPoint( (product.m_isomapIPHelrPVBS_1).x(), (product.m_isomapIPHelrPVBS_1).y(), (product.m_isomapIPHelrPVBS_1).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "calibIPHelrPVBS_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "isomapIPHelrPVBS_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return (((product.m_calibIPHelrPVBS_2).x() != -999) ? RMPoint( (product.m_calibIPHelrPVBS_2).x(), (product.m_calibIPHelrPVBS_2).y(), (product.m_calibIPHelrPVBS_2).z() ) : DefaultValues::UndefinedRMPoint);
+		return (((product.m_isomapIPHelrPVBS_2).x() != -999) ? RMPoint( (product.m_isomapIPHelrPVBS_2).x(), (product.m_isomapIPHelrPVBS_2).y(), (product.m_isomapIPHelrPVBS_2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
 
 	// CP-related quantities
 	// IP-Method
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "calibPhiStarCPHelrPV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "isomapPhiStarCPHelrPV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_calibPhiStarCPHelrPV;
+		return product.m_isomapPhiStarCPHelrPV;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "calibPhiStarCPHelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "isomapPhiStarCPHelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_calibPhiStarCPHelrPVBS;
+		return product.m_isomapPhiStarCPHelrPVBS;
 	});
 	// Combined Method
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "calibPhiStarCPCombHelrPV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "isomapPhiStarCPCombHelrPV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_calibPhiStarCPCombHelrPV;
+		return product.m_isomapPhiStarCPCombHelrPV;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "calibPhiStarCPCombMergedHelrPV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "isomapPhiStarCPCombMergedHelrPV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_calibPhiStarCPCombMergedHelrPV;
+		return product.m_isomapPhiStarCPCombMergedHelrPV;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "calibPhiStarCPCombHelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "isomapPhiStarCPCombHelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_calibPhiStarCPCombHelrPVBS;
+		return product.m_isomapPhiStarCPCombHelrPVBS;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "calibPhiStarCPCombMergedHelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "isomapPhiStarCPCombMergedHelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_calibPhiStarCPCombMergedHelrPVBS;
+		return product.m_isomapPhiStarCPCombMergedHelrPVBS;
 	});
 
 
@@ -229,10 +229,10 @@ void IsomorphicMappingProducer::Produce(event_type const& event, product_type& p
 		IPPlusHelrPVBS.SetXYZ(-999,-999,-999);
 		IPMinusHelrPVBS.SetXYZ(-999,-999,-999);
 
-		product.m_calibIPHelrPV_1.SetXYZ(-999, -999, -999);
-		product.m_calibIPHelrPV_2.SetXYZ(-999, -999, -999);
-		product.m_calibIPHelrPVBS_1.SetXYZ(-999, -999, -999);
-		product.m_calibIPHelrPVBS_2.SetXYZ(-999, -999, -999);
+		product.m_isomapIPHelrPV_1.SetXYZ(-999, -999, -999);
+		product.m_isomapIPHelrPV_2.SetXYZ(-999, -999, -999);
+		product.m_isomapIPHelrPVBS_1.SetXYZ(-999, -999, -999);
+		product.m_isomapIPHelrPVBS_2.SetXYZ(-999, -999, -999);
 
 		// reconstructed leptons
 		KLepton* recoParticle1 = product.m_flavourOrderedLeptons.at(0);
@@ -247,52 +247,52 @@ void IsomorphicMappingProducer::Produce(event_type const& event, product_type& p
 		RMFLV momentumM = ((chargedPart2->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(chargedPart2)->chargedHadronCandidates.at(0).p4 : chargedPart2->p4);
 
 		int gen_match_1 = product.m_flavourOrderedGenMatch.at(0);
-		int gen_match_2 = product.m_flavourOrderedGenMatch.at(0);
+		int gen_match_2 = product.m_flavourOrderedGenMatch.at(1);
 
 		// Defining CPQuantities object to use variables and functions of this class
 		CPQuantities cpq;
 		ImpactParameter ip;
 		if (product.m_refitPV != nullptr){
 			if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT ){
-				product.m_calibIPHelrPV_1 = CalibrateIPHelrPV(product.m_recoIPHelrPV_1, gen_match_1, true);
-				product.m_calibIPHelrPVBS_1 = CalibrateIPHelrPVBS(product.m_recoIPHelrPVBS_1, gen_match_1, true);
+				product.m_isomapIPHelrPV_1 = CalibrateIPHelrPV(product.m_recoIPHelrPV_1, gen_match_1, true);
+				product.m_isomapIPHelrPVBS_1 = CalibrateIPHelrPVBS(product.m_recoIPHelrPVBS_1, gen_match_1, true);
 				if (recoTau2->decayMode == 0) {
-					product.m_calibIPHelrPV_2 = CalibrateIPHelrPV(product.m_recoIPHelrPV_2, gen_match_2, false);
-					product.m_calibIPHelrPVBS_2 = CalibrateIPHelrPVBS(product.m_recoIPHelrPVBS_2, gen_match_2, false);
+					product.m_isomapIPHelrPV_2 = CalibrateIPHelrPV(product.m_recoIPHelrPV_2, gen_match_2, false);
+					product.m_isomapIPHelrPVBS_2 = CalibrateIPHelrPVBS(product.m_recoIPHelrPVBS_2, gen_match_2, false);
 				} else {
-					product.m_calibIPHelrPV_2 = product.m_recoIPHelrPV_2;
-					product.m_calibIPHelrPVBS_2 = product.m_recoIPHelrPVBS_2;
+					product.m_isomapIPHelrPV_2 = product.m_recoIPHelrPV_2;
+					product.m_isomapIPHelrPVBS_2 = product.m_recoIPHelrPVBS_2;
 				}
 			} else if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ) {
 				if (recoTau1->decayMode == 0) {
-					product.m_calibIPHelrPV_1 = CalibrateIPHelrPV(product.m_recoIPHelrPV_1, gen_match_1, false);
-					product.m_calibIPHelrPVBS_1 = CalibrateIPHelrPVBS(product.m_recoIPHelrPVBS_1, gen_match_1, false);
+					product.m_isomapIPHelrPV_1 = CalibrateIPHelrPV(product.m_recoIPHelrPV_1, gen_match_1, false);
+					product.m_isomapIPHelrPVBS_1 = CalibrateIPHelrPVBS(product.m_recoIPHelrPVBS_1, gen_match_1, false);
 				} else {
-					product.m_calibIPHelrPV_1 = product.m_recoIPHelrPV_1;
-					product.m_calibIPHelrPVBS_1 = product.m_recoIPHelrPVBS_1;
+					product.m_isomapIPHelrPV_1 = product.m_recoIPHelrPV_1;
+					product.m_isomapIPHelrPVBS_1 = product.m_recoIPHelrPVBS_1;
 				}
 				if (recoTau2->decayMode == 0) {
-					product.m_calibIPHelrPV_2 = CalibrateIPHelrPV(product.m_recoIPHelrPV_2, gen_match_2, false);
-					product.m_calibIPHelrPVBS_2 = CalibrateIPHelrPVBS(product.m_recoIPHelrPVBS_2, gen_match_2, false);
+					product.m_isomapIPHelrPV_2 = CalibrateIPHelrPV(product.m_recoIPHelrPV_2, gen_match_2, false);
+					product.m_isomapIPHelrPVBS_2 = CalibrateIPHelrPVBS(product.m_recoIPHelrPVBS_2, gen_match_2, false);
 				} else {
-					product.m_calibIPHelrPV_2 = product.m_recoIPHelrPV_2;
-					product.m_calibIPHelrPVBS_2 = product.m_recoIPHelrPVBS_2;
+					product.m_isomapIPHelrPV_2 = product.m_recoIPHelrPV_2;
+					product.m_isomapIPHelrPVBS_2 = product.m_recoIPHelrPVBS_2;
 				}
 			}
 
 			if (recoParticle1->getHash() == chargedPart1->getHash()){
-				IPPlusHelrPV  = product.m_calibIPHelrPV_1;
-				IPMinusHelrPV = product.m_calibIPHelrPV_2;
-				IPPlusHelrPVBS  = product.m_calibIPHelrPVBS_1;
-				IPMinusHelrPVBS = product.m_calibIPHelrPVBS_2;
+				IPPlusHelrPV  = product.m_isomapIPHelrPV_1;
+				IPMinusHelrPV = product.m_isomapIPHelrPV_2;
+				IPPlusHelrPVBS  = product.m_isomapIPHelrPVBS_1;
+				IPMinusHelrPVBS = product.m_isomapIPHelrPVBS_2;
 			} else {
-				IPPlusHelrPV  = product.m_calibIPHelrPV_2;
-				IPMinusHelrPV = product.m_calibIPHelrPV_1;
-				IPPlusHelrPVBS  = product.m_calibIPHelrPVBS_2;
-				IPMinusHelrPVBS = product.m_calibIPHelrPVBS_1;
+				IPPlusHelrPV  = product.m_isomapIPHelrPV_2;
+				IPMinusHelrPV = product.m_isomapIPHelrPV_1;
+				IPPlusHelrPVBS  = product.m_isomapIPHelrPVBS_2;
+				IPMinusHelrPVBS = product.m_isomapIPHelrPVBS_1;
 			}
-			product.m_calibPhiStarCPHelrPV = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlusHelrPV, IPMinusHelrPV, "reco");
-			product.m_calibPhiStarCPHelrPVBS = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlusHelrPVBS, IPMinusHelrPVBS, "reco");
+			product.m_isomapPhiStarCPHelrPV = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlusHelrPV, IPMinusHelrPV, "reco");
+			product.m_isomapPhiStarCPHelrPVBS = cpq.CalculatePhiStarCP(momentumP, momentumM, IPPlusHelrPVBS, IPMinusHelrPVBS, "reco");
 
 			// ---------
 			// comb-method - with refitted PV
@@ -300,44 +300,44 @@ void IsomorphicMappingProducer::Produce(event_type const& event, product_type& p
 			if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET || recoTau2->decayMode == 1){
 				KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
 
-				product.m_calibPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_calibIPHelrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-				product.m_calibPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_calibIPHelrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+				product.m_isomapPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_isomapIPHelrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+				product.m_isomapPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_isomapIPHelrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
 
-				product.m_calibPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombSemiLeptonic(product.m_calibPhiStarCPCombHelrPV, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-				product.m_calibPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombSemiLeptonic(product.m_calibPhiStarCPCombHelrPVBS, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+				product.m_isomapPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombSemiLeptonic(product.m_isomapPhiStarCPCombHelrPV, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+				product.m_isomapPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombSemiLeptonic(product.m_isomapPhiStarCPCombHelrPVBS, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 			}
 			if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ){
 				// tau1->rho, tau2->a
 				if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
-					product.m_calibPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_calibIPHelrPV_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-					product.m_calibPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_calibIPHelrPVBS_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+					product.m_isomapPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_isomapIPHelrPV_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+					product.m_isomapPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_isomapIPHelrPVBS_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
 
-					product.m_calibPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombFullyHadronic(product.m_calibPhiStarCPCombHelrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-					product.m_calibPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_calibPhiStarCPCombHelrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+					product.m_isomapPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombFullyHadronic(product.m_isomapPhiStarCPCombHelrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+					product.m_isomapPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_isomapPhiStarCPCombHelrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 				}
 				// tau1->a, tau2->rho
 				if (recoTau1->decayMode != 1 && recoTau2->decayMode ==1){
-					product.m_calibPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_calibIPHelrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-					product.m_calibPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_calibIPHelrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+					product.m_isomapPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_isomapIPHelrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+					product.m_isomapPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_isomapIPHelrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
 
-					product.m_calibPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombFullyHadronic(product.m_calibPhiStarCPCombHelrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-					product.m_calibPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_calibPhiStarCPCombHelrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+					product.m_isomapPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombFullyHadronic(product.m_isomapPhiStarCPCombHelrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+					product.m_isomapPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_isomapPhiStarCPCombHelrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 				}
 
 			}  // if tt ch.
 		} // if refitPV exists
 	} // is not data
 	else{
-		product.m_calibIPHelrPV_1 = product.m_recoIPHelrPV_1;
-		product.m_calibIPHelrPV_2 = product.m_recoIPHelrPV_2;
-		product.m_calibIPHelrPVBS_1 = product.m_recoIPHelrPVBS_1;
-		product.m_calibIPHelrPVBS_2 = product.m_recoIPHelrPVBS_2;
+		product.m_isomapIPHelrPV_1 = product.m_recoIPHelrPV_1;
+		product.m_isomapIPHelrPV_2 = product.m_recoIPHelrPV_2;
+		product.m_isomapIPHelrPVBS_1 = product.m_recoIPHelrPVBS_1;
+		product.m_isomapIPHelrPVBS_2 = product.m_recoIPHelrPVBS_2;
 
-		product.m_calibPhiStarCPHelrPV             = product.m_recoPhiStarCPHelrPV;
-		product.m_calibPhiStarCPHelrPVBS           = product.m_recoPhiStarCPHelrPVBS;
-		product.m_calibPhiStarCPCombHelrPV         = product.m_recoPhiStarCPCombHelrPV;
-		product.m_calibPhiStarCPCombMergedHelrPV   = product.m_recoPhiStarCPCombMergedHelrPV;
-		product.m_calibPhiStarCPCombHelrPVBS       = product.m_recoPhiStarCPCombHelrPVBS;
-		product.m_calibPhiStarCPCombMergedHelrPVBS = product.m_recoPhiStarCPCombMergedHelrPVBS;
+		product.m_isomapPhiStarCPHelrPV             = product.m_recoPhiStarCPHelrPV;
+		product.m_isomapPhiStarCPHelrPVBS           = product.m_recoPhiStarCPHelrPVBS;
+		product.m_isomapPhiStarCPCombHelrPV         = product.m_recoPhiStarCPCombHelrPV;
+		product.m_isomapPhiStarCPCombMergedHelrPV   = product.m_recoPhiStarCPCombMergedHelrPV;
+		product.m_isomapPhiStarCPCombHelrPVBS       = product.m_recoPhiStarCPCombHelrPVBS;
+		product.m_isomapPhiStarCPCombMergedHelrPVBS = product.m_recoPhiStarCPCombMergedHelrPVBS;
 	} // is data
 }

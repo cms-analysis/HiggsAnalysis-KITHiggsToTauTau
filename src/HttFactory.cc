@@ -26,6 +26,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RefitVertexSelector.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/IsomorphicMappingProducer.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/QuantileMappingProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTmvaClassificationReaders.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttValidGenTausProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/HttTriggerSettingsProducer.h"
@@ -181,6 +182,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new RecoTauCPProducer();
 	else if(id == IsomorphicMappingProducer().GetProducerId())
 		return new IsomorphicMappingProducer();
+	else if(id == QuantileMappingProducer().GetProducerId())
+		return new QuantileMappingProducer();
 	else if(id == AntiTtbarDiscriminatorTmvaReader().GetProducerId())
 		return new AntiTtbarDiscriminatorTmvaReader();
 	else if(id == TauPolarisationTmvaReader().GetProducerId())
