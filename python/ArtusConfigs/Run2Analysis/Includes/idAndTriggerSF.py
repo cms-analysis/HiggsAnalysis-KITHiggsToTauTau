@@ -44,6 +44,22 @@ class IdAndTriggerSF(dict):
 					"vtight",
 					"vvtight",
 				]
+				self["DeepTauIDWorkingPoints"] = [
+					"VVVLOOSE",
+					"VVLOOSE",
+					"VLOOSE",
+					"LOOSE",
+					"MEDIUM",
+					"TIGHT",
+					"VTIGHT",
+					"VVTIGHT",
+				]
+				if re.search("Run2016|Summer16|Embedding2016", nickname):
+					self["DeepTauTriggerInput"] = "$CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs/data/2016_tauTriggerEff_DeepTau2017v2p1.root"
+				elif re.search("Run2017|Fall17|Embedding2017", nickname):
+					self["DeepTauTriggerInput"] = "$CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs/data/2017_tauTriggerEff_DeepTau2017v2p1.root"
+				elif re.search("Run2018|Autumn18|Embedding2018", nickname):
+					self["DeepTauTriggerInput"] = "$CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs/data/2018_tauTriggerEff_DeepTau2017v2p1.root"
 
 			if channel == "ET":
 				if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):

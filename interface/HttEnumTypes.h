@@ -120,6 +120,31 @@ public:
 		else return TauIDWP::NONE;
 	}
 
+	enum class DeepTauIDWP : int
+	{
+		NONE = -1,
+		VVVLOOSE = 0,
+		VVLOOSE = 1,
+		VLOOSE = 2,
+		LOOSE = 3,
+		MEDIUM = 4,
+		TIGHT = 5,
+		VTIGHT = 6,
+		VVTIGHT = 7,
+	};
+	static DeepTauIDWP ToDeepTauIDWP(std::string const& deeptauIDWP)
+	{
+		if (deeptauIDWP == "vvvloose") return DeepTauIDWP::VVVLOOSE;
+		else if (deeptauIDWP == "vvloose") return DeepTauIDWP::VVLOOSE;
+		else if (deeptauIDWP == "vloose") return DeepTauIDWP::VLOOSE;
+		else if (deeptauIDWP == "loose") return DeepTauIDWP::LOOSE;
+		else if (deeptauIDWP == "medium") return DeepTauIDWP::MEDIUM;
+		else if (deeptauIDWP == "tight") return DeepTauIDWP::TIGHT;
+		else if (deeptauIDWP == "vtight") return DeepTauIDWP::VTIGHT;
+		else if (deeptauIDWP == "vvtight") return DeepTauIDWP::VVTIGHT;
+		else return DeepTauIDWP::NONE;
+	}
+
 	enum class MetType : int
 	{
 		NONE = -1,
