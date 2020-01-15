@@ -188,6 +188,7 @@ cd $CMSSW_BASE/src/
 git clone git@github.com:CMS-HTT/HiggsCPinTauDecays.git
 cd HiggsCPinTauDecays
 echo ImpactParameter/ >> .git/info/sparse-checkout
+echo IpCorrection/ >> .git/info/sparse-checkout
 git config core.sparsecheckout true
 git read-tree -mu HEAD
 cd ..
