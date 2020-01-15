@@ -261,6 +261,18 @@ if __name__ == "__main__":
 	                    help="Create a plot for isomorphic mapping. [Default: %(default)s]")
 	parser.add_argument("--legacy", default=False, action="store_true",
 	                    help="Use legacy Samples and Settings. [Default: %(default)s]")
+	parser.add_argument("--calibrate-ip", default=False, action="store_true",
+	                    help="Create a plot for the calibrated IPs via isomorphic mapping. Currently it is written in a way that it can only handle 1 channel argument at a time. [Default: %(default)s]")
+	parser.add_argument("--only-prompt", default=False, action="store_true",
+	                    help="Use only the prompt decays for calibration. [Default: %(default)s]")
+	parser.add_argument("--use-cartesian", default=False, action="store_true",
+	                    help="Use only cartesian instead of spherical coordinates to calibrate IPs. [Default: %(default)s]")
+	parser.add_argument("--nicks-blacklist", default=False, action="store_true",
+	                    help="Blacklist all background and data. [Default: %(default)s]")
+	parser.add_argument("--high-mt-control-wj", default=False, action="store_true",
+	                    help="Add a high mt cut to the global cut type. [Default: %(default)s]")
+	parser.add_argument("--control-dy", default=False, action="store_true",
+	                    help="Add a low mt cut and a m_sv cut around the z peak to the global cut type. [Default: %(default)s]")
 	args = parser.parse_args()
 	logger.initLogger(args)
 
@@ -386,6 +398,10 @@ if __name__ == "__main__":
 		global_cut_type += "2017"
 	if args.legacy == True:
 		global_cut_type += "legacy"
+	if args.high_mt_control_wj:
+		global_cut_type += "highMtControlRegionWJ"
+	if args.control_dy:
+		global_cut_type += "lowMtZPeakControlRegionDY"
 
 	if args.channel_comparison:
 		args.weights = (args.weights * len(args.channels))[:len(args.channels)]
@@ -578,14 +594,44 @@ if __name__ == "__main__":
 					if "colors" in config: config.pop("colors")
 					if "markers" in config: config.pop("markers")
 					if "labels" in config: config.pop("labels")
+					if "legend" in config: config.pop("legend")
+					if "y_label" in config: config.pop("y_label")
+					config["nicks"].extend(["isomap_mc", "difference", "isomap"])
 					config.setdefault("isomap_mc_nicks", []).extend([" ".join(bkg_samples_used)])
 					config.setdefault("isomap_data_nicks", []).extend(["data"])
-					config.setdefault("isomap_result_nicks", []).extend(["isomap"])
+					config.setdefault("isomap_result_nicks", []).extend(["isomap_mc", "difference", "isomap"])
 					config["nicks_blacklist"].extend([" ".join(bkg_samples_used).split()])
 					config["nicks_blacklist"].append("data")
-					config.setdefault("colors", []).append("#000000")
-					config.setdefault("stacks", []).append("isomap")
+					config.setdefault("colors", []).extend(["#C7DDF2", "#00549F", "#00549F"])
 					config.setdefault("markers", []).append("LP")
+					config["legend_markers"] = ["LP"]
+					config.setdefault("labels", []).append("")
+					config["legend"] = [0.7, 0.2, 0.9, 0.3]
+					config["legend_cols"] = 1
+					config["y_label"] = "calibrated " + config["x_label"]
+					config["x_label"] = "uncalibrated " + config["x_label"]
+
+				if args.nicks_blacklist:
+					bkg_samples_used = [nick for nick in bkg_samples if (nick in config["nicks"] or nick == "ff")]
+					config["nicks_blacklist"].extend([" ".join(bkg_samples_used).split()])
+					config["nicks_blacklist"].append("data")
+
+				if args.calibrate_ip:
+					ipVersion, calibIPQuantity = config["x_expressions"][0][0][2:-2].split('.')
+					config["x_label"] = args.channels[0] + "_calib_IP" + ipVersion + "_" + calibIPQuantity
+					if "proxy_prefixes" in config: config.pop("proxy_prefixes")
+					config["tree_draw_options"] = ["proxy"]
+					useCartesian = "true" if args.use_cartesian else "false"
+					config["proxy_prefixes"] = []
+					isEmbedding = "true" if args.emb else "false"
+					useOnlyPrompt = "true" if args.only_prompt else "false"
+					config["filename"] = "prompt_calibIP" + ipVersion + "_" + calibIPQuantity if args.only_prompt else "calibIP" + ipVersion + "_" + calibIPQuantity
+					for nick in config["nicks"]:
+						if re.search("ztt", nick):
+							config["proxy_prefixes"].append("#include \"HiggsAnalysis/KITHiggsToTauTau/interface/Utility/IsomorphicMappingProxy.h\"\n#include <Math/Point3D.h>\ntypedef ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<float> > RMPoint;\nIsomorphicMappingProxy IsoMap_HASH_NAME(\"" + args.channels[0] + "\", \"" + ipVersion[:-2] + "\", \"" + args.era + "\", " + useOnlyPrompt + ", " + isEmbedding + ");")
+						else:
+							config["proxy_prefixes"].append("#include \"HiggsAnalysis/KITHiggsToTauTau/interface/Utility/IsomorphicMappingProxy.h\"\n#include <Math/Point3D.h>\ntypedef ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<float> > RMPoint;\nIsomorphicMappingProxy IsoMap_HASH_NAME(\"" + args.channels[0] + "\", \"" + ipVersion[:-2] + "\", \"" + args.era + "\", " + useOnlyPrompt + ", false);")
+					config["x_expressions"] = ["IsoMap_HASH_NAME.Get" + calibIPQuantity + "(RMPoint(IP" + ipVersion+ "->X(), IP" + ipVersion+ "->Y(),IP" + ipVersion+ "->Z()), gen_match_" + ipVersion[-1] + ", " + useCartesian + ")"]
 
 				if args.ratio:
 					bkg_samples_used = [nick for nick in bkg_samples if (nick in config["nicks"] or nick == "ff")]

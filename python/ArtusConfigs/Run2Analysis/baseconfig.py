@@ -34,10 +34,25 @@ class Baseconfig(dict):
 
 		#self["OutputPath"] = "output.root"
 
+		if re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
+			self["Year"] = 2016
+		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
+			self["Year"] = 2017
+		elif re.search("Run2018|Autumn18|Embedding2018", nickname):
+			self["Year"] = 2018
+		else:
+			self["Year"] = 2015
+
 		if re.search("Run201", nickname):
 			self["InputIsData"] = "true" #string in json, possible to change to boolean?
 		else:
 			self["InputIsData"] = "false"
+
+		if re.search("Embedding", nickname):
+			self["InputIsEmbedding"] = "true" #string in json, possible to change to boolean?
+		else:
+			self["InputIsEmbedding"] = "false"
+
 
 		if re.search("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|2017|MC)|LFV", nickname):
 			self["BosonPdgIds"] = [23]

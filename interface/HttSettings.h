@@ -499,4 +499,6 @@ public:
 	IMPL_SETTING(std::string, JetPrefireProbabilityFile);
 	//settings for CPInitialStateQuantitiesProducer
 	IMPL_SETTING_DEFAULT(bool, DoLhenpNLO, false);
+	// Check if input is Embedding
+	IMPL_SETTING(bool, InputIsEmbedding);
 };

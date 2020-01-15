@@ -1242,7 +1242,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// IP wrt nominalPV
 	product.m_recoIP1 = ip.CalculateShortestDistance(recoParticle1->p4, recoParticle1->track.ref, event.m_vertexSummary->pv.position);
 	product.m_recoIP2 = ip.CalculateShortestDistance(recoParticle2->p4, recoParticle2->track.ref, event.m_vertexSummary->pv.position);
-	// FIXME This is not needed anymore
 	product.m_errorIP1vec = cpq.CalculateIPErrors(recoParticle1, &(event.m_vertexSummary->pv), &product.m_recoIP1);
 	product.m_errorIP2vec = cpq.CalculateIPErrors(recoParticle2, &(event.m_vertexSummary->pv), &product.m_recoIP2);
 
@@ -1250,8 +1249,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_pca1proj = ip.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP1);
 	product.m_pca2proj = ip.CalculatePCADifferece(event.m_vertexSummary->pv.covariance,product.m_recoIP2);
 	//Distance of Point of closest approach (PCA) from the primary vertex (PV) in units of sigma_PV
-	product.m_pca1DiffInSigma = product.m_recoIP1.Mag()/product.m_pca1proj;
-	product.m_pca2DiffInSigma = product.m_recoIP2.Mag()/product.m_pca2proj;
+	product.m_pca1DiffInSigma = ip.CalculateIPSignificanceTangential(product.m_recoIP1, event.m_vertexSummary->pv.covariance);
+	product.m_pca2DiffInSigma = ip.CalculateIPSignificanceTangential(product.m_recoIP2, event.m_vertexSummary->pv.covariance);
 
 	//Impact parameters via helical approach in cm:
 	product.m_recoIPHel_1 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField, product.m_flavourOrderedLeptons.at(0)->track.helixParameters(), product.m_flavourOrderedLeptons.at(0)->track.ref, event.m_vertexSummary->pv.position);
@@ -1282,21 +1281,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_recoIPHelCovzz_2 = IPHelCov_2(2,2);
 
 	// Conversion from TVector3 to SVector
-	ROOT::Math::SVector<float, 3> IP1_(product.m_recoIPHel_1(0), product.m_recoIPHel_1(1), product.m_recoIPHel_1(2));
-	ROOT::Math::SVector<float, 3> IP2_(product.m_recoIPHel_2(0), product.m_recoIPHel_2(1), product.m_recoIPHel_2(2));
-
-	IP1_ = IP1_.Unit();
-	IP2_ = IP2_.Unit();
-
-	product.m_errorIPHel_1 = sqrt( ROOT::Math::Dot(IP1_, IPHelCov_1 * IP1_ ) );
-	product.m_errorIPHel_2 = sqrt( ROOT::Math::Dot(IP2_, IPHelCov_2 * IP1_ ) );
-
-	product.m_IPSignificanceHel_1 = product.m_recoIPHel_1.Mag() / product.m_errorIPHel_1;
-	product.m_IPSignificanceHel_2 = product.m_recoIPHel_2.Mag() / product.m_errorIPHel_2;
-
-	//product.m_IPSignificanceHel_1 = sqrt( (product.m_recoIPHel_1).x()*(product.m_recoIPHel_1).x() + (product.m_recoIPHel_1).y()*(product.m_recoIPHel_1).y() + (product.m_recoIPHel_1).z()*(product.m_recoIPHel_1).z() ) / sqrt( ROOT::Math::Dot(IP1_, IPHelCov_1 * IP1_ ) );
-	//product.m_IPSignificanceHel_2 = sqrt( (product.m_recoIPHel_2).x()*(product.m_recoIPHel_2).x() + (product.m_recoIPHel_2).y()*(product.m_recoIPHel_2).y() + (product.m_recoIPHel_2).z()*(product.m_recoIPHel_2).z() ) / sqrt( ROOT::Math::Dot(IP2_, IPHelCov_2 * IP2_ ) );
-
+	product.m_IPSignificanceHel_1 = ip.CalculateIPSignificanceHelical(product.m_recoIPHel_1, IPHelCov_1);
+	product.m_IPSignificanceHel_2 = ip.CalculateIPSignificanceHelical(product.m_recoIPHel_2, IPHelCov_2);
 	// Calculate the phi*cp by taking the ipvectors from the helical approach as arguments
 	if (recoParticle1->getHash() == chargedPart1->getHash()){
 		IPPlusHel  = product.m_recoIPHel_1;
@@ -1384,6 +1370,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			product.m_deltaPhiGenRecoIPHel_1 = product.m_recoIPHel_1.DeltaPhi(product.m_genIP1);//product.m_recoIP1);//
 			product.m_deltaRGenRecoIPHel_1   = product.m_recoIPHel_1.DeltaR(product.m_genIP1);
 			product.m_deltaGenRecoIPHel_1    = product.m_recoIPHel_1.Angle(product.m_genIP1);//product.m_recoIP1);//
+
 		} // if genIP1 exists
 		if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
 			product.m_deltaEtaGenRecoIP_2 = product.m_recoIP2.Eta() - product.m_genIP2.Eta();
@@ -1395,6 +1382,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			product.m_deltaPhiGenRecoIPHel_2 = product.m_recoIPHel_2.DeltaPhi(product.m_genIP2);
 			product.m_deltaRGenRecoIPHel_2   = product.m_recoIPHel_2.DeltaR(product.m_genIP2);
 			product.m_deltaGenRecoIPHel_2    = product.m_recoIPHel_2.Angle(product.m_genIP2);
+
 		} // if genIP2 exists
 	} // if this is not data
 
@@ -1444,7 +1432,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_recoIPHelrPVCovyy_2 = IPHelrPVCov_2(1,1);
 		product.m_recoIPHelrPVCovyz_2 = IPHelrPVCov_2(1,2);
 		product.m_recoIPHelrPVCovzz_2 = IPHelrPVCov_2(2,2);
-
 		// Conversion from TVector3 to SVector
 		ROOT::Math::SVector<float, 3> IPrPV_1_(product.m_recoIPHelrPV_1(0), product.m_recoIPHelrPV_1(1), product.m_recoIPHelrPV_1(2));
 		ROOT::Math::SVector<float, 3> IPrPV_2_(product.m_recoIPHelrPV_2(0), product.m_recoIPHelrPV_2(1), product.m_recoIPHelrPV_2(2));
@@ -1632,6 +1619,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 				product.m_deltaPhiGenRecoIPHelrPVBS_1 = product.m_recoIPHelrPVBS_1.DeltaPhi(product.m_genIP1);
 				product.m_deltaRGenRecoIPHelrPVBS_1   = product.m_recoIPHelrPVBS_1.DeltaR(product.m_genIP1);
 				product.m_deltaGenRecoIPHelrPVBS_1    = product.m_recoIPHelrPVBS_1.Angle(product.m_genIP1);
+
 			} // if genIP1 exists
 
 			if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){

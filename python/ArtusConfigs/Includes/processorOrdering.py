@@ -193,6 +193,7 @@ class ProcessorsOrdered(dict):
 		#from here it "only" creates the quantities so I left some numbers inbetween
 		self["producer:RecoTauCPProducer"] = 400
 		self["producer:IsomorphicMappingProducer"] = 410
+		self["producer:QuantileMappingProducer"] = 411
 
 		self["producer:GenMatchedPolarisationQuantitiesProducer"] = 500
 

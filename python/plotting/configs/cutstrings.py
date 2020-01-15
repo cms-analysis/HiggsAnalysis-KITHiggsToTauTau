@@ -777,13 +777,18 @@ class CutStringsDict:
 	@staticmethod
 	def highMtControlRegionWJFF(channel, cuts, cut_type, **kwargs):
 		if channel in ["mt", "et"]:
-			print("inside highMtControlRegionWJ")
 			cuts["mt"] = "(mt_1>70.0)" if ("mssm" in cut_type or "cpggh" in cut_type or "2016" not in cut_type) else "(mt_1>80.0)"
 		else:
 			log.fatal("No cut values implemented for channel \"%s\" in \"%s\"" % (channel, cut_type))
 			sys.exit(1)
-		print(cuts)
 		return cuts
+
+	@staticmethod
+	def lowMtZPeakControlRegionDY(channel, cut_type, **kwargs):
+		cuts = CutStringsDict._get_cutdict(channel, cut_type.replace("lowMtZPeakControlRegionDY",""), **kwargs)
+		cuts["m_sv"] = "(m_sv > 80.0) * (m_sv < 100.0)"
+		return cuts
+
 
 	@staticmethod
 	def baseline_low_mvis(channel, cut_type, **kwargs):
@@ -908,8 +913,6 @@ class CutStringsDict:
 			cuts = CutStringsDict.cpggh2017(channel, cut_type, **kwargs)
 		elif cut_type == "cptautau2017" or cut_type == "cptautau2017_emb":
 			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
-		elif cut_type == "cptautau2017legacy" or cut_type == "cptautau2017legacy_emb":
-			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
 		elif cut_type=="mssm":
 			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		elif cut_type=="mssm2016":
@@ -976,6 +979,9 @@ class CutStringsDict:
 		elif cut_type=="tauidvtightfail":
 			cuts = CutStringsDict.tauidvtightfail(channel, cut_type, **kwargs)
 
+		elif "lowMtZPeakControlRegionDY" in cut_type:
+			cuts = CutStringsDict.lowMtZPeakControlRegionDY(channel, cut_type, **kwargs)
+
 		elif cut_type=="tauescuts":
 			cuts = CutStringsDict.tauescuts(channel, cut_type, **kwargs)
 		elif cut_type=="tauescuts2016":
@@ -1003,18 +1009,7 @@ class CutStringsDict:
 		elif cut_type=="lfv":
 			cuts = CutStringsDict.lfv(channel, cut_type, **kwargs)
 
-		# else:
-		# 	log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
-		# 	sys.exit(1)
-
-		# ------------------------- ADDITIONAL/ALTERED CUTS -------------------------
-		# functions here only change specific cuts of the cuts dict passed to them.
-		if "cptautau2017" in cut_type and not "legacy":
-			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
-		elif "cptautau2017legacy" in cut_type:
-			cuts = CutStringsDict.cptautau2017legacy(channel, cut_type, **kwargs)
-		if "invertedTauIsolationFF" in cut_type:
-			cuts = CutStringsDict.invertedTauIsolationFF(channel, cuts, cut_type, **kwargs)
-		if "highMtControlRegionWJ" in cut_type:
-			cuts = CutStringsDict.highMtControlRegionWJFF(channel, cuts, cut_type, **kwargs)
+		else:
+			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
+			sys.exit(1)
 		return cuts

@@ -26,6 +26,7 @@
 <use name="ZZMatrixElement/MELA" />
 <use name="TauAnalysisTools/TauTriggerSFs" />
 <use name="HiggsCPinTauDecays/ImpactParameter" />
+<use name="HiggsCPinTauDecays/IpCorrection" />
 
 
 
