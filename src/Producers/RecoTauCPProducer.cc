@@ -1259,13 +1259,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_recoIPHel_2 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField, product.m_flavourOrderedLeptons.at(1)->track.helixParameters(), product.m_flavourOrderedLeptons.at(1)->track.ref, event.m_vertexSummary->pv.position);
 	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCov_2 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, event.m_vertexSummary->pv.covariance);
 
-	product.m_HelixRadius = ip.GetHelixRadius();
-	product.m_recoMagneticField = ip.GetRecoMagneticField();
-	product.m_recoV_z_SI = ip.GetRecoV_z_SI();
-	product.m_recoOmega = ip.GetRecoOmega();
-	product.m_recoPhi1 = ip.GetRecoPhi1();
-	product.m_recoOprime = ip.GetRecoOprime();
-
 	product.m_recoIPHelCovxx_1 = IPHelCov_1(0,0);
 	product.m_recoIPHelCovxy_1 = IPHelCov_1(0,1);
 	product.m_recoIPHelCovxz_1 = IPHelCov_1(0,2);
