@@ -126,6 +126,7 @@ if [[ $cmssw_version == "10217" ]]; then
 	git clone -b run2_SFs git@github.com:cms-tau-pog/TauTriggerSFs $CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs
 else
 	git clone -b final_2017_MCv2 git@github.com:cms-tau-pog/TauTriggerSFs $CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs
+fi
 
 # EmuQCD Method
 git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
