@@ -161,9 +161,6 @@ class Quantities(Run2CPQuantities.Quantities):
 			"cosPsiPlusHelrPVBS",
 			"cosPsiMinusHelrPVBS",
 
-			"isMinRefitPV",
-			"isMinRefitPVBS",
-
 			"isomapIPHelrPV_1",
 			"isomapIPHelrPV_2",
 			"isomapIPHelrPVBS_1",
