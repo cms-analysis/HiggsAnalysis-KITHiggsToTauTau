@@ -25,7 +25,8 @@ class Quantities(Run2CPQuantities.Quantities):
 			pass
 		else:
 			if re.search('(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
-				self.quantities.update(self.genPolarisationQuantities())
+				if not channel == "MM":
+					self.quantities.update(self.genPolarisationQuantities())
 				self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 		# ************ datasets(groups, samples) common across all except mm channels are all the rest
 			else:

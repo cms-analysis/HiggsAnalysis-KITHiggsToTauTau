@@ -186,9 +186,10 @@ class Quantities(Run2Quantities):
 					#self.quantities.update(self.splitJecUncertaintyQuantities())  #no lhe in 2017 skim
 				self.quantities.update(self.genMatchedCPQuantities())
 
-				self.quantities.update(self.recoPolarisationQuantitiesSvfit())
-				self.quantities.update(self.recoPolarisationQuantities())
-				self.quantities.update(self.genPolarisationQuantities())
+				if not channel == "MM":
+					self.quantities.update(self.recoPolarisationQuantitiesSvfit())
+					self.quantities.update(self.recoPolarisationQuantities())
+					self.quantities.update(self.genPolarisationQuantities())
 
 				if channel == "MM":
 					self.quantities.update(self.singleTauQuantities())
@@ -1688,6 +1689,10 @@ class Quantities(Run2Quantities):
 					"triggerWeight_cross_1",
 					"triggerWeight_cross_2",
 					"triggerWeight_comb",
+				]
+			elif channel == "MM":
+				return [
+					"triggerWeight_single_1",
 				]
 		else:
 			if channel == "ET":

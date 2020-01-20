@@ -1002,7 +1002,14 @@ void LegacyWeightProducer::Produce( event_type const& event, product_type & prod
 		// Trigger weights for "HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS"
 		product.m_optionalWeights["triggerWeight_comb"] = ((efficiencyMCEmb == 0.0) ? 1.0 : (efficiencyData / efficiencyMCEmb));
 	}
-	if (settings.GetChannel() == "TT")
+	else if (settings.GetChannel() == "MM")
+	{
+		double leptonTrigEffSingle_mcemb = product.m_optionalWeights["triggerEfficiency_singletrigger_MCEmb_1"];
+		double leptonTrigEffSingle_data = product.m_optionalWeights["triggerEfficiency_singletrigger_data_1"];
+
+		product.m_optionalWeights["triggerWeight_single_1"] = ((leptonTrigEffSingle_mcemb == 0.0) ? 1.0 : leptonTrigEffSingle_data/leptonTrigEffSingle_mcemb);
+	}
+	else if (settings.GetChannel() == "TT")
 	{
 		double leadingtauTrigEffCross_mcemb = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_1"];
 		double leadingtauTrigEffCross_data = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_1"];

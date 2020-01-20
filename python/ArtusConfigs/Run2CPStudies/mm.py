@@ -30,7 +30,7 @@ class mm_ArtusConfig(dict):
 	def __init__(self):
 		pass
 
-	def addProcessors(self, nickname):
+	def addProcessors(self, nickname, legacy):
 		if re.search("(DY.?JetsToLL|EWKZ2Jets).*(?=(Spring16|Summer16))",nickname):
 			self["Processors"] = [
 				"producer:HltProducer",
@@ -249,6 +249,45 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:MuMuTriggerWeightProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 
+		elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
+			self["Processors"] = [
+				"producer:HltProducer",
+				"producer:MetSelector",
+				"producer:MetSelectorPuppi",
+				"producer:ValidMuonsProducer",
+				"filter:ValidMuonsFilter",
+				"producer:MuonTriggerMatchingProducer",
+				"filter:MinMuonsCountFilter",
+				"producer:ValidElectronsProducer",
+				"producer:ValidTausProducer",
+				"producer:NewValidMMPairCandidatesProducer",
+				"filter:ValidDiTauPairCandidatesFilter",
+				"producer:HttValidLooseElectronsProducer",
+				"producer:HttValidLooseMuonsProducer",
+				"producer:Run2DecayChannelProducer",
+				"producer:TaggedJetCorrectionsProducer",
+				"producer:ValidTaggedJetsProducer",
+				"producer:ValidBTaggedJetsProducer",
+				"producer:TauTauRestFrameSelector",
+				"producer:DiLeptonQuantitiesProducer",
+				"producer:DiJetQuantitiesProducer",
+				"producer:TopPtReweightingProducer",
+				"filter:MinimalPlotlevelFilter"
+			]
+
+			if re.search("Summer17|Fall17", nickname):
+				self["Processors"] += ["producer:MetCorrector"]
+				self["Processors"] += ["producer:PuppiMetCorrector"]
+			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
+			self["Processors"] += ["producer:SvfitProducer"]
+			self["Processors"] += ["producer:LegacyWeightProducer"]
+			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
+			self["Processors"] += ["producer:RecoTauCPProducer"]
+			self["Processors"] += ["producer:EventWeightProducer"]
+			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples
+
+
 		else:
 			self["Processors"] = [
 				"producer:HltProducer",
@@ -308,6 +347,8 @@ class mm_ArtusConfig(dict):
 			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json"
 		],
 		"""
+
+		isLegacy = kwargs.get("legacy", False)
 
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
@@ -477,4 +518,4 @@ class mm_ArtusConfig(dict):
 		quantities_set.build_quantities(nickname, channel = self["Channel"])
 		self["Quantities"] = list(quantities_set.quantities)
 
-		self.addProcessors(nickname)
+		self.addProcessors(nickname, isLegacy)

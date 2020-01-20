@@ -140,9 +140,10 @@ class MinimalPlotlevelFilter():
 	def mm(self):
 		self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = [
 			"extraelec_veto",
-			"extramuon_veto"
+			# "extramuon_veto"
 		]
-		self.minPlotLevelDict["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
+		# self.minPlotLevelDict["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
+		self.minPlotLevelDict["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)"
 
 	def ee(self):
 		self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = [
