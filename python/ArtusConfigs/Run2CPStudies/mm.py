@@ -438,32 +438,32 @@ class mm_ArtusConfig(dict):
 		self["DiTauPairNoHLT"] = False
 
 		self["EventWeight"] = "eventWeight"
-		self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		self["RooWorkspaceWeightNames"] = [
-			"0:idIsoWeight",
-			"1:idIsoWeight"
-		]
-		self["RooWorkspaceObjectNames"] = [
-			"0:m_idiso0p15_desy_ratio",
-			"1:m_idiso0p15_desy_ratio"
-		]
-		self["RooWorkspaceObjectArguments"] = [
-			"0:m_pt,m_eta",
-			"1:m_pt,m_eta"
-		]
-		self["MuMuTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-		self["MuMuTriggerWeightWorkspaceWeightNames"] = [
-			"0:triggerWeight",
-			"1:triggerWeight"
-		]
-		self["MuMuTriggerWeightWorkspaceObjectNames"] = [
-			"0:m_trgIsoMu24orTkIsoMu24_desy_ratio",
-			"1:m_trgIsoMu24orTkIsoMu24_desy_ratio"
-		]
-		self["MuMuTriggerWeightWorkspaceObjectArguments"] = [
-			"0:m_pt,m_eta",
-			"1:m_pt,m_eta"
-		]
+		# self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		# self["RooWorkspaceWeightNames"] = [
+		# 	"0:idIsoWeight",
+		# 	"1:idIsoWeight"
+		# ]
+		# self["RooWorkspaceObjectNames"] = [
+		# 	"0:m_idiso0p15_desy_ratio",
+		# 	"1:m_idiso0p15_desy_ratio"
+		# ]
+		# self["RooWorkspaceObjectArguments"] = [
+		# 	"0:m_pt,m_eta",
+		# 	"1:m_pt,m_eta"
+		# ]
+		# self["MuMuTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+		# self["MuMuTriggerWeightWorkspaceWeightNames"] = [
+		# 	"0:triggerWeight",
+		# 	"1:triggerWeight"
+		# ]
+		# self["MuMuTriggerWeightWorkspaceObjectNames"] = [
+		# 	"0:m_trgIsoMu24orTkIsoMu24_desy_ratio",
+		# 	"1:m_trgIsoMu24orTkIsoMu24_desy_ratio"
+		# ]
+		# self["MuMuTriggerWeightWorkspaceObjectArguments"] = [
+		# 	"0:m_pt,m_eta",
+		# 	"1:m_pt,m_eta"
+		# ]
 
 		self.update(IdAndTriggerSF(nickname, channel="MM", dcach=False))
 
