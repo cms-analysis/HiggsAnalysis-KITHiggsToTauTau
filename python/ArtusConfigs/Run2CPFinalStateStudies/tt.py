@@ -41,6 +41,7 @@ class tt_ArtusConfig(ttbaseconfig.tt_ArtusConfig):
 		super(tt_ArtusConfig, self).addProcessors(nickname, legacy)
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			self["Processors"] += ["producer:IsomorphicMappingProducer"]
+			self["Processors"] += ["producer:QuantileMappingProducer"]
 
 	def build_config(self, nickname, *args, **kwargs):
 
