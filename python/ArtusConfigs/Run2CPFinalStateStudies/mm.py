@@ -100,6 +100,8 @@ class mm_ArtusConfig(mmbaseconfig.mm_ArtusConfig):
 					# "0:triggerEfficiency_singletrigger_ratio",
 					"0:triggerEfficiency_singletrigger_MCEmb",
 					"0:triggerEfficiency_singletrigger_data",
+					"1:trackWeight",
+					"1:idisoWeight",
 				]
 				self["LegacyWeightWorkspaceObjectNames"] = [
 					"0:m_trk_ratio",
@@ -107,6 +109,8 @@ class mm_ArtusConfig(mmbaseconfig.mm_ArtusConfig):
 					# "0:m_trg_ic_ratio",
 					"0:m_trg_ic_mc",
 					"0:m_trg_ic_data",
+					"1:m_trk_ratio",
+					"1:m_idiso_ic_ratio",
 				]
 				self["LegacyWeightWorkspaceObjectArguments"] = [
 					"0:m_eta",
@@ -114,6 +118,8 @@ class mm_ArtusConfig(mmbaseconfig.mm_ArtusConfig):
 					# "0:m_pt,m_eta",
 					"0:m_pt,m_eta",
 					"0:m_pt,m_eta",
+					"1:m_eta",
+					"1:m_pt,m_eta",
 				]
 				if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
 					self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017.root"

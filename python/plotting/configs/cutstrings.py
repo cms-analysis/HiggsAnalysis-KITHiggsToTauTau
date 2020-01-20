@@ -389,7 +389,8 @@ class CutStringsDict:
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["iso_1"] = "(byMediumDeepTau2017v2p1VSjet_1 > 0.5)"
 			cuts["iso_2"] = "(byMediumDeepTau2017v2p1VSjet_2 > 0.5)"
-
+		elif channel == "mm":
+			cuts["id_2"] = "trackWeight_2 * idisoWeight_2"
 		return cuts
 
 	@staticmethod

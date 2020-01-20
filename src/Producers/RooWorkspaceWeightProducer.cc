@@ -969,11 +969,19 @@ void LegacyWeightProducer::Produce( event_type const& event, product_type & prod
 			}
 			bool legacy = settings.GetLegacy();
 			if(legacy){
-				if((weightNames.second.at(index).find("triggerEfficiency") != std::string::npos) && m_saveTriggerWeightAsOptionalOnly)
+				if (settings.GetChannel() == "MM")
+				{
+					if((weightNames.second.at(index).find("trackWeight_2") != std::string::npos) || (weightNames.second.at(index).find("idisoWeight_2") != std::string::npos))
+					{
+						product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+					}
+				}
+				if(m_saveTriggerWeightAsOptionalOnly && weightNames.second.at(index).find("triggerEfficiency") != std::string::npos)
 				{
 					product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 				}
-				else{
+				else
+				{
 					product.m_weights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 				}
 			}
