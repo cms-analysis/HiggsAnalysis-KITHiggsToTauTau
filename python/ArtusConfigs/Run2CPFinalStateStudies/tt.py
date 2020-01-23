@@ -50,6 +50,7 @@ class tt_ArtusConfig(ttbaseconfig.tt_ArtusConfig):
 
 		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
 			if isLegacy:
+				self["FakeFaktorFile"] = ""
 				self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fakefactors_ws_2017.root"
 				self["FakeFactorRooWorkspaceFunction"] = [
 					"ff_tt_medium_dmbins:pt,dm,njets,pt_2,os,met",
