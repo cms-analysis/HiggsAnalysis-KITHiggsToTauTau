@@ -326,10 +326,10 @@ class Samples(samples.SamplesBase):
 		return "(1.22671436926e-6)/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"
 
 	def ggh_stitchingweight(self, cp=None, channel=None):
-		return "(1)" #TODO, wrong numbers below. are those for 2017
+		return "(1.0)" #TODO, wrong numbers below. are those for 2017
 		if cp == None:
 			log.warning("you want to add stitching weight but did not define cp state, returning 1")
-			return "(1)"
+			return "(1.0)"
 		elif cp == "sm":
 			return "((lhenpNLO<2)+((lhenpNLO==2)*(0.291202*3.045966/(0.291202*13719412.+10989343.))*(1/(numberGeneratedEventsWeight*crossSectionPerEventWeight))))"
 		elif cp == "mm":
@@ -338,7 +338,25 @@ class Samples(samples.SamplesBase):
 			return "((lhenpNLO<2)+((lhenpNLO==2)*(0.267242*3.045966/(0.267242*3329183.+15713406.))*(1/(numberGeneratedEventsWeight*crossSectionPerEventWeight))))"
 		else:
 			log.warning("you want to add stitching weight but did define a wrongly configured cp state, returning 1")
-			return "(1)"
+			return "(1.0)"
+
+	def cp_filterefficiency(self, process, state=None, channel=None):
+		print "state: ", state
+		if state=="finalState":
+			if process=="ggh":
+				return "(0.25)"
+			if process=="vbf":
+				return "(1.0)"
+			if process=="zh":
+				return "(1.0)"
+			if process=="wplush":
+				return "(1.0)"
+			if process=="wminush":
+				return "(1.0)"
+			else:
+				return "(1.0)"
+		else:
+			return "(1.0)"
 
 	# reweighting of l->tau fakes in ZL as done in SM HTT 2016
 	def zl_shape_weight(self, channel, cut_type):
@@ -3240,10 +3258,14 @@ class Samples(samples.SamplesBase):
 				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
 			if (kwargs.get("cp", None) == "ps"):
 				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
-		ggh_stitching_weight = "(1)"
+
+		ggh_stitching_weight = "(1.0)"
+
 		if kwargs.get("generator",None) =="madgraph":
 			ggh_stitching_weight = self.ggh_stitchingweight(cp=kwargs.get("cp",None), channel=channel)
 			matrix_weight = "(quarkmassWeight)*" #accounts for infinite top mass reweighting
+
+		filter_efficiency_weight = self.cp_filterefficiency(process="ggh", state=kwargs.get("state",None))
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
@@ -3251,7 +3273,7 @@ class Samples(samples.SamplesBase):
 				add_input(
 						input_file=self.files_ggh(channel, mass, cp=kwargs.get("cp", None), generator=kwargs.get("generator", None), state=kwargs.get("state", None)) if not mssm else self.files_susy_ggh(channel, mass),
 						scale_factor=lumi*kwargs.get("scale_signal", 1.0),
-						weight=tauSpinner_weight+"*"+matrix_weight+mc_weight+"*"+ggh_stitching_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						weight=tauSpinner_weight+"*"+matrix_weight+mc_weight+"*"+ggh_stitching_weight+"*"+filter_efficiency_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
 						nick="ggh"+str(kwargs.get("generator", ""))+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")
 				)
 			else:

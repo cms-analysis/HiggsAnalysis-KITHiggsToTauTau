@@ -915,7 +915,7 @@ class CutStringsDict:
 		elif cut_type == "cptautau2017" or cut_type == "cptautau2017_emb":
 			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
 		elif cut_type == "cptautau2017legacy" or cut_type == "cptautau2017legacy_emb":
-			cuts = CutStringsDict.cptautau2017(channel, cut_type, **kwargs)
+			cuts = CutStringsDict.cptautau2017legacy(channel, cut_type, **kwargs)
 		elif cut_type=="mssm":
 			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
 		elif cut_type=="mssm2016":
