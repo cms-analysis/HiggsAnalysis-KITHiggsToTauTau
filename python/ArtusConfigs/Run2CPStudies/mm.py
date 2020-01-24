@@ -6,6 +6,7 @@ log = logging.getLogger(__name__)
 
 import re
 import copy
+import os
 
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.quantities import Quantities
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering import ProcessorsOrdered
@@ -23,7 +24,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.setting
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMethods as sMVATM
 
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.idAndTriggerSF import IdAndTriggerSF
-
+import Kappa.Skimming.datasetsHelperTwopz as datasetsHelperTwopz
 
 class mm_ArtusConfig(dict):
 
@@ -286,6 +287,7 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples
+			self["Processors"] += ["producer:MetFilterProducer"]
 
 
 		else:
@@ -329,26 +331,11 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:EventWeightProducer"]
 
 	def build_config(self, nickname, *args, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
-
-		"""
-		"include" : [
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsVetoMuonID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJECUncertaintySplit.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_mm.json",
-			"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json"
-		],
-		"""
+		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
 
 		isLegacy = kwargs.get("legacy", False)
+		isEmbedded = datasetsHelper.isEmbedded(nickname)
+		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
 
 		ElectronID_config = sEID.Electron_ID(nickname)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
@@ -356,7 +343,7 @@ class mm_ArtusConfig(dict):
 
 		MuonID_config = sMID.Muon_ID(nickname)
 		MuonID_config.looseMuon_ID(nickname) 		#append the config for loose Muon ID because it is used
-		MuonID_config.vetoMuon_ID(nickname)
+		# MuonID_config.vetoMuon_ID(nickname)
 		self.update(MuonID_config)
 
 		TauID_config = sTID.Tau_ID(nickname)			#here loose is not appended since loose tau ID is not used
@@ -365,8 +352,8 @@ class mm_ArtusConfig(dict):
 		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
 		self.update(JEC_config)
 
-		JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
-		self.update(JECUncertaintySplit_config)
+		# JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
+		# self.update(JECUncertaintySplit_config)
 
 		JetID_config = sJID.Jet_ID(nickname)
 		self.update(JetID_config)

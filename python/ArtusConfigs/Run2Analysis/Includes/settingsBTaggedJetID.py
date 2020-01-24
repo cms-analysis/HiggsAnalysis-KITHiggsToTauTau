@@ -26,7 +26,7 @@ class BTaggedJet_ID(dict):
 
 		if re.search("(Fall17|Run2017|Embedding2017)", nickname):
 			self["BTagger"] = "deepcsv"
-			#self["BTaggedJetCombinedSecondaryVertexName"] = "pfDeepCSVDiscriminatorsJetTagsBvsAll"
+			self["BTaggedJetCombinedSecondaryVertexName"] = "pfDeepCSVDiscriminatorsJetTagsBvsAll"
 
 			self["BTaggedJetDdeepCSVName"]= "pfDeepCSVDiscriminatorsJetTagsBvsAll"
 			"""

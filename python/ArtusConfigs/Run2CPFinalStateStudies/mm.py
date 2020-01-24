@@ -42,8 +42,6 @@ class mm_ArtusConfig(mmbaseconfig.mm_ArtusConfig):
 			self["Processors"] += ["producer:IsomorphicMappingProducer"]
 			self["Processors"] += ["producer:QuantileMappingProducer"]
 
-			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
-			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 			if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
 				self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 
@@ -65,7 +63,6 @@ class mm_ArtusConfig(mmbaseconfig.mm_ArtusConfig):
 				"HLT_IsoMu27",
 			]
 			self["MuonLowerPtCuts"] = ["21.0"]
-			self["TauLowerPtCuts"] = ["20.0"]
 			self["HLTBranchNames"] = [
 				"trg_singlemuon_24:HLT_IsoMu24_v",
 				"trg_singlemuon_27:HLT_IsoMu27_v",
