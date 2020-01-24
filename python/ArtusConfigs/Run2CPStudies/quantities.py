@@ -85,6 +85,7 @@ class Quantities(Run2Quantities):
 			self.quantities.update(['nDiTauPairCandidates', 'nLooseElectrons', 'nAllDiTauPairCandidates', 'nLooseMuons'])
 			self.quantities.update(self.fourVectorQuantities())
 			self.quantities.update(self.syncQuantities(nickname))
+			self.quantities.update(self.CPInitialStateQuantities())
 			self.quantities.update(self.CPSyncQuantities(nickname))
 			self.quantities.update(self.RooWorkSpaceWeightQuantities(nickname, channel, legacy))
 			if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):

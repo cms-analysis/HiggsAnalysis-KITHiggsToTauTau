@@ -644,37 +644,6 @@ class Run2Quantities():
 			"njetingap",
 			"njetingap20",
 			"jdphi",
-			"etaSep",
-			"etaH_cut",
-
-			"etaH_cut_CP",
-			"diJetPt_CP1",
-			"diJetPhi_CP1",
-			"diJetEta_CP1",
-			"mjj_CP1",
-			"jdphi_CP1",
-			"jdeta_CP1",
-			"etasep_CP1",
-			"jpt_1_CP1",
-			"jpt_2_CP1",
-			"jeta_1_CP1",
-			"jeta_2_CP1",
-			"jphi_1_CP1",
-			"jphi_2_CP1",
-
-			"diJetPt_CP2",
-			"diJetPhi_CP2",
-			"diJetEta_CP2",
-			"mjj_CP2",
-			"jdphi_CP2",
-			"jdeta_CP2",
-			"etasep_CP2",
-			"jpt_1_CP2",
-			"jpt_2_CP2",
-			"jeta_1_CP2",
-			"jeta_2_CP2",
-			"jphi_1_CP2",
-			"jphi_2_CP2",
 
 			"dijetpt",
 			"dijetphi",
@@ -922,6 +891,43 @@ class Run2Quantities():
 					"decayModeMVA_2",
 			]
 		return sync_quantities_list
+
+	@staticmethod
+	def CPInitialStateQuantities():
+		list = [
+			"etaSep",
+			"etaH_cut",
+
+			"etaH_cut_CP",
+			"diJetPt_CP1",
+			"diJetPhi_CP1",
+			"diJetEta_CP1",
+			"mjj_CP1",
+			"jdphi_CP1",
+			"jdeta_CP1",
+			"etasep_CP1",
+			"jpt_1_CP1",
+			"jpt_2_CP1",
+			"jeta_1_CP1",
+			"jeta_2_CP1",
+			"jphi_1_CP1",
+			"jphi_2_CP1",
+
+			"diJetPt_CP2",
+			"diJetPhi_CP2",
+			"diJetEta_CP2",
+			"mjj_CP2",
+			"jdphi_CP2",
+			"jdeta_CP2",
+			"etasep_CP2",
+			"jpt_1_CP2",
+			"jpt_2_CP2",
+			"jeta_1_CP2",
+			"jeta_2_CP2",
+			"jphi_1_CP2",
+			"jphi_2_CP2",
+		]
+		return list
 
 	@staticmethod
 	def fastmttQuantities():
