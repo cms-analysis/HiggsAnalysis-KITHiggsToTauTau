@@ -278,11 +278,11 @@ class mm_ArtusConfig(dict):
 			if re.search("Summer17|Fall17", nickname):
 				self["Processors"] += ["producer:MetCorrector"]
 				self["Processors"] += ["producer:PuppiMetCorrector"]
+				self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 			self["Processors"] += ["producer:SvfitProducer"]
 			self["Processors"] += ["producer:LegacyWeightProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
-			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples

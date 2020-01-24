@@ -122,6 +122,22 @@ class ProcessorsOrdered(dict):
 			self["producer:HttValidLooseElectronsProducer"] = 80
 			self["producer:HttValidLooseMuonsProducer"] = 90
 
+		if kwargs.get("channel", None) == "MM":
+			self["producer:ValidMuonsProducer"] = 21
+			self["filter:ValidMuonsFilter"] = 22
+			self["producer:MuonTriggerMatchingProducer"] = 23
+			self["filter:MinMuonsCountFilter"] = 24
+
+			self["producer:ValidElectronsProducer"] = 30
+			self["producer:ValidTausProducer"] = 41
+
+			self["producer:ValidMMPairCandidatesProducer"] = 50
+			self["producer:NewValidMMPairCandidatesProducer"] = 50.1
+			self["filter:ValidDiTauPairCandidatesFilter"] = 51
+			self["producer:HttValidLooseElectronsProducer"] = 70
+			self["producer:HttValidLooseMuonsProducer"] = 80
+
+
 
 		self["producer:Run2DecayChannelProducer"] = 100
 
