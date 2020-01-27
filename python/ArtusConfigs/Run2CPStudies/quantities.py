@@ -910,11 +910,19 @@ class Quantities(Run2Quantities):
 			"IPHel_2",
                         "IPSignificanceHel_1",
                         "IPSignificanceHel_2",
+                        "IPSignificanceHel_Track_1",
+                        "IPSignificanceHel_Track_2",
+                        "IPSignificanceHel_PV_1",
+                        "IPSignificanceHel_PV_2",
 
 			"IPHelrPV_1",
 			"IPHelrPV_2",
                         "IPSignificanceHelrPV_1",
                         "IPSignificanceHelrPV_2",
+                        "IPSignificanceHelrPV_Track_1",
+                        "IPSignificanceHelrPV_Track_2",
+                        "IPSignificanceHelrPV_PV_1",
+                        "IPSignificanceHelrPV_PV_2",
 
 			"IPrPVBS_1",
 			"IPrPVBS_2",
@@ -927,8 +935,10 @@ class Quantities(Run2Quantities):
 			"IPHelrPVBS_2",
                         "IPSignificanceHelrPVBS_1",
                         "IPSignificanceHelrPVBS_2",
-
-
+                        "IPSignificanceHelrPVBS_Track_1",
+                        "IPSignificanceHelrPVBS_Track_2",
+                        "IPSignificanceHelrPVBS_PV_1",
+                        "IPSignificanceHelrPVBS_PV_2",
 
 			"recoIPHelCovxx_1",
 			"recoIPHelCovxy_1",

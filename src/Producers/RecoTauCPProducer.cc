@@ -405,9 +405,28 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_errorIPHel_1;
 	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHel_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_errorIPHel_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHel_Track_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_errorIPHel_Track_1;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHel_Track_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_errorIPHel_Track_2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHel_PV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_errorIPHel_PV_1;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHel_PV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_errorIPHel_PV_2;
 	});
 
 	// IP vectors wrt refitted PV
@@ -435,6 +454,26 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_errorIPHelrPV_2;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHelrPV_Track_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_refitPV ? product.m_errorIPHelrPV_Track_1 : DefaultValues::UndefinedDouble;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHelrPV_Track_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_refitPV ? product.m_errorIPHelrPV_Track_2 : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHelrPV_PV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_refitPV ? product.m_errorIPHelrPV_PV_1 : DefaultValues::UndefinedDouble;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHelrPV_PV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_refitPV ? product.m_errorIPHelrPV_PV_2 : DefaultValues::UndefinedDouble;
+	});
+
+
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificancerPVBS_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
@@ -469,9 +508,24 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_errorIPHelrPVBS_2;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHelrPVBS_Track_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_refitPV ? product.m_errorIPHelrPVBS_Track_1 : DefaultValues::UndefinedDouble;
+	});
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHelrPVBS_Track_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_refitPV ? product.m_errorIPHelrPVBS_Track_2 : DefaultValues::UndefinedDouble;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHelrPVBS_PV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_refitPV ? product.m_errorIPHelrPVBS_PV_1 : DefaultValues::UndefinedDouble;
+	});
 
-
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "sigmaIPHelrPVBS_PV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_refitPV ? product.m_errorIPHelrPVBS_PV_2 : DefaultValues::UndefinedDouble;
+	});
 
 	// IP vectors wrt refitted PV with BS constraint
 	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "IPrPVBS_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
@@ -491,8 +545,6 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return (((product.m_recoIPHel_2).x() != -999) ? RMPoint( (product.m_recoIPHel_2).x(), (product.m_recoIPHel_2).y(), (product.m_recoIPHel_2).z() ) : DefaultValues::UndefinedRMPoint);
 	});
-
-	//The elements of the covariance matrix from the IP with helical approach
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHel_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return ((&product.m_IPSignificanceHel_1!= nullptr) ? product.m_IPSignificanceHel_1 : DefaultValues::UndefinedFloat);
@@ -501,6 +553,23 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return ((&product.m_IPSignificanceHel_2!= nullptr) ? product.m_IPSignificanceHel_2 : DefaultValues::UndefinedFloat);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHel_Track_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHel_Track_1!= nullptr) ? product.m_IPSignificanceHel_Track_1 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHel_Track_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHel_Track_2!= nullptr) ? product.m_IPSignificanceHel_Track_2 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHel_PV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHel_PV_1!= nullptr) ? product.m_IPSignificanceHel_PV_1 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHel_PV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHel_PV_2!= nullptr) ? product.m_IPSignificanceHel_PV_2 : DefaultValues::UndefinedFloat);
+	});
+	//The elements of the covariance matrix from the IP with helical approach
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelCovxx_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return ((&product.m_recoIPHelCovxx_1 != nullptr) ? (product.m_recoIPHelCovxx_1) : DefaultValues::UndefinedFloat);
@@ -577,6 +646,22 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return ((&product.m_IPSignificanceHelrPV_2!= nullptr) ? product.m_IPSignificanceHelrPV_2 : DefaultValues::UndefinedFloat);
 	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPV_Track_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHelrPV_Track_1!= nullptr) ? product.m_IPSignificanceHelrPV_Track_1 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPV_Track_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHelrPV_Track_2!= nullptr) ? product.m_IPSignificanceHelrPV_Track_2 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPV_PV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHelrPV_PV_1!= nullptr) ? product.m_IPSignificanceHelrPV_PV_1 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPV_PV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHelrPV_PV_2!= nullptr) ? product.m_IPSignificanceHelrPV_PV_2 : DefaultValues::UndefinedFloat);
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoIPHelrPVCovxx_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return ((&product.m_recoIPHelrPVCovxx_1 != nullptr) ? (product.m_recoIPHelrPVCovxx_1) : DefaultValues::UndefinedFloat);
@@ -635,6 +720,22 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPVBS_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return ((&product.m_IPSignificanceHelrPVBS_2!= nullptr) ? product.m_IPSignificanceHelrPVBS_2 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPVBS_Track_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHelrPVBS_Track_1!= nullptr) ? product.m_IPSignificanceHelrPVBS_Track_1 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPVBS_Track_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHelrPVBS_Track_2!= nullptr) ? product.m_IPSignificanceHelrPVBS_Track_2 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPVBS_PV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHelrPVBS_PV_1!= nullptr) ? product.m_IPSignificanceHelrPVBS_PV_1 : DefaultValues::UndefinedFloat);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "IPSignificanceHelrPVBS_PV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return ((&product.m_IPSignificanceHelrPVBS_PV_2!= nullptr) ? product.m_IPSignificanceHelrPVBS_PV_2 : DefaultValues::UndefinedFloat);
 	});
 
 	// distance between track and theBS
@@ -1255,9 +1356,33 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	//Impact parameters via helical approach in cm:
 	product.m_recoIPHel_1 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField, product.m_flavourOrderedLeptons.at(0)->track.helixParameters(), product.m_flavourOrderedLeptons.at(0)->track.ref, event.m_vertexSummary->pv.position);
 	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCov_1 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, event.m_vertexSummary->pv.covariance);
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCovTrack_1 = ip.CalculatePCACovarianceTrack(product.m_flavourOrderedLeptons.at(0)->track.helixCovariance);
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCovPV_1 = ip.CalculatePCACovariancePV(event.m_vertexSummary->pv.covariance);
 
 	product.m_recoIPHel_2 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField, product.m_flavourOrderedLeptons.at(1)->track.helixParameters(), product.m_flavourOrderedLeptons.at(1)->track.ref, event.m_vertexSummary->pv.position);
 	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCov_2 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, event.m_vertexSummary->pv.covariance);
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCovTrack_2 = ip.CalculatePCACovarianceTrack(product.m_flavourOrderedLeptons.at(1)->track.helixCovariance);
+	ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelCovPV_2 = ip.CalculatePCACovariancePV(event.m_vertexSummary->pv.covariance);
+
+	ROOT::Math::SVector<float, 3> IP_1_(product.m_recoIPHel_1(0), product.m_recoIPHel_1(1), product.m_recoIPHel_1(2));
+	ROOT::Math::SVector<float, 3> IP_2_(product.m_recoIPHel_2(0), product.m_recoIPHel_2(1), product.m_recoIPHel_2(2));
+
+	IP_1_ = IP_1_.Unit();
+	IP_2_ = IP_2_.Unit();
+
+	product.m_errorIPHel_Track_1 = sqrt( ROOT::Math::Dot(IP_1_, IPHelCovTrack_1 * IP_1_ ) );
+	product.m_errorIPHel_Track_2 = sqrt( ROOT::Math::Dot(IP_2_, IPHelCovTrack_2 * IP_2_ ) );
+
+	product.m_IPSignificanceHel_Track_1 = product.m_recoIPHel_1.Mag() / product.m_errorIPHel_Track_1;
+	product.m_IPSignificanceHel_Track_2 = product.m_recoIPHel_2.Mag() / product.m_errorIPHel_Track_2;
+
+	product.m_errorIPHel_PV_1 = sqrt( ROOT::Math::Dot(IP_1_, IPHelCovPV_1 * IP_1_ ) );
+	product.m_errorIPHel_PV_2 = sqrt( ROOT::Math::Dot(IP_2_, IPHelCovPV_2 * IP_2_ ) );
+
+	product.m_IPSignificanceHel_PV_1 = product.m_recoIPHel_1.Mag() / product.m_errorIPHel_PV_1;
+	product.m_IPSignificanceHel_PV_2 = product.m_recoIPHel_2.Mag() / product.m_errorIPHel_PV_2;
+
+
 
 	product.m_recoIPHelCovxx_1 = IPHelCov_1(0,0);
 	product.m_recoIPHelCovxy_1 = IPHelCov_1(0,1);
@@ -1408,9 +1533,13 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		//Impact parameters via helical approach in cm:
 		product.m_recoIPHelrPV_1 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField, product.m_flavourOrderedLeptons.at(0)->track.helixParameters(), product.m_flavourOrderedLeptons.at(0)->track.ref, product.m_refitPV->position);
 		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVCov_1 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_refitPV->covariance);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVCovTrack_1 = ip.CalculatePCACovarianceTrack(product.m_flavourOrderedLeptons.at(0)->track.helixCovariance);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVCovPV_1 = ip.CalculatePCACovariancePV(product.m_refitPV->covariance);
 
 		product.m_recoIPHelrPV_2 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField, product.m_flavourOrderedLeptons.at(1)->track.helixParameters(), product.m_flavourOrderedLeptons.at(1)->track.ref, product.m_refitPV->position);
 		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVCov_2 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_refitPV->covariance);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVCovTrack_2 = ip.CalculatePCACovarianceTrack(product.m_flavourOrderedLeptons.at(1)->track.helixCovariance);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVCovPV_2 = ip.CalculatePCACovariancePV(product.m_refitPV->covariance);
 
 		product.m_recoIPHelrPVCovxx_1 = IPHelrPVCov_1(0,0);
 		product.m_recoIPHelrPVCovxy_1 = IPHelrPVCov_1(0,1);
@@ -1438,11 +1567,27 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_IPSignificanceHelrPV_1 = product.m_recoIPHelrPV_1.Mag() / product.m_errorIPHelrPV_1;
 		product.m_IPSignificanceHelrPV_2 = product.m_recoIPHelrPV_2.Mag() / product.m_errorIPHelrPV_2;
 
+		product.m_errorIPHelrPV_Track_1 = sqrt( ROOT::Math::Dot(IPrPV_1_, IPHelrPVCovTrack_1 * IPrPV_1_ ) );
+		product.m_errorIPHelrPV_Track_2 = sqrt( ROOT::Math::Dot(IPrPV_2_, IPHelrPVCovTrack_2 * IPrPV_2_ ) );
+
+		product.m_IPSignificanceHelrPV_Track_1 = product.m_recoIPHelrPV_1.Mag() / product.m_errorIPHelrPV_Track_1;
+		product.m_IPSignificanceHelrPV_Track_2 = product.m_recoIPHelrPV_2.Mag() / product.m_errorIPHelrPV_Track_2;
+
+		product.m_errorIPHelrPV_PV_1 = sqrt( ROOT::Math::Dot(IPrPV_1_, IPHelrPVCovPV_1 * IPrPV_1_ ) );
+		product.m_errorIPHelrPV_PV_2 = sqrt( ROOT::Math::Dot(IPrPV_2_, IPHelrPVCovPV_2 * IPrPV_2_ ) );
+
+		product.m_IPSignificanceHelrPV_PV_1 = product.m_recoIPHelrPV_1.Mag() / product.m_errorIPHelrPV_PV_1;
+		product.m_IPSignificanceHelrPV_PV_2 = product.m_recoIPHelrPV_2.Mag() / product.m_errorIPHelrPV_PV_2;
+
 		product.m_recoIPHelrPVBS_1 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(0)->track.magneticField, product.m_flavourOrderedLeptons.at(0)->track.helixParameters(), product.m_flavourOrderedLeptons.at(0)->track.ref, product.m_refitPVBS->position);
 		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVBSCov_1 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(0)->track.helixCovariance, product.m_refitPVBS->covariance);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVBSCovTrack_1 = ip.CalculatePCACovarianceTrack(product.m_flavourOrderedLeptons.at(0)->track.helixCovariance);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVBSCovPV_1 = ip.CalculatePCACovariancePV(product.m_refitPVBS->covariance);
 
 		product.m_recoIPHelrPVBS_2 = ip.CalculatePCA(product.m_flavourOrderedLeptons.at(1)->track.magneticField, product.m_flavourOrderedLeptons.at(1)->track.helixParameters(), product.m_flavourOrderedLeptons.at(1)->track.ref, product.m_refitPVBS->position);
 		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVBSCov_2 = ip.CalculatePCACovariance(product.m_flavourOrderedLeptons.at(1)->track.helixCovariance, product.m_refitPVBS->covariance);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVBSCovTrack_2 = ip.CalculatePCACovarianceTrack(product.m_flavourOrderedLeptons.at(1)->track.helixCovariance);
+		ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> IPHelrPVBSCovPV_2 = ip.CalculatePCACovariancePV(product.m_refitPVBS->covariance);
 
 		product.m_recoIPHelrPVBSCovxx_1 = IPHelrPVBSCov_1(0,0);
 		product.m_recoIPHelrPVBSCovxy_1 = IPHelrPVBSCov_1(0,1);
@@ -1469,6 +1614,18 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 		product.m_IPSignificanceHelrPVBS_1 = product.m_recoIPHelrPVBS_1.Mag() / product.m_errorIPHelrPVBS_1;
 		product.m_IPSignificanceHelrPVBS_2 = product.m_recoIPHelrPVBS_2.Mag() / product.m_errorIPHelrPVBS_2;
+
+		product.m_errorIPHelrPVBS_Track_1 = sqrt( ROOT::Math::Dot(IPrPVBS_1_, IPHelrPVBSCovTrack_1 * IPrPVBS_1_ ) );
+		product.m_errorIPHelrPVBS_Track_2 = sqrt( ROOT::Math::Dot(IPrPVBS_2_, IPHelrPVBSCovTrack_2 * IPrPVBS_2_ ) );
+
+		product.m_IPSignificanceHelrPVBS_Track_1 = product.m_recoIPHelrPVBS_1.Mag() / product.m_errorIPHelrPVBS_Track_1;
+		product.m_IPSignificanceHelrPVBS_Track_2 = product.m_recoIPHelrPVBS_2.Mag() / product.m_errorIPHelrPVBS_Track_2;
+
+		product.m_errorIPHelrPVBS_PV_1 = sqrt( ROOT::Math::Dot(IPrPVBS_1_, IPHelrPVBSCovPV_1 * IPrPVBS_1_ ) );
+		product.m_errorIPHelrPVBS_PV_2 = sqrt( ROOT::Math::Dot(IPrPVBS_2_, IPHelrPVBSCovPV_2 * IPrPVBS_2_ ) );
+
+		product.m_IPSignificanceHelrPVBS_PV_1 = product.m_recoIPHelrPVBS_1.Mag() / product.m_errorIPHelrPVBS_PV_1;
+		product.m_IPSignificanceHelrPVBS_PV_2 = product.m_recoIPHelrPVBS_2.Mag() / product.m_errorIPHelrPVBS_PV_2;
 
 		// calculate cosPsi
 		if (recoParticle1->charge() == +1){

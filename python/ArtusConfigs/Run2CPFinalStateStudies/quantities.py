@@ -53,6 +53,20 @@ class Quantities(Run2CPQuantities.Quantities):
 			"sigmaIPHelrPVBS_1",
 			"sigmaIPHelrPVBS_2",
 
+			"sigmaIPHel_Track_1",
+			"sigmaIPHel_Track_2",
+			"sigmaIPHelrPV_Track_1",
+			"sigmaIPHelrPV_Track_2",
+			"sigmaIPHelrPVBS_Track_1",
+			"sigmaIPHelrPVBS_Track_2",
+
+			"sigmaIPHel_PV_1",
+			"sigmaIPHel_PV_2",
+			"sigmaIPHelrPV_PV_1",
+			"sigmaIPHelrPV_PV_2",
+			"sigmaIPHelrPVBS_PV_1",
+			"sigmaIPHelrPVBS_PV_2",
+
 			"recoPhiStarCP",
 			"recoPhiStarCPHel",
 			"recoPhiStarCPrPV",

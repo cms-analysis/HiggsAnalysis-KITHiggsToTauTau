@@ -358,12 +358,6 @@ public:
 
 	double m_pca1DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach(PCA) from the primary vertex (PV) in units of sigma
 	double m_pca2DiffInSigma = DefaultValues::UndefinedDouble; //Distance of Point of closest approach(PCA) from the primary vertex (PV) in units of sigma
-	double m_IPSignificanceHel_1 = DefaultValues::UndefinedDouble;
-	double m_IPSignificanceHel_2 = DefaultValues::UndefinedDouble;
-	double m_IPSignificanceHelrPV_1 = DefaultValues::UndefinedDouble;
-	double m_IPSignificanceHelrPV_2 = DefaultValues::UndefinedDouble;
-	double m_IPSignificanceHelrPVBS_1 = DefaultValues::UndefinedDouble;
-	double m_IPSignificanceHelrPVBS_2 = DefaultValues::UndefinedDouble;
 	double m_pca1DiffInSigmarPV = DefaultValues::UndefinedDouble;
 	double m_pca2DiffInSigmarPV = DefaultValues::UndefinedDouble;
 	double m_pca1DiffInSigmarPVBS = DefaultValues::UndefinedDouble;
@@ -375,6 +369,27 @@ public:
 	double m_pca1projrPVBS = DefaultValues::UndefinedDouble;
 	double m_pca2projrPVBS = DefaultValues::UndefinedDouble;
 
+	double m_IPSignificanceHel_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHel_2 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPV_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPV_2 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPVBS_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPVBS_2 = DefaultValues::UndefinedDouble;
+
+	double m_IPSignificanceHel_Track_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHel_Track_2 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPV_Track_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPV_Track_2 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPVBS_Track_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPVBS_Track_2 = DefaultValues::UndefinedDouble;
+
+	double m_IPSignificanceHel_PV_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHel_PV_2 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPV_PV_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPV_PV_2 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPVBS_PV_1 = DefaultValues::UndefinedDouble;
+	double m_IPSignificanceHelrPVBS_PV_2 = DefaultValues::UndefinedDouble;
+
 	double m_errorIPHel_1 = DefaultValues::UndefinedDouble;
 	double m_errorIPHel_2 = DefaultValues::UndefinedDouble;
 	double m_errorIPHelrPV_1 = DefaultValues::UndefinedDouble;
@@ -382,6 +397,19 @@ public:
 	double m_errorIPHelrPVBS_1 = DefaultValues::UndefinedDouble;
 	double m_errorIPHelrPVBS_2 = DefaultValues::UndefinedDouble;
 
+	double m_errorIPHel_Track_1 = DefaultValues::UndefinedDouble;
+	double m_errorIPHel_Track_2 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPV_Track_1 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPV_Track_2 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPVBS_Track_1 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPVBS_Track_2 = DefaultValues::UndefinedDouble;
+
+	double m_errorIPHel_PV_1 = DefaultValues::UndefinedDouble;
+	double m_errorIPHel_PV_2 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPV_PV_1 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPV_PV_2 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPVBS_PV_1 = DefaultValues::UndefinedDouble;
+	double m_errorIPHelrPVBS_PV_2 = DefaultValues::UndefinedDouble;
 
 	double m_recoIPHelCovxx_1 = DefaultValues::UndefinedDouble;
 	double m_recoIPHelCovxy_1 = DefaultValues::UndefinedDouble;
