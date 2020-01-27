@@ -85,7 +85,11 @@ void QuantileMappingProducer::Produce(event_type const& event, product_type& pro
 		// Defining CPQuantities object to use variables and functions of this class
 		CPQuantities cpq;
 		ImpactParameter ip;
+		TDirectory *savedir(gDirectory);
+		TFile *savefile(gFile);
 		IpCorrection ipCorrector("$CMSSW_BASE/src/HiggsCPinTauDecays/IpCorrection/data/ip_" + TString(m_year) + ".root");
+		gDirectory = savedir;
+		gFile = savefile;
 		if (product.m_refitPV != nullptr){
 
 			double ipx_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipx, product.m_recoIPHelrPVBS_1.X(), product.m_genIP1.X(), recoTau1->p4.Eta());
