@@ -10,7 +10,7 @@ void AcceptanceEfficiencyConsumer::Init(setting_type const& settings, metadata_t
 	acc_eff_hist = new TH2D("acc_eff_hist", "acc_eff_hist", 40,0.,200.,40,0.,200);
 	number_of_passed_hist = new TH2D("number_of_passed_hist", "number_of_passed_hist", 40,0.,200.,40,0.,200);
 	number_of_entries_hist = new TH2D("number_of_entries_hist", "number_of_entries_hist", 40,0.,200.,40,0.,200);
-	
+
 	PtTau1_hist = new TH1D("PtTau1_hist", "PtTau1_hist", 50,0.,200.);
 	PtTau2_hist = new TH1D("PtTau2_hist", "PtTau2_hist", 50,0.,200.);
 
@@ -46,7 +46,7 @@ void AcceptanceEfficiencyConsumer::ProcessFilteredEvent(event_type const& event,
 	{
 		PtTau1 = trailingTau.p4.Pt();
 		PtTau2 = leadingTau.p4.Pt();
-		
+
 		PtVis1 = trailingTau.visible.p4.Pt();
 		PtVis2 = leadingTau.visible.p4.Pt();
 	}
@@ -56,14 +56,14 @@ void AcceptanceEfficiencyConsumer::ProcessFilteredEvent(event_type const& event,
 		if ((double(i)/double(nAttempts) < weight) && (weight <=1)) number_of_passed_hist->Fill(PtTau1, PtTau2);
 		number_of_entries_hist->Fill(PtTau1, PtTau2);
 	}
-	
+
 	PtTau1_hist->Fill(PtTau1);
 	PtTau2_hist->Fill(PtTau2);
-	
+
 	PtVis1_hist->Fill(PtVis1);
 	PtVis2_hist->Fill(PtVis2);
-	
-	
+
+
 	LambdaNtupleConsumer<HttTypes>::ProcessFilteredEvent(event, product, settings, metadata);
 }
 
@@ -75,10 +75,10 @@ void AcceptanceEfficiencyConsumer::Finish(setting_type const& settings, metadata
 	number_of_passed_hist->Write();
 	number_of_entries_hist->Write();
 	acc_eff_hist->Write();
-	
+
 	PtTau1_hist->Write();
 	PtTau2_hist->Write();
-	
+
 	PtVis1_hist->Write();
 	PtVis2_hist->Write();
 }

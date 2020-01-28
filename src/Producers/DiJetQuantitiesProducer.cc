@@ -36,7 +36,7 @@ void DiJetQuantitiesProducer::Init(setting_type const& settings, metadata_type& 
 	{
 		return diJetSystem.mass(); });
 	});
-	
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "diJetDeltaPhi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_diJetSystemAvailable ? ROOT::Math::VectorUtil::DeltaPhi(product.m_validJets[0]->p4, product.m_validJets[1]->p4) :
 		                                        DefaultValues::UndefinedDouble;
