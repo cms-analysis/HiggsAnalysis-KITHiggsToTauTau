@@ -60,6 +60,9 @@ public:
 	                                     std::map<std::string, std::vector<std::string> > const& puJetIdsByHltName,
 	                                     std::map<std::string, std::vector<float> > const& jetTaggerLowerCutsByTaggerName,
 	                                     std::map<std::string, std::vector<float> > const& jetTaggerUpperCutsByTaggerName,
+	                                     std::string const& jetPuJetIDName,
+	                                     KappaEnumTypes::JetID const& pujetID,
+	                                     KappaEnumTypes::JetIDVersion const& pujetIDVersion,
 	                                     event_type const& event, product_type& product,
 	                                     setting_type const& settings, metadata_type const& metadata);
 

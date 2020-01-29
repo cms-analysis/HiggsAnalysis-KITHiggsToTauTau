@@ -80,7 +80,11 @@ void TaggedJetUncertaintyShiftProducer::Init(setting_type const& settings, metad
 			Utility::ParseVectorToMap(settings.GetJetTaggerUpperCuts()),
 			jetTaggerUpperCutsByTaggerName
 	);
-	
+
+	jetPuJetIDName = settings.GetPuJetIDFullDiscrName();
+	pujetIDVersion = KappaEnumTypes::ToJetIDVersion(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetPuJetIDVersion())));
+	pujetID = KappaEnumTypes::ToJetID(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetPuJetID())));
+
 	// settings used by the RecoJetGenParticleMatchingProducer
 	m_jetMatchingAlgorithm = RecoJetGenParticleMatchingProducer::ToJetMatchingAlgorithm(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(settings.GetJetMatchingAlgorithm())));
 	
@@ -313,6 +317,7 @@ void TaggedJetUncertaintyShiftProducer::ProduceShift(event_type const& event, pr
 				validJet = validJet && HttValidTaggedJetsProducer::AdditionalCriteriaStatic(&(*jet),
 				                                                                            puJetIdsByIndex, puJetIdsByHltName,
 				                                                                            jetTaggerLowerCutsByTaggerName, jetTaggerUpperCutsByTaggerName,
+				                                                                            jetPuJetIDName, pujetID, pujetIDVersion,
 				                                                                            event, product, settings, metadata);
 				if (validJet)
 				{

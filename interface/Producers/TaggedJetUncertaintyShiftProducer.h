@@ -41,18 +41,21 @@ private:
 
 	std::map<std::string, std::vector<float> > lowerPtCuts;
 	std::map<std::string, std::vector<float> > upperAbsEtaCuts;
-	
+
 	std::map<size_t, std::vector<std::string> > puJetIdsByIndex;
 	std::map<std::string, std::vector<std::string> > puJetIdsByHltName;
 	std::map<std::string, std::vector<float> > jetTaggerLowerCutsByTaggerName;
 	std::map<std::string, std::vector<float> > jetTaggerUpperCutsByTaggerName;
-	
+	KappaEnumTypes::JetIDVersion pujetIDVersion;
+	KappaEnumTypes::JetID pujetID;
+	std::string jetPuJetIDName;
+
 	RecoJetGenParticleMatchingProducer::JetMatchingAlgorithm m_jetMatchingAlgorithm;
 
 	KappaEnumTypes::BTagScaleFactorMethod m_bTagSFMethod;
 	float m_bTagWorkingPoint;
 	BTagSF m_bTagSf;
-	
+
 	void ProduceShift(event_type const& event, product_type& product, setting_type const& settings, metadata_type const& metadata, bool shiftUp,
 	                  std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>>& correctedJetsBySplitUncertainty,
 	                  std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>>& correctedBTaggedJetsBySplitUncertainty) const;

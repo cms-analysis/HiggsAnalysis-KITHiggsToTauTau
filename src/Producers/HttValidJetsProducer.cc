@@ -26,6 +26,7 @@ bool HttValidTaggedJetsProducer::AdditionalCriteria(KJet* jet,
 	return HttValidTaggedJetsProducer::AdditionalCriteriaStatic(jet,
 	                                                            puJetIdsByIndex, puJetIdsByHltName,
 	                                                            jetTaggerLowerCutsByTaggerName, jetTaggerUpperCutsByTaggerName,
+	                                                            jetPuJetIDName, pujetID, pujetIDVersion,
 	                                                            event, product, settings, metadata);
 }
 
@@ -34,17 +35,21 @@ bool HttValidTaggedJetsProducer::AdditionalCriteriaStatic(KJet* jet,
 	                                                      std::map<std::string, std::vector<std::string> > const& puJetIdsByHltName,
 	                                                      std::map<std::string, std::vector<float> > const& jetTaggerLowerCutsByTaggerName,
 	                                                      std::map<std::string, std::vector<float> > const& jetTaggerUpperCutsByTaggerName,
+	                                                      std::string const& jetPuJetIDName,
+	                                                      KappaEnumTypes::JetID const& pujetID,
+	                                                      KappaEnumTypes::JetIDVersion const& pujetIDVersion,
 	                                                      event_type const& event, product_type& product,
 	                                                      setting_type const& settings, metadata_type const& metadata)
 {
 	bool validJet = ValidTaggedJetsProducer::AdditionalCriteriaStatic(jet,
 	                                                                  puJetIdsByIndex, puJetIdsByHltName,
 	                                                                  jetTaggerLowerCutsByTaggerName, jetTaggerUpperCutsByTaggerName,
+	                                                                  jetPuJetIDName, pujetID, pujetIDVersion,
 	                                                                  event, product, settings, metadata);
-	
+
 	spec_setting_type const& specSettings = static_cast<spec_setting_type const&>(settings);
 	spec_product_type const& specProduct = static_cast<spec_product_type const&>(product);
-	
+
 	// remove taus from list of jets via simple DeltaR isolation
 	// (targeted at ttH analysis, harmless if m_validTTHTaus is not filled)
 	for (std::vector<KTau*>::const_iterator tau = specProduct.m_validTTHTaus.begin();
