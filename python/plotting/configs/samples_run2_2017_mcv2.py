@@ -602,7 +602,7 @@ class Samples(samples.Samples):
 
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
-		if channel in ["mt", "et", "tt"]:
+		if channel in ["mt", "et", "tt", "mm"]:
 			if self.legacy:
 				add_input(
 						input_file=self.files_ww(channel),
