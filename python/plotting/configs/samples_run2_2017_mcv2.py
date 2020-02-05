@@ -1400,7 +1400,9 @@ class Samples(samples.Samples):
 						config.setdefault("qcd_shape_subtract_nicks", []).append(" ".join(["noplot_"+nick+"_shape"+nick_suffix for nick in "ztt zll ttj vv wj".split()]))
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 				if channel == "tt":
-					if cut_type == "baseline2016":
+					if cut_type == "cptautau2017legacy":
+						isolationDefinition = "((byLooseDeepTau2017v2p1VSjet_1 > 0.5 && byVVLooseDeepTau2017v2p1VSjet_2 > 0.5 && byMediumDeepTau2017v2p1VSjet_2 < 0.5) || (byLooseDeepTau2017v2p1VSjet_2 > 0.5 && byVVLooseDeepTau2017v2p1VSjet_1 > 0.5 && byMediumDeepTau2017v2p1VSjet_1 < 0.5))"
+					elif cut_type == "baseline2016":
 						isolationDefinition = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))"
 					elif cut_type == "smhtt2016":  #TODO or cut_type == "cpggh2016"?
 						isolationDefinition = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
