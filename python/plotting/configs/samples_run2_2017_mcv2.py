@@ -673,7 +673,8 @@ class Samples(samples.Samples):
 				#CAUTION: If necessary the mc-generator nick might need to be updated from time to time. added v2 to this, if mc_campaign changes change this as well
 				return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 		elif state == "finalState":
-			return "VBFHToMaxmixTauTauM125_adow_RunIIFall17MiniAODv2_VBFHToTauTauNoSpin_13TeV_USER_powheg-pythia8/*.root"
+			# return "VBFHToMaxmixTauTauM125_adow_RunIIFall17MiniAODv2_VBFHToTauTauNoSpin_13TeV_USER_powheg-pythia8/*.root"
+			return "VBFHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8/*.root"
 		#TODO add the 2017 samples cp samples if they are ready
 		"""
 		elif "jhu" in cp: #TODO add the 2017 samples
@@ -716,7 +717,7 @@ class Samples(samples.Samples):
 			if cp in ["sm", "mm", "ps"]:
 				return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
 			else:
-				return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
+				return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8", "scenario": "PU2017_new_pmx"}, 1)
 
 	def files_vv(self, channel):
 		return None
