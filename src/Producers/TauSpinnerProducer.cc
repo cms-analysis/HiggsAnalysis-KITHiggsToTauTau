@@ -84,6 +84,8 @@ void TauSpinnerProducer::Init(setting_type const& settings, metadata_type& metad
 	
 	m_validPdgIdsAndStatusCodes = Utility::ParseMapTypes<int, int>(Utility::ParseVectorToMap(settings.GetTauSpinnerValidPdgIdsAndStatusCodes()), m_validPdgIdsAndStatusCodesByString);
 	
+	m_useIC = settings.GetTauSpinnerUseIC();
+
 	for (std::vector<float>::const_iterator mixingAngleOverPiHalfIt = settings.GetTauSpinnerMixingAnglesOverPiHalf().begin();
 	     mixingAngleOverPiHalfIt != settings.GetTauSpinnerMixingAnglesOverPiHalf().end();
 	     ++mixingAngleOverPiHalfIt)
@@ -142,9 +144,9 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			TauSpinner::SimpleParticle tau1 = GetSimpleParticle(selectedTau1->m_genParticle->p4, selectedTau1->m_genParticle->pdgId);
 			TauSpinner::SimpleParticle tau2 = GetSimpleParticle(selectedTau2->m_genParticle->p4, selectedTau2->m_genParticle->pdgId);
 			std::vector<TauSpinner::SimpleParticle> tauFinalStates1;
-			GetFinalStates(*selectedTau1, tauFinalStates1);
+			GetFinalStates(*selectedTau1, tauFinalStates1, m_useIC);
 			std::vector<TauSpinner::SimpleParticle> tauFinalStates2;
-			GetFinalStates(*selectedTau2, tauFinalStates2);
+			GetFinalStates(*selectedTau2, tauFinalStates2, m_useIC);
 			
 			// debug information
 			if (tauFinalStates1.size() == 2)
@@ -316,8 +318,12 @@ GenParticleDecayTree* TauSpinnerProducer::GetTau(GenParticleDecayTree* currentPa
 // recursive function to create a vector of final states particles in the way TauSpinner expects it
 std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
 		GenParticleDecayTree& currentParticle,
-		std::vector<TauSpinner::SimpleParticle>& resultVector) const
+		std::vector<TauSpinner::SimpleParticle>& resultVector,
+		bool useIC) const
 {
+        // create a vector of final states in Imperial College like style
+        if (useIC) return GetFinalStatesIC(currentParticle, resultVector);
+
 	// this if-condition has to define what particles go into TauSpinner
 	int pdgId = currentParticle.m_genParticle->pdgId;
 	const int status = currentParticle.m_genParticle->status();
@@ -349,6 +355,27 @@ std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStates(
 		{
 			GetFinalStates(currentParticle.m_daughters[daughterIndex], resultVector);
 		}
+	}
+	return resultVector;
+}
+//As above, but in Imperial College like style, it assumes that it is firstly called for final tau
+std::vector<TauSpinner::SimpleParticle> TauSpinnerProducer::GetFinalStatesIC(
+		GenParticleDecayTree& currentParticle,
+		std::vector<TauSpinner::SimpleParticle>& resultVector) const
+{
+	// this if-condition has to define what particles go into TauSpinner
+	std::set<int> allowedPdgIds = {22, 111, 211, 321, 130, 310, 11, 12, 13, 14, 16};
+        for (unsigned int daughterIndex = 0; daughterIndex < currentParticle.m_daughters.size(); ++daughterIndex)
+	{
+	    int pdgId = currentParticle.m_daughters[daughterIndex].m_genParticle->pdgId;
+	    if ( allowedPdgIds.find(std::abs(pdgId)) != allowedPdgIds.end() )
+	    {
+	      resultVector.push_back(GetSimpleParticle(currentParticle.m_daughters[daughterIndex].m_genParticle->p4, pdgId));
+	    }
+	    else
+	    {
+	      GetFinalStatesIC(currentParticle.m_daughters[daughterIndex], resultVector);
+	    }
 	}
 	return resultVector;
 }

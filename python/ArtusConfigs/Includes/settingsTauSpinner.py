@@ -35,7 +35,7 @@ class TauSpinner(dict):
 		self["TauSpinnerSettingsNonSM2_documentation"] = {
 			"0" : "SM calculations (spin = 0)",
 			"1" : "non SM calculations (spin = 2): http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html (line 558)"
-		},
+		}
 		self["TauSpinnerSettingsNonSM2"] = "0"
 		
 		self["TauSpinnerSettingsNonSMN"] = "0"
@@ -92,3 +92,8 @@ class TauSpinner(dict):
 		else:
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = -1.0
 
+		self["TauSpinnerUseIC"] = True
+		self["TauSpinnerUseIC_documentation"] = {
+			"False" : "Search tau decay products analysing decay tree using TauSpinnerValidPdgIdsAndStatusCodes (default)",
+                        "True" : "Search tau decay products with hardcoded list of final state particles using Imperial College method"
+                }
