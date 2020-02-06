@@ -200,7 +200,7 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 				{
 					float mixingAngleOverPiHalfSample = settings.GetTauSpinnerMixingAnglesOverPiHalfSample();
 					float twoTimesMixingAngleRadSample = M_PI * mixingAngleOverPiHalfSample;
-					TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRadSample), cos(twoTimesMixingAngleRadSample),
+					TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRadSample), cos(twoTimesMixingAngleRadSample),-sin(twoTimesMixingAngleRadSample), -sin(twoTimesMixingAngleRadSample));
 
 					srand(event.m_eventInfo->nEvent);
 					product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
