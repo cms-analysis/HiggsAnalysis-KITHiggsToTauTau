@@ -602,7 +602,7 @@ class Samples(samples.Samples):
 
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
-		if channel in ["mt", "et", "tt"]:
+		if channel in ["mt", "et", "tt", "mm"]:
 			if self.legacy:
 				add_input(
 						input_file=self.files_ww(channel),
@@ -673,7 +673,8 @@ class Samples(samples.Samples):
 				#CAUTION: If necessary the mc-generator nick might need to be updated from time to time. added v2 to this, if mc_campaign changes change this as well
 				return self.artus_file_names({"process" : "VBFHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
 		elif state == "finalState":
-			return "VBFHToMaxmixTauTauM125_adow_RunIIFall17MiniAODv2_VBFHToTauTauNoSpin_13TeV_USER_powheg-pythia8/*.root"
+			# return "VBFHToMaxmixTauTauM125_adow_RunIIFall17MiniAODv2_VBFHToTauTauNoSpin_13TeV_USER_powheg-pythia8/*.root"
+			return "VBFHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8/*.root"
 		#TODO add the 2017 samples cp samples if they are ready
 		"""
 		elif "jhu" in cp: #TODO add the 2017 samples
@@ -716,7 +717,7 @@ class Samples(samples.Samples):
 			if cp in ["sm", "mm", "ps"]:
 				return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
 			else:
-				return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8"}, 1)
+				return self.artus_file_names({"process" : "GluGluHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign, "generator" : "powheg-pythia8", "scenario": "PU2017_new_pmx"}, 1)
 
 	def files_vv(self, channel):
 		return None
@@ -1399,7 +1400,9 @@ class Samples(samples.Samples):
 						config.setdefault("qcd_shape_subtract_nicks", []).append(" ".join(["noplot_"+nick+"_shape"+nick_suffix for nick in "ztt zll ttj vv wj".split()]))
 					config.setdefault("qcd_extrapolation_factors_ss_os", []).append(ss_os_factor)
 				if channel == "tt":
-					if cut_type == "baseline2016":
+					if cut_type == "cptautau2017legacy":
+						isolationDefinition = "((byLooseDeepTau2017v2p1VSjet_1 > 0.5 && byVVLooseDeepTau2017v2p1VSjet_2 > 0.5 && byMediumDeepTau2017v2p1VSjet_2 < 0.5) || (byLooseDeepTau2017v2p1VSjet_2 > 0.5 && byVVLooseDeepTau2017v2p1VSjet_1 > 0.5 && byMediumDeepTau2017v2p1VSjet_1 < 0.5))"
+					elif cut_type == "baseline2016":
 						isolationDefinition = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))"
 					elif cut_type == "smhtt2016":  #TODO or cut_type == "cpggh2016"?
 						isolationDefinition = "((byMediumIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_2 < 0.5) || (byMediumIsolationMVArun2v1DBoldDMwLT_2 > 0.5 && byLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5 && byTightIsolationMVArun2v1DBoldDMwLT_1 < 0.5))*((gen_match_1 == 5)*0.95 + (gen_match_1 != 5))*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
