@@ -196,15 +196,17 @@ void TauSpinnerProducer::Produce(event_type const& event, product_type& product,
 			{
 				// set mixing angle
 				// http://arxiv.org/pdf/1406.1647.pdf, section A.1, page 15
-				float mixingAngleOverPiHalfSample = settings.GetTauSpinnerMixingAnglesOverPiHalfSample();
-				float twoTimesMixingAngleRadSample = M_PI * mixingAngleOverPiHalfSample;
-				TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRadSample), cos(twoTimesMixingAngleRadSample),
-					                             -sin(twoTimesMixingAngleRadSample), -sin(twoTimesMixingAngleRadSample));
-				
-				srand(event.m_eventInfo->nEvent);
-				product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
-				product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
-				product.m_tauSpinnerValidOutputs = true;
+				if (settings.GetTauSpinnerMixingAnglesOverPiHalfSample() >= 0.0)
+				{
+					float mixingAngleOverPiHalfSample = settings.GetTauSpinnerMixingAnglesOverPiHalfSample();
+					float twoTimesMixingAngleRadSample = M_PI * mixingAngleOverPiHalfSample;
+					TauSpinner::setHiggsParametersTR(-cos(twoTimesMixingAngleRadSample), cos(twoTimesMixingAngleRadSample),
+
+					srand(event.m_eventInfo->nEvent);
+					product.m_optionalWeights["tauSpinnerWeight"] = TauSpinner::calculateWeightFromParticlesH(boson, tau1, tau2, tauFinalStates1, tauFinalStates2);
+					product.m_tauSpinnerPolarisation = TauSpinner::getTauSpin(); // http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html#l00020
+					product.m_tauSpinnerValidOutputs = true;
+				}
 			}
 			else if (Utility::Contains(settings.GetBosonPdgIds(), std::abs(DefaultValues::pdgIdZ)))
 			{
