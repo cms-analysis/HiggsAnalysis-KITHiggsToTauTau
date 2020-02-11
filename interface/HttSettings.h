@@ -324,6 +324,7 @@ public:
 	IMPL_SETTING(int, TauSpinnerSettingsNonSMN);
 
 	IMPL_SETTING_STRINGLIST(TauSpinnerValidPdgIdsAndStatusCodes);
+	IMPL_SETTING_DEFAULT(bool, TauSpinnerUseIC, false);
 	IMPL_SETTING_FLOATLIST_DEFAULT(TauSpinnerMixingAnglesOverPiHalf, {});
 	IMPL_SETTING_DEFAULT(float, TauSpinnerMixingAnglesOverPiHalfSample, -1.0);
 

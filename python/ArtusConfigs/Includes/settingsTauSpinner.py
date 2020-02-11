@@ -35,7 +35,7 @@ class TauSpinner(dict):
 		self["TauSpinnerSettingsNonSM2_documentation"] = {
 			"0" : "SM calculations (spin = 0)",
 			"1" : "non SM calculations (spin = 2): http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html (line 558)"
-		},
+		}
 		self["TauSpinnerSettingsNonSM2"] = "0"
 		
 		self["TauSpinnerSettingsNonSMN"] = "0"
@@ -55,8 +55,8 @@ class TauSpinner(dict):
 			"14:1", # NuMu,
 			"16:1", # NuTau
 		]
-		
-		if re.search("(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
+
+		if re.search("(HToTauTau|H2JetsToTauTau|Higgs|HToPseudoscalarTauTau|HToMaxmixTauTau)", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalf"] = [
 				0.00,
 				0.05,
@@ -83,7 +83,9 @@ class TauSpinner(dict):
 		else:
 			self["TauSpinnerMixingAnglesOverPiHalf"] = []
 
-		if re.search("SM_(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
+		if re.search("HToTauTauUncorrelatedDecay", nickname):
+			self["TauSpinnerMixingAnglesOverPiHalfSample"] = -1.0
+		elif re.search("SM_(WH_ZH_TTH_|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = 0.0
 		elif re.search("^(W(minus|plus)|Z|VBF|GluGlu|GluGluTo)HToTauTau", nickname):
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = 0.0
@@ -92,3 +94,8 @@ class TauSpinner(dict):
 		else:
 			self["TauSpinnerMixingAnglesOverPiHalfSample"] = -1.0
 
+		self["TauSpinnerUseIC"] = True
+		self["TauSpinnerUseIC_documentation"] = {
+			"False" : "Search tau decay products analysing decay tree using TauSpinnerValidPdgIdsAndStatusCodes (default)",
+                        "True" : "Search tau decay products with hardcoded list of final state particles using Imperial College method"
+                }

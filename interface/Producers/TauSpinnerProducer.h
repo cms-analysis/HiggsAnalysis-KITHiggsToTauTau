@@ -39,6 +39,11 @@ private:
 	virtual GenParticleDecayTree* GetTau(GenParticleDecayTree* currentParticle) const;
 	virtual std::vector<TauSpinner::SimpleParticle> GetFinalStates(
 			GenParticleDecayTree& currentParticle,
+			std::vector<TauSpinner::SimpleParticle>& resultVector,
+			bool useIC = false
+	) const;
+	virtual std::vector<TauSpinner::SimpleParticle> GetFinalStatesIC(
+			GenParticleDecayTree& currentParticle,
 			std::vector<TauSpinner::SimpleParticle>& resultVector
 	) const;
 	
@@ -46,6 +51,7 @@ private:
 	
 	std::map<int, std::vector<int> > m_validPdgIdsAndStatusCodes;
 	std::map<std::string, std::vector<int> > m_validPdgIdsAndStatusCodesByString;
+	bool m_useIC;
 	
 	std::vector<float> mixingAnglesOverPiHalf;
 	

@@ -658,10 +658,10 @@ class Samples(samples.Samples):
 		else:
 			log.error("Sample config (VV) currently not implemented for channel \"%s\"!" % channel)
 		if not kwargs.get("mssm", False):
-			Samples._add_bin_corrections(config, "vvt", nick_suffix)
+			Samples._add_bin_corrections(config, "vv", nick_suffix)
 
 		if not kwargs.get("no_plot", False):
-			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vvt"), nick_suffix)
+			Samples._add_plot(config, "bkg", "HIST", "F", kwargs.get("color_label_key", "vv"), nick_suffix)
 		return config
 
 	################higgs files###########################
