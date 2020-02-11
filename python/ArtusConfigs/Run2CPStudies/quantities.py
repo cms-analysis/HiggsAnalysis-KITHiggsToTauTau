@@ -1704,6 +1704,8 @@ class Quantities(Run2Quantities):
 			elif channel == "MM":
 				return [
 					"triggerWeight_single_1",
+					"trg_singlemuon_24",
+					"trg_singlemuon_27",
 				]
 		else:
 			if channel == "ET":
