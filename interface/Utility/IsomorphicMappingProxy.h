@@ -50,16 +50,16 @@ public:
 		std::string ip_y_nonprompt_str;
 		std::string ip_z_nonprompt_str;
 
-		ip_r_prompt_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + "/ip" + m_bs + "_mag.root");
-		ip_phi_prompt_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + "/ip" + m_bs + "_phi.root");
-		ip_theta_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + "/ip" + m_bs + "_theta.root");
+		ip_r_prompt_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip" + m_bs + "_mag.root");
+		ip_phi_prompt_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip" + m_bs + "_phi.root");
+		ip_theta_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip" + m_bs + "_theta.root");
 		ip_r_nonprompt_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/" + m_decayChannel + "/calib" + m_year + m_emb + "/ip" + m_bs + "_mag.root");
 		ip_phi_nonprompt_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/" + m_decayChannel + "/calib" + m_year + m_emb + "/ip" + m_bs + "_phi.root");
 		ip_theta_nonprompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/" + m_decayChannel + "/calib" + m_year + m_emb + "/ip" + m_bs + "_theta.root");
 
-		ip_x_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + "/ip" + m_bs + "_nx.root");
-		ip_y_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + "/ip" + m_bs + "_ny.root");
-		ip_z_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + "/ip" + m_bs + "_nz.root");
+		ip_x_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip" + m_bs + "_nx.root");
+		ip_y_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip" + m_bs + "_ny.root");
+		ip_z_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip" + m_bs + "_nz.root");
 		ip_x_nonprompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/" + m_decayChannel + "/calib" + m_year + m_emb + "/ip" + m_bs + "_nx.root");
 		ip_y_nonprompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/" + m_decayChannel + "/calib" + m_year + m_emb + "/ip" + m_bs + "_ny.root");
 		ip_z_nonprompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/" + m_decayChannel + "/calib" + m_year + m_emb + "/ip" + m_bs + "_nz.root");
