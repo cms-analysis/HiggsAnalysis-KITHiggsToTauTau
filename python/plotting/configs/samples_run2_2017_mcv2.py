@@ -953,7 +953,7 @@ class Samples(samples.Samples):
 
 		exclude_cuts_A = exclude_cuts
 		exclude_cuts_B = copy.deepcopy(exclude_cuts)+["os"]
-		exclude_cuts_D = copy.deepcopy(exclude_cuts)+["mt"]
+		exclude_cuts_D = copy.deepcopy(exclude_cuts)#+["mt"]
 		exclude_cuts_C = copy.deepcopy(exclude_cuts_D)+["os"]
 		exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)+["mt"]
 		exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts_inclusive)+["os"]
@@ -1930,7 +1930,7 @@ class Samples(samples.Samples):
 		exclude_cuts_A = exclude_cuts
 		# This structure is needed to avoid that some cuts appear twice in the list of cuts to exclude.
 		exclude_cuts_B = [cut for cut in exclude_cuts if cut not in ["os"]] + ["os"]
-		exclude_cuts_D = [cut for cut in exclude_cuts if cut not in ["mt"]] + ["mt"]
+		exclude_cuts_D = [cut for cut in exclude_cuts] #if cut not in ["mt"]] + ["mt"]
 		exclude_cuts_C = [cut for cut in exclude_cuts_D if cut not in ["os"]] + ["os"]
 		exclude_cuts_inclusive = copy.deepcopy(exclude_cuts)+["mt"]
 		exclude_cuts_inclusive_ss = copy.deepcopy(exclude_cuts_inclusive)+["os"]

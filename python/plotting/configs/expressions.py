@@ -330,7 +330,7 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 		# CP final state category
 		#self.expressions_dict["catcptautau2017_"+"mt"+"_CPCombMerged"] = "(decayMode_2 == 1)"
-		for channel in ["em", "et", "mt", "tt"]:
+		for channel in ["em", "et", "mt", "tt", "mm"]:
 
 			decayMode_string = "((decayMode_2 == 1)*(decayMode_1 == 0) + (decayMode_2 == 0)*(decayMode_1 == 1))" if channel=="tt" else "(decayMode_2 == 1)"
 
