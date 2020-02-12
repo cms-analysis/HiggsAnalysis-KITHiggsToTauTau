@@ -54,7 +54,7 @@ class Baseconfig(dict):
 			self["InputIsEmbedding"] = "false"
 
 
-		if re.search("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|2017|MC)|LFV", nickname):
+		if re.search("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|2017|2018|MC)|LFV", nickname):
 			self["BosonPdgIds"] = [23]
 		elif re.search("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z|JJ|tt)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):
 				self["BosonPdgIds"] = [25]
@@ -255,22 +255,26 @@ class Baseconfig(dict):
 			self["ZptReweightProducerWeights"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights.root"
 
 		elif re.search("(Run2016|Spring16|Summer16)", nickname):
-			self["MetRecoilCorrectorFile"] ="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/TypeI-PFMet_Run2016BtoH.root"
-			self["MvaMetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root"
-			self["ZptReweightProducerWeights"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2016_BtoH.root"
-
-		elif re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname): #FIXME No files for 2017 MvaMET yet
 			self["MetCorrectionMethod"] = "meanResolution"
-			# self["MetRecoilCorrectorFile"] ="$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/Type1_PFMET_2017.root"
-			if self["ChooseMet"] == "pfMet":
-				self["MetRecoilCorrectorFile"] ="$CMSSW_BASE/src/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root"
-			elif self["ChooseMet"] == "puppiMet":
-				self["MetRecoilCorrectorFile"] ="$CMSSW_BASE/src/HTT-utilities/RecoilCorrections/data/Type1_PuppiMET_2017.root"
-			self["MvaMetRecoilCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MvaMET_2016BCD.root" #not there
-			self["ZptReweightProducerWeights"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/zpt/zpt_weights_2017.root" #TODO
+			self["MetRecoilCorrectorFile"] ="HTT-utilities/RecoilCorrections/data/Type1_PFMET_2016.root"
+			self["MetShiftCorrectorFile"] = "HTT-utilities/RecoilCorrections/data/PFMETSys_2016.root"
+			self["PuppiMetRecoilCorrectorFile"] ="HTT-utilities/RecoilCorrections/data/Type1_PuppiMET_2016.root"
+			self["PuppiMetShiftCorrectorFile"] = "HTT-utilities/RecoilCorrections/data/PuppiMETSys_2016.root"
 
-		self["MetShiftCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
-		self["MvaMetShiftCorrectorFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/recoilMet/MEtSys.root"
+		elif re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
+			# self["MetCorrectionMethod"] = "meanResolution"
+			self["MetCorrectionMethod"] = "quantileMapping"
+			self["MetRecoilCorrectorFile"] ="HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root"
+			self["MetShiftCorrectorFile"] = "HTT-utilities/RecoilCorrections/data/PFMETSys_2017.root"
+			self["PuppiMetRecoilCorrectorFile"] ="HTT-utilities/RecoilCorrections/data/Type1_PuppiMET_2017.root"
+			self["PuppiMetShiftCorrectorFile"] = "HTT-utilities/RecoilCorrections/data/PuppiMETSys_2017.root"
+
+		elif re.search("(Run2018|Autumn18|Embedding2018)", nickname):
+			self["MetCorrectionMethod"] = "meanResolution"
+			self["MetRecoilCorrectorFile"] ="HTT-utilities/RecoilCorrections/data/Type1_PFMET_2018.root"
+			self["MetShiftCorrectorFile"] = "HTT-utilities/RecoilCorrections/data/PFMETSys_2018.root"
+			self["PuppiMetRecoilCorrectorFile"] ="HTT-utilities/RecoilCorrections/data/Type1_PuppiMET_2018.root"
+			self["PuppiMetShiftCorrectorFile"] = "HTT-utilities/RecoilCorrections/data/PuppiMETSys_2018.root"
 
 		if re.search("Run2015B", nickname):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_13TeV_16Dec2015ReReco_Collisions15_50ns_JSON_v2.txt"]
@@ -280,3 +284,5 @@ class Baseconfig(dict):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"]
 		elif re.search("Run2017|Embedding2017", nickname):
 			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"]
+		elif re.search("Run2018|Embedding2018", nickname):
+			self["JsonFiles"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/json/Cert_314472-325175_13TeV_17SeptEarlyReReco2018ABC_PromptEraD_Collisions18_JSON.txt"]
