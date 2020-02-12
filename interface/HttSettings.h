@@ -40,8 +40,10 @@ public:
 
 	IMPL_SETTING(std::string, MetRecoilCorrectorFile);
 	IMPL_SETTING(std::string, MvaMetRecoilCorrectorFile);
+	IMPL_SETTING(std::string, PuppiMetRecoilCorrectorFile);
 	IMPL_SETTING(std::string, MetShiftCorrectorFile);
 	IMPL_SETTING(std::string, MvaMetShiftCorrectorFile);
+	IMPL_SETTING(std::string, PuppiMetShiftCorrectorFile);
 	IMPL_SETTING_DEFAULT(std::string, MetCorrectionMethod, "quantileMapping");
 
 	IMPL_SETTING_DEFAULT(bool, ChooseMvaMet, true);
