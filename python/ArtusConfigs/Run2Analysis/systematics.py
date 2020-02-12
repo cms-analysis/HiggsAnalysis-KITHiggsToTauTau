@@ -361,8 +361,10 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionOneProngShift"] = 0.012
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionOneProngShift"] = 0.012
-				elif re.search("Fall17|Embedding2017", nickname):
+				elif re.search("Fall17", nickname):
 					self["TauEnergyCorrectionOneProngShift"] = 0.008
+				elif re.search("Embedding2017", nickname):
+					self["TauEnergyCorrectionOneProngShift"] = 0.015
 				else:
 					self["TauEnergyCorrectionOneProngShift"] = 0.0
 
@@ -378,8 +380,10 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionOneProngShift"] = -0.012
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionOneProngShift"] = -0.012
-				elif re.search("Fall17|Embedding2017", nickname):
+				elif re.search("Fall17", nickname):
 					self["TauEnergyCorrectionOneProngShift"] = -0.008
+				elif re.search("Embedding2017", nickname):
+					self["TauEnergyCorrectionOneProngShift"] = -0.015
 				else:
 					self["TauEnergyCorrectionOneProngShift"] = 0.0
 
@@ -395,8 +399,10 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.03
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.012
-				elif re.search("Fall17|Embedding2017", nickname):
+				elif re.search("Fall17", nickname):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.008
+				elif re.search("Embedding2017", nickname):
+					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.015
 				else:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.0
 
@@ -412,8 +418,10 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = -0.012
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = -0.012
-				elif re.search("Fall17|Embedding2017", nickname):
+				elif re.search("Fall17", nickname):
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = -0.008
+				elif re.search("Embedding2017", nickname):
+					self["TauEnergyCorrectionOneProngPiZerosShift"] = -0.015
 				else:
 					self["TauEnergyCorrectionOneProngPiZerosShift"] = 0.0
 
@@ -430,8 +438,10 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionThreeProngShift"] = 0.012
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionThreeProngShift"] = 0.012
-				elif re.search("Fall17|Embedding2017", nickname):
+				elif re.search("Fall17", nickname):
 					self["TauEnergyCorrectionThreeProngShift"] = 0.009
+				elif re.search("Embedding2017", nickname):
+					self["TauEnergyCorrectionThreeProngShift"] = 0.015
 				else:
 					self["TauEnergyCorrectionThreeProngShift"] = 0.0
 
@@ -448,8 +458,10 @@ class Systematics_Config(dict):
 					self["TauEnergyCorrectionThreeProngShift"] = -0.012
 				elif re.search("Spring16|Summer16", nickname):
 					self["TauEnergyCorrectionThreeProngShift"] = -0.012
-				elif re.search("Fall17|Embedding2017", nickname):
+				elif re.search("Fall17", nickname):
 					self["TauEnergyCorrectionThreeProngShift"] = -0.009
+				elif re.search("Embedding2017", nickname):
+					self["TauEnergyCorrectionThreeProngShift"] = -0.015
 				else:
 					self["TauEnergyCorrectionThreeProngShift"] = 0.0
 
@@ -459,13 +471,18 @@ class Systematics_Config(dict):
 					self["SvfitCacheFileFolder"] = "nominal"
 
 			elif systematic_uncertainty == "tauEsThreeProngPiZerosUp":
-				if re.search("Fall17|Embedding2017", nickname):
+				if re.search("Fall17", nickname):
 					self["TauEnergyCorrectionThreeProngPiZerosShift"] = 0.01
+				elif re.search("Embedding2017", nickname):
+					self["TauEnergyCorrectionThreeProngShift"] = 0.015
 				else:
 					self["TauEnergyCorrectionThreeProngPiZerosShift"] = 0.0
+
 			elif systematic_uncertainty == "tauEsThreeProngPiZerosDown":
-				if re.search("Fall17|Embedding2017", nickname):
+				if re.search("Fall17", nickname):
 					self["TauEnergyCorrectionThreeProngPiZerosShift"] = -0.01
+				elif re.search("Embedding2017", nickname):
+					self["TauEnergyCorrectionThreeProngShift"] = -0.015
 				else:
 					self["TauEnergyCorrectionThreeProngPiZerosShift"] = 0.0
 

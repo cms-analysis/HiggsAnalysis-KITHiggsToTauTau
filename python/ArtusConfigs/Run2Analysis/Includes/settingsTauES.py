@@ -32,10 +32,10 @@ class TauES(dict):
 			self["TauEnergyCorrectionThreeProngPizeros"] = 0.999 #+-1%
 
 			if re.search("Embedding2017", nickname): # no ES corrections for embedding 2017, but uncertainties are needed
-				self["TauEnergyCorrectionOneProng"] = 1.0
-				self["TauEnergyCorrectionOneProngPiZeros"] = 1.0
-				self["TauEnergyCorrectionThreeProng"] = 1.0
-				self["TauEnergyCorrectionThreeProngPizeros"] = 1.0
+				self["TauEnergyCorrectionOneProng"] = 1.0 #+-1.5%
+				self["TauEnergyCorrectionOneProngPiZeros"] = 1.0 #+-1.5%
+				self["TauEnergyCorrectionThreeProng"] = 1.0 #+-1.5%
+				self["TauEnergyCorrectionThreeProngPizeros"] = 1.0 #+-1.5%
 
 			if re.search("(DY.?JetsToLL|EWKZ2Jets)", nickname):
 				# official e/mu fake ES factors
@@ -58,17 +58,17 @@ class TauES(dict):
 
 		if re.search("(Summer17|Fall17|Embedding2017)",nickname):
 			if re.search("(Summer17|Fall17)",nickname):
-				self["TauIDEfficiencyWeightTight"] = 0.89 # +-3%
-				self["TauIDEfficiencyWeightVLoose"] = 0.88 # +-3%
+				# self["TauIDEfficiencyWeightTight"] = 0.89 # +-3%
+				# self["TauIDEfficiencyWeightVLoose"] = 0.88 # +-3%
 				self["TauTrackReconstructionEfficiencyWeightOneProng"] = 1.0
 				self["TauTrackReconstructionEfficiencyWeightOneProngPiZeros"] = 1.0
 				self["TauTrackReconstructionEfficiencyWeightThreeProng"] = 1.0
 				self["TauTrackReconstructionEfficiencyWeightThreeProngPiZeros"] = 1.0
 			if re.search("(Embedding2017)",nickname):
-				if legacy:
-					self["TauIDEfficiencyWeightTight"] = 0.99
-				else:
-					self["TauIDEfficiencyWeightTight"] = 0.97
+				# if legacy:
+				# 	self["TauIDEfficiencyWeightTight"] = 0.99
+				# else:
+				# 	self["TauIDEfficiencyWeightTight"] = 0.97
 				self["TauTrackReconstructionEfficiencyWeightOneProng"] =  0.975 # https://hypernews.cern.ch/HyperNews/CMS/get/AUX/2018/07/05/17:57:09-21650-janek_bechtel_emb_2018_07_05.pdf
 				self["TauTrackReconstructionEfficiencyWeightOneProngPiZeros"] = 0.975*1.051
 				self["TauTrackReconstructionEfficiencyWeightThreeProng"] = 0.975*0.975*0.975
