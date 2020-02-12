@@ -7,8 +7,6 @@
 #include "Artus/Utility/interface/Utility.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
-// #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/RecoilCorrector.h"
-// #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/MEtSys.h"
 
 #include "HTT-utilities/RecoilCorrections/interface/RecoilCorrector.h"
 #include "HTT-utilities/RecoilCorrections/interface/MEtSys.h"
@@ -224,7 +222,7 @@ public:
 		float correctedMetX, correctedMetY;
 
 		if(m_correctionMethod == MetCorrectorBase::CorrectionMethod::QUANTILE_MAPPING)
-			m_recoilCorrector->Correct(
+			m_recoilCorrector->CorrectWithHist(
 				metX,
 				metY,
 				genPx,
