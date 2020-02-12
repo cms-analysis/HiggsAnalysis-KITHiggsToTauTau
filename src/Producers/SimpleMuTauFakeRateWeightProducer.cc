@@ -46,7 +46,7 @@ void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product
 		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
 		if (settings.GetUseUWGenMatching())
 		{
-			genMatchingCode = GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton);
+			genMatchingCode = (KappaEnumTypes::GenMatchingCode)product.m_flavourOrderedGenMatch[1];
 		}
 		else
 		{
@@ -87,7 +87,7 @@ void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product
 		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
 		if (settings.GetUseUWGenMatching())
 		{
-			genMatchingCode = GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton);
+			genMatchingCode = (KappaEnumTypes::GenMatchingCode)product.m_flavourOrderedGenMatch[1];
 		}
 		else
 		{
@@ -130,7 +130,7 @@ void SimpleMuTauFakeRateWeightProducer::Produce(event_type const& event, product
 			KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
 			if (settings.GetUseUWGenMatching())
 			{
-				genMatchingCode = GeneratorInfo::GetGenMatchingCodeUW(event, originalLepton);
+				genMatchingCode = (KappaEnumTypes::GenMatchingCode)product.m_flavourOrderedGenMatch[index];
 			}
 			else
 			{
