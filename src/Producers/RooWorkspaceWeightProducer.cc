@@ -936,6 +936,14 @@ void LegacyWeightProducer::Produce( event_type const& event, product_type & prod
 					KTau* tau = static_cast<KTau*>(lepton);
 					args.push_back(tau->decayMode);
 				}
+				else if(arg=="HpT" || arg=="z_gen_pt")
+				{
+					args.push_back(product.m_genBosonLV.Pt());
+				}
+				else if(arg=="z_gen_mass")
+				{
+					args.push_back(product.m_genBosonLV.M());
+				}
 				else if(arg=="gt_pt")
 				{
 					KGenTau genTau = event.m_genTaus->at(weightNames.first);

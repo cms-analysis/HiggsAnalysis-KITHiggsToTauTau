@@ -774,6 +774,8 @@ class Run2Quantities():
 			"puppiMetCov01",
 			"puppiMetCov10",
 			"puppiMetCov11",
+			"puppiMetuncorr",
+			"puppiMetCorr",
 		]
 		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 			sync_quantities_list += [
