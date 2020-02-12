@@ -588,6 +588,7 @@ class Run2Quantities():
 			#"passiso_2",
 			"mt_2",
 			"met",
+			"metuncorr",
 			"metphi",
 
 			#"l1met",
@@ -613,6 +614,7 @@ class Run2Quantities():
 			"pfmetcov01",
 			"pfmetcov10",
 			"pfmetcov11",
+			"pfmetuncorr",
 			"mvacov00",
 			"mvacov01",
 			"mvacov10",
@@ -775,7 +777,6 @@ class Run2Quantities():
 			"puppiMetCov10",
 			"puppiMetCov11",
 			"puppiMetuncorr",
-			"puppiMetCorr",
 		]
 		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 			sync_quantities_list += [
