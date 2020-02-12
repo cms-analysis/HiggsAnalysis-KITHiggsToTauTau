@@ -624,7 +624,7 @@ void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type&
 				}
 				else if(arg=="mt")
 				{
-					args.push_back(Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4));
+					args.push_back(Quantities::CalculateMtH2Tau(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4));
 				}
 				else if(arg=="m_iso" || arg=="e_iso")
 				{
