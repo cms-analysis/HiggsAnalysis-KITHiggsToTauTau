@@ -68,6 +68,18 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return event.m_beamSpot->position;
 	});
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "theBSatRef1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return event.m_beamSpot->Position(product.m_RefHelix_1.Z());
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "theBSatRef2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return event.m_beamSpot->Position(product.m_RefHelix_2.Z());
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "theBSatnominalPV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return event.m_beamSpot->Position(event.m_vertexSummary->pv.position.Z());
+	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSsigmax", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return event.m_beamSpot->beamWidthX;
@@ -79,6 +91,30 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSsigmaz", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return event.m_beamSpot->sigmaZ;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSdxdz", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return event.m_beamSpot->dxdz;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "theBSdydz", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return event.m_beamSpot->dydz;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dxy_BSatRef1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_flavourOrderedLeptons.at(0)->track.helixParameters(event.m_beamSpot->Position(product.m_RefHelix_1.Z()), 3);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dxy_BSatRef2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_flavourOrderedLeptons.at(1)->track.helixParameters(event.m_beamSpot->Position(product.m_RefHelix_2.Z()), 3);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dxy_BSatnominalPV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_flavourOrderedLeptons.at(0)->track.helixParameters(event.m_beamSpot->Position(event.m_vertexSummary->pv.position.Z()), 3);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "dxy_BSatnominalPV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_flavourOrderedLeptons.at(1)->track.helixParameters(event.m_beamSpot->Position(event.m_vertexSummary->pv.position.Z()), 3);
 	});
 
 	// CP-related quantities
