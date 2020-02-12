@@ -128,8 +128,6 @@ class mt_ArtusConfig(dict):
 					#"producer:TriggerWeightProducer"
 					if legacy:
 						self["Processors"] += ["producer:LegacyWeightProducer"]
-						if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
-							self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 					else:
 						self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
 						self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"] #is a rooworkspace
@@ -160,8 +158,6 @@ class mt_ArtusConfig(dict):
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 
-						#if re.search("Summer17|Fall17", nickname) == None:
-
 						self["Processors"] += ["producer:SimpleFitProducer"]
 						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -184,7 +180,6 @@ class mt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
-						#if re.search("Summer17|Fall17", nickname) == None:
 						self["Processors"] += [	"producer:TopPtReweightingProducer"]  #FIXME only ttbar?
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"] #FIXME Needed?
@@ -491,9 +486,12 @@ class mt_ArtusConfig(dict):
 						"0:triggerEfficiency_crosstrigger_data",
 						"1:triggerEfficiency_crosstrigger_MCEmb",
 						"1:triggerEfficiency_crosstrigger_data",
+						"1:tauidWeight",
 						"0:embeddingSelection_idWeight",
 						"1:embeddingSelection_idWeight",
-						"0:embeddingSelection_triggerWeight"
+						"0:embeddingSelection_triggerWeight",
+						"1:ScaleFactor_deepTauVsMuTight",
+						"1:ScaleFactor_deepTauVsEleVVLoose",
 					]
 					self["LegacyWeightWorkspaceObjectNames"] = [
 						"0:m_trk_ratio",
@@ -504,9 +502,12 @@ class mt_ArtusConfig(dict):
 						"0:m_trg_20_ic_data",
 						"1:t_trg_mediumDeepTau_mutau_embed",
 						"1:t_trg_mediumDeepTau_mutau_data",
+						"1:t_deeptauid_pt_embed_medium",
 						"0:m_sel_id_ic_ratio",
 						"1:m_sel_id_ic_ratio",
 						"0:m_sel_trg_ratio",
+						"1:t_id_vs_mu_eta_tight",
+						"1:t_id_vs_e_eta_vvloose",
 					]
 					self["LegacyWeightWorkspaceObjectArguments"] = [
 						"0:m_eta",
@@ -517,9 +518,12 @@ class mt_ArtusConfig(dict):
 						"0:m_pt,m_eta",
 						"1:t_pt,t_eta,t_phi,t_dm",
 						"1:t_pt,t_eta,t_phi,t_dm",
+						"1:t_pt",
 						"0:gt_pt,gt_eta",
 						"1:gt_pt,gt_eta",
 						"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+						"1:t_eta",
+						"1:t_eta",
 					]
 				else:
 					self["SaveLegacyWeightAsOptionalOnly"] = True
@@ -542,8 +546,8 @@ class mt_ArtusConfig(dict):
 						"0:m_trg_ic_data",
 						"0:m_trg_20_ic_mc",
 						"0:m_trg_20_ic_data",
-						"1:t_trg_mediumDeepTau_mutau_mc",
-						"1:t_trg_mediumDeepTau_mutau_data",
+						"1:t_trg_pog_deeptau_medium_mutau_mc",
+						"1:t_trg_pog_deeptau_medium_mutau_data",
 						"1:t_deeptauid_pt_medium",
 					]
 					self["LegacyWeightWorkspaceObjectArguments"] = [
@@ -553,15 +557,14 @@ class mt_ArtusConfig(dict):
 						"0:m_pt,m_eta",
 						"0:m_pt,m_eta",
 						"0:m_pt,m_eta",
-						"1:t_pt,t_eta,t_phi,t_dm",
-						"1:t_pt,t_eta,t_phi,t_dm",
+						"1:t_pt,t_dm",
+						"1:t_pt,t_dm",
 						"1:t_pt",
 					]
 					if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
-						self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017.root"
-						self["RooWorkspaceWeightNames"] = ["0:zPtReweightWeight"]
-						self["RooWorkspaceObjectNames"] = ["0:zptmass_weight_nom"]
-						self["RooWorkspaceObjectArguments"] = ["0:z_gen_mass,z_gen_pt"]
+						self["LegacyWeightWorkspaceWeightNames"].append("0:zPtReweightWeight")
+						self["LegacyWeightWorkspaceObjectNames"].append("0:zptmass_weight_nom")
+						self["LegacyWeightWorkspaceObjectArguments"].append("0:z_gen_mass,z_gen_pt")
 			else:
 				if isEmbedded:
 					self["SaveEmbeddingWeightAsOptionalOnly"] = "true"
