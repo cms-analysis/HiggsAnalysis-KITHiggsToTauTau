@@ -354,3 +354,86 @@ MuonTauFakeRateWeightProducer::MuonTauFakeRateWeightProducer() :
 	                                &setting_type::GetMuonTauFakeRateHistograms)
 {
 }
+
+// ==========================================================================================
+
+void PileUpJetIDScaleFactorWeightProducer::Init(setting_type const& settings, metadata_type& metadata)
+{
+	ProducerBase<HttTypes>::Init(settings, metadata);
+
+	std::string year = std::to_string(settings.GetYear());
+	std::string pileUpJetIDWorkingPoint = settings.GetPuJetID();
+	std::string histoname;
+
+	if(pileUpJetIDWorkingPoint == "loose")
+	{
+		histoname = year + "_" + "L";
+	}
+	else if(pileUpJetIDWorkingPoint == "medium")
+	{
+		histoname = year + "_" + "M";
+	}
+	else if(pileUpJetIDWorkingPoint == "tight")
+	{
+		histoname = year + "_" + "T";
+	}
+
+	std::string effFileName = settings.GetPuJetIDScaleFactorFilesPath() + "h2_eff_sf_" + histoname + ".root";
+	std::string mistagFileName = settings.GetPuJetIDScaleFactorFilesPath() + "h2_mistag_sf_" + histoname + ".root";
+	// read the histograms from the weight file
+	TDirectory *savedir(gDirectory);
+	TFile *savefile(gFile);
+
+	TFile effFile(effFileName.c_str(), "READ");
+
+	if (effFile.IsZombie()) {
+		std::cout << "PileUpJetIDScaleFactorWeightProducer: file " << effFileName << " is not found...   quitting " << std::endl;
+		exit(-1);
+	}
+	std::string effhistoname = "h2_eff_sf" + histoname;
+	m_efficiencyScaleFactorHistogram = static_cast<TH2F*>(effFile.Get(effhistoname.c_str()));
+	m_efficiencyScaleFactorHistogram->SetDirectory(nullptr);
+	effFile.Close();
+
+	TFile mistagFile(mistagFileName.c_str(), "READ");
+
+	if (mistagFile.IsZombie()) {
+		std::cout << "PileUpJetIDScaleFactorWeightProducer: file " << mistagFileName << " is not found...   quitting " << std::endl;
+		exit(-1);
+	}
+
+	std::string mistaghistoname = "h2_mistag_sf" + histoname;
+	m_mistagScaleFactorHistogram = static_cast<TH2F*>(mistagFile.Get(mistaghistoname.c_str()));
+	m_mistagScaleFactorHistogram->SetDirectory(nullptr);
+	mistagFile.Close();
+
+	gDirectory = savedir;
+	gFile = savefile;
+}
+
+void PileUpJetIDScaleFactorWeightProducer::Produce(event_type const& event, product_type& product,
+                                      setting_type const& settings, metadata_type const& metadata) const
+{
+	double weight(1.0);
+	for (std::vector<KBasicJet*>::const_iterator jet = product.m_validJets.begin(); jet != product.m_validJets.end(); ++jet)
+	{
+		TH2F* weightHisto = nullptr;
+		if (true) // TODO: add jen gen matching logic
+		{
+			// Apply efficiency SFs to real jets (matched to gen jet)
+			weightHisto = m_efficiencyScaleFactorHistogram;
+		}
+		else
+		{
+			// Apply mistag SFs to PU jets (NOT matched to gen jet)
+			weightHisto = m_mistagScaleFactorHistogram;
+		}
+
+		if(weightHisto != nullptr)
+		{
+			int bin = weightHisto->FindBin((*jet)->p4.Pt(), std::abs((*jet)->p4.Eta()));
+			weight *= weightHisto->GetBinContent(bin);
+		}
+	}
+	product.m_optionalWeights["pileupJetIDScaleFactorWeight"] = weight;
+}

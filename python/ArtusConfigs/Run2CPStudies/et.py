@@ -131,9 +131,10 @@ class et_ArtusConfig(dict):
 					"producer:SimpleEleTauFakeRateWeightProducer",
 					"producer:SimpleMuTauFakeRateWeightProducer"
 				]
-				self["Processors"] += [
-						"producer:MetCorrector"
-					]
+				self["Processors"] += ["producer:MetCorrector"]
+				self["Processors"] += ["producer:PuppiMetCorrector"]
+				self["Processors"] += ["producer:PileUpJetIDScaleFactorWeightProducer"]
+
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					if legacy:

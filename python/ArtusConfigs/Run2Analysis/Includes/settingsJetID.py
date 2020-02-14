@@ -24,6 +24,8 @@ class Jet_ID(dict):
 		self["PuJetIDVersion"] = "2016" # TODO: implement 2017 and 2018 WPs; not avalaible yet https://twiki.cern.ch/twiki/bin/view/CMS/PileupJetID#Working_points
 		self["PuJetIDFullDiscrName"] = "pileupJetIdfullDiscriminant"
 		# self["PuJetIDFullDiscrName"] = "pileupJetIdUpdatedfullDiscriminant"
+		self["PuJetIDScaleFactorFilesPath"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileupjetID/"
+
 		self["JetTaggerLowerCuts"] = []
 		self["JetTaggerUpperCuts"] = []
 

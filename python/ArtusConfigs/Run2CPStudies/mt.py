@@ -123,6 +123,8 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:PuppiMetCorrector"]
 				self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+				self["Processors"] += ["producer:PileUpJetIDScaleFactorWeightProducer"]
+
 				if re.search("Summer17|Fall17", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					#"producer:TriggerWeightProducer"

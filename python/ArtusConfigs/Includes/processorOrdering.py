@@ -192,6 +192,8 @@ class ProcessorsOrdered(dict):
 		self["producer:IdentificationWeightProducer"] = 276
 		self["producer:EleTauFakeRateWeightProducer"] = 277
 
+		self["producer:PileUpJetIDScaleFactorWeightProducer"] = 278
+
 		self["producer:RooWorkspaceWeightProducer"] = 280
 
 		self["producer:MuTauTriggerWeightProducer"] = 290

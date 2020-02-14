@@ -143,3 +143,28 @@ public:
 	
 	MuonTauFakeRateWeightProducer();
 };
+
+/** Producer for extracting pre-computed pile up jet ID scale factors from ROOT files
+ *  Required config tags:
+ *  - EfficiencyScaleFactorHistogram (ROOT file containing the efficiency scale-factor weight histogram)
+ *  - MistagScaleFactorHistogram (ROOT file containing the mistag scale-factor weight histogram)
+ */
+class PileUpJetIDScaleFactorWeightProducer: public ProducerBase<HttTypes> {
+public:
+
+	PileUpJetIDScaleFactorWeightProducer() {};
+
+	virtual std::string GetProducerId() const override {
+		return "PileUpJetIDScaleFactorWeightProducer";
+	}
+
+	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
+
+	virtual void Produce(event_type const& event, product_type& product,
+	                     setting_type const& settings, metadata_type const& metadata) const override;
+
+private:
+
+	TH2F* m_efficiencyScaleFactorHistogram = nullptr;
+	TH2F* m_mistagScaleFactorHistogram = nullptr;
+};

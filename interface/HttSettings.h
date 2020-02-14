@@ -74,6 +74,8 @@ public:
 	IMPL_SETTING_STRINGLIST(MuonTauFakeRateWeightFile);
 	IMPL_SETTING_STRINGLIST_DEFAULT(MuonTauFakeRateHistograms, {});
 
+	IMPL_SETTING_DEFAULT(std::string, PuJetIDScaleFactorFilesPath, "");
+
 	IMPL_SETTING(std::string, ElectronIDType);
 	IMPL_SETTING_DEFAULT(std::string, ElectronIDName, "");
 	IMPL_SETTING_STRINGLIST_DEFAULT(ElectronIDList, {});

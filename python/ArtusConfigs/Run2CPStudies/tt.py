@@ -114,6 +114,7 @@ class tt_ArtusConfig(dict):
 				self["Processors"] += ["producer:PuppiMetCorrector"]
 				self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+				self["Processors"] += ["producer:PileUpJetIDScaleFactorWeightProducer"]
 
 				self["Processors"] += [
 						"producer:SimpleEleTauFakeRateWeightProducer",
