@@ -348,17 +348,20 @@ class CutStringsDict:
 		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
 
 		if channel == "mt":
-			if data :
-				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))) + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
-			else:
-				cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_single_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_cross_1*triggerWeight_cross_2))"
+			# if data :
+				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))) + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
+			# else:
+				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))*triggerWeight_single_1 + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)*triggerWeight_cross_1*triggerWeight_cross_2))"
+			cuts["trigger"] = "( ((pt_1 > 25.0)*(trg_singlemuon_24>0.5)) || ((pt_1 > 28.0)*(trg_singlemuon_27>0.5)) || ((pt_1 < 25.0)*(pt_2 > 32.0)*(trg_crossmuon_mu20tau27>0.5)) )"
+			if not data:
+				cuts["trigger"] += "*triggerWeight_comb"
 			cuts["pt_1"] = "(pt_1 > 21.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
-			cuts["anti_e_tau_discriminators"] = "(byVVVLooseDeepTau2017v2p1VSe_2 > 0.5)"
+			cuts["anti_e_tau_discriminators"] = "(byVVLooseDeepTau2017v2p1VSe_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(byTightDeepTau2017v2p1VSmu_2 > 0.5)"
 			cuts["iso_2"] = "(byMediumDeepTau2017v2p1VSjet_2 > 0.5)"
 			# cuts["decay_mode_reweight"] = "(0.99/0.97)*((decayModeMVA_2==0)*0.975 + (decayModeMVA_2==1)*0.975*1.051 + (decayModeMVA_2==10)*pow(0.975,3) + (decayModeMVA_2==11)*pow(0.975,3)*1.051)/(((decayMode_2==0)*0.975 + (decayMode_2==1)*0.975*1.051 + (decayMode_2==10)*pow(0.975,3))||(1.0))"
@@ -376,6 +379,8 @@ class CutStringsDict:
 			cuts["mt"] = "(mt_1<50.0)"
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(byMediumDeepTau2017v2p1VSjet_2 > 0.5)"
+			cuts["anti_e_tau_discriminators"] = "(byTightDeepTau2017v2p1VSe_2 > 0.5)"
+			cuts["anti_mu_tau_discriminators"] = "(byVlooseDeepTau2017v2p1VSmu_2 > 0.5)"
 
 		elif channel == "tt":
 			cuts["trigger"] = "( ((HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 40) * (pt_2 > 40)) || ((HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45)) || ((HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45) ) )"
@@ -383,12 +388,17 @@ class CutStringsDict:
 				tauidtriggersf_1 = "triggerWeight_cross_1"
 				tauidtriggersf_2 = "triggerWeight_cross_2"
 				cuts["trigger"] += "*" + tauidtriggersf_1 + "*" + tauidtriggersf_2
-			cuts["pt_1"] = "(pt_1 > 50.0)"
+			cuts["pt_1"] = "(pt_1 > 40.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["iso_1"] = "(byMediumDeepTau2017v2p1VSjet_1 > 0.5)"
 			cuts["iso_2"] = "(byMediumDeepTau2017v2p1VSjet_2 > 0.5)"
+			cuts["anti_e_tau_discriminators_1"] = "(byVVLooseDeepTau2017v2p1VSe_1 > 0.5)"
+			cuts["anti_e_tau_discriminators_2"] = "(byVVLooseDeepTau2017v2p1VSe_2 > 0.5)"
+			cuts["anti_mu_tau_discriminators_1"] = "(byVLooseDeepTau2017v2p1VSmu_1 > 0.5)"
+			cuts["anti_mu_tau_discriminators_2"] = "(byVLooseDeepTau2017v2p1VSmu_2 > 0.5)"
+
 		elif channel == "mm":
 			cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))"
 			cuts["pt_1"] = "(pt_1 > 21.0)"
