@@ -20,9 +20,6 @@ void MetCorrector::Init(setting_type const& settings, metadata_type& metadata)
 {
 	MetCorrectorBase<KMET>::Init(settings, metadata);
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfmetuncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-		return product.m_pfmetUncorr->p4.Pt();
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genpX", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_pfmetCorrections[0];
 	});
@@ -38,12 +35,6 @@ void MetCorrector::Init(setting_type const& settings, metadata_type& metadata)
 
 	// m_correctGlobalMet = !settings.GetChooseMvaMet();
 	m_correctGlobalMet = (HttEnumTypes::ToMetType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.GetChooseMet)()))) == HttEnumTypes::MetType::PFMET);
-	if (m_correctGlobalMet)
-	{
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metuncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-			return product.m_pfmetUncorr->p4.Pt();
-		});
-	}
 }
 
 std::string MetCorrector::GetProducerId() const
@@ -67,9 +58,6 @@ void MvaMetCorrector::Init(setting_type const& settings, metadata_type& metadata
 {
 	MetCorrectorBase<KMET>::Init(settings, metadata);
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetUncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-		return product.m_mvametUncorr->p4.Pt();
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetCorrectionGenPx", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_mvametCorrections[0];
 	});
@@ -105,12 +93,6 @@ void MvaMetCorrector::Init(setting_type const& settings, metadata_type& metadata
 
 	// m_correctGlobalMet = settings.GetChooseMvaMet();
 	m_correctGlobalMet = (HttEnumTypes::ToMetType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.GetChooseMet)()))) == HttEnumTypes::MetType::MVAMET);
-	if (m_correctGlobalMet)
-	{
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metuncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-			return product.m_mvametUncorr->p4.Pt();
-		});
-	}
 }
 
 std::string MvaMetCorrector::GetProducerId() const
@@ -134,9 +116,6 @@ void PuppiMetCorrector::Init(setting_type const& settings, metadata_type& metada
 {
 	MetCorrectorBase<KMET>::Init(settings, metadata);
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetuncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-		return product.m_puppiMetUncorr->p4.Pt();
-	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genpX", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_puppimetCorrections[0];
 	});
@@ -151,12 +130,6 @@ void PuppiMetCorrector::Init(setting_type const& settings, metadata_type& metada
 	});
 
 	m_correctGlobalMet = (HttEnumTypes::ToMetType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.GetChooseMet)()))) == HttEnumTypes::MetType::PUPPIMET);
-	if (m_correctGlobalMet)
-	{
-		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metuncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-			return product.m_puppiMetUncorr->p4.Pt();
-		});
-	}
 }
 
 std::string PuppiMetCorrector::GetProducerId() const

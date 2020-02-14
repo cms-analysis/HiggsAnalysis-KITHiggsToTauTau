@@ -73,6 +73,10 @@ public:
 		{
 			return product.m_pfmet.p4.Pt();
 		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetPtUncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return (product.m_pfmetUncorr) ? product.m_pfmetUncorr->p4.Pt() : DefaultValues::UndefinedFloat;
+		});
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "pfMetPhi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return product.m_pfmet.p4.Phi();
@@ -102,6 +106,10 @@ public:
 		{
 			return product.m_mvamet.p4.Pt();
 		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetPtUncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return (product.m_mvametUncorr) ? product.m_mvametUncorr->p4.Pt() : DefaultValues::UndefinedFloat;
+		});
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "mvaMetPhi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return product.m_mvamet.p4.Phi();
@@ -130,6 +138,10 @@ public:
 		{
 			return product.m_puppimet.p4.Pt();
 		});
+		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetPtUncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return (product.m_puppiMetUncorr) ? product.m_puppiMetUncorr->p4.Pt() : DefaultValues::UndefinedFloat;
+		});
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetPhi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return product.m_puppimet.p4.Phi();
@@ -150,6 +162,28 @@ public:
 		{
 			return product.m_puppimet.significance.At(1, 1);
 		});
+
+		if (HttEnumTypes::ToMetType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.GetChooseMet)()))) == HttEnumTypes::MetType::PFMET)
+		{
+			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metPtUncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+			{
+				return (product.m_pfmetUncorr) ? product.m_pfmetUncorr->p4.Pt() : DefaultValues::UndefinedFloat;
+			});
+		}
+		else if (HttEnumTypes::ToMetType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.GetChooseMet)()))) == HttEnumTypes::MetType::MVAMET)
+		{
+			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metPtUncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+			{
+				return (product.m_mvametUncorr) ? product.m_mvametUncorr->p4.Pt() : DefaultValues::UndefinedFloat;
+			});
+		}
+		else if (HttEnumTypes::ToMetType(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy((settings.GetChooseMet)()))) == HttEnumTypes::MetType::PUPPIMET)
+		{
+			LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "metPtUncorr", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+			{
+				return (product.m_puppiMetUncorr) ? product.m_puppiMetUncorr->p4.Pt() : DefaultValues::UndefinedFloat;
+			});
+		}
 	}
 
 
