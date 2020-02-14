@@ -114,10 +114,10 @@ class mt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:MuTauTriggerWeightProducer"]
 
 			else:
-				self["Processors"] += [
-						"producer:SimpleEleTauFakeRateWeightProducer",
-						"producer:SimpleMuTauFakeRateWeightProducer"
-						]
+				# self["Processors"] += [
+				# 		"producer:SimpleEleTauFakeRateWeightProducer",
+				# 		"producer:SimpleMuTauFakeRateWeightProducer"
+				# 		]
 				self["Processors"] += ["producer:TauCorrectionsProducer"]
 				self["Processors"] += ["producer:MetCorrector"]
 				self["Processors"] += ["producer:PuppiMetCorrector"]
@@ -332,20 +332,18 @@ class mt_ArtusConfig(dict):
 			self["NoHltFiltering"] = True if isEmbedded else False
 			self["DiTauPairNoHLT"] = False
 
-		# elif re.search("Embedding(2016|MC)", nickname):
-		# 	self["HltPaths"] = []
-		# 	self["NoHltFiltering"] = True
-		# 	self["DiTauPairNoHLT"] = True
-
-
 		self["MuonLowerPtCuts"] = ["20.0"]
-		if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
-			self["MuonLowerPtCuts"] = ["19.0"]
-
-		self["MuonUpperAbsEtaCuts"] = ["2.1"]
 		self["TauLowerPtCuts"] = ["20.0"]
-		self["TauUpperAbsEtaCuts"] = ["2.3"] # tau trigger SFs only allow abs(eta) up to 2.1
-		# self["TriggerObjectLowerPtCut"] = -1.0
+
+		if isLegacy:
+			self["MuonUpperAbsEtaCuts"] = ["2.4"]
+			self["TauUpperAbsEtaCuts"] = ["2.3"] # tau trigger SFs only allow abs(eta) up to 2.1
+		else:
+			self["MuonUpperAbsEtaCuts"] = ["2.1"]
+			self["TauUpperAbsEtaCuts"] = ["2.1"]
+			if re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
+				self["MuonLowerPtCuts"] = ["19.0"]
+
 		self["DiTauPairMinDeltaRCut"] = 0.5
 		self["DiTauPairIsTauIsoMVA"] = True
 
@@ -415,8 +413,6 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu27",
 				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"
 			]
-			self["MuonLowerPtCuts"] = ["21.0"]
-			self["TauLowerPtCuts"] = ["20.0"]
 			self["HLTBranchNames"] = [
 				"trg_singlemuon_24:HLT_IsoMu24_v",
 				"trg_singlemuon_27:HLT_IsoMu27_v",
@@ -434,12 +430,6 @@ class mt_ArtusConfig(dict):
 			self["DiTauPairLepton2UpperEtaCuts"] = [
 				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:2.1",
 			]
-
-			# self["DiTauPairHltPathsWithoutCommonMatchRequired"] = [
-			# 	"HLT_IsoMu24_v",
-			# 	"HLT_IsoMu27_v",
-			# 	"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v"
-			# ]
 
 			if isEmbedded:
 				self["TauTriggerFilterNames"] = [
@@ -540,6 +530,8 @@ class mt_ArtusConfig(dict):
 						"1:triggerEfficiency_crosstrigger_MCEmb",
 						"1:triggerEfficiency_crosstrigger_data",
 						"1:tauidWeight",
+						"1:ScaleFactor_deepTauVsMuTight",
+						"1:ScaleFactor_deepTauVsEleVVLoose",
 					]
 					self["LegacyWeightWorkspaceObjectNames"] = [
 						"0:m_trk_ratio",
@@ -551,6 +543,8 @@ class mt_ArtusConfig(dict):
 						"1:t_trg_pog_deeptau_medium_mutau_mc",
 						"1:t_trg_pog_deeptau_medium_mutau_data",
 						"1:t_deeptauid_pt_medium",
+						"1:t_id_vs_mu_eta_tight",
+						"1:t_id_vs_e_eta_vvloose",
 					]
 					self["LegacyWeightWorkspaceObjectArguments"] = [
 						"0:m_eta",
@@ -562,6 +556,8 @@ class mt_ArtusConfig(dict):
 						"1:t_pt,t_dm",
 						"1:t_pt,t_dm",
 						"1:t_pt",
+						"1:t_eta",
+						"1:t_eta",
 					]
 					if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
 						self["LegacyWeightWorkspaceWeightNames"].append("0:zPtReweightWeight")

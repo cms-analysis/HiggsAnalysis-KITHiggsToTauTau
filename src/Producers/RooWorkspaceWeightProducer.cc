@@ -1017,6 +1017,33 @@ void LegacyWeightProducer::Produce( event_type const& event, product_type & prod
 
 		// Trigger weights for "HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS"
 		product.m_optionalWeights["triggerWeight_comb"] = ((efficiencyMCEmb == 0.0) ? 1.0 : (efficiencyData / efficiencyMCEmb));
+
+		KappaEnumTypes::GenMatchingCode genMatchingCode = KappaEnumTypes::GenMatchingCode::NONE;
+		KLepton* lepton = product.m_flavourOrderedLeptons[1];
+		KLepton* originalLepton = const_cast<KLepton*>(SafeMap::GetWithDefault(product.m_originalLeptons, const_cast<const KLepton*>(lepton), const_cast<const KLepton*>(lepton)));
+		if (settings.GetUseUWGenMatching())
+		{
+			genMatchingCode = (KappaEnumTypes::GenMatchingCode)product.m_flavourOrderedGenMatch[1];
+		}
+		else
+		{
+			KGenParticle* genParticle = GeneratorInfo::GetGenMatchedParticle(originalLepton, product.m_genParticleMatchedLeptons, product.m_genTauMatchedLeptons);
+			if (genParticle)
+				genMatchingCode = GeneratorInfo::GetGenMatchingCode(genParticle);
+			else
+				genMatchingCode = KappaEnumTypes::GenMatchingCode::IS_FAKE;
+		}
+		if (settings.GetChannel() == "MT")
+		{
+			if ( !((genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_MUON_PROMPT) || (genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_MUON_FROM_TAU)) )
+			{
+				product.m_weights["ScaleFactor_deepTauVsMuTight_2"] = 1.0;
+			}
+			if ( !((genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_ELE_PROMPT) || (genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_ELE_FROM_TAU)) )
+			{
+				product.m_weights["ScaleFactor_deepTauVsEleVVLoose_2"] = 1.0;
+			}
+		}
 	}
 	else if (settings.GetChannel() == "MM")
 	{

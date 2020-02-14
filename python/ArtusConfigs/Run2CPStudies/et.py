@@ -128,8 +128,8 @@ class et_ArtusConfig(dict):
 					"producer:GenMatchedTauCPProducer",
 					"producer:TauCorrectionsProducer",
 					"producer:ElectronCorrectionsProducer",
-					"producer:SimpleEleTauFakeRateWeightProducer",
-					"producer:SimpleMuTauFakeRateWeightProducer"
+					# "producer:SimpleEleTauFakeRateWeightProducer",
+					# "producer:SimpleMuTauFakeRateWeightProducer"
 				]
 				self["Processors"] += ["producer:MetCorrector"]
 				self["Processors"] += ["producer:PuppiMetCorrector"]
@@ -139,8 +139,6 @@ class et_ArtusConfig(dict):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					if legacy:
 						self["Processors"] += ["producer:LegacyWeightProducer"]
-						if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
-							self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
 					else:
 						self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
 						self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"]
@@ -463,8 +461,8 @@ class et_ArtusConfig(dict):
 			self["CheckLepton2TriggerMatch"] = [
 				"trg_crosselectron_ele24tau30"
 				]
-			if re.search("Fall17", nickname):
-				self["GlobalWeight"] = 0.991
+			# if re.search("Fall17", nickname):
+			# 	self["GlobalWeight"] = 0.991
 
 
 		self["ElectronUpperAbsEtaCuts"] = ["2.1"]
@@ -491,6 +489,7 @@ class et_ArtusConfig(dict):
 						"0:triggerEfficiency_crosstrigger_data",
 						"1:triggerEfficiency_crosstrigger_MCEmb",
 						"1:triggerEfficiency_crosstrigger_data",
+						"1:tauidWeight",
 						"0:embeddingSelection_idWeight",
 						"1:embeddingSelection_idWeight",
 						"0:embeddingSelection_triggerWeight",
@@ -502,8 +501,9 @@ class et_ArtusConfig(dict):
 						"0:e_trg_ic_data",
 						"0:e_trg_24_ic_embed",
 						"0:e_trg_24_ic_data",
-						"1:t_trg_mediumDeepTau_mutau_embed",
-						"1:t_trg_mediumDeepTau_mutau_data",
+						"1:t_trg_mediumDeepTau_etau_embed",
+						"1:t_trg_mediumDeepTau_etau_data",
+						"1:t_deeptauid_pt_tightvse_embed_medium",
 						"0:m_sel_id_ic_ratio",
 						"1:m_sel_id_ic_ratio",
 						"0:m_sel_trg_ratio",
@@ -517,6 +517,7 @@ class et_ArtusConfig(dict):
 						"0:e_pt,e_eta",
 						"1:t_pt,t_eta,t_phi,t_dm",
 						"1:t_pt,t_eta,t_phi,t_dm",
+						"1:t_pt",
 						"0:gt_pt,gt_eta",
 						"1:gt_pt,gt_eta",
 						"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
@@ -542,8 +543,8 @@ class et_ArtusConfig(dict):
 						"0:e_trg_ic_data",
 						"0:e_trg_24_ic_mc",
 						"0:e_trg_24_ic_data",
-						"1:t_trg_mediumDeepTau_mutau_mc",
-						"1:t_trg_mediumDeepTau_mutau_data",
+						"1:t_trg_pog_deeptau_medium_etau_mc",
+						"1:t_trg_pog_deeptau_medium_etau_data",
 						"1:t_deeptauid_pt_medium",
 					]
 					self["LegacyWeightWorkspaceObjectArguments"] = [
@@ -553,15 +554,14 @@ class et_ArtusConfig(dict):
 						"0:e_pt,e_eta",
 						"0:e_pt,e_eta",
 						"0:e_pt,e_eta",
-						"1:t_pt,t_eta,t_dm",
-						"1:t_pt,t_eta,t_dm",
+						"1:t_pt,t_dm",
+						"1:t_pt,t_dm",
 						"1:t_pt",
 					]
 					if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
-						self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017.root"
-						self["RooWorkspaceWeightNames"] = ["0:zPtReweightWeight"]
-						self["RooWorkspaceObjectNames"] = ["0:zptmass_weight_nom"]
-						self["RooWorkspaceObjectArguments"] = ["0:z_gen_mass,z_gen_pt"]
+						self["LegacyWeightWorkspaceWeightNames"].append("0:zPtReweightWeight")
+						self["LegacyWeightWorkspaceObjectNames"].append("0:zptmass_weight_nom")
+						self["LegacyWeightWorkspaceObjectArguments"].append("0:z_gen_mass,z_gen_pt")
 			else:
 				if isEmbedded:
 					self["SaveEmbeddingWeightAsOptionalOnly"] = "true"

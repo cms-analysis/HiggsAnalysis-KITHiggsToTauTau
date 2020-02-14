@@ -61,8 +61,6 @@ class mt_ArtusConfig(mtbaseconfig.mt_ArtusConfig):
 					"dy_fracs:real_taus_fracs_mt",
 				]
 
-		self["TauUpperAbsEtaCuts"] = ["2.3"] # tau trigger SFs only allow abs(eta) up to 2.1
-
 		quantities_set = Quantities()
 		quantities_set.build_quantities(nickname, channel = self["Channel"], legacy=isLegacy)
 		quantities_set.quantities.update(self["Quantities"])

@@ -130,6 +130,7 @@ public:
 		{
 			return product.m_mvamet.significance.At(1, 1);
 		});
+
 		LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "puppiMetSumEt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 		{
 			return product.m_puppimet.sumEt;
