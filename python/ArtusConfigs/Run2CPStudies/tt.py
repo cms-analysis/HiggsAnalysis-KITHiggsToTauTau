@@ -336,6 +336,10 @@ class tt_ArtusConfig(dict):
 						"0:embeddingSelection_idWeight",
 						"1:embeddingSelection_idWeight",
 						"0:embeddingSelection_triggerWeight",
+						"0:ScaleFactor_deepTauVsMuVLoose",
+						"1:ScaleFactor_deepTauVsMuVLoose",
+						"0:ScaleFactor_deepTauVsEleVVLoose",
+						"1:ScaleFactor_deepTauVsEleVVLoose",
 					]
 					self["LegacyWeightWorkspaceObjectNames"] = [
 						"0:t_deeptauid_dm_embed_medium",
@@ -347,6 +351,10 @@ class tt_ArtusConfig(dict):
 						"0:m_sel_id_ic_ratio",
 						"1:m_sel_id_ic_ratio",
 						"0:m_sel_trg_ratio",
+						"0:t_id_vs_mu_eta_vloose",
+						"1:t_id_vs_mu_eta_vloose",
+						"0:t_id_vs_e_eta_vvloose",
+						"1:t_id_vs_e_eta_vvloose",
 					]
 					self["LegacyWeightWorkspaceObjectArguments"] = [
 						"0:t_dm",
@@ -358,6 +366,10 @@ class tt_ArtusConfig(dict):
 						"0:gt_pt,gt_eta",
 						"1:gt_pt,gt_eta",
 						"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+						"0:t_eta",
+						"1:t_eta",
+						"0:t_eta",
+						"1:t_eta",
 					]
 				else:
 					self["SaveLegacyWeightAsOptionalOnly"] = True
@@ -369,6 +381,10 @@ class tt_ArtusConfig(dict):
 						"0:triggerEfficiency_crosstrigger_data",
 						"1:triggerEfficiency_crosstrigger_MCEmb",
 						"1:triggerEfficiency_crosstrigger_data",
+						"0:ScaleFactor_deepTauVsMuVLoose",
+						"1:ScaleFactor_deepTauVsMuVLoose",
+						"0:ScaleFactor_deepTauVsEleVVLoose",
+						"1:ScaleFactor_deepTauVsEleVVLoose",
 					]
 					self["LegacyWeightWorkspaceObjectNames"] = [
 						"0:t_deeptauid_dm_medium",
@@ -377,6 +393,10 @@ class tt_ArtusConfig(dict):
 						"0:t_trg_pog_deeptau_medium_mutau_data",
 						"1:t_trg_pog_deeptau_medium_mutau_mc",
 						"1:t_trg_pog_deeptau_medium_mutau_data",
+						"0:t_id_vs_mu_eta_vloose",
+						"1:t_id_vs_mu_eta_vloose",
+						"0:t_id_vs_e_eta_vvloose",
+						"1:t_id_vs_e_eta_vvloose",
 					]
 					self["LegacyWeightWorkspaceObjectArguments"] = [
 						"0:t_dm",
@@ -385,6 +405,10 @@ class tt_ArtusConfig(dict):
 						"0:t_pt,t_dm",
 						"1:t_pt,t_dm",
 						"1:t_pt,t_dm",
+						"0:t_eta",
+						"1:t_eta",
+						"0:t_eta",
+						"1:t_eta",
 					]
 					if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
 						self["LegacyWeightWorkspaceWeightNames"].append("0:zPtReweightWeight")

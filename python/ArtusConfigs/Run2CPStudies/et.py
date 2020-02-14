@@ -493,6 +493,8 @@ class et_ArtusConfig(dict):
 						"0:embeddingSelection_idWeight",
 						"1:embeddingSelection_idWeight",
 						"0:embeddingSelection_triggerWeight",
+						"1:ScaleFactor_deepTauVsMuVLoose",
+						"1:ScaleFactor_deepTauVsEleTight",
 					]
 					self["LegacyWeightWorkspaceObjectNames"] = [
 						"0:e_trk_ratio",
@@ -507,6 +509,8 @@ class et_ArtusConfig(dict):
 						"0:m_sel_id_ic_ratio",
 						"1:m_sel_id_ic_ratio",
 						"0:m_sel_trg_ratio",
+						"1:t_id_vs_mu_eta_vloose",
+						"1:t_id_vs_e_eta_tight",
 					]
 					self["LegacyWeightWorkspaceObjectArguments"] = [
 						"0:e_pt,e_eta",
@@ -521,6 +525,8 @@ class et_ArtusConfig(dict):
 						"0:gt_pt,gt_eta",
 						"1:gt_pt,gt_eta",
 						"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+						"1:t_eta",
+						"1:t_eta",
 					]
 				else:
 					self["SaveLegacyWeightAsOptionalOnly"] = True
@@ -535,6 +541,8 @@ class et_ArtusConfig(dict):
 						"1:triggerEfficiency_crosstrigger_MCEmb",
 						"1:triggerEfficiency_crosstrigger_data",
 						"1:tauidWeight",
+						"1:ScaleFactor_deepTauVsMuVLoose",
+						"1:ScaleFactor_deepTauVsEleTight",
 					]
 					self["LegacyWeightWorkspaceObjectNames"] = [
 						"0:e_trk_ratio",
@@ -546,6 +554,8 @@ class et_ArtusConfig(dict):
 						"1:t_trg_pog_deeptau_medium_etau_mc",
 						"1:t_trg_pog_deeptau_medium_etau_data",
 						"1:t_deeptauid_pt_medium",
+						"1:t_id_vs_mu_eta_vloose",
+						"1:t_id_vs_e_eta_tight",
 					]
 					self["LegacyWeightWorkspaceObjectArguments"] = [
 						"0:e_pt,e_eta",
@@ -557,6 +567,8 @@ class et_ArtusConfig(dict):
 						"1:t_pt,t_dm",
 						"1:t_pt,t_dm",
 						"1:t_pt",
+						"1:t_eta",
+						"1:t_eta",
 					]
 					if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
 						self["LegacyWeightWorkspaceWeightNames"].append("0:zPtReweightWeight")
