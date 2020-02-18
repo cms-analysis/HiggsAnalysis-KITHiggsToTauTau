@@ -33,131 +33,131 @@ void IsomorphicMappingProducer::Init(setting_type const& settings, metadata_type
 		m_emb = "_emb";
 	}
 
-	std::string ipHelrPV_r_prompt_str;
-	std::string ipHelrPV_phi_prompt_str;
-	std::string ipHelrPV_theta_prompt_str;
-	std::string ipHelrPVBS_r_prompt_str;
-	std::string ipHelrPVBS_phi_prompt_str;
-	std::string ipHelrPVBS_theta_prompt_str;
+	std::string ipHelrPV_x_prompt_str;
+	std::string ipHelrPV_y_prompt_str;
+	std::string ipHelrPV_z_prompt_str;
+	std::string ipHelrPVBS_x_prompt_str;
+	std::string ipHelrPVBS_y_prompt_str;
+	std::string ipHelrPVBS_z_prompt_str;
 
-	std::string ipHelrPV_r_muon_str;
-	std::string ipHelrPV_phi_muon_str;
-	std::string ipHelrPV_theta_muon_str;
-	std::string ipHelrPVBS_r_muon_str;
-	std::string ipHelrPVBS_phi_muon_str;
-	std::string ipHelrPVBS_theta_muon_str;
+	std::string ipHelrPV_x_muon_str;
+	std::string ipHelrPV_y_muon_str;
+	std::string ipHelrPV_z_muon_str;
+	std::string ipHelrPVBS_x_muon_str;
+	std::string ipHelrPVBS_y_muon_str;
+	std::string ipHelrPVBS_z_muon_str;
 
-	std::string ipHelrPV_r_pion_str;
-	std::string ipHelrPV_phi_pion_str;
-	std::string ipHelrPV_theta_pion_str;
-	std::string ipHelrPVBS_r_pion_str;
-	std::string ipHelrPVBS_phi_pion_str;
-	std::string ipHelrPVBS_theta_pion_str;
+	std::string ipHelrPV_x_pion_str;
+	std::string ipHelrPV_y_pion_str;
+	std::string ipHelrPV_z_pion_str;
+	std::string ipHelrPVBS_x_pion_str;
+	std::string ipHelrPVBS_y_pion_str;
+	std::string ipHelrPVBS_z_pion_str;
 
 
 
 	// Calibration Curves for prompt decays (calibration done in Z->mumu)
-	ipHelrPV_r_prompt_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_mag.root");
-	ipHelrPV_phi_prompt_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_phi.root");
-	ipHelrPV_theta_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_theta.root");
+	ipHelrPV_x_prompt_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_nx.root");
+	ipHelrPV_y_prompt_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_ny.root");
+	ipHelrPV_z_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_nz.root");
 
-	ipHelrPVBS_r_prompt_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_bs_mag.root");
-	ipHelrPVBS_phi_prompt_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_bs_phi.root");
-	ipHelrPVBS_theta_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_bs_theta.root");
+	ipHelrPVBS_x_prompt_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_bs_nx.root");
+	ipHelrPVBS_y_prompt_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_bs_ny.root");
+	ipHelrPVBS_z_prompt_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/prompt/calib_zmm" + m_year + m_emb + "/ip_bs_nz.root");
 
 	// Calibration curves for non prompt decays
 	// tau->muon
-	ipHelrPV_r_muon_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_mag.root");
-	ipHelrPV_phi_muon_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_phi.root");
-	ipHelrPV_theta_muon_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_theta.root");
-	ipHelrPVBS_r_muon_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_bs_mag.root");
-	ipHelrPVBS_phi_muon_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_bs_phi.root");
-	ipHelrPVBS_theta_muon_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_bs_theta.root");
+	ipHelrPV_x_muon_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_nx.root");
+	ipHelrPV_y_muon_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_ny.root");
+	ipHelrPV_z_muon_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_nz.root");
+	ipHelrPVBS_x_muon_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_bs_nx.root");
+	ipHelrPVBS_y_muon_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_bs_ny.root");
+	ipHelrPVBS_z_muon_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/muon/calib" + m_year + m_emb + "/ip_bs_nz.root");
 	// tau->pion
-	ipHelrPV_r_pion_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_mag.root");
-	ipHelrPV_phi_pion_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_phi.root");
-	ipHelrPV_theta_pion_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_theta.root");
-	ipHelrPVBS_r_pion_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_bs_mag.root");
-	ipHelrPVBS_phi_pion_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_bs_phi.root");
-	ipHelrPVBS_theta_pion_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_bs_theta.root");
+	ipHelrPV_x_pion_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_nx.root");
+	ipHelrPV_y_pion_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_ny.root");
+	ipHelrPV_z_pion_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_nz.root");
+	ipHelrPVBS_x_pion_str     = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_bs_nx.root");
+	ipHelrPVBS_y_pion_str   = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_bs_ny.root");
+	ipHelrPVBS_z_pion_str = std::string("$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/isomap/pion/calib" + m_year + m_emb + "/ip_bs_nz.root");
 
 	// Prompt Decays
 	// refit PV
-	TFile inputFile_ipHelrPV_prompt_r(ipHelrPV_r_prompt_str.c_str(), "READ");
-	m_ipHelrPV_r_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_prompt_r.Get("isomap"));
-	inputFile_ipHelrPV_prompt_r.Close();
+	TFile inputFile_ipHelrPV_prompt_x(ipHelrPV_x_prompt_str.c_str(), "READ");
+	m_ipHelrPV_x_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_prompt_x.Get("isomap"));
+	inputFile_ipHelrPV_prompt_x.Close();
 
-	TFile inputFile_ipHelrPV_prompt_theta(ipHelrPV_theta_prompt_str.c_str(), "READ");
-	m_ipHelrPV_theta_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_prompt_theta.Get("isomap"));
-	inputFile_ipHelrPV_prompt_theta.Close();
+	TFile inputFile_ipHelrPV_prompt_y(ipHelrPV_y_prompt_str.c_str(), "READ");
+	m_ipHelrPV_y_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_prompt_y.Get("isomap"));
+	inputFile_ipHelrPV_prompt_y.Close();
 
-	TFile inputFile_ipHelrPV_prompt_phi(ipHelrPV_phi_prompt_str.c_str(), "READ");
-	m_ipHelrPV_phi_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_prompt_phi.Get("isomap"));
-	inputFile_ipHelrPV_prompt_phi.Close();
+	TFile inputFile_ipHelrPV_prompt_z(ipHelrPV_z_prompt_str.c_str(), "READ");
+	m_ipHelrPV_z_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_prompt_z.Get("isomap"));
+	inputFile_ipHelrPV_prompt_z.Close();
 	// refit PV with BS
-	TFile inputFile_ipHelrPVBS_prompt_r(ipHelrPVBS_r_prompt_str.c_str(), "READ");
-	m_ipHelrPVBS_r_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_prompt_r.Get("isomap"));
-	inputFile_ipHelrPVBS_prompt_r.Close();
+	TFile inputFile_ipHelrPVBS_prompt_x(ipHelrPVBS_x_prompt_str.c_str(), "READ");
+	m_ipHelrPVBS_x_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_prompt_x.Get("isomap"));
+	inputFile_ipHelrPVBS_prompt_x.Close();
 
-	TFile inputFile_ipHelrPVBS_prompt_theta(ipHelrPVBS_theta_prompt_str.c_str(), "READ");
-	m_ipHelrPVBS_theta_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_prompt_theta.Get("isomap"));
-	inputFile_ipHelrPVBS_prompt_theta.Close();
+	TFile inputFile_ipHelrPVBS_prompt_y(ipHelrPVBS_y_prompt_str.c_str(), "READ");
+	m_ipHelrPVBS_y_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_prompt_y.Get("isomap"));
+	inputFile_ipHelrPVBS_prompt_y.Close();
 
-	TFile inputFile_ipHelrPVBS_prompt_phi(ipHelrPVBS_phi_prompt_str.c_str(), "READ");
-	m_ipHelrPVBS_phi_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_prompt_phi.Get("isomap"));
-	inputFile_ipHelrPVBS_prompt_phi.Close();
+	TFile inputFile_ipHelrPVBS_prompt_z(ipHelrPVBS_z_prompt_str.c_str(), "READ");
+	m_ipHelrPVBS_z_prompt_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_prompt_z.Get("isomap"));
+	inputFile_ipHelrPVBS_prompt_z.Close();
 
 	// Nonprompt decays
 	// tau->muon
 	// refit PV
-	TFile inputFile_ipHelrPV_muon_r(ipHelrPV_r_muon_str.c_str(), "READ");
-	m_ipHelrPV_r_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_muon_r.Get("isomap"));
-	inputFile_ipHelrPV_muon_r.Close();
+	TFile inputFile_ipHelrPV_muon_x(ipHelrPV_x_muon_str.c_str(), "READ");
+	m_ipHelrPV_x_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_muon_x.Get("isomap"));
+	inputFile_ipHelrPV_muon_x.Close();
 
-	TFile inputFile_ipHelrPV_muon_theta(ipHelrPV_theta_muon_str.c_str(), "READ");
-	m_ipHelrPV_theta_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_muon_theta.Get("isomap"));
-	inputFile_ipHelrPV_muon_theta.Close();
+	TFile inputFile_ipHelrPV_muon_y(ipHelrPV_y_muon_str.c_str(), "READ");
+	m_ipHelrPV_y_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_muon_y.Get("isomap"));
+	inputFile_ipHelrPV_muon_y.Close();
 
-	TFile inputFile_ipHelrPV_muon_phi(ipHelrPV_phi_muon_str.c_str(), "READ");
-	m_ipHelrPV_phi_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_muon_phi.Get("isomap"));
-	inputFile_ipHelrPV_muon_phi.Close();
+	TFile inputFile_ipHelrPV_muon_z(ipHelrPV_z_muon_str.c_str(), "READ");
+	m_ipHelrPV_z_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_muon_z.Get("isomap"));
+	inputFile_ipHelrPV_muon_z.Close();
 	// refit PV with BS
-	TFile inputFile_ipHelrPVBS_muon_r(ipHelrPVBS_r_muon_str.c_str(), "READ");
-	m_ipHelrPVBS_r_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_muon_r.Get("isomap"));
-	inputFile_ipHelrPVBS_muon_r.Close();
+	TFile inputFile_ipHelrPVBS_muon_x(ipHelrPVBS_x_muon_str.c_str(), "READ");
+	m_ipHelrPVBS_x_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_muon_x.Get("isomap"));
+	inputFile_ipHelrPVBS_muon_x.Close();
 
-	TFile inputFile_ipHelrPVBS_muon_theta(ipHelrPVBS_theta_muon_str.c_str(), "READ");
-	m_ipHelrPVBS_theta_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_muon_theta.Get("isomap"));
-	inputFile_ipHelrPVBS_muon_theta.Close();
+	TFile inputFile_ipHelrPVBS_muon_y(ipHelrPVBS_y_muon_str.c_str(), "READ");
+	m_ipHelrPVBS_y_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_muon_y.Get("isomap"));
+	inputFile_ipHelrPVBS_muon_y.Close();
 
-	TFile inputFile_ipHelrPVBS_muon_phi(ipHelrPVBS_phi_muon_str.c_str(), "READ");
-	m_ipHelrPVBS_phi_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_muon_phi.Get("isomap"));
-	inputFile_ipHelrPVBS_muon_phi.Close();
+	TFile inputFile_ipHelrPVBS_muon_z(ipHelrPVBS_z_muon_str.c_str(), "READ");
+	m_ipHelrPVBS_z_muon_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_muon_z.Get("isomap"));
+	inputFile_ipHelrPVBS_muon_z.Close();
 	// tau->pion
 	// refit PV
-	TFile inputFile_ipHelrPV_pion_r(ipHelrPV_r_pion_str.c_str(), "READ");
-	m_ipHelrPV_r_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_pion_r.Get("isomap"));
-	inputFile_ipHelrPV_pion_r.Close();
+	TFile inputFile_ipHelrPV_pion_x(ipHelrPV_x_pion_str.c_str(), "READ");
+	m_ipHelrPV_x_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_pion_x.Get("isomap"));
+	inputFile_ipHelrPV_pion_x.Close();
 
-	TFile inputFile_ipHelrPV_pion_theta(ipHelrPV_theta_pion_str.c_str(), "READ");
-	m_ipHelrPV_theta_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_pion_theta.Get("isomap"));
-	inputFile_ipHelrPV_pion_theta.Close();
+	TFile inputFile_ipHelrPV_pion_y(ipHelrPV_y_pion_str.c_str(), "READ");
+	m_ipHelrPV_y_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_pion_y.Get("isomap"));
+	inputFile_ipHelrPV_pion_y.Close();
 
-	TFile inputFile_ipHelrPV_pion_phi(ipHelrPV_phi_pion_str.c_str(), "READ");
-	m_ipHelrPV_phi_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_pion_phi.Get("isomap"));
-	inputFile_ipHelrPV_pion_phi.Close();
+	TFile inputFile_ipHelrPV_pion_z(ipHelrPV_z_pion_str.c_str(), "READ");
+	m_ipHelrPV_z_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPV_pion_z.Get("isomap"));
+	inputFile_ipHelrPV_pion_z.Close();
 	// refit PV with BS
-	TFile inputFile_ipHelrPVBS_pion_r(ipHelrPVBS_r_pion_str.c_str(), "READ");
-	m_ipHelrPVBS_r_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_pion_r.Get("isomap"));
-	inputFile_ipHelrPVBS_pion_r.Close();
+	TFile inputFile_ipHelrPVBS_pion_x(ipHelrPVBS_x_pion_str.c_str(), "READ");
+	m_ipHelrPVBS_x_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_pion_x.Get("isomap"));
+	inputFile_ipHelrPVBS_pion_x.Close();
 
-	TFile inputFile_ipHelrPVBS_pion_theta(ipHelrPVBS_theta_pion_str.c_str(), "READ");
-	m_ipHelrPVBS_theta_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_pion_theta.Get("isomap"));
-	inputFile_ipHelrPVBS_pion_theta.Close();
+	TFile inputFile_ipHelrPVBS_pion_y(ipHelrPVBS_y_pion_str.c_str(), "READ");
+	m_ipHelrPVBS_y_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_pion_y.Get("isomap"));
+	inputFile_ipHelrPVBS_pion_y.Close();
 
-	TFile inputFile_ipHelrPVBS_pion_phi(ipHelrPVBS_phi_pion_str.c_str(), "READ");
-	m_ipHelrPVBS_phi_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_pion_phi.Get("isomap"));
-	inputFile_ipHelrPVBS_pion_phi.Close();
+	TFile inputFile_ipHelrPVBS_pion_z(ipHelrPVBS_z_pion_str.c_str(), "READ");
+	m_ipHelrPVBS_z_pion_isomap = static_cast<TGraph*>(inputFile_ipHelrPVBS_pion_z.Get("isomap"));
+	inputFile_ipHelrPVBS_pion_z.Close();
 
 	gDirectory = savedir;
 	gFile = savefile;
