@@ -89,12 +89,11 @@ class mm_ArtusConfig(mmbaseconfig.mm_ArtusConfig):
 
 		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 			if isLegacy:
-				self["SaveLegacyWeightAsOptionalOnly"] = False
+				self["SaveLegacyWeightAsOptionalOnly"] = True
 				self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017_IC.root"
 				self["LegacyWeightWorkspaceWeightNames"] = [
 					"0:trackWeight",
 					"0:idisoWeight",
-					# "0:triggerEfficiency_singletrigger_ratio",
 					"0:triggerEfficiency_singletrigger_MCEmb",
 					"0:triggerEfficiency_singletrigger_data",
 					"1:trackWeight",
@@ -103,7 +102,6 @@ class mm_ArtusConfig(mmbaseconfig.mm_ArtusConfig):
 				self["LegacyWeightWorkspaceObjectNames"] = [
 					"0:m_trk_ratio",
 					"0:m_idiso_ic_ratio",
-					# "0:m_trg_ic_ratio",
 					"0:m_trg_ic_mc",
 					"0:m_trg_ic_data",
 					"1:m_trk_ratio",
@@ -112,7 +110,6 @@ class mm_ArtusConfig(mmbaseconfig.mm_ArtusConfig):
 				self["LegacyWeightWorkspaceObjectArguments"] = [
 					"0:m_eta",
 					"0:m_pt,m_eta",
-					# "0:m_pt,m_eta",
 					"0:m_pt,m_eta",
 					"0:m_pt,m_eta",
 					"1:m_eta",

@@ -618,7 +618,7 @@ if __name__ == "__main__":
 
 				if args.calibrate_ip:
 					ipVersion, calibIPQuantity = config["x_expressions"][0][0][2:-2].split('.')
-					config["x_label"] = args.channels[0] + "_calib_IP" + ipVersion + "_" + calibIPQuantity
+					config["x_label"] = "n_{"  + calibIPQuantity + "}^{QM} / cm"
 					if "proxy_prefixes" in config: config.pop("proxy_prefixes")
 					config["tree_draw_options"] = ["proxy"]
 					useCartesian = "true" if args.use_cartesian else "false"
