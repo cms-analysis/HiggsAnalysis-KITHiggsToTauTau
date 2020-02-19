@@ -408,7 +408,7 @@ class CutStringsDict:
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["iso_2"] = "(iso_2 < 0.15)"
 			if not data:
-				cuts["trigger"] += "triggerWeight_single_1"
+				cuts["trigger"] += "*(triggerWeight_single_1)"
 		return cuts
 
 	@staticmethod
