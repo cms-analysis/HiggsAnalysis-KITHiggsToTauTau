@@ -330,6 +330,12 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 
+			self["Processors"] = list(set(self["Processors"]))
+			processorOrderingkey = ProcessorsOrdered(channel = self["Channel"])
+			ordered_processors = processorOrderingkey.order_processors(self["Processors"])
+
+			self["Processors"] = copy.deepcopy(ordered_processors)
+
 	def build_config(self, nickname, *args, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
 		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
 
