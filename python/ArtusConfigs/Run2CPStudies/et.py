@@ -508,7 +508,7 @@ class et_ArtusConfig(dict):
 						"1:t_deeptauid_pt_tightvse_embed_medium",
 						"0:m_sel_id_ic_ratio",
 						"1:m_sel_id_ic_ratio",
-						"0:m_sel_trg_ratio",
+						"0:m_sel_trg_ic_ratio",
 						"1:t_id_vs_mu_eta_vloose",
 						"1:t_id_vs_e_eta_tight",
 					]
