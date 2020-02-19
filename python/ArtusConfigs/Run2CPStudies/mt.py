@@ -9,7 +9,6 @@ import copy
 import os
 
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.quantities import Quantities
-from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering import ProcessorsOrdered
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsElectronID as sEID
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsMuonID as sMID
@@ -247,8 +246,6 @@ class mt_ArtusConfig(dict):
 					# self["Processors"] += ["producer:MELAM125Producer"]
 
 		self["Processors"] += ["producer:EventWeightProducer"]
-
-		self["Processors"] = copy.deepcopy(ordered_processors)
 
 	def build_config(self, nickname, *args, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
 		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))

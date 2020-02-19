@@ -9,7 +9,6 @@ import copy
 import os
 
 from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPFinalStateStudies.quantities import Quantities
-from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering import ProcessorsOrdered
 
 # Use em CP Initial State config as baseline
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.em as embaseconfig
