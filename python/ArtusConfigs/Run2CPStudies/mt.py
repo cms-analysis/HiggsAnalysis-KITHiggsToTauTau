@@ -247,9 +247,6 @@ class mt_ArtusConfig(dict):
 					# self["Processors"] += ["producer:MELAM125Producer"]
 
 		self["Processors"] += ["producer:EventWeightProducer"]
-		self["Processors"] = list(set(self["Processors"]))
-		processorOrderingkey = ProcessorsOrdered(channel = self["Channel"])
-		ordered_processors = processorOrderingkey.order_processors(self["Processors"])
 
 		self["Processors"] = copy.deepcopy(ordered_processors)
 

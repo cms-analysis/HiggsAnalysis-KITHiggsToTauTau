@@ -19,6 +19,7 @@ from string import Template
 from datetime import datetime
 
 import Artus.KappaAnalysis.kappaanalysiswrapper as kappaanalysiswrapper
+from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.processorOrdering import ProcessorsOrdered
 
 import Artus.Utility.tools as tools
 import Artus.Utility.jsonTools as jsonTools
@@ -194,6 +195,13 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 						log.error("COULD NOT FIND CHANNEL")
 
 					channel_python_config["Quantities"] = sorted(channel_python_config["Quantities"])
+
+					channel_python_config["Processors"] = list(set(channel_python_config["Processors"]))
+					processorOrderingkey = ProcessorsOrdered(channel = channel_python_config["Channel"])
+					ordered_processors = processorOrderingkey.order_processors(channel_python_config["Processors"])
+
+					channel_python_config["Processors"] = copy.deepcopy(ordered_processors)
+
 					#Ideas:
 					#TODO add function that adds list of quantities to the pipeline_python_config
 					"""

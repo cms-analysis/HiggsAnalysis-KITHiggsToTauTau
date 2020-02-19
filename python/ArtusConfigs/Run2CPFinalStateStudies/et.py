@@ -43,12 +43,6 @@ class et_ArtusConfig(etbaseconfig.et_ArtusConfig):
 			self["Processors"] += ["producer:IsomorphicMappingProducer"]
 			self["Processors"] += ["producer:QuantileMappingProducer"]
 
-		self["Processors"] = list(set(self["Processors"]))
-		processorOrderingkey = ProcessorsOrdered(channel = self["Channel"])
-		ordered_processors = processorOrderingkey.order_processors(self["Processors"])
-
-		self["Processors"] = copy.deepcopy(ordered_processors)
-
 	def build_config(self, nickname, *args, **kwargs):
 
 		super(et_ArtusConfig, self).build_config(nickname, *args, **kwargs)

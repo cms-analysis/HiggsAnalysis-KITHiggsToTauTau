@@ -46,11 +46,6 @@ class gen_ArtusConfig(dict):
 				"producer:CPInitialStateQuantitiesProducer"
 			]
 
-		self["Processors"] = list(set(self["Processors"]))
-		processorOrderingkey = ProcessorsOrdered(channel = self["Channel"])
-		ordered_processors = processorOrderingkey.order_processors(self["Processors"])
-		self["Processors"] = copy.deepcopy(ordered_processors)
-
 	def build_config(self, nickname, *args, **kwargs):
 
 		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
