@@ -34,7 +34,6 @@ class globalProccesors(dict):
 				"producer:GenTauDecayProducer",
 				"producer:GenTauCPProducer",
 				"producer:TauSpinnerProducer",
-				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer",
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
@@ -66,7 +65,6 @@ class globalProccesors(dict):
 				"producer:GenTauDecayProducer",
 				"producer:GenTauCPProducer",
 				"producer:TauSpinnerProducer",
-				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer",
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
@@ -83,7 +81,6 @@ class globalProccesors(dict):
 				"#filter:RunLumiEventFilter",
 				"#filter:MetFilter",
 				"filter:JsonFilter",
-				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer"
 			]
 
@@ -108,7 +105,6 @@ class globalProccesors(dict):
 				"producer:RecoTauGenParticleMatchingProducer",
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer",
-				"#producer:TaggedJetCorrectionsProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:TauSpinnerProducer",
 			]
@@ -128,7 +124,6 @@ class globalProccesors(dict):
 				"producer:RecoTauGenParticleMatchingProducer",
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer",
-				"#producer:TaggedJetCorrectionsProducer",
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer"
@@ -158,7 +153,6 @@ class globalProccesors(dict):
 				self["Processors"] += ["producer:GenHiggsCPProducer"]      #needs lhe info which is not stored for 2017
 			self["Processors"] += [
 				"producer:TauSpinnerProducer",
-				"#producer:TaggedJetCorrectionsProducer",
 				"producer:NicknameProducer",
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
@@ -180,7 +174,6 @@ class globalProccesors(dict):
 				"producer:RecoTauGenParticleMatchingProducer",
 				"producer:RecoTauGenTauMatchingProducer",
 				"producer:MatchedLeptonsProducer",
-				"#producer:TaggedJetCorrectionsProducer",
 				"producer:CrossSectionWeightProducer",
 				"producer:GeneratorWeightProducer",
 				"producer:NumberGeneratedEventsWeightProducer",
