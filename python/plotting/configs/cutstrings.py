@@ -355,6 +355,7 @@ class CutStringsDict:
 			cuts["trigger"] = "( ((pt_1 > 25.0)*(trg_singlemuon_24>0.5)) || ((pt_1 > 28.0)*(trg_singlemuon_27>0.5)) || ((pt_1 < 25.0)*(pt_2 > 32.0)*(trg_crossmuon_mu20tau27>0.5)) )"
 			if not data:
 				cuts["trigger"] += "*triggerWeight_comb"
+			# cuts["pujetIDweight"] = "pileupJetIDScaleFactorWeight"
 			cuts["pt_1"] = "(pt_1 > 21.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
