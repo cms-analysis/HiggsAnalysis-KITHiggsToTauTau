@@ -33,6 +33,12 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 
 		super(HiggsToTauTauAnalysisWrapper, self).__init__(executable, userArgParsers)
 
+		if self._args.hashed_rootfiles_info_path is None:
+			if self._args.legacy:
+				self._args.hashed_rootfiles_info_path = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/cache/Samples/Run2Legacy"
+			elif self._args.hashed_rootfiles_info:
+				log.warning("--hashed-rootfiles-info-path wasn't defined and no default value is known")
+
 		if not self._args.use_json:
 			if self._args.systematics != self._parser.get_default("systematics"):
 				self._args.systematics = self._args.systematics[1:]
@@ -381,7 +387,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		return exitCode
 
 	def sendToBatchSystem(self):
-		self.createEpilogArguments
+		# self.createEpilogArguments
 		exitCode = super(HiggsToTauTauAnalysisWrapper, self).sendToBatchSystem()
 
 
