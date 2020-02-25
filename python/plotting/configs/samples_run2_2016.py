@@ -344,7 +344,7 @@ class Samples(samples.SamplesBase):
 		print "state: ", state
 		if state=="finalState":
 			if process=="ggh":
-				return "(0.25)"
+				return "(1.0)"
 			if process=="vbf":
 				return "(1.0)"
 			if process=="zh":
