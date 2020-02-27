@@ -14,16 +14,30 @@ void HttMuonCorrectionsProducer::AdditionalCorrections(KMuon* muon, event_type c
                                                        product_type& product, setting_type const& settings, metadata_type const& metadata) const
 {
 	MuonCorrectionsProducer::AdditionalCorrections(muon, event, product, settings, metadata);
-	
-	float muonEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetMuonEnergyCorrectionShift();
+
+	// Systematic Uncertainty for Muon Energy Scale
+	float muonEnergyCorrectionShift = 1.0;
+	if ( TMath::Abs(muon->p4.Eta()) > 0.4 &&  TMath::Abs(muon->p4.Eta()) < 1.2)
+	{
+		muonEnergyCorrectionShift += static_cast<HttSettings const&>(settings).GetMuonEnergyCorrectionShiftEta0p4to1p2();
+	}
+	else if ( TMath::Abs(muon->p4.Eta()) > 1.2 &&  TMath::Abs(muon->p4.Eta()) < 2.1)
+	{
+		muonEnergyCorrectionShift += static_cast<HttSettings const&>(settings).GetMuonEnergyCorrectionShiftEta1p2to2p1();
+	}
+	else if ( TMath::Abs(muon->p4.Eta()) > 2.1)
+	{
+		muonEnergyCorrectionShift += static_cast<HttSettings const&>(settings).GetMuonEnergyCorrectionShiftEtaGt2p1();
+	}
+	std::cout << muonEnergyCorrectionShift << std::endl;
 	if (muonEnergyCorrectionShift != 1.0)
 	{
 		muon->p4 = muon->p4 * muonEnergyCorrectionShift;
 	}
-	
+
 	float randomMuonEnergySmearing = static_cast<HttSettings const&>(settings).GetRandomMuonEnergySmearing();
 	if (randomMuonEnergySmearing != 0.0)
-	{	
+	{
 		double r;
 		TRandom *r3 = new TRandom3();
 		r3->SetSeed(event.m_eventInfo->nEvent);

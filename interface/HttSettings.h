@@ -505,4 +505,8 @@ public:
 	IMPL_SETTING_DEFAULT(bool, DoLhenpNLO, false);
 	// Check if input is Embedding
 	IMPL_SETTING(bool, InputIsEmbedding);
+
+	IMPL_SETTING(float, MuonEnergyCorrectionShiftEta0p4to1p2);
+	IMPL_SETTING(float, MuonEnergyCorrectionShiftEta1p2to2p1);
+	IMPL_SETTING(float, MuonEnergyCorrectionShiftEtaGt2p1);
 };

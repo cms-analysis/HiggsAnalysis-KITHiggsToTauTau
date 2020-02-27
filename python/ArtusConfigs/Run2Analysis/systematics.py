@@ -42,6 +42,11 @@ class Systematics_Config(dict):
 		self.update(self.JECUncertaintySplit_config)
 		self["DoJecGroupings"] = False
 
+		#CP FINAL STATE UNCERTAINTIES
+		self["MuonEnergyCorrectionShiftEta0p4to1p2"] = 1.0
+		self["MuonEnergyCorrectionShiftEta1p2to2p1"] = 1.0
+		self["MuonEnergyCorrectionShiftEtaGt2p1"] = 1.0
+
 
 	#for each systematic shift if statement which changes the config accordingly
 	def build_systematic_config(self, nickname, systematic_uncertainty, legacy, *args, **kwargs):
@@ -532,6 +537,19 @@ class Systematics_Config(dict):
 				else:
 					self["TauJetFakeEnergyCorrection"] = 0.0
 					self["SvfitCacheFileFolder"] = "nominal"
+			elif systematic_uncertainty == "muonEsUp":
+					self["MuonEnergyCorrectionShiftEta0p4to1p2"] = 0.004
+					self["MuonEnergyCorrectionShiftEta1p2to2p1"] = 0.009
+					self["MuonEnergyCorrectionShiftEtaGt2p1"] = 0.017
+			elif systematic_uncertainty == "muonEsDown":
+					self["MuonEnergyCorrectionShiftEta0p4to1p2"] = -0.004
+					self["MuonEnergyCorrectionShiftEta1p2to2p1"] = -0.009
+					self["MuonEnergyCorrectionShiftEtaGt2p1"] = -0.017
+			elif re.search("CMS_scale_t_.*_13TeV.*", systematic_uncertainty) != None:
+				if "Down" in systematic_uncertainty:
+					self["IsShiftUp"] = False
+				elif "Up" in systematic_uncertainty:
+					self["IsShiftUp"] = True
 			else:
 				log.critical("COULD NOT FIND THE SYSTEMATIC %s" %systematic_uncertainty)
 				sys.exit(1)
@@ -565,3 +583,7 @@ class Systematics_Config(dict):
 		self.update(self.JECUncertaintySplit_config)
 		self["DoJecGroupings"] = False
 
+		#CP FINAL STATE UNCERTAINTIES
+		self["MuonEnergyCorrectionShiftEta0p4to1p2"] = 1.0
+		self["MuonEnergyCorrectionShiftEta1p2to2p1"] = 1.0
+		self["MuonEnergyCorrectionShiftEtaGt2p1"] = 1.0
