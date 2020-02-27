@@ -53,11 +53,6 @@ class Baseconfig(dict):
 		else:
 			self["InputIsEmbedding"] = "false"
 
-		self["MuonEnergyCorrectionShiftEta0p4to1p2"] = 1.0;
-		self["MuonEnergyCorrectionShiftEta1p2to2p1"] = 1.0;
-		self["MuonEnergyCorrectionShiftEtaGt2p1"] = 1.0;
-
-
 		if re.search("DY.?JetsToLL|EWKZ2Jets|Embedding(2016|2017|2018|MC)|LFV", nickname):
 			self["BosonPdgIds"] = [23]
 		elif re.search("^(GluGlu|GluGluTo|VBF|W|Wminus|Wplus|Z|JJ|tt)(HToTauTau|H2JetsToTauTau|Higgs)", nickname):

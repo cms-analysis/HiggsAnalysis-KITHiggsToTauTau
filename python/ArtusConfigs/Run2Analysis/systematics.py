@@ -43,10 +43,11 @@ class Systematics_Config(dict):
 		self["DoJecGroupings"] = False
 
 		#CP FINAL STATE UNCERTAINTIES
-		self["MuonEnergyCorrectionShiftEta0p4to1p2"] = 1.0
-		self["MuonEnergyCorrectionShiftEta1p2to2p1"] = 1.0
-		self["MuonEnergyCorrectionShiftEtaGt2p1"] = 1.0
+		self["MuonEnergyCorrectionShiftEta0p4to1p2"] = 0.0
+		self["MuonEnergyCorrectionShiftEta1p2to2p1"] = 0.0
+		self["MuonEnergyCorrectionShiftEtaGt2p1"] = 0.0
 
+		self["IsNominal"] = True
 
 	#for each systematic shift if statement which changes the config accordingly
 	def build_systematic_config(self, nickname, systematic_uncertainty, legacy, *args, **kwargs):
@@ -362,6 +363,7 @@ class Systematics_Config(dict):
 			elif systematic_uncertainty == "tauEsOneProngUp":
 				if legacy:
 					self["IsShiftUp"] = True
+					self["IsNominal"] = False
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
 				else:
 					if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
@@ -385,6 +387,7 @@ class Systematics_Config(dict):
 			elif systematic_uncertainty == "tauEsOneProngDown":
 				if legacy:
 					self["IsShiftUp"] = False
+					self["IsNominal"] = False
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"
 				else:
 					if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
@@ -408,6 +411,7 @@ class Systematics_Config(dict):
 			elif systematic_uncertainty == "tauEsOneProngPiZerosUp":
 				if legacy:
 					self["IsShiftUp"] = True
+					self["IsNominal"] = False
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
 				else:
 					if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
@@ -431,6 +435,7 @@ class Systematics_Config(dict):
 			elif systematic_uncertainty == "tauEsOneProngPiZerosDown":
 				if legacy:
 					self["IsShiftUp"] = False
+					self["IsNominal"] = False
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"
 				else:
 					if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
@@ -455,6 +460,7 @@ class Systematics_Config(dict):
 			elif systematic_uncertainty == "tauEsThreeProngUp":
 				if legacy:
 					self["IsShiftUp"] = True
+					self["IsNominal"] = False
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
 				else:
 					if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
@@ -479,6 +485,7 @@ class Systematics_Config(dict):
 			elif systematic_uncertainty == "tauEsThreeProngDown":
 				if legacy:
 					self["IsShiftUp"] = False
+					self["IsNominal"] = False
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"
 				else:
 					if re.search("(HToTauTau|H2JetsToTauTau|Higgs|DY.?JetsToLL|EWKZ2Jets).*(?=Fall15)", nickname):
@@ -502,6 +509,7 @@ class Systematics_Config(dict):
 			elif systematic_uncertainty == "tauEsThreeProngPiZerosUp":
 				if legacy:
 					self["IsShiftUp"] = True
+					self["IsNominal"] = False
 					self["SvfitCacheFileFolder"] = "tauEsOneProngUp"
 				else:
 					if re.search("Fall17", nickname):
@@ -514,6 +522,7 @@ class Systematics_Config(dict):
 			elif systematic_uncertainty == "tauEsThreeProngPiZerosDown":
 				if legacy:
 					self["IsShiftUp"] = False
+					self["IsNominal"] = False
 					self["SvfitCacheFileFolder"] = "tauEsOneProngDown"
 				else:
 					if re.search("Fall17", nickname):
@@ -584,6 +593,8 @@ class Systematics_Config(dict):
 		self["DoJecGroupings"] = False
 
 		#CP FINAL STATE UNCERTAINTIES
-		self["MuonEnergyCorrectionShiftEta0p4to1p2"] = 1.0
-		self["MuonEnergyCorrectionShiftEta1p2to2p1"] = 1.0
-		self["MuonEnergyCorrectionShiftEtaGt2p1"] = 1.0
+		self["MuonEnergyCorrectionShiftEta0p4to1p2"] = 0.0
+		self["MuonEnergyCorrectionShiftEta1p2to2p1"] = 0.0
+		self["MuonEnergyCorrectionShiftEtaGt2p1"] = 0.0
+
+		self["IsNominal"] = True

@@ -227,6 +227,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	else if (tauEnergyCorrection == TauEnergyCorrection::LEGACY2017)
 	{
 		bool isShiftUp = static_cast<HttSettings const&>(settings).GetIsShiftUp();
+		bool isNominal = static_cast<HttSettings const&>(settings).GetIsNominal();
 		float TauEnergyCorrectionShift = 1.0;
 
 		TDirectory *savedir(gDirectory);
@@ -257,36 +258,49 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 
 		int dm = (tau->decayMode!=11?tau->decayMode:10);
 		int bin = TauEnergyCorrectionHist->GetBin(dm); // DM=11 is treated the same as DM=10
-		float tes = TauEnergyCorrectionHist->GetBinContent(bin);
+		float tes = 1.0;
 
 		double err = 0.0;
 		double err_high = 0.0;
 		double err_low  = 0.0;
 		int bin_high = 0;
-		if (tau->p4.Pt() >= pt_high)
+		if(genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY && (dm == 0 || dm == 1 || dm == 10))
 		{
-			bin_high = TauEnergyCorrectionHist_ptgt100->GetBin(dm);
-			err      = TauEnergyCorrectionHist_ptgt100->GetBinError(bin_high);
-		} // high pt
-		else if (tau->p4.Pt() > pt_low)
+			tes = TauEnergyCorrectionHist->GetBinContent(bin);
+			if (tau->p4.Pt() >= pt_high)
+			{
+				bin_high = TauEnergyCorrectionHist_ptgt100->GetBin(dm);
+				err      = TauEnergyCorrectionHist_ptgt100->GetBinError(bin_high);
+			} // high pt
+			else if (tau->p4.Pt() > pt_low)
+			{
+				bin_high = TauEnergyCorrectionHist_ptgt100->GetBin(dm);
+				err_high = TauEnergyCorrectionHist_ptgt100->GetBinError(bin_high);
+				err_low  = TauEnergyCorrectionHist->GetBinError(bin);
+				err      = err_low + (err_high - err_low) / (pt_high - pt_low) * (tau->p4.Pt() - pt_low);
+			} // interpolate between high and low pt
+			else
+			{
+				err = TauEnergyCorrectionHist->GetBinError(bin);
+			} // low pt
+		}
+
+		if (isNominal)
 		{
-			bin_high = TauEnergyCorrectionHist_ptgt100->GetBin(dm);
-			err_high = TauEnergyCorrectionHist_ptgt100->GetBinError(bin_high);
-			err_low  = TauEnergyCorrectionHist->GetBinError(bin);
-			err      = err_low + (err_high - err_low) / (pt_high - pt_low) * (tau->p4.Pt() - pt_low);
-		} // interpolate between high and low pt
-		else
-		{
-			err = TauEnergyCorrectionHist->GetBinError(bin);
-		} // low pt
-		if (isShiftUp)
-		{
-			TauEnergyCorrectionShift = tes + err;
+			TauEnergyCorrectionShift = tes;
 		}
 		else
 		{
-			TauEnergyCorrectionShift = tes - err;
+			if (isShiftUp)
+			{
+				TauEnergyCorrectionShift = tes + err;
+			}
+			else
+			{
+				TauEnergyCorrectionShift = tes - err;
+			}
 		}
+
 		tau->p4 = tau->p4 * TauEnergyCorrectionShift;
 	}
 	else if (tauEnergyCorrection == TauEnergyCorrection::MSSMHTT2016)

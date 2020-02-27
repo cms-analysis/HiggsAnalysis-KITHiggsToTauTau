@@ -29,7 +29,6 @@ void HttMuonCorrectionsProducer::AdditionalCorrections(KMuon* muon, event_type c
 	{
 		muonEnergyCorrectionShift += static_cast<HttSettings const&>(settings).GetMuonEnergyCorrectionShiftEtaGt2p1();
 	}
-	std::cout << muonEnergyCorrectionShift << std::endl;
 	if (muonEnergyCorrectionShift != 1.0)
 	{
 		muon->p4 = muon->p4 * muonEnergyCorrectionShift;
