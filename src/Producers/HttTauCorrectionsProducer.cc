@@ -13,11 +13,12 @@
 
 #include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
 
-	
+#include "TauAnalysisTools/TauIDSFs/interface/TauIDSFTool.h"
+
 void HttTauCorrectionsProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	TauCorrectionsProducer::Init(settings, metadata);
-	
+
 	tauEnergyCorrection = ToTauEnergyCorrection(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(static_cast<HttSettings const&>(settings).GetTauEnergyCorrection())));
 }
 
@@ -25,9 +26,9 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
                                                       product_type& product, setting_type const& settings, metadata_type const& metadata) const
 {
 	TauCorrectionsProducer::AdditionalCorrections(tau, event, product, settings, metadata);
-	
+
 	double normalisationFactor = 1.0;
-	
+
 	KappaEnumTypes::GenMatchingCode genMatchingCode = KappaEnumTypes::GenMatchingCode::NONE;
 	KLepton* originalLepton = product.m_originalLeptons.find(tau) != product.m_originalLeptons.end() ? const_cast<KLepton*>(product.m_originalLeptons.at(tau)) : tau;
 	if (settings.GetUseUWGenMatching())
@@ -74,7 +75,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			float tauEnergyCorrectionOneProngPiZeros = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZeros();
 			float tauEnergyCorrectionThreeProng = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProng();
 			float tauEnergyCorrectionThreeProngPiZeros = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionThreeProngPiZeros();
-			
+
 			//float tauEnergyCorrectionShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionShift();
 			float tauEnergyCorrectionOneProngShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngShift();
 			float tauEnergyCorrectionOneProngPiZerosShift = static_cast<HttSettings const&>(settings).GetTauEnergyCorrectionOneProngPiZerosShift();
@@ -86,7 +87,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				if (tauEnergyCorrectionOneProngShift != 0.0)
 				{
 					tauEnergyCorrectionOneProng += tauEnergyCorrectionOneProngShift;
-					//TODO cached svfit cache, has to rerun				
+					//TODO cached svfit cache, has to rerun
 				}
 				LOG(DEBUG) << "tauEnergyCorrectionOneProng:    " << tauEnergyCorrectionOneProng << std::endl;
 				tau->p4 = tau->p4 * tauEnergyCorrectionOneProng;
@@ -154,7 +155,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				if (tauMuonFakeEnergyCorrectionOneProngShift != 0.0)
 				{
 					tauMuonFakeEnergyCorrectionOneProng += tauMuonFakeEnergyCorrectionOneProngShift;
-					//TODO cached svfit cache, has to rerun				
+					//TODO cached svfit cache, has to rerun
 				}
 				LOG(DEBUG) << "tauMuonFakeEnergyCorrectionOneProng:    " << tauMuonFakeEnergyCorrectionOneProng << std::endl;
 				tau->p4 = tau->p4 * tauMuonFakeEnergyCorrectionOneProng;
@@ -164,7 +165,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				if (tauMuonFakeEnergyCorrectionOneProngPiZerosShift != 0.0)
 				{
 					tauMuonFakeEnergyCorrectionOneProngPiZeros += tauMuonFakeEnergyCorrectionOneProngPiZerosShift;
-					//TODO cached svfit cache, has to rerun				
+					//TODO cached svfit cache, has to rerun
 				}
 				LOG(DEBUG) << "tauMuonFakeEnergyCorrectionOneProngPiZeros:    " << tauMuonFakeEnergyCorrectionOneProngPiZeros << std::endl;
 				tau->p4 = tau->p4 * tauMuonFakeEnergyCorrectionOneProngPiZeros;
@@ -174,7 +175,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				if (tauMuonFakeEnergyCorrectionThreeProngShift != 0.0)
 				{
 					tauMuonFakeEnergyCorrectionThreeProng += tauMuonFakeEnergyCorrectionThreeProngShift;
-					//TODO cached svfit cache, has to rerun				
+					//TODO cached svfit cache, has to rerun
 				}
 				LOG(DEBUG) << "tauMuonFakeEnergyCorrectionThreeProng:    " << tauMuonFakeEnergyCorrectionThreeProng << std::endl;
 				tau->p4 = tau->p4 * tauMuonFakeEnergyCorrectionThreeProng;
@@ -196,7 +197,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				if (tauElectronFakeEnergyCorrectionOneProngShift != 0.0)
 				{
 					tauElectronFakeEnergyCorrectionOneProng += tauElectronFakeEnergyCorrectionOneProngShift;
-					//TODO cached svfit cache, has to rerun				
+					//TODO cached svfit cache, has to rerun
 				}
 				LOG(DEBUG) << "tauElectronFakeEnergyCorrectionOneProng:    " << tauElectronFakeEnergyCorrectionOneProng << std::endl;
 				tau->p4 = tau->p4 * tauElectronFakeEnergyCorrectionOneProng;
@@ -206,7 +207,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				if (tauElectronFakeEnergyCorrectionOneProngPiZerosShift != 0.0)
 				{
 					tauElectronFakeEnergyCorrectionOneProngPiZeros += tauElectronFakeEnergyCorrectionOneProngPiZerosShift;
-					//TODO cached svfit cache, has to rerun				
+					//TODO cached svfit cache, has to rerun
 				}
 				LOG(DEBUG) << "tauElectronFakeEnergyCorrectionOneProngPiZeros:    " << tauElectronFakeEnergyCorrectionOneProngPiZeros << std::endl;
 				tau->p4 = tau->p4 * tauElectronFakeEnergyCorrectionOneProngPiZeros;
@@ -216,12 +217,77 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 				if (tauElectronFakeEnergyCorrectionThreeProngShift != 0.0)
 				{
 					tauElectronFakeEnergyCorrectionThreeProng += tauElectronFakeEnergyCorrectionThreeProngShift;
-					//TODO cached svfit cache, has to rerun				
+					//TODO cached svfit cache, has to rerun
 				}
 				LOG(DEBUG) << "tauElectronFakeEnergyCorrectionThreeProng:    " << tauElectronFakeEnergyCorrectionThreeProng << std::endl;
 				tau->p4 = tau->p4 * tauElectronFakeEnergyCorrectionThreeProng;
 			}
 		}
+	}
+	else if (tauEnergyCorrection == TauEnergyCorrection::LEGACY2017)
+	{
+		bool isShiftUp = static_cast<HttSettings const&>(settings).GetIsShiftUp();
+		float TauEnergyCorrectionShift = 1.0;
+
+		TDirectory *savedir(gDirectory);
+		TFile *savefile(gFile);
+
+		std::string TauEnergyCorrectionFilename         = "$CMSSW_BASE/src/TauAnalysisTools/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco.root";
+		std::string TauEnergyCorrectionFilename_ptgt100 = "$CMSSW_BASE/src/TauAnalysisTools/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco_ptgt100.root";
+
+		TFile* TauEnergyCorrectionFile         = new TFile(TauEnergyCorrectionFilename.c_str(), "READ");
+		TFile* TauEnergyCorrectionFile_ptgt100 = new TFile(TauEnergyCorrectionFilename_ptgt100.c_str(), "READ");
+
+
+		std::string histoname = "tes";
+		TH1F* TauEnergyCorrectionHist         =  static_cast<TH1F*>(TauEnergyCorrectionFile->Get(histoname.c_str()));
+		TauEnergyCorrectionHist->SetDirectory(nullptr);
+		TH1F* TauEnergyCorrectionHist_ptgt100 =  static_cast<TH1F*>(TauEnergyCorrectionFile_ptgt100->Get(histoname.c_str()));
+		TauEnergyCorrectionHist_ptgt100->SetDirectory(nullptr);
+
+		TauEnergyCorrectionFile->Close();
+		TauEnergyCorrectionFile_ptgt100->Close();
+
+		gDirectory = savedir;
+		gFile = savefile;
+
+		// Definitions of pt_high and pt_low taken from https://github.com/cms-tau-pog/TauIDSFs/blob/master/python/TauIDSFTool.py
+		double pt_high = 170;
+		double pt_low = 34;
+
+		int dm = (tau->decayMode!=11?tau->decayMode:10);
+		int bin = TauEnergyCorrectionHist->GetBin(dm); // DM=11 is treated the same as DM=10
+		float tes = TauEnergyCorrectionHist->GetBinContent(bin);
+
+		double err = 0.0;
+		double err_high = 0.0;
+		double err_low  = 0.0;
+		int bin_high = 0;
+		if (tau->p4.Pt() >= pt_high)
+		{
+			bin_high = TauEnergyCorrectionHist_ptgt100->GetBin(dm);
+			err      = TauEnergyCorrectionHist_ptgt100->GetBinError(bin_high);
+		} // high pt
+		else if (tau->p4.Pt() > pt_low)
+		{
+			bin_high = TauEnergyCorrectionHist_ptgt100->GetBin(dm);
+			err_high = TauEnergyCorrectionHist_ptgt100->GetBinError(bin_high);
+			err_low  = TauEnergyCorrectionHist->GetBinError(bin);
+			err      = err_low + (err_high - err_low) / (pt_high - pt_low) * (tau->p4.Pt() - pt_low);
+		} // interpolate between high and low pt
+		else
+		{
+			err = TauEnergyCorrectionHist->GetBinError(bin);
+		} // low pt
+		if (isShiftUp)
+		{
+			TauEnergyCorrectionShift = tes + err;
+		}
+		else
+		{
+			TauEnergyCorrectionShift = tes - err;
+		}
+		tau->p4 = tau->p4 * TauEnergyCorrectionShift;
 	}
 	else if (tauEnergyCorrection == TauEnergyCorrection::MSSMHTT2016)
 	{
@@ -268,7 +334,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	if (tauEnergyCorrectionShift != 1.0)
 	{
 		tau->p4 = tau->p4 * tauEnergyCorrectionShift;
-		
+
 		// settings for (cached) Svfit calculation
 		(static_cast<HttProduct&>(product)).m_systematicShift = HttEnumTypes::SystematicShift::TAU_ES;
 		(static_cast<HttProduct&>(product)).m_systematicShiftSigma = tauEnergyCorrectionShift;
@@ -424,9 +490,9 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	}
 	(static_cast<HttProduct&>(product)).m_tauEnergyScaleWeight[tau] = normalisationFactor;
 		float randomTauEnergySmearing = static_cast<HttSettings const&>(settings).GetRandomTauEnergySmearing();
-	
+
 	if (randomTauEnergySmearing != 0.0)
-	{	
+	{
 		double r;
 		TRandom *r3 = new TRandom3();
 		r3->SetSeed(event.m_eventInfo->nEvent);

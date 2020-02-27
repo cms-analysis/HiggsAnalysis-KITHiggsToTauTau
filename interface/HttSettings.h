@@ -13,7 +13,6 @@
 
    Defines settings that can be obtained from the json configuration file.
 */
-
 class HttSettings: public KappaSettings {
 public:
 

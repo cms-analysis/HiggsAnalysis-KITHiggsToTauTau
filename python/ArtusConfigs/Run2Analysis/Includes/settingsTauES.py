@@ -25,34 +25,37 @@ class TauES(dict):
 		elif re.search("(Summer17|Fall17|Embedding2017)",nickname):
 			#https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf old
 			#newest look at tautwiki
-			self["TauEnergyCorrection"] = "smhtt2017"
-			self["TauEnergyCorrectionOneProng"] = 1.007 #+-0.8%
-			self["TauEnergyCorrectionOneProngPiZeros"] = 0.998 #+-0.8%
-			self["TauEnergyCorrectionThreeProng"] = 1.001 #+-0.9%
-			self["TauEnergyCorrectionThreeProngPizeros"] = 0.999 #+-1%
+			if legacy:
+				self["TauEnergyCorrection"] = "legacy2017"
+			else:
+				self["TauEnergyCorrection"] = "smhtt2017"
+				self["TauEnergyCorrectionOneProng"] = 1.007 #+-0.8%
+				self["TauEnergyCorrectionOneProngPiZeros"] = 0.998 #+-0.8%
+				self["TauEnergyCorrectionThreeProng"] = 1.001 #+-0.9%
+				self["TauEnergyCorrectionThreeProngPizeros"] = 0.999 #+-1%
 
-			if re.search("Embedding2017", nickname): # no ES corrections for embedding 2017, but uncertainties are needed
-				self["TauEnergyCorrectionOneProng"] = 1.0 #+-1.5%
-				self["TauEnergyCorrectionOneProngPiZeros"] = 1.0 #+-1.5%
-				self["TauEnergyCorrectionThreeProng"] = 1.0 #+-1.5%
-				self["TauEnergyCorrectionThreeProngPizeros"] = 1.0 #+-1.5%
+				if re.search("Embedding2017", nickname): # no ES corrections for embedding 2017, but uncertainties are needed
+					self["TauEnergyCorrectionOneProng"] = 1.0 #+-1.5%
+					self["TauEnergyCorrectionOneProngPiZeros"] = 1.0 #+-1.5%
+					self["TauEnergyCorrectionThreeProng"] = 1.0 #+-1.5%
+					self["TauEnergyCorrectionThreeProngPizeros"] = 1.0 #+-1.5%
 
-			if re.search("(DY.?JetsToLL|EWKZ2Jets)", nickname):
-				# official e/mu fake ES factors
-				self["TauElectronFakeEnergyCorrectionOneProng"] = 1.003
-				self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.036
-				self["TauElectronFakeEnergyCorrectionThreeProng"] = 1.0
-				self["TauMuonFakeEnergyCorrectionOneProng"] = 1.0
-				self["TauMuonFakeEnergyCorrectionOneProngPiZeros"] = 1.0
-				self["TauMuonFakeEnergyCorrectionThreeProng"] = 1.0
+				if re.search("(DY.?JetsToLL|EWKZ2Jets)", nickname):
+					# official e/mu fake ES factors
+					self["TauElectronFakeEnergyCorrectionOneProng"] = 1.003
+					self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.036
+					self["TauElectronFakeEnergyCorrectionThreeProng"] = 1.0
+					self["TauMuonFakeEnergyCorrectionOneProng"] = 1.0
+					self["TauMuonFakeEnergyCorrectionOneProngPiZeros"] = 1.0
+					self["TauMuonFakeEnergyCorrectionThreeProng"] = 1.0
 
-				# IC e/mu fake ES factors
-				# self["TauElectronFakeEnergyCorrectionOneProng"] = 1.01  #+-1.4%
-				# self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.041 #+-1.8%
-				# self["TauElectronFakeEnergyCorrectionThreeProng"] = 1.0
-				# self["TauMuonFakeEnergyCorrectionOneProng"] = 0.999 #+-3%
-				# self["TauMuonFakeEnergyCorrectionOneProngPiZeros"] = 1.012 #+-0.3%
-				# self["TauMuonFakeEnergyCorrectionThreeProng"] = 1.0
+					# IC e/mu fake ES factors
+					# self["TauElectronFakeEnergyCorrectionOneProng"] = 1.01  #+-1.4%
+					# self["TauElectronFakeEnergyCorrectionOneProngPiZeros"] = 1.041 #+-1.8%
+					# self["TauElectronFakeEnergyCorrectionThreeProng"] = 1.0
+					# self["TauMuonFakeEnergyCorrectionOneProng"] = 0.999 #+-3%
+					# self["TauMuonFakeEnergyCorrectionOneProngPiZeros"] = 1.012 #+-0.3%
+					# self["TauMuonFakeEnergyCorrectionThreeProng"] = 1.0
 		else:
 			self["TauEnergyCorrection"] = "none"
 

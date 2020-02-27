@@ -25,6 +25,7 @@
 <use name="TauPolSoftware/TauDecaysInterface" />
 <use name="ZZMatrixElement/MELA" />
 <use name="TauAnalysisTools/TauTriggerSFs" />
+<use name="TauAnalysisTools/TauIDSFs" />
 <use name="HiggsCPinTauDecays/ImpactParameter" />
 <use name="HiggsCPinTauDecays/IpCorrection" />
 

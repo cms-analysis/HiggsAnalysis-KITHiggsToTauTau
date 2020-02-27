@@ -8,7 +8,7 @@
 
 /**
    \brief Producer for tau energy scale corrections (Htt version).
-   
+
    Required config tags
    - TauEnergyCorrection (possible value: summer2013)
 */
@@ -34,6 +34,7 @@ public:
 		SMHTT2016,
 		MSSMHTT2016,
 		SMHTT2017,
+		LEGACY2017,
 	};
 	static TauEnergyCorrection ToTauEnergyCorrection(std::string const& tauEnergyCorrection)
 	{
@@ -42,9 +43,10 @@ public:
 		else if (tauEnergyCorrection == "smhtt2016") return TauEnergyCorrection::SMHTT2016;
 		else if (tauEnergyCorrection == "mssmhtt2016") return TauEnergyCorrection::MSSMHTT2016;
 		else if (tauEnergyCorrection == "smhtt2017") return TauEnergyCorrection::SMHTT2017;
+		else if (tauEnergyCorrection == "legacy2017") return TauEnergyCorrection::LEGACY2017;
 		else return TauEnergyCorrection::NONE;
 	}
-	
+
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
 

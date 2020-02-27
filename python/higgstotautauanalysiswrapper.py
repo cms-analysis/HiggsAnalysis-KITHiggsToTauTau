@@ -228,7 +228,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 								for shiftdirection in ["Up", "Down"]:
 									systematic_name = systematic_shift+shiftdirection
 									syst_python_config.clear_config(nickname)
-									syst_python_config.build_systematic_config(nickname, systematic_name)
+									syst_python_config.build_systematic_config(nickname, systematic_name, self._args.legacy)
 									pipeline_config[selected_channel+"_"+systematic_name] = copy.deepcopy(syst_python_config)
 									pipeline_config[selected_channel+"_"+systematic_name].update(copy.deepcopy(channel_python_config))
 
