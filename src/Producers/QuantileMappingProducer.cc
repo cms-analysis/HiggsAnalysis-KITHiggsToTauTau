@@ -92,14 +92,32 @@ void QuantileMappingProducer::Produce(event_type const& event, product_type& pro
 		gFile = savefile;
 		if (product.m_refitPV != nullptr){
 
-			double ipx_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipx, product.m_recoIPHelrPVBS_1.X(), product.m_genIP1.X(), recoTau1->p4.Eta());
-			double ipy_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipy, product.m_recoIPHelrPVBS_1.Y(), product.m_genIP1.Y(), recoTau1->p4.Eta());
-			double ipz_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipz, product.m_recoIPHelrPVBS_1.Z(), product.m_genIP1.Z(), recoTau1->p4.Eta());
+			double ipx_corr = -999;
+			double ipy_corr = -999;
+			double ipz_corr = -999;
+			if(gen_match_1 == 1 || gen_match_1 == 2){
+				ipx_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipx, product.m_recoIPHelrPVBS_1.X(), 0, recoTau1->p4.Eta());
+				ipy_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipy, product.m_recoIPHelrPVBS_1.Y(), 0, recoTau1->p4.Eta());
+				ipz_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipz, product.m_recoIPHelrPVBS_1.Z(), 0, recoTau1->p4.Eta());
+			} else {
+				ipx_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipx, product.m_recoIPHelrPVBS_1.X(), product.m_genIP1.X(), recoTau1->p4.Eta());
+				ipy_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipy, product.m_recoIPHelrPVBS_1.Y(), product.m_genIP1.Y(), recoTau1->p4.Eta());
+				ipz_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipz, product.m_recoIPHelrPVBS_1.Z(), product.m_genIP1.Z(), recoTau1->p4.Eta());
+			}
 			product.m_calibIPHelrPVBS_1.SetXYZ(ipx_corr, ipy_corr, ipz_corr);
 
-			ipx_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipx, product.m_recoIPHelrPVBS_2.X(), product.m_genIP2.X(), recoTau2->p4.Eta());
-			ipy_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipy, product.m_recoIPHelrPVBS_2.Y(), product.m_genIP2.Y(), recoTau2->p4.Eta());
-			ipz_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipz, product.m_recoIPHelrPVBS_2.Z(), product.m_genIP2.Z(), recoTau2->p4.Eta());
+			ipx_corr = -999;
+			ipy_corr = -999;
+			ipz_corr = -999;
+			if(gen_match_2 == 1 || gen_match_2 == 2){
+				ipx_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipx, product.m_recoIPHelrPVBS_2.X(), 0, recoTau2->p4.Eta());
+				ipy_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipy, product.m_recoIPHelrPVBS_2.Y(), 0, recoTau2->p4.Eta());
+				ipz_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipz, product.m_recoIPHelrPVBS_2.Z(), 0, recoTau2->p4.Eta());
+			} else {
+				ipx_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipx, product.m_recoIPHelrPVBS_2.X(), product.m_genIP2.X(), recoTau2->p4.Eta());
+				ipy_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipy, product.m_recoIPHelrPVBS_2.Y(), product.m_genIP2.Y(), recoTau2->p4.Eta());
+				ipz_corr = ipCorrector.correctIp(IpCorrection::Coordinate::Ipz, product.m_recoIPHelrPVBS_2.Z(), product.m_genIP2.Z(), recoTau2->p4.Eta());
+			}
 			product.m_calibIPHelrPVBS_2.SetXYZ(ipx_corr, ipy_corr, ipz_corr);
 
 
