@@ -13,7 +13,7 @@
 
 #include "Artus/KappaAnalysis/interface/Utility/GeneratorInfo.h"
 
-#include "TauAnalysisTools/TauIDSFs/interface/TauIDSFTool.h"
+#include "TauPOG/TauIDSFs/interface/TauIDSFTool.h"
 
 void HttTauCorrectionsProducer::Init(setting_type const& settings, metadata_type& metadata)
 {

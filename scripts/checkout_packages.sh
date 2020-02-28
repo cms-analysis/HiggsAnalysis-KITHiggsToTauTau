@@ -128,7 +128,7 @@ else
 	git clone -b final_2017_MCv2 git@github.com:cms-tau-pog/TauTriggerSFs $CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs
 fi
 
-git clone https://github.com/cms-tau-pog/TauIDSFs.git $CMSSW_BASE/src/TauAnalysisTools/TauIDSFs
+git clone https://github.com/cms-tau-pog/TauIDSFs.git $CMSSW_BASE/src/TauPOG/TauIDSFs
 
 # EmuQCD Method
 git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
