@@ -228,13 +228,12 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	{
 		bool isShiftUp = static_cast<HttSettings const&>(settings).GetIsShiftUp();
 		bool isNominal = static_cast<HttSettings const&>(settings).GetIsNominal();
-		float TauEnergyCorrectionShift = 1.0;
 
 		TDirectory *savedir(gDirectory);
 		TFile *savefile(gFile);
 
-		std::string TauEnergyCorrectionFilename         = "$CMSSW_BASE/src/TauAnalysisTools/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco.root";
-		std::string TauEnergyCorrectionFilename_ptgt100 = "$CMSSW_BASE/src/TauAnalysisTools/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco_ptgt100.root";
+		std::string TauEnergyCorrectionFilename         = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco.root";
+		std::string TauEnergyCorrectionFilename_ptgt100 = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco_ptgt100.root";
 
 		TFile* TauEnergyCorrectionFile         = new TFile(TauEnergyCorrectionFilename.c_str(), "READ");
 		TFile* TauEnergyCorrectionFile_ptgt100 = new TFile(TauEnergyCorrectionFilename_ptgt100.c_str(), "READ");
@@ -256,9 +255,9 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		double pt_high = 170;
 		double pt_low = 34;
 
-		int dm = (tau->decayMode!=11?tau->decayMode:10);
-		int bin = TauEnergyCorrectionHist->GetBin(dm); // DM=11 is treated the same as DM=10
-		float tes = 1.0;
+		int dm = (tau->decayMode!=11?tau->decayMode:10); // DM=11 is treated the same as DM=10
+		int bin = TauEnergyCorrectionHist->FindBin(dm);
+		float TauEnergyCorrectionShift = 1.0;
 
 		double err = 0.0;
 		double err_high = 0.0;
@@ -266,15 +265,15 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 		int bin_high = 0;
 		if(genMatchingCode == KappaEnumTypes::GenMatchingCode::IS_TAU_HAD_DECAY && (dm == 0 || dm == 1 || dm == 10))
 		{
-			tes = TauEnergyCorrectionHist->GetBinContent(bin);
+			TauEnergyCorrectionShift = TauEnergyCorrectionHist->GetBinContent(bin);
 			if (tau->p4.Pt() >= pt_high)
 			{
-				bin_high = TauEnergyCorrectionHist_ptgt100->GetBin(dm);
+				bin_high = TauEnergyCorrectionHist_ptgt100->FindBin(dm);
 				err      = TauEnergyCorrectionHist_ptgt100->GetBinError(bin_high);
 			} // high pt
 			else if (tau->p4.Pt() > pt_low)
 			{
-				bin_high = TauEnergyCorrectionHist_ptgt100->GetBin(dm);
+				bin_high = TauEnergyCorrectionHist_ptgt100->FindBin(dm);
 				err_high = TauEnergyCorrectionHist_ptgt100->GetBinError(bin_high);
 				err_low  = TauEnergyCorrectionHist->GetBinError(bin);
 				err      = err_low + (err_high - err_low) / (pt_high - pt_low) * (tau->p4.Pt() - pt_low);
@@ -285,22 +284,17 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			} // low pt
 		}
 
-		if (isNominal)
-		{
-			TauEnergyCorrectionShift = tes;
-		}
-		else
+		if (!isNominal)
 		{
 			if (isShiftUp)
 			{
-				TauEnergyCorrectionShift = tes + err;
+				TauEnergyCorrectionShift += err;
 			}
 			else
 			{
-				TauEnergyCorrectionShift = tes - err;
+				TauEnergyCorrectionShift -= err;
 			}
 		}
-
 		tau->p4 = tau->p4 * TauEnergyCorrectionShift;
 	}
 	else if (tauEnergyCorrection == TauEnergyCorrection::MSSMHTT2016)
