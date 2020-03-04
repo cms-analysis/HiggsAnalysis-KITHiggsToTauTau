@@ -60,5 +60,8 @@ protected:
 private:
 	TauEnergyCorrection tauEnergyCorrection;
 
+	TH1F* TauEnergyCorrectionHist         = nullptr;
+	TH1F* TauEnergyCorrectionHist_ptgt100 = nullptr;
+
 };
 

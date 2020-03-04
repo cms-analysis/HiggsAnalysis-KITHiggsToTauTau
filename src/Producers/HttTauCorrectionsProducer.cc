@@ -20,6 +20,31 @@ void HttTauCorrectionsProducer::Init(setting_type const& settings, metadata_type
 	TauCorrectionsProducer::Init(settings, metadata);
 
 	tauEnergyCorrection = ToTauEnergyCorrection(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(static_cast<HttSettings const&>(settings).GetTauEnergyCorrection())));
+
+	if (tauEnergyCorrection == TauEnergyCorrection::LEGACY2017){
+		TDirectory *savedir(gDirectory);
+		TFile *savefile(gFile);
+
+		std::string TauEnergyCorrectionFilename         = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco.root";
+		std::string TauEnergyCorrectionFilename_ptgt100 = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco_ptgt100.root";
+
+		TFile* TauEnergyCorrectionFile         = new TFile(TauEnergyCorrectionFilename.c_str(), "READ");
+		TFile* TauEnergyCorrectionFile_ptgt100 = new TFile(TauEnergyCorrectionFilename_ptgt100.c_str(), "READ");
+
+		std::string histoname = "tes";
+		TauEnergyCorrectionHist         = static_cast<TH1F*>(TauEnergyCorrectionFile->Get(histoname.c_str()));
+		TauEnergyCorrectionHist->SetDirectory(nullptr);
+		TauEnergyCorrectionHist_ptgt100 = static_cast<TH1F*>(TauEnergyCorrectionFile_ptgt100->Get(histoname.c_str()));
+		TauEnergyCorrectionHist_ptgt100->SetDirectory(nullptr);
+
+		TauEnergyCorrectionFile->Close();
+		TauEnergyCorrectionFile_ptgt100->Close();
+		delete TauEnergyCorrectionFile;
+		delete TauEnergyCorrectionFile_ptgt100;
+
+		gDirectory = savedir;
+		gFile = savefile;
+	}
 }
 
 void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type const& event,
@@ -228,28 +253,6 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 	{
 		bool isShiftUp = static_cast<HttSettings const&>(settings).GetIsShiftUp();
 		bool isNominal = static_cast<HttSettings const&>(settings).GetIsNominal();
-
-		TDirectory *savedir(gDirectory);
-		TFile *savefile(gFile);
-
-		std::string TauEnergyCorrectionFilename         = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco.root";
-		std::string TauEnergyCorrectionFilename_ptgt100 = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco_ptgt100.root";
-
-		TFile* TauEnergyCorrectionFile         = new TFile(TauEnergyCorrectionFilename.c_str(), "READ");
-		TFile* TauEnergyCorrectionFile_ptgt100 = new TFile(TauEnergyCorrectionFilename_ptgt100.c_str(), "READ");
-
-
-		std::string histoname = "tes";
-		TH1F* TauEnergyCorrectionHist         =  static_cast<TH1F*>(TauEnergyCorrectionFile->Get(histoname.c_str()));
-		TauEnergyCorrectionHist->SetDirectory(nullptr);
-		TH1F* TauEnergyCorrectionHist_ptgt100 =  static_cast<TH1F*>(TauEnergyCorrectionFile_ptgt100->Get(histoname.c_str()));
-		TauEnergyCorrectionHist_ptgt100->SetDirectory(nullptr);
-
-		TauEnergyCorrectionFile->Close();
-		TauEnergyCorrectionFile_ptgt100->Close();
-
-		gDirectory = savedir;
-		gFile = savefile;
 
 		// Definitions of pt_high and pt_low taken from https://github.com/cms-tau-pog/TauIDSFs/blob/master/python/TauIDSFTool.py
 		double pt_high = 170;
