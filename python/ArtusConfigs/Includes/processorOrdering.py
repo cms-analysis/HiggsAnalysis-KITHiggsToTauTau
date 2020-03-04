@@ -50,6 +50,7 @@ class ProcessorsOrdered(dict):
 			self["producer:TauTriggerMatchingProducer"] = 43
 			self["filter:MinTausCountFilter"] = 44
 
+			self["producer:MuonCorrectionsProducer"] = 49
 			self["producer:ValidMTPairCandidatesProducer"] = 50
 			self["producer:NewValidMTPairCandidatesProducer"] = 50.1
 			self["filter:ValidDiTauPairCandidatesFilter"] = 51
