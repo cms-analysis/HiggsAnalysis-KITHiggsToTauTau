@@ -14,14 +14,14 @@ class Kappa(dict):
 			self["GenTaus"] = ""
 			self["GenTauJets"] = ""
 			self["GenMet"] = ""
-
+			self["GenJets"] = ""
 		else:
 			self["GenParticles"] = "genParticles"
 			self["GenTaus"] = "genTaus"
 			self["GenTauJets"] = "tauGenJets"  # * default is set here
 			self["GenMet"] = "genmetTrue"
+			self["GenJets"] = "genJets"
 
-		self["GenJets"] = ""
 		self["Electrons"] = "electrons"
 		self["ElectronMetadata"] = "electronMetadata"
 		self["Muons"] = "muons"
