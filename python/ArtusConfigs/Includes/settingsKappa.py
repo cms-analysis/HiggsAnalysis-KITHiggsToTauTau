@@ -20,7 +20,11 @@ class Kappa(dict):
 			self["GenTaus"] = "genTaus"
 			self["GenTauJets"] = "tauGenJets"  # * default is set here
 			self["GenMet"] = "genmetTrue"
-			self["GenJets"] = "genJets"
+			#for now GenJets presnt only in signal samples
+			if re.search("HToTauTau", nickname) or re.search("H2JetsToTauTau", nickname):
+				self["GenJets"] = "genJets"
+			else:
+				self["GenJets"] = ""
 
 		self["Electrons"] = "electrons"
 		self["ElectronMetadata"] = "electronMetadata"
