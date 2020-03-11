@@ -27,10 +27,17 @@ elif [[ $cmssw_version = "942" ]]; then
 	eval `scramv1 runtime -sh`
 
 elif [[ $cmssw_version = "10220" ]]; then
-	export SCRAM_ARCH=slc6_amd64_gcc700
 	export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 	source $VO_CMS_SW_DIR/cmsset_default.sh
-	scramv1 project CMSSW CMSSW_10_2_20
+	echo -n "Enter the Linux release you want to use (SL6, SL7 [default]) and press [ENTER]: "
+	read sl_version
+	if [[ $sl_version = "SL6" ]] || [[ $sl_version = "6" ]] || [[ $sl_version = "SLC6" ]]; then
+	    export SCRAM_ARCH=slc6_amd64_gcc700
+	    scramv1 project -n CMSSW_10_2_20 CMSSW CMSSW_10_2_20
+	else
+	    export SCRAM_ARCH=slc7_amd64_gcc700
+	    scramv1 project -n CMSSW_10_2_20 CMSSW CMSSW_10_2_20_UL
+	fi
 	cd CMSSW_10_2_20/src
 	eval `scramv1 runtime -sh`
 
