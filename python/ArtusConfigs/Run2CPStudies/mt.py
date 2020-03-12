@@ -20,6 +20,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.setting
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsTauES as sTES
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJEC as sJEC
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJECUncertaintySplit as sJECUS
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJER as sJER
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMethods as sMVATM
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.settingsTauPolarisationMva as sTPMVA
@@ -73,6 +74,7 @@ class mt_ArtusConfig(dict):
 
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
+			self["Processors"] += ["producer:SmearedTaggedJetProducer"]
 
 			if legacy:
 				self["Processors"] += ["producer:LegacyJetToTauFakesProducer"]
@@ -274,6 +276,9 @@ class mt_ArtusConfig(dict):
 
 		#JECUncertaintySplit_config = sJECUS.JECUncertaintySplit(nickname)
 		#self.update(JECUncertaintySplit_config)
+
+		JER_config = sJER.JER(nickname)
+		self.update(JER_config)
 
 		JetID_config = sJID.Jet_ID(nickname)
 		self.update(JetID_config)

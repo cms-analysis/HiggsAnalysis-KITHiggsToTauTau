@@ -3,7 +3,7 @@
 
 ssh -vT git@github.com
 
-echo -n "Enter the CMMSW release you want to use (747, 810 [default], 942, 10217) and press [ENTER] (747 is for SL6, 810, 942 and 10217 is for SL7): "
+echo -n "Enter the CMMSW release you want to use (747, 810 [default], 942, 10220) and press [ENTER] (747 is for SL6, 810, 942 and 10220 is for SL7): "
 read cmssw_version
 
 echo -n "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev [default], classicsvfit, HTTCPDecays18-dev) and press [ENTER] : "
@@ -26,12 +26,19 @@ elif [[ $cmssw_version = "942" ]]; then
 	cd CMSSW_9_4_2/src
 	eval `scramv1 runtime -sh`
 
-elif [[ $cmssw_version = "10217" ]]; then
-	export SCRAM_ARCH=slc6_amd64_gcc700
+elif [[ $cmssw_version = "10220" ]]; then
 	export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 	source $VO_CMS_SW_DIR/cmsset_default.sh
-	scramv1 project CMSSW CMSSW_10_2_17
-	cd CMSSW_10_2_17/src
+	echo -n "Enter the Linux release you want to use (SL6, SL7 [default]) and press [ENTER]: "
+	read sl_version
+	if [[ $sl_version = "SL6" ]] || [[ $sl_version = "6" ]] || [[ $sl_version = "SLC6" ]]; then
+	    export SCRAM_ARCH=slc6_amd64_gcc700
+	    scramv1 project -n CMSSW_10_2_20 CMSSW CMSSW_10_2_20
+	else
+	    export SCRAM_ARCH=slc7_amd64_gcc700
+	    scramv1 project -n CMSSW_10_2_20 CMSSW CMSSW_10_2_20_UL
+	fi
+	cd CMSSW_10_2_20/src
 	eval `scramv1 runtime -sh`
 
 else
@@ -122,7 +129,7 @@ cd $CMSSW_BASE/src/
 
 # 2017 tau trigger efficiencies
 mkdir TauAnalysisTools
-if [[ $cmssw_version == "10217" ]]; then
+if [[ $cmssw_version == "10220" ]]; then
 	git clone -b run2_SFs git@github.com:cms-tau-pog/TauTriggerSFs $CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs
 else
 	git clone -b final_2017_MCv2 git@github.com:cms-tau-pog/TauTriggerSFs $CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs
@@ -179,7 +186,7 @@ elif [[ $cmssw_version == "940" ]]; then
 	git checkout v7.0.13
 	cd -
 
-elif [[ $cmssw_version == "10217" ]] && [[ $ch_branch == "HTTCPDecays18-dev" ]]; then
+elif [[ $cmssw_version == "10220" ]] && [[ $ch_branch == "HTTCPDecays18-dev" ]]; then
 	# needed for plotting and statistical inference
 	git clone git@github.com:albertdow/CombineHarvester CombineHarvester
 	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
