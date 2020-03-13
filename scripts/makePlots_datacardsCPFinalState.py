@@ -244,14 +244,14 @@ if __name__ == "__main__":
 	# 		INIT="--only_init="+os.path.join(init_directory, "init")
 	# 	)
 	if args.emb:
-		command = "MorphingSMCPDecays18 --era={ERA} --channels={CHANNELS} --doDecays=true --do_mva=false --do_jetfakes=true --do_embedding=true --postfix=\"-2D\" --ttbar_fit=false {INIT} {SHAPE_UNCS}".format(
+		command = "MorphingSMCPDecays18 --era={ERA} --channels={CHANNELS} --do_mva=false --do_jetfakes=true --do_embedding=true --postfix=\"-2D\" --ttbar_fit=false {INIT} {SHAPE_UNCS}".format(
 			ERA=args.era,
 			CHANNELS = channelstring,
 			INIT="--only_init="+os.path.join(init_directory, "init"),
 			SHAPE_UNCS="--no_shape_systs=1" if args.no_shape_uncs else "",
 		)
 	else:
-		command = "MorphingSMCPDecays18 --era={ERA} --channels={CHANNELS} --doDecays=true --do_mva=false --do_jetfakes=true --do_embedding=false --postfix=\"-2D\" --ttbar_fit=false {INIT} {SHAPE_UNCS}".format(
+		command = "MorphingSMCPDecays18 --era={ERA} --channels={CHANNELS} --do_mva=false --do_jetfakes=true --do_embedding=false --postfix=\"-2D\" --ttbar_fit=false {INIT} {SHAPE_UNCS}".format(
 			ERA=args.era,
 			CHANNELS = channelstring,
 			INIT="--only_init="+os.path.join(init_directory, "init"),
@@ -263,7 +263,7 @@ if __name__ == "__main__":
 
 	init_cb = ch.CombineHarvester()
 	for init_datacard in glob.glob(os.path.join(os.path.join(init_directory, "init"), "*_*_*_*.txt")):
-		init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt', False)
+		init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt')
 
 	#init_cb.PrintObs().PrintProcs().PrintSysts()
 
@@ -555,7 +555,7 @@ if __name__ == "__main__":
 							lumi = args.lumi * 1000,
 							exclude_cuts=exclude_cuts,
 							higgs_masses=higgs_masses,
-							cut_type="cpggh2016" if args.era == "2016" else "cptautau2017" if args.era == "2017" else "baseline",
+							cut_type="cpggh2016" if args.era == "2016" else "cptautau2017legacy" if args.era == "2017" else "baseline",
 							estimationMethod="simeqn",
 							#zmm_cr_factor=zmm_cr_factor,
 							no_ewkz_as_dy = args.no_ewkz_as_dy,
@@ -767,7 +767,7 @@ if __name__ == "__main__":
 		print channelstring
 		if args.emb:
 			datacards_module._call_command([
-				"MorphingSMCPDecays18 --output_folder={OUTPUT_SUFFIX} --era={ERA} --channels={CHANNELS} --doDecays=true --do_mva=false --do_jetfakes=true --do_embedding=true --postfix=\"-2D\" {SHAPE_UNCS} {SCALE_SIG} --ttbar_fit=false --input_folder_mt={OUTPUT_SUFFIX}/mt/ --input_folder_et={OUTPUT_SUFFIX}/et/".format(
+				"MorphingSMCPDecays18 --output_folder={OUTPUT_SUFFIX} --era={ERA} --channels={CHANNELS} --do_mva=false --do_jetfakes=true --do_embedding=true --postfix=\"-2D\" {SHAPE_UNCS} {SCALE_SIG} --ttbar_fit=false --input_folder_mt={OUTPUT_SUFFIX}/mt/ --input_folder_et={OUTPUT_SUFFIX}/et/".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				ERA=args.era,
 				CHANNELS = channelstring,
@@ -778,7 +778,7 @@ if __name__ == "__main__":
 			])
 		else:
 			datacards_module._call_command([
-				"MorphingSMCPDecays18 --output_folder={OUTPUT_SUFFIX} --era={ERA} --channels={CHANNELS} --doDecays=true --do_mva=false --do_jetfakes=true --do_embedding=false --postfix=\"-2D\" {SHAPE_UNCS} {SCALE_SIG} --ttbar_fit=false --input_folder_mt={OUTPUT_SUFFIX}/mt/ --input_folder_et={OUTPUT_SUFFIX}/et/".format(
+				"MorphingSMCPDecays18 --output_folder={OUTPUT_SUFFIX} --era={ERA} --channels={CHANNELS} --do_mva=false --do_jetfakes=true --do_embedding=false --postfix=\"-2D\" {SHAPE_UNCS} {SCALE_SIG} --ttbar_fit=false --input_folder_mt={OUTPUT_SUFFIX}/mt/ --input_folder_et={OUTPUT_SUFFIX}/et/".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				ERA=args.era,
 				CHANNELS = channelstring,
@@ -798,7 +798,7 @@ if __name__ == "__main__":
 	datacards_workspaces_alpha = {}
 
 	for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):
-		official_cb.QuickParseDatacard(official_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt', False)
+		official_cb.QuickParseDatacard(official_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt')
 		#official_cb.PrintObs().PrintProcs().PrintSysts()
 
 		if args.era == "2017":
@@ -820,7 +820,7 @@ if __name__ == "__main__":
 		#official_cb.PrintObs().PrintProcs().PrintSysts()
 
 		tmp_datacard = ch.CombineHarvester()
-		tmp_datacard.QuickParseDatacard(official_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt', False)
+		tmp_datacard.QuickParseDatacard(official_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt')
 			#from IPython import embed; embed()
 		print "int(official_datacard.split(\"_\")[-2]): ", int(official_datacard.split("_")[-2])
 		if int(official_datacard.split("_")[-2]) < 10 and not "ttbar" in official_datacard: #this statement avoids the creation of workspaces for single CR only.
