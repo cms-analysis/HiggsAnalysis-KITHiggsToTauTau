@@ -176,6 +176,8 @@ if __name__ == "__main__":
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
 	parser.add_argument("--emb", default=False, action="store_true",
 	                    help="Use Embedded Samples instead of DY MC. [Default: %(default)s]")
+	parser.add_argument("--legacy", default=False, action="store_true",
+	                    help="Use legacy Samples and Settings. [Default: %(default)s]")
 
 	args = parser.parse_args()
 	logger.initLogger(args)
@@ -322,9 +324,13 @@ if __name__ == "__main__":
 		"VV" : "vv",
 		"VVT" : "vvt",
 		"VVJ" : "vvj",
-		#"WH_htt" : "wh",
+		"WH_sm_htt" : "whsm",
+		"WH_mm_htt" : "whmm",
+		"WH_ps_htt" : "whps",
 		"W" : "wj",
-		#"ZH_htt" : "zh",
+		"ZH_sm_htt" : "zhsm",
+		"ZH_mm_htt" : "zhmm",
+		"ZH_ps_htt" : "zhps",
 		"ZJ" : "zj",
 		"ZL" : "zl",
 		"ZLL" : "zll",
