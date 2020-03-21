@@ -1361,9 +1361,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		if (phiStarCPRho > ROOT::Math::Pi()) {
 		 product.m_recoPhiStarCPRhoMerged = phiStarCPRho - ROOT::Math::Pi();
 		}
-		else product.m_recoPhiStarCPRhoMerged = phiStarCPRho + ROOT::Math::Pi();
+		else {
+		 product.m_recoPhiStarCPRhoMerged = phiStarCPRho + ROOT::Math::Pi();
+		}
 	}
-
 
 	product.m_d0s_area = cpq.CalculateD0sArea((product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble), (product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble));
 
@@ -1418,8 +1419,6 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	product.m_IPSignificanceHel_PV_1 = product.m_recoIPHel_1.Mag() / product.m_errorIPHel_PV_1;
 	product.m_IPSignificanceHel_PV_2 = product.m_recoIPHel_2.Mag() / product.m_errorIPHel_PV_2;
 
-
-
 	product.m_recoIPHelCovxx_1 = IPHelCov_1(0,0);
 	product.m_recoIPHelCovxy_1 = IPHelCov_1(0,1);
 	product.m_recoIPHelCovxz_1 = IPHelCov_1(0,2);
@@ -1455,7 +1454,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// If both taus decay to rho, then the rho method is preferred.
 	KTau* recoTau1 = static_cast<KTau*>(recoParticle1);
 	KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
-	if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET || recoTau2->decayMode == 1){
+	if ( (product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET) && recoTau2->decayMode == 1){
 
 		product.m_recoPhiStarCPComb    = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
 		product.m_recoPhiStarCPCombHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
@@ -1464,28 +1463,23 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_recoPhiStarCPCombMergedHel = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombHel, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 
 	}  // if et or mt ch.
-
-	if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ){
-		KTau* recoTau1 = static_cast<KTau*>(recoParticle1);
-
+	if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ) {
 		// tau1->rho, tau2->a
 		if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
-			product.m_recoPhiStarCPComb    = cpq.CalculatePhiStarCPComb(product.m_recoIP2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-			product.m_recoPhiStarCPCombHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+			product.m_recoPhiStarCPComb    = cpq.CalculatePhiStarCPComb(product.m_recoIP2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge());
+			product.m_recoPhiStarCPCombHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge());
 
 			product.m_recoPhiStarCPCombMerged    = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 			product.m_recoPhiStarCPCombMergedHel = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHel, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 		} // tau1->rho, tau2->a
-
 		// tau1->a, tau2->rho
-		if (recoTau1->decayMode != 1 && recoTau2->decayMode ==1){
-			product.m_recoPhiStarCPComb    = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-			product.m_recoPhiStarCPCombHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+		if (recoTau1->decayMode != 1 && recoTau2->decayMode == 1) {
+			product.m_recoPhiStarCPComb    = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge());
+			product.m_recoPhiStarCPCombHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge());
 
 			product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 			product.m_recoPhiStarCPCombMergedHel = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHel, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 		} // tau1->a, tau2->rho
-
 	}  // if tt ch.
 
 	// Calculate the psi+- without a refitted vertex
@@ -1721,8 +1715,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		// ---------
 		// comb-method - with refitted PV
 		// ---------
-		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET || recoTau2->decayMode == 1){
-			KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
+		if ( (product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET) && recoTau2->decayMode == 1) {
 
 			product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
 			product.m_recoPhiStarCPCombrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
@@ -1734,13 +1727,13 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			product.m_recoPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombHelrPV, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 			product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombHelrPVBS, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 		}
-		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ){
+		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ) {
 			// tau1->rho, tau2->a
 			if (recoTau1->decayMode == 1 && recoTau2->decayMode != 1) {
-				product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-				product.m_recoPhiStarCPCombrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-				product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
-				product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_2, recoParticle2->p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoParticle2->charge());
+				product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge());
+				product.m_recoPhiStarCPCombrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge());
+				product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge());
+				product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge());
 
 				product.m_recoPhiStarCPCombMergedrPV      = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 				product.m_recoPhiStarCPCombMergedrPVBS    = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
@@ -1748,18 +1741,17 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 				product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHelrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 			}
 			// tau1->a, tau2->rho
-			if (recoTau1->decayMode != 1 && recoTau2->decayMode ==1){
-				product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-				product.m_recoPhiStarCPCombrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-				product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
-				product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
+			if (recoTau1->decayMode != 1 && recoTau2->decayMode == 1) {
+				product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge());
+				product.m_recoPhiStarCPCombrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge());
+				product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge());
+				product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge());
 
 				product.m_recoPhiStarCPCombMergedrPV      = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 				product.m_recoPhiStarCPCombMergedrPVBS    = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 				product.m_recoPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHelrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 				product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHelrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
 			}
-
 		}  // if tt ch.
 
 		product.m_deltaEtaTanHelIPrPV_1 = product.m_recoIPrPV_1.Eta() - product.m_recoIPHelrPV_1.Eta();
