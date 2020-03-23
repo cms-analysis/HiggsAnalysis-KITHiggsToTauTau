@@ -560,6 +560,8 @@ if __name__ == "__main__":
 					config["title"] = ", ".join(args.samples)
 				elif args.polarisation:
 					config["title"] = "channel_" + channel + ("" if category is None else ("_"+category))
+				elif args.cptautau:
+					config["title"] = "channel_cptautau_" + channel
 				else:
 					config["title"] = "channel_" + channel
 
@@ -658,8 +660,8 @@ if __name__ == "__main__":
 					config["y_lims"] = [0.0]
 				if args.cms:
 					config["cms"] = True
-					config["extra_text"] = "Preliminary"
-					config["legend"] = [0.7, 0.4, 0.95, 0.83] if args.ratio or args.integrated_sob or args.sbratio or args.ratio_subplot else [0.7, 0.5, 0.9, 0.85]
+					config["extra_text"] = "Private work"
+					config["legend"] = [0.58, 0.25, 0.9, 0.83] if args.ratio or args.integrated_sob or args.sbratio or args.ratio_subplot else [0.63, 0.63, 0.9, 0.9]
 				elif args.shapes:
 					config["legend"] = [0.55, 0.65, 0.9, 0.88]
 				else:

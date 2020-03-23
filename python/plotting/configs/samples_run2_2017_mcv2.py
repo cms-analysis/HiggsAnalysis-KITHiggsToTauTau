@@ -2737,7 +2737,7 @@ class Samples(samples.Samples):
 		if channel in ["mt", "et"]:
 			exclude_cuts_ff += ["iso_2"]
 			# ff_weight_2 = "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
-			ff_weight_2 = "(1.0)" if "iso_2" in exclude_cuts else "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
+			ff_weight_2 = "(1.0)" if "iso_2" in exclude_cuts else "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else "(isnan("+fake_factor_name_2+")?0:"+fake_factor_name_2) + "))"
 			if self.legacy:
 				ff_iso_weight_2 = "((byVVVLooseDeepTau2017v2p1VSjet_2>0.5)*(byMediumDeepTau2017v2p1VSjet_2<0.5))"
 			else:
