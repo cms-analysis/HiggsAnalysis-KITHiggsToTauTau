@@ -8,10 +8,10 @@ import re
 
 
 class Tau_ID(dict):
-	def __init__(self, nickname):
+	def __init__(self, nickname, legacy=True):
 
 		self["TauID_documentation"] = []
-		if re.search("(Run2017|Fall17|Embedding2017)", nickname):
+		if legacy:
 			self["TauDiscriminatorIsolationName"] = "byDeepTau2017v2p1VSjetraw"
 			self["TauIDType"] = "deepTau"
 			self["DeepTauIDWorkingPoint"] = "medium"

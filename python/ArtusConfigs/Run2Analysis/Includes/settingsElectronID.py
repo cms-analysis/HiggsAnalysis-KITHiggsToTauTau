@@ -8,8 +8,10 @@ import re
 
 
 class Electron_ID(dict):
-	def __init__(self, nickname, wp=90, iso=False):
-		
+	def __init__(self, nickname, wp=90, iso=False, legacy=True):
+
+		self.legacy = legacy
+
 		self["ElectronID_documentation"] = [
 			"https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2",
 			"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"
@@ -35,7 +37,7 @@ class Electron_ID(dict):
 			]
 			#self["ElectronIDType"] = "mvabased2017andlater"
 
-		elif re.search("(Run2017|Fall17|Embedding2017)", nickname):
+		if self.legacy:
 
 			# self["ElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV2Values" #TODO check if this is the one used in analysis
 			# self["ElectronMvaIDCutEB1"] = 0.9897
@@ -167,7 +169,7 @@ class Electron_ID(dict):
 			self["LooseElectronMvaIDCutEE"] = 0.358969
 			self["LooseElectronIDType"] = "mvabased2015andlater"
 
-		elif re.search("(Run2017|Fall17|Embedding2017)", nickname):
+		if self.legacy:
 			# self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"
 			# self["LooseElectronMvaIDCutEB1"] =  0.9718
 			# self["LooseElectronMvaIDCutEB2"] =  0.9459

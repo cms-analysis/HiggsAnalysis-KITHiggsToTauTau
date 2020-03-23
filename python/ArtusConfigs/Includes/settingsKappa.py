@@ -8,7 +8,7 @@ import re
 
 
 class Kappa(dict):
-	def __init__(self, nickname):
+	def __init__(self, nickname, legacy=True):
 		if re.search("(?<!PFembedded).Run201", nickname):
 			self["GenParticles"] = ""
 			self["GenTaus"] = ""
@@ -55,7 +55,7 @@ class Kappa(dict):
 		else:
 			self["PuppiMet"] = "metPuppi"
 
-		if re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
+		if legacy:
 			self["MvaMets"] = ""
 		else:
 			self["MvaMets"] = "MVAMET"

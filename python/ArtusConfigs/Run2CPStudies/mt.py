@@ -74,20 +74,21 @@ class mt_ArtusConfig(dict):
 
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
-			self["Processors"] += ["producer:SmearedTaggedJetProducer"]
+			# self["Processors"] += ["producer:SmearedTaggedJetProducer"]
 
 			if legacy:
 				self["Processors"] += ["producer:LegacyJetToTauFakesProducer"]
 			else:
 				self["Processors"] += ["producer:JetToTauFakesProducer"]
 
-			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
+			if legacy:
 				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
 				self["Processors"] += ["producer:MetFilterProducer"]
 			else:
 				self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]
+				self["Processors"] += ["producer:MetFilterProducer"]
 
-			if re.search("(Run2016|Run2017|Embedding(2016|2017))", nickname):
+			if re.search("(Run201(6|7|8)|Embedding201(6|7|8))", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
 				self["Processors"] += ["producer:SimpleFitProducer"]
 
@@ -128,7 +129,7 @@ class mt_ArtusConfig(dict):
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				self["Processors"] += ["producer:PileUpJetIDScaleFactorWeightProducer"]
 
-				if re.search("Summer17|Fall17", nickname):
+				if re.search("Summer1(6|7)|Fall17|Autumn18", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					#"producer:TriggerWeightProducer"
 					if legacy:
@@ -164,7 +165,7 @@ class mt_ArtusConfig(dict):
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
-						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
+						if re.search("Summer1(6|7)|Fall17|Autumn18", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 							self["Processors"] += ["producer:ZPtReweightProducer"]
@@ -179,7 +180,7 @@ class mt_ArtusConfig(dict):
 							self["DoLhenpNLO"] = True	#NEEDED for stitching
 						#TODO lhe npo weight added
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
-						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
+						if re.search("Summer1(6|7)|Fall17|Autumn18", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"] # I put this on in to create the same config as json but i dont think it is needed
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
@@ -189,7 +190,7 @@ class mt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:SimpleFitProducer"] #FIXME Needed?
 
-						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
+						if re.search("Summer1(6|7)|Fall17|Autumn18", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
@@ -259,7 +260,7 @@ class mt_ArtusConfig(dict):
 		isEmbedded = datasetsHelper.isEmbedded(nickname)
 		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
 
-		ElectronID_config = sEID.Electron_ID(nickname)
+		ElectronID_config = sEID.Electron_ID(nickname, legacy=isLegacy)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
 		self.update(ElectronID_config)
 
@@ -268,7 +269,7 @@ class mt_ArtusConfig(dict):
 		MuonID_config.vetoMuon_ID(nickname)
 		self.update(MuonID_config)
 
-		TauID_config = sTID.Tau_ID(nickname)			#here loose is not appended since loose tau ID is not used
+		TauID_config = sTID.Tau_ID(nickname, legacy=isLegacy)			#here loose is not appended since loose tau ID is not used
 		self.update(TauID_config)
 
 		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it
@@ -376,7 +377,14 @@ class mt_ArtusConfig(dict):
 		if re.search("Spring16", nickname): self["DiTauPairHLTLast"] = True
 
 		if re.search("Run2016|Spring16|Summer16|Embedding(2016|MC)", nickname):
-			self["DiTauPairHLTLast"] = True
+			self["HltPaths"] = [
+				"HLT_IsoMu22_v",
+				"HLT_IsoTkMu22_v",
+				"HLT_IsoMu22_eta2p1_v",
+				"HLT_IsoTkMu22_eta2p1_v",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_v",
+				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v"
+			]
 			self["HLTBranchNames"] = [
 				"trg_singlemuon:HLT_IsoMu22_v",
 				"trg_singlemuon:HLT_IsoTkMu22_v",
@@ -403,6 +411,12 @@ class mt_ArtusConfig(dict):
 				"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltL1sSingleMu18erIorSingleMu20er",
 				#"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltPFTau20TrackLooseIsoAgainstMuon",
 				#"HLT_IsoMu19_eta2p1_LooseIsoPFTau20_SingleL1_v:hltOverlapFilterSingleIsoMu19LooseIsoPFTau20"
+			]
+			self["CheckLepton1TriggerMatch"] = [
+				"trg_singlemuon",
+			]
+			self["CheckLepton2TriggerMatch"] = [
+				"trg_mutaucross",
 			]
 
 		elif re.search("(Fall15MiniAODv2|Run2015D|Embedding2015)", nickname):
@@ -465,106 +479,98 @@ class mt_ArtusConfig(dict):
 
 		self["EventWeight"] = "eventWeight"
 
-		if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
-			if isLegacy:
-				if isEmbedded:
-					self["SaveLegacyWeightAsOptionalOnly"] = True
-					self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017_IC.root"
-					self["LegacyWeightWorkspaceWeightNames"] = [
-						"0:trackWeight",
-						"0:idisoWeight",
-						"0:triggerEfficiency_singletrigger_MCEmb",
-						"0:triggerEfficiency_singletrigger_data",
-						"0:triggerEfficiency_crosstrigger_MCEmb",
-						"0:triggerEfficiency_crosstrigger_data",
-						"1:triggerEfficiency_crosstrigger_MCEmb",
-						"1:triggerEfficiency_crosstrigger_data",
-						"1:tauidWeight",
-						"0:embeddingSelection_idWeight",
-						"1:embeddingSelection_idWeight",
-						"0:embeddingSelection_triggerWeight",
-						"1:ScaleFactor_deepTauVsMuTight",
-						"1:ScaleFactor_deepTauVsEleVVLoose",
-					]
-					self["LegacyWeightWorkspaceObjectNames"] = [
-						"0:m_trk_ratio",
-						"0:m_idiso_ic_embed_ratio",
-						"0:m_trg_ic_embed",
-						"0:m_trg_ic_data",
-						"0:m_trg_20_ic_embed",
-						"0:m_trg_20_ic_data",
-						"1:t_trg_mediumDeepTau_mutau_embed",
-						"1:t_trg_mediumDeepTau_mutau_data",
-						"1:t_deeptauid_pt_embed_medium",
-						"0:m_sel_id_ic_ratio",
-						"1:m_sel_id_ic_ratio",
-						"0:m_sel_trg_ic_ratio",
-						"1:t_id_vs_mu_eta_tight",
-						"1:t_id_vs_e_eta_vvloose",
-					]
-					self["LegacyWeightWorkspaceObjectArguments"] = [
-						"0:m_eta",
-						"0:m_pt,m_eta",
-						"0:m_pt,m_eta",
-						"0:m_pt,m_eta",
-						"0:m_pt,m_eta",
-						"0:m_pt,m_eta",
-						"1:t_pt,t_eta,t_phi,t_dm",
-						"1:t_pt,t_eta,t_phi,t_dm",
-						"1:t_pt",
-						"0:gt_pt,gt_eta",
-						"1:gt_pt,gt_eta",
-						"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
-						"1:t_eta",
-						"1:t_eta",
-					]
-				else:
-					self["SaveLegacyWeightAsOptionalOnly"] = True
-					self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017_IC.root"
-					self["LegacyWeightWorkspaceWeightNames"] = [
-						"0:trackWeight",
-						"0:idisoWeight",
-						"0:triggerEfficiency_singletrigger_MCEmb",
-						"0:triggerEfficiency_singletrigger_data",
-						"0:triggerEfficiency_crosstrigger_MCEmb",
-						"0:triggerEfficiency_crosstrigger_data",
-						"1:triggerEfficiency_crosstrigger_MCEmb",
-						"1:triggerEfficiency_crosstrigger_data",
-						"1:tauidWeight",
-						"1:ScaleFactor_deepTauVsMuTight",
-						"1:ScaleFactor_deepTauVsEleVVLoose",
-					]
-					self["LegacyWeightWorkspaceObjectNames"] = [
-						"0:m_trk_ratio",
-						"0:m_idiso_ic_ratio",
-						"0:m_trg_ic_mc",
-						"0:m_trg_ic_data",
-						"0:m_trg_20_ic_mc",
-						"0:m_trg_20_ic_data",
-						"1:t_trg_pog_deeptau_medium_mutau_mc",
-						"1:t_trg_pog_deeptau_medium_mutau_data",
-						"1:t_deeptauid_pt_medium",
-						"1:t_id_vs_mu_eta_tight",
-						"1:t_id_vs_e_eta_vvloose",
-					]
-					self["LegacyWeightWorkspaceObjectArguments"] = [
-						"0:m_eta",
-						"0:m_pt,m_eta",
-						"0:m_pt,m_eta",
-						"0:m_pt,m_eta",
-						"0:m_pt,m_eta",
-						"0:m_pt,m_eta",
-						"1:t_pt,t_dm",
-						"1:t_pt,t_dm",
-						"1:t_pt",
-						"1:t_eta",
-						"1:t_eta",
-					]
-					if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
-						self["LegacyWeightWorkspaceWeightNames"].append("0:zPtReweightWeight")
-						self["LegacyWeightWorkspaceObjectNames"].append("0:zptmass_weight_nom")
-						self["LegacyWeightWorkspaceObjectArguments"].append("0:z_gen_mass,z_gen_pt")
+		if isLegacy:
+			if re.search("(Run2016|Summer16|Embedding2016)", nickname):
+				self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2016_IC.root"
+			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
+				self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017_IC.root"
+			if re.search("(Run2018|Autumn18|Embedding2018)", nickname):
+				self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2018_IC.root"
+
+			self["SaveLegacyWeightAsOptionalOnly"] = True
+
+			self["LegacyWeightWorkspaceWeightNames"] = [
+				"0:trackWeight",
+				"0:idisoWeight",
+				"0:triggerEfficiency_singletrigger_MCEmb",
+				"0:triggerEfficiency_singletrigger_data",
+				"1:triggerEfficiency_crosstrigger_MCEmb",
+				"1:triggerEfficiency_crosstrigger_data",
+				"1:tauidWeight",
+				"1:ScaleFactor_deepTauVsMuTight",
+				"1:ScaleFactor_deepTauVsEleVVLoose",
+				]
+			self["LegacyWeightWorkspaceObjectNames"] = [
+				"0:m_trk_ratio",
+				"0:m_idiso_ic_" + ("embed_" if isEmbedded else "") + "ratio",
+				"0:m_trg_ic_" + ("embed" if isEmbedded else "mc"),
+				"0:m_trg_ic_data",
+				"1:t_trg_mediumDeepTau_mutau_" + ("embed" if isEmbedded else "mc"),
+				"1:t_trg_mediumDeepTau_mutau_data",
+				"1:t_deeptauid_pt_" + ("embed_" if isEmbedded else "") + "medium",
+				"1:t_id_vs_mu_eta_tight",
+				"1:t_id_vs_e_eta_vvloose",
+			]
+			self["LegacyWeightWorkspaceObjectArguments"] = [
+				"0:m_eta",
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta",
+				"1:t_pt,t_eta,t_phi,t_dm",
+				"1:t_pt,t_eta,t_phi,t_dm",
+				"1:t_pt",
+				"1:t_eta",
+				"1:t_eta",
+			]
+			if re.search("(Run2016|Summer16|Embedding2016)", nickname):
+				self["LegacyWeightWorkspaceWeightNames"] += [
+					"0:triggerEfficiency_crosstrigger_MCEmb",
+					"0:triggerEfficiency_crosstrigger_data",
+				]
+				self["LegacyWeightWorkspaceObjectNames"] += [
+					"0:m_trg_19_ic_" + ("embed" if isEmbedded else "mc"),
+					"0:m_trg_19_ic_data",
+				]
+				self["LegacyWeightWorkspaceObjectArguments"] += [
+					"0:m_pt,m_eta",
+					"0:m_pt,m_eta",
+				]
 			else:
+				self["LegacyWeightWorkspaceWeightNames"] += [
+					"0:triggerEfficiency_crosstrigger_MCEmb",
+					"0:triggerEfficiency_crosstrigger_data",
+				]
+				self["LegacyWeightWorkspaceObjectNames"] += [
+					"0:m_trg_20_ic_" + ("embed" if isEmbedded else "mc"),
+					"0:m_trg_20_ic_data",
+				]
+				self["LegacyWeightWorkspaceObjectArguments"] += [
+					"0:m_pt,m_eta",
+					"0:m_pt,m_eta",
+				]
+			if isEmbedded:
+				self["LegacyWeightWorkspaceWeightNames"] += [
+					"0:embeddingSelection_idWeight",
+					"1:embeddingSelection_idWeight",
+					"0:embeddingSelection_triggerWeight",
+				]
+				self["LegacyWeightWorkspaceObjectNames"] += [
+					"0:m_sel_id_ic_ratio",
+					"1:m_sel_id_ic_ratio",
+					"0:m_sel_trg_ic_ratio",
+				]
+				self["LegacyWeightWorkspaceObjectArguments"] += [
+					"0:gt_pt,gt_eta",
+					"1:gt_pt,gt_eta",
+					"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+				]
+			else:
+				if re.search("(DY.?JetsToLL).*(?=(Summer1(6|7)|Fall17|Autumn18))", nickname):
+					self["LegacyWeightWorkspaceWeightNames"].append("0:zPtReweightWeight")
+					self["LegacyWeightWorkspaceObjectNames"].append("0:zptmass_weight_nom")
+					self["LegacyWeightWorkspaceObjectArguments"].append("0:z_gen_mass,z_gen_pt")
+		else:
+			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 				if isEmbedded:
 					self["SaveEmbeddingWeightAsOptionalOnly"] = "true"
 					self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v17_6.root"
@@ -687,64 +693,64 @@ class mt_ArtusConfig(dict):
 							"0:m_pt,m_eta",
 						]
 
-		elif re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
-			self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
-			if isEmbedded:
-				self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root"
-				self["EmbeddingWeightWorkspaceWeightNames"] = [
-					"0:triggerWeight_doublemu",
-					"0:isoweight",
-					"0:idweight",
-					"0:triggerWeight_singleMu",
-					"1:MuTau_TauLeg_EmbeddedEfficiencyWeight",
-					"1:MuTau_TauLeg_DataEfficiencyWeight"
-				]
-				self["EmbeddingWeightWorkspaceObjectNames"] = [
-					"0:m_sel_trg_ratio",
-					"0:m_iso_ratio",
-					"0:m_id_ratio",
-					"0:m_trg_ratio",
+			elif re.search("(Spring16|Summer16|Run2016|Embedding2016)", nickname):
+				self["SaveRooWorkspaceTriggerWeightAsOptionalOnly"] = "true"
+				if isEmbedded:
+					self["EmbeddingWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_v16_11_embedded.root"
+					self["EmbeddingWeightWorkspaceWeightNames"] = [
+						"0:triggerWeight_doublemu",
+						"0:isoweight",
+						"0:idweight",
+						"0:triggerWeight_singleMu",
+						"1:MuTau_TauLeg_EmbeddedEfficiencyWeight",
+						"1:MuTau_TauLeg_DataEfficiencyWeight"
+					]
+					self["EmbeddingWeightWorkspaceObjectNames"] = [
+						"0:m_sel_trg_ratio",
+						"0:m_iso_ratio",
+						"0:m_id_ratio",
+						"0:m_trg_ratio",
 
-					"1:t_TightIso_mt_emb",
-					"1:t_genuine_TightIso_mt_data,t_fake_TightIso_mt_data"
-				]
-				self["EmbeddingWeightWorkspaceObjectArguments"] = [
-					"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
-					"0:m_pt,m_eta",
-					"0:m_pt,m_eta",
-					"0:m_pt,m_eta",
+						"1:t_TightIso_mt_emb",
+						"1:t_genuine_TightIso_mt_data,t_fake_TightIso_mt_data"
+					]
+					self["EmbeddingWeightWorkspaceObjectArguments"] = [
+						"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+						"0:m_pt,m_eta",
+						"0:m_pt,m_eta",
+						"0:m_pt,m_eta",
 
-					"1:t_pt,t_eta",
-					"1:t_pt,t_eta"
-				]
-			else:
-				self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-				self["RooWorkspaceWeightNames"] = [
-					"0:triggerWeight_singleMu",
-					"0:idIsoWeight"
-				]
-				self["RooWorkspaceObjectNames"] = [
-					"0:m_trgMu22OR_eta2p1_desy_ratio",
-					"0:m_idiso0p15_desy_ratio"
-				]
-				self["RooWorkspaceObjectArguments"] = [
-					"0:m_pt,m_eta",
-					"0:m_pt,m_eta"
-				]
-				self["SaveMuTauTriggerWeightAsOptionalOnly"] = "true"
-				self["MuTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
-				self["MuTauTriggerWeightWorkspaceWeightNames"] = [
-					"0:triggerWeight_muTauCross",
-					"1:triggerWeight_muTauCross"
-				]
-				self["MuTauTriggerWeightWorkspaceObjectNames"] = [
-					"0:m_trgMu19leg_eta2p1_desy_ratio",
-					"1:t_genuine_TightIso_mt_ratio,t_fake_TightIso_mt_ratio"
-				]
-				self["MuTauTriggerWeightWorkspaceObjectArguments"] = [
-					"0:m_pt,m_eta",
-					"1:t_pt,t_eta"
-				]
+						"1:t_pt,t_eta",
+						"1:t_pt,t_eta"
+					]
+				else:
+					self["RooWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+					self["RooWorkspaceWeightNames"] = [
+						"0:triggerWeight_singleMu",
+						"0:idIsoWeight"
+					]
+					self["RooWorkspaceObjectNames"] = [
+						"0:m_trgMu22OR_eta2p1_desy_ratio",
+						"0:m_idiso0p15_desy_ratio"
+					]
+					self["RooWorkspaceObjectArguments"] = [
+						"0:m_pt,m_eta",
+						"0:m_pt,m_eta"
+					]
+					self["SaveMuTauTriggerWeightAsOptionalOnly"] = "true"
+					self["MuTauTriggerWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_sm_moriond_v2.root"
+					self["MuTauTriggerWeightWorkspaceWeightNames"] = [
+						"0:triggerWeight_muTauCross",
+						"1:triggerWeight_muTauCross"
+					]
+					self["MuTauTriggerWeightWorkspaceObjectNames"] = [
+						"0:m_trgMu19leg_eta2p1_desy_ratio",
+						"1:t_genuine_TightIso_mt_ratio,t_fake_TightIso_mt_ratio"
+					]
+					self["MuTauTriggerWeightWorkspaceObjectArguments"] = [
+						"0:m_pt,m_eta",
+						"1:t_pt,t_eta"
+					]
 
 		if re.search("Run2017|Summer17|Fall17", nickname):
 			self["EleTauFakeRateWeightFile"] = ["1:$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/antiElectronDiscrMVA6FakeRateWeights.root"]
