@@ -62,14 +62,13 @@ class BTaggedJet_ID(dict):
 				"loose:0.5426"
 			]
 			self["BTaggedJetAbsEtaCut"] = 2.4
-		
-		
+
+
 		if re.search("(Fall15|Spring16)", nickname):
 			self["ApplyBTagSF"] = False
 		elif re.search("(Summer17|Embedding)", nickname):
 			self["ApplyBTagSF"] = False
 		else:
 			self["ApplyBTagSF"] = True
-		
-		self["BTagSFMethod"] = "PromotionDemotion"
 
+		self["BTagSFMethod"] = "PromotionDemotion"

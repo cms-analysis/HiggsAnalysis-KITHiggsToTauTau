@@ -16,9 +16,9 @@ class Electron_ID(dict):
 			"https://twiki.cern.ch/twiki/bin/view/CMS/MultivariateElectronIdentificationRun2",
 			"https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2015#Electrons"
 		]
-	
+
 		self["ElectronReco"] = "mvanontrig"
-	
+
 		self["ElectronID"] = "user"
 		self["ElectronIDType"] = "mvabased2015andlater"
 		self["ElectronEtaBinnedEAValues"] = [] #if empty than not rho corrected
@@ -161,7 +161,7 @@ class Electron_ID(dict):
 
 		self["LooseElectronID"] = "user"
 
-	
+
 		if re.search("(Run2015|Fall15MiniAODv2)", nickname):
 			self["LooseElectronIDName"] = "electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"
 			self["LooseElectronMvaIDCutEB1"] = 0.913286
@@ -194,7 +194,7 @@ class Electron_ID(dict):
 				self["LooseElectronMvaIDCutEB1ParamsLowPt"] = [0.9387070396095831, 0.8222647164151365, 2.6525585228167636]
 				self["LooseElectronMvaIDCutEB2ParamsLowPt"] = [0.8948802925677235, 0.4123381218697539, 2.7645670358783523]
 				self["LooseElectronMvaIDCutEEParamsLowPt"] = [-1830.8583661119892, -1831.2083578116517,-36578.11055382301]
-				self["LooseElectronMvaIDCutEB1ParamsHighPt"] = [0.9717674837607253, 1.9712414940437244, 8.912850985100356] 
+				self["LooseElectronMvaIDCutEB1ParamsHighPt"] = [0.9717674837607253, 1.9712414940437244, 8.912850985100356]
 				self["LooseElectronMvaIDCutEB2ParamsHighPt"] = [0.9458745023265976, 2.40849932040698, 8.83104420392795]
 				self["LooseElectronMvaIDCutEEParamsHighPt"] = [0.8979112012086751, 4.171581694893849, 9.814082144168015]
 			else:
@@ -213,7 +213,7 @@ class Electron_ID(dict):
 			self["LooseElectronMvaIDCutEB2"] = 0.715
 			self["LooseElectronMvaIDCutEE"] = 0.357
 			self["LooseElectronIDType"] = "mvabased2015andlater"
-		
+
 		self["LooseElectronIsoType"] = "user"
 		self["LooseElectronIso"] = "none"
 
@@ -251,4 +251,3 @@ class Electron_ID(dict):
 		self["DiVetoElectronMinDeltaRCut"] = 0.15
 		self["DiVetoElectronVetoMode"] = "veto_os_keep_ss"
 		self["DirectIso"] = True
-

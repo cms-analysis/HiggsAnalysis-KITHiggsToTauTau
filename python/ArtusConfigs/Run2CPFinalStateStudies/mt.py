@@ -28,6 +28,7 @@ class mt_ArtusConfig(mtbaseconfig.mt_ArtusConfig):
 			self["Processors"] += ["producer:IsomorphicMappingProducer"]
 			self["Processors"] += ["producer:QuantileMappingProducer"]
 
+
 	def build_config(self, nickname, *args, **kwargs):
 
 		super(mt_ArtusConfig, self).build_config(nickname, *args, **kwargs)

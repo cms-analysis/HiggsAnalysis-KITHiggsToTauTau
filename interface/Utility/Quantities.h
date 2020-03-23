@@ -11,7 +11,7 @@
    \brief Place to collect functions calculating generic physical quantities
    -Mt: transverse mass, under the approximation of massless objects
 */
-	
+
 typedef ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<float>,ROOT::Math::DefaultCoordinateSystemTag> RMDataV;
 
 

@@ -702,7 +702,6 @@ if __name__ == "__main__":
 					tmp_output_files.append(tmp_output_file)
 					config["output_dir"] = os.path.dirname(tmp_output_file)
 					config["filename"] = os.path.splitext(os.path.basename(tmp_output_file))[0]
-
 					config["plot_modules"] = ["ExportRoot"]
 					config["file_mode"] = "UPDATE"
 					if "legend_markers" in config:
