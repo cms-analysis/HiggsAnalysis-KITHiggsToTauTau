@@ -574,6 +574,7 @@ void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type&
 	// https://github.com/CMS-HTT/Jet2TauFakes/blob/master/test/producePublicFakeFactors.py#L9-L15
 
 	bool m_isET = false, m_isMT = false, m_isTT = false;
+	int m_year = settings.GetYear();
 	if (product.m_decayChannel == HttEnumTypes::DecayChannel::ET) m_isET = true;
 	if (product.m_decayChannel == HttEnumTypes::DecayChannel::MT) m_isMT = true;
 	if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT) m_isTT = true;
@@ -624,7 +625,7 @@ void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type&
 				}
 				else if(arg=="mt")
 				{
-					args.push_back(Quantities::CalculateMtH2Tau(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4));
+					args.push_back(Quantities::CalculateMt(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4));
 				}
 				else if(arg=="m_iso" || arg=="e_iso")
 				{
@@ -632,7 +633,7 @@ void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type&
 				}
 				else if(arg=="pass_single")
 				{
-					if(true) // year logic here
+					if(m_year == 2017) // year logic here
 					{
 						if(m_isMT)
 						{
@@ -642,6 +643,10 @@ void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type&
 						{
 							args.push_back((metadata.m_commonBoolQuantities.at("trg_singleelectron_27") || metadata.m_commonBoolQuantities.at("trg_singleelectron_32") || metadata.m_commonBoolQuantities.at("trg_singleelectron_32_fallback") || metadata.m_commonBoolQuantities.at("trg_singleelectron_35")));
 						}
+					}
+					else if(m_year == 2016)
+					{
+						args.push_back((bool)metadata.m_commonBoolQuantities.at("trg_singlemuon"));
 					}
 				}
 				else if(arg=="mvis")
