@@ -74,7 +74,7 @@ class mt_ArtusConfig(dict):
 
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
-			# self["Processors"] += ["producer:SmearedTaggedJetProducer"]
+			self["Processors"] += ["producer:SmearedTaggedJetProducer"]
 
 			if legacy:
 				self["Processors"] += ["producer:LegacyJetToTauFakesProducer"]
