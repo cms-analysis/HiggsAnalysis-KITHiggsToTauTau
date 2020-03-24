@@ -125,7 +125,8 @@ public:
 		float metX = settings.GetMetUncertaintyShift() ? (product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].Px() : (product.*m_metMemberUncorrected)->p4.Px();
 		float metY = settings.GetMetUncertaintyShift() ? (product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].Py() : (product.*m_metMemberUncorrected)->p4.Py();
 		float metEnergy = settings.GetMetUncertaintyShift() ? (product.*m_metMemberUncorrected)->p4_shiftedByUncertainties[m_metUncertaintyType].energy() : (product.*m_metMemberUncorrected)->p4.energy();
-		float metResolution = std::sqrt(metEnergy * metEnergy - metX * metX - metY * metY);
+		float metResolutionSquared = metEnergy * metEnergy - metX * metX - metY * metY;
+		// float metResolution = metResolutionSquared > 0 ? std::sqrt(metResolutionSquared) : 0;
 
 		// Recalculate MET if lepton energies have been corrected:
 		// MetX' = MetX + Px - Px'
@@ -219,7 +220,7 @@ public:
 		(product.*m_metCorrections).push_back(visPx);
 		(product.*m_metCorrections).push_back(visPy);
 
-		float correctedMetX, correctedMetY;
+		float correctedMetX(metX), correctedMetY(metY);
 
 		if(m_correctionMethod == MetCorrectorBase::CorrectionMethod::QUANTILE_MAPPING)
 			m_recoilCorrector->CorrectWithHist(
@@ -253,7 +254,7 @@ public:
 				correctedMetX,
 				correctedMetY,
 				0.,
-				std::sqrt(metResolution * metResolution + correctedMetX * correctedMetX + correctedMetY * correctedMetY));
+				std::sqrt(metResolutionSquared + correctedMetX * correctedMetX + correctedMetY * correctedMetY));
 			if (m_correctGlobalMet)
 			{
 				product.m_met = product.*m_metMemberCorrected;
@@ -265,7 +266,7 @@ public:
 				metX,
 				metY,
 				0.,
-				std::sqrt(metResolution * metResolution + metX * metX + metY * metY));
+				std::sqrt(metResolutionSquared + metX * metX + metY * metY));
 			if (m_correctGlobalMet)
 			{
 				product.m_met = product.*m_metMemberCorrected;
@@ -309,7 +310,7 @@ public:
 				correctedMetShiftX,
 				correctedMetShiftY,
 				0.,
-				std::sqrt(metResolution * metResolution + correctedMetShiftX * correctedMetShiftX + correctedMetShiftY * correctedMetShiftY));
+				std::sqrt(metResolutionSquared + correctedMetShiftX * correctedMetShiftX + correctedMetShiftY * correctedMetShiftY));
 			if (m_correctGlobalMet)
 			{
 				product.m_met = product.*m_metMemberCorrected;

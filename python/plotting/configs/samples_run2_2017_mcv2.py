@@ -691,6 +691,12 @@ class Samples(samples.Samples):
 			return "VBFHToTauTauM125_RunIISpring16MiniAODv2reHLT_PUSpring16RAWAODSIM_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
 		"""
 
+	def files_wh(self, channel, mass=125, **kwargs):
+		return "W*HToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8/*.root"
+
+	def files_zh(self, channel, mass=125, **kwargs):
+		return "ZHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8/*.root"
+
 	def files_ggh(self, channel, mass=125, **kwargs):
 		cp = kwargs.get("cp", None)
 		generator = kwargs.get("generator", "madgraph")
@@ -2731,7 +2737,7 @@ class Samples(samples.Samples):
 		if channel in ["mt", "et"]:
 			exclude_cuts_ff += ["iso_2"]
 			# ff_weight_2 = "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
-			ff_weight_2 = "(1.0)" if "iso_2" in exclude_cuts else "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
+			ff_weight_2 = "(1.0)" if "iso_2" in exclude_cuts else "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else "(isnan("+fake_factor_name_2+")?0:"+fake_factor_name_2) + "))"
 			if self.legacy:
 				ff_iso_weight_2 = "((byVVVLooseDeepTau2017v2p1VSjet_2>0.5)*(byMediumDeepTau2017v2p1VSjet_2<0.5))"
 			else:
@@ -2863,3 +2869,149 @@ class Samples(samples.Samples):
 
 		Samples._add_plot(config, "bkg", "HIST", "F", "ff", nick_suffix)
 		return config
+
+	def wh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("WH", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+
+		# tauSpinner weight for CP study in the final state
+		tauSpinner_weight = "(1.0)"
+		if (kwargs.get("state", None) == "finalState"):
+			if (kwargs.get("cp", None) == "sm"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
+			if (kwargs.get("cp", None) == "mm"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
+			if (kwargs.get("cp", None) == "ps"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
+
+		wh_stitching_weight = "(1.0)"
+
+		matrix_weight = "(1.0)"
+		if kwargs.get("generator",None) =="madgraph":
+			wh_stitching_weight = self.wh_stitchingweight(cp=kwargs.get("cp",None), channel=channel)
+			matrix_weight = "(quarkmassWeight)*" #accounts for infinite top mass reweighting
+
+		filter_efficiency_weight = self.cp_filterefficiency(process="wh", state=kwargs.get("state",None))
+
+		for mass in higgs_masses:
+			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
+
+				add_input(
+						input_file=self.files_wh(channel, mass, cp=kwargs.get("cp", None), generator=kwargs.get("generator", None), state=kwargs.get("state", None)) if not mssm else self.files_susy_wh(channel, mass),
+						scale_factor=lumi*kwargs.get("scale_signal", 1.0),
+						weight=tauSpinner_weight+"*"+matrix_weight+mc_weight+"*"+wh_stitching_weight+"*"+filter_efficiency_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						nick="wh"+str(kwargs.get("generator", ""))+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")
+				)
+			else:
+				log.error("Sample config (wh%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+
+			if not kwargs.get("no_plot", False):
+				if not mssm:
+					Samples._add_bin_corrections(
+							config,
+							"wh"+str(kwargs.get("generator", ""))+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							str(kwargs.get("cp", ""))+nick_suffix
+					)
+				Samples._add_plot(
+						config,
+						"bkg" if kwargs.get("stack_signal", False) else kwargs.get("stacks", "wh"),
+						"LINE",
+						"L",
+						"wh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						str(kwargs.get("cp", ""))+nick_suffix
+				)
+		return config
+
+	def whsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.wh(config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState", generator="", domatrixweight=True, stacks="whsm") #TODO OLD NOT TESTED
+		return config
+
+	def whmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.wh(config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState", generator="", domatrixweight=True, stacks="whmm") #TODO OLD NOT TESTED
+		return config
+
+
+
+	def whps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.wh(config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState", generator="", domatrixweight=True, stacks="whps") #TODO OLD NOT TESTED
+		return config
+	def zh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("zh", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+
+		# tauSpinner weight for CP study in the final state
+		tauSpinner_weight = "(1.0)"
+		if (kwargs.get("state", None) == "finalState"):
+			if (kwargs.get("cp", None) == "sm"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
+			if (kwargs.get("cp", None) == "mm"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
+			if (kwargs.get("cp", None) == "ps"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
+
+		zh_stitching_weight = "(1.0)"
+
+		matrix_weight = "(1.0)"
+		if kwargs.get("generator",None) =="madgraph":
+			zh_stitching_weight = self.zh_stitchingweight(cp=kwargs.get("cp",None), channel=channel)
+			matrix_weight = "(quarkmassWeight)*" #accounts for infinite top mass reweighting
+
+		filter_efficiency_weight = self.cp_filterefficiency(process="zh", state=kwargs.get("state",None))
+
+		for mass in higgs_masses:
+			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
+
+				add_input(
+						input_file=self.files_zh(channel, mass, cp=kwargs.get("cp", None), generator=kwargs.get("generator", None), state=kwargs.get("state", None)) if not mssm else self.files_susy_zh(channel, mass),
+						scale_factor=lumi*kwargs.get("scale_signal", 1.0),
+						weight=tauSpinner_weight+"*"+matrix_weight+mc_weight+"*"+zh_stitching_weight+"*"+filter_efficiency_weight+"*"+weight+"*eventWeight*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+						nick="zh"+str(kwargs.get("generator", ""))+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else "")
+				)
+			else:
+				log.error("Sample config (zh%s) currently not implemented for channel \"%s\"!" % (str(mass), channel))
+
+			if not kwargs.get("no_plot", False):
+				if not mssm:
+					Samples._add_bin_corrections(
+							config,
+							"zh"+str(kwargs.get("generator", ""))+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+							str(kwargs.get("cp", ""))+nick_suffix
+					)
+				Samples._add_plot(
+						config,
+						"bkg" if kwargs.get("stack_signal", False) else kwargs.get("stacks", "zh"),
+						"LINE",
+						"L",
+						"zh"+str(kwargs.get("cp", ""))+str(mass)+("_"+str(int(kwargs["scale_signal"])) if kwargs.get("scale_signal", 1.0) != 1.0 else ""),
+						str(kwargs.get("cp", ""))+nick_suffix
+				)
+		return config
+
+	def zhsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.zh(config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState", generator="", domatrixweight=True, stacks="zhsm") #TODO OLD NOT TESTED
+		return config
+
+	def zhmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.zh(config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState", generator="", domatrixweight=True, stacks="zhmm") #TODO OLD NOT TESTED
+		return config
+
+
+
+	def zhps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.zh(config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState", generator="", domatrixweight=True, stacks="zhps") #TODO OLD NOT TESTED
+		return config
+

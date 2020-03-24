@@ -98,17 +98,17 @@ class Baseconfig(dict):
 			"Flag_BadChargedCandidateFilter"
 			]
 		"""
-		if re.search("Run2016", nickname):
-			#self["MetFilter"].append("Flag_eeBadScFilter")
-			self["MetFilter"] = [
-			"!Flag_duplicateMuons",
-			"!Flag_badMuons"
-			]
-		elif re.search("Summer16", nickname):
-			self["MetFilter"] = [
-			"!Flag_badGlobalMuonTaggerMAOD",
-			"!Flag_cloneGlobalMuonTaggerMAOD"
-			]
+		# if re.search("Run2016", nickname):
+		# 	#self["MetFilter"].append("Flag_eeBadScFilter")
+		# 	self["MetFilter"] = [
+		# 	"!Flag_duplicateMuons",
+		# 	"!Flag_badMuons"
+		# 	]
+		# elif re.search("Summer16", nickname):
+		# 	self["MetFilter"] = [
+		# 	"!Flag_badGlobalMuonTaggerMAOD",
+		# 	"!Flag_cloneGlobalMuonTaggerMAOD"
+		# 	]
 
 		if re.search("Run2017|Fall17|Embedding2017", nickname):
 			self["MetFilter"] = [  # suggested for MC and Data
@@ -218,9 +218,16 @@ class Baseconfig(dict):
 					self["PileupWeightFile"] =  "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2017_294927-306462_13TeV_MC_94XFall17_99bins_69p2mbMinBiasXS.root"
 		"""
 		elif re.search("(Spring16|Summer16)", nickname):
+			self["JetPrefireProbabilityFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/prefiring/L1prefiring_jetpt_2017BtoF.root"
 			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-284044_13TeVMoriond17_23Sep2016ReReco_69p2mbMinBiasXS.root"
-			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
+			# self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
+			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/DeepCSV_2016LegacySF_WP_V1.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root"
+
+		elif re.search("Autumn18", nickname):
+			self["JetPrefireProbabilityFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/prefiring/L1prefiring_jetpt_2017BtoF.root"
+			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/DeepCSV_102XSF_WP_V1.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/btagging_efficiency_2017/tagging_efficiencies_march2018_btageff-all_samp-inc-DeepCSV_medium.root" #TODO cant find this
 
 		elif re.search("Run201", nickname):
 			self["PileupWeightFile"] = "not needed"

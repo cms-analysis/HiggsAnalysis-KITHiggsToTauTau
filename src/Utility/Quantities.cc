@@ -7,13 +7,25 @@
 // https://github.com/CERN-PH-CMG/cmg-cmssw/blob/CMGTools-from-CMSSW_7_2_3/CMGTools/H2TauTau/python/proto/physicsobjects/DiObject.py#L119
 double Quantities::CalculateMtH2Tau(RMFLV const& vector1, RMFLV const& vector2)
 {
-	return sqrt(pow(vector1.Pt() + vector2.Pt(), 2) - pow(vector1.Px() + vector2.Px(), 2) - pow(vector1.Py() + vector2.Py(), 2));
+	double mtSquared = pow(vector1.Pt() + vector2.Pt(), 2) - pow(vector1.Px() + vector2.Px(), 2) - pow(vector1.Py() + vector2.Py(), 2);
+	if (mtSquared < 0) LOG(WARNING) << "Quantities::CalculateMtH2Tau: mt**2 is < 0 : " << mtSquared << ". Setting mt to 0";
+	return mtSquared > 0 ? sqrt(mtSquared) : 0;
 }
 
 // transverse mass in the approximation of massless objects
 double Quantities::CalculateMt(RMFLV const& vector1, RMFLV const& vector2)
 {
-	return sqrt(2 * vector1.Pt() * vector2.Pt() * (1. - cos(vector1.Phi() - vector2.Phi())));
+	double mtSquared = 2 * vector1.Pt() * vector2.Pt() * (1. - cos(vector1.Phi() - vector2.Phi()));
+	if (mtSquared < 0) LOG(WARNING) << "Quantities::CalculateMt: mt**2 is < 0 : " << mtSquared << ". Setting mt to 0";
+	return mtSquared > 0 ? sqrt(mtSquared) : 0;
+}
+
+// transverse mass in the approximation of massless objects, but without the use of angles
+double Quantities::CalculateMtVar(RMFLV const& vector1, RMFLV const& vector2)
+{
+	double mtSquared = 2*(vector1.Pt()*vector2.Pt() - vector1.Px()*vector2.Px() - vector1.Py()*vector2.Py());
+	if (mtSquared < 0) LOG(WARNING) << "Quantities::CalculateMtVar: mt**2 is < 0 : " << mtSquared << ". Setting mt to 0";
+	return mtSquared > 0 ? sqrt(mtSquared) : 0;
 }
 
 RMDataV Quantities::Zeta(RMFLV const& lepton1, RMFLV const& lepton2)

@@ -303,7 +303,7 @@ class et_ArtusConfig(dict):
 		isEmbedded = datasetsHelper.isEmbedded(nickname)
 		isData = datasetsHelper.isData(nickname) and (not isEmbedded)
 
-		ElectronID_config = sEID.Electron_ID(nickname, iso=False, wp=90)
+		ElectronID_config = sEID.Electron_ID(nickname, iso=False, wp=90, legacy=isLegacy)
 		ElectronID_config.looseElectron_ID(nickname) 		#append the config for loose electron ID because it is used
 		ElectronID_config.vetoElectron_ID(nickname)
 		self.update(ElectronID_config)
@@ -313,7 +313,7 @@ class et_ArtusConfig(dict):
 
 		self.update(MuonID_config)
 
-		TauID_config = sTID.Tau_ID(nickname)			#here loose is not appended since loose tau ID is not used
+		TauID_config = sTID.Tau_ID(nickname, legacy=isLegacy)			#here loose is not appended since loose tau ID is not used
 		self.update(TauID_config)
 
 		JEC_config = sJEC.JEC(nickname)  #Is allready in baseconfig, for now leave it in; possibly remove it

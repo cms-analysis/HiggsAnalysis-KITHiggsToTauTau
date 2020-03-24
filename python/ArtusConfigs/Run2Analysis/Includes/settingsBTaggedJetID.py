@@ -24,25 +24,33 @@ class BTaggedJet_ID(dict):
 			]
 			self["BTaggedJetAbsEtaCut"] = 2.4
 
-		if re.search("(Fall17|Run2017|Embedding2017)", nickname):
+		if re.search("Run201(6|7|8)|Summer1(6|7)|Fall17|Autumn18|Embedding201(6|7|8)", nickname):
 			self["BTagger"] = "deepcsv"
 			self["BTaggedJetCombinedSecondaryVertexName"] = "pfDeepCSVDiscriminatorsJetTagsBvsAll"
 
 			self["BTaggedJetDdeepCSVName"]= "pfDeepCSVDiscriminatorsJetTagsBvsAll"
-			"""
-			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.8838
-			self["BTaggerWorkingPoints"] = [
-				"tight:0.9693",
-				"medium:0.8838",
-				"loose:0.5803"
-			]"""
 
-			self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.4941
-			self["BTaggerWorkingPoints"] = [
-				"tight:0.8001",
-				"medium:0.4941",
-				"loose:0.1522"
-			]
+			if re.search("Run2016|Summer16|Embedding2016", nickname):
+				self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.6321
+				self["BTaggerWorkingPoints"] = [
+					"tight:0.8953",
+					"medium:0.6321",
+					"loose:0.2217"
+				]
+			elif re.search("Run2017|Fall17|Embedding2017", nickname):
+				self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.4941
+				self["BTaggerWorkingPoints"] = [
+					"tight:0.8001",
+					"medium:0.4941",
+					"loose:0.1522"
+				]
+			elif re.search("Run2018|Autumn18|Embedding2018", nickname):
+				self["BTaggedJetCombinedSecondaryVertexMediumWP"] = 0.4184
+				self["BTaggerWorkingPoints"] = [
+					"tight:0.7527",
+					"medium:0.4184",
+					"loose:0.1241"
+				]
 
 
 			self["BTaggedJetAbsEtaCut"] = 2.4
@@ -54,14 +62,13 @@ class BTaggedJet_ID(dict):
 				"loose:0.5426"
 			]
 			self["BTaggedJetAbsEtaCut"] = 2.4
-		
-		
+
+
 		if re.search("(Fall15|Spring16)", nickname):
 			self["ApplyBTagSF"] = False
 		elif re.search("(Summer17|Embedding)", nickname):
 			self["ApplyBTagSF"] = False
 		else:
 			self["ApplyBTagSF"] = True
-		
-		self["BTagSFMethod"] = "PromotionDemotion"
 
+		self["BTagSFMethod"] = "PromotionDemotion"

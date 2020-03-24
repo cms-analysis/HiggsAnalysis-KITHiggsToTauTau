@@ -3183,8 +3183,7 @@ class Samples(samples.SamplesBase):
 			elif cp in ["sm", "mm", "ps"]:
 				return "GluGluToHToTauTauM125_RunIIFall15MiniAODv2_PU25nsData2015v1_13TeV_MINIAOD_amcatnlo-pythia8/*.root"
 		elif state == "finalState":
-			return "GluGluHToPseudoscalarTauTauM125_adow_RunIIFall17MiniAODv2_GluGluToHToTauTauNoSpin_13TeV_USER_powheg-pythia8/*.root"
-			# return "GluGluHTo*TauTauM125*/*.root"
+			return "GluGluHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8/*.root"
 
 
 	def files_susy_ggh(self, channel, mass=125):
