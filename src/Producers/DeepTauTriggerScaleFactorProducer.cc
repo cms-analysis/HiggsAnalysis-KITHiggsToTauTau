@@ -11,7 +11,7 @@ std::string DeepTauTriggerScaleFactorProducer::GetProducerId() const
 void DeepTauTriggerScaleFactorProducer::Init(setting_type const& settings, metadata_type& metadata)
 	{
 	ProducerBase<HttTypes>::Init(settings, metadata);
-	string decay_channel = "NONE";
+	std::string decay_channel = "NONE";
 	std::vector<std::string> DeepTauTriggerWorkingPoints = settings.GetDeepTauIDWorkingPoints();
 	std::string DeepTauIDWorkingPoint = settings.GetDeepTauIDWorkingPoint();
 	std::string_view DeepTauIDWorkingPoint_v(DeepTauIDWorkingPoint);

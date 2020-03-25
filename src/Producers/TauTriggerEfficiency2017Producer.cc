@@ -13,7 +13,7 @@ std::string TauTriggerEfficiency2017Producer::GetProducerId() const
 void TauTriggerEfficiency2017Producer::Init(setting_type const& settings, metadata_type& metadata)
 	{
 	ProducerBase<HttTypes>::Init(settings, metadata);
-	string decay_channel = "NONE";
+	std::string decay_channel = "NONE";
 	// string wp_type = "NONE";
 	if(settings.GetChannel() == "ET")
 	{

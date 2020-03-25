@@ -109,13 +109,8 @@ git clone git@github.com:TauPolSoftware/CalibrationCurve.git TauPolSoftware/Cali
 git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
 
 # MELA/JHU
-git clone git@github.com:cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement -b v2.1.1 # see mail from Heshy Roskes sent on 15.11.2017 20:32
+git clone git@github.com:cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement
 cd ZZMatrixElement
-git checkout -b v2.1.1
-if [ ! -d "MELA/data/$SCRAM_ARCH" ]; then
-	mkdir MELA/data/$SCRAM_ARCH
-	cp MELA/data/slc6_amd64_gcc530/download.url MELA/data/$SCRAM_ARCH/
-fi
 ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
 
 cd $CMSSW_BASE/src/
