@@ -378,7 +378,7 @@ ROOT::Math::SMatrix<float,3,3, ROOT::Math::MatRepStd< float, 3, 3 >> CPQuantitie
 	ROOT::Math::SMatrix<float,6,6, ROOT::Math::MatRepStd< float, 6, 6 >> Cov_fxPV;
 	for(int i = 0; i < 6; i++){
 		for(int j = 0; j < 6; j++){
-			switch( ((i < 3) * (j < 3))? 1:0 | ((i >= 3) * (j>=3))? 2:0 ){
+			switch( ((i < 3) && (j < 3))? 1: ((i >= 3) && (j>=3))? 2:0 ){
 				case 0: break;
 				case 1: Cov_fxPV(i,j) = Sigma_fx(i, j); break;
 				case 2: Cov_fxPV(i,j) = SigmaPrV(i-3, j-3)*1e-4; break; // conversion from cm^2 to m^2
@@ -467,28 +467,6 @@ double CPQuantities::CalculatePhiStarCPRho(RMFLV chargedPiP, RMFLV chargedPiM, R
 	return phiStarCP;
 
 }
-
-// this version uses track and refitted vertex to calculate the decay planes (useful for RecoTauCPProducer)
-// FIXME KRefitVertex inherites from KVertex class, so I don't need this overloaded method (it can be removed)
-double CPQuantities::CalculatePhiStarCP(KRefitVertex* pv, KTrack track1, KTrack track2,  RMFLV chargPart1, RMFLV chargPart2)
-{
-	//Primary vertex
-	RMFLV::BetaVector pvpos;
-	pvpos.SetXYZ((pv->position).X(), (pv->position).Y(), (pv->position).Z());
-
-	//Points on tau tracks
-	RMFLV::BetaVector track1pos, track2pos;
-	track1pos.SetXYZ((track1.ref).X(), (track1.ref).Y(), (track1.ref).Z());
-	track2pos.SetXYZ((track2.ref).X(), (track2.ref).Y(), (track2.ref).Z());
-
-	//Flight direction of taus determined from pv and trackpos
-	RMFLV::BetaVector k1, k2;
-	k1 = track1pos - pvpos;
-	k2 = track2pos - pvpos;
-	return this->CalculatePhiStarCPSame(k1, k2, chargPart1, chargPart2, "reco");
-
-}
-
 
 // calculation of variables Phi* and Phi*CP
 // IP vectors calculated within the function

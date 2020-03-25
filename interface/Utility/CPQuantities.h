@@ -22,7 +22,6 @@ class CPQuantities
 public:
 	double CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2);
 	double CalculatePhiStarCP(KVertex* pv, KTrack track1, KTrack track2, RMFLV chargPart1, RMFLV chargPart2);
-	double CalculatePhiStarCP(KRefitVertex* pv, KTrack track1, KTrack track2, RMFLV chargPart1, RMFLV chargPart2);
 	double CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2, std::string level);
 	double CalculatePhiStarCPRho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM);
 	double CalculatePhiStarCPComb(TVector3 ipvec, RMFLV daughter, RMFLV pion, RMFLV pizero, int daughterCharge);
