@@ -272,6 +272,22 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_recoPhiStarMinusRhoMeth;
 	});
+	//aliases for CP angles used in the analysis
+	// IPIP method
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "acotautau_00", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_recoPhiStarCPHelrPVBS;
+	});
+	// IPDP (combined) method
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "acotautau_01", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_recoPhiStarCPCombMergedHelrPVBS;
+	});
+	// DPDP method
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "acotautau_11", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_recoPhiStarCPRhoMerged;
+	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoChargedHadron1HiggsFrameEnergy", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
@@ -1336,34 +1352,44 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// ----------
 	// rho-method
 	// ----------
-	RMFLV piZeroP = ((chargedPart1->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(chargedPart1)->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
-	RMFLV piZeroM = ((chargedPart2->flavour() == KLeptonFlavour::TAU) ? static_cast<KTau*>(chargedPart2)->piZeroMomentum() : DefaultValues::UndefinedRMFLV);
-
-
-	double phiStarCPRho = cpq.CalculatePhiStarCPRho(momentumP, momentumM, piZeroP, piZeroM);
-	double posyLRho = cpq.CalculateSpinAnalysingDiscriminantRho(momentumP, piZeroP);
-	double negyLRho = cpq.CalculateSpinAnalysingDiscriminantRho(momentumM, piZeroM);
-	// azimuthal angles of the tau decay planes
-	product.m_recoPhiPlusRhoMeth = cpq.GetRecoPhiPlusRhoMeth();
-	product.m_recoPhiMinusRhoMeth = cpq.GetRecoPhiMinusRhoMeth();
-	product.m_recoPhiStarPlusRhoMeth = cpq.GetRecoPhiStarPlusRhoMeth();
-	product.m_recoPhiStarMinusRhoMeth = cpq.GetRecoPhiStarMinusRhoMeth();
-
-	product.m_recoPhiStarCPRho = phiStarCPRho;
+	double posyLRho = 1;
+	double negyLRho = 1;
+	RMFLV piZeroP(0,0,0,0);
+	RMFLV piZeroM(0,0,0,0);
+	if (chargedPart1->flavour() == KLeptonFlavour::TAU) {
+	  piZeroP = static_cast<KTau*>(chargedPart1)->piZeroMomentum();
+	  if (static_cast<KTau*>(chargedPart1)->decayMode == 1) {
+	    posyLRho = cpq.CalculateSpinAnalysingDiscriminantRho(momentumP, piZeroP);
+	  }
+	}
+	if (chargedPart2->flavour() == KLeptonFlavour::TAU) {
+	  piZeroM = static_cast<KTau*>(chargedPart2)->piZeroMomentum();
+	  if (static_cast<KTau*>(chargedPart2)->decayMode == 1) {
+	    negyLRho = cpq.CalculateSpinAnalysingDiscriminantRho(momentumM, piZeroM);
+	  }
+	}
 	product.m_reco_posyTauL = posyLRho;
 	product.m_reco_negyTauL = negyLRho;
 
-	//fill additional variable to produce a merged phiStarCP plot with increased statistics
-	if (posyLRho*negyLRho > 0) {
-		product.m_recoPhiStarCPRhoMerged = phiStarCPRho;
-	}
-	else {
-		if (phiStarCPRho > ROOT::Math::Pi()) {
-		 product.m_recoPhiStarCPRhoMerged = phiStarCPRho - ROOT::Math::Pi();
-		}
-		else {
-		 product.m_recoPhiStarCPRhoMerged = phiStarCPRho + ROOT::Math::Pi();
-		}
+	if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ) {
+	  KTau* recoTauP = static_cast<KTau*>(chargedPart1);
+	  KTau* recoTauM = static_cast<KTau*>(chargedPart2);
+
+	  if (recoTauP->decayMode == 1 && recoTauM->decayMode == 1) {
+
+	    double phiStarCPRho = cpq.CalculatePhiStarCPRho(momentumP, momentumM, piZeroP, piZeroM);
+
+	    // azimuthal angles of the tau decay planes
+	    product.m_recoPhiPlusRhoMeth = cpq.GetRecoPhiPlusRhoMeth();
+	    product.m_recoPhiMinusRhoMeth = cpq.GetRecoPhiMinusRhoMeth();
+	    product.m_recoPhiStarPlusRhoMeth = cpq.GetRecoPhiStarPlusRhoMeth();
+	    product.m_recoPhiStarMinusRhoMeth = cpq.GetRecoPhiStarMinusRhoMeth();
+
+	    product.m_recoPhiStarCPRho = phiStarCPRho;
+
+	    //fill additional variable to produce a merged phiStarCP plot with increased statistics
+	    product.m_recoPhiStarCPRhoMerged = cpq.CalculatePhiStarCPRho(momentumP, momentumM, piZeroP, piZeroM, true);
+	  }
 	}
 
 	product.m_d0s_area = cpq.CalculateD0sArea((product.m_refitPV ? product.m_flavourOrderedLeptons.at(0)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble), (product.m_refitPV ? product.m_flavourOrderedLeptons.at(1)->track.getDxy(product.m_refitPV) : DefaultValues::UndefinedDouble));
@@ -1459,8 +1485,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 		product.m_recoPhiStarCPComb    = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
 		product.m_recoPhiStarCPCombHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
 
-		product.m_recoPhiStarCPCombMerged    = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPComb, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-		product.m_recoPhiStarCPCombMergedHel = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombHel, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+		product.m_recoPhiStarCPCombMerged    = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge(), true);
+		product.m_recoPhiStarCPCombMergedHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge(), true);
 
 	}  // if et or mt ch.
 	if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ) {
@@ -1469,16 +1495,16 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			product.m_recoPhiStarCPComb    = cpq.CalculatePhiStarCPComb(product.m_recoIP2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge());
 			product.m_recoPhiStarCPCombHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge());
 
-			product.m_recoPhiStarCPCombMerged    = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-			product.m_recoPhiStarCPCombMergedHel = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHel, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			product.m_recoPhiStarCPCombMerged    = cpq.CalculatePhiStarCPComb(product.m_recoIP2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge(), true);
+			product.m_recoPhiStarCPCombMergedHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge(), true);
 		} // tau1->rho, tau2->a
 		// tau1->a, tau2->rho
 		if (recoTau1->decayMode != 1 && recoTau2->decayMode == 1) {
 			product.m_recoPhiStarCPComb    = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge());
 			product.m_recoPhiStarCPCombHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge());
 
-			product.m_recoPhiStarCPCombMerged = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPComb, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-			product.m_recoPhiStarCPCombMergedHel = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHel, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			product.m_recoPhiStarCPCombMerged = cpq.CalculatePhiStarCPComb(product.m_recoIP1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge(), true);
+			product.m_recoPhiStarCPCombMergedHel = cpq.CalculatePhiStarCPComb(product.m_recoIPHel_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge(), true);
 		} // tau1->a, tau2->rho
 	}  // if tt ch.
 
@@ -1722,10 +1748,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
 			product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
 
-			product.m_recoPhiStarCPCombMergedrPV      = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombrPV, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-			product.m_recoPhiStarCPCombMergedrPVBS    = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombrPVBS, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-			product.m_recoPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombHelrPV, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-			product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombSemiLeptonic(product.m_recoPhiStarCPCombHelrPVBS, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+			product.m_recoPhiStarCPCombMergedrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge(), true);
+			product.m_recoPhiStarCPCombMergedrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge(), true);
+			product.m_recoPhiStarCPCombMergedHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge(), true);
+			product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge(), true);
 		}
 		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ) {
 			// tau1->rho, tau2->a
@@ -1735,10 +1761,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 				product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge());
 				product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge());
 
-				product.m_recoPhiStarCPCombMergedrPV      = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-				product.m_recoPhiStarCPCombMergedrPVBS    = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-				product.m_recoPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHelrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-				product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHelrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+				product.m_recoPhiStarCPCombMergedrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge(), true);
+				product.m_recoPhiStarCPCombMergedrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge(), true);
+				product.m_recoPhiStarCPCombMergedHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge(), true);
+				product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, recoTau1->piZeroMomentum(), recoTau2->charge(), true);
 			}
 			// tau1->a, tau2->rho
 			if (recoTau1->decayMode != 1 && recoTau2->decayMode == 1) {
@@ -1747,10 +1773,10 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 				product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge());
 				product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge());
 
-				product.m_recoPhiStarCPCombMergedrPV      = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-				product.m_recoPhiStarCPCombMergedrPVBS    = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-				product.m_recoPhiStarCPCombMergedHelrPV   = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHelrPV, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
-				product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.MergePhiStarCPCombFullyHadronic(product.m_recoPhiStarCPCombHelrPVBS, recoTau1, recoTau2, product.m_reco_posyTauL, product.m_reco_negyTauL);
+				product.m_recoPhiStarCPCombMergedrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge(), true);
+				product.m_recoPhiStarCPCombMergedrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge(), true);
+				product.m_recoPhiStarCPCombMergedHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge(), true);
+				product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_1, recoTau1->chargedHadronCandidates.at(0).p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoTau1->charge(), true);
 			}
 		}  // if tt ch.
 
@@ -1825,4 +1851,24 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 
 		} // if MC sample
 	} // if the refitPV exists
+}
+
+/* piZero momentum defined by direction of the leading (in Pt) gamma
+   and energy equal to sum of energy of all gammas*/
+RMFLV RecoTauCPProducer::alternativePiZeroMomentum(const KTau* tau) {
+
+  RMFLV piZeroP4;
+  float sumE = 0;
+  float maxPt = 0;
+  for (std::vector<KPFCandidate>::const_iterator candidate = tau->gammaCandidates.begin();
+       candidate != tau->gammaCandidates.end(); ++candidate) {
+    sumE += candidate->p4.energy();
+    if (candidate->p4.pt()>maxPt) {
+      maxPt = candidate->p4.pt();
+      piZeroP4 = candidate->p4;
+    }
+  }
+  piZeroP4 = (sumE/piZeroP4.energy()) * piZeroP4;
+
+  return piZeroP4;
 }

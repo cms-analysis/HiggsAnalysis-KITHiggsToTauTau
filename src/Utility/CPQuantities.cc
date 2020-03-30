@@ -49,18 +49,6 @@ short sign(double x)
 
 double get_phi1(double phi, short charge) //returns phi1
 {
-	/*
-	if (charge>0)
-	{
-		TVector3 v(-TMath::Sin(phi),TMath::Cos(phi),0);
-		return -v.Phi();
-	}
-	else
-	{
-		TVector3 v(TMath::Sin(phi),-TMath::Cos(phi),0);
-		return -v.Phi();
-	}
-	return 0;*/
 	return -1*TMath::ACos(-1*charge*TMath::Sin(phi))*sign(TMath::Cos(phi)*charge);
 }
 
@@ -419,60 +407,18 @@ double CPQuantities::CalculatePhiStarCP(KVertex* pv, KTrack track1, KTrack track
 }
 
 //this function calculates Phi* and Phi*CP using the rho decay planes
-double CPQuantities::CalculatePhiStarCPRho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM)
+double CPQuantities::CalculatePhiStarCPRho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM, bool merge)
 {
-	// save azimuthal angles of the decay planes in the lab frame
-	this->SetRecoPhiPlusRhoMeth(piZeroP.Phi());
-	this->SetRecoPhiMinusRhoMeth(piZeroM.Phi());
-
-	// Part1: Boost into the ZMF frame of the two charged pions
-	RMFLV ProngImp = chargedPiP + chargedPiM;
-	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
-	ROOT::Math::Boost M(boostvec);
-
-	chargedPiP = M * chargedPiP;
-	chargedPiM = M * chargedPiM;
-	piZeroP = M * piZeroP;
-	piZeroM = M * piZeroM;
-
-	//Part2: Create the 3-momentum vectors of each of these. Notation according to Berge et al.
-
-	RMFLV::BetaVector qStarP, qStarM, qStarZeroP, qStarZeroM;
-
-	qStarP.SetXYZ(chargedPiP.Px(), chargedPiP.Py(), chargedPiP.Pz());
-	qStarM.SetXYZ(chargedPiM.Px(), chargedPiM.Py(), chargedPiM.Pz());
-	qStarZeroP.SetXYZ(piZeroP.Px(), piZeroP.Py(), piZeroP.Pz());
-	qStarZeroM.SetXYZ(piZeroM.Px(), piZeroM.Py(), piZeroM.Pz());
-
-	//Part3: Calculate transverse component of piZeroP/M to chargedPiP/M and normalise them
-	RMFLV::BetaVector qStarZeroPt = qStarZeroP - ((qStarZeroP.Dot(qStarP)) / (qStarP.Dot(qStarP))) * qStarP;
-	RMFLV::BetaVector qStarZeroMt = qStarZeroM - ((qStarZeroM.Dot(qStarM)) / (qStarM.Dot(qStarM))) * qStarM;
-	qStarZeroPt = qStarZeroPt.Unit();
-	qStarZeroMt = qStarZeroMt.Unit();
-	// save azimuthal angles of the decay planes in the ZMF
-	this->SetRecoPhiStarPlusRhoMeth(qStarZeroPt.Phi());
-	this->SetRecoPhiStarMinusRhoMeth(qStarZeroMt.Phi());
-
-	//Part4: Calculate phiStarCP
-
-	double phiStarCP = 0;
-	if((qStarM.Unit()).Dot(qStarZeroPt.Cross(qStarZeroMt))>=0)
-	{
-		phiStarCP = acos(qStarZeroPt.Dot(qStarZeroMt));
-	}
-	else
-	{
-		phiStarCP = 2*ROOT::Math::Pi()-acos(qStarZeroPt.Dot(qStarZeroMt));
-	}
-	return phiStarCP;
-
+    return this->CalculatePhiStarCPCommon(chargedPiP, chargedPiM,
+					  piZeroP, piZeroM,
+					  false, merge, merge, "");
 }
 
 // calculation of variables Phi* and Phi*CP
 // IP vectors calculated within the function
 double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level)
 {
-	//Step 1: Creating a Boost M into the ZMF of the (chargPart1+, chargedPart2-) decay
+	//Step 1: Creating a Boost M into the ZMF of the (chargPart1(+), chargedPart2(-)) decay
 	RMFLV ProngImp = chargPart1 + chargPart2;
 	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
 	ROOT::Math::Boost M(boostvec);
@@ -488,13 +434,6 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 	RMFLV::BetaVector n1 = k1 - ((k1.Dot(p1)) / (p1.Dot(p1))) * p1;
 	RMFLV::BetaVector n2 = k2 - ((k2.Dot(p2)) / (p2.Dot(p2))) * p2;
 
-	// FIXME: need to remove this block
-	//if(level=="reco")
-	//{
-	//	this->SetRecoIP1(n1.R());
-	//	this->SetRecoIP2(n2.R());
-	//}
-
 	//Normalized n1, n2
 	n1 = n1.Unit();
 	n2 = n2.Unit();
@@ -506,8 +445,8 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 
 	//Step 3: Boosting 4-vectors (n1,0), (n2,0), p1, p2 with M
 	RMFLV n1_mu, n2_mu;
-	n1_mu.SetPxPyPzE(n1.X(), n1.Y(), n1.Z(), 0);
-	n2_mu.SetPxPyPzE(n2.X(), n2.Y(), n2.Z(), 0);
+	n1_mu.SetXYZT(n1.X(), n1.Y(), n1.Z(), 0);
+	n2_mu.SetXYZT(n2.X(), n2.Y(), n2.Z(), 0);
 
 	n1_mu = M * n1_mu;
 	n2_mu = M * n2_mu;
@@ -558,69 +497,18 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 
 // calculation of Phi*CP
 // passing the IP vectors as arguments
+// assummed that chargedPart1 is positive
 double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2, std::string level){
 
-	// create boost to the ZMF of the two particles
-	RMFLV ProngImp = chargPart1 + chargPart2;
-	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
-	ROOT::Math::Boost M(boostvec);
+  RMFLV ipLV1;
+  ipLV1.SetXYZT(ipvec1.X(), ipvec1.Y(), ipvec1.Z(), 0);
+  RMFLV ipLV2;
+  ipLV2.SetXYZT(ipvec2.X(), ipvec2.Y(), ipvec2.Z(), 0);
 
-	// normalize IP vectors  // FIXME is it really needed this block?
-	RMFLV::BetaVector n1 = (RMFLV::BetaVector)ipvec1;
-	RMFLV::BetaVector n2 = (RMFLV::BetaVector)ipvec2;
-	n1 = n1.Unit();
-	n2 = n2.Unit();
-
-	// boost momenta and IP vectors to the ZMF
-	RMFLV n1_mu, n2_mu;
-	n1_mu.SetPxPyPzE(n1.X(), n1.Y(), n1.Z(), 0);
-	n2_mu.SetPxPyPzE(n2.X(), n2.Y(), n2.Z(), 0);
-
-	n1_mu = M * n1_mu;
-	n2_mu = M * n2_mu;
-	chargPart1 = M * chargPart1;
-	chargPart2 = M * chargPart2;
-
-	// 3-vectors after boosting
-	RMFLV::BetaVector p1, p2;
-	n1.SetXYZ(n1_mu.Px(), n1_mu.Py(), n1_mu.Pz());
-	n2.SetXYZ(n2_mu.Px(), n2_mu.Py(), n2_mu.Pz());
-	p1.SetXYZ(chargPart1.Px(), chargPart1.Py(), chargPart1.Pz());
-	p2.SetXYZ(chargPart2.Px(), chargPart2.Py(), chargPart2.Pz());
-
-	// get the transverse components of the IP vectors wrt corresponding momenta
-	RMFLV::BetaVector n1t = n1 - ((n1.Dot(p1)) / (p1.Dot(p1))) * p1;
-	n1t = n1t.Unit();
-	RMFLV::BetaVector n2t = n2 - ((n2.Dot(p2)) / (p2.Dot(p2))) * p2;
-	n2t = n2t.Unit();
-
-	// normalized momentum vector of the reference
-	RMFLV::BetaVector p1n = p1.Unit();
-
-	// save phi* and O*CP
-	if(level=="reco")
-	{
-		this->SetRecoPhiStar(acos(n2t.Dot(n1t)));
-		this->SetRecoOStarCP(p1n.Dot(n2t.Cross(n1t)));
-	}
-	else if (level=="gen")
-	{
-		this->SetGenPhiStar(acos(n2t.Dot(n1t)));
-		this->SetGenOStarCP(p1n.Dot(n2t.Cross(n1t)));
-	}
-
-	// calculate phi*cp
-	double phiStarCP = 0;
-	if(p1n.Dot(n2t.Cross(n1t))>=0)
-	{
-		phiStarCP = acos(n2t.Dot(n1t));
-	}
-	else
-	{
-		phiStarCP = 2*ROOT::Math::Pi()-acos(n2t.Dot(n1t));
-	}
-	return phiStarCP;
-
+  return this->CalculatePhiStarCPCommon(chargPart1, chargPart2,
+					ipLV1, ipLV2,
+					false, false, false,
+					level);
 }
 
 
@@ -629,7 +517,7 @@ double CPQuantities::CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVec
 // The function takes the charge of the particle a as argument,
 // since the calculation of OStarCP depends on which particle is positively charged
 // (which is taken as reference)
-double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMFLV pion, RMFLV pizero, int charge){
+double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMFLV pion, RMFLV pizero, int charge, bool merge){
 
 	// save azimuthal angles of the decay planes in the lab frame
 	if (charge>0){
@@ -640,60 +528,14 @@ double CPQuantities::CalculatePhiStarCPComb(TVector3 ipvec, RMFLV chargPart, RMF
 		this->SetRecoPhiMinusCombMeth(ipvec.Phi());
 	}
 
-	// create boost to the api-ZMF
-	RMFLV ProngImp = chargPart + pion;
-	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
-	ROOT::Math::Boost M(boostvec);
-
 	// create LV for the IP vector
-	RMFLV n_mu;
-	n_mu.SetPxPyPzE(ipvec.X(), ipvec.Y(), ipvec.Z(), 0);
+	RMFLV ipLV;
+	ipLV.SetXYZT(ipvec.X(), ipvec.Y(), ipvec.Z(), 0);
 
-	// boost the LVs into the api-ZMF
-	n_mu = M * n_mu;
-	chargPart = M * chargPart;
-	pion = M * pion;
-	pizero = M * pizero;
-
-	// 3-vectors after boosting
-	RMFLV::BetaVector n, p, q, q0;
-	n.SetXYZ(n_mu.Px(), n_mu.Py(), n_mu.Pz());
-	p.SetXYZ(chargPart.Px(), chargPart.Py(), chargPart.Pz());
-	q.SetXYZ(pion.Px(), pion.Py(), pion.Pz());
-	q0.SetXYZ(pizero.Px(), pizero.Py(), pizero.Pz());
-
-	// get the transverse component of
-	// n wrt p, and q0 wrt q
-	RMFLV::BetaVector nt = n - ( n.Dot(p) / p.Dot(p) ) * p;
-	RMFLV::BetaVector q0t = q0 - ( q0.Dot(q) / q.Dot(q) ) * q;
-	// save azimuthal angles of the decay planes in the ZMF
-	if (charge>0){
-		this->SetRecoPhiStarPlusCombMeth(nt.Phi());
-		this->SetRecoPhiStarMinusCombMeth(q0t.Phi());
-	} else {
-		this->SetRecoPhiStarPlusCombMeth(q0t.Phi());
-		this->SetRecoPhiStarMinusCombMeth(nt.Phi());
-	}
-
-	// normalized vectors
-	nt = nt.Unit();
-	p = p.Unit();
-	q = q.Unit();
-	q0t = q0t.Unit();
-
-	// calculate phi* and o*cp
-	// the definition of o*cp depends on the sign of the charge of a
-	double phiStar = acos( nt.Dot(q0t) );
-	double oStarCP = 0;
-	if (charge>0) oStarCP = p.Dot( nt.Cross(q0t) );
-	else oStarCP = q.Dot( q0t.Cross(nt) );
-
-	// calculate phi*cp
-	double phiStarCP = 0;
-	if (oStarCP>=0) phiStarCP = phiStar;
-	else phiStarCP = 2*ROOT::Math::Pi() - phiStar;
-
-	return phiStarCP;
+	return this->CalculatePhiStarCPCommon(chargPart, pion,
+					      ipLV, pizero,
+					      (charge<0),
+					      false, merge, "");
 }
 
 // Two functions to merge the combined Phi*CP variable for the channels in which
@@ -1237,4 +1079,109 @@ std::vector<double> CPQuantities::CalculateIPErrors(KLepton* lepton, KVertex* pv
 
 	return IPerrors;
 
+}
+//method which can be used to calculate PhiCP for different cases
+//inputs:
+//charged1,2: LV of patricles definig ZMF, e.g. charged prongs or true (gen) taus
+//ref1,2: LV definig other direction, e.g. (IP,0), pi0 or true (gen) charged prongs
+//firstNegative: true if first particle has negative charge, default false
+//dp1,2: true is ref1,2 is used to define decay plane and non trivial y1,2 should be computed, default false
+double CPQuantities::CalculatePhiStarCPCommon(RMFLV charged1, RMFLV charged2,
+					      RMFLV ref1, RMFLV ref2,
+					      bool firstNegative,
+					      bool dp1, bool dp2,
+					      std::string level) {
+
+  //Compute spin analysing disscrimiant y in the LAB frame.
+  //It is trivial, i.e. equal to 1, for non-decay-plane method.
+  double yL1 = dp1 ? this->CalculateSpinAnalysingDiscriminantRho(charged1, ref1) : 1.;
+  double yL2 = dp2 ? this->CalculateSpinAnalysingDiscriminantRho(charged2, ref2) : 1.;
+  double yL = yL1 * yL2;
+
+  //Creating a boost M into the ZMF of the (charged1, charged2) decay...
+  RMFLV ProngImp = charged1 + charged2;
+  RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
+  ROOT::Math::Boost M(boostvec);
+
+  //DPDP method (rho-method)
+  //Save azimuthal angles of the decay planes in the lab frame
+  if (dp1 && dp2) {
+    if (firstNegative) {
+      this->SetRecoPhiPlusRhoMeth(ref2.Phi());
+      this->SetRecoPhiMinusRhoMeth(ref1.Phi());
+    }
+    else {
+      this->SetRecoPhiPlusRhoMeth(ref1.Phi());
+      this->SetRecoPhiMinusRhoMeth(ref2.Phi());
+    }
+  }
+
+  //and boosting 4-vectors to the ZMF
+  charged1 = M * charged1;
+  charged2 = M * charged2;
+  ref1 = M * ref1;
+  ref2 = M * ref2;
+
+  //Get normalised 3-vectors ("momenta directions") in the ZMF
+  RMFLV::BetaVector p1 = charged1.Vect().Unit();
+  RMFLV::BetaVector p2 = charged2.Vect().Unit();
+  RMFLV::BetaVector k1 = ref1.Vect().Unit();
+  RMFLV::BetaVector k2 = ref2.Vect().Unit();
+
+  //and then normalised transverse components to the planes spanned by them
+  RMFLV::BetaVector n1t = (k1 - p1*(p1.Dot(k1))).Unit();
+  RMFLV::BetaVector n2t = (k2 - p2*(p2.Dot(k2))).Unit();
+
+  double phiStarCP = acos(n1t.Dot(n2t));
+  double oStarCP = p2.Dot(n1t.Cross(n2t));
+  //double phiStarCPOriginal = phiStarCP;
+  //double oStarCPOriginal = oStarCP;
+
+  if (firstNegative) {
+    oStarCP = p1.Dot(n2t.Cross(n1t));
+  }
+  if (oStarCP<0) {
+    phiStarCP = 2*ROOT::Math::Pi() - phiStarCP;
+  }
+  if (yL<0) {
+    if (phiStarCP > ROOT::Math::Pi())
+      phiStarCP = phiStarCP - ROOT::Math::Pi();
+    else
+      phiStarCP = phiStarCP + ROOT::Math::Pi();
+  }
+  // save phi* and O*CP
+  //IPIP
+  if (!dp1 && !dp2) {
+    if (level == "reco") {
+      this->SetRecoPhiStar(phiStarCP);
+      this->SetRecoOStarCP(oStarCP);
+    }
+    else if (level == "gen") {
+      this->SetGenPhiStar(phiStarCP);
+      this->SetGenOStarCP(oStarCP);
+    }
+  }
+  else if ((dp1 && !dp2) || (!dp1 && dp2)) {
+    if (firstNegative) {
+      this->SetRecoPhiStarPlusCombMeth(n2t.Phi());
+      this->SetRecoPhiStarMinusCombMeth(n1t.Phi());
+    }
+    else {
+      this->SetRecoPhiStarPlusCombMeth(n1t.Phi());
+      this->SetRecoPhiStarMinusCombMeth(n2t.Phi());
+    }
+  }
+  else if (dp1 && dp2) {
+    // save azimuthal angles of the decay planes in the ZMF
+    if (firstNegative) {
+      this->SetRecoPhiStarPlusRhoMeth(n2t.Phi());
+      this->SetRecoPhiStarMinusRhoMeth(n1t.Phi());
+    }
+    else {
+      this->SetRecoPhiStarPlusRhoMeth(n1t.Phi());
+      this->SetRecoPhiStarMinusRhoMeth(n2t.Phi());
+    }
+  }
+
+  return phiStarCP;
 }
