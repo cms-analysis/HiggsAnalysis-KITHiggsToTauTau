@@ -418,12 +418,7 @@ double CPQuantities::CalculatePhiStarCPRho(RMFLV chargedPiP, RMFLV chargedPiM, R
 // IP vectors calculated within the function
 double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level)
 {
-	//Step 1: Creating a Boost M into the ZMF of the (chargPart1(+), chargedPart2(-)) decay
-	RMFLV ProngImp = chargPart1 + chargPart2;
-	RMFLV::BetaVector boostvec = ProngImp.BoostToCM();
-	ROOT::Math::Boost M(boostvec);
-
-	//Step 2: Calculating impact parameter vectors n1 n2
+	//Calculating impact parameter vectors n1 n2
 
 	//Momentum vectors of the charged particles
 	RMFLV::BetaVector p1, p2;
@@ -443,55 +438,15 @@ double CPQuantities::CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVec
 		this->SetRecoPhiMinusIPMeth(n2.Phi());
 	}
 
-	//Step 3: Boosting 4-vectors (n1,0), (n2,0), p1, p2 with M
+	//Impact parameter 4-vectors: (n1,0), (n2,0)
 	RMFLV n1_mu, n2_mu;
 	n1_mu.SetXYZT(n1.X(), n1.Y(), n1.Z(), 0);
 	n2_mu.SetXYZT(n2.X(), n2.Y(), n2.Z(), 0);
 
-	n1_mu = M * n1_mu;
-	n2_mu = M * n2_mu;
-	chargPart1 = M * chargPart1;
-	chargPart2 = M * chargPart2;
-
-	//Step 4: Calculation of the transverse component of n1, n2 to p1, p2 (after Boosting)
-	n1.SetXYZ(n1_mu.Px(), n1_mu.Py(), n1_mu.Pz());
-	n2.SetXYZ(n2_mu.Px(), n2_mu.Py(), n2_mu.Pz());
-	p1.SetXYZ(chargPart1.Px(), chargPart1.Py(), chargPart1.Pz());
-	p2.SetXYZ(chargPart2.Px(), chargPart2.Py(), chargPart2.Pz());
-
-	RMFLV::BetaVector n1t = n1 - ((n1.Dot(p1)) / (p1.Dot(p1))) * p1;
-	n1t = n1t.Unit();
-	RMFLV::BetaVector n2t = n2 - ((n2.Dot(p2)) / (p2.Dot(p2))) * p2;
-	n2t = n2t.Unit();
-	RMFLV::BetaVector p1n = p1.Unit();
-	// save azimuthal angles of the decay planes in the ZMF
-	if(level=="reco"){
-		this->SetRecoPhiStarPlusIPMeth(n1t.Phi());
-		this->SetRecoPhiStarMinusIPMeth(n2t.Phi());
-	}
-
-	if(level=="reco")
-	{
-		this->SetRecoPhiStar(acos(n2t.Dot(n1t)));
-		this->SetRecoOStarCP(p1n.Dot(n2t.Cross(n1t)));
-	}
-	else if (level=="gen")
-	{
-		this->SetGenPhiStar(acos(n2t.Dot(n1t)));
-		this->SetGenOStarCP(p1n.Dot(n2t.Cross(n1t)));
-	}
-
-	//Step 5: Calculating Phi*CP
-	double phiStarCP = 0;
-	if(p1n.Dot(n2t.Cross(n1t))>=0)
-	{
-		phiStarCP = acos(n2t.Dot(n1t));
-	}
-	else
-	{
-		phiStarCP = 2*ROOT::Math::Pi()-acos(n2t.Dot(n1t));
-	}
-	return phiStarCP;
+	//Do the rest, i.e. boosting to ZMF and then calculations therein, with common method
+	return this->CalculatePhiStarCPCommon(chargPart1, chargPart2,
+					      n1_mu, n2_mu, false,
+					      false, false, level);
 }
 
 
@@ -1134,8 +1089,6 @@ double CPQuantities::CalculatePhiStarCPCommon(RMFLV charged1, RMFLV charged2,
 
   double phiStarCP = acos(n1t.Dot(n2t));
   double oStarCP = p2.Dot(n1t.Cross(n2t));
-  //double phiStarCPOriginal = phiStarCP;
-  //double oStarCPOriginal = oStarCP;
 
   if (firstNegative) {
     oStarCP = p1.Dot(n2t.Cross(n1t));
@@ -1153,6 +1106,14 @@ double CPQuantities::CalculatePhiStarCPCommon(RMFLV charged1, RMFLV charged2,
   //IPIP
   if (!dp1 && !dp2) {
     if (level == "reco") {
+      if (firstNegative) {
+	this->SetRecoPhiStarPlusIPMeth(n2t.Phi());
+	this->SetRecoPhiStarMinusIPMeth(n1t.Phi());
+      }
+      else {
+	this->SetRecoPhiStarPlusIPMeth(n1t.Phi());
+	this->SetRecoPhiStarMinusIPMeth(n2t.Phi());
+      }
       this->SetRecoPhiStar(phiStarCP);
       this->SetRecoOStarCP(oStarCP);
     }
