@@ -1028,6 +1028,10 @@ class Quantities(Run2Quantities):
 			"recoPhiStarCPComb",
 			"recoPhiStarCPCombMerged",
 
+			"acotautau_00", #phi*CP IP-IP
+			"acotautau_01", #phi*CP IP-DP
+			"acotautau_11", #phi*CP DP-DP
+
 			"recoPhiPlusIPMeth",
 			"recoPhiMinusIPMeth",
 			"recoPhiStarPlusIPMeth",

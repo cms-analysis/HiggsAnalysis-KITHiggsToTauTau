@@ -14,6 +14,7 @@
 class RecoTauCPProducer : public ProducerBase<HttTypes> {
 	private:
 		bool m_isData;
+		RMFLV alternativePiZeroMomentum(const KTau* tau);
 
 	public:
 

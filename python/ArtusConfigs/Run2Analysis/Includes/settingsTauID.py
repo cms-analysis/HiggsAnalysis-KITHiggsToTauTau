@@ -18,6 +18,8 @@ class Tau_ID(dict):
 			self["TauAllowedDMs"] = [0,1,2,10,11] # exclude DM 5 and 6
 			self["TauUseOldDMs"] = False
 			self["TauDiscriminators"] = {"byVVVLooseDeepTau2017v2p1VSjet", "byVVVLooseDeepTau2017v2p1VSe", "byVLooseDeepTau2017v2p1VSmu"}
+			self["TauAllowedMvaDMs"] = [0,1,2,10,11] # exclude undefined MvaDMs, i.e. -1
+			self["TauMvaDMsName"] = "MVADM2017v1"
 		else:
 			self["TauDiscriminatorIsolationName"] = "byIsolationMVArun2v1DBoldDMwLTraw"
 			self["TauIDType"] = ""

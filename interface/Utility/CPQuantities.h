@@ -22,10 +22,9 @@ class CPQuantities
 public:
 	double CalculatePhiStarCP(RMFLV tau1, RMFLV tau2, RMFLV chargPart1, RMFLV chargPart2);
 	double CalculatePhiStarCP(KVertex* pv, KTrack track1, KTrack track2, RMFLV chargPart1, RMFLV chargPart2);
-	double CalculatePhiStarCP(KRefitVertex* pv, KTrack track1, KTrack track2, RMFLV chargPart1, RMFLV chargPart2);
 	double CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2, std::string level);
-	double CalculatePhiStarCPRho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM);
-	double CalculatePhiStarCPComb(TVector3 ipvec, RMFLV daughter, RMFLV pion, RMFLV pizero, int daughterCharge);
+	double CalculatePhiStarCPRho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM, bool merge=false);
+	double CalculatePhiStarCPComb(TVector3 ipvec, RMFLV daughter, RMFLV pion, RMFLV pizero, int daughterCharge, bool merge=false);
 	double CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad);
 	double CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
 	double CalculatePhiCPLab(RMFLV chargPart1, TVector3 ipvec1, TVector3 ipvec2);
@@ -133,6 +132,10 @@ private:
 	RMPoint recoOprime;
 	//level: "gen", "reco"
 	double CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level);
+	double CalculatePhiStarCPCommon(RMFLV chargedPi1, RMFLV chargedPi2,
+					RMFLV ref1, RMFLV ref2,
+					bool firstNegative, bool dp1, bool dp2,
+					std::string level);
 	inline void SetGenPhiStar(double genphistar)
 	{
 		genPhiStar = genphistar;
