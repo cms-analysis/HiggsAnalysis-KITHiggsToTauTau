@@ -265,7 +265,8 @@ if __name__ == "__main__":
 
 	init_cb = ch.CombineHarvester()
 	for init_datacard in glob.glob(os.path.join(os.path.join(init_directory, "init"), "*_*_*_*.txt")):
-		init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt')
+		print(init_datacard)
+		init_cb.QuickParseDatacard(init_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt', False)
 
 	#init_cb.PrintObs().PrintProcs().PrintSysts()
 
@@ -567,7 +568,7 @@ if __name__ == "__main__":
 							no_ewkz_as_dy = args.no_ewkz_as_dy,
 							fakefactor_method = True,
 							state = "finalState",
-							asimov_nicks= ["ff", "zl", "vvt", "ttt", "ewkz", "gghsm125", "qqhsm125", ("ztt_emb" if args.emb else "ztt")] if args.use_asimov_dataset else [], # TODO: generalize
+							asimov_nicks= ["ff", "zl", "vvt", "ttt", "gghsm125", "qqhsm125", ("ztt_emb" if args.emb else "ztt")] if args.use_asimov_dataset else [], # TODO: generalize
 							# proxy_fakefactors = True # doesn't work for 2D plots
 					)
 					print shape_systematic
@@ -803,7 +804,7 @@ if __name__ == "__main__":
 	datacards_workspaces_alpha = {}
 
 	for official_datacard in glob.glob(os.path.join(datacards_path, "*_*_*_*.txt")):
-		official_cb.QuickParseDatacard(official_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt')
+		official_cb.QuickParseDatacard(official_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt', False)
 		#official_cb.PrintObs().PrintProcs().PrintSysts()
 
 		if args.era == "2017":
@@ -825,7 +826,7 @@ if __name__ == "__main__":
 		#official_cb.PrintObs().PrintProcs().PrintSysts()
 
 		tmp_datacard = ch.CombineHarvester()
-		tmp_datacard.QuickParseDatacard(official_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt')
+		tmp_datacard.QuickParseDatacard(official_datacard, '$ANALYSIS_$CHANNEL_$ERA_$BINID_$MASS.txt', False)
 			#from IPython import embed; embed()
 		print "int(official_datacard.split(\"_\")[-2]): ", int(official_datacard.split("_")[-2])
 		if int(official_datacard.split("_")[-2]) < 10 and not "ttbar" in official_datacard: #this statement avoids the creation of workspaces for single CR only.
