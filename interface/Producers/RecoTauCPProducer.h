@@ -14,7 +14,11 @@
 class RecoTauCPProducer : public ProducerBase<HttTypes> {
 	private:
 		bool m_isData;
-		RMFLV alternativePiZeroMomentum(const KTau* tau);
+		bool m_useAltPiZero;
+		RMFLV alternativePiZeroMomentum(const KTau* tau) const;
+		bool pionsFromRho3Prongs(const KTau* tau,
+					 RMFLV& piSSFromRhoMomentum,
+					 RMFLV& piOSMomentum) const;
 
 	public:
 
