@@ -338,7 +338,7 @@ class mt_ArtusConfig(dict):
 		self["TauLowerPtCuts"] = ["20.0"]
 
 		if isLegacy:
-			self["MuonUpperAbsEtaCuts"] = ["2.4"]
+			self["MuonUpperAbsEtaCuts"] = ["2.1"]
 			self["TauUpperAbsEtaCuts"] = ["2.3"] # tau trigger SFs only allow abs(eta) up to 2.1
 		else:
 			self["MuonUpperAbsEtaCuts"] = ["2.1"]
