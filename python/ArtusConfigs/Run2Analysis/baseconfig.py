@@ -226,6 +226,7 @@ class Baseconfig(dict):
 
 		elif re.search("Autumn18", nickname):
 			self["JetPrefireProbabilityFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/prefiring/L1prefiring_jetpt_2017BtoF.root"
+			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/SKIM_APR2020_Autumn18_CP/Pileup_weight_goldenJSON-13TeV-2018_Autumn18MC_69200ub_100bins.root"
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/DeepCSV_102XSF_WP_V1.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
 			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/btagging_efficiency_2017/tagging_efficiencies_march2018_btageff-all_samp-inc-DeepCSV_medium.root" #TODO cant find this
 
