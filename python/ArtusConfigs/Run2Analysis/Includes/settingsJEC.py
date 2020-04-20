@@ -49,10 +49,31 @@ class JEC(dict):
 		# 	elif re.search("(Fall17)", nickname):
 		# 		self["JetEnergyCorrectionParameters"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_mc2017_realistic_v15_L1FastJet_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_mc2017_realistic_v15_L2Relative_AK4PFchs.txt", "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_mc2017_realistic_v15_L3Absolute_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall17/correctionfiles/94X_mc2017_realistic_v15_L2L3Residual_AK4PFchs.txt"]
 
-		elif re.search("(Run2016|Spring16|Summer16|Embedding2016)", nickname):
+		elif re.search("(Run2016|Spring16|Summer16|Embedding2016)", nickname):#FIXME: same settings for all data periods & MC?
 			self["JetEnergyCorrectionUncertaintyParameters"] =  "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_UncertaintySources_AK4PFchs.txt"
 		#elif re.search("Run2016|Embedding2016", nickname):
 		#	self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Summer16/Summer16_23Sep2016V4_DATA_Uncertainty_AK4PFchs.txt"
+
+		elif re.search("(Autumn18)", nickname): # corresponding to MC GT 102X_upgrade2018_realistic_v20
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_V19_MC/Autumn18_V19_MC_UncertaintySources_AK4PFchs.txt"
+			self["JetEnergyCorrectionParameters"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_V19_MC/Autumn18_V19_MC_L1FastJet_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_V19_MC/Autumn18_V19_MC_L2Relative_AK4PFchs.txt", "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_V19_MC/Autumn18_V19_MC_L3Absolute_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_V19_MC/Autumn18_V19_MC_L2L3Residual_AK4PFchs.txt"]
+
+		elif re.search("((Run|Embedding)2018A)", nickname): # corresponding to DATA GT 102X_dataRun2_v12
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunA_V19_DATA/Autumn18_RunA_V19_DATA_UncertaintySources_AK4PFchs.txt"
+			self["JetEnergyCorrectionParameters"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunA_V19_DATA/Autumn18_RunA_V19_DATA_L1FastJet_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunA_V19_DATA/Autumn18_RunA_V19_DATA_L2Relative_AK4PFchs.txt", "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunA_V19_DATA/Autumn18_RunA_V19_DATA_L3Absolute_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunA_V19_DATA/Autumn18_RunA_V19_DATA_L2L3Residual_AK4PFchs.txt"]
+
+		elif re.search("((Run|Embedding)2018B)", nickname): # corresponding to DATA GT 102X_dataRun2_v12
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunB_V19_DATA/Autumn18_RunB_V19_DATA_UncertaintySources_AK4PFchs.txt"
+			self["JetEnergyCorrectionParameters"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunB_V19_DATA/Autumn18_RunB_V19_DATA_L1FastJet_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunB_V19_DATA/Autumn18_RunB_V19_DATA_L2Relative_AK4PFchs.txt", "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunB_V19_DATA/Autumn18_RunB_V19_DATA_L3Absolute_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunB_V19_DATA/Autumn18_RunB_V19_DATA_L2L3Residual_AK4PFchs.txt"]
+
+		elif re.search("((Run|Embedding)2018C)", nickname): # corresponding to DATA GT 102X_dataRun2_v12
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunC_V19_DATA/Autumn18_RunC_V19_DATA_UncertaintySources_AK4PFchs.txt"
+			self["JetEnergyCorrectionParameters"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunC_V19_DATA/Autumn18_RunC_V19_DATA_L1FastJet_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunC_V19_DATA/Autumn18_RunC_V19_DATA_L2Relative_AK4PFchs.txt", "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunC_V19_DATA/Autumn18_RunC_V19_DATA_L3Absolute_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunC_V19_DATA/Autumn18_RunC_V19_DATA_L2L3Residual_AK4PFchs.txt"]
+
+		elif re.search("((Run|Embedding)2018D)", nickname): # corresponding to DATA GT 102X_dataRun2_Prompt_v15
+			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunD_V19_DATA/Autumn18_RunD_V19_DATA_UncertaintySources_AK4PFchs.txt"
+			self["JetEnergyCorrectionParameters"] = ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunD_V19_DATA/Autumn18_RunD_V19_DATA_L1FastJet_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunD_V19_DATA/Autumn18_RunD_V19_DATA_L2Relative_AK4PFchs.txt", "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunD_V19_DATA/Autumn18_RunD_V19_DATA_L3Absolute_AK4PFchs.txt","$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Autumn18/Autumn18_RunD_V19_DATA/Autumn18_RunD_V19_DATA_L2L3Residual_AK4PFchs.txt"]
+
 		elif re.search("(Fall15MiniAODv2)", nickname):
 			self["JetEnergyCorrectionUncertaintyParameters"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/jec/Fall15/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt"
 		elif re.search("(Run2015|Embedding2015)", nickname):
