@@ -135,7 +135,7 @@ class Baseconfig(dict):
 		elif re.search("Fall17", nickname):
 			self["JetPrefireProbabilityFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/prefiring/L1prefiring_jetpt_2017BtoF.root"
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/DeepCSV_94XSF_WP_V4_B_F.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
-			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/btagging_efficiency_2017/tagging_efficiencies_march2018_btageff-all_samp-inc-DeepCSV_medium.root" #TODO cant find this
+			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/Eff_DeepCSV_2017_medium_all_proc_DeepCSV_medium_inclusive_inclusive.root" #from DESY: https://github.com/DesyTau/DesyTauAnalysesRun2_25ns/blob/master/NTupleMaker/data/
 
 			if re.search("Fall17", nickname):
 				pileupweightfile = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/SKIM_NOV2018_Fall17_CP/" + nickname +".root"
@@ -222,13 +222,13 @@ class Baseconfig(dict):
 			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/Data_Pileup_2016_271036-284044_13TeVMoriond17_23Sep2016ReReco_69p2mbMinBiasXS.root"
 			# self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/CSVv2_moriond17_BtoH.csv"
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/DeepCSV_2016LegacySF_WP_V1.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
-			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/tagging_efficiencies_moriond2017.root"
+			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/Eff_DeepCSV_2016_medium_all_proc_DeepCSV_medium_inclusive_inclusive.root" #from DESY: https://github.com/DesyTau/DesyTauAnalysesRun2_25ns/blob/master/NTupleMaker/data/
 
 		elif re.search("Autumn18", nickname):
 			self["JetPrefireProbabilityFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/prefiring/L1prefiring_jetpt_2017BtoF.root"
 			self["PileupWeightFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/pileup/SKIM_APR2020_Autumn18_CP/Pileup_weight_goldenJSON-13TeV-2018_Autumn18MC_69200ub_100bins.root"
 			self["BTagScaleFactorFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/DeepCSV_102XSF_WP_V1.csv" #https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
-			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/btagging_efficiency_2017/tagging_efficiencies_march2018_btageff-all_samp-inc-DeepCSV_medium.root" #TODO cant find this
+			self["BTagEfficiencyFile"] = "$CMSSW_BASE/src/Artus/KappaAnalysis/data/Eff_DeepCSV_2018_medium_all_proc_DeepCSV_medium_inclusive_inclusive.root" #from DESY: https://github.com/DesyTau/DesyTauAnalysesRun2_25ns/blob/master/NTupleMaker/data/
 
 		elif re.search("Run201", nickname):
 			self["PileupWeightFile"] = "not needed"
