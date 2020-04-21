@@ -30,7 +30,7 @@ void IsomorphicMappingProducer::Init(setting_type const& settings, metadata_type
 	if (m_isEmbedding) {
 		m_emb = "_emb";
 	} else {
-		m_emb = "_emb";
+		m_emb = "";
 	}
 
 	std::string ipHelrPV_x_prompt_str;
@@ -297,7 +297,7 @@ void IsomorphicMappingProducer::Produce(event_type const& event, product_type& p
 			// ---------
 			// comb-method - with refitted PV
 			// ---------
-			if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET || recoTau2->decayMode == 1){
+			if ( (product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET) && recoTau2->decayMode == 1){
 				KTau* recoTau2 = static_cast<KTau*>(recoParticle2);
 
 				product.m_isomapPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_isomapIPHelrPV_1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, recoTau2->piZeroMomentum(), recoParticle1->charge());
