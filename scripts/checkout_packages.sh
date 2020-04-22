@@ -183,7 +183,7 @@ elif [[ $cmssw_version == "940" ]]; then
 
 elif [[ $cmssw_version == "10220" ]] && [[ $ch_branch == "HTTCPDecays18-dev" ]]; then
 	# needed for plotting and statistical inference
-	git clone git@github.com:albertdow/CombineHarvester CombineHarvester
+	git clone git@github.com:azotz/CombineHarvester CombineHarvester -b HTTCPDecays18-dev
 	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
 	git fetch origin
