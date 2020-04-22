@@ -64,7 +64,7 @@ class mt_ArtusConfig(dict):
 				"producer:DiJetQuantitiesProducer",
 				]
 
-		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17|Embedding(2016|2017))", nickname):
+		if re.search("(Spring16|Summer16|Run2016|Run2017|Run2018|Summer17|Fall17|Autumn18|Embedding(2016|2017|2018))", nickname):
 			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples
 			self["Processors"] += ["producer:RefitVertexSelector"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
@@ -101,11 +101,11 @@ class mt_ArtusConfig(dict):
 				# self["Processors"] += ["producer:MELAProducer"]
 				#self["Processors"] += ["producer:MELAM125Producer"]
 
-				if re.search("Run2016", nickname):
+				if re.search("Run(2016|2017|2018)", nickname):
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
-				if re.search("Embedding(2016|2017)", nickname):
+				if re.search("Embedding(2016|2017|2018)", nickname):
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 					self["Processors"] += ["producer:TauCorrectionsProducer"]
 					self["Processors"] += ["producer:MuonCorrectionsProducer"]
@@ -162,7 +162,7 @@ class mt_ArtusConfig(dict):
 					# self["Processors"] += ["producer:MELAProducer"]
 					#self["Processors"] += ["producer:MELAM125Producer"]
 
-					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
+					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17|Autumn18))", nickname):
 
 						self["Processors"] += ["producer:SimpleFitProducer"]
 						if re.search("Summer1(6|7)|Fall17|Autumn18", nickname) == None: #I dont want to do polarisation
@@ -172,7 +172,7 @@ class mt_ArtusConfig(dict):
 
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
-					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
+					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17|Autumn18))", nickname):
 						self["Processors"] += [
 							"producer:TopPtReweightingProducer" #FIXME only ttbar?
 						]
