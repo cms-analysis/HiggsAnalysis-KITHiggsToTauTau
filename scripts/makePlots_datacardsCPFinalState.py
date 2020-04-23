@@ -919,7 +919,7 @@ if __name__ == "__main__":
 		print combine_dir_list
 		log.info("\nScanning alpha with muF=1,alpha=0 with asimov dataset.") #FIXME ,muV=1, f=0
 		datacards_module._call_command([
-				"combineTool.py -m 125 -M MultiDimFit --setParameters alpha=0 --setParameterRanges alpha=-1,1 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{cmb,{CHANNELS}}}/125/ws.root --algo grid -t -1 --there -n .alpha --parallel={N_PROCESSES} --floatOtherPOIs 1 --cminFallbackAlgo Minuit2,0:1.0".format(
+				"combineTool.py -m 125 -M MultiDimFit --setParameters muV=1,alpha=0,muggH=1,mutautau=1,lumi_scale=1 --setParameterRanges alpha=-90,90 --points 20 --redefineSignalPOIs alpha -d output/{OUTPUT_SUFFIX}/{{cmb,{CHANNELS}}}/125/ws.root --algo grid -t -1 --there -n .alpha --parallel={N_PROCESSES} --floatOtherPOIs 1 --cminFallbackAlgo Minuit2,0:1.0".format(
 				OUTPUT_SUFFIX=args.output_suffix,
 				CHANNELS=",".join(combine_dir_list), #TODO change this to use only a single channel
 				N_PROCESSES=args.n_processes
@@ -951,9 +951,9 @@ if __name__ == "__main__":
 		for channel in ["cmb"]+channel_list:
 			directory = "output/"+args.output_suffix+"/"+channel+"_2017/125/" if (args.era == "2017" and channel!="cmb") else "/125/"
 			datacards_module._call_command([
-					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCPDecays18/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --logo 'Work in progress' --logo-sub '' ".format(
-					INPUT_FILE=directory+"higgsCombine.alpha.MultiDimFit.mH125.root",
-					OUTPUT_FILE=directory+"alpha"
+					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCPDecays18/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title=\"#alpha (#circ)\" --y-max=2.5 --logo='Work in progress' ".format(
+					INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
+					OUTPUT_FILE="output/"+args.output_suffix+"/cmb/125/alpha"
 					),
 					args.output_dir
 			])
@@ -964,24 +964,24 @@ if __name__ == "__main__":
 			# 		),
 			# 		args.output_dir
 			# ])
-		if args.era == "2017":
-			datacards_module._call_command([
-				"python $CMSSW_BASE/src/CombineHarvester/HTTSMCPDecays18/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --others output/{OUTPUT_SUFFIX}/mt_2017/125/higgsCombine.alpha.MultiDimFit.mH125.root:#mu#tau_{{h}}:7 output/{OUTPUT_SUFFIX}/et_2017/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#tau_{{h}}:9 --logo 'Work in progress' --logo-sub '' --main-label Expected ".format(
-				INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
-				OUTPUT_FILE="output/"+args.output_suffix+"/cmb/125/alpha_channel_comparison",
-				OUTPUT_SUFFIX=args.output_suffix
-				),
-				args.output_dir
-		])
-		else:
-			datacards_module._call_command([
-					"python $CMSSW_BASE/src/CombineHarvester/HTTSMCPDecays18/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --others output/{OUTPUT_SUFFIX}/tt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#tau_{{h}}#tau_{{h}}:2 output/{OUTPUT_SUFFIX}/mt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#mu#tau_{{h}}:7 output/{OUTPUT_SUFFIX}/et/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#tau_{{h}}:9 output/{OUTPUT_SUFFIX}/em/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#mu:8  --logo 'Work in progress' --logo-sub '' --main-label Expected ".format(
-					INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
-					OUTPUT_FILE="output/"+args.output_suffix+"/cmb/125/alpha_channel_comparison",
-					OUTPUT_SUFFIX=args.output_suffix
-					),
-					args.output_dir
-			])
+		# if args.era == "2017":
+		# 	datacards_module._call_command([
+		# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCPDecays18/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --others output/{OUTPUT_SUFFIX}/mt_2017/125/higgsCombine.alpha.MultiDimFit.mH125.root:#mu#tau_{{h}}:7 output/{OUTPUT_SUFFIX}/et_2017/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#tau_{{h}}:9 --logo 'Work in progress' --logo-sub '' --main-label Expected ".format(
+		# 		INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
+		# 		OUTPUT_FILE="output/"+args.output_suffix+"/cmb/125/alpha_channel_comparison",
+		# 		OUTPUT_SUFFIX=args.output_suffix
+		# 		),
+		# 		args.output_dir
+		# ])
+		# else:
+		# 	datacards_module._call_command([
+		# 			"python $CMSSW_BASE/src/CombineHarvester/HTTSMCPDecays18/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0 --others output/{OUTPUT_SUFFIX}/tt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#tau_{{h}}#tau_{{h}}:2 output/{OUTPUT_SUFFIX}/mt/125/higgsCombine.alpha.MultiDimFit.mH125.root:#mu#tau_{{h}}:7 output/{OUTPUT_SUFFIX}/et/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#tau_{{h}}:9 output/{OUTPUT_SUFFIX}/em/125/higgsCombine.alpha.MultiDimFit.mH125.root:e#mu:8  --logo 'Work in progress' --logo-sub '' --main-label Expected ".format(
+		# 			INPUT_FILE="output/"+args.output_suffix+"/cmb/125/higgsCombine.alpha.MultiDimFit.mH125.root",
+		# 			OUTPUT_FILE="output/"+args.output_suffix+"/cmb/125/alpha_channel_comparison",
+		# 			OUTPUT_SUFFIX=args.output_suffix
+		# 			),
+		# 			args.output_dir
+		# 	])
 
 			# datacards_module._call_command([
 			# 		"python $CMSSW_BASE/src/CombineHarvester/HTTSMCPDecays18/scripts/plot1DScan.py --main={INPUT_FILE} --POI=alpha --output={OUTPUT_FILE} --no-numbers --no-box --x_title='#alpha (#frac{{#pi}}{{2}})' --y-max=3.0".format(
