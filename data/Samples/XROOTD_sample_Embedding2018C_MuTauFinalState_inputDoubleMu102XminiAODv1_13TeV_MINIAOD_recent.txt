@@ -1,0 +1,1 @@
+XROOTD_sample_Embedding2018C_MuTauFinalState_inputDoubleMu102XminiAODv1_13TeV_MINIAOD_2020-06-18.txt
