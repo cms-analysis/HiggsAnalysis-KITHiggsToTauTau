@@ -1,0 +1,1 @@
+XROOTD_sample_TTToHadronic_RunIIAutumn18MiniAOD_102X_13TeV_MINIAOD_powheg-pythia8_2020-06-18.txt

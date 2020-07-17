@@ -1,0 +1,1 @@
+XROOTD_sample_SingleMuon_Run2018D_PromptRecov2_13TeV_MINIAOD_2020-06-18.txt
