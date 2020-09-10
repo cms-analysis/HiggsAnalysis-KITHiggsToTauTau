@@ -1,1 +1,1 @@
-XROOTD_sample_W4JetsToLNu_RunIIAutumn18MiniAOD_102X_13TeV_MINIAOD_madgraph-pythia8_2020-06-18.txt
+XROOTD_sample_W4JetsToLNu_RunIIAutumn18MiniAOD_102X_13TeV_MINIAOD_madgraph-pythia8_2020-08-04.txt

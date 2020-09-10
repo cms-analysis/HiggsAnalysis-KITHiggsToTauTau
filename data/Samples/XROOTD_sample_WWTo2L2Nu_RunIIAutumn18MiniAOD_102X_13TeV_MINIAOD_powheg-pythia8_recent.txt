@@ -1,0 +1,1 @@
+XROOTD_sample_WWTo2L2Nu_RunIIAutumn18MiniAOD_102X_13TeV_MINIAOD_powheg-pythia8_2020-08-04.txt

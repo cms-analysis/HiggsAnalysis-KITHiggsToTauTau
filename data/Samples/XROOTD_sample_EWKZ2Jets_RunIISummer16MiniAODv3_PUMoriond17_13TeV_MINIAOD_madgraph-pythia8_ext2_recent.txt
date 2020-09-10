@@ -1,0 +1,1 @@
+XROOTD_sample_EWKZ2Jets_RunIISummer16MiniAODv3_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext2_2020-08-19.txt

@@ -1,0 +1,1 @@
+XROOTD_sample_Embedding2016B_TauTauFinalState_inputDoubleMu94XLegacyminiAODv5_13TeV_MINIAOD_2020-08-19.txt

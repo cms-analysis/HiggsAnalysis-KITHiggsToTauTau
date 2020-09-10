@@ -1,0 +1,1 @@
+XROOTD_sample_TT_RunIISummer16MiniAODv3_PUMoriond17_13TeV_MINIAOD_powheg-pythia8_2020-08-19.txt

@@ -1,1 +1,1 @@
-XROOTD_sample_WZJToLLLNu_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_pythia8_2017-10-10.txt
+XROOTD_sample_WZJToLLLNu_RunIISummer16MiniAODv2_PUMoriond17_13TeV_MINIAOD_pythia8_2020-08-19.txt
