@@ -203,9 +203,7 @@ else
 fi
 
 # Grid-Control
-git clone git@github.com:KIT-CMS/grid-control.git -b master
-cd grid-control
-git reset --hard 1173bd3
+git clone git@github.com:artus-analysis/grid-control -b master
 
 cd $CMSSW_BASE/src/
 
