@@ -63,32 +63,35 @@ def main():
 
 		if delete:
 			for file in os.listdir(subdir):
-				command = 'lcg-del -b -l -T srmv2 "srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN={0}/{1}"'.format(subdir, file)
+				# command = 'lcg-del -b -l -T srmv2 "srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN={0}/{1}"'.format(subdir, file)
+				command = 'srmls "srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN={0}/{1}"'.format(subdir, file)
 				os.system(command)
 
 			print '\tcontent of subfolder {} deleted.'.format(subdir)
 			print '\tsubfolder now empty...deleting.'
-			command = 'srmrmdir "srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN={0}"'.format(subdir)
+			# command = 'srmrmdir "srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN={0}"'.format(subdir)
+			command = 'srmls "srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN={0}"'.format(subdir)
 			os.system(command)
 
 		else:
 			print '\tnothing done.'
-	
-	
+
+
 	subfolderDirs = os.listdir(options.folder)
 	if len(subfolderDirs) == 0:
 		print '\n\nfolder {} is empty...delete it?'.format(options.folder)
 		delete = confirm('', False)
 
 		if delete:
-			command = 'srmrmdir "srm://dcache-se-cms.desy.de:8443/srm/managerv2?SFN={0}"'.format(options.folder)
+			# command = 'srmrmdir "srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN={0}"'.format(options.folder)
+			command = 'srmls "srm://grid-srm.physik.rwth-aachen.de:8443/srm/managerv2?SFN={0}"'.format(options.folder)
 			os.system(command)
 
 		else:
 			print '\tnothing done.'
-	
-	print 'exiting.'
-	
 
-if __name__ == "__main__": 
+	print 'exiting.'
+
+
+if __name__ == "__main__":
 	main()
