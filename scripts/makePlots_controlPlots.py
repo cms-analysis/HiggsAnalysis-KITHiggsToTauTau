@@ -247,6 +247,8 @@ if __name__ == "__main__":
 	                    help="Do not use EWK Z/W samples. [Default: %(default)s]")
 	parser.add_argument("--no-ewkz-as-dy", default=False, action="store_true",
 	                    help="Do not include EWKZ samples in inputs for DY. [Default: %(default)s]")
+	parser.add_argument("--inclusive-diboson-samples", default=False, action="store_true",
+	                    help="Use inclusive Diboson Samples. [Default: %(default)s]")
 	parser.add_argument("--new-tau-id", default=False, action="store_true",
 	                    help="Use rerun tau Id instead of nominal one. [Default: %(default)s]")
 	parser.add_argument("--use-relaxed-isolation-for-W", default=False, action="store_true",
@@ -293,6 +295,10 @@ if __name__ == "__main__":
 				args.lumi = samples.default_lumi/1000.0
 		elif args.era == "2017" and args.calculate_QCD_os_ss_scalefactor==True:
 			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_OStoSSExtSF as samples
+			if args.lumi == parser.get_default("lumi"):
+				args.lumi = samples.default_lumi/1000.0
+		elif args.era == "2018":
+			import HiggsAnalysis.KITHiggsToTauTau.plotting.configs.samples_run2_2018 as samples
 			if args.lumi == parser.get_default("lumi"):
 				args.lumi = samples.default_lumi/1000.0
 		else:
@@ -388,6 +394,15 @@ if __name__ == "__main__":
 			global_cut_type = "cpggh"
 		global_cut_type += "2016"
 	elif args.era == "2017":
+		if args.smhtt:
+			global_cut_type = "smhtt"
+		if args.cpggh:
+			global_cut_type = "cpggh"
+		if args.cptautau:
+			global_category_string = "catcptautau2017"
+			global_cut_type = "cptautau"
+		global_cut_type += "2017"
+	elif args.era == "2018":
 		if args.smhtt:
 			global_cut_type = "smhtt"
 		if args.cpggh:
@@ -492,6 +507,7 @@ if __name__ == "__main__":
 						cut_type = global_cut_type,
 						no_ewk_samples = args.no_ewk_samples,
 						no_ewkz_as_dy = args.no_ewkz_as_dy,
+						inclusive_diboson_samples=args.inclusive_diboson_samples,
 						useRelaxedIsolationForW = args.use_relaxed_isolation_for_W,
 						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
 						nick_suffix = (channel+str(index_channel) if args.channel_comparison else ""),
