@@ -112,27 +112,23 @@ class MinimalPlotlevelFilter():
 		else:
 			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = [
 				"metfilter_flag",
-				"againstElectronVLooseMVA6_2",
 				"extraelec_veto",
-				"againstMuonLoose3_2",
-				"extramuon_veto"
+				"extramuon_veto",
 			]
-			if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname):
-				self.minPlotLevelDict["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
-			else:
-				self.minPlotLevelDict["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)*(againstMuonLoose3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)"
+
+			self.minPlotLevelDict["PlotlevelFilterExpression"] = "(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"
 			self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(metfilter_flag > 0.5)"
 
-			if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname):
-				if legacy:
-					self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byVVVLooseDeepTau2017v2p1VSjet_1","byVVVLooseDeepTau2017v2p1VSjet_2","byVVVLooseDeepTau2017v2p1VSe_1","byVVVLooseDeepTau2017v2p1VSe_2","byVLooseDeepTau2017v2p1VSmu_1","byVLooseDeepTau2017v2p1VSmu_2"]
-					self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVVLooseDeepTau2017v2p1VSjet_1 > 0.5)*(byVVVLooseDeepTau2017v2p1VSe_1 > 0.5)*(byVLooseDeepTau2017v2p1VSmu_1 > 0.5)*(byVVVLooseDeepTau2017v2p1VSjet_2 > 0.5)*(byVVVLooseDeepTau2017v2p1VSe_2 > 0.5)*(byVLooseDeepTau2017v2p1VSmu_2 > 0.5)"
-				else:
-					self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "trg_doubletau_35_tightiso_tightid", "trg_doubletau_40_mediso_tightid", "trg_doubletau_40_tightiso"]
-					self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((trg_doubletau_35_tightiso_tightid > 0.5) || (trg_doubletau_40_mediso_tightid > 0.5) || (trg_doubletau_40_tightiso > 0.5))"
+			if legacy:
+				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byVVVLooseDeepTau2017v2p1VSjet_1","byVVVLooseDeepTau2017v2p1VSjet_2","byVVVLooseDeepTau2017v2p1VSe_1","byVVVLooseDeepTau2017v2p1VSe_2","byVLooseDeepTau2017v2p1VSmu_1","byVLooseDeepTau2017v2p1VSmu_2"]
+				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVVLooseDeepTau2017v2p1VSjet_1 > 0.5)*(byVVVLooseDeepTau2017v2p1VSe_1 > 0.5)*(byVLooseDeepTau2017v2p1VSmu_1 > 0.5)*(byVVVLooseDeepTau2017v2p1VSjet_2 > 0.5)*(byVVVLooseDeepTau2017v2p1VSe_2 > 0.5)*(byVLooseDeepTau2017v2p1VSmu_2 > 0.5)"
 			else:
-				self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["byVLooseIsolationMVArun2v1DBoldDMwLT_1","byVLooseIsolationMVArun2v1DBoldDMwLT_2"]
-				self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
+				if re.search("(Fall17|Summer17|Run2017|Embedding2017)", nickname):
+					self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["againstElectronVLooseMVA6_2", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1", "byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2", "trg_doubletau_35_tightiso_tightid", "trg_doubletau_40_mediso_tightid", "trg_doubletau_40_tightiso"]
+					self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_1 > 0.5)*(byVVLooseIsolationMVArun2017v2DBoldDMwLT2017_2 > 0.5)*((trg_doubletau_35_tightiso_tightid > 0.5) || (trg_doubletau_40_mediso_tightid > 0.5) || (trg_doubletau_40_tightiso > 0.5))"
+				else:
+					self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] += ["againstMuonLoose3_2", "byVLooseIsolationMVArun2v1DBoldDMwLT_1","byVLooseIsolationMVArun2v1DBoldDMwLT_2"]
+					self.minPlotLevelDict["PlotlevelFilterExpression"] += "*(againstMuonLoose3_2 > 0.5)*(againstElectronVLooseMVA6_2 > 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_1 > 0.5)*(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
 
 	def mm(self):
 		self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = [
