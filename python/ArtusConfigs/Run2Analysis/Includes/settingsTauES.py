@@ -12,15 +12,18 @@ class TauES(dict):
 	#HttTauCorrectionsProducer.cc in kithiggs
 	#tau.p4*shiftvalue     shiftvalue = 1. means no shift
 		if re.search("(Spring16|Summer16|Embedding2016)",nickname):
-			self["TauEnergyCorrection"] = "smhtt2016"
-
-			if re.search("Embedding2016",nickname):
-				self["TauEnergyCorrectionOneProng"] = 0.997
-				self["TauEnergyCorrectionOneProngPiZeros"] = 1.002
+			if legacy:
+				self["TauEnergyCorrection"] = "legacy2016"
 			else:
-				self["TauEnergyCorrectionOneProng"] = 0.995
-				self["TauEnergyCorrectionOneProngPiZeros"] = 1.011
-			self["TauEnergyCorrectionThreeProng"] = 1.006
+				self["TauEnergyCorrection"] = "smhtt2016"
+
+				if re.search("Embedding2016",nickname):
+					self["TauEnergyCorrectionOneProng"] = 0.997
+					self["TauEnergyCorrectionOneProngPiZeros"] = 1.002
+				else:
+					self["TauEnergyCorrectionOneProng"] = 0.995
+					self["TauEnergyCorrectionOneProngPiZeros"] = 1.011
+				self["TauEnergyCorrectionThreeProng"] = 1.006
 
 		elif re.search("(Summer17|Fall17|Embedding2017)",nickname):
 			#https://indico.cern.ch/event/738043/contributions/3048471/attachments/1674773/2688351/TauId_26062018.pdf old
@@ -56,6 +59,11 @@ class TauES(dict):
 					# self["TauMuonFakeEnergyCorrectionOneProng"] = 0.999 #+-3%
 					# self["TauMuonFakeEnergyCorrectionOneProngPiZeros"] = 1.012 #+-0.3%
 					# self["TauMuonFakeEnergyCorrectionThreeProng"] = 1.0
+		elif re.search("(Run2018|Autumn18|Embedding2018)", nickname):
+			if legacy:
+				self["TauEnergyCorrection"] = "legacy2018"
+			else:
+				self["TauEnergyCorrection"] = "none"
 		else:
 			self["TauEnergyCorrection"] = "none"
 

@@ -34,7 +34,9 @@ public:
 		SMHTT2016,
 		MSSMHTT2016,
 		SMHTT2017,
+		LEGACY2016,
 		LEGACY2017,
+		LEGACY2018,
 	};
 	static TauEnergyCorrection ToTauEnergyCorrection(std::string const& tauEnergyCorrection)
 	{
@@ -43,7 +45,9 @@ public:
 		else if (tauEnergyCorrection == "smhtt2016") return TauEnergyCorrection::SMHTT2016;
 		else if (tauEnergyCorrection == "mssmhtt2016") return TauEnergyCorrection::MSSMHTT2016;
 		else if (tauEnergyCorrection == "smhtt2017") return TauEnergyCorrection::SMHTT2017;
+		else if (tauEnergyCorrection == "legacy2016") return TauEnergyCorrection::LEGACY2016;
 		else if (tauEnergyCorrection == "legacy2017") return TauEnergyCorrection::LEGACY2017;
+		else if (tauEnergyCorrection == "legacy2018") return TauEnergyCorrection::LEGACY2018;
 		else return TauEnergyCorrection::NONE;
 	}
 

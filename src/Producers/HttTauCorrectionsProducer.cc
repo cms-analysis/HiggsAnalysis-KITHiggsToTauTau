@@ -21,12 +21,28 @@ void HttTauCorrectionsProducer::Init(setting_type const& settings, metadata_type
 
 	tauEnergyCorrection = ToTauEnergyCorrection(boost::algorithm::to_lower_copy(boost::algorithm::trim_copy(static_cast<HttSettings const&>(settings).GetTauEnergyCorrection())));
 
-	if (tauEnergyCorrection == TauEnergyCorrection::LEGACY2017){
+	if (tauEnergyCorrection == TauEnergyCorrection::LEGACY2016 || tauEnergyCorrection == TauEnergyCorrection::LEGACY2017 || tauEnergyCorrection == TauEnergyCorrection::LEGACY2018){
 		TDirectory *savedir(gDirectory);
 		TFile *savefile(gFile);
 
-		std::string TauEnergyCorrectionFilename         = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco.root";
-		std::string TauEnergyCorrectionFilename_ptgt100 = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco_ptgt100.root";
+		std::string TauEnergyCorrectionFilename;
+		std::string TauEnergyCorrectionFilename_ptgt100;
+
+		if (tauEnergyCorrection == TauEnergyCorrection::LEGACY2016)
+		{
+			TauEnergyCorrectionFilename         = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2016Legacy.root";
+			TauEnergyCorrectionFilename_ptgt100 = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2016Legacy_ptgt100.root";
+		}
+		else if (tauEnergyCorrection == TauEnergyCorrection::LEGACY2017)
+		{
+			TauEnergyCorrectionFilename         = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco.root";
+			TauEnergyCorrectionFilename_ptgt100 = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco_ptgt100.root";
+		}
+		else if (tauEnergyCorrection == TauEnergyCorrection::LEGACY2018)
+		{
+			TauEnergyCorrectionFilename         = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2018ReReco.root";
+			TauEnergyCorrectionFilename_ptgt100 = "$CMSSW_BASE/src/TauPOG/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2018ReReco_ptgt100.root";
+		}
 
 		TFile* TauEnergyCorrectionFile         = new TFile(TauEnergyCorrectionFilename.c_str(), "READ");
 		TFile* TauEnergyCorrectionFile_ptgt100 = new TFile(TauEnergyCorrectionFilename_ptgt100.c_str(), "READ");
@@ -249,7 +265,7 @@ void HttTauCorrectionsProducer::AdditionalCorrections(KTau* tau, event_type cons
 			}
 		}
 	}
-	else if (tauEnergyCorrection == TauEnergyCorrection::LEGACY2017)
+	else if  (tauEnergyCorrection == TauEnergyCorrection::LEGACY2016 || tauEnergyCorrection == TauEnergyCorrection::LEGACY2017 || tauEnergyCorrection == TauEnergyCorrection::LEGACY2018)
 	{
 		bool isShiftUp = static_cast<HttSettings const&>(settings).GetIsShiftUp();
 		bool isNominal = static_cast<HttSettings const&>(settings).GetIsNominal();
