@@ -237,26 +237,6 @@ class tt_ArtusConfig(dict):
 
 	def build_config(self, nickname, *args, **kwargs):                #Maybe change this the arguments to process/year and DATA/MC
 
-		#Change this json config files as well?
-		"""
-		if hasattr(self, "include") == False:
-			self["include"] = []
-		self["include"] += ["$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseElectronID.json",  #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsLooseMuonID.json", #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsElectronID.json",  #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMuonID.json", #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauID.json", #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJEC.json", #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJECUncertaintySplit.json", #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsJetID.json",  #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsBTaggedJetID.json", #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsSvfit.json", #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsMinimalPlotlevelFilter_tt.json", #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Includes/settingsMVATestMethods.json",  #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2Analysis/Includes/settingsTauES.json", #Done
-				"$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/ArtusConfigs/Run2CPStudies/Includes/settingsTauPolarisationMva.json"] #Done
-		"""
-
 		datasetsHelper = datasetsHelperTwopz.datasetsHelperTwopz(os.path.expandvars("$CMSSW_BASE/src/Kappa/Skimming/data/datasets.json"))
 
 		# define frequently used conditions
@@ -519,7 +499,9 @@ class tt_ArtusConfig(dict):
 		self["AddGenMatchedTauJets"] = True
 		self["BranchGenMatchedTaus"] = True
 
-		self["Consumers"] = ["KappaLambdaNtupleConsumer",
+		self["Consumers"] = [
+			"#PrintHltConsumer",
+			"KappaLambdaNtupleConsumer",
 			"cutflow_histogram",
 			"SvfitCacheConsumer"]#,
 			#"CutFlowTreeConsumer",
@@ -605,29 +587,96 @@ class tt_ArtusConfig(dict):
 				]
 
 			self["CheckLepton1TriggerMatch"] = [
-				"trg_singlemuon_24",
-				"trg_singlemuon_27",
-				"trg_crossmuon_mu20tau27",
-				"trg_crossele_ele24tau30",
 				"trg_doubletau_35_tightiso_tightid",
 				"trg_doubletau_40_mediso_tightid",
 				"trg_doubletau_40_tightiso",
-				"trg_muonelectron_mu12ele23",
-				"trg_muonelectron_mu23ele12",
-				"trg_muonelectron_mu8ele23"
 				]
 
 			self["CheckLepton2TriggerMatch"] = [
-				"trg_singletau_trailing",
-				"trg_crossmuon_mu20tau27",
-				"trg_crossele_ele24tau30",
 				"trg_doubletau_35_tightiso_tightid",
 				"trg_doubletau_40_mediso_tightid",
 				"trg_doubletau_40_tightiso",
-				"trg_muonelectron_mu12ele23",
-				"trg_muonelectron_mu23ele12",
-				"trg_muonelectron_mu8ele23"
 				]
+
+		elif re.search("Run2018|Autumn18|Embedding2018", nickname):
+			self["HltPaths"] = [
+				"HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"
+				]
+			self["HLTBranchNames"] = [
+				"trg_doubletau_35_mediso:HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg"
+			]
+			if re.search("Run2018|Autumn18", nickname):
+				self["TauTriggerFilterNames"] = [
+					"HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg_v:hltHpsDoublePFTau35TrackPt1MediumChargedIsolationDz02Reg"
+				]
+				if re.search("Run2018", nickname):
+					self["HltPaths"] += [
+						"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+						"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+						"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+						]
+					self["HLTBranchNames"] += [
+						"trg_doubletau_40_tightiso:HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+						"trg_doubletau_40_mediso_tightid:HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+						"trg_doubletau_35_tightiso_tightid:HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+					]
+					self["TauTriggerFilterNames"] += [
+						"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg_v:hltDoublePFTau40TrackPt1TightChargedIsolationDz02Reg",
+						"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v:hltDoublePFTau40TrackPt1MediumChargedIsolationAndTightOOSCPhotonsDz02Reg",
+						"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg_v:hltDoublePFTau35TrackPt1TightChargedIsolationAndTightOOSCPhotonsDz02Reg",
+					]
+
+					self["DiTauPairLepton1LowerRunNumberCuts"] = [
+						"hltHpsDoublePFTau35TrackPt1MediumChargedIsolationDz02Reg:317509",
+					]
+					self["DiTauPairLepton1UpperRunNumberCuts"] = [
+						"hltDoublePFTau40TrackPt1TightChargedIsolationDz02Reg:317509",
+						"hltDoublePFTau40TrackPt1MediumChargedIsolationAndTightOOSCPhotonsDz02Reg:317509",
+						"hltDoublePFTau35TrackPt1TightChargedIsolationAndTightOOSCPhotonsDz02Reg:317509",
+					]
+					self["DiTauPairLepton2LowerRunNumberCuts"] = [
+						"hltHpsDoublePFTau35TrackPt1MediumChargedIsolationDz02Reg:317509",
+					]
+					self["DiTauPairLepton2UpperRunNumberCuts"] = [
+						"hltDoublePFTau40TrackPt1TightChargedIsolationDz02Reg:317509",
+						"hltDoublePFTau40TrackPt1MediumChargedIsolationAndTightOOSCPhotonsDz02Reg:317509",
+						"hltDoublePFTau35TrackPt1TightChargedIsolationAndTightOOSCPhotonsDz02Reg:317509",
+					]
+
+			elif re.search("Embedding2018", nickname):
+				self["TauTriggerFilterNames"] = [
+					"HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg_v:hltDoubleL2IsoTau26eta2p2"
+				]
+				self["RequireFiredHlt"] = False
+
+			self["DiTauPairLepton1LowerPtCuts"] = [
+				"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg_v:45.0",
+				"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v:45.0",
+				"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg_v:40.0",
+				"HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg_v:40.0",
+			]
+			self["DiTauPairLepton2LowerPtCuts"] = [
+				"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg_v:45.0",
+				"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v:45.0",
+				"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg_v:40.0",
+				"HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg_v:40.0",
+			]
+
+			self["CheckLepton1TriggerMatch"] = [
+				"trg_doubletau_35_tightiso_tightid",
+				"trg_doubletau_40_mediso_tightid",
+				"trg_doubletau_40_tightiso",
+				"trg_doubletau_35_mediso"
+				]
+			self["CheckLepton2TriggerMatch"] = [
+				"trg_doubletau_35_tightiso_tightid",
+				"trg_doubletau_40_mediso_tightid",
+				"trg_doubletau_40_tightiso",
+				"trg_doubletau_35_mediso"
+				]
+
+			self["CheckL1MatchForDiTauPairLepton1"] = True
+			self["CheckL1MatchForDiTauPairLepton2"] = True
 
 		quantities_set = Quantities()
 		quantities_set.build_quantities(nickname, channel = self["Channel"], legacy=isLegacy)

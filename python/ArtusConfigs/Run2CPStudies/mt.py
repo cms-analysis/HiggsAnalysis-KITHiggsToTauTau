@@ -72,7 +72,7 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 
-			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
+			# self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 			self["Processors"] += ["producer:SmearedTaggedJetProducer"]
 
@@ -467,6 +467,108 @@ class mt_ArtusConfig(dict):
 					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
 					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded"
 				]
+
+			self["CheckLepton1TriggerMatch"] = [
+				"trg_singlemuon_24",
+				"trg_singlemuon_27",
+				"trg_crossmuon_mu20tau27",
+			]
+			self["CheckLepton2TriggerMatch"] = [
+				"trg_crossmuon_mu20tau27",
+			]
+
+		elif re.search("Run2018|Autumn18|Embedding2018", nickname):
+			self["HltPaths"] = [
+				"HLT_IsoMu24",
+				"HLT_IsoMu27",
+				]
+			self["HLTBranchNames"] = [
+				"trg_singlemuon_24:HLT_IsoMu24_v",
+				"trg_singlemuon_27:HLT_IsoMu27_v",
+			]
+			self["MuonTriggerFilterNames"] = [
+				"HLT_IsoMu24_v:hltL3crIsoL1sSingleMu22L1f0L2f10QL3f24QL3trkIsoFiltered0p07",
+				"HLT_IsoMu27_v:hltL3crIsoL1sMu22Or25L1f0L2f10QL3f27QL3trkIsoFiltered0p07",
+			]
+
+			if re.search("Run2018", nickname):
+				self["HltPaths"] += [
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1"
+				]
+				self["HLTBranchNames"] += [
+					"trg_crossmuon_mu20tau27:HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v",
+					"trg_crossmuon_mu20tau27:HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v"
+				]
+				self["MuonTriggerFilterNames"] += [
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltL3crIsoBigORMu18erTauXXer2p1L1f0L2f10QL3f20QL3trkIsoFiltered0p07hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltL3crIsoBigORMu18erTauXXer2p1L1f0L2f10QL3f20QL3trkIsoFiltered0p07hltHpsOverlapFilterIsoMu20LooseChargedIsoTightOOSCPhotonsPFTau27L1Seeded",
+				]
+				self["TauTriggerFilterNames"] = [
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatchedhltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded",
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltHpsSelectedPFTau27LooseChargedIsolationTightOOSCPhotonsAgainstMuonL1HLTMatchedhltHpsOverlapFilterIsoMu20LooseChargedIsoTightOOSCPhotonsPFTau27L1Seeded",
+				]
+				self["DiTauPairLepton1LowerRunNumberCuts"] = [
+					"hltL3crIsoBigORMu18erTauXXer2p1L1f0L2f10QL3f20QL3trkIsoFiltered0p07:315974",
+					"hltHpsOverlapFilterIsoMu20LooseChargedIsoTightOOSCPhotonsPFTau27L1Seeded:317509",
+				]
+				self["DiTauPairLepton1UpperRunNumberCuts"] = [
+					"hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07:315974",
+					"hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded:317509",
+				]
+				self["DiTauPairLepton2LowerRunNumberCuts"] = [
+					"hltHpsSelectedPFTau27LooseChargedIsolationTightOOSCPhotonsAgainstMuonL1HLTMatched:317509",
+					"hltHpsOverlapFilterIsoMu20LooseChargedIsoTightOOSCPhotonsPFTau27L1Seeded:317509",
+				]
+				self["DiTauPairLepton2UpperRunNumberCuts"] = [
+					"hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched:317509",
+					"hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded:317509",
+				]
+			else: #MC and Embedding
+				self["HltPaths"] += [
+					"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1",
+				]
+				self["HLTBranchNames"] += [
+					"trg_crossmuon_mu20tau27:HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v",
+				]
+				if isEmbedded:
+					self["RequireFiredHlt"] = False
+					self["MuonTriggerFilterNames"] += [
+						"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltL3crIsoBigORMu18erTauXXer2p1L1f0L2f10QL3f20QL3trkIsoFiltered0p07",
+					]
+					self["TauTriggerFilterNames"] = [
+						"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltL1sBigORMu18erTauXXer2p1",
+					]
+				else:
+					self["MuonTriggerFilterNames"] += [
+						"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltL3crIsoL1sMu18erTau24erIorMu20erTau24erL1f0L2f10QL3f20QL3trkIsoFiltered0p07",
+						"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded",
+						"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltL3crIsoBigORMu18erTauXXer2p1L1f0L2f10QL3f20QL3trkIsoFiltered0p07",
+						"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltHpsOverlapFilterIsoMu20LooseChargedIsoTightOOSCPhotonsPFTau27L1Seeded",
+					]
+					self["TauTriggerFilterNames"] = [
+						"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltSelectedPFTau27LooseChargedIsolationAgainstMuonL1HLTMatched",
+						"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltOverlapFilterIsoMu20LooseChargedIsoPFTau27L1Seeded",
+						"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltHpsSelectedPFTau27LooseChargedIsolationTightOOSCPhotonsAgainstMuonL1HLTMatched",
+						"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:hltHpsOverlapFilterIsoMu20LooseChargedIsoTightOOSCPhotonsPFTau27L1Seeded",
+					]
+
+			self["DiTauPairLepton1LowerPtCuts"] = [
+				"HLT_IsoMu24_v:25.0",
+				"HLT_IsoMu27_v:28.0",
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:21.0",
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:21",
+			]
+			self["DiTauPairLepton2LowerPtCuts"] = [
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:32.0",
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:32.0",
+			]
+			self["DiTauPairLepton2UpperEtaCuts"] = [
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1_v:2.1",
+				"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1_v:2.1",
+			]
+
 
 			self["CheckLepton1TriggerMatch"] = [
 				"trg_singlemuon_24",

@@ -116,11 +116,13 @@ class Quantities(Run2Quantities):
 					])
 
 			elif channel == "MT":
-				if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
+				if re.search("(Autumn18|Run2018|Embedding2018)", nickname):
+					self.quantities.update(["trg_singlemuon_24", "trg_singlemuon_27", "trg_crossmuon_mu20tau27"])
+				elif re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update(["HLT_IsoMu24","HLT_IsoMu27","HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"])
 					self.quantities.update(["trg_singlemuon_24", "trg_singlemuon_27", "trg_crossmuon_mu20tau27"])
 					#self.quantities.update(["matched_HLT_IsoMu24","matched_HLT_IsoMu27","matched_HLT_IsoMu20_eta2p1_LooseChargedIsoPFTau27_eta2p1_CrossL1"])
-				if re.search("Embedding2016", nickname):
+				elif re.search("Embedding2016", nickname):
 					self.quantities.update([
 						"trg_singlemuon",
 						"triggerWeight_doublemu_1",
@@ -142,8 +144,26 @@ class Quantities(Run2Quantities):
 					self.quantities.update([
 						"trg_doubletau_35_tightiso_tightid",
 						"trg_doubletau_40_mediso_tightid",
-						"trg_doubletau_40_tightiso"
+						"trg_doubletau_40_tightiso",
 					])
+				if re.search("(Autumn18|Run2018|Embedding2018)", nickname):
+					self.quantities.update([
+						"HLT_DoubleMediumChargedIsoPFTauHPS35_Trk1_eta2p1_Reg",
+					])
+					self.quantities.update([
+						"trg_doubletau_35_mediso",
+					])
+					if re.search("(Run2018|Embedding2018)", nickname):
+						self.quantities.update([
+							"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
+							"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
+							"HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg",
+							])
+						self.quantities.update([
+							"trg_doubletau_35_tightiso_tightid",
+							"trg_doubletau_40_mediso_tightid",
+							"trg_doubletau_40_tightiso",
+						])
 				if re.search("Embedding2016", nickname):
 					self.quantities.update([
 						"triggerWeight_doublemu_1",
