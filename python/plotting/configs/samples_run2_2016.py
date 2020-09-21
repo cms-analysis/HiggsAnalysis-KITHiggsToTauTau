@@ -190,6 +190,17 @@ class Samples(samples.SamplesBase):
 				return ["(njetspt30>1)", addition]
 			return [weight]
 
+	# Calculate simple stitching weights for the inclusion of extension samples with the same cross section. Pass string with all sample names as returned by artus_file_names
+	def ext_stitchingweight(self, artus_file_names):
+		artus_file_names = artus_file_names.split()
+		n_generated_events = 0.0
+		if len(artus_file_names) == 1:
+			return "(1.0)"
+		else:
+			for file in artus_file_names:
+				n_generated_events += float(get_n_generated_events_from_nick(file.replace("/*.root", "")))
+			return "".join(["(", string(1.0/n_generated_events), ")/(numberGeneratedEventsWeight*crossSectionPerEventWeight)"])
+
 	def ztt_stitchingweight(self):
 		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 150.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 150.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 150.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 150.0 && npartons == 4)*1.09698723e-5)+"
 		mediummass = "((genbosonmass >= 50.0 && genbosonmass < 150.0 && (npartons == 0 || npartons >= 5))*3.95423374e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 1)*1.27486147e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 2)*1.3012785e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 3)*1.33802133e-5) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*1.09698723e-5)+"
