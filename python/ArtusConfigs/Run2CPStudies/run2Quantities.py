@@ -777,6 +777,9 @@ class Run2Quantities():
 			"puppimetcov10",
 			"puppimetcov11",
 			"pileupJetIDScaleFactorWeight",
+			"met_var_qcd",
+			"met_var_w",
+			"WpT",
 		]
 		if re.search("Run201(6|7|8)|Summer1(6|7)|Fall17|Autumn18|Embedding201(6|7|8)", nickname):
 			sync_quantities_list += [
