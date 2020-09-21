@@ -279,6 +279,13 @@ public:
 	IMPL_SETTING_DEFAULT(float, LowerCutHardLepPt, -1.0);
 
 	IMPL_SETTING_DEFAULT(float, DiTauPairMinDeltaRCut, -1.0);
+
+	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton1LowerRunNumberCuts, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton2LowerRunNumberCuts, {});
+
+	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton1UpperRunNumberCuts, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton2UpperRunNumberCuts, {});
+
 	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton1LowerPtCuts, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(DiTauPairLepton2LowerPtCuts, {});
 

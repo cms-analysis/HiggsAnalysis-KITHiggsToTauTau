@@ -55,6 +55,23 @@ public:
 				Utility::ParseVectorToMap(settings.GetDiTauPairLepton2UpperEtaCuts()), m_lepton2UpperEtaCutsByHltName
 		);
 
+		// configurations possible:
+		// "cut" --> applied to all pairs
+		// "<HLT Filter regex>:<cut>" --> applied to pairs that fired and matched any the given HLT Filters
+		m_lepton1LowerRunNumberCutsByFilterIndex = Utility::ParseMapTypes<size_t, unsigned int>(
+				Utility::ParseVectorToMap(settings.GetDiTauPairLepton1LowerRunNumberCuts()), m_lepton1LowerRunNumberCutsByHltFilterName
+		);
+		m_lepton2LowerRunNumberCutsByFilterIndex = Utility::ParseMapTypes<size_t, unsigned int>(
+				Utility::ParseVectorToMap(settings.GetDiTauPairLepton2LowerRunNumberCuts()), m_lepton2LowerRunNumberCutsByHltFilterName
+		);
+
+		m_lepton1UpperRunNumberCutsByFilterIndex = Utility::ParseMapTypes<size_t, unsigned int>(
+				Utility::ParseVectorToMap(settings.GetDiTauPairLepton1UpperRunNumberCuts()), m_lepton1UpperRunNumberCutsByHltFilterName
+		);
+		m_lepton2UpperRunNumberCutsByFilterIndex = Utility::ParseMapTypes<size_t, unsigned int>(
+				Utility::ParseVectorToMap(settings.GetDiTauPairLepton2UpperRunNumberCuts()), m_lepton2UpperRunNumberCutsByHltFilterName
+		);
+
 		std::vector<std::string> lepton1CheckTriggerMatchByHltName = settings.GetCheckLepton1TriggerMatch();
 		std::vector<std::string> lepton2CheckTriggerMatchByHltName = settings.GetCheckLepton2TriggerMatch();
 
@@ -71,6 +88,32 @@ public:
 		});
 
 		// debug output in initialization step
+		LOG(DEBUG) << "Settings for Lepton 1 lower run number Cuts: ";
+		for(unsigned int i = 0; i < settings.GetDiTauPairLepton1LowerRunNumberCuts().size(); i++)
+		{
+			LOG(DEBUG) << settings.GetDiTauPairLepton1LowerRunNumberCuts().at(i);
+		}
+		LOG(DEBUG) << "Settings for Lepton 1 upper run number Cuts: ";
+		for(unsigned int i = 0; i < settings.GetDiTauPairLepton1UpperRunNumberCuts().size(); i++)
+		{
+			LOG(DEBUG) << settings.GetDiTauPairLepton1UpperRunNumberCuts().at(i);
+		}
+
+		LOG(DEBUG) << "Settings for Lepton 1 lower run number Cuts: ";
+		for(unsigned int i = 0; i < settings.GetDiTauPairLepton2LowerRunNumberCuts().size(); i++)
+		{
+			LOG(DEBUG) << settings.GetDiTauPairLepton2LowerRunNumberCuts().at(i);
+		}
+		LOG(DEBUG) << "Settings for Lepton 1 upper run number Cuts: ";
+		for(unsigned int i = 0; i < settings.GetDiTauPairLepton2UpperRunNumberCuts().size(); i++)
+		{
+			LOG(DEBUG) << settings.GetDiTauPairLepton2UpperRunNumberCuts().at(i);
+		}
+		LOG(DEBUG) << "Amount of lepton 1 run number lower Cuts by Hlt Name: " << m_lepton1LowerRunNumberCutsByHltFilterName.size();
+		LOG(DEBUG) << "Amount of lepton 1 run number upper Cuts by Hlt Name: " << m_lepton1UpperRunNumberCutsByHltFilterName.size();
+		LOG(DEBUG) << "Amount of lepton 2 run number lower Cuts by Hlt Filter Name: " << m_lepton2LowerRunNumberCutsByHltFilterName.size();
+		LOG(DEBUG) << "Amount of lepton 2 run number upper Cuts by Hlt Filter Name: " << m_lepton2UpperRunNumberCutsByHltFilterName.size();
+
 		LOG(DEBUG) << "Settings for Lepton 1 Pt Cuts: ";
 		for(unsigned int i = 0; i < settings.GetDiTauPairLepton1LowerPtCuts().size(); i++)
 		{
@@ -86,13 +129,18 @@ public:
 
 		for(auto hltNames: m_hltFiredBranchNames)
 		{
+			std::map<std::string, std::vector<unsigned int>> lepton1LowerRunNumberCutsByHltFilterName = m_lepton1LowerRunNumberCutsByHltFilterName;
+			std::map<std::string, std::vector<unsigned int>> lepton1UpperRunNumberCutsByHltFilterName = m_lepton1UpperRunNumberCutsByHltFilterName;
+			std::map<std::string, std::vector<unsigned int>> lepton2LowerRunNumberCutsByHltFilterName = m_lepton2LowerRunNumberCutsByHltFilterName;
+			std::map<std::string, std::vector<unsigned int>> lepton2UpperRunNumberCutsByHltFilterName = m_lepton2UpperRunNumberCutsByHltFilterName;
 			std::map<std::string, std::vector<float>> lepton1LowerPtCutsByHltName = m_lepton1LowerPtCutsByHltName;
 			std::map<std::string, std::vector<float>> lepton2LowerPtCutsByHltName = m_lepton2LowerPtCutsByHltName;
 			std::map<std::string, std::vector<float>> lepton1UpperEtaCutsByHltName = m_lepton1UpperEtaCutsByHltName;
 			std::map<std::string, std::vector<float>> lepton2UpperEtaCutsByHltName = m_lepton2UpperEtaCutsByHltName;
+
 			bool lepton1CheckL1Match = settings.GetCheckL1MatchForDiTauPairLepton1();
 			bool lepton2CheckL1Match = settings.GetCheckL1MatchForDiTauPairLepton2();
-			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, hltNames.first, [lepton1CheckL1Match, lepton2CheckL1Match, lepton1CheckTriggerMatchByHltName, lepton2CheckTriggerMatchByHltName, hltNames, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName, lepton1UpperEtaCutsByHltName, lepton2UpperEtaCutsByHltName](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+			LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, hltNames.first, [lepton1CheckL1Match, lepton2CheckL1Match, lepton1CheckTriggerMatchByHltName, lepton2CheckTriggerMatchByHltName, hltNames, lepton1LowerRunNumberCutsByHltFilterName, lepton1UpperRunNumberCutsByHltFilterName, lepton2LowerRunNumberCutsByHltFilterName, lepton2UpperRunNumberCutsByHltFilterName, lepton1LowerPtCutsByHltName, lepton2LowerPtCutsByHltName, lepton1UpperEtaCutsByHltName, lepton2UpperEtaCutsByHltName](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 			{
 				bool diTauPairFiredTrigger = false;
 				LOG(DEBUG) << "Beginning of lambda function for " << hltNames.first;
@@ -104,7 +152,7 @@ public:
 					bool hltFired2 = false;
 					if (checkLep1)
 					{
-						LOG(DEBUG) << "Checking trigger object matching for lepton 1";
+						LOG(DEBUG) << "Checking trigger object matching for lepton 1 at HLT: " << hltName;
 						if (product.m_detailedTriggerMatchedLeptons.find(static_cast<KLepton*>(product.m_validDiTauPairCandidates.at(0).first)) != product.m_detailedTriggerMatchedLeptons.end())
 						{
 							auto trigger1 = product.m_detailedTriggerMatchedLeptons.at(static_cast<KLepton*>(product.m_validDiTauPairCandidates.at(0).first));
@@ -114,7 +162,27 @@ public:
 								{
 									for (auto matchedObjects: hlts.second)
 									{
-										if (matchedObjects.second.size() > 0) hltFired1 = true;
+										if (matchedObjects.second.size() > 0)
+										{
+											LOG(DEBUG) << "matchedObjects.first " << matchedObjects.first;
+											hltFired1 = true;
+										}
+
+										std::string filterName = matchedObjects.first;
+										for (auto filternames : lepton1LowerRunNumberCutsByHltFilterName)
+										{
+											LOG(DEBUG) << "lepton1LowerRunNumberCutsByHltFilterName: " << filternames.first;
+										}
+										if (lepton1LowerRunNumberCutsByHltFilterName.find(filterName) != lepton1LowerRunNumberCutsByHltFilterName.end())
+										{
+											hltFired1 = hltFired1 && (event.m_eventInfo->nRun > *std::min_element(lepton1LowerRunNumberCutsByHltFilterName.at(filterName).begin(), lepton1LowerRunNumberCutsByHltFilterName.at(filterName).end()));
+											LOG(DEBUG) << "Run number: " << event.m_eventInfo->nRun << "\t\tlower threshold: " << *std::min_element(lepton1LowerRunNumberCutsByHltFilterName.at(filterName).begin(), lepton1LowerRunNumberCutsByHltFilterName.at(filterName).end());
+										}
+										if (lepton1UpperRunNumberCutsByHltFilterName.find(filterName) != lepton1UpperRunNumberCutsByHltFilterName.end())
+										{
+											hltFired1 = hltFired1 && (event.m_eventInfo->nRun <= *std::max_element(lepton1UpperRunNumberCutsByHltFilterName.at(filterName).begin(), lepton1UpperRunNumberCutsByHltFilterName.at(filterName).end()));
+											LOG(DEBUG) << "\t\tupper threshold: " << *std::max_element(lepton1UpperRunNumberCutsByHltFilterName.at(filterName).begin(), lepton1UpperRunNumberCutsByHltFilterName.at(filterName).end());
+										}
 									}
 								}
 							}
@@ -162,6 +230,21 @@ public:
 									for (auto matchedObjects: hlts.second)
 									{
 										if (matchedObjects.second.size() > 0) hltFired2 = true;
+										std::string filterName = matchedObjects.first;
+										for (auto filternames : lepton2LowerRunNumberCutsByHltFilterName)
+										{
+											LOG(DEBUG) << "lepton2LowerRunNumberCutsByHltFilterName: " << filternames.first;
+										}
+										if (lepton2LowerRunNumberCutsByHltFilterName.find(filterName) != lepton2LowerRunNumberCutsByHltFilterName.end())
+										{
+											hltFired1 = hltFired1 && (event.m_eventInfo->nRun > *std::min_element(lepton2LowerRunNumberCutsByHltFilterName.at(filterName).begin(), lepton2LowerRunNumberCutsByHltFilterName.at(filterName).end()));
+											LOG(DEBUG) << "Run number: " << event.m_eventInfo->nRun << "\t\tlower threshold: " << *std::min_element(lepton2LowerRunNumberCutsByHltFilterName.at(filterName).begin(), lepton2LowerRunNumberCutsByHltFilterName.at(filterName).end());
+										}
+										if (lepton2UpperRunNumberCutsByHltFilterName.find(filterName) != lepton2UpperRunNumberCutsByHltFilterName.end())
+										{
+											hltFired1 = hltFired1 && (event.m_eventInfo->nRun <= *std::max_element(lepton2UpperRunNumberCutsByHltFilterName.at(filterName).begin(), lepton2UpperRunNumberCutsByHltFilterName.at(filterName).end()));
+											LOG(DEBUG) << "\t\tupper threshold: " << *std::max_element(lepton2UpperRunNumberCutsByHltFilterName.at(filterName).begin(), lepton2UpperRunNumberCutsByHltFilterName.at(filterName).end());
+										}
 									}
 								}
 							}
@@ -277,6 +360,16 @@ protected:
 private:
 	std::vector<TLepton1*> product_type::*m_validLeptonsMember1;
 	std::vector<TLepton2*> product_type::*m_validLeptonsMember2;
+
+	std::map<size_t, std::vector<unsigned int> > m_lepton1LowerRunNumberCutsByFilterIndex;
+	std::map<std::string, std::vector<unsigned int> > m_lepton1LowerRunNumberCutsByHltFilterName;
+	std::map<size_t, std::vector<unsigned int> > m_lepton1UpperRunNumberCutsByFilterIndex;
+	std::map<std::string, std::vector<unsigned int> > m_lepton1UpperRunNumberCutsByHltFilterName;
+
+	std::map<size_t, std::vector<unsigned int> > m_lepton2LowerRunNumberCutsByFilterIndex;
+	std::map<std::string, std::vector<unsigned int> > m_lepton2LowerRunNumberCutsByHltFilterName;
+	std::map<size_t, std::vector<unsigned int> > m_lepton2UpperRunNumberCutsByFilterIndex;
+	std::map<std::string, std::vector<unsigned int> > m_lepton2UpperRunNumberCutsByHltFilterName;
 
 	std::map<size_t, std::vector<float> > m_lepton1LowerPtCutsByIndex;
 	std::map<std::string, std::vector<float> > m_lepton1LowerPtCutsByHltName;
