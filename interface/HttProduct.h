@@ -224,6 +224,9 @@ public:
 	RMDLV m_diGenJetSystem;
 	bool m_diGenJetSystemAvailable = false;
 
+	// filled by the LegacyJetToTauFakesProducer
+	RMFLV m_jetFakesWp4;
+
 	// filled by TaggedJetUncertaintyShiftProducer
 	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedJetsBySplitUncertaintyUp;
 	std::map<HttEnumTypes::JetEnergyUncertaintyShiftName, std::vector<KJet>> m_correctedJetsBySplitUncertaintyDown;

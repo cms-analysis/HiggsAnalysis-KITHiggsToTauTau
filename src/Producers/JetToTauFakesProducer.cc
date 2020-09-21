@@ -1,4 +1,5 @@
 #include "Artus/Utility/interface/SafeMap.h"
+#include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/JetToTauFakesProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/Quantities.h"
@@ -539,6 +540,20 @@ void LegacyJetToTauFakesProducer::Init(setting_type const& settings, metadata_ty
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
 
+	// add possible quantities for the lambda ntuples consumers
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "met_var_qcd", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_met.p4.Pt()*TMath::Cos(ROOT::Math::VectorUtil::DeltaPhi(product.m_flavourOrderedLeptons[1]->p4, product.m_met.p4))/product.m_flavourOrderedLeptons[1]->p4.Pt();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "met_var_w", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_jetFakesWp4.Pt()*TMath::Cos(ROOT::Math::VectorUtil::DeltaPhi(product.m_flavourOrderedLeptons[1]->p4, product.m_jetFakesWp4))/product.m_flavourOrderedLeptons[1]->p4.Pt();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "WpT", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_jetFakesWp4.Pt();
+	});
+
 	std::string ffFile = settings.GetFakeFactorFractionsRooWorkspaceFile();
 	m_ff_functions = Utility::ParseMapTypes<std::string,std::string>(Utility::ParseVectorToMap((settings.GetFakeFactorRooWorkspaceFunction())));
 
@@ -581,6 +596,10 @@ void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type&
 
 	if (m_isMT || m_isET)
 	{
+
+		double jetFakesMetVarQCD = product.m_met.p4.Pt()*TMath::Cos(ROOT::Math::VectorUtil::DeltaPhi(product.m_flavourOrderedLeptons[1]->p4, product.m_met.p4))/product.m_flavourOrderedLeptons[1]->p4.Pt();
+		product.m_jetFakesWp4 = product.m_flavourOrderedLeptons[0]->p4 + product.m_met.p4;
+		double jetFakesMetVarW = product.m_jetFakesWp4.Pt()*TMath::Cos(ROOT::Math::VectorUtil::DeltaPhi(product.m_flavourOrderedLeptons[1]->p4, product.m_jetFakesWp4))/product.m_flavourOrderedLeptons[1]->p4.Pt();
 		for(auto ff_function: m_ff_functions)
 		{
 			// LOG(INFO) << "ff_function.first: " << ff_function.first;
@@ -607,9 +626,9 @@ void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type&
 				{
 					args.push_back(static_cast<KTau*>(product.m_flavourOrderedLeptons.at(1))->decayMode);
 				}
-				else if(arg=="ipsig") // NOTE: IC FF do NOT contain refitted PV with BS constraint, therefore use refitted PV without BS
+				else if(arg=="ipsig")
 				{
-					args.push_back(product.m_IPSignificanceHelrPV_2);
+					args.push_back(product.m_IPSignificanceHelrPVBS_2);
 				}
 				else if(arg=="njets")
 				{
@@ -633,7 +652,7 @@ void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type&
 				}
 				else if(arg=="pass_single")
 				{
-					if(m_year == 2017) // year logic here
+					if(m_year == 2017 || m_year == 2018) // year logic here
 					{
 						if(m_isMT)
 						{
@@ -652,6 +671,18 @@ void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type&
 				else if(arg=="mvis")
 				{
 					args.push_back(product.m_diLeptonSystem.mass());
+				}
+				else if(arg=="met_var_qcd")
+				{
+					args.push_back(jetFakesMetVarQCD);
+				}
+				else if(arg=="met_var_w")
+				{
+					args.push_back(jetFakesMetVarW);
+				}
+				else if(arg=="WpT")
+				{
+					args.push_back(product.m_jetFakesWp4.Pt());
 				}
 			}
 			std::string ff_name = ff_function.first.c_str();
