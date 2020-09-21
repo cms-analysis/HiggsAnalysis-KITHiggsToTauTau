@@ -20,26 +20,26 @@ class TauSpinner(dict):
 			self["TauSpinnerSettingsCmsEnergy"] = 14000.0
 
 		self["TauSpinnerSettingsIpp"] = True
-		
+
 		self["TauSpinnerSettingsIpol_documentation"] = {
 			"0/1" : "Applying longitudinal spin effects, https://arxiv.org/pdf/1402.2068v1.pdf (section 5.4)",
 			"2" : "Working on the input file with spin correlations but without polarization",
 			"3" : "Replacing spin effects of Z/gammaStar with the Higgs-like spin-0 state spin correlations",
 			"4" : "Validation"
 		}
-		if re.search("(DY.?JetsToLL)|Embedding(2016|2017)", nickname):
+		if re.search("(DY.?JetsToLL)|Embedding(2016|2017|2018)", nickname):
 			self["TauSpinnerSettingsIpol"] = "2"
 		else:
 			self["TauSpinnerSettingsIpol"] = "1"
-		
+
 		self["TauSpinnerSettingsNonSM2_documentation"] = {
 			"0" : "SM calculations (spin = 0)",
 			"1" : "non SM calculations (spin = 2): http://tauolapp.web.cern.ch/tauolapp/tau__reweight__lib_8cxx_source.html (line 558)"
 		}
 		self["TauSpinnerSettingsNonSM2"] = "0"
-		
+
 		self["TauSpinnerSettingsNonSMN"] = "0"
-		
+
 		self["TauSpinnerValidPdgIdsAndStatusCodes"] = [
 			# "15:23", # Tau
 			"15:2", # Tau

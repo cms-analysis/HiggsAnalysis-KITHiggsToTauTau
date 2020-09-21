@@ -37,10 +37,10 @@ class MinimalPlotlevelFilter():
 			self.minPlotLevelDict["PlotlevelFilterExpression"] = "(byVVVLooseDeepTau2017v2p1VSjet_2 > 0.5)*(byVVVLooseDeepTau2017v2p1VSe_2 > 0.5)*(byVLooseDeepTau2017v2p1VSmu_2 > 0.5)"
 		else:
 			self.minPlotLevelDict["PlotlevelFilterExpressionQuantities"] = [
-			"metfilter_flag",
-			"extraelec_veto",
-			"extramuon_veto",
-			"nDiMuonVetoPairsOS"
+				"metfilter_flag",
+				"extraelec_veto",
+				"extramuon_veto",
+				"nDiMuonVetoPairsOS"
 			]
 
 			self.minPlotLevelDict["PlotlevelFilterExpression"] = "(nDiMuonVetoPairsOS < 0.5)*(extraelec_veto < 0.5)*(extramuon_veto < 0.5)"

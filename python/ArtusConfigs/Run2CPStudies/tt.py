@@ -70,7 +70,7 @@ class tt_ArtusConfig(dict):
 
 			self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 
-			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
+			# self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 			self["Processors"] += ["producer:SmearedTaggedJetProducer"]
 
@@ -79,7 +79,7 @@ class tt_ArtusConfig(dict):
 			else:
 				self["Processors"] += ["producer:JetToTauFakesProducer"]
 
-			if re.search("Summer1(6|7)|Fall17|Run201(6|7|8)|Embedding201(6|7|8)", nickname):
+			if re.search("Summer1(6|7)|Fall17|Run201(6|7|8)|Embedding201(6|7|8)|Autumn18", nickname):
 				self["Processors"] += ["producer:NewValidTTPairCandidatesProducer"]
 				self["Processors"] += ["producer:MetFilterProducer"]
 			else:

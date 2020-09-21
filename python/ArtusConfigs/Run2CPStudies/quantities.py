@@ -214,10 +214,10 @@ class Quantities(Run2Quantities):
 
 			# ************ datasets(groups, samples) common across all except mm channels are all the rest
 			else:
-				if not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
+				if not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17|Autumn18))', nickname):
 					self.quantities.update(self.genMatchedCPQuantities())
 
-					if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
+					if re.search("(Run2017|Summer17|Fall17|Run2018|Autumn18)", nickname) == None:
 						#self.quantities.update(self.splitJecUncertaintyQuantities())
 						self.quantities.update(self.genHiggsQuantities()) #no lhe in 2017 skim
 					if re.search("amcatnlo",nickname):
@@ -277,7 +277,7 @@ class Quantities(Run2Quantities):
 					if channel == "ET": self.quantities.add('nVetoElectrons')
 					if channel in ["MT"]: self.quantities.add('nVetoMuons')
 
-				else: # data, 2016/2017 wjets, ttbar, diboson
+				else: # data, 2016/2017/2018 wjets, ttbar, diboson
 					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 
 					if channel == "MM":

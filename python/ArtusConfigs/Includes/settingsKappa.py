@@ -18,7 +18,10 @@ class Kappa(dict):
 		else:
 			self["GenParticles"] = "genParticles"
 			self["GenTaus"] = "genTaus"
-			self["GenTauJets"] = "tauGenJets"  # * default is set here
+			if re.search("Embedding2018", nickname):
+				self["GenTauJets"] = ""  # * default is set here
+			else:
+				self["GenTauJets"] = "tauGenJets"  # * default is set here
 			self["GenMet"] = "genmetTrue"
 			#for now GenJets presnt only in signal samples
 			if re.search("HToTauTau", nickname) or re.search("H2JetsToTauTau", nickname):
@@ -49,11 +52,7 @@ class Kappa(dict):
 			self["PileupDensity"] = "pileupDensity"
 
 		self["Met"] = "met"
-
-		if re.search("(16Dec2015v1|Fall15|Spring16|Run2015)", nickname):
-			self["PuppiMet"] = "metPuppi"
-		else:
-			self["PuppiMet"] = "metPuppi"
+		self["PuppiMet"] = "metPuppi"
 
 		if legacy:
 			self["MvaMets"] = ""
@@ -66,7 +65,6 @@ class Kappa(dict):
 		#self["PFNeutralHadronsNoPileUp"] = "pfNoPileUpNeutralHadrons"
 		#self["PFPhotonsNoPileUp"] = "pfNoPileUpPhotons"
 		#self["PackedPFCandidates"] = "packedPFCandidates"
-		self["BeamSpot"] = "offlineBeamSpot"
 		self["VertexSummary"] = "goodOfflinePrimaryVerticesSummary"
 		self["EventInfo"] = "eventInfo"
 		self["LumiInfo"] = "lumiInfo"

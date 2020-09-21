@@ -101,12 +101,12 @@ class mt_ArtusConfig(dict):
 				# self["Processors"] += ["producer:MELAProducer"]
 				#self["Processors"] += ["producer:MELAM125Producer"]
 
-				if re.search("Run(2016|2017|2018)", nickname):
-					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+				# if re.search("Run(2016|2017|2018)", nickname):
+				# 	self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 				if re.search("Embedding(2016|2017|2018)", nickname):
-					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+					# self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 					self["Processors"] += ["producer:TauCorrectionsProducer"]
 					self["Processors"] += ["producer:MuonCorrectionsProducer"]
 					if legacy:
@@ -131,6 +131,7 @@ class mt_ArtusConfig(dict):
 
 				if re.search("Summer1(6|7)|Fall17|Autumn18", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
+					self["Processors"] += ["producer:SimpleFitProducer"]
 					#"producer:TriggerWeightProducer"
 					if legacy:
 						self["Processors"] += ["producer:LegacyWeightProducer"]
@@ -164,7 +165,6 @@ class mt_ArtusConfig(dict):
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17|Autumn18))", nickname):
 
-						self["Processors"] += ["producer:SimpleFitProducer"]
 						if re.search("Summer1(6|7)|Fall17|Autumn18", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]

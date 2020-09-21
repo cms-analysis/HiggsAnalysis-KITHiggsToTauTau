@@ -149,7 +149,7 @@ class globalProccesors(dict):
 				"producer:GenTauDecayProducer",
 				"producer:GenTauCPProducer"]
 
-			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
+			if re.search("(Run2017|Summer17|Fall17|Run2018|Autumn18)", nickname) == None:
 				self["Processors"] += ["producer:GenHiggsCPProducer"]      #needs lhe info which is not stored for 2017
 			self["Processors"] += [
 				"producer:TauSpinnerProducer",
