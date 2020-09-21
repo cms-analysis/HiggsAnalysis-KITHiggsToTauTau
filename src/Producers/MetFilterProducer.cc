@@ -42,8 +42,8 @@ void MetFilterProducer::Produce(event_type const& event, product_type& product,
 	bool metFilterFlag = true;
 	for (auto metfilter : m_metFilters)
 	{
-		//std::cout<< metfilter << std::endl;
-		int filterid = event.m_triggerObjectMetadata->metFilterPos(metfilter);                                  
+		LOG(DEBUG) << metfilter << std::endl;
+		int filterid = event.m_triggerObjectMetadata->metFilterPos(metfilter);
         	bool result = event.m_triggerObjects->passesMetFilter(filterid);
 		// check if the filter should be inverted
 		if(std::find(m_invertedFilters.begin(),m_invertedFilters.end(), metfilter) != m_invertedFilters.end())
