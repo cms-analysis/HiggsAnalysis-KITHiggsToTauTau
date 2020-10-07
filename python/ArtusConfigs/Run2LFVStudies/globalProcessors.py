@@ -22,7 +22,7 @@ class globalProccesors(dict):
 				self["Processors"] += ["producer:LHEParticlesProducer"]
 
 			self["Processors"] += [
-				"producer:GenDiLeptonDecayModeLFVProducer",
+				"producer:GenDiLeptonDecayModeProducer",
 				"producer:GenParticleProducer",
 				"producer:RecoElectronGenParticleMatchingProducer",
 				"producer:RecoElectronGenTauMatchingProducer",
@@ -180,4 +180,4 @@ class globalProccesors(dict):
 				"producer:PUWeightProducer",
 				"#producer:ScaleVariationProducer",
 				"#filter:MetFilter"
-			
+			]

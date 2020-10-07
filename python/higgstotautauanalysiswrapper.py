@@ -163,7 +163,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 		elif kwargs.get("study", "LFV"):
 			log.debug("INCLUDING LFV CONFIG FILES")
 			global mt, et, em, gen, systematicsfile, baseconfigcp, globalprocessors
-			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2LFVStudies.mt as mt
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2LFVStudies.mt_updates as mt
 			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2LFVStudies.et as et
 			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2LFVStudies.em as em
 			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2LFVStudies.gen as gen

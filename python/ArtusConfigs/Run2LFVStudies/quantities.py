@@ -6,7 +6,7 @@ log = logging.getLogger(__name__)
 
 import re
 
-from run2Quantities import Run2Quantities
+from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.run2Quantities import Run2Quantities
 # from HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Run2Quantities import Run2Quantities
 
 class Quantities(Run2Quantities):
@@ -731,21 +731,21 @@ class Quantities(Run2Quantities):
 			"isZem",
 			"isZmm",
 			"isZee",
-			"lheZBosonProductionMode",
-			"lheZfromUUbar",
-			"lheZfromDDbar",
-			"lheZfromCCbar",
-			"lheZfromSSbar",
-			"lheZfromBBbar",
+			"#lheZBosonProductionMode",
+			"#lheZfromUUbar",
+			"#lheZfromDDbar",
+			"#lheZfromCCbar",
+			"#lheZfromSSbar",
+			"#lheZfromBBbar",
 			"#lheDiLeptonDecayMode",
-			"lheZtoEE",
-			"lheZtoMM",
-			"lheZtoTT",
-			"lheZtoEM",
-			"lheZtoET",
-			"lheZtoMT",
-			"LHE_p_1",
-			"LHE_p_2"
+			"#lheZtoEE",
+			"#lheZtoMM",
+			"#lheZtoTT",
+			"#lheZtoEM",
+			"#lheZtoET",
+			"#lheZtoMT",
+			"#LHE_p_1",
+			"#LHE_p_2"
 		]
 
 	@staticmethod
