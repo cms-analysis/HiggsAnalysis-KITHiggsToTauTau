@@ -61,7 +61,7 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 	def _initArgumentParser(self, userArgParsers=None):
 		super(HiggsToTauTauAnalysisWrapper, self)._initArgumentParser(userArgParsers)
 		self.configOptionsGroup.add_argument("--study", default="CPFinalState",
-		                                help="Study to be run by artus, options: CP, CPFinalState, MSSM(TODO). [Default: %(default)s]")
+		                                help="Study to be run by artus, options: CP, CPFinalState, LFV, MSSM(TODO). [Default: %(default)s]")
 		self.configOptionsGroup.add_argument("--sync", default=False, action="store_true",
 		                                help="Produce sync ntuples (removes some MinimalPlotlevelFilters). [Default: %(default)s]")
 		self.configLegacyOptionsGroup = self._parser.add_mutually_exclusive_group(required=False)
@@ -159,6 +159,19 @@ class HiggsToTauTauAnalysisWrapper(kappaanalysiswrapper.KappaAnalysisWrapper):
 			if kwargs.get("legacy", False):
 				# TODO: add legacy specific configs here
 				pass
+
+		elif kwargs.get("study", "LFV"):
+			log.debug("INCLUDING LFV CONFIG FILES")
+			global mt, et, em, gen, systematicsfile, baseconfigcp, globalprocessors
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2LFVStudies.mt as mt
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2LFVStudies.et as et
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2LFVStudies.em as em
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2LFVStudies.gen as gen
+
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.systematics as systematicsfile
+
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.baseconfigCP as baseconfigcp
+			import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2LFVStudies.globalProcessors as globalprocessors
 
 		elif kwargs.get("study", "MSSM"):
 			log.error("NOT DONE YET!")
