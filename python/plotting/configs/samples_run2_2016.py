@@ -906,7 +906,7 @@ class Samples(samples.SamplesBase):
 		return config
 
 	def files_lfv(self, channel):
-		return self.artus_file_names({"process" : "LFV*", "data": False, "croote" : self.mc_campaign}, 10)
+		return self.artus_file_names({"process" : "LFV*", "data": False, "scenario" : self.mc_campaign}, 10)
 
 	def zmt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
 		if exclude_cuts is None:
