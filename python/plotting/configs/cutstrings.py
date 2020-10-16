@@ -421,6 +421,11 @@ class CutStringsDict:
 		return cuts
 
 	@staticmethod
+        def baseline2017legacy(channel, cut_type, **kwargs):
+                cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
+                return cuts
+
+	@staticmethod
 	def antievloosepass(channel, cut_type, **kwargs):
 		if channel == "et":
 			cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
@@ -1030,6 +1035,9 @@ class CutStringsDict:
 
 		elif cut_type=="lfv":
 			cuts = CutStringsDict.lfv(channel, cut_type, **kwargs)
+
+		elif cut_type=="baseline2017legacy":
+                        cuts = CutStringsDict.baseline2017legacy(channel, cut_type, **kwargs)
 
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)
