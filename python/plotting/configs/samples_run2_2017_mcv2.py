@@ -87,6 +87,10 @@ class Samples(samples.Samples):
 	def vv_stitchingweight(self):
 		return "(1.0)"
 
+	def lfv_stitchingweight(self):
+		return "(1.0)"
+
+
 	def ttbar_stitchingweight(self):
 		return "(1.0)"
 
@@ -199,6 +203,41 @@ class Samples(samples.Samples):
 	#
 	# 	Samples._add_plot(config, "data", "E", "ELP", "data", nick_suffix)
 	# 	return config
+
+
+	def files_lfv(self, channel):
+		return self.artus_file_names({"process" : "LFV*", "data": False, "scenario" : "RunIIFall17"}, 1)
+
+
+	def zmt(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fakefactor_method=False, **kwargs):
+		if exclude_cuts is None:
+			exclude_cuts = []
+
+		scale_factor = lumi
+
+		branching_ratio = "1.2e-5" #"(0.03363)*0.66*0.17*2"
+		jet_integral_weight = "1/1.05"
+		files_weight = "1/10.0"
+		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
+
+		if not self.postfit_scales is None:
+			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
+
+		data_weight, mc_weight = self.projection(kwargs)
+		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+		add_input(
+				input_file=self.files_lfv(channel),
+				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(1.0)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight,
+				nick="zmt"
+		)
+
+		Samples._add_bin_corrections(config, "zmt", nick_suffix)
+
+		if not kwargs.get("no_plot", False):
+			Samples._add_plot(config, "sig", "LINE", "F", kwargs.get("color_label_key", "zmt"), nick_suffix)
+
+		return config
+
 
 	def files_ztt(self, channel, embedding=False):
 		#artus_files = self.artus_file_names({"process" : "(DYJetsToLLM50|DY1JetsToLLM50|DY2JetsToLLM50|DY3JetsToLLM50)", "data": False, "campaign" : self.mc_campaign, "generator" : "madgraph\-pythia8"}, 7) #8 mit norm DY3 jets und DY4jets		TOO many not used samples in samples run 2 so i did it the fast and dirty way

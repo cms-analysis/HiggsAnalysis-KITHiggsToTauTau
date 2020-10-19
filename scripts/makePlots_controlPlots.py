@@ -368,8 +368,6 @@ if __name__ == "__main__":
 		global_cut_type = "mssm"
 	elif args.mva:
 		global_category_string = "catMVAStudies"
-	elif args.lfv:
-		global_category_string = "catLFV13TeV"
 	elif args.polarisation:
 		global_category_string = "catZttPol13TeV"
 		global_cut_type = "low_mvis_smhtt"
@@ -401,6 +399,9 @@ if __name__ == "__main__":
 		if args.cptautau:
 			global_category_string = "catcptautau2017"
 			global_cut_type = "cptautau"
+		if args.lfv:
+               		global_category_string = "catLFV13TeV"
+               		global_cut_type = "lfv"	
 		global_cut_type += "2017"
 	elif args.era == "2018":
 		if args.smhtt:
