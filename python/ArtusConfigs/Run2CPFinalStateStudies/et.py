@@ -65,11 +65,11 @@ class et_ArtusConfig(etbaseconfig.et_ArtusConfig):
 		# 		"ff_mt_vtight_mvadmbins_nosig:pt,mvadm,njets,m_pt,os,met,mt,m_iso,pass_single,mvis",
 		# 	]
 		# 	if re.search("Run2016|Summer16|Embedding2016", nickname):
-		# 		self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fakefactors_ws_2016.root"
+		# 		self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fakefactors_ws_2016.root"
 		# 	elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
-		# 		self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fakefactors_ws_2017.root"
+		# 		self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fakefactors_ws_2017.root"
 		# 	elif re.search("Run2018|Autumn18|Embedding2018", nickname):
-		# 		self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fakefactors_ws_2018.root"
+		# 		self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fakefactors_ws_2018.root"
 		else:
 			self["FakeFactorMethod"] = "cpfinalstate2017"
 			self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/FF_fractions_workspace_m_vis_njets.root"
@@ -80,12 +80,12 @@ class et_ArtusConfig(etbaseconfig.et_ArtusConfig):
 				"dy_fracs:real_taus_fracs_et",
 			]
 			if re.search("Run2016|Summer16|Embedding2016", nickname):
-				self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/et/fakeFactors.root" #FIXME if needed and add FF for 2016
+				self["FakeFaktorFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/et/fakeFactors.root" #FIXME if needed and add FF for 2016
 			elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
-				self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/et/fakeFactors.root"
+				self["FakeFaktorFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/et/fakeFactors.root"
 			        #self["FakeFaktorFile"] = "root://se.cis.gov.pl:1094//store/user/bluj/higgs-kit/FF/2017/et/fakeFactors.root"
 			elif re.search("Run2018|Autumn18|Embedding2018", nickname):
-				self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/et/fakeFactors.root" #FIXME if needed and add FF for 2018
+				self["FakeFaktorFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/et/fakeFactors.root" #FIXME if needed and add FF for 2018
 
 		self["TauUpperAbsEtaCuts"] = ["2.3"] # tau trigger SFs only allow abs(eta) up to 2.1
 

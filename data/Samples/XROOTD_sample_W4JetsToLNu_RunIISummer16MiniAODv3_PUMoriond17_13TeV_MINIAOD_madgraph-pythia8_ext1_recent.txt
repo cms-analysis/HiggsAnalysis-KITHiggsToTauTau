@@ -1,1 +1,1 @@
-XROOTD_sample_W4JetsToLNu_RunIISummer16MiniAODv3_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1_2020-08-19.txt
+root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/skimming/2020-08-19_Skim_Legacy2016/W4JetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/crab_d82946dd798cf1e700052542118b61f9/200819_234416/0000/kappa_W4JetsToLNu_RunIISummer16MiniAODv3_PUMoriond17_13TeV_MINIAOD_madgraph-pythia8_ext1_1.root

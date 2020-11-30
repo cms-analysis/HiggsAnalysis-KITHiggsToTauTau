@@ -49,11 +49,11 @@ class mt_ArtusConfig(mtbaseconfig.mt_ArtusConfig):
 				# "ff_mt_vtight_mvadmbins_nosig:pt,mvadm,njets,m_pt,os,mt,m_iso,pass_single,met_var_qcd,met_var_w,WpT",
 			]
 			if re.search("Run2016|Summer16|Embedding2016", nickname):
-				self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fake_factors_cpdecay_ipsig1p5_v3/fakefactors_ws_mt_lite_2016.root"
+				self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fake_factors_cpdecay_ipsig1p5_v3/fakefactors_ws_mt_lite_2016.root"
 			elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
-				self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fake_factors_cpdecay_ipsig1p5_v3/fakefactors_ws_mt_lite_2017.root"
+				self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fake_factors_cpdecay_ipsig1p5_v3/fakefactors_ws_mt_lite_2017.root"
 			elif re.search("Run2018|Autumn18|Embedding2018", nickname):
-				self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fake_factors_cpdecay_ipsig1p5_v3/fakefactors_ws_mt_lite_2018.root"
+				self["FakeFactorFractionsRooWorkspaceFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-IC/ff/fake_factors_cpdecay_ipsig1p5_v3/fakefactors_ws_mt_lite_2018.root"
 		else:
 				self["FakeFactorMethod"] = "cpfinalstate2017"
 				self["FakeFactorFractionsRooWorkspaceFile"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/fakeFactorWeights/rooworkspacefractions/FF_fractions_workspace_m_vis_njets.root"
@@ -64,12 +64,12 @@ class mt_ArtusConfig(mtbaseconfig.mt_ArtusConfig):
 					"dy_fracs:real_taus_fracs_mt",
 				]
 				if re.search("Run2016|Summer16|Embedding2016", nickname):
-					self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2016/mt/fakeFactors.root"
+					self["FakeFaktorFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2016/mt/fakeFactors.root"
 				elif re.search("Run2017|Summer17|Fall17|Embedding2017", nickname):
-					self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/mt/fakeFactors.root"
+					self["FakeFaktorFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2017/mt/fakeFactors.root"
 					#self["FakeFaktorFile"] = "root://se.cis.gov.pl:1094//store/user/bluj/higgs-kit/FF/2017/mt/fakeFactors.root"
 				elif re.search("Run2018|Autumn18|Embedding2018", nickname):
-					self["FakeFaktorFile"] = "root://grid-vo-cms.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2018/mt/fakeFactors.root"
+					self["FakeFaktorFile"] = "root://grid-cms-xrootd.physik.rwth-aachen.de:1094//store/user/azotz/higgs-kit/ff/2018/mt/fakeFactors.root"
 
 		quantities_set = Quantities()
 		quantities_set.build_quantities(nickname, channel = self["Channel"], legacy=isLegacy)
