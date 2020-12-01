@@ -216,9 +216,8 @@ class Samples(samples.Samples):
 		scale_factor = lumi
 
 		branching_ratio = "1.2e-5" #"(0.03363)*0.66*0.17*2"
-		jet_integral_weight = "1/1.05"
-		files_weight = "1/10.0"
 		cross_section_weight = "3.0" # "(0.03363+0.03366+0.0337)/(0.0337)"
+		scale_factor = "50"
 
 		if not self.postfit_scales is None:
 			scale_factor *= self.postfit_scales.get("TTJ", 1.0)
@@ -227,7 +226,7 @@ class Samples(samples.Samples):
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 		add_input(
 				input_file=self.files_lfv(channel),
-				weight=mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(1.0)"+"*"+branching_ratio+"*"+files_weight+"*"+jet_integral_weight+"*"+cross_section_weight,
+				weight=scale_factor+"*"+mc_weight+"*"+weight+"*eventWeight*"+Samples.cut_string(channel, exclude_cuts=exclude_cuts+["blind"], cut_type=cut_type)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type)+"*"+"(1.0)"+"*"+branching_ratio+"*"+cross_section_weight,
 				nick="zmt"
 		)
 

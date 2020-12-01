@@ -422,14 +422,16 @@ class CutStringsDict:
 		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
 
 		if channel == "mt":
-			cuts["trigger"] = "( ((pt_1 > 25.0)*(trg_singlemuon_24>0.5)) || ((pt_1 > 28.0)*(trg_singlemuon_27>0.5)) || ((pt_1 < 25.0)*(pt_2 > 32.0)*(trg_crossmuon_mu20tau27>0.5)) )"
+			cuts["trigger"] = "( ((pt_1 > 25.0)*(trg_singlemuon_24>0.5)) || ((pt_1 > 28.0)*(trg_singlemuon_27>0.5)) || ((pt_1 > 25.0)*(pt_2 > 32.0)*(trg_crossmuon_mu20tau27>0.5)) )"
 			if not data:
 				cuts["trigger"] += "*triggerWeight_comb"
-			cuts["pt_1"] = "(pt_1 > 21.0)"
+			cuts["pt_1"] = "(pt_1 > 20.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
+			
 			cuts["mt"] = "(mt_1<50.0)"
+			
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["anti_e_tau_discriminators"] = "(byVVLooseDeepTau2017v2p1VSe_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(byTightDeepTau2017v2p1VSmu_2 > 0.5)"
@@ -1051,7 +1053,7 @@ class CutStringsDict:
 		elif cut_type=="ztt2015cs":
 			cuts = CutStringsDict.ztt2015cs(channel, cut_type, **kwargs)
 
-		elif cut_type=="lfv2017legacy":
+		elif cut_type=="lfv2017legacy" or cut_type == "lfv2017legacy_emb":
 			cuts = CutStringsDict.lfv2017legacy(channel, cut_type, **kwargs)
 
 		elif cut_type=="baseline2017legacy":

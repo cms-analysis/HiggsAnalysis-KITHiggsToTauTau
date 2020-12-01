@@ -20,6 +20,8 @@ class Kappa(dict):
 			self["GenTaus"] = "genTaus"
 			if re.search("Embedding2018", nickname):
 				self["GenTauJets"] = ""  # * default is set here
+			elif re.search("Embedding2017", nickname):
+				self["GenTauJets"] = "" 
 			else:
 				self["GenTauJets"] = "tauGenJets"  # * default is set here
 			self["GenMet"] = "genmetTrue"
