@@ -416,6 +416,11 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(LegacyWeightWorkspaceObjectNames, {});
 	IMPL_SETTING_STRINGLIST_DEFAULT(LegacyWeightWorkspaceObjectArguments, {});
 
+	// settings for LegacyWeightUncProducer
+	IMPL_SETTING_STRINGLIST_DEFAULT(LegacyWeightUncWorkspaceWeightNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(LegacyWeightUncWorkspaceObjectNames, {});
+	IMPL_SETTING_STRINGLIST_DEFAULT(LegacyWeightUncWorkspaceObjectArguments, {});
+
 	// settings for 2017 TauTriggerEffiency2017Producer
 	IMPL_SETTING_DEFAULT(std::string, TauTrigger2017Input, "");
 	IMPL_SETTING_DEFAULT(std::string, TauTrigger2017InputOLD, "");

@@ -1064,3 +1064,78 @@ void LegacyWeightProducer::Produce( event_type const& event, product_type & prod
 		product.m_optionalWeights["triggerWeight_comb"] = product.m_optionalWeights["triggerWeight_cross_1"]*product.m_optionalWeights["triggerWeight_cross_2"];
 	}
 }
+
+LegacyWeightUncProducer::LegacyWeightUncProducer() :
+		RooWorkspaceWeightProducer(&setting_type::GetSaveLegacyWeightAsOptionalOnly,
+								   &setting_type::GetLegacyWeightWorkspace,
+								   &setting_type::GetLegacyWeightUncWorkspaceWeightNames,
+								   &setting_type::GetLegacyWeightUncWorkspaceObjectNames,
+								   &setting_type::GetLegacyWeightUncWorkspaceObjectArguments)
+{
+}
+
+void LegacyWeightUncProducer::Produce( event_type const& event, product_type & product,
+						   setting_type const& settings, metadata_type const& metadata) const
+{
+	for(auto weightNames:m_weightNames)
+	{
+		//std::cout<< "weightn ames" << m_weightNames << std::endl;
+		KLepton* lepton = product.m_flavourOrderedLeptons[weightNames.first];
+		for(size_t index = 0; index < weightNames.second.size(); index++)
+		{
+			std::vector<double> args;
+			std::vector<std::string> arguments;
+			boost::split(arguments,  m_functorArgs.at(weightNames.first).at(index) , boost::is_any_of(","));
+			for(auto arg:arguments)
+			{
+				if((arg=="m_pt") || (arg=="e_pt") || (arg=="t_pt"))
+				{
+					args.push_back(lepton->p4.Pt());
+				}
+				else if((arg=="m_eta") || (arg=="e_eta") || (arg=="t_eta"))
+				{
+					args.push_back(lepton->p4.Eta());
+				}
+				else if((arg=="m_phi") || (arg=="e_phi") || (arg =="t_phi"))
+				{
+					args.push_back(lepton->p4.Phi());
+				}
+			}
+			bool legacy = settings.GetLegacy();
+			if(legacy){
+					product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+			}
+			else{
+				LOG(WARNING) << "Using LegacyWeightProducer without Legacy setting! settings.GetLegacy(): " << legacy;
+			}
+		}
+	}
+	if ((settings.GetChannel() == "MT"))
+	{
+		double leptonTrigEffSingle_mcemb = product.m_optionalWeights["triggerEfficiency_singletrigger_MCEmb_1"];
+		double leptonTrigEffSingle_data = product.m_optionalWeights["triggerEfficiency_singletrigger_data_1"];
+		double leptonTrigEffCross_mcemb = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_1"];
+		double leptonTrigEffCross_data = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_1"];
+
+		double tauTrigEffCross_mcemb_up = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_up_2"];
+		double tauTrigEffCross_data_up = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_up_2"];
+		double tauTrigEffCross_mcemb_down = product.m_optionalWeights["triggerEfficiency_crosstrigger_MCEmb_down_2"];
+		double tauTrigEffCross_data_down = product.m_optionalWeights["triggerEfficiency_crosstrigger_data_down_2"];
+
+		// Trigger weights for "HttEnumTypes::DataMcScaleFactorProducerMode::NO_OVERLAP_TRIGGERS"
+		product.m_optionalWeights["triggerWeight_cross_up_2"] = ((tauTrigEffCross_mcemb_up == 0.0) ? 1.0 : tauTrigEffCross_data_up/tauTrigEffCross_mcemb_up);
+		product.m_optionalWeights["triggerWeight_cross_down_2"] = ((tauTrigEffCross_mcemb_down == 0.0) ? 1.0 : tauTrigEffCross_data_down/tauTrigEffCross_mcemb_down);
+
+		double efficiencyMCEmb_up = leptonTrigEffSingle_mcemb*(1.0-tauTrigEffCross_mcemb_up)  + leptonTrigEffCross_mcemb*tauTrigEffCross_mcemb_up;
+		double efficiencyData_up = leptonTrigEffSingle_data*(1.0-tauTrigEffCross_data_up) + leptonTrigEffCross_data*tauTrigEffCross_data_up;
+
+		double efficiencyMCEmb_down = leptonTrigEffSingle_mcemb*(1.0-tauTrigEffCross_mcemb_down)  + leptonTrigEffCross_mcemb*tauTrigEffCross_mcemb_down;
+		double efficiencyData_down = leptonTrigEffSingle_data*(1.0-tauTrigEffCross_data_down) + leptonTrigEffCross_data*tauTrigEffCross_data_down;
+
+		// Trigger weights for "HttEnumTypes::DataMcScaleFactorProducerMode::CROSS_TRIGGERS"
+		product.m_optionalWeights["triggerWeight_comb_up"] = ((efficiencyMCEmb_up == 0.0) ? 1.0 : (efficiencyData_up / efficiencyMCEmb_up));
+		product.m_optionalWeights["triggerWeight_comb_down"] = ((efficiencyMCEmb_down == 0.0) ? 1.0 : (efficiencyData_down / efficiencyMCEmb_down));
+
+	}
+
+}

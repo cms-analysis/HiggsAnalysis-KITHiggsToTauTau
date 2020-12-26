@@ -306,6 +306,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new LeptonTauTrigger2017WeightProducer();
 	else if(id == LegacyWeightProducer().GetProducerId())
 		return new LegacyWeightProducer();
+	else if(id == LegacyWeightUncProducer().GetProducerId())
+		return new LegacyWeightUncProducer();
 	else if(id == TauTriggerEfficiency2017Producer().GetProducerId())
 		return new TauTriggerEfficiency2017Producer();
 	else if(id == DeepTauTriggerScaleFactorProducer().GetProducerId())
