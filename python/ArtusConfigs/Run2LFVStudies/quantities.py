@@ -1727,6 +1727,19 @@ class Quantities(Run2Quantities):
 					"triggerWeight_cross_1",
 					"triggerWeight_cross_2",
 					"triggerWeight_comb",
+					"tauidWeight_deepTauVsJetMedium_2",
+					"tauidWeight_deepTauVsJetMedium_up_2",
+					"tauidWeight_deepTauVsJetMedium_down_2",
+					"tauidWeight_deepTauVsMuTight_2",
+					"tauidWeight_deepTauVsMuTight_up_2",
+					"tauidWeight_deepTauVsMuTight_down_2",
+					"tauidWeight_deepTauVsEleVVLoose_2",
+					"tauidWeight_deepTauVsEleVVLoose_up_2",
+					"tauidWeight_deepTauVsEleVVLoose_down_2",
+					"triggerWeight_cross_up_2",
+					"triggerWeight_cross_down_2",
+					"triggerWeight_comb_up",
+					"triggerWeight_comb_down",
 				]
 			elif channel == "TT":
 				return [

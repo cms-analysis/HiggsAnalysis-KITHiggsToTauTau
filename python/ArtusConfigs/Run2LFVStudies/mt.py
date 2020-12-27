@@ -111,6 +111,7 @@ class mt_ArtusConfig(dict):
 					self["Processors"] += ["producer:MuonCorrectionsProducer"]
 					if legacy:
 						self["Processors"] += ["producer:LegacyWeightProducer"]
+						self["Processors"] += ["producer:LegacyWeightUncProducer"]
 					else:
 						self["Processors"] += ["producer:EmbeddingWeightProducer"]
 						#self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
@@ -135,6 +136,7 @@ class mt_ArtusConfig(dict):
 					#"producer:TriggerWeightProducer"
 					if legacy:
 						self["Processors"] += ["producer:LegacyWeightProducer"]
+						self["Processors"] += ["producer:LegacyWeightUncProducer"]
 					else:
 						self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
 						self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"] #is a rooworkspace
@@ -680,6 +682,65 @@ class mt_ArtusConfig(dict):
 					self["LegacyWeightWorkspaceWeightNames"].append("0:zPtReweightWeight")
 					self["LegacyWeightWorkspaceObjectNames"].append("0:zptmass_weight_nom")
 					self["LegacyWeightWorkspaceObjectArguments"].append("0:z_gen_mass,z_gen_pt")
+
+			self["LegacyWeightUncWorkspaceWeightNames"] = [
+				"0:triggerEfficiency_singletrigger_MCEmb",
+				"0:triggerEfficiency_singletrigger_data",
+				"0:triggerEfficiency_crosstrigger_MCEmb",
+				"0:triggerEfficiency_crosstrigger_data",
+				"1:triggerEfficiency_crosstrigger_MCEmb_up",
+				"1:triggerEfficiency_crosstrigger_MCEmb_down",
+				"1:triggerEfficiency_crosstrigger_data_up",
+				"1:triggerEfficiency_crosstrigger_data_down",
+				"1:tauidWeight_deepTauVsJetMedium",
+				"1:tauidWeight_deepTauVsJetMedium_up",
+				"1:tauidWeight_deepTauVsJetMedium_down",
+				"1:tauidWeight_deepTauVsMuTight",
+				"1:tauidWeight_deepTauVsMuTight_up",
+				"1:tauidWeight_deepTauVsMuTight_down",
+				"1:tauidWeight_deepTauVsEleVVLoose",
+				"1:tauidWeight_deepTauVsEleVVLoose_up",
+				"1:tauidWeight_deepTauVsEleVVLoose_down",
+
+			]
+			self["LegacyWeightUncWorkspaceObjectNames"] = [
+				"0:m_trg_ic_" + ("embed" if isEmbedded else "mc"),
+				"0:m_trg_ic_data",
+				"0:m_trg_20_ic_" + ("embed" if isEmbedded else "mc"),
+				"0:m_trg_20_ic_data",
+				"1:t_trg_mediumDeepTau_mutau_" + ("embed" if isEmbedded else "mc")+ "_up",
+				"1:t_trg_mediumDeepTau_mutau_" + ("embed" if isEmbedded else "mc")+ "_down",
+				"1:t_trg_mediumDeepTau_mutau_data_up",
+				"1:t_trg_mediumDeepTau_mutau_data_down",
+				"1:t_deeptauid_pt_" + ("embed_" if isEmbedded else "") + "medium",
+				"1:t_deeptauid_pt_" + ("embed_" if isEmbedded else "") + "medium_up",
+				"1:t_deeptauid_pt_" + ("embed_" if isEmbedded else "") + "medium_down",
+				"1:t_id_vs_mu_eta_tight",
+				"1:t_id_vs_mu_eta_tight_up",
+				"1:t_id_vs_mu_eta_tight_down",
+				"1:t_id_vs_e_eta_vvloose",
+				"1:t_id_vs_e_eta_vvloose_up",
+				"1:t_id_vs_e_eta_vvloose_down",
+			]
+			self["LegacyWeightUncWorkspaceObjectArguments"] = [
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta",
+				"0:m_pt,m_eta",
+				"1:t_pt,t_eta,t_phi,t_dm",
+				"1:t_pt,t_eta,t_phi,t_dm",
+				"1:t_pt,t_eta,t_phi,t_dm",
+				"1:t_pt,t_eta,t_phi,t_dm",
+				"1:t_pt",
+				"1:t_pt",
+				"1:t_pt",
+				"1:t_eta",
+				"1:t_eta",
+				"1:t_eta",
+				"1:t_eta",
+				"1:t_eta",
+				"1:t_eta",
+			]
 		else:
 			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 				if isEmbedded:
