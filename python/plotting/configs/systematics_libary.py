@@ -23,6 +23,12 @@ class SystematicLibary(object):
 				(       ["13TeV"], 1.025) # http://inspirehep.net/record/1519242/files/LUM-17-001-pas.pdf
 
 		]
+                self.lumi2017_syst_args = [
+                        "lumi_$ERA",
+                        "lnN",
+                        ch.SystMap("era")
+                        (       ["13TeV"], 1.023) # https://inspirehep.net/literature/1677076 : CMS-PAS-LUM-17-004
+                ]
 		##-------------------------------Cross section (sometimes referred to as normalization uncertainites) -------------------------------##
 		
 		self.ztt_cross_section_syst_args = [
@@ -114,6 +120,12 @@ class SystematicLibary(object):
 			ch.SystMap("era")
 				(       ["13TeV"], 1.02) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
 		]
+                self.single_leptontrigger_syst_args = [
+                        "CMS_eff_trigger_m_$ERA",
+                        "lnN",
+                        ch.SystMap("era","channel")
+                        (  ["13TeV"], ["mt"], 1.02) # https://indico.cern.ch/event/566822/contributions/2377598/attachments/1374111/2085739/systematics.pdf
+                ]
 		self.tau_efficiency_corr_syst_args = [
 			"CMS_eff_t_$ERA",
 			"lnN",
@@ -837,6 +849,31 @@ class SystematicLibary(object):
 				(["mt"], ["13TeV"], ["ZL"], 1.0)
 		]
 
+                ##--------------------------Tau ID shape Uncertainities ------------------##
+                self.tauID_pt_syst_args = [
+                        "CMS_tauID_pt_$ERA",
+                        "shape",
+                        ch.SystMap("channel", "era"
+                                   (["mt"], ["13TeV"], 1.0))
+                ]
+                self.mFakeTau_eta_syst_args = [
+                        "CMS_mFakeTau_eta_$ERA",
+                        "shape",
+                        ch.SystMap("channel", "era"
+                                   (["mt"], ["13TeV"], 1.0))
+                ]
+                self.eleFakeTau_eta_syst_args = [
+                        "CMS_eFakeTau_eta_$ERA",
+                        "shape",
+                        ch.SystMap("channel", "era"
+                                   (["mt"], ["13TeV"], 1.0))
+                ]
+                self.tauTrigger_pt_syst_args = [
+                        "CMS_tauTrigger_pt_$ERA",
+                        "shape",
+                        ch.SystMap("channel", "era"
+                                   (["mt"], ["13TeV"], 1.0))
+                ]
 
 		##--------------------------Decay mode reweighting------------------##
 
@@ -1085,15 +1122,34 @@ class SystematicLibary(object):
 				[self.WSFUncert_boosted_syst_args,		["QCD"],				"OneJet"]
 			]
 		}
-			
+                lnN_syst_2017 = {
+                        "mt": [
+                                [self.lumi2017_syst_args, ["ZMT"]+ all_mc_bkgs, ""],
+                                [self.muon_efficiency2016_syst_args, ["ZMT"]+ all_mc_bkgs,""],   # this is the same in the recent Higgs LFV Run 2 paper, HIG-20-009, https://cms.cern.ch/iCMS/analysisadmin/cadilines?line=HIG-20-009
+                                [self.single_leptontrigger_syst_args, ["ZMT"]+ all_mc_bkgs,""],
+                                [self.QCD_Extrap_Iso_nonIso_syst_args,["QCD"],""],
+                                [self.WHighMTtoLowMT_0jet_syst_args,["W"],"ZeroJet"],
+                                [self.WHighMTtoLowMT_boosted_syst_args,["W"],"OneJet"],
+                                [self.ttj_cross_section_syst_args,["TTT", "TTJJ"],""],
+                                [self.vv_cross_section2016_syst_args, ["VV"], ""]
+                        ]
+                }
+                shape_syst_2017 = {
+                        "mt": [
+                                [self.tauID_pt_syst_args,["ZMT"]+ all_mc_bkgs,""],
+                                [self.mFakeTau_eta_syst_args,["ZMT"]+ all_mc_bkgs,""],
+                                [self.eFakeTau_eta_syst_args,["ZMT"]+ all_mc_bkgs, ""],
+                                [self.tauTrigger_pt_syst_args,["ZMT"]+ all_mc_bkgs,""],
+                        ]
+                }
 			
 		##Check which systematic should be returned
 
 		if lnN:	
-			return lnN_syst[channel]
+			return lnN_syst_2017[channel]
 
 		elif shape: 
-			return shape_syst[channel]
+			return shape_syst_2017[channel]
 			
 			
 		else:

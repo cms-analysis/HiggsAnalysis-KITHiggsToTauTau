@@ -31,8 +31,10 @@ class SystematicsFactory(dict):
 		self["CMS_mistag_b_13TeV"] = BMistagSystematic
 		self["CMS_eFakeTau_1prong_13TeV"] = ElectronToTauOneProngFakeSystematic
 		self["CMS_eFakeTau_1prong1pizero_13TeV"] = ElectronToTauOneProngPiZerosFakeSystematic
+                self["CMS_eFakeTau_eta_13TeV"] = ElectronToTauFakeSystematic
 		self["CMS_mFakeTau_1prong_13TeV"] = MuonToTauOneProngFakeSystematic
 		self["CMS_mFakeTau_1prong1pizero_13TeV"] = MuonToTauOneProngPiZerosFakeSystematic
+                self["CMS_mFakeTau_eta_13TeV"] = MuonToTauFakeSystematic
 		self["CMS_htt_jetToTauFake_13TeV"] = JetToTauFakeSystematic
 		self["CMS_htt_jetToTauFake_pi_13TeV"] = JetToTauFakeSystematic
 		self["CMS_htt_jetToTauFake_rho_13TeV"] = JetToTauFakeSystematic
@@ -45,6 +47,8 @@ class SystematicsFactory(dict):
 		self["CMS_htt_jetToTauFake_a1_a1_13TeV"] = JetToTauFakeSystematic
 		self["CMS_scale_met_clustered_13TeV"] = MetJetEnSystematic
 		self["CMS_scale_met_unclustered_13TeV"] = MetUnclusteredEnSystematic
+                self["CMS_tauIDvsJets_pt_13TeV"] = TauIDvsJetsSystematic
+                self["CMS_tauTrigger_pt_13TeV"] = TauTriggerSystematic
 		self["CMS_tauDMReco_1prong_13TeV"] = TauDMRecoOneProngSystematic
 		self["CMS_tauDMReco_1prong1pizero_13TeV"] = TauDMRecoOneProngPiZerosSystematic
 		self["CMS_tauDMReco_3prong_13TeV"] = TauDMRecoThreeProngSystematic
@@ -1013,7 +1017,7 @@ class BMistagSystematic(SystematicShiftBase):
 
 
 class ElectronToTauOneProngFakeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(ElectronToTauOneProngFakeSystematic, self).get_config(shift=shift)
 		
@@ -1041,6 +1045,22 @@ class ElectronToTauOneProngPiZerosFakeSystematic(SystematicShiftBase):
 		
 		return plot_config
 
+class ElectronToTauFakeSystematic(SystematicShiftBase):
+        
+        def get_config(self, shift=0.0):
+                plot_config = super(ElectronToTauFakeSystematic, self).get_config(shift=shift)
+
+                for index, weight in enumerate(plot_config.get("weights", [])):
+                        if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+                                if shift > 0.0:
+                                        plot_config["weights"][index] = ("({weight})*(1/tauidWeight_deepTauVsEleVVLoose_2)*(tauidWeight_deepTauVsEleVVLoose_up_2)").format(
+                                                weight=weight
+                                        )
+                                else:
+                                        plot_config["weights"][index] = ("({weight})*(1/tauidWeight_deepTauVsEleVVLoose_2)*(tauidWeight_deepTauVsEleVVLoose_down_2)").format(
+                                                weight=weight
+                                        )
+                return plot_config
 
 class MuonToTauOneProngFakeSystematic(SystematicShiftBase):
 	
@@ -1071,6 +1091,22 @@ class MuonToTauOneProngPiZerosFakeSystematic(SystematicShiftBase):
 		
 		return plot_config
 
+class MuonToTauFakeSystematic(SystematicShiftBase):
+
+        def get_config(self, shift=0.0):
+                plot_config = super(MuonToTauFakeSystematic, self).get_config(shift=shift)
+
+                for index, weight in enumerate(plot_config.get("weights", [])):
+                        if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+                                if shift > 0.0:
+                                        plot_config["weights"][index] = ("({weight})*(1/tauidWeight_deepTauVsMuTight_2)*(tauidWeight_deepTauVsMuTight_up_2)").format(
+                                                weight=weight
+                                        )
+                                else:
+                                        plot_config["weights"][index] = ("({weight})*(1/tauidWeight_deepTauVsMuTight_2)*(tauidWeight_deepTauVsMuTight_down_2)").format(
+                                                weight=weight
+                                        )
+                return plot_config
 
 class JetToTauFakeSystematic(SystematicShiftBase):
 	
@@ -1116,6 +1152,39 @@ class MetUnclusteredEnSystematic(SystematicShiftBase):
 		
 		return plot_config
 
+class TauIDvsJetsSystematic(SystematicShiftBase):
+
+      def get_config(self, shift=0.0):
+               plot_config = super(TauIDvsJetsSystematic, self).get_config(shift=shift)
+
+               for index, weight in enumerate(plot_config.get("weights", [])):
+                       if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+                               if shift > 0.0:
+                                       plot_config["weights"][index] = ("({weight})*(1/tauidWeight_deepTauVsJetMedium_2)*(tauidWeight_deepTauVsJetMedium_up_2)").format(
+                                                       weight=weight
+                                       )
+                               else:
+                                       plot_config["weights"][index] = ("({weight})*(1/tauidWeight_deepTauVsJetMedium_2)*(tauidWeight_deepTauVsJetMedium_down_2)").format(
+                                                       weight=weight
+                                       )
+               return plot_config
+
+class TauTriggerSystematic(SystematicShiftBase):
+
+      def get_config(self, shift=0.0):
+               plot_config = super(TauTriggerSystematic, self).get_config(shift=shift)
+
+               for index, weight in enumerate(plot_config.get("weights", [])):
+                       if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
+                               if shift > 0.0:
+                                       plot_config["weights"][index] = ("({weight})*(1/triggerWeight_comb)*(triggerWeight_comb_up)").format(
+                                                       weight=weight
+                                       )
+                               else:
+                                       plot_config["weights"][index] = ("({weight})*(1/triggerWeight_comb)*(triggerWeight_comb_down)").format(
+                                                       weight=weight
+                                       )
+               return plot_config
 
 class TauDMRecoOneProngSystematic(SystematicShiftBase):
 	
