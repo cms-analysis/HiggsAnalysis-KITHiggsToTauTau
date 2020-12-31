@@ -850,29 +850,29 @@ class SystematicLibary(object):
 		]
 
                 ##--------------------------Tau ID shape Uncertainities ------------------##
-                self.tauID_pt_syst_args = [
-                        "CMS_tauID_pt_$ERA",
+                self.tauIDvsJets_pt_syst_args = [
+                        "CMS_tauIDvsJets_pt_$ERA",
                         "shape",
-                        ch.SystMap("channel", "era"
-                                   (["mt"], ["13TeV"], 1.0))
+                        ch.SystMap("channel", "era")
+                                   (["mt"], ["13TeV"], 1.0)
                 ]
                 self.mFakeTau_eta_syst_args = [
                         "CMS_mFakeTau_eta_$ERA",
                         "shape",
-                        ch.SystMap("channel", "era"
-                                   (["mt"], ["13TeV"], 1.0))
+                        ch.SystMap("channel", "era")
+                                   (["mt"], ["13TeV"], 1.0)
                 ]
-                self.eleFakeTau_eta_syst_args = [
+                self.eFakeTau_eta_syst_args = [
                         "CMS_eFakeTau_eta_$ERA",
                         "shape",
-                        ch.SystMap("channel", "era"
-                                   (["mt"], ["13TeV"], 1.0))
+                        ch.SystMap("channel", "era")
+                                   (["mt"], ["13TeV"], 1.0)
                 ]
                 self.tauTrigger_pt_syst_args = [
                         "CMS_tauTrigger_pt_$ERA",
                         "shape",
-                        ch.SystMap("channel", "era"
-                                   (["mt"], ["13TeV"], 1.0))
+                        ch.SystMap("channel", "era")
+                                   (["mt"], ["13TeV"], 1.0)
                 ]
 
 		##--------------------------Decay mode reweighting------------------##
@@ -1136,7 +1136,7 @@ class SystematicLibary(object):
                 }
                 shape_syst_2017 = {
                         "mt": [
-                                [self.tauID_pt_syst_args,["ZMT"]+ all_mc_bkgs,""],
+                                [self.tauIDvsJets_pt_syst_args,["ZMT"]+ all_mc_bkgs,""],
                                 [self.mFakeTau_eta_syst_args,["ZMT"]+ all_mc_bkgs,""],
                                 [self.eFakeTau_eta_syst_args,["ZMT"]+ all_mc_bkgs, ""],
                                 [self.tauTrigger_pt_syst_args,["ZMT"]+ all_mc_bkgs,""],
