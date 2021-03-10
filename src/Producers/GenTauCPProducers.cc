@@ -7,6 +7,12 @@
 
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
 
+GenTauCPProducerBase::GenTauCPProducerBase(
+		std::string name
+) :
+	m_name(name)
+{
+}
 
 void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& metadata)
 {
@@ -34,6 +40,12 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	{
 		return product.m_genPhiStarCPComb;
 	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiStarCPCombMerged", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genPhiStarCPCombMerged;
+	});
+
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "gen_posyTauL", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
@@ -428,6 +440,12 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 	}
 }
 
+GenTauCPProducer::GenTauCPProducer() :
+	GenTauCPProducerBase(
+			"gen"
+	)
+{
+}
 
 std::string GenTauCPProducer::GetProducerId() const
 {
@@ -445,6 +463,13 @@ void GenTauCPProducer::Produce(event_type const& event, product_type& product,
 	GenTauCPProducerBase::Produce(event, product, settings, metadata);
 }
 
+
+GenMatchedTauCPProducer::GenMatchedTauCPProducer() :
+	GenTauCPProducerBase(
+			"genMatched"
+	)
+{
+}
 
 std::string GenMatchedTauCPProducer::GetProducerId() const
 {
@@ -711,17 +736,178 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 				// ===================
 				if (genTau1 != nullptr && genTau2 != nullptr){
 					if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()!=1)
+					{
 						product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP2, genParticle2->p4, pi1, pi01, genParticle2->charge());
+						product.m_genPhiStarCPCombMerged = cpq.CalculatePhiStarCPComb(product.m_genIP2, genParticle2->p4, pi1, pi01, genParticle2->charge(), true);
+					}
 					if (genTau1->genDecayMode()!=1 && genTau2->genDecayMode()==1)
+					{
 						product.m_genPhiStarCPComb = cpq.CalculatePhiStarCPComb(product.m_genIP1, genParticle1->p4, pi2, pi02, genParticle1->charge());
+						product.m_genPhiStarCPCombMerged = cpq.CalculatePhiStarCPComb(product.m_genIP1, genParticle1->p4, pi2, pi02, genParticle1->charge(), true);
+					}
 				}
 			///////////////////////////// comb method
 
 			} // if genPV != nullptr
 
-
 		} // if flavourOrderedGenLeptons is a non-empty vector
 
 	} // if product.m_genBosonLVFound && product.m_genBosonTree.m_daughters.size() > 1
 
+}
+
+std::vector<TLorentzVector> GenTauCPProducerBase::GetInputPion(product_type& product,KGenTau* genTau) const
+{
+	std::vector<TLorentzVector> input;
+	if (genTau)
+	{
+		input = GenTauCPProducerBase::SetupInputsPion(product, genTau);
+	}
+
+	return input;
+}
+
+std::vector<TLorentzVector> GenTauCPProducerBase::GetInputRho(product_type& product,KGenTau* genTau) const
+{
+	std::vector<TLorentzVector> input;
+	if (genTau)
+	{
+		input = GenTauCPProducerBase::SetupInputsRho(product, genTau);
+	}
+
+	return input;
+}
+
+std::vector<TLorentzVector> GenTauCPProducerBase::GetInputA1(product_type& product,KGenTau* genTau) const
+{
+	std::vector<TLorentzVector> input;
+	if (genTau)
+	{
+		input = GenTauCPProducerBase::SetupInputsA1(product, genTau);
+	}
+
+	return input;
+}
+
+std::vector<TLorentzVector> GenMatchedTauCPProducer::GetInputPion(product_type& product, KLepton* lepton) const
+{
+	std::vector<TLorentzVector> input;
+	KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, lepton, static_cast<KGenTau*>(nullptr));
+	if (genTau)
+	{
+		input = GenTauCPProducerBase::SetupInputsPion(product, genTau);
+	}
+
+	return input;
+}
+
+std::vector<TLorentzVector> GenMatchedTauCPProducer::GetInputRho(product_type& product, KLepton* lepton) const
+{
+	std::vector<TLorentzVector> input;
+	KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, lepton, static_cast<KGenTau*>(nullptr));
+	if (genTau)
+	{
+		input = GenTauCPProducerBase::SetupInputsRho(product, genTau);
+	}
+
+	return input;
+}
+
+std::vector<TLorentzVector> GenMatchedTauCPProducer::GetInputA1(product_type& product, KLepton* lepton) const
+{
+	std::vector<TLorentzVector> input;
+	KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, lepton, static_cast<KGenTau*>(nullptr));
+	if (genTau)
+	{
+		input = GenTauCPProducerBase::SetupInputsA1(product, genTau);
+	}
+
+	return input;
+}
+
+std::vector<TLorentzVector> GenTauCPProducerBase::SetupInputsPion(product_type& product, KGenTau* genTau) const
+{
+	std::vector<TLorentzVector> input;
+	KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+	if (genParticle)
+	{
+		std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+		std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+		if ((genTau->nProngs == 1) && (genTau->nPi0s == 1) &&
+		    (genTauChargedHadrons.size() == 1) && (genTauNeutralHadrons.size() == 1))
+		{
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau->p4));
+
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauChargedHadrons.front()->p4));
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauNeutralHadrons.front()->p4));
+		}
+	}
+
+	return input;
+}
+
+std::vector<TLorentzVector> GenTauCPProducerBase::SetupInputsRho(product_type& product, KGenTau* genTau) const
+{
+	std::vector<TLorentzVector> input;
+	KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+	if (genParticle)
+	{
+		std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+		std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+		if ((genTau->nProngs == 1) && (genTau->nPi0s == 1) &&
+		    (genTauChargedHadrons.size() == 1) && (genTauNeutralHadrons.size() == 1))
+		{
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau->p4));
+
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauChargedHadrons.front()->p4));
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauNeutralHadrons.front()->p4));
+		}
+	}
+
+	return input;
+}
+
+std::vector<TLorentzVector> GenTauCPProducerBase::SetupInputsA1(product_type& product, KGenTau* genTau) const
+{
+	std::vector<TLorentzVector> input;
+	KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+	if (genParticle)
+	{
+		std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+		std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+		if ((genTau->nProngs == 3) && (genTau->nPi0s == 0) &&
+		    (genTauChargedHadrons.size() == 3) && (genTauNeutralHadrons.size() == 0))
+		{
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau->p4));
+
+			// sort pions from a1 decay according to their charge
+			RMFLV* piSingleChargeSign = nullptr;
+			RMFLV* piDoubleChargeSign1 = nullptr;
+			RMFLV* piDoubleChargeSign2 = nullptr;
+			if ((genTauChargedHadrons.at(0)->charge() * genTauChargedHadrons.at(1)->charge()) > 0.0)
+			{
+				piSingleChargeSign = &(genTauChargedHadrons.at(2)->p4);
+				piDoubleChargeSign1 = &(genTauChargedHadrons.at(0)->p4);
+				piDoubleChargeSign2 = &(genTauChargedHadrons.at(1)->p4);
+			}
+			else if ((genTauChargedHadrons.at(0)->charge() * genTauChargedHadrons.at(2)->charge()) > 0.0)
+			{
+				piSingleChargeSign = &(genTauChargedHadrons.at(1)->p4);
+				piDoubleChargeSign1 = &(genTauChargedHadrons.at(0)->p4);
+				piDoubleChargeSign2 = &(genTauChargedHadrons.at(2)->p4);
+			}
+			else // if ((genTauChargedHadrons.at(1)->charge() * genTauChargedHadrons.at(2)->charge()) > 0.0)
+			{
+				piSingleChargeSign = &(genTauChargedHadrons.at(0)->p4);
+				piDoubleChargeSign1 = &(genTauChargedHadrons.at(1)->p4);
+				piDoubleChargeSign2 = &(genTauChargedHadrons.at(2)->p4);
+			}
+
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piSingleChargeSign));
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piDoubleChargeSign1));
+			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*piDoubleChargeSign2));
+		}
+	}
+
+	return input;
 }
