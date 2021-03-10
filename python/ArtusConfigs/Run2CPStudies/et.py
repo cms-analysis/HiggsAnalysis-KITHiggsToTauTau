@@ -66,7 +66,7 @@ class et_ArtusConfig(dict):
 				"producer:EventWeightProducer"
 			]
 
-		if re.search("(Spring16|Summer16|Run2016|Run2017|Summer17|Fall17|Embedding(2016|2017))", nickname):
+		if re.search("(Spring16|Summer16|Run2016|Run2017|Run2018|Summer17|Fall17|Autumn18|Embedding(2016|2017|2018))", nickname):
 			#'#producer:TauPolarisationTmvaReader', '#producer:MVATestMethodsProducer'
 			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples
 			self["Processors"] += [
@@ -77,33 +77,28 @@ class et_ArtusConfig(dict):
 				"producer:PolarisationQuantitiesSimpleFitProducer",
 				"producer:GenMatchedPolarisationQuantitiesProducer"
 			]
+			self["Processors"] += ["producer:SimpleFitProducer"]
 
 			self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"] #TaggedJetUncertaintyShiftProducer is old
 			self["Processors"] += ["producer:SmearedTaggedJetProducer"]
 
 			if legacy:
-				# self["Processors"] += ["producer:LegacyJetToTauFakesProducer"] # do not use LegacyJetToTauFakesProducer for ET yet
-				self["Processors"] += ["producer:JetToTauFakesProducer"]
-			else:
-				self["Processors"] += ["producer:JetToTauFakesProducer"]
-
-			# if not re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
-			# 	self["Processors"] += ["producer:MELAProducer"]
-
-			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
+				self["Processors"] += ["producer:LegacyJetToTauFakesProducer"]
 				self["Processors"] += ["producer:NewValidETPairCandidatesProducer"]
 				self["Processors"] += ["producer:MetFilterProducer"]
 			else:
+				self["Processors"] += ["producer:JetToTauFakesProducer"]
 				self["Processors"] += ["producer:ValidETPairCandidatesProducer"]
 				#self["Processors"] += ["producer:TaggedJetUncertaintyShiftProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
+			# if not re.search("(LFV).*(?=(Spring16|Summer16))", nickname):
+			# 	self["Processors"] += ["producer:MELAProducer"]
 
-			if re.search("Run2016|Run2017|Embedding(2016|2017)", nickname):
+			if re.search("(Run201(6|7|8)|Embedding201(6|7|8))", nickname):
 				#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 				self["Processors"] += [
-					"producer:SimpleFitProducer",
 					"filter:MinimalPlotlevelFilter",
 					"producer:SvfitProducer",
 					"producer:FastMttProducer"
@@ -112,11 +107,11 @@ class et_ArtusConfig(dict):
 					#"producer:MELAM125Producer"
 				]
 
-				if re.search("Embedding(2016|2017)", nickname):
+				if re.search("Embedding201(6|7|8)", nickname):
 					#self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 					self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 					self["Processors"] += ["producer:TauCorrectionsProducer"]
-					if re.search("Embedding2017", nickname):
+					if re.search("Embedding201(7|8)", nickname):
 						self["Processors"] += ["producer:ElectronCorrectionsProducer"]
 						if legacy:
 							self["Processors"] += ["producer:LegacyWeightProducer"]
@@ -124,7 +119,7 @@ class et_ArtusConfig(dict):
 							self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
 							self["Processors"] += ["producer:EmbeddingWeightProducer"]
 
-			else: #(Spring16|Summer16|Summer17|Fall17)
+			else: #(Spring16|Summer16|Summer17|Fall17|Autumn18)
 				self["Processors"] += [
 					"producer:GenMatchedTauCPProducer",
 					"producer:TauCorrectionsProducer",
@@ -136,14 +131,15 @@ class et_ArtusConfig(dict):
 				self["Processors"] += ["producer:PuppiMetCorrector"]
 				self["Processors"] += ["producer:PileUpJetIDScaleFactorWeightProducer"]
 
-				if re.search("Summer17|Fall17", nickname):
+				if re.search("Summer1(6|7)|Fall17|Autumn18", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
 					if legacy:
 						self["Processors"] += ["producer:LegacyWeightProducer"]
 					else:
-						self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
-						self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"]
 						self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+						if re.search("Summer17|Fall17"):
+							self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
+							self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"]
 
 				else:
 					self["Processors"] += ["producer:RooWorkspaceWeightProducer"]  #changes from file to file
@@ -168,9 +164,7 @@ class et_ArtusConfig(dict):
 					]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
-						self["Processors"] += [
-							"producer:SimpleFitProducer"
-						]
+						self["Processors"] += ["producer:GenSimpleFitProducer"]
 						if re.search("Summer17|Fall17", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
@@ -181,14 +175,12 @@ class et_ArtusConfig(dict):
 					elif re.search("(HToTauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17))", nickname):
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 						self["Processors"] += ["producer:TopPtReweightingProducer"]
+						self["Processors"] += ["producer:GenSimpleFitProducer"]
 						if re.search("amcatnlo",nickname):
 							self["DoLhenpNLO"] = True	#NEEDED for stitching
 
 					else: # what samples this correspond to? why no "producer:GenMatchedTauCPProducer"?
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
-						self["Processors"] += [
-							"producer:SimpleFitProducer"
-						]
 						if re.search("Summer17|Fall17|Embedding2017", nickname) == None: #I dont want to do polarisation
 							#self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
