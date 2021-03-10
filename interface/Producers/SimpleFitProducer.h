@@ -15,7 +15,10 @@ public:
 
 	virtual void Produce(event_type const& event, product_type& product,
 	                     setting_type const& settings, metadata_type const& metadata) const override;
-private:
 
 	static TMatrixT<double> ComputeLorentzVectorPar(TMatrixT<double> &inpar);
+
+private:
+
+	float m_massConstraint;
 };
