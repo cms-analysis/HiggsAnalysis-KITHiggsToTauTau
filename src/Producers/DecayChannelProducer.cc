@@ -606,6 +606,33 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 		return static_cast<HttProduct const&>(product).m_extraMuonVeto;
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "SV_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KLepton* lepton = product.m_flavourOrderedLeptons.at(0);
+		if (lepton->flavour() == KLeptonFlavour::TAU)
+		{
+			KVertex sv = static_cast<KTau*>(lepton)->sv;
+			return sv.valid ? sv.position : DefaultValues::UndefinedRMPoint;
+		}
+		else
+		{
+			return DefaultValues::UndefinedRMPoint;
+		}
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "SV_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KLepton* lepton = product.m_flavourOrderedLeptons.at(1);
+		if (lepton->flavour() == KLeptonFlavour::TAU)
+		{
+			KVertex sv = static_cast<KTau*>(lepton)->sv;
+			return sv.valid ? sv.position : DefaultValues::UndefinedRMPoint;
+		}
+		else
+		{
+			return DefaultValues::UndefinedRMPoint;
+		}
+	});
+
 
 	std::vector<std::string> tauDiscriminators;
 	tauDiscriminators.push_back("byCombinedIsolationDeltaBetaCorrRaw3Hits");
