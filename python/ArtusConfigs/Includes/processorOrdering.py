@@ -188,6 +188,7 @@ class ProcessorsOrdered(dict):
 		self["producer:MELAM125Producer"] = 265
 
 		self["producer:SimpleFitProducer"] = 270
+		self["producer:GenSimpleFitProducer"] = 271
 
 		self["producer:TauTriggerEfficiency2017Producer"] = 274
 		self["producer:DeepTauTriggerScaleFactorProducer"] = 274.5
