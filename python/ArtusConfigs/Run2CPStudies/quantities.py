@@ -60,7 +60,7 @@ class Quantities(Run2Quantities):
 				self.quantities.update(self.genQuantities())
 				if re.search("(Summer17|Fall17)", nickname) == None:
 					self.quantities.update(self.genHiggsQuantities())
-					self.quantities.update(self.genCPQuantities())
+				self.quantities.update(self.genCPQuantities())
 				self.quantities.update([
 					"nJets",
 					"nJets30",
@@ -88,6 +88,8 @@ class Quantities(Run2Quantities):
 			self.quantities.update(self.CPInitialStateQuantities())
 			self.quantities.update(self.CPSyncQuantities(nickname))
 			self.quantities.update(self.RooWorkSpaceWeightQuantities(nickname, channel, legacy))
+			self.quantities.update(self.simpleFitQuantities())
+			self.quantities.update(self.genSimpleFitQuantities())
 			if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
 					self.quantities.update(self.singleTauQuantities())
@@ -153,7 +155,7 @@ class Quantities(Run2Quantities):
 					self.quantities.update([
 						"trg_doubletau_35_mediso",
 					])
-					if re.search("(Run2018|Embedding2018)", nickname):
+					if re.search("(Run2018)", nickname):
 						self.quantities.update([
 							"HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg",
 							"HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg",
@@ -425,6 +427,7 @@ class Quantities(Run2Quantities):
 			"genPhi",
 			"genOCP",
 			"genPhiStarCPComb",
+			"genPhiStarCPCombMerged",
 			"genPhiCPLab",
 
 			"genIP1",
@@ -610,6 +613,7 @@ class Quantities(Run2Quantities):
 			"genPhiStar",
 			"genOStarCP",
 			"genPhiStarCPComb",
+			"genPhiStarCPCombMerged",
 			"genPhiStarCPRho",
 			"gen_posyTauL",
 			"gen_negyTauL",
@@ -1048,6 +1052,42 @@ class Quantities(Run2Quantities):
 			"recoPhiStarCPComb",
 			"recoPhiStarCPCombMerged",
 
+			"recoPhiStarCPPolVecTau1Tau2HelrPVBS",
+			"recoPhiStarCPPolVecTau1VisTau2HelrPVBS",
+			"recoPhiStarCPPolVecTau1Tau2VisHelrPVBS",
+			"recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS",
+			"recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS",
+			"recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS",
+			"recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS",
+			"recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS",
+
+			"recoPhiStarCPPolVecCombTau1Tau2HelrPVBS",
+			"recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS",
+			"recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS",
+			"recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS",
+			"recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS",
+			"recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS",
+			"recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS",
+			"recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS",
+
+			"genMatchedPhiStarCPCombMerged",
+			"genMatchedPhiStarCPPolVecCombTau1Tau2",
+			"genMatchedPhiStarCPPolVecCombTau1VisTau2",
+			"genMatchedPhiStarCPPolVecCombTau1Tau2Vis",
+			"genMatchedPhiStarCPPolVecCombTau1VisTau2Vis",
+			"genMatchedPhiStarCPPolVecCombTau1Tau2PiSSFromRho",
+			"genMatchedPhiStarCPPolVecCombTau1Tau2PiHighPt",
+			"genMatchedPhiStarCPPolVecCombTau1VisTau2PiSSFromRho",
+			"genMatchedPhiStarCPPolVecCombTau1VisTau2PiHighPt",
+			"genMatchedPhiStarCPPolVecTau1Tau2",
+			"genMatchedPhiStarCPPolVecTau1VisTau2",
+			"genMatchedPhiStarCPPolVecTau1Tau2Vis",
+			"genMatchedPhiStarCPPolVecTau1VisTau2Vis",
+			"genMatchedPhiStarCPPolVecTau1Tau2PiSSFromRho",
+			"genMatchedPhiStarCPPolVecTau1Tau2PiHighPt",
+			"genMatchedPhiStarCPPolVecTau1VisTau2PiSSFromRho",
+			"genMatchedPhiStarCPPolVecTau1VisTau2PiHighPt",
+
 			"acotautau_00", #phi*CP IP-IP
 			"acotautau_01", #phi*CP IP-DP
 			"acotautau_11", #phi*CP DP-DP
@@ -1118,6 +1158,42 @@ class Quantities(Run2Quantities):
 		]
 
 	@staticmethod
+	def simpleFitQuantities():
+		return [
+			"simpleFitAvailable",
+			# "simpleFitResonanceLV",
+			"simpleFitLV",
+			"simpleFitTau1Available",
+			"simpleFitTau1LV",
+			"simpleFitTau2Available",
+			"simpleFitTau2LV",
+			"simpleFitTau2PrefitPlusLV",
+			"simpleFitTau2PrefitMinusLV",
+			"simpleFitTau2PrefitZeroLV",
+			"simpleFitResonancePrefitResolvedFitLV",
+			"simpleFitTau1PrefitResolvedFitLV",
+			"simpleFitTau2PrefitResolvedFitLV",
+			# "simpleFitTau1PrefitResolvedGenLV",
+			# "simpleFitTau2PrefitPlusLV",
+			# "simpleFitTau2PrefitMinusLV",
+			"simpleFitConverged",
+			"simpleFitIndex",
+			"simpleFitChi2Sum",
+			"simpleFitCsum",
+			"simpleFitNiterations",
+			"simpleFitChi2_1",
+			"simpleFitChi2_2",
+			"simpleFitChi2_3",
+		]
+
+	@staticmethod
+	def genSimpleFitQuantities():
+		return [
+			"genSimpleFitIndex1",
+			"genSimpleFitIndex2",
+		]
+
+	@staticmethod
 	def recoPolarisationQuantities():
 		return [
 			"lep1SumChargedHadronsLV",
@@ -1145,13 +1221,6 @@ class Quantities(Run2Quantities):
 
 			#"hhKinFitTau1LV",
 			#"hhKinFitTau2LV",
-
-			"simpleFitAvailable",
-			"simpleFitLV",
-			"simpleFitTau1Available",
-			"simpleFitTau1LV",
-			"simpleFitTau2Available",
-			"simpleFitTau2LV",
 
 			"leadingTauDecayMode",
 			"leadingTauSumChargedHadronsLV",
