@@ -71,6 +71,7 @@ class mt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
+			self["Processors"] += ["producer:SimpleFitProducer"]
 
 			# self["Processors"] += ["producer:TaggedJetCorrectionsProducer"]
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
@@ -78,20 +79,15 @@ class mt_ArtusConfig(dict):
 
 			if legacy:
 				self["Processors"] += ["producer:LegacyJetToTauFakesProducer"]
-			else:
-				self["Processors"] += ["producer:JetToTauFakesProducer"]
-
-			if legacy:
 				self["Processors"] += ["producer:NewValidMTPairCandidatesProducer"]
 				self["Processors"] += ["producer:MetFilterProducer"]
 			else:
+				self["Processors"] += ["producer:JetToTauFakesProducer"]
 				self["Processors"] += ["producer:ValidMTPairCandidatesProducer"]
 				self["Processors"] += ["producer:MetFilterProducer"]
 
 			if re.search("(Run201(6|7|8)|Embedding201(6|7|8))", nickname):
 				#self["Processors"] += ["producer:MVATestMethodsProducer"]
-				self["Processors"] += ["producer:SimpleFitProducer"]
-
 				self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 				self["Processors"] += ["producer:SvfitProducer"]
 				self["Processors"] += ["producer:FastMttProducer"]
@@ -131,14 +127,14 @@ class mt_ArtusConfig(dict):
 
 				if re.search("Summer1(6|7)|Fall17|Autumn18", nickname):
 					self["Processors"] += ["producer:PrefiringWeightProducer"]
-					self["Processors"] += ["producer:SimpleFitProducer"]
 					#"producer:TriggerWeightProducer"
 					if legacy:
 						self["Processors"] += ["producer:LegacyWeightProducer"]
 					else:
-						self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
-						self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"] #is a rooworkspace
 						self["Processors"] += ["producer:RooWorkspaceWeightProducer"]
+						if re.search("Summer17|Fall17"):
+							self["Processors"] += ["producer:TauTriggerEfficiency2017Producer"]
+							self["Processors"] += ["producer:LeptonTauTrigger2017WeightProducer"] #is a rooworkspace
 
 					#self["Processors"] += ["producer:IdentificationWeightProducer"]
 				else:
@@ -164,6 +160,7 @@ class mt_ArtusConfig(dict):
 					#self["Processors"] += ["producer:MELAM125Producer"]
 
 					if re.search("(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17|Autumn18))", nickname):
+						self["Processors"] += ["producer:GenSimpleFitProducer"]
 
 						if re.search("Summer1(6|7)|Fall17|Autumn18", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -176,6 +173,8 @@ class mt_ArtusConfig(dict):
 						self["Processors"] += [
 							"producer:TopPtReweightingProducer" #FIXME only ttbar?
 						]
+						self["Processors"] += ["producer:GenSimpleFitProducer"]
+
 						if re.search("amcatnlo",nickname):
 							self["DoLhenpNLO"] = True	#NEEDED for stitching
 						#TODO lhe npo weight added
@@ -188,7 +187,6 @@ class mt_ArtusConfig(dict):
 					else:
 						self["Processors"] += [	"producer:TopPtReweightingProducer"]  #FIXME only ttbar?
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
-						self["Processors"] += ["producer:SimpleFitProducer"] #FIXME Needed?
 
 						if re.search("Summer1(6|7)|Fall17|Autumn18", nickname) == None: #I dont want to do polarisation
 							self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
