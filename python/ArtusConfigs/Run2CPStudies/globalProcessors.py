@@ -18,7 +18,7 @@ class globalProccesors(dict):
 				"producer:ValidGenTausProducer",
 				"producer:GenDiLeptonDecayModeProducer"]
 
-			if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
+			if re.search("(Run2017|Run2018|Summer17|Fall17|Autumn18)", nickname) == None:
 				self["Processors"] += ["producer:LHEParticlesProducer"]
 
 			self["Processors"] += [
