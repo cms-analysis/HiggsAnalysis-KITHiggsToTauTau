@@ -1146,3 +1146,118 @@ double CPQuantities::CalculatePhiStarCPCommon(RMFLV charged1, RMFLV charged2,
 
   return phiStarCP;
 }
+
+// charged1,2 LV of patricles definig ZMF, e.g. charged prongs or true (gen) taus
+// h1,2 are the polarimetric vectors in the corresponding tau rest frame
+double CPQuantities::CalculatePhiStarCPPolVec(RMFLV charged1, RMFLV charged2,
+					      RMFLV::BetaVector h1, RMFLV::BetaVector h2,
+					      bool firstNegative) {
+
+  // Creating a boost M into the resonance rest frame
+  RMFLV resonance = charged1 + charged2;
+  RMFLV::BetaVector boostvec = resonance.BoostToCM();
+  ROOT::Math::Boost M(boostvec);
+
+  // and boosting 4-vectors to the resonance rest frame
+  charged1 = M * charged1;
+  charged2 = M * charged2;
+  // RMFLV h1LV;
+  // h1LV.SetXYZT(h1.X(), h1.Y(), h1.Z(), 0);
+  // RMFLV h2LV;
+  // h2LV.SetXYZT(h2.X(), h2.Y(), h2.Z(), 0);
+  // h1 = (M * h1LV).Vect().Unit();
+  // h2 = (M * h2LV).Vect().Unit();
+  h1 = h1.Unit();
+  h2 = h2.Unit();
+
+  // Get normalised 3-vectors ("momenta directions") of both taus in the resonance rest frame
+  RMFLV::BetaVector p1 = charged1.Vect().Unit();
+  RMFLV::BetaVector p2 = charged2.Vect().Unit();
+
+  // Get k1,2 vectors needed for phiStarCP calculations
+  // h1,2 and p1,2 are supposed to be in different rest frames
+  RMFLV::BetaVector k1 = (h1.Cross(p1)).Unit();
+  RMFLV::BetaVector k2 = (h2.Cross(p2)).Unit();
+
+  double phiStarCP = acos(k1.Dot(k2));
+  double oStarCP = p2.Dot(h1.Cross(h2));
+
+  if (firstNegative) {
+    oStarCP = p1.Dot(h2.Cross(h1));
+  }
+  if (oStarCP<0) {
+    phiStarCP = 2*ROOT::Math::Pi() - phiStarCP;
+  }
+  return phiStarCP;
+}
+
+// charged1,2 LV of patricles definig ZMF, e.g. charged prongs or true (gen) taus
+// h1 is the polarimetric vector in the corresponding tau rest frame associated to charged1
+// ref2: LV definig other direction, e.g. (IP,0), pi0 or true (gen) charged prongs associated to charged2
+double CPQuantities::CalculatePhiStarCPPolVecComb(RMFLV charged1, RMFLV charged2,
+					      RMFLV::BetaVector h1, RMFLV ref2,
+					      bool firstNegative) {
+
+  // Creating a boost M into the resonance rest frame
+  RMFLV resonance = charged1 + charged2;
+  RMFLV::BetaVector boostvec = resonance.BoostToCM();
+  ROOT::Math::Boost M(boostvec);
+
+  // RMFLV h1LV;
+  // h1LV.SetXYZT(h1.X(), h1.Y(), h1.Z(), 0);
+  // and boosting 4-vectors to the resonance rest frame
+  charged1 = M * charged1;
+  charged2 = M * charged2;
+  // h1 = (M * h1LV).Vect().Unit();
+	h1 = h1.Unit();
+  ref2 = M * ref2;
+
+  // std::cout << "CPQuantities::CalculatePhiStarCPPolVecComb resonance before boost: " << resonance << '\n';
+  // resonance = M * resonance;
+  // RMFLV resonance2 = charged1 + charged2;
+  // std::cout << "CPQuantities::CalculatePhiStarCPPolVecComb resonance after boost: " << resonance << '\n';
+  // std::cout << "CPQuantities::CalculatePhiStarCPPolVecComb resonance2: " << resonance2 << '\n';
+
+  // Get normalised 3-vectors ("momenta directions") of both taus in the resonance rest frame
+  RMFLV::BetaVector p1 = charged1.Vect().Unit();
+  RMFLV::BetaVector p2 = charged2.Vect().Unit();
+
+  // Get k1,2 vectors needed for phiStarCP calculations
+  // h1,2 and p1,2 are supposed to be in different rest frames
+  // h1 = h1.Unit();
+  RMFLV::BetaVector k1 = (h1.Cross(p1)).Unit();
+  // RMFLV::BetaVector k1 = (h1LV.Vect().Cross(p1)).Unit();
+
+  RMFLV::BetaVector k2 = ref2.Vect().Unit();
+  // RMFLV::BetaVector k2 = (ref2.Vect().Cross(p2)).Unit();
+
+  //and then normalised transverse components to the planes spanned by them
+  // RMFLV::BetaVector n2t = (k2 - p2*(p2.Dot(k2))).Unit();
+  RMFLV::BetaVector n2c = (p2.Cross(k2)).Unit();
+
+  // double phiStarCP = acos(k1.Dot(n2t));
+  // double oStarCP = p2.Dot(h1.Cross(n2t));
+  double phiStarCP = acos(k1.Dot(n2c));
+  double oStarCP = p2.Dot(h1.Cross(n2c));
+	// double phiStarCP = acos(k1.Dot(k2));
+	// double oStarCP = p2.Dot(h1.Cross(k2));
+	// double oStarCP = p2.Dot(h1LV.Vect().Cross(k2));
+
+  if (firstNegative) {
+    // oStarCP = p1.Dot(n2t.Cross(h1));
+    oStarCP = p1.Dot(n2c.Cross(h1));
+    // oStarCP = p1.Dot(k2.Cross(h1LV.Vect()));
+  }
+  if (oStarCP<0) {
+    phiStarCP = 2*ROOT::Math::Pi() - phiStarCP;
+  }
+  // if (oStarCPtest<0) {
+  //   phiStarCPtest = 2*ROOT::Math::Pi() - phiStarCPtest;
+  // }
+  // std::cout << "CalculatePhiStarCPPolVecComb phiStarCP: " << phiStarCP << '\n';
+  // std::cout << "CalculatePhiStarCPPolVecComb phiStarCPtest: " << phiStarCPtest << '\n';
+  // std::cout << "CalculatePhiStarCPPolVecComb oStarCP: " << oStarCP << '\n';
+  // std::cout << "CalculatePhiStarCPPolVecComb oStarCPtest: " << oStarCPtest << '\n';
+
+  return phiStarCP;
+}

@@ -25,6 +25,8 @@ public:
 	double CalculatePhiStarCP(RMFLV chargPart1, RMFLV chargPart2, TVector3 ipvec1, TVector3 ipvec2, std::string level);
 	double CalculatePhiStarCPRho(RMFLV chargedPiP, RMFLV chargedPiM, RMFLV piZeroP, RMFLV piZeroM, bool merge=false);
 	double CalculatePhiStarCPComb(TVector3 ipvec, RMFLV daughter, RMFLV pion, RMFLV pizero, int daughterCharge, bool merge=false);
+	double CalculatePhiStarCPPolVec(RMFLV charged1, RMFLV charged2, RMFLV::BetaVector h1, RMFLV::BetaVector h2, bool firstNegative);
+	double CalculatePhiStarCPPolVecComb(RMFLV charged1, RMFLV charged2, RMFLV::BetaVector h1, RMFLV ref2, bool firstNegative);
 	double CalculateChargedHadronEnergy(RMFLV diTauMomentum, RMFLV chargHad);
 	double CalculatePhiCP(RMFLV boson, RMFLV tau1, RMFLV tau2, RMFLV pion1, RMFLV pion2);
 	double CalculatePhiCPLab(RMFLV chargPart1, TVector3 ipvec1, TVector3 ipvec2);
