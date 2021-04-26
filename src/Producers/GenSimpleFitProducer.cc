@@ -139,73 +139,121 @@ void GenSimpleFitProducer::Init(setting_type const& settings, metadata_type& met
 void GenSimpleFitProducer::Produce(event_type const& event, product_type& product,
                                 setting_type const& settings, metadata_type const& metadata) const
 {
-	LOG(DEBUG) << "\t\t\t DEBUG 1: product.m_flavourOrderedGenLeptons.size(): " << product.m_flavourOrderedGenLeptons.size();
-	LOG(DEBUG) << "\t\t\t DEBUG 1: product.m_flavourOrderedGenLeptons.at(0): " << product.m_flavourOrderedGenLeptons.at(0);
-	LOG(DEBUG) << "\t\t\t DEBUG 1: product.m_flavourOrderedGenLeptons.at(1): " << product.m_flavourOrderedGenLeptons.at(1);
-	if ( product.m_flavourOrderedGenLeptons.size() > 1
-		&& product.m_flavourOrderedGenLeptons.at(0) != nullptr
-		&& product.m_flavourOrderedGenLeptons.at(1) != nullptr )
+	// LOG(INFO) << "\t\t\t DEBUG 1: product.m_flavourOrderedGenLeptons.size(): " << product.m_flavourOrderedGenLeptons.size();
+	// LOG(INFO) << "\t\t\t DEBUG 1: product.m_flavourOrderedGenLeptons.at(0): " << product.m_flavourOrderedGenLeptons.at(0);
+	// LOG(INFO) << "\t\t\t DEBUG 1: product.m_flavourOrderedGenLeptons.at(1): " << product.m_flavourOrderedGenLeptons.at(1);
+	// if ( product.m_flavourOrderedGenLeptons.size() > 1
+	// 	&& product.m_flavourOrderedGenLeptons.at(0) != nullptr
+	// 	&& product.m_flavourOrderedGenLeptons.at(1) != nullptr )
+	// 	{
+	// 	LOG(INFO) << "\t\t\t\t DEBUG 1: product.m_flavourOrderedGenLeptons.at(0)->pdgId: " << product.m_flavourOrderedGenLeptons.at(0)->pdgId;
+	// 	LOG(INFO) << "\t\t\t\t DEBUG 1: product.m_flavourOrderedGenLeptons.at(1)->pdgId: " << product.m_flavourOrderedGenLeptons.at(1)->pdgId;
+	// 	KGenParticle* genTau1Test = static_cast<KGenParticle*>(SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr)));
+	// 	KGenParticle* genTau2Test = static_cast<KGenParticle*>(SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr)));
+	// 	LOG(INFO) << "\t\t\t\t DEBUG 1: genTau1Test->pdgId: " << genTau1Test->pdgId;
+	// 	LOG(INFO) << "\t\t\t\t DEBUG 1: genTau2Test->pdgId: " << genTau2Test->pdgId;
+	// 	if ( (std::abs(product.m_flavourOrderedGenLeptons.at(0)->pdgId) == DefaultValues::pdgIdTau)
+	// 		&& (std::abs(product.m_flavourOrderedGenLeptons.at(1)->pdgId) == DefaultValues::pdgIdTau) )
+	// 	{
+	//
+	// 	// genTauDecayTree1 is the positevely charged genBosonDaughter
+	// 	// GenParticleDecayTree* genTauDecayTree1 = nullptr;
+	// 	// GenParticleDecayTree* genTauDecayTree2 = nullptr;
+	// 	// KGenTau* genTau1 = nullptr;
+	// 	// KGenTau* genTau2 = nullptr;
+	// 	LOG(DEBUG) << "\t\t\t DEBUG 1";
+	// 	KGenTau* genTau1 = static_cast<KGenTau*>(product.m_flavourOrderedGenLeptons.at(0));
+	// 	KGenTau* genTau2 = static_cast<KGenTau*>(product.m_flavourOrderedGenLeptons.at(1));
+	//
+	// 	RMFLV genLeptonVis1LV = *(product.m_flavourOrderedGenLeptonVisibleLVs.at(0));
+	// 	RMFLV genLeptonVis2LV = *(product.m_flavourOrderedGenLeptonVisibleLVs.at(1));
+	// 	LOG(DEBUG) << "\t\t\t DEBUG 2";
+	// 	LOG(INFO) << "genTau1 " << genTau1 << " genTau1Test" << genTau1Test;
+	// 	LOG(INFO) << "genTau2 " << genTau2 << " genTau2Test" << genTau2Test;
+	// 	// if (product.m_genBosonTree.m_daughters.at(0).m_genParticle->charge() == +1){
+	// 	// 	genTauDecayTree1 = &(product.m_genBosonTree.m_daughters.at(0));
+	// 	// 	genTauDecayTree2 = &(product.m_genBosonTree.m_daughters.at(1));
+	// 	// }
+	// 	// else {
+	// 	// 	genTauDecayTree1 = &(product.m_genBosonTree.m_daughters.at(1));
+	// 	// 	genTauDecayTree2 = &(product.m_genBosonTree.m_daughters.at(0));
+	// 	// }
+	// 	// genTau1 = SafeMap::GetWithDefault(product.m_validGenTausMap, genTauDecayTree1->m_genParticle, static_cast<KGenTau*>(nullptr));
+	// 	// genTau2 = SafeMap::GetWithDefault(product.m_validGenTausMap, genTauDecayTree2->m_genParticle, static_cast<KGenTau*>(nullptr));
+	//
+	// 	// get the full decay tree of the taus
+	// 	// genTauDecayTree1->DetermineDecayMode(genTauDecayTree1);
+	// 	// genTauDecayTree2->DetermineDecayMode(genTauDecayTree2);
+	// 	//
+	// 	// genTauDecayTree1->CreateFinalStateProngs(genTauDecayTree1);
+	// 	// genTauDecayTree2->CreateFinalStateProngs(genTauDecayTree2);
+	// 	// std::vector<GenParticleDecayTree*> genTauDecayTree1OneProngs = genTauDecayTree1->m_finalStates;
+	// 	// std::vector<GenParticleDecayTree*> genTauDecayTree2OneProngs = genTauDecayTree2->m_finalStates;
+	//
+	//
+	// 	//Creating a boost matrix into the ZMF of the taus
+	// 	RMFLV genTau1LV = genTau1->p4;
+	// 	RMFLV::BetaVector boostVecGenTau1 = genTau1LV.BoostToCM();
+	// 	ROOT::Math::Boost MgenTau1(boostVecGenTau1);
+	//
+	// 	LOG(DEBUG) << "\t\t\t DEBUG 3";
+	//
+	// 	RMFLV genTau2LV = genTau2->p4;
+	// 	RMFLV::BetaVector boostVecGenTau2 = genTau2LV.BoostToCM();
+	// 	ROOT::Math::Boost MgenTau2(boostVecGenTau2);
+	//
+	// 	LOG(DEBUG) << "\t\t\t DEBUG 4";
+	//
+	// 	//and boosting 4-vectors of visible decay products to the respective tau ZMF
+	// 	genLeptonVis1LV = MgenTau1 * genLeptonVis1LV;
+	// 	genLeptonVis2LV = MgenTau2 * genLeptonVis2LV;
+	//
+	// 	LOG(DEBUG) << "\t\t\t DEBUG 5";
+	// 	double genDot1 = genTau1LV.Vect().Dot(genLeptonVis1LV.Vect());
+	// 	double genDot2 = genTau2LV.Vect().Dot(genLeptonVis2LV.Vect());
+	// 	product.m_genSimpleFitIndex1 = genDot1 == 0 ? 0 : (genDot1 > 0 ? 1 : -1);
+	// 	product.m_genSimpleFitIndex2 = genDot2 == 0 ? 0 : (genDot2 > 0 ? 1 : -1);
+	// 	LOG(DEBUG) << "product.m_genSimpleFitIndex1: " << product.m_genSimpleFitIndex1;
+	// 	LOG(DEBUG) << "product.m_genSimpleFitIndex2: " << product.m_genSimpleFitIndex2;
+	// 	product.m_genSimpleFitIndexMap1[product.m_flavourOrderedLeptons.at(0)] = product.m_genSimpleFitIndex1;
+	// 	product.m_genSimpleFitIndexMap2[product.m_flavourOrderedLeptons.at(1)] = product.m_genSimpleFitIndex2;
+	// }
+	if (product.m_genTauMatchedLeptons.size() > 1)
+	{
+		KGenTau* genTau1 = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+		KGenTau* genTau2 = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+
+		if (genTau1 != nullptr && genTau2 != nullptr)
 		{
-		if ( (std::abs(product.m_flavourOrderedGenLeptons.at(0)->pdgId) == DefaultValues::pdgIdTau)
-			&& (std::abs(product.m_flavourOrderedGenLeptons.at(1)->pdgId) == DefaultValues::pdgIdTau) )
-		{
+			RMFLV genTau1VisibleLV = genTau1->visible.p4;
+			RMFLV genTau2VisibleLV = genTau2->visible.p4;
+			//Creating a boost matrix into the ZMF of the taus
+			RMFLV genTau1LV = genTau1->p4;
+			RMFLV::BetaVector boostVecGenTau1 = genTau1LV.BoostToCM();
+			ROOT::Math::Boost MgenTau1(boostVecGenTau1);
 
-		// genTauDecayTree1 is the positevely charged genBosonDaughter
-		// GenParticleDecayTree* genTauDecayTree1 = nullptr;
-		// GenParticleDecayTree* genTauDecayTree2 = nullptr;
-		// KGenTau* genTau1 = nullptr;
-		// KGenTau* genTau2 = nullptr;
-		LOG(DEBUG) << "\t\t\t DEBUG 1";
-		KGenTau* genTau1 = static_cast<KGenTau*>(product.m_flavourOrderedGenLeptons.at(0));
-		KGenTau* genTau2 = static_cast<KGenTau*>(product.m_flavourOrderedGenLeptons.at(1));
-		RMFLV genLeptonVis1LV = *(product.m_flavourOrderedGenLeptonVisibleLVs.at(0));
-		RMFLV genLeptonVis2LV = *(product.m_flavourOrderedGenLeptonVisibleLVs.at(1));
-		LOG(DEBUG) << "\t\t\t DEBUG 2";
-		// if (product.m_genBosonTree.m_daughters.at(0).m_genParticle->charge() == +1){
-		// 	genTauDecayTree1 = &(product.m_genBosonTree.m_daughters.at(0));
-		// 	genTauDecayTree2 = &(product.m_genBosonTree.m_daughters.at(1));
-		// }
-		// else {
-		// 	genTauDecayTree1 = &(product.m_genBosonTree.m_daughters.at(1));
-		// 	genTauDecayTree2 = &(product.m_genBosonTree.m_daughters.at(0));
-		// }
-		// genTau1 = SafeMap::GetWithDefault(product.m_validGenTausMap, genTauDecayTree1->m_genParticle, static_cast<KGenTau*>(nullptr));
-		// genTau2 = SafeMap::GetWithDefault(product.m_validGenTausMap, genTauDecayTree2->m_genParticle, static_cast<KGenTau*>(nullptr));
+			LOG(DEBUG) << "\t\t\t DEBUG 3";
 
-		// get the full decay tree of the taus
-		// genTauDecayTree1->DetermineDecayMode(genTauDecayTree1);
-		// genTauDecayTree2->DetermineDecayMode(genTauDecayTree2);
-		//
-		// genTauDecayTree1->CreateFinalStateProngs(genTauDecayTree1);
-		// genTauDecayTree2->CreateFinalStateProngs(genTauDecayTree2);
-		// std::vector<GenParticleDecayTree*> genTauDecayTree1OneProngs = genTauDecayTree1->m_finalStates;
-		// std::vector<GenParticleDecayTree*> genTauDecayTree2OneProngs = genTauDecayTree2->m_finalStates;
+			RMFLV genTau2LV = genTau2->p4;
+			RMFLV::BetaVector boostVecGenTau2 = genTau2LV.BoostToCM();
+			ROOT::Math::Boost MgenTau2(boostVecGenTau2);
 
+			LOG(DEBUG) << "\t\t\t DEBUG 4";
 
-		//Creating a boost matrix into the ZMF of the taus
-		RMFLV genTau1LV = genTau1->p4;
-		RMFLV::BetaVector boostVecGenTau1 = genTau1LV.BoostToCM();
-		ROOT::Math::Boost MgenTau1(boostVecGenTau1);
+			//and boosting 4-vectors of visible decay products to the respective tau ZMF
+			genTau1VisibleLV = MgenTau1 * genTau1VisibleLV;
+			genTau2VisibleLV = MgenTau2 * genTau2VisibleLV;
 
-		LOG(DEBUG) << "\t\t\t DEBUG 3";
-
-		RMFLV genTau2LV = genTau2->p4;
-		RMFLV::BetaVector boostVecGenTau2 = genTau2LV.BoostToCM();
-		ROOT::Math::Boost MgenTau2(boostVecGenTau2);
-
-		LOG(DEBUG) << "\t\t\t DEBUG 4";
-
-		//and boosting 4-vectors of visible decay products to the respective tau ZMF
-		genLeptonVis1LV = MgenTau1 * genLeptonVis1LV;
-		genLeptonVis2LV = MgenTau2 * genLeptonVis2LV;
-
-		LOG(DEBUG) << "\t\t\t DEBUG 5";
-		double genDot1 = genTau1LV.Vect().Dot(genLeptonVis1LV.Vect());
-		double genDot2 = genTau2LV.Vect().Dot(genLeptonVis2LV.Vect());
-		product.m_genSimpleFitIndex1 = genDot1 == 0 ? 0 : (genDot1 > 0 ? 1 : -1);
-		product.m_genSimpleFitIndex2 = genDot2 == 0 ? 0 : (genDot2 > 0 ? 1 : -1);
-		LOG(DEBUG) << "product.m_genSimpleFitIndex1: " << product.m_genSimpleFitIndex1;
-		LOG(DEBUG) << "product.m_genSimpleFitIndex2: " << product.m_genSimpleFitIndex2;
+			LOG(DEBUG) << "\t\t\t DEBUG 5";
+			double genDot1 = genTau1LV.Vect().Dot(genTau1VisibleLV.Vect());
+			double genDot2 = genTau2LV.Vect().Dot(genTau2VisibleLV.Vect());
+			product.m_genSimpleFitIndex1 = genDot1 == 0 ? 0 : (genDot1 > 0 ? 1 : 2);
+			product.m_genSimpleFitIndex2 = genDot2 == 0 ? 0 : (genDot2 > 0 ? 1 : 2);
+			// LOG(INFO) << "product.m_genSimpleFitIndex1: " << product.m_genSimpleFitIndex1;
+			// LOG(INFO) << "product.m_genSimpleFitIndex2: " << product.m_genSimpleFitIndex2;
+			product.m_genSimpleFitIndexMap[product.m_flavourOrderedLeptons.at(0)] = product.m_genSimpleFitIndex1;
+			product.m_genSimpleFitIndexMap[product.m_flavourOrderedLeptons.at(1)] = product.m_genSimpleFitIndex2;
+		}
 	}
 	//
 	// assert(product.m_flavourOrderedLeptons.size() >= 2);
@@ -378,5 +426,4 @@ void GenSimpleFitProducer::Produce(event_type const& event, product_type& produc
 	// 		// LOG(INFO) << "resonance: " << resonance;
 	// 	}
 	// }
-	}
 }
