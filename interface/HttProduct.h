@@ -240,6 +240,7 @@ public:
 	// filled by the GenSimpleFitProducer
 	int m_genSimpleFitIndex1 = DefaultValues::UndefinedInt;
 	int m_genSimpleFitIndex2 = DefaultValues::UndefinedInt;
+	std::map<KLepton*, int> m_genSimpleFitIndexMap;
 
 	// filled by the DiJetQuantitiesProducer
 	RMDLV m_diJetSystem;
@@ -369,6 +370,63 @@ public:
 	double m_genCosPsiPlus  = DefaultValues::UndefinedDouble;
 	double m_genCosPsiMinus = DefaultValues::UndefinedDouble;
 
+	std::map<KLepton*, TVector3> m_genTauMatchedIPs;
+
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2GenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2GenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2VisGenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2PiSSFromRhoGenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2PiHighPtGenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2VisGenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2PiSSFromRhoGenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2PiHighPtGenMatchedTaus;
+
+	double m_genMatchedPhiStarCPCombMerged = DefaultValues::UndefinedDouble;
+
+	double m_genMatchedPhiStarCPPolVecTau1Tau2 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecTau1VisTau2 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecTau1Tau2Vis = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecTau1VisTau2Vis = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecTau1Tau2PiSSFromRho = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecTau1Tau2PiHighPt = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecTau1VisTau2PiSSFromRho = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecTau1VisTau2PiHighPt = DefaultValues::UndefinedDouble;
+
+	double m_genMatchedPhiStarCPPolVecCombTau1Tau2 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombTau1VisTau2 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombTau1Tau2Vis = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombTau1VisTau2Vis = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombTau1Tau2PiSSFromRho = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombTau1Tau2PiHighPt = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombTau1VisTau2PiSSFromRho = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombTau1VisTau2PiHighPt = DefaultValues::UndefinedDouble;
+
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngTauA1GenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngTauA1GenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngA1GenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngA1GenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngA1PiSSFromRhoGenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngA1PiHighPtGenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngA1PiSSFromRhoGenMatchedTaus;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngA1PiHighPtGenMatchedTaus;
+
+	double m_genMatchedPhiStarCPPolVecTauOneProngTauA1 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecOneProngTauA1 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecTauOneProngA1 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecOneProngA1 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecTauOneProngA1PiSSFromRho = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecTauOneProngA1PiHighPt = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecOneProngA1PiSSFromRho = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecOneProngA1PiHighPt = DefaultValues::UndefinedDouble;
+
+	double m_genMatchedPhiStarCPPolVecCombTauOneProngTauA1 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombOneProngTauA1 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombTauOneProngA1 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombOneProngA1 = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombTauOneProngA1PiSSFromRho = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombTauOneProngA1PiHighPt = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombOneProngA1PiSSFromRho = DefaultValues::UndefinedDouble;
+	double m_genMatchedPhiStarCPPolVecCombOneProngA1PiHighPt = DefaultValues::UndefinedDouble;
 
 	// filled by RecoTauCPProducer
 

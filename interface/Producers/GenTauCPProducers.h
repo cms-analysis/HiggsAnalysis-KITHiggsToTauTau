@@ -15,7 +15,7 @@
 class GenTauCPProducerBase : public ProducerBase<HttTypes> {
 public:
 
-	GenTauCPProducerBase(std::string name);
+	GenTauCPProducerBase(std::string name = "gen");
 
 	virtual void Init(setting_type const& settings, metadata_type& metadata) override;
 
@@ -23,12 +23,12 @@ public:
 	                     setting_type const& settings, metadata_type const& metadata) const override;
 
 protected:
+	std::string m_name;
 	std::vector<TLorentzVector> SetupInputsPion(product_type& product, KGenTau* genTau) const;
 	std::vector<TLorentzVector> SetupInputsRho(product_type& product, KGenTau* genTau) const;
 	std::vector<TLorentzVector> SetupInputsA1(product_type& product, KGenTau* genTau) const;
 
 private:
-	std::string m_name;
 	std::vector<TLorentzVector> GetInputPion(product_type& product, KGenTau* genTau) const;
 	std::vector<TLorentzVector> GetInputRho(product_type& product, KGenTau* genTau) const;
 	std::vector<TLorentzVector> GetInputA1(product_type& product, KGenTau* genTau) const;
@@ -59,10 +59,17 @@ public:
 	virtual void Produce(event_type const& event, product_type& product,
 	                     setting_type const& settings, metadata_type const& metadata) const override;
 
+	bool m_useMVADecayModes;
+
 private:
 	void FindGenTau(product_type& product) const;
 
 	std::vector<TLorentzVector> GetInputPion(product_type& product, KLepton* lepton) const;
 	std::vector<TLorentzVector> GetInputRho(product_type& product, KLepton* lepton) const;
 	std::vector<TLorentzVector> GetInputA1(product_type& product, KLepton* lepton) const;
+
+	bool genPionsFromRho3Prongs(product_type& product, KLepton* lepton,
+				 RMFLV& genPiSSFromRhoMomentum,
+				 RMFLV& genPiOSMomentum,
+				 RMFLV& genPiSSHighMomentum) const;
 };

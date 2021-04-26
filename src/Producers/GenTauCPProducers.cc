@@ -4,8 +4,8 @@
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/Utility/interface/DefaultValues.h"
 #include "Artus/KappaAnalysis/interface/Utility/GenParticleDecayTree.h"
-
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/CPQuantities.h"
+#include "TauPolSoftware/TauDecaysInterface/interface/SCalculator.h"
 
 GenTauCPProducerBase::GenTauCPProducerBase(
 		std::string name
@@ -26,120 +26,120 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 		return ((product.m_genPV != nullptr) ? *product.m_genPV : DefaultValues::UndefinedRMPoint);
 		return event.m_vertexSummary->pv.position;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiStarCP", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiStarCP", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiStarCP;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiStarCPRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiStarCPRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiStarCPRho;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiStarCPComb", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiStarCPComb", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiStarCPComb;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiStarCPCombMerged", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiStarCPCombMerged", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiStarCPCombMerged;
 	});
 
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "gen_posyTauL", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"_posyTauL", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_gen_posyTauL;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "gen_negyTauL", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"_negyTauL", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_gen_negyTauL;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "gen_yTau", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"_yTau", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_gen_yTau;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiCP", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiCP", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiCP;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiCPLab", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiCPLab", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiCPLab;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiCPRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiCPRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiCPRho;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiStar", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiStar", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiStar;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOStarCP", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"OStarCP", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOStarCP;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiStarRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiStarRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiStarRho;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"Phi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhi;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOCP", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"OCP", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOCP;
 	});
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genPhiRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiRho;
 	});
 
 	// energy of the charged prong particles in the tau rest frame
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "TauPProngEnergy", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genTauPProngEnergy", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genChargedProngEnergies.first;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "TauMProngEnergy", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genTauMProngEnergy", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genChargedProngEnergies.second;
 	});
 
 	// charged particles of a one-prong tau
 	// FIXME these two variables could be removed ???
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "Tau1OneProngsSize", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genTau1OneProngsSize", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genTau1ProngsSize;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "Tau2OneProngsSize", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genTau2OneProngsSize", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genTau2ProngsSize;
 	});
 
 	// decay mode of the taus from KGenTau
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "Tau1DecayMode", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genTau1DecayMode", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genTau1DecayMode;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "Tau2DecayMode", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genTau2DecayMode", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genTau2DecayMode;
 	});
 	// decay mode of the taus from GenParticleDecayTree
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "TauTree1DecayMode", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genTauTree1DecayMode", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genTauTree1DecayMode;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "TauTree2DecayMode", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genTauTree2DecayMode", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genTauTree2DecayMode;
 	});
@@ -155,69 +155,69 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 	});
 
 	// cosPsi
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genCosPsiPlus", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"CosPsiPlus", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genCosPsiPlus;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genCosPsiMinus", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"CosPsiMinus", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genCosPsiMinus;
 	});
 
 	// properties of the charged particles from tau decays
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart1PdgId", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart1PdgId", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged1 != nullptr ? product.m_genOneProngCharged1->pdgId : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart1Pt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart1Pt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged1 != nullptr ? product.m_genOneProngCharged1->p4.Pt() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart1Pz", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart1Pz", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged1 != nullptr ? product.m_genOneProngCharged1->p4.Pz() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart1Eta", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart1Eta", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged1 != nullptr ? product.m_genOneProngCharged1->p4.Eta() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart1Phi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart1Phi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged1 != nullptr ? product.m_genOneProngCharged1->p4.Phi() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart1Mass", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart1Mass", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged1 != nullptr ? product.m_genOneProngCharged1->p4.mass() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart1Energy", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart1Energy", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged1 != nullptr ? product.m_genOneProngCharged1->p4.E() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart2PdgId", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart2PdgId", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged2 != nullptr ? product.m_genOneProngCharged2->pdgId : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart2Pt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart2Pt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged2 != nullptr ? product.m_genOneProngCharged2->p4.Pt() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart2Pz", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart2Pz", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged2 != nullptr ? product.m_genOneProngCharged2->p4.Pz() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart2Eta", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart2Eta", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged2 != nullptr ? product.m_genOneProngCharged2->p4.Eta() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart2Phi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart2Phi", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged2 != nullptr ? product.m_genOneProngCharged2->p4.Phi() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart2Mass", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart2Mass", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged2 != nullptr ? product.m_genOneProngCharged2->p4.mass() : DefaultValues::UndefinedDouble;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "OneProngChargedPart2Energy", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genOneProngChargedPart2Energy", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genOneProngCharged2 != nullptr ? product.m_genOneProngCharged2->p4.E() : DefaultValues::UndefinedDouble;
 	});
@@ -479,7 +479,7 @@ std::string GenMatchedTauCPProducer::GetProducerId() const
 void GenMatchedTauCPProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	GenTauCPProducerBase::Init(settings, metadata);
-
+	m_useMVADecayModes = settings.GetGEFUseMVADecayModes();
 	// add possible quantities for the lambda ntuples consumers
 
 	// MC-truth SV vertex, obtained by tau daughter 1
@@ -530,6 +530,142 @@ void GenMatchedTauCPProducer::Init(setting_type const& settings, metadata_type& 
 		return product.m_flavourOrderedGenLeptons.at(1) ? static_cast<int>(product.m_flavourOrderedGenLeptons.at(1)->charge()) : DefaultValues::UndefinedDouble;
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTau1Tau2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTau1Tau2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTau1VisTau2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTau1VisTau2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTau1Tau2Vis", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTau1Tau2Vis;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTau1VisTau2Vis", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTau1VisTau2Vis;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTau1Tau2PiSSFromRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTau1Tau2PiSSFromRho;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTau1Tau2PiHighPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTau1Tau2PiHighPt;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTau1VisTau2PiSSFromRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTau1VisTau2PiSSFromRho;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTau1VisTau2PiHighPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTau1VisTau2PiHighPt;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTau1Tau2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTau1Tau2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTau1VisTau2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTau1Tau2Vis", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTau1Tau2Vis;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTau1VisTau2Vis", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2Vis;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTau1Tau2PiSSFromRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTau1Tau2PiSSFromRho;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTau1Tau2PiHighPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTau1Tau2PiHighPt;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTau1VisTau2PiSSFromRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2PiSSFromRho;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTau1VisTau2PiHighPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2PiHighPt;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTauOneProngTauA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTauOneProngTauA1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecOneProngTauA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecOneProngTauA1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTauOneProngA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTauOneProngA1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecOneProngA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecOneProngA1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTauOneProngA1PiSSFromRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTauOneProngA1PiSSFromRho;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecTauOneProngA1PiHighPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecTauOneProngA1PiHighPt;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecOneProngA1PiSSFromRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecOneProngA1PiSSFromRho;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecOneProngA1PiHighPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecOneProngA1PiHighPt;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTauOneProngTauA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTauOneProngTauA1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombOneProngTauA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombOneProngTauA1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTauOneProngA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTauOneProngA1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombOneProngA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombOneProngA1;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTauOneProngA1PiSSFromRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTauOneProngA1PiSSFromRho;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombTauOneProngA1PiHighPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombTauOneProngA1PiHighPt;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombOneProngA1PiSSFromRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombOneProngA1PiSSFromRho;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPPolVecCombOneProngA1PiHighPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPPolVecCombOneProngA1PiHighPt;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "genMatchedPhiStarCPCombMerged", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genMatchedPhiStarCPCombMerged;
+	});
 
 }
 
@@ -711,6 +847,9 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 				product.m_genIP1 = cpq.CalculateShortestDistance(genParticle1, product.m_genPV);
 				product.m_genIP2 = cpq.CalculateShortestDistance(genParticle2, product.m_genPV);
 
+				product.m_genTauMatchedIPs[product.m_flavourOrderedLeptons.at(0)] = product.m_genIP1;
+				product.m_genTauMatchedIPs[product.m_flavourOrderedLeptons.at(1)] = product.m_genIP2;
+
 				// calculate phi*cp
 				if (genParticle1->charge() > 0){
 					IPPlus = product.m_genIP1;
@@ -753,6 +892,500 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 		} // if flavourOrderedGenLeptons is a non-empty vector
 
 	} // if product.m_genBosonLVFound && product.m_genBosonTree.m_daughters.size() > 1
+
+	if (product.m_genTauMatchedLeptons.size() > 1)
+	{
+		KLepton* oneProng = nullptr;
+		KTau* a1 = nullptr;
+		RMFLV genIPLVOneProng;
+
+		for (std::vector<KLepton*>::iterator leptonIt = product.m_flavourOrderedLeptons.begin();
+		     leptonIt != product.m_flavourOrderedLeptons.end(); ++leptonIt)
+		{
+			if ((*leptonIt)->flavour() == KLeptonFlavour::TAU)
+			{
+				KTau* tau = static_cast<KTau*>(*leptonIt);
+				int decaymode = m_useMVADecayModes ? (int)tau->getDiscriminator("MVADM2017v1", event.m_tauMetadata) : tau->decayMode;
+				if ((! a1) &&
+				    (decaymode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
+				    (tau->chargedHadronCandidates.size() > 2) &&
+				    tau->sv.valid)
+				{
+					a1 = tau;
+				}
+				else if ((! oneProng) &&
+				         ((decaymode == reco::PFTau::hadronicDecayMode::kOneProng0PiZero)
+				         ||(decaymode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero)))
+				{
+					oneProng = *leptonIt;
+					TVector3 IPOneProng = product.m_genTauMatchedIPs[*leptonIt];
+					genIPLVOneProng.SetXYZT(IPOneProng.X(), IPOneProng.Y(), IPOneProng.Z(), 0);
+				}
+			}
+			else if (! oneProng)
+			{
+				oneProng = *leptonIt;
+				TVector3 IPOneProng = product.m_genTauMatchedIPs[*leptonIt];
+				genIPLVOneProng.SetXYZT(IPOneProng.X(), IPOneProng.Y(), IPOneProng.Z(), 0);
+			}
+		}
+
+		CPQuantities cpq;
+		KGenTau* genTau1 = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+		KGenTau* genTau2 = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+
+		KGenTau* genTauA1 = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, static_cast<KLepton*>(a1), static_cast<KGenTau*>(nullptr));
+		KGenTau* genTauOneProng = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, oneProng, static_cast<KGenTau*>(nullptr));
+
+		if (genTauA1 != nullptr && genTauOneProng != nullptr)
+		{
+			RMFLV genPiSSFromRho1(0,0,0,0);
+			RMFLV genPiOS1(0,0,0,0);
+			RMFLV genPiSSHighPt1(0,0,0,0);
+			RMFLV genPiSSFromRho2(0,0,0,0);
+			RMFLV genPiOS2(0,0,0,0);
+			RMFLV genPiSSHighPt2(0,0,0,0);
+
+			RMFLV genA1PiSSFromRho(0,0,0,0);
+			RMFLV genA1PiOS(0,0,0,0);
+			RMFLV genA1PiSSHighPt(0,0,0,0);
+
+			int genDecayType1(0);
+			int genDecayType2(0);
+			int genTauDecaymode_1 = genTau1->genDecayMode();
+			int genTauDecaymode_2 = genTau2->genDecayMode();
+
+			RMFLV genIP1;
+			genIP1.SetXYZT((product.m_genIP1.X()), (product.m_genIP1.Y()), (product.m_genIP1.Z()), 0);
+			RMFLV genIP2;
+			genIP2.SetXYZT((product.m_genIP2.X()), (product.m_genIP2.Y()), (product.m_genIP2.Z()), 0);
+
+			if (genTauDecaymode_1 > 0)
+			{
+				if (genTauDecaymode_1 == 1 || genTauDecaymode_1 == 2)
+				genDecayType1 = 1;
+				else if(genTauDecaymode_1 == 10 || genTauDecaymode_1 == 11)
+				genDecayType1 = 2;
+			}
+
+			if (genTauDecaymode_2 > 0)
+			{
+				if (genTauDecaymode_2 == 1 || genTauDecaymode_2 == 2)
+				genDecayType2 = 1;
+				else if(genTauDecaymode_2 == 10 || genTauDecaymode_2 == 11)
+				genDecayType2 = 2;
+			}
+
+			genPionsFromRho3Prongs(product, product.m_flavourOrderedLeptons.at(0), genPiSSFromRho1, genPiOS1, genPiSSHighPt1);
+			genPionsFromRho3Prongs(product, product.m_flavourOrderedLeptons.at(1), genPiSSFromRho2, genPiOS2, genPiSSHighPt2);
+
+			RMFLV genTau1Tau2ZMF = genTau1->p4 + genTau2->p4;
+			RMFLV genTau1VisTau2ZMF = genTau1->visible.p4 + genTau2->p4;
+			RMFLV genTau1Tau2VisZMF = genTau1->p4 + genTau2->visible.p4;
+			RMFLV genTau1VisTau2VisZMF = genTau1->visible.p4 + genTau2->visible.p4;
+
+			RMFLV genTau1Tau2PiSSFromRhoZMF, genTau1Tau2PiHighPtZMF, genTau1VisTau2PiSSFromRhoZMF, genTau1VisTau2PiHighPtZMF;
+
+			RMFLV genTauOneProngTauA1ZMF = genTauA1->p4 + genTauOneProng->p4;
+			RMFLV genOneProngTauA1ZMF = genTauOneProng->visible.p4 + genTauA1->p4;
+			RMFLV genTauOneProngA1ZMF = genTauOneProng->p4 + genTauA1->visible.p4;
+			RMFLV genOneProngA1ZMF = genTauOneProng->visible.p4 + genTauA1->visible.p4;
+
+			RMFLV genTauOneProngA1PiSSFromRhoZMF, genTauOneProngA1PiHighPtZMF, genOneProngA1PiSSFromRhoZMF, genOneProngA1PiHighPtZMF;
+
+			if (genTauDecaymode_2 == 10)
+			{
+				genTau1Tau2PiSSFromRhoZMF = genTau1->p4 + genPiSSFromRho2;
+				genTau1Tau2PiHighPtZMF = genTau1->p4 + genPiSSHighPt2;
+				genTau1VisTau2PiSSFromRhoZMF = genTau1->visible.p4 + genPiSSFromRho2;
+				genTau1VisTau2PiHighPtZMF = genTau1->visible.p4 + genPiSSHighPt2;
+
+				genA1PiSSHighPt = genPiSSHighPt2;
+				genA1PiSSFromRho = genPiSSFromRho2;
+				genA1PiOS = genPiOS2;
+			}
+			else if (genTauDecaymode_1 == 10)
+			{
+				genTau1Tau2PiSSFromRhoZMF = genTau2->p4 + genPiSSFromRho1;
+				genTau1Tau2PiHighPtZMF = genTau2->p4 + genPiSSHighPt1;
+				genTau1VisTau2PiSSFromRhoZMF = genTau2->visible.p4 + genPiSSFromRho1;
+				genTau1VisTau2PiHighPtZMF = genTau2->visible.p4 + genPiSSHighPt1;
+
+				genA1PiSSHighPt = genPiSSHighPt1;
+				genA1PiSSFromRho = genPiSSFromRho1;
+				genA1PiOS = genPiOS1;
+			}
+			genTauOneProngA1PiSSFromRhoZMF = genTauOneProng->p4 + genA1PiSSFromRho;
+			genTauOneProngA1PiHighPtZMF = genTauOneProng->p4 + genA1PiSSHighPt;
+			genOneProngA1PiSSFromRhoZMF = genTauOneProng->visible.p4 + genA1PiSSFromRho;
+			genOneProngA1PiHighPtZMF = genTauOneProng->visible.p4 + genA1PiSSHighPt;
+
+			for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
+			lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
+
+			{
+				std::vector<TLorentzVector> inputs;
+				std::string type = "";
+				int charge(-999);
+
+				KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, *lepton, static_cast<KGenTau*>(nullptr));
+				int genTauDecayMode = genTau ? genTau->genDecayMode() : -999;
+
+				if (((*lepton)->flavour() == KLeptonFlavour::ELECTRON) || ((*lepton)->flavour() == KLeptonFlavour::MUON))
+				{
+					type = "lepton";
+				}
+				else if ((*lepton)->flavour() == KLeptonFlavour::TAU)
+				{
+					if (genTauDecayMode == 10)
+					{
+						inputs = GetInputA1(product, *lepton);
+						type = "a1";
+						charge = (*lepton)->charge();
+					}
+					else if (genTauDecayMode == 1)
+					{
+						inputs = GetInputRho(product, *lepton);
+						type = "rho";
+						charge = (*lepton)->charge();
+					}
+					// else if (dm_tau == 0)
+					else if (genTauDecayMode == 0)
+					{
+						inputs = GetInputPion(product, *lepton);
+						type = "pion";
+						charge = (*lepton)->charge();
+					}
+				}
+				if (inputs.size() > 0 && type != "lepton")
+				{
+					SCalculator GenSpinCalculatorInterfaceTau1Tau2(type);
+					GenSpinCalculatorInterfaceTau1Tau2.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau1Tau2ZMF), charge);
+					product.m_polarimetricVectorsTau1Tau2GenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTau1Tau2.pv());
+
+					SCalculator GenSpinCalculatorInterfaceTau1VisTau2(type);
+					GenSpinCalculatorInterfaceTau1VisTau2.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau1VisTau2ZMF), charge);
+					product.m_polarimetricVectorsTau1VisTau2GenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTau1VisTau2.pv());
+
+					SCalculator GenSpinCalculatorInterfaceTau1Tau2Vis(type);
+					GenSpinCalculatorInterfaceTau1Tau2Vis.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau1Tau2VisZMF), charge);
+					product.m_polarimetricVectorsTau1Tau2VisGenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTau1Tau2Vis.pv());
+
+					SCalculator GenSpinCalculatorInterfaceTau1VisTau2Vis(type);
+					GenSpinCalculatorInterfaceTau1VisTau2Vis.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau1VisTau2VisZMF), charge);
+					product.m_polarimetricVectorsTau1VisTau2VisGenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTau1VisTau2Vis.pv());
+
+
+					SCalculator GenSpinCalculatorInterfaceTauOneProngTauA1(type);
+					GenSpinCalculatorInterfaceTauOneProngTauA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauOneProngTauA1ZMF), charge);
+					product.m_polarimetricVectorsTauOneProngTauA1GenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTauOneProngTauA1.pv());
+
+					SCalculator GenSpinCalculatorInterfaceOneProngTauA1(type);
+					GenSpinCalculatorInterfaceOneProngTauA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genOneProngTauA1ZMF), charge);
+					product.m_polarimetricVectorsOneProngTauA1GenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceOneProngTauA1.pv());
+
+					SCalculator GenSpinCalculatorInterfaceTauOneProngA1(type);
+					GenSpinCalculatorInterfaceTauOneProngA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauOneProngA1ZMF), charge);
+					product.m_polarimetricVectorsTauOneProngA1GenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTauOneProngA1.pv());
+
+					SCalculator GenSpinCalculatorInterfaceOneProngA1(type);
+					GenSpinCalculatorInterfaceOneProngA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genOneProngA1ZMF), charge);
+					product.m_polarimetricVectorsOneProngA1GenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceOneProngA1.pv());
+
+					if (genTauDecaymode_1 == 10 || genTauDecaymode_2 == 10)
+					{
+						SCalculator GenSpinCalculatorInterfaceTau1Tau2PiSSFromRho(type);
+						GenSpinCalculatorInterfaceTau1Tau2PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau1Tau2PiSSFromRhoZMF), charge);
+						product.m_polarimetricVectorsTau1Tau2PiSSFromRhoGenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTau1Tau2PiSSFromRho.pv());
+
+						SCalculator GenSpinCalculatorInterfaceTau1Tau2PiHighPt(type);
+						GenSpinCalculatorInterfaceTau1Tau2PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau1Tau2PiHighPtZMF), charge);
+						product.m_polarimetricVectorsTau1Tau2PiHighPtGenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTau1Tau2PiHighPt.pv());
+
+						SCalculator GenSpinCalculatorInterfaceTau1VisTau2PiSSFromRho(type);
+						GenSpinCalculatorInterfaceTau1VisTau2PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau1VisTau2PiSSFromRhoZMF), charge);
+						product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoGenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTau1VisTau2PiSSFromRho.pv());
+
+						SCalculator GenSpinCalculatorInterfaceTau1VisTau2PiHighPt(type);
+						GenSpinCalculatorInterfaceTau1VisTau2PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau1VisTau2PiHighPtZMF), charge);
+						product.m_polarimetricVectorsTau1VisTau2PiHighPtGenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTau1VisTau2PiHighPt.pv());
+
+
+						SCalculator GenSpinCalculatorInterfaceTauOneProngA1PiSSFromRho(type);
+						GenSpinCalculatorInterfaceTauOneProngA1PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauOneProngA1PiSSFromRhoZMF), charge);
+						product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoGenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTauOneProngA1PiSSFromRho.pv());
+
+						SCalculator GenSpinCalculatorInterfaceTauOneProngA1PiHighPt(type);
+						GenSpinCalculatorInterfaceTauOneProngA1PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauOneProngA1PiHighPtZMF), charge);
+						product.m_polarimetricVectorsTauOneProngA1PiHighPtGenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceTauOneProngA1PiHighPt.pv());
+
+						SCalculator GenSpinCalculatorInterfaceOneProngA1PiSSFromRho(type);
+						GenSpinCalculatorInterfaceOneProngA1PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genOneProngA1PiSSFromRhoZMF), charge);
+						product.m_polarimetricVectorsOneProngA1PiSSFromRhoGenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceOneProngA1PiSSFromRho.pv());
+
+						SCalculator GenSpinCalculatorInterfaceOneProngA1PiHighPt(type);
+						GenSpinCalculatorInterfaceOneProngA1PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genOneProngA1PiHighPtZMF), charge);
+						product.m_polarimetricVectorsOneProngA1PiHighPtGenMatchedTaus[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(GenSpinCalculatorInterfaceOneProngA1PiHighPt.pv());
+					}
+				}
+			}
+			if ( (product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET) ) {
+
+				// l+rho/a1(1-prong)
+				// if (genDecayType2 == 1) {
+				// 	product.m_genMatchedPhiStarCPCombMerged = cpq.CalculatePhiStarCPComb(product.m_genIP1, recoParticle1->p4, recoTau2->chargedHadronCandidates.at(0).p4, piZero2, recoParticle1->charge(), true);
+				// }
+				// l+3-prongs
+				if (genDecayType2 == 2) {
+					product.m_genMatchedPhiStarCPCombMerged = cpq.CalculatePhiStarCPComb(product.m_genIP1, genTau2->visible.p4, genPiSSFromRho2, genPiOS2, genTau1->charge(), true);
+				}
+
+				if (genTauDecaymode_2 == 10)
+				{
+					bool genFirstNegative = genTau2->charge() < 0;
+					if(product.m_polarimetricVectorsTau1Tau2GenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2_2 = product.m_polarimetricVectorsTau1Tau2GenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2 = cpq.CalculatePhiStarCPPolVecComb(genTau2->p4, genTau1->p4, polVecTau1Tau2_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2GenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2_2 = product.m_polarimetricVectorsTau1VisTau2GenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2 = cpq.CalculatePhiStarCPPolVecComb(genTau2->p4, genTau1->visible.p4, polVecTau1VisTau2_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2VisGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2Vis_2 = product.m_polarimetricVectorsTau1Tau2VisGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2Vis = cpq.CalculatePhiStarCPPolVecComb(genTau2->visible.p4, genTau1->p4, polVecTau1Tau2Vis_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2VisGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2Vis_2 = product.m_polarimetricVectorsTau1VisTau2VisGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2Vis = cpq.CalculatePhiStarCPPolVecComb(genTau2->visible.p4, genTau1->visible.p4, polVecTau1VisTau2Vis_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiSSFromRhoGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2PiSSFromRho = cpq.CalculatePhiStarCPPolVecComb(genPiSSFromRho2, genTau1->p4, polVecTau1Tau2PiSSFromRho_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiHighPtGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiHighPt_2 = product.m_polarimetricVectorsTau1Tau2PiHighPtGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2PiHighPt = cpq.CalculatePhiStarCPPolVecComb(genPiSSHighPt2, genTau1->p4, polVecTau1Tau2PiHighPt_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2PiSSFromRho = cpq.CalculatePhiStarCPPolVecComb(genPiSSFromRho2, genTau1->visible.p4, polVecTau1VisTau2PiSSFromRho_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiHighPtGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiHighPt_2 = product.m_polarimetricVectorsTau1VisTau2PiHighPtGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2PiHighPt = cpq.CalculatePhiStarCPPolVecComb(genPiSSHighPt2, genTau1->visible.p4, polVecTau1VisTau2PiHighPt_2, genIP1, genFirstNegative);
+					}
+				}
+			} // if et or mt ch.
+			if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ) {
+				// rho/a1(1-prong)+pi
+				// if (genDecayType1 == 1 && genDecayType2 == 0) {
+				// 	product.m_genMatchedPhiStarCPCombMerged = cpq.CalculatePhiStarCPComb(product.m_genIP2, genTau2->visible.p4, recoTau1->chargedHadronCandidates.at(0).p4, piZero1, genTau2->charge(), true);
+				// }
+				// 3-prongs+pi
+				if (genDecayType1 == 2 && genDecayType2 == 0) {
+					product.m_genMatchedPhiStarCPCombMerged = cpq.CalculatePhiStarCPComb(product.m_genIP2, genTau2->visible.p4, genPiSSFromRho1, genPiOS1, genTau2->charge(), true);
+				}
+				// // pi+rho/a1(1-prong)
+				// else if (genDecayType1 == 0 && genDecayType2 == 1) {
+					// 	product.m_genMatchedPhiStarCPCombMerged = cpq.CalculatePhiStarCPComb(product.m_genIP1, genTau1->visible.p4, genTau2->visible.p4, piZero2, genTau1->charge(), true);
+					// }
+					// pi+3-prongs
+				else if (genDecayType1 == 0 && genDecayType2 == 2) {
+					// product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_1, recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piOS2, recoTau1->charge(), true);
+					product.m_genMatchedPhiStarCPCombMerged = cpq.CalculatePhiStarCPComb(product.m_genIP1, genTau1->visible.p4, genPiSSFromRho2, genPiOS2, genTau1->charge(), true);
+				}
+
+				if (genTauDecaymode_1 == 10 && genTauDecaymode_2 == 0)
+				{
+					bool genFirstNegative = genTau1->charge() < 0;
+					if(product.m_polarimetricVectorsTau1Tau2GenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2_1 = product.m_polarimetricVectorsTau1Tau2GenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2_2 = product.m_polarimetricVectorsTau1Tau2GenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1Tau2 = cpq.CalculatePhiStarCPPolVec(genTau1->p4, genTau2->p4, polVecTau1Tau2_1, polVecTau1Tau2_2, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2 = cpq.CalculatePhiStarCPPolVecComb(genTau1->p4, genTau2->p4, polVecTau1Tau2_1, genIP2, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2GenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2_1 = product.m_polarimetricVectorsTau1VisTau2GenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2_2 = product.m_polarimetricVectorsTau1VisTau2GenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1VisTau2 = cpq.CalculatePhiStarCPPolVec(genTau1->p4, genTau2->visible.p4, polVecTau1VisTau2_1, polVecTau1VisTau2_2, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2 = cpq.CalculatePhiStarCPPolVecComb(genTau1->p4, genTau2->visible.p4, polVecTau1VisTau2_1, genIP2, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2VisGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2Vis_1 = product.m_polarimetricVectorsTau1Tau2VisGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2Vis_2 = product.m_polarimetricVectorsTau1Tau2VisGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1Tau2Vis = cpq.CalculatePhiStarCPPolVec(genTau1->visible.p4, genTau2->p4, polVecTau1Tau2Vis_1, polVecTau1Tau2Vis_2, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2Vis = cpq.CalculatePhiStarCPPolVecComb(genTau1->visible.p4, genTau2->p4, polVecTau1Tau2Vis_1, genIP2, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2VisGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2Vis_1 = product.m_polarimetricVectorsTau1VisTau2VisGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2Vis_2 = product.m_polarimetricVectorsTau1VisTau2VisGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1VisTau2Vis = cpq.CalculatePhiStarCPPolVec(genTau1->visible.p4,  genTau2->visible.p4, polVecTau1VisTau2Vis_1, polVecTau1VisTau2Vis_2, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2Vis = cpq.CalculatePhiStarCPPolVecComb(genTau1->visible.p4,  genTau2->visible.p4, polVecTau1VisTau2Vis_1, genIP2, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiSSFromRhoGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1Tau2PiSSFromRho = cpq.CalculatePhiStarCPPolVec(genPiSSFromRho1, genTau2->p4, polVecTau1Tau2PiSSFromRho_1, polVecTau1Tau2PiSSFromRho_2, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2PiSSFromRho = cpq.CalculatePhiStarCPPolVecComb(genPiSSFromRho1, genTau2->p4, polVecTau1Tau2PiSSFromRho_1, genIP2, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiHighPtGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiHighPt_1 = product.m_polarimetricVectorsTau1Tau2PiHighPtGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2PiHighPt_2 = product.m_polarimetricVectorsTau1Tau2PiHighPtGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1Tau2PiHighPt = cpq.CalculatePhiStarCPPolVec(genPiSSHighPt1, genTau2->p4, polVecTau1Tau2PiHighPt_1, polVecTau1Tau2PiHighPt_2, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2PiHighPt = cpq.CalculatePhiStarCPPolVecComb(genPiSSHighPt1, genTau2->p4, polVecTau1Tau2PiHighPt_1, genIP2, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1VisTau2PiSSFromRho = cpq.CalculatePhiStarCPPolVec(genPiSSFromRho1, genTau2->visible.p4, polVecTau1VisTau2PiSSFromRho_1, polVecTau1VisTau2PiSSFromRho_2, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2PiSSFromRho = cpq.CalculatePhiStarCPPolVecComb(genPiSSFromRho1, genTau2->visible.p4, polVecTau1VisTau2PiSSFromRho_1, genIP2, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiHighPtGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiHighPt_1 = product.m_polarimetricVectorsTau1VisTau2PiHighPtGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2PiHighPt_2 = product.m_polarimetricVectorsTau1VisTau2PiHighPtGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1VisTau2PiHighPt = cpq.CalculatePhiStarCPPolVec(genPiSSHighPt1, genTau2->visible.p4, polVecTau1VisTau2PiHighPt_1, polVecTau1VisTau2PiHighPt_2, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2PiHighPt = cpq.CalculatePhiStarCPPolVecComb(genPiSSHighPt1, genTau2->visible.p4, polVecTau1VisTau2PiHighPt_1, genIP2, genFirstNegative);
+					}
+				}
+				if (genTauDecaymode_1 == 0 && genTauDecaymode_2 == 10)
+				{
+					bool genFirstNegative = genTau2->charge() < 0;
+					if(product.m_polarimetricVectorsTau1Tau2GenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2_1 = product.m_polarimetricVectorsTau1Tau2GenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2_2 = product.m_polarimetricVectorsTau1Tau2GenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1Tau2 = cpq.CalculatePhiStarCPPolVec(genTau2->p4, genTau1->p4, polVecTau1Tau2_2, polVecTau1Tau2_1, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2 = cpq.CalculatePhiStarCPPolVecComb(genTau2->p4, genTau1->p4, polVecTau1Tau2_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2GenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2_1 = product.m_polarimetricVectorsTau1VisTau2GenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2_2 = product.m_polarimetricVectorsTau1VisTau2GenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1VisTau2 = cpq.CalculatePhiStarCPPolVec(genTau2->p4, genTau1->visible.p4, polVecTau1VisTau2_2, polVecTau1VisTau2_1, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2 = cpq.CalculatePhiStarCPPolVecComb(genTau2->p4, genTau1->visible.p4, polVecTau1VisTau2_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2VisGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2Vis_1 = product.m_polarimetricVectorsTau1Tau2VisGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2Vis_2 = product.m_polarimetricVectorsTau1Tau2VisGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1Tau2Vis = cpq.CalculatePhiStarCPPolVec(genTau2->visible.p4, genTau1->p4, polVecTau1Tau2Vis_2, polVecTau1Tau2Vis_1, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2Vis = cpq.CalculatePhiStarCPPolVecComb(genTau2->visible.p4, genTau1->p4, polVecTau1Tau2Vis_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2VisGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2Vis_1 = product.m_polarimetricVectorsTau1VisTau2VisGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2Vis_2 = product.m_polarimetricVectorsTau1VisTau2VisGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1VisTau2Vis = cpq.CalculatePhiStarCPPolVec(genTau2->visible.p4, genTau1->visible.p4, polVecTau1VisTau2Vis_2, polVecTau1VisTau2Vis_1, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2Vis = cpq.CalculatePhiStarCPPolVecComb(genTau2->visible.p4, genTau1->visible.p4, polVecTau1VisTau2Vis_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiSSFromRhoGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1Tau2PiSSFromRho = cpq.CalculatePhiStarCPPolVec(genPiSSFromRho2, genTau1->p4, polVecTau1Tau2PiSSFromRho_2, polVecTau1Tau2PiSSFromRho_1, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2PiSSFromRho = cpq.CalculatePhiStarCPPolVecComb(genPiSSFromRho2, genTau1->p4, polVecTau1Tau2PiSSFromRho_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiHighPtGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiHighPt_1 = product.m_polarimetricVectorsTau1Tau2PiHighPtGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2PiHighPt_2 = product.m_polarimetricVectorsTau1Tau2PiHighPtGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1Tau2PiHighPt = cpq.CalculatePhiStarCPPolVec(genPiSSHighPt2, genTau1->p4, polVecTau1Tau2PiHighPt_2, polVecTau1Tau2PiHighPt_1, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1Tau2PiHighPt = cpq.CalculatePhiStarCPPolVecComb(genPiSSHighPt2, genTau1->p4, polVecTau1Tau2PiHighPt_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1VisTau2PiSSFromRho = cpq.CalculatePhiStarCPPolVec(genPiSSFromRho2, genTau1->visible.p4, polVecTau1VisTau2PiSSFromRho_2, polVecTau1VisTau2PiSSFromRho_1, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2PiSSFromRho = cpq.CalculatePhiStarCPPolVecComb(genPiSSFromRho2, genTau1->visible.p4, polVecTau1VisTau2PiSSFromRho_2, genIP1, genFirstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiHighPtGenMatchedTaus.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiHighPt_1 = product.m_polarimetricVectorsTau1VisTau2PiHighPtGenMatchedTaus[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2PiHighPt_2 = product.m_polarimetricVectorsTau1VisTau2PiHighPtGenMatchedTaus[product.m_flavourOrderedLeptons.at(1)];
+						product.m_genMatchedPhiStarCPPolVecTau1VisTau2PiHighPt = cpq.CalculatePhiStarCPPolVec(genPiSSHighPt2, genTau1->visible.p4, polVecTau1VisTau2PiHighPt_2, polVecTau1VisTau2PiHighPt_1, genFirstNegative);
+						product.m_genMatchedPhiStarCPPolVecCombTau1VisTau2PiHighPt = cpq.CalculatePhiStarCPPolVecComb(genPiSSHighPt2, genTau1->visible.p4, polVecTau1VisTau2PiHighPt_2, genIP1, genFirstNegative);
+					}
+				}
+			}  // if tt ch.
+
+			// first particle is always a1
+			bool firstNegative = genTauA1->charge() < 0;
+			if(product.m_polarimetricVectorsTauOneProngTauA1GenMatchedTaus.size() > 0)
+			{
+				RMFLV::BetaVector genPolVecA1 = product.m_polarimetricVectorsTauOneProngTauA1GenMatchedTaus[a1];
+				RMFLV::BetaVector genPolVecOneProng = product.m_polarimetricVectorsTauOneProngTauA1GenMatchedTaus[oneProng];
+				product.m_genMatchedPhiStarCPPolVecTauOneProngTauA1 = cpq.CalculatePhiStarCPPolVec(genTauA1->p4, genTauOneProng->p4, genPolVecA1, genPolVecOneProng, firstNegative);
+				product.m_genMatchedPhiStarCPPolVecCombTauOneProngTauA1 = cpq.CalculatePhiStarCPPolVecComb(genTauA1->p4, genTauOneProng->p4, genPolVecA1, genIPLVOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsOneProngTauA1GenMatchedTaus.size() > 0)
+			{
+				RMFLV::BetaVector genPolVecA1 = product.m_polarimetricVectorsOneProngTauA1GenMatchedTaus[a1];
+				RMFLV::BetaVector genPolVecOneProng = product.m_polarimetricVectorsOneProngTauA1GenMatchedTaus[oneProng];
+				product.m_genMatchedPhiStarCPPolVecOneProngTauA1 = cpq.CalculatePhiStarCPPolVec(genTauA1->p4, genTauOneProng->visible.p4, genPolVecA1, genPolVecOneProng, firstNegative);
+				product.m_genMatchedPhiStarCPPolVecCombOneProngTauA1 = cpq.CalculatePhiStarCPPolVecComb(genTauA1->p4, genTauOneProng->visible.p4, genPolVecA1, genIPLVOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsTauOneProngA1GenMatchedTaus.size() > 0)
+			{
+				RMFLV::BetaVector genPolVecA1 = product.m_polarimetricVectorsTauOneProngA1GenMatchedTaus[a1];
+				RMFLV::BetaVector genPolVecOneProng = product.m_polarimetricVectorsTauOneProngA1GenMatchedTaus[oneProng];
+				product.m_genMatchedPhiStarCPPolVecTauOneProngA1 = cpq.CalculatePhiStarCPPolVec(genTauA1->visible.p4, genTauOneProng->p4, genPolVecA1, genPolVecOneProng, firstNegative);
+				product.m_genMatchedPhiStarCPPolVecCombTauOneProngA1 = cpq.CalculatePhiStarCPPolVecComb(genTauA1->visible.p4, genTauOneProng->p4, genPolVecA1, genIPLVOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsOneProngA1GenMatchedTaus.size() > 0)
+			{
+				RMFLV::BetaVector genPolVecA1 = product.m_polarimetricVectorsOneProngA1GenMatchedTaus[a1];
+				RMFLV::BetaVector genPolVecOneProng = product.m_polarimetricVectorsOneProngA1GenMatchedTaus[oneProng];
+				product.m_genMatchedPhiStarCPPolVecOneProngA1 = cpq.CalculatePhiStarCPPolVec(genTauA1->visible.p4, genTauOneProng->visible.p4, genPolVecA1, genPolVecOneProng, firstNegative);
+				product.m_genMatchedPhiStarCPPolVecCombOneProngA1 = cpq.CalculatePhiStarCPPolVecComb(genTauA1->visible.p4, genTauOneProng->visible.p4, genPolVecA1, genIPLVOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoGenMatchedTaus.size() > 0)
+			{
+				RMFLV::BetaVector genPolVecA1 = product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoGenMatchedTaus[a1];
+				RMFLV::BetaVector genPolVecOneProng = product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoGenMatchedTaus[oneProng];
+				product.m_genMatchedPhiStarCPPolVecTauOneProngA1PiSSFromRho = cpq.CalculatePhiStarCPPolVec(genA1PiSSFromRho, genTauOneProng->p4, genPolVecA1, genPolVecOneProng, firstNegative);
+				product.m_genMatchedPhiStarCPPolVecCombTauOneProngA1PiSSFromRho = cpq.CalculatePhiStarCPPolVecComb(genA1PiSSFromRho, genTauOneProng->p4, genPolVecA1, genIPLVOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsTauOneProngA1PiHighPtGenMatchedTaus.size() > 0)
+			{
+				RMFLV::BetaVector genPolVecA1 = product.m_polarimetricVectorsTauOneProngA1PiHighPtGenMatchedTaus[a1];
+				RMFLV::BetaVector genPolVecOneProng = product.m_polarimetricVectorsTauOneProngA1PiHighPtGenMatchedTaus[oneProng];
+				product.m_genMatchedPhiStarCPPolVecTauOneProngA1PiHighPt = cpq.CalculatePhiStarCPPolVec(genA1PiSSHighPt, genTauOneProng->p4, genPolVecA1, genPolVecOneProng, firstNegative);
+				product.m_genMatchedPhiStarCPPolVecCombTauOneProngA1PiHighPt = cpq.CalculatePhiStarCPPolVecComb(genA1PiSSHighPt, genTauOneProng->p4, genPolVecA1, genIPLVOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsOneProngA1PiSSFromRhoGenMatchedTaus.size() > 0)
+			{
+				RMFLV::BetaVector genPolVecA1 = product.m_polarimetricVectorsOneProngA1PiSSFromRhoGenMatchedTaus[a1];
+				RMFLV::BetaVector genPolVecOneProng = product.m_polarimetricVectorsOneProngA1PiSSFromRhoGenMatchedTaus[oneProng];
+				product.m_genMatchedPhiStarCPPolVecOneProngA1PiSSFromRho = cpq.CalculatePhiStarCPPolVec(genA1PiSSFromRho, genTauOneProng->visible.p4, genPolVecA1, genPolVecOneProng, firstNegative);
+				product.m_genMatchedPhiStarCPPolVecCombOneProngA1PiSSFromRho = cpq.CalculatePhiStarCPPolVecComb(genA1PiSSFromRho, genTauOneProng->visible.p4, genPolVecA1, genIPLVOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsOneProngA1PiHighPtGenMatchedTaus.size() > 0)
+			{
+				RMFLV::BetaVector genPolVecA1 = product.m_polarimetricVectorsOneProngA1PiHighPtGenMatchedTaus[a1];
+				RMFLV::BetaVector genPolVecOneProng = product.m_polarimetricVectorsOneProngA1PiHighPtGenMatchedTaus[oneProng];
+				product.m_genMatchedPhiStarCPPolVecOneProngA1PiHighPt = cpq.CalculatePhiStarCPPolVec(genA1PiSSHighPt, genTauOneProng->visible.p4, genPolVecA1, genPolVecOneProng, firstNegative);
+				product.m_genMatchedPhiStarCPPolVecCombOneProngA1PiHighPt = cpq.CalculatePhiStarCPPolVecComb(genA1PiSSHighPt, genTauOneProng->visible.p4, genPolVecA1, genIPLVOneProng, firstNegative);
+			}
+		} // if 2 gen taus
+	}
 
 }
 
@@ -828,19 +1461,12 @@ std::vector<TLorentzVector> GenMatchedTauCPProducer::GetInputA1(product_type& pr
 std::vector<TLorentzVector> GenTauCPProducerBase::SetupInputsPion(product_type& product, KGenTau* genTau) const
 {
 	std::vector<TLorentzVector> input;
-	KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
-	if (genParticle)
+	if (genTau)
 	{
-		std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
-		std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
-		if ((genTau->nProngs == 1) && (genTau->nPi0s == 1) &&
-		    (genTauChargedHadrons.size() == 1) && (genTauNeutralHadrons.size() == 1))
-		{
-			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau->p4));
+		RMFLV* genTauVisibleLV = &(genTau->visible.p4);
 
-			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauChargedHadrons.front()->p4));
-			input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTauNeutralHadrons.front()->p4));
-		}
+		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(genTau->p4));
+		input.push_back(Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(*genTauVisibleLV));
 	}
 
 	return input;
@@ -910,4 +1536,79 @@ std::vector<TLorentzVector> GenTauCPProducerBase::SetupInputsA1(product_type& pr
 	}
 
 	return input;
+}
+
+/* Gen version for 4-momenta of charged pions from a1 decay in 3-prongs tau decay */
+bool GenMatchedTauCPProducer::genPionsFromRho3Prongs(product_type& product, KLepton* lepton,
+					    RMFLV& genPiSSFromRhoMomentum,
+					    RMFLV& genPiOSMomentum,
+					    RMFLV& genPiSSHighMomentum) const
+{
+
+	//Reset 4-momenta
+	genPiSSFromRhoMomentum.SetCoordinates(0,0,0,0);
+	genPiOSMomentum.SetCoordinates(0,0,0,0);
+	genPiSSHighMomentum.SetCoordinates(0,0,0,0);
+
+	//Not 3-prongs tau
+	KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, lepton, static_cast<KGenTau*>(nullptr));
+	if (genTau)
+	{
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+			std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+			// if ((genTau->nProngs == 3) && (genTau->nPi0s == 0) &&
+			//     (genTauChargedHadrons.size() == 3) && (genTauNeutralHadrons.size() == 0))
+			if ((genTau->nProngs == 3) && (genTauChargedHadrons.size() == 3))
+			{
+				// sort pions from a1 decay according to their charge
+				KGenParticle* piSingleChargeSign = nullptr;
+				KGenParticle* piDoubleChargeSign1 = nullptr;
+				KGenParticle* piDoubleChargeSign2 = nullptr;
+				if ((genTauChargedHadrons.at(0)->charge() * genTauChargedHadrons.at(1)->charge()) > 0.0)
+				{
+					piSingleChargeSign = genTauChargedHadrons.at(2);
+					piDoubleChargeSign1 = genTauChargedHadrons.at(0);
+					piDoubleChargeSign2 = genTauChargedHadrons.at(1);
+				}
+				else if ((genTauChargedHadrons.at(0)->charge() * genTauChargedHadrons.at(2)->charge()) > 0.0)
+				{
+					piSingleChargeSign = genTauChargedHadrons.at(1);
+					piDoubleChargeSign1 = genTauChargedHadrons.at(0);
+					piDoubleChargeSign2 = genTauChargedHadrons.at(2);
+				}
+				else // if ((genTauChargedHadrons.at(1)->charge() * genTauChargedHadrons.at(2)->charge()) > 0.0)
+				{
+					piSingleChargeSign = genTauChargedHadrons.at(0);
+					piDoubleChargeSign1 = genTauChargedHadrons.at(1);
+					piDoubleChargeSign2 = genTauChargedHadrons.at(2);
+				}
+				genPiOSMomentum = piSingleChargeSign->p4;
+
+				//Look for charged pions pair from rho decay
+				RMFLV rho1 = genPiOSMomentum + piDoubleChargeSign1->p4;
+				RMFLV rho2 = genPiOSMomentum + piDoubleChargeSign2->p4;
+				if ((std::abs(rho1.M()-DefaultValues::RhoMass)) < (std::abs(rho2.M()-DefaultValues::RhoMass)))
+				{
+					genPiSSFromRhoMomentum = piDoubleChargeSign1->p4;
+				}
+				else
+				{
+					genPiSSFromRhoMomentum = piDoubleChargeSign2->p4;
+				}
+				if (piDoubleChargeSign1->p4.pt() > piDoubleChargeSign2->p4.pt())
+				{
+					genPiSSHighMomentum = piDoubleChargeSign1->p4;
+				}
+				else
+				{
+					genPiSSHighMomentum = piDoubleChargeSign2->p4;
+				}
+			}
+		}
+	}
+
+	return (genPiOSMomentum.pt() > 0 && genPiSSFromRhoMomentum.pt() > 0 && genPiSSHighMomentum.pt() > 0); //Sanity check
 }

@@ -104,6 +104,7 @@ class mt_ArtusConfig(dict):
 
 				if re.search("Embedding(2016|2017|2018)", nickname):
 					# self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
+					# self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 					self["Processors"] += ["producer:TauCorrectionsProducer"]
 					self["Processors"] += ["producer:MuonCorrectionsProducer"]
 					if legacy:
