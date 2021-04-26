@@ -21,4 +21,6 @@ public:
 private:
 
 	float m_massConstraint;
+	bool m_useCollinearityTauMu;
+	bool m_useMVADecayModes;
 };

@@ -21,6 +21,7 @@ import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.setting
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJEC as sJEC
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJECUncertaintySplit as sJECUS
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsJER as sJER
+import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2Analysis.Includes.settingsSimpleFits as sSimpleFits
 
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Includes.settingsMVATestMethods as sMVATM
 import HiggsAnalysis.KITHiggsToTauTau.ArtusConfigs.Run2CPStudies.Includes.settingsTauPolarisationMva as sTPMVA
@@ -272,6 +273,9 @@ class tt_ArtusConfig(dict):
 
 		Svfit_config = sSvfit.Svfit(nickname)
 		self.update(Svfit_config)
+
+		SimpleFits_config = sSimpleFits.SimpleFits(nickname)
+		self.update(SimpleFits_config)
 
 		if re.search("VBFHToTauTauM125_RunIIFall17MiniAODv2_PU2017(|newpmx)_13TeV_MINIAOD_powheg-pythia8",nickname) or kwargs.get("sync", False): # synchronization sample
 			mplf = sMPlF.MinimalPlotlevelFilter(nickname=nickname, channel="TT", eTauFakeRate=False, sync=True, legacy=isLegacy)

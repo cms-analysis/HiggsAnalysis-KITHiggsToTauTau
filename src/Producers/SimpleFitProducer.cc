@@ -31,27 +31,44 @@ void SimpleFitProducer::Init(setting_type const& settings, metadata_type& metada
 {
     ProducerBase<HttTypes>::Init(settings, metadata);
 
-	// m_massConstraint = settings.GetSimpleFitMassConstraint();
+	m_massConstraint = settings.GetGEFMassConstraint();
+	m_useCollinearityTauMu = settings.GetGEFUseCollinearityTauMu();
+	m_useMVADecayModes = settings.GetGEFUseMVADecayModes();
 
 	// add possible quantities for the lambda ntuples consumers
-
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau2PrefitPlusLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-		return product.m_simpleFitTau2PrefitPlus;
+	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "simpleFitTauRecoIsAmbiguous", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+		return product.m_simpleFitTauRecoIsAmbiguous;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau2PrefitMinusLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-		return product.m_simpleFitTau2PrefitMinus;
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTauA1PrefitPlusLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+		return product.m_simpleFitTauA1PrefitPlus;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau2PrefitZeroLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-		return product.m_simpleFitTau2PrefitZero;
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTauA1PrefitMinusLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+		return product.m_simpleFitTauA1PrefitMinus;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTauA1PrefitZeroLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+		return product.m_simpleFitTauA1PrefitZero;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitResonancePrefitResolvedFitLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
 		return product.m_simpleFitResonancePrefitResolvedFit;
 	});
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau1PrefitResolvedFitLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-		return product.m_simpleFitTau1PrefitResolvedFit;
+		return SafeMap::GetWithDefault(product.m_simpleFitTausPrefitResolvedFit, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedRMFLV);
 	});
 	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau2PrefitResolvedFitLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
-		return product.m_simpleFitTau2PrefitResolvedFit;
+		return SafeMap::GetWithDefault(product.m_simpleFitTausPrefitResolvedFit, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitResonancePrefitResolvedGenLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+		return product.m_simpleFitResonancePrefitResolvedGen;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau1PrefitResolvedGenLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+		return SafeMap::GetWithDefault(product.m_simpleFitTausPrefitResolvedGen, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau2PrefitResolvedGenLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+		return SafeMap::GetWithDefault(product.m_simpleFitTausPrefitResolvedGen, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedRMFLV);
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "simpleFitRotationSignificance", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+		return product.m_simpleFitRotationSignificance;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "simpleFitChi2Sum", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
@@ -126,6 +143,23 @@ void SimpleFitProducer::Init(setting_type const& settings, metadata_type& metada
 			return DefaultValues::UndefinedFloat;
 		}
 	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau1ResolvedGenLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+		return SafeMap::GetWithDefault(product.m_simpleFitTausResolvedGen, product.m_flavourOrderedLeptons.at(0), DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTau2ResolvedGenLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+		return SafeMap::GetWithDefault(product.m_simpleFitTausResolvedGen, product.m_flavourOrderedLeptons.at(1), DefaultValues::UndefinedRMFLV);
+	});
+	// LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTauA1PlusLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+	// 	return product.m_simpleFitTauA1Plus;
+	// });
+	// LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTauA1MinusLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+	// 	return product.m_simpleFitTauA1Minus;
+	// });
+	// LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "simpleFitTauA1ZeroLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
+	// 	return product.m_simpleFitTauA1Zero;
+	// });
+
+
 }
 
 void SimpleFitProducer::Produce(event_type const& event, product_type& product,
@@ -145,17 +179,18 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		if ((*leptonIt)->flavour() == KLeptonFlavour::TAU)
 		{
 			KTau* tau = static_cast<KTau*>(*leptonIt);
+			int decaymode = m_useMVADecayModes ? (int)tau->getDiscriminator("MVADM2017v1", event.m_tauMetadata) : tau->decayMode;
 			// LOG(INFO) << "tau->sv.valid: " << tau->sv.valid;
 
 			if ((! a1) &&
-			    (tau->decayMode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
+			    (decaymode == reco::PFTau::hadronicDecayMode::kThreeProng0PiZero) &&
 			    (tau->chargedHadronCandidates.size() > 2) &&
 			    tau->sv.valid)
 			{
 				a1 = tau;
 			}
 			else if ((! oneProng) &&
-			         (tau->decayMode == reco::PFTau::hadronicDecayMode::kOneProng0PiZero))
+			         (decaymode == reco::PFTau::hadronicDecayMode::kOneProng0PiZero))
 			{
 				oneProng = *leptonIt;
 			}
@@ -183,10 +218,39 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		// oneProngHelixParametersInput.Print();
 		// LOG(INFO) << "\noneProngHelixCovarianceInput:";
 		// oneProngHelixCovarianceInput.Print();
+
+		oneProngHelixParametersInput[TrackParticle::kappa][0] = -oneProngHelixParametersInput[TrackParticle::kappa][0]*oneProng->track.magneticField/cos(oneProngHelixParametersInput[TrackParticle::lambda][0]);
+		TMatrixTSym<double> Jacobi(TrackParticle::NHelixPar);
+		// make unit matrix first
+		for (size_t i_row = 0; i_row < TrackParticle::NHelixPar; i_row++)
+		{
+			Jacobi[i_row][i_row] = 1.0;
+		}
+		Jacobi[TrackParticle::kappa][reco::Track::i_qoverp] = (-1.0)*oneProng->track.magneticField/cos(oneProng->track.lambda());
+		Jacobi[TrackParticle::kappa][reco::Track::i_lambda] = (-1.0)*oneProng->track.magneticField*oneProng->track.qOverP()*tan(oneProng->track.lambda())/cos(oneProng->track.lambda());
+
+		// LOG(INFO) << "\nJacobi Matrix:";
+		// Jacobi.Print();
+
+		oneProngHelixCovarianceInput.Similarity(Jacobi);
+		TrackParticle oneProngInput(oneProngHelixParametersInput, oneProngHelixCovarianceInput, oneProng->pdgId(), oneProng->p4.mass(), oneProng->charge(), oneProng->track.magneticField);
+
+		// LOG(WARNING) << "\n\nSimpleFits inputs (oneProng) after change from qoverp->kappa:";
+		// LOG(INFO) << "\noneProngHelixParametersInput:";
+		// oneProngHelixParametersInput.Print();
+		// LOG(INFO) << "\noneProngHelixCovarianceInput:";
+		// oneProngHelixCovarianceInput.Print();
 		// LOG(INFO) << "\noneProng->pdgId(): " << oneProng->pdgId();
 		// LOG(INFO) << "oneProng->p4.mass(): " << oneProng->p4.mass();
 		// LOG(INFO) << "oneProng->charge(): " << oneProng->charge();
-		TrackParticle oneProngInput(oneProngHelixParametersInput, oneProngHelixCovarianceInput, oneProng->pdgId(), oneProng->p4.mass(), oneProng->charge(), oneProng->track.magneticField);
+		// LOG(INFO) << "oneProngHelixParametersInput[0][0]: " << oneProngHelixParametersInput[0][0];
+		// LOG(INFO) << "oneProngInput.Parameter(TrackParticle::kappa): " << oneProngInput.Parameter(TrackParticle::kappa);
+		// LOG(INFO) << "-q*oneProng->track.magneticField/oneProngInput.Parameter(TrackParticle::kappa): " << (-1)*oneProng->charge()*oneProng->track.magneticField/oneProngInput.Parameter(TrackParticle::kappa);
+		// LOG(INFO) << "oneProng->track.qOverP(): " << oneProng->track.qOverP();
+		// LOG(INFO) << "oneProng->p4.pt(): " << oneProng->p4.pt();
+		// LOG(INFO) << "oneProng->p4.px(): " << oneProng->p4.px();
+		// LOG(INFO) << "oneProng->p4.py(): " << oneProng->p4.py();
+		// LOG(INFO) << "cos(oneProng->track.lambda())/fabs(oneProng->track.qOverP()): " << cos(oneProng->track.lambda())/fabs(oneProng->track.qOverP());
 
 		// tau
 		// https://github.com/cherepan/LLRHiggsTauTau/blob/VladimirDev/NtupleProducer/plugins/TauFiller.cc#L483
@@ -200,7 +264,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 			tauParameters[parameterIndex1][0] = a1->refittedThreeProngParameters[parameterIndex1];
 			for (int parameterIndex2 = 0; parameterIndex2 < 7; ++parameterIndex2)
 			{
-				tauCovariance[parameterIndex1][parameterIndex1] = a1->refittedThreeProngCovariance[parameterIndex1][parameterIndex2];
+				tauCovariance[parameterIndex1][parameterIndex2] = a1->refittedThreeProngCovariance[parameterIndex1][parameterIndex2];
 			}
 		}
 		tauParameters[TrackHelixVertexFitter::NFreeTrackPar+TrackHelixVertexFitter::BField0 + 1][0] = a1->track.magneticField; // was off by 1 and overwrote the a1 mass
@@ -243,6 +307,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		// metVector.Print();
 		// LOG(INFO) << "\nmetCovariance:";
 		// metCovariance.Print();
+
 		PTObject metInput(metVector, metCovariance);
 
 		// PV
@@ -257,25 +322,58 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		// LOG(INFO) << "\npvCovarianceInput:";
 		// pvCovarianceInput.Print();
 
-
-
 		// Fit
 		GlobalEventFit globalEventFit(oneProngInput, tauInput, metInput, pvInput, pvCovarianceInput);
-		globalEventFit.setMassConstraint(125.0);
-		// globalEventFit.setMassConstraint(m_massConstraint);
+		if (m_massConstraint > 0) globalEventFit.setMassConstraint(m_massConstraint);
+		globalEventFit.setUseCollinearityTauMu(m_useCollinearityTauMu);
 		TPTRObject tauReco = globalEventFit.getTPTRObject();
 		GEFObject fitResult = globalEventFit.Fit();
-		if (tauReco.isAmbiguous())
+		product.m_simpleFitTauRecoIsAmbiguous = tauReco.isAmbiguous();
+		// LOG(INFO) << "product.m_simpleFitTauRecoIsAmbiguous: " << product.m_simpleFitTauRecoIsAmbiguous;
+		if (product.m_simpleFitTauRecoIsAmbiguous)
 		{
-			product.m_simpleFitTau2PrefitPlus = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(tauReco.getTauPlus().LV());
-			product.m_simpleFitTau2PrefitMinus = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(tauReco.getTauMinus().LV());
+			product.m_simpleFitTauA1PrefitPlus = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(tauReco.getTauPlus().LV());
+			product.m_simpleFitTauA1PrefitMinus = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(tauReco.getTauMinus().LV());
+			// LOG(INFO) << "tauReco.getTauPlus().LV(): (px,py,pz,M)=(" << product.m_simpleFitTauA1PrefitPlus.px() << "," << product.m_simpleFitTauA1PrefitPlus.py() << "," << product.m_simpleFitTauA1PrefitPlus.pz() << "," << product.m_simpleFitTauA1PrefitPlus.M() << ")";
+			// LOG(INFO) << "tauReco.getTauMinus().LV(): (px,py,pz,M)=(" << product.m_simpleFitTauA1PrefitMinus.px() << "," << product.m_simpleFitTauA1PrefitMinus.py() << "," << product.m_simpleFitTauA1PrefitMinus.pz() << "," << product.m_simpleFitTauA1PrefitMinus.M() << ")";
 		}
 		else
 		{
-			product.m_simpleFitTau2PrefitZero = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(tauReco.getTauZero().LV());
+			product.m_simpleFitTauA1PrefitZero = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(tauReco.getTauZero().LV());
+			product.m_simpleFitRotationSignificance = tauReco.getRotationSignificance();
+			// LOG(INFO) << "tauReco.getTauZero().LV(): (px,py,pz,M)=(" << product.m_simpleFitTauA1PrefitZero.px() << "," << product.m_simpleFitTauA1PrefitZero.py() << "," << product.m_simpleFitTauA1PrefitZero.pz() << "," << product.m_simpleFitTauA1PrefitZero.M() << ")";
+			// LOG(INFO) << "product.m_simpleFitRotationSignificance: " << product.m_simpleFitRotationSignificance;
 		}
 		// LOG(ERROR) << "\n\nSimpleFits outputs:";
 		// LOG(INFO) << "fitResult.isValid(): " << fitResult.isValid();
+		if(product.m_genSimpleFitIndex1 != DefaultValues::UndefinedInt && product.m_genSimpleFitIndex2 != DefaultValues::UndefinedInt)
+		{
+			// fitResult.getInitTauHs().at(0).LV().Print();
+			// fitResult.getInitTauMus().at(0).LV().Print();
+			// fitResult.getInitTauHs().at(1).LV().Print();
+			// fitResult.getInitTauMus().at(1).LV().Print();
+			// fitResult.getInitTauHs().at(2).LV().Print();
+			// fitResult.getInitTauMus().at(2).LV().Print();
+			if(product.m_simpleFitTauRecoIsAmbiguous)
+			{
+				product.m_simpleFitResonancePrefitResolvedGen = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitResonances().at(product.m_genSimpleFitIndexMap[a1]).LV());
+				product.m_simpleFitTausPrefitResolvedGen[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauMus().at(product.m_genSimpleFitIndexMap[a1]).LV());
+				product.m_simpleFitTausPrefitResolvedGen[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauHs().at(product.m_genSimpleFitIndexMap[a1]).LV());
+				// LOG(INFO) << "product.m_genSimpleFitIndexMap[a1]: " << product.m_genSimpleFitIndexMap[a1];
+				// LOG(INFO) << "m_simpleFitResonancePrefitResolvedGen: (px,py,pz,M)=(" << product.m_simpleFitResonancePrefitResolvedGen.px() << "," << product.m_simpleFitResonancePrefitResolvedGen.py() << "," << product.m_simpleFitResonancePrefitResolvedGen.pz() << "," << product.m_simpleFitResonancePrefitResolvedGen.M() << ")";
+				// LOG(INFO) << "m_simpleFitTausPrefitResolvedGen[oneProng]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[oneProng].px() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].py() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].M() << ")";
+				// LOG(INFO) << "m_simpleFitTausPrefitResolvedGen[a1]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[a1].px() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].py() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].M() << ")";
+			}
+			else
+			{
+				product.m_simpleFitResonancePrefitResolvedGen = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitResonances().at(0).LV());
+				product.m_simpleFitTausPrefitResolvedGen[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauMus().at(0).LV());
+				product.m_simpleFitTausPrefitResolvedGen[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauHs().at(0).LV());
+				// LOG(INFO) << "m_simpleFitResonancePrefitResolvedGen: (px,py,pz,M)=(" << product.m_simpleFitResonancePrefitResolvedGen.px() << "," << product.m_simpleFitResonancePrefitResolvedGen.py() << "," << product.m_simpleFitResonancePrefitResolvedGen.pz() << "," << product.m_simpleFitResonancePrefitResolvedGen.M() << ")";
+				// LOG(INFO) << "m_simpleFitTausPrefitResolvedGen[oneProng]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[oneProng].px() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].py() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].M() << ")";
+				// LOG(INFO) << "m_simpleFitTausPrefitResolvedGen[a1]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[a1].px() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].py() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].M() << ")";
+			}
+		}
 		if (fitResult.isValid())
 		{
 			product.m_simpleFitTaus[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
@@ -286,14 +384,24 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 			product.m_simpleFitCsum = fitResult.getCsum();
 			product.m_simpleFitNiterations = fitResult.getNiterations();
 			product.m_simpleFitResonancePrefitResolvedFit = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitResonance().LV());
-			product.m_simpleFitTau1PrefitResolvedFit = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauMu().LV());
-			product.m_simpleFitTau2PrefitResolvedFit = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauH().LV());
+			product.m_simpleFitTausPrefitResolvedFit[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauMu().LV());
+			product.m_simpleFitTausPrefitResolvedFit[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauH().LV());
 			product.m_simpleFitIndex = fitResult.getIndex();
 			product.m_simpleFitConverged = fitResult.Fitconverged();
 			// m_chi2 = fitResult.getChi2Vectors().at(fitResult.getIndex());
 			TVectorD chi2vec(fitResult.getChi2Vector());
 			for (int chi2index = 0; chi2index < chi2vec.GetNrows(); chi2index++) {
 				product.m_simpleFitChi2.push_back(chi2vec[chi2index]);
+			}
+			if(product.m_simpleFitTauRecoIsAmbiguous)
+			{
+				product.m_simpleFitTausResolvedGen[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMus().at(product.m_genSimpleFitIndexMap[a1]).LV());
+				product.m_simpleFitTausResolvedGen[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauHs().at(product.m_genSimpleFitIndexMap[a1]).LV());
+			}
+			else
+			{
+				product.m_simpleFitTausResolvedGen[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
+				product.m_simpleFitTausResolvedGen[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauH().LV());
 			}
 			// LOG(INFO) << "tauToOneProng: " << product.m_simpleFitTaus[oneProng];
 			// LOG(INFO) << "tauToA1: " << product.m_simpleFitTaus[a1];

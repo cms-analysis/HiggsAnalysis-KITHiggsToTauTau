@@ -211,7 +211,9 @@ public:
 	//std::map<KLepton*, RMFLV> m_hhKinFitTaus;
 
 	// filled by the SimpleFitProducer
+	bool m_simpleFitTauRecoIsAmbiguous = false;
 	std::map<KLepton*, RMFLV> m_simpleFitTaus;
+	std::map<KLepton*, RMFLV> m_simpleFitTausResolvedGen;
 	RMFLV m_diTauSystemSimpleFit = DefaultValues::UndefinedRMFLV;
 
 	float m_simpleFitChi2Sum = DefaultValues::UndefinedFloat;
@@ -221,12 +223,19 @@ public:
 	int m_simpleFitIndex = DefaultValues::UndefinedInt;
 	bool m_simpleFitConverged = false;
 
-	RMFLV m_simpleFitTau2PrefitPlus = DefaultValues::UndefinedRMFLV;
-	RMFLV m_simpleFitTau2PrefitMinus = DefaultValues::UndefinedRMFLV;
-	RMFLV m_simpleFitTau2PrefitZero = DefaultValues::UndefinedRMFLV;
+	RMFLV m_simpleFitTauA1PrefitPlus = DefaultValues::UndefinedRMFLV;
+	RMFLV m_simpleFitTauA1PrefitMinus = DefaultValues::UndefinedRMFLV;
+	RMFLV m_simpleFitTauA1PrefitZero = DefaultValues::UndefinedRMFLV;
 	RMFLV m_simpleFitResonancePrefitResolvedFit = DefaultValues::UndefinedRMFLV;
-	RMFLV m_simpleFitTau1PrefitResolvedFit = DefaultValues::UndefinedRMFLV;
-	RMFLV m_simpleFitTau2PrefitResolvedFit = DefaultValues::UndefinedRMFLV;
+	// RMFLV m_simpleFitTau1PrefitResolvedFit = DefaultValues::UndefinedRMFLV;
+	// RMFLV m_simpleFitTau2PrefitResolvedFit = DefaultValues::UndefinedRMFLV;
+	std::map<KLepton*, RMFLV> m_simpleFitTausPrefitResolvedFit;
+	RMFLV m_simpleFitResonancePrefitResolvedGen = DefaultValues::UndefinedRMFLV;
+	// RMFLV m_simpleFitTau1PrefitResolvedGen = DefaultValues::UndefinedRMFLV;
+	// RMFLV m_simpleFitTau2PrefitResolvedGen = DefaultValues::UndefinedRMFLV;
+	std::map<KLepton*, RMFLV> m_simpleFitTausPrefitResolvedGen;
+
+	double m_simpleFitRotationSignificance = DefaultValues::UndefinedDouble;
 
 	// filled by the GenSimpleFitProducer
 	int m_genSimpleFitIndex1 = DefaultValues::UndefinedInt;
