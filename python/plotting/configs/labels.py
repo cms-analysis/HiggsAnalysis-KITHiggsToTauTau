@@ -77,12 +77,14 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["ff_ttbar_frac"] = "t#bar{t} frac."
 			self.labels_dict["ff_real_tau_frac"] = "real #tau frac."
 
-			self.labels_dict["qqhsm125"] = "VBF 0^{#plus#plus}"
-			self.labels_dict["qqhps125"] = "VBF 0^{#minus#plus}"
-			self.labels_dict["qqhmm125"] = "VBF CPmix"
-			self.labels_dict["gghsm125"] = "GF 0^{#plus#plus}"
-			self.labels_dict["gghps125"] = "GF 0^{#minus#plus}"
-			self.labels_dict["gghmm125"] = "GF CPmix"
+			self.labels_dict["qqhsm125"] = "VBF CP even"
+			self.labels_dict["qqhps125"] = "VBF CP odd"
+			self.labels_dict["qqhmm125"] = "VBF CP mix"
+			self.labels_dict["qqhnoweight125"] = "VBF no weight"
+			self.labels_dict["gghsm125"] = "ggH CP even"
+			self.labels_dict["gghps125"] = "ggH CP odd"
+			self.labels_dict["gghnoweight125"] = "ggh no weight"
+			self.labels_dict["gghmm125"] = "ggH CP mix"
 
 			self.labels_dict["qqh_sm_htt"] = self.labels_dict["qqhsm125"]
 			self.labels_dict["qqh_ps_htt"] = self.labels_dict["qqhps125"]
