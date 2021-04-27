@@ -3,7 +3,7 @@
 
 ssh -vT git@github.com
 
-echo -n "Enter the CMMSW release you want to use (747, 810 [default], 942, 10220) and press [ENTER] (747 is for SL6, 810, 942 and 10220 is for SL7): "
+echo -n "Enter the CMMSW release you want to use (747, 810, 942, 10220 [default]) and press [ENTER] (747 is for SL6, 810, 942 and 10220 is for SL7): "
 read cmssw_version
 
 echo -n "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev [default], classicsvfit, HTTCPDecays18-dev) and press [ENTER] : "
@@ -26,7 +26,15 @@ elif [[ $cmssw_version = "942" ]]; then
 	cd CMSSW_9_4_2/src
 	eval `scramv1 runtime -sh`
 
-elif [[ $cmssw_version = "10220" ]]; then
+elif [[ $cmssw_version = "810" ]]; then
+	# set up CMSSW release area
+	export SCRAM_ARCH=slc6_amd64_gcc530
+	scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
+	eval `scramv1 runtime -sh`
+	export BRANCH="master"
+
+else
+	# elif [[ $cmssw_version = "10220" ]]; then
 	export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 	source $VO_CMS_SW_DIR/cmsset_default.sh
 	echo -n "Enter the Linux release you want to use (SL6, SL7 [default]) and press [ENTER]: "
@@ -40,13 +48,6 @@ elif [[ $cmssw_version = "10220" ]]; then
 	fi
 	cd CMSSW_10_2_20/src
 	eval `scramv1 runtime -sh`
-
-else
-	# set up CMSSW release area
-	export SCRAM_ARCH=slc6_amd64_gcc530
-	scramv1 project CMSSW CMSSW_8_1_0; cd CMSSW_8_1_0/src # slc6 # Combine requires this version
-	eval `scramv1 runtime -sh`
-	export BRANCH="master"
 
 fi
 
