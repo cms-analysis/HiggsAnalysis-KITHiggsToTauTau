@@ -13,7 +13,7 @@ from tensorflow import keras
 sample_directory = "/net/scratch_cms3b/fenger/artus/2021_05_05/"
 input_json = "/net/scratch_cms3b/krausse/public/input/m_vis.json"
 output_directory = "/net/scratch_cms3b/fenger/artus/2021_07_05/"
-version = "dummy_loop_mva12"
+version = "dummy_mva12"
 
 #Argument parser
 def parser():
@@ -30,89 +30,54 @@ def parser():
 
 ##########   supporting definitions to use in the main parts of the code ##########
 
+# custom cross entropy loss function modelled after 2001.00455
+def custom_crossentropy(y_true,y_pred):
+    return K.sum(-1 * y_pred * K.log(y_true))
 
-#read json file from controllplots and create list of used root files, labels and weights, that are being used for the analysis
-def get_labeled_files_weights():
-    import json
-    import re
-    #Read the json file, get, weights, labels, files and nicks
-    with open(input_json, 'r') as myfile:
-        data=myfile.read()
-    obj = json.loads(data)
-    weights = obj["weights"]
-    labels = obj["labels"]
-    files = obj["files"]
-    nicks = obj["nicks"]
-
-    #run through file-list to sort them together with weights and labels
-    labeled_files=[]
-    for i in range(len(files)):
-        #check if file is used for plotting(nicks =! noplot...)
-        for l in labels:
-            if nicks[i]==l:
-                #make list, that sorts every file with their weight and nick
-                labeled_files.append([files[i].split(), weights[i], nicks[i]])
-
-    for labfile in labeled_files:
-        #weights are mix of numbers and vars from ROOT. Extract the var names in a list
-        splitted_weights = re.split('[^a-zA-Z0-9_.]', labfile[1])
-        ilist=[]
-        for i in range(len(splitted_weights)):
-            if len(splitted_weights[i])==0:
-                ilist.append(i)
-            elif splitted_weights[i][0].isalpha() == False:
-                ilist.append(i)
-            elif splitted_weights[i] == u'abs':
-                ilist.append(i)
-
-        while len(ilist)>0:
-            del splitted_weights[ilist[-1]]
-            del ilist[-1]
-
-        #append list of ROOT-vars used in weights to the final output list
-        labfile.append(splitted_weights)
-
-    #format final output
-    files_labeled_with_weights = []
-    for i in range(len(labeled_files)):
-        for j in range(len(labeled_files[i][0])):
-            filename = labeled_files[i][0][j].split("/")[0] + "/" + labeled_files[i][0][j].split("/")[0] + ".root"
-            files_labeled_with_weights.append([filename, labeled_files[i][1], labeled_files[i][2], labeled_files[i][3]])
-    return files_labeled_with_weights
 
 def get_DNN_input(df):
-    var_skimmed = ["eta_1","eta_2","m_vis","met","mt_1","mt_2","pt_1","pt_2","ptvis","phi_1","phi_2"]
-    mixing_labels = np.linspace(0,100,21,dtype = int)
+    from keras.utils import to_categorical
 
+    mixing_labels = ["000","010","020","030","040","050","060","070","080","090","100","110","120","130","140","150","160","170","180","190","200"]
+    var_drop = ["decayModeMVA_2","eta_1","eta_2","m_vis","met","mt_1","mt_2","pt_1","pt_2","ptvis","phi_1","phi_2"]
+    df = df.drop(var_drop, axis=1)
+
+    # drop every unused variable before here
+    var_skimmed = df.columns.values.tolist()
+    var_remove = ["PhiStarCP"] + mixing_labels
+    for i in var_remove:
+        var_skimmed.remove(i)
     #input rescaling
     for v in var_skimmed:
         df[v] = (df[v] - df[v].mean())/df[v].std()
 
-    #sample_weight_array = df.pop("tauSpinnerWeight").values
-    mixing_array = df.pop("mixing").values
+    split_range = len(df.columns.values.tolist()) - len(mixing_labels)
 
-    x = df.values
-    y = keras.utils.to_categorical(mixing_array/5, num_classes=21)
+    x = df.iloc[:,:split_range].values
+    y = df.iloc[:,split_range:].values
 
-    x_valid = np.delete(x,-1,axis = 1)
+    y = np.argmax(y,axis=1)
+    y = to_categorical(y,num_classes = 21)
 
-    return x_valid,y
+    return x,y
 
-
-def DNN_training():
+def DNN_mixingangle_multiclassing():
     from sklearn.model_selection import train_test_split
+    from keras.utils import to_categorical
+    from sklearn.utils import class_weight
 
-    mixing_labels = np.linspace(0,100,21,dtype = int)
+    mixing_labels = ["000","010","020","030","040","050","060","070","080","090","100","110","120","130","140","150","160","170","180","190","200"]
 
     print("reading in dataset:\n")
     df= pd.read_csv(output_directory + "csv_" + version + "_train.csv")
     print("starting data manipulation:\n")
 
-    #var_drop = ["eta_1","eta_2","m_vis","met","mt_1","mt_2","pt_1","pt_2","ptvis","phi_1","phi_2","decayModeMVA_2"]
-    #df = df.drop(var_drop, axis=1)
+    var_drop = ["decayModeMVA_2","eta_1","eta_2","m_vis","met","mt_1","mt_2","pt_1","pt_2","ptvis","phi_1","phi_2"]
+    df = df.drop(var_drop, axis=1)
 
+    # drop every unused variable before here
     var_skimmed = df.columns.values.tolist()
-    var_remove = ["mixing","tauSpinnerWeight"] #,"decayModeMVA_2"
+    var_remove =  ["PhiStarCP"] + mixing_labels #
     for i in var_remove:
         var_skimmed.remove(i)
 
@@ -120,34 +85,86 @@ def DNN_training():
     for v in var_skimmed:
         df[v] = (df[v] - df[v].mean())/df[v].std()
 
-    #sample_weight_array = df.pop("tauSpinnerWeight").values
-    mixing_array = df.pop("mixing").values
-    df = df.drop("decayModeMVA_2",axis = 1)
+    split_range = len(df.columns.values.tolist()) - len(mixing_labels)
+    x = df.iloc[:,:split_range].values
+    y = df.iloc[:,split_range:].values
 
-    x = df.values
-    y = keras.utils.to_categorical(mixing_array/5, num_classes=21)
+    y = np.argmax(y,axis=1)
+    y = to_categorical(y,num_classes = 21)
 
-    x_train_cache, x_valid_cache, y_train, y_valid = train_test_split(x, y, test_size=0.2, random_state=42)
+    print(x[1])
+    print(y[1])
 
-    x_train_sample_weights = x_train_cache[:,-1]
-    x_valid_sample_weights = x_valid_cache[:,-1]
+    x_train, x_valid, y_train, y_valid = train_test_split(x, y, test_size=0.2, random_state=42)
 
-    x_train = np.delete(x_train_cache,-1,axis = 1)
-    x_valid = np.delete(x_valid_cache,-1,axis = 1)
+    print("start training:\n")
+    #define model
+    print("shape input",x_train.shape[1])
+
+    #define model
+    model = tf.keras.Sequential()
+    model.add(tf.keras.layers.Dense(32, input_dim=x_train.shape[1], activation = "relu",kernel_initializer="random_normal"))
+    model.add(tf.keras.layers.Dropout(0.2))
+    model.add(tf.keras.layers.Dense(32, activation = "relu",kernel_initializer="random_normal"))
+    model.add(tf.keras.layers.Dense(y_train.shape[1], activation="softmax",kernel_initializer="random_normal"))
+
+    model.compile(loss="categorical_crossentropy", optimizer=tf.keras.optimizers.Adam(lr=0.0001), metrics=["accuracy"])
+    history = model.fit(x_train,y_train,validation_data=(x_valid,y_valid),verbose=1,epochs=200) #,batch_size = 256
+    model.save(output_directory + "model_" + version + ".h5")
+    return model, history
+
+    
+def DNN_spinweight_multiclassing():
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import roc_auc_score
+    import keras.backend as K
+
+    mixing_labels = ["000","010","020","030","040","050","060","070","080","090","100","110","120","130","140","150","160","170","180","190","200"]
+
+    print("reading in dataset:\n")
+    df= pd.read_csv(output_directory + "csv_" + version + "_train.csv")
+    print("starting data manipulation:\n")
+
+    var_drop = ["decayModeMVA_2"]
+    df = df.drop(var_drop, axis=1)
+
+    # drop every unused variable before here
+    var_skimmed = df.columns.values.tolist()
+    var_remove = ["PhiStarCP"] + mixing_labels
+    for i in var_remove:
+        var_skimmed.remove(i)
+    #input rescaling
+
+    for v in var_skimmed:
+        df[v] = (df[v] - df[v].mean())/df[v].std()
+
+    split_range = len(df.columns.values.tolist()) - len(mixing_labels)
+
+    x = df.iloc[:,:split_range].values
+    y = df.iloc[:,split_range:].values
+
+    # apply Bayes probability
+    for i in range(y.shape[0]):
+        row_sum = np.sum(y[i,:])
+        for j in range(y.shape[1]):
+            y[i][j] = y[i][j] / row_sum
+
+    x_train, x_valid, y_train, y_valid = train_test_split(x, y, test_size=0.2, random_state=42)
 
     print("start training:\n")
     #define model
     print("shape input",x_train.shape[1])
     model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Dense(300, input_dim=x_train.shape[1], activation="relu"))
-    model.add(tf.keras.layers.Dropout(0.2))
-    model.add(tf.keras.layers.Dense(300,activation="relu"))
-    model.add(tf.keras.layers.Dense(300,activation="relu"))
-    model.add(tf.keras.layers.Dense(y_train.shape[1], activation="softmax"))
+    kernelinitializer = tf.keras.initializers.RandomNormal(mean = 0.,stddev = 1.)
+    model.add(tf.keras.layers.Dense(16, input_dim=x_train.shape[1], activation="relu",kernel_initializer = kernelinitializer))
+    model.add(tf.keras.layers.Dropout(0.25))
+    model.add(tf.keras.layers.Dense(32,activation="relu",kernel_initializer = kernelinitializer))
+    model.add(tf.keras.layers.Dense(64,activation="relu",kernel_initializer = kernelinitializer))
+    model.add(tf.keras.layers.Dense(y_train.shape[1], activation="softmax",kernel_initializer = kernelinitializer))
 
     #compiling the program by declaring the loss-function, the optimizer and the metrics
-    model.compile(loss="categorical_crossentropy", optimizer=tf.keras.optimizers.Adam(lr=0.001), metrics=["accuracy"])
-    history = model.fit(x_train,y_train ,validation_data=(x_valid,y_valid),verbose=1,epochs=50,class_weight = x_train_sample_weights,batch_size = 100) #
+    model.compile(loss=custom_crossentropy, optimizer="adam", metrics=["accuracy"])
+    history = model.fit(x_train,y_train ,validation_data=(x_valid,y_valid),verbose=1,epochs=10,batch_size = 100) #,batch_size = 100
     model.save(output_directory + "model_" + version + ".h5")
     return model, history
 
@@ -156,12 +173,12 @@ def DNN_training():
 def plot_confusion_matrix(confusion_matrix, even_or_odd):
     import seaborn
 
-    label_str = ["000","005","010","015","020","025","030","035","040","045","050","055","060","065","070","075","080","085","090","095","100"]
+    label_str = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"]
     seaborn.set(color_codes=True)
     plt.figure(1, figsize=(9, 6))
     plt.title(even_or_odd + " Model Confusion Matrix")
     seaborn.set(font_scale=1.)
-    ax = seaborn.heatmap(confusion_matrix, annot=True, cmap="YlGnBu", cbar_kws={'label': 'Scale'}, fmt='g')
+    ax = seaborn.heatmap(confusion_matrix, cmap="YlGnBu", cbar_kws={'label': 'Scale'}, fmt='g')
     ax.set_xticklabels(label_str)
     ax.set_yticklabels(label_str)
     ax.set(ylabel="True Label", xlabel="Predicted Label")
@@ -190,6 +207,24 @@ def plot_acc_loss(history):
     plt.savefig(output_directory + "loss_acc_" + version + ".png")
     plt.close()
 
+def plot_pred_diff(pred_labels,true_labels):
+    class_diff = pred_labels - true_labels
+    class_diff_mean = np.mean(class_diff)
+    class_diff_std = np.std(class_diff)
+
+    plt.figure()
+    plt.hist(class_diff,histtype = u"step",bins = 9,label = "mean [idx]: {}\nstd [idx]: {}".format(class_diff_mean,class_diff_std))
+    plt.xlabel("$\Delta_{class}$")
+    plt.legend()
+    plt.savefig(output_directory + "classdiff_" + version + ".png")
+
+def plot_pred_dist(pred_labels,true_labels):
+    plt.figure()
+    plt.hist(pred_labels,histtype = u"step",bins = 20,label = "prediction",color="red")
+    plt.hist(true_labels,histtype = u"step",bins = 20,label = "generation",color="black")
+    plt.xlabel("$class index$")
+    plt.legend()
+    plt.savefig(output_directory + "classdist_" + version + ".png")
 
 #plot dnn_score variable (currently unused, since the dnn score can be plotted just using harryPlotter after attaching it to the root files)
 def plot_dnn_score(result_df):
@@ -214,6 +249,9 @@ def plot_dnn_score(result_df):
     ax.legend()
     plt.savefig(output_directory + "dnn_sore_" + version + ".png")
 
+def calc_tauSpinnerWeight(wt_000,wt_050,wt_100,angle):
+    new_weight = wt_000 * (np.cos(angle)**2 - np.cos(angle) * np.sin(angle)) + wt_100 * (np.sin(angle)**2 - np.cos(angle) * np.sin(angle)) + wt_050 * (2*np.cos(angle) * np.sin(angle))
+    return new_weight
 
 ########## Main functionality of this code based on the previous defined supporting definitions ##########
 
@@ -222,27 +260,37 @@ def get_csv():
     from math import acos, cos, sin
     from tqdm import tqdm
 
+    # check for old csv file, if it exist its getting deleted
+    if os.path.exists(output_directory + "csv_" + version + "_train.csv"):
+        os.remove(output_directory + "csv_" + version + "_train.csv")
+        os.remove(output_directory + "csv_" + version + "_valid.csv")
+        print("removed old csv file")
+
     # custom file and var list:
     filelist = ["GluGluHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8/GluGluHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8.root"]
-    tauSpinnerWeight_steps = ["000","005","010","015","020","025","030","035","040","045","050","055","060","065","070","075","080","085","090","095","100"]
     vars_list = ["eta_1","eta_2","m_vis","met","mt_1","mt_2","pt_1","pt_2","ptvis","phi_1","phi_2"]
+    vars_extra = ["Tau1E","Tau1Px","Tau1Py","Tau1Pz","Tau2E","Tau2Px","Tau2Py","Tau2Pz"]
     counter = 0
 
     #Settings
-    islooptauSpinnerWeights = False
+    tauSpinnerWeight_steps = ["000","010","020","030","040","050","060","070","080","090","100"]
+    tauSpinnerWeight_addsteps = ["110","120","130","140","150","160","170","180","190","200"]
 
     #defining variables, read in info from json file and open csv file
     csv_train = open(output_directory + "csv_" + version + "_train.csv", "w")
     csv_valid = open(output_directory + "csv_" + version + "_valid.csv", "w")
 
     csv_header_string = ""
-    for v in vars_list:
+    for v in vars_list+vars_extra:
         csv_header_string += v + ","
 
-    csv_header_string += "PhiStarCP,decayModeMVA_2," #additional vars
+    csv_header_string += "PhiStarCP,decayModeMVA_2" #dont end on comma here
 
-    csv_train.write(csv_header_string + "tauSpinnerWeight,mixing"+ "\n")
-    csv_valid.write(csv_header_string + "tauSpinnerWeight,mixing"+ "\n")
+    for i in tauSpinnerWeight_steps+tauSpinnerWeight_addsteps:
+        csv_header_string += "," + str(i)
+
+    csv_train.write(csv_header_string + "\n")
+    csv_valid.write(csv_header_string + "\n")
 
     for f in filelist:
         counter += 1
@@ -250,44 +298,49 @@ def get_csv():
         tree = rootFile.Get("mt_nominal/ntuple")
         entries = tree.GetEntries()
 
-        for i in tqdm(range(100000), desc="{} out of {}".format(counter, len(filelist)), unit="events"):
+        for i in tqdm(range(200000), desc="{} out of {}".format(counter, len(filelist)), unit="events"):
             tree.GetEntry(i)
 
             decayModeMVA_2 = tree.GetLeaf("decayModeMVA_2").GetValue()
+            wt_000 = tree.GetLeaf("tauSpinnerWeight000").GetValue()
+            wt_050 = tree.GetLeaf("tauSpinnerWeight050").GetValue()
+            wt_100 = tree.GetLeaf("tauSpinnerWeight100").GetValue()
 
-            if decayModeMVA_2 == 1:
+            if decayModeMVA_2 == 1 and wt_000-wt_050 !=0:
 
-                # reading in vars from tree
+                #read vars from tree
                 csv_string = ""
                 for vars in vars_list:
                     csv_string += str(tree.GetLeaf(vars).GetValue()) + ","
 
-                #read additional vars
+                #read reconstructed vars
+                csv_string += str(tree.svfitTau1LV.E()) + ","
+                csv_string += str(tree.svfitTau1LV.Px()) + ","
+                csv_string += str(tree.svfitTau1LV.Py()) + ","
+                csv_string += str(tree.svfitTau1LV.Pz()) + ","
+                csv_string += str(tree.svfitTau2LV.E()) + ","
+                csv_string += str(tree.svfitTau2LV.Px()) + ","
+                csv_string += str(tree.svfitTau2LV.Py()) + ","
+                csv_string += str(tree.svfitTau2LV.Pz()) + ","
                 csv_string += str(tree.GetLeaf("recoPhiStarCPCombMergedHelrPVBS").GetValue()) + ","
-                csv_string += str(decayModeMVA_2) + ","
+                csv_string += str(decayModeMVA_2) # dont end on comma here
 
                 #looping tauSpinnerWeight
-                if islooptauSpinnerWeights == True:
+                for step in tauSpinnerWeight_steps:
+                    tauSpinnerWeightxxx = tree.GetLeaf("tauSpinnerWeight"+step).GetValue()
+                    csv_string += "," + str(tauSpinnerWeightxxx)
 
-                    for step in tauSpinnerWeight_steps:
-                        tauSpinnerWeightxxx = tree.GetLeaf("tauSpinnerWeight"+step).GetValue()
+                #Generating additional weights for mixing range pi to 2*pi
+                for addstep in tauSpinnerWeight_addsteps:
+                    mixing_angle = float(addstep) / 100 * np.pi / 2
+                    new_tauSpinnerWeightxxx = calc_tauSpinnerWeight(wt_000,wt_050,wt_100, mixing_angle)
+                    csv_string += "," + str(new_tauSpinnerWeightxxx)
 
-                        #write into csv file and plit into train and validation data
-                        if i%2 == 0:
-                            csv_train.write(csv_string + str(tauSpinnerWeightxxx) + "," + step + "\n")
-                        else:
-                            csv_valid.write(csv_string + str(tauSpinnerWeightxxx) + "," + step + "\n")
-
-                elif islooptauSpinnerWeights == False:
-                    random_step = np.random.choice(tauSpinnerWeight_steps)
-                    tauSpinnerWeightxxx = tree.GetLeaf("tauSpinnerWeight"+random_step).GetValue()
-
-                    #write into csv file and plit into train and validation data
-                    if i%2 == 0:
-                        csv_train.write(csv_string + str(tauSpinnerWeightxxx) + "," + random_step + "\n")
-                    else:
-                        csv_valid.write(csv_string + str(tauSpinnerWeightxxx) + "," + random_step + "\n")
-
+                #write into csv file and plit into train and validation data
+                if i%2 == 0:
+                    csv_train.write(csv_string + "\n")
+                else:
+                    csv_valid.write(csv_string + "\n")
 
     csv_train.close()
     csv_valid.close()
@@ -295,7 +348,7 @@ def get_csv():
 #call DNN training for even and odd dataset
 def do_training():
     print("Train model on dataset")
-    model_train, history_train = DNN_training()
+    model_train, history_train = DNN_mixingangle_multiclassing()
     print("plot loss and accuracy for both models")
     plot_acc_loss(history_train)
 
@@ -303,6 +356,8 @@ def do_training():
 def get_results():
     import numpy as np
     from sklearn.metrics import confusion_matrix
+    from sklearn.metrics import roc_auc_score
+    from sklearn.metrics import log_loss
 
     #load model
     model_train = keras.models.load_model(output_directory + "model_" + version + ".h5")
@@ -311,196 +366,88 @@ def get_results():
     x_eval, y_eval = get_DNN_input(df_valid)
 
     #testing on Test data
+    predictions = model_train.predict(x_eval)
+
     test_loss, test_acc = model_train.evaluate(x_eval, y_eval, verbose=1)
     print("\nAccuracy on model: {}".format(test_acc))
 
-    #calculating and plotting confusion matrix
-    predictions = model_train.predict(x_eval)
+    print(predictions[1])
+    print(y_eval[1])
 
+
+    #calculating and plotting confusion matrix
     pred_labels = np.argmax(predictions, axis=1)
     true_labels = np.argmax(y_eval, axis=1)
+
+    plot_pred_diff(pred_labels,true_labels)
+    plot_pred_dist(pred_labels,true_labels)
+
     cm = confusion_matrix(true_labels, pred_labels)
     cm = cm.astype("float") / cm.sum(axis=1)[:, np.newaxis]
     plot_confusion_matrix(cm, "evaluation")
 
-#Attach dnn_score to odd event Samples and write into new root file
-def attach():
-    import numpy as np
-    import ROOT
-    from math import acos, cos, sin
-    from tqdm import tqdm
-    import array
-    import os
-
-    print("Get scaling factors:\n")
-    variables_skimmed = ["m_vis", "met", "mt_1", "mt_2", "mt_Z", "pt_1", "pt_2", "pt_ll", "ptvis","E_Z", "delta_phi_ll", "delta_phi_l1MET", "delta_phi_l2MET", "delta_phi_l1Z", "delta_phi_l2Z", "delta_Theta_ll", "abs_d0_1", "abs_d0_2"]
-
-    df_even = pd.read_csv(output_directory + "csv_" + version + "even.csv")
-    df_odd = pd.read_csv(output_directory + "csv_" + version + "odd.csv")
-
-    mean_even=[]
-    mean_odd=[]
-    std_even=[]
-    std_odd=[]
-    for v in variables_skimmed:
-        mean_even.append(df_even[v].mean())
-        mean_odd.append(df_odd[v].mean())
-        std_even.append(df_even[v].std())
-        std_odd.append(df_odd[v].std())
-
-    print("load dnn:\n")
-    model_even = keras.models.load_model(output_directory + "model_" + version + "even.h5")
-    model_odd = keras.models.load_model(output_directory + "model_" + version + "odd.h5")
-
-    filelist = []
-    for root, directories, files in os.walk(sample_directory):
-        for name in files:
-            filelist.append(str(os.path.join(root, name)))
-
-    counter=0
-    #loop over all files
-    print("running over {} ROOT-files:\n".format(len(filelist[41:])))
-    for f in filelist[41:]:
-        print("updating file {}".format(f))
-        counter+=1
-        rootFile = ROOT.TFile(f, "UPDATE")
-        tree = rootFile.Get("mt_nominal/ntuple")
-        dnn_score       = array.array("f", [0])
-        delta_phi_ll    = array.array("f", [0])
-        delta_phi_l1MET = array.array("f", [0])
-        delta_phi_l2MET = array.array("f", [0])
-        delta_phi_l1Z   = array.array("f", [0])
-        delta_phi_l2Z   = array.array("f", [0])
-        delta_Theta_ll  = array.array("f", [0])
-        abs_d0_1        = array.array("f", [0])
-        abs_d0_2        = array.array("f", [0])
-        branch_dnn_score       = tree.Branch("dnn_score", dnn_score, "dnn_score/F")
-        branch_delta_phi_ll    = tree.Branch("delta_phi_ll", delta_phi_ll, "delta_phi_ll/F")
-        branch_delta_phi_l1MET = tree.Branch("delta_phi_l1MET", delta_phi_l1MET, "delta_phi_l1MET/F")
-        branch_delta_phi_l2MET = tree.Branch("delta_phi_l2MET", delta_phi_l2MET, "delta_phi_l2MET/F")
-        branch_delta_phi_l1Z   = tree.Branch("delta_phi_l1Z", delta_phi_l1Z, "delta_phi_l1Z/F")
-        branch_delta_phi_l2Z   = tree.Branch("delta_phi_l2Z", delta_phi_l2Z, "delta_phi_l2Z/F")
-        branch_delta_Theta_ll  = tree.Branch("delta_Theta_ll", delta_Theta_ll, "delta_Theta_ll/F")
-        branch_abs_d0_1        = tree.Branch("abs_d0_1", abs_d0_1, "abs_d0_1/F")
-        branch_abs_d0_2        = tree.Branch("abs_d0_2", abs_d0_2, "abs_d0_1/F")
-
-        entries = tree.GetEntries()
-        #loop over every entry in ROOT tree and get weight and sensitive vars
-        for i in tqdm(range(entries), desc="{} out of {}".format(counter, len(filelist[41:])), unit="events"):
-            tree.GetEntry(i)
-
-            #reading in direct vars from tree
-            collinearMass_var	= tree.GetLeaf("collinearMass").GetValue()
-            d0_1_var  			= tree.GetLeaf("d0_1").GetValue()
-            d0_2_var  			= tree.GetLeaf("d0_2").GetValue()
-            eta_1_var  			= tree.GetLeaf("eta_1").GetValue()
-            eta_2_var  			= tree.GetLeaf("eta_2").GetValue()
-            m_vis_var  			= tree.GetLeaf("m_vis").GetValue()
-            met_var  			= tree.GetLeaf("met").GetValue()
-            mt_1_var  			= tree.GetLeaf("mt_1").GetValue()
-            mt_2_var  			= tree.GetLeaf("mt_2").GetValue()
-            mt_Z_var            = tree.diLepLV.Mt()
-            pt_1_var			= tree.GetLeaf("pt_1").GetValue()
-            pt_2_var			= tree.GetLeaf("pt_2").GetValue()
-            pt_ll_var           = tree.diLepLV.Pt()
-            ptvis_var  			= tree.GetLeaf("ptvis").GetValue()
-            phi_1_var           = tree.GetLeaf("phi_1").GetValue()
-            phi_2_var           = tree.GetLeaf("phi_2").GetValue()
-            phi_met_var         = tree.GetLeaf("metphi").GetValue()
-            phi_Z_var           = tree.diLepLV.Phi()
-            theta_1_var         = tree.lep1LV.Theta()
-            theta_2_var         = tree.lep2LV.Theta()
-            E_Z_var             = tree.diLepLV.energy()
-            event_var           = tree.GetLeaf("event").GetValue()
-
-            #creating own sensitive vars (with extra caution due to possible math errors in calculation)
-            try:
-                delta_phi_ll_var    = acos(cos(phi_1_var)*cos(phi_2_var) + sin(phi_1_var)*sin(phi_2_var))
-            except:
-                delta_phi_ll_var    = 0
-                print("invalid angle")
-            try:
-                delta_phi_l1MET_var = acos(cos(phi_1_var)*cos(phi_met_var) + sin(phi_1_var)*sin(phi_met_var))
-            except:
-                delta_phi_l1MET_var = 0
-                print("invalid angle")
-            try:
-                delta_phi_l2MET_var = acos(cos(phi_2_var)*cos(phi_met_var) + sin(phi_2_var)*sin(phi_met_var))
-            except:
-                delta_phi_l2MET_var = 0
-                print("invalid angle")
-            try:
-                delta_phi_l1Z_var   = acos(cos(phi_1_var)*cos(phi_Z_var) + sin(phi_1_var)*sin(phi_Z_var))
-            except:
-                delta_phi_l1Z_var   = 0
-                print("invalid angle")
-            try:
-                delta_phi_l2Z_var   = acos(cos(phi_2_var)*cos(phi_Z_var) + sin(phi_2_var)*sin(phi_Z_var))
-            except:
-                delta_phi_l2Z_var   = 0
-                print("invalid angle")
-            try:
-                delta_Theta_ll_var  = acos(cos(theta_1_var)*cos(theta_2_var) + sin(theta_1_var)*sin(theta_2_var))
-            except:
-                delta_Theta_ll_var = 0
-                print("invalid angle")
-            abs_d0_1_var        = abs(d0_1_var)
-            abs_d0_2_var        = abs(d0_2_var)
-
-            dnn_input_raw = [m_vis_var, met_var, mt_1_var, mt_2_var, mt_Z_var, pt_1_var, pt_2_var, pt_ll_var, ptvis_var, E_Z_var, delta_phi_ll_var, delta_phi_l1MET_var, delta_phi_l2MET_var, delta_phi_l1Z_var, delta_phi_l2Z_var, delta_Theta_ll_var, abs_d0_1_var, abs_d0_2_var]
-            dnn_input=[]
-            if event_var%2==0:
-                for index, var in enumerate(dnn_input_raw):
-                    dnn_input.append((var - mean_even[index])/std_even[index])
-                dnn_input=np.asarray([dnn_input])
-                prediction = model_odd.predict(dnn_input)[0]
-                dnn_score_var = prediction[6] - np.sum(prediction[:6])
-            else:
-                for index, var in enumerate(dnn_input_raw):
-                    dnn_input.append((var - mean_odd[index])/std_odd[index])
-                dnn_input=np.asarray([dnn_input])
-                prediction = model_even.predict(dnn_input)[0]
-                dnn_score_var = prediction[6] - np.sum(prediction[:6])
-
-            dnn_score[0]       = dnn_score_var
-            delta_phi_ll[0]    = delta_phi_ll_var
-            delta_phi_l1MET[0] = delta_phi_l1MET_var
-            delta_phi_l2MET[0] = delta_phi_l2MET_var
-            delta_phi_l1Z[0]   = delta_phi_l1Z_var
-            delta_phi_l2Z[0]   = delta_phi_l2Z_var
-            delta_Theta_ll[0]  = delta_Theta_ll_var
-            abs_d0_1[0]        = abs_d0_1_var
-            abs_d0_2[0]        = abs_d0_1_var
-
-            branch_dnn_score.Fill()
-            branch_delta_phi_ll.Fill()
-            branch_delta_phi_l1MET.Fill()
-            branch_delta_phi_l2MET.Fill()
-            branch_delta_phi_l1Z.Fill()
-            branch_delta_phi_l2Z.Fill()
-            branch_delta_Theta_ll.Fill()
-            branch_abs_d0_1.Fill()
-            branch_abs_d0_2.Fill()
-        rootFile.cd("mt_nominal")
-        tree.Write("", ROOT.TObject.kOverwrite)
-        rootFile.Close()
 
 
 ################################################################################
 
 def do_debug():
-    data1 = pd.read_csv(output_directory + "csv_" + version + "_train.csv")
-    print(data1.head())
-    data2 = pd.read_csv(output_directory + "csv_" + version + "_valid.csv")
-    print(data2.head())
 
+    df1 = pd.read_csv(output_directory + "csv_" + version + "_train.csv")
+    print(df1.head())
+    df2 = pd.read_csv(output_directory + "csv_" + version + "_valid.csv")
+    print(df2.head())
+
+    x, y = get_DNN_input(df2)
+    print(x[1])
+    print(y[1])
+
+    #x_val = df1.pop("PhiStarCP").values
+    #y_val = df1.pop("000").values
+
+    def plot_spinweight(phicp,y):
+        x = np.linspace(0,200,21)
+        plt.figure()
+        plt.xlabel("mixing angle in %")
+        plt.ylabel("spinweight wt")
+        plt.plot(x,y,label = phicp)
+        plt.legend()
+        plt.savefig(output_directory + "spinweight_" + version + ".png")
+    #plot_spinweight(x[0][-1],y[1])
+
+    def plot_phicpdist(x_array,x_weights):
+        plt.figure()
+        plt.xlabel("Phi CP")
+        plt.hist(x_array,weights = x_weights,histtype = u"step",bins = 20,color="red")
+        plt.hist(x_array,histtype = u"step",bins = 20,color="black")
+        plt.savefig(output_directory + "phicpdist_" + version + ".png")
+
+    #plot_phicpdist(x_val,y_val)
+
+    df = pd.concat([df1,df2],axis =0,ignore_index = True)
+
+    mixing_labels = ["000","010","020","030","040","050","060","070","080","090","100","110","120","130","140","150","160","170","180","190","200"]
+    var_drop = ["decayModeMVA_2","eta_1","eta_2","m_vis","met","mt_1","mt_2","pt_1","pt_2","ptvis","phi_1","phi_2"] + ["Tau1E","Tau1Px","Tau1Py","Tau1Pz","Tau2E","Tau2Px","Tau2Py","Tau2Pz"]
+    df = df.drop(var_drop, axis=1)
+
+    split_range = len(df.columns.values.tolist()) - len(mixing_labels)
+    x = df.iloc[:,:split_range].values
+    y = df.iloc[:,split_range:].values
+
+    x_var = df.pop("PhiStarCP").values
+    y_var = np.argmax(y,axis=1)
+
+    plt.figure()
+    plt.xlabel("class index")
+    plt.ylabel("PhiStarCP")
+    plt.plot(y_var,x_var,".",color="blue")
+    plt.savefig(output_directory + "datapoints_" + version + ".png")
 
 #Calling the different ports of the main code according to the parser
 def main():
     args = parser()
 
     if args.csv:
-        et_csv()
+        get_csv()
 
     if args.training:
         do_training()
