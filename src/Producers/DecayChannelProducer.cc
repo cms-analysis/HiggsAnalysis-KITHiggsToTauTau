@@ -597,6 +597,190 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 		return (genTau ? genTau->nPi0s : DefaultValues::UndefinedInt);
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "leadingGenMatchedSumChargedHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_ptOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauChargedHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau1SumChargedHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauChargedHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "posGenMatchedTauSumChargedHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_chargeOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauChargedHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "leadingGenMatchedSumNeutralHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_ptOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauNeutralHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau1SumNeutralHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauNeutralHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "posGenMatchedTauSumNeutralHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_chargeOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauNeutralHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "trailingGenMatchedTauSumChargedHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_ptOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauChargedHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau2SumChargedHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauChargedHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "negGenMatchedTauSumChargedHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+				KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_chargeOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+				KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+				RMFLV sumP4;
+				if (genParticle)
+				{
+					std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+					for (const auto& particle : genTauChargedHadrons)
+					{
+						sumP4 += particle->p4;
+					}
+				}
+				return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "trailingGenMatchedTauSumNeutralHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_ptOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauNeutralHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau2SumNeutralHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauNeutralHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "negGenMatchedTauSumNeutralHadronsLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_chargeOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		RMFLV sumP4;
+		if (genParticle)
+		{
+			std::vector<KGenParticle*> genTauNeutralHadrons = SafeMap::GetWithDefault(product.m_validGenTausNeutralHadronsMap, genParticle, std::vector<KGenParticle*>());
+			for (const auto& particle : genTauNeutralHadrons)
+			{
+				sumP4 += particle->p4;
+			}
+		}
+		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "extraelec_veto", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return static_cast<HttProduct const&>(product).m_extraElecVeto;

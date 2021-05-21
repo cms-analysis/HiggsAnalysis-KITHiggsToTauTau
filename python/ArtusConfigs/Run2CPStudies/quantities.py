@@ -248,6 +248,8 @@ class Quantities(Run2Quantities):
 					self.quantities.update(self.svfitSyncQuantities())
 					self.quantities.update(self.fastmttQuantities())
 					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
+					self.quantities.update(self.recoPolarisationQuantities())
+					self.quantities.update(self.genPolarisationQuantities())
 					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
 					# if channel in ["TT", "MT", "ET"]:
 					# 	self.quantities.update(set(['#tauPolarisationTMVA', '#tauPolarisationSKLEARN']))
@@ -1354,6 +1356,18 @@ class Quantities(Run2Quantities):
 			"genMatchedTau2DecayMode",
 			"genMatchedTau2NProngs",
 			"genMatchedTau2NPi0s",
+			# "leadingGenMatchedSumChargedHadronsLV",
+			"genMatchedTau1SumChargedHadronsLV",
+			# "posGenMatchedTauSumChargedHadronsLV",
+			# "leadingGenMatchedSumNeutralHadronsLV",
+			"genMatchedTau1SumNeutralHadronsLV",
+			# "posGenMatchedTauSumNeutralHadronsLV",
+			# "trailingGenMatchedTauSumChargedHadronsLV",
+			"genMatchedTau2SumChargedHadronsLV",
+			# "negGenMatchedTauSumChargedHadronsLV",
+			# "trailingGenMatchedTauSumNeutralHadronsLV",
+			"genMatchedTau2SumNeutralHadronsLV",
+			# "negGenMatchedTauSumNeutralHadronsLV",
 			"polarisationOmegaGenMatched_1",
 			"polarisationOmegaGenMatched_2",
 			"polarisationOmegaBarGenMatched_1",
