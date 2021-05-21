@@ -1032,6 +1032,50 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 			}
 		});
 	}
+
+	for (size_t chargedPionIndex = 0; chargedPionIndex < 3; ++chargedPionIndex)
+	{
+		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "lep1ChargedHadronLV_" + std::to_string(chargedPionIndex+1), [chargedPionIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			if (product.m_flavourOrderedLeptons.at(0)->flavour() == KLeptonFlavour::TAU)
+			{
+				KTau* tau = static_cast<KTau*>(product.m_flavourOrderedLeptons.at(0));
+				return ( (tau->chargedHadronCandidates.size() > chargedPionIndex) ? tau->chargedHadronCandidates.at(chargedPionIndex).p4 : DefaultValues::UndefinedRMFLV);
+			}
+			return DefaultValues::UndefinedRMFLV;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "lep2ChargedHadronLV_" + std::to_string(chargedPionIndex+1), [chargedPionIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			if (product.m_flavourOrderedLeptons.at(1)->flavour() == KLeptonFlavour::TAU)
+			{
+				KTau* tau = static_cast<KTau*>(product.m_flavourOrderedLeptons.at(1));
+				return ( (tau->chargedHadronCandidates.size() > chargedPionIndex) ? tau->chargedHadronCandidates.at(chargedPionIndex).p4 : DefaultValues::UndefinedRMFLV);
+			}
+			return DefaultValues::UndefinedRMFLV;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau1ChargedHadronLV_" + std::to_string(chargedPionIndex+1), [chargedPionIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+			KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+			if (genParticle)
+			{
+				std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+				return ( (genTauChargedHadrons.size() > chargedPionIndex) ? genTauChargedHadrons.at(chargedPionIndex)->p4: DefaultValues::UndefinedRMFLV);
+			}
+			return DefaultValues::UndefinedRMFLV;
+		});
+		LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau2ChargedHadronLV_" + std::to_string(chargedPionIndex+1), [chargedPionIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+			KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+			if (genParticle)
+			{
+				std::vector<KGenParticle*> genTauChargedHadrons = SafeMap::GetWithDefault(product.m_validGenTausChargedHadronsMap, genParticle, std::vector<KGenParticle*>());
+				return ( (genTauChargedHadrons.size() > chargedPionIndex) ? genTauChargedHadrons.at(chargedPionIndex)->p4: DefaultValues::UndefinedRMFLV);
+			}
+			return DefaultValues::UndefinedRMFLV;
+		});
+	}
 }
 
 void DecayChannelProducer::Produce(event_type const& event, product_type& product,

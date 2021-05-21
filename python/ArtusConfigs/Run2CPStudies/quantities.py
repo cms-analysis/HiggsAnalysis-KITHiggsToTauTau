@@ -1256,6 +1256,10 @@ class Quantities(Run2Quantities):
 			"lep1SumChargedHadronsLV",
 			"lep1SumNeutralHadronsLV",
 
+			"lep1ChargedHadronLV_1",
+			"lep1ChargedHadronLV_2",
+			"lep1ChargedHadronLV_3",
+
 			# "genMatchedTau1LV",
 			# "genMatchedTau1Found",
 			# "genMatchedTau1VisibleLV",
@@ -1265,6 +1269,10 @@ class Quantities(Run2Quantities):
 
 			"lep2SumChargedHadronsLV",
 			"lep2SumNeutralHadronsLV",
+
+			"lep1ChargedHadronLV_1",
+			"lep1ChargedHadronLV_2",
+			"lep1ChargedHadronLV_3",
 
 			# "genMatchedTau2LV",
 			# "genMatchedTau2Found",
@@ -1368,6 +1376,14 @@ class Quantities(Run2Quantities):
 			# "trailingGenMatchedTauSumNeutralHadronsLV",
 			"genMatchedTau2SumNeutralHadronsLV",
 			# "negGenMatchedTauSumNeutralHadronsLV",
+
+			"genMatchedTau1ChargedHadronLV_1",
+			"genMatchedTau1ChargedHadronLV_2",
+			"genMatchedTau1ChargedHadronLV_3",
+			"genMatchedTau2ChargedHadronLV_1",
+			"genMatchedTau2ChargedHadronLV_2",
+			"genMatchedTau2ChargedHadronLV_3",
+
 			"polarisationOmegaGenMatched_1",
 			"polarisationOmegaGenMatched_2",
 			"polarisationOmegaBarGenMatched_1",
