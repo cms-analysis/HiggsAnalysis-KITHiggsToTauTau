@@ -353,15 +353,28 @@ void HttLambdaNtupleConsumer::Init(setting_type const& settings, metadata_type& 
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svx_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("refitPVBS"))(event,product,settings,metadata)).X();
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("SV_1"))(event,product,settings,metadata)).X();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svy_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("refitPVBS"))(event,product,settings,metadata)).Y();
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("SV_1"))(event,product,settings,metadata)).Y();
 	});
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svz_1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("refitPVBS"))(event,product,settings,metadata)).Z();
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("SV_1"))(event,product,settings,metadata)).Z();
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svx_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("SV_2"))(event,product,settings,metadata)).X();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svy_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("SV_2"))(event,product,settings,metadata)).Y();
+	});
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "svz_2", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return (SafeMap::Get(metadata.m_commonRMPointQuantities, std::string("SV_2"))(event,product,settings,metadata)).Z();
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "npartons", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
