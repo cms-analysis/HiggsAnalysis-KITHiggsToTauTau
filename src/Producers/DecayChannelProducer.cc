@@ -781,6 +781,80 @@ void DecayChannelProducer::Init(setting_type const& settings, metadata_type& met
 		return (genTau ? sumP4: DefaultValues::UndefinedRMFLV);
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedLep1NeutrinoLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		GenParticleDecayTree* genTauDecayTree = SafeMap::GetWithDefault(product.m_genTauDecayTrees, genParticle, static_cast<GenParticleDecayTree*>(nullptr));
+		if (genTauDecayTree)
+		{
+			std::vector<GenParticleDecayTree*> finalStates = genTauDecayTree->m_finalStates;
+			for (const auto& particle : finalStates)
+			{
+				if(abs(particle->m_genParticle->pdgId) == DefaultValues::pdgIdNuMu || abs(particle->m_genParticle->pdgId) == DefaultValues::pdgIdNuE)
+				{
+					return particle->m_genParticle->p4;
+				}
+			}
+		}
+		return DefaultValues::UndefinedRMFLV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedLep2NeutrinoLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		GenParticleDecayTree* genTauDecayTree = SafeMap::GetWithDefault(product.m_genTauDecayTrees, genParticle, static_cast<GenParticleDecayTree*>(nullptr));
+		if (genTauDecayTree)
+		{
+			std::vector<GenParticleDecayTree*> finalStates = genTauDecayTree->m_finalStates;
+			for (const auto& particle : finalStates)
+			{
+				if(abs(particle->m_genParticle->pdgId) == DefaultValues::pdgIdNuMu || abs(particle->m_genParticle->pdgId) == DefaultValues::pdgIdNuE)
+				{
+					return particle->m_genParticle->p4;
+				}
+			}
+		}
+		return DefaultValues::UndefinedRMFLV;
+	});
+
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau1NeutrinoLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(0), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		GenParticleDecayTree* genTauDecayTree = SafeMap::GetWithDefault(product.m_genTauDecayTrees, genParticle, static_cast<GenParticleDecayTree*>(nullptr));
+		if (genTauDecayTree)
+		{
+			std::vector<GenParticleDecayTree*> finalStates = genTauDecayTree->m_finalStates;
+			for (const auto& particle : finalStates)
+			{
+				if(abs(particle->m_genParticle->pdgId) == DefaultValues::pdgIdNuTau)
+				{
+					return particle->m_genParticle->p4;
+				}
+			}
+		}
+		return DefaultValues::UndefinedRMFLV;
+	});
+	LambdaNtupleConsumer<HttTypes>::AddRMFLVQuantity(metadata, "genMatchedTau2NeutrinoLV", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		KGenTau* genTau = SafeMap::GetWithDefault(product.m_genTauMatchedLeptons, product.m_flavourOrderedLeptons.at(1), static_cast<KGenTau*>(nullptr));
+		KGenParticle* genParticle = SafeMap::GetWithDefault(product.m_validGenParticlesMap, genTau, static_cast<KGenParticle*>(nullptr));
+		GenParticleDecayTree* genTauDecayTree = SafeMap::GetWithDefault(product.m_genTauDecayTrees, genParticle, static_cast<GenParticleDecayTree*>(nullptr));
+		if (genTauDecayTree)
+		{
+			std::vector<GenParticleDecayTree*> finalStates = genTauDecayTree->m_finalStates;
+			for (const auto& particle : finalStates)
+			{
+				if(abs(particle->m_genParticle->pdgId) == DefaultValues::pdgIdNuTau)
+				{
+					return particle->m_genParticle->p4;
+				}
+			}
+		}
+		return DefaultValues::UndefinedRMFLV;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddIntQuantity(metadata, "extraelec_veto", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return static_cast<HttProduct const&>(product).m_extraElecVeto;
