@@ -343,6 +343,7 @@ public:
 
 	double m_genPhiCPRho  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarCPRho  = DefaultValues::UndefinedDouble;
+	double m_genPhiStarCPRhoMerged  = DefaultValues::UndefinedDouble;
 	double m_genPhiRho  = DefaultValues::UndefinedDouble;
 	double m_genPhiStarRho  = DefaultValues::UndefinedDouble;
 	double m_gen_yTau  = DefaultValues::UndefinedDouble;
