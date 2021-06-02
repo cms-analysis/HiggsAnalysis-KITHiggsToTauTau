@@ -1270,9 +1270,9 @@ class Quantities(Run2Quantities):
 			"lep2SumChargedHadronsLV",
 			"lep2SumNeutralHadronsLV",
 
-			"lep1ChargedHadronLV_1",
-			"lep1ChargedHadronLV_2",
-			"lep1ChargedHadronLV_3",
+			"lep2ChargedHadronLV_1",
+			"lep2ChargedHadronLV_2",
+			"lep2ChargedHadronLV_3",
 
 			# "genMatchedTau2LV",
 			# "genMatchedTau2Found",
