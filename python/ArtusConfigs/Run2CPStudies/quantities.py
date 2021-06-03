@@ -85,7 +85,7 @@ class Quantities(Run2Quantities):
 			self.quantities.update(['nDiTauPairCandidates', 'nLooseElectrons', 'nAllDiTauPairCandidates', 'nLooseMuons'])
 			self.quantities.update(self.fourVectorQuantities())
 			self.quantities.update(self.syncQuantities(nickname))
-			self.quantities.update(self.CPInitialStateQuantities())
+			# self.quantities.update(self.CPInitialStateQuantities())
 			self.quantities.update(self.CPSyncQuantities(nickname))
 			self.quantities.update(self.RooWorkSpaceWeightQuantities(nickname, channel, legacy))
 			self.quantities.update(self.simpleFitQuantities())
@@ -624,6 +624,7 @@ class Quantities(Run2Quantities):
 			"genMatchedCosPsiPlus",
 			"genMatchedCosPsiMinus",
 			"genMatchedPhiStarCPRho",
+			"genMatchedPhiStarCPRhoMerged",
 			"genMatchedPhiCPRho",
 			"genMatchedPhiStarRho",
 			"genMatchedPhiRho",
