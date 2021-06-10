@@ -36,6 +36,11 @@ void GenTauCPProducerBase::Init(setting_type const& settings, metadata_type& met
 		return product.m_genPhiStarCPRho;
 	});
 
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiStarCPRhoMerged", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	{
+		return product.m_genPhiStarCPRhoMerged;
+	});
+
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, m_name+"PhiStarCPComb", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
 		return product.m_genPhiStarCPComb;
@@ -375,8 +380,8 @@ void GenTauCPProducerBase::Produce(event_type const& event, product_type& produc
 
 			if (genTau1->genDecayMode() == 1 && genTau2->genDecayMode() == 1){
 				if (PionP.X()!=-999 && PionM.X()!=-999 && Pi0P.X()!=-999 && Pi0M.X()!=-999){
-
 					product.m_genPhiStarCPRho = cpq.CalculatePhiStarCPRho(PionP, PionM, Pi0P, Pi0M);
+					product.m_genPhiStarCPRhoMerged = cpq.CalculatePhiStarCPRho(PionP, PionM, Pi0P, Pi0M, true);
 					product.m_gen_yTau = cpq.CalculateSpinAnalysingDiscriminantRho(genTauDecayTree1->m_genParticle->p4, genTauDecayTree2->m_genParticle->p4, PionP, PionM, Pi0P, Pi0M);
 				}
 			} // tautau --> rhorho channel
@@ -815,14 +820,20 @@ void GenMatchedTauCPProducer::Produce(event_type const& event, product_type& pro
 
 					if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()==1){
 						if (pi1.X()!=-999 && pi01.X()!=-999 && pi2.X()!=-999 && pi02.X()!=-999)
+						{
 							product.m_genPhiStarCPRho = cpq.CalculatePhiStarCPRho(pi1, pi2, pi01, pi02);
+							product.m_genPhiStarCPRhoMerged = cpq.CalculatePhiStarCPRho(pi1, pi2, pi01, pi02, true);
+						}
 					}
 				} else {
 					product.m_gen_posyTauL = genY2L;
 					product.m_gen_negyTauL = genY1L;
 					if (genTau1->genDecayMode()==1 && genTau2->genDecayMode()==1){
 						if (pi1.X()!=-999 && pi01.X()!=-999 && pi2.X()!=-999 && pi02.X()!=-999)
+						{
 							product.m_genPhiStarCPRho = cpq.CalculatePhiStarCPRho(pi2, pi1, pi02, pi01);
+							product.m_genPhiStarCPRhoMerged = cpq.CalculatePhiStarCPRho(pi1, pi2, pi01, pi02, true);
+						}
 					}
 				}
 			}
