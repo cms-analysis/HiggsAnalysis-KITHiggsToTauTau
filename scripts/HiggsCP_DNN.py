@@ -21,7 +21,7 @@ cp raw singleclass classification                   // DNN used from 1608.02609 
 
 '''
 ################################
-version = "GG_VBF_tt_full_boost2_rot_sort_genM"
+version = "GG_VBF_tt_full_boost3_rot_sort"
 ################################
 #   use a unique tag to mark different DNN settings (only for plot saving important)
 tag = ""
@@ -30,8 +30,8 @@ tag = ""
 mixing_labels = ["000", "010", "020", "030", "040", "050", "060", "070", "080", "090", "100", "110", "120", "130",
                  "140", "150", "160", "170", "180", "190", "200"]
 chain_results = True  # True: validate DNN directly after training
-use_genmatched = True  # True: use generator information for 4-vectors
-decay_channel = (10.0, 0.0)  # Tuple: (decayModeMVA_1,decayModeMVA_2)
+use_genmatched = False  # True: use generator information for 4-vectors
+decay_channel = (1.0, 1.0)  # Tuple: (decayModeMVA_1,decayModeMVA_2)
 select_mixing = "100"  # the selected mixing angle for binary classification
 decay_label = "d" + str(int(decay_channel[0])) + "d" + str(int(decay_channel[1]))
 
@@ -226,8 +226,12 @@ def get_csv_reco():
     #    list of entry variables from root tree
     rmlv_entry_list = ["svfitTau1LV",
                         "svfitTau2LV",
-                        "lep1neutrinoLV",
-                        "lep2neutrinoLV",
+                        "simpleFitTau1LV",
+                        "simpleFitTau2LV",
+                        "svfitneutrino1LV",
+                        "svfitneutrino2LV",
+                        "simpleFitneutrino1LV",
+                        "simpleFitneutrino2LV",
                         "lep1LV",
                         "lep2LV",
                         "lep1SumChargedHadronsLV",
@@ -243,10 +247,13 @@ def get_csv_reco():
 
     param_entry_list = ["decayModeMVA_1",
                         "decayModeMVA_2",
+                        "simpleFitConverged",
                         "reco_negyTauL",
                         "reco_posyTauL",
                         "q_1",
-                        "q_2"]
+                        "q_2",
+                        "m2_1",
+                        "m2_2"]
 
     # defining variables, read in info from json file and open csv file
     print("Creating CSV file: ",version)
@@ -337,40 +344,53 @@ def get_csv_reco():
                     # writing additional parameter
                     csv_string += str(tree.GetLeaf("decayModeMVA_2").GetValue()) + ","
                     csv_string += str(tree.GetLeaf("decayModeMVA_1").GetValue()) + ","
+                    csv_string += str(tree.GetLeaf("simpleFitConverged").GetValue()) + ","
                     csv_string += str(tree.GetLeaf("reco_negyTauL").GetValue()) + ","
                     csv_string += str(tree.GetLeaf("reco_posyTauL").GetValue()) + ","
                     csv_string += str(tree.GetLeaf("q_2").GetValue()) + ","
                     csv_string += str(tree.GetLeaf("q_1").GetValue()) + ","
+                    csv_string += str(tree.lep2LV.M2()) + ","
+                    csv_string += str(tree.lep1LV.M2()) + ","
                     csv_string += str(PhiStarCP)  # dont end on comma here
                 else:
                     # writing additional parameter
                     csv_string += str(tree.GetLeaf("decayModeMVA_1").GetValue()) + ","
                     csv_string += str(tree.GetLeaf("decayModeMVA_2").GetValue()) + ","
+                    csv_string += str(tree.GetLeaf("simpleFitConverged").GetValue()) + ","
                     csv_string += str(tree.GetLeaf("reco_negyTauL").GetValue()) + ","
                     csv_string += str(tree.GetLeaf("reco_posyTauL").GetValue()) + ","
                     csv_string += str(tree.GetLeaf("q_1").GetValue()) + ","
                     csv_string += str(tree.GetLeaf("q_2").GetValue()) + ","
+                    csv_string += str(tree.lep1LV.M2()) + ","
+                    csv_string += str(tree.lep2LV.M2()) + ","
                     csv_string += str(PhiStarCP)  # dont end on comma here
 
                 ### Reading in recontructed RMLV
-                # creating neutrino 4-vectos
-                svfitTau1LV = tree.lep1LV
-                svfitTau2LV = tree.lep2LV
-                lep1neutrinoLV = tree.svfitTau1LV - tree.lep1LV
-                lep2neutrinoLV = tree.svfitTau2LV - tree.lep2LV
+                svfitTau1LV = tree.svfitTau1LV
+                svfitTau2LV = tree.svfitTau2LV
+                simpleFitTau1LV = tree.simpleFitTau1LV
+                simpleFitTau2LV = tree.simpleFitTau2LV
+                svfitneutrino1LV = tree.svfitTau1LV - tree.lep1LV
+                svfitneutrino2LV = tree.svfitTau2LV - tree.lep2LV
+                simpleFitneutrino1LV = tree.simpleFitTau1LV - tree.lep1LV
+                simpleFitneutrino2LV = tree.simpleFitTau2LV - tree.lep2LV
 
                 # Creating a boost M into the ZMF of the intermediate decay
-                sum_of_LVs = tree.svfitTau1LV + tree.svfitTau2LV
+                sum_of_LVs = tree.lep1SumChargedHadronsLV + tree.lep2SumChargedHadronsLV
                 boostvec = sum_of_LVs.BoostToCM()
                 M = ROOT.Math.Boost(boostvec.X(), boostvec.Y(), boostvec.Z())
 
                 # boosting 4-vectors to the ZMF
                 svfitTau1LV = M * svfitTau1LV
                 svfitTau2LV = M * svfitTau2LV
-                lep1neutrinoLV = M * lep1neutrinoLV
-                lep2neutrinoLV = M * lep2neutrinoLV
+                simpleFitTau1LV = M * simpleFitTau1LV
+                simpleFitTau2LV = M * simpleFitTau2LV
                 lep1LV = M * tree.lep1LV
                 lep2LV = M * tree.lep2LV
+                svfitneutrino1LV = M * svfitneutrino1LV
+                svfitneutrino2LV = M * svfitneutrino2LV
+                simpleFitneutrino1LV = M * simpleFitneutrino1LV
+                simpleFitneutrino2LV = M * simpleFitneutrino2LV
                 lep1SumChargedHadronsLV = M * tree.lep1SumChargedHadronsLV
                 lep1SumNeutralHadronsLV = M * tree.lep1SumNeutralHadronsLV
                 lep2SumChargedHadronsLV = M * tree.lep2SumChargedHadronsLV
@@ -386,8 +406,12 @@ def get_csv_reco():
                     # creating list containing RMLVs
                     RMLV_list = [svfitTau2LV,
                                  svfitTau1LV,
-                                 lep2neutrinoLV,
-                                 lep1neutrinoLV,
+                                 simpleFitTau2LV,
+                                 simpleFitTau1LV,
+                                 svfitneutrino2LV,
+                                 svfitneutrino1LV,
+                                 simpleFitneutrino2LV,
+                                 simpleFitneutrino1LV,
                                  lep2LV,
                                  lep1LV,
                                  lep2SumChargedHadronsLV,
@@ -405,8 +429,12 @@ def get_csv_reco():
                     # creating list containing RMLVs
                     RMLV_list = [svfitTau1LV,
                                  svfitTau2LV,
-                                 lep1neutrinoLV,
-                                 lep2neutrinoLV,
+                                 simpleFitTau1LV,
+                                 simpleFitTau2LV,
+                                 svfitneutrino1LV,
+                                 svfitneutrino2LV,
+                                 simpleFitneutrino1LV,
+                                 simpleFitneutrino2LV,
                                  lep1LV,
                                  lep2LV,
                                  lep1SumChargedHadronsLV,
@@ -422,25 +450,13 @@ def get_csv_reco():
 
 
                 # generate TVector3 for rotation
-                rot_vec = copy.deepcopy(lep1LV)
+                rot_vec = copy.deepcopy(lep1SumChargedHadronsLV)
                 TV3_list = []
                 for rmlv in RMLV_list:
                     TV3 = ROOT.TVector3(rmlv.X(), rmlv.Y(), rmlv.Z())
                     TV3.RotateZ(0.5 * np.pi - rot_vec.Phi())
                     TV3.RotateX(rot_vec.Theta())
                     TV3_list.append(TV3)
-
-                '''
-                # write 4-vectors into csv
-                for j in range(len(TV3_list)):
-                    rmlv = RMLV_list[j]
-                    TV3 = TV3_list[j]
-
-                    csv_string += "," + str(TV3.Px())
-                    csv_string += "," + str(TV3.Py())
-                    csv_string += "," + str(TV3.Pz())
-                    csv_string += "," + str(rmlv.E())
-                '''
 
                 # write RMLV into csv with Pt Eta Phi
                 for j in range(len(TV3_list)):
@@ -475,9 +491,10 @@ def get_csv_genM():
         os.remove(output_directory + "csv_" + version + "_valid.csv")
         print("removed old csv file")
 
-    # Content
-    filelist = ["GluGluHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8.root",
-                "VBFHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8.root"]
+    # Settings
+    filelist = [
+        "GluGluHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8.root",
+        "VBFHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8.root"]
 
     genMatched_rmlv_entry_list = ["genBosonLV",
                         "genMatchedTau1LV",
@@ -543,6 +560,7 @@ def get_csv_genM():
             wt_100 = tree.GetLeaf("tauSpinnerWeight100").GetValue()
 
             # check weight and get CP sensitive variable
+            # Scan decay for false entries
             weight = 0
             flipdecay = False
 
@@ -557,7 +575,14 @@ def get_csv_genM():
                 # sort decay channel by int size of decayModeMVA
                 if decayModeMVA_1 < decayModeMVA_2:
                     flipdecay = True
-                weight = 1
+
+                if tree.genMatchedLep1LV.E() < 9999.0 and tree.genMatchedLep2LV.E() < 9999.0 and tree.genMatchedTau1LV.E() < 9999.0 and tree.genMatchedTau2LV.E() < 9999.0 and tree.genMatchedTau2SumNeutralHadronsLV.E() == 0.0 and tree.genMatchedTau1SumNeutralHadronsLV.E() == 0.0:
+                    if flipdecay:
+                        if tree.genMatchedTau1ChargedHadronLV_1.E() < 9999.0:
+                            weight = 1
+                    if not flipdecay:
+                        if tree.genMatchedTau2ChargedHadronLV_1.E() < 9999.0:
+                            weight = 1
 
             # Decay channel: rho - a1
             if (decayModeMVA_1 == 1 and decayModeMVA_2 == 10) or (decayModeMVA_1 == 10 and decayModeMVA_2 == 1):
@@ -565,12 +590,22 @@ def get_csv_genM():
                 # sort decay channel by int size of decayModeMVA
                 if decayModeMVA_1 < decayModeMVA_2:
                     flipdecay = True
-                weight = 1
+
+                if tree.genMatchedLep1LV.E() < 9999.0 and tree.genMatchedLep2LV.E() < 9999.0 and tree.genMatchedTau1LV.E() < 9999.0 and tree.genMatchedTau2LV.E() < 9999.0:
+                    if flipdecay:
+                        if tree.genMatchedTau2SumNeutralHadronsLV.E() == 0.0:
+                            weight = 1
+                    if not flipdecay:
+                        if tree.genMatchedTau1SumNeutralHadronsLV.E() == 0.0:
+                            weight = 1
+
 
             # Decay channel: a1 - a1
             if decayModeMVA_1 == 10 and decayModeMVA_2 == 10:
                 PhiStarCP = 0
-                weight = 1
+
+                if tree.genMatchedLep1LV.E() < 9999.0 and tree.genMatchedLep2LV.E() < 9999.0 and tree.genMatchedTau1SumNeutralHadronsLV.E() == 0.0 and tree.genMatchedTau2SumNeutralHadronsLV.E() == 0.0:
+                    weight = 1
 
             #filtering out entries only contraining ones
             if weight == 1 and wt_000 != 1 and PhiStarCP > -500:
@@ -585,7 +620,7 @@ def get_csv_genM():
                 genBosonLV = M * tree.genBosonLV
                 genMatchedTau1LV = M * tree.genMatchedTau1LV
                 genMatchedTau2LV = M * tree.genMatchedTau2LV
-                genMatchedTau1NeutrinoLV = M * tree.genMatchedTau2NeutrinoLV
+                genMatchedTau1NeutrinoLV = M * tree.genMatchedTau1NeutrinoLV
                 genMatchedTau2NeutrinoLV = M * tree.genMatchedTau2NeutrinoLV
                 genMatchedlep1LV = M * tree.genMatchedLep1LV
                 genMatchedlep2LV = M * tree.genMatchedLep2LV
@@ -692,18 +727,6 @@ def get_csv_genM():
                     csv_string += "," + str(new_rmlv.Eta())
                     csv_string += "," + str(new_rmlv.Phi())
                     csv_string += "," + str(new_rmlv.E())
-
-                '''
-                # write 4-vectors into csv
-                for j in range(len(TV3_list)):
-                    rmlv = RMLV_list[j]
-                    TV3 = TV3_list[j]
-
-                    csv_string += "," + str(TV3.Px())
-                    csv_string += "," + str(TV3.Py())
-                    csv_string += "," + str(TV3.Pz())
-                    csv_string += "," + str(rmlv.E())
-                '''
 
                 # write into csv file and split into train and validation data
                 if i%2 == 0:
@@ -1439,23 +1462,238 @@ def script_runOraclePrediction_DecayChannel():
 
 ################################################################################
 def do_debug():
-    df = pd.read_csv(output_directory + "csv_" + version + "_train.csv")
 
-    # filter out events with selected decay channel
-    df = df.loc[((df["decayModeMVA_1"] == decay_channel[0]) & (df["decayModeMVA_2"] == decay_channel[1])) | (
-            (df["decayModeMVA_1"] == decay_channel[1]) & (df["decayModeMVA_2"] == decay_channel[0]))]
 
-    weight000 = df["000"].values
-    weight010 = df["010"].values
+    import ROOT
+    from math import acos, cos, sin
+    from tqdm import tqdm
 
-    weight_diff = []
+    # check for old csv file, if it exist its getting deleted
+    if os.path.exists(output_directory + "csv_" + version + "_train.csv"):
+        os.remove(output_directory + "csv_" + version + "_train.csv")
+        os.remove(output_directory + "csv_" + version + "_valid.csv")
+        print("removed old csv file")
 
-    for i in range(len(weight000)):
-        weight_diff.append(weight010 - weight000)
+    # Content
+    filelist = ["GluGluHToTauTauUncorrelatedDecayFilteredM125_RunIIFall17MiniAODv2_PU2017_13TeV_MINIAOD_powheg-pythia8.root"]
 
-    plt.figure()
-    plt.hist(weight_diff, color="black", histtype=u"step")
-    plt.show()
+    genMatched_rmlv_entry_list = [
+                        "genMatchedTau1LV",
+                        "genMatchedTau1NeutrinoLV",
+                        "genMatchedLep1LV",
+                        "genMatchedTau1SumChargedHadronsLV",
+                        "genMatchedTau1SumNeutralHadronsLV",
+                        "genMatchedTau1ChargedHadronLV_1",
+                        "genMatchedTau1ChargedHadronLV_2",
+                        "genMatchedTau1ChargedHadronLV_3",
+                        "genMatchedTau2LV",
+                        "genMatchedTau2NeutrinoLV",
+                        "genMatchedLep2LV",
+                        "genMatchedTau2SumChargedHadronsLV",
+                        "genMatchedTau2SumNeutralHadronsLV",
+                        "genMatchedTau2ChargedHadronLV_1",
+                        "genMatchedTau2ChargedHadronLV_2",
+                        "genMatchedTau2ChargedHadronLV_3",]
+
+    genMatched_param_entry_list = ["decayModeMVA_1",
+                                    "decayModeMVA_2"]
+
+
+
+    #defining variables, read in info from json file and open csv file
+    print("Creating CSV file: ",version)
+    csv_train = open(output_directory + "csv_" + version + "_train.csv", "w")
+    csv_valid = open(output_directory + "csv_" + version + "_valid.csv", "w")
+
+    # write csv header
+    csv_header_string = ""
+    tauSpinnerWeight_steps = ["000","010","020","030","040","050","060","070","080","090","100"] # existing weights
+    tauSpinnerWeight_addsteps = ["110","120","130","140","150","160","170","180","190","200"] # need to be calculated
+    for step in tauSpinnerWeight_steps + tauSpinnerWeight_addsteps:
+        csv_header_string += (str(step) + ",")
+    for param in genMatched_param_entry_list:
+        csv_header_string += (str(param) + ",")
+    # PhiStarCP gets added extra to not end on comma here
+    csv_header_string += "genMatchedPhiStarCP"
+    for var in genMatched_rmlv_entry_list:
+        csv_header_string += "," + var + "Pt" + "," + var + "Eta" + "," + var + "Phi" + "," + var + "E"
+    csv_train.write(csv_header_string + "\n")
+    csv_valid.write(csv_header_string + "\n")
+
+    counter = 0
+    for f in filelist:
+        counter += 1
+        rootFile = ROOT.TFile(sample_directory + f, "read")
+        tree = rootFile.Get("tt_nominal/ntuple")
+        entries = tree.GetEntries()
+
+        for i in tqdm(range(entries), desc="{} out of {}".format(counter, len(filelist)), unit="events"):
+            tree.GetEntry(i)
+
+            decayModeMVA_1 = tree.GetLeaf("decayModeMVA_1").GetValue()
+            decayModeMVA_2 = tree.GetLeaf("decayModeMVA_2").GetValue()
+            wt_000 = tree.GetLeaf("tauSpinnerWeight000").GetValue()
+            wt_050 = tree.GetLeaf("tauSpinnerWeight050").GetValue()
+            wt_100 = tree.GetLeaf("tauSpinnerWeight100").GetValue()
+
+            # check weight and get CP sensitive variable
+            weight = 0
+            flipdecay = False
+
+            # Decay channel: charged pion - a1
+            if (decayModeMVA_1 == 0 and decayModeMVA_2 == 10) or (decayModeMVA_1 == 10 and decayModeMVA_2 == 0):
+                PhiStarCP = 0
+                simpleFitConverged = tree.GetLeaf("simpleFitConverged").GetValue()
+                # sort decay channel by int size of decayModeMVA
+                if decayModeMVA_1 < decayModeMVA_2:
+                    flipdecay = True
+                weight = 1
+
+            #filtering out entries only contraining ones
+            if weight == 1 and wt_000 != 1 and PhiStarCP > -500 and simpleFitConverged == True:
+
+                ### Reading in recontructed RMLV
+                # Creating a boost M into the ZMF of the intermediate decay
+                sum_of_LVs = tree.genMatchedLep1LV + tree.genMatchedLep2LV
+                boostvec = sum_of_LVs.BoostToCM()
+                M = ROOT.Math.Boost(boostvec.X(),boostvec.Y(),boostvec.Z())
+
+                # boosting 4-vectors to the ZMF
+                genMatchedTau1LV = M * tree.simpleFitTau1LV
+                genMatchedTau2LV = M * tree.simpleFitTau2LV
+                genMatchedTau1NeutrinoLV = M * tree.genMatchedTau1NeutrinoLV
+                genMatchedTau2NeutrinoLV = M * tree.genMatchedTau2NeutrinoLV
+                genMatchedlep1LV = M * tree.genMatchedLep1LV
+                genMatchedlep2LV = M * tree.genMatchedLep2LV
+                genMatchedTau1SumChargedHadronsLV = M * tree.genMatchedTau1SumChargedHadronsLV
+                genMatchedTau1SumNeutralHadronsLV = M * tree.genMatchedTau1SumNeutralHadronsLV
+                genMatchedTau2SumChargedHadronsLV = M * tree.genMatchedTau2SumChargedHadronsLV
+                genMatchedTau2SumNeutralHadronsLV = M * tree.genMatchedTau2SumNeutralHadronsLV
+                genMatchedTau1ChargedHadronLV_1 = M * tree.genMatchedTau1ChargedHadronLV_1
+                genMatchedTau1ChargedHadronLV_2 = M * tree.genMatchedTau1ChargedHadronLV_2
+                genMatchedTau1ChargedHadronLV_3 = M * tree.genMatchedTau1ChargedHadronLV_3
+                genMatchedTau2ChargedHadronLV_1 = M * tree.genMatchedTau2ChargedHadronLV_1
+                genMatchedTau2ChargedHadronLV_2 = M * tree.genMatchedTau2ChargedHadronLV_2
+                genMatchedTau2ChargedHadronLV_3 = M * tree.genMatchedTau2ChargedHadronLV_3
+
+                RMLV_tau1 = [genMatchedTau1LV,
+                            genMatchedTau1NeutrinoLV,
+                            genMatchedlep1LV,
+                            genMatchedTau1SumChargedHadronsLV,
+                            genMatchedTau1SumNeutralHadronsLV,
+                            genMatchedTau1ChargedHadronLV_1,
+                            genMatchedTau1ChargedHadronLV_2,
+                            genMatchedTau1ChargedHadronLV_3]
+
+                RMLV_tau2 = [genMatchedTau2LV,
+                            genMatchedTau2NeutrinoLV,
+                            genMatchedlep2LV,
+                            genMatchedTau2SumChargedHadronsLV,
+                            genMatchedTau2SumNeutralHadronsLV,
+                            genMatchedTau2ChargedHadronLV_1,
+                            genMatchedTau2ChargedHadronLV_2,
+                            genMatchedTau2ChargedHadronLV_3]
+
+                # Align ZMF along the z - axis
+                # decay channels get rotated individually
+                rot_vec = copy.deepcopy(genMatchedTau1LV)
+                TV3_tau1 = []
+                for rmlv in RMLV_tau1:
+                    TV3 = ROOT.TVector3(rmlv.X(),rmlv.Y(),rmlv.Z())
+                    TV3.RotateZ(0.5*np.pi - rot_vec.Phi())
+                    TV3.RotateX(rot_vec.Theta())
+                    TV3_tau1.append(TV3)
+
+                rot_vec = copy.deepcopy(genMatchedTau2LV)
+                TV3_tau2 = []
+                for rmlv in RMLV_tau2:
+                    TV3 = ROOT.TVector3(rmlv.X(),rmlv.Y(),rmlv.Z())
+                    TV3.RotateZ(1.5*np.pi - rot_vec.Phi())
+                    TV3.RotateX((rot_vec.Theta()-np.pi) * (-1))
+                    TV3_tau2.append(TV3)
+
+                # prepare string
+                csv_string = ""
+
+                # looping tauSpinnerWeight
+                for step in tauSpinnerWeight_steps:
+                    tauSpinnerWeightxxx = tree.GetLeaf("tauSpinnerWeight"+step).GetValue()
+                    csv_string += str(tauSpinnerWeightxxx) + ","
+
+                # Generating additional weights for mixing range pi to 2*pi
+                for addstep in tauSpinnerWeight_addsteps:
+                    mixing_angle = float(addstep) / 100 * np.pi / 2
+                    new_tauSpinnerWeightxxx = calc_tauSpinnerWeight(wt_000,wt_050,wt_100, mixing_angle)
+                    csv_string += str(new_tauSpinnerWeightxxx) + ","
+
+                if flipdecay:
+                    # writing additional parameter
+                    csv_string += str(tree.GetLeaf("decayModeMVA_2").GetValue()) + ","
+                    csv_string += str(tree.GetLeaf("decayModeMVA_1").GetValue()) + ","
+                    csv_string += str(PhiStarCP) # dont end on comma here
+                else:
+                    # writing additional parameter
+                    csv_string += str(tree.GetLeaf("decayModeMVA_1").GetValue()) + ","
+                    csv_string += str(tree.GetLeaf("decayModeMVA_2").GetValue()) + ","
+                    csv_string += str(PhiStarCP) # dont end on comma here
+
+                if flipdecay:
+                    # write RMLV into csv with (Pt, Eta, Phi, E)
+                    for j in range(len(TV3_tau2)):
+                        TV3 = TV3_tau2[j]
+                        rmlv = RMLV_tau2[j]
+                        new_rmlv = ROOT.Math.LorentzVector(ROOT.Math.PxPyPzM4D(float))(TV3.X(), TV3.Y(), TV3.Z(), rmlv.E())
+
+                        csv_string += "," + str(new_rmlv.X())
+                        csv_string += "," + str(new_rmlv.Y())
+                        csv_string += "," + str(new_rmlv.Z())
+                        csv_string += "," + str(new_rmlv.E())
+
+                    # write RMLV into csv with (Pt, Eta, Phi, E)
+                    for j in range(len(TV3_tau1)):
+                        TV3 = TV3_tau1[j]
+                        rmlv = RMLV_tau1[j]
+                        new_rmlv = ROOT.Math.LorentzVector(ROOT.Math.PxPyPzM4D(float))(TV3.X(), TV3.Y(), TV3.Z(), rmlv.E())
+
+                        csv_string += "," + str(new_rmlv.X())
+                        csv_string += "," + str(new_rmlv.Y())
+                        csv_string += "," + str(new_rmlv.Z())
+                        csv_string += "," + str(new_rmlv.E())
+
+                else:
+                    # write RMLV into csv with (Pt, Eta, Phi, E)
+                    for j in range(len(TV3_tau1)):
+                        TV3 = TV3_tau1[j]
+                        rmlv = RMLV_tau1[j]
+                        new_rmlv = ROOT.Math.LorentzVector(ROOT.Math.PxPyPzM4D(float))(TV3.X(), TV3.Y(), TV3.Z(), rmlv.E())
+
+                        csv_string += "," + str(new_rmlv.X())
+                        csv_string += "," + str(new_rmlv.Y())
+                        csv_string += "," + str(new_rmlv.Z())
+                        csv_string += "," + str(new_rmlv.E())
+
+                    # write RMLV into csv with (Pt, Eta, Phi, E)
+                    for j in range(len(TV3_tau2)):
+                        TV3 = TV3_tau2[j]
+                        rmlv = RMLV_tau2[j]
+                        new_rmlv = ROOT.Math.LorentzVector(ROOT.Math.PxPyPzM4D(float))(TV3.X(), TV3.Y(), TV3.Z(), rmlv.E())
+
+                        csv_string += "," + str(new_rmlv.X())
+                        csv_string += "," + str(new_rmlv.Y())
+                        csv_string += "," + str(new_rmlv.Z())
+                        csv_string += "," + str(new_rmlv.E())
+
+
+
+
+                # write into csv file and split into train and validation data
+                if i%2 == 0:
+                    csv_train.write(csv_string + "\n")
+                else:
+                    csv_valid.write(csv_string + "\n")
+
+    csv_train.close()
+    csv_valid.close()
 
 
 # Calling the different ports of the main code according to the parser
@@ -1464,9 +1702,9 @@ def main():
 
     if args.csv:
         if use_genmatched:
-            get_csv_reco()
-        elif not use_genmatched:
             get_csv_genM()
+        elif not use_genmatched:
+            get_csv_reco()
 
     if args.training:
         do_training()
