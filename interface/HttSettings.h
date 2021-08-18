@@ -17,6 +17,7 @@ class HttSettings: public KappaSettings {
 public:
 
 	IMPL_SETTING_DEFAULT(bool, Legacy, false);
+	IMPL_SETTING_DEFAULT(bool, UltraLegacy, false);
 
 	/// names of (old) MVA MET collection in kappa tuple
 	IMPL_SETTING_DEFAULT(std::string, MvaMetTT, "");
