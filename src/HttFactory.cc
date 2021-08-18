@@ -283,6 +283,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new GenPolarisationQuantitiesProducer();
 	else if(id == SimpleFitProducer().GetProducerId())
 		return new SimpleFitProducer();
+	else if(id == SimpleFitThreeProngThreeProngProducer().GetProducerId())
+		return new SimpleFitThreeProngThreeProngProducer();
 	else if(id == GenSimpleFitProducer().GetProducerId())
 		return new GenSimpleFitProducer();
 	else if(id == ScaleVariationProducer().GetProducerId())

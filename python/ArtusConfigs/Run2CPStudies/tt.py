@@ -69,6 +69,7 @@ class tt_ArtusConfig(dict):
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSimpleFitProducer"]
 			self["Processors"] += ["producer:SimpleFitProducer"]
+			self["Processors"] += ["producer:SimpleFitThreeProngThreeProngProducer"]
 
 			self["Processors"] += ["filter:MinimalPlotlevelFilter"]
 
