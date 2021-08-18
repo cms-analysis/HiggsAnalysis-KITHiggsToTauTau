@@ -237,6 +237,20 @@ public:
 
 	double m_simpleFitRotationSignificance = DefaultValues::UndefinedDouble;
 
+	// filled by the SimpleFitThreeProngThreeProngProducer
+	bool m_simpleFitTau1RecoIsAmbiguous = false;
+	bool m_simpleFitTau2RecoIsAmbiguous = false;
+
+	RMFLV m_simpleFitTau1PrefitPlus = DefaultValues::UndefinedRMFLV;
+	RMFLV m_simpleFitTau1PrefitMinus = DefaultValues::UndefinedRMFLV;
+	RMFLV m_simpleFitTau1PrefitZero = DefaultValues::UndefinedRMFLV;
+	RMFLV m_simpleFitTau2PrefitPlus = DefaultValues::UndefinedRMFLV;
+	RMFLV m_simpleFitTau2PrefitMinus = DefaultValues::UndefinedRMFLV;
+	RMFLV m_simpleFitTau2PrefitZero = DefaultValues::UndefinedRMFLV;
+
+	double m_simpleFitTau1RotationSignificance = DefaultValues::UndefinedDouble;
+	double m_simpleFitTau2RotationSignificance = DefaultValues::UndefinedDouble;
+
 	// filled by the GenSimpleFitProducer
 	int m_genSimpleFitIndex1 = DefaultValues::UndefinedInt;
 	int m_genSimpleFitIndex2 = DefaultValues::UndefinedInt;
