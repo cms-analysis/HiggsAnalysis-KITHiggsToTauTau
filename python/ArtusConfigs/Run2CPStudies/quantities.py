@@ -1243,6 +1243,20 @@ class Quantities(Run2Quantities):
 			"simpleFitChi2_2",
 			"simpleFitChi2_3",
 		]
+		if channel == "TT":
+			s += [
+					"simpleFitTau1RecoIsAmbiguous",
+					"simpleFitTau1PrefitPlusLV",
+					"simpleFitTau1PrefitMinusLV",
+					"simpleFitTau1PrefitZeroLV",
+					"simpleFitTau2RecoIsAmbiguous",
+					"simpleFitTau2PrefitPlusLV",
+					"simpleFitTau2PrefitMinusLV",
+					"simpleFitTau2PrefitZeroLV",
+					"simpleFitTau1RotationSignificance",
+					"simpleFitTau2RotationSignificance",
+				]
+		return s
 
 	@staticmethod
 	def genSimpleFitQuantities():
