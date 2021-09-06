@@ -50,6 +50,12 @@ public:
 	std::vector<double> CalculateIPErrors(KLepton* lepton, KVertex* pv, TVector3* ipvec);
 	double MergePhiStarCPCombSemiLeptonic(double phiStarCP, KTau* recoTau2, double reco_posyTauL, double reco_negyTauL);
 	double MergePhiStarCPCombFullyHadronic(double phiStarCP, KTau* recoTau1, KTau* recoTau2, double reco_posyTauL, double reco_negyTauL);
+	//level: "gen", "reco"
+	double CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level);
+	double CalculatePhiStarCPCommon(RMFLV chargedPi1, RMFLV chargedPi2,
+		RMFLV ref1, RMFLV ref2,
+		bool firstNegative, bool dp1, bool dp2,
+		std::string level);
 	inline double GetGenPhiStar()
 	{
 		return genPhiStar;
@@ -133,12 +139,6 @@ private:
 	double recoOmega;
 	double recoPhi1;
 	RMPoint recoOprime;
-	//level: "gen", "reco"
-	double CalculatePhiStarCPSame(RMFLV::BetaVector k1, RMFLV::BetaVector k2, RMFLV chargPart1, RMFLV chargPart2, std::string level);
-	double CalculatePhiStarCPCommon(RMFLV chargedPi1, RMFLV chargedPi2,
-					RMFLV ref1, RMFLV ref2,
-					bool firstNegative, bool dp1, bool dp2,
-					std::string level);
 	inline void SetGenPhiStar(double genphistar)
 	{
 		genPhiStar = genphistar;
