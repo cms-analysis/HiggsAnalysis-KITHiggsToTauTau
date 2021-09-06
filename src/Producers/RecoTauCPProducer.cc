@@ -1378,6 +1378,42 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	{
 		return product.m_PHelix_2;
 	});
+
+	for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
+	{
+		LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "polarimetricVectorsTauOneProngTauA1SimpleFit_" + std::to_string(leptonIndex+1), [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return static_cast<RMPoint>(SafeMap::GetWithDefault(product.m_polarimetricVectorsTauOneProngTauA1SimpleFit, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<RMFLV::BetaVector>(DefaultValues::UndefinedRMPoint)));
+		});
+		LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "polarimetricVectorsOneProngTauA1SimpleFit_" + std::to_string(leptonIndex+1), [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return static_cast<RMPoint>(SafeMap::GetWithDefault(product.m_polarimetricVectorsOneProngTauA1SimpleFit, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<RMFLV::BetaVector>(DefaultValues::UndefinedRMPoint)));
+		});
+		LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "polarimetricVectorsTauOneProngA1SimpleFit_" + std::to_string(leptonIndex+1), [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return static_cast<RMPoint>(SafeMap::GetWithDefault(product.m_polarimetricVectorsTauOneProngA1SimpleFit, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<RMFLV::BetaVector>(DefaultValues::UndefinedRMPoint)));
+		});
+		LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "polarimetricVectorsOneProngA1SimpleFit_" + std::to_string(leptonIndex+1), [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return static_cast<RMPoint>(SafeMap::GetWithDefault(product.m_polarimetricVectorsOneProngA1SimpleFit, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<RMFLV::BetaVector>(DefaultValues::UndefinedRMPoint)));
+		});
+		LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit_" + std::to_string(leptonIndex+1), [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return static_cast<RMPoint>(SafeMap::GetWithDefault(product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<RMFLV::BetaVector>(DefaultValues::UndefinedRMPoint)));
+		});
+		LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "polarimetricVectorsTauOneProngA1PiHighPtSimpleFit_" + std::to_string(leptonIndex+1), [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return static_cast<RMPoint>(SafeMap::GetWithDefault(product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<RMFLV::BetaVector>(DefaultValues::UndefinedRMPoint)));
+		});
+		LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit_" + std::to_string(leptonIndex+1), [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return static_cast<RMPoint>(SafeMap::GetWithDefault(product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<RMFLV::BetaVector>(DefaultValues::UndefinedRMPoint)));
+		});
+		LambdaNtupleConsumer<HttTypes>::AddRMPointQuantity(metadata, "polarimetricVectorsOneProngA1PiHighPtSimpleFit_" + std::to_string(leptonIndex+1), [leptonIndex](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+		{
+			return static_cast<RMPoint>(SafeMap::GetWithDefault(product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit, product.m_flavourOrderedLeptons.at(leptonIndex), static_cast<RMFLV::BetaVector>(DefaultValues::UndefinedRMPoint)));
+		});
+	}
 }
 
 void RecoTauCPProducer::Produce(event_type const& event, product_type& product, setting_type const& settings, metadata_type const& metadata) const
@@ -2072,7 +2108,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	    product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, piZero1, recoTau2->charge(), true);
 	  }
 	  // 3-prongs+pi
-	  else if (decayType1 == 1 && decayType2 == 0) {
+	  else if (decayType1 == 2 && decayType2 == 0) {
 	    product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_2, recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piOS1, recoTau2->charge());
 	    product.m_recoPhiStarCPCombrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_2, recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piOS1, recoTau2->charge());
 	    product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_2, recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piOS1, recoTau2->charge());
@@ -2106,6 +2142,42 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	    product.m_recoPhiStarCPCombMergedrPVBS    = cpq.CalculatePhiStarCPComb(product.m_recoIPrPVBS_1, recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piOS2, recoTau1->charge(), true);
 	    product.m_recoPhiStarCPCombMergedHelrPV   = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPV_1, recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piOS2, recoTau1->charge(), true);
 	    product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.CalculatePhiStarCPComb(product.m_recoIPHelrPVBS_1, recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piOS2, recoTau1->charge(), true);
+	  }
+	  // rho/a1(1-prong)+3-prongs
+	  if (decayType1 == 1 && decayType2 == 2) {
+	    product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPCommon(recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piZero1, piOS2, recoTau1->charge(), false, false, "");
+	    product.m_recoPhiStarCPCombrPVBS    = cpq.CalculatePhiStarCPCommon(recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piZero1, piOS2, recoTau1->charge(), false, false, "");
+	    product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPCommon(recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piZero1, piOS2, recoTau1->charge(), false, false, "");
+	    product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPCommon(recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piZero1, piOS2, recoTau1->charge(), false, false, "");
+
+	    product.m_recoPhiStarCPCombMergedrPV      = cpq.CalculatePhiStarCPCommon(recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piZero1, piOS2, recoTau1->charge(), true, true, "");
+	    product.m_recoPhiStarCPCombMergedrPVBS    = cpq.CalculatePhiStarCPCommon(recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piZero1, piOS2, recoTau1->charge(), true, true, "");
+	    product.m_recoPhiStarCPCombMergedHelrPV   = cpq.CalculatePhiStarCPCommon(recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piZero1, piOS2, recoTau1->charge(), true, true, "");
+	    product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.CalculatePhiStarCPCommon(recoTau1->chargedHadronCandidates.at(0).p4, piSSFromRho2, piZero1, piOS2, recoTau1->charge(), true, true, "");
+	  }
+	  // 3-prongs+rho/a1(1-prong)
+	  if (decayType1 == 2 && decayType2 == 1) {
+	    product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPCommon(recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piZero2, piOS1, recoTau2->charge(), false, false, "");
+	    product.m_recoPhiStarCPCombrPVBS    = cpq.CalculatePhiStarCPCommon(recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piZero2, piOS1, recoTau2->charge(), false, false, "");
+	    product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPCommon(recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piZero2, piOS1, recoTau2->charge(), false, false, "");
+	    product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPCommon(recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piZero2, piOS1, recoTau2->charge(), false, false, "");
+
+	    product.m_recoPhiStarCPCombMergedrPV      = cpq.CalculatePhiStarCPCommon(recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piZero2, piOS1, recoTau2->charge(), true, true, "");
+	    product.m_recoPhiStarCPCombMergedrPVBS    = cpq.CalculatePhiStarCPCommon(recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piZero2, piOS1, recoTau2->charge(), true, true, "");
+	    product.m_recoPhiStarCPCombMergedHelrPV   = cpq.CalculatePhiStarCPCommon(recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piZero2, piOS1, recoTau2->charge(), true, true, "");
+	    product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.CalculatePhiStarCPCommon(recoTau2->chargedHadronCandidates.at(0).p4, piSSFromRho1, piZero2, piOS1, recoTau2->charge(), true, true, "");
+	  }
+	  // 3-prongs+3-prongs
+	  else if (decayType1 == 2 && decayType2 == 2) {
+	    product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPCommon(piSSFromRho1, piSSFromRho2, piOS1,piOS2, recoTau1->charge(), false, false, "");
+	    product.m_recoPhiStarCPCombrPVBS    = cpq.CalculatePhiStarCPCommon(piSSFromRho1, piSSFromRho2, piOS1,piOS2, recoTau1->charge(), false, false, "");
+	    product.m_recoPhiStarCPCombHelrPV   = cpq.CalculatePhiStarCPCommon(piSSFromRho1, piSSFromRho2, piOS1,piOS2, recoTau1->charge(), false, false, "");
+	    product.m_recoPhiStarCPCombHelrPVBS = cpq.CalculatePhiStarCPCommon(piSSFromRho1, piSSFromRho2, piOS1,piOS2, recoTau1->charge(), false, false, "");
+
+	    product.m_recoPhiStarCPCombMergedrPV      = cpq.CalculatePhiStarCPCommon(piSSFromRho1, piSSFromRho2, piOS1, piOS2, recoTau1->charge(), true, true, "");
+	    product.m_recoPhiStarCPCombMergedrPVBS    = cpq.CalculatePhiStarCPCommon(piSSFromRho1, piSSFromRho2, piOS1, piOS2, recoTau1->charge(), true, true, "");
+	    product.m_recoPhiStarCPCombMergedHelrPV   = cpq.CalculatePhiStarCPCommon(piSSFromRho1, piSSFromRho2, piOS1, piOS2, recoTau1->charge(), true, true, "");
+	    product.m_recoPhiStarCPCombMergedHelrPVBS = cpq.CalculatePhiStarCPCommon(piSSFromRho1, piSSFromRho2, piOS1, piOS2, recoTau1->charge(), true, true, "");
 	  }
 	}  // if tt ch.
 
@@ -2152,509 +2224,511 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 				IPLVHelrPVBSOneProng.SetXYZT(IPOneProng.X(), IPOneProng.Y(), IPOneProng.Z(), 0);
 			}
 		}
-
-		RMFLV simpleFitTau1 = product.m_simpleFitTaus[product.m_flavourOrderedLeptons.at(0)];
-		RMFLV simpleFitTau2 = product.m_simpleFitTaus[product.m_flavourOrderedLeptons.at(1)];
-
-		RMFLV Tau1Tau2ZMF = simpleFitTau1 + simpleFitTau2;
-		RMFLV Tau1VisTau2ZMF = product.m_flavourOrderedLeptons.at(0)->p4 + simpleFitTau2;
-		RMFLV Tau1Tau2VisZMF = simpleFitTau1 + product.m_flavourOrderedLeptons.at(1)->p4;
-		RMFLV Tau1VisTau2VisZMF = product.m_flavourOrderedLeptons.at(0)->p4 + product.m_flavourOrderedLeptons.at(1)->p4;
-
-		RMFLV Tau1Tau2PiSSFromRhoZMF, Tau1Tau2PiHighPtZMF, Tau1VisTau2PiSSFromRhoZMF, Tau1VisTau2PiHighPtZMF;
-
-		RMFLV simpleFitTauA1 = product.m_simpleFitTaus[a1];
-		RMFLV simpleFitTauOneProng = product.m_simpleFitTaus[oneProng];
-
-		RMFLV TauOneProngTauA1ZMF = simpleFitTauA1 + simpleFitTauOneProng;
-		RMFLV OneProngTauA1ZMF = oneProng->p4 + simpleFitTauA1;
-		RMFLV TauOneProngA1ZMF = simpleFitTauOneProng + a1->p4;
-		RMFLV OneProngA1ZMF = oneProng->p4 + a1->p4;
-
-		RMFLV TauOneProngA1PiSSFromRhoZMF, TauOneProngA1PiHighPtZMF, OneProngA1PiSSFromRhoZMF, OneProngA1PiHighPtZMF, A1PiSSHighPt, A1PiSSFromRho;
-
-		if (dmMva_2 == 10)
+		if (oneProng != nullptr && a1 != nullptr)
 		{
-			Tau1Tau2PiSSFromRhoZMF = simpleFitTau1 + piSSFromRho2;
-			Tau1Tau2PiHighPtZMF = simpleFitTau1 + piSSHighPt2;
-			Tau1VisTau2PiSSFromRhoZMF = product.m_flavourOrderedLeptons.at(0)->p4 + piSSFromRho2;
-			Tau1VisTau2PiHighPtZMF = product.m_flavourOrderedLeptons.at(0)->p4 + piSSHighPt2;
+			RMFLV simpleFitTau1 = product.m_simpleFitTaus[product.m_flavourOrderedLeptons.at(0)];
+			RMFLV simpleFitTau2 = product.m_simpleFitTaus[product.m_flavourOrderedLeptons.at(1)];
 
-			A1PiSSHighPt = piSSHighPt2;
-			A1PiSSFromRho = piSSFromRho2;
-		}
-		else if (dmMva_1 == 10)
-		{
-			Tau1Tau2PiSSFromRhoZMF = simpleFitTau2 + piSSFromRho1;
-			Tau1Tau2PiHighPtZMF = simpleFitTau2 + piSSHighPt1;
-			Tau1VisTau2PiSSFromRhoZMF = product.m_flavourOrderedLeptons.at(1)->p4 + piSSFromRho1;
-			Tau1VisTau2PiHighPtZMF = product.m_flavourOrderedLeptons.at(1)->p4 + piSSHighPt1;
+			RMFLV Tau1Tau2ZMF = simpleFitTau1 + simpleFitTau2;
+			RMFLV Tau1VisTau2ZMF = product.m_flavourOrderedLeptons.at(0)->p4 + simpleFitTau2;
+			RMFLV Tau1Tau2VisZMF = simpleFitTau1 + product.m_flavourOrderedLeptons.at(1)->p4;
+			RMFLV Tau1VisTau2VisZMF = product.m_flavourOrderedLeptons.at(0)->p4 + product.m_flavourOrderedLeptons.at(1)->p4;
 
-			A1PiSSHighPt = piSSHighPt1;
-			A1PiSSFromRho = piSSFromRho1;
-		}
-		TauOneProngA1PiSSFromRhoZMF = simpleFitTauOneProng + A1PiSSFromRho;
-		TauOneProngA1PiHighPtZMF = simpleFitTauOneProng + A1PiSSHighPt;
-		OneProngA1PiSSFromRhoZMF = oneProng->p4 + A1PiSSFromRho;
-		OneProngA1PiHighPtZMF = oneProng->p4 + A1PiSSHighPt;
+			RMFLV Tau1Tau2PiSSFromRhoZMF, Tau1Tau2PiHighPtZMF, Tau1VisTau2PiSSFromRhoZMF, Tau1VisTau2PiHighPtZMF;
 
-		// LOG(INFO) << "Tau1Tau2ZMF: " << Tau1Tau2ZMF;
-		// LOG(INFO) << "TauOneProngTauA1ZMF: " << TauOneProngTauA1ZMF;
-		//
-		// LOG(INFO) << "Tau1VisTau2ZMF: " << Tau1VisTau2ZMF;
-		// LOG(INFO) << "OneProngTauA1ZMF: " << OneProngTauA1ZMF;
-		//
-		// LOG(INFO) << "Tau1Tau2VisZMF: " << Tau1Tau2VisZMF;
-		// LOG(INFO) << "TauOneProngA1ZMF: " << TauOneProngA1ZMF;
-		//
-		// LOG(INFO) << "Tau1VisTau2VisZMF: " << Tau1VisTau2VisZMF;
-		// LOG(INFO) << "OneProngA1ZMF: " << OneProngA1ZMF;
-		//
-		// LOG(INFO) << "Tau1Tau2PiSSFromRhoZMF: " << Tau1Tau2PiSSFromRhoZMF;
-		// LOG(INFO) << "TauOneProngA1PiSSFromRhoZMF: " << TauOneProngA1PiSSFromRhoZMF;
-		//
-		// LOG(INFO) << "Tau1Tau2PiHighPtZMF: " << Tau1Tau2PiHighPtZMF;
-		// LOG(INFO) << "TauOneProngA1PiHighPtZMF: " << TauOneProngA1PiHighPtZMF;
-		//
-		// LOG(INFO) << "Tau1VisTau2PiSSFromRhoZMF: " << Tau1VisTau2PiSSFromRhoZMF;
-		// LOG(INFO) << "OneProngA1PiSSFromRhoZMF: " << OneProngA1PiSSFromRhoZMF;
-		//
-		// LOG(INFO) << "Tau1VisTau2PiHighPtZMF: " << Tau1VisTau2PiHighPtZMF;
-		// LOG(INFO) << "OneProngA1PiHighPtZMF: " << OneProngA1PiHighPtZMF;
+			RMFLV simpleFitTauA1 = product.m_simpleFitTaus[a1];
+			RMFLV simpleFitTauOneProng = product.m_simpleFitTaus[oneProng];
 
-		for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
-			 lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
-		{
-			std::vector<TLorentzVector> inputs;
-			std::string type = "";
-			int charge(-999);
-			if (((*lepton)->flavour() == KLeptonFlavour::ELECTRON) || ((*lepton)->flavour() == KLeptonFlavour::MUON))
-			{
-				// inputs.push_back(GetInputLepton(product, *lepton));
-				type = "lepton";
-				// charges.push_back((*lepton)->charge());
-				// DO NOTHING; Polarimetric Vector is not reconstructable on reco level for leptonic decays
-			}
-			else if ((*lepton)->flavour() == KLeptonFlavour::TAU)
-			{
-				KTau* tau = static_cast<KTau*>(*lepton);
-				int dm_tau = (int)tau->getDiscriminator("MVADM2017v1", event.m_tauMetadata);
-				// int dmMva = tau->decayMode;
-				if ((dm_tau == 10) && (tau->chargedHadronCandidates.size() > 2))
-				{
-					inputs = GetInputA1(product, *lepton);
-					type = "a1";
-					charge = (*lepton)->charge();
-				}
-				else if ((dm_tau == 1) &&
-				         (tau->chargedHadronCandidates.size() > 0) &&
-				         ((tau->piZeroCandidates.size() > 0) || (tau->gammaCandidates.size() > 0)))
-				{
-					inputs = GetInputRho(product, *lepton);
-					type = "rho";
-					charge = (*lepton)->charge();
-				}
-				else if (dm_tau == 0)
-				{
-					inputs = GetInputPion(product, *lepton);
-					type = "pion";
-					charge = (*lepton)->charge();
-				}
-			}
-			if (inputs.size() > 0 && type != "lepton")
-			{
-				SCalculator SpinCalculatorInterfaceTau1Tau2(type);
-				SpinCalculatorInterfaceTau1Tau2.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1Tau2ZMF), charge);
-				product.m_polarimetricVectorsTau1Tau2SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1Tau2.pv());
+			RMFLV TauOneProngTauA1ZMF = simpleFitTauA1 + simpleFitTauOneProng;
+			RMFLV OneProngTauA1ZMF = oneProng->p4 + simpleFitTauA1;
+			RMFLV TauOneProngA1ZMF = simpleFitTauOneProng + a1->p4;
+			RMFLV OneProngA1ZMF = oneProng->p4 + a1->p4;
 
-				SCalculator SpinCalculatorInterfaceTau1VisTau2(type);
-				SpinCalculatorInterfaceTau1VisTau2.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1VisTau2ZMF), charge);
-				product.m_polarimetricVectorsTau1VisTau2SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1VisTau2.pv());
+			RMFLV TauOneProngA1PiSSFromRhoZMF, TauOneProngA1PiHighPtZMF, OneProngA1PiSSFromRhoZMF, OneProngA1PiHighPtZMF, A1PiSSHighPt, A1PiSSFromRho;
 
-				SCalculator SpinCalculatorInterfaceTau1Tau2Vis(type);
-				SpinCalculatorInterfaceTau1Tau2Vis.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1Tau2VisZMF), charge);
-				product.m_polarimetricVectorsTau1Tau2VisSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1Tau2Vis.pv());
-
-				SCalculator SpinCalculatorInterfaceTau1VisTau2Vis(type);
-				SpinCalculatorInterfaceTau1VisTau2Vis.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1VisTau2VisZMF), charge);
-				product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1VisTau2Vis.pv());
-
-
-				SCalculator SpinCalculatorInterfaceTauOneProngTauA1(type);
-				SpinCalculatorInterfaceTauOneProngTauA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(TauOneProngTauA1ZMF), charge);
-				product.m_polarimetricVectorsTauOneProngTauA1SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTauOneProngTauA1.pv());
-
-				SCalculator SpinCalculatorInterfaceOneProngTauA1(type);
-				SpinCalculatorInterfaceOneProngTauA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(OneProngTauA1ZMF), charge);
-				product.m_polarimetricVectorsOneProngTauA1SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceOneProngTauA1.pv());
-
-				SCalculator SpinCalculatorInterfaceTauOneProngA1(type);
-				SpinCalculatorInterfaceTauOneProngA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(TauOneProngA1ZMF), charge);
-				product.m_polarimetricVectorsTauOneProngA1SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTauOneProngA1.pv());
-
-				SCalculator SpinCalculatorInterfaceOneProngA1(type);
-				SpinCalculatorInterfaceOneProngA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(OneProngA1ZMF), charge);
-				product.m_polarimetricVectorsOneProngA1SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceOneProngA1.pv());
-
-				if (dmMva_1 == 10 || dmMva_2 == 10)
-				{
-					SCalculator SpinCalculatorInterfaceTau1Tau2PiSSFromRho(type);
-					SpinCalculatorInterfaceTau1Tau2PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1Tau2PiSSFromRhoZMF), charge);
-					product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1Tau2PiSSFromRho.pv());
-
-					SCalculator SpinCalculatorInterfaceTau1Tau2PiHighPt(type);
-					SpinCalculatorInterfaceTau1Tau2PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1Tau2PiHighPtZMF), charge);
-					product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1Tau2PiHighPt.pv());
-
-					SCalculator SpinCalculatorInterfaceTau1VisTau2PiSSFromRho(type);
-					SpinCalculatorInterfaceTau1VisTau2PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1VisTau2PiSSFromRhoZMF), charge);
-					product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1VisTau2PiSSFromRho.pv());
-
-					SCalculator SpinCalculatorInterfaceTau1VisTau2PiHighPt(type);
-					SpinCalculatorInterfaceTau1VisTau2PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1VisTau2PiHighPtZMF), charge);
-					product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1VisTau2PiHighPt.pv());
-
-
-					SCalculator SpinCalculatorInterfaceTauOneProngA1PiSSFromRho(type);
-					SpinCalculatorInterfaceTauOneProngA1PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(TauOneProngA1PiSSFromRhoZMF), charge);
-					product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTauOneProngA1PiSSFromRho.pv());
-
-					SCalculator SpinCalculatorInterfaceTauOneProngA1PiHighPt(type);
-					SpinCalculatorInterfaceTauOneProngA1PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(TauOneProngA1PiHighPtZMF), charge);
-					product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTauOneProngA1PiHighPt.pv());
-
-					SCalculator SpinCalculatorInterfaceOneProngA1PiSSFromRho(type);
-					SpinCalculatorInterfaceOneProngA1PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(OneProngA1PiSSFromRhoZMF), charge);
-					product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceOneProngA1PiSSFromRho.pv());
-
-					SCalculator SpinCalculatorInterfaceOneProngA1PiHighPt(type);
-					SpinCalculatorInterfaceOneProngA1PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(OneProngA1PiHighPtZMF), charge);
-					product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceOneProngA1PiHighPt.pv());
-				}
-			}
-		}
-		// LOG(WARNING) << "RecoTauCPProducer::Produce: Polarimetric Vectors not yet supported for leptonic decays. Polarimetric Vector defaulted to (0,0,0) for muon/electron.";
-		if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET)
-		{
-			bool firstNegative = product.m_flavourOrderedLeptons.at(1)->charge() < 0;
-			RMFLV IPLVHelrPVBS_1;
-			IPLVHelrPVBS_1.SetXYZT(product.m_recoIPHelrPVBS_1.X(), product.m_recoIPHelrPVBS_1.Y(), product.m_recoIPHelrPVBS_1.Z(), 0);
 			if (dmMva_2 == 10)
 			{
-				if(product.m_polarimetricVectorsTau1Tau2SimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1Tau2_2 = product.m_polarimetricVectorsTau1Tau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau2, simpleFitTau1, polVecTau1Tau2_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2SimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2_2 = product.m_polarimetricVectorsTau1VisTau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1Tau2VisSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1Tau2Vis_2 = product.m_polarimetricVectorsTau1Tau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(1)->p4, simpleFitTau1, polVecTau1Tau2Vis_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2VisSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2Vis_2 = product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(1)->p4, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2Vis_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho2, simpleFitTau1, polVecTau1Tau2PiSSFromRho_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1Tau2PiHighPt_2 = product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt2, simpleFitTau1, polVecTau1Tau2PiHighPt_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiSSFromRho_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2PiHighPt_2 = product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiHighPt_2, IPLVHelrPVBS_1, firstNegative);
-				}
+				Tau1Tau2PiSSFromRhoZMF = simpleFitTau1 + piSSFromRho2;
+				Tau1Tau2PiHighPtZMF = simpleFitTau1 + piSSHighPt2;
+				Tau1VisTau2PiSSFromRhoZMF = product.m_flavourOrderedLeptons.at(0)->p4 + piSSFromRho2;
+				Tau1VisTau2PiHighPtZMF = product.m_flavourOrderedLeptons.at(0)->p4 + piSSHighPt2;
 
-				// LOG(INFO) << "RecoTauCPProducer simpleFitTau1: " << simpleFitTau1;
-				// LOG(INFO) << "RecoTauCPProducer simpleFitTau2: " << simpleFitTau2;
-				// // LOG(INFO) << "RecoTauCPProducer polVec: " << polVec;
-				// LOG(INFO) << "RecoTauCPProducer IPLVHelrPVBS_1: " << IPLVHelrPVBS_1;
-				// LOG(INFO) << "RecoTauCPProducer piSSFromRho2: " << piSSFromRho2;
-				// LOG(INFO) << "RecoTauCPProducer recoParticle1->p4: " << recoParticle1->p4;
-				//
-				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS;
-				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS;
-				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS;
-				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS;
-				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS;
-				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS;
-				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS;
-				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS;
+				A1PiSSHighPt = piSSHighPt2;
+				A1PiSSFromRho = piSSFromRho2;
 			}
-		}
-		else if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT)
-		{
-			// RMFLV::BetaVector polVec1 = product.m_polarimetricVectorsSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-			// RMFLV::BetaVector polVec2 = product.m_polarimetricVectorsSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-
-			RMFLV IPLVHelrPVBS_1;
-			IPLVHelrPVBS_1.SetXYZT(product.m_recoIPHelrPVBS_1.X(), product.m_recoIPHelrPVBS_1.Y(), product.m_recoIPHelrPVBS_1.Z(), 0);
-			RMFLV IPLVHelrPVBS_2;
-			IPLVHelrPVBS_2.SetXYZT(product.m_recoIPHelrPVBS_2.X(), product.m_recoIPHelrPVBS_2.Y(), product.m_recoIPHelrPVBS_2.Z(), 0);
-
-			if (dmMva_1 == 10 && dmMva_2 == 0)
+			else if (dmMva_1 == 10)
 			{
-				// TODO Fix ordering. It's mixed up for these cases. Also check other decaymode variant
-				bool firstNegative = product.m_flavourOrderedLeptons.at(0)->charge() < 0;
-				if(product.m_polarimetricVectorsTau1Tau2SimpleFit.size() > 0)
+				Tau1Tau2PiSSFromRhoZMF = simpleFitTau2 + piSSFromRho1;
+				Tau1Tau2PiHighPtZMF = simpleFitTau2 + piSSHighPt1;
+				Tau1VisTau2PiSSFromRhoZMF = product.m_flavourOrderedLeptons.at(1)->p4 + piSSFromRho1;
+				Tau1VisTau2PiHighPtZMF = product.m_flavourOrderedLeptons.at(1)->p4 + piSSHighPt1;
+
+				A1PiSSHighPt = piSSHighPt1;
+				A1PiSSFromRho = piSSFromRho1;
+			}
+			TauOneProngA1PiSSFromRhoZMF = simpleFitTauOneProng + A1PiSSFromRho;
+			TauOneProngA1PiHighPtZMF = simpleFitTauOneProng + A1PiSSHighPt;
+			OneProngA1PiSSFromRhoZMF = oneProng->p4 + A1PiSSFromRho;
+			OneProngA1PiHighPtZMF = oneProng->p4 + A1PiSSHighPt;
+
+			// LOG(INFO) << "Tau1Tau2ZMF: " << Tau1Tau2ZMF;
+			// LOG(INFO) << "TauOneProngTauA1ZMF: " << TauOneProngTauA1ZMF;
+			//
+			// LOG(INFO) << "Tau1VisTau2ZMF: " << Tau1VisTau2ZMF;
+			// LOG(INFO) << "OneProngTauA1ZMF: " << OneProngTauA1ZMF;
+			//
+			// LOG(INFO) << "Tau1Tau2VisZMF: " << Tau1Tau2VisZMF;
+			// LOG(INFO) << "TauOneProngA1ZMF: " << TauOneProngA1ZMF;
+			//
+			// LOG(INFO) << "Tau1VisTau2VisZMF: " << Tau1VisTau2VisZMF;
+			// LOG(INFO) << "OneProngA1ZMF: " << OneProngA1ZMF;
+			//
+			// LOG(INFO) << "Tau1Tau2PiSSFromRhoZMF: " << Tau1Tau2PiSSFromRhoZMF;
+			// LOG(INFO) << "TauOneProngA1PiSSFromRhoZMF: " << TauOneProngA1PiSSFromRhoZMF;
+			//
+			// LOG(INFO) << "Tau1Tau2PiHighPtZMF: " << Tau1Tau2PiHighPtZMF;
+			// LOG(INFO) << "TauOneProngA1PiHighPtZMF: " << TauOneProngA1PiHighPtZMF;
+			//
+			// LOG(INFO) << "Tau1VisTau2PiSSFromRhoZMF: " << Tau1VisTau2PiSSFromRhoZMF;
+			// LOG(INFO) << "OneProngA1PiSSFromRhoZMF: " << OneProngA1PiSSFromRhoZMF;
+			//
+			// LOG(INFO) << "Tau1VisTau2PiHighPtZMF: " << Tau1VisTau2PiHighPtZMF;
+			// LOG(INFO) << "OneProngA1PiHighPtZMF: " << OneProngA1PiHighPtZMF;
+
+			for (std::vector<KLepton*>::iterator lepton = product.m_flavourOrderedLeptons.begin();
+				 lepton != product.m_flavourOrderedLeptons.end(); ++lepton)
+			{
+				std::vector<TLorentzVector> inputs;
+				std::string type = "";
+				int charge(-999);
+				if (((*lepton)->flavour() == KLeptonFlavour::ELECTRON) || ((*lepton)->flavour() == KLeptonFlavour::MUON))
 				{
-					RMFLV::BetaVector polVecTau1Tau2_1 = product.m_polarimetricVectorsTau1Tau2SimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1Tau2_2 = product.m_polarimetricVectorsTau1Tau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTau1, simpleFitTau2, polVecTau1Tau2_1, polVecTau1Tau2_2, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau1, simpleFitTau2, polVecTau1Tau2_1, IPLVHelrPVBS_2, firstNegative);
+					// inputs.push_back(GetInputLepton(product, *lepton));
+					type = "lepton";
+					// charges.push_back((*lepton)->charge());
+					// DO NOTHING; Polarimetric Vector is not reconstructable on reco level for leptonic decays
 				}
-				if(product.m_polarimetricVectorsTau1VisTau2SimpleFit.size() > 0)
+				else if ((*lepton)->flavour() == KLeptonFlavour::TAU)
 				{
-					RMFLV::BetaVector polVecTau1VisTau2_1 = product.m_polarimetricVectorsTau1VisTau2SimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1VisTau2_2 = product.m_polarimetricVectorsTau1VisTau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1VisTau2HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTau1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2_1, polVecTau1VisTau2_2, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2_1, IPLVHelrPVBS_2, firstNegative);
+					KTau* tau = static_cast<KTau*>(*lepton);
+					int dm_tau = (int)tau->getDiscriminator("MVADM2017v1", event.m_tauMetadata);
+					// int dmMva = tau->decayMode;
+					if ((dm_tau == 10) && (tau->chargedHadronCandidates.size() > 2))
+					{
+						inputs = GetInputA1(product, *lepton);
+						type = "a1";
+						charge = (*lepton)->charge();
+					}
+					else if ((dm_tau == 1) &&
+					         (tau->chargedHadronCandidates.size() > 0) &&
+					         ((tau->piZeroCandidates.size() > 0) || (tau->gammaCandidates.size() > 0)))
+					{
+						inputs = GetInputRho(product, *lepton);
+						type = "rho";
+						charge = (*lepton)->charge();
+					}
+					else if (dm_tau == 0)
+					{
+						inputs = GetInputPion(product, *lepton);
+						type = "pion";
+						charge = (*lepton)->charge();
+					}
 				}
-				if(product.m_polarimetricVectorsTau1Tau2VisSimpleFit.size() > 0)
+				if (inputs.size() > 0 && type != "lepton")
 				{
-					RMFLV::BetaVector polVecTau1Tau2Vis_1 = product.m_polarimetricVectorsTau1Tau2VisSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1Tau2Vis_2 = product.m_polarimetricVectorsTau1Tau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1Tau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVec(product.m_flavourOrderedLeptons.at(0)->p4, simpleFitTau2, polVecTau1Tau2Vis_1, polVecTau1Tau2Vis_2, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(0)->p4, simpleFitTau2, polVecTau1Tau2Vis_1, IPLVHelrPVBS_2, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2VisSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2Vis_1 = product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1VisTau2Vis_2 = product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVec(product.m_flavourOrderedLeptons.at(0)->p4, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2Vis_1, polVecTau1VisTau2Vis_2, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(0)->p4, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2Vis_1, IPLVHelrPVBS_2, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSFromRho1, simpleFitTau2, polVecTau1Tau2PiSSFromRho_1, polVecTau1Tau2PiSSFromRho_2, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho1, simpleFitTau2, polVecTau1Tau2PiSSFromRho_1, IPLVHelrPVBS_2, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1Tau2PiHighPt_1 = product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1Tau2PiHighPt_2 = product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSHighPt1, simpleFitTau2, polVecTau1Tau2PiHighPt_1, polVecTau1Tau2PiHighPt_2, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt1, simpleFitTau2, polVecTau1Tau2PiHighPt_1, IPLVHelrPVBS_2, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSFromRho1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2PiSSFromRho_1, polVecTau1VisTau2PiSSFromRho_2, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2PiSSFromRho_1, IPLVHelrPVBS_2, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2PiHighPt_1 = product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1VisTau2PiHighPt_2 = product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSHighPt1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2PiHighPt_1, polVecTau1VisTau2PiHighPt_2, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2PiHighPt_1, IPLVHelrPVBS_2, firstNegative);
+					SCalculator SpinCalculatorInterfaceTau1Tau2(type);
+					SpinCalculatorInterfaceTau1Tau2.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1Tau2ZMF), charge);
+					product.m_polarimetricVectorsTau1Tau2SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1Tau2.pv());
+
+					SCalculator SpinCalculatorInterfaceTau1VisTau2(type);
+					SpinCalculatorInterfaceTau1VisTau2.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1VisTau2ZMF), charge);
+					product.m_polarimetricVectorsTau1VisTau2SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1VisTau2.pv());
+
+					SCalculator SpinCalculatorInterfaceTau1Tau2Vis(type);
+					SpinCalculatorInterfaceTau1Tau2Vis.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1Tau2VisZMF), charge);
+					product.m_polarimetricVectorsTau1Tau2VisSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1Tau2Vis.pv());
+
+					SCalculator SpinCalculatorInterfaceTau1VisTau2Vis(type);
+					SpinCalculatorInterfaceTau1VisTau2Vis.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1VisTau2VisZMF), charge);
+					product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1VisTau2Vis.pv());
+
+
+					SCalculator SpinCalculatorInterfaceTauOneProngTauA1(type);
+					SpinCalculatorInterfaceTauOneProngTauA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(TauOneProngTauA1ZMF), charge);
+					product.m_polarimetricVectorsTauOneProngTauA1SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTauOneProngTauA1.pv());
+
+					SCalculator SpinCalculatorInterfaceOneProngTauA1(type);
+					SpinCalculatorInterfaceOneProngTauA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(OneProngTauA1ZMF), charge);
+					product.m_polarimetricVectorsOneProngTauA1SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceOneProngTauA1.pv());
+
+					SCalculator SpinCalculatorInterfaceTauOneProngA1(type);
+					SpinCalculatorInterfaceTauOneProngA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(TauOneProngA1ZMF), charge);
+					product.m_polarimetricVectorsTauOneProngA1SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTauOneProngA1.pv());
+
+					SCalculator SpinCalculatorInterfaceOneProngA1(type);
+					SpinCalculatorInterfaceOneProngA1.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(OneProngA1ZMF), charge);
+					product.m_polarimetricVectorsOneProngA1SimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceOneProngA1.pv());
+
+					if (dmMva_1 == 10 || dmMva_2 == 10)
+					{
+						SCalculator SpinCalculatorInterfaceTau1Tau2PiSSFromRho(type);
+						SpinCalculatorInterfaceTau1Tau2PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1Tau2PiSSFromRhoZMF), charge);
+						product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1Tau2PiSSFromRho.pv());
+
+						SCalculator SpinCalculatorInterfaceTau1Tau2PiHighPt(type);
+						SpinCalculatorInterfaceTau1Tau2PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1Tau2PiHighPtZMF), charge);
+						product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1Tau2PiHighPt.pv());
+
+						SCalculator SpinCalculatorInterfaceTau1VisTau2PiSSFromRho(type);
+						SpinCalculatorInterfaceTau1VisTau2PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1VisTau2PiSSFromRhoZMF), charge);
+						product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1VisTau2PiSSFromRho.pv());
+
+						SCalculator SpinCalculatorInterfaceTau1VisTau2PiHighPt(type);
+						SpinCalculatorInterfaceTau1VisTau2PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(Tau1VisTau2PiHighPtZMF), charge);
+						product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTau1VisTau2PiHighPt.pv());
+
+
+						SCalculator SpinCalculatorInterfaceTauOneProngA1PiSSFromRho(type);
+						SpinCalculatorInterfaceTauOneProngA1PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(TauOneProngA1PiSSFromRhoZMF), charge);
+						product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTauOneProngA1PiSSFromRho.pv());
+
+						SCalculator SpinCalculatorInterfaceTauOneProngA1PiHighPt(type);
+						SpinCalculatorInterfaceTauOneProngA1PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(TauOneProngA1PiHighPtZMF), charge);
+						product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceTauOneProngA1PiHighPt.pv());
+
+						SCalculator SpinCalculatorInterfaceOneProngA1PiSSFromRho(type);
+						SpinCalculatorInterfaceOneProngA1PiSSFromRho.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(OneProngA1PiSSFromRhoZMF), charge);
+						product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceOneProngA1PiSSFromRho.pv());
+
+						SCalculator SpinCalculatorInterfaceOneProngA1PiHighPt(type);
+						SpinCalculatorInterfaceOneProngA1PiHighPt.Configure(inputs, Utility::ConvertPtEtaPhiMLorentzVector<RMFLV, TLorentzVector>(OneProngA1PiHighPtZMF), charge);
+						product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit[*lepton] = Utility::ConvertPxPyPzVector<TVector3, RMFLV::BetaVector>(SpinCalculatorInterfaceOneProngA1PiHighPt.pv());
+					}
 				}
 			}
-			if (dmMva_1 == 0 && dmMva_2 == 10)
+			// LOG(WARNING) << "RecoTauCPProducer::Produce: Polarimetric Vectors not yet supported for leptonic decays. Polarimetric Vector defaulted to (0,0,0) for muon/electron.";
+			if ( product.m_decayChannel == HttEnumTypes::DecayChannel::MT || product.m_decayChannel == HttEnumTypes::DecayChannel::ET)
 			{
 				bool firstNegative = product.m_flavourOrderedLeptons.at(1)->charge() < 0;
-				if(product.m_polarimetricVectorsTau1Tau2SimpleFit.size() > 0)
+				RMFLV IPLVHelrPVBS_1;
+				IPLVHelrPVBS_1.SetXYZT(product.m_recoIPHelrPVBS_1.X(), product.m_recoIPHelrPVBS_1.Y(), product.m_recoIPHelrPVBS_1.Z(), 0);
+				if (dmMva_2 == 10)
 				{
-					RMFLV::BetaVector polVecTau1Tau2_1 = product.m_polarimetricVectorsTau1Tau2SimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1Tau2_2 = product.m_polarimetricVectorsTau1Tau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTau2, simpleFitTau1, polVecTau1Tau2_2, polVecTau1Tau2_1, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau2, simpleFitTau1, polVecTau1Tau2_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2SimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2_1 = product.m_polarimetricVectorsTau1VisTau2SimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1VisTau2_2 = product.m_polarimetricVectorsTau1VisTau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1VisTau2HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTau2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2_2, polVecTau1VisTau2_1, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1Tau2VisSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1Tau2Vis_1 = product.m_polarimetricVectorsTau1Tau2VisSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1Tau2Vis_2 = product.m_polarimetricVectorsTau1Tau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1Tau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVec(product.m_flavourOrderedLeptons.at(1)->p4, simpleFitTau1, polVecTau1Tau2Vis_2, polVecTau1Tau2Vis_1, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(1)->p4, simpleFitTau1, polVecTau1Tau2Vis_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2VisSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2Vis_1 = product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1VisTau2Vis_2 = product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVec(product.m_flavourOrderedLeptons.at(1)->p4, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2Vis_2, polVecTau1VisTau2Vis_1, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(1)->p4, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2Vis_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSFromRho2, simpleFitTau1, polVecTau1Tau2PiSSFromRho_2, polVecTau1Tau2PiSSFromRho_1, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho2, simpleFitTau1, polVecTau1Tau2PiSSFromRho_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1Tau2PiHighPt_1 = product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1Tau2PiHighPt_2 = product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSHighPt2, simpleFitTau1, polVecTau1Tau2PiHighPt_2, polVecTau1Tau2PiHighPt_1, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt2, simpleFitTau1, polVecTau1Tau2PiHighPt_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSFromRho2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiSSFromRho_2, polVecTau1VisTau2PiSSFromRho_1, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiSSFromRho_2, IPLVHelrPVBS_1, firstNegative);
-				}
-				if(product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit.size() > 0)
-				{
-					RMFLV::BetaVector polVecTau1VisTau2PiHighPt_1 = product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(0)];
-					RMFLV::BetaVector polVecTau1VisTau2PiHighPt_2 = product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
-					product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSHighPt2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiHighPt_2, polVecTau1VisTau2PiHighPt_1, firstNegative);
-					product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiHighPt_2, IPLVHelrPVBS_1, firstNegative);
+					if(product.m_polarimetricVectorsTau1Tau2SimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2_2 = product.m_polarimetricVectorsTau1Tau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau2, simpleFitTau1, polVecTau1Tau2_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2SimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2_2 = product.m_polarimetricVectorsTau1VisTau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2VisSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2Vis_2 = product.m_polarimetricVectorsTau1Tau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(1)->p4, simpleFitTau1, polVecTau1Tau2Vis_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2VisSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2Vis_2 = product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(1)->p4, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2Vis_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho2, simpleFitTau1, polVecTau1Tau2PiSSFromRho_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiHighPt_2 = product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt2, simpleFitTau1, polVecTau1Tau2PiHighPt_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiSSFromRho_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiHighPt_2 = product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiHighPt_2, IPLVHelrPVBS_1, firstNegative);
+					}
+
+					// LOG(INFO) << "RecoTauCPProducer simpleFitTau1: " << simpleFitTau1;
+					// LOG(INFO) << "RecoTauCPProducer simpleFitTau2: " << simpleFitTau2;
+					// // LOG(INFO) << "RecoTauCPProducer polVec: " << polVec;
+					// LOG(INFO) << "RecoTauCPProducer IPLVHelrPVBS_1: " << IPLVHelrPVBS_1;
+					// LOG(INFO) << "RecoTauCPProducer piSSFromRho2: " << piSSFromRho2;
+					// LOG(INFO) << "RecoTauCPProducer recoParticle1->p4: " << recoParticle1->p4;
+					//
+					// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS;
+					// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS;
+					// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS;
+					// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS;
+					// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS;
+					// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS;
+					// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS;
+					// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS;
 				}
 			}
-			// LOG(INFO) << "---------------RECO BLOCK START---------------";
-			// LOG(INFO) << "RecoTauCPProducer simpleFitTau1: " << simpleFitTau1;
-			// LOG(INFO) << "RecoTauCPProducer simpleFitTau2: " << simpleFitTau2;
-			// LOG(INFO) << "RecoTauCPProducer dmMva_1: " << dmMva_1;
-			// LOG(INFO) << "RecoTauCPProducer dmMva_2: " << dmMva_2;
-			// // LOG(INFO) << "RecoTauCPProducer polVec1: " << polVec1;
-			// // LOG(INFO) << "RecoTauCPProducer polVec2: " << polVec2;
-			// LOG(INFO) << "RecoTauCPProducer IPLVHelrPVBS_1: " << IPLVHelrPVBS_1;
-			// LOG(INFO) << "RecoTauCPProducer IPLVHelrPVBS_2: " << IPLVHelrPVBS_2;
-			// LOG(INFO) << "RecoTauCPProducer piSSFromRho1: " << piSSFromRho1;
-			// LOG(INFO) << "RecoTauCPProducer piSSFromRho2: " << piSSFromRho2;
-			// LOG(INFO) << "RecoTauCPProducer recoParticle1->p4: " << recoParticle1->p4;
-			// LOG(INFO) << "RecoTauCPProducer recoParticle2->p4: " << recoParticle2->p4;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPCombMergedHelrPVBS: " << product.m_recoPhiStarCPCombMergedHelrPVBS;
+			else if (product.m_decayChannel == HttEnumTypes::DecayChannel::TT)
+			{
+				// RMFLV::BetaVector polVec1 = product.m_polarimetricVectorsSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+				// RMFLV::BetaVector polVec2 = product.m_polarimetricVectorsSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+
+				RMFLV IPLVHelrPVBS_1;
+				IPLVHelrPVBS_1.SetXYZT(product.m_recoIPHelrPVBS_1.X(), product.m_recoIPHelrPVBS_1.Y(), product.m_recoIPHelrPVBS_1.Z(), 0);
+				RMFLV IPLVHelrPVBS_2;
+				IPLVHelrPVBS_2.SetXYZT(product.m_recoIPHelrPVBS_2.X(), product.m_recoIPHelrPVBS_2.Y(), product.m_recoIPHelrPVBS_2.Z(), 0);
+
+				if (dmMva_1 == 10 && dmMva_2 == 0)
+				{
+					// TODO Fix ordering. It's mixed up for these cases. Also check other decaymode variant
+					bool firstNegative = product.m_flavourOrderedLeptons.at(0)->charge() < 0;
+					if(product.m_polarimetricVectorsTau1Tau2SimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2_1 = product.m_polarimetricVectorsTau1Tau2SimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2_2 = product.m_polarimetricVectorsTau1Tau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTau1, simpleFitTau2, polVecTau1Tau2_1, polVecTau1Tau2_2, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau1, simpleFitTau2, polVecTau1Tau2_1, IPLVHelrPVBS_2, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2SimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2_1 = product.m_polarimetricVectorsTau1VisTau2SimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2_2 = product.m_polarimetricVectorsTau1VisTau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1VisTau2HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTau1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2_1, polVecTau1VisTau2_2, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2_1, IPLVHelrPVBS_2, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2VisSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2Vis_1 = product.m_polarimetricVectorsTau1Tau2VisSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2Vis_2 = product.m_polarimetricVectorsTau1Tau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1Tau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVec(product.m_flavourOrderedLeptons.at(0)->p4, simpleFitTau2, polVecTau1Tau2Vis_1, polVecTau1Tau2Vis_2, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(0)->p4, simpleFitTau2, polVecTau1Tau2Vis_1, IPLVHelrPVBS_2, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2VisSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2Vis_1 = product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2Vis_2 = product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVec(product.m_flavourOrderedLeptons.at(0)->p4, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2Vis_1, polVecTau1VisTau2Vis_2, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(0)->p4, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2Vis_1, IPLVHelrPVBS_2, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSFromRho1, simpleFitTau2, polVecTau1Tau2PiSSFromRho_1, polVecTau1Tau2PiSSFromRho_2, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho1, simpleFitTau2, polVecTau1Tau2PiSSFromRho_1, IPLVHelrPVBS_2, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiHighPt_1 = product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2PiHighPt_2 = product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSHighPt1, simpleFitTau2, polVecTau1Tau2PiHighPt_1, polVecTau1Tau2PiHighPt_2, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt1, simpleFitTau2, polVecTau1Tau2PiHighPt_1, IPLVHelrPVBS_2, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSFromRho1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2PiSSFromRho_1, polVecTau1VisTau2PiSSFromRho_2, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2PiSSFromRho_1, IPLVHelrPVBS_2, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiHighPt_1 = product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2PiHighPt_2 = product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSHighPt1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2PiHighPt_1, polVecTau1VisTau2PiHighPt_2, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt1, product.m_flavourOrderedLeptons.at(1)->p4, polVecTau1VisTau2PiHighPt_1, IPLVHelrPVBS_2, firstNegative);
+					}
+				}
+				if (dmMva_1 == 0 && dmMva_2 == 10)
+				{
+					bool firstNegative = product.m_flavourOrderedLeptons.at(1)->charge() < 0;
+					if(product.m_polarimetricVectorsTau1Tau2SimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2_1 = product.m_polarimetricVectorsTau1Tau2SimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2_2 = product.m_polarimetricVectorsTau1Tau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTau2, simpleFitTau1, polVecTau1Tau2_2, polVecTau1Tau2_1, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau2, simpleFitTau1, polVecTau1Tau2_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2SimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2_1 = product.m_polarimetricVectorsTau1VisTau2SimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2_2 = product.m_polarimetricVectorsTau1VisTau2SimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1VisTau2HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTau2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2_2, polVecTau1VisTau2_1, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTau2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2VisSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2Vis_1 = product.m_polarimetricVectorsTau1Tau2VisSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2Vis_2 = product.m_polarimetricVectorsTau1Tau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1Tau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVec(product.m_flavourOrderedLeptons.at(1)->p4, simpleFitTau1, polVecTau1Tau2Vis_2, polVecTau1Tau2Vis_1, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(1)->p4, simpleFitTau1, polVecTau1Tau2Vis_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2VisSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2Vis_1 = product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2Vis_2 = product.m_polarimetricVectorsTau1VisTau2VisSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVec(product.m_flavourOrderedLeptons.at(1)->p4, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2Vis_2, polVecTau1VisTau2Vis_1, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(product.m_flavourOrderedLeptons.at(1)->p4, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2Vis_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSFromRho2, simpleFitTau1, polVecTau1Tau2PiSSFromRho_2, polVecTau1Tau2PiSSFromRho_1, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho2, simpleFitTau1, polVecTau1Tau2PiSSFromRho_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1Tau2PiHighPt_1 = product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1Tau2PiHighPt_2 = product.m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSHighPt2, simpleFitTau1, polVecTau1Tau2PiHighPt_2, polVecTau1Tau2PiHighPt_1, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt2, simpleFitTau1, polVecTau1Tau2PiHighPt_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_1 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2PiSSFromRho_2 = product.m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSFromRho2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiSSFromRho_2, polVecTau1VisTau2PiSSFromRho_1, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSFromRho2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiSSFromRho_2, IPLVHelrPVBS_1, firstNegative);
+					}
+					if(product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit.size() > 0)
+					{
+						RMFLV::BetaVector polVecTau1VisTau2PiHighPt_1 = product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(0)];
+						RMFLV::BetaVector polVecTau1VisTau2PiHighPt_2 = product.m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit[product.m_flavourOrderedLeptons.at(1)];
+						product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(piSSHighPt2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiHighPt_2, polVecTau1VisTau2PiHighPt_1, firstNegative);
+						product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(piSSHighPt2, product.m_flavourOrderedLeptons.at(0)->p4, polVecTau1VisTau2PiHighPt_2, IPLVHelrPVBS_1, firstNegative);
+					}
+				}
+				// LOG(INFO) << "---------------RECO BLOCK START---------------";
+				// LOG(INFO) << "RecoTauCPProducer simpleFitTau1: " << simpleFitTau1;
+				// LOG(INFO) << "RecoTauCPProducer simpleFitTau2: " << simpleFitTau2;
+				// LOG(INFO) << "RecoTauCPProducer dmMva_1: " << dmMva_1;
+				// LOG(INFO) << "RecoTauCPProducer dmMva_2: " << dmMva_2;
+				// // LOG(INFO) << "RecoTauCPProducer polVec1: " << polVec1;
+				// // LOG(INFO) << "RecoTauCPProducer polVec2: " << polVec2;
+				// LOG(INFO) << "RecoTauCPProducer IPLVHelrPVBS_1: " << IPLVHelrPVBS_1;
+				// LOG(INFO) << "RecoTauCPProducer IPLVHelrPVBS_2: " << IPLVHelrPVBS_2;
+				// LOG(INFO) << "RecoTauCPProducer piSSFromRho1: " << piSSFromRho1;
+				// LOG(INFO) << "RecoTauCPProducer piSSFromRho2: " << piSSFromRho2;
+				// LOG(INFO) << "RecoTauCPProducer recoParticle1->p4: " << recoParticle1->p4;
+				// LOG(INFO) << "RecoTauCPProducer recoParticle2->p4: " << recoParticle2->p4;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPCombMergedHelrPVBS: " << product.m_recoPhiStarCPCombMergedHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2HelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2HelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2VisHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS;
+				// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS;
+				// LOG(INFO) << "---------------RECO BLOCK END---------------";
+			}
+			// first particle is always a1
+			bool firstNegative = a1->charge() < 0;
+			if(product.m_polarimetricVectorsTauOneProngTauA1SimpleFit.size() > 0)
+			{
+				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngTauA1SimpleFit[a1];
+				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngTauA1SimpleFit[oneProng];
+				product.m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTauA1, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecCombTauOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTauA1, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsOneProngTauA1SimpleFit.size() > 0)
+			{
+				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngTauA1SimpleFit[a1];
+				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngTauA1SimpleFit[oneProng];
+				product.m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTauA1, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecCombOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTauA1, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsTauOneProngA1SimpleFit.size() > 0)
+			{
+				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngA1SimpleFit[a1];
+				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngA1SimpleFit[oneProng];
+				product.m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(a1->p4, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecCombTauOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(a1->p4, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsOneProngA1SimpleFit.size() > 0)
+			{
+				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngA1SimpleFit[a1];
+				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngA1SimpleFit[oneProng];
+				product.m_recoPhiStarCPPolVecOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(a1->p4, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecCombOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(a1->p4, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit.size() > 0)
+			{
+				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit[a1];
+				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit[oneProng];
+				product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSFromRho, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecCombTauOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSFromRho, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit.size() > 0)
+			{
+				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit[a1];
+				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit[oneProng];
+				product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSHighPt, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecCombTauOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSHighPt, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit.size() > 0)
+			{
+				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit[a1];
+				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit[oneProng];
+				product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSFromRho, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecCombOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSFromRho, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
+			}
+			if(product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit.size() > 0)
+			{
+				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit[a1];
+				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit[oneProng];
+				product.m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSHighPt, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecCombOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSHighPt, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
+			}
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS;
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2HelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2HelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS;
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2VisHelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS;
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS;
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS;
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS;
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS;
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS;
+			//
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1HelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngA1HelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS;
+			//
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS;
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS;
-			// LOG(INFO) << "---------------RECO BLOCK END---------------";
+			//
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTauOneProngTauA1HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTauOneProngTauA1HelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombOneProngTauA1HelrPVBS: " << product.m_recoPhiStarCPPolVecCombOneProngTauA1HelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTauOneProngA1HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTauOneProngA1HelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombOneProngA1HelrPVBS: " << product.m_recoPhiStarCPPolVecCombOneProngA1HelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTauOneProngA1PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTauOneProngA1PiSSFromRhoHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTauOneProngA1PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTauOneProngA1PiHighPtHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombOneProngA1PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombOneProngA1PiSSFromRhoHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombOneProngA1PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombOneProngA1PiHighPtHelrPVBS;
 		}
-		// first particle is always a1
-		bool firstNegative = a1->charge() < 0;
-		if(product.m_polarimetricVectorsTauOneProngTauA1SimpleFit.size() > 0)
-		{
-			RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngTauA1SimpleFit[a1];
-			RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngTauA1SimpleFit[oneProng];
-			product.m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTauA1, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
-			product.m_recoPhiStarCPPolVecCombTauOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTauA1, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
-		}
-		if(product.m_polarimetricVectorsOneProngTauA1SimpleFit.size() > 0)
-		{
-			RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngTauA1SimpleFit[a1];
-			RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngTauA1SimpleFit[oneProng];
-			product.m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTauA1, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
-			product.m_recoPhiStarCPPolVecCombOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTauA1, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
-		}
-		if(product.m_polarimetricVectorsTauOneProngA1SimpleFit.size() > 0)
-		{
-			RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngA1SimpleFit[a1];
-			RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngA1SimpleFit[oneProng];
-			product.m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(a1->p4, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
-			product.m_recoPhiStarCPPolVecCombTauOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(a1->p4, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
-		}
-		if(product.m_polarimetricVectorsOneProngA1SimpleFit.size() > 0)
-		{
-			RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngA1SimpleFit[a1];
-			RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngA1SimpleFit[oneProng];
-			product.m_recoPhiStarCPPolVecOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(a1->p4, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
-			product.m_recoPhiStarCPPolVecCombOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(a1->p4, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
-		}
-		if(product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit.size() > 0)
-		{
-			RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit[a1];
-			RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit[oneProng];
-			product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSFromRho, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
-			product.m_recoPhiStarCPPolVecCombTauOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSFromRho, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
-		}
-		if(product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit.size() > 0)
-		{
-			RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit[a1];
-			RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit[oneProng];
-			product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSHighPt, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
-			product.m_recoPhiStarCPPolVecCombTauOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSHighPt, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
-		}
-		if(product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit.size() > 0)
-		{
-			RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit[a1];
-			RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit[oneProng];
-			product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSFromRho, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
-			product.m_recoPhiStarCPPolVecCombOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSFromRho, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
-		}
-		if(product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit.size() > 0)
-		{
-			RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit[a1];
-			RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit[oneProng];
-			product.m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSHighPt, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
-			product.m_recoPhiStarCPPolVecCombOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSHighPt, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
-		}
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2HelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2VisHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2VisHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2PiSSFromRhoHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2PiHighPtHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS;
-		//
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1HelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngA1HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS;
-		//
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2VisHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2VisHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiSSFromRhoHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2PiHighPtHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS;
-		//
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTauOneProngTauA1HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTauOneProngTauA1HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombOneProngTauA1HelrPVBS: " << product.m_recoPhiStarCPPolVecCombOneProngTauA1HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTauOneProngA1HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTauOneProngA1HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombOneProngA1HelrPVBS: " << product.m_recoPhiStarCPPolVecCombOneProngA1HelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTauOneProngA1PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTauOneProngA1PiSSFromRhoHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTauOneProngA1PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombTauOneProngA1PiHighPtHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombOneProngA1PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecCombOneProngA1PiSSFromRhoHelrPVBS;
-		// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombOneProngA1PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecCombOneProngA1PiHighPtHelrPVBS;
 	}
 
 	product.m_deltaEtaTanHelIPrPV_1 = product.m_recoIPrPV_1.Eta() - product.m_recoIPHelrPV_1.Eta();
