@@ -1,0 +1,7 @@
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_CPFinalState_2018_DATA.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_CPFinalState_2018_Embedding_ElMu.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_CPFinalState_2018_Embedding_ElTau.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_CPFinalState_2018_Embedding_MuTau.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_CPFinalState_2018_Embedding_TauTau.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_CPFinalState_2018_MC_Background.txt
+$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/Samples/XROOTD_collection_CPFinalState_2018_MC_Signal.txt
