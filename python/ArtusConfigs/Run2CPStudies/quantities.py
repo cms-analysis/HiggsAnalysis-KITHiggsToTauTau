@@ -84,11 +84,11 @@ class Quantities(Run2Quantities):
 			# common for all channels and datasets
 			self.quantities.update(['nDiTauPairCandidates', 'nLooseElectrons', 'nAllDiTauPairCandidates', 'nLooseMuons'])
 			self.quantities.update(self.fourVectorQuantities())
-			self.quantities.update(self.syncQuantities(nickname))
+			self.quantities.update(self.syncQuantities(nickname, channel))
 			# self.quantities.update(self.CPInitialStateQuantities())
 			self.quantities.update(self.CPSyncQuantities(nickname))
 			self.quantities.update(self.RooWorkSpaceWeightQuantities(nickname, channel, legacy))
-			self.quantities.update(self.simpleFitQuantities())
+			self.quantities.update(self.simpleFitQuantities(channel))
 			self.quantities.update(self.genSimpleFitQuantities())
 			if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
@@ -1210,8 +1210,8 @@ class Quantities(Run2Quantities):
 		]
 
 	@staticmethod
-	def simpleFitQuantities():
-		return [
+	def simpleFitQuantities(channel = ""):
+		s = [
 			"simpleFitTauRecoIsAmbiguous",
 			"simpleFitRotationSignificance",
 			"simpleFitAvailable",

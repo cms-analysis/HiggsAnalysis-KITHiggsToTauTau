@@ -77,6 +77,8 @@ class tt_ArtusConfig(dict):
 			self["Processors"] += ["producer:GroupedJetUncertaintyShiftProducer"]
 			self["Processors"] += ["producer:SmearedTaggedJetProducer"]
 
+			self["Processors"] += ["producer:HttEventClassifierTmvaReader"]
+
 			if legacy:
 				self["Processors"] += ["producer:LegacyJetToTauFakesProducer"]
 			else:

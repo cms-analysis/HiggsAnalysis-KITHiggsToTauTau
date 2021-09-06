@@ -835,6 +835,7 @@ public:
 	// MVA outputs
 	std::vector<double> m_antiTtbarDiscriminators;
 	std::vector<double> m_tauPolarisationDiscriminators;
+	std::vector<double> m_httEventClassifierScores;
 
 	//MVATestMethods
 	std::vector<double> m_MVATestMethodsDiscriminators;

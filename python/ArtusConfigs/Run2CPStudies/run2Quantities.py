@@ -534,7 +534,7 @@ class Run2Quantities():
 		return cpsync_quantities_list
 
 	@staticmethod
-	def syncQuantities(nickname):
+	def syncQuantities(nickname, channel):
 		sync_quantities_list = [
 			"nickname",
 			"input",
@@ -780,6 +780,14 @@ class Run2Quantities():
 			"met_var_qcd",
 			"met_var_w",
 			"WpT",
+		]
+		if channel == "TT":
+			sync_quantities_list += [
+			"higgs_score",
+			"jetFakes_score",
+			"zttEmbed_score",
+			"IC_BDT_max_score",
+			"IC_BDT_max_index",
 		]
 		if re.search("Run201(6|7|8)|Summer1(6|7)|Fall17|Autumn18|Embedding201(6|7|8)", nickname):
 			sync_quantities_list += [
