@@ -1,0 +1,19 @@
+# Define classes based on tree names in dataset file
+classes:
+    - higgs
+    - jetFakes
+    - ztt_embed
+
+# Define list of variables to be used for training
+variables:
+
+    - jdeta
+    - jpt_1
+    - m_vis
+    - met
+    - mjj
+    - n_jets
+    - pt_1
+    - pt_tt
+    - pt_vis
+    - svfit_mass
