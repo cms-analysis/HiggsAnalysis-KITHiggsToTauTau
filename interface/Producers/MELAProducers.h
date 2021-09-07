@@ -6,9 +6,10 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Utility/SvfitTools.h"
 
 // https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement/tree/v2.1.1/MELA
+// https://github.com/JHUGen/JHUGenMELA
 // https://twiki.cern.ch/twiki/bin/viewauth/CMS/MELAProject
 // http://hroskes.web.cern.ch/hroskes/JHUGen/manJHUGenerator.pdf
-#include "ZZMatrixElement/MELA/interface/Mela.h"
+#include "JHUGenMELA/MELA/interface/Mela.h"
 
 
 class MELAProducer: public ProducerBase<HttTypes>
