@@ -23,7 +23,7 @@
 <use name="HTT-utilities/RecoilCorrections" />
 <use name="TauPolSoftware/SimpleFits" />
 <use name="TauPolSoftware/TauDecaysInterface" />
-<use name="ZZMatrixElement/MELA" />
+<use name="JHUGenMELA/MELA" />
 <use name="TauAnalysisTools/TauTriggerSFs" />
 <use name="TauPOG/TauIDSFs" />
 <use name="HiggsCPinTauDecays/ImpactParameter" />

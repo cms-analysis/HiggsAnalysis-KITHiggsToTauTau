@@ -110,8 +110,8 @@ git clone git@github.com:TauPolSoftware/CalibrationCurve.git TauPolSoftware/Cali
 git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
 
 # MELA/JHU
-git clone git@github.com:cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement
-cd ZZMatrixElement
+git clone git@github.com:JHUGen/JHUGenMELA.git JHUGenMELA
+cd JHUGenMELA
 ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
 
 cd $CMSSW_BASE/src/

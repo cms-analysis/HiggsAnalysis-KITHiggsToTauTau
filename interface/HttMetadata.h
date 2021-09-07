@@ -3,7 +3,7 @@
 
 #include "Artus/KappaAnalysis/interface/KappaMetadata.h"
 
-#include "ZZMatrixElement/MELA/interface/Mela.h"
+#include "JHUGenMELA/MELA/interface/Mela.h"
 
 
 class HttMetadata : public KappaMetadata
