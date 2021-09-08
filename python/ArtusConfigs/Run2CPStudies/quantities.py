@@ -89,7 +89,6 @@ class Quantities(Run2Quantities):
 			self.quantities.update(self.CPSyncQuantities(nickname))
 			self.quantities.update(self.RooWorkSpaceWeightQuantities(nickname, channel, legacy))
 			self.quantities.update(self.simpleFitQuantities(channel))
-			self.quantities.update(self.genSimpleFitQuantities())
 			if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
 					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
 					self.quantities.update(self.singleTauQuantities())
@@ -202,7 +201,7 @@ class Quantities(Run2Quantities):
 							self.quantities.update(self.singleTauQuantities())
 							self.quantities.update(set(['nVetoElectrons', 'jetCorrectionWeight']))
 
-			elif re.search('(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17))', nickname):
+			elif re.search('(DY.?JetsToLL).*(?=(Spring16|Summer16|Summer17|Fall17|Autumn18))', nickname):
 				self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 				if re.search("(Run2017|Summer17|Fall17)", nickname) == None:
 					self.quantities.update(self.genQuantities(LFV = False)) #TODO for 2017 also , Z = True
@@ -213,6 +212,7 @@ class Quantities(Run2Quantities):
 					self.quantities.update(self.recoPolarisationQuantitiesSvfit())
 					self.quantities.update(self.recoPolarisationQuantities())
 					self.quantities.update(self.genPolarisationQuantities())
+					self.quantities.update(self.genSimpleFitQuantities())
 
 				if channel == "MM":
 					self.quantities.update(self.singleTauQuantities())
@@ -238,6 +238,7 @@ class Quantities(Run2Quantities):
 			else:
 				if not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs|JJHiggs).*(?=(Spring16|Summer16|Summer17|Fall17|Autumn18))', nickname):
 					self.quantities.update(self.genMatchedCPQuantities())
+					self.quantities.update(self.genSimpleFitQuantities())
 
 					if re.search("(Run2017|Summer17|Fall17|Run2018|Autumn18)", nickname) == None:
 						#self.quantities.update(self.splitJecUncertaintyQuantities())
@@ -615,6 +616,40 @@ class Quantities(Run2Quantities):
 			"genMatchedPhiStarCPComb",
 			"genMatchedPhiStarCPCombMerged",
 			"genMatchedPhiCPLab",
+
+			"genMatchedPhiStarCPPolVecCombTau1Tau2",
+			"genMatchedPhiStarCPPolVecCombTau1VisTau2",
+			"genMatchedPhiStarCPPolVecCombTau1Tau2Vis",
+			"genMatchedPhiStarCPPolVecCombTau1VisTau2Vis",
+			"genMatchedPhiStarCPPolVecCombTau1Tau2PiSSFromRho",
+			"genMatchedPhiStarCPPolVecCombTau1Tau2PiHighPt",
+			"genMatchedPhiStarCPPolVecCombTau1VisTau2PiSSFromRho",
+			"genMatchedPhiStarCPPolVecCombTau1VisTau2PiHighPt",
+			"genMatchedPhiStarCPPolVecTau1Tau2",
+			"genMatchedPhiStarCPPolVecTau1VisTau2",
+			"genMatchedPhiStarCPPolVecTau1Tau2Vis",
+			"genMatchedPhiStarCPPolVecTau1VisTau2Vis",
+			"genMatchedPhiStarCPPolVecTau1Tau2PiSSFromRho",
+			"genMatchedPhiStarCPPolVecTau1Tau2PiHighPt",
+			"genMatchedPhiStarCPPolVecTau1VisTau2PiSSFromRho",
+			"genMatchedPhiStarCPPolVecTau1VisTau2PiHighPt",
+
+			"genMatchedPhiStarCPPolVecTauOneProngTauA1",
+			"genMatchedPhiStarCPPolVecOneProngTauA1",
+			"genMatchedPhiStarCPPolVecTauOneProngA1",
+			"genMatchedPhiStarCPPolVecOneProngA1",
+			"genMatchedPhiStarCPPolVecTauOneProngA1PiSSFromRho",
+			"genMatchedPhiStarCPPolVecTauOneProngA1PiHighPt",
+			"genMatchedPhiStarCPPolVecOneProngA1PiSSFromRho",
+			"genMatchedPhiStarCPPolVecOneProngA1PiHighPt",
+			"genMatchedPhiStarCPPolVecCombTauOneProngTauA1",
+			"genMatchedPhiStarCPPolVecCombOneProngTauA1",
+			"genMatchedPhiStarCPPolVecCombTauOneProngA1",
+			"genMatchedPhiStarCPPolVecCombOneProngA1",
+			"genMatchedPhiStarCPPolVecCombTauOneProngA1PiSSFromRho",
+			"genMatchedPhiStarCPPolVecCombTauOneProngA1PiHighPt",
+			"genMatchedPhiStarCPPolVecCombOneProngA1PiSSFromRho",
+			"genMatchedPhiStarCPPolVecCombOneProngA1PiHighPt",
 
 			"genIP1",
 			"genIP2",
@@ -1138,41 +1173,6 @@ class Quantities(Run2Quantities):
 			# "polVecTau1VisTau2PiSSFromRhoSimpleFit_2",
 			# "polVecTau1VisTau2PiHighPtSimpleFit_1",
 			# "polVecTau1VisTau2PiHighPtSimpleFit_2",
-
-			"genMatchedPhiStarCPCombMerged",
-			"genMatchedPhiStarCPPolVecCombTau1Tau2",
-			"genMatchedPhiStarCPPolVecCombTau1VisTau2",
-			"genMatchedPhiStarCPPolVecCombTau1Tau2Vis",
-			"genMatchedPhiStarCPPolVecCombTau1VisTau2Vis",
-			"genMatchedPhiStarCPPolVecCombTau1Tau2PiSSFromRho",
-			"genMatchedPhiStarCPPolVecCombTau1Tau2PiHighPt",
-			"genMatchedPhiStarCPPolVecCombTau1VisTau2PiSSFromRho",
-			"genMatchedPhiStarCPPolVecCombTau1VisTau2PiHighPt",
-			"genMatchedPhiStarCPPolVecTau1Tau2",
-			"genMatchedPhiStarCPPolVecTau1VisTau2",
-			"genMatchedPhiStarCPPolVecTau1Tau2Vis",
-			"genMatchedPhiStarCPPolVecTau1VisTau2Vis",
-			"genMatchedPhiStarCPPolVecTau1Tau2PiSSFromRho",
-			"genMatchedPhiStarCPPolVecTau1Tau2PiHighPt",
-			"genMatchedPhiStarCPPolVecTau1VisTau2PiSSFromRho",
-			"genMatchedPhiStarCPPolVecTau1VisTau2PiHighPt",
-
-			"genMatchedPhiStarCPPolVecTauOneProngTauA1",
-			"genMatchedPhiStarCPPolVecOneProngTauA1",
-			"genMatchedPhiStarCPPolVecTauOneProngA1",
-			"genMatchedPhiStarCPPolVecOneProngA1",
-			"genMatchedPhiStarCPPolVecTauOneProngA1PiSSFromRho",
-			"genMatchedPhiStarCPPolVecTauOneProngA1PiHighPt",
-			"genMatchedPhiStarCPPolVecOneProngA1PiSSFromRho",
-			"genMatchedPhiStarCPPolVecOneProngA1PiHighPt",
-			"genMatchedPhiStarCPPolVecCombTauOneProngTauA1",
-			"genMatchedPhiStarCPPolVecCombOneProngTauA1",
-			"genMatchedPhiStarCPPolVecCombTauOneProngA1",
-			"genMatchedPhiStarCPPolVecCombOneProngA1",
-			"genMatchedPhiStarCPPolVecCombTauOneProngA1PiSSFromRho",
-			"genMatchedPhiStarCPPolVecCombTauOneProngA1PiHighPt",
-			"genMatchedPhiStarCPPolVecCombOneProngA1PiSSFromRho",
-			"genMatchedPhiStarCPPolVecCombOneProngA1PiHighPt",
 
 			"acotautau_00", #phi*CP IP-IP
 			"acotautau_01", #phi*CP IP-DP
