@@ -37,5 +37,5 @@ elif [[ `hostname` == *cern* ]]; then
 fi
 
 # copy/link libraries
-cd $CMSSW_BASE/lib/$SCRAM_ARCH && ln -s -f ../../src/ZZMatrixElement/MELA/data/$SCRAM_ARCH/*.so ./ && cd $CMSSW_BASE/src/
+cd $CMSSW_BASE/lib/$SCRAM_ARCH && ln -f $CMSSW_BASE/src/JHUGenMELA/MELA/data/${SCRAM_ARCH}/*.so ./ && cd $CMSSW_BASE/src/
 
