@@ -19,7 +19,7 @@ class Quantities(Run2Quantities):
 	def build_quantities(self, nickname, channel, legacy=True):
 
 		if channel == "GEN":
-			self.quantities.update(self.weightQuantities(tauSpinner=False, minimalWeight=True, madGraphWeight=False))
+			self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 
 			if re.search("(Summer17|Fall17)", nickname):
 				#electron tau triggers
@@ -185,10 +185,10 @@ class Quantities(Run2Quantities):
 
 				if channel == "MM":
 					self.quantities.update(self.singleTauQuantities())
-					self.quantities.update(self.weightQuantities(tauSpinner=False, minimalWeight=True, madGraphWeight=False))
+					self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 
 				else:
-					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
+					self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 					#self.quantities.update(self.splitJecUncertaintyQuantities())
 
 					if not channel == "TT":
@@ -216,13 +216,13 @@ class Quantities(Run2Quantities):
 
 				if channel == "MM":
 					self.quantities.update(self.singleTauQuantities())
-					self.quantities.update(self.weightQuantities(tauSpinner=False, minimalWeight=True, madGraphWeight=False))
+					self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 
 				else:
 
 					self.quantities.update(self.svfitSyncQuantities())
 					self.quantities.update(self.fastmttQuantities())
-					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
+					self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 
 					self.quantities.add('tauSpinnerPolarisation')
 
@@ -251,7 +251,7 @@ class Quantities(Run2Quantities):
 					self.quantities.update(self.recoCPQuantities(melaQuantities=False))
 					self.quantities.update(self.recoPolarisationQuantities())
 					self.quantities.update(self.genPolarisationQuantities())
-					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
+					self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 					# if channel in ["TT", "MT", "ET"]:
 					# 	self.quantities.update(set(['#tauPolarisationTMVA', '#tauPolarisationSKLEARN']))
 					if channel in ["ET"]: self.quantities.add('nVetoElectrons')
@@ -259,7 +259,7 @@ class Quantities(Run2Quantities):
 
 				elif not channel == "MM" and re.search('Run2015', nickname): # data
 					self.quantities.update(self.recoPolarisationQuantities())
-					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
+					self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 					if channel in ["ET"]: self.quantities.add('nVetoElectrons')
 					if channel in ["MT"]: self.quantities.add('nVetoMuons')
 
@@ -268,7 +268,7 @@ class Quantities(Run2Quantities):
 					self.quantities.update(self.recoPolarisationQuantities())
 					self.quantities.update(self.genPolarisationQuantities())
 					self.quantities.update(self.genQuantities(LFV = False))
-					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
+					self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 					#self.quantities.update(self.splitJecUncertaintyQuantities())
 
 				elif not channel == "MM" and re.search('(HTo.*TauTau|H2JetsToTauTau|Higgs).*(?=Fall15)', nickname):
@@ -279,7 +279,7 @@ class Quantities(Run2Quantities):
 					self.quantities.update(self.svfitSyncQuantities())
 					self.quantities.update(self.fastmttQuantities())
 					self.quantities.update(self.genMatchedCPQuantities())
-					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
+					self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 					# if channel in ["TT", "MT", "ET"]:
 					# 	self.quantities.update(set(['#tauPolarisationTMVA', '#tauPolarisationSKLEARN']))
 					if channel in ["ET"]: self.quantities.add('nVetoElectrons')
@@ -291,14 +291,14 @@ class Quantities(Run2Quantities):
 					self.quantities.update(self.genPolarisationQuantities())
 					self.quantities.update(self.genQuantities(LFV = False))
 					self.quantities.update(self.genMatchedCPQuantities())
-					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
+					self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 					if channel == "ET": self.quantities.add('nVetoElectrons')
 					if channel in ["MT"]: self.quantities.add('nVetoMuons')
 
 				elif not channel == "MM" and re.search('^((?!(DY.?JetsToLL|HTo.*TauTau|H2JetsToTauTau|Higgs)).)*Fall15', nickname):
 					self.quantities.update(self.recoPolarisationQuantities())
 					self.quantities.update(self.genPolarisationQuantities())
-					self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
+					self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 					if channel == "ET": self.quantities.add('nVetoElectrons')
 					if channel in ["MT"]: self.quantities.add('nVetoMuons')
 
@@ -307,12 +307,12 @@ class Quantities(Run2Quantities):
 
 					if channel == "MM":
 						self.quantities.update(self.singleTauQuantities())
-						self.quantities.update(self.weightQuantities(tauSpinner=False, minimalWeight=True, madGraphWeight=False))
+						self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 
 					else:
 						self.quantities.update(self.svfitSyncQuantities())
 						self.quantities.update(self.fastmttQuantities())
-						self.quantities.update(self.weightQuantities(tauSpinner=True, minimalWeight=True, madGraphWeight=True))
+						self.quantities.update(self.weightQuantities(channel, tauSpinner=False, minimalWeight=True, madGraphWeight=False, legacy=legacy))
 						#if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname) == None:
 							#self.quantities.update(self.splitJecUncertaintyQuantities())
 						self.quantities.update(self.recoPolarisationQuantitiesSvfit())
@@ -1513,22 +1513,13 @@ class Quantities(Run2Quantities):
 		]
 
 	@staticmethod
-	def minimalWeightQuantities():
-		return [
-			"hltWeight",
-			"totalTriggerWeight",
-			"triggerWeight_1",
-			"triggerWeight_2",
-			"identificationWeight_1",
-			"identificationWeight_2",
+	def minimalWeightQuantities(channel, legacy):
+		s = [
 			"puWeight",
-			"tauEnergyScaleWeight",
 			"generatorWeight",
 			"crossSectionPerEventWeight",
 			"numberGeneratedEventsWeight",
-			"embeddingWeight",
 			"eventWeight",
-			"sampleStitchingWeight",
 			"tauSpinnerWeight",
 			"tauSpinnerWeight000",
 			"tauSpinnerWeight005",
@@ -1553,34 +1544,85 @@ class Quantities(Run2Quantities):
 			"tauSpinnerWeight100",
 			"tauSpinnerWeightSample",
 			"tauSpinnerWeightInvSample",
-			"antiEVLooseSFWeight_1",
-			"antiELooseSFWeight_1",
-			"antiEMediumSFWeight_1",
-			"antiETightSFWeight_1",
-			"antiEVTightSFWeight_1",
-			"antiEVLooseSFWeight_2",
-			"antiELooseSFWeight_2",
-			"antiEMediumSFWeight_2",
-			"antiETightSFWeight_2",
-			"antiEVTightSFWeight_2",
-			"emuQcdWeightUp",
-			"emuQcdWeightNom",
-			"emuQcdWeightDown",
-			"emuQcdOsssWeight",
-			"emuQcdOsssRateUpWeight",
-			"emuQcdOsssRateDownWeight",
-			"emuQcdOsssShapeUpWeight",
-			"emuQcdOsssShapeDownWeight",
-			"emuQcdExtrapUpWeight",
-			"emuQcdExtrapDownWeight",
-			"topPtReweightWeight",
-			"topPtReweightWeightRun1",
-			"topPtReweightWeightRun2",
 			"zPtReweightWeight",
-			"eleTauFakeRateWeight",
-			"muTauFakeRateWeight",
-			"metFilterWeight",
 		]
+		if legacy:
+			if channel == "TT":
+				# list generated with [weight.split(":")[1]+sys+"_"+str(int(weight.split(":")[0])+1) for weight in a for sys in ["", "_up", "_down"]], where a is the list of LegacyWeightWorkspaceWeightNames
+				s += [
+					'weightTauId_1'
+					'weightTauId_up_1',
+					'weightTauId_down_1',
+					'weightTauId_2',
+					'weightTauId_up_2',
+					'weightTauId_down_2',
+					'weightTriggerEfficiency_crosstrigger_MCEmb_1',
+					'weightTriggerEfficiency_crosstrigger_MCEmb_up_1',
+					'weightTriggerEfficiency_crosstrigger_MCEmb_down_1',
+					'weightTriggerEfficiency_crosstrigger_data_1',
+					'weightTriggerEfficiency_crosstrigger_data_up_1',
+					'weightTriggerEfficiency_crosstrigger_data_down_1',
+					'weightTriggerEfficiency_crosstrigger_MCEmb_2',
+					'weightTriggerEfficiency_crosstrigger_MCEmb_up_2',
+					'weightTriggerEfficiency_crosstrigger_MCEmb_down_2',
+					'weightTriggerEfficiency_crosstrigger_data_2',
+					'weightTriggerEfficiency_crosstrigger_data_up_2',
+					'weightTriggerEfficiency_crosstrigger_data_down_2',
+					'weightScaleFactor_deepTauVsMuVLoose_1',
+					'weightScaleFactor_deepTauVsMuVLoose_up_1',
+					'weightScaleFactor_deepTauVsMuVLoose_down_1',
+					'weightScaleFactor_deepTauVsMuVLoose_2',
+					'weightScaleFactor_deepTauVsMuVLoose_up_2',
+					'weightScaleFactor_deepTauVsMuVLoose_down_2',
+					'weightScaleFactor_deepTauVsEleVVLoose_1',
+					'weightScaleFactor_deepTauVsEleVVLoose_up_1',
+					'weightScaleFactor_deepTauVsEleVVLoose_down_1',
+					'weightScaleFactor_deepTauVsEleVVLoose_2',
+					'weightScaleFactor_deepTauVsEleVVLoose_up_2',
+					'weightScaleFactor_deepTauVsEleVVLoose_down_2',
+					'weightEmbeddingSelection_id_1',
+					'weightEmbeddingSelection_id_2',
+					'weightEmbeddingSelection_trigger_1',
+				]
+		else:
+			s += [
+				"hltWeight",
+				"totalTriggerWeight",
+				"triggerWeight_1",
+				"triggerWeight_2",
+				"identificationWeight_1",
+				"identificationWeight_2",
+				"tauEnergyScaleWeight",
+				"embeddingWeight",
+				"sampleStitchingWeight",
+				"antiEVLooseSFWeight_1",
+				"antiELooseSFWeight_1",
+				"antiEMediumSFWeight_1",
+				"antiETightSFWeight_1",
+				"antiEVTightSFWeight_1",
+				"antiEVLooseSFWeight_2",
+				"antiELooseSFWeight_2",
+				"antiEMediumSFWeight_2",
+				"antiETightSFWeight_2",
+				"antiEVTightSFWeight_2",
+				"emuQcdWeightUp",
+				"emuQcdWeightNom",
+				"emuQcdWeightDown",
+				"emuQcdOsssWeight",
+				"emuQcdOsssRateUpWeight",
+				"emuQcdOsssRateDownWeight",
+				"emuQcdOsssShapeUpWeight",
+				"emuQcdOsssShapeDownWeight",
+				"emuQcdExtrapUpWeight",
+				"emuQcdExtrapDownWeight",
+				"topPtReweightWeight",
+				"topPtReweightWeightRun1",
+				"topPtReweightWeightRun2",
+				"eleTauFakeRateWeight",
+				"muTauFakeRateWeight",
+				"metFilterWeight",
+			]
+		return s
 
 	@staticmethod
 	def madGraphWeightQuantities():
@@ -1630,10 +1672,10 @@ class Quantities(Run2Quantities):
 		]
 
 	@classmethod
-	def weightQuantities(klass, tauSpinner=True, minimalWeight=True, madGraphWeight=True):
+	def weightQuantities(klass, channel, tauSpinner=True, minimalWeight=True, madGraphWeight=True, legacy=True):
 		s = []
 		if tauSpinner: s += klass.tauSpinnerWeightQuantities()
-		if minimalWeight: s += klass.minimalWeightQuantities()
+		if minimalWeight: s += klass.minimalWeightQuantities(channel, legacy)
 		if madGraphWeight: s += klass.madGraphWeightQuantities()
 		return s
 
