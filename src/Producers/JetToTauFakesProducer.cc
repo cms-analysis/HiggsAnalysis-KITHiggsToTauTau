@@ -696,57 +696,58 @@ void LegacyJetToTauFakesProducer::Produce(event_type const& event, product_type&
 	else if (m_isTT)
 	{
 		product.jetFakesMetVarQCD = product.m_flavourOrderedLeptons[0]->p4.Pt() > 0 ? product.m_met.p4.Pt()*TMath::Cos(ROOT::Math::VectorUtil::DeltaPhi(product.m_flavourOrderedLeptons[0]->p4, product.m_met.p4))/product.m_flavourOrderedLeptons[0]->p4.Pt() : 0;
-		for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
+		// Current CP version for fake factors only estimate the leading tau as being the jet fake. Therefore only 1 weight needs to be calculated
+		// for (size_t leptonIndex = 0; leptonIndex < 2; ++leptonIndex)
+		// {
+		for(auto ff_function: m_ff_functions)
 		{
-			for(auto ff_function: m_ff_functions)
+			// LOG(INFO) << "ff_function.first: " << ff_function.first;
+			// LOG(INFO) << "ff_function.second: " << ff_function.second[0];
+			auto args = std::vector<double>{};
+			std::vector<std::string> arguments;
+			boost::split(arguments, ff_function.second[0], boost::is_any_of(","));
+			for(auto arg:arguments)
 			{
-				// LOG(INFO) << "ff_function.first: " << ff_function.first;
-				// LOG(INFO) << "ff_function.second: " << ff_function.second[0];
-				auto args = std::vector<double>{};
-				std::vector<std::string> arguments;
-				boost::split(arguments, ff_function.second[0], boost::is_any_of(","));
-				for(auto arg:arguments)
+				// LOG(INFO) << "arg: " << arg;
+				if(arg=="pt")
 				{
-					// LOG(INFO) << "arg: " << arg;
-					if(arg=="pt")
-					{
-						args.push_back(product.m_flavourOrderedLeptons.at(0)->p4.Pt());
-					}
-					else if(arg=="mvadm")
-					{
-						args.push_back((int)static_cast<KTau*>(product.m_flavourOrderedLeptons.at(leptonIndex))->getDiscriminator("MVADM2017v1", event.m_tauMetadata));
-					}
-					else if(arg=="dm")
-					{
-						args.push_back(static_cast<KTau*>(product.m_flavourOrderedLeptons.at(leptonIndex))->decayMode);
-					}
-					else if(arg=="ipsig")
-					{
-						args.push_back(product.m_IPSignificanceHelrPVBS_1);
-					}
-					else if(arg=="njets")
-					{
-						args.push_back(product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0));
-					}
-					else if(arg=="os")
-					{
-						args.push_back(((product.m_flavourOrderedLeptons.at(0)->charge() * product.m_flavourOrderedLeptons.at(1)->charge()) < 0.0));
-					}
-					else if(arg=="met_var_qcd")
-					{
-						args.push_back(product.jetFakesMetVarQCD);
-					}
-					else if(arg=="dR")
-					{
-						args.push_back(ROOT::Math::VectorUtil::DeltaR(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4));
-					}
+					args.push_back(product.m_flavourOrderedLeptons.at(0)->p4.Pt());
 				}
-				std::string ff_name = ff_function.first.c_str();
-				// LOG(INFO) << "ff_name: " << ff_name;
-				ff_name.replace(ff_name.begin()+2,ff_name.begin()+5,"Weight");
-				// LOG(INFO) << "ff_name: " << ff_name;
-				product.m_optionalWeights[ff_name + "_" + std::to_string(leptonIndex+1)] = m_fns.at(ff_function.first.c_str())->eval(args.data());
+				else if(arg=="mvadm")
+				{
+					args.push_back((int)static_cast<KTau*>(product.m_flavourOrderedLeptons.at(0))->getDiscriminator("MVADM2017v1", event.m_tauMetadata));
+				}
+				else if(arg=="dm")
+				{
+					args.push_back(static_cast<KTau*>(product.m_flavourOrderedLeptons.at(0))->decayMode);
+				}
+				else if(arg=="ipsig")
+				{
+					args.push_back(product.m_IPSignificanceHelrPVBS_1);
+				}
+				else if(arg=="njets")
+				{
+					args.push_back(product_type::GetNJetsAbovePtThreshold(product.m_validJets, 30.0));
+				}
+				else if(arg=="os")
+				{
+					args.push_back(((product.m_flavourOrderedLeptons.at(0)->charge() * product.m_flavourOrderedLeptons.at(1)->charge()) < 0.0));
+				}
+				else if(arg=="met_var_qcd")
+				{
+					args.push_back(product.jetFakesMetVarQCD);
+				}
+				else if(arg=="dR")
+				{
+					args.push_back(ROOT::Math::VectorUtil::DeltaR(product.m_flavourOrderedLeptons[0]->p4, product.m_flavourOrderedLeptons[1]->p4));
+				}
 			}
+			std::string ff_name = ff_function.first.c_str();
+			// LOG(INFO) << "ff_name: " << ff_name;
+			ff_name.replace(ff_name.begin()+2,ff_name.begin()+5,"Weight");
+			// LOG(INFO) << "ff_name: " << ff_name;
+			product.m_optionalWeights[ff_name + "_1"] = m_fns.at(ff_function.first.c_str())->eval(args.data());
 		}
+		// }
 	}
 }
