@@ -415,6 +415,7 @@ public:
 	IMPL_SETTING_STRINGLIST_DEFAULT(LeptonTauTrigger2017WeightWorkspaceObjectArguments, {});
 
 	// settings for LegacyWeightProducer
+	IMPL_SETTING_DEFAULT(bool, SaveAllLegacyWeightsAsOptionalOnly, false);
 	IMPL_SETTING_DEFAULT(bool, SaveLegacyWeightAsOptionalOnly, false);
 	IMPL_SETTING_DEFAULT(std::string, LegacyWeightWorkspace, "");
 	IMPL_SETTING_STRINGLIST_DEFAULT(LegacyWeightWorkspaceWeightNames, {});

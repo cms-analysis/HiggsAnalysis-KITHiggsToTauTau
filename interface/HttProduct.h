@@ -267,6 +267,7 @@ public:
 	bool m_diGenJetSystemAvailable = false;
 
 	// filled by the LegacyJetToTauFakesProducer
+	double jetFakesMetVarQCD;
 	RMFLV m_jetFakesWp4;
 
 	// filled by TaggedJetUncertaintyShiftProducer

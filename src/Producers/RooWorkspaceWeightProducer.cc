@@ -902,6 +902,12 @@ LegacyWeightProducer::LegacyWeightProducer() :
 {
 }
 
+void LegacyWeightProducer::Init(setting_type const& settings, metadata_type& metadata)
+{
+	RooWorkspaceWeightProducer::Init(settings, metadata);
+	m_saveAllLegacyWeightsAsOptionalOnly = settings.GetSaveAllLegacyWeightsAsOptionalOnly();
+}
+
 void LegacyWeightProducer::Produce( event_type const& event, product_type & product,
 						   setting_type const& settings, metadata_type const& metadata) const
 {
@@ -984,7 +990,10 @@ void LegacyWeightProducer::Produce( event_type const& event, product_type & prod
 						product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 					}
 				}
-				if(m_saveTriggerWeightAsOptionalOnly && weightNames.second.at(index).find("triggerEfficiency") != std::string::npos)
+				if(m_saveAllLegacyWeightsAsOptionalOnly){
+					product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
+				}
+				else if(m_saveTriggerWeightAsOptionalOnly && weightNames.second.at(index).find("triggerEfficiency") != std::string::npos)
 				{
 					product.m_optionalWeights[weightNames.second.at(index)+"_"+std::to_string(weightNames.first+1)] = m_functors.at(weightNames.first).at(index)->eval(args.data());
 				}
