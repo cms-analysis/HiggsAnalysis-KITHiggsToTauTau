@@ -227,6 +227,7 @@ class ProcessorsOrdered(dict):
 
 		self["producer:TauPolarisationTmvaReader"] = 700
 		self["HttEventClassifierTmvaReader"] = 701
+		self["producer:HttEventClassifierTmvaReader"] = 702
 
 		self["producer:JetToTauFakesProducer"] = 800
 		self["producer:LegacyJetToTauFakesProducer"] = 800.1
