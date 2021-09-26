@@ -384,21 +384,32 @@ class CutStringsDict:
 			cuts["anti_mu_tau_discriminators"] = "(byVlooseDeepTau2017v2p1VSmu_2 > 0.5)"
 
 		elif channel == "tt":
-			cuts["trigger"] = "( ((HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 40) * (pt_2 > 40)) || ((HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45)) || ((HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45) ) )"
+
+			# cuts["trigger"] = "( ((HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 40) * (pt_2 > 40)) || ((HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45)) || ((HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45) ) )"
 			if not data:
+				cuts["trigger"] = "".join(["(",
+								"((trg_doubletau_35_mediso > 0.5) * (pt_1 > 40.0) * (pt_2 > 40.0))",
+								")"])
 				tauidtriggersf_1 = "triggerWeight_cross_1"
 				tauidtriggersf_2 = "triggerWeight_cross_2"
 				cuts["trigger"] += "*" + tauidtriggersf_1 + "*" + tauidtriggersf_2
+			else:
+				cuts["trigger"] = "".join(["(",
+								"((trg_doubletau_35_tightiso_tightid > 0.5) * (pt_1 > 40.0) * (pt_2 > 40.0)) ||",
+								"((trg_doubletau_40_mediso_tightid > 0.5) * (pt_1 > 45.0) * (pt_2 > 45.0)) ||",
+								"((trg_doubletau_40_tightiso > 0.5) * (pt_1 > 45.0) * (pt_2 > 45.0)) ||",
+								"((trg_doubletau_35_mediso > 0.5) * (pt_1 > 40.0) * (pt_2 > 40.0))",
+								")"])
 			cuts["pt_1"] = "(pt_1 > 40.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["iso_1"] = "(byMediumDeepTau2017v2p1VSjet_1 > 0.5)"
 			cuts["iso_2"] = "(byMediumDeepTau2017v2p1VSjet_2 > 0.5)"
-			cuts["anti_e_tau_discriminators_1"] = "(byVVLooseDeepTau2017v2p1VSe_1 > 0.5)"
-			cuts["anti_e_tau_discriminators_2"] = "(byVVLooseDeepTau2017v2p1VSe_2 > 0.5)"
-			cuts["anti_mu_tau_discriminators_1"] = "(byVLooseDeepTau2017v2p1VSmu_1 > 0.5)"
-			cuts["anti_mu_tau_discriminators_2"] = "(byVLooseDeepTau2017v2p1VSmu_2 > 0.5)"
+			cuts["anti_e_tau_discriminators"] = "(byVVLooseDeepTau2017v2p1VSe_1 > 0.5)"
+			cuts["anti_e_tau_discriminators"] += "*(byVVLooseDeepTau2017v2p1VSe_2 > 0.5)"
+			cuts["anti_mu_tau_discriminators"] = "(byVLooseDeepTau2017v2p1VSmu_1 > 0.5)"
+			cuts["anti_mu_tau_discriminators"] += "*(byVLooseDeepTau2017v2p1VSmu_2 > 0.5)"
 
 		elif channel == "mm":
 			cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))"
@@ -1057,7 +1068,7 @@ class CutStringsDict:
 			cuts = CutStringsDict.lfv2017legacy(channel, cut_type, **kwargs)
 
 		elif cut_type=="baseline2017legacy":
-                        cuts = CutStringsDict.baseline2017legacy(channel, cut_type, **kwargs)
+			cuts = CutStringsDict.baseline2017legacy(channel, cut_type, **kwargs)
 
 		else:
 			log.fatal("No cut dictionary implemented for \"%s\"!" % cut_type)

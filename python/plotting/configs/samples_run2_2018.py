@@ -30,14 +30,13 @@ class Samples(samples.Samples):
 	data_format = "MINIAOD"
 	mc_campaign = "RunIIAutumn18MiniAOD"
 
-	# For 2017 v2 MC samples, the npartons=4 part is removedfor now since the skimming is not completed, and also the highmass part in your return value is removed since we don't have it yet.
 	def ztt_stitchingweight(self):
 		highmass = "((genbosonmass >= 150.0 && (npartons == 0 || npartons >= 5))*1.25469132e-3) + (((genbosonmass >= 150.0) && (npartons == 1))*1.17290378e-3) + (((genbosonmass >= 150.0) && (npartons == 2))*1.17845742e-3) + (((genbosonmass >= 150.0) && (npartons == 3))*1.18139540e-3)+((genbosonmass >= 150.0 && npartons == 4)*1.15891212e-3)"
 
 		if self.legacy:
-			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.21386672e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.70966124e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.21803680e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.41876778e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.21386672e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
+			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.06541688e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.16967563e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(1.32469972e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.63783738e-05)) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.37452152e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
 		else:
-			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.36539901e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.11088685e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.30871136e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.45336607e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.36539901e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
+			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.36539901e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.11088685e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.30871136e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.45336607e-05)) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.36539901e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
 
 		lowmass = "((genbosonmass < 50.0)*numberGeneratedEventsWeight*crossSectionPerEventWeight) +"
 		normalization = "/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
@@ -48,7 +47,7 @@ class Samples(samples.Samples):
 
 	def zll_stitchingweight(self):
 		if self.legacy:
-			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.21386672e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.70966124e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.21803680e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.41876778e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.21386672e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
+			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.06541688e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.16967563e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(1.32469972e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.63783738e-05)) + ((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.37452152e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
 		else:
 			mediummass = "((genbosonmass >= 50.0 && (npartons == 0 || npartons >= 5))*(6.36539901e-05)) + ((genbosonmass >= 50.0 && npartons == 1)*(1.11088685e-05)) + ((genbosonmass >= 50.0 && npartons == 2)*(2.30871136e-05)) + ((genbosonmass >= 50.0 && npartons == 3)*(1.45336607e-05)) +((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(6.36539901e-05))" #+((genbosonmass >= 50.0 && genbosonmass < 150.0 && npartons == 4)*(1.17409282e-05))"
 
@@ -60,7 +59,7 @@ class Samples(samples.Samples):
 	def wj_stitchingweight(self, use_ext_sample=True):
 		# return "(((npartons == 0 || npartons >= 5)*(1.37088105e-03)) + ((npartons == 1)*(1.54354730e-04)) + ((npartons == 2)*(3.62872916e-04)) + ((npartons == 3)*(5.61528581e-05)) + ((npartons == 4)*(5.36308423e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		if self.legacy:
-			return "(((npartons == 0 || npartons >= 5)*(1.37088105e-03)) + ((npartons == 1)*(1.52257926e-04)) + ((npartons == 2)*(3.62872916e-04)) + ((npartons == 3)*(5.61528581e-05)) + ((npartons == 4)*(5.46975115e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
+			return "(((npartons == 0 || npartons >= 5)*(1.20445099e-03)) + ((npartons == 1)*(3.02742512e-04)) + ((npartons == 2)*(3.50068766e-04)) + ((npartons == 3)*(7.45809024e-05)) + ((npartons == 4)*(5.96329744e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
 		else:
 			if use_ext_sample:
 				return "(((npartons == 0 || npartons >= 5)*(8.602609716e-04)) + ((npartons == 1)*(1.446850624e-04)) + ((npartons == 2)*(3.219452396e-04)) + ((npartons == 3)*(5.482001534e-05)) + ((npartons == 4)*(5.241373841e-05)))/(numberGeneratedEventsWeight*crossSectionPerEventWeight*sampleStitchingWeight)"
@@ -2797,6 +2796,7 @@ class Samples(samples.Samples):
 
 	def ff(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fake_factor_name_1="fakefactorWeight_comb_inclusive_1", fake_factor_name_2="fakefactorWeight_comb_inclusive_2", fakefactor_method=True, **kwargs):
 
+		cpfinalstate = kwargs.get("cpfinalstate", None)
 		data_weight, mc_weight = self.projection(kwargs)
 		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
 		cut_type_emb = cut_type + "_emb" if self.embedding else cut_type
@@ -2828,16 +2828,37 @@ class Samples(samples.Samples):
 				ff_iso_weight_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5))"
 
 		if channel == "tt":
-			exclude_cuts_ff += ["iso_1", "iso_2"]
-			ff_weight_1 = "(" + (proxy_fakefactor_weight_1 if proxy_fakefactors else fake_factor_name_1) + ")" #factor 1/2 for tt already aplied in producer
-			ff_iso_weight_1 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2>0.5))"
-			ff_weight_2 = "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
-			ff_iso_weight_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1>0.5))"
-			sub_channels = ["tt_1", "tt_2"]
+			if self.legacy:
+				if cpfinalstate:
+					ff_weight_1 = "(" + (proxy_fakefactor_weight_1 if proxy_fakefactors else fake_factor_name_1) + ")" #factor 1/2 for tt already aplied in producer
+					ff_iso_weight_1 = "((byVVVLooseDeepTau2017v2p1VSjet_1>0.5)*(byMediumDeepTau2017v2p1VSjet_1<0.5))"
+					ff_weight_2 = "(1.0)"
+					ff_iso_weight_2 = "(1.0)"
+				else:
+					ff_weight_1 = "(" + (proxy_fakefactor_weight_1 if proxy_fakefactors else fake_factor_name_1) + ")" #factor 1/2 for tt already aplied in producer
+					ff_iso_weight_1 = "((byVVVLooseDeepTau2017v2p1VSjet_1>0.5)*(byMediumDeepTau2017v2p1VSjet_1<0.5)*(byMediumDeepTau2017v2p1VSjet_2>0.5))"
+					ff_weight_2 = "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
+					ff_iso_weight_2 = "((byVVVLooseDeepTau2017v2p1VSjet_2>0.5)*(byMediumDeepTau2017v2p1VSjet_2<0.5)*(byMediumDeepTau2017v2p1VSjet_1>0.5))"
+			else:
+				ff_weight_1 = "(" + (proxy_fakefactor_weight_1 if proxy_fakefactors else fake_factor_name_1) + ")" #factor 1/2 for tt already aplied in producer
+				ff_iso_weight_1 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2>0.5))"
+				ff_weight_2 = "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
+				ff_iso_weight_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1>0.5))"
+
+			print "cpfinalstate: ", cpfinalstate
+			if cpfinalstate:
+				exclude_cuts_ff += ["iso_1"]
+				sub_channels = ["tt_1"]
+			else:
+				exclude_cuts_ff += ["iso_1", "iso_2"]
+				sub_channels = ["tt_1", "tt_2"]
 
 		if channel == "tt":
 			weight_ff = weight + "*(" + ff_weight_1 + "+" + ff_weight_2 + ")" # not used, overwritten in the subchannel loop
-			weight_tau_id = "((gen_match_1 < 6) && (gen_match_2 < 6))"
+			if cpfinalstate:
+				weight_tau_id = "(gen_match_1 < 6)"
+			else:
+				weight_tau_id = "((gen_match_1 < 6) && (gen_match_2 < 6))"
 
 		elif channel in ["mt", "et"]:
 			weight_ff = weight + "*(" + ff_weight_2 + ")"
@@ -2940,8 +2961,12 @@ class Samples(samples.Samples):
 				config.setdefault("analysis_modules", []).append("AddHistograms")
 
 			if channel == "tt":
-				config.setdefault("add_nicks", []).append("noplot_jetFakes_raw_1 noplot_jetFakes_raw_2 noplot_ff_realtaus_subtract_1 noplot_ff_realtaus_subtract_2")
-				config.setdefault("add_scale_factors", []).append("1. 1. -1. -1.")
+				if cpfinalstate:
+					config.setdefault("add_nicks", []).append("noplot_jetFakes_raw_1 noplot_ff_realtaus_subtract_1")
+					config.setdefault("add_scale_factors", []).append("1. -1.")
+				else:
+					config.setdefault("add_nicks", []).append("noplot_jetFakes_raw_1 noplot_jetFakes_raw_2 noplot_ff_realtaus_subtract_1 noplot_ff_realtaus_subtract_2")
+					config.setdefault("add_scale_factors", []).append("1. 1. -1. -1.")
 			elif channel in ["mt","et"]:
 				config.setdefault("add_nicks", []).append("noplot_jetFakes_raw noplot_ff_realtaus_subtract")
 				config.setdefault("add_scale_factors", []).append("1. -1.")

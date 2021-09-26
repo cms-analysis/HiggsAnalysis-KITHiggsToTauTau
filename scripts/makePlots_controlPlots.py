@@ -513,6 +513,7 @@ if __name__ == "__main__":
 						useRelaxedIsolationForQCD = args.use_relaxed_isolation_for_QCD,
 						nick_suffix = (channel+str(index_channel) if args.channel_comparison else ""),
 						asimov_nicks = asimov_nicks,
+						cpfinalstate = args.cptautau,
 						proxy_fakefactors = args.use_proxy_fakefactors
 				)
 				if (args.channel_comparison):
