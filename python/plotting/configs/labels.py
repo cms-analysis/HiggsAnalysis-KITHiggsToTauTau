@@ -72,6 +72,7 @@ class LabelsDict(labels.LabelsDict):
 			self.labels_dict["hww125"] = "H(125) #rightarrow WW"
 			self.labels_dict["ff"] = "jet #rightarrow #tau_{h}"
 			self.labels_dict["jetFakes"] = "jetFakes"
+			self.labels_dict["wfakes"] = "W fakes"
 			self.labels_dict["ff_qcd_frac"] = "QCD frac."
 			self.labels_dict["ff_w_frac"] = "W frac."
 			self.labels_dict["ff_ttbar_frac"] = "t#bar{t} frac."

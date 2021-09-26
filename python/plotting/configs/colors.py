@@ -293,6 +293,7 @@ class ColorsDict(colors.ColorsDict):
 			self.colors_dict["ff"+nick_suffix] = "#9ACD32"
 			self.colors_dict["jetFakes"+nick_suffix] = "#9ACD32"
 			self.colors_dict["jetfakes"+nick_suffix] = "#9ACD32"
+			self.colors_dict["wfakes"+nick_suffix] = "#32CD87"
 			self.colors_dict["httcpeven"+nick_suffix] = self.colors_dict["rwth_blau_050"]
 			self.colors_dict["httcpmix"+nick_suffix] = self.colors_dict["rwth_gruen_100"]
 			self.colors_dict["httcpodd"+nick_suffix] = self.colors_dict["rwth_rot_100"]

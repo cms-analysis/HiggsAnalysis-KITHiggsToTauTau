@@ -2954,6 +2954,184 @@ class Samples(samples.Samples):
 		Samples._add_plot(config, "bkg", "HIST", "F", "ff", nick_suffix)
 		return config
 
+	def wfakes(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fake_factor_name_1="fakefactorWeight_comb_inclusive_1", fake_factor_name_2="fakefactorWeight_comb_inclusive_2", fakefactor_method=True, **kwargs):
+
+		cpfinalstate = kwargs.get("cpfinalstate", None)
+		data_weight, mc_weight = self.projection(kwargs)
+		zmm_cr_factor = kwargs.get("zmm_cr_factor", "(1.0)")
+		cut_type_emb = cut_type + "_emb" if self.embedding else cut_type
+
+		if exclude_cuts is None:
+			exclude_cuts = []
+		exclude_cuts_ff = []
+
+		proxy_fakefactors = kwargs.get("proxy_fakefactors", False)
+
+		if proxy_fakefactors:
+			if channel in ["mt", "et"]:
+				proxy_fakefactor_weight_2 = "fakefactor_"+channel+"_HASH_NAME.GetScaleFactor(0, pt_1, pt_2, iso_1, decayMode_1, decayMode_2, m_vis, mt_1, njetspt30)"
+			if channel == "tt":
+				proxy_fakefactor_weight_1 = "fakefactor_"+channel+"_HASH_NAME.GetScaleFactor(0, pt_1, pt_2, iso_1, decayMode_1, decayMode_2, m_vis, mt_1, njetspt30)"
+				proxy_fakefactor_weight_2 = "fakefactor_"+channel+"_HASH_NAME.GetScaleFactor(1, pt_1, pt_2, iso_1, decayMode_1, decayMode_2, m_vis, mt_1, njetspt30)"
+			# proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/FakeFactorProxy.h>\nFakeFactorProxy fakefactor_"+channel+"_HASH_NAME(\"$CMSSW_BASE/src/plots/FF_fractions/FF_fractions_workspace_decayMode_pt_njets.root\", \"decayMode,njets,pt\", \""+channel+"\");")
+			proxy_prefix = os.path.expandvars("#include <HiggsAnalysis/KITHiggsToTauTau/interface/Utility/FakeFactorProxy.h>\nFakeFactorProxy fakefactor_"+channel+"_HASH_NAME(\"$CMSSW_BASE/src/plots/FF_fractions/FF_fractions_workspace_m_vis_njetsexlude_os_exlude_blind.root\", \"njets,m_vis\", \""+channel+"\");")
+
+		sub_channels = [channel] # needed for splitting of taus in tt, does nothing in all other channels
+
+		if channel in ["mt", "et"]:
+			exclude_cuts_ff += ["iso_2"]
+			# ff_weight_2 = "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
+			ff_weight_2 = "(1.0)" if "iso_2" in exclude_cuts else "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else "(isnan("+fake_factor_name_2+")?0:"+fake_factor_name_2) + "))"
+			if self.legacy:
+				ff_iso_weight_2 = "((byVVVLooseDeepTau2017v2p1VSjet_2>0.5)*(byMediumDeepTau2017v2p1VSjet_2<0.5))"
+			else:
+				ff_iso_weight_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5))"
+
+		if channel == "tt":
+			if self.legacy:
+				if cpfinalstate:
+					ff_weight_1 = "(1.0)"
+					ff_iso_weight_1 = "(1.0)"
+					ff_weight_2 = "(" + (proxy_fakefactor_weight_1 if proxy_fakefactors else fake_factor_name_1) + ")" #factor 1/2 for tt already aplied in producer
+					ff_iso_weight_2 = "((gen_match_1!=6) && (gen_match_2==6))"
+				else:
+					ff_weight_1 = "(" + (proxy_fakefactor_weight_1 if proxy_fakefactors else fake_factor_name_1) + ")" #factor 1/2 for tt already aplied in producer
+					ff_iso_weight_1 = "((byVVVLooseDeepTau2017v2p1VSjet_1>0.5)*(byMediumDeepTau2017v2p1VSjet_1<0.5)*(byMediumDeepTau2017v2p1VSjet_2>0.5))"
+					ff_weight_2 = "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
+					ff_iso_weight_2 = "((byVVVLooseDeepTau2017v2p1VSjet_2>0.5)*(byMediumDeepTau2017v2p1VSjet_2<0.5)*(byMediumDeepTau2017v2p1VSjet_1>0.5))"
+			else:
+				ff_weight_1 = "(" + (proxy_fakefactor_weight_1 if proxy_fakefactors else fake_factor_name_1) + ")" #factor 1/2 for tt already aplied in producer
+				ff_iso_weight_1 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_1>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2>0.5))"
+				ff_weight_2 = "(" + (proxy_fakefactor_weight_2 if proxy_fakefactors else fake_factor_name_2) + ")"
+				ff_iso_weight_2 = "((byVLooseIsolationMVArun2017v2DBoldDMwLT2017_2>0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_2<0.5)*(byTightIsolationMVArun2017v2DBoldDMwLT2017_1>0.5))"
+
+			if cpfinalstate:
+				# exclude_cuts_ff += ["iso_1"]
+				sub_channels = ["tt_2"]
+			else:
+				# exclude_cuts_ff += ["iso_1", "iso_2"]
+				sub_channels = ["tt_1", "tt_2"]
+
+		if channel == "tt":
+			weight_ff = weight + "*(" + ff_weight_1 + "+" + ff_weight_2 + ")" # not used, overwritten in the subchannel loop
+			if cpfinalstate:
+				# weight_tau_id = "((gen_match_1!=6) && (gen_match_2==6))"
+				weight_tau_id = "(1.0)"
+			else:
+				weight_tau_id = "((gen_match_1 < 6) && (gen_match_2 < 6))"
+
+		elif channel in ["mt", "et"]:
+			weight_ff = weight + "*(" + ff_weight_2 + ")"
+			weight_tau_id = "(gen_match_2 < 6)"
+
+
+		if proxy_fakefactors:
+			add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix, proxy_prefix=proxy_prefix)
+		else:
+			add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
+
+		if channel in ["mt", "et", "tt"]:
+			for sub_channel in sub_channels:
+				weight_ff = weight + "*(" + ff_weight_1 + ")" if sub_channel == "tt_1" else weight + "*(" + ff_weight_2 + ")"
+				weight_ff_iso = ff_iso_weight_1 if sub_channel == "tt_1" else ff_iso_weight_2
+
+				add_input(
+					input_file=self.files_ztt(channel, embedding=self.embedding),
+					weight=mc_weight+"*"+self.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb)+"*"+self.decay_mode_reweight(channel, cut_type_emb),
+					scale_factor = 1.0 if self.embedding else lumi,
+					nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+				)
+				"""
+				add_input(
+					input_file=self.files_zll(channel),
+					weight=self.get_weights_zll(channel=channel,cut_type=cut_type,weight=weight_ff)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*zPtReweightWeight*(gen_match_2 < 6)",
+					nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+				)"""
+
+				add_input(
+					input_file=self.files_zll(channel),
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*(zPtReweightWeight)*"+self.zll_stitchingweight()+"*"+Samples.zl_genmatch(channel)+"*"+self._cut_string(channel, exclude_cuts= exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.zll_zl_shape_weight(channel, cut_type)+"*"+zmm_cr_factor+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type),
+					nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+					)
+				add_input(
+					input_file=self.files_ttj(channel),
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+					nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+				)
+				if kwargs.get("inclusive_diboson_samples", False):
+					add_input(
+							input_file=self.files_ww(channel),
+							weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+							nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+					)
+					add_input(
+							input_file=self.files_wz(channel),
+							weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+							nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+					)
+					add_input(
+							input_file=self.files_zz(channel),
+							weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+							nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+					)
+				else:
+					add_input(
+						input_file=self.files_wwtolnuqq(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.wwtolnuqq_stitchingweight(),
+						nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+					)
+					add_input(
+						input_file=self.files_wwto4q(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+						nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+					)
+					add_input(
+						input_file=self.files_wzto1l3nu(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+						nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+					)
+					add_input(
+						input_file=self.files_wzto3lnu(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+						nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+					)
+					add_input(
+						input_file=self.files_zzto2l2nu(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+						nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+					)
+					add_input(
+						input_file=self.files_zzto4l(channel),
+						weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self.embedding_ttbarveto_weight(channel)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type)+"*"+self.zzto4l_stitchingweight(),
+						nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+					)
+				add_input(
+					input_file=self.files_singletop(channel),
+					weight=mc_weight+"*eventWeight*"+weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type),
+					nick="noplot_wfakes_realtaus" + sub_channel.replace(channel,"")
+				)
+			if not "AddHistograms" in config.get("analysis_modules", []):
+				config.setdefault("analysis_modules", []).append("AddHistograms")
+
+			if channel == "tt":
+				if cpfinalstate:
+					config.setdefault("add_nicks", []).append("noplot_wfakes_realtaus_2")
+					config.setdefault("add_scale_factors", []).append("1.")
+				else:
+					config.setdefault("add_nicks", []).append("noplot_wfakes_realtaus_1 noplot_wfakes_realtaus_2")
+					config.setdefault("add_scale_factors", []).append("1. 1.")
+			elif channel in ["mt","et"]:
+				config.setdefault("add_nicks", []).append("noplot_wfakes_realtaus")
+				config.setdefault("add_scale_factors", []).append("1.")
+
+			config.setdefault("add_result_nicks", []).append("wfakes")
+
+		else:
+			log.error("Sample config (W Fakes) currently not implemented for channel \"%s\"!" % channel)
+
+		Samples._add_plot(config, "bkg", "HIST", "F", "wfakes", nick_suffix)
+		return config
+
 	def wh(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
 		if exclude_cuts is None:
 			exclude_cuts = []
