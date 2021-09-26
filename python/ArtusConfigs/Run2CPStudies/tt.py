@@ -310,30 +310,28 @@ class tt_ArtusConfig(dict):
 		self["EventWeight"] = "eventWeight"
 
 		if isLegacy:
+			if re.search("(Run2016|Summer16|Embedding2016)", nickname):
+				self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2016_IC.root"
+			elif re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
+				self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017_IC.root"
+			elif re.search("(Run2018|Autumn18|Embedding2018)", nickname):
+				self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2018_IC.root"
+
+			self["SaveAllLegacyWeightsAsOptionalOnly"] = True
+			# self["SaveLegacyWeightAsOptionalOnly"] = True
+
 			if isEmbedded:
-				if re.search("(Run2016|Summer16|Embedding2016)", nickname):
-					self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2016_IC.root"
-				if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
-					self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017_IC.root"
-				if re.search("(Run2018|Autumn18|Embedding2018)", nickname):
-					self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2018_IC.root"
-
-				self["SaveLegacyWeightAsOptionalOnly"] = True
-
 				self["LegacyWeightWorkspaceWeightNames"] = [
-					"0:idweight",
-					"1:idweight",
-					"0:triggerEfficiency_crosstrigger_MCEmb",
-					"0:triggerEfficiency_crosstrigger_data",
-					"1:triggerEfficiency_crosstrigger_MCEmb",
-					"1:triggerEfficiency_crosstrigger_data",
-					"0:embeddingSelection_idWeight",
-					"1:embeddingSelection_idWeight",
-					"0:embeddingSelection_triggerWeight",
-					"0:ScaleFactor_deepTauVsMuVLoose",
-					"1:ScaleFactor_deepTauVsMuVLoose",
-					"0:ScaleFactor_deepTauVsEleVVLoose",
-					"1:ScaleFactor_deepTauVsEleVVLoose",
+					"0:weightTauId",
+					"1:weightTauId",
+					"0:weightTriggerEfficiency_crosstrigger_MCEmb",
+					"0:weightTriggerEfficiency_crosstrigger_data",
+					"1:weightTriggerEfficiency_crosstrigger_MCEmb",
+					"1:weightTriggerEfficiency_crosstrigger_data",
+					"0:weightScaleFactor_deepTauVsMuVLoose",
+					"1:weightScaleFactor_deepTauVsMuVLoose",
+					"0:weightScaleFactor_deepTauVsEleVVLoose",
+					"1:weightScaleFactor_deepTauVsEleVVLoose",
 				]
 				self["LegacyWeightWorkspaceObjectNames"] = [
 					"0:t_deeptauid_dm_embed_medium",
@@ -342,9 +340,6 @@ class tt_ArtusConfig(dict):
 					"0:t_trg_mediumDeepTau_ditau_data",
 					"1:t_trg_mediumDeepTau_ditau_embed",
 					"1:t_trg_mediumDeepTau_ditau_data",
-					"0:m_sel_id_ic_ratio",
-					"1:m_sel_id_ic_ratio",
-					"0:m_sel_trg_ic_ratio",
 					"0:t_id_vs_mu_eta_vloose",
 					"1:t_id_vs_mu_eta_vloose",
 					"0:t_id_vs_e_eta_vvloose",
@@ -357,36 +352,52 @@ class tt_ArtusConfig(dict):
 					"0:t_pt,t_eta,t_phi,t_dm",
 					"1:t_pt,t_eta,t_phi,t_dm",
 					"1:t_pt,t_eta,t_phi,t_dm",
-					"0:gt_pt,gt_eta",
-					"1:gt_pt,gt_eta",
-					"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
 					"0:t_eta",
 					"1:t_eta",
 					"0:t_eta",
 					"1:t_eta",
 				]
+				# Add RooWorkspace function for systematics. Triples previous lists and appends nothing (for the nominmal weights), "up" and "down" to each third element
+				self["LegacyWeightWorkspaceWeightNames"] += [weight+sys for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceWeightNames"]]
+				self["LegacyWeightWorkspaceObjectNames"] += [weight+sys for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceObjectNames"]]
+				self["LegacyWeightWorkspaceObjectArguments"] += [weight for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceObjectArguments"]]
+
+				self["LegacyWeightWorkspaceWeightNames"] += [
+					"0:weightEmbeddingSelection_id",
+					"1:weightEmbeddingSelection_id",
+					"0:weightEmbeddingSelection_trigger",
+				]
+				self["LegacyWeightWorkspaceObjectNames"] += [
+					"0:m_sel_id_ic_ratio",
+					"1:m_sel_id_ic_ratio",
+					"0:m_sel_trg_ic_ratio",
+				]
+				self["LegacyWeightWorkspaceObjectArguments"] += [
+					"0:gt_pt,gt_eta",
+					"1:gt_pt,gt_eta",
+					"0:gt1_pt,gt1_eta,gt2_pt,gt2_eta",
+				]
+
 			else:
-				self["SaveLegacyWeightAsOptionalOnly"] = True
-				self["LegacyWeightWorkspace"] = "$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/data/root/scaleFactorWeights/htt_scalefactors_legacy_2017_IC.root"
 				self["LegacyWeightWorkspaceWeightNames"] = [
-					"0:idweight",
-					"1:idweight",
-					"0:triggerEfficiency_crosstrigger_MCEmb",
-					"0:triggerEfficiency_crosstrigger_data",
-					"1:triggerEfficiency_crosstrigger_MCEmb",
-					"1:triggerEfficiency_crosstrigger_data",
-					"0:ScaleFactor_deepTauVsMuVLoose",
-					"1:ScaleFactor_deepTauVsMuVLoose",
-					"0:ScaleFactor_deepTauVsEleVVLoose",
-					"1:ScaleFactor_deepTauVsEleVVLoose",
+					"0:weightTauId",
+					"1:weightTauId",
+					"0:weightTriggerEfficiency_crosstrigger_MCEmb",
+					"0:weightTriggerEfficiency_crosstrigger_data",
+					"1:weightTriggerEfficiency_crosstrigger_MCEmb",
+					"1:weightTriggerEfficiency_crosstrigger_data",
+					"0:weightScaleFactor_deepTauVsMuVLoose",
+					"1:weightScaleFactor_deepTauVsMuVLoose",
+					"0:weightScaleFactor_deepTauVsEleVVLoose",
+					"1:weightScaleFactor_deepTauVsEleVVLoose",
 				]
 				self["LegacyWeightWorkspaceObjectNames"] = [
 					"0:t_deeptauid_dm_medium",
 					"1:t_deeptauid_dm_medium",
-					"0:t_trg_pog_deeptau_medium_mutau_mc",
-					"0:t_trg_pog_deeptau_medium_mutau_data",
-					"1:t_trg_pog_deeptau_medium_mutau_mc",
-					"1:t_trg_pog_deeptau_medium_mutau_data",
+					"0:t_trg_pog_deeptau_medium_ditau_mc",
+					"0:t_trg_pog_deeptau_medium_ditau_data",
+					"1:t_trg_pog_deeptau_medium_ditau_mc",
+					"1:t_trg_pog_deeptau_medium_ditau_data",
 					"0:t_id_vs_mu_eta_vloose",
 					"1:t_id_vs_mu_eta_vloose",
 					"0:t_id_vs_e_eta_vvloose",
@@ -404,10 +415,16 @@ class tt_ArtusConfig(dict):
 					"0:t_eta",
 					"1:t_eta",
 				]
-				if re.search("(DY.?JetsToLL).*(?=(Summer17|Fall17))", nickname):
+				# Add RooWorkspace function for systematics. Triples previous lists and appends nothing (for the nominmal weights), "up" and "down" to each third element
+				self["LegacyWeightWorkspaceWeightNames"] += [weight+sys for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceWeightNames"]]
+				self["LegacyWeightWorkspaceObjectNames"] += [weight+sys for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceObjectNames"]]
+				self["LegacyWeightWorkspaceObjectArguments"] += [weight for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceObjectArguments"]]
+
+				if re.search("((DY.?JetsToLL)|(HTo.*TauTau|H2JetsToTauTau|Higgs))", nickname):
 					self["LegacyWeightWorkspaceWeightNames"].append("0:zPtReweightWeight")
 					self["LegacyWeightWorkspaceObjectNames"].append("0:zptmass_weight_nom")
 					self["LegacyWeightWorkspaceObjectArguments"].append("0:z_gen_mass,z_gen_pt")
+
 		else:
 			if re.search("(Run2017|Summer17|Fall17|Embedding2017)", nickname):
 				if isEmbedded:
