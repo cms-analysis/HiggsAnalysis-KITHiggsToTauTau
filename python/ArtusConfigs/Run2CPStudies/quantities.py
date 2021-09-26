@@ -1829,10 +1829,10 @@ class Quantities(Run2Quantities):
 					"ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm1_up",
 					"ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm2_down",
 					"ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm2_up",
-					"ffWeight_medium_dmbins_qcd_met_down",
-					"ffWeight_medium_dmbins_qcd_met_up",
-					"ffWeight_medium_dmbins_qcd_syst_down",
-					"ffWeight_medium_dmbins_qcd_syst_up",
+					"ffWeight_medium_mvadmbins_qcd_met_down",
+					"ffWeight_medium_mvadmbins_qcd_met_up",
+					"ffWeight_medium_mvadmbins_qcd_syst_down",
+					"ffWeight_medium_mvadmbins_qcd_syst_up",
 				]
 			return s
 		else:

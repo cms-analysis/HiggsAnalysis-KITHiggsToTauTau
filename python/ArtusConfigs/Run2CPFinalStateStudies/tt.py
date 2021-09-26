@@ -188,11 +188,11 @@ class tt_ArtusConfig(ttbaseconfig.tt_ArtusConfig):
 				"ff_tt_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm2_down:pt,mvadm,ipsig,njets,os,met_var_qcd,dR",
 				"ff_tt_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm2_up:pt,mvadm,ipsig,njets,os,met_var_qcd,dR",
 
-				"ff_tt_medium_dmbins_qcd_met_down:pt,mvadm,ipsig,njets,os,met_var_qcd,dR",
-				"ff_tt_medium_dmbins_qcd_met_up:pt,mvadm,ipsig,njets,os,met_var_qcd,dR",
+				"ff_tt_medium_mvadmbins_qcd_met_down:pt,mvadm,ipsig,njets,os,met_var_qcd,dR",
+				"ff_tt_medium_mvadmbins_qcd_met_up:pt,mvadm,ipsig,njets,os,met_var_qcd,dR",
 
-				"ff_tt_medium_dmbins_qcd_syst_down:pt,mvadm,ipsig,njets,os,met_var_qcd,dR",
-				"ff_tt_medium_dmbins_qcd_syst_up:pt,mvadm,ipsig,njets,os,met_var_qcd,dR",
+				"ff_tt_medium_mvadmbins_qcd_syst_down:pt,mvadm,ipsig,njets,os,met_var_qcd,dR",
+				"ff_tt_medium_mvadmbins_qcd_syst_up:pt,mvadm,ipsig,njets,os,met_var_qcd,dR",
 			]
 
 			if re.search("Run2016|Summer16|Embedding2016", nickname):
