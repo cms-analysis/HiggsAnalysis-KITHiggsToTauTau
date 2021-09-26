@@ -71,21 +71,14 @@ class TauES(dict):
 			if re.search("(Summer17|Fall17)",nickname):
 				# self["TauIDEfficiencyWeightTight"] = 0.89 # +-3%
 				# self["TauIDEfficiencyWeightVLoose"] = 0.88 # +-3%
-				self["TauTrackReconstructionEfficiencyWeightOneProng"] = 1.0
-				self["TauTrackReconstructionEfficiencyWeightOneProngPiZeros"] = 1.0
-				self["TauTrackReconstructionEfficiencyWeightThreeProng"] = 1.0
-				self["TauTrackReconstructionEfficiencyWeightThreeProngPiZeros"] = 1.0
-			if re.search("(Embedding2017)",nickname):
-				# if legacy:
-				# 	self["TauIDEfficiencyWeightTight"] = 0.99
-				# else:
-				# 	self["TauIDEfficiencyWeightTight"] = 0.97
+				pass # TODO clean this up
+
+		if re.search("(Embedding201(6|7|8))",nickname):
+			if legacy: # default 1.0 for MC and data
 				self["TauTrackReconstructionEfficiencyWeightOneProng"] =  0.975 # https://hypernews.cern.ch/HyperNews/CMS/get/AUX/2018/07/05/17:57:09-21650-janek_bechtel_emb_2018_07_05.pdf
 				self["TauTrackReconstructionEfficiencyWeightOneProngPiZeros"] = 0.975*1.051
 				self["TauTrackReconstructionEfficiencyWeightThreeProng"] = 0.975*0.975*0.975
 				self["TauTrackReconstructionEfficiencyWeightThreeProngPiZeros"] = 0.975*0.975*0.975*1.051
-
-
 
 		if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
 			self["TauElectronFakeEnergyCorrectionOneProng"] = 1.0
