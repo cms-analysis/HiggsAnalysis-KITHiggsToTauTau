@@ -519,9 +519,9 @@ class tt_ArtusConfig(dict):
 		self["InvalidateNonMatchingMuons"] = False
 		self["InvalidateNonMatchingTaus"] = True
 		self["InvalidateNonMatchingJets"] = False
-		self["UseUWGenMatching"] = "true"                   #TODO change this to boolean? or change the rest to string?
+		self["UseUWGenMatching"] = "true"
 		self["DirectIso"] = True
-		self["TopPtReweightingStrategy"] = "Run2" #FIXME this looks more right
+		self["TopPtReweightingStrategy"] = "Run2"
 
 		self["OSChargeLeptons"] = True
 		self["SvfitKappaParameter"] = 5.0

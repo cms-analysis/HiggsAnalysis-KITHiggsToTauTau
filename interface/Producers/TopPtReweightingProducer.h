@@ -29,4 +29,5 @@ private:
 	bool m_isTTbar;
 	bool m_oldStrategy = false; // old == true: Run1, new == false: Run2
 	float ComputeWeight(float top1Pt, float top2Pt, float parameter_a, float parameter_b) const;
+	float ComputeWeight(float top1Pt, float top2Pt, float parameter_a, float parameter_b, float parameter_c) const;
 };

@@ -39,6 +39,8 @@ void TopPtReweightingProducer::Produce( event_type const& event,
 		product.m_optionalWeights["topPtReweightWeightRun1"] = ComputeWeight(top1Pt, top2Pt, 0.156, -0.00137);
 		// Run 2 specifications for a and b
 		product.m_optionalWeights["topPtReweightWeightRun2"] = ComputeWeight(top1Pt, top2Pt, 0.0615, -0.0005);
+		// Run 2 Legacy specifications for a, b and c. For now not used
+		// product.m_optionalWeights["topPtReweightWeightRun2Legacy"] = ComputeWeight(top1Pt, top2Pt, 0.088, -0.00087, 0.00000092);
 		product.m_optionalWeights["topPtReweightWeight"]  = m_oldStrategy ? product.m_optionalWeights["topPtReweightWeightRun1"] : product.m_optionalWeights["topPtReweightWeightRun2"];
 	}
 }
@@ -46,6 +48,13 @@ void TopPtReweightingProducer::Produce( event_type const& event,
 float TopPtReweightingProducer::ComputeWeight(float top1Pt, float top2Pt, float parameter_a, float parameter_b) const
 {
 	top1Pt = top1Pt > 400 ? 400 : top1Pt;
-	top2Pt = top2Pt > 400 ? 400 : top2Pt; 
+	top2Pt = top2Pt > 400 ? 400 : top2Pt;
 	return sqrt(exp(parameter_a + parameter_b*top1Pt)*exp(parameter_a + parameter_b*top2Pt));
+}
+
+float TopPtReweightingProducer::ComputeWeight(float top1Pt, float top2Pt, float parameter_a, float parameter_b, float parameter_c) const
+{
+	top1Pt = top1Pt > 400 ? 400 : top1Pt;
+	top2Pt = top2Pt > 400 ? 400 : top2Pt;
+	return sqrt(exp(parameter_a + parameter_b*top1Pt + parameter_c*top1Pt*top1Pt)*exp(parameter_a + parameter_b*top2Pt + parameter_c*top2Pt*top2Pt));
 }
