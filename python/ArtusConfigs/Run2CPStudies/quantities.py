@@ -89,9 +89,9 @@ class Quantities(Run2Quantities):
 			self.quantities.update(self.CPSyncQuantities(nickname))
 			self.quantities.update(self.RooWorkSpaceWeightQuantities(nickname, channel, legacy))
 			self.quantities.update(self.simpleFitQuantities(channel))
+			self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown"])
 			if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
-					self.quantities.update(["prefiringWeight","prefiringWeightUp", "prefiringWeightDown" ,"globalWeight"])
-					self.quantities.update(self.singleTauQuantities())
+				self.quantities.update(self.singleTauQuantities())
 
 			if channel == "ET":
 				if re.search("(Summer17|Fall17|Run2017|Embedding2017)", nickname):
@@ -1545,6 +1545,7 @@ class Quantities(Run2Quantities):
 			"tauSpinnerWeightSample",
 			"tauSpinnerWeightInvSample",
 			"zPtReweightWeight",
+			"topPtReweightWeight",
 		]
 		if legacy:
 			if channel == "TT":
@@ -1587,6 +1588,7 @@ class Quantities(Run2Quantities):
 		else:
 			s += [
 				"hltWeight",
+				"sampleStitchingWeight",
 				"totalTriggerWeight",
 				"triggerWeight_1",
 				"triggerWeight_2",
@@ -1594,7 +1596,6 @@ class Quantities(Run2Quantities):
 				"identificationWeight_2",
 				"tauEnergyScaleWeight",
 				"embeddingWeight",
-				"sampleStitchingWeight",
 				"antiEVLooseSFWeight_1",
 				"antiELooseSFWeight_1",
 				"antiEMediumSFWeight_1",
@@ -1615,7 +1616,6 @@ class Quantities(Run2Quantities):
 				"emuQcdOsssShapeDownWeight",
 				"emuQcdExtrapUpWeight",
 				"emuQcdExtrapDownWeight",
-				"topPtReweightWeight",
 				"topPtReweightWeightRun1",
 				"topPtReweightWeightRun2",
 				"eleTauFakeRateWeight",

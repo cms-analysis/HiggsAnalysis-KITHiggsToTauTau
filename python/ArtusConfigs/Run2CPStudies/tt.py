@@ -120,6 +120,7 @@ class tt_ArtusConfig(dict):
 				self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 				self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 				self["Processors"] += ["producer:PileUpJetIDScaleFactorWeightProducer"]
+				self["Processors"] += ["producer:TopPtReweightingProducer"]
 
 				# self["Processors"] += [
 				# 		"producer:SimpleEleTauFakeRateWeightProducer",
@@ -167,10 +168,6 @@ class tt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 
 					elif re.search("(HTo.*TauTau|H2JetsToTauTau|Higgs).*(?=(Spring16|Summer16|Summer17|Fall17|Autumn18))", nickname):
-						if re.search("Summer17|Fall17|Autumn18", nickname) == None:
-							self["Processors"] += [
-								"producer:TopPtReweightingProducer"
-							]
 						self["Processors"] += ["producer:GenSimpleFitProducer"]
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:GenMatchedTauCPProducer"]
@@ -178,8 +175,6 @@ class tt_ArtusConfig(dict):
 						#self["Processors"] += ["producer:TauPolarisationTmvaReader"]
 						#self["Processors"] += ["producer:MadGraphReweightingProducer"]
 					else:
-						if re.search("Summer17|Fall17|Autumn18", nickname) == None:
-							self["Processors"] += ["producer:TopPtReweightingProducer"]
 						#self["Processors"] += ["producer:MVATestMethodsProducer"]
 						self["Processors"] += ["producer:GenMatchedPolarisationQuantitiesProducer"]
 
@@ -420,7 +415,7 @@ class tt_ArtusConfig(dict):
 				self["LegacyWeightWorkspaceObjectNames"] += [weight+sys for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceObjectNames"]]
 				self["LegacyWeightWorkspaceObjectArguments"] += [weight for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceObjectArguments"]]
 
-				if re.search("((DY.?JetsToLL)|(HTo.*TauTau|H2JetsToTauTau|Higgs))", nickname):
+				if re.search("DY.?JetsToLL", nickname):
 					self["LegacyWeightWorkspaceWeightNames"].append("0:zPtReweightWeight")
 					self["LegacyWeightWorkspaceObjectNames"].append("0:zptmass_weight_nom")
 					self["LegacyWeightWorkspaceObjectArguments"].append("0:z_gen_mass,z_gen_pt")
