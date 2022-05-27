@@ -225,6 +225,12 @@ public:
 	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProngPiZerosShift, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionThreeProngShift, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionThreeProngPiZerosShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProngShiftUp, 0.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProngShiftDown, 0.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProngPiZerosShiftUp, 0.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionOneProngPiZerosShiftDown, 0.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionThreeProngShiftUp, 0.0);
+	IMPL_SETTING_DEFAULT(float, TauEnergyCorrectionThreeProngShiftDown, 0.0);
 	IMPL_SETTING_DEFAULT(float, TauIDEfficiencyWeightTight, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauIDEfficiencyWeightVLoose, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauTrackReconstructionEfficiencyWeightOneProng, 1.0);
@@ -238,6 +244,10 @@ public:
 	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionOneProngShift, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionOneProngPiZerosShift, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionThreeProngShift, 1.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionBarrel, 0.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionEndCap, 0.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionBarrelShift, 0.0);
+	IMPL_SETTING_DEFAULT(float, TauElectronFakeEnergyCorrectionEndCapShift, 0.0);
 	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrectionOneProng, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrectionOneProngPiZeros, 1.0);
 	IMPL_SETTING_DEFAULT(float, TauMuonFakeEnergyCorrectionThreeProng, 1.0);

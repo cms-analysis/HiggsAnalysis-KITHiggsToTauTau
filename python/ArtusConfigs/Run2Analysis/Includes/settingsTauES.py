@@ -59,7 +59,7 @@ class TauES(dict):
 					# self["TauMuonFakeEnergyCorrectionOneProng"] = 0.999 #+-3%
 					# self["TauMuonFakeEnergyCorrectionOneProngPiZeros"] = 1.012 #+-0.3%
 					# self["TauMuonFakeEnergyCorrectionThreeProng"] = 1.0
-		elif re.search("(Run2018|Autumn18|Embedding2018)", nickname):
+		elif re.search("(Run2018|Autumn18)", nickname):
 			if legacy:
 				self["TauEnergyCorrection"] = "legacy2018"
 			else:
@@ -67,18 +67,74 @@ class TauES(dict):
 		else:
 			self["TauEnergyCorrection"] = "none"
 
-		if re.search("(Summer17|Fall17|Embedding2017)",nickname):
-			if re.search("(Summer17|Fall17)",nickname):
-				# self["TauIDEfficiencyWeightTight"] = 0.89 # +-3%
-				# self["TauIDEfficiencyWeightVLoose"] = 0.88 # +-3%
-				pass # TODO clean this up
+		# if re.search("(Summer17|Fall17|Embedding2017)",nickname):
+		# 	if re.search("(Summer17|Fall17)",nickname):
+		# 		# self["TauIDEfficiencyWeightTight"] = 0.89 # +-3%
+		# 		# self["TauIDEfficiencyWeightVLoose"] = 0.88 # +-3%
+		# 		pass # TODO clean this up
 
 		if re.search("(Embedding201(6|7|8))",nickname):
-			if legacy: # default 1.0 for MC and data
-				self["TauTrackReconstructionEfficiencyWeightOneProng"] =  0.975 # https://hypernews.cern.ch/HyperNews/CMS/get/AUX/2018/07/05/17:57:09-21650-janek_bechtel_emb_2018_07_05.pdf
-				self["TauTrackReconstructionEfficiencyWeightOneProngPiZeros"] = 0.975*1.051
-				self["TauTrackReconstructionEfficiencyWeightThreeProng"] = 0.975*0.975*0.975
-				self["TauTrackReconstructionEfficiencyWeightThreeProngPiZeros"] = 0.975*0.975*0.975*1.051
+			if legacy:
+				# https://twiki.cern.ch/twiki/bin/view/CMS/TauTauEmbeddingSamples2016Legacy#Lepton_energy_scale_corrections
+				# https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauTauEmbeddingSamples2017#Lepton_energy_scale_corrections
+				# https://twiki.cern.ch/twiki/bin/viewauth/CMS/TauTauEmbeddingSamples2018#Lepton_energy_scale_corrections
+				self["TauEnergyCorrection"] = "embedding"
+				if re.search("(Embedding2016)",nickname):
+					self["TauEnergyCorrectionOneProng"] = 0.998
+					self["TauEnergyCorrectionOneProngShiftUp"] = 0.0046
+					self["TauEnergyCorrectionOneProngShiftDown"] = 0.0046
+					self["TauEnergyCorrectionOneProngPiZeros"] = 0.9978
+					self["TauEnergyCorrectionOneProngPiZerosShiftUp"] = 0.0022
+					self["TauEnergyCorrectionOneProngPiZerosShiftDown"] = 0.0025
+					self["TauEnergyCorrectionThreeProng"] = 0.9874
+					self["TauEnergyCorrectionThreeProngShiftUp"] = 0.0033
+					self["TauEnergyCorrectionThreeProngShiftDown"] = 0.0051
+
+					# Barrel: abs(eta) < 1.479, endcap: abs(eta) > 1.479
+					self["TauElectronFakeEnergyCorrectionBarrel"] = 0.9976
+					self["TauElectronFakeEnergyCorrectionBarrelShift"] = 0.005
+					self["TauElectronFakeEnergyCorrectionEndCap"] = 0.993
+					self["TauElectronFakeEnergyCorrectionEndCapShift"] = 0.0125
+
+				if re.search("(Embedding2017)",nickname):
+					self["TauEnergyCorrectionOneProng"] = 0.9996
+					self["TauEnergyCorrectionOneProngShiftUp"] = 0.0041
+					self["TauEnergyCorrectionOneProngShiftDown"] = 0.0042
+					self["TauEnergyCorrectionOneProngPiZeros"] = 0.988
+					self["TauEnergyCorrectionOneProngPiZerosShiftUp"] = 0.0052
+					self["TauEnergyCorrectionOneProngPiZerosShiftDown"] = 0.0021
+					self["TauEnergyCorrectionThreeProng"] = 0.9925
+					self["TauEnergyCorrectionThreeProngShiftUp"] = 0.0044
+					self["TauEnergyCorrectionThreeProngShiftDown"] = 0.0046
+
+					# Barrel: abs(eta) < 1.479, endcap: abs(eta) > 1.479
+					self["TauElectronFakeEnergyCorrectionBarrel"] = 0.9993
+					self["TauElectronFakeEnergyCorrectionBarrelShift"] = 0.005
+					self["TauElectronFakeEnergyCorrectionEndCap"] = 0.9887
+					self["TauElectronFakeEnergyCorrectionEndCapShift"] = 0.0125
+
+				if re.search("(Embedding2018)",nickname):
+					self["TauEnergyCorrectionOneProng"] = 0.9967
+					self["TauEnergyCorrectionOneProngShiftUp"] = 0.0039
+					self["TauEnergyCorrectionOneProngShiftDown"] = 0.0039
+					self["TauEnergyCorrectionOneProngPiZeros"] = 0.9943
+					self["TauEnergyCorrectionOneProngPiZerosShiftUp"] = 0.0037
+					self["TauEnergyCorrectionOneProngPiZerosShiftDown"] = 0.0031
+					self["TauEnergyCorrectionThreeProng"] = 0.9926
+					self["TauEnergyCorrectionThreeProngShiftUp"] = 0.0032
+					self["TauEnergyCorrectionThreeProngShiftDown"] = 0.0032
+
+					# Barrel: abs(eta) < 1.479, endcap: abs(eta) > 1.479
+					self["TauElectronFakeEnergyCorrectionBarrel"] = 0.9967
+					self["TauElectronFakeEnergyCorrectionBarrelShift"] = 0.005
+					self["TauElectronFakeEnergyCorrectionEndCap"] = 0.9944
+					self["TauElectronFakeEnergyCorrectionEndCapShift"] = 0.0125
+
+		# NOTE: not applied here anymore. Easier to apply as cutstring later
+		# 		self["TauTrackReconstructionEfficiencyWeightOneProng"] =  0.975 # https://hypernews.cern.ch/HyperNews/CMS/get/AUX/2018/07/05/17:57:09-21650-janek_bechtel_emb_2018_07_05.pdf
+		# 		self["TauTrackReconstructionEfficiencyWeightOneProngPiZeros"] = 0.975*1.051
+		# 		self["TauTrackReconstructionEfficiencyWeightThreeProng"] = 0.975*0.975*0.975
+		# 		self["TauTrackReconstructionEfficiencyWeightThreeProngPiZeros"] = 0.975*0.975*0.975*1.051
 
 		if re.search("(DY.?JetsToLL|EWKZ2Jets|LFV).*(?=(Spring16|Summer16))", nickname):
 			self["TauElectronFakeEnergyCorrectionOneProng"] = 1.0

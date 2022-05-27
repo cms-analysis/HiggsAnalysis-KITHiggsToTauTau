@@ -37,6 +37,7 @@ public:
 		LEGACY2016,
 		LEGACY2017,
 		LEGACY2018,
+		EMBEDDING,
 	};
 	static TauEnergyCorrection ToTauEnergyCorrection(std::string const& tauEnergyCorrection)
 	{
@@ -48,6 +49,7 @@ public:
 		else if (tauEnergyCorrection == "legacy2016") return TauEnergyCorrection::LEGACY2016;
 		else if (tauEnergyCorrection == "legacy2017") return TauEnergyCorrection::LEGACY2017;
 		else if (tauEnergyCorrection == "legacy2018") return TauEnergyCorrection::LEGACY2018;
+		else if (tauEnergyCorrection == "embedding") return TauEnergyCorrection::EMBEDDING;
 		else return TauEnergyCorrection::NONE;
 	}
 
