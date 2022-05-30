@@ -333,6 +333,7 @@ public:
 	IMPL_SETTING(float, GEFMassConstraint);
 	IMPL_SETTING_DEFAULT(bool, GEFUseCollinearityTauMu, false);
 	IMPL_SETTING_DEFAULT(bool, GEFUseMVADecayModes, false);
+	IMPL_SETTING_DEFAULT(std::string, GEFMinimizer, "Standard");
 
 	IMPL_SETTING(std::string, TauTauRestFrameReco);
 

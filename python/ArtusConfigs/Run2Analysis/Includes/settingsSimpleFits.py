@@ -13,3 +13,5 @@ class SimpleFits(dict):
 		self["GEFMassConstraint"] = 125.0
 		self["GEFUseCollinearityTauMu"] = False
 		self["GEFUseMVADecayModes"] = True
+		self["GEFMinimizer"] = "Minuit"
+		# self["GEFMinimizer"] = "Standard"

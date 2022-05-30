@@ -34,6 +34,7 @@ void SimpleFitProducer::Init(setting_type const& settings, metadata_type& metada
 	m_massConstraint = settings.GetGEFMassConstraint();
 	m_useCollinearityTauMu = settings.GetGEFUseCollinearityTauMu();
 	m_useMVADecayModes = settings.GetGEFUseMVADecayModes();
+	m_minimizer = settings.GetGEFMinimizer();
 
 	// add possible quantities for the lambda ntuples consumers
 	LambdaNtupleConsumer<HttTypes>::AddBoolQuantity(metadata, "simpleFitTauRecoIsAmbiguous", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata) {
@@ -170,6 +171,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 
 	KLepton* oneProng = nullptr;
 	KTau* a1 = nullptr;
+	bool pionDecay = false;
 
 	// LOG(INFO) << "SimpleFitProducer: START";
 
@@ -194,6 +196,13 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 			{
 				oneProng = *leptonIt;
 			}
+			else if ((! oneProng) &&
+			         (decaymode == reco::PFTau::hadronicDecayMode::kOneProng1PiZero))
+			{
+				oneProng = *leptonIt;
+				pionDecay = true;
+
+			}
 		}
 		else if (! oneProng)
 		{
@@ -201,7 +210,12 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		}
 	}
 
-	if ((oneProng != nullptr) && (a1 != nullptr))
+	if ((oneProng != nullptr) && (a1 != nullptr)
+			&& !(isnan(product.m_met.p4.Pt()) ||
+					 isnan(product.m_met.significance(0,0)) ||
+					 isnan(product.m_met.significance(0,1)) ||
+					 isnan(product.m_met.significance(1,0)) ||
+					 isnan(product.m_met.significance(1,1))))
 	{
 		// LOG(INFO) << "Found one prong and a1";
 		// one prong decay
@@ -219,6 +233,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		// LOG(INFO) << "\noneProngHelixCovarianceInput:";
 		// oneProngHelixCovarianceInput.Print();
 
+		// transform q_over_p as provided by CMSSW to kappa as required by SimpleFits
 		threeProngOneHelixParametersInput[TrackParticle::kappa][0] = -threeProngOneHelixParametersInput[TrackParticle::kappa][0]*oneProng->track.magneticField/cos(threeProngOneHelixParametersInput[TrackParticle::lambda][0]);
 		TMatrixTSym<double> Jacobi(TrackParticle::NHelixPar);
 		// make unit matrix first
@@ -226,12 +241,14 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		{
 			Jacobi[i_row][i_row] = 1.0;
 		}
+		// propagate uncertainties of q_over_p and lambda into Jacobian matrix
 		Jacobi[TrackParticle::kappa][reco::Track::i_qoverp] = (-1.0)*oneProng->track.magneticField/cos(oneProng->track.lambda());
 		Jacobi[TrackParticle::kappa][reco::Track::i_lambda] = (-1.0)*oneProng->track.magneticField*oneProng->track.qOverP()*tan(oneProng->track.lambda())/cos(oneProng->track.lambda());
 
 		// LOG(INFO) << "\nJacobi Matrix:";
 		// Jacobi.Print();
 
+		// Perform the actual error propagation by multiplying the Jacobian matrix from both sides
 		oneProngHelixCovarianceInput.Similarity(Jacobi);
 		TrackParticle oneProngInput(threeProngOneHelixParametersInput, oneProngHelixCovarianceInput, oneProng->pdgId(), oneProng->p4.mass(), oneProng->charge(), oneProng->track.magneticField);
 
@@ -300,6 +317,22 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		metVector[0][0] = product.m_met.p4.Vect().X();
 		metVector[1][0] = product.m_met.p4.Vect().Y();
 
+		// LOG(INFO) << "MET vector";
+		// LOG(INFO) << product.m_met.p4.Vect().X();
+		// LOG(INFO) << product.m_met.p4.Vect().Y();
+		//
+		// LOG(INFO) << "MET covariance";
+		// LOG(INFO) << product.m_met.significance(0,0) << " " << product.m_met.significance(0,1);
+		// LOG(INFO) << product.m_met.significance(1,0) << " " << product.m_met.significance(1,1);
+		//
+		// LOG(INFO) << "MET uncorr vector";
+		// LOG(INFO) << product.m_metUncorr->p4.Vect().X();
+		// LOG(INFO) << product.m_metUncorr->p4.Vect().Y();
+		//
+		// LOG(INFO) << "MET uncorr covariance";
+		// LOG(INFO) << product.m_metUncorr->significance(0,0) << " " << product.m_metUncorr->significance(0,1);
+		// LOG(INFO) << product.m_metUncorr->significance(1,0) << " " << product.m_metUncorr->significance(1,1);
+
 		TMatrixTSym<double> metCovariance = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<double, 2, 2, ROOT::Math::MatRepSym<double, 2> >, TMatrixTSym<double> >(product.m_met.significance, nMetComponents);
 
 		// LOG(WARNING) << "\n\nSimpleFits inputs (MET):";
@@ -323,12 +356,37 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		// pvCovarianceInput.Print();
 
 		// Fit
-		GlobalEventFit globalEventFit(oneProngInput, tauInput, metInput, pvInput, pvCovarianceInput);
-		if (m_massConstraint > 0) globalEventFit.setMassConstraint(m_massConstraint);
-		globalEventFit.setMinimizer(LagrangeMultipliersFitter::FittingProc::Standard);
-		globalEventFit.setUseCollinearityTauMu(m_useCollinearityTauMu);
-		TPTRObject tauReco = globalEventFit.getTPTRObject();
-		GEFObject fitResult = globalEventFit.Fit();
+		GlobalEventFit* globalEventFit = nullptr;
+		if (pionDecay) {
+			TMatrixT<double> neutralPionParameters(LorentzVectorParticle::LorentzandVectorPar::NLorentzandVertexPar, 1);
+			TMatrixTSym<double> neutralPionCovariance(LorentzVectorParticle::LorentzandVectorPar::NLorentzandVertexPar);
+			// oneProng = tau->sumChargedHadronCandidates();
+			RMFLV piZero = static_cast<KTau*>(oneProng)->piZeroMomentum();
+			neutralPionParameters[LorentzVectorParticle::LorentzandVectorPar::px][0] = piZero.px();
+			neutralPionParameters[LorentzVectorParticle::LorentzandVectorPar::py][0] = piZero.py();
+			neutralPionParameters[LorentzVectorParticle::LorentzandVectorPar::pz][0] = piZero.pz();
+			neutralPionParameters[LorentzVectorParticle::LorentzandVectorPar::m][0] = DefaultValues::NeutralPionMass;
+
+			// LOG(INFO) << "neutralPionParameters";
+			// neutralPionParameters.Print();
+			// neutralPionCovariance.Print();
+			// metInput.Par().Print();
+			// metInput.Cov().Print();
+
+			LorentzVectorParticle neutralPion(neutralPionParameters, neutralPionCovariance, DefaultValues::pdgIdPiZero, 0, a1->track.magneticField);
+			globalEventFit = new GlobalEventFit(oneProngInput, neutralPion, tauInput, metInput, pvInput, pvCovarianceInput);
+		}
+		else
+		{
+			globalEventFit = new GlobalEventFit(oneProngInput, tauInput, metInput, pvInput, pvCovarianceInput);
+		}
+		// GlobalEventFit globalEventFit(oneProngInput, tauInput, metInput, pvInput, pvCovarianceInput);
+		if (m_massConstraint > 0) globalEventFit->setMassConstraint(m_massConstraint);
+		// globalEventFit->setMinimizer(LagrangeMultipliersFitter::FittingProc::Standard);
+		globalEventFit->setMinimizer(m_minimizer);
+		globalEventFit->setUseCollinearityTauMu(m_useCollinearityTauMu);
+		TPTRObject tauReco = globalEventFit->getTPTRObject();
+		GEFObject fitResult = globalEventFit->Fit();
 		product.m_simpleFitTauRecoIsAmbiguous = tauReco.isAmbiguous();
 		// LOG(INFO) << "product.m_simpleFitTauRecoIsAmbiguous: " << product.m_simpleFitTauRecoIsAmbiguous;
 		if (product.m_simpleFitTauRecoIsAmbiguous)
@@ -404,6 +462,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 				product.m_simpleFitTausResolvedGen[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
 				product.m_simpleFitTausResolvedGen[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauH().LV());
 			}
+			// LOG(INFO) << "pionDecay: " << pionDecay;
 			// LOG(INFO) << "tauToOneProng: " << product.m_simpleFitTaus[oneProng];
 			// LOG(INFO) << "tauToA1: " << product.m_simpleFitTaus[a1];
 			// LOG(INFO) << "resonance: " << product.m_diTauSystemSimpleFit;

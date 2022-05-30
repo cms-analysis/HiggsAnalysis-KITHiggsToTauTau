@@ -23,6 +23,7 @@ protected:
 	float m_massConstraint;
 	bool m_useCollinearityTauMu;
 	bool m_useMVADecayModes;
+	std::string m_minimizer;
 };
 
 class SimpleFitThreeProngThreeProngProducer: public SimpleFitProducer
