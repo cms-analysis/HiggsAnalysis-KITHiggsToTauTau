@@ -94,22 +94,22 @@ class DatacardConfigs(object):
 				"mt_0jet_inclusive" : 30,
 				"mt_1jet_inclusive" : 31,
 				"mt_2jet_inclusive" : 32,
-				
+
 				"mt_ZeroJet2D" : 100,
 				"mt_Boosted2D" : 101,
 				"mt_Vbf2D" : 102,
-				
+
 				"mt_a1" : 1010,
 				"mt_rho" : 1020,
 				"mt_oneprong" : 1030,
-				
-				"mt_dijet_boosted" : 2001, 
-				"mt_dijet_highM" : 2002, 
+
+				"mt_dijet_boosted" : 2001,
+				"mt_dijet_highM" : 2002,
 				"mt_dijet_lowM" : 2003,
 				"mt_dijet_lowMjj" : 2004,
 
 				"mt_ZeroJet_LFV": 3001,
-				"mt_oneJet_LFV": 3002, 
+				"mt_oneJet_LFV": 3002,
 
 			},
 			"et" : {
@@ -136,18 +136,18 @@ class DatacardConfigs(object):
 				"et_0jet_inclusive" : 30,
 				"et_1jet_inclusive" : 31,
 				"et_2jet_inclusive" : 32,
-				
+
 				"et_ZeroJet2D" : 100,
 				"et_Boosted2D" : 101,
 				"et_Vbf2D" : 102,
-				
+
 				"et_a1" : 1010,
 				"et_rho" : 1020,
 				"et_oneprong" : 1030,
-				
-				"et_dijet_boosted" : 2001, 
-				"et_dijet_highM" : 2002, 
-				"et_dijet_lowM" : 2003, 
+
+				"et_dijet_boosted" : 2001,
+				"et_dijet_highM" : 2002,
+				"et_dijet_lowM" : 2003,
 				"et_dijet_lowMjj" : 2004,
 
 				"et_ZeroJet_LFV": 3001,
@@ -177,16 +177,16 @@ class DatacardConfigs(object):
 				"em_0jet_inclusive" : 30,
 				"em_1jet_inclusive" : 31,
 				"em_2jet_inclusive" : 32,
-				
+
 				"em_ZeroJet2D" : 100,
 				"em_Boosted2D" : 101,
 				"em_Vbf2D" : 102,
-				
+
 				"em_oneprong" : 1030,
-				
-				"em_dijet_boosted" : 2001, 
-				"em_dijet_highM" : 2002, 
-				"em_dijet_lowM" : 2003, 
+
+				"em_dijet_boosted" : 2001,
+				"em_dijet_highM" : 2002,
+				"em_dijet_lowM" : 2003,
 				"em_dijet_lowMjj" : 2004,
 
 				"em_ZeroJet_LFV": 3001,
@@ -216,18 +216,18 @@ class DatacardConfigs(object):
 				"tt_0jet_inclusive" : 30,
 				"tt_1jet_inclusive" : 31,
 				"tt_2jet_inclusive" : 32,
-				
+
 				"tt_ZeroJet2D" : 100,
 				"tt_Boosted2D" : 101,
 				"tt_Vbf2D" : 102,
-				
+
 				"tt_a1" : 1010,
 				"tt_rho" : 1020,
 				"tt_oneprong" : 1030,
-				
-				"tt_dijet_boosted" : 2001, 
-				"tt_dijet_highM" : 2002, 
-				"tt_dijet_lowM" : 2003, 
+
+				"tt_dijet_boosted" : 2001,
+				"tt_dijet_highM" : 2002,
+				"tt_dijet_lowM" : 2003,
 				"tt_dijet_lowMjj" : 2004,
 
 				"tt_ZeroJet_LFV" : 3001,
@@ -254,7 +254,7 @@ class DatacardConfigs(object):
 				"mm_1jet_boost_low" : 21,
 				"mm_0jet_nhighpt2" : 22,
 				"mm_0jet_nlowpt2" : 23,
-				
+
 				"mm_ZeroJet2D" : 100,
 				"mm_Boosted2D" : 101,
 				"mm_Vbf2D" : 102,

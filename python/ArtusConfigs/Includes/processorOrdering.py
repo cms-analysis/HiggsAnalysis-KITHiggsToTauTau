@@ -14,7 +14,7 @@ class ProcessorsOrdered(dict):
 	def create_sorting_keydict(self, *args, **kwargs):
 		self["producer:HltProducer"] = 0
 		self["filter:HltFilter"] = 1
-		#leave some numbers inbetween so (missing) producers can be added lateron, it is also possible to use floats. example:
+		#leave some numbers inbetween so (missing) producers can be added later on, it is also possible to use floats. example:
 		#order = {"a" :10, k:"10.5", "d" :10.2, "e":11)
 		#examplelist = ["a", "e" "k", "d"]
 		#examplelist.sort(key =lambda val: order[val])

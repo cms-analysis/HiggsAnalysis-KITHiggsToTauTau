@@ -352,7 +352,7 @@ class tt_ArtusConfig(dict):
 					"0:t_eta",
 					"1:t_eta",
 				]
-				# Add RooWorkspace function for systematics. Triples previous lists and appends nothing (for the nominmal weights), "up" and "down" to each third element
+				# Add RooWorkspace function for systematics. Appends "up" and "down" to each weight and adds them to the list
 				self["LegacyWeightWorkspaceWeightNames"] += [weight+sys for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceWeightNames"]]
 				self["LegacyWeightWorkspaceObjectNames"] += [weight+sys for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceObjectNames"]]
 				self["LegacyWeightWorkspaceObjectArguments"] += [weight for sys in ["_up", "_down"] for weight in self["LegacyWeightWorkspaceObjectArguments"]]
