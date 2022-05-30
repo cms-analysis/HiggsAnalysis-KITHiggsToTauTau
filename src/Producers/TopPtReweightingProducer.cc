@@ -9,7 +9,7 @@ std::string TopPtReweightingProducer::GetProducerId() const
 void TopPtReweightingProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
-	
+
 	m_isTTbar = boost::regex_search(settings.GetNickname(), boost::regex("(TT_|TTTo)", boost::regex::icase | boost::regex::extended));
 	std::string strategy = settings.GetTopPtReweightingStrategy();
 	boost::algorithm::to_lower(strategy);
@@ -35,6 +35,8 @@ void TopPtReweightingProducer::Produce( event_type const& event,
 		float top1Pt = tops.at(0).p4.Pt();
 		float top2Pt = tops.at(1).p4.Pt();
 
+
+		// https://twiki.cern.ch/twiki/bin/view/CMS/TopPtReweighting
 		// Run 1 specifications for a and b
 		product.m_optionalWeights["topPtReweightWeightRun1"] = ComputeWeight(top1Pt, top2Pt, 0.156, -0.00137);
 		// Run 2 specifications for a and b
