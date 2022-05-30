@@ -1551,7 +1551,7 @@ class Quantities(Run2Quantities):
 			if channel == "TT":
 				# list generated with [weight.split(":")[1]+sys+"_"+str(int(weight.split(":")[0])+1) for weight in a for sys in ["", "_up", "_down"]], where a is the list of LegacyWeightWorkspaceWeightNames
 				s += [
-					'weightTauId_1'
+					'weightTauId_1',
 					'weightTauId_up_1',
 					'weightTauId_down_1',
 					'weightTauId_2',
