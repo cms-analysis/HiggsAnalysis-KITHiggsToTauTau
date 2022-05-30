@@ -778,18 +778,21 @@ if __name__ == "__main__":
 						"" if category is None else category
 				))
 				if args.ratio_subplot:
-					samples_used = [nick for nick in bkg_samples if nick in config["nicks"]]
+					samples_used = [nick for nick in bkg_samples if (nick in config["nicks"] or nick == "ff")]
 					if "Ratio" not in config.get("analysis_modules", []):
 						config.setdefault("analysis_modules", []).append("Ratio")
-					config.setdefault("ratio_numerator_nicks", []).extend([str(bkg) for bkg in samples_used])
-					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(samples_used)] *len(samples_used) )
-					config.setdefault("ratio_result_nicks", []).extend([str(bkg)+"_subplot" for bkg in samples_used])
-					config.setdefault("markers", []).extend(["HIST"]*len(samples_used))
-					config.setdefault("legend_markers", []).extend(["ELP"]*len(samples_used))
-					config.setdefault("stacks", []).extend(["ratio_subplot"]*len(samples_used))
-					config.setdefault("subplot_nicks", []).extend([str(bkg)+"_subplot" for bkg in samples_used])
-					config["y_subplot_lims"] = [0.0, 1.0]
-					config["y_subplot_label"] = "a.u."
+					config.setdefault("ratio_numerator_nicks", []).extend([str(bkg) for bkg in samples_used] + [" ".join(samples_used), "data"])
+					config.setdefault("ratio_denominator_nicks", []).extend([" ".join(samples_used)] * len(samples_used) + [" ".join(samples_used)]*2 )
+					# config.setdefault("ratio_denominator_nicks", []).extend(["data"]*len(samples_used) + [" ".join(samples_used)] )
+					config.setdefault("ratio_result_nicks", []).extend([str(bkg)+"_subplot" for bkg in samples_used] + ["mc_unc_subplot", "data_subplot"])
+					config.setdefault("markers", []).extend(["HIST"]*len(samples_used) + ["E2", "E"])
+					config.setdefault("colors", []).extend([str(bkg) for bkg in samples_used] + ["#000000"]*2)
+					config.setdefault("legend_markers", []).extend(["ELP"]*len(samples_used) + ["ELP"]*2)
+					config.setdefault("labels", []).extend([""]*len(samples_used) + [""]*2)
+					config.setdefault("stacks", []).extend(["ratio_subplot"]*len(samples_used) + ["mc_unc_subplot", "ratio_data_subplot"])
+					config.setdefault("subplot_nicks", []).extend([str(bkg)+"_subplot" for bkg in samples_used] + ["mc_unc_subplot", "data_subplot"])
+					config["y_subplot_lims"] = [0.0, 1.3]
+					# config["y_subplot_label"] = "a.u."
 
 				if not args.www is None:
 					config["www"] = os.path.join(
