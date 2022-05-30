@@ -207,6 +207,30 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 			pZeta_CP_string = "(pZetaMissVis > -10.0)"
 
+			# The index corresponds to the BDT class with the highest score, higgs = 0, jet fakes = 1, ztt_embed = 2
+			tt_CP_BDT_higgs = "(IC_BDT_max_index==0)"
+			tt_CP_BDT_jetFakes = "(IC_BDT_max_index==1)"
+			tt_CP_BDT_zttEmbed = "(IC_BDT_max_index==2)"
+
+			CP_IP_Significance_1 = "(IPSignificancerPVBS_1>1.5)"
+			CP_IP_SignificanceDM0_1 = "((IPSignificancerPVBS_1>1.5)*(decayModeMVA_1==0)+(decayModeMVA_1>0))"
+			CP_IP_Significance_2 = "(IPSignificancerPVBS_2>1.5)"
+			CP_IP_SignificanceDM0_2 = "((IPSignificancerPVBS_2>1.5)*(decayModeMVA_2==0)+(decayModeMVA_2>0))"
+
+			tt_higgs_Pi_0A1_Mixed 				= "((decayModeMVA_1==0)*(decayModeMVA_2==2))||((decayModeMVA_1==2)*(decayModeMVA_2==0))"
+			tt_higgs_Pi_0A1_Mixed_IPSig			= "((decayModeMVA_1==0)*(decayModeMVA_2==2)*"+CP_IP_Significance_1+")||((decayModeMVA_1==2)*(decayModeMVA_2==0)*"+CP_IP_Significance_2+")"
+			tt_higgs_Rho_Rho 					= "((decayModeMVA_1==1)*(decayModeMVA_2==1))"
+			tt_higgs_A1_A1		 				= "((decayModeMVA_1==10)*(decayModeMVA_2==10))"
+			tt_higgs_Pi_Rho_Mixed 				= "((decayModeMVA_1==0)*(decayModeMVA_2==1))||((decayModeMVA_1==1)*(decayModeMVA_2==0))"
+			tt_higgs_Pi_Rho_Mixed_IPSig			= "((decayModeMVA_1==0)*(decayModeMVA_2==1)*"+CP_IP_Significance_1+")||((decayModeMVA_1==1)*(decayModeMVA_2==0)*"+CP_IP_Significance_2+")"
+			tt_higgs_Pi_Pi 						= "((decayModeMVA_1==0)*(decayModeMVA_2==0))"
+			tt_higgs_Pi_Pi_IPSig				= "((decayModeMVA_1==0)*(decayModeMVA_2==0)*"+CP_IP_Significance_1+"*"+CP_IP_Significance_2+")"
+			tt_higgs_A1_Rho 					= "((decayModeMVA_1==10)*(decayModeMVA_2==1))||((decayModeMVA_1==1)*(decayModeMVA_2==10))"
+			tt_higgs_0A1_Rho_and_0A1_0A1 		= "((decayModeMVA_1==2)*(decayModeMVA_2==1))||((decayModeMVA_1==1)*(decayModeMVA_2==2))||((decayModeMVA_1==2)*(decayModeMVA_2==2))"
+			tt_higgs_Pi_A1_Mixed 				= "((decayModeMVA_1==0)*(decayModeMVA_2==10))||((decayModeMVA_1==10)*(decayModeMVA_2==0))"
+			tt_higgs_Pi_A1_Mixed_IPSig			= "((decayModeMVA_1==0)*(decayModeMVA_2==10)*"+CP_IP_Significance_1+")||((decayModeMVA_1==10)*(decayModeMVA_2==0)*"+CP_IP_Significance_2+")"
+			tt_higgs_A1_0A1 					= "((decayModeMVA_1==10)*(decayModeMVA_2==2))||((decayModeMVA_1==2)*(decayModeMVA_2==10))"
+
 			et_antiiso_inclusive_string = "(iso_1>0.1)*(iso_1<0.5)"
 			mt_antiiso_inclusive_string = "(iso_1>0.15)*(iso_1<0.5)"
 			mt_antiiso_tau_string = "(byVLooseIsolationMVArun2v1DBoldDMwLT_2 > 0.5)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5)) && !(byTightIsolationMVArun2v1DBoldDMwLT_2 > 0.5)"
@@ -358,6 +382,23 @@ class ExpressionsDict(expressions.ExpressionsDict):
 
 			self.expressions_dict["catcptautau2017_"+channel+"_ZeroJetCP"] = self.combine([jet0_string, decayMode_string])
 			self.expressions_dict["catcptautau2017_"+channel+"_BoostedCP"] = self.combine([self.invert(self.expressions_dict["catcptautau2017_"+channel+"_ZeroJetCP"]), self.invert(self.expressions_dict["catcptautau2017_"+channel+"_dijet_boosted_mixed_CPCombMerged"]), self.invert(self.expressions_dict["catcptautau2017_"+channel+"_dijet_lowboost_mixed_CPCombMerged"]), decayMode_string])
+
+
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_zttEmbed'] = self.combine([tt_CP_BDT_zttEmbed, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_jetFakes'] = self.combine([tt_CP_BDT_jetFakes, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_Pi_0A1_Mixed'] = self.combine([tt_CP_BDT_higgs, tt_higgs_Pi_0A1_Mixed, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_Pi_0A1_Mixed_IPSig'] = self.combine([tt_CP_BDT_higgs, tt_higgs_Pi_0A1_Mixed_IPSig, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_Rho_Rho'] = self.combine([tt_CP_BDT_higgs, tt_higgs_Rho_Rho, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_A1_A1_PolVec'] = self.combine([tt_CP_BDT_higgs, tt_higgs_A1_A1, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_Pi_Rho_Mixed'] = self.combine([tt_CP_BDT_higgs, tt_higgs_Pi_Rho_Mixed, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_Pi_Rho_Mixed_IPSig'] = self.combine([tt_CP_BDT_higgs, tt_higgs_Pi_Rho_Mixed_IPSig, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_Pi_Pi'] = self.combine([tt_CP_BDT_higgs, tt_higgs_Pi_Pi, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_Pi_Pi_IPSig'] = self.combine([tt_CP_BDT_higgs, tt_higgs_Pi_Pi_IPSig, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_A1_Rho'] = self.combine([tt_CP_BDT_higgs, tt_higgs_A1_Rho, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_0A1_Rho_and_0A1_0A1'] = self.combine([tt_CP_BDT_higgs, tt_higgs_0A1_Rho_and_0A1_0A1, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_Pi_A1_Mixed'] = self.combine([tt_CP_BDT_higgs, tt_higgs_Pi_A1_Mixed, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_Pi_A1_Mixed_IPSig'] = self.combine([tt_CP_BDT_higgs, tt_higgs_Pi_A1_Mixed_IPSig, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
+			self.expressions_dict["catCPFinalstate13TeV_"+channel+'_higgs_A1_0A1'] = self.combine([tt_CP_BDT_higgs, tt_higgs_A1_0A1, CP_IP_SignificanceDM0_1, CP_IP_SignificanceDM0_2])
 
 		# CP initial state category
 		for channel in ["em", "et", "mt", "tt"]:

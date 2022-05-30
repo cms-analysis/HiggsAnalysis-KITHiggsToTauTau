@@ -66,11 +66,13 @@ class BinningsDict(binnings.BinningsDict):
 			self.binnings_dict[ch+"H_mass"] = "40,0.0,2000.0"
 			self.binnings_dict[ch+"H_pt"] = "40,0.0,400.0"
 			self.binnings_dict[ch+"ptvis"] = "40,0.0,300.0"
-			self.binnings_dict[ch+"jpt_1"] = "20,20.0,250.0"
-			self.binnings_dict[ch+"jpt_2"] = "20,20.0,250.0"
+			self.binnings_dict[ch+"jpt_1"] = "50,0.0,250.0"
+			self.binnings_dict[ch+"jpt_2"] = "50,0.0,250.0"
 
-		self.binnings_dict["tt_decayMode_1"] = "11,0.0,11.0"
-		self.binnings_dict["tt_decayMode_2"] = "11,0.0,11.0"
+		self.binnings_dict["tt_decayMode_1"] = "12,0.0,12.0"
+		self.binnings_dict["tt_decayMode_2"] = "12,0.0,12.0"
+		self.binnings_dict["tt_decayModeMVA_1"] = "12,0.0,12.0"
+		self.binnings_dict["tt_decayModeMVA_2"] = "12,0.0,12.0"
 		self.binnings_dict["tt_genMatchedTau1DecayMode"] = "18,-3.0,15.0"
 		self.binnings_dict["tt_genMatchedTau2DecayMode"] = "18,-3.0,15.0"
 		self.binnings_dict["tt_eta_1"] = "30,-3,3"
@@ -90,12 +92,12 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_etasep"] = "20,0.0,4."
 		self.binnings_dict["tt_etasep_CP1"] = "20,0.0,4.0"
 		self.binnings_dict["tt_etasep_CP2"] = "20,0.0,4.0"
-		self.binnings_dict["tt_jeta_1"] = "10,-4.7,4.7"
-		self.binnings_dict["tt_jeta_2"] = "10,-4.7,4.7"
-		self.binnings_dict["tt_jphi_1"] = "10,-3.2,3.2"
-		self.binnings_dict["tt_jphi_2"] = "10,-3.2,3.2"
-		self.binnings_dict["tt_m_1"] = "24,0.0,1.8"
-		self.binnings_dict["tt_m_2"] = "24,0.0,1.8"
+		self.binnings_dict["tt_jeta_1"] = "30,-4.7,4.7"
+		self.binnings_dict["tt_jeta_2"] = "30,-4.7,4.7"
+		self.binnings_dict["tt_jphi_1"] = "30,-3.2,3.2"
+		self.binnings_dict["tt_jphi_2"] = "30,-3.2,3.2"
+		self.binnings_dict["tt_m_1"] = "50,0.0,5.0"
+		self.binnings_dict["tt_m_2"] = "50,0.0,5.0"
 		self.binnings_dict["tt_m_ll"] = "60,0.0,300"
 		self.binnings_dict["tt_m_llmet"] = "60,0.0,400"
 		self.binnings_dict["tt_m_sv"] = "20,0.0,400"
@@ -122,8 +124,10 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_phi_ll"] = "32,-3.2,3.2"
 		self.binnings_dict["tt_phi_llmet"] = "32,-3.2,3.2"
 		self.binnings_dict["tt_phi_sv"] = "32,-3.2,3.2"
-		self.binnings_dict["tt_pt_1"] = "25,30.0,150.0"
-		self.binnings_dict["tt_pt_2"] = "25,30.0,150.0"
+		self.binnings_dict["tt_pt_1"] = "24,30.0,150.0"
+		self.binnings_dict["tt_pt_2"] = "24,30.0,150.0"
+		self.binnings_dict["tt_pt_large_1"] = "50,0.0,500.0"
+		self.binnings_dict["tt_pt_large_2"] = "50,0.0,500.0"
 		self.binnings_dict["tt_pt_ll"] = "25,0.0,250"
 		self.binnings_dict["tt_pt_llmet"] = "25,0.0,250"
 		self.binnings_dict["tt_pt_sv"] = "25,0.0,250"
@@ -143,6 +147,21 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_recoPhiStarCPCombMergedHel"] = "13,0.0,"+str(numpy.pi*2)
 		self.binnings_dict["tt_recoPhiStarCPCombMergedHelrPV"] = "13,0.0,"+str(numpy.pi*2)
 		self.binnings_dict["tt_recoPhiStarCPCombMergedHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecOneProngTauA1HelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecCombOneProngTauA1HelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecTauOneProngA1HelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecCombTauOneProngA1HelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecOneProngA1HelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecCombOneProngA1HelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecCombTauOneProngA1PiSSFromRhoHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecCombTauOneProngA1PiHighPtHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecCombOneProngA1PiSSFromRhoHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
+		self.binnings_dict["tt_recoPhiStarCPPolVecCombOneProngA1PiHighPtHelrPVBS"] = "13,0.0,"+str(numpy.pi*2)
 		self.binnings_dict["tt_helixQOverP_1"] = "25,-0.05,0.05"
 		self.binnings_dict["tt_helixLambda_1"] = "32,-"+str(numpy.pi/2.0)+","+str(numpy.pi/2)
 		self.binnings_dict["tt_helixPhi_1"] = "32,-"+str(numpy.pi)+","+str(numpy.pi)
@@ -155,7 +174,7 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_helixDsz_2"] = "25,-12.5,12.5"
 		self.binnings_dict["tt_IPSignificanceHelrPVBS_1"] = "20,0.0,20"
 		self.binnings_dict["tt_IPSignificanceHelrPVBS_2"] = "20,0.0,20"
-
+		self.binnings_dict["tt_IC_BDT_max_score"] = "0.33 0.4 0.5 0.6 0.7 0.8 0.9 1.0"
 
 		for ch in ["em_", "et_", "mt_", "tt_"]:
 			self.binnings_dict[ch+"melaProbCPEvenGGH"] = "20,0,1"
@@ -856,6 +875,26 @@ class BinningsDict(binnings.BinningsDict):
 				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_tightmjj_lowboost_CPCombMerged"+"_m_sv"] = "50.0 80 100.0 115 150.0 200"#5
 				self.binnings_dict["binningHtt13TeV_"+channel+"_"+"dijet_tightmjj_boosted_CPCombMerged"+"_m_sv"] = "50.0 80 100.0 115 150.0 200"#6
 
+			if channel == "tt":
+				for cat in ["higgs_Pi_0A1_Mixed",
+							"higgs_Pi_0A1_Mixed_IPSig",
+							"higgs_Rho_Rho",
+							"higgs_A1_A1_PolVec",
+							"higgs_Pi_Rho_Mixed",
+							"higgs_Pi_Rho_Mixed_IPSig",
+							"higgs_Pi_Pi",
+							"higgs_Pi_Pi_IPSig",
+							"jetFakes",
+							"higgs_A1_Rho",
+							"higgs_0A1_Rho_and_0A1_0A1",
+							"higgs_Pi_A1_Mixed",
+							"higgs_Pi_A1_Mixed_IPSig",
+							"zttEmbed",
+							"higgs_A1_0A1"]:
+					self.binnings_dict["_".join(["binningHtt13TeV", channel, cat, "PhiStarCP"])] = "4,0.0,"+str(numpy.pi*2)
+
+				self.binnings_dict["binningHtt13TeV_CPFinalState_"+channel+"_bkg_MVA_score"] = "0.33 0.4 0.5 0.6 0.7 0.8 0.9 1.0"
+				self.binnings_dict["binningHtt13TeV_CPFinalState_"+channel+"_higgs_MVA_score"] = "0.33 0.7 0.8 0.9 1.0"
 
 			self.binnings_dict["binningHtt13TeV_tt_dijet_boosted_qcd_cr_m_sv"] = "0.0 250.0"
 			self.binnings_dict["binningHtt13TeV_tt_dijet_lowboost_qcd_cr_m_sv"] = "0.0 250.0"
