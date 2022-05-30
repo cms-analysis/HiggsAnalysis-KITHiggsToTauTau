@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Artus/Utility/interface/Utility.h"
-
+#include "Artus/Utility/interface/DefaultValues.h"
 
 #include "Kappa/DataFormats/interface/Kappa.h"
+
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/HttTypes.h"
-#include "Artus/Utility/interface/DefaultValues.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/SimpleFitProducer.h"
+
 
 /**
    \brief

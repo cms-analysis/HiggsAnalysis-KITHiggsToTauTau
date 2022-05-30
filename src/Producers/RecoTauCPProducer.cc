@@ -1936,7 +1936,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	// Conversion from TVector3 to SVector
 	ROOT::Math::SVector<float, 3> IPrPV_1_(product.m_recoIPHelrPV_1(0), product.m_recoIPHelrPV_1(1), product.m_recoIPHelrPV_1(2));
 	ROOT::Math::SVector<float, 3> IPrPV_2_(product.m_recoIPHelrPV_2(0), product.m_recoIPHelrPV_2(1), product.m_recoIPHelrPV_2(2));
-	
+
 	IPrPV_1_ = IPrPV_1_.Unit();
 	IPrPV_2_ = IPrPV_2_.Unit();
 
@@ -2095,6 +2095,8 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	  }
 	}  // if et or mt ch.
 	if ( product.m_decayChannel == HttEnumTypes::DecayChannel::TT ) {
+		// pi + pi: check m_recoPhiStarCPrPVBS
+		// rho/a1(1-prong) + rho/a1(1-prong): check m_recoPhiStarCPRhoMerged
 	  // rho/a1(1-prong)+pi
 	  if (decayType1 == 1 && decayType2 == 0) {
 	    product.m_recoPhiStarCPCombrPV      = cpq.CalculatePhiStarCPComb(product.m_recoIPrPV_2, recoTau2->chargedHadronCandidates.at(0).p4, recoTau1->chargedHadronCandidates.at(0).p4, piZero1, recoTau2->charge());
@@ -2774,7 +2776,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	    product.m_deltaPhiGenRecoIPHelrPVBS_1 = product.m_recoIPHelrPVBS_1.DeltaPhi(product.m_genIP1);
 	    product.m_deltaRGenRecoIPHelrPVBS_1   = product.m_recoIPHelrPVBS_1.DeltaR(product.m_genIP1);
 	    product.m_deltaGenRecoIPHelrPVBS_1    = product.m_recoIPHelrPVBS_1.Angle(product.m_genIP1);
-  
+
 	  } // if genIP1 exists
 
 	  if(&product.m_genIP2 != nullptr && product.m_genIP2.x() != -999){
@@ -2803,7 +2805,7 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 	//<= FIXME: check if refitPV exists removed =>
 }
 
-/* piZero 4-momentum defined by direction (eta,phi) of the leading (in Pt) 
+/* piZero 4-momentum defined by direction (eta,phi) of the leading (in Pt)
    gamma, energy equal to sum of energy of all gammas and pi0 mass */
 RMFLV RecoTauCPProducer::alternativePiZeroMomentum(const KTau* tau) const {
 
@@ -2820,7 +2822,7 @@ RMFLV RecoTauCPProducer::alternativePiZeroMomentum(const KTau* tau) const {
   }
   float p2 = sumE*sumE - DefaultValues::NeutralPionMass*DefaultValues::NeutralPionMass;
   float p = p2>0 ? sqrt(p2) : sumE;
-  float pt = p * sin(piZeroP4.theta()); 
+  float pt = p * sin(piZeroP4.theta());
   piZeroP4.SetPt(pt);
   piZeroP4.SetM(DefaultValues::NeutralPionMass);
 
