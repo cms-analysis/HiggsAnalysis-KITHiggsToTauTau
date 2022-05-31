@@ -17,20 +17,20 @@ class SamplesBase(object):
 
 	def __init__(self):
 		super(SamplesBase, self).__init__()
-		
+
 		self.config = jsonTools.JsonDict({})
 		self.postfit_scales = None
 		self.expressions = expressions.ExpressionsDict()
-		
+
 		self.exclude_cuts = []
 		self.period = "run"
-		
-	
+
+
 	def get_config(self, samples, channel, category, nick_suffix="", postfit_scales=None, **kwargs):
 		self.postfit_scales = postfit_scales
-		
+
 		config = copy.deepcopy(self.config)
-		
+
 		weights = []
 		if not category is None:
 			weights.append("({category})".format(category=self.expressions.replace_expressions(category)))
@@ -41,20 +41,20 @@ class SamplesBase(object):
 			weight = "(" + ("*".join(weights)) + ")"
 		for sample in samples:
 			config = sample(self, config, channel, category, weight, nick_suffix, **kwargs)
-		
+
 		config["nicks_blacklist"] = ["noplot"]
 		#config["file_mode"] = "UPDATE"
-		
+
 		return config.doIncludes().doComments()
-		
+
 	@staticmethod
 	def merge_configs(config1, config2, additional_keys = []):
-		""" 
-		Merge two configs to one config by appending the second config to the 
+		"""
+		Merge two configs to one config by appending the second config to the
 		first config.
 		"""
 		merged_config = copy.deepcopy(config1)
-		
+
 		for key in list(set([
 				"nicks",
 				"directories",
@@ -86,18 +86,18 @@ class SamplesBase(object):
 		] + additional_keys)):
 			if key in merged_config or key in config2:
 				merged_config.setdefault(key, []).extend(config2.get(key, []))
-		
+
 		for key in [
 				"analysis_modules",
 		]:
 			for item in config2.get(key, []):
 				if not item in merged_config.get(key, []):
 					merged_config.setdefault(key, []).append(item)
-		
+
 		for key, value in config2.iteritems():
 			if not key in merged_config:
 				merged_config[key] = value
-		
+
 		return merged_config
 
 	def _cut_string(self, channel, exclude_cuts=None, cut_type="baseline", **kwargs):
@@ -118,16 +118,16 @@ class SamplesBase(object):
 			cuts_list.append("1.0")
 
 		return "*".join(cuts_list)
-	
+
 	@staticmethod
 	def _add_input(config, input_file, folder, scale_factor, weight, nick, nick_suffix="", proxy_prefix=""):
 		"""
 		Method used to fill the config for a sample with the
 		1. input .root-file
-		2. the folder in the input root file 
+		2. the folder in the input root file
 		3. the scaling for the sample
-		4. Additional weights 
-		5. A nick name 
+		4. Additional weights
+		5. A nick name
 		"""
 		config.setdefault("files", []).append(input_file)
 		config.setdefault("folders", []).append(folder)
@@ -136,21 +136,21 @@ class SamplesBase(object):
 		config.setdefault("nicks", []).append(nick+nick_suffix)
 		config.setdefault("tree_draw_options", []).append("proxy" if len(proxy_prefix)>0 else "")
 		config.setdefault("proxy_prefixes", []).append(proxy_prefix)
-		
+
 		return config
-	
+
 	@staticmethod
 	def _add_bin_corrections(config, nick, nick_suffix=""):
 		if not "BinErrorsOfEmptyBins" in config.get("analysis_modules", []):
 			config.setdefault("analysis_modules", []).append("BinErrorsOfEmptyBins")
 		config.setdefault("nicks_empty_bins", []).append(nick+nick_suffix)
-		
+
 		if not "CorrectNegativeBinContents" in config.get("analysis_modules", []):
 			config.setdefault("analysis_modules", []).append("CorrectNegativeBinContents")
 		config.setdefault("nicks_correct_negative_bins", []).append(nick+nick_suffix)
-		
+
 		return config
-		
+
 	@staticmethod
 	def _add_plot(config, stack, marker, legend_marker, color_label_key, nick_suffix=""):
 		config.setdefault("stacks", []).append(stack)
