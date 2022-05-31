@@ -120,7 +120,16 @@ class Samples(samples.SamplesBase):
 	@staticmethod
 	def ztt_genmatch(channel, embedding=False):
 		if embedding:
-			return "(1.0)"
+			if channel == "mt":
+				return "(gen_match_1==4 && gen_match_2==5)"
+			if channel == "et":
+				return "(gen_match_1==3 && gen_match_2==5)"
+			if channel == "tt":
+				return "(gen_match_1==5 && gen_match_2==5)"
+			if channel == "em":
+				return "(gen_match_1==3 && gen_match_2==4)"
+			else:
+				return "(1.0)"
 		else:
 			if channel in ["mt", "et"]:
 				return "(gen_match_2 == 5)"
@@ -352,7 +361,7 @@ class Samples(samples.SamplesBase):
 			return "(1.0)"
 
 	def cp_filterefficiency(self, process, state=None, channel=None):
-		print "state: ", state
+		# print "state: ", state
 		if state=="finalState":
 			if process=="ggh":
 				return "(1.0)"
@@ -613,7 +622,7 @@ class Samples(samples.SamplesBase):
 		elif channel in ["mt", "et", "tt", "em", "mm", "ee", "ttbar"]:
 			add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
-					weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight, embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_emb)+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*"+zmm_cr_factor+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type_emb),
+					weight=Samples.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight, embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts, cut_type=cut_type_emb, embedding=self.embedding)+"*zPtReweightWeight"+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*"+zmm_cr_factor+"*"+self.nojetsfakefactor_weight(channel, fakefactor_method=fakefactor_method)+"*"+self.em_triggerweight_dz_filter(channel, cut_type=cut_type_emb),
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="ztt"
 			)
@@ -3506,14 +3515,28 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 
+		cp = kwargs.get("cp", None)
+		state = kwargs.get("state", None)
+		data_weight, mc_weight = self.projection(kwargs)
+		matrix_weight = "(1.0)*"
+
+		if state == "initialState":
+			if (cp == "sm"):
+				matrix_weight = "(madGraphWeight000/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
+			elif(cp == "mm"):
+				matrix_weight = "(madGraphWeight050/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
+			elif(cp == "ps"):
+				matrix_weight = "(madGraphWeight100/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
+
 		# tauSpinner weight for CP study in the final state
 		tauSpinner_weight = "(1.0)"
-		#if (kwargs.get("cp", None) == "cpeven"):
-		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
-		#if (kwargs.get("cp", None) == "cpmix"):
-		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
-		#if (kwargs.get("cp", None) == "cpodd"):
-		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
+		if state == "finalState":
+			if (cp == "sm"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
+			if (cp == "mm"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
+			if (cp == "ps"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
@@ -3557,6 +3580,18 @@ class Samples(samples.SamplesBase):
 				)
 		return config
 
+	def whsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.wh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState", stacks="whsm")
+		return config
+
+	def whmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.wh(config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState", stacks="whmm")
+		return config
+
+	def whps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.wh(config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState", stacks="whps")
+		return config
+
 	def files_zh(self, channel, mass=125):
 		return self.artus_file_names({"process" : "ZHToTauTau_M"+str(mass), "data": False, "campaign" : self.mc_campaign}, 1)
 
@@ -3571,14 +3606,28 @@ class Samples(samples.SamplesBase):
 		data_weight, mc_weight = self.projection(kwargs)
 		add_input = partialmethod(Samples._add_input, config=config, folder=self.root_file_folder(channel), scale_factor=lumi, nick_suffix=nick_suffix)
 
+		cp = kwargs.get("cp", None)
+		state = kwargs.get("state", None)
+		data_weight, mc_weight = self.projection(kwargs)
+		matrix_weight = "(1.0)*"
+
+		if state == "initialState":
+			if (cp == "sm"):
+				matrix_weight = "(madGraphWeight000/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
+			elif(cp == "mm"):
+				matrix_weight = "(madGraphWeight050/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
+			elif(cp == "ps"):
+				matrix_weight = "(madGraphWeight100/madGraphWeightSample)*(madGraphWeight000>-899)*(madGraphWeightSample>-899)*"
+
 		# tauSpinner weight for CP study in the final state
 		tauSpinner_weight = "(1.0)"
-		#if (kwargs.get("cp", None) == "cpeven"):
-		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
-		#if (kwargs.get("cp", None) == "cpmix"):
-		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
-		#if (kwargs.get("cp", None) == "cpodd"):
-		#	tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
+		if state == "finalState":
+			if (cp == "sm"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight000)"
+			if (cp == "mm"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight050)"
+			if (cp == "ps"):
+				tauSpinner_weight = "(tauSpinnerWeightInvSample)*(tauSpinnerWeight100)"
 
 		for mass in higgs_masses:
 			if channel in ["tt", "et", "mt", "em", "mm", "ee", "ttbar"]:
@@ -3609,6 +3658,17 @@ class Samples(samples.SamplesBase):
 				)
 		return config
 
+	def zhsm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.zh( config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="sm", state="finalState", stacks="zhsm")
+		return config
+
+	def zhmm(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.zh(config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="mm", state="finalState", stacks="zhmm")
+		return config
+
+	def zhps(self, config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=False, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", mssm=False, **kwargs):
+		config = self.zh(config, channel, category, weight, nick_suffix, higgs_masses, normalise_signal_to_one_pb=normalise_signal_to_one_pb, lumi=lumi, exclude_cuts=exclude_cuts, cut_type=cut_type, mssm=mssm, cp="ps", state="finalState", stacks="zhps")
+		return config
 
 	def ff(self, config, channel, category, weight, nick_suffix, lumi=default_lumi, exclude_cuts=None, cut_type="baseline", fake_factor_name_1="fakefactorWeight_comb_inclusive_1", fake_factor_name_2="fakefactorWeight_comb_inclusive_2", **kwargs):
 
@@ -3660,11 +3720,11 @@ class Samples(samples.SamplesBase):
 				else:
 					weight_ff_reals = weight + "*(" + ff_weight_2 + ")*(gen_match_2<6)*((gen_match_2 == 5)*0.95 + (gen_match_2 != 5))"
 
-			print weight_ff_reals
+			# print weight_ff_reals
 
 			add_input(
 				input_file=self.files_ztt(channel, embedding=self.embedding),
-				weight=Samples.ztt_genmatch(channel)+"*"+mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff_reals,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb)+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*zPtReweightWeight*(gen_match_2 < 6)",
+				weight=Samples.ztt_genmatch(channel)+"*"+mc_weight+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff_reals,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb, embedding=self.embedding)+"*"+self.decay_mode_reweight(channel, cut_type_emb)+"*zPtReweightWeight*(gen_match_2 < 6)",
 				scale_factor = 1.0 if self.embedding else lumi,
 				nick="noplot_ff_realtaus_subtract"
 			)

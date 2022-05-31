@@ -2817,7 +2817,7 @@ class Samples(samples.Samples):
 
 				add_input(
 					input_file=self.files_ztt(channel, embedding=self.embedding),
-					weight=mc_weight+"*"+self.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb)+"*"+self.decay_mode_reweight(channel, cut_type_emb),
+					weight=mc_weight+"*"+self.ztt_genmatch(channel, embedding=self.embedding)+"*"+self.get_weights_ztt(channel=channel,cut_type=cut_type_emb,weight=weight_ff+"*"+weight_ff_iso+"*"+weight_tau_id,embedding=self.embedding)+"*"+self._cut_string(channel, exclude_cuts=exclude_cuts+exclude_cuts_ff, cut_type=cut_type_emb, embedding=self.embedding)+"*"+self.decay_mode_reweight(channel, cut_type_emb),
 					scale_factor = 1.0 if self.embedding else lumi,
 					nick="noplot_ff_realtaus_subtract" + sub_channel.replace(channel,"")
 				)
