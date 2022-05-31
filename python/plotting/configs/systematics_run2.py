@@ -6,7 +6,7 @@ import Artus.Utility.logger as logger
 log = logging.getLogger(__name__)
 
 import copy
-
+import re
 
 class SystematicsFactory(dict):
 	def __init__(self):
@@ -31,10 +31,10 @@ class SystematicsFactory(dict):
 		self["CMS_mistag_b_13TeV"] = BMistagSystematic
 		self["CMS_eFakeTau_1prong_13TeV"] = ElectronToTauOneProngFakeSystematic
 		self["CMS_eFakeTau_1prong1pizero_13TeV"] = ElectronToTauOneProngPiZerosFakeSystematic
-                self["CMS_eFakeTau_eta_13TeV"] = ElectronToTauFakeSystematic
+		self["CMS_eFakeTau_eta_13TeV"] = ElectronToTauFakeSystematic
 		self["CMS_mFakeTau_1prong_13TeV"] = MuonToTauOneProngFakeSystematic
 		self["CMS_mFakeTau_1prong1pizero_13TeV"] = MuonToTauOneProngPiZerosFakeSystematic
-                self["CMS_mFakeTau_eta_13TeV"] = MuonToTauFakeSystematic
+		self["CMS_mFakeTau_eta_13TeV"] = MuonToTauFakeSystematic
 		self["CMS_htt_jetToTauFake_13TeV"] = JetToTauFakeSystematic
 		self["CMS_htt_jetToTauFake_pi_13TeV"] = JetToTauFakeSystematic
 		self["CMS_htt_jetToTauFake_rho_13TeV"] = JetToTauFakeSystematic
@@ -47,8 +47,8 @@ class SystematicsFactory(dict):
 		self["CMS_htt_jetToTauFake_a1_a1_13TeV"] = JetToTauFakeSystematic
 		self["CMS_scale_met_clustered_13TeV"] = MetJetEnSystematic
 		self["CMS_scale_met_unclustered_13TeV"] = MetUnclusteredEnSystematic
-                self["CMS_tauIDvsJets_pt_13TeV"] = TauIDvsJetsSystematic
-                self["CMS_tauTrigger_pt_13TeV"] = TauTriggerSystematic
+		self["CMS_tauIDvsJets_pt_13TeV"] = TauIDvsJetsSystematic
+		self["CMS_tauTrigger_pt_13TeV"] = TauTriggerSystematic
 		self["CMS_tauDMReco_1prong_13TeV"] = TauDMRecoOneProngSystematic
 		self["CMS_tauDMReco_1prong1pizero_13TeV"] = TauDMRecoOneProngPiZerosSystematic
 		self["CMS_tauDMReco_3prong_13TeV"] = TauDMRecoThreeProngSystematic
@@ -198,7 +198,37 @@ class SystematicsFactory(dict):
 		for channel in ["tt"]:
 			fakeFactorUncertNames += [
 				"w_frac_syst",
-				"tt_frac_syst"
+				"tt_frac_syst",
+				"tt_qcd_met_closure_syst_njets0",
+				"tt_qcd_syst_njets0",
+				"tt_qcd_met_closure_syst_njets1",
+				"tt_qcd_syst_njets1",
+				"tt_qcd_met_closure_syst_njets2",
+				"tt_qcd_stat_unc1_njets0_mvadm0_sig_gt",
+				"tt_qcd_stat_unc1_njets0_mvadm1",
+				"tt_qcd_stat_unc1_njets0_mvadm10",
+				"tt_qcd_stat_unc1_njets0_mvadm2",
+				"tt_qcd_stat_unc1_njets1_mvadm0_sig_gt",
+				"tt_qcd_stat_unc1_njets1_mvadm1",
+				"tt_qcd_stat_unc1_njets1_mvadm10",
+				"tt_qcd_stat_unc1_njets1_mvadm2",
+				"tt_qcd_stat_unc1_njets2_mvadm0_sig_gt",
+				"tt_qcd_stat_unc1_njets2_mvadm1",
+				"tt_qcd_stat_unc1_njets2_mvadm10",
+				"tt_qcd_stat_unc1_njets2_mvadm2",
+				"tt_qcd_stat_unc2_njets0_mvadm0_sig_gt",
+				"tt_qcd_stat_unc2_njets0_mvadm1",
+				"tt_qcd_stat_unc2_njets0_mvadm10",
+				"tt_qcd_stat_unc2_njets0_mvadm2",
+				"tt_qcd_stat_unc2_njets1_mvadm0_sig_gt",
+				"tt_qcd_stat_unc2_njets1_mvadm1",
+				"tt_qcd_stat_unc2_njets1_mvadm10",
+				"tt_qcd_stat_unc2_njets1_mvadm2",
+				"tt_qcd_stat_unc2_njets2_mvadm0_sig_gt",
+				"tt_qcd_stat_unc2_njets2_mvadm1",
+				"tt_qcd_stat_unc2_njets2_mvadm10",
+				"tt_qcd_stat_unc2_njets2_mvadm2",
+				"tt_sub_syst",
 			]
 
 
@@ -414,14 +444,47 @@ class FakeFactorUncSystematic(SystematicShiftBase):
 
 			self.fakefactordict["ff_qcd_"+channel+"_syst"] = "fakefactorWeight_qcd_syst_"
 
+		self.fakefactordict["ff_tt_qcd_met_closure_syst_njets0"] = ["ffWeight_medium_mvadmbins_qcd_met_", "ffWeight_medium_mvadmbins_qcd_met_*(njets==0)+ffWeight_medium_mvadmbins_1*(njets!=0)"]
+		self.fakefactordict["ff_tt_qcd_syst_njets0"] 			 = ["ffWeight_medium_mvadmbins_qcd_syst_", "ffWeight_medium_mvadmbins_qcd_syst_*(njets==0)+ffWeight_medium_mvadmbins_1*(njets!=0)"]
+		self.fakefactordict["ff_tt_qcd_met_closure_syst_njets1"] = ["ffWeight_medium_mvadmbins_qcd_met_", "ffWeight_medium_mvadmbins_qcd_met_*(njets==1)+ffWeight_medium_mvadmbins_1*(njets!=1)"]
+		self.fakefactordict["ff_tt_qcd_syst_njets1"]			 = ["ffWeight_medium_mvadmbins_qcd_syst_", "ffWeight_medium_mvadmbins_qcd_syst_*(njets==1)+ffWeight_medium_mvadmbins_1*(njets!=1)"]
+		self.fakefactordict["ff_tt_qcd_met_closure_syst_njets2"] = ["ffWeight_medium_mvadmbins_qcd_met_", "ffWeight_medium_mvadmbins_qcd_met_*(njets>=2)+ffWeight_medium_mvadmbins_1*(njets<2)"]
+
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets0_mvadm0_sig_gt"] = ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet0_mvadm0_sig_gt3_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet0_mvadm0_sig_gt3_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets0_mvadm1"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet0_mvadm1_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet0_mvadm1_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets0_mvadm10"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet0_mvadm10_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet0_mvadm10_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets0_mvadm2"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet0_mvadm2_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet0_mvadm2_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets1_mvadm0_sig_gt"] = ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet1_mvadm0_sig_gt3_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet1_mvadm0_sig_gt3_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets1_mvadm1"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet1_mvadm1_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet1_mvadm1_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets1_mvadm10"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet1_mvadm10_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet1_mvadm10_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets1_mvadm2"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet1_mvadm2_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet1_mvadm2_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets2_mvadm0_sig_gt"] = ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet2_mvadm0_sig_gt3_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet2_mvadm0_sig_gt3_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets2_mvadm1"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet2_mvadm1_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet2_mvadm1_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets2_mvadm10"]		= ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet2_mvadm10_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet2_mvadm10_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc1_njets2_mvadm2"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc1_njet2_mvadm2_", "ffWeight_medium_mvadmbins_qcd_stat_unc1_njet2_mvadm2_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets0_mvadm0_sig_gt"] = ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet0_mvadm0_sig_gt3_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet0_mvadm0_sig_gt3_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets0_mvadm1"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet0_mvadm1_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet0_mvadm1_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets0_mvadm10"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet0_mvadm10_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet0_mvadm10_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets0_mvadm2"]		= ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet0_mvadm2_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet0_mvadm2_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets1_mvadm0_sig_gt"] = ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet1_mvadm0_sig_gt3_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet1_mvadm0_sig_gt3_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets1_mvadm1"]		= ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet1_mvadm1_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet1_mvadm1_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets1_mvadm10"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet1_mvadm10_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet1_mvadm10_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets1_mvadm2"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet1_mvadm2_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet1_mvadm2_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets2_mvadm0_sig_gt"] = ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm0_sig_gt3_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm0_sig_gt3_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets2_mvadm1"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm1_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm1_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets2_mvadm10"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm10_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm10_"]
+		self.fakefactordict["ff_tt_qcd_stat_unc2_njets2_mvadm2"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm2_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm2_"]
+
 		self.fakefactordict["ff_w_syst"] = "fakefactorWeight_w_syst_"
 		
 	def get_config(self, shift=0.0):
 		plot_config = super(FakeFactorUncSystematic, self).get_config(shift=shift)
 		
 		for index, weight in enumerate(plot_config.get("weights", [])):
-			
-			if "ff_sub_syst" in self.fakeFactorUncertainty:
+
+			# if "ff_sub_syst" in self.fakeFactorUncertainty:
+			# if re.search("ff_("+plot_config["channel"]+"|)_sub_syst",self.fakeFactorUncertainty):
+			if re.search("ff.*sub_syst",self.fakeFactorUncertainty):
 				if shift > 0.0:
 					plot_config["add_scale_factors"] = ["1 -1.1"]
 				elif shift < 0.0:
@@ -430,7 +493,8 @@ class FakeFactorUncSystematic(SystematicShiftBase):
 				if (shift != 0.0) and (not "data" in plot_config["nicks"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 					if shift > 0.0 or shift < 0.0:
 						shift_string = "up" if shift > 0.0 else "down"
-						plot_config["weights"][index] = weight.replace("fakefactorWeight_comb_inclusive_2", self.fakefactordict[self.fakeFactorUncertainty] + shift_string + "_inclusive_2")
+						# plot_config["weights"][index] = weight.replace("fakefactorWeight_comb_inclusive_2", self.fakefactordict[self.fakeFactorUncertainty] + shift_string + "_inclusive_2")
+						plot_config["weights"][index] = weight.replace("ffWeight_medium_mvadmbins_1", self.fakefactordict[self.fakeFactorUncertainty][1]).replace(self.fakefactordict[self.fakeFactorUncertainty][0], self.fakefactordict[self.fakeFactorUncertainty][0] + shift_string)
 		return plot_config
 
 class JecUncSystematic(SystematicShiftBase):
