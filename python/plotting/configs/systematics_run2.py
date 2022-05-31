@@ -11,7 +11,7 @@ import re
 class SystematicsFactory(dict):
 	def __init__(self):
 		super(SystematicsFactory, self).__init__()
-		
+
 		self["nominal"] = Nominal
 		self["CMS_scale_j_13TeV"] = JecUncSystematic
 		self["CMS_scale_t_13TeV"] = TauEsSystematic
@@ -93,7 +93,7 @@ class SystematicsFactory(dict):
 
 		self["CMS_scale_j_RelativeBal_13TeV"] = CMS_scale_j_RelativeBal_13TeV
 		self["CMS_scale_j_RelativeSample_13TeV"] = CMS_scale_j_RelativeSample_13TeV
-		
+
 		for channel in ["mt", "et", "tt"]:
 			self["CMS_scale_t_"+channel+"_13TeV"] = TauEsSystematic
 
@@ -155,46 +155,33 @@ class SystematicsFactory(dict):
 			"eta3to5",
 			"Closure"
 		]
-		
+
 		for jecUncert in jecUncertNames:
-			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic if jecUncert != "Total" else JecUncSystematic 
+			self["CMS_scale_j_"+jecUncert+"_13TeV"] = JecUncSplitSystematic if jecUncert != "Total" else JecUncSystematic
 		"""
 		fakeFactorUncertNames = [
 		]
 
 		for channel in ["mt", "et"]:
 			fakeFactorUncertNames += [
-
-			        "qcd_dm0_njet0_"+channel+"_stat", #et,mt
-
-			        "qcd_dm0_njet1_"+channel+"_stat", #et,mt
-
-			        "qcd_dm1_njet0_"+channel+"_stat", #et,mt
-
-			        "qcd_dm1_njet1_"+channel+"_stat", #et,mt
-
+				"qcd_dm0_njet0_"+channel+"_stat", #et,mt
+				"qcd_dm0_njet1_"+channel+"_stat", #et,mt
+				"qcd_dm1_njet0_"+channel+"_stat", #et,mt
+				"qcd_dm1_njet1_"+channel+"_stat", #et,mt
 				"w_dm0_njet0_"+channel+"_stat", #et,mt
-
 				"w_dm0_njet1_"+channel+"_stat", #et,mt
-
 				"w_dm1_njet0_"+channel+"_stat", #et,mt
-
 				"w_dm1_njet1_"+channel+"_stat", #et,mt
-
 				"tt_dm0_njet0_"+channel+"_stat", #et,mt
-
 				"tt_dm0_njet1_"+channel+"_stat", #et,mt
-
 				"tt_dm1_njet0_"+channel+"_stat", #et,mt
-
 				"tt_dm1_njet1_"+channel+"_stat",  #et,mt
-
 				"sub_syst_" + channel
 			]
 			fakeFactorUncertNames += ["w_syst"]
-			
+
 			fakeFactorUncertNames += ["qcd_"+channel+"_syst", "ff_sub_syst_"+channel]
-		#only in next to next artus run, i forgot to add them in cpquantities
+
 		for channel in ["tt"]:
 			fakeFactorUncertNames += [
 				"w_frac_syst",
@@ -231,9 +218,6 @@ class SystematicsFactory(dict):
 				"tt_sub_syst",
 			]
 
-
-		#TODO: ff_sub_syst_et_0jet and more
-
 		for fakeFactorUncertainty in fakeFactorUncertNames:
 			self["ff_"+fakeFactorUncertainty ] = FakeFactorUncSystematic
 
@@ -241,24 +225,24 @@ class SystematicsFactory(dict):
 		self["WSFUncert_mt_dijet_boosted_13TeV"] = Nominal
 		self["WSFUncert_mt_dijet2D_boosted_13TeV"] = Nominal
 		self["WSFUncert_mt_dijet_lowboost_13TeV"] = Nominal
-		self["WSFUncert_et_dijet_boosted_13TeV"] = Nominal	
-		self["WSFUncert_et_dijet2D_boosted_13TeV"] = Nominal	
-		self["WSFUncert_et_dijet_lowboost_13TeV"] = Nominal	
-		self["WSFUncert_et_dijet_lowboost_13TeV"] = Nominal	
+		self["WSFUncert_et_dijet_boosted_13TeV"] = Nominal
+		self["WSFUncert_et_dijet2D_boosted_13TeV"] = Nominal
+		self["WSFUncert_et_dijet_lowboost_13TeV"] = Nominal
+		self["WSFUncert_et_dijet_lowboost_13TeV"] = Nominal
 		self["WSFUncert_mt_dijet_lowM_13TeV"] = Nominal
-		self["WSFUncert_et_dijet_lowM_13TeV"] = Nominal	
+		self["WSFUncert_et_dijet_lowM_13TeV"] = Nominal
 		self["WSFUncert_mt_dijet_highM_13TeV"] = Nominal
-		self["WSFUncert_et_dijet_highM_13TeV"] = Nominal	
+		self["WSFUncert_et_dijet_highM_13TeV"] = Nominal
 		self["WSFUncert_mt_dijet_lowMjj_13TeV"] = Nominal
-		self["WSFUncert_et_dijet_lowMjj_13TeV"] = Nominal								
+		self["WSFUncert_et_dijet_lowMjj_13TeV"] = Nominal
 		self["WSFUncert_lt_13TeV"] = Nominal
 		self["CMS_WSFUncert_lt_13TeV"] = Nominal
 		self["CMS_htt_zmumuShape_VBF_13TeV"] = Nominal
-		
+
 		# TODO: Where are these systematics to be implemented?
 		self["CMS_ggH_STXSVBF2j"] = Nominal
-		self["CMS_ggH_STXSmig12"] = Nominal	
-		
+		self["CMS_ggH_STXSmig12"] = Nominal
+
 		# QCD systematics for the GGH CP analysis.
 		self["CMS_em_QCD_0JetRate_13TeV"] = EmuQCDOsssRateSystematic
 		self["CMS_em_QCD_1JetRate_13TeV"] = EmuQCDOsssRateSystematic
@@ -266,7 +250,7 @@ class SystematicsFactory(dict):
 		self["CMS_em_QCD_1JetShape_13TeV"] = EmuQCDOsssShapeSystematic
 		self["CMS_em_QCD_IsoExtrap_13TeV"] = EmuQCDExtrapSystematic
 
-	
+
 	def get(self, key, default_value=None):
 		value = super(SystematicsFactory, self).get(key, default_value)
 		if value is None:
@@ -280,17 +264,17 @@ class SystematicShiftBase(object):
 	def __init__(self, plot_config):
 		super(SystematicShiftBase, self).__init__()
 		self.plot_config = plot_config
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = copy.deepcopy(self.plot_config)
-		
+
 		if shift != 0.0:
 			if "FillEmptyHistograms" not in plot_config.get("analysis_modules", []):
 				plot_config.setdefault("analysis_modules", []).append("FillEmptyHistograms")
 			# TODO: maybe specify more settings
 			# plot_config.setdefault("nicks_fill_empty_histograms", []).append(...)
 			# plot_config["fill_empty_histograms_integral"] = 1e-5
-		
+
 		return plot_config
 
 
@@ -298,8 +282,8 @@ class SystematicShiftBase(object):
 # same uncertainties as used for WHighMTtoLowMT_$BIN_13TeV implented in systematics_libary.py
 class WJetScaleFactor0JetSystematic(SystematicShiftBase):
 	def get_config(self, shift=0.0):
-		plot_config = super(WJetScaleFactor0JetSystematic, self).get_config(shift=shift)	
-		
+		plot_config = super(WJetScaleFactor0JetSystematic, self).get_config(shift=shift)
+
 		if shift > 0.0:
 			plot_config.setdefault("wjets_scale_factor_shifts", []).append(1.0 + 0.1)
 		elif shift < 0.0:
@@ -310,20 +294,20 @@ class WJetScaleFactor0JetSystematic(SystematicShiftBase):
 
 class WJetScaleFactorBoostedSystematic(SystematicShiftBase):
 	def get_config(self, shift=0.0):
-		plot_config = super(WJetScaleFactorBoostedSystematic, self).get_config(shift=shift)	
-		
+		plot_config = super(WJetScaleFactorBoostedSystematic, self).get_config(shift=shift)
+
 		if shift > 0.0:
 			plot_config.setdefault("wjets_scale_factor_shifts", []).append(1.0 + 0.05)
 		elif shift < 0.0:
 			plot_config.setdefault("wjets_scale_factor_shifts", []).append(1.0 - 0.05)
 
 		return plot_config
-		
+
 
 class WJetScaleFactorVbfSystematic(SystematicShiftBase):
 	def get_config(self, shift=0.0):
-		plot_config = super(WJetScaleFactorVbfSystematic, self).get_config(shift=shift)	
-		
+		plot_config = super(WJetScaleFactorVbfSystematic, self).get_config(shift=shift)
+
 		if shift > 0.0:
 			plot_config.setdefault("wjets_scale_factor_shifts", []).append(1.0 + 0.1)
 		elif shift < 0.0:
@@ -333,16 +317,16 @@ class WJetScaleFactorVbfSystematic(SystematicShiftBase):
 
 
 class GGHRenormalizationScaleSystematic(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config, category):
 		super(GGHRenormalizationScaleSystematic, self).__init__(plot_config)
 		self.plot_config = plot_config
 		self.channel = category.split("_")[0]
 		self.category = category.split("_")[1]
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(GGHRenormalizationScaleSystematic, self).get_config(shift=shift)
-		
+
 		w = "(1.0)"
 		if self.category == "ZeroJet2D":
 			if self.channel == "mt":
@@ -371,14 +355,14 @@ class GGHRenormalizationScaleSystematic(SystematicShiftBase):
 				w = "(1.032+0.000102*mjj)"
 			elif self.channel == "tt":
 				w = "(1.094+0.0000545*mjj)"
-	
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight+"*"+w
 				else:
 					plot_config["weights"][index] = weight+"*(2-"+w+")"
-		
+
 		return plot_config
 
 
@@ -386,7 +370,7 @@ class Nominal(SystematicShiftBase):
 	pass
 
 class FakeFactorUncSystematic(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config, fakeFactorUncertainty):
 		super(FakeFactorUncSystematic, self).__init__(plot_config)
 		self.plot_config = plot_config
@@ -394,36 +378,21 @@ class FakeFactorUncSystematic(SystematicShiftBase):
 
 		"""
 		"qcd_dm0_njet0_"+channel+"_stat", #et,mt
-
 		"qcd_dm0_njet1_"+channel+"_stat", #et,mt
-
-	        "qcd_dm1_njet0_"+channel+"_stat", #et,mt
-
-	        "qcd_dm1_njet1_"+channel+"_stat", #et,mt
-
+		"qcd_dm1_njet0_"+channel+"_stat", #et,mt
+		"qcd_dm1_njet1_"+channel+"_stat", #et,mt
 		"w_dm0_njet0_"+channel+"_stat", #et,mt
-
 		"w_dm0_njet1_"+channel+"_stat", #et,mt
-
 		"w_dm1_njet0_"+channel+"_stat", #et,mt
-
 		"w_dm1_njet1_"+channel+"_stat", #et,mt
-
 		"tt_dm0_njet0_"+channel+"_stat", #et,mt
-
 		"tt_dm0_njet1_"+channel+"_stat", #et,mt
-
 		"tt_dm1_njet0_"+channel+"_stat", #et,mt
-
 		"tt_dm1_njet1_"+channel+"_stat",  #et,mt
-
 		"sub_syst_" + channel
-
 		"w_syst"
-			
 		"qcd_"+channel+"_syst", "ff_sub_syst_"+channel
 		"""
-
 
 		self.fakefactordict = {}
 		for channel in ["mt", "et"]:
@@ -476,10 +445,10 @@ class FakeFactorUncSystematic(SystematicShiftBase):
 		self.fakefactordict["ff_tt_qcd_stat_unc2_njets2_mvadm2"] 		= ["ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm2_", "ffWeight_medium_mvadmbins_qcd_stat_unc2_njet2_mvadm2_"]
 
 		self.fakefactordict["ff_w_syst"] = "fakefactorWeight_w_syst_"
-		
+
 	def get_config(self, shift=0.0):
 		plot_config = super(FakeFactorUncSystematic, self).get_config(shift=shift)
-		
+		print(plot_config)
 		for index, weight in enumerate(plot_config.get("weights", [])):
 
 			# if "ff_sub_syst" in self.fakeFactorUncertainty:
@@ -498,189 +467,189 @@ class FakeFactorUncSystematic(SystematicShiftBase):
 		return plot_config
 
 class JecUncSystematic(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config, jecUncertainty):
 		super(JecUncSystematic, self).__init__(plot_config)
 		self.plot_config = plot_config
 		self.jecUncertainty = jecUncertainty
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JecUncSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "jecUncUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "jecUncDown")
-		
+
 		return plot_config
 
 
 class CMS_scale_j_eta0to5_corr_13TeV(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config):
 		super(CMS_scale_j_eta0to5_corr_13TeV, self).__init__(plot_config)
 		self.plot_config = plot_config
-		#self.jecUncertainty = jecUncertainty	
-	
+		#self.jecUncertainty = jecUncertainty
+
 	def get_config(self, shift=0.0):
 		plot_config = super(CMS_scale_j_eta0to5_corr_13TeV, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "eta0to5CorrelatedUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "eta0to5CorrelatedDown")
-		
+
 		return plot_config
 
 class CMS_scale_j_eta0to3_corr_13TeV(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config):
 		super(CMS_scale_j_eta0to3_corr_13TeV, self).__init__(plot_config)
 		self.plot_config = plot_config
-		#self.jecUncertainty = jecUncertainty	
-	
+		#self.jecUncertainty = jecUncertainty
+
 	def get_config(self, shift=0.0):
 		plot_config = super(CMS_scale_j_eta0to3_corr_13TeV, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "eta0to3CorrelatedUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "eta0to3CorrelatedDown")
-		
+
 		return plot_config
 
 
 class CMS_scale_j_eta3to5_corr_13TeV(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config):
 		super(CMS_scale_j_eta3to5_corr_13TeV, self).__init__(plot_config)
 		self.plot_config = plot_config
-		#self.jecUncertainty = jecUncertainty	
-	
+		#self.jecUncertainty = jecUncertainty
+
 	def get_config(self, shift=0.0):
 		plot_config = super(CMS_scale_j_eta3to5_corr_13TeV, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "eta3to5CorrelatedUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "eta3to5CorrelatedDown")
-		
+
 		return plot_config
 
 
 
 class CMS_scale_j_eta0to5_uncorr_13TeV(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config):
 		super(CMS_scale_j_eta0to5_uncorr_13TeV, self).__init__(plot_config)
 		self.plot_config = plot_config
-		#self.jecUncertainty = jecUncertainty	
-	
+		#self.jecUncertainty = jecUncertainty
+
 	def get_config(self, shift=0.0):
 		plot_config = super(CMS_scale_j_eta0to5_uncorr_13TeV, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "eta0to5UncorrelatedUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "eta0to5UncorrelatedDown")
-		
+
 		return plot_config
 
 class CMS_scale_j_eta0to3_uncorr_13TeV(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config):
 		super(CMS_scale_j_eta0to3_uncorr_13TeV, self).__init__(plot_config)
 		self.plot_config = plot_config
-		#self.jecUncertainty = jecUncertainty	
-	
+		#self.jecUncertainty = jecUncertainty
+
 	def get_config(self, shift=0.0):
 		plot_config = super(CMS_scale_j_eta0to3_uncorr_13TeV, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "eta0to3UncorrelatedUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "eta0to3UncorrelatedDown")
-		
+
 		return plot_config
 
 
 class CMS_scale_j_eta3to5_uncorr_13TeV(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config):
 		super(CMS_scale_j_eta3to5_uncorr_13TeV, self).__init__(plot_config)
 		self.plot_config = plot_config
-		#self.jecUncertainty = jecUncertainty	
-	
+		#self.jecUncertainty = jecUncertainty
+
 	def get_config(self, shift=0.0):
 		plot_config = super(CMS_scale_j_eta3to5_uncorr_13TeV, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "eta3to5UncorrelatedUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "eta3to5UncorrelatedDown")
-		
+
 		return plot_config
 
 class CMS_scale_j_RelativeBal_13TeV(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config):
 		super(CMS_scale_j_RelativeBal_13TeV, self).__init__(plot_config)
 		self.plot_config = plot_config
-		#self.jecUncertainty = jecUncertainty	
-	
+		#self.jecUncertainty = jecUncertainty
+
 	def get_config(self, shift=0.0):
 		plot_config = super(CMS_scale_j_RelativeBal_13TeV, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "relativeBalUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "relativeBalDown")
-		
+
 		return plot_config
 
 class CMS_scale_j_RelativeSample_13TeV(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config):
 		super(CMS_scale_j_RelativeSample_13TeV, self).__init__(plot_config)
 		self.plot_config = plot_config
-		#self.jecUncertainty = jecUncertainty	
-	
+		#self.jecUncertainty = jecUncertainty
+
 	def get_config(self, shift=0.0):
 		plot_config = super(CMS_scale_j_RelativeSample_13TeV, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "relativeSampleUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "relativeSampleDown")
-		
+
 		return plot_config
 
 
 class JecUncSplitSystematic(SystematicShiftBase):
-	
+
 	def __init__(self, plot_config, jecUncertainty):
 		super(JecUncSplitSystematic, self).__init__(plot_config)
 		self.plot_config = plot_config
 		self.jecUncertainty = jecUncertainty
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JecUncSplitSystematic, self).get_config(shift=shift)
 
@@ -690,65 +659,65 @@ class JecUncSplitSystematic(SystematicShiftBase):
 					if shift > 0.0 or shift < 0.0:
 						shift_string = "Up" if shift > 0.0 else "Down"
 						plot_config[key][index] = value.replace("njetspt30", "njetspt30_"+self.jecUncertainty+shift_string).replace("mjj", "mjj_"+self.jecUncertainty+shift_string).replace("jdeta", "jdeta_"+self.jecUncertainty+shift_string).replace("jdphi", "jdphi_"+self.jecUncertainty+shift_string)
-		
+
 		return plot_config
 
 
 class TTBarShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(TTBarShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("topPtReweightWeight", "topPtReweightWeight*topPtReweightWeight")
 				else:
 					plot_config["weights"][index] = weight.replace("topPtReweightWeight", "(1.0)")
-		
+
 		return plot_config
 
 
 class DYShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(DYShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("zPtReweightWeight","zPtReweightWeight*zPtReweightWeight")
 				else:
 					plot_config["weights"][index] = weight.replace("zPtReweightWeight","(1.0)")
-		
+
 		return plot_config
 
 class EmuQCDOsssShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(EmuQCDOsssShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdOsssShapeUpWeight")
 				else:
 					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdOsssShapeDownWeight")
-		
+
 		return plot_config
 
 class EmuQCDOsssRateSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(EmuQCDOsssRateSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdOsssRateUpWeight")
 				else:
 					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdOsssRateDownWeight")
-		
+
 		return plot_config
 
 class EmuQCDExtrapSystematic(SystematicShiftBase):
@@ -762,277 +731,277 @@ class EmuQCDExtrapSystematic(SystematicShiftBase):
 					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdExtrapUpWeight")
 				else:
 					plot_config["weights"][index] = weight.replace("emuQcdOsssWeight","emuQcdExtrapDownWeight")
-		
+
 		return plot_config
 
 
 class JetFakeTauQCDShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JetFakeTauQCDShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_qcd_up")
 				else:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_qcd_down")
-		
+
 		return plot_config
 
 
 class JetFakeTauWShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JetFakeTauWShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_w_up")
 				else:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_w_down")
-		
+
 		return plot_config
 
 
 class JetFakeTauTTcorrShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JetFakeTauTTcorrShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_tt_corr_up")
 				else:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_tt_corr_down")
-		
+
 		return plot_config
 
 
 class JetFakeTauTTstatShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JetFakeTauTTstatShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_tt_stat_up")
 				else:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_tt_stat_down")
-		
+
 		return plot_config
 
 
 class JetFakeTauFracQCDShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JetFakeTauFracQCDShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_qcd_up")
 				else:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_qcd_down")
-		
+
 		return plot_config
 
 
 class JetFakeTauFracWShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JetFakeTauFracWShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_w_up")
 				else:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_w_down")
-		
+
 		return plot_config
 
 
 class JetFakeTauFracTTShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JetFakeTauFracTTShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_tt_up")
 				else:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_tt_down")
-		
+
 		return plot_config
 
 
 class JetFakeTauFracDYShapeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JetFakeTauFracDYShapeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_dy_up")
 				else:
 					plot_config["weights"][index] = weight.replace("jetToTauFakeWeight_comb", "jetToTauFakeWeight_frac_dy_down")
-		
+
 		return plot_config
 
 
 class MuFakeTauEsSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(MuFakeTauEsSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "muonEsUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "muonEsDown")
-		
+
 		return plot_config
 
 
 class EleFakeTauEsSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(EleFakeTauEsSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "eleEsUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "eleEsDown")
-		
+
 		return plot_config
 
 
 class TauEsSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(TauEsSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEsUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "tauEsDown")
-		
+
 		return plot_config
 
 
 class EleEsSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(EleEsSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "eleEsUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "eleEsDown")
-		
+
 		return plot_config
 
 
 class MuonEsSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(MuonEsSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "muonEsUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "muonEsDown")
-		
+
 		return plot_config
 
 
 class MetResponseSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(MetResponseSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "metResponseUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "metResponseDown")
-		
+
 		return plot_config
 
 
 class TagEleEsSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(TagEleEsSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("tagEleEsNom", "tagEleEsUp")
 				else:
 					plot_config["folders"][index] = folder.replace("tagEleEsNom", "tagEleEsDown")
-		
+
 		return plot_config
 
 
 class ProbeTauEsSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(ProbeTauEsSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("probeTauEsNom", "probeTauEsUp")
 				else:
 					plot_config["folders"][index] = folder.replace("probeTauEsNom", "probeTauEsDown")
-		
+
 		return plot_config
 
 
 class ProbeEleEsSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(ProbeEleEsSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("probeEleEsNom", "probeEleEsUp")
 				else:
 					plot_config["folders"][index] = folder.replace("probeEleEsNom", "probeEleEsDown")
-		
+
 		return plot_config
 
 
 class MassResSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(MassResSystematic, self).get_config(shift=shift)
-		
+
 		for index, expression in enumerate(plot_config.get("x_expressions", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["x_expressions"][index] = expression.replace("m_vis", "diLepMassSmearUp")
 				else:
 					plot_config["x_expressions"][index] = expression.replace("m_vis", "diLepMassSmearDown")
-		
+
 		return plot_config
 
 class MassResSystematicv2(SystematicShiftBase):
@@ -1051,32 +1020,32 @@ class MassResSystematicv2(SystematicShiftBase):
 
 
 class BTagSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(BTagSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "bTagUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "bTagDown")
-		
+
 		return plot_config
 
 
 class BMistagSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(BMistagSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "bMistagUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "bMistagDown")
-		
+
 		return plot_config
 
 
@@ -1084,33 +1053,33 @@ class ElectronToTauOneProngFakeSystematic(SystematicShiftBase):
 
 	def get_config(self, shift=0.0):
 		plot_config = super(ElectronToTauOneProngFakeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*0.98) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.2) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*0.98*1.12) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.2) + ((decayMode_2 == 10)*1.0))")
 				else:
 					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*0.98) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.2) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*0.98*0.88) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.2) + ((decayMode_2 == 10)*1.0))")
-		
+
 		return plot_config
 
 
 class ElectronToTauOneProngPiZerosFakeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(ElectronToTauOneProngPiZerosFakeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*0.98) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.2) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*0.98) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.2*1.12) + ((decayMode_2 == 10)*1.0))")
 				else:
 					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*0.98) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.2) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*0.98) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.2*0.88) + ((decayMode_2 == 10)*1.0))")
-		
+
 		return plot_config
 
 class ElectronToTauFakeSystematic(SystematicShiftBase):
-        
+
         def get_config(self, shift=0.0):
                 plot_config = super(ElectronToTauFakeSystematic, self).get_config(shift=shift)
 
@@ -1127,32 +1096,32 @@ class ElectronToTauFakeSystematic(SystematicShiftBase):
                 return plot_config
 
 class MuonToTauOneProngFakeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(MuonToTauOneProngFakeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*0.75) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*0.75*1.25) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))")
 				else:
 					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*0.75) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*0.75*0.75) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))")
-		
+
 		return plot_config
 
 
 class MuonToTauOneProngPiZerosFakeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(MuonToTauOneProngPiZerosFakeSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*0.75) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*0.75) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.25) + ((decayMode_2 == 10)*1.0))")
 				else:
 					plot_config["weights"][index] = weight.replace("(((decayMode_2 == 0)*0.75) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))", "(((decayMode_2 == 0)*0.75) + ((decayMode_2 == 1 || decayMode_2 == 2)*0.75) + ((decayMode_2 == 10)*1.0))")
-		
+
 		return plot_config
 
 class MuonToTauFakeSystematic(SystematicShiftBase):
@@ -1173,47 +1142,47 @@ class MuonToTauFakeSystematic(SystematicShiftBase):
                 return plot_config
 
 class JetToTauFakeSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(JetToTauFakeSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "tauJetFakeEsUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "tauJetFakeEsDown")
-		
+
 		return plot_config
 
 
 class MetJetEnSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(MetJetEnSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "metJetEnUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "metJetEnDown")
-		
+
 		return plot_config
 
 
 class MetUnclusteredEnSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(MetUnclusteredEnSystematic, self).get_config(shift=shift)
-		
+
 		for index, folder in enumerate(plot_config.get("folders", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
 					plot_config["folders"][index] = folder.replace("nominal", "metUnclusteredEnUp")
 				else:
 					plot_config["folders"][index] = folder.replace("nominal", "metUnclusteredEnDown")
-		
+
 		return plot_config
 
 class TauIDvsJetsSystematic(SystematicShiftBase):
@@ -1251,10 +1220,10 @@ class TauTriggerSystematic(SystematicShiftBase):
                return plot_config
 
 class TauDMRecoOneProngSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(TauDMRecoOneProngSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
@@ -1265,15 +1234,15 @@ class TauDMRecoOneProngSystematic(SystematicShiftBase):
 					plot_config["weights"][index] = ("({weight})*(((decayMode_2 == 0)*0.97) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*1.0))").format(
 							weight=weight
 					)
-		
+
 		return plot_config
 
 
 class TauDMRecoOneProngPiZerosSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(TauDMRecoOneProngPiZerosSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
@@ -1284,15 +1253,15 @@ class TauDMRecoOneProngPiZerosSystematic(SystematicShiftBase):
 					plot_config["weights"][index] = ("({weight})*(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*0.97) + ((decayMode_2 == 10)*1.0))").format(
 							weight=weight
 					)
-		
+
 		return plot_config
 
 
 class TauDMRecoThreeProngSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(TauDMRecoThreeProngSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift > 0.0:
@@ -1303,15 +1272,15 @@ class TauDMRecoThreeProngSystematic(SystematicShiftBase):
 					plot_config["weights"][index] = ("({weight})*(((decayMode_2 == 0)*1.0) + ((decayMode_2 == 1 || decayMode_2 == 2)*1.0) + ((decayMode_2 == 10)*0.97))").format(
 							weight=weight
 					)
-		
+
 		return plot_config
 
 
 class RecoTauDecayModeFakePiSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(RecoTauDecayModeFakePiSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				plot_config["weights"][index] = ("({weight})*({syst})").format(
@@ -1332,15 +1301,15 @@ class RecoTauDecayModeFakePiSystematic(SystematicShiftBase):
 								 "((decayMode_2==0)*(genMatchedTau2DecayMode==1)*(1.30-1.0)))"
 						)
 				)
-		
+
 		return plot_config
 
 
 class RecoTauDecayModeFakeRhoSystematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(RecoTauDecayModeFakeRhoSystematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				plot_config["weights"][index] = ("({weight})*({syst})").format(
@@ -1361,15 +1330,15 @@ class RecoTauDecayModeFakeRhoSystematic(SystematicShiftBase):
 								 "((decayMode_2==1)*(genMatchedTau2DecayMode>1)*(genMatchedTau2DecayMode<5)*(1.04-1.0)))"
 						)
 				)
-		
+
 		return plot_config
 
 
 class RecoTauDecayModeFakeA1Systematic(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(RecoTauDecayModeFakeA1Systematic, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				plot_config["weights"][index] = ("({weight})*({syst})").format(
@@ -1517,15 +1486,15 @@ class EmbeddingTTBarContaminationSystematic(SystematicShiftBase):
 		return plot_config
 
 class CMS_FiniteQuarkMass_13TeV(SystematicShiftBase):
-	
+
 	def get_config(self, shift=0.0):
 		plot_config = super(CMS_FiniteQuarkMass_13TeV, self).get_config(shift=shift)
-		
+
 		for index, weight in enumerate(plot_config.get("weights", [])):
 			if (shift != 0.0) and (not "Run201" in plot_config["files"][index]) and (not "gen_ztt" in plot_config["nicks"][index]):
 				if shift < 0.0:
 					plot_config["weights"][index] = weight.replace("quarkmassWeight","(quarkmassWeight*0.999)")
 				else:
 					plot_config["weights"][index] = weight.replace("quarkmassWeight","(1.0)")
-		
+
 		return plot_config
