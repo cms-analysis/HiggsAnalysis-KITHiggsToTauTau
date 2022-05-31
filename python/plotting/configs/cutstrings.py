@@ -330,7 +330,8 @@ class CutStringsDict:
 			elif "emb" in cut_type:
 				cuts["trigger"] += "*triggerWeight_tau_1*triggerWeight_tau_2"
 				cuts["trigger"] += "*triggerWeight_doublemu_1"
-			cuts["pt_1"] = "(pt_1 > 50.0)"
+			# cuts["pt_1"] = "(pt_1 > 50.0)"
+			cuts["pt_1"] = "(pt_1 > 40.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
@@ -344,10 +345,11 @@ class CutStringsDict:
 		data = kwargs.get("data", False)
 		embedding = kwargs.get("embedding", False)
 		cuts = CutStringsDict.baseline(channel, cut_type, **kwargs)
-		cuts["bveto"] = "(nbtag == 0)"
-		cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
+		# cuts["mvis"] = "(m_vis > 40.0)"
+		# cuts["prefiringWeight"] = "(1.0)" if "emb" in cut_type else "(prefiringWeight)"
 
 		if channel == "mt":
+			cuts["bveto"] = "(nbtag == 0)"
 			# if data :
 				# cuts["trigger"] = "((((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5))) + ((pt_1 < 25.0)*(pt_2 > 32.0)*(abs(eta_2) < 2.1)*(trg_crossmuon_mu20tau27>0.5)))"
 			# else:
@@ -356,8 +358,9 @@ class CutStringsDict:
 			if not data:
 				cuts["trigger"] += "*triggerWeight_comb"
 			# cuts["pujetIDweight"] = "pileupJetIDScaleFactorWeight"
+			cuts["bveto"] = "(nbtag == 0)"
 			cuts["pt_1"] = "(pt_1 > 21.0)"
-			cuts["pt_2"] = "(pt_2 > 30.0)"
+			cuts["pt_2"] = "(pt_2 > 32.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
 			cuts["mt"] = "(mt_1<50.0)"
@@ -373,6 +376,7 @@ class CutStringsDict:
 				cuts["trigger"] = "( ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1)) ))"
 			else:
 				cuts["trigger"] = "( ( (((trg_singleelectron_27>0.5)*(pt_1 >= 28.0)) || (((trg_singleelectron_32>0.5)||(trg_singleelectron_32_fallback>0.5))*(pt_1>33)) || ((trg_singleelectron_35>0.5)*(pt_1>36))) * triggerWeight_single_1 + ((trg_crosselectron_ele24tau30>0.5)*(pt_1 < 28.0)*(pt_2 > 35.0)*(abs(eta_2) < 2.1))*triggerWeight_cross_1*triggerWeight_cross_2))"
+			cuts["bveto"] = "(nbtag == 0)"
 			cuts["pt_1"] = "(pt_1 > 25.0)"
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
@@ -388,20 +392,21 @@ class CutStringsDict:
 			# cuts["trigger"] = "( ((HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 40) * (pt_2 > 40)) || ((HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45)) || ((HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg > 0.5) * (pt_1 > 45) * (pt_2 > 45) ) )"
 			if not data:
 				cuts["trigger"] = "".join(["(",
-								"((trg_doubletau_35_mediso > 0.5) * (pt_1 > 40.0) * (pt_2 > 40.0))",
+								"((trg_doubletau_35_mediso > 0.5)*(pt_1 > 40.0)*(pt_2 > 40.0))",
 								")"])
 				tauidtriggersf_1 = "triggerWeight_cross_1"
 				tauidtriggersf_2 = "triggerWeight_cross_2"
 				cuts["trigger"] += "*" + tauidtriggersf_1 + "*" + tauidtriggersf_2
 			else:
 				cuts["trigger"] = "".join(["(",
-								"((trg_doubletau_35_tightiso_tightid > 0.5) * (pt_1 > 40.0) * (pt_2 > 40.0)) ||",
-								"((trg_doubletau_40_mediso_tightid > 0.5) * (pt_1 > 45.0) * (pt_2 > 45.0)) ||",
-								"((trg_doubletau_40_tightiso > 0.5) * (pt_1 > 45.0) * (pt_2 > 45.0)) ||",
-								"((trg_doubletau_35_mediso > 0.5) * (pt_1 > 40.0) * (pt_2 > 40.0))",
+								"((trg_doubletau_35_tightiso_tightid > 0.5)*(pt_1 > 40.0)*(pt_2 > 40.0))||",
+								"((trg_doubletau_40_mediso_tightid > 0.5)*(pt_1 > 45.0)*(pt_2 > 45.0))||",
+								"((trg_doubletau_40_tightiso > 0.5)*(pt_1 > 45.0)*(pt_2 > 45.0))||",
+								"((trg_doubletau_35_mediso > 0.5)*(pt_1 > 40.0)*(pt_2 > 40.0))",
 								")"])
 			cuts["pt_1"] = "(pt_1 > 40.0)"
 			cuts["pt_2"] = "(pt_2 > 40.0)"
+			# cuts["jpt_2"] = "((njets==0)+(njets==1)*(jpt_1 > 30.0)+(njets>1)*(jpt_1 > 30.0)*(jpt_2 > 30.0))"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.1)"
 			cuts["iso_1"] = "(byMediumDeepTau2017v2p1VSjet_1 > 0.5)"
@@ -410,6 +415,33 @@ class CutStringsDict:
 			cuts["anti_e_tau_discriminators"] += "*(byVVLooseDeepTau2017v2p1VSe_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(byVLooseDeepTau2017v2p1VSmu_1 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] += "*(byVLooseDeepTau2017v2p1VSmu_2 > 0.5)"
+			cuts["MVAdecayModes"] = "(decayModeMVA_1>=0)*(decayModeMVA_2>=0)"
+
+			if not data:
+				if embedding:
+					# cuts["normalizationtest"] = "(0.75)"
+					cuts["decay_mode_reweight_1"] = "((decayMode_1==0)*0.975 + (decayMode_1==1)*0.975*1.051 + (decayMode_1==10)*pow(0.975,3) + (decayMode_1==11)*pow(0.975,3)*1.051)"
+					cuts["decay_mode_reweight_2"] = "((decayMode_2==0)*0.975 + (decayMode_2==1)*0.975*1.051 + (decayMode_2==10)*pow(0.975,3) + (decayMode_2==11)*pow(0.975,3)*1.051)"
+					cuts["idweights"] = "*".join([
+										# "weightTauId_1",
+										# "weightTauId_2",
+										# "weightScaleFactor_deepTauVsMuVLoose_1",
+										# "weightScaleFactor_deepTauVsMuVLoose_2",
+										# "weightScaleFactor_deepTauVsEleVVLoose_1",
+										# "weightScaleFactor_deepTauVsEleVVLoose_2",
+										"weightEmbeddingSelection_id_1",
+										"weightEmbeddingSelection_id_2",
+										"weightEmbeddingSelection_trigger_1"
+										])
+				else: # MC
+					cuts["idweights"] = "*".join([
+										"weightTauId_1",
+										"weightTauId_2",
+										# "weightScaleFactor_deepTauVsMuVLoose_1",
+										# "weightScaleFactor_deepTauVsMuVLoose_2",
+										# "weightScaleFactor_deepTauVsEleVVLoose_1",
+										# "weightScaleFactor_deepTauVsEleVVLoose_2"
+										])
 
 		elif channel == "mm":
 			cuts["trigger"] = "(((pt_1 >= 25.0)*(trg_singlemuon_24>0.5))||((pt_1 >= 28.0)*(trg_singlemuon_27>0.5)))"
@@ -440,9 +472,9 @@ class CutStringsDict:
 			cuts["pt_2"] = "(pt_2 > 30.0)"
 			cuts["eta_1"] = "(abs(eta_1) < 2.1)"
 			cuts["eta_2"] = "(abs(eta_2) < 2.3)"
-			
+
 			cuts["mt"] = "(mt_1<50.0)"
-			
+
 			cuts["iso_1"] = "(iso_1 < 0.15)"
 			cuts["anti_e_tau_discriminators"] = "(byVVLooseDeepTau2017v2p1VSe_2 > 0.5)"
 			cuts["anti_mu_tau_discriminators"] = "(byTightDeepTau2017v2p1VSmu_2 > 0.5)"

@@ -294,8 +294,7 @@ class DatacardConfigs(object):
 
 	def sample2process(self, sample):
 		tmp_sample = sample
-		print tmp_sample
-		print sample.replace(tmp_sample, dict([reversed(item) for item in self._mapping_process2sample.iteritems()]).get(tmp_sample, tmp_sample))
+		# print tmp_sample, "mapped to", sample.replace(tmp_sample, dict([reversed(item) for item in self._mapping_process2sample.iteritems()]).get(tmp_sample, tmp_sample))
 		return sample.replace(tmp_sample, dict([reversed(item) for item in self._mapping_process2sample.iteritems()]).get(tmp_sample, tmp_sample))
 
 	def category2binid(self, category, channel="default"):

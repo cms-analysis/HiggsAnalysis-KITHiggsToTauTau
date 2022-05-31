@@ -23,7 +23,13 @@ class InitialStateCPStudiesDatacards(smhttdatacards.SMHttDatacards):
 			"ggH_sm_htt",
 			"qqH_mm_htt",
 			"qqH_ps_htt",
-			"qqH_sm_htt"]
+			"qqH_sm_htt",
+			"wh_ps_htt",
+			"wh_mm_htt",
+			"wh_sm_htt",
+			"zh_ps_htt",
+			"zh_mm_htt",
+			"zh_sm_htt",]
 		}
 
 		super(InitialStateCPStudiesDatacards, self).__init__(
