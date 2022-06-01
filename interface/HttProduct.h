@@ -744,14 +744,14 @@ public:
 	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit;
 	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit;
 
-	double m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPPolVecOneProngA1HelrPVBS = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS = DefaultValues::UndefinedDouble;
-	double m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPPolVecTauOneProngTauA1 = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPPolVecOneProngTauA1 = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPPolVecTauOneProngA1 = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPPolVecOneProngA1 = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRho = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPPolVecTauOneProngA1PiHighPt = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPPolVecOneProngA1PiSSFromRho = DefaultValues::UndefinedDouble;
+	double m_recoPhiStarCPPolVecOneProngA1PiHighPt = DefaultValues::UndefinedDouble;
 
 	double m_recoPhiStarCPPolVecCombTauOneProngTauA1HelrPVBS = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPPolVecCombOneProngTauA1HelrPVBS = DefaultValues::UndefinedDouble;

@@ -345,37 +345,37 @@ void RecoTauCPProducer::Init(setting_type const& settings, metadata_type& metada
 	});
 
 
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecTauOneProngTauA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS;
+		return product.m_recoPhiStarCPPolVecTauOneProngTauA1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecOneProngTauA1HelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecOneProngTauA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS;
+		return product.m_recoPhiStarCPPolVecOneProngTauA1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecTauOneProngA1HelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecTauOneProngA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS;
+		return product.m_recoPhiStarCPPolVecTauOneProngA1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecOneProngA1HelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecOneProngA1", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_recoPhiStarCPPolVecOneProngA1HelrPVBS;
+		return product.m_recoPhiStarCPPolVecOneProngA1;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecTauOneProngA1PiSSFromRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS;
+		return product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRho;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecTauOneProngA1PiHighPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS;
+		return product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPt;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecOneProngA1PiSSFromRho", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS;
+		return product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRho;
 	});
-	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
+	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecOneProngA1PiHighPt", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
 	{
-		return product.m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS;
+		return product.m_recoPhiStarCPPolVecOneProngA1PiHighPt;
 	});
 
 	LambdaNtupleConsumer<HttTypes>::AddFloatQuantity(metadata, "recoPhiStarCPPolVecCombTauOneProngTauA1HelrPVBS", [](event_type const& event, product_type const& product, setting_type const& settings, metadata_type const& metadata)
@@ -2643,56 +2643,56 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			{
 				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngTauA1SimpleFit[a1];
 				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngTauA1SimpleFit[oneProng];
-				product.m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTauA1, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecTauOneProngTauA1 = cpq.CalculatePhiStarCPPolVec(simpleFitTauA1, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
 				product.m_recoPhiStarCPPolVecCombTauOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTauA1, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
 			}
 			if(product.m_polarimetricVectorsOneProngTauA1SimpleFit.size() > 0)
 			{
 				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngTauA1SimpleFit[a1];
 				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngTauA1SimpleFit[oneProng];
-				product.m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(simpleFitTauA1, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecOneProngTauA1 = cpq.CalculatePhiStarCPPolVec(simpleFitTauA1, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
 				product.m_recoPhiStarCPPolVecCombOneProngTauA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(simpleFitTauA1, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
 			}
 			if(product.m_polarimetricVectorsTauOneProngA1SimpleFit.size() > 0)
 			{
 				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngA1SimpleFit[a1];
 				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngA1SimpleFit[oneProng];
-				product.m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(a1->p4, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecTauOneProngA1 = cpq.CalculatePhiStarCPPolVec(a1->p4, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
 				product.m_recoPhiStarCPPolVecCombTauOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(a1->p4, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
 			}
 			if(product.m_polarimetricVectorsOneProngA1SimpleFit.size() > 0)
 			{
 				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngA1SimpleFit[a1];
 				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngA1SimpleFit[oneProng];
-				product.m_recoPhiStarCPPolVecOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVec(a1->p4, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecOneProngA1 = cpq.CalculatePhiStarCPPolVec(a1->p4, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
 				product.m_recoPhiStarCPPolVecCombOneProngA1HelrPVBS = cpq.CalculatePhiStarCPPolVecComb(a1->p4, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
 			}
 			if(product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit.size() > 0)
 			{
 				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit[a1];
 				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit[oneProng];
-				product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSFromRho, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRho = cpq.CalculatePhiStarCPPolVec(A1PiSSFromRho, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
 				product.m_recoPhiStarCPPolVecCombTauOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSFromRho, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
 			}
 			if(product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit.size() > 0)
 			{
 				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit[a1];
 				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit[oneProng];
-				product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSHighPt, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPt = cpq.CalculatePhiStarCPPolVec(A1PiSSHighPt, simpleFitTauOneProng, polVecA1, polVecOneProng, firstNegative);
 				product.m_recoPhiStarCPPolVecCombTauOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSHighPt, simpleFitTauOneProng, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
 			}
 			if(product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit.size() > 0)
 			{
 				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit[a1];
 				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit[oneProng];
-				product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSFromRho, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRho = cpq.CalculatePhiStarCPPolVec(A1PiSSFromRho, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
 				product.m_recoPhiStarCPPolVecCombOneProngA1PiSSFromRhoHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSFromRho, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
 			}
 			if(product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit.size() > 0)
 			{
 				RMFLV::BetaVector polVecA1 = product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit[a1];
 				RMFLV::BetaVector polVecOneProng = product.m_polarimetricVectorsOneProngA1PiHighPtSimpleFit[oneProng];
-				product.m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVec(A1PiSSHighPt, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
+				product.m_recoPhiStarCPPolVecOneProngA1PiHighPt = cpq.CalculatePhiStarCPPolVec(A1PiSSHighPt, oneProng->p4, polVecA1, polVecOneProng, firstNegative);
 				product.m_recoPhiStarCPPolVecCombOneProngA1PiHighPtHelrPVBS = cpq.CalculatePhiStarCPPolVecComb(A1PiSSHighPt, oneProng->p4, polVecA1, IPLVHelrPVBSOneProng, firstNegative);
 			}
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecTau1Tau2HelrPVBS;
@@ -2704,14 +2704,14 @@ void RecoTauCPProducer::Produce(event_type const& event, product_type& product, 
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2PiSSFromRhoHelrPVBS;
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecTau1VisTau2PiHighPtHelrPVBS;
 			//
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngTauA1HelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngTauA1HelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngA1HelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1HelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngA1HelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRhoHelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPtHelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRhoHelrPVBS;
-			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS: " << product.m_recoPhiStarCPPolVecOneProngA1PiHighPtHelrPVBS;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngTauA1: " << product.m_recoPhiStarCPPolVecTauOneProngTauA1;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngTauA1: " << product.m_recoPhiStarCPPolVecOneProngTauA1;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1: " << product.m_recoPhiStarCPPolVecTauOneProngA1;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1: " << product.m_recoPhiStarCPPolVecOneProngA1;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRho: " << product.m_recoPhiStarCPPolVecTauOneProngA1PiSSFromRho;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPt: " << product.m_recoPhiStarCPPolVecTauOneProngA1PiHighPt;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRho: " << product.m_recoPhiStarCPPolVecOneProngA1PiSSFromRho;
+			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecOneProngA1PiHighPt: " << product.m_recoPhiStarCPPolVecOneProngA1PiHighPt;
 			//
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1Tau2HelrPVBS;
 			// LOG(INFO) << "RecoTauCPProducer product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS: " << product.m_recoPhiStarCPPolVecCombTau1VisTau2HelrPVBS;
