@@ -3,11 +3,8 @@
 
 ssh -vT git@github.com
 
-echo -n "Enter the CMMSW release you want to use (747, 810, 942, 10220 [default]) and press [ENTER] (747 is for SL6, 810, 942 and 10220 is for SL7): "
-read cmssw_version
-
-echo -n "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev [default], classicsvfit, HTTCPDecays18-dev) and press [ENTER] : "
-read ch_branch
+read -e -p "Enter the CMMSW release you want to use (747, 810, 942, 10220 [default]) and press [ENTER] (747 is for SL6, 810, 942 and 10220 is for SL7): " -i "10220" cmssw_version
+read -e -p "Enter the CombineHarvester developer branch you want to checkout (master, SM2016-dev, SMCP2016-dev, classicsvfit, HTTCPDecays18-dev [default]) and press [ENTER] : " -i "HTTCPDecays18-dev" ch_branch
 
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 source $VO_CMS_SW_DIR/cmsset_default.sh
@@ -33,12 +30,10 @@ elif [[ $cmssw_version = "810" ]]; then
 	eval `scramv1 runtime -sh`
 	export BRANCH="master"
 
-else
-	# elif [[ $cmssw_version = "10220" ]]; then
+elif [[ $cmssw_version = "10220" ]]; then
 	export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 	source $VO_CMS_SW_DIR/cmsset_default.sh
-	echo -n "Enter the Linux release you want to use (SL6, SL7 [default]) and press [ENTER]: "
-	read sl_version
+	read -e -p "Enter the Linux release you want to use (SL6, SL7 [default]) and press [ENTER]: " -i "SL7" sl_version
 	if [[ $sl_version = "SL6" ]] || [[ $sl_version = "6" ]] || [[ $sl_version = "SLC6" ]]; then
 	    export SCRAM_ARCH=slc6_amd64_gcc700
 	    scramv1 project -n CMSSW_10_2_20 CMSSW CMSSW_10_2_20
@@ -100,7 +95,7 @@ cat <<EOF >> svFitStandalone.patch
 EOF
 patch ./src/SVfitStandaloneQuantities.cc svFitStandalone.patch
 cd $CMSSW_BASE/src/
-git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits
+git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits -b dev
 
 # polarisation
 git clone git@github.com:TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
@@ -182,9 +177,16 @@ elif [[ $cmssw_version == "940" ]]; then
 	git checkout v7.0.13
 	cd -
 
-elif [[ $cmssw_version == "10220" ]] && [[ $ch_branch == "HTTCPDecays18-dev" ]]; then
+elif [[ $cmssw_version == "10220" ]]; then
 	# needed for plotting and statistical inference
-	git clone git@github.com:azotz/CombineHarvester CombineHarvester -b HTTCPDecays18-dev
+	if [[ $ch_branch == "HTTCPDecays18-dev" ]]; then
+		git clone git@github.com:azotz/CombineHarvester CombineHarvester -b HTTCPDecays18-dev
+	else
+		git clone git@github.com:cms-analysis/CombineHarvester.git CombineHarvester -b SMCP2016-dev
+		cd CombineHarvester/HTTSMCP2016
+		git clone https://gitlab.cern.ch/cms-htt/SM-PAS-2016.git shapes
+		cd -
+	fi
 	git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 	cd HiggsAnalysis/CombinedLimit
 	git fetch origin
