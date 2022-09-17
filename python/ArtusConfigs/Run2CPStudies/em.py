@@ -64,6 +64,7 @@ class em_ArtusConfig(dict):
 
 		if re.search("(Spring16|Summer16|Run2016)", nickname):
 			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:ImpactParameterProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
@@ -138,6 +139,7 @@ class em_ArtusConfig(dict):
 
 		elif re.search("(Fall15|Run2015)", nickname):
 			#self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:ImpactParameterProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]

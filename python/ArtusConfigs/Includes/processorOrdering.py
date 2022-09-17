@@ -209,12 +209,12 @@ class ProcessorsOrdered(dict):
 		self["producer:LegacyWeightProducer"] = 293
 		self["producer:LegacyWeightUncProducer"] = 294
 
-
 		self["producer:GenMatchedTauCPProducer"] = 295
 
 		self["producer:RefitVertexSelector"] = 300
 
 		#from here it "only" creates the quantities so I left some numbers inbetween
+		self["producer:ImpactParameterProducer"] = 398
 		self["producer:RecoTauCPProducer"] = 400
 		self["producer:IsomorphicMappingProducer"] = 410
 		self["producer:QuantileMappingProducer"] = 411

@@ -444,8 +444,7 @@ public:
 	double m_genMatchedPhiStarCPPolVecCombOneProngA1PiSSFromRho = DefaultValues::UndefinedDouble;
 	double m_genMatchedPhiStarCPPolVecCombOneProngA1PiHighPt = DefaultValues::UndefinedDouble;
 
-	// filled by RecoTauCPProducer
-
+	// filled by ImpactParameterProducer
 	TVector3 m_recoIP1; // IPvec wrt original PV
 	TVector3 m_recoIP2; // IPvec wrt original PV
 	TVector3 m_recoIPrPV_1; // IPvec wrt refitted PV
@@ -581,25 +580,10 @@ public:
 	double m_recoPhi1 = DefaultValues::UndefinedDouble;
 	RMPoint m_recoOprime = DefaultValues::UndefinedRMPoint;
 
-	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
-	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
-	double m_cosPsiPlusrPV  = DefaultValues::UndefinedDouble;
-	double m_cosPsiMinusrPV = DefaultValues::UndefinedDouble;
-	double m_cosPsiPlusrPVBS  = DefaultValues::UndefinedDouble;
-	double m_cosPsiMinusrPVBS = DefaultValues::UndefinedDouble;
-	double m_cosPsiPlusHel  = DefaultValues::UndefinedDouble;
-	double m_cosPsiMinusHel = DefaultValues::UndefinedDouble;
-	double m_cosPsiPlusHelrPV  = DefaultValues::UndefinedDouble;
-	double m_cosPsiMinusHelrPV = DefaultValues::UndefinedDouble;
-	double m_cosPsiPlusHelrPVBS  = DefaultValues::UndefinedDouble;
-	double m_cosPsiMinusHelrPVBS = DefaultValues::UndefinedDouble;
-
 	std::vector<double> m_errorIP1vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vec {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-
 	std::vector<double> m_errorIP1vecrPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vecrPV {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
-
 	std::vector<double> m_errorIP1vecrPVBS {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	std::vector<double> m_errorIP2vecrPVBS {DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble};
 	// comparison genIP-recoIP
@@ -687,11 +671,41 @@ public:
 	double m_deltaTanHelIPrPVBS_1 = DefaultValues::UndefinedDouble;
 	double m_deltaTanHelIPrPVBS_2 = DefaultValues::UndefinedDouble;
 
-
-
 	// comparison between recoIP(original PV) and recoIP(refitPV)
 	double m_deltaRrecoIP1s  = DefaultValues::UndefinedDouble;
 	double m_deltaRrecoIP2s  = DefaultValues::UndefinedDouble;
+
+	// filled by RecoTauCPProducer
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2SimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2SimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2VisSimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2VisSimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit;
+
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngTauA1SimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngTauA1SimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngA1SimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngA1SimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit;
+	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngA1PiHighPtSimpleFit;
+
+	double m_cosPsiPlus  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinus = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlusrPV  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinusrPV = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlusrPVBS  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinusrPVBS = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlusHel  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinusHel = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlusHelrPV  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinusHelrPV = DefaultValues::UndefinedDouble;
+	double m_cosPsiPlusHelrPVBS  = DefaultValues::UndefinedDouble;
+	double m_cosPsiMinusHelrPVBS = DefaultValues::UndefinedDouble;
 
 	// CP-sensitive observable
 	double m_recoPhiStarCP  = DefaultValues::UndefinedDouble;
@@ -735,15 +749,6 @@ public:
 	double m_recoPhiStarCPPolVecCombTau1VisTau2PiSSFromRhoHelrPVBS = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPPolVecCombTau1VisTau2PiHighPtHelrPVBS = DefaultValues::UndefinedDouble;
 
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2SimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2SimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2VisSimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2PiSSFromRhoSimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1Tau2PiHighPtSimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2VisSimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2PiSSFromRhoSimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTau1VisTau2PiHighPtSimpleFit;
-
 	double m_recoPhiStarCPPolVecTauOneProngTauA1 = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPPolVecOneProngTauA1 = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPPolVecTauOneProngA1 = DefaultValues::UndefinedDouble;
@@ -762,21 +767,10 @@ public:
 	double m_recoPhiStarCPPolVecCombOneProngA1PiSSFromRhoHelrPVBS = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarCPPolVecCombOneProngA1PiHighPtHelrPVBS = DefaultValues::UndefinedDouble;
 
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngTauA1SimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngTauA1SimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngA1SimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngA1SimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngA1PiSSFromRhoSimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsTauOneProngA1PiHighPtSimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngA1PiSSFromRhoSimpleFit;
-	std::map<KLepton*, RMFLV::BetaVector> m_polarimetricVectorsOneProngA1PiHighPtSimpleFit;
-
 	double m_reco_posyTauL = DefaultValues::UndefinedDouble;
 	double m_reco_negyTauL = DefaultValues::UndefinedDouble;
 	double m_recoPhiStar = DefaultValues::UndefinedDouble;
 	double m_recoPhiStarRho = DefaultValues::UndefinedDouble;
-
-
 
 	// azimuthal angles of the tau decay planes
 	// ip method
@@ -809,8 +803,8 @@ public:
 	std::pair <double,double> m_recoChargedHadronEnergies = std::make_pair(DefaultValues::UndefinedDouble, DefaultValues::UndefinedDouble);
 	//double m_recoIP1 = DefaultValues::UndefinedDouble;
 	//double m_recoIP2 = DefaultValues::UndefinedDouble;
-	double m_recoTrackRefError1 = DefaultValues::UndefinedDouble;
-	double m_recoTrackRefError2 = DefaultValues::UndefinedDouble;
+	// double m_recoTrackRefError1 = DefaultValues::UndefinedDouble;
+	// double m_recoTrackRefError2 = DefaultValues::UndefinedDouble;
 
 	// filed by IsomorphicMapping
 	TVector3 m_isomapIPHelrPV_1; // IPvec wrt refitted PV

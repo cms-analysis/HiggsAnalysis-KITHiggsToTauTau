@@ -15,7 +15,6 @@
 
 class RecoTauCPProducer : public ProducerBase<HttTypes> {
 	private:
-		bool m_isData;
 		bool m_useAltPiZero;
 		bool m_useMVADecayModes;
 		RMFLV alternativePiZeroMomentum(const KTau* tau) const;

@@ -64,6 +64,7 @@ class tt_ArtusConfig(dict):
 		if re.search("(Spring16|Summer16|Run2016|Embedding2016|Summer17|Fall17|Run2017|Embedding2017|Autumn18|Run2018|Embedding2018)", nickname):
 			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples
 			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:ImpactParameterProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]
@@ -182,6 +183,7 @@ class tt_ArtusConfig(dict):
 
 		elif re.search("(Fall15|Run2015)", nickname):
 			#self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:ImpactParameterProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitProducer"]
 			self["Processors"] += ["producer:PolarisationQuantitiesSvfitM91Producer"]

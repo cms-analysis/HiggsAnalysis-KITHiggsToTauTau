@@ -25,6 +25,7 @@
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenHiggsCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/GenTauCPProducers.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RefitVertexSelector.h"
+#include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/ImpactParameterProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/RecoTauCPProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/IsomorphicMappingProducer.h"
 #include "HiggsAnalysis/KITHiggsToTauTau/interface/Producers/QuantileMappingProducer.h"
@@ -187,6 +188,8 @@ ProducerBaseUntemplated * HttFactory::createProducer(std::string const& id)
 		return new GenMatchedTauCPProducer();
 	else if(id == RefitVertexSelector().GetProducerId())
 		return new RefitVertexSelector();
+	else if(id == ImpactParameterProducer().GetProducerId())
+		return new ImpactParameterProducer();
 	else if(id == RecoTauCPProducer().GetProducerId())
 		return new RecoTauCPProducer();
 	else if(id == IsomorphicMappingProducer().GetProducerId())

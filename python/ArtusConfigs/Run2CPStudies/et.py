@@ -72,6 +72,7 @@ class et_ArtusConfig(dict):
 			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples
 			self["Processors"] += [
 				"producer:RefitVertexSelector",
+				"producer:ImpactParameterProducer",
 				"producer:RecoTauCPProducer",
 				"producer:PolarisationQuantitiesSvfitProducer",
 				#"producer:PolarisationQuantitiesSvfitM91Producer",
@@ -190,6 +191,7 @@ class et_ArtusConfig(dict):
 		elif re.search("(Fall15|Run2015)", nickname):
 			#"producer:RefitVertexSelector"], '#producer:TaggedJetUncertaintyShiftProducer',  '#producer:SimpleFitProducer',  '#producer:TauPolarisationTmvaReader', '#producer:MVATestMethodsProducer'
 			self["Processors"] += [
+				"producer:ImpactParameterProducer",
 				"producer:RecoTauCPProducer",
 				"producer:PolarisationQuantitiesSvfitProducer",
 				"producer:PolarisationQuantitiesSvfitM91Producer",
@@ -259,6 +261,7 @@ class et_ArtusConfig(dict):
 				"producer:SimpleFitProducer",
 				"producer:RooWorkspaceWeightProducer",
 				"producer:RefitVertexSelector",
+				"producer:ImpactParameterProducer",
 				"producer:RecoTauCPProducer",
 				"producer:GenMatchedPolarisationQuantitiesProducer",
 				"producer:PolarisationQuantitiesSvfitProducer",

@@ -69,6 +69,7 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:MuMuTriggerWeightProducer"]
 			self["Processors"] += ["producer:GenMatchedTauCPProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:ImpactParameterProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 
@@ -106,6 +107,7 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:MELAProducer"]
 			self["Processors"] += ["producer:MELAM125Producer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:ImpactParameterProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:TriggerWeightProducer"]
 			self["Processors"] += ["producer:IdentificationWeightProducer"]
@@ -179,6 +181,7 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:MELAM125Producer"]
 
 			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:ImpactParameterProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 
@@ -283,6 +286,7 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["producer:SvfitProducer"]
 			self["Processors"] += ["producer:LegacyWeightProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:ImpactParameterProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 			self["Processors"] += ["producer:CPInitialStateQuantitiesProducer"] #only DoLhenpNLO for IC samples
@@ -326,6 +330,7 @@ class mm_ArtusConfig(dict):
 			self["Processors"] += ["#producer:RooWorkspaceWeightProducer"]
 			self["Processors"] += ["producer:MuMuTriggerWeightProducer"]
 			self["Processors"] += ["producer:RefitVertexSelector"]
+			self["Processors"] += ["producer:ImpactParameterProducer"]
 			self["Processors"] += ["producer:RecoTauCPProducer"]
 			self["Processors"] += ["producer:EventWeightProducer"]
 
