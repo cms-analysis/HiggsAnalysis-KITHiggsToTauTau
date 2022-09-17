@@ -1,6 +1,7 @@
 
 #include "TMatrixT.h"
 #include "TMatrixTSym.h"
+#include "TMatrixDSymEigen.h"
 #include "TVector3.h"
 #include "TVectorT.h"
 
@@ -172,8 +173,10 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 	KLepton* oneProng = nullptr;
 	KTau* a1 = nullptr;
 	bool pionDecay = false;
+	KVertex *rPVBS = product.m_refitPVBS != nullptr ? product.m_refitPVBS : &event.m_vertexSummary->pv;
 
-	// LOG(INFO) << "SimpleFitProducer: START";
+	LOG(DEBUG) << "SimpleFitProducer: START";
+	LOG(DEBUG) << "Processing run:lumi:event " << event.m_eventInfo->nRun << ":" << event.m_eventInfo->nLumi << ":" << event.m_eventInfo->nEvent;
 
 	for (std::vector<KLepton*>::iterator leptonIt = product.m_flavourOrderedLeptons.begin();
 	     leptonIt != product.m_flavourOrderedLeptons.end(); ++leptonIt)
@@ -211,7 +214,7 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 	}
 
 	if ((oneProng != nullptr) && (a1 != nullptr)
-			&& !(isnan(product.m_met.p4.Pt()) ||
+			&& !(isnan(product.m_met.p4.Pt()) || // NOTE: this probably should be part of a MET filter
 					 isnan(product.m_met.significance(0,0)) ||
 					 isnan(product.m_met.significance(0,1)) ||
 					 isnan(product.m_met.significance(1,0)) ||
@@ -219,22 +222,32 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 	{
 		// LOG(INFO) << "Found one prong and a1";
 		// one prong decay
-		std::vector<float> threeProngOneHelixParameters = oneProng->track.helixParameters();
-		TMatrixT<double> threeProngOneHelixParametersInput(TrackParticle::NHelixPar, 1);
+		// NOTE: CMSSW/KTrack parameters are qoverp, lambda, phi, dxy, dsz. SimpleFits expects kappa, lambda, phi, dxy, dz
+		std::vector<float> oneProngHelixParametersAtOrigin = oneProng->track.helixParameters();
+		std::vector<float> oneProngHelixParameters = oneProng->track.helixParameters(rPVBS->position);
+		// std::vector<float> oneProngHelixParameters = oneProng->track.helixParameters();
+		TMatrixT<double> oneProngHelixParametersInput(TrackParticle::NHelixPar, 1);
 		for (unsigned int parameterIndex1 = 0; parameterIndex1 < TrackParticle::NHelixPar; ++parameterIndex1)
 		{
-			threeProngOneHelixParametersInput[parameterIndex1][0] = threeProngOneHelixParameters[parameterIndex1];
+			oneProngHelixParametersInput[parameterIndex1][0] = oneProngHelixParameters[parameterIndex1];
 		}
 		TMatrixTSym<double> oneProngHelixCovarianceInput = Utility::ConvertMatrixSym<ROOT::Math::SMatrix<float, reco::Track::dimension, reco::Track::dimension, ROOT::Math::MatRepSym<float, reco::Track::dimension> >, TMatrixTSym<double> >(oneProng->track.helixCovariance, TrackParticle::NHelixPar);
 
+		// LOG(INFO) << "\noneProngHelixCovarianceEigenBeforeConversion:";
+		// TMatrixDSymEigen oneProngHelixCovarianceEigenBeforeConversion(oneProngHelixCovarianceInput);
+		// oneProngHelixCovarianceEigenBeforeConversion.GetEigenValues().Print();
+
 		// LOG(WARNING) << "\n\nSimpleFits inputs (oneProng):";
-		// LOG(INFO) << "\nthreeProngOneHelixParametersInput:";
-		// threeProngOneHelixParametersInput.Print();
+		// LOG(INFO) << "\noneProngHelixParametersInput:";
+		// oneProngHelixParametersInput.Print();
 		// LOG(INFO) << "\noneProngHelixCovarianceInput:";
 		// oneProngHelixCovarianceInput.Print();
 
 		// transform q_over_p as provided by CMSSW to kappa as required by SimpleFits
-		threeProngOneHelixParametersInput[TrackParticle::kappa][0] = -threeProngOneHelixParametersInput[TrackParticle::kappa][0]*oneProng->track.magneticField/cos(threeProngOneHelixParametersInput[TrackParticle::lambda][0]);
+		// kappa = - q_over_p*B/cos(lambda)
+		oneProngHelixParametersInput[TrackParticle::kappa][0] = -oneProngHelixParametersInput[TrackParticle::kappa][0]*oneProng->track.magneticField/cos(oneProngHelixParametersInput[TrackParticle::lambda][0]);
+		// dz = dsz/cos(lambda)
+		oneProngHelixParametersInput[TrackParticle::dz][0] = oneProngHelixParametersInput[TrackParticle::dz][0]/cos(oneProngHelixParametersInput[TrackParticle::lambda][0]);
 		TMatrixTSym<double> Jacobi(TrackParticle::NHelixPar);
 		// make unit matrix first
 		for (size_t i_row = 0; i_row < TrackParticle::NHelixPar; i_row++)
@@ -244,23 +257,39 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 		// propagate uncertainties of q_over_p and lambda into Jacobian matrix
 		Jacobi[TrackParticle::kappa][reco::Track::i_qoverp] = (-1.0)*oneProng->track.magneticField/cos(oneProng->track.lambda());
 		Jacobi[TrackParticle::kappa][reco::Track::i_lambda] = (-1.0)*oneProng->track.magneticField*oneProng->track.qOverP()*tan(oneProng->track.lambda())/cos(oneProng->track.lambda());
+		Jacobi[TrackParticle::dz][reco::Track::i_lambda] = oneProngHelixParametersInput[TrackParticle::dz][0]*tan(oneProng->track.lambda())/cos(oneProng->track.lambda());
+		Jacobi[TrackParticle::dz][reco::Track::i_dsz] = 1.0/cos(oneProng->track.lambda());
 
 		// LOG(INFO) << "\nJacobi Matrix:";
 		// Jacobi.Print();
 
 		// Perform the actual error propagation by multiplying the Jacobian matrix from both sides
 		oneProngHelixCovarianceInput.Similarity(Jacobi);
-		TrackParticle oneProngInput(threeProngOneHelixParametersInput, oneProngHelixCovarianceInput, oneProng->pdgId(), oneProng->p4.mass(), oneProng->charge(), oneProng->track.magneticField);
+		TrackParticle oneProngInput(oneProngHelixParametersInput, oneProngHelixCovarianceInput, oneProng->pdgId(), oneProng->p4.mass(), oneProng->charge(), oneProng->track.magneticField);
+
+		// LOG(INFO) << "\noneProngHelixCovarianceEigenAfterConversion:";
+		oneProngHelixCovarianceInput = RegulariseCovariance(oneProngHelixCovarianceInput, 1.0);
+		TMatrixDSymEigen oneProngHelixCovarianceEigenAfterConversion(oneProngHelixCovarianceInput);
+		TVectorD  oneProngHelixCovarianceEigenValues = oneProngHelixCovarianceEigenAfterConversion.GetEigenValues();
+		for(int i_row = 0; i_row < oneProngHelixCovarianceEigenValues.GetNrows(); i_row++)
+		{
+			// LOG(INFO) << "oneProngHelixParametersAtOrigin par " << i_row << ": " << oneProngHelixParametersAtOrigin[i_row];
+			// LOG(INFO) << "oneProngHelixParameters par " << i_row << ": " << oneProngHelixParameters[i_row];
+			if(oneProngHelixCovarianceEigenValues[i_row] < 0)
+			{
+				LOG(WARNING) << "Eigenvalue " << i_row << " of oneProngHelixCovariance is smaller than 0: " << oneProngHelixCovarianceEigenValues[i_row];
+			}
+		}
 
 		// LOG(WARNING) << "\n\nSimpleFits inputs (oneProng) after change from qoverp->kappa:";
-		// LOG(INFO) << "\nthreeProngOneHelixParametersInput:";
-		// threeProngOneHelixParametersInput.Print();
+		// LOG(INFO) << "\noneProngHelixParametersInput:";
+		// oneProngHelixParametersInput.Print();
 		// LOG(INFO) << "\noneProngHelixCovarianceInput:";
 		// oneProngHelixCovarianceInput.Print();
 		// LOG(INFO) << "\noneProng->pdgId(): " << oneProng->pdgId();
 		// LOG(INFO) << "oneProng->p4.mass(): " << oneProng->p4.mass();
 		// LOG(INFO) << "oneProng->charge(): " << oneProng->charge();
-		// LOG(INFO) << "threeProngOneHelixParametersInput[0][0]: " << threeProngOneHelixParametersInput[0][0];
+		// LOG(INFO) << "oneProngHelixParametersInput[0][0]: " << oneProngHelixParametersInput[0][0];
 		// LOG(INFO) << "oneProngInput.Parameter(TrackParticle::kappa): " << oneProngInput.Parameter(TrackParticle::kappa);
 		// LOG(INFO) << "-q*oneProng->track.magneticField/oneProngInput.Parameter(TrackParticle::kappa): " << (-1)*oneProng->charge()*oneProng->track.magneticField/oneProngInput.Parameter(TrackParticle::kappa);
 		// LOG(INFO) << "oneProng->track.qOverP(): " << oneProng->track.qOverP();
@@ -418,19 +447,19 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 				product.m_simpleFitResonancePrefitResolvedGen = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitResonances().at(product.m_genSimpleFitIndexMap[a1]).LV());
 				product.m_simpleFitTausPrefitResolvedGen[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauMus().at(product.m_genSimpleFitIndexMap[a1]).LV());
 				product.m_simpleFitTausPrefitResolvedGen[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauHs().at(product.m_genSimpleFitIndexMap[a1]).LV());
-				// LOG(INFO) << "product.m_genSimpleFitIndexMap[a1]: " << product.m_genSimpleFitIndexMap[a1];
-				// LOG(INFO) << "m_simpleFitResonancePrefitResolvedGen: (px,py,pz,M)=(" << product.m_simpleFitResonancePrefitResolvedGen.px() << "," << product.m_simpleFitResonancePrefitResolvedGen.py() << "," << product.m_simpleFitResonancePrefitResolvedGen.pz() << "," << product.m_simpleFitResonancePrefitResolvedGen.M() << ")";
-				// LOG(INFO) << "m_simpleFitTausPrefitResolvedGen[oneProng]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[oneProng].px() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].py() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].M() << ")";
-				// LOG(INFO) << "m_simpleFitTausPrefitResolvedGen[a1]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[a1].px() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].py() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].M() << ")";
+				// LOG(DEBUG) << "product.m_genSimpleFitIndexMap[a1]: " << product.m_genSimpleFitIndexMap[a1];
+				// LOG(DEBUG) << "m_simpleFitResonancePrefitResolvedGen: (px,py,pz,M)=(" << product.m_simpleFitResonancePrefitResolvedGen.px() << "," << product.m_simpleFitResonancePrefitResolvedGen.py() << "," << product.m_simpleFitResonancePrefitResolvedGen.pz() << "," << product.m_simpleFitResonancePrefitResolvedGen.M() << ")";
+				// LOG(DEBUG) << "m_simpleFitTausPrefitResolvedGen[oneProng]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[oneProng].px() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].py() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].M() << ")";
+				// LOG(DEBUG) << "m_simpleFitTausPrefitResolvedGen[a1]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[a1].px() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].py() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].M() << ")";
 			}
 			else
 			{
 				product.m_simpleFitResonancePrefitResolvedGen = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitResonances().at(0).LV());
 				product.m_simpleFitTausPrefitResolvedGen[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauMus().at(0).LV());
 				product.m_simpleFitTausPrefitResolvedGen[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getInitTauHs().at(0).LV());
-				// LOG(INFO) << "m_simpleFitResonancePrefitResolvedGen: (px,py,pz,M)=(" << product.m_simpleFitResonancePrefitResolvedGen.px() << "," << product.m_simpleFitResonancePrefitResolvedGen.py() << "," << product.m_simpleFitResonancePrefitResolvedGen.pz() << "," << product.m_simpleFitResonancePrefitResolvedGen.M() << ")";
-				// LOG(INFO) << "m_simpleFitTausPrefitResolvedGen[oneProng]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[oneProng].px() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].py() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].M() << ")";
-				// LOG(INFO) << "m_simpleFitTausPrefitResolvedGen[a1]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[a1].px() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].py() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].M() << ")";
+				// LOG(DEBUG) << "m_simpleFitResonancePrefitResolvedGen: (px,py,pz,M)=(" << product.m_simpleFitResonancePrefitResolvedGen.px() << "," << product.m_simpleFitResonancePrefitResolvedGen.py() << "," << product.m_simpleFitResonancePrefitResolvedGen.pz() << "," << product.m_simpleFitResonancePrefitResolvedGen.M() << ")";
+				// LOG(DEBUG) << "m_simpleFitTausPrefitResolvedGen[oneProng]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[oneProng].px() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].py() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[oneProng].M() << ")";
+				// LOG(DEBUG) << "m_simpleFitTausPrefitResolvedGen[a1]: (px,py,pz,M)=(" << product.m_simpleFitTausPrefitResolvedGen[a1].px() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].py() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].pz() << "," << product.m_simpleFitTausPrefitResolvedGen[a1].M() << ")";
 			}
 		}
 		if (fitResult.isValid())
@@ -462,11 +491,11 @@ void SimpleFitProducer::Produce(event_type const& event, product_type& product,
 				product.m_simpleFitTausResolvedGen[oneProng] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauMu().LV());
 				product.m_simpleFitTausResolvedGen[a1] = Utility::ConvertPtEtaPhiMLorentzVector<TLorentzVector>(fitResult.getTauH().LV());
 			}
-			// LOG(INFO) << "pionDecay: " << pionDecay;
-			// LOG(INFO) << "tauToOneProng: " << product.m_simpleFitTaus[oneProng];
-			// LOG(INFO) << "tauToA1: " << product.m_simpleFitTaus[a1];
-			// LOG(INFO) << "resonance: " << product.m_diTauSystemSimpleFit;
-			// LOG(INFO) << "resonance: " << resonance;
+			// LOG(DEBUG) << "pionDecay: " << pionDecay;
+			// LOG(DEBUG) << "tauToOneProng: " << product.m_simpleFitTaus[oneProng];
+			// LOG(DEBUG) << "tauToA1: " << product.m_simpleFitTaus[a1];
+			// LOG(DEBUG) << "resonance: " << product.m_diTauSystemSimpleFit;
+			// LOG(DEBUG) << "resonance: " << resonance;
 		}
 	}
 }
@@ -757,16 +786,43 @@ void SimpleFitThreeProngThreeProngProducer::Produce(event_type const& event, pro
 	}
 }
 
-
-
 TMatrixT<double> SimpleFitProducer::ComputeLorentzVectorPar(TMatrixT<double> &inpar){
-  TMatrixT<double> LV(LorentzVectorParticle::NLorentzandVertexPar,1);
+	TMatrixT<double> LV(LorentzVectorParticle::NLorentzandVertexPar,1);
 	LV(LorentzVectorParticle::vx,0)=inpar[0][0];
 	LV(LorentzVectorParticle::vy,0)=inpar[1][0];
 	LV(LorentzVectorParticle::vz,0)=inpar[2][0];
-  LV(LorentzVectorParticle::px,0)=inpar[3][0];
-  LV(LorentzVectorParticle::py,0)=inpar[4][0];
-  LV(LorentzVectorParticle::pz,0)=inpar[5][0];
-  LV(LorentzVectorParticle::m,0) =inpar[6][0];
-  return LV;
+	LV(LorentzVectorParticle::px,0)=inpar[3][0];
+	LV(LorentzVectorParticle::py,0)=inpar[4][0];
+	LV(LorentzVectorParticle::pz,0)=inpar[5][0];
+	LV(LorentzVectorParticle::m,0) =inpar[6][0];
+	return LV;
+}
+
+TVectorD SimpleFitProducer::EigenValues(TMatrixTSym<double> M)
+{
+	TMatrixDSymEigen eigen_matrix(M);
+	return eigen_matrix.GetEigenValues();
+}
+
+//////////////////////////////////////////////////////////////////////
+//   If the covariance matrix contains the negative eigen values then
+//   the dioganal elements are recursively increased  by 1%
+
+TMatrixTSym<double> SimpleFitProducer::RegulariseCovariance(TMatrixTSym<double>  M, double coef)
+{
+	TMatrixTSym<double>  M_infl = M;
+	for(int i = 0; i < TrackParticle::NHelixPar; i++)
+	{
+		M_infl(i,i) *= coef;
+	}
+	TVectorD eigen_val = EigenValues(M_infl);
+	for(int i = 0; i < eigen_val.GetNrows(); i++)
+	{
+		if(eigen_val(i) < 0)
+		{
+			coef *= 1.01;
+			return RegulariseCovariance(M_infl, coef);
+		}
+	}
+	return M_infl;
 }

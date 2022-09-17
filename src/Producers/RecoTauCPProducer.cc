@@ -1,4 +1,3 @@
-
 #include "Artus/Consumer/interface/LambdaNtupleConsumer.h"
 #include "Artus/KappaAnalysis/interface/KappaTypes.h"
 #include "Artus/Utility/interface/UnitConverter.h"
