@@ -175,6 +175,11 @@ class BinningsDict(binnings.BinningsDict):
 		self.binnings_dict["tt_IPSignificanceHelrPVBS_1"] = "20,0.0,20"
 		self.binnings_dict["tt_IPSignificanceHelrPVBS_2"] = "20,0.0,20"
 		self.binnings_dict["tt_IC_BDT_max_score"] = "0.33 0.4 0.5 0.6 0.7 0.8 0.9 1.0"
+		self.binnings_dict["tt_simpleFitCsum"] = "100,0,100"
+		self.binnings_dict["tt_simpleFitNiterations"] = "100,0,100"
+		self.binnings_dict["tt_simpleFitIndex"] = "3,0,2"
+		self.binnings_dict["tt_genSimpleFitIndex1"] = "3,0,2"
+		self.binnings_dict["tt_genSimpleFitIndex2"] = "3,0,2"
 
 		for ch in ["em_", "et_", "mt_", "tt_"]:
 			self.binnings_dict[ch+"melaProbCPEvenGGH"] = "20,0,1"

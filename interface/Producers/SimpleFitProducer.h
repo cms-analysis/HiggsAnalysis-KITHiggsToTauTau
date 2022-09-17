@@ -17,6 +17,8 @@ public:
 	                     setting_type const& settings, metadata_type const& metadata) const override;
 
 	static TMatrixT<double> ComputeLorentzVectorPar(TMatrixT<double> &inpar);
+	static TVectorD EigenValues(TMatrixTSym<double> M);
+	static TMatrixTSym<double> RegulariseCovariance(TMatrixTSym<double>  M, double coef);
 
 protected:
 
