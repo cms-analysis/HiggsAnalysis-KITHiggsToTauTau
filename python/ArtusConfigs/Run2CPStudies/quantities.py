@@ -1215,8 +1215,8 @@ class Quantities(Run2Quantities):
 			#"recoImpactParameter1",
 			#"recoImpactParameter2",
 
-			"recoTrackRefError1",
-			"recoTrackRefError2",
+			# "recoTrackRefError1",
+			# "recoTrackRefError2",
 
 			"d0s_area",
 			"d0s_dist"
