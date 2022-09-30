@@ -95,7 +95,7 @@ cat <<EOF >> svFitStandalone.patch
 EOF
 patch ./src/SVfitStandaloneQuantities.cc svFitStandalone.patch
 cd $CMSSW_BASE/src/
-git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits -b dev
+git clone git@github.com:TauPolSoftware/SimpleFits.git TauPolSoftware/SimpleFits -b master
 
 # polarisation
 git clone git@github.com:TauPolSoftware/TauDecaysInterface.git TauPolSoftware/TauDecaysInterface
@@ -105,16 +105,15 @@ git clone git@github.com:TauPolSoftware/CalibrationCurve.git TauPolSoftware/Cali
 git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
 
 # MELA/JHU
-git clone git@github.com:JHUGen/JHUGenMELA.git JHUGenMELA
+git clone --depth 1 --branch v2.3.8 git@github.com:JHUGen/JHUGenMELA.git JHUGenMELA
 cd JHUGenMELA
 ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
+eval $(./setup.sh env)
 
 cd $CMSSW_BASE/src/
 
 # Jet2Tau Fakes as described here https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauJet2TauFakes
-git clone git@github.com:CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
-cd $CMSSW_BASE/src/HTTutilities/Jet2TauFakes
-git checkout -b v0.2.2
+git clone --depth 1 -b v0.2.2. git@github.com:CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 
 cd $CMSSW_BASE/src/
 
@@ -126,13 +125,13 @@ else
 	git clone -b final_2017_MCv2 git@github.com:cms-tau-pog/TauTriggerSFs $CMSSW_BASE/src/TauAnalysisTools/TauTriggerSFs
 fi
 
-git clone https://github.com/cms-tau-pog/TauIDSFs.git $CMSSW_BASE/src/TauPOG/TauIDSFs
+git clone --depth 1 https://github.com/cms-tau-pog/TauIDSFs.git $CMSSW_BASE/src/TauPOG/TauIDSFs
 
 # EmuQCD Method
-git clone git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
+git clone --depth 1 git@github.com:CMS-HTT/QCDModelingEMu.git HTT-utilities/QCDModelingEMu
 
 # MET Recoil Corrections for PF Met and Puppi Met
-git clone https://github.com/KIT-CMS/RecoilCorrections.git HTT-utilities/RecoilCorrections
+git clone --depth 1 https://github.com/KIT-CMS/RecoilCorrections.git HTT-utilities/RecoilCorrections
 
 # needed for plotting and statistical inference
 # recommendations found here: https://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/#setting-up-the-environment-and-installation
