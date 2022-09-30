@@ -105,7 +105,7 @@ git clone git@github.com:TauPolSoftware/CalibrationCurve.git TauPolSoftware/Cali
 git clone git@github.com:CMSAachen3B/MadGraphReweighting.git CMSAachen3B/MadGraphReweighting
 
 # MELA/JHU
-git clone --depth 1 --branch v2.3.8 git@github.com:JHUGen/JHUGenMELA.git JHUGenMELA
+git clone --depth 1 --branch v2.3.7 git@github.com:JHUGen/JHUGenMELA.git JHUGenMELA
 cd JHUGenMELA
 ./setup.sh -j `grep -c ^processor /proc/cpuinfo`
 eval $(./setup.sh env)
@@ -113,9 +113,7 @@ eval $(./setup.sh env)
 cd $CMSSW_BASE/src/
 
 # Jet2Tau Fakes as described here https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauJet2TauFakes
-git clone --depth 1 -b v0.2.2. git@github.com:CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
-
-cd $CMSSW_BASE/src/
+git clone --depth 1 --branch v0.2.2 git@github.com:CMS-HTT/Jet2TauFakes.git HTTutilities/Jet2TauFakes
 
 # 2017 tau trigger efficiencies
 mkdir TauAnalysisTools
