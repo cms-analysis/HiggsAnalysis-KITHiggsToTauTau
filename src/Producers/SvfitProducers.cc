@@ -40,7 +40,7 @@ void SvfitProducer::Init(setting_type const& settings, metadata_type& metadata)
 {
 	ProducerBase<HttTypes>::Init(settings, metadata);
 	
-	if (! (settings.*GetSvfitCacheFileMember)().empty())
+	if ( (settings.*GetSvfitCacheFileMember)() != "null")
 	{
 		svfitTools.Init(
 				(settings.*GetSvfitCacheFileMember)(),
